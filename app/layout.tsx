@@ -1,3 +1,4 @@
+import { TanstackProvider } from '@/context/TanstackProvider';
 import './globals.css';
 import type { Metadata } from 'next';
 
@@ -13,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body>{children}</body>
+      <body>
+        <TanstackProvider>{children}</TanstackProvider>
+      </body>
     </html>
   );
 }

@@ -1,5 +1,6 @@
 {
   "extends": ["next/core-web-vitals", "prettier"],
+  "plugins": ["@tanstack/query"],
   "rules": {
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -39,6 +40,8 @@
       }
     ],
     "no-unused-expressions": "off",
+    "@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/stable-query-client": "error",
     "no-empty-function": "off",
     "no-nested-ternary": "off",
     "no-shadow": "off",
