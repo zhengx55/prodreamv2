@@ -1,6 +1,7 @@
 import { TanstackProvider } from '@/context/TanstackProvider';
 import './globals.css';
 import type { Metadata } from 'next';
+import { ThemeProvider } from '@/context/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <TanstackProvider>{children}</TanstackProvider>
+        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+          <TanstackProvider>{children}</TanstackProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
