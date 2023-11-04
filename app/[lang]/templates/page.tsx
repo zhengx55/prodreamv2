@@ -1,7 +1,10 @@
-import React from 'react';
+import { useSidebar } from '@/context/SidebarpProvider';
+import { Locale } from '@/i18n.config';
 
-const Templates = () => {
-  return <main className='flex h-full'>Templates</main>;
-};
-
-export default Templates;
+export default function Templates({
+  params: { lang },
+}: {
+  params: { lang: Locale };
+}) {
+  return <main className='flex'>Templates</main>;
+}
