@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Templates = () => {
-  return <div>Templates</div>;
+  return <main className='flex h-full'>Templates</main>;
 };
 
 export default Templates;

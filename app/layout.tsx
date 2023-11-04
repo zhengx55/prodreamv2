@@ -3,6 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import Sidebar from '@/components/root/Sidebar';
+import Navbar from '@/components/root/Navbar';
+import SideBarProvider from '@/context/SidebarpProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,10 +21,15 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute='class' defaultTheme='light'>
           <TanstackProvider>
-            <section className='h-screen w-full md:flex'>
-              <Sidebar />
-              {children}
-            </section>
+            <SideBarProvider>
+              <section className='h-screen w-full md:flex'>
+                <Sidebar />
+                <div className='flex h-full flex-1 flex-col'>
+                  <Navbar />
+                  {children}
+                </div>
+              </section>
+            </SideBarProvider>
           </TanstackProvider>
         </ThemeProvider>
       </body>

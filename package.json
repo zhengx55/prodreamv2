@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "lint-staged": "lint-staged",
@@ -12,6 +12,7 @@
     "type-check": "tsc --project tsconfig.json --pretty --noEmit && eslint --fix . && prettier --write ."
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^14.0.1",
     "@tanstack/react-query": "^5.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
