@@ -2,6 +2,7 @@ import { TanstackProvider } from '@/context/TanstackProvider';
 import './globals.css';
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/context/ThemeProvider';
+import Sidebar from '@/components/root/Sidebar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,10 +15,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-          <TanstackProvider>{children}</TanstackProvider>
+        <ThemeProvider attribute='class' defaultTheme='light'>
+          <TanstackProvider>
+            <section className='h-screen w-full md:flex'>
+              <Sidebar />
+              {children}
+            </section>
+          </TanstackProvider>
         </ThemeProvider>
       </body>
     </html>

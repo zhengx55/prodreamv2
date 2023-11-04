@@ -17,6 +17,10 @@ module.exports = {
     },
     extend: {
       colors: {},
+      boxShadow: {
+        sidebar: '4px 0 5px rgba(0,0,0,.06)',
+      },
+
       keyframes: {
         'accordion-down': {
           from: { height: 0 },
