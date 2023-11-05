@@ -29,7 +29,7 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    if (pathname.includes('/')) {
+    if (pathname === '/') {
       setExpandSidebar(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,17 +71,18 @@ const Sidebar = () => {
         {topValue !== undefined ? (
           <span
             style={{ top: topValue }}
-            className={`absolute z-30 h-12 w-full rounded-md bg-red-500 opacity-50 transition-all duration-300 ease-in-out`}
+            className={`absolute z-30 h-12 w-full rounded-md bg-nav-selected opacity-50 transition-all duration-300 ease-in-out`}
           />
         ) : null}
         {SidebarLinks.map((item, index) => {
+          const isActive = pathname === item.link;
           return (
             <li
               key={item.id}
               onClick={() => handleNavigation(item.link, index)}
               className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-4 text-slate-200 hover:text-slate-300`}
             >
-              <File size={20} />
+              <File size={20} className=' text-nav' />
               <AnimatePresence>
                 {expandSidebar && (
                   <motion.span
@@ -89,7 +90,9 @@ const Sidebar = () => {
                     animate='show'
                     exit='hidden'
                     variants={sidebarTitleVariants}
-                    className='whitespace-nowrap text-[14px]'
+                    className={`${
+                      isActive ? 'text-nav-active' : 'text-nav'
+                    } whitespace-nowrap text-[14px]`}
                   >
                     {item.title}
                   </motion.span>

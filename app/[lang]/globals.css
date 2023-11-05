@@ -17,23 +17,23 @@
 
   /* TYPOGRAPHY */
   .h1-bold {
-    @apply text-[36px] font-bold leading-[140%] tracking-tighter;
+    @apply text-[36px] font-bold leading-[140%];
   }
 
   .h1-semibold {
-    @apply text-[36px] font-semibold leading-[140%] tracking-tighter;
+    @apply text-[36px] font-semibold leading-[140%];
   }
 
   .h2-bold {
-    @apply text-[30px] font-bold leading-[140%] tracking-tighter;
+    @apply text-[30px] font-bold leading-[140%];
   }
 
   .h3-bold {
-    @apply text-[24px] font-bold leading-[140%] tracking-tighter;
+    @apply text-[24px] font-bold leading-[140%];
   }
 
   .base-semibold {
-    @apply text-[16px] font-semibold leading-[140%] tracking-tighter;
+    @apply text-[16px] font-semibold leading-[140%];
   }
 
   .base-medium {
@@ -53,7 +53,7 @@
   }
 
   .small-semibold {
-    @apply text-[14px] font-semibold leading-[140%] tracking-tighter;
+    @apply text-[14px] font-semibold leading-[140%];
   }
 
   .small-medium {

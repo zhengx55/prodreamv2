@@ -25,9 +25,10 @@ module.exports = {
       },
       colors: {
         sectionBackground: '#F8F9FF',
+        'primary-50': '#F6F0FF',
         'primary-200': '#9C2CF3',
         'primary-100': '#7D22F5',
-        'primary-50': '#F6F0FF',
+        'primary-300': '#BB35FF',
         black: '#191919',
         'black-100': '#1E1E1E',
         'black-200': '#1C1F37',
@@ -35,14 +36,14 @@ module.exports = {
         shadow: '#797979',
         'shadow-100': '#828282',
         'nav-active': '#5E59FF',
-        'shadow-border': '#DADADA',
+        'nav-selected': '#F4F5F6',
         nav: '#A0A8B0',
+        'shadow-border': '#DADADA',
       },
       boxShadow: {
         sidebar: '4px 0 5px rgba(0,0,0,.06)',
         panel: '0px 5px 10px 0px #F1F2FA',
       },
-
       keyframes: {
         'accordion-down': {
           from: { height: 0 },
@@ -52,6 +53,9 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: 0 },
         },
+      },
+      transition: {
+        up: 'translate-y-1',
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
