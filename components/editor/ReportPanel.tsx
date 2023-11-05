@@ -4,11 +4,7 @@ import { Button } from '../ui/button';
 type Props = {};
 
 const ReportPanel = (props: Props) => {
-  return (
-    <div className='h-full w-1/2 p-2'>
-      <Button>h1</Button>
-    </div>
-  );
+  return <div className='test h-full w-1/2 p-2'></div>;
 };
 
 export default ReportPanel;
