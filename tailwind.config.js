@@ -17,6 +17,12 @@ module.exports = {
       },
     },
     extend: {
+      backgroundImage: {
+        card: 'radial-gradient(88.19% 80.74% at 37.56% 34.2%, rgba(203, 44, 243, 0.70) 0%, rgba(156, 44, 243, 0.70) 55.27%, rgba(120, 44, 243, 0.70) 100%)',
+      },
+      fontSize: {
+        regular: '14px',
+      },
       colors: {
         sectionBackground: '#F8F9FF',
         'primary-200': '#9C2CF3',
@@ -25,13 +31,16 @@ module.exports = {
         black: '#191919',
         'black-100': '#1E1E1E',
         'black-200': '#1C1F37',
+        'black-300': '#1C1A1B',
         shadow: '#797979',
         'shadow-100': '#828282',
         'nav-active': '#5E59FF',
+        'shadow-border': '#DADADA',
         nav: '#A0A8B0',
       },
       boxShadow: {
         sidebar: '4px 0 5px rgba(0,0,0,.06)',
+        panel: '0px 5px 10px 0px #F1F2FA',
       },
 
       keyframes: {
