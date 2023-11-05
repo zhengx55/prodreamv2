@@ -4,7 +4,7 @@ export const SidebarLinks = [
     title: 'AI editors',
     image: '',
     active_image: '',
-    link: '/editors',
+    link: '/',
   },
   {
     id: 'sidebar-02',

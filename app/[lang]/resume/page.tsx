@@ -1,3 +1,3 @@
 export default function Resume() {
-  return <main>Resume</main>;
+  return <section className='flex flex-1 bg-sectionBackground'></section>;
 }

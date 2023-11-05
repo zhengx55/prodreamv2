@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, Variants, motion } from 'framer-motion';
-import { useSidebar } from '@/context/SidebarpProvider';
 import { usePathname, useRouter } from 'next/navigation';
 import { SidebarLinks } from '@/contant';
 import { File } from 'lucide-react';
@@ -9,7 +8,7 @@ const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [topValue, setTopValue] = useState<number | undefined>();
-  const { expandSidebar, setExpandSidebar } = useSidebar();
+  const [expandSidebar, setExpandSidebar] = useState(true);
 
   const toggleSidebar = () => {
     setExpandSidebar(!expandSidebar);
@@ -30,7 +29,7 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    if (pathname.includes('editors')) {
+    if (pathname.includes('/')) {
       setExpandSidebar(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,7 +63,7 @@ const Sidebar = () => {
       initial={false}
       animate={expandSidebar ? 'open' : 'closed'}
       variants={sidebarVariants}
-      className='hidden flex-col bg-gradient-to-b from-gray-400 to-gray-600 px-2 py-10 shadow-sidebar md:flex'
+      className='hidden flex-col bg-white px-2 py-10 shadow-sidebar md:flex'
     >
       <button onClick={toggleSidebar}>h</button>
 

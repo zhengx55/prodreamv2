@@ -4,8 +4,8 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import Sidebar from '@/components/root/Sidebar';
 import Navbar from '@/components/root/Navbar';
-import SideBarProvider from '@/context/SidebarpProvider';
 import { i18n } from '@/i18n.config';
+import { UIProviders } from '@/context/NextUIProvider';
 
 export const metadata: Metadata = {
   title: 'WritingPal',
@@ -28,7 +28,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute='class' defaultTheme='light'>
           <TanstackProvider>
-            <SideBarProvider>
+            <UIProviders>
               <section className='h-screen w-full md:flex'>
                 <Sidebar />
                 <div className='flex h-full flex-1 flex-col'>
@@ -36,7 +36,7 @@ export default function RootLayout({
                   {children}
                 </div>
               </section>
-            </SideBarProvider>
+            </UIProviders>
           </TanstackProvider>
         </ThemeProvider>
       </body>

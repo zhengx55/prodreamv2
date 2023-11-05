@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+import { nextui } from '@nextui-org/react';
+
 module.exports = {
   darkMode: ['class'],
   content: [
-    './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './node_modules/@nextui-org/theme/dist/components/divider.js',
   ],
   theme: {
     container: {
@@ -16,7 +17,9 @@ module.exports = {
       },
     },
     extend: {
-      colors: {},
+      colors: {
+        sectionBackground: '#F5F8FC',
+      },
       boxShadow: {
         sidebar: '4px 0 5px rgba(0,0,0,.06)',
       },
@@ -37,5 +40,10 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    nextui({
+      themes: {},
+    }),
+  ],
 };
