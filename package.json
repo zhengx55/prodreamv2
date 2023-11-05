@@ -15,6 +15,8 @@
     "@formatjs/intl-localematcher": "^0.4.2",
     "@next/bundle-analyzer": "^14.0.1",
     "@nextui-org/react": "^2.2.2",
+    "@radix-ui/react-switch": "^1.0.3",
+    "@radix-ui/react-toast": "^1.1.5",
     "@tanstack/react-query": "^5.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
