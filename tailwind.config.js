@@ -18,7 +18,17 @@ module.exports = {
     },
     extend: {
       colors: {
-        sectionBackground: '#F5F8FC',
+        sectionBackground: '#F8F9FF',
+        'primary-200': '#9C2CF3',
+        'primary-100': '#7D22F5',
+        'primary-50': '#F6F0FF',
+        black: '#191919',
+        'black-100': '#1E1E1E',
+        'black-200': '#1C1F37',
+        shadow: '#797979',
+        'shadow-100': '#828282',
+        'nav-active': '#5E59FF',
+        nav: '#A0A8B0',
       },
       boxShadow: {
         sidebar: '4px 0 5px rgba(0,0,0,.06)',
