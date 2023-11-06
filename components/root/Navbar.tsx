@@ -1,5 +1,5 @@
 'use client';
-import { Bell, Search } from 'lucide-react';
+import { Bell, HelpCircle, Search } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -10,14 +10,14 @@ const Navbar = () => {
   return (
     <nav className='flex-between h-[64px] bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold capitalize text-black-200'>
-        {pathname.split('/')[pathname.split('/').length - 1]}
+        {pathname.split('/')[2]}
       </h3>
       <div className='flex items-center gap-x-6'>
         <motion.div
           whileHover={{ scale: 1.1 }}
           className='flex-center h-12 w-12 cursor-pointer rounded-full bg-primary-50'
         >
-          <Search className='text-primary-200' size={22} />
+          <HelpCircle className='text-primary-200' size={22} />
         </motion.div>
         <motion.div
           whileHover={{ scale: 1.1 }}

@@ -28,6 +28,7 @@
     "next-themes": "^0.2.1",
     "react": "latest",
     "react-dom": "latest",
+    "react-resizable-panels": "^0.0.55",
     "server-only": "^0.0.1",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",

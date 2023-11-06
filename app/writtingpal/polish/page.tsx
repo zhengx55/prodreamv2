@@ -1,5 +1,5 @@
-import InputPanel from '@/components/editor/InputPanel';
-import ReportPanel from '@/components/editor/ReportPanel';
+import InputPanel from '@/components/polish/InputPanel';
+import ReportPanel from '@/components/polish/ReportPanel';
 import Rightbar from '@/components/root/Rightbar';
 import { Separator } from '@/components/ui/separator';
 

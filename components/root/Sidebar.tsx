@@ -131,7 +131,7 @@ const Sidebar = () => {
           />
         ) : null}
         {SidebarLinks.map((item, index) => {
-          const isActive = pathname === item.link;
+          const isActive = pathname.includes(item.link);
           return (
             <li
               key={item.id}
