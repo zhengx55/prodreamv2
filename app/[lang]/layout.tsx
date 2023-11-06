@@ -28,11 +28,7 @@ export default function RootLayout({
           <TanstackProvider>
             <UIProviders>
               <section className='h-screen w-full md:flex md:min-w-[1400px] md:overflow-x-auto'>
-                <Sidebar />
-                <div className='flex h-full flex-1 flex-col'>
-                  <Navbar />
-                  {children}
-                </div>
+                {children}
               </section>
             </UIProviders>
           </TanstackProvider>

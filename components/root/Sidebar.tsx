@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, Variants, motion } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
-import { SidebarLinks } from '@/contant';
+import { SidebarLinks } from '@/constant';
 import { File } from 'lucide-react';
 const Sidebar = () => {
   const pathname = usePathname();
