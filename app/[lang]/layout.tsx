@@ -2,10 +2,15 @@ import { TanstackProvider } from '@/context/TanstackProvider';
 import './globals.css';
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/context/ThemeProvider';
-import Sidebar from '@/components/root/Sidebar';
-import Navbar from '@/components/root/Navbar';
 // import { i18n } from '@/i18n.config';
 import { UIProviders } from '@/context/NextUIProvider';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'WritingPal',
@@ -22,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning>
+    <html className={poppins.className} suppressHydrationWarning>
       <body>
         <ThemeProvider attribute='class' defaultTheme='light'>
           <TanstackProvider>
