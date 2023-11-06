@@ -6,7 +6,7 @@ const nextConfig = {
   reactStrictMode: true,
   compress: true,
   // distDir: 'build',
-  poweredByHeader: false,
+  // poweredByHeader: false,
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
