@@ -76,14 +76,16 @@ const Sidebar = () => {
       variants={sidebarVariants}
       className='relative hidden shrink-0 flex-col border-r-1 border-r-shadow-border bg-white px-2 py-10 shadow-sidebar md:flex'
     >
-      <Image
-        src='/logo.png'
-        alt='logo'
-        className='object-contain'
-        width={20}
-        height={20}
-        priority
-      />
+      <div className='h-[30px]'>
+        <Image
+          src={expandSidebar ? '/logo.png' : '/logo.svg'}
+          alt='logo'
+          className='ml-4'
+          width={expandSidebar ? 155 : 24}
+          height={expandSidebar ? 30 : 24}
+          priority
+        />
+      </div>
       <motion.span
         onClick={toggleSidebar}
         whileHover={{
@@ -136,6 +138,16 @@ const Sidebar = () => {
               onClick={() => handleNavigation(item.link, index)}
               className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-4 text-slate-200 hover:text-slate-300`}
             >
+              <div className='flex items-center gap-x-2'>
+                <Image
+                  src={isActive ? item.active_image : item.image}
+                  alt={item.title}
+                  width={24}
+                  height={24}
+                  className='h-auto w-auto'
+                  priority
+                />
+              </div>
               <AnimatePresence>
                 {expandSidebar && (
                   <motion.span
@@ -145,15 +157,8 @@ const Sidebar = () => {
                     variants={sidebarTitleVariants}
                     className={`${
                       isActive ? 'text-primary-200' : 'text-nav'
-                    } flex whitespace-nowrap text-[14px]`}
+                    } whitespace-nowrap text-[14px]`}
                   >
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      width={24}
-                      height={24}
-                      className='object-contain'
-                    />
                     {item.title}
                   </motion.span>
                 )}

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { ChevronRight, ChevronUp } from 'lucide-react';
 import Card from './Card';
 import { IBrainsotrmCard } from '@/types';
+import Image from 'next/image';
 
 type Props = {
   title: string;
@@ -29,7 +30,18 @@ const List = ({ title, cardList }: Props) => {
       animate={isExpended ? 'open' : 'closed'}
     >
       <div className='flex-between h-14 shrink-0 px-5'>
-        <h1 className='title-semibold text-black-200'>{title}</h1>
+        <div className='flex items-center gap-x-2'>
+          <div className='flex-center h-9 w-9 rounded-full bg-primary-200'>
+            <Image
+              alt='telegram'
+              src='/telegram.svg'
+              width={24}
+              height={24}
+              priority
+            />
+          </div>
+          <h1 className='title-semibold text-black-200'>{title}</h1>
+        </div>
         <div className='flex cursor-pointer gap-x-2' onClick={togglePanel}>
           {isExpended ? (
             <>
