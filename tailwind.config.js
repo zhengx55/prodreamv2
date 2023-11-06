@@ -18,6 +18,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
+        resume: "url('/resume_bg.jpg')",
         card: 'radial-gradient(88.19% 80.74% at 37.56% 34.2%, rgba(203, 44, 243, 0.70) 0%, rgba(156, 44, 243, 0.70) 55.27%, rgba(120, 44, 243, 0.70) 100%)',
       },
       fontFamily: {
@@ -39,6 +40,7 @@ module.exports = {
           200: '#1C1F37',
           300: '#1C1A1B',
           400: '#191919',
+          500: '#202020',
         },
         hover: {
           50: '#FBF7FF',
@@ -53,6 +55,7 @@ module.exports = {
       boxShadow: {
         sidebar: '4px 0 5px rgba(0,0,0,.06)',
         panel: '0px 5px 10px 0px #F1F2FA',
+        card: '0px 4px 5px 0px rgba(0, 0, 0, 0.06);',
       },
       keyframes: {
         'accordion-down': {

@@ -286,3 +286,10 @@ export const brainstorms_data = [
     start_style: false,
   },
 ];
+
+export const ResumeProcedure = [
+  { title: 'Input your experiences and description' },
+  { title: 'Convert your experience into resume-ready bullet points' },
+  { title: 'Apply final edits for polished results' },
+  { title: 'Download your resume as a PDF' },
+];
