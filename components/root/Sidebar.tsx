@@ -7,8 +7,8 @@ import {
   motion,
 } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
-import { SidebarLinks } from '@/constant';
 import Image from 'next/image';
+import { SidebarLinks } from '@/constant';
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &
@@ -30,7 +30,6 @@ const Sidebar = () => {
     router.push(link);
     const newTopValue = index * (48 + 20);
     setTopValue(newTopValue);
-    localStorage.setItem('sidebarPos', newTopValue.toString());
   };
 
   useEffect(() => {
@@ -83,6 +82,7 @@ const Sidebar = () => {
         className='object-contain'
         width={20}
         height={20}
+        priority
       />
       <motion.span
         onClick={toggleSidebar}
@@ -121,7 +121,7 @@ const Sidebar = () => {
           />
         </svg>
       </motion.span>
-      <ul className='relative mt-5 flex flex-col gap-5'>
+      <ul className='relative mt-10 flex flex-col gap-5'>
         {topValue !== undefined ? (
           <span
             style={{ top: topValue }}

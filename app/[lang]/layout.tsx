@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={poppins.className} suppressHydrationWarning>
+    <html lang='en' className={poppins.className} suppressHydrationWarning>
       <body>
         <ThemeProvider attribute='class' defaultTheme='light'>
           <TanstackProvider>

@@ -6,7 +6,6 @@ const nextConfig = {
   reactStrictMode: true,
   compress: true,
   // distDir: 'build',
-  // pageExtensions: ['tsx', 'jsx'],
   poweredByHeader: false,
 };
 

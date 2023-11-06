@@ -1,7 +1,6 @@
 import List from '@/components/brainstorm/List';
 import { BrainStormTypes } from '@/constant/enum';
 import { IBrainsotrmCard } from '@/types';
-
 const brainstorms_data = [
   {
     id: 'a66e53e6bb1f4391909b93378170e63c',
