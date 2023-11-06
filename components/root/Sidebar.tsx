@@ -78,7 +78,7 @@ const Sidebar = () => {
       className='relative hidden shrink-0 flex-col border-r-1 border-r-shadow-border bg-white px-2 py-10 shadow-sidebar md:flex'
     >
       <Image
-        src='/logo/logo.png'
+        src='/logo.png'
         alt='logo'
         className='object-contain'
         width={20}
