@@ -8,7 +8,7 @@ import {
 } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
 import { SidebarLinks } from '@/constant';
-import { File } from 'lucide-react';
+import Image from 'next/image';
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &
@@ -77,6 +77,13 @@ const Sidebar = () => {
       variants={sidebarVariants}
       className='relative hidden shrink-0 flex-col border-r-1 border-r-shadow-border bg-white px-2 py-10 shadow-sidebar md:flex'
     >
+      <Image
+        src='/logo/logo.png'
+        alt='logo'
+        className='object-contain'
+        width={20}
+        height={20}
+      />
       <motion.span
         onClick={toggleSidebar}
         whileHover={{
@@ -129,7 +136,6 @@ const Sidebar = () => {
               onClick={() => handleNavigation(item.link, index)}
               className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-4 text-slate-200 hover:text-slate-300`}
             >
-              <File size={20} className=' text-nav' />
               <AnimatePresence>
                 {expandSidebar && (
                   <motion.span
@@ -138,9 +144,16 @@ const Sidebar = () => {
                     exit='hidden'
                     variants={sidebarTitleVariants}
                     className={`${
-                      isActive ? 'text-nav-active' : 'text-nav'
-                    } whitespace-nowrap text-[14px]`}
+                      isActive ? 'text-primary-200' : 'text-nav'
+                    } flex whitespace-nowrap text-[14px]`}
                   >
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      width={24}
+                      height={24}
+                      className='object-contain'
+                    />
                     {item.title}
                   </motion.span>
                 )}

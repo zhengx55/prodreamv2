@@ -2,7 +2,7 @@
 import { Variants, motion } from 'framer-motion';
 import { Separator } from '../ui/separator';
 import { useState } from 'react';
-import { Car, ChevronRight, ChevronUp } from 'lucide-react';
+import { ChevronRight, ChevronUp } from 'lucide-react';
 import Card from './Card';
 import { IBrainsotrmCard } from '@/types';
 
