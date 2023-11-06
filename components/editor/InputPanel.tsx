@@ -2,9 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 
-type Props = {};
-
-const InputPanel = (props: Props) => {
+const InputPanel = () => {
   const [wordCount, setWordCount] = useState(0);
   const handleInput = (e: FormEvent<HTMLElement>) => {
     const text = e.currentTarget.textContent;
@@ -27,7 +25,6 @@ const InputPanel = (props: Props) => {
           placeholder='Write your message..'
           contentEditable
         />
-
         <div className='flex'>{wordCount}</div>
       </div>
     </div>

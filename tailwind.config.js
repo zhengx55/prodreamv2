@@ -6,7 +6,7 @@ module.exports = {
   content: [
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
-    './node_modules/@nextui-org/theme/dist/components/divider.js',
+    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     container: {
@@ -28,14 +28,21 @@ module.exports = {
       },
       colors: {
         sectionBackground: '#F8F9FF',
-        'primary-50': '#F6F0FF',
-        'primary-200': '#9C2CF3',
-        'primary-100': '#7D22F5',
-        'primary-300': '#BB35FF',
-        black: '#191919',
-        'black-100': '#1E1E1E',
-        'black-200': '#1C1F37',
-        'black-300': '#1C1A1B',
+        primary: {
+          50: '#F6F0FF',
+          200: '#9C2CF3',
+          100: '#7D22F5',
+          300: '#BB35FF',
+        },
+        black: {
+          100: '#1E1E1E',
+          200: '#1C1F37',
+          300: '#1C1A1B',
+          400: '#191919',
+        },
+        hover: {
+          50: '#FBF7FF',
+        },
         shadow: '#797979',
         'shadow-100': '#828282',
         'nav-active': '#5E59FF',
@@ -66,10 +73,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('tailwindcss-animate'),
-    nextui({
-      themes: {},
-    }),
-  ],
+  plugins: [require('tailwindcss-animate'), nextui()],
 };

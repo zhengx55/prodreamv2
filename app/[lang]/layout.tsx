@@ -32,7 +32,7 @@ export default function RootLayout({
         <ThemeProvider attribute='class' defaultTheme='light'>
           <TanstackProvider>
             <UIProviders>
-              <section className='h-screen w-full md:flex md:min-w-[1400px] md:overflow-x-auto'>
+              <section className='h-screen w-screen md:flex md:min-w-[1400px] md:overflow-x-auto'>
                 {children}
               </section>
             </UIProviders>

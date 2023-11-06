@@ -32,6 +32,11 @@
     @apply text-[24px] font-bold leading-[140%];
   }
 
+  .title-semibold {
+    @apply text-[20px] font-semibold leading-[140%];
+
+  }
+
   .base-semibold {
     @apply text-[16px] font-semibold leading-[140%];
   }
@@ -50,6 +55,10 @@
 
   .body-medium {
     @apply text-[18px] font-medium leading-[140%];
+  }
+
+  .body-normal {
+    @apply text-[18px] font-normal leading-[140%];
   }
 
   .small-semibold {

@@ -1,9 +1,21 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { AnimatePresence, Variants, motion } from 'framer-motion';
+import {
+  AnimatePresence,
+  SVGMotionProps,
+  Variants,
+  motion,
+} from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
 import { SidebarLinks } from '@/constant';
 import { File } from 'lucide-react';
+
+const Path = (
+  props: React.JSX.IntrinsicAttributes &
+    SVGMotionProps<SVGPathElement> &
+    React.RefAttributes<SVGPathElement>
+) => <motion.path fill='#9C2CF3' strokeLinecap='round' {...props} />;
+
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
@@ -63,10 +75,45 @@ const Sidebar = () => {
       initial={false}
       animate={expandSidebar ? 'open' : 'closed'}
       variants={sidebarVariants}
-      className='hidden flex-col bg-white px-2 py-10 shadow-sidebar md:flex'
+      className='relative hidden shrink-0 flex-col border-r-1 border-r-shadow-border bg-white px-2 py-10 shadow-sidebar md:flex'
     >
-      <button onClick={toggleSidebar}>h</button>
+      <motion.span
+        onClick={toggleSidebar}
+        whileHover={{
+          scale: 1.1,
+        }}
+        className='flex-center absolute -right-5 top-2 h-10 w-10 cursor-pointer rounded-full border-1 border-shadow-border bg-white'
+      >
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          width='24'
+          height='24'
+          viewBox='0 0 24 24'
+          fill='none'
+        >
+          <Path
+            d='M 2 9.423 L 20 9.423'
+            animate={expandSidebar ? 'open' : 'closed'}
+            variants={{
+              closed: { opacity: 1 },
+              open: { opacity: 0 },
+            }}
+            transition={{ duration: 0.1 }}
+          />
 
+          <Path
+            animate={expandSidebar ? 'open' : 'closed'}
+            variants={{
+              closed: {
+                d: 'M10.061 19.061L17.121 12L10.061 4.939L7.939 7.061L12.879 12L7.939 16.939L10.061 19.061Z',
+              },
+              open: {
+                d: 'M13.939 4.93896L6.879 12L13.939 19.061L16.061 16.939L11.121 12L16.061 7.06096L13.939 4.93896Z',
+              },
+            }}
+          />
+        </svg>
+      </motion.span>
       <ul className='relative mt-5 flex flex-col gap-5'>
         {topValue !== undefined ? (
           <span
