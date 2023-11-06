@@ -2,11 +2,15 @@
 import { Variants, motion } from 'framer-motion';
 import { Separator } from '../ui/separator';
 import { useState } from 'react';
-import { ChevronRight, ChevronUp } from 'lucide-react';
+import { Car, ChevronRight, ChevronUp } from 'lucide-react';
 import Card from './Card';
+import { IBrainsotrmCard } from '@/types';
 
-type Props = {};
-const List = (props: Props) => {
+type Props = {
+  title: string;
+  cardList: Array<IBrainsotrmCard>;
+};
+const List = ({ title, cardList }: Props) => {
   const [isExpended, setIsExpended] = useState(false);
   const togglePanel = () => {
     setIsExpended(!isExpended);
@@ -24,8 +28,8 @@ const List = (props: Props) => {
       initial={false}
       animate={isExpended ? 'open' : 'closed'}
     >
-      <div className='flex-between h-14 shrink-0 px-4'>
-        <h1 className='title-semibold text-black-200'>blablabla</h1>
+      <div className='flex-between h-14 shrink-0 px-5'>
+        <h1 className='title-semibold text-black-200'>{title}</h1>
         <div className='flex cursor-pointer gap-x-2' onClick={togglePanel}>
           {isExpended ? (
             <>
@@ -43,20 +47,13 @@ const List = (props: Props) => {
 
       <Separator className='bg-shadow-border' />
       <div
-        className={`flex gap-5 overflow-x-auto px-4 py-5 ${
+        className={`flex gap-5 overflow-x-auto px-5 py-5 ${
           isExpended ? 'flex-wrap' : 'flex-nowrap'
         }`}
       >
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card /> <Card />
-        <Card />
-        <Card /> <Card />
-        <Card />
-        <Card />
+        {cardList.map((item) => {
+          return <Card key={item.id} cardItem={item} />;
+        })}
       </div>
     </motion.div>
   );
