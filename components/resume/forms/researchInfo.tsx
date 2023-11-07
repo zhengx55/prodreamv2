@@ -30,6 +30,8 @@ const ResearchInfo = () => {
   const deleteResearch = (index: number) => {
     const temp = ResearchInfo.filter((_, i) => i !== index);
     setResearchInfo(temp);
+    const tempExpanded = formExpanded.filter((_, i) => i !== index);
+    setFormExpanded(tempExpanded);
   };
 
   const appendResearch = () => {
@@ -44,12 +46,19 @@ const ResearchInfo = () => {
       description: '',
     };
     setResearchInfo((prev) => [...prev, newResearchForm]);
+    setFormExpanded((prev) => [...prev, false]);
   };
 
   const toogleFormExpand = (index: number) => {
     const temp = [...formExpanded];
-    temp[index] = !temp[index];
-    setFormExpanded(temp);
+    if (temp[index] === true) {
+      temp[index] = false;
+      setFormExpanded(temp);
+    } else {
+      setFormExpanded((prevFormExpanded) => {
+        return prevFormExpanded.map((_item, i) => i === index);
+      });
+    }
   };
 
   const handleValueChange = (

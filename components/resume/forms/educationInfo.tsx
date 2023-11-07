@@ -27,7 +27,7 @@ const EducationInfo = () => {
       additional_info: '',
     },
   ]);
-  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([false]);
+  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([true]);
 
   const deleteEducation = (index: number) => {
     const temp = educationInfo.filter((_, i) => i !== index);
@@ -59,7 +59,7 @@ const EducationInfo = () => {
       setFormExpanded(temp);
     } else {
       setFormExpanded((prevFormExpanded) => {
-        return prevFormExpanded.map((item, i) => i === index);
+        return prevFormExpanded.map((_item, i) => i === index);
       });
     }
   };

@@ -25,11 +25,13 @@ const WorkInfo = () => {
       description: '',
     },
   ]);
-  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([false]);
+  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([true]);
 
   const deleteWork = (index: number) => {
     const temp = WorkInfo.filter((_, i) => i !== index);
     setWorkInfo(temp);
+    const tempExpanded = formExpanded.filter((_, i) => i !== index);
+    setFormExpanded(tempExpanded);
   };
 
   const appendWork = () => {
@@ -44,12 +46,19 @@ const WorkInfo = () => {
       description: '',
     };
     setWorkInfo((prev) => [...prev, newWorkForm]);
+    setFormExpanded((prev) => [...prev, false]);
   };
 
   const toogleFormExpand = (index: number) => {
     const temp = [...formExpanded];
-    temp[index] = !temp[index];
-    setFormExpanded(temp);
+    if (temp[index] === true) {
+      temp[index] = false;
+      setFormExpanded(temp);
+    } else {
+      setFormExpanded((prevFormExpanded) => {
+        return prevFormExpanded.map((_item, i) => i === index);
+      });
+    }
   };
 
   const handleValueChange = (
