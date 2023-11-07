@@ -14,8 +14,9 @@ export interface IBrainsotrmCard {
 }
 
 export interface IEducationForm {
-  starts: Date;
-  ends: Date;
+  id: string;
+  starts: Date | string;
+  ends: Date | string;
   school_name: string;
   degree_name: string;
   location: string;
@@ -35,37 +36,36 @@ export interface IWorkForm {
   description: string;
 }
 
-export interface IEducationForm {
-  starts: Date;
+export interface IResearchForm {
+  project: string;
+  role: string;
   ends: Date;
   school_name: string;
   degree_name: string;
   location: string;
   state: string;
-  areas_of_study: string;
-  related_courses: string;
-  additional_info: string;
+  supervisor?: string;
+  description: string;
 }
 
-export interface IEducationForm {
-  starts: Date;
-  ends: Date;
-  school_name: string;
+export interface ICompetitionForm {
+  name: string;
+  date: Date;
+  results: string;
   degree_name: string;
   location: string;
-  state: string;
-  areas_of_study: string;
-  related_courses: string;
-  additional_info: string;
+  additional: string;
 }
-export interface IEducationForm {
+export interface IActivityForm {
   starts: Date;
   ends: Date;
-  school_name: string;
-  degree_name: string;
+  responsibility: string;
+  company: string;
   location: string;
   state: string;
-  areas_of_study: string;
-  related_courses: string;
-  additional_info: string;
+  description: string;
+}
+
+export interface ISkillsForm {
+  skills: string;
 }

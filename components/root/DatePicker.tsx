@@ -11,8 +11,8 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 type Props = {
-  date: Date;
-  setDate: () => void;
+  date?: Date;
+  setDate?: () => void;
 };
 
 const DatePicker = ({ date, setDate }: Props) => {

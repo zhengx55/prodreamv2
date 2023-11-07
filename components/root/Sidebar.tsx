@@ -29,6 +29,7 @@ const Sidebar = () => {
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
     const newTopValue = index * (48 + 20);
+    localStorage.setItem('sidebarPos', newTopValue.toString());
     setTopValue(newTopValue);
   };
 

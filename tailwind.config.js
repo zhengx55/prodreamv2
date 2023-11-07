@@ -29,6 +29,7 @@ module.exports = {
           300: '#BB35FF',
         },
         black: {
+          50: '#3B4453',
           100: '#1E1E1E',
           200: '#1C1F37',
           300: '#1C1A1B',
@@ -48,7 +49,7 @@ module.exports = {
       },
       boxShadow: {
         sidebar: '4px 0 5px rgba(0,0,0,.06)',
-        panel: '0px 5px 10px 0px #F1F2FA',
+        panel: '0px 5px 10px 0px rgba(0, 0, 0, 0.06)',
         card: '0px 4px 5px 0px rgba(0, 0, 0, 0.06)',
         input: '0px 1px 0px 0px rgba(0, 0, 0, 0.05)',
       },
