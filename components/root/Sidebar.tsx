@@ -81,13 +81,6 @@ const Sidebar = () => {
       <div className='h-[30px]'>
         <AnimatedLogo show={expandSidebar} />
         <AnimatedxsLogo show={!expandSidebar} />
-        {/* <motion.img
-          src={expandSidebar ? '/logo_expand.svg' : '/logo.svg'}
-          alt='logo'
-          className='ml-4'
-          width={expandSidebar ? 155 : 24}
-          height={expandSidebar ? 30 : 24}
-        /> */}
       </div>
       <motion.span
         onClick={toggleSidebar}
