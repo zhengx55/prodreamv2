@@ -9,6 +9,7 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { SidebarLinks } from '@/constant';
+import { AnimatedLogo, AnimatedxsLogo } from './AnimatedLogo';
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &
@@ -78,14 +79,15 @@ const Sidebar = () => {
       className='relative hidden shrink-0 flex-col border-r-1 border-r-shadow-border bg-white px-2 py-10 shadow-sidebar md:flex'
     >
       <div className='h-[30px]'>
-        <Image
-          src={expandSidebar ? '/logo.png' : '/logo.svg'}
+        <AnimatedLogo show={expandSidebar} />
+        <AnimatedxsLogo show={!expandSidebar} />
+        {/* <motion.img
+          src={expandSidebar ? '/logo_expand.svg' : '/logo.svg'}
           alt='logo'
           className='ml-4'
           width={expandSidebar ? 155 : 24}
           height={expandSidebar ? 30 : 24}
-          priority
-        />
+        /> */}
       </div>
       <motion.span
         onClick={toggleSidebar}
@@ -157,7 +159,7 @@ const Sidebar = () => {
                     exit='hidden'
                     variants={sidebarTitleVariants}
                     className={`${
-                      isActive ? 'text-primary-200' : 'text-nav'
+                      isActive ? 'text-primary-200' : 'text-shadow-100'
                     } whitespace-nowrap text-[14px]`}
                   >
                     {item.title}
