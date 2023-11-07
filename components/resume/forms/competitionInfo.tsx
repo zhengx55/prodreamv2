@@ -115,13 +115,13 @@ const CompetitionInfo = () => {
                 {formExpanded[index] && (
                   <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
-                      <Label htmlFor='competition' aria-label='school'>
-                        Competition Name{' '}
+                      <Label htmlFor='competition' aria-label='name'>
+                        Competition Name
                       </Label>
                       <Input
                         type='text'
                         id='competition'
-                        name='competition'
+                        name='name'
                         value={item.name}
                         onChange={(e) => handleValueChange(e, index)}
                         placeholder='Enter competition name'
@@ -130,13 +130,13 @@ const CompetitionInfo = () => {
                     <div className='form-input-group'>
                       <Label
                         htmlFor='Competition-location'
-                        aria-label='company'
+                        aria-label='location'
                       >
                         Location
                       </Label>
                       <Input
                         type='text'
-                        name='company'
+                        name='location'
                         id='Competition-location'
                         placeholder='Enter location'
                         onChange={(e) => handleValueChange(e, index)}
@@ -157,7 +157,7 @@ const CompetitionInfo = () => {
                         value={item.results}
                         onChange={(e) => handleValueChange(e, index)}
                         name='results'
-                        placeholder='Enter City'
+                        placeholder='New York, NY'
                       />
                     </div>
                     <div className='form-input-group col-span-2'>

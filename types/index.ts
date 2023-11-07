@@ -60,7 +60,7 @@ export interface ICompetitionForm {
 }
 export interface IActivityForm {
   id: string;
-  starts: Date;
+  starts: Date | string;
   ends: Date | string;
   responsibility: string;
   company: string;

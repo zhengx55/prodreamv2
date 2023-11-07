@@ -20,7 +20,7 @@ const CreatePanel = () => {
   };
   useOnClickOutside(ref, handleHideInput);
   return (
-    <div className='custom-scrollbar h-full overflow-y-auto bg-white md:w-[49.5%] md:px-8 md:py-5'>
+    <div className='custom-scrollbar h-full overflow-y-auto bg-transparent md:w-[49.5%] md:px-8 md:py-5'>
       {!showTitleInput ? (
         <div
           onClick={() => {

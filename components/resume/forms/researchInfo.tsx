@@ -25,7 +25,7 @@ const ResearchInfo = () => {
       description: '',
     },
   ]);
-  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([false]);
+  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([true]);
 
   const deleteResearch = (index: number) => {
     const temp = ResearchInfo.filter((_, i) => i !== index);
@@ -115,27 +115,27 @@ const ResearchInfo = () => {
                 {formExpanded[index] && (
                   <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
-                      <Label htmlFor='position' aria-label='school'>
+                      <Label htmlFor='position' aria-label='position'>
                         Project Name
                       </Label>
                       <Input
                         type='text'
-                        id='position'
-                        name='position'
+                        id='project'
+                        name='project'
                         value={item.project}
                         onChange={(e) => handleValueChange(e, index)}
-                        placeholder='Enter Position'
+                        placeholder='Enter project'
                       />
                     </div>
                     <div className='form-input-group'>
-                      <Label htmlFor='Research-company' aria-label='company'>
+                      <Label htmlFor='Research-role' aria-label='role'>
                         Your role
                       </Label>
                       <Input
                         type='text'
-                        name='company'
-                        id='Research-company'
-                        placeholder='Enter company'
+                        name='role'
+                        id='Research-role'
+                        placeholder='Enter role'
                         onChange={(e) => handleValueChange(e, index)}
                         value={item.role}
                       />
@@ -156,7 +156,7 @@ const ResearchInfo = () => {
                         value={item.location}
                         onChange={(e) => handleValueChange(e, index)}
                         name='location'
-                        placeholder='Enter City'
+                        placeholder='New York, NY'
                       />
                     </div>
                     <div className='form-input-group'>
@@ -167,7 +167,7 @@ const ResearchInfo = () => {
                         value={item.state}
                         name='state'
                         onChange={(e) => handleValueChange(e, index)}
-                        placeholder='New York, NY'
+                        placeholder='NY'
                       />
                     </div>
                     <div className='form-input-group col-span-2'>

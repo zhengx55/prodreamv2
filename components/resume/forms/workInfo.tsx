@@ -156,7 +156,7 @@ const WorkInfo = () => {
                         value={item.location}
                         onChange={(e) => handleValueChange(e, index)}
                         name='location'
-                        placeholder='Enter City'
+                        placeholder='New York, NY'
                       />
                     </div>
                     <div className='form-input-group'>
@@ -167,7 +167,7 @@ const WorkInfo = () => {
                         value={item.state}
                         name='state'
                         onChange={(e) => handleValueChange(e, index)}
-                        placeholder='New York, NY'
+                        placeholder='NY'
                       />
                     </div>
                     <div className='form-input-group col-span-2'>

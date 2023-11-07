@@ -165,7 +165,7 @@ const EducationInfo = () => {
                         type='text'
                         id='edu-location'
                         name='location'
-                        placeholder='Enter City'
+                        placeholder='New York, NY'
                       />
                     </div>
                     <div className='form-input-group'>
@@ -174,7 +174,7 @@ const EducationInfo = () => {
                         type='text'
                         id='edu-state'
                         name='state'
-                        placeholder='New York, NY'
+                        placeholder='NY'
                       />
                     </div>
                     <div className='form-input-group'>

@@ -36,7 +36,7 @@ const UserInfo = (props: Props) => {
         </div>
         <div className='form-input-group'>
           <Label aria-label='city'>City</Label>
-          <Input type='text' id='city' placeholder='New York, NY' />
+          <Input type='text' id='city' placeholder='NY' />
         </div>
       </section>
     </>
