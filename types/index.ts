@@ -50,6 +50,7 @@ export interface IResearchForm {
 }
 
 export interface ICompetitionForm {
+  id: string;
   name: string;
   date: Date | string;
   results: string;
@@ -58,6 +59,7 @@ export interface ICompetitionForm {
   additional: string;
 }
 export interface IActivityForm {
+  id: string;
   starts: Date;
   ends: Date | string;
   responsibility: string;

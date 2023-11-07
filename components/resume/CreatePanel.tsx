@@ -7,7 +7,7 @@ import UserInfo from './forms/userInfo';
 import EducationInfo from './forms/educationInfo';
 import WorkInfo from './forms/workInfo';
 import ResearchInfo from './forms/researchInfo';
-import CompetionsInfo from './forms/competions';
+import CompetionsInfo from './forms/competitionInfo';
 import ActivityInfo from './forms/activityInfo';
 import { useOnClickOutside } from 'usehooks-ts';
 
