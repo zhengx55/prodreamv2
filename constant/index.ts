@@ -1,3 +1,5 @@
+import { Variants } from 'framer-motion';
+
 export const SidebarLinks = [
   {
     id: 'sidebar-01',
@@ -293,3 +295,8 @@ export const ResumeProcedure = [
   { title: 'Apply final edits for polished results' },
   { title: 'Download your resume as a PDF' },
 ];
+
+export const FormHeightVariant: Variants = {
+  expanded: { height: 'auto' },
+  collapse: { height: '80px' },
+};

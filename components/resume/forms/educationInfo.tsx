@@ -6,17 +6,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { IEducationForm } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  AnimatePresence,
-  Reorder,
-  Variants,
-  motion,
-  useDragControls,
-  useMotionValue,
-} from 'framer-motion';
-import { ChevronDown, GripVertical, Plus, Trash2 } from 'lucide-react';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { AnimatePresence, Reorder, motion } from 'framer-motion';
+import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react';
+import React, { ChangeEvent, useState } from 'react';
 import ReorderItem from '@/components/root/ReorderItem';
+import { FormHeightVariant } from '@/constant';
 
 const EducationInfo = () => {
   const [educationInfo, setEducationInfo] = useState<Array<IEducationForm>>([
@@ -37,7 +31,9 @@ const EducationInfo = () => {
 
   const deleteEducation = (index: number) => {
     const temp = educationInfo.filter((_, i) => i !== index);
+    const tempExpanded = formExpanded.filter((_, i) => i !== index);
     setEducationInfo(temp);
+    setFormExpanded(tempExpanded);
   };
   const appendEducation = () => {
     const newEducationForm = {
@@ -53,12 +49,19 @@ const EducationInfo = () => {
       additional_info: '',
     };
     setEducationInfo((prev) => [...prev, newEducationForm]);
+    setFormExpanded((prev) => [...prev, false]);
   };
 
   const toogleFormExpand = (index: number) => {
     const temp = [...formExpanded];
-    temp[index] = !temp[index];
-    setFormExpanded(temp);
+    if (temp[index] === true) {
+      temp[index] = false;
+      setFormExpanded(temp);
+    } else {
+      setFormExpanded((prevFormExpanded) => {
+        return prevFormExpanded.map((item, i) => i === index);
+      });
+    }
   };
 
   const handleValueChange = (
@@ -70,11 +73,6 @@ const EducationInfo = () => {
     const temp = [...educationInfo];
     temp[index][field] = value;
     setEducationInfo(temp);
-  };
-
-  const FormHeightVariant: Variants = {
-    expanded: { height: 'auto' },
-    collapse: { height: '80px' },
   };
 
   return (
@@ -91,10 +89,11 @@ const EducationInfo = () => {
             <ReorderItem
               value={item}
               key={item.id}
+              itemKey={item.id}
               animate={formExpanded[index] ? 'expanded' : 'collapse'}
               variants={FormHeightVariant}
               isParentCollapsed={!formExpanded[index]}
-              classnames='relative mt-4 flex w-full flex-col rounded-md border-1 border-shadow-border px-4'
+              classnames='relative mt-4 flex w-full flex-col rounded-md border-1 border-shadow-border px-4 z-0'
             >
               {!formExpanded[index] && (
                 <>
@@ -111,11 +110,19 @@ const EducationInfo = () => {
                     ? item.school_name
                     : 'New educational experience'}
                 </h3>
-                <ChevronDown
-                  onClick={() => toogleFormExpand(index)}
-                  className='cursor-pointer'
-                  size={24}
-                />
+                {!formExpanded[index] ? (
+                  <ChevronDown
+                    onClick={() => toogleFormExpand(index)}
+                    className='cursor-pointer'
+                    size={24}
+                  />
+                ) : (
+                  <ChevronUp
+                    onClick={() => toogleFormExpand(index)}
+                    className='cursor-pointer'
+                    size={24}
+                  />
+                )}
               </div>
               <AnimatePresence>
                 {formExpanded[index] && (

@@ -27,8 +27,9 @@ export interface IEducationForm {
 }
 
 export interface IWorkForm {
-  starts: Date;
-  ends: Date;
+  id: string;
+  starts: Date | string;
+  ends: Date | string;
   position: string;
   company: string;
   location: string;
@@ -37,9 +38,10 @@ export interface IWorkForm {
 }
 
 export interface IResearchForm {
+  id: string;
   project: string;
   role: string;
-  ends: Date;
+  ends: Date | string;
   school_name: string;
   degree_name: string;
   location: string;
@@ -50,7 +52,7 @@ export interface IResearchForm {
 
 export interface ICompetitionForm {
   name: string;
-  date: Date;
+  date: Date | string;
   results: string;
   degree_name: string;
   location: string;
@@ -58,7 +60,7 @@ export interface ICompetitionForm {
 }
 export interface IActivityForm {
   starts: Date;
-  ends: Date;
+  ends: Date | string;
   responsibility: string;
   company: string;
   location: string;

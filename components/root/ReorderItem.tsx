@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
-  key: string;
+  itemKey: string;
   animate: string;
   variants: Variants;
   classnames: string;
@@ -16,7 +16,7 @@ type Props = {
 const ReorderItem = ({
   children,
   value,
-  key,
+  itemKey,
   animate,
   variants,
   classnames,
@@ -26,9 +26,9 @@ const ReorderItem = ({
 
   return (
     <Reorder.Item
-      key={key}
-      //   dragListener={false}
-      //   dragControls={controls}
+      key={itemKey}
+      dragListener={false}
+      dragControls={controls}
       value={value}
       initial={false}
       variants={variants}
