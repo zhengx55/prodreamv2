@@ -8,7 +8,7 @@ import { User } from '@nextui-org/user';
 const Navbar = () => {
   const pathname = usePathname();
   return (
-    <nav className='flex-between h-[64px] bg-white px-12 shadow-sidebar'>
+    <nav className='flex-between h-[64px] border-b-1 border-shadow-border bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold capitalize text-black-200'>
         {pathname.split('/')[2]}
       </h3>

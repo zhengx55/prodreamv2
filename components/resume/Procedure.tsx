@@ -5,13 +5,13 @@ import Draggable from 'react-draggable';
 
 const Procedure = () => {
   return (
-    <Draggable defaultPosition={{ x: 0, y: 0 }}>
+    <Draggable bounds='parent'>
       <div className='absolute right-4 z-50 flex flex-col rounded-xl bg-white px-6 md:h-[433px] md:w-[380px]'>
         <h1 className='h3-bold mt-5 text-black-500'>
           Build a standout college resume the easy way
         </h1>
         <div className='relative mt-5 flex h-[280px] flex-col justify-between'>
-          <span className='absolute left-4 top-1 z-10 h-full w-[1px] border-1 border-dashed border-shadow-border'></span>
+          <span className='absolute left-4 top-2 z-10 h-[270px] w-[1px] border-1 border-dashed border-shadow-border' />
 
           {ResumeProcedure.map((item, index) => {
             return (

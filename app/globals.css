@@ -32,9 +32,12 @@
     @apply text-[24px] font-bold leading-[140%];
   }
 
+  .h3-semibold {
+    @apply text-[24px] font-semibold leading-[140%];
+  }
+
   .title-semibold {
     @apply text-[20px] font-semibold leading-[140%];
-
   }
 
   .base-semibold {
@@ -100,6 +103,10 @@
 
   .brainstorm-card {
     @apply rounded-[8px] border-1 border-shadow-border bg-white
+  }
+
+  .form-input-group {
+    @apply flex flex-col items-start gap-y-2
   }
 
   [contenteditable=true]:empty:before {

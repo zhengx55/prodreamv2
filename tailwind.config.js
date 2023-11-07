@@ -9,13 +9,6 @@ module.exports = {
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
-    },
     extend: {
       backgroundImage: {
         resume: "url('/resume_bg.jpg')",
@@ -44,6 +37,7 @@ module.exports = {
         },
         hover: {
           50: '#FBF7FF',
+          100: '#F7F9FC',
         },
         shadow: '#797979',
         'shadow-100': '#828282',
@@ -55,7 +49,8 @@ module.exports = {
       boxShadow: {
         sidebar: '4px 0 5px rgba(0,0,0,.06)',
         panel: '0px 5px 10px 0px #F1F2FA',
-        card: '0px 4px 5px 0px rgba(0, 0, 0, 0.06);',
+        card: '0px 4px 5px 0px rgba(0, 0, 0, 0.06)',
+        input: '0px 1px 0px 0px rgba(0, 0, 0, 0.05)',
       },
       keyframes: {
         'accordion-down': {

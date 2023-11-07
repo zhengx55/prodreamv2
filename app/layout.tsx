@@ -5,6 +5,8 @@ import { ThemeProvider } from '@/context/ThemeProvider';
 // import { i18n } from '@/i18n.config';
 import { UIProviders } from '@/context/NextUIProvider';
 import { Poppins } from 'next/font/google';
+import { Toast } from '@/components/ui/toast';
+import { Toaster } from '@/components/ui/toaster';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -36,6 +38,7 @@ export default function RootLayout({
               <section className='h-screen w-screen md:flex md:min-w-[1400px] md:overflow-x-auto'>
                 {children}
               </section>
+              <Toaster />
             </UIProviders>
           </TanstackProvider>
         </ThemeProvider>
