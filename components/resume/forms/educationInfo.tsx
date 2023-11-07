@@ -208,6 +208,7 @@ const EducationInfo = () => {
         onClick={appendEducation}
         variant='ghost'
         className='mt-4 text-xl'
+        size={'spaceOff'}
       >
         <Plus className='text-primary-200' />
         <h1 className='text-primary-200'>Add Education</h1>

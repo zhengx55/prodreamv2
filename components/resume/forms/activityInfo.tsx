@@ -192,7 +192,12 @@ const ActivityInfo = () => {
         })}
       </Reorder.Group>
 
-      <Button onClick={appendActivity} variant='ghost' className='mt-4 text-xl'>
+      <Button
+        onClick={appendActivity}
+        variant='ghost'
+        size={'spaceOff'}
+        className='mt-4 text-xl'
+      >
         <Plus className='text-primary-200' />
         <h1 className='text-primary-200'>Add Activity</h1>
       </Button>

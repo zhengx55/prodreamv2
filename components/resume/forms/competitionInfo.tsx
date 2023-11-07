@@ -183,6 +183,7 @@ const CompetitionInfo = () => {
         onClick={appendCompetition}
         variant='ghost'
         className='mt-4 text-xl'
+        size={'spaceOff'}
       >
         <Plus className='text-primary-200' />
         <h1 className='text-primary-200'>Add Competition</h1>

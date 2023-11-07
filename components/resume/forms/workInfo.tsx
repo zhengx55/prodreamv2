@@ -189,7 +189,12 @@ const WorkInfo = () => {
         })}
       </Reorder.Group>
 
-      <Button onClick={appendWork} variant='ghost' className='mt-4 text-xl'>
+      <Button
+        onClick={appendWork}
+        variant='ghost'
+        size={'spaceOff'}
+        className='mt-4 text-xl'
+      >
         <Plus className='text-primary-200' />
         <h1 className='text-primary-200'>Add Work</h1>
       </Button>
