@@ -115,7 +115,7 @@ const WorkInfo = () => {
                         name='position'
                         value={item.position}
                         onChange={(e) => handleValueChange(e, index)}
-                        placeholder='Enter first name'
+                        placeholder='Enter Position'
                       />
                     </div>
                     <div className='form-input-group'>
@@ -127,6 +127,8 @@ const WorkInfo = () => {
                         name='company'
                         id='work-company'
                         placeholder='Enter company'
+                        onChange={(e) => handleValueChange(e, index)}
+                        value={item.company}
                       />
                     </div>
                     <div className='form-input-group'>
@@ -142,6 +144,8 @@ const WorkInfo = () => {
                       <Input
                         type='text'
                         id='work-location'
+                        value={item.location}
+                        onChange={(e) => handleValueChange(e, index)}
                         name='location'
                         placeholder='Enter City'
                       />
@@ -151,15 +155,22 @@ const WorkInfo = () => {
                       <Input
                         type='text'
                         id='work-state'
+                        value={item.state}
                         name='state'
+                        onChange={(e) => handleValueChange(e, index)}
                         placeholder='New York, NY'
                       />
                     </div>
-                    <div className='form-input-group'>
+                    <div className='form-input-group col-span-2'>
                       <Label htmlFor='description'>
                         Description of This Experience
                       </Label>
-                      <Textarea id='description' name='description' />
+                      <Textarea
+                        value={item.description}
+                        id='description'
+                        onChange={(e) => handleValueChange(e, index)}
+                        name='description'
+                      />
                     </div>
                   </motion.section>
                 )}

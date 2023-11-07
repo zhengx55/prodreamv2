@@ -39,11 +39,10 @@ export interface IWorkForm {
 
 export interface IResearchForm {
   id: string;
+  starts: Date | string;
+  ends: Date | string;
   project: string;
   role: string;
-  ends: Date | string;
-  school_name: string;
-  degree_name: string;
   location: string;
   state: string;
   supervisor?: string;
