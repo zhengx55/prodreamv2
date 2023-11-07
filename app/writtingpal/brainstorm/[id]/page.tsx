@@ -10,11 +10,13 @@ export default function Page() {
       <PanelGroup direction='horizontal' disablePointerEventsDuringResize>
         <FormPanel />
         <PanelResizeHandle className='relative w-[1px] rounded-lg bg-shadow-border'>
-          <Move className='absolute -left-2.5 top-[50%]' size={20} />
+          <Move
+            className='absolute -left-2.5 top-[50%] text-shadow'
+            size={20}
+          />
         </PanelResizeHandle>
         <OutputPanel />
       </PanelGroup>
-      {/* <Separator orientation='vertical' className='bg-shadow-border' /> */}
     </main>
   );
 }
