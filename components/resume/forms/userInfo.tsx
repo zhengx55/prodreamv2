@@ -12,7 +12,7 @@ const UserInfo = (props: Props) => {
       <section className='mt-8 grid grid-flow-row grid-cols-2 gap-x-14 gap-y-5'>
         <div className='form-input-group'>
           <Label aria-label='firstname'>First Name</Label>
-          <Input type='text' id='last-name' placeholder='Enter first name' />
+          <Input type='text' id='first-name' placeholder='Enter first name' />
         </div>
         <div className='form-input-group'>
           <Label aria-label='lastname'>Last Name</Label>
@@ -20,19 +20,24 @@ const UserInfo = (props: Props) => {
         </div>
         <div className='form-input-group'>
           <Label aria-label='phone number'>Phone Number</Label>
-          <Input type='number' id='last-name' placeholder='000' />
+          <Input type='number' id='phone-number' placeholder='000' />
         </div>
         <div className='form-input-group'>
           <Label aria-label='linkedIn'>LinkedIn</Label>
           <Input
             type='text'
-            id='last-name'
+            id='linkedin'
             placeholder='https://www.linkedin.com/'
           />
         </div>
         <div className='form-input-group'>
           <Label aria-label='email'>Email</Label>
-          <Input type='email' id='email' placeholder='Enter last name' />
+          <Input
+            type='email'
+            autoComplete='email'
+            id='email'
+            placeholder='Enter last name'
+          />
         </div>
         <div className='form-input-group'>
           <Label aria-label='city'>City</Label>
