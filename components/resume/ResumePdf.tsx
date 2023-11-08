@@ -3,12 +3,16 @@ import { spacing, styles } from './ResumeStyle';
 import { ResumePDFProfile } from './pdf/ResumeProfile';
 import { Resume } from '@/types';
 import { ResumePDFEducation } from './pdf/ResumeEducation';
+import { ResumePDFWork } from './pdf/ResumeWork';
+import { ResumePDFCompetition } from './pdf/ResumeCompetition';
+import { ResumePDFResearch } from './pdf/ResumeResearch';
+import { ResumePDFActivity } from './pdf/ResumeActivity';
 
 type Props = { resume: Resume; isPDF?: boolean; themeColor: string };
 
 const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
   return (
-    <Document>
+    <Document producer={'QuickAppply'}>
       <Page
         size={'A4'}
         style={{
@@ -34,6 +38,26 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
           <ResumePDFProfile profile={resume.profile} isPDF={isPDF} />
           <ResumePDFEducation
             educations={resume.educations}
+            showBulletPoints
+            themeColor={themeColor}
+          />
+          <ResumePDFWork
+            works={resume.works}
+            showBulletPoints
+            themeColor={themeColor}
+          />
+          <ResumePDFResearch
+            researches={resume.researches}
+            showBulletPoints
+            themeColor={themeColor}
+          />
+          <ResumePDFCompetition
+            competitions={resume.competitions}
+            showBulletPoints
+            themeColor={themeColor}
+          />
+          <ResumePDFActivity
+            activities={resume.activities}
             showBulletPoints
             themeColor={themeColor}
           />

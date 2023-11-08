@@ -31,10 +31,12 @@ export const ResumePDFEducation = ({
                   style={{
                     ...styles.flexRowBetween,
                     alignItems: 'center',
-                    marginTop: 20,
+                    marginTop: spacing['1'],
                   }}
                 >
-                  <ResumePDFText bold={true}>{school_name}</ResumePDFText>
+                  <ResumePDFText style={{ fontSize: 20 }} bold={true}>
+                    {school_name}
+                  </ResumePDFText>
                   {location && (
                     <ResumePDFText bold={true}>
                       <ResumePDFIcon type='location' />

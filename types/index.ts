@@ -75,7 +75,6 @@ export interface ICompetitionForm {
   name: string;
   date: string;
   results: string;
-  degree_name: string;
   location: string;
   additional: string;
 }

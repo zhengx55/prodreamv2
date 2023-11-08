@@ -60,7 +60,6 @@ export const initialCompetition: ICompetitionForm = {
   name: '',
   date: '',
   results: '',
-  degree_name: '',
   location: '',
   additional: '',
 };
