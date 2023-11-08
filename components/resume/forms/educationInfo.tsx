@@ -132,6 +132,8 @@ const EducationInfo = () => {
                         name='degree_name'
                         id='degree'
                         placeholder='Enter degree'
+                        onChange={(e) => handleValueChange(e, index)}
+                        value={item.degree_name}
                       />
                     </div>
                     <div className='form-input-group'>
@@ -149,6 +151,8 @@ const EducationInfo = () => {
                         id='edu-location'
                         name='location'
                         placeholder='New York, NY'
+                        onChange={(e) => handleValueChange(e, index)}
+                        value={item.location}
                       />
                     </div>
                     <div className='form-input-group'>
@@ -158,6 +162,8 @@ const EducationInfo = () => {
                         id='edu-state'
                         name='state'
                         placeholder='NY'
+                        onChange={(e) => handleValueChange(e, index)}
+                        value={item.state}
                       />
                     </div>
                     <div className='form-input-group'>

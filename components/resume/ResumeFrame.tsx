@@ -67,7 +67,7 @@ function ResumeFrame({
           height: `${A4_HEIGHT_PX}px`,
           transform: `scale(${scale})`,
         }}
-        className={`origin-top-left bg-white shadow-2xl`}
+        className={`origin-top-left rounded-xl bg-white shadow-2xl`}
       >
         <Frame
           initialContent={iframeInitialContent}

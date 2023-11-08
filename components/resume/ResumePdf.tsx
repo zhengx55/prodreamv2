@@ -2,6 +2,7 @@ import { Page, View, Document, Text } from '@react-pdf/renderer';
 import { spacing, styles } from './ResumeStyle';
 import { ResumePDFProfile } from './pdf/ResumeProfile';
 import { Resume } from '@/types';
+import { ResumePDFEducation } from './pdf/ResumeEducation';
 
 type Props = { resume: Resume; isPDF?: boolean; themeColor: string };
 
@@ -20,6 +21,8 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
             width: spacing['full'],
             height: spacing[3.5],
             backgroundColor: themeColor,
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
           }}
         />
         <View
@@ -29,6 +32,11 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
           }}
         >
           <ResumePDFProfile profile={resume.profile} isPDF={isPDF} />
+          <ResumePDFEducation
+            educations={resume.educations}
+            showBulletPoints
+            themeColor={themeColor}
+          />
         </View>
       </Page>
     </Document>

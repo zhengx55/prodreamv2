@@ -34,7 +34,6 @@ const ResumePDFSection = ({
               backgroundColor: themeColor,
               marginRight: spacing['3.5'],
             }}
-            debug={false}
           />
         )}
         <Text
@@ -42,7 +41,6 @@ const ResumePDFSection = ({
             fontWeight: 'bold',
             letterSpacing: '0.3pt', // tracking-wide -> 0.025em * 12 pt = 0.3pt
           }}
-          debug={false}
         >
           {heading}
         </Text>
