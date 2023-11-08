@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import Link from 'next/link';
+import { v4 } from 'uuid';
 export default function Resume() {
   const toogleResumeModal = () => {};
   return (
@@ -43,7 +44,7 @@ export default function Resume() {
           > */}
 
         <Button asChild className='w-[190px] gap-x-2'>
-          <Link href={'/writtingpal/resume/edit'}>
+          <Link href={`/writtingpal/resume/${v4()}/edit`}>
             Create new Resume
             <ArrowRight className='text-white' size={15} />
           </Link>

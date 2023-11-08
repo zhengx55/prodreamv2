@@ -1,5 +1,4 @@
 'use client';
-
 const ReportPanel = () => {
   return (
     <div className='h-full w-[50%] bg-sectionBackground px-10 pb-20 pt-7'>
