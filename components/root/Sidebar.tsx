@@ -10,6 +10,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { SidebarLinks } from '@/constant';
 import { AnimatedLogo, AnimatedxsLogo } from './AnimatedLogo';
+import CommunityCard from './CommunityCard';
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &
@@ -163,6 +164,7 @@ const Sidebar = () => {
           );
         })}
       </ul>
+      {expandSidebar && <CommunityCard />}
     </motion.aside>
   );
 };

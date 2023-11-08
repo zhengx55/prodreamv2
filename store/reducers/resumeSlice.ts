@@ -1,77 +1,114 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
-import type {
-  FeaturedSkill,
+import {
+  IActivityForm,
+  ICompetitionForm,
+  IEducationForm,
+  IResearchForm,
+  IResumeProfile,
+  IWorkForm,
   Resume,
-  ResumeEducation,
-  ResumeProfile,
-  ResumeProject,
-  ResumeSkills,
-  ResumeWorkExperience,
-} from '../types';
+} from '@/types';
+import { v4 as uuidv4 } from 'uuid';
 
-export const initialProfile: ResumeProfile = {
-  name: '',
-  summary: '',
+export const initialProfile: IResumeProfile = {
+  lastname: '',
+  firstname: '',
   email: '',
-  phone: '',
+  linkedin: '',
+  number: '',
+  website: '',
   location: '',
-  url: '',
 };
 
-export const initialWorkExperience: ResumeWorkExperience = {
+export const initialWorkExperience: IWorkForm = {
+  id: uuidv4(),
+  starts: new Date(0),
+  ends: new Date(0),
+  position: '',
   company: '',
-  jobTitle: '',
-  date: '',
-  descriptions: [],
+  location: '',
+  state: '',
+  description: '',
 };
 
-export const initialEducation: ResumeEducation = {
-  school: '',
-  degree: '',
-  gpa: '',
-  date: '',
-  descriptions: [],
+export const initialEducation: IEducationForm = {
+  id: uuidv4(),
+  degree_name: '',
+  starts: new Date(0),
+  ends: new Date(0),
+  school_name: '',
+  location: '',
+  state: '',
+  areas_of_study: '',
+  related_courses: '',
+  additional_info: '',
 };
 
-export const initialProject: ResumeProject = {
+export const initialResearch: IResearchForm = {
+  id: uuidv4(),
+  starts: new Date(0),
+  ends: new Date(0),
   project: '',
-  date: '',
-  descriptions: [],
+  role: '',
+  location: '',
+  state: '',
+  description: '',
+};
+export const initialCompetition: ICompetitionForm = {
+  id: uuidv4(),
+  name: '',
+  date: new Date(0),
+  results: '',
+  degree_name: '',
+  location: '',
+  additional: '',
+};
+export const initialActivity: IActivityForm = {
+  id: uuidv4(),
+  starts: new Date(0),
+  ends: new Date(0),
+  responsibility: '',
+  company: '',
+  location: '',
+  state: '',
+  description: '',
 };
 
-export const initialFeaturedSkill: FeaturedSkill = { skill: '', rating: 4 };
-export const initialFeaturedSkills: FeaturedSkill[] = Array(6).fill({
-  ...initialFeaturedSkill,
-});
-export const initialSkills: ResumeSkills = {
-  featuredSkills: initialFeaturedSkills,
-  descriptions: [],
-};
+// export const initialFeaturedSkill: FeaturedSkill = { skill: '', rating: 4 };
+// export const initialFeaturedSkills: FeaturedSkill[] = Array(6).fill({
+//   ...initialFeaturedSkill,
+// });
+// export const initialSkills: ResumeSkills = {
+//   featuredSkills: initialFeaturedSkills,
+//   descriptions: [],
+// };
 
 export const initialCustom = {
   descriptions: [],
 };
 
+type FormType = keyof Resume;
+
 export const initialResumeState: Resume = {
   profile: initialProfile,
-  workExperiences: [initialWorkExperience],
+  works: [initialWorkExperience],
   educations: [initialEducation],
-  projects: [initialProject],
-  skills: initialSkills,
-  custom: initialCustom,
+  activities: [initialActivity],
+  competitions: [initialCompetition],
+  researches: [initialResearch],
 };
 
 // Keep the field & value type in sync with CreateHandleChangeArgsWithDescriptions (components\ResumeForm\types.ts)
-export type CreateChangeActionWithDescriptions<T> = {
-  idx: number;
-} & (
-  | {
-      field: Exclude<keyof T, 'descriptions'>;
-      value: string;
-    }
-  | { field: 'descriptions'; value: string[] }
-);
+// export type CreateChangeActionWithDescriptions<T> = {
+//   idx: number;
+// } & (
+//   | {
+//       field: Exclude<keyof T, 'descriptions'>;
+//       value: string;
+//     }
+//   | { field: 'descriptions'; value: string[] }
+// );
 
 export const resumeSlice = createSlice({
   name: 'resume',
@@ -79,66 +116,108 @@ export const resumeSlice = createSlice({
   reducers: {
     changeProfile: (
       draft,
-      action: PayloadAction<{ field: keyof ResumeProfile; value: string }>
+      action: PayloadAction<{ field: keyof IResumeProfile; value: string }>
     ) => {
       const { field, value } = action.payload;
       draft.profile[field] = value;
     },
     changeWorkExperiences: (
       draft,
-      action: PayloadAction<
-        CreateChangeActionWithDescriptions<ResumeWorkExperience>
-      >
+      action: PayloadAction<{
+        field: keyof IWorkForm;
+        value: string;
+        idx: number;
+      }>
     ) => {
       const { idx, field, value } = action.payload;
-      const workExperience = draft.workExperiences[idx];
+      const workExperience = draft.works[idx];
       workExperience[field] = value as any;
     },
+
     changeEducations: (
       draft,
-      action: PayloadAction<CreateChangeActionWithDescriptions<ResumeEducation>>
+      action: PayloadAction<{
+        field: keyof IEducationForm;
+        value: string;
+        idx: number;
+      }>
     ) => {
       const { idx, field, value } = action.payload;
       const education = draft.educations[idx];
       education[field] = value as any;
     },
-    changeProjects: (
+
+    changeCompetitions: (
       draft,
-      action: PayloadAction<CreateChangeActionWithDescriptions<ResumeProject>>
+      action: PayloadAction<{
+        field: keyof ICompetitionForm;
+        value: string;
+        idx: number;
+      }>
     ) => {
       const { idx, field, value } = action.payload;
-      const project = draft.projects[idx];
-      project[field] = value as any;
+      const competition = draft.competitions[idx];
+      competition[field] = value as any;
     },
-    changeSkills: (
+
+    changeResearches: (
       draft,
-      action: PayloadAction<
-        | { field: 'descriptions'; value: string[] }
-        | {
-            field: 'featuredSkills';
-            idx: number;
-            skill: string;
-            rating: number;
-          }
-      >
+      action: PayloadAction<{
+        field: keyof IResearchForm;
+        value: string;
+        idx: number;
+      }>
     ) => {
-      const { field } = action.payload;
-      if (field === 'descriptions') {
-        const { value } = action.payload;
-        draft.skills.descriptions = value;
-      } else {
-        const { idx, skill, rating } = action.payload;
-        const featuredSkill = draft.skills.featuredSkills[idx];
-        featuredSkill.skill = skill;
-        featuredSkill.rating = rating;
+      const { idx, field, value } = action.payload;
+      const research = draft.researches[idx];
+      research[field] = value as any;
+    },
+
+    changeActivities: (
+      draft,
+      action: PayloadAction<{
+        field: keyof IActivityForm;
+        value: string;
+        idx: number;
+      }>
+    ) => {
+      const { idx, field, value } = action.payload;
+      const activity = draft.activities[idx];
+      activity[field] = value as any;
+    },
+
+    addSectionInForm: (draft, action: PayloadAction<{ form: FormType }>) => {
+      const { form } = action.payload;
+      switch (form) {
+        case 'works': {
+          draft.works.push(structuredClone(initialWorkExperience));
+          return draft;
+        }
+        case 'educations': {
+          draft.educations.push(structuredClone(initialEducation));
+          return draft;
+        }
+        case 'researches': {
+          draft.researches.push(structuredClone(initialResearch));
+          return draft;
+        }
+        case 'activities': {
+          draft.activities.push(structuredClone(initialActivity));
+          return draft;
+        }
+        case 'competitions': {
+          draft.competitions.push(structuredClone(initialCompetition));
+          return draft;
+        }
       }
     },
-    changeCustom: (
+
+    deleteSectionInFormByIdx: (
       draft,
-      action: PayloadAction<{ field: 'descriptions'; value: string[] }>
+      action: PayloadAction<{ form: FormType; idx: number }>
     ) => {
-      const { value } = action.payload;
-      draft.custom.descriptions = value;
+      const { form, idx } = action.payload;
+      if (form !== 'profile') draft[form].splice(idx, 1);
     },
 
     setResume: (draft, action: PayloadAction<Resume>) => {
@@ -151,19 +230,19 @@ export const {
   changeProfile,
   changeWorkExperiences,
   changeEducations,
-  changeProjects,
-  changeSkills,
-  changeCustom,
+  changeResearches,
+  changeActivities,
+  changeCompetitions,
   setResume,
 } = resumeSlice.actions;
 
 export const selectResume = (state: RootState) => state.resume;
 export const selectProfile = (state: RootState) => state.resume.profile;
-export const selectWorkExperiences = (state: RootState) =>
-  state.resume.workExperiences;
+export const selectWorkExperiences = (state: RootState) => state.resume.works;
 export const selectEducations = (state: RootState) => state.resume.educations;
-export const selectProjects = (state: RootState) => state.resume.projects;
-export const selectSkills = (state: RootState) => state.resume.skills;
-export const selectCustom = (state: RootState) => state.resume.custom;
+export const selectResearches = (state: RootState) => state.resume.researches;
+export const selectActivities = (state: RootState) => state.resume.activities;
+export const selectCompetitions = (state: RootState) =>
+  state.resume.competitions;
 
 export default resumeSlice.reducer;

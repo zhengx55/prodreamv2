@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { v4 as uuidv4 } from 'uuid';
-import { AnimatePresence, Reorder, Variants, motion } from 'framer-motion';
+import { AnimatePresence, Reorder, motion } from 'framer-motion';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import React, { ChangeEvent, useState } from 'react';
 import ReorderItem from '@/components/root/ReorderItem';

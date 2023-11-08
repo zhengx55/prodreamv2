@@ -13,6 +13,27 @@ export interface IBrainsotrmCard {
   start_style: boolean;
 }
 
+export interface Resume {
+  profile: IResumeProfile;
+  educations: IEducationForm[];
+  works: IWorkForm[];
+  researches: IResearchForm[];
+  competitions: ICompetitionForm[];
+  activities: IActivityForm[];
+}
+
+export type ResumeKey = keyof Resume;
+
+export interface IResumeProfile {
+  lastname: string;
+  firstname: string;
+  email: string;
+  number: string;
+  linkedin: string;
+  website?: string;
+  location: string;
+}
+
 export interface IEducationForm {
   id: string;
   starts: Date | string;

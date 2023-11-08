@@ -7,9 +7,9 @@ import {
 import { store, type RootState, type AppDispatch } from './store';
 
 import { loadStateFromLocalStorage, saveStateToLocalStorage } from './persist';
-import { Resume } from './types';
 import { deepMerge } from '@/lib/utils';
 import { initialResumeState, setResume } from './reducers/resumeSlice';
+import { Resume } from '@/types';
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
