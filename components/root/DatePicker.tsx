@@ -1,5 +1,4 @@
 'use client';
-import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -10,12 +9,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { format } from 'date-fns';
 type Props = {
-  date?: Date;
-  setDate?: () => void;
+  index: number;
+  field: any;
+  value: Date;
+  setDate: (index: number, value: string, field: any) => void;
 };
 
-const DatePicker = ({ date, setDate }: Props) => {
+const DatePicker = ({ index, field, value, setDate }: Props) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -23,18 +25,31 @@ const DatePicker = ({ date, setDate }: Props) => {
           variant={'outline'}
           className={cn(
             'w-full justify-start text-left font-normal',
-            !date && 'text-muted-foreground'
+            !value && 'text-muted-foreground'
           )}
         >
           <CalendarIcon className='mr-2 h-4 w-4' />
-          {date ? format(date, 'PPP') : <span>Pick a date</span>}
+          {value ? (
+            <span>{format(value, 'PPP')}</span>
+          ) : (
+            <span>Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-auto p-0'>
+      <PopoverContent className='w-auto bg-white p-0'>
         <Calendar
+          showWeekNumber={false}
           mode='single'
-          selected={date}
-          onSelect={setDate}
+          fromYear={2000}
+          toYear={new Date().getFullYear()}
+          selected={value}
+          onSelect={async (e) => {
+            if (e) {
+              const formatDateMM = (await import('@/lib/utils')).formatDateMM;
+              const date = formatDateMM(e);
+              setDate(index, date, field);
+            }
+          }}
           initialFocus
         />
       </PopoverContent>

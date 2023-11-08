@@ -49,6 +49,14 @@ const CompetitionInfo = () => {
     }
   };
 
+  const handleDateChange = (
+    index: number,
+    value: string,
+    field: keyof ICompetitionForm
+  ) => {
+    dispatch(changeCompetitions({ field, value, idx: index }));
+  };
+
   const handleValueChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
@@ -130,8 +138,13 @@ const CompetitionInfo = () => {
                       />
                     </div>
                     <div className='form-input-group'>
-                      <Label aria-label='date'>Competition Date</Label>
-                      <DatePicker />
+                      <Label aria-label='end-date'>End Date</Label>
+                      <DatePicker
+                        index={index}
+                        field={'date'}
+                        value={item.date ? new Date(item.date) : new Date()}
+                        setDate={handleDateChange}
+                      />
                     </div>
                     <div className='form-input-group'>
                       <Label htmlFor='Competition-Results'>

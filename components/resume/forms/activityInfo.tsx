@@ -59,6 +59,13 @@ const ActivityInfo = () => {
     dispatch(changeActivities({ field, value, idx: index }));
   };
 
+  const handleDateChange = (
+    index: number,
+    value: string,
+    field: keyof IActivityForm
+  ) => {
+    dispatch(changeActivities({ field, value, idx: index }));
+  };
   return (
     <>
       <h1 className='title-semibold mt-8 text-black-100'>Activity</h1>
@@ -131,12 +138,22 @@ const ActivityInfo = () => {
                       />
                     </div>
                     <div className='form-input-group'>
-                      <Label>Start Date</Label>
-                      <DatePicker />
+                      <Label aria-label='date'>Start Date</Label>
+                      <DatePicker
+                        index={index}
+                        field='starts'
+                        value={item.starts ? new Date(item.starts) : new Date()}
+                        setDate={handleDateChange}
+                      />
                     </div>
                     <div className='form-input-group'>
-                      <Label>End Date</Label>
-                      <DatePicker />
+                      <Label aria-label='end-date'>End Date</Label>
+                      <DatePicker
+                        index={index}
+                        field={'ends'}
+                        value={item.ends ? new Date(item.ends) : new Date()}
+                        setDate={handleDateChange}
+                      />
                     </div>
                     <div className='form-input-group'>
                       <Label htmlFor='activity-location'>City/Location</Label>

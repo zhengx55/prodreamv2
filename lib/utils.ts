@@ -33,3 +33,13 @@ export const deepMerge = (target: Object, source: Object, level = 0) => {
   }
   return copyTarget;
 };
+
+export function formatDateMM(date: Date): string {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+
+  const yearStr = year.toString();
+  const monthStr = month < 10 ? `0${month}` : month.toString();
+
+  return `${yearStr}-${monthStr}`;
+}

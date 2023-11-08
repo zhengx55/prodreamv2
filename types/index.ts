@@ -36,8 +36,8 @@ export interface IResumeProfile {
 
 export interface IEducationForm {
   id: string;
-  starts: Date | string;
-  ends: Date | string;
+  starts: string;
+  ends: string;
   school_name: string;
   degree_name: string;
   location: string;
@@ -49,8 +49,8 @@ export interface IEducationForm {
 
 export interface IWorkForm {
   id: string;
-  starts: Date | string;
-  ends: Date | string;
+  starts: string;
+  ends: string;
   position: string;
   company: string;
   location: string;
@@ -60,8 +60,8 @@ export interface IWorkForm {
 
 export interface IResearchForm {
   id: string;
-  starts: Date | string;
-  ends: Date | string;
+  starts: string;
+  ends: string;
   project: string;
   role: string;
   location: string;
@@ -73,7 +73,7 @@ export interface IResearchForm {
 export interface ICompetitionForm {
   id: string;
   name: string;
-  date: Date | string;
+  date: string;
   results: string;
   degree_name: string;
   location: string;
@@ -81,8 +81,8 @@ export interface ICompetitionForm {
 }
 export interface IActivityForm {
   id: string;
-  starts: Date | string;
-  ends: Date | string;
+  starts: string;
+  ends: string;
   responsibility: string;
   company: string;
   location: string;

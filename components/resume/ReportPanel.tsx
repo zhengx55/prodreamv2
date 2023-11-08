@@ -7,10 +7,13 @@ import { SuppressResumePDFErrorMessage } from './common/SuppressResumePDFErrorMe
 import { selectResume } from '@/store/reducers/resumeSlice';
 import { Separator } from '../ui/separator';
 import { useSetDefaultScale } from '@/hooks/useWindowScale';
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { Button } from '../ui/button';
+import { useParams, useRouter } from 'next/navigation';
 
 const ReportPanel = () => {
+  const param = useParams();
+  const router = useRouter();
   const resume = useAppSelector(selectResume);
   const [scale, setScale] = useState<number>(0.8);
   const { setScaleOnResize } = useSetDefaultScale({
@@ -38,8 +41,14 @@ const ReportPanel = () => {
         className='absolute bottom-[var(--resume-control-bar-height)] bg-shadow-border'
       />
       <div className='flex-center absolute bottom-0 left-0 right-0 flex h-[var(--resume-control-bar-height)] px-[var(--resume-padding)] md:w-full md:gap-x-10'>
-        <Button>save and return</Button>
-        <Button>continue</Button>
+        <Button onClick={() => router.push(`/writtingpal/resume`)}>
+          save and return
+        </Button>
+        <Button
+          onClick={() => router.push(`/writtingpal/resume/${param.id}/preview`)}
+        >
+          continue
+        </Button>
       </div>
     </div>
   );

@@ -56,7 +56,13 @@ const WorkInfo = () => {
     const value = e.target.value;
     dispatch(changeWorkExperiences({ field, value, idx: index }));
   };
-
+  const handleDateChange = (
+    index: number,
+    value: string,
+    field: keyof IWorkForm
+  ) => {
+    dispatch(changeWorkExperiences({ field, value, idx: index }));
+  };
   return (
     <>
       <h1 className='title-semibold mt-8 text-black-100'>Work</h1>
@@ -127,11 +133,21 @@ const WorkInfo = () => {
                     </div>
                     <div className='form-input-group'>
                       <Label aria-label='date'>Start Date</Label>
-                      <DatePicker />
+                      <DatePicker
+                        index={index}
+                        field='starts'
+                        value={item.starts ? new Date(item.starts) : new Date()}
+                        setDate={handleDateChange}
+                      />
                     </div>
                     <div className='form-input-group'>
                       <Label aria-label='end-date'>End Date</Label>
-                      <DatePicker />
+                      <DatePicker
+                        index={index}
+                        field={'ends'}
+                        value={item.ends ? new Date(item.ends) : new Date()}
+                        setDate={handleDateChange}
+                      />
                     </div>
                     <div className='form-input-group'>
                       <Label htmlFor='work-location'>City/Location</Label>

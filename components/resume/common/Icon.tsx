@@ -32,10 +32,10 @@ export type IconType =
 
 export const ResumePDFIcon = ({
   type,
-  isPDF,
+  isPDF = false,
 }: {
   type: IconType;
-  isPDF: boolean;
+  isPDF?: boolean;
 }) => {
   const pathD = TYPE_TO_PATH_D[type];
   if (isPDF) {
