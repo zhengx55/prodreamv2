@@ -5,47 +5,34 @@ import DatePicker from '@/components/root/DatePicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { v4 as uuidv4 } from 'uuid';
-import { AnimatePresence, Reorder, Variants, motion } from 'framer-motion';
+import { AnimatePresence, Reorder, motion } from 'framer-motion';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import React, { ChangeEvent, useState } from 'react';
 import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import {
+  addSectionInForm,
+  changeWorkExperiences,
+  deleteSectionInFormByIdx,
+  selectWorkExperiences,
+} from '@/store/reducers/resumeSlice';
 
 const WorkInfo = () => {
-  const [WorkInfo, setWorkInfo] = useState<Array<IWorkForm>>([
-    {
-      id: uuidv4(),
-      starts: new Date(0),
-      ends: new Date(0),
-      position: '',
-      company: '',
-      location: '',
-      state: '',
-      description: '',
-    },
-  ]);
-  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([true]);
+  const workInfos = useAppSelector(selectWorkExperiences);
+  const dispatch = useAppDispatch();
 
-  const deleteWork = (index: number) => {
-    const temp = WorkInfo.filter((_, i) => i !== index);
-    setWorkInfo(temp);
+  const [formExpanded, setFormExpanded] = useState<Array<boolean>>(
+    Array(workInfos.length).fill(false)
+  );
+  const handleDeleteClick = (index: number) => {
+    dispatch(deleteSectionInFormByIdx({ form: 'works', idx: index }));
     const tempExpanded = formExpanded.filter((_, i) => i !== index);
     setFormExpanded(tempExpanded);
   };
 
-  const appendWork = () => {
-    const newWorkForm = {
-      id: uuidv4(),
-      starts: new Date(0),
-      ends: new Date(0),
-      position: '',
-      company: '',
-      location: '',
-      state: '',
-      description: '',
-    };
-    setWorkInfo((prev) => [...prev, newWorkForm]);
+  const handleAddSection = () => {
+    dispatch(addSectionInForm({ form: 'works' }));
     setFormExpanded((prev) => [...prev, false]);
   };
 
@@ -67,9 +54,7 @@ const WorkInfo = () => {
   ) => {
     const field = e.target.name as keyof IWorkForm;
     const value = e.target.value;
-    const temp = [...WorkInfo];
-    temp[index][field] = value;
-    setWorkInfo(temp);
+    dispatch(changeWorkExperiences({ field, value, idx: index }));
   };
 
   return (
@@ -77,11 +62,11 @@ const WorkInfo = () => {
       <h1 className='title-semibold mt-8 text-black-100'>Work</h1>
       <Reorder.Group
         axis='y'
-        values={WorkInfo}
-        onReorder={setWorkInfo}
+        values={workInfos}
+        onReorder={() => {}}
         className='relative'
       >
-        {WorkInfo.map((item, index) => {
+        {workInfos.map((item, index) => {
           return (
             <ReorderItem
               value={item}
@@ -95,7 +80,7 @@ const WorkInfo = () => {
               {!formExpanded[index] && (
                 <>
                   <Trash2
-                    onClick={() => deleteWork(index)}
+                    onClick={() => handleDeleteClick(index)}
                     className='absolute -right-7 top-[calc(50%_-_11px)] cursor-pointer text-shadow hover:scale-110 hover:text-nav-active'
                     size={22}
                   />
@@ -190,7 +175,7 @@ const WorkInfo = () => {
       </Reorder.Group>
 
       <Button
-        onClick={appendWork}
+        onClick={handleAddSection}
         variant='ghost'
         size={'spaceOff'}
         className='mt-4 text-xl'

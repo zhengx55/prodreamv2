@@ -11,41 +11,30 @@ import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import React, { ChangeEvent, useState } from 'react';
 import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import {
+  addSectionInForm,
+  changeActivities,
+  deleteSectionInFormByIdx,
+  selectActivities,
+} from '@/store/reducers/resumeSlice';
 
 const ActivityInfo = () => {
-  const [ActivityInfo, setActivityInfo] = useState<Array<IActivityForm>>([
-    {
-      id: uuidv4(),
-      starts: new Date(0),
-      ends: new Date(0),
-      responsibility: '',
-      company: '',
-      location: '',
-      state: '',
-      description: '',
-    },
-  ]);
-  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([true]);
+  const activitiesinfo = useAppSelector(selectActivities);
+  const dispatch = useAppDispatch();
 
-  const deleteActivity = (index: number) => {
-    const temp = ActivityInfo.filter((_, i) => i !== index);
-    setActivityInfo(temp);
+  const [formExpanded, setFormExpanded] = useState<Array<boolean>>(
+    Array(activitiesinfo.length).fill(false)
+  );
+
+  const handleDeleteClick = (index: number) => {
+    dispatch(deleteSectionInFormByIdx({ form: 'activities', idx: index }));
     const tempExpanded = formExpanded.filter((_, i) => i !== index);
     setFormExpanded(tempExpanded);
   };
 
-  const appendActivity = () => {
-    const newActivityForm = {
-      id: uuidv4(),
-      starts: new Date(0),
-      ends: new Date(0),
-      responsibility: '',
-      company: '',
-      location: '',
-      state: '',
-      description: '',
-    };
-    setActivityInfo((prev) => [...prev, newActivityForm]);
+  const handleAddSection = () => {
+    dispatch(addSectionInForm({ form: 'activities' }));
     setFormExpanded((prev) => [...prev, false]);
   };
 
@@ -67,9 +56,7 @@ const ActivityInfo = () => {
   ) => {
     const field = e.target.name as keyof IActivityForm;
     const value = e.target.value;
-    const temp = [...ActivityInfo];
-    temp[index][field] = value;
-    setActivityInfo(temp);
+    dispatch(changeActivities({ field, value, idx: index }));
   };
 
   return (
@@ -77,11 +64,11 @@ const ActivityInfo = () => {
       <h1 className='title-semibold mt-8 text-black-100'>Activity</h1>
       <Reorder.Group
         axis='y'
-        values={ActivityInfo}
-        onReorder={setActivityInfo}
+        values={activitiesinfo}
+        onReorder={() => {}}
         className='relative'
       >
-        {ActivityInfo.map((item, index) => {
+        {activitiesinfo.map((item, index) => {
           return (
             <ReorderItem
               value={item}
@@ -95,7 +82,7 @@ const ActivityInfo = () => {
               {!formExpanded[index] && (
                 <>
                   <Trash2
-                    onClick={() => deleteActivity(index)}
+                    onClick={() => handleDeleteClick(index)}
                     className='absolute -right-7 top-[calc(50%_-_11px)] cursor-pointer text-shadow hover:scale-110 hover:text-nav-active'
                     size={22}
                   />
@@ -193,7 +180,7 @@ const ActivityInfo = () => {
       </Reorder.Group>
 
       <Button
-        onClick={appendActivity}
+        onClick={handleAddSection}
         variant='ghost'
         size={'spaceOff'}
         className='mt-4 text-xl'

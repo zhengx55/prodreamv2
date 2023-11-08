@@ -5,50 +5,35 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { IEducationForm } from '@/types';
-import { v4 as uuidv4 } from 'uuid';
 import { AnimatePresence, Reorder, motion } from 'framer-motion';
 import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react';
 import React, { ChangeEvent, useState } from 'react';
 import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import {
+  addSectionInForm,
+  changeEducations,
+  deleteSectionInFormByIdx,
+  selectEducations,
+} from '@/store/reducers/resumeSlice';
 
 const EducationInfo = () => {
-  const [educationInfo, setEducationInfo] = useState<Array<IEducationForm>>([
-    {
-      id: uuidv4(),
-      degree_name: '',
-      starts: new Date(0),
-      ends: new Date(0),
-      school_name: '',
-      location: '',
-      state: '',
-      areas_of_study: '',
-      related_courses: '',
-      additional_info: '',
-    },
-  ]);
-  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([true]);
+  const educationInfos = useAppSelector(selectEducations);
+  const dispatch = useAppDispatch();
 
-  const deleteEducation = (index: number) => {
-    const temp = educationInfo.filter((_, i) => i !== index);
+  const [formExpanded, setFormExpanded] = useState<Array<boolean>>(
+    Array(educationInfos.length).fill(false)
+  );
+
+  const handleDeleteClick = (index: number) => {
+    dispatch(deleteSectionInFormByIdx({ form: 'educations', idx: index }));
     const tempExpanded = formExpanded.filter((_, i) => i !== index);
-    setEducationInfo(temp);
     setFormExpanded(tempExpanded);
   };
-  const appendEducation = () => {
-    const newEducationForm = {
-      id: uuidv4(),
-      degree_name: '',
-      starts: new Date(0),
-      ends: new Date(0),
-      school_name: '',
-      location: '',
-      state: '',
-      areas_of_study: '',
-      related_courses: '',
-      additional_info: '',
-    };
-    setEducationInfo((prev) => [...prev, newEducationForm]);
+
+  const handleAddSection = () => {
+    dispatch(addSectionInForm({ form: 'educations' }));
     setFormExpanded((prev) => [...prev, false]);
   };
 
@@ -70,9 +55,7 @@ const EducationInfo = () => {
   ) => {
     const field = e.target.name as keyof IEducationForm;
     const value = e.target.value;
-    const temp = [...educationInfo];
-    temp[index][field] = value;
-    setEducationInfo(temp);
+    dispatch(changeEducations({ field, value, idx: index }));
   };
 
   return (
@@ -80,11 +63,11 @@ const EducationInfo = () => {
       <h1 className='title-semibold mt-8 text-black-100'>Education</h1>
       <Reorder.Group
         axis='y'
-        values={educationInfo}
-        onReorder={setEducationInfo}
+        values={educationInfos}
+        onReorder={() => {}}
         className='relative'
       >
-        {educationInfo.map((item, index) => {
+        {educationInfos.map((item, index) => {
           return (
             <ReorderItem
               value={item}
@@ -98,7 +81,7 @@ const EducationInfo = () => {
               {!formExpanded[index] && (
                 <>
                   <Trash2
-                    onClick={() => deleteEducation(index)}
+                    onClick={() => handleDeleteClick(index)}
                     className='absolute -right-7 top-[calc(50%_-_11px)] cursor-pointer text-shadow hover:scale-110 hover:text-nav-active'
                     size={22}
                   />
@@ -205,7 +188,7 @@ const EducationInfo = () => {
       </Reorder.Group>
 
       <Button
-        onClick={appendEducation}
+        onClick={handleAddSection}
         variant='ghost'
         className='mt-4 text-xl'
         size={'spaceOff'}

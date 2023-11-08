@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import { Button } from '../ui/button';
 
@@ -15,11 +13,23 @@ const CommunityCard = () => {
       />
       <p className=''>Join our community</p>
       <Button variant={'secondary'} className='w-[130px] gap-x-1 bg-primary-50'>
-        <Image width={18} height={18} alt='discord' src='/discord.png' />
+        <Image
+          className='h-auto w-auto object-contain'
+          width={18}
+          height={18}
+          alt='discord'
+          src='/discord.png'
+        />
         Discord
       </Button>
       <Button variant={'secondary'} className='w-[130px] gap-x-1 bg-primary-50'>
-        <Image width={18} height={18} alt='ins' src='/instagram.png' />
+        <Image
+          className='h-auto w-auto object-contain'
+          alt='ins'
+          width={18}
+          height={18}
+          src='/instagram.png'
+        />
         Instagram
       </Button>
     </div>

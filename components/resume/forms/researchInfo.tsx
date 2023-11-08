@@ -11,41 +11,30 @@ import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import React, { ChangeEvent, useState } from 'react';
 import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import {
+  addSectionInForm,
+  changeResearches,
+  deleteSectionInFormByIdx,
+  selectResearches,
+} from '@/store/reducers/resumeSlice';
 
 const ResearchInfo = () => {
-  const [ResearchInfo, setResearchInfo] = useState<Array<IResearchForm>>([
-    {
-      id: uuidv4(),
-      starts: new Date(0),
-      ends: new Date(0),
-      project: '',
-      role: '',
-      location: '',
-      state: '',
-      description: '',
-    },
-  ]);
-  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([true]);
+  const researchesInfo = useAppSelector(selectResearches);
+  const dispatch = useAppDispatch();
 
-  const deleteResearch = (index: number) => {
-    const temp = ResearchInfo.filter((_, i) => i !== index);
-    setResearchInfo(temp);
+  const [formExpanded, setFormExpanded] = useState<Array<boolean>>(
+    Array(researchesInfo.length).fill(false)
+  );
+
+  const handleDeleteClick = (index: number) => {
+    dispatch(deleteSectionInFormByIdx({ form: 'researches', idx: index }));
     const tempExpanded = formExpanded.filter((_, i) => i !== index);
     setFormExpanded(tempExpanded);
   };
 
-  const appendResearch = () => {
-    const newResearchForm = {
-      id: uuidv4(),
-      starts: new Date(0),
-      ends: new Date(0),
-      project: '',
-      role: '',
-      location: '',
-      state: '',
-      description: '',
-    };
-    setResearchInfo((prev) => [...prev, newResearchForm]);
+  const handleAddSection = () => {
+    dispatch(addSectionInForm({ form: 'researches' }));
     setFormExpanded((prev) => [...prev, false]);
   };
 
@@ -67,9 +56,7 @@ const ResearchInfo = () => {
   ) => {
     const field = e.target.name as keyof IResearchForm;
     const value = e.target.value;
-    const temp = [...ResearchInfo];
-    temp[index][field] = value;
-    setResearchInfo(temp);
+    dispatch(changeResearches({ field, value, idx: index }));
   };
 
   return (
@@ -77,11 +64,11 @@ const ResearchInfo = () => {
       <h1 className='title-semibold mt-8 text-black-100'>Research</h1>
       <Reorder.Group
         axis='y'
-        values={ResearchInfo}
-        onReorder={setResearchInfo}
+        values={researchesInfo}
+        onReorder={() => {}}
         className='relative'
       >
-        {ResearchInfo.map((item, index) => {
+        {researchesInfo.map((item, index) => {
           return (
             <ReorderItem
               value={item}
@@ -95,7 +82,7 @@ const ResearchInfo = () => {
               {!formExpanded[index] && (
                 <>
                   <Trash2
-                    onClick={() => deleteResearch(index)}
+                    onClick={() => handleDeleteClick(index)}
                     className='absolute -right-7 top-[calc(50%_-_11px)] cursor-pointer text-shadow hover:scale-110 hover:text-nav-active'
                     size={22}
                   />
@@ -190,7 +177,7 @@ const ResearchInfo = () => {
       </Reorder.Group>
 
       <Button
-        onClick={appendResearch}
+        onClick={handleAddSection}
         variant='ghost'
         size={'spaceOff'}
         className='mt-4 text-xl'

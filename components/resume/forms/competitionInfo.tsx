@@ -5,47 +5,35 @@ import DatePicker from '@/components/root/DatePicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { v4 as uuidv4 } from 'uuid';
-import { AnimatePresence, Reorder, Variants, motion } from 'framer-motion';
+import { AnimatePresence, Reorder, motion } from 'framer-motion';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import React, { ChangeEvent, useState } from 'react';
 import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import {
+  addSectionInForm,
+  changeCompetitions,
+  deleteSectionInFormByIdx,
+  selectCompetitions,
+} from '@/store/reducers/resumeSlice';
 
 const CompetitionInfo = () => {
-  const [CompetitionInfo, setCompetitionInfo] = useState<
-    Array<ICompetitionForm>
-  >([
-    {
-      id: uuidv4(),
-      name: '',
-      date: new Date(0),
-      results: '',
-      degree_name: '',
-      location: '',
-      additional: '',
-    },
-  ]);
-  const [formExpanded, setFormExpanded] = useState<Array<boolean>>([true]);
+  const competitionsInfo = useAppSelector(selectCompetitions);
+  const dispatch = useAppDispatch();
 
-  const deleteCompetition = (index: number) => {
-    const temp = CompetitionInfo.filter((_, i) => i !== index);
-    setCompetitionInfo(temp);
+  const [formExpanded, setFormExpanded] = useState<Array<boolean>>(
+    Array(competitionsInfo.length).fill(false)
+  );
+
+  const handleDeleteClick = (index: number) => {
+    dispatch(deleteSectionInFormByIdx({ form: 'competitions', idx: index }));
     const tempExpanded = formExpanded.filter((_, i) => i !== index);
     setFormExpanded(tempExpanded);
   };
 
-  const appendCompetition = () => {
-    const newCompetitionForm = {
-      id: uuidv4(),
-      name: '',
-      date: new Date(0),
-      results: '',
-      degree_name: '',
-      location: '',
-      additional: '',
-    };
-    setCompetitionInfo((prev) => [...prev, newCompetitionForm]);
+  const handleAddSection = () => {
+    dispatch(addSectionInForm({ form: 'competitions' }));
     setFormExpanded((prev) => [...prev, false]);
   };
 
@@ -67,9 +55,7 @@ const CompetitionInfo = () => {
   ) => {
     const field = e.target.name as keyof ICompetitionForm;
     const value = e.target.value;
-    const temp = [...CompetitionInfo];
-    temp[index][field] = value;
-    setCompetitionInfo(temp);
+    dispatch(changeCompetitions({ field, value, idx: index }));
   };
 
   return (
@@ -77,11 +63,11 @@ const CompetitionInfo = () => {
       <h1 className='title-semibold mt-8 text-black-100'>Competition</h1>
       <Reorder.Group
         axis='y'
-        values={CompetitionInfo}
-        onReorder={setCompetitionInfo}
+        values={competitionsInfo}
+        onReorder={() => {}}
         className='relative'
       >
-        {CompetitionInfo.map((item, index) => {
+        {competitionsInfo.map((item, index) => {
           return (
             <ReorderItem
               value={item}
@@ -95,7 +81,7 @@ const CompetitionInfo = () => {
               {!formExpanded[index] && (
                 <>
                   <Trash2
-                    onClick={() => deleteCompetition(index)}
+                    onClick={() => handleDeleteClick(index)}
                     className='absolute -right-7 top-[calc(50%_-_11px)] cursor-pointer text-shadow hover:scale-110 hover:text-nav-active'
                     size={22}
                   />
@@ -180,7 +166,7 @@ const CompetitionInfo = () => {
       </Reorder.Group>
 
       <Button
-        onClick={appendCompetition}
+        onClick={handleAddSection}
         variant='ghost'
         className='mt-4 text-xl'
         size={'spaceOff'}

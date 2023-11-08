@@ -41,12 +41,7 @@ export const useSetInitialStore = () => {
       ) as Resume;
       dispatch(setResume(mergedResumeState));
     }
-    // if (state.settings) {
-    //   const mergedSettingsState = deepMerge(
-    //     initialSettings,
-    //     state.settings
-    //   ) as Settings;
-    //   dispatch(setSettings(mergedSettingsState));
-    // }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
