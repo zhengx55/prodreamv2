@@ -34,7 +34,7 @@ export const ResumePDFEducation = ({
                     marginTop: spacing['1'],
                   }}
                 >
-                  <ResumePDFText style={{ fontSize: 20 }} bold={true}>
+                  <ResumePDFText style={{ fontSize: 18 }} bold={true}>
                     {school_name}
                   </ResumePDFText>
                   {location && (

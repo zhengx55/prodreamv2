@@ -22,7 +22,7 @@ export const ResumePDFProfile = ({
       <ResumePDFText
         themeColor='#7D22F5'
         bold={true}
-        style={{ fontSize: '20pt' }}
+        style={{ fontSize: '20pt', textTransform: 'capitalize' }}
       >
         {firstname}&nbsp;{lastname}
       </ResumePDFText>

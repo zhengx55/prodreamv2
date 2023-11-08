@@ -22,15 +22,6 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
       >
         <View
           style={{
-            width: spacing['full'],
-            height: spacing[3.5],
-            backgroundColor: themeColor,
-            borderTopLeftRadius: 12,
-            borderTopRightRadius: 12,
-          }}
-        />
-        <View
-          style={{
             ...styles.flexCol,
             padding: `${spacing[0]} ${spacing[10]}`,
           }}

@@ -15,7 +15,9 @@ const buttonVariants = cva(
           'bg-transparent text-primary-200 hover:text-primary-300 border-1 border-primary-200 hover:border-primary-300 hover:-translate-y-0.5',
         outline:
           'border border-shadow-border bg-white hover:bg-accent hover:text-accent-foreground',
-        ghost: 'gap-x-2 cursor-pointer hover:-translate-y-0.5',
+        ghost: 'gap-x-2 hover:-translate-y-0.5',
+        white:
+          'bg-white gap-x-2 base-regular justify-start shadow-button rounded-[10px] hover:-translate-y-0.5 hover:text-primary-200',
         link: 'text-normal underline-offset-4 hover:underline hover:-translate-y-0.5',
       },
       size: {

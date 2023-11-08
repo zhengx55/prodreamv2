@@ -28,7 +28,7 @@ export const ResumePDFCompetition = ({
                   marginTop: spacing['1'],
                 }}
               >
-                <ResumePDFText style={{ fontSize: 20 }} bold={true}>
+                <ResumePDFText style={{ fontSize: 18 }} bold={true}>
                   {name}
                 </ResumePDFText>
                 {location && (
