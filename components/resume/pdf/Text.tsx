@@ -1,9 +1,28 @@
-import React from 'react';
+import { Text } from '@react-pdf/renderer';
+import type { Style } from '@react-pdf/types';
 
-type Props = {};
-
-const Text = (props: Props) => {
-  return <div>Text</div>;
+type Props = {
+  bold?: boolean;
+  themeColor?: string;
+  style?: Style;
+  children: React.ReactNode;
 };
 
-export default Text;
+const ResumePDFText = ({
+  bold = false,
+  themeColor,
+  style = {},
+  children,
+}: Props) => {
+  return (
+    <Text
+      style={{
+        fontWeight: bold ? 'bold' : 'normal',
+        ...style,
+      }}
+    >
+      {children}
+    </Text>
+  );
+};
+export default ResumePDFText;

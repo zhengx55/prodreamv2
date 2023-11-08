@@ -1,4 +1,4 @@
-import { Page, View, Document } from '@react-pdf/renderer';
+import { Page, View, Document, Text } from '@react-pdf/renderer';
 import { spacing, styles } from './ResumeStyle';
 
 type Props = {};
@@ -19,7 +19,9 @@ const ResumePdf = (props: Props) => {
             ...styles.flexCol,
             padding: `${spacing[0]} ${spacing[20]}`,
           }}
-        ></View>
+        >
+          <Text>13123</Text>
+        </View>
       </Page>
     </Document>
   );

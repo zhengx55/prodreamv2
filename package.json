@@ -36,6 +36,7 @@
     "react-day-picker": "^8.9.1",
     "react-dom": "latest",
     "react-draggable": "^4.4.6",
+    "react-frame-component": "^5.2.6",
     "react-redux": "^8.1.3",
     "react-resizable-panels": "^0.0.55",
     "server-only": "^0.0.1",
