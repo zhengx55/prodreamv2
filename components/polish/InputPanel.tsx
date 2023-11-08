@@ -17,11 +17,11 @@ const InputPanel = () => {
     }
   };
   return (
-    <div className='h-full w-1/2 p-3'>
-      <div className='flex h-full flex-col rounded-lg bg-white py-6 pl-6 pr-4'>
+    <div className='overflow-hidden md:h-full md:w-1/2 md:p-4'>
+      <div className='flex h-full w-full flex-col rounded-lg bg-white py-6 pl-6 pr-4'>
         <section
           onInput={handleInput}
-          className='custom-scrollbar h-full w-full overflow-auto text-justify outline-none'
+          className='custom-scrollbar h-full w-full overflow-y-auto text-justify outline-none'
           placeholder='Write your message..'
           contentEditable
         />

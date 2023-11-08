@@ -2,6 +2,7 @@ import React from 'react';
 import type { Style } from '@react-pdf/types';
 import { Text, View } from '@react-pdf/renderer';
 import { spacing, styles } from '../ResumeStyle';
+import { space } from 'postcss/lib/list';
 
 type Props = {
   themeColor?: string;
@@ -19,33 +20,31 @@ const ResumePDFSection = ({
   <View
     style={{
       ...styles.flexCol,
-      gap: spacing['2'],
       marginTop: spacing['5'],
       ...style,
     }}
   >
     {heading && (
-      <View style={{ ...styles.flexRow, alignItems: 'center' }}>
-        {themeColor && (
-          <View
-            style={{
-              height: '3.75pt',
-              width: '30pt',
-              backgroundColor: themeColor,
-              marginRight: spacing['3.5'],
-            }}
-          />
-        )}
-        <Text
-          style={{
-            fontWeight: 'bold',
-            letterSpacing: '0.3pt', // tracking-wide -> 0.025em * 12 pt = 0.3pt
-            fontSize: 18,
-          }}
-        >
-          {heading}
-        </Text>
-      </View>
+      <Text
+        style={{
+          fontWeight: 'bold',
+          textTransform: 'uppercase',
+          letterSpacing: '0.3pt', // tracking-wide -> 0.025em * 12 pt = 0.3pt
+          fontSize: 18,
+        }}
+      >
+        {heading}
+      </Text>
+    )}
+    {heading && (
+      <View
+        style={{
+          height: 2,
+          width: '100%',
+          marginBottom: spacing['2'],
+          backgroundColor: themeColor,
+        }}
+      />
     )}
     {children}
   </View>

@@ -7,7 +7,7 @@ import { SuppressResumePDFErrorMessage } from './common/SuppressResumePDFErrorMe
 import { selectResume } from '@/store/reducers/resumeSlice';
 import { Separator } from '../ui/separator';
 import { useSetDefaultScale } from '@/hooks/useWindowScale';
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -26,10 +26,6 @@ const ReportPanel = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const document = useMemo(
-    () => <ResumePdf resume={resume} themeColor='#7D2FF5' />,
-    [resume]
-  );
   return (
     <div className='relative flex h-full flex-col items-center bg-sectionBackground md:w-[50%] md:overflow-hidden md:p-[var(--resume-padding)]'>
       <ResumeIframeCSR scale={scale}>

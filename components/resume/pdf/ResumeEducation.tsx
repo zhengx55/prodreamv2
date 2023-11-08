@@ -19,11 +19,8 @@ export const ResumePDFEducation = ({
     <ResumePDFSection heading={'Education'} themeColor={themeColor}>
       {educations.map(
         ({ school_name, location, state, degree_name, starts, ends }, idx) => {
-          // Hide school name if it is the same as the previous school
           const hideSchoolName =
             idx > 0 && school_name === educations[idx - 1].school_name;
-          //   const showDescriptions = descriptions.join() !== '';
-
           return (
             <View key={idx}>
               {!hideSchoolName && (

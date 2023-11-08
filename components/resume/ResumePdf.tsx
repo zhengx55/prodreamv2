@@ -11,8 +11,12 @@ import { ResumePDFActivity } from './pdf/ResumeActivity';
 type Props = { resume: Resume; isPDF?: boolean; themeColor: string };
 
 const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
+  const { firstname, lastname } = resume.profile;
   return (
-    <Document producer={'QuickAppply'}>
+    <Document
+      title={`${firstname} ${lastname}'s Resume`}
+      producer={'QuickAppply'}
+    >
       <Page
         size={'A4'}
         style={{
@@ -24,6 +28,7 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
           style={{
             ...styles.flexCol,
             padding: `${spacing[0]} ${spacing[10]}`,
+            rowGap: parseInt(spacing['5']),
           }}
         >
           <ResumePDFProfile profile={resume.profile} isPDF={isPDF} />

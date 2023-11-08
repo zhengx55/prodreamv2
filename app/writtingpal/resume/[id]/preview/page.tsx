@@ -10,7 +10,7 @@ import { ResumeControllerCSR } from '@/components/resume/Controller';
 export default function Page() {
   const resume = useAppSelector(selectResume);
   const document = useMemo(
-    () => <ResumePdf resume={resume} isPDF={true} themeColor='#7D2FF5' />,
+    () => <ResumePdf resume={resume} isPDF={false} themeColor='#7D2FF5' />,
     [resume]
   );
 
