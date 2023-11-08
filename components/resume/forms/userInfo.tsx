@@ -12,8 +12,7 @@ const UserInfo = (props: Props) => {
   const profile = useAppSelector(selectProfile);
   const dispatch = useAppDispatch();
   const handleValueChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const field = e.target.name as keyof IResumeProfile;
     const value = e.target.value;
@@ -28,6 +27,8 @@ const UserInfo = (props: Props) => {
             First Name
           </Label>
           <Input
+            value={profile.firstname}
+            onChange={handleValueChange}
             type='text'
             name='firstname'
             id='first-name'
@@ -39,6 +40,8 @@ const UserInfo = (props: Props) => {
             Last Name
           </Label>
           <Input
+            value={profile.lastname}
+            onChange={handleValueChange}
             type='text'
             id='last-name'
             name='lastname'
@@ -50,6 +53,8 @@ const UserInfo = (props: Props) => {
             Phone Number
           </Label>
           <Input
+            value={profile.number}
+            onChange={handleValueChange}
             type='number'
             id='phone-number'
             name='number'
@@ -61,6 +66,8 @@ const UserInfo = (props: Props) => {
             LinkedIn
           </Label>
           <Input
+            value={profile.linkedin}
+            onChange={handleValueChange}
             type='text'
             name='linkedin'
             id='linkedin'
@@ -72,23 +79,40 @@ const UserInfo = (props: Props) => {
             Email
           </Label>
           <Input
+            value={profile.email}
+            onChange={handleValueChange}
             type='email'
+            name='email'
             autoComplete='email'
             id='email'
-            placeholder='Enter last name'
+            placeholder='Enter email address'
           />
         </div>
         <div className='form-input-group'>
           <Label htmlFor='city' aria-label='city'>
             City
           </Label>
-          <Input type='text' name='city' id='city' placeholder='NY' />
+          <Input
+            value={profile.location}
+            onChange={handleValueChange}
+            type='text'
+            name='location'
+            id='city'
+            placeholder='NY'
+          />
         </div>
         <div className='form-input-group'>
           <Label htmlFor='website' aria-label='website'>
             Personal Website
           </Label>
-          <Input type='text' name='website' id='website' placeholder='NY' />
+          <Input
+            value={profile.website}
+            onChange={handleValueChange}
+            type='text'
+            name='website'
+            id='website'
+            placeholder='www.example.com'
+          />
         </div>
       </section>
     </>
