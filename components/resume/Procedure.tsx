@@ -1,12 +1,16 @@
 'use client';
 import { ResumeProcedure } from '@/constant';
-import React from 'react';
+import React, { useRef } from 'react';
 import Draggable from 'react-draggable';
 
 const Procedure = () => {
+  const nodeRef = useRef(null);
   return (
-    <Draggable bounds='parent'>
-      <div className='absolute right-4 z-50 flex flex-col rounded-xl bg-white px-6 md:h-[433px] md:w-[380px]'>
+    <Draggable nodeRef={nodeRef} bounds='parent'>
+      <div
+        ref={nodeRef}
+        className='absolute right-4 z-50 flex cursor-grab flex-col rounded-xl bg-white px-6 md:h-[433px] md:w-[380px]'
+      >
         <h1 className='h3-bold mt-5 text-black-500'>
           Build a standout college resume the easy way
         </h1>

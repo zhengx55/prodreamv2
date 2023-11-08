@@ -6,9 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/storehooks';
 import { changeProfile, selectProfile } from '@/store/reducers/resumeSlice';
 import { IResumeProfile } from '@/types';
 
-type Props = {};
-
-const UserInfo = (props: Props) => {
+const UserInfo = () => {
   const profile = useAppSelector(selectProfile);
   const dispatch = useAppDispatch();
   const handleValueChange = (

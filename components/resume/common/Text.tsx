@@ -17,6 +17,7 @@ const ResumePDFText = ({
   return (
     <Text
       style={{
+        color: themeColor || '#333',
         fontWeight: bold ? 'bold' : 'normal',
         ...style,
       }}

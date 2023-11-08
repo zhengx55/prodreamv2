@@ -43,7 +43,7 @@ const getIframeInitialContent = (isA4: boolean) => {
 };
 
 function ResumeFrame({
-  scale = 1,
+  scale = 0.7,
   children,
 }: {
   children: ReactNode;
@@ -67,7 +67,7 @@ function ResumeFrame({
           height: `${A4_HEIGHT_PX}px`,
           transform: `scale(${scale})`,
         }}
-        className={`origin-top-left bg-white shadow-lg`}
+        className={`origin-top-left bg-white shadow-2xl`}
       >
         <Frame
           initialContent={iframeInitialContent}

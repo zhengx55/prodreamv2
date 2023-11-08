@@ -1,18 +1,20 @@
 'use client';
 
+import { useAppSelector } from '@/store/storehooks';
 import { ResumeIframeCSR } from './ResumeFrame';
 import ResumePdf from './ResumePdf';
-import { SuppressResumePDFErrorMessage } from './pdf/SuppressResumePDFErrorMessage';
+import { SuppressResumePDFErrorMessage } from './common/SuppressResumePDFErrorMessage';
+import { selectResume } from '@/store/reducers/resumeSlice';
 
 const ReportPanel = () => {
+  const resume = useAppSelector(selectResume);
+
   return (
-    <div className='h-full w-[50%] bg-sectionBackground px-10 pb-20 pt-7'>
-      <div className='h-full w-full overflow-y-auto rounded-xl bg-white shadow-2xl'>
-        <ResumeIframeCSR scale={1}>
-          <ResumePdf />
-        </ResumeIframeCSR>
-        <SuppressResumePDFErrorMessage />
-      </div>
+    <div className='flex h-full justify-center bg-sectionBackground px-10 pb-20 pt-7 md:w-[50%]'>
+      <ResumeIframeCSR scale={0.7}>
+        <ResumePdf themeColor='#7D2FF5' resume={resume} />
+      </ResumeIframeCSR>
+      <SuppressResumePDFErrorMessage />
     </div>
   );
 };
