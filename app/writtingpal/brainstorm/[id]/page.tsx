@@ -6,13 +6,9 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 export default function Page() {
   return (
-    <main className='flex flex-1 overflow-y-hidden bg-sectionBackground'>
+    <main className='flex h-full w-full overflow-y-hidden bg-sectionBackground'>
       <PanelGroup direction='horizontal' disablePointerEventsDuringResize>
-        <Panel
-          className='relative flex flex-col overflow-y-auto p-4'
-          minSize={45}
-          defaultSize={50}
-        >
+        <Panel minSize={45} defaultSize={50}>
           <FormPanel />
         </Panel>
         <PanelResizeHandle className='relative w-[1px] rounded-lg bg-shadow-border'>

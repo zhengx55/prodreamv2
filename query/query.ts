@@ -6,14 +6,14 @@ import { getBrainstormDetails, getBrianstormHistoryById } from './api';
 // ============================================================
 export const useBrainStormDetail = (template_id: string) => {
   return useQuery({
-    queryKey: ['', template_id],
+    queryKey: ['brainstormdetail', template_id],
     enabled: !!template_id,
     queryFn: () => getBrainstormDetails(template_id),
   });
 };
 export const useBrainStormHistoryById = (template_id: string) => {
   return useQuery({
-    queryKey: ['', template_id],
+    queryKey: ['brainsotrmhistory', template_id],
     enabled: !!template_id,
     queryFn: () => getBrianstormHistoryById(template_id),
   });

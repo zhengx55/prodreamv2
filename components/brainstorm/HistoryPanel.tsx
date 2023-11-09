@@ -1,12 +1,12 @@
-import Loading from '@/app/writtingpal/loading';
 import { useBrainStormHistoryById } from '@/query/query';
 import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
+import Loading from '../root/Loading';
 const HistoryPanel = () => {
   const path = usePathname();
   const id = path.split('/')[path.split('/').length - 1];
   const { isPending, data, isError } = useBrainStormHistoryById(id);
-
   if (isPending) {
     return <Loading />;
   }
@@ -42,4 +42,6 @@ const HistoryPanel = () => {
   );
 };
 
-export default HistoryPanel;
+export const HistoryPanelCSR = dynamic(() => Promise.resolve(HistoryPanel), {
+  ssr: false,
+});

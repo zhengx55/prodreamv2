@@ -17,47 +17,51 @@
 
   /* TYPOGRAPHY */
   .h1-bold {
-    @apply text-[36px] font-bold leading-[140%];
+    @apply text-[36px] font-[700] leading-[140%];
   }
 
   .h1-semibold {
-    @apply text-[36px] font-semibold leading-[140%];
+    @apply text-[36px] font-[600] leading-[140%];
+  }
+
+  .h1-regular {
+    @apply text-[28px] font-[400] leading-[140%];
   }
 
   .h2-bold {
-    @apply text-[30px] font-bold leading-[140%];
+    @apply text-[30px] font-[700] leading-[140%];
   }
 
   .h3-bold {
-    @apply text-[24px] font-bold leading-[140%];
+    @apply text-[24px] font-[700] leading-[140%];
   }
 
   .h3-semibold {
-    @apply text-[24px] font-semibold leading-[140%];
+    @apply text-[24px] font-[600] leading-[140%];
   }
 
   .title-semibold {
-    @apply text-[20px] font-semibold leading-[140%];
+    @apply text-[20px] font-[600] leading-[140%];
   }
 
   .base-semibold {
-    @apply text-[16px] font-semibold leading-[140%];
+    @apply text-[16px] font-[600] leading-[140%];
   }
 
   .base-medium {
-    @apply text-[16px] font-medium leading-[140%];
+    @apply text-[16px] font-[500] leading-[140%];
   }
 
   .base-regular {
-    @apply text-[16px] font-normal leading-[140%];
+    @apply text-[16px] font-[400] leading-[140%];
   }
 
   .body-bold {
-    @apply text-[18px] font-bold leading-[140%];
+    @apply text-[18px] font-[700] leading-[140%];
   }
 
   .body-medium {
-    @apply text-[18px] font-medium leading-[140%];
+    @apply text-[18px] font-[500] leading-[140%];
   }
 
   .body-normal {
@@ -65,23 +69,27 @@
   }
 
   .small-semibold {
-    @apply text-[14px] font-semibold leading-[140%];
+    @apply text-[14px] font-[600] leading-[140%];
   }
 
   .small-medium {
-    @apply text-[14px] font-medium leading-[140%];
+    @apply text-[14px] font-[500] leading-[140%];
   }
 
   .small-regular {
-    @apply text-[14px] font-normal leading-[140%];
+    @apply text-[14px] font-normal;
   }
 
   .subtle-semibold {
-    @apply text-[12px] font-semibold leading-[140%];
+    @apply text-[12px] font-[600] leading-[140%];
+  }
+
+  .subtle-regular {
+    @apply text-[12px] font-[400] leading-[140%];
   }
 
   .tiny-medium {
-    @apply text-[10px] font-medium leading-[140%];
+    @apply text-[10px] font-[500] leading-[140%];
   }
 
   /* UTILITIES */
