@@ -4,9 +4,9 @@ import DatePicker from '@/components/root/DatePicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AnimatePresence, Reorder, Variants, motion } from 'framer-motion';
+import { AnimatePresence, Reorder, motion } from 'framer-motion';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
@@ -18,37 +18,23 @@ import {
   setResearches,
 } from '@/store/reducers/resumeSlice';
 import { BulletListTextarea } from './BulletPointTextarea';
-import { findSwappedElements } from '@/lib/utils';
 
 const ResearchInfo = () => {
   const researchesInfo = useAppSelector(selectResearches);
   const dispatch = useAppDispatch();
 
-  const [formExpanded, setFormExpanded] = useState<Array<boolean>>(
-    Array(researchesInfo.length).fill(false)
-  );
-
   const handleDeleteClick = (index: number) => {
     dispatch(deleteSectionInFormByIdx({ form: 'researches', idx: index }));
-    const tempExpanded = formExpanded.filter((_, i) => i !== index);
-    setFormExpanded(tempExpanded);
   };
 
   const handleAddSection = () => {
     dispatch(addSectionInForm({ form: 'researches' }));
-    setFormExpanded((prev) => [...prev, false]);
   };
 
   const toogleFormExpand = (index: number) => {
-    const temp = [...formExpanded];
-    if (temp[index] === true) {
-      temp[index] = false;
-      setFormExpanded(temp);
-    } else {
-      setFormExpanded((prevFormExpanded) => {
-        return prevFormExpanded.map((_item, i) => i === index);
-      });
-    }
+    const expand =
+      researchesInfo[index].expand === 'expand' ? 'collapse' : 'expand';
+    dispatch(changeResearches({ idx: index, field: 'expand', value: expand }));
   };
 
   const handleValueChange = (
@@ -75,17 +61,7 @@ const ResearchInfo = () => {
         axis='y'
         values={researchesInfo}
         onReorder={(newOrder) => {
-          const swapIndexes = findSwappedElements(researchesInfo, newOrder);
-          if (swapIndexes) {
-            const expanded_array_cache = [...formExpanded];
-            const temp = expanded_array_cache[swapIndexes[1]];
-            expanded_array_cache[swapIndexes[1]] =
-              expanded_array_cache[swapIndexes[0]];
-            expanded_array_cache[swapIndexes[0]] = temp;
-
-            setFormExpanded(expanded_array_cache);
-            dispatch(setResearches(newOrder));
-          }
+          dispatch(setResearches(newOrder));
         }}
         className='relative'
       >
@@ -95,12 +71,12 @@ const ResearchInfo = () => {
               value={item}
               key={item.id}
               itemKey={item.id}
-              animate={formExpanded[index] ? 'expanded' : 'collapse'}
+              animate={item.expand === 'expand' ? 'expanded' : 'collapse'}
               variants={FormHeightVariant}
-              isParentCollapsed={!formExpanded[index]}
+              isParentCollapsed={item.expand === 'collapse'}
               classnames='relative mt-4 flex w-full flex-col rounded-md border-1 border-shadow-border px-4'
             >
-              {!formExpanded[index] && (
+              {item.expand === 'collapse' && (
                 <>
                   <Trash2
                     onClick={() => handleDeleteClick(index)}
@@ -120,7 +96,7 @@ const ResearchInfo = () => {
                 />
               </div>
               <AnimatePresence>
-                {formExpanded[index] && (
+                {item.expand === 'expand' && (
                   <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
                       <Label htmlFor='position' aria-label='position'>

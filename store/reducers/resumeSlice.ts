@@ -30,12 +30,14 @@ export const initialWorkExperience: IWorkForm = {
   location: '',
   state: '',
   description: [],
+  expand: 'expand',
 };
 
 export const initialEducation: IEducationForm = {
   id: uuidv4(),
   degree_name: '',
   starts: '',
+  expand: 'expand',
   ends: '',
   school_name: '',
   location: '',
@@ -53,6 +55,8 @@ export const initialResearch: IResearchForm = {
   role: '',
   location: '',
   state: '',
+  expand: 'expand',
+
   description: [],
 };
 export const initialCompetition: ICompetitionForm = {
@@ -62,6 +66,7 @@ export const initialCompetition: ICompetitionForm = {
   results: '',
   location: '',
   additional_info: [],
+  expand: 'expand',
 };
 export const initialActivity: IActivityForm = {
   id: uuidv4(),
@@ -71,6 +76,7 @@ export const initialActivity: IActivityForm = {
   company: '',
   location: '',
   state: '',
+  expand: 'expand',
   description: [],
 };
 
@@ -182,31 +188,51 @@ export const resumeSlice = createSlice({
       switch (form) {
         case 'works': {
           draft.works.push(
-            structuredClone({ ...initialWorkExperience, id: uuidv4() })
+            structuredClone({
+              ...initialWorkExperience,
+              id: uuidv4(),
+              expand: 'collapse',
+            })
           );
           return draft;
         }
         case 'educations': {
           draft.educations.push(
-            structuredClone({ ...initialEducation, id: uuidv4() })
+            structuredClone({
+              ...initialEducation,
+              id: uuidv4(),
+              expand: 'collapse',
+            })
           );
           return draft;
         }
         case 'researches': {
           draft.researches.push(
-            structuredClone({ ...initialResearch, id: uuidv4() })
+            structuredClone({
+              ...initialResearch,
+              id: uuidv4(),
+              expand: 'collapse',
+            })
           );
           return draft;
         }
         case 'activities': {
           draft.activities.push(
-            structuredClone({ ...initialActivity, id: uuidv4() })
+            structuredClone({
+              ...initialActivity,
+              id: uuidv4(),
+              expand: 'collapse',
+            })
           );
           return draft;
         }
         case 'competitions': {
           draft.competitions.push(
-            structuredClone({ ...initialCompetition, id: uuidv4() })
+            structuredClone({
+              ...initialCompetition,
+              id: uuidv4(),
+              expand: 'collapse',
+            })
           );
           return draft;
         }

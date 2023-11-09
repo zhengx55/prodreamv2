@@ -46,6 +46,7 @@ export interface IEducationForm {
   id: string;
   starts: string;
   ends: string;
+  expand: 'expand' | 'collapse';
   school_name: string;
   degree_name: string;
   location: string;
@@ -59,6 +60,7 @@ export interface IWorkForm {
   id: string;
   starts: string;
   ends: string;
+  expand: 'expand' | 'collapse';
   position: string;
   company: string;
   location: string;
@@ -70,6 +72,7 @@ export interface IResearchForm {
   id: string;
   starts: string;
   ends: string;
+  expand: 'expand' | 'collapse';
   project: string;
   role: string;
   location: string;
@@ -83,6 +86,7 @@ export interface ICompetitionForm {
   name: string;
   date: string;
   results: string;
+  expand: 'expand' | 'collapse';
   location: string;
   additional_info: string[];
 }
@@ -92,6 +96,7 @@ export interface IActivityForm {
   ends: string;
   responsibility: string;
   company: string;
+  expand: 'expand' | 'collapse';
   location: string;
   state: string;
   description: string[];

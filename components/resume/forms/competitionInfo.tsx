@@ -25,31 +25,20 @@ const CompetitionInfo = () => {
   const competitionsInfo = useAppSelector(selectCompetitions);
   const dispatch = useAppDispatch();
 
-  const [formExpanded, setFormExpanded] = useState<Array<boolean>>(
-    Array(competitionsInfo.length).fill(false)
-  );
-
   const handleDeleteClick = (index: number) => {
     dispatch(deleteSectionInFormByIdx({ form: 'competitions', idx: index }));
-    const tempExpanded = formExpanded.filter((_, i) => i !== index);
-    setFormExpanded(tempExpanded);
   };
 
   const handleAddSection = () => {
     dispatch(addSectionInForm({ form: 'competitions' }));
-    setFormExpanded((prev) => [...prev, false]);
   };
 
   const toogleFormExpand = (index: number) => {
-    const temp = [...formExpanded];
-    if (temp[index] === true) {
-      temp[index] = false;
-      setFormExpanded(temp);
-    } else {
-      setFormExpanded((prevFormExpanded) => {
-        return prevFormExpanded.map((_item, i) => i === index);
-      });
-    }
+    const expand =
+      competitionsInfo[index].expand === 'expand' ? 'collapse' : 'expand';
+    dispatch(
+      changeCompetitions({ idx: index, field: 'expand', value: expand })
+    );
   };
 
   const handleDateChange = (
@@ -76,17 +65,7 @@ const CompetitionInfo = () => {
         axis='y'
         values={competitionsInfo}
         onReorder={(newOrder) => {
-          const swapIndexes = findSwappedElements(competitionsInfo, newOrder);
-          if (swapIndexes) {
-            const expanded_array_cache = [...formExpanded];
-            const temp = expanded_array_cache[swapIndexes[1]];
-            expanded_array_cache[swapIndexes[1]] =
-              expanded_array_cache[swapIndexes[0]];
-            expanded_array_cache[swapIndexes[0]] = temp;
-
-            setFormExpanded(expanded_array_cache);
-            dispatch(setCompetitions(newOrder));
-          }
+          dispatch(setCompetitions(newOrder));
         }}
         className='relative'
       >
@@ -96,12 +75,12 @@ const CompetitionInfo = () => {
               value={item}
               key={item.id}
               itemKey={item.id}
-              animate={formExpanded[index] ? 'expanded' : 'collapse'}
+              animate={item.expand === 'expand' ? 'expanded' : 'collapse'}
               variants={FormHeightVariant}
-              isParentCollapsed={!formExpanded[index]}
+              isParentCollapsed={item.expand === 'collapse'}
               classnames='relative mt-4 flex w-full flex-col rounded-md border-1 border-shadow-border px-4'
             >
-              {!formExpanded[index] && (
+              {item.expand === 'collapse' && (
                 <>
                   <Trash2
                     onClick={() => handleDeleteClick(index)}
@@ -121,7 +100,7 @@ const CompetitionInfo = () => {
                 />
               </div>
               <AnimatePresence>
-                {formExpanded[index] && (
+                {item.expand === 'expand' && (
                   <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
                       <Label htmlFor='competition' aria-label='name'>
