@@ -21,7 +21,7 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
         size={'A4'}
         style={{
           ...styles.flexCol,
-          fontSize: 14 + 'pt',
+          fontSize: 14,
         }}
       >
         <View
