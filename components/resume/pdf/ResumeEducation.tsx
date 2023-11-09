@@ -4,7 +4,7 @@ import { View } from '@react-pdf/renderer';
 import ResumePDFText from '../common/Text';
 import { spacing, styles } from '../ResumeStyle';
 import ResumePDFBulletList from '../common/BulletList';
-import { ResumePDFIcon, IconType } from '../common/Icon';
+import { ResumePDFIcon } from '../common/Icon';
 
 export const ResumePDFEducation = ({
   educations,
@@ -18,34 +18,45 @@ export const ResumePDFEducation = ({
   return (
     <ResumePDFSection heading={'Education'} themeColor={themeColor}>
       {educations.map(
-        ({ school_name, location, state, degree_name, starts, ends }, idx) => {
-          const hideSchoolName =
-            idx > 0 && school_name === educations[idx - 1].school_name;
+        (
+          {
+            school_name,
+            location,
+            state,
+            degree_name,
+            starts,
+            ends,
+            related_courses,
+            areas_of_study,
+            additional_info,
+          },
+          idx
+        ) => {
+          const showAddition = additional_info.join() !== '';
           return (
             <View key={idx}>
-              {!hideSchoolName && (
-                <View
-                  style={{
-                    ...styles.flexRowBetween,
-                    alignItems: 'center',
-                    marginTop: spacing['1'],
-                  }}
-                >
-                  <ResumePDFText style={{ fontSize: 18 }} bold={true}>
-                    {school_name}
-                  </ResumePDFText>
-                  {location && (
-                    <ResumePDFText bold={true}>
-                      <ResumePDFIcon type='location' />
-                      {location} {state}
-                    </ResumePDFText>
-                  )}
-                </View>
-              )}
               <View
                 style={{
                   ...styles.flexRowBetween,
-                  marginTop: hideSchoolName ? '-' + spacing['1'] : spacing['2'],
+                  alignItems: 'center',
+                  marginTop: spacing['1'],
+                }}
+              >
+                <ResumePDFText style={{ fontSize: 18 }} bold={true}>
+                  {school_name}
+                </ResumePDFText>
+                {location && (
+                  <ResumePDFText bold={true}>
+                    <ResumePDFIcon type='location' />
+                    {location} {state}
+                  </ResumePDFText>
+                )}
+              </View>
+
+              <View
+                style={{
+                  ...styles.flexRowBetween,
+                  marginTop: spacing['2'],
                 }}
               >
                 <ResumePDFText>{degree_name}</ResumePDFText>
@@ -55,14 +66,24 @@ export const ResumePDFEducation = ({
                   </ResumePDFText>
                 )}
               </View>
-              {/* {showDescriptions && (
+              <View style={{ ...styles.flexCol }}>
+                {related_courses && (
+                  <ResumePDFText>
+                    Relevant Courses: {related_courses}
+                  </ResumePDFText>
+                )}
+                {areas_of_study && (
+                  <ResumePDFText>Area Of Study: {areas_of_study}</ResumePDFText>
+                )}
+              </View>
+              {showAddition && (
                 <View style={{ ...styles.flexCol, marginTop: spacing['1.5'] }}>
                   <ResumePDFBulletList
-                    items={descriptions}
+                    items={additional_info}
                     showBulletPoints={showBulletPoints}
                   />
                 </View>
-              )} */}
+              )}
             </View>
           );
         }

@@ -13,6 +13,14 @@ export interface IBrainsotrmCard {
   start_style: boolean;
 }
 
+export type CreateHandleChangeArgsWithDescription<T> =
+  | [field: Exclude<keyof T, 'description'>, value: string]
+  | [field: 'description', value: string[]];
+
+export type CreateHandleChangeArgsWithAdditional<T> =
+  | [field: Exclude<keyof T, 'additional_info'>, value: string]
+  | [field: 'additional_info', value: string[]];
+
 export interface Resume {
   profile: IResumeProfile;
   educations: IEducationForm[];
@@ -44,7 +52,7 @@ export interface IEducationForm {
   state: string;
   areas_of_study: string;
   related_courses: string;
-  additional_info: string;
+  additional_info: string[];
 }
 
 export interface IWorkForm {
@@ -55,7 +63,7 @@ export interface IWorkForm {
   company: string;
   location: string;
   state: string;
-  description: string;
+  description: string[];
 }
 
 export interface IResearchForm {
@@ -67,7 +75,7 @@ export interface IResearchForm {
   location: string;
   state: string;
   supervisor?: string;
-  description: string;
+  description: string[];
 }
 
 export interface ICompetitionForm {
@@ -76,7 +84,7 @@ export interface ICompetitionForm {
   date: string;
   results: string;
   location: string;
-  additional: string;
+  additional_info: string[];
 }
 export interface IActivityForm {
   id: string;
@@ -86,7 +94,7 @@ export interface IActivityForm {
   company: string;
   location: string;
   state: string;
-  description: string;
+  description: string[];
 }
 
 export interface ISkillsForm {

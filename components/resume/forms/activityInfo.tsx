@@ -18,6 +18,7 @@ import {
   deleteSectionInFormByIdx,
   selectActivities,
 } from '@/store/reducers/resumeSlice';
+import { BulletListTextarea } from './BulletPointTextarea';
 
 const ActivityInfo = () => {
   const activitiesinfo = useAppSelector(selectActivities);
@@ -56,7 +57,7 @@ const ActivityInfo = () => {
   ) => {
     const field = e.target.name as keyof IActivityForm;
     const value = e.target.value;
-    dispatch(changeActivities({ field, value, idx: index }));
+    dispatch(changeActivities({ field, value, idx: index } as any));
   };
 
   const handleDateChange = (
@@ -64,7 +65,7 @@ const ActivityInfo = () => {
     value: string,
     field: keyof IActivityForm
   ) => {
-    dispatch(changeActivities({ field, value, idx: index }));
+    dispatch(changeActivities({ field, value, idx: index } as any));
   };
   return (
     <>
@@ -181,11 +182,21 @@ const ActivityInfo = () => {
                       <Label htmlFor='activity-description'>
                         Descriptions of This Activity
                       </Label>
-                      <Textarea
-                        value={item.description}
-                        id='activity-description'
-                        onChange={(e) => handleValueChange(e, index)}
+                      <BulletListTextarea
+                        placeholder='...'
                         name='description'
+                        id='work-description'
+                        className='h-[150px]'
+                        onChange={(field, value) => {
+                          dispatch(
+                            changeActivities({
+                              field,
+                              value,
+                              idx: index,
+                            })
+                          );
+                        }}
+                        value={item.description}
                       />
                     </div>
                   </motion.section>

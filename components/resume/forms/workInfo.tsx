@@ -17,6 +17,7 @@ import {
   deleteSectionInFormByIdx,
   selectWorkExperiences,
 } from '@/store/reducers/resumeSlice';
+import { BulletListTextarea } from './BulletPointTextarea';
 
 const WorkInfo = () => {
   const workInfos = useAppSelector(selectWorkExperiences);
@@ -54,14 +55,14 @@ const WorkInfo = () => {
   ) => {
     const field = e.target.name as keyof IWorkForm;
     const value = e.target.value;
-    dispatch(changeWorkExperiences({ field, value, idx: index }));
+    dispatch(changeWorkExperiences({ field, value, idx: index } as any));
   };
   const handleDateChange = (
     index: number,
     value: string,
     field: keyof IWorkForm
   ) => {
-    dispatch(changeWorkExperiences({ field, value, idx: index }));
+    dispatch(changeWorkExperiences({ field, value, idx: index } as any));
   };
   return (
     <>
@@ -172,14 +173,24 @@ const WorkInfo = () => {
                       />
                     </div>
                     <div className='form-input-group col-span-2'>
-                      <Label htmlFor='description'>
+                      <Label htmlFor='work-descriptio'>
                         Description of This Experience
                       </Label>
-                      <Textarea
-                        value={item.description}
-                        id='description'
-                        onChange={(e) => handleValueChange(e, index)}
+                      <BulletListTextarea
+                        placeholder='...'
                         name='description'
+                        id='work-description'
+                        className='h-[150px]'
+                        onChange={(field, value) => {
+                          dispatch(
+                            changeWorkExperiences({
+                              field,
+                              value,
+                              idx: index,
+                            })
+                          );
+                        }}
+                        value={item.description}
                       />
                     </div>
                   </motion.section>

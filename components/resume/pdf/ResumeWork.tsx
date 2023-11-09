@@ -1,10 +1,10 @@
-import { IEducationForm, IWorkForm } from '@/types';
+import { IWorkForm } from '@/types';
 import ResumePDFSection from '../common/Section';
 import { View } from '@react-pdf/renderer';
 import ResumePDFText from '../common/Text';
 import { spacing, styles } from '../ResumeStyle';
 import ResumePDFBulletList from '../common/BulletList';
-import { ResumePDFIcon, IconType } from '../common/Icon';
+import { ResumePDFIcon } from '../common/Icon';
 
 export const ResumePDFWork = ({
   works,
@@ -18,7 +18,11 @@ export const ResumePDFWork = ({
   return (
     <ResumePDFSection heading={'Work Experiences'} themeColor={themeColor}>
       {works.map(
-        ({ company, location, state, position, starts, ends }, idx) => {
+        (
+          { company, location, state, position, starts, ends, description },
+          idx
+        ) => {
+          const showDescriptions = description.join() !== '';
           return (
             <View key={idx}>
               <View
@@ -51,14 +55,14 @@ export const ResumePDFWork = ({
                   </ResumePDFText>
                 )}
               </View>
-              {/* {showDescriptions && (
+              {showDescriptions && (
                 <View style={{ ...styles.flexCol, marginTop: spacing['1.5'] }}>
                   <ResumePDFBulletList
-                    items={descriptions}
+                    items={description}
                     showBulletPoints={showBulletPoints}
                   />
                 </View>
-              )} */}
+              )}
             </View>
           );
         }

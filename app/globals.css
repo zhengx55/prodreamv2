@@ -144,3 +144,11 @@
   --resume-padding: 1.5rem;
   --resume-control-bar-height: 3.5rem;
 }
+
+.bulletpoints::before {
+  content: "2022";
+  margin-right: 10px;
+  color: #333;
+  font-weight: bold;
+  display: block;
+}

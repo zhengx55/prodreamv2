@@ -1,10 +1,10 @@
-import { IActivityForm, ICompetitionForm, IEducationForm } from '@/types';
+import { IActivityForm } from '@/types';
 import ResumePDFSection from '../common/Section';
 import { View } from '@react-pdf/renderer';
 import ResumePDFText from '../common/Text';
 import { spacing, styles } from '../ResumeStyle';
 import ResumePDFBulletList from '../common/BulletList';
-import { ResumePDFIcon, IconType } from '../common/Icon';
+import { ResumePDFIcon } from '../common/Icon';
 
 export const ResumePDFActivity = ({
   activities,
@@ -22,8 +22,7 @@ export const ResumePDFActivity = ({
           { starts, ends, company, location, description, responsibility },
           idx
         ) => {
-          // Hide school name if it is the same as the previous school
-
+          const showDescriptions = description.join() !== '';
           return (
             <View key={idx}>
               <View
@@ -57,14 +56,14 @@ export const ResumePDFActivity = ({
                   </ResumePDFText>
                 )}
               </View>
-              {/* {showDescriptions && (
+              {showDescriptions && (
                 <View style={{ ...styles.flexCol, marginTop: spacing['1.5'] }}>
                   <ResumePDFBulletList
-                    items={descriptions}
+                    items={description}
                     showBulletPoints={showBulletPoints}
                   />
                 </View>
-              )} */}
+              )}
             </View>
           );
         }

@@ -1,10 +1,10 @@
-import { ICompetitionForm, IEducationForm, IResearchForm } from '@/types';
+import { IResearchForm } from '@/types';
 import ResumePDFSection from '../common/Section';
 import { View } from '@react-pdf/renderer';
 import ResumePDFText from '../common/Text';
 import { spacing, styles } from '../ResumeStyle';
 import ResumePDFBulletList from '../common/BulletList';
-import { ResumePDFIcon, IconType } from '../common/Icon';
+import { ResumePDFIcon } from '../common/Icon';
 
 export const ResumePDFResearch = ({
   researches,
@@ -18,9 +18,11 @@ export const ResumePDFResearch = ({
   return (
     <ResumePDFSection heading={'Research Experiences'} themeColor={themeColor}>
       {researches.map(
-        ({ starts, state, location, ends, role, project }, idx) => {
-          // Hide school name if it is the same as the previous school
-
+        (
+          { starts, state, location, ends, role, project, description },
+          idx
+        ) => {
+          const showDescriptions = description.join() !== '';
           return (
             <View key={idx}>
               <View
@@ -54,14 +56,14 @@ export const ResumePDFResearch = ({
                   </ResumePDFText>
                 )}{' '}
               </View>
-              {/* {showDescriptions && (
+              {showDescriptions && (
                 <View style={{ ...styles.flexCol, marginTop: spacing['1.5'] }}>
                   <ResumePDFBulletList
-                    items={descriptions}
+                    items={description}
                     showBulletPoints={showBulletPoints}
                   />
                 </View>
-              )} */}
+              )}
             </View>
           );
         }

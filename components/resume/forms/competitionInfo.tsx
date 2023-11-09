@@ -17,6 +17,7 @@ import {
   deleteSectionInFormByIdx,
   selectCompetitions,
 } from '@/store/reducers/resumeSlice';
+import { BulletListTextarea } from './BulletPointTextarea';
 
 const CompetitionInfo = () => {
   const competitionsInfo = useAppSelector(selectCompetitions);
@@ -54,7 +55,7 @@ const CompetitionInfo = () => {
     value: string,
     field: keyof ICompetitionForm
   ) => {
-    dispatch(changeCompetitions({ field, value, idx: index }));
+    dispatch(changeCompetitions({ field, value, idx: index } as any));
   };
 
   const handleValueChange = (
@@ -63,7 +64,7 @@ const CompetitionInfo = () => {
   ) => {
     const field = e.target.name as keyof ICompetitionForm;
     const value = e.target.value;
-    dispatch(changeCompetitions({ field, value, idx: index }));
+    dispatch(changeCompetitions({ field, value, idx: index } as any));
   };
 
   return (
@@ -160,14 +161,24 @@ const CompetitionInfo = () => {
                       />
                     </div>
                     <div className='form-input-group col-span-2'>
-                      <Label htmlFor='additional'>
+                      <Label htmlFor='cmp-additional'>
                         Additional Descriptions of this Competition
                       </Label>
-                      <Textarea
-                        value={item.additional}
-                        id='additional'
-                        onChange={(e) => handleValueChange(e, index)}
-                        name='additional'
+                      <BulletListTextarea
+                        placeholder='...'
+                        name='additional_info'
+                        id='cmp-additional'
+                        className='h-[150px]'
+                        onChange={(field, value) => {
+                          dispatch(
+                            changeCompetitions({
+                              field,
+                              value,
+                              idx: index,
+                            })
+                          );
+                        }}
+                        value={item.additional_info}
                       />
                     </div>
                   </motion.section>

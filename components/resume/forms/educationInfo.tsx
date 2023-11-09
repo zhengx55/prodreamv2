@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { IEducationForm } from '@/types';
+import { CreateHandleChangeArgsWithAdditional, IEducationForm } from '@/types';
 import { AnimatePresence, Reorder, motion } from 'framer-motion';
 import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react';
 import React, { ChangeEvent, useState } from 'react';
@@ -17,10 +17,12 @@ import {
   deleteSectionInFormByIdx,
   selectEducations,
 } from '@/store/reducers/resumeSlice';
+import { BulletListTextarea } from './BulletPointTextarea';
 
 const EducationInfo = () => {
   const educationInfos = useAppSelector(selectEducations);
   const dispatch = useAppDispatch();
+  const [test, setTest] = useState('');
 
   const [formExpanded, setFormExpanded] = useState<Array<boolean>>(
     Array(educationInfos.length).fill(false)
@@ -53,16 +55,12 @@ const EducationInfo = () => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
   ) => {
-    const field = e.target.name as keyof IEducationForm;
+    const field = e.target.name as any;
     const value = e.target.value;
-    dispatch(changeEducations({ field, value, idx: index }));
+    dispatch(changeEducations({ idx: index, field, value }));
   };
 
-  const handleDateChange = (
-    index: number,
-    value: string,
-    field: keyof IEducationForm
-  ) => {
+  const handleDateChange = (index: number, value: string, field: any) => {
     dispatch(changeEducations({ field, value, idx: index }));
   };
 
@@ -186,21 +184,39 @@ const EducationInfo = () => {
                     </div>
                     <div className='form-input-group'>
                       <Label htmlFor='area of study'>Areas of Study</Label>
-                      <Textarea id='area of study' name='areas_of_study' />
+                      <Textarea
+                        onChange={(e) => handleValueChange(e, index)}
+                        id='area of study'
+                        name='areas_of_study'
+                      />
                     </div>
                     <div className='form-input-group'>
                       <Label htmlFor='related course'>Related Courses</Label>
-                      <Textarea id='related course' name='related_courses' />
+                      <Textarea
+                        onChange={(e) => handleValueChange(e, index)}
+                        id='related course'
+                        name='related_courses'
+                      />
                     </div>
                     <div className='form-input-group col-span-2'>
-                      <Label htmlFor='additional info'>
+                      <Label htmlFor='additional-info'>
                         Additional Information
                       </Label>
-                      <Textarea
-                        id='additional info'
-                        className='h-[150px]'
+                      <BulletListTextarea
                         placeholder='...'
                         name='additional_info'
+                        id='additional-info'
+                        className='h-[150px]'
+                        onChange={(field, value) => {
+                          dispatch(
+                            changeEducations({
+                              field,
+                              value,
+                              idx: index,
+                            })
+                          );
+                        }}
+                        value={item.additional_info}
                       />
                     </div>
                   </motion.section>

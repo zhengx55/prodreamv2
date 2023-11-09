@@ -1,10 +1,10 @@
-import { ICompetitionForm, IEducationForm } from '@/types';
+import { ICompetitionForm } from '@/types';
 import ResumePDFSection from '../common/Section';
 import { View } from '@react-pdf/renderer';
 import ResumePDFText from '../common/Text';
 import { spacing, styles } from '../ResumeStyle';
 import ResumePDFBulletList from '../common/BulletList';
-import { ResumePDFIcon, IconType } from '../common/Icon';
+import { ResumePDFIcon } from '../common/Icon';
 
 export const ResumePDFCompetition = ({
   competitions,
@@ -18,7 +18,9 @@ export const ResumePDFCompetition = ({
   return (
     <ResumePDFSection heading={'Award Experiences'} themeColor={themeColor}>
       {competitions.map(
-        ({ name, location, date, results, additional }, idx) => {
+        ({ name, location, date, results, additional_info }, idx) => {
+          const showAddition = additional_info.join() !== '';
+
           return (
             <View key={idx}>
               <View
@@ -48,14 +50,14 @@ export const ResumePDFCompetition = ({
                 <ResumePDFText>{results}</ResumePDFText>
                 {date && <ResumePDFText>{date}</ResumePDFText>}
               </View>
-              {/* {showDescriptions && (
+              {showAddition && (
                 <View style={{ ...styles.flexCol, marginTop: spacing['1.5'] }}>
                   <ResumePDFBulletList
-                    items={descriptions}
+                    items={additional_info}
                     showBulletPoints={showBulletPoints}
                   />
                 </View>
-              )} */}
+              )}
             </View>
           );
         }

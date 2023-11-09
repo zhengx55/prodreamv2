@@ -18,6 +18,7 @@ import {
   deleteSectionInFormByIdx,
   selectResearches,
 } from '@/store/reducers/resumeSlice';
+import { BulletListTextarea } from './BulletPointTextarea';
 
 const ResearchInfo = () => {
   const researchesInfo = useAppSelector(selectResearches);
@@ -56,7 +57,7 @@ const ResearchInfo = () => {
   ) => {
     const field = e.target.name as keyof IResearchForm;
     const value = e.target.value;
-    dispatch(changeResearches({ field, value, idx: index }));
+    dispatch(changeResearches({ field, value, idx: index } as any));
   };
 
   const handleDateChange = (
@@ -64,7 +65,7 @@ const ResearchInfo = () => {
     value: string,
     field: keyof IResearchForm
   ) => {
-    dispatch(changeResearches({ field, value, idx: index }));
+    dispatch(changeResearches({ field, value, idx: index } as any));
   };
 
   return (
@@ -179,11 +180,21 @@ const ResearchInfo = () => {
                       <Label htmlFor='research-description'>
                         Description of This Experience
                       </Label>
-                      <Textarea
-                        value={item.description}
-                        id='research-description'
-                        onChange={(e) => handleValueChange(e, index)}
+                      <BulletListTextarea
+                        placeholder='...'
                         name='description'
+                        id='research-description'
+                        className='h-[150px]'
+                        onChange={(field, value) => {
+                          dispatch(
+                            changeResearches({
+                              field,
+                              value,
+                              idx: index,
+                            })
+                          );
+                        }}
+                        value={item.description}
                       />
                     </div>
                   </motion.section>

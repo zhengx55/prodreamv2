@@ -20,7 +20,6 @@ const ResumePDFSection = ({
   <View
     style={{
       ...styles.flexCol,
-      marginTop: spacing['5'],
       ...style,
     }}
   >

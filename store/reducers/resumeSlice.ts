@@ -29,7 +29,7 @@ export const initialWorkExperience: IWorkForm = {
   company: '',
   location: '',
   state: '',
-  description: '',
+  description: [],
 };
 
 export const initialEducation: IEducationForm = {
@@ -42,7 +42,7 @@ export const initialEducation: IEducationForm = {
   state: '',
   areas_of_study: '',
   related_courses: '',
-  additional_info: '',
+  additional_info: [],
 };
 
 export const initialResearch: IResearchForm = {
@@ -53,7 +53,7 @@ export const initialResearch: IResearchForm = {
   role: '',
   location: '',
   state: '',
-  description: '',
+  description: [],
 };
 export const initialCompetition: ICompetitionForm = {
   id: uuidv4(),
@@ -61,7 +61,7 @@ export const initialCompetition: ICompetitionForm = {
   date: '',
   results: '',
   location: '',
-  additional: '',
+  additional_info: [],
 };
 export const initialActivity: IActivityForm = {
   id: uuidv4(),
@@ -71,7 +71,7 @@ export const initialActivity: IActivityForm = {
   company: '',
   location: '',
   state: '',
-  description: '',
+  description: [],
 };
 
 // export const initialFeaturedSkill: FeaturedSkill = { skill: '', rating: 4 };
@@ -98,16 +98,28 @@ export const initialResumeState: Resume = {
   researches: [initialResearch],
 };
 
-// Keep the field & value type in sync with CreateHandleChangeArgsWithDescriptions (components\ResumeForm\types.ts)
-// export type CreateChangeActionWithDescriptions<T> = {
-//   idx: number;
-// } & (
-//   | {
-//       field: Exclude<keyof T, 'descriptions'>;
-//       value: string;
-//     }
-//   | { field: 'descriptions'; value: string[] }
-// );
+/**
+ * 用来处理包含textarea bullet point的数据管理
+ */
+export type CreateChangeActionWithDescriptions<T> = {
+  idx: number;
+} & (
+  | {
+      field: Exclude<keyof T, 'description'>;
+      value: string;
+    }
+  | { field: 'description'; value: string[] }
+);
+
+export type CreateChangeActionWithAdditional<T> = {
+  idx: number;
+} & (
+  | {
+      field: Exclude<keyof T, 'additional_info'>;
+      value: string;
+    }
+  | { field: 'additional_info'; value: string[] }
+);
 
 export const resumeSlice = createSlice({
   name: 'resume',
@@ -122,11 +134,7 @@ export const resumeSlice = createSlice({
     },
     changeWorkExperiences: (
       draft,
-      action: PayloadAction<{
-        field: keyof IWorkForm;
-        value: string;
-        idx: number;
-      }>
+      action: PayloadAction<CreateChangeActionWithDescriptions<IWorkForm>>
     ) => {
       const { idx, field, value } = action.payload;
       const workExperience = draft.works[idx];
@@ -135,11 +143,7 @@ export const resumeSlice = createSlice({
 
     changeEducations: (
       draft,
-      action: PayloadAction<{
-        field: keyof IEducationForm;
-        value: string;
-        idx: number;
-      }>
+      action: PayloadAction<CreateChangeActionWithAdditional<IEducationForm>>
     ) => {
       const { idx, field, value } = action.payload;
       const education = draft.educations[idx];
@@ -148,11 +152,7 @@ export const resumeSlice = createSlice({
 
     changeCompetitions: (
       draft,
-      action: PayloadAction<{
-        field: keyof ICompetitionForm;
-        value: string;
-        idx: number;
-      }>
+      action: PayloadAction<CreateChangeActionWithAdditional<ICompetitionForm>>
     ) => {
       const { idx, field, value } = action.payload;
       const competition = draft.competitions[idx];
@@ -161,11 +161,7 @@ export const resumeSlice = createSlice({
 
     changeResearches: (
       draft,
-      action: PayloadAction<{
-        field: keyof IResearchForm;
-        value: string;
-        idx: number;
-      }>
+      action: PayloadAction<CreateChangeActionWithDescriptions<IResearchForm>>
     ) => {
       const { idx, field, value } = action.payload;
       const research = draft.researches[idx];
@@ -174,11 +170,7 @@ export const resumeSlice = createSlice({
 
     changeActivities: (
       draft,
-      action: PayloadAction<{
-        field: keyof IActivityForm;
-        value: string;
-        idx: number;
-      }>
+      action: PayloadAction<CreateChangeActionWithDescriptions<IActivityForm>>
     ) => {
       const { idx, field, value } = action.payload;
       const activity = draft.activities[idx];
