@@ -1,29 +1,20 @@
 'use client';
-import { brainstorms_data } from '@/constant';
-import { IBrainsotrmCard } from '@/types';
+import { useBrainStormDetail } from '@/query/query';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Panel } from 'react-resizable-panels';
+import Loading from '../root/Loading';
 
 const FormPanel = () => {
   const pathname = usePathname();
-  const [item, setItem] = useState<IBrainsotrmCard | null>(null);
-  useEffect(() => {
-    const item = brainstorms_data.find((item) => {
-      return item.id === pathname.split('/')[3];
-    });
-    if (item) {
-      setItem(item);
-    }
-  }, [pathname]);
+  const id = pathname.split('/')[pathname.split('/').length - 1];
+  const { data: moduleData, isPending: isModuleLoading } =
+    useBrainStormDetail(id);
 
+  if (!moduleData || isModuleLoading) {
+    return <Loading />;
+  }
   return (
-    <Panel
-      className='relative flex flex-col overflow-y-auto p-4'
-      minSize={45}
-      defaultSize={50}
-    >
+    <>
       <div className='flex'>
         <Link
           className='small-regular capitalize text-shadow hover:underline'
@@ -32,10 +23,10 @@ const FormPanel = () => {
           {pathname.split('/')[2]}
         </Link>
         <p className='small-regular text-black-200'>
-          &nbsp;/&nbsp;{item?.name}
+          &nbsp;/&nbsp;{moduleData.name}
         </p>
       </div>
-    </Panel>
+    </>
   );
 };
 
