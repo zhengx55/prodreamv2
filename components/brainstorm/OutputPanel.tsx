@@ -2,17 +2,12 @@
 import { cn } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { Panel } from 'react-resizable-panels';
 import HistoryPanel from './HistoryPanel';
 
 const OutputPanel = () => {
   const [tab, setTab] = useState<number>(0);
   return (
-    <Panel
-      className='flex h-full w-full flex-col overflow-y-hidden px-6 pt-8'
-      minSize={45}
-      defaultSize={50}
-    >
+    <>
       {/* tabs */}
       <div className='h-13 flex shrink-0 items-center gap-x-[10px] rounded-xl border border-shadow-border bg-white p-1 md:h-12 md:w-[60%]'>
         <div
@@ -48,7 +43,7 @@ const OutputPanel = () => {
           {tab === 1 ? <HistoryPanel /> : null}
         </AnimatePresence>
       </main>
-    </Panel>
+    </>
   );
 };
 
