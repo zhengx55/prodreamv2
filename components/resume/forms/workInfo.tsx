@@ -98,12 +98,12 @@ const WorkInfo = () => {
                 {item.expand === 'expand' && (
                   <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
-                      <Label htmlFor='position' aria-label='school'>
+                      <Label htmlFor='work-position' aria-label='school'>
                         Position
                       </Label>
                       <Input
                         type='text'
-                        id='position'
+                        id='work-position'
                         name='position'
                         value={item.position}
                         onChange={(e) => handleValueChange(e, index)}

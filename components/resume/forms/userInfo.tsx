@@ -29,6 +29,7 @@ const UserInfo = () => {
             onChange={handleValueChange}
             type='text'
             name='firstname'
+            autoComplete='on'
             id='first-name'
             placeholder='Enter first name'
           />
@@ -42,6 +43,7 @@ const UserInfo = () => {
             onChange={handleValueChange}
             type='text'
             id='last-name'
+            autoComplete='on'
             name='lastname'
             placeholder='Enter last name'
           />
@@ -56,6 +58,7 @@ const UserInfo = () => {
             type='number'
             id='phone-number'
             name='number'
+            autoComplete='tel'
             placeholder='000'
           />
         </div>

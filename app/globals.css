@@ -89,6 +89,10 @@
     @apply invert brightness-0 transition;
   }
 
+  .tab-default {
+    @apply flex-center base-medium text-black-600 h-full w-[33%] cursor-pointer rounded-xl hover:bg-primary-50 hover:text-primary-200
+  }
+
   .flex-center {
     @apply flex justify-center items-center;
   }
