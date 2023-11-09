@@ -199,7 +199,7 @@ const ActivityInfo = () => {
                       <BulletListTextarea
                         placeholder='...'
                         name='description'
-                        id='work-description'
+                        id='activity-description'
                         className='h-[150px]'
                         onChange={(field, value) => {
                           dispatch(

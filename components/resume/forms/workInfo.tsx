@@ -186,7 +186,7 @@ const WorkInfo = () => {
                       />
                     </div>
                     <div className='form-input-group col-span-2'>
-                      <Label htmlFor='work-descriptio'>
+                      <Label htmlFor='work-description'>
                         Description of This Experience
                       </Label>
                       <BulletListTextarea

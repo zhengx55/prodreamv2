@@ -128,7 +128,7 @@ const ResearchInfo = () => {
                       </Label>
                       <Input
                         type='text'
-                        id='project'
+                        id='position'
                         name='project'
                         value={item.project}
                         onChange={(e) => handleValueChange(e, index)}
