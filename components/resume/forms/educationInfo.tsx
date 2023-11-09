@@ -16,13 +16,14 @@ import {
   changeEducations,
   deleteSectionInFormByIdx,
   selectEducations,
+  setEducations,
 } from '@/store/reducers/resumeSlice';
 import { BulletListTextarea } from './BulletPointTextarea';
+import { findSwappedElements } from '@/lib/utils';
 
 const EducationInfo = () => {
   const educationInfos = useAppSelector(selectEducations);
   const dispatch = useAppDispatch();
-  const [test, setTest] = useState('');
 
   const [formExpanded, setFormExpanded] = useState<Array<boolean>>(
     Array(educationInfos.length).fill(false)
@@ -70,7 +71,19 @@ const EducationInfo = () => {
       <Reorder.Group
         axis='y'
         values={educationInfos}
-        onReorder={() => {}}
+        onReorder={(newOrder) => {
+          const swapIndexes = findSwappedElements(educationInfos, newOrder);
+          if (swapIndexes) {
+            const expanded_array_cache = [...formExpanded];
+            const temp = expanded_array_cache[swapIndexes[1]];
+            expanded_array_cache[swapIndexes[1]] =
+              expanded_array_cache[swapIndexes[0]];
+            expanded_array_cache[swapIndexes[0]] = temp;
+
+            setFormExpanded(expanded_array_cache);
+            dispatch(setEducations(newOrder));
+          }
+        }}
         className='relative'
       >
         {educationInfos.map((item, index) => {

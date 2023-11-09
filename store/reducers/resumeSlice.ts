@@ -224,10 +224,30 @@ export const resumeSlice = createSlice({
     setResume: (draft, action: PayloadAction<Resume>) => {
       return action.payload;
     },
+    setEducations: (draft, action: PayloadAction<IEducationForm[]>) => {
+      draft.educations = action.payload;
+    },
+    setWorks: (draft, action: PayloadAction<IWorkForm[]>) => {
+      draft.works = action.payload;
+    },
+    setResearches: (draft, action: PayloadAction<IResearchForm[]>) => {
+      draft.researches = action.payload;
+    },
+    setActivities: (draft, action: PayloadAction<IActivityForm[]>) => {
+      draft.activities = action.payload;
+    },
+    setCompetitions: (draft, action: PayloadAction<ICompetitionForm[]>) => {
+      draft.competitions = action.payload;
+    },
   },
 });
 
 export const {
+  setEducations,
+  setWorks,
+  setResearches,
+  setActivities,
+  setCompetitions,
   changeProfile,
   changeWorkExperiences,
   changeEducations,

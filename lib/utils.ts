@@ -43,3 +43,26 @@ export function formatDateMM(date: Date): string {
 
   return `${yearStr}-${monthStr}`;
 }
+
+export function findSwappedElements(
+  originalArray: Array<any>,
+  swappedArray: Array<any>
+) {
+  if (originalArray.length !== swappedArray.length) {
+    return null;
+  }
+
+  const swapIndexes = [];
+
+  for (let i = 0; i < originalArray.length; i++) {
+    if (originalArray[i] !== swappedArray[i]) {
+      swapIndexes.push(i);
+    }
+  }
+
+  if (swapIndexes.length === 2) {
+    return swapIndexes;
+  } else {
+    return null;
+  }
+}

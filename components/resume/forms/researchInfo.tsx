@@ -1,11 +1,9 @@
 'use client';
-import { Textarea } from '@/components/ui/textarea';
 import { IResearchForm } from '@/types';
 import DatePicker from '@/components/root/DatePicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { v4 as uuidv4 } from 'uuid';
 import { AnimatePresence, Reorder, Variants, motion } from 'framer-motion';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import React, { ChangeEvent, useState } from 'react';
@@ -17,8 +15,10 @@ import {
   changeResearches,
   deleteSectionInFormByIdx,
   selectResearches,
+  setResearches,
 } from '@/store/reducers/resumeSlice';
 import { BulletListTextarea } from './BulletPointTextarea';
+import { findSwappedElements } from '@/lib/utils';
 
 const ResearchInfo = () => {
   const researchesInfo = useAppSelector(selectResearches);
@@ -74,7 +74,19 @@ const ResearchInfo = () => {
       <Reorder.Group
         axis='y'
         values={researchesInfo}
-        onReorder={() => {}}
+        onReorder={(newOrder) => {
+          const swapIndexes = findSwappedElements(researchesInfo, newOrder);
+          if (swapIndexes) {
+            const expanded_array_cache = [...formExpanded];
+            const temp = expanded_array_cache[swapIndexes[1]];
+            expanded_array_cache[swapIndexes[1]] =
+              expanded_array_cache[swapIndexes[0]];
+            expanded_array_cache[swapIndexes[0]] = temp;
+
+            setFormExpanded(expanded_array_cache);
+            dispatch(setResearches(newOrder));
+          }
+        }}
         className='relative'
       >
         {researchesInfo.map((item, index) => {
