@@ -121,6 +121,10 @@
     @apply flex flex-col items-start gap-y-2
   }
 
+  .tooltip {
+    @apply flex-center p-2 rounded-md bg-white shadow-tooltip cursor-pointer hover:-translate-y-1 transition-transform
+  }
+
   [contenteditable=true]:empty:before {
     content: attr(placeholder);
     pointer-events: none;

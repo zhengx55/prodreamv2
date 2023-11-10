@@ -77,6 +77,16 @@ export function formatDateMM(date: Date): string {
   return `${yearStr}-${monthStr}`;
 }
 
+export function countWords(inputString: string) {
+  const words = inputString.match(/\b\w+\b/g);
+
+  if (!words) {
+    return 0;
+  }
+
+  return words.length;
+}
+
 export function findSwappedElements(
   originalArray: Array<any>,
   swappedArray: Array<any>
