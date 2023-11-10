@@ -13,7 +13,6 @@ import { CheckCheck } from 'lucide-react';
 import { TextOptimizeBar } from './TextOptimizeBar';
 import { selectBrainStormHistory } from '../../store/reducers/brainstormSlice';
 import { useAppSelector } from '@/store/storehooks';
-import { deepEqual } from '@/lib/utils';
 
 const FormPanel = () => {
   const pathname = usePathname();

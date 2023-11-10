@@ -3,4 +3,5 @@ export enum BrainStormTypes {
   RECOMMENDATION = 'Recommendation Letter',
   UC = 'UC Freshman&Transfer',
   COMMON = 'Common App',
+  GENERAL = 'General',
 }

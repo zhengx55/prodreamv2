@@ -59,6 +59,9 @@ const OutcomePanel = () => {
             </div>
             <Button size={'sm'}>Polish Now</Button>
           </div>
+          <div className='tiny-medium rounded-md bg-shadow-border p-2 text-black-200'>
+            The content above is synthesized by AI
+          </div>
         </div>
       </div>
     </motion.div>

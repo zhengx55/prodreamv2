@@ -15,6 +15,13 @@ export default async function Brainstorm() {
   );
   const data = await res.json();
   const brainstorms_data = data.data.result;
+  console.log(
+    '🚀 ~ file: page.tsx:18 ~ Brainstorm ~ brainstorms_data:',
+    brainstorms_data
+  );
+  const general_data = brainstorms_data.filter(
+    (item: IBrainsotrmCard) => item.template_class === BrainStormTypes.GENERAL
+  );
 
   const common_data = brainstorms_data.filter(
     (item: IBrainsotrmCard) => item.template_class === BrainStormTypes.COMMON
@@ -32,6 +39,7 @@ export default async function Brainstorm() {
 
   return (
     <section className='flex h-[calc(100%_-_68px)] w-full flex-col gap-y-4 overflow-y-auto bg-sectionBackground md:py-5 md:pl-5 md:pr-10'>
+      <List title={BrainStormTypes.GENERAL} cardList={general_data} />
       <List title={BrainStormTypes.COMMON} cardList={common_data} />
       <List title={BrainStormTypes.UC} cardList={uc_data} />
       <List title={BrainStormTypes.OTHER} cardList={other_data} />
