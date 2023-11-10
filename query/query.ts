@@ -1,5 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getBrainstormDetails, getBrianstormHistoryById } from './api';
+import {
+  OptimizeAnswer,
+  getBrainstormDetails,
+  getBrianstormHistoryById,
+} from './api';
 
 // ============================================================
 // BRAINSOTRM QUERIES
@@ -16,5 +20,19 @@ export const useBrainStormHistoryById = (template_id: string) => {
     queryKey: ['brainsotrmhistory', template_id],
     enabled: !!template_id,
     queryFn: () => getBrianstormHistoryById(template_id),
+  });
+};
+
+export const useAnswerOptimize = () => {
+  return useMutation({
+    mutationFn: ({
+      question_id,
+      answer,
+      type,
+    }: {
+      question_id: string;
+      answer: string;
+      type: 0 | 1;
+    }) => OptimizeAnswer(question_id, answer, type),
   });
 };

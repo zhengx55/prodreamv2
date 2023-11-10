@@ -164,3 +164,24 @@
   font-weight: bold;
   display: block;
 }
+
+@keyframes fade {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+#fading-dots {
+  display: inline-block;
+}
+
+.fading-dot {
+  animation: fade 1.5s infinite;
+  display: inline-block;
+}

@@ -1,7 +1,7 @@
 'use client';
 import FormPanel from '@/components/brainstorm/FormPanel';
 import OutputPanel from '@/components/brainstorm/OutputPanel';
-import { Move } from 'lucide-react';
+import { Grid } from 'lucide-react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 export default function Page() {
@@ -12,7 +12,7 @@ export default function Page() {
           <FormPanel />
         </Panel>
         <PanelResizeHandle className='relative w-[1px] rounded-lg bg-shadow-border'>
-          <Move
+          <Grid
             className='absolute -left-2.5 top-[50%] text-shadow'
             size={20}
           />

@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { HistoryPanelCSR } from './HistoryPanel';
+import OutcomePanel from './OutcomePanel';
 
 const OutputPanel = () => {
   const [tab, setTab] = useState<number>(0);
@@ -40,7 +41,11 @@ const OutputPanel = () => {
       </div>
       <main className='mt-4 overflow-y-auto md:h-full md:w-full'>
         <AnimatePresence mode='wait'>
-          {tab === 1 ? <HistoryPanelCSR /> : null}
+          {tab === 1 ? (
+            <HistoryPanelCSR />
+          ) : tab === 0 ? (
+            <OutcomePanel />
+          ) : null}
         </AnimatePresence>
       </main>
     </>

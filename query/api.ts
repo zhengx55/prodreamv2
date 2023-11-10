@@ -37,7 +37,6 @@ export async function getBrianstormHistoryById(
           page: 1,
           page_size: 999,
         }),
-        next: { revalidate: 3600 },
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
@@ -46,6 +45,34 @@ export async function getBrianstormHistoryById(
     );
     const data = await res.json();
     return data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function OptimizeAnswer(
+  question_id: string,
+  answer: string,
+  type: 0 | 1
+): Promise<string> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}answer_optimize`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          question_id,
+          answer,
+          type,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+        },
+      }
+    );
+    const data = await res.json();
+    return data.data;
   } catch (error) {
     throw new Error(error as string);
   }
