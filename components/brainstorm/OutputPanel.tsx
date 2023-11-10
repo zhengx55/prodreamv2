@@ -1,12 +1,15 @@
 'use client';
 import { cn } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import { HistoryPanelCSR } from './HistoryPanel';
+import { useCallback, useState } from 'react';
+import MemoizedHistoryPanelCSR from './HistoryPanel';
 import OutcomePanel from './OutcomePanel';
 
-const OutputPanel = () => {
+const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
   const [tab, setTab] = useState<number>(0);
+  const handleTabChange = useCallback((value: number) => {
+    setTab(value);
+  }, []);
   return (
     <>
       {/* tabs */}
@@ -39,12 +42,12 @@ const OutputPanel = () => {
           Tutorial
         </div>
       </div>
-      <main className='mt-4 overflow-y-auto md:h-full md:w-full'>
+      <main className='overflow-y-auto md:h-full md:w-full'>
         <AnimatePresence mode='wait'>
           {tab === 1 ? (
-            <HistoryPanelCSR />
+            <MemoizedHistoryPanelCSR handleTabChange={handleTabChange} />
           ) : tab === 0 ? (
-            <OutcomePanel />
+            <OutcomePanel submitPending={submitPending} />
           ) : null}
         </AnimatePresence>
       </main>

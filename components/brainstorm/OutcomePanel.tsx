@@ -8,20 +8,31 @@ import { Button } from '../ui/button';
 import { Copy, Download, Trophy } from 'lucide-react';
 import { countWords } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
+import Tooltip from '../root/Tooltip';
+import { selectEssay } from '@/store/reducers/essaySlice';
+import TextStreamingEffect from '../root/TextStreamingEffect';
 
-const OutcomePanel = () => {
+const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
   const history = useAppSelector(selectBrainStormHistory);
+  const essay = useAppSelector(selectEssay);
   const path = usePathname();
   const id = path.split('/')[path.split('/').length - 1];
   const [outcome, setOutcome] = useState<string>('');
   const [wordCount, setWordCount] = useState(0);
+
   useEffect(() => {
-    if (history.template_id === id) {
-      setOutcome(history.result);
-      console.log(history.result);
-      setWordCount(countWords(history.result));
+    if (essay.template_id === id) {
+      setOutcome(essay.result);
+    } else {
+      setOutcome('');
     }
-  }, [history, id]);
+  }, [essay, id]);
+
+  // hooks to calculate incremental word count
+  useEffect(() => {
+    setWordCount(countWords(outcome));
+  }, [outcome]);
+
   return (
     <motion.div
       key={'outcome'}
@@ -31,15 +42,19 @@ const OutcomePanel = () => {
       transition={{ duration: 0.2 }}
       className='h-full w-full overflow-hidden py-4 pl-2 pr-6'
     >
-      <div className=' relative h-full w-full overflow-y-auto rounded-md bg-white px-6 pb-14 pt-6 shadow-panel'>
-        <div className='custom-scrollbar h-full w-full select-text overflow-y-auto'>
-          {!outcome ? (
+      <div className=' relative h-full w-full  rounded-md bg-white px-6 pb-14 pt-6 shadow-panel'>
+        <div className='custom-scrollbar h-full w-full select-text overflow-y-auto overflow-x-hidden'>
+          {submitPending ? (
             <RotbotLoader
               label='Branstorming'
               labelClass='text-black-200 body-medium'
             />
           ) : (
-            <p className='body-normal whitespace-pre-line px-4'>{outcome}</p>
+            <p className='body-normal whitespace-pre-line px-4'>
+              {history.result
+                ? history.result
+                : outcome && <TextStreamingEffect text={outcome} speed={50} />}
+            </p>
           )}
         </div>
 
@@ -48,15 +63,22 @@ const OutcomePanel = () => {
             <div className='tooltip'>
               <p className='small-semibold'>{wordCount} Words</p>
             </div>
-            <div className='tooltip'>
-              <Copy size={18} />
-            </div>
-            <div className='tooltip'>
-              <Download size={18} />
-            </div>
-            <div className='tooltip'>
-              <Trophy size={18} />
-            </div>
+            <Tooltip tooltipContent='copy'>
+              <div className='tooltip'>
+                <Copy size={18} />
+              </div>
+            </Tooltip>
+            <Tooltip tooltipContent='download resume'>
+              <div className='tooltip'>
+                <Download size={18} />
+              </div>
+            </Tooltip>
+            <Tooltip tooltipContent='...'>
+              <div className='tooltip'>
+                <Trophy size={18} />
+              </div>
+            </Tooltip>
+
             <Button size={'sm'}>Polish Now</Button>
           </div>
           <div className='tiny-medium rounded-md bg-shadow-border p-2 text-black-200'>

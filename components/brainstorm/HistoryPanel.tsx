@@ -2,14 +2,20 @@ import { useBrainStormHistoryById } from '@/query/query';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
-import Loading from '../root/Loading';
+import Loading from '../root/CustomLoading';
 import { deepEqual, formatTimestamphh } from '@/lib/utils';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import {
   selectBrainStormHistory,
   setBrainstormHistoryHistory,
 } from '@/store/reducers/brainstormSlice';
-const HistoryPanel = () => {
+import { clearEssay } from '@/store/reducers/essaySlice';
+import { memo } from 'react';
+const HistoryPanel = ({
+  handleTabChange,
+}: {
+  handleTabChange: (value: number) => void;
+}) => {
   const path = usePathname();
   const dispatch = useAppDispatch();
   const currentBrainStormHistory = useAppSelector(selectBrainStormHistory);
@@ -33,7 +39,12 @@ const HistoryPanel = () => {
       },
       {}
     );
-    if (!deepEqual(currentBrainStormHistory.questionAnswerPair, mergedObject)) {
+    if (
+      !deepEqual(currentBrainStormHistory.questionAnswerPair, mergedObject) ||
+      currentBrainStormHistory.result !== item.result
+    ) {
+      // clear current output before fill in the history data
+      dispatch(clearEssay());
       dispatch(
         setBrainstormHistoryHistory({
           template_id: item.template_id,
@@ -41,6 +52,7 @@ const HistoryPanel = () => {
           questionAnswerPair: mergedObject,
         })
       );
+      handleTabChange(0);
     }
   };
 
@@ -51,7 +63,7 @@ const HistoryPanel = () => {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='md:grid md:w-full md:grid-cols-2 md:gap-x-4 md:gap-y-4'
+      className='mt-2 md:grid md:w-full md:grid-cols-2 md:gap-x-4 md:gap-y-4'
     >
       {/* Card */}
       {!isPending &&
@@ -77,6 +89,9 @@ const HistoryPanel = () => {
   );
 };
 
-export const HistoryPanelCSR = dynamic(() => Promise.resolve(HistoryPanel), {
+const HistoryPanelCSR = dynamic(() => Promise.resolve(HistoryPanel), {
   ssr: false,
 });
+
+const MemoizedHistoryPanelCSR = memo(HistoryPanelCSR);
+export default MemoizedHistoryPanelCSR;

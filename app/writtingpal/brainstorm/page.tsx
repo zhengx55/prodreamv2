@@ -7,7 +7,6 @@ export default async function Brainstorm() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}list_templates?lang=en`,
     {
-      next: { revalidate: 3600 },
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
       },
@@ -15,10 +14,7 @@ export default async function Brainstorm() {
   );
   const data = await res.json();
   const brainstorms_data = data.data.result;
-  console.log(
-    '🚀 ~ file: page.tsx:18 ~ Brainstorm ~ brainstorms_data:',
-    brainstorms_data
-  );
+
   const general_data = brainstorms_data.filter(
     (item: IBrainsotrmCard) => item.template_class === BrainStormTypes.GENERAL
   );

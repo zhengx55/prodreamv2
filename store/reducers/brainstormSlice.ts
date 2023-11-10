@@ -21,10 +21,14 @@ export const brainStormHistorySlice = createSlice({
     ) => {
       return action.payload;
     },
+    clearHistory: () => {
+      return { template_id: '', result: '', questionAnswerPair: {} };
+    },
   },
 });
 
-export const { setBrainstormHistoryHistory } = brainStormHistorySlice.actions;
+export const { clearHistory, setBrainstormHistoryHistory } =
+  brainStormHistorySlice.actions;
 
 export const selectBrainStormHistory = (state: RootState) =>
   state.brainStormHistory;

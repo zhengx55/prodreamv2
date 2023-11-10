@@ -78,11 +78,35 @@ export async function OptimizeAnswer(
   }
 }
 
-export async function SubmitTemplatesForm(
+export async function queryEssayResult(
+  task_id: string
+): Promise<{ status: 'doing' | 'done'; text: string }> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}essay_write_query`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          task_id,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+        },
+      }
+    );
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function SubmitEssayWritting(
   pro_mode: boolean,
   template_id: string,
   word_nums: number = 0,
-  text: string[],
+  texts: string[],
   types: string[]
 ): Promise<string> {
   try {
@@ -94,8 +118,9 @@ export async function SubmitTemplatesForm(
           pro_mode,
           template_id,
           word_nums,
-          text,
+          texts,
           types,
+          user_id: '120',
         }),
         headers: {
           'Content-Type': 'application/json',

@@ -1,8 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   OptimizeAnswer,
+  SubmitEssayWritting,
   getBrainstormDetails,
   getBrianstormHistoryById,
+  queryEssayResult,
 } from './api';
 
 // ============================================================
@@ -34,5 +36,31 @@ export const useAnswerOptimize = () => {
       answer: string;
       type: 0 | 1;
     }) => OptimizeAnswer(question_id, answer, type),
+  });
+};
+
+export const useQueryEssay = (task_id: string) => {
+  return useQuery({
+    queryKey: ['query_essay', task_id],
+    enabled: !!task_id,
+    queryFn: () => queryEssayResult(task_id),
+  });
+};
+
+export const useEssayWriting = () => {
+  return useMutation({
+    mutationFn: ({
+      pro_mode,
+      template_id,
+      word_nums,
+      texts,
+      types,
+    }: {
+      pro_mode: boolean;
+      template_id: string;
+      word_nums: number;
+      texts: string[];
+      types: string[];
+    }) => SubmitEssayWritting(pro_mode, template_id, word_nums, texts, types),
   });
 };

@@ -13,6 +13,11 @@ export interface IBrainsotrmCard {
   start_style: boolean;
 }
 
+export interface IEssay {
+  template_id: string;
+  result: string;
+}
+
 export interface IBrainStormHistoryState {
   template_id: string;
   result: string;

@@ -1,32 +1,83 @@
 'use client';
-import { useBrainStormDetail } from '@/query/query';
+import { useBrainStormDetail, useQueryEssay } from '@/query/query';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import Loading from '../root/Loading';
+import Loading from '../root/CustomLoading';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import { Switch } from '@/components/ui/switch';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { CheckCheck } from 'lucide-react';
 import { TextOptimizeBar } from './TextOptimizeBar';
-import { selectBrainStormHistory } from '../../store/reducers/brainstormSlice';
-import { useAppSelector } from '@/store/storehooks';
+import {
+  clearHistory,
+  selectBrainStormHistory,
+} from '../../store/reducers/brainstormSlice';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { clearEssay, setEssay } from '@/store/reducers/essaySlice';
 
-const FormPanel = () => {
+const FormPanel = ({
+  submitPending,
+  submitHandler,
+}: {
+  submitPending: boolean;
+  submitHandler: UseMutateAsyncFunction<
+    string,
+    Error,
+    {
+      pro_mode: boolean;
+      template_id: string;
+      word_nums: number;
+      texts: string[];
+      types: string[];
+    },
+    unknown
+  >;
+}) => {
   const pathname = usePathname();
   const id = pathname.split('/')[pathname.split('/').length - 1];
   const { data: moduleData, isPending: isModuleLoading } =
     useBrainStormDetail(id);
+  const dispatch = useAppDispatch();
   const history = useAppSelector(selectBrainStormHistory);
+  const [taskId, setTaskId] = useState('');
+  const { refetch: essayRefetch, data: queryEssay } = useQueryEssay(taskId);
   const [formState, setFormState] = useState<Record<string, string>>({});
   const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
+  const testRef = useRef();
 
   useEffect(() => {
-    console.log('setting');
-    setFormState(history.questionAnswerPair);
+    const pollInterval = setInterval(() => {
+      if (queryEssay?.status === 'doing') {
+        essayRefetch();
+      }
+      if (queryEssay?.status === 'done') {
+        clearInterval(pollInterval);
+      }
+    }, 2000);
+
+    return () => clearInterval(pollInterval);
+  }, [essayRefetch, queryEssay?.status]);
+
+  // queryEssay 返回时填充OutcomePanel
+  useEffect(() => {
+    if (queryEssay?.text) {
+      dispatch(setEssay({ template_id: id, result: queryEssay.text }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, queryEssay?.text]);
+
+  // 从History panel 点击填充表格
+  useEffect(() => {
+    if (Object.keys(history.questionAnswerPair).length === 0) return;
+    if (Object.keys(history.questionAnswerPair).length !== 0) {
+      setFormState(history.questionAnswerPair);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
 
   const handleFormStateChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -49,7 +100,20 @@ const FormPanel = () => {
     []
   );
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    dispatch(clearEssay());
+    dispatch(clearHistory());
+    const result = await submitHandler({
+      pro_mode: qualityMode === 1,
+      template_id: id,
+      texts: Object.values(formState),
+      types: Object.keys(formState),
+      word_nums: 1000,
+    });
+    if (result) {
+      setTaskId(result);
+    }
+  };
 
   const handleClearAll = () => {
     const clearedObjState = Object.fromEntries(
@@ -75,6 +139,13 @@ const FormPanel = () => {
             &nbsp;/&nbsp;{moduleData.name}
           </p>
         </div>
+        <button
+          onClick={() => {
+            dispatch(clearEssay());
+          }}
+        >
+          clear
+        </button>
         <div className='mt-4 flex flex-col gap-y-4 overflow-y-auto rounded-xl bg-white p-4 md:w-full'>
           <h1 className='h1-regular text-primary-200'>{moduleData.name}</h1>
           <p className=' base-regular text-shadow'>{moduleData.description}</p>
@@ -152,7 +223,7 @@ const FormPanel = () => {
                     id={item.id}
                     className='h-full w-full overflow-y-auto pb-12'
                     placeholder={item.example}
-                    disabled={formStatus[item.id] ?? false}
+                    disabled={!!formStatus[item.id] || submitPending}
                   />
                   <TextOptimizeBar
                     value={formState[item.id] ?? ''}
@@ -179,7 +250,7 @@ const FormPanel = () => {
           <Button variant={'secondary'} onClick={handleClearAll}>
             Clear
           </Button>
-          <Button>Generate</Button>
+          <Button onClick={handleSubmit}>Generate</Button>
         </div>
       </div>
     </div>
