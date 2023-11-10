@@ -7,6 +7,7 @@ const CommunityCard = () => {
       <Image
         alt='social-community'
         src='/social.png'
+        className='w-auto'
         width={130}
         height={110}
         priority

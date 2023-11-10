@@ -77,3 +77,35 @@ export async function OptimizeAnswer(
     throw new Error(error as string);
   }
 }
+
+export async function SubmitTemplatesForm(
+  pro_mode: boolean,
+  template_id: string,
+  word_nums: number = 0,
+  text: string[],
+  types: string[]
+): Promise<string> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}essay_write_submit`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          pro_mode,
+          template_id,
+          word_nums,
+          text,
+          types,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+        },
+      }
+    );
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}

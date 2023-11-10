@@ -3,13 +3,47 @@ import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import Loading from '../root/Loading';
+import { deepEqual, formatTimestamphh } from '@/lib/utils';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import {
+  selectBrainStormHistory,
+  setBrainstormHistoryHistory,
+} from '@/store/reducers/brainstormSlice';
 const HistoryPanel = () => {
   const path = usePathname();
+  const dispatch = useAppDispatch();
+  const currentBrainStormHistory = useAppSelector(selectBrainStormHistory);
   const id = path.split('/')[path.split('/').length - 1];
   const { isPending, data, isError } = useBrainStormHistoryById(id);
   if (isPending) {
     return <Loading />;
   }
+  const handleSelectHistory = (item: {
+    template_id: string;
+    create_time: string;
+    question_ids: string[];
+    answers: string[];
+    result: string;
+    word_num: string;
+  }) => {
+    const mergedObject = item.question_ids.reduce(
+      (result: Record<string, string>, key: string, index: number) => {
+        result[key] = item.answers[index];
+        return result;
+      },
+      {}
+    );
+    if (!deepEqual(currentBrainStormHistory.questionAnswerPair, mergedObject)) {
+      dispatch(
+        setBrainstormHistoryHistory({
+          template_id: item.template_id,
+          result: item.result,
+          questionAnswerPair: mergedObject,
+        })
+      );
+    }
+  };
+
   return (
     <motion.div
       key={'history'}
@@ -24,16 +58,17 @@ const HistoryPanel = () => {
         data?.data?.map((item, index) => {
           return (
             <div
+              onClick={() => handleSelectHistory(item)}
               key={`history-${item.template_id}-${index}`}
-              className='flex flex-col justify-evenly rounded-lg bg-white p-5 md:h-[200px] md:w-[full]'
+              className='flex cursor-pointer flex-col justify-between rounded-lg bg-white p-5 hover:border hover:border-primary-200 md:h-[200px] md:w-[full]'
             >
               <p className='small-regular text-left text-shadow'>
-                {item.result.length > 150
-                  ? `${item.result.slice(0, 150)}...`
+                {item.result.length > 200
+                  ? `${item.result.slice(0, 200)}...`
                   : item.result}
               </p>
               <p className='small-regular text-primary-200'>
-                {item.create_time}
+                {formatTimestamphh(item.create_time)}
               </p>
             </div>
           );

@@ -13,6 +13,12 @@ export interface IBrainsotrmCard {
   start_style: boolean;
 }
 
+export interface IBrainStormHistoryState {
+  template_id: string;
+  result: string;
+  questionAnswerPair: Record<string, string>;
+}
+
 export type CreateHandleChangeArgsWithDescription<T> =
   | [field: Exclude<keyof T, 'description'>, value: string]
   | [field: 'description', value: string[]];

@@ -7,21 +7,28 @@ import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import { Switch } from '@/components/ui/switch';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { CheckCheck } from 'lucide-react';
 import { TextOptimizeBar } from './TextOptimizeBar';
+import { selectBrainStormHistory } from '../../store/reducers/brainstormSlice';
+import { useAppSelector } from '@/store/storehooks';
+import { deepEqual } from '@/lib/utils';
 
 const FormPanel = () => {
   const pathname = usePathname();
   const id = pathname.split('/')[pathname.split('/').length - 1];
   const { data: moduleData, isPending: isModuleLoading } =
     useBrainStormDetail(id);
-
+  const history = useAppSelector(selectBrainStormHistory);
   const [formState, setFormState] = useState<Record<string, string>>({});
   const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
-
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
+
+  useEffect(() => {
+    console.log('setting');
+    setFormState(history.questionAnswerPair);
+  }, [history]);
 
   const handleFormStateChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const name = event.target.name;
