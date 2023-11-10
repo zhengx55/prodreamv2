@@ -33,7 +33,7 @@ const RotbotLoader = ({
         alt='robot'
         width={50}
         height={50}
-        className='absolute animate-ping'
+        className='absolute h-auto w-auto animate-ping'
       />
       <svg
         xmlns='http://www.w3.org/2000/svg'

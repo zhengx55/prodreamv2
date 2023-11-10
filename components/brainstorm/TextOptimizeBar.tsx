@@ -22,7 +22,7 @@ const IconLoading = () => {
         alt='loading'
         width={16}
         height={16}
-        className='absolute animate-pulse'
+        className='absolute h-auto w-auto animate-pulse'
       />
     </div>
   );
@@ -119,6 +119,7 @@ const OptimizeBar = ({
                 width={24}
                 height={24}
                 priority
+                className='h-auto w-auto'
               />
             </div>
           </>

@@ -65,7 +65,7 @@
   }
 
   .body-normal {
-    @apply text-[18px] font-normal leading-[140%];
+    @apply text-[18px] font-[400] leading-[140%];
   }
 
   .small-semibold {
@@ -77,7 +77,7 @@
   }
 
   .small-regular {
-    @apply text-[14px] font-normal;
+    @apply text-[14px] font-[400];
   }
 
   .subtle-semibold {
