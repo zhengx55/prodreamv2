@@ -48,6 +48,7 @@ const OptimizeBar = ({
       return;
     }
     setDisableHandler(questionId, true);
+    localStorage.setItem(questionId, value);
     const res = await OptimizeAnswer({
       question_id: questionId,
       answer: value,
@@ -56,6 +57,15 @@ const OptimizeBar = ({
     onChangeHanlder(questionId, res);
     setDisableHandler(questionId, false);
   };
+
+  const onRedoHandler = (questionId: string) => {
+    const memory_answer = localStorage.getItem(questionId);
+    if (memory_answer) {
+      onChangeHanlder(questionId, memory_answer);
+      localStorage.removeItem(questionId);
+    }
+  };
+
   const menuVariants: Variants = {
     show: { width: '110px' },
     hide: { width: '40px', transition: { delay: 0.05 } },
@@ -94,7 +104,13 @@ const OptimizeBar = ({
                   variants={iconVariants}
                   className='flex-center bg-primary h-[30px] rounded-full bg-shadow-100 hover:bg-primary-200'
                 >
-                  <Image src='/reply.svg' alt='reply' width={24} height={24} />
+                  <Image
+                    src='/reply.svg'
+                    onClick={() => onRedoHandler(questionId)}
+                    alt='reply'
+                    width={24}
+                    height={24}
+                  />
                 </motion.div>
                 <motion.div
                   initial={'false'}
