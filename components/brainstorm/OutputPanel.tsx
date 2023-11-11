@@ -1,18 +1,46 @@
 'use client';
 import { cn } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import MemoizedHistoryPanelCSR from './HistoryPanel';
 import OutcomePanel from './OutcomePanel';
-import { useAppDispatch } from '@/store/storehooks';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { clearHistory } from '@/store/reducers/brainstormSlice';
+import { useQueryEssay } from '@/query/query';
+import { selectTaskId } from '@/store/reducers/essaySlice';
 
 const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
   const [tab, setTab] = useState<number>(0);
   const dispatch = useAppDispatch();
+  const printIndexRef = useRef<number>(0);
+  const task_id = useAppSelector(selectTaskId);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  // hooks to calculate incremental word count
+  const turnOffAnimate = useCallback(() => {
+    setShouldAnimate(false);
+  }, []);
   const handleTabChange = useCallback((value: number) => {
     setTab(value);
   }, []);
+
+  const { refetch: essayRefetch, data: queryEssay } = useQueryEssay(task_id);
+
+  useEffect(() => {
+    const pollInterval = setInterval(() => {
+      setShouldAnimate(true);
+      if (queryEssay?.status === 'doing') {
+        essayRefetch();
+      }
+      if (queryEssay?.status === 'done') {
+        clearInterval(pollInterval);
+      }
+    }, 2000);
+    return () => {
+      clearInterval(pollInterval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryEssay?.status]);
 
   useEffect(() => {
     return () => {
@@ -58,7 +86,13 @@ const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
           {tab === 1 ? (
             <MemoizedHistoryPanelCSR handleTabChange={handleTabChange} />
           ) : tab === 0 ? (
-            <OutcomePanel submitPending={submitPending} />
+            <OutcomePanel
+              printIndexRef={printIndexRef}
+              shouldAnimate={shouldAnimate}
+              turnOffAnimate={turnOffAnimate}
+              submitPending={submitPending}
+              essaydata={queryEssay?.text ?? ''}
+            />
           ) : null}
         </AnimatePresence>
       </main>

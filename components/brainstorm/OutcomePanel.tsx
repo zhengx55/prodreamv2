@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
 import RotbotLoader from '../root/RotbotLoader';
 import { useAppSelector } from '@/store/storehooks';
@@ -9,43 +9,28 @@ import { Copy, Download, Trophy } from 'lucide-react';
 import { countWords } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import Tooltip from '../root/Tooltip';
-import { selectTaskId, setTaskId } from '@/store/reducers/essaySlice';
 import TextStreamingEffect from '../root/TextStreamingEffect';
-import { useQueryEssay } from '@/query/query';
 
-const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
+const OutcomePanel = ({
+  submitPending,
+  printIndexRef,
+  essaydata,
+  shouldAnimate,
+  turnOffAnimate,
+}: {
+  submitPending: boolean;
+  printIndexRef: React.MutableRefObject<number>;
+  essaydata: string;
+  shouldAnimate: boolean;
+  turnOffAnimate: () => void;
+}) => {
   const history = useAppSelector(selectBrainStormHistory);
-  const task_id = useAppSelector(selectTaskId);
-  const { refetch: essayRefetch, data: queryEssay } = useQueryEssay(task_id);
   const path = usePathname();
   const id = path.split('/')[path.split('/').length - 1];
   const [wordCount, setWordCount] = useState(0);
-  const [shouldAnimate, setShouldAnimate] = useState(false);
-  const printIndexRef = useRef<number>(0);
   const IncrementWordCount = useCallback(() => {
     setWordCount((prev) => prev + 1);
   }, []);
-
-  // hooks to calculate incremental word count
-  const turnOffAnimate = useCallback(() => {
-    setShouldAnimate(false);
-  }, []);
-
-  useEffect(() => {
-    const pollInterval = setInterval(() => {
-      setShouldAnimate(true);
-      if (queryEssay?.status === 'doing') {
-        essayRefetch();
-      }
-      if (queryEssay?.status === 'done') {
-        clearInterval(pollInterval);
-      }
-    }, 2000);
-    return () => {
-      clearInterval(pollInterval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryEssay?.status]);
 
   return (
     <motion.div
@@ -71,12 +56,12 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
                 <TextStreamingEffect
                   setWorkCount={IncrementWordCount}
                   printIndexRef={printIndexRef}
-                  text={queryEssay?.text}
+                  text={essaydata}
                   turnOffAnimation={turnOffAnimate}
                   speed={50}
                 />
               ) : (
-                queryEssay?.text
+                essaydata
               )}
             </p>
           )}
@@ -90,7 +75,7 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
                   ? countWords(history.result)
                   : shouldAnimate
                   ? wordCount
-                  : countWords(queryEssay?.text as string)}
+                  : countWords(essaydata)}
                 &nbsp;Words
               </p>
             </div>
