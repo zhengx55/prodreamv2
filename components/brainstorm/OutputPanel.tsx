@@ -7,7 +7,7 @@ import OutcomePanel from './OutcomePanel';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { clearHistory } from '@/store/reducers/brainstormSlice';
 import { useQueryEssay } from '@/query/query';
-import { selectTaskId } from '@/store/reducers/essaySlice';
+import { selectTaskId, setTaskId } from '@/store/reducers/essaySlice';
 
 const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
   const [tab, setTab] = useState<number>(0);
@@ -15,7 +15,11 @@ const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
   const printIndexRef = useRef<number>(0);
   const task_id = useAppSelector(selectTaskId);
   const [shouldAnimate, setShouldAnimate] = useState(false);
+  const [animatedWordCount, setAnimatedWordCount] = useState(0);
 
+  const IncrementWordCount = useCallback(() => {
+    setAnimatedWordCount((prev) => prev + 1);
+  }, []);
   // hooks to calculate incremental word count
   const turnOffAnimate = useCallback(() => {
     setShouldAnimate(false);
@@ -92,6 +96,8 @@ const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
               turnOffAnimate={turnOffAnimate}
               submitPending={submitPending}
               essaydata={queryEssay?.text ?? ''}
+              animatedWordCount={animatedWordCount}
+              incrementCount={IncrementWordCount}
             />
           ) : null}
         </AnimatePresence>

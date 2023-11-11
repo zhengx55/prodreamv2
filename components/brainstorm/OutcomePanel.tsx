@@ -17,20 +17,20 @@ const OutcomePanel = ({
   essaydata,
   shouldAnimate,
   turnOffAnimate,
+  animatedWordCount,
+  incrementCount,
 }: {
   submitPending: boolean;
   printIndexRef: React.MutableRefObject<number>;
   essaydata: string;
   shouldAnimate: boolean;
   turnOffAnimate: () => void;
+  animatedWordCount: number;
+  incrementCount: () => void;
 }) => {
   const history = useAppSelector(selectBrainStormHistory);
   const path = usePathname();
   const id = path.split('/')[path.split('/').length - 1];
-  const [wordCount, setWordCount] = useState(0);
-  const IncrementWordCount = useCallback(() => {
-    setWordCount((prev) => prev + 1);
-  }, []);
 
   return (
     <motion.div
@@ -49,12 +49,12 @@ const OutcomePanel = ({
               labelClass='text-black-200 body-medium'
             />
           ) : (
-            <p className='body-normal whitespace-pre-line px-4'>
+            <p className='small-normal whitespace-pre-line'>
               {history.result ? (
                 history.result
               ) : shouldAnimate ? (
                 <TextStreamingEffect
-                  setWorkCount={IncrementWordCount}
+                  setWorkCount={incrementCount}
                   printIndexRef={printIndexRef}
                   text={essaydata}
                   turnOffAnimation={turnOffAnimate}
@@ -74,7 +74,7 @@ const OutcomePanel = ({
                 {history.result
                   ? countWords(history.result)
                   : shouldAnimate
-                  ? wordCount
+                  ? animatedWordCount
                   : countWords(essaydata)}
                 &nbsp;Words
               </p>
@@ -97,7 +97,7 @@ const OutcomePanel = ({
 
             <Button size={'sm'}>Polish Now</Button>
           </div>
-          <div className='tiny-medium rounded-md bg-shadow-border p-2 text-black-200'>
+          <div className='tiny-medium rounded-md bg-shadow-border p-1 text-shadow'>
             The content above is synthesized by AI
           </div>
         </div>

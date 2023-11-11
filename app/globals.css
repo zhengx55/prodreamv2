@@ -17,11 +17,11 @@
 
   /* TYPOGRAPHY */
   .h1-bold {
-    @apply text-[36px] font-[700] leading-[140%];
+    @apply text-[40px] font-[700] leading-[140%];
   }
 
   .h1-semibold {
-    @apply text-[36px] font-[600] leading-[140%];
+    @apply text-[40px] font-[600] leading-[140%];
   }
 
   .h1-regular {
@@ -29,7 +29,7 @@
   }
 
   .h2-bold {
-    @apply text-[30px] font-[700] leading-[140%];
+    @apply text-[30px] font-[600] leading-[140%];
   }
 
   .h3-bold {
@@ -42,6 +42,14 @@
 
   .title-semibold {
     @apply text-[20px] font-[600] leading-[140%];
+  }
+
+  .title-regular {
+    @apply text-[20px] font-[400] leading-[140%];
+  }
+
+  .title-light {
+    @apply text-[20px] font-[300] leading-[140%];
   }
 
   .base-semibold {
@@ -152,6 +160,10 @@
 
   .common-container {
     @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
+  }
+
+  .chat-mode {
+    @apply flex hover:opacity-50 cursor-pointer flex-col items-center justify-center rounded-[10px] bg-hover-100 md:h-[450px] gap-y-4 md:w-[465px] px-12
   }
 }
 
