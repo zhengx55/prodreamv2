@@ -6,23 +6,23 @@ import type { RootState } from '../store';
 import { IEssay } from '@/types';
 
 const initialEssayState: IEssay = {
-  template_id: '',
-  result: '',
+  task_id: '',
 };
 
 export const essaySlice = createSlice({
   name: 'essage',
   initialState: initialEssayState,
   reducers: {
-    setEssay: (_draft, action: PayloadAction<IEssay>) => {
-      return action.payload;
+    setTaskId: (draft, action: PayloadAction<keyof IEssay>) => {
+      draft.task_id = action.payload;
     },
     clearEssay: () => {
-      return { template_id: '', result: '' };
+      return initialEssayState;
     },
   },
 });
 
-export const { setEssay, clearEssay } = essaySlice.actions;
+export const { setTaskId, clearEssay } = essaySlice.actions;
 export const selectEssay = (state: RootState) => state.essay;
+export const selectTaskId = (state: RootState) => state.essay.task_id;
 export default essaySlice.reducer;

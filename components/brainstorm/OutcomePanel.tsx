@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import RotbotLoader from '../root/RotbotLoader';
 import { useAppSelector } from '@/store/storehooks';
@@ -9,29 +9,21 @@ import { Copy, Download, Trophy } from 'lucide-react';
 import { countWords } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import Tooltip from '../root/Tooltip';
-import { selectEssay } from '@/store/reducers/essaySlice';
+import { selectTaskId } from '@/store/reducers/essaySlice';
 import TextStreamingEffect from '../root/TextStreamingEffect';
 
 const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
   const history = useAppSelector(selectBrainStormHistory);
-  const essay = useAppSelector(selectEssay);
+  const task_id = useAppSelector(selectTaskId);
   const path = usePathname();
   const id = path.split('/')[path.split('/').length - 1];
-  const [outcome, setOutcome] = useState<string>('');
   const [wordCount, setWordCount] = useState(0);
-
-  useEffect(() => {
-    if (essay.template_id === id) {
-      setOutcome(essay.result);
-    } else {
-      setOutcome('');
-    }
-  }, [essay, id]);
-
+  const [test, setTest] = useState('hello world');
+  const printIndexRef = useRef<number>(0);
   // hooks to calculate incremental word count
-  useEffect(() => {
-    setWordCount(countWords(outcome));
-  }, [outcome]);
+  // useEffect(() => {
+  //   setWordCount(countWords(outcome));
+  // }, [outcome]);
 
   return (
     <motion.div
@@ -51,9 +43,17 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
             />
           ) : (
             <p className='body-normal whitespace-pre-line px-4'>
-              {history.result
+              {/* {history.result
                 ? history.result
-                : outcome && <TextStreamingEffect text={outcome} speed={50} />}
+                : essay.result && (
+                    <TextStreamingEffect text={essay.result} speed={50} />
+                  )} */}
+              {/* {test} */}
+              <TextStreamingEffect
+                printIndexRef={printIndexRef}
+                text={test}
+                speed={50}
+              />
             </p>
           )}
         </div>
@@ -61,7 +61,7 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
         <div className='flex-between absolute bottom-2 left-0 flex h-12 w-full px-6'>
           <div className='flex items-center gap-x-2'>
             <div className='tooltip'>
-              <p className='small-semibold'>{wordCount} Words</p>
+              <p className='small-semibold'>{countWords(test)} Words</p>
             </div>
             <Tooltip tooltipContent='copy'>
               <div className='tooltip'>

@@ -22,7 +22,7 @@ export const brainStormHistorySlice = createSlice({
       return action.payload;
     },
     clearHistory: () => {
-      return { template_id: '', result: '', questionAnswerPair: {} };
+      return initialBrainStormState;
     },
   },
 });

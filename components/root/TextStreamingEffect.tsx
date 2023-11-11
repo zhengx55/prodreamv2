@@ -1,24 +1,32 @@
 'use client';
+import { useEffect, useRef, useState } from 'react';
 
-import { useEffect, useState } from 'react';
+type Props = {
+  text: string;
+  speed: number;
+  printIndexRef: React.MutableRefObject<number>;
+};
 
-type Props = { text: string; speed: number };
-
-const TextStreamingEffect = ({ text, speed }: Props) => {
+const TextStreamingEffect = ({ text, speed, printIndexRef }: Props) => {
   const [displayedText, setDisplayedText] = useState('');
+  const intervalIdRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    let i = 0;
-    const intervalId = setInterval(() => {
+    let i = printIndexRef?.current;
+    intervalIdRef.current = setInterval(() => {
       setDisplayedText(text.slice(0, i));
       i++;
+      printIndexRef.current = i;
       if (i > text.length) {
-        clearInterval(intervalId);
+        console.log('cleaning');
+        clearInterval(intervalIdRef.current);
       }
     }, speed);
 
-    return () => clearInterval(intervalId);
-  }, [text, speed]);
+    return () => {
+      clearInterval(intervalIdRef.current);
+    };
+  }, [text, speed, printIndexRef]);
 
   return <span>{displayedText}</span>;
 };
