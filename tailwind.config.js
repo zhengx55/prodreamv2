@@ -43,6 +43,7 @@ module.exports = {
         },
         shadow: '#797979',
         'shadow-100': '#828282',
+        'shadow-200': '#F3F5F7',
         'nav-active': '#5E59FF',
         'nav-selected': '#F4F5F6',
         nav: '#A0A8B0',

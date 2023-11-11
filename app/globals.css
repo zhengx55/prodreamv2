@@ -40,6 +40,10 @@
     @apply text-[24px] font-[600] leading-[140%];
   }
 
+  .h3-light {
+    @apply text-[24px] font-[300] leading-[140%];
+  }
+
   .title-semibold {
     @apply text-[20px] font-[600] leading-[140%];
   }
