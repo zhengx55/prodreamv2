@@ -78,12 +78,11 @@ export function formatDateMM(date: Date): string {
 }
 
 export function countWords(inputString: string) {
+  if (!inputString) return 0;
   const words = inputString.match(/\b\w+\b/g);
-
   if (!words) {
     return 0;
   }
-
   return words.length;
 }
 

@@ -1,15 +1,26 @@
 'use client';
 import { cn } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import MemoizedHistoryPanelCSR from './HistoryPanel';
 import OutcomePanel from './OutcomePanel';
+import { useAppDispatch } from '@/store/storehooks';
+import { clearHistory } from '@/store/reducers/brainstormSlice';
 
 const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
   const [tab, setTab] = useState<number>(0);
+  const dispatch = useAppDispatch();
   const handleTabChange = useCallback((value: number) => {
     setTab(value);
   }, []);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearHistory());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       {/* tabs */}

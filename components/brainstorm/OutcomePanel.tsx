@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import RotbotLoader from '../root/RotbotLoader';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { useAppSelector } from '@/store/storehooks';
 import { selectBrainStormHistory } from '@/store/reducers/brainstormSlice';
 import { Button } from '../ui/button';
 import { Copy, Download, Trophy } from 'lucide-react';
@@ -18,7 +18,6 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
   const task_id = useAppSelector(selectTaskId);
   const { refetch: essayRefetch, data: queryEssay } = useQueryEssay(task_id);
   const path = usePathname();
-  const dispatch = useAppDispatch();
   const id = path.split('/')[path.split('/').length - 1];
   const [wordCount, setWordCount] = useState(0);
   const [shouldAnimate, setShouldAnimate] = useState(false);
@@ -26,6 +25,7 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
   const IncrementWordCount = useCallback(() => {
     setWordCount((prev) => prev + 1);
   }, []);
+
   // hooks to calculate incremental word count
   const turnOffAnimate = useCallback(() => {
     setShouldAnimate(false);
@@ -41,13 +41,15 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
         clearInterval(pollInterval);
       }
     }, 2000);
-    return () => clearInterval(pollInterval);
+    return () => {
+      clearInterval(pollInterval);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [essayRefetch, queryEssay?.status]);
+  }, [queryEssay?.status]);
 
   return (
     <motion.div
-      key={'outcome'}
+      key='outcome'
       initial={{ y: 10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
@@ -84,7 +86,12 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
           <div className='flex items-center gap-x-2'>
             <div className='tooltip'>
               <p className='small-semibold'>
-                {history.result ? countWords(history.result) : wordCount} Words
+                {history.result
+                  ? countWords(history.result)
+                  : shouldAnimate
+                  ? wordCount
+                  : countWords(queryEssay?.text as string)}
+                &nbsp;Words
               </p>
             </div>
             <Tooltip tooltipContent='copy'>

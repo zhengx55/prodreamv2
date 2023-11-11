@@ -1,3 +1,4 @@
+'use client';
 import { useBrainStormHistoryById } from '@/query/query';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -6,6 +7,7 @@ import Loading from '../root/CustomLoading';
 import { deepEqual, formatTimestamphh } from '@/lib/utils';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import {
+  clearHistory,
   selectBrainStormHistory,
   setBrainstormHistoryHistory,
 } from '@/store/reducers/brainstormSlice';

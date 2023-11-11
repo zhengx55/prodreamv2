@@ -18,6 +18,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { clearEssay, setTaskId } from '@/store/reducers/essaySlice';
+import { useToast } from '../ui/use-toast';
 
 const FormPanel = ({
   submitPending,
@@ -30,7 +31,7 @@ const FormPanel = ({
     {
       pro_mode: boolean;
       template_id: string;
-      word_nums: number;
+      word_nums: string;
       texts: string[];
       types: string[];
     },
@@ -46,6 +47,7 @@ const FormPanel = ({
   const [formState, setFormState] = useState<Record<string, string>>({});
   const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
+  const { toast } = useToast();
 
   // 从History panel 点击填充表格
   useEffect(() => {
@@ -79,16 +81,15 @@ const FormPanel = ({
   const handleSubmit = async () => {
     dispatch(clearEssay());
     dispatch(clearHistory());
-    const result = await submitHandler({
+    submitHandler({
       pro_mode: qualityMode === 1,
       template_id: id,
       texts: Object.values(formState),
       types: Object.keys(formState),
-      word_nums: 1000,
-    });
-    if (result) {
+      word_nums: '',
+    }).then((result) => {
       dispatch(setTaskId(result));
-    }
+    });
   };
 
   const handleClearAll = () => {

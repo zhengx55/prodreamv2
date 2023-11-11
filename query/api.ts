@@ -105,7 +105,7 @@ export async function queryEssayResult(
 export async function SubmitEssayWritting(
   pro_mode: boolean,
   template_id: string,
-  word_nums: number = 0,
+  word_nums: string,
   texts: string[],
   types: string[]
 ): Promise<string> {
@@ -120,7 +120,7 @@ export async function SubmitEssayWritting(
           word_nums,
           texts,
           types,
-          user_id: '120',
+          user_id: '121',
         }),
         headers: {
           'Content-Type': 'application/json',

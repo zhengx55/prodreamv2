@@ -37,7 +37,6 @@ const TextStreamingEffect = ({
       printIndexRef.current = i;
       if (i > text.length) {
         console.log('cleaning');
-        dispatch(setTaskId(''));
         turnOffAnimation();
         clearInterval(intervalIdRef.current);
       }
