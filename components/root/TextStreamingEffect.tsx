@@ -1,4 +1,6 @@
 'use client';
+import { setTaskId } from '@/store/reducers/essaySlice';
+import { useAppDispatch } from '@/store/storehooks';
 import { useEffect, useRef, useState } from 'react';
 
 type Props = {
@@ -6,6 +8,7 @@ type Props = {
   speed: number;
   printIndexRef: React.MutableRefObject<number>;
   setWorkCount: () => void;
+  turnOffAnimation: () => void;
 };
 
 const TextStreamingEffect = ({
@@ -13,16 +16,16 @@ const TextStreamingEffect = ({
   speed,
   printIndexRef,
   setWorkCount,
+  turnOffAnimation,
 }: Props) => {
   const [displayedText, setDisplayedText] = useState('');
   const intervalIdRef = useRef<NodeJS.Timeout>();
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (!text) return;
     let i = printIndexRef?.current;
     intervalIdRef.current = setInterval(() => {
       setDisplayedText(text.slice(0, i));
-
       if (
         (text.charAt(i) === ' ' && !/[.,;?!]/.test(text.charAt(i - 1))) ||
         /[.,;?!]/.test(text.charAt(i))
@@ -34,6 +37,8 @@ const TextStreamingEffect = ({
       printIndexRef.current = i;
       if (i > text.length) {
         console.log('cleaning');
+        dispatch(setTaskId(''));
+        turnOffAnimation();
         clearInterval(intervalIdRef.current);
       }
     }, speed);

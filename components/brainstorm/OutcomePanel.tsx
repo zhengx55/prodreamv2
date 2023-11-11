@@ -27,6 +27,9 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
     setWordCount((prev) => prev + 1);
   }, []);
   // hooks to calculate incremental word count
+  const turnOffAnimate = useCallback(() => {
+    setShouldAnimate(false);
+  }, []);
 
   useEffect(() => {
     const pollInterval = setInterval(() => {
@@ -35,8 +38,6 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
         essayRefetch();
       }
       if (queryEssay?.status === 'done') {
-        setShouldAnimate(false);
-        dispatch(setTaskId(''));
         clearInterval(pollInterval);
       }
     }, 2000);
@@ -69,6 +70,7 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
                   setWorkCount={IncrementWordCount}
                   printIndexRef={printIndexRef}
                   text={queryEssay?.text}
+                  turnOffAnimation={turnOffAnimate}
                   speed={50}
                 />
               ) : (
