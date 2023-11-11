@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import RotbotLoader from '../root/RotbotLoader';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
@@ -23,6 +23,9 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
   const [wordCount, setWordCount] = useState(0);
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const printIndexRef = useRef<number>(0);
+  const IncrementWordCount = useCallback(() => {
+    setWordCount((prev) => prev + 1);
+  }, []);
   // hooks to calculate incremental word count
 
   useEffect(() => {
@@ -63,6 +66,7 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
                 history.result
               ) : shouldAnimate ? (
                 <TextStreamingEffect
+                  setWorkCount={IncrementWordCount}
                   printIndexRef={printIndexRef}
                   text={queryEssay?.text}
                   speed={50}
@@ -70,12 +74,6 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
               ) : (
                 queryEssay?.text
               )}
-
-              {/* <TextStreamingEffect
-                printIndexRef={printIndexRef}
-                text={test}
-                speed={50}
-              /> */}
             </p>
           )}
         </div>
@@ -84,7 +82,7 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
           <div className='flex items-center gap-x-2'>
             <div className='tooltip'>
               <p className='small-semibold'>
-                {history.result ? countWords(history.result) : 0} Words
+                {history.result ? countWords(history.result) : wordCount} Words
               </p>
             </div>
             <Tooltip tooltipContent='copy'>
