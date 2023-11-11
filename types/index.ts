@@ -14,7 +14,7 @@ export interface IBrainsotrmCard {
 }
 
 export interface IEssay {
-  task_id?: string;
+  task_id: string;
 }
 
 export interface IBrainStormHistoryState {

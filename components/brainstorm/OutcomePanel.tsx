@@ -1,29 +1,45 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import RotbotLoader from '../root/RotbotLoader';
-import { useAppSelector } from '@/store/storehooks';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { selectBrainStormHistory } from '@/store/reducers/brainstormSlice';
 import { Button } from '../ui/button';
 import { Copy, Download, Trophy } from 'lucide-react';
 import { countWords } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import Tooltip from '../root/Tooltip';
-import { selectTaskId } from '@/store/reducers/essaySlice';
+import { selectTaskId, setTaskId } from '@/store/reducers/essaySlice';
 import TextStreamingEffect from '../root/TextStreamingEffect';
+import { useQueryEssay } from '@/query/query';
 
 const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
   const history = useAppSelector(selectBrainStormHistory);
   const task_id = useAppSelector(selectTaskId);
+  const { refetch: essayRefetch, data: queryEssay } = useQueryEssay(task_id);
   const path = usePathname();
+  const dispatch = useAppDispatch();
   const id = path.split('/')[path.split('/').length - 1];
   const [wordCount, setWordCount] = useState(0);
-  const [test, setTest] = useState('hello world');
+  const [shouldAnimate, setShouldAnimate] = useState(false);
   const printIndexRef = useRef<number>(0);
   // hooks to calculate incremental word count
-  // useEffect(() => {
-  //   setWordCount(countWords(outcome));
-  // }, [outcome]);
+
+  useEffect(() => {
+    const pollInterval = setInterval(() => {
+      setShouldAnimate(true);
+      if (queryEssay?.status === 'doing') {
+        essayRefetch();
+      }
+      if (queryEssay?.status === 'done') {
+        setShouldAnimate(false);
+        dispatch(setTaskId(''));
+        clearInterval(pollInterval);
+      }
+    }, 2000);
+    return () => clearInterval(pollInterval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [essayRefetch, queryEssay?.status]);
 
   return (
     <motion.div
@@ -43,17 +59,23 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
             />
           ) : (
             <p className='body-normal whitespace-pre-line px-4'>
-              {/* {history.result
-                ? history.result
-                : essay.result && (
-                    <TextStreamingEffect text={essay.result} speed={50} />
-                  )} */}
-              {/* {test} */}
-              <TextStreamingEffect
+              {history.result ? (
+                history.result
+              ) : shouldAnimate ? (
+                <TextStreamingEffect
+                  printIndexRef={printIndexRef}
+                  text={queryEssay?.text}
+                  speed={50}
+                />
+              ) : (
+                queryEssay?.text
+              )}
+
+              {/* <TextStreamingEffect
                 printIndexRef={printIndexRef}
                 text={test}
                 speed={50}
-              />
+              /> */}
             </p>
           )}
         </div>
@@ -61,7 +83,9 @@ const OutcomePanel = ({ submitPending }: { submitPending: boolean }) => {
         <div className='flex-between absolute bottom-2 left-0 flex h-12 w-full px-6'>
           <div className='flex items-center gap-x-2'>
             <div className='tooltip'>
-              <p className='small-semibold'>{countWords(test)} Words</p>
+              <p className='small-semibold'>
+                {history.result ? countWords(history.result) : 0} Words
+              </p>
             </div>
             <Tooltip tooltipContent='copy'>
               <div className='tooltip'>

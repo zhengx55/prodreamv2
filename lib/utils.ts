@@ -111,9 +111,15 @@ export function findSwappedElements(
 }
 
 export function formatTimestamphh(timestampString: string) {
-  const currentTimestamp = new Date().getTime();
+  const currentLocalTime = new Date();
+  const utcTimeString = currentLocalTime
+    .toISOString()
+    .replace('T', ' ')
+    .slice(0, 19);
+
   const targetTimestamp = new Date(timestampString).getTime();
-  const differenceInMilliseconds = currentTimestamp - targetTimestamp;
+  const differenceInMilliseconds =
+    new Date(utcTimeString).getTime() - targetTimestamp;
   const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
 
   if (differenceInHours < 24) {

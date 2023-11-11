@@ -41,25 +41,11 @@ const FormPanel = ({
   const id = pathname.split('/')[pathname.split('/').length - 1];
   const { data: moduleData, isPending: isModuleLoading } =
     useBrainStormDetail(id);
-  console.log(moduleData);
   const dispatch = useAppDispatch();
   const history = useAppSelector(selectBrainStormHistory);
-  // const { refetch: essayRefetch, data: queryEssay } = useQueryEssay(taskId);
   const [formState, setFormState] = useState<Record<string, string>>({});
   const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
-
-  // const pollInterval = setInterval(() => {
-  // if (queryEssay?.status === 'doing') {
-  //   essayRefetch();
-  // }
-  // if (queryEssay?.status === 'done') {
-  //   clearInterval(pollInterval);
-  // }
-  // dispatch(setEssay({ template_id: id, result: 'Hello worldd' }));
-  // }, 2000);
-
-  // return () => clearInterval(pollInterval);
 
   // 从History panel 点击填充表格
   useEffect(() => {
@@ -93,16 +79,16 @@ const FormPanel = ({
   const handleSubmit = async () => {
     dispatch(clearEssay());
     dispatch(clearHistory());
-    // const result = await submitHandler({
-    //   pro_mode: qualityMode === 1,
-    //   template_id: id,
-    //   texts: Object.values(formState),
-    //   types: Object.keys(formState),
-    //   word_nums: 1000,
-    // });
-    // if (result) {
-    //   setTaskId(result);
-    // }
+    const result = await submitHandler({
+      pro_mode: qualityMode === 1,
+      template_id: id,
+      texts: Object.values(formState),
+      types: Object.keys(formState),
+      word_nums: 1000,
+    });
+    if (result) {
+      dispatch(setTaskId(result));
+    }
   };
 
   const handleClearAll = () => {

@@ -13,7 +13,7 @@ export const essaySlice = createSlice({
   name: 'essage',
   initialState: initialEssayState,
   reducers: {
-    setTaskId: (draft, action: PayloadAction<keyof IEssay>) => {
+    setTaskId: (draft, action: PayloadAction<string>) => {
       draft.task_id = action.payload;
     },
     clearEssay: () => {

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 type Props = {
-  text: string;
+  text?: string;
   speed: number;
   printIndexRef: React.MutableRefObject<number>;
 };
@@ -12,6 +12,7 @@ const TextStreamingEffect = ({ text, speed, printIndexRef }: Props) => {
   const intervalIdRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
+    if (!text) return;
     let i = printIndexRef?.current;
     intervalIdRef.current = setInterval(() => {
       setDisplayedText(text.slice(0, i));
