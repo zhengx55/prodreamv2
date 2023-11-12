@@ -8,11 +8,11 @@ import { User } from '@nextui-org/user';
 const Navbar = () => {
   const pathname = usePathname();
   return (
-    <nav className='flex-between border-b-1 border-shadow-border bg-white px-12 shadow-sidebar md:h-[var(--top-nav-bar-height)]'>
-      <h3 className='h3-bold capitalize text-black-200'>
+    <nav className='flex-between h-[var(--top-nav-bar-height)] border-b-1 border-shadow-border bg-white px-12 shadow-sidebar'>
+      <h3 className='h3-bold hidden capitalize text-black-200 md:block'>
         {pathname.split('/')[2]}
       </h3>
-      <div className='flex items-center gap-x-6'>
+      <div className='flex items-center gap-x-2 md:gap-x-6'>
         <motion.div
           whileHover={{ scale: 1.1 }}
           className='flex-center h-12 w-12 cursor-pointer rounded-full bg-primary-50'

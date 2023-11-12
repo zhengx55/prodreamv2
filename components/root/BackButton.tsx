@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 const BackButton = ({ onBack }: { onBack: () => void }) => {
   return (
     <div
-      className='absolute left-12 top-10 flex cursor-pointer items-center hover:underline'
+      className='absolute left-12 top-10 hidden cursor-pointer items-center hover:underline md:flex'
       onClick={onBack}
     >
       <ChevronLeft />
