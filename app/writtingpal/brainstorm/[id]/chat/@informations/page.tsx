@@ -3,12 +3,20 @@ import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { motion } from 'framer-motion';
 
 export default function Page({}) {
   const { updateCurrentRoute } = useChatNavigatorContext();
   return (
-    <main className='w-ful relative flex h-full flex-col items-center justify-center overflow-y-auto'>
-      <BackButton />
+    <motion.main
+      key={'informations'}
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-10 pt-20 md:px-0'
+    >
+      <BackButton onBack={() => updateCurrentRoute('startup')} />
       <div className='flex max-w-3xl flex-col items-center pt-10'>
         <h1 className='h3-semibold mt-10 capitalize'>
           Hi there 👋🏻!
@@ -31,6 +39,6 @@ export default function Page({}) {
           Next
         </Button>
       </div>
-    </main>
+    </motion.main>
   );
 }

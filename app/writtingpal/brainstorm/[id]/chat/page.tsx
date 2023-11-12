@@ -1,12 +1,20 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 export default function Page() {
   const { updateCurrentRoute } = useChatNavigatorContext();
   return (
-    <main className='flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center gap-y-[105px] overflow-y-auto'>
+    <motion.main
+      key={'startup'}
+      initial={{ x: 10, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className='flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center gap-y-[105px] overflow-y-auto'
+    >
       <h1 className='h1-semibold mt-20 capitalize'>
         How would you like to start?
       </h1>
@@ -18,7 +26,6 @@ export default function Page() {
               src='/comode.png'
               className='w-auto object-contain'
               fill
-              sizes='10'
               priority
             />
           </div>
@@ -35,7 +42,6 @@ export default function Page() {
               src='/refmode.png'
               className='w-auto object-contain'
               fill
-              sizes='10'
               priority
             />
           </div>
@@ -56,6 +62,6 @@ export default function Page() {
           Next
         </Button>
       </div>
-    </main>
+    </motion.main>
   );
 }

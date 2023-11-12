@@ -1,5 +1,6 @@
 'use client';
 import { ChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { AnimatePresence } from 'framer-motion';
 import { ReactNode, SetStateAction, useCallback, useState } from 'react';
 
 export default function ChatLayout({
@@ -28,13 +29,15 @@ export default function ChatLayout({
   );
   return (
     <ChatNavigatorContext.Provider value={{ currentRoute, updateCurrentRoute }}>
-      {currentRoute === 'startup'
-        ? children
-        : currentRoute === 'informations'
-        ? informations
-        : currentRoute === 'introductions'
-        ? introductions
-        : chatpanel}
+      <AnimatePresence mode='wait'>
+        {currentRoute === 'startup'
+          ? children
+          : currentRoute === 'informations'
+          ? informations
+          : currentRoute === 'introductions'
+          ? introductions
+          : chatpanel}
+      </AnimatePresence>
     </ChatNavigatorContext.Provider>
   );
 }

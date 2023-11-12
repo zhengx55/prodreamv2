@@ -1,5 +1,8 @@
+'use client';
 import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
+import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { motion } from 'framer-motion';
 
 const moduleMenu = [
   { id: 'module-01', title: 'Overview' },
@@ -37,9 +40,18 @@ const moduleInfo = [
 ];
 
 export default function Page() {
+  const { updateCurrentRoute } = useChatNavigatorContext();
+
   return (
-    <main className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-10 pt-20 md:px-0'>
-      <BackButton />
+    <motion.main
+      key={'introduction'}
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-10 pt-20 md:px-0'
+    >
+      <BackButton onBack={() => updateCurrentRoute('informations')} />
       <div className=' flex flex-col items-start '>
         <h1 className='primary-title capitalize'>Introduction</h1>
         <h2 className='h3-semibold mt-12'>Unleash your potential with us!</h2>
@@ -98,10 +110,14 @@ export default function Page() {
             ))}
           </div>
         </div>
-        <Button size={'expand'} className='mt-10 self-end'>
+        <Button
+          onClick={() => updateCurrentRoute('chatPanel')}
+          size={'expand'}
+          className='mt-10 self-end'
+        >
           Next
         </Button>
       </div>
-    </main>
+    </motion.main>
   );
 }
