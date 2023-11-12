@@ -6,10 +6,16 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { Provider } from 'react-redux';
 import { store } from '../../../../store/store';
 import { useEssayWriting } from '@/query/query';
-export default function Page() {
+import { redirect } from 'next/navigation';
+export default function Page({ params }: { params: { id: string } }) {
+  // !test hard code chat id
+
   const { isPending: isSubmitPending, mutateAsync: submitEssay } =
     useEssayWriting();
 
+  if (params.id === '820e6ec3bb1648958140ffac066836e9') {
+    redirect(`/writtingpal/brainstorm/${params.id}/chat`);
+  }
   return (
     <Provider store={store}>
       <main className='flex h-full w-full overflow-y-hidden bg-sectionBackground'>
