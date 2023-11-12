@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Page() {
   return (
-    <main className='mt-20 flex flex-1 flex-col items-center gap-y-[105px]'>
+    <main className='mt-20 flex h-full w-full flex-col items-center gap-y-[105px]'>
       <h1 className='h1-semibold capitalize'>How would you like to start?</h1>
       <div className='relative flex items-center md:gap-x-20'>
         <div className='chat-mode'>

@@ -1,5 +1,4 @@
 import List from '@/components/brainstorm/List';
-// import { brainstorms_data } from '@/constant';
 import { BrainStormTypes } from '@/constant/enum';
 import { IBrainsotrmCard } from '@/types';
 

@@ -14,11 +14,11 @@ export default function ChatLayout({
 }) {
   const [test, setTest] = useState('');
   return (
-    <main className='flex flex-1'>
+    <>
       {/* {chatpanel} */}
-      {informations}
-      {/* {introductions}
-      {children} */}
-    </main>
+      {/* {informations} */}
+      {introductions}
+      {/* {children} */}
+    </>
   );
 }
