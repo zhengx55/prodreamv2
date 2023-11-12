@@ -23,11 +23,11 @@ export default function Page({}) {
           <br /> Before we start brainstorming on your essay, please share the
           program you are applying to 😊
         </h1>
-        <div className='title-light mt-14 h-[72px] w-[605px] bg-shadow-200 p-6'>
+        <div className='title-light mt-14 h-[72px] w-[605px] rounded-xl bg-shadow-200 p-6'>
           What school are you planning to apply to?
         </div>
         <Input className='title-light mt-14 h-[72px] w-[605px] p-6' />
-        <div className='title-light mt-14 h-[72px] w-[605px] bg-shadow-200 p-6'>
+        <div className='title-light mt-14 h-[72px] w-[605px] rounded-xl bg-shadow-200 p-6'>
           What is the name of the program you want to apply to?
         </div>
         <Input className='title-light mt-14 h-[72px] w-[605px] p-6' />

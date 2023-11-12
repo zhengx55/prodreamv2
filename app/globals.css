@@ -101,6 +101,10 @@
     @apply text-[12px] font-[600] leading-[140%];
   }
 
+  .subtle-medium {
+    @apply text-[12px] font-[500] leading-[140%];
+  }
+
   .subtle-regular {
     @apply text-[12px] font-[400] leading-[140%];
   }
@@ -180,6 +184,8 @@
   --top-nav-bar-height: 4rem;
   --resume-padding: 1.5rem;
   --resume-control-bar-height: 3.5rem;
+  --chatpanel-padding: 11.5rem;
+  --chathistory-width: 10rem;
 }
 
 .bulletpoints::before {

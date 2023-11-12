@@ -36,6 +36,7 @@ module.exports = {
           400: '#191919',
           500: '#202020',
           600: '#161616',
+          700: '#141718',
         },
         hover: {
           50: '#FBF7FF',
@@ -49,6 +50,7 @@ module.exports = {
         'nav-selected': '#F4F5F6',
         nav: '#A0A8B0',
         'shadow-border': '#DADADA',
+        dot: '#CFD0D0',
       },
       boxShadow: {
         sidebar: '4px 0 5px rgba(0,0,0,.06)',
@@ -58,6 +60,7 @@ module.exports = {
         button: '0px 0px 5px 0px rgba(0, 0, 0, 0.25)',
         bar: '0px -8px 20px 0px rgba(244, 244, 244, 0.25), 0px 2px 2px 0px rgba(160, 168, 176, 0.08), 0px 0px 4px 0px rgba(162, 99, 248, 0.25)',
         tooltip: '0px 0px 4px 0px rgba(156, 44, 243, 0.25)',
+        textarea: '0px 8px 24px 6px rgba(0, 0, 0, 0.12)',
       },
       keyframes: {
         'accordion-down': {
