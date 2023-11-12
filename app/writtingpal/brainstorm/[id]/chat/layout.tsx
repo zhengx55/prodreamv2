@@ -1,5 +1,6 @@
 'use client';
-import { ReactNode, useState } from 'react';
+import { ChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { ReactNode, SetStateAction, useCallback, useState } from 'react';
 
 export default function ChatLayout({
   informations,
@@ -12,13 +13,28 @@ export default function ChatLayout({
   children: ReactNode;
   chatpanel: React.ReactNode;
 }) {
-  const [test, setTest] = useState('');
+  const [currentRoute, setCurrentRoute] = useState<
+    'startup' | 'informations' | 'introductions' | 'chatPanel'
+  >('startup');
+  const updateCurrentRoute = useCallback(
+    (
+      value: SetStateAction<
+        'startup' | 'informations' | 'introductions' | 'chatPanel'
+      >
+    ) => {
+      setCurrentRoute(value);
+    },
+    []
+  );
   return (
-    <>
-      {/* {chatpanel} */}
-      {/* {informations} */}
-      {introductions}
-      {/* {children} */}
-    </>
+    <ChatNavigatorContext.Provider value={{ currentRoute, updateCurrentRoute }}>
+      {currentRoute === 'startup'
+        ? children
+        : currentRoute === 'informations'
+        ? informations
+        : currentRoute === 'introductions'
+        ? introductions
+        : chatpanel}
+    </ChatNavigatorContext.Provider>
   );
 }

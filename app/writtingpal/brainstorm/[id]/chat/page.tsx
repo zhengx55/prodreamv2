@@ -1,10 +1,15 @@
+'use client';
 import { Button } from '@/components/ui/button';
+import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import Image from 'next/image';
 
 export default function Page() {
+  const { updateCurrentRoute } = useChatNavigatorContext();
   return (
-    <main className='mt-20 flex h-full w-full flex-col items-center gap-y-[105px]'>
-      <h1 className='h1-semibold capitalize'>How would you like to start?</h1>
+    <main className='flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center gap-y-[105px] overflow-y-auto'>
+      <h1 className='h1-semibold mt-20 capitalize'>
+        How would you like to start?
+      </h1>
       <div className='relative flex items-center md:gap-x-20'>
         <div className='chat-mode'>
           <div className='relative md:h-[180px] md:w-[200px]'>
@@ -13,6 +18,7 @@ export default function Page() {
               src='/comode.png'
               className='w-auto object-contain'
               fill
+              sizes='10'
               priority
             />
           </div>
@@ -29,6 +35,7 @@ export default function Page() {
               src='/refmode.png'
               className='w-auto object-contain'
               fill
+              sizes='10'
               priority
             />
           </div>
@@ -39,7 +46,13 @@ export default function Page() {
             experiences and get sample essays!
           </p>
         </div>
-        <Button size={'expand'} className='absolute -bottom-20 right-0'>
+        <Button
+          onClick={() => {
+            updateCurrentRoute('informations');
+          }}
+          size={'expand'}
+          className='absolute -bottom-20 right-0'
+        >
           Next
         </Button>
       </div>
