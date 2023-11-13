@@ -19,17 +19,21 @@ import { loginSchema } from '@/lib/validation';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import GoogleSignin from '@/components/auth/GoogleSignin';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Page() {
+  const [hidePassword, setHidePassword] = useState(true);
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       username: '',
+      password: '',
     },
   });
 
   function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values);
+    console.log(123);
   }
 
   return (
@@ -48,7 +52,7 @@ export default function Page() {
               control={form.control}
               name='username'
               render={({ field }) => (
-                <FormItem className='mt-10 flex flex-col'>
+                <FormItem className='mt-10'>
                   <FormLabel className='text-black-400' htmlFor='username'>
                     Username
                   </FormLabel>
@@ -57,25 +61,47 @@ export default function Page() {
                       autoComplete='email'
                       id='username'
                       placeholder=''
-                      className='border-none bg-shadow-50'
+                      className='rounded-2xl border-none bg-shadow-50'
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
-                  <br />
+                  <FormMessage className='text-xs text-red-400' />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem className='relative'>
                   <FormLabel className='text-black-400' htmlFor='password'>
                     Password
                   </FormLabel>
+                  {!hidePassword ? (
+                    <EyeOff
+                      onClick={() => setHidePassword((prev) => !prev)}
+                      size={22}
+                      className='absolute right-2 top-8 cursor-pointer'
+                    />
+                  ) : (
+                    <Eye
+                      onClick={() => setHidePassword((prev) => !prev)}
+                      size={22}
+                      className='absolute right-2 top-8 cursor-pointer'
+                    />
+                  )}
+
                   <FormControl>
                     <Input
                       autoComplete='current-password'
                       id='password'
+                      type={hidePassword ? 'password' : 'text'}
                       placeholder=''
-                      className='border-none bg-shadow-50'
+                      className='rounded-2xl border-none bg-shadow-50'
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className='text-xs text-red-400' />
                 </FormItem>
               )}
             />
