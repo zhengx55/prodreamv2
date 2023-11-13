@@ -3,7 +3,7 @@ import { Button } from '../ui/button';
 
 const CommunityCard = () => {
   return (
-    <div className='absolute bottom-4 hidden h-[270px] w-[90%] items-center gap-y-3 rounded-lg border-1 border-primary-200 px-4 py-2 md:flex md:flex-col'>
+    <div className='absolute bottom-4 hidden h-[270px] w-[90%] items-center gap-y-3 rounded-lg border border-primary-200 px-4 py-2 md:flex md:flex-col'>
       <Image
         alt='social-community'
         src='/social.png'

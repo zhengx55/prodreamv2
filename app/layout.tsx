@@ -3,7 +3,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/context/ThemeProvider';
 // import { i18n } from '@/i18n.config';
-import { UIProviders } from '@/context/NextUIProvider';
 import { Poppins } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
 
@@ -33,12 +32,10 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute='class' defaultTheme='light'>
           <TanstackProvider>
-            <UIProviders>
-              <section className='h-screen w-screen md:flex md:min-w-[1400px] md:overflow-x-auto'>
-                {children}
-              </section>
-              <Toaster />
-            </UIProviders>
+            <section className='h-screen w-screen md:flex md:min-w-[1400px] md:overflow-x-auto'>
+              {children}
+            </section>
+            <Toaster />
           </TanstackProvider>
         </ThemeProvider>
       </body>

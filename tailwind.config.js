@@ -1,13 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-import { nextui } from '@nextui-org/react';
 
 module.exports = {
   darkMode: ['class'],
-  content: [
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}'],
   theme: {
     extend: {
       backgroundImage: {
@@ -63,14 +58,6 @@ module.exports = {
         textarea: '0px 8px 24px 6px rgba(0, 0, 0, 0.12)',
       },
       keyframes: {
-        'accordion-down': {
-          from: { height: 0 },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: 0 },
-        },
         ping: {
           '75%, 100%': { transform: 'scale(1.1)', opacity: 0 },
         },
@@ -85,5 +72,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), nextui()],
+  plugins: [require('tailwindcss-animate')],
 };

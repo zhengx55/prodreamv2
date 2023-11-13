@@ -135,7 +135,7 @@
   }
 
   .brainstorm-card {
-    @apply rounded-[8px] border-1 border-shadow-border bg-white
+    @apply rounded-[8px] border border-shadow-border bg-white
   }
 
   .form-input-group {

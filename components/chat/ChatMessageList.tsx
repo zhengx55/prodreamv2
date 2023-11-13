@@ -29,7 +29,7 @@ const ChatMessageList = (props: Props) => {
         Thanks for this information! Does the curriculum at Harvard interests
         you?
       </div>
-      <div className='flex w-[80%] self-end rounded-[20px] border-3 border-shadow-200 bg-white px-3 py-3 font-[300] text-black-700'>
+      <div className='border-3 flex w-[80%] self-end rounded-[20px] border-shadow-200 bg-white px-3 py-3 font-[300] text-black-700'>
         the program&apos;s comprehensive curriculum, which covers statistical
         analysis, data mining, machine learning, and data visualization, will
         equip me with the essential skills to analyze complex data sets and

@@ -1,14 +1,14 @@
 'use client';
 import { Bell, HelpCircle, Search } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
-import { User } from '@nextui-org/user';
+import User from './User';
 
 const Navbar = () => {
   const pathname = usePathname();
   return (
-    <nav className='flex-between h-[var(--top-nav-bar-height)] border-b-1 border-shadow-border bg-white px-12 shadow-sidebar'>
+    <nav className='flex-between h-[var(--top-nav-bar-height)] border-b border-shadow-border bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold hidden capitalize text-black-200 md:block'>
         {pathname.split('/')[2]}
       </h3>
@@ -27,23 +27,12 @@ const Navbar = () => {
         </motion.div>
         <User
           name='Jane Doe'
-          className='gap-x-2'
-          classNames={{
-            name: 'small-semibold text-black-100',
-            description: 'subtle-semibold text-shadow-100',
-          }}
-          description='Product Designer'
-          avatarProps={{
-            showFallback: true,
-            src: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
-            classNames: {
-              base: 'bg-primary-50 w-12 h-12 border-1 border-primary-200',
-            },
-          }}
+          email='test@gmail.com'
+          imgSrc='https://i.pravatar.cc/150?u=a042581f4e29026024d'
         />
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default memo(Navbar);

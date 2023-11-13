@@ -15,7 +15,7 @@ const Procedure = () => {
           Build a standout college resume the easy way
         </h1>
         <div className='relative mt-5 flex h-[280px] flex-col justify-between'>
-          <span className='absolute left-4 top-2 z-10 h-[270px] w-[1px] border-1 border-dashed border-shadow-border' />
+          <span className='absolute left-4 top-2 z-10 h-[270px] w-[1px] border border-dashed border-shadow-border' />
 
           {ResumeProcedure.map((item, index) => {
             return (
@@ -23,7 +23,7 @@ const Procedure = () => {
                 key={`${index}-procedure`}
                 className='flex items-center gap-x-4'
               >
-                <span className='flex-center z-20 h-8 w-8 shrink-0 rounded-full border-1 border-primary-200 bg-white text-justify text-primary-200'>
+                <span className='flex-center z-20 h-8 w-8 shrink-0 rounded-full border border-primary-200 bg-white text-justify text-primary-200'>
                   {index}
                 </span>
                 <p className='base-medium break-keep text-black-500'>

@@ -70,7 +70,7 @@ const EducationInfo = () => {
               animate={item.expand === 'expand' ? 'expanded' : 'collapse'}
               variants={FormHeightVariant}
               isParentCollapsed={item.expand === 'collapse'}
-              classnames='relative mt-4 flex w-full flex-col rounded-md border-1 border-shadow-border px-4 z-0'
+              classnames='relative mt-4 flex w-full flex-col rounded-md border border-shadow-border px-4 z-0'
             >
               {item.expand === 'collapse' && (
                 <>

@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default:
           'bg-primary-200 text-white hover:bg-primary-300 hover:-translate-y-0.5',
         secondary:
-          'bg-transparent text-primary-200 hover:text-primary-300 border-1 border-primary-200 hover:border-primary-300 hover:-translate-y-0.5',
+          'bg-transparent text-primary-200 hover:text-primary-300 border border-primary-200 hover:border-primary-300 hover:-translate-y-0.5',
         outline:
           'border border-shadow-border bg-white hover:bg-accent hover:text-accent-foreground',
         ghost: 'gap-x-2 hover:-translate-y-0.5',

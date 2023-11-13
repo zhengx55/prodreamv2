@@ -16,7 +16,7 @@ const ChatInfo = (props: Props) => {
         />
       </div>
       {/* tabs */}
-      <div className='flex h-[48px] w-[332px] rounded-xl border-1 border-shadow-border p-1'>
+      <div className='flex h-[48px] w-[332px] rounded-xl border border-shadow-border p-1'>
         <div className='flex-center h-full w-[50%] cursor-pointer rounded-xl hover:bg-shadow-200'>
           Notes
         </div>
@@ -25,7 +25,7 @@ const ChatInfo = (props: Props) => {
         </div>
       </div>
       {/* info */}
-      <div className='flex h-[387px] w-full flex-col rounded-xl border-1 border-shadow-border'></div>
+      <div className='flex h-[387px] w-full flex-col rounded-xl border border-shadow-border'></div>
     </div>
   );
 };

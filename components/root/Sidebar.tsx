@@ -77,7 +77,7 @@ const Sidebar = () => {
       initial={false}
       animate={expandSidebar ? 'open' : 'closed'}
       variants={sidebarVariants}
-      className='relative hidden shrink-0 flex-col border-r-1 border-r-shadow-border bg-white px-2 py-10 shadow-sidebar md:flex'
+      className='border-r-1 relative hidden shrink-0 flex-col border-r-shadow-border bg-white px-2 py-10 shadow-sidebar md:flex'
     >
       <div className='h-[30px]'>
         <AnimatedLogo show={expandSidebar} />
@@ -88,7 +88,7 @@ const Sidebar = () => {
         whileHover={{
           scale: 1.1,
         }}
-        className='flex-center absolute -right-5 top-2 h-10 w-10 cursor-pointer rounded-full border-1 border-shadow-border bg-white'
+        className='flex-center absolute -right-5 top-2 h-10 w-10 cursor-pointer rounded-full border border-shadow-border bg-white'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
