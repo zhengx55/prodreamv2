@@ -33,7 +33,7 @@ const ChatPanel = () => {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-4 pt-5 md:px-16 md:pt-20'
+      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-4 pt-5 md:pl-16 md:pr-4 md:pt-20'
     >
       <BackButton onBack={() => updateCurrentRoute('introductions')} />
       <Button
