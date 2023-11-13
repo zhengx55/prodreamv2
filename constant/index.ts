@@ -298,7 +298,7 @@ export const ResumeProcedure = [
 
 export const FormHeightVariant: Variants = {
   expanded: { height: 'auto' },
-  collapse: { height: '70px' },
+  collapse: { height: '80px' },
 };
 
 export const ChatIntroductionCard = [
