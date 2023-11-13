@@ -19,11 +19,12 @@ const buttonVariants = cva(
         white:
           'bg-white gap-x-2 base-regular justify-start shadow-button rounded-[10px] hover:-translate-y-0.5 hover:text-primary-200',
         link: 'text-normal underline-offset-4 hover:underline hover:-translate-y-0.5',
+        bold: 'font-[700] text-[14px] bg-white shadow-toggle hover:-translate-y-0.5',
       },
       size: {
         spaceOff: 'p-0 h-10',
         default: 'h-10 px-4 py-2',
-        sm: 'h-9 px-3',
+        sm: 'h-9 px-2',
         lg: 'h-11 px-8',
         expand: 'h-9 px-8',
         icon: 'h-10 w-10',

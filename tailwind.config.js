@@ -54,6 +54,7 @@ module.exports = {
         card: '0px 4px 5px 0px rgba(0, 0, 0, 0.06)',
         input: '0px 1px 0px 0px rgba(0, 0, 0, 0.05)',
         button: '0px 0px 5px 0px rgba(0, 0, 0, 0.25)',
+        toggle: '0px 2px 4px 0px rgba(0, 0, 0, 0.15)',
         bar: '0px -8px 20px 0px rgba(244, 244, 244, 0.25), 0px 2px 2px 0px rgba(160, 168, 176, 0.08), 0px 0px 4px 0px rgba(162, 99, 248, 0.25)',
         tooltip: '0px 0px 4px 0px rgba(156, 44, 243, 0.25)',
         textarea: '0px 8px 24px 6px rgba(0, 0, 0, 0.12)',
