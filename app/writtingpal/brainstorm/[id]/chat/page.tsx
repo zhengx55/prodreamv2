@@ -13,14 +13,14 @@ export default function Page() {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center gap-y-[105px] overflow-y-auto'
+      className='flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center gap-y-28 overflow-y-auto'
     >
       <h1 className='h1-semibold mt-20 capitalize'>
         How would you like to start?
       </h1>
       <div className='relative flex items-center md:gap-x-20'>
         <div className='chat-mode'>
-          <div className='relative md:h-[180px] md:w-[200px]'>
+          <div className='relative md:h-[12rem] md:w-[10.25rem]'>
             <Image
               alt='collaboration-mode'
               src='/comode.png'
@@ -37,7 +37,7 @@ export default function Page() {
           </p>
         </div>
         <div className='chat-mode'>
-          <div className='relative md:h-[180px] md:w-[200px]'>
+          <div className='relative md:h-[12rem] md:w-[10.25rem]'>
             <Image
               alt='collaboration-mode'
               src='/refmode.png'

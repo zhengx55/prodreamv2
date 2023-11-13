@@ -53,10 +53,10 @@ export default function Page({}) {
           <br /> Before we start brainstorming on your essay, please share the
           program you are applying to 😊
         </h1>
-        <div className='title-light mt-14 h-[72px] w-[605px] rounded-xl bg-shadow-200 p-6'>
+        <div className='title-light mt-14 h-[4.5rem] w-[605px] rounded-xl bg-shadow-200 p-6'>
           What school are you planning to apply to?
         </div>
-        <div className='relative mt-14 h-[72px] w-[605px]'>
+        <div className='relative mt-14 h-[4.5rem] w-[605px]'>
           {errors.school && (
             <p className='absolute -top-7 text-sm text-red-500'>
               {errors.school}
@@ -72,10 +72,10 @@ export default function Page({}) {
           />
         </div>
 
-        <div className='title-light mt-14 h-[72px] w-[605px] rounded-xl bg-shadow-200 p-6'>
+        <div className='title-light mt-14  h-[4.5rem] w-[605px] rounded-xl bg-shadow-200 p-6'>
           What is the name of the program you want to apply to?
         </div>
-        <div className='relative mt-14 h-[72px] w-[605px]'>
+        <div className='relative mt-14  h-[4.5rem] w-[605px]'>
           {errors.program && (
             <p className='absolute -top-7 text-sm text-red-500'>
               {errors.program}

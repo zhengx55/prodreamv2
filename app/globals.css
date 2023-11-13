@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  font-size: 14px;
+}
 
 @layer base {
   * {
@@ -9,7 +12,7 @@
   }
 
   body {
-    @apply min-h-screen select-none font-poppins;
+    @apply min-h-screen select-text font-poppins;
   }
 }
 
@@ -30,7 +33,7 @@
   }
 
   .h1-regular {
-    @apply text-[28px] font-[400] leading-[140%];
+    @apply text-[2rem] font-[400] leading-[140%];
   }
 
   .h2-bold {
@@ -176,7 +179,7 @@
   }
 
   .chat-mode {
-    @apply flex hover:opacity-50 cursor-pointer flex-col items-center justify-center rounded-[10px] bg-hover-100 md:h-[450px] gap-y-4 md:w-[465px] px-12
+    @apply flex hover:opacity-50 cursor-pointer flex-col items-center justify-center rounded-[10px] bg-hover-100 md:h-[32rem] gap-y-4 md:w-[33rem] px-12
   }
 }
 

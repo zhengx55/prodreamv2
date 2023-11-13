@@ -300,3 +300,59 @@ export const FormHeightVariant: Variants = {
   expanded: { height: 'auto' },
   collapse: { height: '80px' },
 };
+
+export const ChatIntroductionCard = [
+  {
+    id: 'chat-introduction-1',
+    title: 'Discover yourself',
+    description:
+      "Delve into your story to uncover what truly drives you. By recognizing these values, you'll better navigate your major and school choices.",
+  },
+  {
+    id: 'chat-introduction-2',
+    title: 'Know what and how',
+    description:
+      'Learn what schools seek and how to craft standout essays with tutorials and examples. Analyze top essays to elevate your own.',
+  },
+  {
+    id: 'chat-introduction-3',
+    title: 'Being guided step by step',
+    description:
+      'Being guided step-by-step, much like a human teacher, to delve deep and uncover the core of your college essay narrative',
+  },
+];
+
+export const moduleMenu = [
+  { id: 'module-01', title: 'Overview' },
+  { id: 'module-02', title: 'Academic achievements' },
+  { id: 'module-03', title: 'Previous Experience' },
+  { id: 'module-04', title: 'Program Fit' },
+  { id: 'module-05', title: 'Career Path' },
+];
+
+export const moduleInfo = [
+  {
+    id: 'info1',
+    value: [
+      {
+        id: 'info1-sub-1',
+        title: 'AI-Powered Brainstorming',
+        info: "We'll have several sections and will brainstorm with you in each section through dialogue with AI. At the end of each section, we'll provide a summary and reflection. After completing all the sections, you can choose to generate an essay based on your experience, for reference only.",
+      },
+      {
+        id: 'info1-sub-2',
+        title: 'Designing Your Blueprint',
+        info: "For graduate school personal statements, schools want to know who you are, which program you're applying to, and why. Therefore, we'll brainstorm with you focusing on motivations, academic achievements, previous experiences, program fit, and future career goals. This will likely mirror your essay's structure as well.",
+      },
+      {
+        id: 'info1-sub-3',
+        title: 'Read All',
+        info: 'Please take your time to read all the provided information, so you can fully understand how to craft an effective graduate school essay.',
+      },
+    ],
+  },
+  { id: 'info2', value: [] },
+  { id: 'info3', value: [] },
+  { id: 'info4', value: [] },
+  { id: 'info5', value: [] },
+];
