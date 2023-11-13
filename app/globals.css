@@ -41,11 +41,11 @@ html {
   }
 
   .h3-bold {
-    @apply text-[24px] font-[700] leading-[140%];
+    @apply text-[24px] font-[600] leading-[140%];
   }
 
   .h3-semibold {
-    @apply text-[24px] font-[600] leading-[140%];
+    @apply text-[24px] font-[500] leading-[140%];
   }
 
   .h3-light {
@@ -74,6 +74,10 @@ html {
 
   .base-regular {
     @apply text-[16px] font-[400] leading-[140%];
+  }
+
+  .base-light {
+    @apply text-[16px] font-[300] leading-[140%];
   }
 
   .body-bold {
@@ -179,7 +183,7 @@ html {
   }
 
   .chat-mode {
-    @apply flex hover:opacity-50 cursor-pointer flex-col items-center justify-center rounded-[10px] bg-hover-100 md:h-[32rem] gap-y-4 md:w-[33rem] px-12
+    @apply flex hover:opacity-50 cursor-pointer flex-col items-center justify-center rounded-[10px] bg-hover-100 md:h-[25rem] gap-y-4 md:w-[27rem] px-12
   }
 }
 

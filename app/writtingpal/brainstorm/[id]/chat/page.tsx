@@ -30,9 +30,8 @@ export default function Page() {
               priority
             />
           </div>
-
-          <h1 className='h2-bold self-start'>Collaboration Mode</h1>
-          <p className='title-light'>
+          <h1 className='h3-bold self-start'>Collaboration Mode</h1>
+          <p className='base-light '>
             Start by brainstorming past experiences and write step by step!
           </p>
         </div>
@@ -48,8 +47,8 @@ export default function Page() {
             />
           </div>
 
-          <h1 className='h2-bold self-start'>Reference Mode</h1>
-          <p className='title-light'>
+          <h1 className='h3-bold self-start'>Reference Mode</h1>
+          <p className='base-light '>
             I already have a plan! Start by filling out information on my
             experiences and get sample essays!
           </p>
