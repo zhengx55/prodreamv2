@@ -1,4 +1,6 @@
 import React, { memo } from 'react';
+import ChatIconOption from './ChatIconOption';
+import { messageOptions } from '@/constant';
 
 type Props = {};
 
@@ -25,11 +27,23 @@ const MineMessagLoading = () => {
 const ChatMessageList = (props: Props) => {
   return (
     <div className='custom-scrollbar flex w-full select-text flex-col gap-y-14 overflow-y-auto px-1 pb-[70px]'>
-      <div className='flex w-[80%] self-start rounded-[20px] bg-shadow-200 px-3 py-3 font-[300] text-black-700'>
-        Thanks for this information! Does the curriculum at Harvard interests
-        you?
+      <div className='flex-center w-[80%] flex-col self-start rounded-[20px] bg-shadow-200 p-6'>
+        <p className='font-[300] text-black-700'>
+          Thanks for this information! Does the curriculum at Harvard interests
+          you?
+        </p>
+        <div className='mt-2 flex flex-wrap gap-2'>
+          {messageOptions.map((item) => (
+            <ChatIconOption
+              theme={item.theme}
+              title={item.title}
+              icon={item.icon}
+              key={item.id}
+            />
+          ))}
+        </div>
       </div>
-      <div className='flex w-[80%] self-end rounded-[20px] border-[3px] border-shadow-200 bg-white px-3 py-3 font-[300] text-black-700'>
+      <div className='flex w-[80%] self-end rounded-[20px] border-[3px] border-shadow-200 bg-white p-6 font-[300] text-black-700'>
         the program&apos;s comprehensive curriculum, which covers statistical
         analysis, data mining, machine learning, and data visualization, will
         equip me with the essential skills to analyze complex data sets and

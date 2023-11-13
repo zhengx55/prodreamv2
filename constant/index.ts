@@ -356,3 +356,42 @@ export const moduleInfo = [
   { id: 'info4', value: [] },
   { id: 'info5', value: [] },
 ];
+
+export const messageOptions = [
+  {
+    id: 'chat-message-options-1',
+    title: 'Internship/Work',
+    icon: '/messages/briefcase.svg',
+    theme: 'rgba(144, 104, 208, 0.2)',
+  },
+  {
+    id: 'chat-message-options-2',
+    title: 'Extracurricular',
+    icon: '/messages/extracurricular.svg',
+    theme: 'rgba(230, 138, 29, 0.2)',
+  },
+  {
+    id: 'chat-message-options-3',
+    title: 'Competition',
+    icon: '/messages/trophy.svg',
+    theme: 'rgba(82, 186, 105, 0.2)',
+  },
+  {
+    id: 'chat-message-options-4',
+    title: 'Volunteer',
+    icon: '/messages/people.svg',
+    theme: 'rgba(255, 177, 177, 0.2)',
+  },
+  {
+    id: 'chat-message-options-5',
+    title: 'Research',
+    icon: '/messages/research.svg',
+    theme: 'rgba(254, 202, 255, 0.2)',
+  },
+  {
+    id: 'chat-message-options-6',
+    title: 'Others',
+    icon: '/messages/others.svg',
+    theme: 'rgba(0, 132, 255, 0.2)',
+  },
+];

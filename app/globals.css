@@ -33,7 +33,7 @@ html {
   }
 
   .h1-regular {
-    @apply text-[2rem] font-[400] leading-[140%];
+    @apply text-[28px] font-[400] leading-[140%];
   }
 
   .h2-bold {
