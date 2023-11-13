@@ -1,9 +1,11 @@
+import { moduleExample } from '@/constant';
 import Image from 'next/image';
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 
-type Props = {};
+type Props = { step: number };
 
-const ChatInfo = (props: Props) => {
+const ChatInfo = ({ step }: Props) => {
+  const [tab, setTabs] = useState(0);
   return (
     <div className='flex w-full flex-col gap-y-7'>
       <div className='relative h-[320px] w-full'>
@@ -16,16 +18,30 @@ const ChatInfo = (props: Props) => {
         />
       </div>
       {/* tabs */}
-      <div className='flex h-[48px] w-[332px] rounded-xl border border-shadow-border p-1'>
-        <div className='flex-center h-full w-[50%] cursor-pointer rounded-xl hover:bg-shadow-200'>
+      <div className='bg-shadow-50 flex h-[48px] w-[332px] rounded-xl border border-shadow-border p-1'>
+        <div
+          onClick={() => setTabs(0)}
+          className={`${
+            tab === 0 && 'bg-white'
+          } flex-center h-full w-[50%] cursor-pointer rounded-xl hover:bg-white`}
+        >
           Notes
         </div>
-        <div className='flex-center h-full w-[50%] cursor-pointer rounded-xl hover:bg-shadow-200'>
+        <div
+          onClick={() => setTabs(1)}
+          className={`${
+            tab === 1 && 'bg-white'
+          } flex-center h-full w-[50%] cursor-pointer rounded-xl hover:bg-white`}
+        >
           Examples
         </div>
       </div>
       {/* info */}
-      <div className='flex h-[387px] w-full flex-col rounded-xl border border-shadow-border'></div>
+      <div className='flex h-[387px] w-full flex-col items-center rounded-xl border border-shadow-border p-5'>
+        {tab === 1 ? (
+          <p className='base-regular'>{moduleExample[step.toString()]}</p>
+        ) : null}
+      </div>
     </div>
   );
 };

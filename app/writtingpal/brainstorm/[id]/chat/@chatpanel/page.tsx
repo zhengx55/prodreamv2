@@ -49,18 +49,18 @@ const ChatPanel = () => {
         {steps === 1
           ? ChatSteps.EDUCATION
           : steps === 2
-          ? ChatSteps.EDUCATION
-          : steps === 3
-          ? ChatSteps.PLANNING
-          : steps === 4
-          ? ChatSteps.PREVIOUS
-          : ChatSteps.REASON}
+            ? ChatSteps.EDUCATION
+            : steps === 3
+              ? ChatSteps.PLANNING
+              : steps === 4
+                ? ChatSteps.PREVIOUS
+                : ChatSteps.REASON}
       </h2>
       {/* max-h-[calc(100vh_-var(--chatpanel-padding))] */}
       <div className='my-4 flex h-fit max-h-full w-full flex-col gap-x-8 md:flex-row'>
         {/* chatpanel leftscetion */}
         <div className='flex-[0.3] flex-col'>
-          <ChatInfo />
+          <ChatInfo step={steps} />
         </div>
         {/* chatpanel middlesection  */}
         <div className='relative flex h-full flex-[0.5] flex-col'>

@@ -492,3 +492,11 @@ export const messageOptions = [
     theme: 'rgba(0, 132, 255, 0.2)',
   },
 ];
+
+export const moduleExample: Record<string, string> = {
+  '1': " At the age of six, the mesmerizing experience of traveling on a train from a small town to the vibrant heart of New York City might have sparked an individual's passion. The allure of the train's movement and the adventure it represented could have been the catalyst, with pages of sketches highlighting this newfound love. Such an early enchantment may very well serve as the foundation for a lifelong commitment to mechanical engineering.",
+  '2': "I completed my Bachelor's of Science degree in Physics at MIT, achieving an impressive GPA of 3.8. One of the standout moments during my studies was excelling in 'Quantum Mechanics 101,' where I received an 'A' grade.",
+  '3': 'During my time as an intern at BioTech Corp, I was tasked with the analysis of genetic sequences. Despite the weight of the responsibility, I streamlined the methodology, leading to a noteworthy 20% efficiency increase.',
+  '4': 'After engaging with XYZ University alumni, I was drawn to the tight-knit community and the emphasis on interdisciplinary learning, which aligns with my own beliefs.',
+  '5': 'I aim to become a Machine Learning Specialist, dedicated to developing algorithms that detect early signs of diseases through medical imaging.',
+};
