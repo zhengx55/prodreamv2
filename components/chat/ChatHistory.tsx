@@ -18,7 +18,9 @@ const ChatHistory = ({ onNavigation, current }: Props) => {
         }}
       >
         <h1 className='base-semibold'>{ChatSteps.MOVTIVATION}</h1>
-        <p className='subtle-medium'>Text to speech voice: Introducing...</p>
+        <p className='subtle-medium text-shadow'>
+          Text to speech voice: Introducing...
+        </p>
       </div>
       <div
         className={`${
@@ -29,7 +31,9 @@ const ChatHistory = ({ onNavigation, current }: Props) => {
         }}
       >
         <h1 className='base-semibold'>{ChatSteps.EDUCATION}</h1>
-        <p className='subtle-medium'>Text to speech voice: Introducing...</p>
+        <p className='subtle-medium text-shadow'>
+          Text to speech voice: Introducing...
+        </p>
       </div>
       <div
         className={`${
@@ -40,7 +44,9 @@ const ChatHistory = ({ onNavigation, current }: Props) => {
         }}
       >
         <h1 className='base-semibold'>{ChatSteps.PREVIOUS}</h1>
-        <p className='subtle-medium'>Text to speech voice: Introducing...</p>
+        <p className='subtle-medium text-shadow'>
+          Text to speech voice: Introducing...
+        </p>
       </div>
       <div
         className={`${
@@ -51,7 +57,9 @@ const ChatHistory = ({ onNavigation, current }: Props) => {
         }}
       >
         <h1 className='base-semibold'>{ChatSteps.PLANNING}</h1>
-        <p className='subtle-medium'>Text to speech voice: Introducing...</p>
+        <p className='subtle-medium text-shadow'>
+          Text to speech voice: Introducing...
+        </p>
       </div>
       <div
         className={`${
@@ -62,7 +70,9 @@ const ChatHistory = ({ onNavigation, current }: Props) => {
         }}
       >
         <h1 className='base-semibold'>{ChatSteps.REASON}</h1>
-        <p className='subtle-medium'>Text to speech voice: Introducing...</p>
+        <p className='subtle-medium text-shadow'>
+          Text to speech voice: Introducing...
+        </p>
       </div>
     </div>
   );
