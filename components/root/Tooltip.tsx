@@ -22,7 +22,7 @@ const Tooltip = ({
       <UITooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent>
-          <p className={cn(contentClassname, 'text-regular text-black-300')}>
+          <p className={cn(contentClassname, 'text-regular text-white')}>
             {tooltipContent}
           </p>
         </TooltipContent>

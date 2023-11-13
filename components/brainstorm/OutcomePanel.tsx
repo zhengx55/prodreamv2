@@ -89,7 +89,7 @@ const OutcomePanel = ({
                 <Download size={18} />
               </div>
             </Tooltip>
-            <Tooltip tooltipContent='...'>
+            <Tooltip tooltipContent='Rating'>
               <div className='tooltip'>
                 <Trophy size={18} />
               </div>

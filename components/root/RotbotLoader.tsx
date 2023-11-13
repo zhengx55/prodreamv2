@@ -1,7 +1,7 @@
 'use client';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 const RotbotLoader = ({
   label,
   labelClass,
@@ -108,4 +108,4 @@ const RotbotLoader = ({
   );
 };
 
-export default RotbotLoader;
+export default memo(RotbotLoader);
