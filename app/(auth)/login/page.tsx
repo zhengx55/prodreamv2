@@ -1,3 +1,9 @@
+import Panel from '@/components/auth/Panel';
+
 export default function Page() {
-  return <main>login</main>;
+  return (
+    <section className='flex-center flex-1'>
+      <Panel>hello</Panel>
+    </section>
+  );
 }

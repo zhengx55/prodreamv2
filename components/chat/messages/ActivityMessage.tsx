@@ -1,3 +1,4 @@
+'use client';
 import React, { memo, useState } from 'react';
 import ChatIconOption from '../ChatIconOption';
 import { messageOptions } from '@/constant';
