@@ -12,7 +12,7 @@ html {
   }
 
   body {
-    @apply min-h-screen select-text font-poppins;
+    @apply min-h-screen select-text font-poppins antialiased;
   }
 }
 
