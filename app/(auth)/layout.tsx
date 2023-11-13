@@ -9,7 +9,9 @@ export default function WrittingpalLayout({
 }) {
   return (
     <div className='relative flex h-full w-full flex-col overflow-x-auto bg-auth bg-cover bg-center bg-no-repeat'>
-      <AnimatedLogo pathFill='#fff' className='absolute left-20 top-10' show />
+      <div className='flex w-full pl-20 pt-10'>
+        <AnimatedLogo pathFill='#fff' show />
+      </div>
       {children}
     </div>
   );

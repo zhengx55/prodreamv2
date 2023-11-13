@@ -125,7 +125,7 @@ export default function Page() {
         <GoogleSignin />
         <p className='small-regular mt-8 self-center text-black-200'>
           Don&apos;t have an account?&nbsp;
-          <Link href={'/'} className='text-primary-200'>
+          <Link href={'/signup'} className='text-primary-200'>
             Sign up
           </Link>
         </p>

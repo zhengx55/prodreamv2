@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 
 const Panel = ({ children }: { children: ReactNode }) => {
   return (
-    <div className='flex w-[90%] flex-col rounded-[32px] bg-white px-10 py-20 md:w-[570px] '>
+    <div className='flex w-[90%] flex-col rounded-[32px] bg-white p-10 md:w-[640px] '>
       {children}
     </div>
   );
