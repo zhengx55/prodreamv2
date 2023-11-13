@@ -25,6 +25,7 @@ export default function Page() {
               alt='collaboration-mode'
               src='/comode.png'
               className='w-auto object-contain'
+              sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
               fill
               priority
             />
@@ -43,6 +44,7 @@ export default function Page() {
               className='w-auto object-contain'
               fill
               priority
+              sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
             />
           </div>
 

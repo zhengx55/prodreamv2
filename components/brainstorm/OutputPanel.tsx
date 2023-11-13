@@ -7,9 +7,15 @@ import OutcomePanel from './OutcomePanel';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { clearHistory } from '@/store/reducers/brainstormSlice';
 import { useQueryEssay } from '@/query/query';
-import { selectTaskId, setTaskId } from '@/store/reducers/essaySlice';
+import { clearEssay, selectTaskId } from '@/store/reducers/essaySlice';
 
-const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
+const OutputPanel = ({
+  submitPending,
+  submitError,
+}: {
+  submitPending: boolean;
+  submitError: boolean;
+}) => {
   const [tab, setTab] = useState<number>(0);
   const dispatch = useAppDispatch();
   const printIndexRef = useRef<number>(0);
@@ -28,7 +34,11 @@ const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
     setTab(value);
   }, []);
 
-  const { refetch: essayRefetch, data: queryEssay } = useQueryEssay(task_id);
+  const {
+    refetch: essayRefetch,
+    data: queryEssay,
+    error,
+  } = useQueryEssay(task_id);
 
   useEffect(() => {
     const pollInterval = setInterval(() => {
@@ -49,6 +59,7 @@ const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
   useEffect(() => {
     return () => {
       dispatch(clearHistory());
+      dispatch(clearEssay());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -91,6 +102,7 @@ const OutputPanel = ({ submitPending }: { submitPending: boolean }) => {
             <MemoizedHistoryPanelCSR handleTabChange={handleTabChange} />
           ) : tab === 0 ? (
             <OutcomePanel
+              isSubmitError={submitError}
               printIndexRef={printIndexRef}
               shouldAnimate={shouldAnimate}
               turnOffAnimate={turnOffAnimate}

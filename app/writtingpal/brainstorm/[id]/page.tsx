@@ -10,8 +10,11 @@ import { redirect } from 'next/navigation';
 export default function Page({ params }: { params: { id: string } }) {
   // !test hard code chat id
 
-  const { isPending: isSubmitPending, mutateAsync: submitEssay } =
-    useEssayWriting();
+  const {
+    isPending: isSubmitPending,
+    mutateAsync: submitEssay,
+    isError: isSubmitError,
+  } = useEssayWriting();
 
   if (params.id === '820e6ec3bb1648958140ffac066836e9') {
     redirect(`/writtingpal/brainstorm/${params.id}/chat`);
@@ -37,7 +40,10 @@ export default function Page({ params }: { params: { id: string } }) {
             minSize={45}
             defaultSize={50}
           >
-            <OutputPanel submitPending={isSubmitPending} />
+            <OutputPanel
+              submitPending={isSubmitPending}
+              submitError={isSubmitError}
+            />
           </Panel>
         </PanelGroup>
       </main>

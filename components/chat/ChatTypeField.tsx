@@ -12,6 +12,16 @@ import { motion } from 'framer-motion';
 
 type Props = { onSendMessage: (value: string) => void };
 
+const ChatTypeLoading = () => {
+  return (
+    <div className='absolute bottom-6 right-5 flex gap-x-1'>
+      <span className='h-2 w-2 animate-bounce rounded-full bg-dot' />
+      <span className='h-2 w-2 animate-bounce rounded-full bg-dot delay-100' />
+      <span className='h-2 w-2 animate-bounce rounded-full bg-dot delay-200' />
+    </div>
+  );
+};
+
 const ChatTypeField = ({ onSendMessage }: Props) => {
   const [message, setMessage] = useState<string>('');
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -59,11 +69,7 @@ const ChatTypeField = ({ onSendMessage }: Props) => {
       />
 
       {InputLoading ? (
-        <div className='absolute bottom-6 right-5 flex gap-x-1'>
-          <span className='h-2 w-2 animate-bounce rounded-full bg-dot' />
-          <span className='h-2 w-2 animate-bounce rounded-full bg-dot delay-100' />
-          <span className='h-2 w-2 animate-bounce rounded-full bg-dot delay-200' />
-        </div>
+        <ChatTypeLoading />
       ) : (
         <div
           className='flex-center absolute bottom-4 right-5 h-8 w-8 cursor-pointer rounded-xl bg-primary-200 leading-none transition-transform hover:-translate-y-1'

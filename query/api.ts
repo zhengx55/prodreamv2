@@ -129,6 +129,9 @@ export async function SubmitEssayWritting(
       }
     );
     const data = await res.json();
+    if (data.error) {
+      throw new Error(data.error as string);
+    }
     return data.data;
   } catch (error) {
     throw new Error(error as string);
