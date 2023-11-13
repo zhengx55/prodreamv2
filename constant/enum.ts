@@ -10,6 +10,6 @@ export enum ChatSteps {
   MOVTIVATION = 'Motivation',
   EDUCATION = 'Educational Experience',
   PREVIOUS = 'Previous Experience',
-  PLANNING = 'Career Planing',
-  REASON = 'Reasons for Choosing this Program',
+  PLANNING = 'Why School',
+  REASON = 'Career Goal',
 }

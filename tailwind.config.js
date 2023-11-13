@@ -38,6 +38,7 @@ module.exports = {
           100: '#F7F9FC',
         },
         shadow: '#797979',
+        'shadow-50': '#F9F9F9',
         'shadow-100': '#828282',
         'shadow-200': '#F3F5F7',
         'shadow-300': '#5A5A5A',
