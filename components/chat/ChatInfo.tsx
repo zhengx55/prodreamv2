@@ -1,4 +1,4 @@
-import { moduleExample } from '@/constant';
+import { moduleExample, moduleNotes } from '@/constant';
 import Image from 'next/image';
 import React, { memo, useState } from 'react';
 
@@ -18,7 +18,7 @@ const ChatInfo = ({ step }: Props) => {
         />
       </div>
       {/* tabs */}
-      <div className='bg-shadow-50 flex h-[48px] w-[332px] rounded-xl border border-shadow-border p-1'>
+      <div className='flex h-[48px] w-[332px] rounded-xl border border-shadow-border bg-shadow-50 p-1'>
         <div
           onClick={() => setTabs(0)}
           className={`${
@@ -40,7 +40,9 @@ const ChatInfo = ({ step }: Props) => {
       <div className='flex h-[387px] w-full flex-col items-center rounded-xl border border-shadow-border p-5'>
         {tab === 1 ? (
           <p className='base-regular'>{moduleExample[step.toString()]}</p>
-        ) : null}
+        ) : (
+          <p className='base-regular'>{moduleNotes[step.toString()]}</p>
+        )}
       </div>
     </div>
   );
