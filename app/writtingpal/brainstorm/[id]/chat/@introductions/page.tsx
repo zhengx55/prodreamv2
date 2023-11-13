@@ -3,11 +3,12 @@ import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
 import { ChatIntroductionCard, moduleInfo, moduleMenu } from '@/constant';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
 
 export default function Page() {
   const { updateCurrentRoute } = useChatNavigatorContext();
-
+  const [module, setModule] = useState(0);
   return (
     <motion.main
       key={'introduction'}
@@ -25,7 +26,7 @@ export default function Page() {
           {ChatIntroductionCard.map((item) => (
             <div
               key={item.id}
-              className='flex h-[240px] w-[370px] flex-col gap-y-8 rounded-lg border border-shadow-border p-6 shadow-card'
+              className='flex h-[240px] w-[340px] flex-col gap-y-8 rounded-lg border border-shadow-border p-6 shadow-card'
             >
               <h3 className='body-medium text-black-500'>{item.title}</h3>
               <p className='small-regular leading-7 text-shadow-300'>
@@ -36,32 +37,44 @@ export default function Page() {
         </div>
         <h2 className='h3-semibold mt-12'>What does this module cover?</h2>
         <div className='mt-5 flex h-[450px] '>
-          <div className='flex w-[268px] flex-col'>
+          <div className='flex w-[240px] flex-col'>
             {moduleMenu.map((item, index) => (
               <div
-                className={`flex h-[52px] w-[268px] cursor-pointer items-center rounded-bl-xl rounded-tl-xl px-4 hover:bg-primary-50 hover:text-primary-200`}
+                onClick={() => setModule(index)}
+                className={`flex ${
+                  module === index ? 'bg-primary-50 text-primary-200' : ''
+                } h-[52px] w-full cursor-pointer items-center rounded-bl-xl rounded-tl-xl px-4 hover:bg-primary-50 hover:text-primary-200`}
                 key={item.id}
               >
                 {item.title}
               </div>
             ))}
           </div>
-          <div className='grid w-[836px] grid-cols-1'>
-            {moduleInfo[0].value.map((item, index) => (
-              <div
-                key={item.id}
-                className='flex gap-x-16 border border-shadow-border p-6'
-              >
-                <h1 className='h3-semibold'>{index}</h1>
-                <p className='small-regular leading-6 text-shadow-300'>
-                  <span className='font-[600] text-black-200'>
-                    {item.title}:{' '}
-                  </span>
-                  {item.info}
-                </p>
-              </div>
-            ))}
-          </div>
+          <AnimatePresence mode='wait'>
+            <motion.div
+              key={module}
+              initial={{ x: -10, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: 10, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className='grid w-[820px] grid-cols-1'
+            >
+              {moduleInfo[module].value.map((item, index) => (
+                <div
+                  key={item.id}
+                  className='flex gap-x-16 border border-shadow-border p-6'
+                >
+                  <h1 className='h3-semibold'>{index}</h1>
+                  <p className='small-regular leading-6 text-shadow-300'>
+                    <span className='font-[600] text-black-200'>
+                      {item.title}:{' '}
+                    </span>
+                    {item.info}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
         <Button
           onClick={() => updateCurrentRoute('chatPanel')}

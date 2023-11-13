@@ -323,11 +323,12 @@ export const ChatIntroductionCard = [
 ];
 
 export const moduleMenu = [
-  { id: 'module-01', title: 'Overview' },
+  { id: 'module-00', title: 'Overview' },
+  { id: 'module-01', title: 'Motivation' },
   { id: 'module-02', title: 'Academic achievements' },
   { id: 'module-03', title: 'Previous Experience' },
-  { id: 'module-04', title: 'Program Fit' },
-  { id: 'module-05', title: 'Career Path' },
+  { id: 'module-04', title: 'Why School' },
+  { id: 'module-05', title: 'Career Goal' },
 ];
 
 export const moduleInfo = [
@@ -351,10 +352,106 @@ export const moduleInfo = [
       },
     ],
   },
-  { id: 'info2', value: [] },
-  { id: 'info3', value: [] },
-  { id: 'info4', value: [] },
-  { id: 'info5', value: [] },
+  {
+    id: 'info2',
+    value: [
+      {
+        id: 'info2-sub-1',
+        title: 'Genuine Interest',
+        info: "Clearly convey your genuine passion for the field or subject you're pursuing. It's essential to show that your interest isn't superficial but has depth, backed by experiences or persistent curiosity.",
+      },
+      {
+        id: 'info2-sub-2',
+        title: 'Personal Connection',
+        info: 'Share a personal story or experience that led to your decision to pursue this particular path. This creates a personal connection and can make your motivation more relatable and compelling.',
+      },
+      {
+        id: 'info2-sub-3',
+        title: 'Future Goals',
+        info: "Outline how this path aligns with your long-term goals. Demonstrating that you've thought about how this degree or position fits into your broader life plan can underscore the depth of your motivation.",
+      },
+    ],
+  },
+  {
+    id: 'info3',
+    value: [
+      {
+        id: 'info3-sub-1',
+        title: 'Achievements and Outcomes',
+        info: 'Detail specific accomplishments in your academic research, such as published papers, research projects, or any awards related to your field of study. These showcase your expertise and results in the domain.',
+      },
+      {
+        id: 'info3-sub-2',
+        title: 'Depth and Challenges',
+        info: "Describe academic challenges you've encountered and how you overcame them. This can reflect your problem-solving skills, critical thinking, and resilience when faced with adversity.",
+      },
+      {
+        id: 'info3-sub-3',
+        title: 'Collaboration and Mentorship',
+        info: "If you've collaborated with other scholars or have been mentored by a professor on a particular project, discuss these experiences. This demonstrates your ability to work in teams, engage in academic discussions, and learn and grow from others.",
+      },
+    ],
+  },
+  {
+    id: 'info4',
+    value: [
+      {
+        id: 'info4-sub-1',
+        title: 'Role and Contribution',
+        info: 'Specify the roles you held and the responsibilities you undertook. Highlight any significant contributions or changes you made during your tenure, demonstrating your impact and ability to add value.',
+      },
+      {
+        id: 'info4-sub-2',
+        title: 'Skills and Learnings',
+        info: 'Discuss the skills you acquired and how they make you a better candidate for your desired program. Relate the learnings from these experiences to how they can be applied to future academic and professional pursuits.',
+      },
+      {
+        id: 'info4-sub-3',
+        title: 'Professional Growth and Development',
+        info: 'Reflect on challenges you faced, how you addressed them, and what you learned in the process. Emphasize moments of growth, leadership opportunities, and any feedback or mentorship that helped shape your professional journey.',
+      },
+    ],
+  },
+  {
+    id: 'info5',
+    value: [
+      {
+        id: 'info4-sub-1',
+        title: 'How the Program Supports These Goals',
+        info: "Highlight how the program you're applying to is a critical stepping stone in reaching these career objectives. Detail specific offerings of the program, such as specialized courses, internships, or networking opportunities, that will equip you with the skills and knowledge necessary to achieve your goals.",
+      },
+      {
+        id: 'info4-sub-2',
+        title: 'Specific faculty interest',
+        info: 'Showcase your thorough research by mentioning specific faculty members whose work you admire or wish to collaborate with, as well as other specific research initiatives or resources that attracted you.',
+      },
+      {
+        id: 'info4-sub-3',
+        title: 'Campus Culture and Community',
+        info: "Reflect on the school's culture, values, and community, explaining how they align with your own beliefs and personality. Whether through campus visits, interactions with current students, or participation in school events, convey a genuine desire to both contribute to and benefit from the school's community.",
+      },
+    ],
+  },
+  {
+    id: 'info6',
+    value: [
+      {
+        id: 'info6-sub-1',
+        title: 'Specificity',
+        info: 'Clearly define your short-term and long-term career objectives. Instead of vague aspirations, mention specific roles, industries, or areas of interest you aim to explore or contribute to.',
+      },
+      {
+        id: 'info6-sub-2',
+        title: 'Feasibility',
+        info: "Ensure your goals are realistic and attainable given your past experiences and the prospective education or training from the institution to which you're applying. This showcases that you've thoughtfully considered your path.",
+      },
+      {
+        id: 'info6-sub-3',
+        title: 'Alignment with Program',
+        info: "Demonstrate how the program's offerings, be it courses, faculty, or resources, will bridge the gap between your current skill set and the requirements of your desired career path. This shows that your career goals aren't just aspirations but are backed by a strategic plan.",
+      },
+    ],
+  },
 ];
 
 export const messageOptions = [
