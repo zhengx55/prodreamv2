@@ -27,12 +27,12 @@ const MineMessagLoading = () => {
 const ChatMessageList = (props: Props) => {
   return (
     <div className='custom-scrollbar flex w-full select-text flex-col gap-y-14 overflow-y-auto px-1 pb-[70px]'>
-      <div className='flex-center w-[80%] flex-col self-start rounded-[20px] bg-shadow-200 p-6'>
+      <div className='flex w-[80%] flex-col self-start rounded-[20px] bg-shadow-200 p-6'>
         <p className='font-[300] text-black-700'>
           Thanks for this information! Does the curriculum at Harvard interests
           you?
         </p>
-        <div className='mt-2 flex flex-wrap gap-2'>
+        <div className='mt-2 flex flex-wrap gap-4'>
           {messageOptions.map((item) => (
             <ChatIconOption
               theme={item.theme}

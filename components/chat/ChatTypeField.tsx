@@ -62,7 +62,7 @@ const ChatTypeField = ({ onSendMessage }: Props) => {
         rows={1}
         disabled={InputLoading}
         placeholder='Type your message...'
-        className='text-md max-h-[220px] min-h-[62px] w-[99%] resize-none py-4 pr-14 focus-visible:shadow-textarea focus-visible:ring-0'
+        className='max-h-[220px] min-h-[58px] w-[99%] resize-none py-4 pr-14 text-[16px] focus-visible:shadow-textarea focus-visible:ring-0'
         value={message}
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
