@@ -23,7 +23,7 @@ const ChatInfo = ({ step }: Props) => {
           onClick={() => setTabs(0)}
           className={`${
             tab === 0 && 'bg-primary-50 text-primary-200'
-          } flex-center h-full w-[50%] cursor-pointer rounded-xl hover:bg-white`}
+          } flex-center base-medium h-full w-[50%] cursor-pointer rounded-xl text-black-300 hover:bg-white`}
         >
           Notes
         </div>
@@ -31,19 +31,19 @@ const ChatInfo = ({ step }: Props) => {
           onClick={() => setTabs(1)}
           className={`${
             tab === 1 && 'bg-primary-50 text-primary-200'
-          } flex-center h-full w-[50%] cursor-pointer rounded-xl hover:bg-white`}
+          } flex-center base-medium h-full w-[50%] cursor-pointer rounded-xl text-black-300 hover:bg-white`}
         >
           Examples
         </div>
       </div>
       {/* info */}
-      <div className='custom-scrollbar flex max-h-full w-full overflow-y-auto'>
+      <ul className='custom-scrollbar flex max-h-full w-full overflow-y-auto'>
         {tab === 1 ? (
-          <p className='small-regular'>{moduleExample[step.toString()]}</p>
+          <li className='small-regular'>{moduleExample[step.toString()]}</li>
         ) : (
-          <p className='small-regular'>{moduleNotes[step.toString()]}</p>
+          <li className='small-regular'>{moduleNotes[step.toString()]}</li>
         )}
-      </div>
+      </ul>
     </div>
   );
 };
