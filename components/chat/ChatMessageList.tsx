@@ -1,4 +1,11 @@
-import React, { Fragment, memo, useCallback, useEffect, useState } from 'react';
+import React, {
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import EditableMessage from './messages/EditableMessage';
 import {
   MineMessagLoading,
@@ -17,6 +24,7 @@ type Props = {
 
 const ChatMessageList = ({ messageList }: Props) => {
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const chatPanelRef = useRef<HTMLDivElement>(null);
   const [currentMessageList, setCurrentMessageList] = useState<
     {
       from: 'mine' | 'robot';
@@ -43,6 +51,20 @@ const ChatMessageList = ({ messageList }: Props) => {
     },
     []
   );
+
+  const scrollToBottom = () => {
+    if (chatPanelRef.current) {
+      console.log(123);
+      chatPanelRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  });
+
   const {
     mutateAsync: sendMessage,
     isPending: isSending,
@@ -51,7 +73,10 @@ const ChatMessageList = ({ messageList }: Props) => {
 
   return (
     <>
-      <div className='custom-scrollbar flex w-full select-text flex-col gap-y-14 overflow-y-auto px-1 pb-[70px]'>
+      <div
+        ref={chatPanelRef}
+        className='custom-scrollbar flex w-full select-text flex-col gap-y-14 overflow-y-auto px-1 pb-[70px]'
+      >
         {/* <ActivityMessage />
       <EditableMessage /> */}
         <RobotMessage message={messageList.welcome} />
@@ -60,21 +85,15 @@ const ChatMessageList = ({ messageList }: Props) => {
           return (
             <Fragment key={`${index}-${item.from}`}>
               {item.from === 'mine' ? (
-                isMineMessageLoading ? (
-                  <MineMessagLoading />
-                ) : (
-                  <MineMessage message={item.message} />
-                )
-              ) : isRobotMessageLoading ? (
-                <RobotMessageLoading />
+                <MineMessage message={item.message} />
               ) : (
                 <RobotMessage message={item.message} />
               )}
             </Fragment>
           );
         })}
-        {/* <RobotMessageLoading />
-      <MineMessagLoading /> */}
+        {isMineMessageLoading && <MineMessagLoading />}
+        {isRobotMessageLoading && <RobotMessageLoading />}
         <ChatTypeField
           onSendMessage={sendMessage}
           isSending={isSending}

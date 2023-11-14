@@ -14,7 +14,13 @@ import { AnswerRequestParam } from '@/types';
 import { usePathname } from 'next/navigation';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import Image from 'next/image';
-
+function wait(milliseconds: number | undefined) {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve(); // 在指定的时间后，调用 resolve 完成 Promise
+    }, milliseconds);
+  });
+}
 type Props = {
   isSending: boolean;
   questionId: string;
@@ -91,10 +97,11 @@ const ChatTypeField = ({
         previousSessionids: [],
       });
       setMineMessageLoading(false);
+      setCurrentMessageList({ from: 'mine', message });
+      setRobotMessageLoading(true);
+      await wait(1000);
       setMessage('');
       ref.current.style.height = '58px';
-      setRobotMessageLoading(true);
-      setCurrentMessageList({ from: 'mine', message });
       const reader = response.body.getReader();
       const { value } = await reader.read();
       const chunk = new TextDecoder().decode(value);
