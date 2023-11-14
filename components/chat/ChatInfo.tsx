@@ -7,8 +7,8 @@ type Props = { step: number };
 const ChatInfo = ({ step }: Props) => {
   const [tab, setTabs] = useState(0);
   return (
-    <div className='flex w-full flex-col gap-y-7'>
-      <div className='relative h-[320px] w-full'>
+    <div className='flex w-full flex-col gap-y-4 pr-10'>
+      <div className='relative h-40 w-40 self-center rounded-full bg-[#9068D033]'>
         <Image
           alt='chatavatar'
           src='/chatAvatar.png'
@@ -18,7 +18,7 @@ const ChatInfo = ({ step }: Props) => {
         />
       </div>
       {/* tabs */}
-      <div className='flex h-[48px] w-[332px] rounded-xl border border-shadow-border bg-shadow-50 p-1'>
+      <div className='flex h-[48px] w-full rounded-xl border border-shadow-border bg-shadow-50 p-1'>
         <div
           onClick={() => setTabs(0)}
           className={`${
@@ -37,7 +37,7 @@ const ChatInfo = ({ step }: Props) => {
         </div>
       </div>
       {/* info */}
-      <div className='custom-scrollbar flex h-[387px] w-full flex-col items-center overflow-y-auto rounded-xl border border-shadow-border p-5'>
+      <div className='custom-scrollbar flex h-[387px] w-full flex-col items-center overflow-y-auto'>
         {tab === 1 ? (
           <p className='base-regular'>{moduleExample[step.toString()]}</p>
         ) : (

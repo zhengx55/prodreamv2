@@ -29,16 +29,8 @@ const ChatPanel = () => {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-4 pt-5 md:pl-16 md:pr-4 md:pt-20'
+      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-4 pt-5 md:px-10 md:pt-10'
     >
-      <BackButton onBack={() => updateCurrentRoute('introductions')} />
-      <Button
-        onClick={handleTabNavigation}
-        className='absolute right-12 top-12'
-        size='expand'
-      >
-        Next
-      </Button>
       {/* steps */}
       <h2 className='h3-semibold self-start text-primary-200'>
         Step {steps} of 5:&nbsp;
@@ -53,21 +45,31 @@ const ChatPanel = () => {
                 : ChatSteps.REASON}
       </h2>
       {/* max-h-[calc(100vh_-var(--chatpanel-padding))] */}
-      <div className='my-4 flex h-fit max-h-full w-full flex-col gap-x-8 md:flex-row'>
+      <div className='my-4 flex h-fit max-h-full w-full flex-col md:flex-row'>
         {/* chatpanel leftscetion */}
         {!isQusetionFetchError && (
           <>
-            <div className='flex-[0.3] flex-col'>
+            <div className='flex-[0.25] flex-col'>
               <ChatInfo step={steps} />
             </div>
             {/* chatpanel middlesection  */}
-            <div className='relative flex h-full flex-[0.5] flex-col'>
+            <div className='relative flex flex-[0.5] flex-col p-4 md:h-full md:rounded-bl-lg md:rounded-tl-lg md:border md:border-shadow-border'>
               <ChatMessageList messageList={questions.questions[steps - 1]} />
             </div>
             {/* chatpanel chathistory */}
             <ChatHistory onNavigation={handleTabChange} current={steps} />
           </>
         )}
+      </div>
+      <div className='flex-between mt-10 w-full'>
+        <BackButton onBack={() => updateCurrentRoute('introductions')} />
+        <Button
+          onClick={handleTabNavigation}
+          className='slef-end'
+          size='expand'
+        >
+          Next
+        </Button>
       </div>
     </motion.section>
   );

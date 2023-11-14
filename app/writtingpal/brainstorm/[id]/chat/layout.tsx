@@ -39,6 +39,7 @@ export default function ChatLayout({
     isPending: isChatDataPending,
     isError: isChatDataError,
   } = useChatGuideQas(template_id);
+
   return isChatDataPending ? (
     <Loading />
   ) : (
@@ -54,7 +55,7 @@ export default function ChatLayout({
     >
       <AnimatePresence mode='wait'>
         {currentRoute === 'startup'
-          ? children
+          ? chatpanel
           : currentRoute === 'informations'
             ? informations
             : currentRoute === 'introductions'

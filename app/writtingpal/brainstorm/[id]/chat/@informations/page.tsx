@@ -57,19 +57,18 @@ export default function Page({}) {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-10 pt-20 md:px-0'
+      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-10 pt-[120px] md:px-0'
     >
-      <BackButton onBack={() => updateCurrentRoute('startup')} />
       <div className='flex max-w-3xl flex-col items-center'>
-        <h1 className='h3-semibold mt-10 capitalize'>
+        <h1 className='h3-bold capitalize'>
           Hi there 👋🏻!
           <br /> Before we start brainstorming on your essay, please share the
           program you are applying to 😊
         </h1>
-        <div className='title-light mt-14 h-[4.5rem] w-[605px] rounded-xl bg-shadow-200 p-6'>
+        <div className='base-semibold mt-20 self-start rounded-xl'>
           What school are you planning to apply to?
         </div>
-        <div className='relative mt-14 h-[4.5rem] w-[605px]'>
+        <div className='relative mt-8 h-14 w-full'>
           {errors.school && (
             <p className='absolute -top-7 text-sm text-red-500'>
               {errors.school}
@@ -79,16 +78,16 @@ export default function Page({}) {
             name='school'
             value={value.school}
             onChange={handleValueChange}
-            className={`title-light h-full w-full p-6 ${
+            className={`title-light h-full w-full ${
               errors.school && 'border-red-400'
             }`}
           />
         </div>
 
-        <div className='title-light mt-14  h-[4.5rem] w-[605px] rounded-xl bg-shadow-200 p-6'>
+        <div className='base-semibold mt-10 self-start rounded-xl'>
           What is the name of the program you want to apply to?
         </div>
-        <div className='relative mt-14  h-[4.5rem] w-[605px]'>
+        <div className='relative mt-8 h-14 w-full'>
           {errors.program && (
             <p className='absolute -top-7 text-sm text-red-500'>
               {errors.program}
@@ -98,19 +97,17 @@ export default function Page({}) {
             name='program'
             value={value.program}
             onChange={handleValueChange}
-            className={`title-light h-full w-full p-6 ${
+            className={`title-light h-full w-full ${
               errors.program && 'border-red-400'
             }`}
           />
         </div>
-
-        <Button
-          size={'expand'}
-          onClick={handleNextPage}
-          className='mt-14 self-end'
-        >
-          Next
-        </Button>
+        <div className='flex-between mt-20 w-full'>
+          <BackButton onBack={() => updateCurrentRoute('startup')} />
+          <Button size={'expand'} onClick={handleNextPage} className='self-end'>
+            Next
+          </Button>
+        </div>
       </div>
     </motion.main>
   );

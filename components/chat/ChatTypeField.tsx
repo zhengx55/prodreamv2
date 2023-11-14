@@ -13,6 +13,8 @@ import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { AnswerRequestParam } from '@/types';
 import { usePathname } from 'next/navigation';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import WorkInfo from '../resume/forms/workInfo';
+import Image from 'next/image';
 
 type Props = {
   isSending: boolean;
@@ -78,13 +80,23 @@ const ChatTypeField = ({ isSending, questionId, onSendMessage }: Props) => {
   };
 
   return (
-    <motion.div className='t absolute bottom-0 h-auto w-full bg-white'>
+    <motion.div className='absolute bottom-4 left-4 h-auto w-[calc(100%_-_2rem)] bg-white'>
+      <div className='flex-center absolute bottom-4 left-2 h-6 w-6 rounded-full bg-primary-200 '>
+        <Image
+          src='/robotoutline.png'
+          alt='robot'
+          width={20}
+          height={20}
+          priority
+        />
+      </div>
+
       <Textarea
         ref={ref}
         rows={1}
         disabled={isSending}
-        placeholder='Type your message...'
-        className='max-h-[220px] min-h-[58px] w-[99%] resize-none py-4 pr-14 text-[16px] focus-visible:shadow-textarea focus-visible:ring-0'
+        placeholder='Type to chat with Max!'
+        className='max-h-[220px] min-h-[58px] w-[99%] resize-none py-4 pl-8 pr-14 text-[16px] focus-visible:shadow-textarea focus-visible:ring-0'
         value={message}
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
@@ -93,12 +105,19 @@ const ChatTypeField = ({ isSending, questionId, onSendMessage }: Props) => {
       {isSending ? (
         <ChatTypeLoading />
       ) : (
-        <div
-          className='flex-center absolute bottom-4 right-5 h-8 w-8 cursor-pointer rounded-xl bg-primary-200 leading-none transition-transform hover:-translate-y-1'
-          onClick={sendMessage}
-        >
-          <Send className='shrink-0 text-white' size={18} />
-        </div>
+        <Image
+          alt='chatsent'
+          className='absolute bottom-4 right-5 cursor-pointer transition-transform hover:-translate-y-1'
+          src='/telegram_fill.svg'
+          width={23}
+          height={24}
+        />
+        //       <div
+        //   className='flex-center absolute bottom-4 right-5 h-8 w-8 cursor-pointer rounded-xl bg-primary-200 leading-none transition-transform hover:-translate-y-1'
+        //   onClick={sendMessage}
+        // >
+        //   <Send className='shrink-0 text-white' size={18} />
+        // </div>
       )}
     </motion.div>
   );

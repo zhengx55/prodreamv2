@@ -16,28 +16,39 @@ export default function Page() {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-10 pt-20 md:px-0'
+      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto py-10 md:px-10'
     >
-      <BackButton onBack={() => updateCurrentRoute('informations')} />
-      <div className='flex flex-col items-start '>
-        <h1 className='primary-title capitalize'>Introduction</h1>
-        <h2 className='h3-semibold mt-12'>Unleash your potential with us!</h2>
+      <div className='flex w-full flex-col items-start '>
+        <div className='flex-between w-full'>
+          <BackButton onBack={() => updateCurrentRoute('informations')} />
+          <Button
+            onClick={() => updateCurrentRoute('chatPanel')}
+            size={'expand'}
+            className='mt-10 self-end'
+          >
+            Next
+          </Button>
+        </div>
+        <h1 className='h3-bold capitalize'>Introduction</h1>
+        <h2 className='title-semibold mt-10'>
+          Unleash your potential with us!
+        </h2>
         <div className='mt-5 flex items-center gap-x-5'>
           {ChatIntroductionCard.map((item) => (
             <div
               key={item.id}
-              className='flex h-[240px] w-[340px] flex-col gap-y-8 rounded-lg border border-shadow-border p-6 shadow-card'
+              className='flex h-[140px] w-[33%] flex-col gap-y-2 rounded-lg border border-shadow-border px-6 py-4 shadow-card'
             >
-              <h3 className='body-medium text-black-500'>{item.title}</h3>
-              <p className='small-regular leading-7 text-shadow-300'>
+              <h3 className='base-medium text-black-500'>{item.title}</h3>
+              <p className='small-regular text-shadow-300'>
                 {item.description}
               </p>
             </div>
           ))}
         </div>
-        <h2 className='h3-semibold mt-12'>What does this module cover?</h2>
-        <div className='mt-5 flex h-[450px] '>
-          <div className='flex w-[240px] flex-col'>
+        <h2 className='title-semibold mt-12'>What does this module cover?</h2>
+        <div className='mt-3 flex h-[450px] '>
+          <div className='flex w-[20%] flex-col'>
             {moduleMenu.map((item, index) => (
               <div
                 onClick={() => setModule(index)}
@@ -57,12 +68,12 @@ export default function Page() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 10, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className='grid w-[820px] grid-cols-1'
+              className='grid w-[80%] grid-cols-1'
             >
               {moduleInfo[module].value.map((item, index) => (
                 <div
                   key={item.id}
-                  className='flex gap-x-16 border border-shadow-border p-6'
+                  className='flex gap-x-16 border border-shadow-border p-6 first:rounded-tl-lg first:rounded-tr-lg last:rounded-bl-lg last:rounded-br-lg'
                 >
                   <h1 className='h3-semibold'>{index}</h1>
                   <p className='small-regular leading-6 text-shadow-300'>
@@ -76,13 +87,6 @@ export default function Page() {
             </motion.div>
           </AnimatePresence>
         </div>
-        <Button
-          onClick={() => updateCurrentRoute('chatPanel')}
-          size={'expand'}
-          className='mt-10 self-end'
-        >
-          Next
-        </Button>
       </div>
     </motion.main>
   );

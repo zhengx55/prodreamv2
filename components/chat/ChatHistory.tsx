@@ -7,7 +7,7 @@ type Props = { onNavigation: (value: number) => void; current: number };
 
 const ChatHistory = ({ onNavigation, current }: Props) => {
   return (
-    <div className='hidden flex-col md:flex md:w-[var(--chathistory-width)] md:flex-[0.2]'>
+    <div className='hidden flex-col bg-shadow-50 md:flex md:w-[var(--chathistory-width)] md:flex-[0.25] md:rounded-br-lg md:rounded-tr-lg md:border md:border-shadow-border md:p-4'>
       <h1 className='h3-semibold mb-4'>Chat History</h1>
       <div
         className={`${
