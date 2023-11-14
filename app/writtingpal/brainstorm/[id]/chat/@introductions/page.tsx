@@ -19,7 +19,7 @@ export default function Page() {
       className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-10 pt-20 md:px-0'
     >
       <BackButton onBack={() => updateCurrentRoute('informations')} />
-      <div className=' flex flex-col items-start '>
+      <div className='flex flex-col items-start '>
         <h1 className='primary-title capitalize'>Introduction</h1>
         <h2 className='h3-semibold mt-12'>Unleash your potential with us!</h2>
         <div className='mt-5 flex items-center gap-x-5'>
