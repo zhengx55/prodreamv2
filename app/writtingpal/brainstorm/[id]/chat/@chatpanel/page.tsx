@@ -29,7 +29,7 @@ const ChatPanel = () => {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-4 pt-5 md:px-10 md:pt-10'
+      className='relative flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto px-4 pt-5 md:px-10 md:pt-10'
     >
       {/* steps */}
       <h2 className='h3-semibold self-start text-primary-200'>
@@ -45,7 +45,7 @@ const ChatPanel = () => {
                 : ChatSteps.REASON}
       </h2>
       {/* max-h-[calc(100vh_-var(--chatpanel-padding))] */}
-      <div className='my-4 flex h-fit max-h-full w-full flex-col md:flex-row'>
+      <div className='my-4 flex h-full max-h-full w-full overflow-y-hidden md:flex-row'>
         {/* chatpanel leftscetion */}
         {!isQusetionFetchError && (
           <>
@@ -61,7 +61,7 @@ const ChatPanel = () => {
           </>
         )}
       </div>
-      <div className='flex-between mt-10 w-full'>
+      <div className='flex-between mt-4 w-full'>
         <BackButton onBack={() => updateCurrentRoute('introductions')} />
         <Button
           onClick={handleTabNavigation}
