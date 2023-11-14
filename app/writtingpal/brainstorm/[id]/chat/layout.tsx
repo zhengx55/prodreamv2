@@ -1,6 +1,10 @@
 'use client';
+import Loading from '@/components/root/CustomLoading';
 import { ChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { useChatGuideQas } from '@/query/query';
+import { FormQuestionResponse } from '@/types';
 import { AnimatePresence } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import { ReactNode, SetStateAction, useCallback, useState } from 'react';
 
 export default function ChatLayout({
@@ -27,16 +31,32 @@ export default function ChatLayout({
     },
     []
   );
-  return (
-    <ChatNavigatorContext.Provider value={{ currentRoute, updateCurrentRoute }}>
+  const path = usePathname();
+  const template_id = path.split('/')[3];
+  const {
+    data: chatQas,
+    isPending: isChatDataPending,
+    isError: isChatDataError,
+  } = useChatGuideQas(template_id);
+  return isChatDataPending ? (
+    <Loading />
+  ) : (
+    <ChatNavigatorContext.Provider
+      value={{
+        currentRoute,
+        updateCurrentRoute,
+        questions: isChatDataError ? ({} as FormQuestionResponse) : chatQas,
+        isQusetionFetchError: isChatDataError,
+      }}
+    >
       <AnimatePresence mode='wait'>
         {currentRoute === 'startup'
-          ? children
+          ? chatpanel
           : currentRoute === 'informations'
-          ? informations
-          : currentRoute === 'introductions'
-          ? introductions
-          : chatpanel}
+            ? chatpanel
+            : currentRoute === 'introductions'
+              ? chatpanel
+              : chatpanel}
       </AnimatePresence>
     </ChatNavigatorContext.Provider>
   );

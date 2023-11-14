@@ -2,10 +2,13 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   OptimizeAnswer,
   SubmitEssayWritting,
+  fetchChatGuideQas,
   getBrainstormDetails,
   getBrianstormHistoryById,
   queryEssayResult,
+  sendChatMessage,
 } from './api';
+import { AnswerRequestParam } from '@/types';
 
 // ============================================================
 // BRAINSOTRM QUERIES
@@ -62,5 +65,22 @@ export const useEssayWriting = () => {
       texts: string[];
       types: string[];
     }) => SubmitEssayWritting(pro_mode, template_id, word_nums, texts, types),
+  });
+};
+
+// ----------------------------------------------------------------
+// Chat
+// ----------------------------------------------------------------
+export const useChatGuideQas = (template_id: string) => {
+  return useQuery({
+    queryKey: ['get_chat_guide', template_id],
+    queryFn: () => fetchChatGuideQas(template_id),
+    enabled: !!template_id,
+  });
+};
+
+export const useSendChat = () => {
+  return useMutation({
+    mutationFn: (params: AnswerRequestParam) => sendChatMessage(params),
   });
 };

@@ -1,4 +1,9 @@
+import { AnswerRequestParam, FormQuestionResponse } from '@/types';
 import { IBrainStormSection, IBrainstormHistory } from './type';
+
+// ----------------------------------------------------------------
+// BrainStorm
+// ----------------------------------------------------------------
 
 export async function getBrainstormDetails(
   template_id: string
@@ -133,6 +138,94 @@ export async function SubmitEssayWritting(
       throw new Error(data.error as string);
     }
     return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+// ----------------------------------------------------------------
+// Authentication
+// ----------------------------------------------------------------
+
+export async function userLogin() {}
+
+export async function userSignUp() {}
+
+export async function userLogOut() {}
+
+export async function userGoogleLogin() {}
+
+// ----------------------------------------------------------------
+// Essay Polish
+// ----------------------------------------------------------------
+export async function plagiarismCheck() {
+  //https://test.quickapply.app/api/ai/plagiarism_check/submit
+}
+
+export async function sendMessage() {
+  //https://test.quickapply.app/api/ai/essay_polish_submit
+}
+
+export async function queryMessage() {
+  // https://test.quickapply.app/api/ai/essay_polish_query
+}
+
+// ----------------------------------------------------------------
+// Resume
+// ----------------------------------------------------------------
+export async function fetchResume() {
+  //https://test.quickapply.app/api/data/resume
+}
+
+// ----------------------------------------------------------------
+// Chat
+// ----------------------------------------------------------------
+export async function fetchChatGuideQas(
+  template_id: string
+): Promise<FormQuestionResponse> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}answer_guide/questions/${template_id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.error) {
+      throw new Error(data.error as string);
+    }
+    return data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function sendChatMessage(params: AnswerRequestParam) {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}answer_guide`, {
+      method: 'POST',
+      body: JSON.stringify({
+        session_id: params.sessionid,
+        template_id: params.templateid,
+        question_id: params.questionid,
+        message: params.message,
+        previous_session_ids: params.previousSessionids,
+        form_question_answer: params.formQuestionAnswer,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+      },
+    });
+    const data = await res.json();
+    if (data.error) {
+      throw new Error(data.error as string);
+    }
+    return data;
   } catch (error) {
     throw new Error(error as string);
   }
