@@ -55,7 +55,7 @@ export default function ChatLayout({
     >
       <AnimatePresence mode='wait'>
         {currentRoute === 'startup'
-          ? chatpanel
+          ? children
           : currentRoute === 'informations'
             ? informations
             : currentRoute === 'introductions'
