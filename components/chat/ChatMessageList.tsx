@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { Fragment, memo, useCallback, useEffect, useState } from 'react';
 import EditableMessage from './messages/EditableMessage';
 import {
   MineMessagLoading,
@@ -16,28 +16,38 @@ type Props = {
 };
 
 const ChatMessageList = ({ messageList }: Props) => {
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [currentMessageList, setCurrentMessageList] = useState<
+    {
+      from: 'mine' | 'robot';
+      message: string;
+    }[]
+  >([]);
+  const [isMineMessageLoading, setMineMessageLoading] =
+    useState<boolean>(false);
+
+  const [isRobotMessageLoading, setRobotMessageLoading] =
+    useState<boolean>(false);
+
+  const toggleMineMessageLoading = useCallback((value: boolean) => {
+    setMineMessageLoading(value);
+  }, []);
+
+  const toogleRobotMessageLoading = useCallback((value: boolean) => {
+    setRobotMessageLoading(value);
+  }, []);
+
+  const addCurrentMessage = useCallback(
+    (value: { from: 'mine' | 'robot'; message: string }) => {
+      setCurrentMessageList((prev) => [...prev, value]);
+    },
+    []
+  );
   const {
     mutateAsync: sendMessage,
     isPending: isSending,
     isError: isSendError,
   } = useSendChat();
-
-  // useEffect(() => {
-  //   const sse = new EventSource(
-  //     `${process.env.NEXT_PUBLIC_API_URL}answer_guide/`,
-  //     { withCredentials: true }
-  //   );
-  //   function getChatData() {}
-  //   sse.onmessage = (e) => console.log(JSON.parse(e.data));
-  //   sse.onerror = () => {
-  //     // error log here
-
-  //     sse.close();
-  //   };
-  //   return () => {
-  //     sse.close();
-  //   };
-  // }, []);
 
   return (
     <>
@@ -46,13 +56,32 @@ const ChatMessageList = ({ messageList }: Props) => {
       <EditableMessage /> */}
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />
-        <MineMessage message='hello world' />
+        {currentMessageList.map((item, index) => {
+          return (
+            <Fragment key={`${index}-${item.from}`}>
+              {item.from === 'mine' ? (
+                isMineMessageLoading ? (
+                  <MineMessagLoading />
+                ) : (
+                  <MineMessage message={item.message} />
+                )
+              ) : isRobotMessageLoading ? (
+                <RobotMessageLoading />
+              ) : (
+                <RobotMessage message={item.message} />
+              )}
+            </Fragment>
+          );
+        })}
         {/* <RobotMessageLoading />
       <MineMessagLoading /> */}
         <ChatTypeField
           onSendMessage={sendMessage}
           isSending={isSending}
-          questionId={messageList.questionid}
+          questionId={messageList.question_id}
+          setMineMessageLoading={toggleMineMessageLoading}
+          setRobotMessageLoading={toogleRobotMessageLoading}
+          setCurrentMessageList={addCurrentMessage}
         />
       </div>
     </>

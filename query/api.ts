@@ -209,26 +209,26 @@ export async function fetchChatGuideQas(
 
 export async function sendChatMessage(params: AnswerRequestParam) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}answer_guide`, {
+    const body = JSON.stringify({
+      session_id: params.sessionid,
+      template_id: params.templateid,
+      question_id: params.questionid,
+      message: params.message,
+      previous_session_ids: params.previousSessionids,
+      form_question_answer: params.formQuestionAnswer,
+    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}answer_guide/`, {
       method: 'POST',
-      body: JSON.stringify({
-        session_id: params.sessionid,
-        template_id: params.templateid,
-        question_id: params.questionid,
-        message: params.message,
-        previous_session_ids: params.previousSessionids,
-        form_question_answer: params.formQuestionAnswer,
-      }),
+      body,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+        // Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
       },
     });
-    const data = await res.json();
-    if (data.error) {
-      throw new Error(data.error as string);
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
     }
-    return data;
+    return res;
   } catch (error) {
     throw new Error(error as string);
   }

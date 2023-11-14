@@ -61,7 +61,7 @@ const ChatPanel = () => {
           </>
         )}
       </div>
-      <div className='flex-between mt-4 w-full'>
+      <div className='flex-between mb-10 mt-4 w-full'>
         <BackButton onBack={() => updateCurrentRoute('introductions')} />
         <Button
           onClick={handleTabNavigation}

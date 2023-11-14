@@ -13,12 +13,17 @@ import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { AnswerRequestParam } from '@/types';
 import { usePathname } from 'next/navigation';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
-import WorkInfo from '../resume/forms/workInfo';
 import Image from 'next/image';
 
 type Props = {
   isSending: boolean;
   questionId: string;
+  setMineMessageLoading: (value: boolean) => void;
+  setRobotMessageLoading: (value: boolean) => void;
+  setCurrentMessageList: (value: {
+    from: 'mine' | 'robot';
+    message: string;
+  }) => void;
   onSendMessage: UseMutateAsyncFunction<
     any,
     Error,
@@ -37,8 +42,16 @@ const ChatTypeLoading = () => {
   );
 };
 
-const ChatTypeField = ({ isSending, questionId, onSendMessage }: Props) => {
+const ChatTypeField = ({
+  isSending,
+  questionId,
+  onSendMessage,
+  setMineMessageLoading,
+  setRobotMessageLoading,
+  setCurrentMessageList,
+}: Props) => {
   const [message, setMessage] = useState<string>('');
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const { formAnswers } = useChatNavigatorContext();
   const ref = useRef<HTMLTextAreaElement>(null);
   const path = usePathname();
@@ -59,6 +72,7 @@ const ChatTypeField = ({ isSending, questionId, onSendMessage }: Props) => {
 
   const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       sendMessage();
     }
   };
@@ -66,16 +80,43 @@ const ChatTypeField = ({ isSending, questionId, onSendMessage }: Props) => {
   const sendMessage = async () => {
     if (!ref.current) return;
     if (message.trim() !== '') {
-      await onSendMessage({
+      setMineMessageLoading(true);
+      const response = await onSendMessage({
         questionid: questionId,
-        sessionid: '',
+        // sessionid: sessionId,
+        sessionid: null,
         templateid: template_id,
-        message,
+        message: message.trim(),
         formQuestionAnswer: formAnswers,
         previousSessionids: [],
       });
+      setMineMessageLoading(false);
       setMessage('');
-      ref.current.style.height = '62px';
+      ref.current.style.height = '58px';
+      setRobotMessageLoading(true);
+      setCurrentMessageList({ from: 'mine', message });
+      const reader = response.body.getReader();
+      const { value } = await reader.read();
+      const chunk = new TextDecoder().decode(value);
+      const jsonObjects = chunk.split('}{').map((item, index, array) => {
+        if (index === 0) {
+          return `${item}}`;
+        } else if (index === array.length - 1) {
+          return `{${item}`;
+        } else {
+          return `{${item}}`;
+        }
+      });
+      const resultArray = jsonObjects.map((jsonString) =>
+        JSON.parse(jsonString)
+      );
+      const newRobotMessage = resultArray
+        .slice(0, -3)
+        .map((item) => item.content_delta)
+        .join('');
+      setCurrentMessageList({ from: 'robot', message: newRobotMessage });
+      setRobotMessageLoading(false);
+      setSessionId(resultArray[0].session_id);
     }
   };
 
@@ -106,6 +147,7 @@ const ChatTypeField = ({ isSending, questionId, onSendMessage }: Props) => {
         <ChatTypeLoading />
       ) : (
         <Image
+          onClick={sendMessage}
           alt='chatsent'
           className='absolute bottom-4 right-5 cursor-pointer transition-transform hover:-translate-y-1'
           src='/telegram_fill.svg'

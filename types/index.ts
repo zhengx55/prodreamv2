@@ -136,7 +136,7 @@ export interface AnswerRequestParam {
   /**
    * 新开始一次会话时传null
    */
-  sessionid: string;
+  sessionid: string | null;
   /**
    * 模版id
    */
