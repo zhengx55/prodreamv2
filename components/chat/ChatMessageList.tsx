@@ -22,22 +22,22 @@ const ChatMessageList = ({ messageList }: Props) => {
     isError: isSendError,
   } = useSendChat();
 
-  useEffect(() => {
-    const sse = new EventSource(
-      `${process.env.NEXT_PUBLIC_API_URL}answer_guide/`,
-      { withCredentials: true }
-    );
-    function getChatData() {}
-    sse.onmessage = (e) => console.log(JSON.parse(e.data));
-    sse.onerror = () => {
-      // error log here
+  // useEffect(() => {
+  //   const sse = new EventSource(
+  //     `${process.env.NEXT_PUBLIC_API_URL}answer_guide/`,
+  //     { withCredentials: true }
+  //   );
+  //   function getChatData() {}
+  //   sse.onmessage = (e) => console.log(JSON.parse(e.data));
+  //   sse.onerror = () => {
+  //     // error log here
 
-      sse.close();
-    };
-    return () => {
-      sse.close();
-    };
-  }, []);
+  //     sse.close();
+  //   };
+  //   return () => {
+  //     sse.close();
+  //   };
+  // }, []);
 
   return (
     <>

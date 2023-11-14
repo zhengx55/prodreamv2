@@ -30,7 +30,7 @@ export default function Page({ params }: { params: { id: string } }) {
           } chat-mode`}
           onClick={() => setSelected(0)}
         >
-          <div className='relative md:h-[12rem] md:w-[10.25rem]'>
+          <div className='relative md:h-[10rem] md:w-[8.25rem]'>
             <Image
               alt='collaboration-mode'
               src='/comode.png'
@@ -51,7 +51,7 @@ export default function Page({ params }: { params: { id: string } }) {
           } chat-mode`}
           onClick={() => setSelected(1)}
         >
-          <div className='relative md:h-[12rem] md:w-[10.25rem]'>
+          <div className='relative md:h-[10rem] md:w-[8.25rem]'>
             <Image
               alt='collaboration-mode'
               src='/refmode.png'
