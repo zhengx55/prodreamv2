@@ -39,9 +39,9 @@ const ChatInfo = ({ step }: Props) => {
       {/* info */}
       <div className='custom-scrollbar flex max-h-full w-full overflow-y-auto'>
         {tab === 1 ? (
-          <p className='base-regular'>{moduleExample[step.toString()]}</p>
+          <p className='small-regular'>{moduleExample[step.toString()]}</p>
         ) : (
-          <p className='base-regular'>{moduleNotes[step.toString()]}</p>
+          <p className='small-regular'>{moduleNotes[step.toString()]}</p>
         )}
       </div>
     </div>
