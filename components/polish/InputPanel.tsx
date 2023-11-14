@@ -1,16 +1,7 @@
 'use client';
-
 import { FormEvent, useState } from 'react';
 import Tooltip from '../root/Tooltip';
-import {
-  Copy,
-  Download,
-  Pencil,
-  PencilLine,
-  Trophy,
-  Upload,
-} from 'lucide-react';
-import { Button } from '../ui/button';
+import { Copy, Download, PencilLine, Upload } from 'lucide-react';
 
 const InputPanel = () => {
   const [wordCount, setWordCount] = useState(0);

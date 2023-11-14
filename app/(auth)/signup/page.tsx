@@ -154,9 +154,15 @@ export default function Page() {
                 </FormItem>
               )}
             />
-            <p className='small-semibold cursor-pointer self-start text-primary-200 hover:underline'>
-              By Continuing, you agree to Applify AI&apos;s Term of Service and
-              Privacy Policy
+            <p className='small-regular cursor-pointer self-start text-black-400'>
+              By Continuing, you agree to
+              <Link href={'/'} className='text-primary-200'>
+                &nbsp;Applify AI&apos;s Term of Service
+              </Link>
+              and
+              <Link href={'/'} className='text-primary-200'>
+                &nbsp;Privacy Policy
+              </Link>
             </p>
             <Button className='w-full rounded-full' type='submit'>
               Sign up
