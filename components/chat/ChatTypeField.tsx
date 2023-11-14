@@ -7,7 +7,6 @@ import React, {
   memo,
 } from 'react';
 import { Textarea } from '../ui/textarea';
-import { Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { AnswerRequestParam } from '@/types';
@@ -85,45 +84,51 @@ const ChatTypeField = ({
 
   const sendMessage = async () => {
     if (!ref.current) return;
-    if (message.trim() !== '') {
-      setMineMessageLoading(true);
-      const response = await onSendMessage({
-        questionid: questionId,
-        // sessionid: sessionId,
-        sessionid: null,
-        templateid: template_id,
-        message: message.trim(),
-        formQuestionAnswer: formAnswers,
-        previousSessionids: [],
-      });
+    try {
+      if (message.trim() !== '') {
+        setMineMessageLoading(true);
+        const response = await onSendMessage({
+          questionid: questionId,
+          // sessionid: sessionId,
+          sessionid: null,
+          templateid: template_id,
+          message: message.trim(),
+          formQuestionAnswer: formAnswers,
+          previousSessionids: [],
+        });
+        setMineMessageLoading(false);
+        setCurrentMessageList({ from: 'mine', message });
+        setRobotMessageLoading(true);
+        await wait(1000);
+        setMessage('');
+        ref.current.style.height = '58px';
+        const reader = response.body.getReader();
+        const { value } = await reader.read();
+        const chunk = new TextDecoder().decode(value);
+        const jsonObjects = chunk.split('}{').map((item, index, array) => {
+          if (index === 0) {
+            return `${item}}`;
+          } else if (index === array.length - 1) {
+            return `{${item}`;
+          } else {
+            return `{${item}}`;
+          }
+        });
+        const resultArray = jsonObjects.map((jsonString) =>
+          JSON.parse(jsonString)
+        );
+        const newRobotMessage = resultArray
+          .slice(0, -3)
+          .map((item) => item.content_delta)
+          .join('');
+        setCurrentMessageList({ from: 'robot', message: newRobotMessage });
+        setRobotMessageLoading(false);
+        setSessionId(resultArray[0].session_id);
+      }
+    } catch (error) {
+    } finally {
       setMineMessageLoading(false);
-      setCurrentMessageList({ from: 'mine', message });
-      setRobotMessageLoading(true);
-      await wait(1000);
-      setMessage('');
-      ref.current.style.height = '58px';
-      const reader = response.body.getReader();
-      const { value } = await reader.read();
-      const chunk = new TextDecoder().decode(value);
-      const jsonObjects = chunk.split('}{').map((item, index, array) => {
-        if (index === 0) {
-          return `${item}}`;
-        } else if (index === array.length - 1) {
-          return `{${item}`;
-        } else {
-          return `{${item}}`;
-        }
-      });
-      const resultArray = jsonObjects.map((jsonString) =>
-        JSON.parse(jsonString)
-      );
-      const newRobotMessage = resultArray
-        .slice(0, -3)
-        .map((item) => item.content_delta)
-        .join('');
-      setCurrentMessageList({ from: 'robot', message: newRobotMessage });
       setRobotMessageLoading(false);
-      setSessionId(resultArray[0].session_id);
     }
   };
 

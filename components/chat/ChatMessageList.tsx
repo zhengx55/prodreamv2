@@ -54,16 +54,14 @@ const ChatMessageList = ({ messageList }: Props) => {
 
   const scrollToBottom = () => {
     if (chatPanelRef.current) {
-      console.log(123);
-      chatPanelRef.current.scrollIntoView({
-        behavior: 'smooth',
-      });
+      chatPanelRef.current.scrollTop =
+        chatPanelRef.current.scrollHeight - chatPanelRef.current.clientHeight;
     }
   };
 
   useEffect(() => {
     scrollToBottom();
-  });
+  }, [isMineMessageLoading, isRobotMessageLoading]);
 
   const {
     mutateAsync: sendMessage,
@@ -75,7 +73,7 @@ const ChatMessageList = ({ messageList }: Props) => {
     <>
       <div
         ref={chatPanelRef}
-        className='custom-scrollbar flex w-full select-text flex-col gap-y-14 overflow-y-auto px-1 pb-[70px]'
+        className='custom-scrollbar flex h-full w-full select-text flex-col gap-y-14 overflow-y-auto px-1 pb-[70px]'
       >
         {/* <ActivityMessage />
       <EditableMessage /> */}
