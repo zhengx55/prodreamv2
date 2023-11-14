@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import { FormAnswer, FormQuestion } from '@/types';
 import { motion } from 'framer-motion';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 export default function Page({}) {
   const { questions, setFormAnswers, updateCurrentRoute } =
@@ -18,6 +18,19 @@ export default function Page({}) {
     school: '',
     program: '',
   });
+
+  // !!test only
+  useEffect(() => {
+    if (localStorage.getItem('form_question')) {
+      let form_storage: FormAnswer[] = JSON.parse(
+        localStorage.getItem('form_question') as string
+      );
+      setValue({
+        school: form_storage[0].answer,
+        program: form_storage[1].answer,
+      });
+    }
+  }, []);
 
   const handleNextPage = () => {
     !value.school
@@ -40,6 +53,7 @@ export default function Page({}) {
           question_id: programQasId,
         },
       ];
+      localStorage.setItem('form_question', JSON.stringify(formAnswer));
       setFormAnswers(formAnswer);
       updateCurrentRoute('introductions');
     }

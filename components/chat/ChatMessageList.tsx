@@ -20,17 +20,22 @@ import { useSendChat } from '@/query/query';
 
 type Props = {
   messageList: Question;
+  sIdList: string[];
+  setSIdList: (value: string) => void;
+  currentMsgs: { from: 'mine' | 'robot'; message: string }[];
+  setCurMsgs: (value: { from: 'mine' | 'robot'; message: string }) => void;
 };
 
-const ChatMessageList = ({ messageList }: Props) => {
+const ChatMessageList = ({
+  messageList,
+  currentMsgs,
+  setCurMsgs,
+  sIdList,
+  setSIdList,
+}: Props) => {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const chatPanelRef = useRef<HTMLDivElement>(null);
-  const [currentMessageList, setCurrentMessageList] = useState<
-    {
-      from: 'mine' | 'robot';
-      message: string;
-    }[]
-  >([]);
+
   const [isMineMessageLoading, setMineMessageLoading] =
     useState<boolean>(false);
 
@@ -44,13 +49,6 @@ const ChatMessageList = ({ messageList }: Props) => {
   const toogleRobotMessageLoading = useCallback((value: boolean) => {
     setRobotMessageLoading(value);
   }, []);
-
-  const addCurrentMessage = useCallback(
-    (value: { from: 'mine' | 'robot'; message: string }) => {
-      setCurrentMessageList((prev) => [...prev, value]);
-    },
-    []
-  );
 
   const scrollToBottom = () => {
     if (chatPanelRef.current) {
@@ -79,7 +77,7 @@ const ChatMessageList = ({ messageList }: Props) => {
       <EditableMessage /> */}
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />
-        {currentMessageList.map((item, index) => {
+        {currentMsgs.map((item, index) => {
           return (
             <Fragment key={`${index}-${item.from}`}>
               {item.from === 'mine' ? (
@@ -98,7 +96,9 @@ const ChatMessageList = ({ messageList }: Props) => {
           questionId={messageList.question_id}
           setMineMessageLoading={toggleMineMessageLoading}
           setRobotMessageLoading={toogleRobotMessageLoading}
-          setCurrentMessageList={addCurrentMessage}
+          setCurrentMessageList={setCurMsgs}
+          sIdList={sIdList}
+          setSIdList={setSIdList}
         />
       </div>
     </>

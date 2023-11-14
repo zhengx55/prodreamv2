@@ -13,10 +13,11 @@ import { AnswerRequestParam } from '@/types';
 import { usePathname } from 'next/navigation';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import Image from 'next/image';
+
 function wait(milliseconds: number | undefined) {
   return new Promise<void>((resolve) => {
     setTimeout(() => {
-      resolve(); // 在指定的时间后，调用 resolve 完成 Promise
+      resolve();
     }, milliseconds);
   });
 }
@@ -35,6 +36,8 @@ type Props = {
     AnswerRequestParam,
     unknown
   >;
+  sIdList: string[];
+  setSIdList: (value: string) => void;
 };
 
 const ChatTypeLoading = () => {
@@ -54,6 +57,8 @@ const ChatTypeField = ({
   setMineMessageLoading,
   setRobotMessageLoading,
   setCurrentMessageList,
+  sIdList,
+  setSIdList,
 }: Props) => {
   const [message, setMessage] = useState<string>('');
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -89,19 +94,20 @@ const ChatTypeField = ({
         setMineMessageLoading(true);
         const response = await onSendMessage({
           questionid: questionId,
-          // sessionid: sessionId,
-          sessionid: null,
+          sessionid: sessionId,
           templateid: template_id,
           message: message.trim(),
           formQuestionAnswer: formAnswers,
-          previousSessionids: [],
+          previousSessionids: sIdList,
         });
         setMineMessageLoading(false);
         setCurrentMessageList({ from: 'mine', message });
         setRobotMessageLoading(true);
         await wait(1000);
+        // reset textarea size
         setMessage('');
         ref.current.style.height = '58px';
+        // get reader for stream decode
         const reader = response.body.getReader();
         const { value } = await reader.read();
         const chunk = new TextDecoder().decode(value);
@@ -123,7 +129,10 @@ const ChatTypeField = ({
           .join('');
         setCurrentMessageList({ from: 'robot', message: newRobotMessage });
         setRobotMessageLoading(false);
-        setSessionId(resultArray[0].session_id);
+        if (sessionId !== resultArray[0].session_id) {
+          setSessionId(resultArray[0].session_id);
+          setSIdList(resultArray[0].session_id);
+        }
       }
     } catch (error) {
     } finally {

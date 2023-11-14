@@ -18,6 +18,24 @@ const ChatPanel = () => {
       setSteps((prev) => prev + 1);
     }
   }, [steps]);
+  const [sessionIdList, setSessionIdList] = useState<string[]>([]);
+  const [currentMessageList, setCurrentMessageList] = useState<
+    {
+      from: 'mine' | 'robot';
+      message: string;
+    }[]
+  >([]);
+
+  const addCurrentMessage = useCallback(
+    (value: { from: 'mine' | 'robot'; message: string }) => {
+      setCurrentMessageList((prev) => [...prev, value]);
+    },
+    []
+  );
+
+  const addSessionIdList = useCallback((value: string) => {
+    setSessionIdList((prev) => [...prev, value]);
+  }, []);
 
   const handleTabChange = useCallback((value: number) => {
     setSteps(value);
@@ -44,7 +62,6 @@ const ChatPanel = () => {
                 ? ChatSteps.PREVIOUS
                 : ChatSteps.REASON}
       </h2>
-      {/* max-h-[calc(100vh_-var(--chatpanel-padding))] */}
       <div className='my-4 flex h-full max-h-full w-full overflow-y-hidden md:flex-row'>
         {/* chatpanel leftscetion */}
         {!isQusetionFetchError && (
@@ -54,7 +71,13 @@ const ChatPanel = () => {
             </div>
             {/* chatpanel middlesection  */}
             <div className='relative flex flex-[0.5] flex-col p-4 md:h-full md:rounded-bl-lg md:rounded-tl-lg md:border md:border-shadow-border'>
-              <ChatMessageList messageList={questions.questions[steps - 1]} />
+              <ChatMessageList
+                sIdList={sessionIdList}
+                setSIdList={addSessionIdList}
+                currentMsgs={currentMessageList}
+                setCurMsgs={addCurrentMessage}
+                messageList={questions.questions[steps - 1]}
+              />
             </div>
             {/* chatpanel chathistory */}
             <ChatHistory onNavigation={handleTabChange} current={steps} />
