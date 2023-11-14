@@ -3,11 +3,13 @@ import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { FormAnswer, FormQuestion } from '@/types';
 import { motion } from 'framer-motion';
 import { ChangeEvent, useState } from 'react';
 
 export default function Page({}) {
-  const { updateCurrentRoute } = useChatNavigatorContext();
+  const { questions, setFormAnswers, updateCurrentRoute } =
+    useChatNavigatorContext();
   const [errors, setErrors] = useState({
     school: '',
     program: '',
@@ -16,6 +18,7 @@ export default function Page({}) {
     school: '',
     program: '',
   });
+
   const handleNextPage = () => {
     !value.school
       ? setErrors((prev) => ({ ...prev, school: 'School is not provided' }))
@@ -28,6 +31,16 @@ export default function Page({}) {
     if (!value.school || !value.program) {
       return;
     } else {
+      const schoolQasId = questions.form_question[0].question_id;
+      const programQasId = questions.form_question[1].question_id;
+      const formAnswer: FormAnswer[] = [
+        { answer: value.school, question_id: schoolQasId },
+        {
+          answer: value.program,
+          question_id: programQasId,
+        },
+      ];
+      setFormAnswers(formAnswer);
       updateCurrentRoute('introductions');
     }
   };

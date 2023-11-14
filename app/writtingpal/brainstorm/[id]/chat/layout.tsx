@@ -2,7 +2,7 @@
 import Loading from '@/components/root/CustomLoading';
 import { ChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import { useChatGuideQas } from '@/query/query';
-import { FormQuestionResponse } from '@/types';
+import { FormAnswer, FormQuestionResponse } from '@/types';
 import { AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { ReactNode, SetStateAction, useCallback, useState } from 'react';
@@ -18,6 +18,7 @@ export default function ChatLayout({
   children: ReactNode;
   chatpanel: React.ReactNode;
 }) {
+  const [formAnswers, setFormAnswers] = useState<FormAnswer[]>([]);
   const [currentRoute, setCurrentRoute] = useState<
     'startup' | 'informations' | 'introductions' | 'chatPanel'
   >('startup');
@@ -47,15 +48,17 @@ export default function ChatLayout({
         updateCurrentRoute,
         questions: isChatDataError ? ({} as FormQuestionResponse) : chatQas,
         isQusetionFetchError: isChatDataError,
+        formAnswers: formAnswers,
+        setFormAnswers: setFormAnswers,
       }}
     >
       <AnimatePresence mode='wait'>
         {currentRoute === 'startup'
-          ? chatpanel
+          ? children
           : currentRoute === 'informations'
-            ? chatpanel
+            ? informations
             : currentRoute === 'introductions'
-              ? chatpanel
+              ? introductions
               : chatpanel}
       </AnimatePresence>
     </ChatNavigatorContext.Provider>

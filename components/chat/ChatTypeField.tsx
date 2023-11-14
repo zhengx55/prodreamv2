@@ -9,8 +9,21 @@ import React, {
 import { Textarea } from '../ui/textarea';
 import { Send } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { AnswerRequestParam } from '@/types';
+import { usePathname } from 'next/navigation';
+import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 
-type Props = { onSendMessage: (value: string) => void };
+type Props = {
+  isSending: boolean;
+  questionId: string;
+  onSendMessage: UseMutateAsyncFunction<
+    any,
+    Error,
+    AnswerRequestParam,
+    unknown
+  >;
+};
 
 const ChatTypeLoading = () => {
   return (
@@ -22,10 +35,14 @@ const ChatTypeLoading = () => {
   );
 };
 
-const ChatTypeField = ({ onSendMessage }: Props) => {
+const ChatTypeField = ({ isSending, questionId, onSendMessage }: Props) => {
   const [message, setMessage] = useState<string>('');
+  const { formAnswers } = useChatNavigatorContext();
   const ref = useRef<HTMLTextAreaElement>(null);
-  const [InputLoading, setInputLoading] = useState(false);
+  const path = usePathname();
+  const template_id = path.split('/')[3];
+
+  // const [InputLoading, setInputLoading] = useState(false);
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (!ref.current) return;
     const textarea = e.target;
@@ -44,14 +61,19 @@ const ChatTypeField = ({ onSendMessage }: Props) => {
     }
   };
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (!ref.current) return;
     if (message.trim() !== '') {
-      setInputLoading(true);
-      onSendMessage(message.trim());
+      await onSendMessage({
+        questionid: questionId,
+        sessionid: '',
+        templateid: template_id,
+        message,
+        formQuestionAnswer: formAnswers,
+        previousSessionids: [],
+      });
       setMessage('');
       ref.current.style.height = '62px';
-      setInputLoading(false);
     }
   };
 
@@ -60,7 +82,7 @@ const ChatTypeField = ({ onSendMessage }: Props) => {
       <Textarea
         ref={ref}
         rows={1}
-        disabled={InputLoading}
+        disabled={isSending}
         placeholder='Type your message...'
         className='max-h-[220px] min-h-[58px] w-[99%] resize-none py-4 pr-14 text-[16px] focus-visible:shadow-textarea focus-visible:ring-0'
         value={message}
@@ -68,7 +90,7 @@ const ChatTypeField = ({ onSendMessage }: Props) => {
         onKeyDown={handleKeyPress}
       />
 
-      {InputLoading ? (
+      {isSending ? (
         <ChatTypeLoading />
       ) : (
         <div

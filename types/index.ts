@@ -120,7 +120,7 @@ export interface AnswerRequestParam {
   /**
    * 填表的结果
    */
-  formQuestionAnswer: FormQuestionAnswer[];
+  formQuestionAnswer: FormAnswer[];
   /**
    * 用户输入
    */
@@ -144,23 +144,11 @@ export interface AnswerRequestParam {
   [property: string]: any;
 }
 
-export interface FormQuestionAnswer {
-  /**
-   * 对应回答
-   */
-  answer: string;
-  /**
-   * 问题id
-   */
-  questionid: string;
-  [property: string]: any;
-}
-
 export interface FormQuestionResponse {
   /**
    * 不进行引导，而是让用户直接填答案的问题
    */
-  formQuestion: FormQuestion[];
+  form_question: FormQuestion[];
   /**
    * 有序数组，需要按顺序对问题进行引导
    */
@@ -173,7 +161,13 @@ export interface FormQuestionResponse {
  */
 export interface FormQuestion {
   question: string;
-  questionid: string;
+  question_id: string;
+  [property: string]: any;
+}
+
+export interface FormAnswer {
+  answer: string;
+  question_id: string;
   [property: string]: any;
 }
 
@@ -185,7 +179,7 @@ export interface Question {
   /**
    * 问题id
    */
-  questionid: string;
+  question_id: string;
   /**
    * 欢迎语
    */

@@ -3,9 +3,14 @@ import { Button } from '@/components/ui/button';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-export default function Page() {
+export default function Page({ params }: { params: { id: string } }) {
   const { updateCurrentRoute } = useChatNavigatorContext();
+
+  const [selected, setSelected] = useState(0);
+  const router = useRouter();
   return (
     <motion.main
       key={'startup'}
@@ -19,7 +24,12 @@ export default function Page() {
         How would you like to start?
       </h1>
       <div className='relative flex items-center md:gap-x-20'>
-        <div className='chat-mode'>
+        <div
+          className={`${
+            selected === 0 && 'border border-primary-200'
+          } chat-mode`}
+          onClick={() => setSelected(0)}
+        >
           <div className='relative md:h-[12rem] md:w-[10.25rem]'>
             <Image
               alt='collaboration-mode'
@@ -35,7 +45,12 @@ export default function Page() {
             Start by brainstorming past experiences and write step by step!
           </p>
         </div>
-        <div className='chat-mode'>
+        <div
+          className={`${
+            selected === 1 && 'border border-primary-200'
+          } chat-mode`}
+          onClick={() => setSelected(1)}
+        >
           <div className='relative md:h-[12rem] md:w-[10.25rem]'>
             <Image
               alt='collaboration-mode'
@@ -55,7 +70,11 @@ export default function Page() {
         </div>
         <Button
           onClick={() => {
-            updateCurrentRoute('informations');
+            if (selected === 0) {
+              updateCurrentRoute('informations');
+            } else {
+              router.push(`/writtingpal/brainstorm/${params.id}`);
+            }
           }}
           size={'expand'}
           className='absolute -bottom-20 right-0'

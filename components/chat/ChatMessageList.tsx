@@ -9,15 +9,19 @@ import { Question } from '@/types';
 import MineMessage from './messages/MineMessage';
 import RobotMessage from './messages/RobotMessage';
 import ChatTypeField from './ChatTypeField';
+import { useSendChat } from '@/query/query';
 
 type Props = {
   messageList: Question;
 };
 
 const ChatMessageList = ({ messageList }: Props) => {
-  const handleMessageChange = useCallback((value: string) => {
-    //
-  }, []);
+  const {
+    mutateAsync: sendMessage,
+    isPending: isSending,
+    isError: isSendError,
+  } = useSendChat();
+
   useEffect(() => {
     const sse = new EventSource(
       `${process.env.NEXT_PUBLIC_API_URL}answer_guide/`,
@@ -45,7 +49,11 @@ const ChatMessageList = ({ messageList }: Props) => {
         <MineMessage message='hello world' />
         {/* <RobotMessageLoading />
       <MineMessagLoading /> */}
-        <ChatTypeField onSendMessage={handleMessageChange} />
+        <ChatTypeField
+          onSendMessage={sendMessage}
+          isSending={isSending}
+          questionId={messageList.questionid}
+        />
       </div>
     </>
   );
