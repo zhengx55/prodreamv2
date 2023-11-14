@@ -96,7 +96,7 @@ const ChatTypeField = ({ isSending, questionId, onSendMessage }: Props) => {
         rows={1}
         disabled={isSending}
         placeholder='Type to chat with Max!'
-        className='max-h-[220px] min-h-[58px] w-[99%] resize-none py-4 pl-8 pr-14 text-[16px] focus-visible:shadow-textarea focus-visible:ring-0'
+        className='max-h-[220px] min-h-[58px] w-[99%] resize-none py-4 pl-10 pr-14 text-[16px] focus-visible:shadow-textarea focus-visible:ring-0'
         value={message}
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
@@ -112,12 +112,6 @@ const ChatTypeField = ({ isSending, questionId, onSendMessage }: Props) => {
           width={23}
           height={24}
         />
-        //       <div
-        //   className='flex-center absolute bottom-4 right-5 h-8 w-8 cursor-pointer rounded-xl bg-primary-200 leading-none transition-transform hover:-translate-y-1'
-        //   onClick={sendMessage}
-        // >
-        //   <Send className='shrink-0 text-white' size={18} />
-        // </div>
       )}
     </motion.div>
   );

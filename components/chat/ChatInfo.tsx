@@ -18,11 +18,11 @@ const ChatInfo = ({ step }: Props) => {
         />
       </div>
       {/* tabs */}
-      <div className='flex h-[48px] w-full shrink-0 rounded-xl border border-shadow-border bg-shadow-50 p-1'>
+      <div className='flex h-[48px] w-full shrink-0 rounded-xl border border-shadow-border p-1'>
         <div
           onClick={() => setTabs(0)}
           className={`${
-            tab === 0 && 'bg-white'
+            tab === 0 && 'bg-primary-50 text-primary-200'
           } flex-center h-full w-[50%] cursor-pointer rounded-xl hover:bg-white`}
         >
           Notes
@@ -30,7 +30,7 @@ const ChatInfo = ({ step }: Props) => {
         <div
           onClick={() => setTabs(1)}
           className={`${
-            tab === 1 && 'bg-white'
+            tab === 1 && 'bg-primary-50 text-primary-200'
           } flex-center h-full w-[50%] cursor-pointer rounded-xl hover:bg-white`}
         >
           Examples
