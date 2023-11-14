@@ -78,7 +78,7 @@ export default function Page({}) {
             name='school'
             value={value.school}
             onChange={handleValueChange}
-            className={`title-light h-full w-full ${
+            className={`base-medium h-full w-full ${
               errors.school && 'border-red-400'
             }`}
           />
@@ -97,7 +97,7 @@ export default function Page({}) {
             name='program'
             value={value.program}
             onChange={handleValueChange}
-            className={`title-light h-full w-full ${
+            className={`base-medium h-full w-full ${
               errors.program && 'border-red-400'
             }`}
           />
