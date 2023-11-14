@@ -1,6 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -27,8 +28,8 @@ export default function Page({ params }: { params: { id: string } }) {
         <div className='flex md:gap-x-20'>
           <div
             className={`${
-              selected === 0 && 'border border-primary-200'
-            } chat-mode`}
+              selected === 0 && 'border border-primary-200 bg-primary-50'
+            } chat-mode bg-hover-100`}
             onClick={() => setSelected(0)}
           >
             <div className='relative md:h-[10rem] md:w-[8.25rem]'>
@@ -48,8 +49,8 @@ export default function Page({ params }: { params: { id: string } }) {
           </div>
           <div
             className={`${
-              selected === 1 && 'border border-primary-200'
-            } chat-mode`}
+              selected === 1 && 'border border-primary-200 bg-primary-50'
+            } chat-mode bg-hover-100`}
             onClick={() => setSelected(1)}
           >
             <div className='relative md:h-[10rem] md:w-[8.25rem]'>
