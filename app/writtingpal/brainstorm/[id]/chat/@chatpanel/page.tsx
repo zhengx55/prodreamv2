@@ -6,8 +6,9 @@ import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
 import { ChatSteps } from '@/constant/enum';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { IChatMessage, IChatMesssageList } from '@/query/type';
 import { motion } from 'framer-motion';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const ChatPanel = () => {
   const { questions, isQusetionFetchError, updateCurrentRoute } =
@@ -19,16 +20,35 @@ const ChatPanel = () => {
     }
   }, [steps]);
   const [sessionIdList, setSessionIdList] = useState<string[]>([]);
-  const [currentMessageList, setCurrentMessageList] = useState<
-    {
-      from: 'mine' | 'robot';
-      message: string;
-    }[]
-  >([]);
+  const [currentMessageList, setCurrentMessageList] =
+    useState<IChatMesssageList>(() => {
+      const memory = localStorage.getItem('chat_history');
+      return memory ? JSON.parse(memory) : {};
+    });
+
+  // !test
+  useEffect(() => {
+    if (Object.keys(currentMessageList).length !== 0) {
+      console.log('聊天已放入存储');
+      localStorage.setItem('chat_history', JSON.stringify(currentMessageList));
+    }
+  }, [currentMessageList]);
 
   const addCurrentMessage = useCallback(
-    (value: { from: 'mine' | 'robot'; message: string }) => {
-      setCurrentMessageList((prev) => [...prev, value]);
+    (value: IChatMessage, question_id: string) => {
+      setCurrentMessageList((prevState) => {
+        if (prevState[question_id]) {
+          return {
+            ...prevState,
+            [question_id]: [...prevState[question_id], value],
+          };
+        } else {
+          return {
+            ...prevState,
+            [question_id]: [value],
+          };
+        }
+      });
     },
     []
   );

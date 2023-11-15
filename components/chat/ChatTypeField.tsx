@@ -13,6 +13,7 @@ import { AnswerRequestParam } from '@/types';
 import { usePathname } from 'next/navigation';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import Image from 'next/image';
+import { IChatMessage } from '@/query/type';
 
 function wait(milliseconds: number | undefined) {
   return new Promise<void>((resolve) => {
@@ -26,10 +27,7 @@ type Props = {
   questionId: string;
   setMineMessageLoading: (value: boolean) => void;
   setRobotMessageLoading: (value: boolean) => void;
-  setCurrentMessageList: (value: {
-    from: 'mine' | 'robot';
-    message: string;
-  }) => void;
+  setCurrentMessageList: (value: IChatMessage, question_id: string) => void;
   onSendMessage: UseMutateAsyncFunction<
     any,
     Error,
@@ -101,7 +99,7 @@ const ChatTypeField = ({
           previousSessionids: sIdList,
         });
         setMineMessageLoading(false);
-        setCurrentMessageList({ from: 'mine', message });
+        setCurrentMessageList({ from: 'mine', message }, questionId);
         setRobotMessageLoading(true);
         await wait(1000);
         // reset textarea size
@@ -127,7 +125,10 @@ const ChatTypeField = ({
           .slice(0, -3)
           .map((item) => item.content_delta)
           .join('');
-        setCurrentMessageList({ from: 'robot', message: newRobotMessage });
+        setCurrentMessageList(
+          { from: 'robot', message: newRobotMessage },
+          questionId
+        );
         setRobotMessageLoading(false);
         if (sessionId !== resultArray[0].session_id) {
           setSessionId(resultArray[0].session_id);
@@ -148,6 +149,7 @@ const ChatTypeField = ({
           src='/robotoutline.png'
           alt='robot'
           width={20}
+          className='h-auto w-auto'
           height={20}
           priority
         />

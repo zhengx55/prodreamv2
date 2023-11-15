@@ -17,13 +17,14 @@ import MineMessage from './messages/MineMessage';
 import RobotMessage from './messages/RobotMessage';
 import ChatTypeField from './ChatTypeField';
 import { useSendChat } from '@/query/query';
+import { IChatMessage, IChatMesssageList } from '@/query/type';
 
 type Props = {
   messageList: Question;
   sIdList: string[];
   setSIdList: (value: string) => void;
-  currentMsgs: { from: 'mine' | 'robot'; message: string }[];
-  setCurMsgs: (value: { from: 'mine' | 'robot'; message: string }) => void;
+  currentMsgs: IChatMesssageList;
+  setCurMsgs: (value: IChatMessage, question_id: string) => void;
 };
 
 const ChatMessageList = ({
@@ -77,17 +78,20 @@ const ChatMessageList = ({
       <EditableMessage /> */}
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />
-        {currentMsgs.map((item, index) => {
-          return (
-            <Fragment key={`${index}-${item.from}`}>
-              {item.from === 'mine' ? (
-                <MineMessage message={item.message} />
-              ) : (
-                <RobotMessage message={item.message} />
-              )}
-            </Fragment>
-          );
-        })}
+        {currentMsgs[messageList.question_id]
+          ? currentMsgs[messageList.question_id].map((item, index) => {
+              return (
+                <Fragment key={`${index}-${item.from}`}>
+                  {item.from === 'mine' ? (
+                    <MineMessage message={item.message} />
+                  ) : (
+                    <RobotMessage message={item.message} />
+                  )}
+                </Fragment>
+              );
+            })
+          : null}
+
         {isMineMessageLoading && <MineMessagLoading />}
         {isRobotMessageLoading && <RobotMessageLoading />}
         <ChatTypeField

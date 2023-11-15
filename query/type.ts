@@ -9,6 +9,15 @@ export interface IBrainstormHistory {
   }[];
 }
 
+export interface IChatMessage {
+  from: 'mine' | 'robot';
+  message: string;
+}
+
+export interface IChatMesssageList {
+  [key: string]: IChatMessage[];
+}
+
 export interface IBrainStormSection {
   id: string;
   name: string;
