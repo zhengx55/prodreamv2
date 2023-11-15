@@ -327,8 +327,8 @@ export const moduleMenu = [
   { id: 'module-01', title: 'Motivation' },
   { id: 'module-02', title: 'Academic achievements' },
   { id: 'module-03', title: 'Previous Experience' },
-  { id: 'module-04', title: 'Why School' },
-  { id: 'module-05', title: 'Career Goal' },
+  { id: 'module-04', title: 'Career Goal' },
+  { id: 'module-05', title: 'Why School' },
 ];
 
 export const moduleInfo = [
@@ -413,26 +413,6 @@ export const moduleInfo = [
     ],
   },
   {
-    id: 'info5',
-    value: [
-      {
-        id: 'info4-sub-1',
-        title: 'How the Program Supports These Goals',
-        info: "Highlight how the program you're applying to is a critical stepping stone in reaching these career objectives. Detail specific offerings of the program, such as specialized courses, internships, or networking opportunities, that will equip you with the skills and knowledge necessary to achieve your goals.",
-      },
-      {
-        id: 'info4-sub-2',
-        title: 'Specific faculty interest',
-        info: 'Showcase your thorough research by mentioning specific faculty members whose work you admire or wish to collaborate with, as well as other specific research initiatives or resources that attracted you.',
-      },
-      {
-        id: 'info4-sub-3',
-        title: 'Campus Culture and Community',
-        info: "Reflect on the school's culture, values, and community, explaining how they align with your own beliefs and personality. Whether through campus visits, interactions with current students, or participation in school events, convey a genuine desire to both contribute to and benefit from the school's community.",
-      },
-    ],
-  },
-  {
     id: 'info6',
     value: [
       {
@@ -452,13 +432,33 @@ export const moduleInfo = [
       },
     ],
   },
+  {
+    id: 'info5',
+    value: [
+      {
+        id: 'info4-sub-1',
+        title: 'How the Program Supports These Goals',
+        info: "Highlight how the program you're applying to is a critical stepping stone in reaching these career objectives. Detail specific offerings of the program, such as specialized courses, internships, or networking opportunities, that will equip you with the skills and knowledge necessary to achieve your goals.",
+      },
+      {
+        id: 'info4-sub-2',
+        title: 'Specific faculty interest',
+        info: 'Showcase your thorough research by mentioning specific faculty members whose work you admire or wish to collaborate with, as well as other specific research initiatives or resources that attracted you.',
+      },
+      {
+        id: 'info4-sub-3',
+        title: 'Campus Culture and Community',
+        info: "Reflect on the school's culture, values, and community, explaining how they align with your own beliefs and personality. Whether through campus visits, interactions with current students, or participation in school events, convey a genuine desire to both contribute to and benefit from the school's community.",
+      },
+    ],
+  },
 ];
 
 export const ChatQuestionIdMap: Record<string, string> = {
-  a6fe251ae1eb4c499283bac90d862fd5: 'Motivation',
+  a6fe251ae1eb4c499283bac90d862fd5: 'Reasons for applying',
   b38def168cc94840a92f1249bd595244: 'Academic achievement',
   fe96cfa951c346b091c3d1681ad65957: 'Previous Experience',
-  e1c32f5cfbfe45e6a84805a4b35aad8d: 'Why School',
+  e1c32f5cfbfe45e6a84805a4b35aad8d: 'Reasons for Choosing this Program',
   aaef5245621e46e5bc0d285d2a464897: 'Career Goal',
 };
 

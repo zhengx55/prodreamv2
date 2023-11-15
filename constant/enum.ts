@@ -7,9 +7,9 @@ export enum BrainStormTypes {
 }
 
 export enum ChatSteps {
-  MOVTIVATION = 'Motivation',
+  MOVTIVATION = 'Reasons for applying',
   EDUCATION = 'Educational Experience',
   PREVIOUS = 'Previous Experience',
-  PLANNING = 'Why School',
+  PLANNING = 'Reasons for Choosing this Program',
   REASON = 'Career Goal',
 }
