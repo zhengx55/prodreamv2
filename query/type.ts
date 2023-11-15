@@ -10,7 +10,7 @@ export interface IBrainstormHistory {
 }
 
 export interface ISessionId {
-  [key: string]: string;
+  [key: string]: { session_id: string; step: number };
 }
 
 export type ChatPage =

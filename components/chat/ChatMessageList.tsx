@@ -17,26 +17,16 @@ import MineMessage from './messages/MineMessage';
 import RobotMessage from './messages/RobotMessage';
 import ChatTypeField from './ChatTypeField';
 import { useSendChat } from '@/query/query';
-import { IChatMessage, IChatMesssageList, ISessionId } from '@/query/type';
+import { useChatMessageContext } from '@/context/ChatMessageContext';
 
 type Props = {
   messageList: Question;
-  sIdMap: ISessionId;
-  setSIdMap: (value: string, question_id: string) => void;
-  currentMsgs: IChatMesssageList;
-  setCurMsgs: (value: IChatMessage, question_id: string) => void;
 };
 
-const ChatMessageList = ({
-  messageList,
-  currentMsgs,
-  setCurMsgs,
-  sIdMap,
-  setSIdMap,
-}: Props) => {
+const ChatMessageList = ({ messageList }: Props) => {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const chatPanelRef = useRef<HTMLDivElement>(null);
-
+  const { currentMessageList } = useChatMessageContext();
   const [isMineMessageLoading, setMineMessageLoading] =
     useState<boolean>(false);
 
@@ -72,14 +62,14 @@ const ChatMessageList = ({
     <>
       <div
         ref={chatPanelRef}
-        className='custom-scrollbar flex h-full w-full select-text flex-col gap-y-14 overflow-y-auto px-1 pb-[70px]'
+        className='custom-scrollbar flex h-full w-full select-text flex-col gap-y-14 overflow-y-auto px-4 py-2 pb-[70px]'
       >
         {/* <ActivityMessage />
       <EditableMessage /> */}
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />
-        {currentMsgs[messageList.question_id]
-          ? currentMsgs[messageList.question_id].map((item, index) => {
+        {currentMessageList[messageList.question_id]
+          ? currentMessageList[messageList.question_id].map((item, index) => {
               return (
                 <Fragment key={`${index}-${item.from}`}>
                   {item.from === 'mine' ? (
@@ -100,9 +90,6 @@ const ChatMessageList = ({
           questionId={messageList.question_id}
           setMineMessageLoading={toggleMineMessageLoading}
           setRobotMessageLoading={toogleRobotMessageLoading}
-          setCurrentMessageList={setCurMsgs}
-          sIdMap={sIdMap}
-          setSIdMap={setSIdMap}
         />
       </div>
     </>

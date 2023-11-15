@@ -7,8 +7,8 @@ type Props = { step: number };
 const ChatInfo = ({ step }: Props) => {
   const [tab, setTabs] = useState(0);
   return (
-    <div className='flex h-full w-full flex-col gap-y-4 pr-10'>
-      <div className='relative h-40 w-40 shrink-0 self-center rounded-full bg-[#9068D033]'>
+    <div className='flex h-full w-full flex-col gap-y-8 pr-10'>
+      <div className='relative h-80 w-full shrink-0 self-center rounded-lg bg-[#E7D1F9]'>
         <Image
           alt='chatavatar'
           src='/chatAvatar.png'

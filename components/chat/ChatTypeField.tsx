@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import Image from 'next/image';
 import { IChatMessage, ISessionId } from '@/query/type';
+import { useChatMessageContext } from '@/context/ChatMessageContext';
 
 function wait(milliseconds: number | undefined) {
   return new Promise<void>((resolve) => {
@@ -27,15 +28,12 @@ type Props = {
   questionId: string;
   setMineMessageLoading: (value: boolean) => void;
   setRobotMessageLoading: (value: boolean) => void;
-  setCurrentMessageList: (value: IChatMessage, question_id: string) => void;
   onSendMessage: UseMutateAsyncFunction<
     any,
     Error,
     AnswerRequestParam,
     unknown
   >;
-  sIdMap: ISessionId;
-  setSIdMap: (value: string, question_id: string) => void;
 };
 
 const ChatTypeLoading = () => {
@@ -54,10 +52,10 @@ const ChatTypeField = ({
   onSendMessage,
   setMineMessageLoading,
   setRobotMessageLoading,
-  setCurrentMessageList,
-  sIdMap,
-  setSIdMap,
 }: Props) => {
+  const { setCurrentMessageList, currentSteps, sessionMap, setSessionMap } =
+    useChatMessageContext();
+
   const [message, setMessage] = useState<string>('');
   const { formAnswers } = useChatNavigatorContext();
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -89,10 +87,12 @@ const ChatTypeField = ({
     try {
       if (message.trim() !== '') {
         setMineMessageLoading(true);
-        const sessionId = sIdMap[questionId];
+        const sessionId = sessionMap[questionId]
+          ? sessionMap[questionId].session_id
+          : null;
         const response = await onSendMessage({
           questionid: questionId,
-          sessionid: sessionId ? sessionId : null,
+          sessionid: sessionId,
           templateid: template_id,
           message: message.trim(),
           formQuestionAnswer: formAnswers,
@@ -104,7 +104,7 @@ const ChatTypeField = ({
         await wait(1000);
         // reset textarea size
         setMessage('');
-        ref.current.style.height = '58px';
+        ref.current.style.height = '48px';
         // get reader for stream decode
         const reader = response.body.getReader();
         const { value } = await reader.read();
@@ -131,10 +131,11 @@ const ChatTypeField = ({
         );
         setRobotMessageLoading(false);
         if (sessionId !== resultArray[0].session_id) {
-          setSIdMap(resultArray[0].session_id, questionId);
+          setSessionMap(resultArray[0].session_id, questionId, currentSteps);
         }
       }
     } catch (error) {
+      console.error(error);
     } finally {
       setMineMessageLoading(false);
       setRobotMessageLoading(false);
@@ -142,8 +143,8 @@ const ChatTypeField = ({
   };
 
   return (
-    <motion.div className='absolute bottom-4 left-4 h-auto w-[calc(100%_-_2rem)] bg-white'>
-      <div className='flex-center absolute bottom-4 left-2 h-6 w-6 rounded-full bg-primary-200 '>
+    <motion.div className='absolute bottom-0 left-4 h-[70px] w-[calc(100%_-_2rem)] bg-white'>
+      <div className='flex-center absolute bottom-9 left-2 h-6 w-6 rounded-full bg-primary-200 '>
         <Image
           src='/robotoutline.png'
           alt='robot'
@@ -159,7 +160,7 @@ const ChatTypeField = ({
         rows={1}
         disabled={isSending}
         placeholder='Type to chat with Max!'
-        className='max-h-[220px] min-h-[58px] w-[99%] resize-none py-4 pl-10 pr-14 text-[16px] focus-visible:shadow-textarea focus-visible:ring-0'
+        className='max-h-[220px] min-h-[48px] w-[99%] resize-none py-3 pl-10 pr-14 text-[14px] focus-visible:shadow-textarea focus-visible:ring-0'
         value={message}
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
@@ -171,7 +172,7 @@ const ChatTypeField = ({
         <Image
           onClick={sendMessage}
           alt='chatsent'
-          className='absolute bottom-4 right-5 cursor-pointer transition-transform hover:-translate-y-1'
+          className='absolute bottom-9 right-5 cursor-pointer transition-transform hover:-translate-y-1'
           src='/telegram_fill.svg'
           width={23}
           height={24}
