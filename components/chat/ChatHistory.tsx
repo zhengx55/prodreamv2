@@ -13,7 +13,9 @@ import { ChatQuestionIdMap } from '@/constant';
 const ChatHistory = () => {
   const { setCurrentSteps, currentSteps, currentMessageList } =
     useChatMessageContext();
-
+  const handleSessionNavigation = (index: number) => {
+    setCurrentSteps(index + 1);
+  };
   return (
     <motion.div
       key='history-chat'
@@ -30,9 +32,10 @@ const ChatHistory = () => {
             <div
               className='flex cursor-pointer flex-col gap-y-1 rounded-xl p-2 hover:bg-primary-50'
               key={item[0]}
+              onClick={() => handleSessionNavigation(index)}
             >
-              <h1 className='base-semibold'>
-                Step{index + 1}:&nbsp; {ChatQuestionIdMap[item[0]]}
+              <h1 className='small-semibold'>
+                Step {index + 1}:&nbsp; {ChatQuestionIdMap[item[0]]}
               </h1>
               <p className='subtle-medium line-clamp-1 text-shadow'>
                 {Object.values(item[1])[0][0].message}

@@ -32,6 +32,11 @@ export default function ChatLayout({
     isPending: isChatDataPending,
     isError: isChatDataError,
   } = useChatGuideQas(template_id);
+  // !test purpose
+  const unwantedQuestionIds = [
+    'a49fb3107c95416f9948bf7d2ff42727',
+    'be3a57998ae847288f4d5d7aa9da6831',
+  ];
 
   return isChatDataPending ? (
     <Loading />
@@ -40,7 +45,15 @@ export default function ChatLayout({
       value={{
         currentRoute,
         updateCurrentRoute,
-        questions: isChatDataError ? ({} as FormQuestionResponse) : chatQas,
+        questions: isChatDataError
+          ? ({} as FormQuestionResponse)
+          : {
+              form_question: chatQas.form_question,
+              questions: chatQas?.questions.filter(
+                (question) =>
+                  !unwantedQuestionIds.includes(question.question_id)
+              ),
+            },
         isQusetionFetchError: isChatDataError,
         formAnswers: formAnswers,
         setFormAnswers: setFormAnswers,

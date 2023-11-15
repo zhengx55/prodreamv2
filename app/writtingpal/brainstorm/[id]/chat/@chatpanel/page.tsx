@@ -76,9 +76,15 @@ const ChatPanel = () => {
     []
   );
 
-  const handleTabChange = useCallback((value: number) => {
-    setSteps(value);
-  }, []);
+  const handleTabChange = useCallback(
+    (value: number) => {
+      if (steps !== value) {
+        setSteps(value);
+        setCurrnetSessionId(null);
+      }
+    },
+    [steps]
+  );
 
   return (
     <ChatMessageContext.Provider
@@ -107,10 +113,10 @@ const ChatPanel = () => {
             : steps === 2
               ? ChatSteps.EDUCATION
               : steps === 3
-                ? ChatSteps.PLANNING
+                ? ChatSteps.PREVIOUS
                 : steps === 4
-                  ? ChatSteps.PREVIOUS
-                  : ChatSteps.REASON}
+                  ? ChatSteps.REASON
+                  : ChatSteps.PLANNING}
         </h2>
         <div className='relative my-4 flex h-full max-h-full w-full overflow-y-hidden'>
           {/* chatpanel leftscetion */}
