@@ -82,6 +82,9 @@ const ChatMessageList = ({ messageList }: Props) => {
       <EditableMessage /> */}
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />
+        {messageList.question_id === 'fe96cfa951c346b091c3d1681ad65957' && (
+          <ActivityMessage />
+        )}
         {currentMessageList[messageList.question_id] && currnetSessionId
           ? currentMessageList[messageList.question_id][currnetSessionId].map(
               (item, index) => {

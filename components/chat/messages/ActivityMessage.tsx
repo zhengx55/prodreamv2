@@ -19,12 +19,12 @@ const ActivityMessage = (props: Props) => {
       initial={false}
       animate={showOptions ? 'open' : 'closed'}
       variants={ListVariant}
-      className='flex w-[80%] min-w-[485px] flex-col self-start rounded-[20px] bg-shadow-200 p-6'
+      className='flex w-[80%] min-w-[485px] flex-col self-start rounded-xl bg-shadow-200 p-4'
     >
-      <p className='base-regular text-black-700'>
+      <p className='small-regular text-black-700'>
         Great! You can click Add Activity to add a new experience
       </p>
-      <div className='flex-start mt-4'>
+      <div className='flex-start mt-2'>
         <Button
           variant={'bold'}
           size={'sm'}

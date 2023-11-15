@@ -1,5 +1,4 @@
 'use client';
-import { ChatSteps, QuestionID } from '@/constant/enum';
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useChatMessageContext } from '@/context/ChatMessageContext';
