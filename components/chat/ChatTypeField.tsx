@@ -7,7 +7,6 @@ import React, {
   memo,
 } from 'react';
 import { Textarea } from '../ui/textarea';
-import { motion } from 'framer-motion';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { AnswerRequestParam } from '@/types';
 import { usePathname } from 'next/navigation';
@@ -61,7 +60,6 @@ const ChatTypeField = ({
   const path = usePathname();
   const template_id = path.split('/')[3];
 
-  // const [InputLoading, setInputLoading] = useState(false);
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (!ref.current) return;
     const textarea = e.target;
@@ -157,7 +155,7 @@ const ChatTypeField = ({
   };
 
   return (
-    <motion.div className='relative w-full bg-white px-2 py-2'>
+    <div className='relative w-full bg-white px-2 py-2'>
       <div className='flex-center absolute bottom-[20px] left-4 h-7 w-7 rounded-full bg-primary-200 '>
         <Image
           src='/robotoutline.png'
@@ -192,7 +190,7 @@ const ChatTypeField = ({
           height={24}
         />
       )}
-    </motion.div>
+    </div>
   );
 };
 
