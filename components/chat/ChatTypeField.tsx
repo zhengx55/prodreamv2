@@ -173,15 +173,21 @@ const ChatTypeField = ({
 
       {isSending ? (
         <ChatTypeLoading />
-      ) : (
+      ) : message.trim() === '' ? (
         <Image
-          onClick={sendMessage}
           alt='chatsent'
-          className='absolute bottom-5 right-5 cursor-pointer transition-transform hover:-translate-y-1'
+          className='absolute bottom-5 right-7'
           src='/telegram_fill.svg'
           width={23}
           height={24}
         />
+      ) : (
+        <div
+          className='flex-center absolute bottom-5 right-7 h-6 w-6 cursor-pointer rounded-lg bg-primary-200 transition-transform hover:-translate-y-1'
+          onClick={sendMessage}
+        >
+          <Image alt='chatsent' src='/telegram.svg' width={18} height={18} />
+        </div>
       )}
     </div>
   );
