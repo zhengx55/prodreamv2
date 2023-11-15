@@ -13,7 +13,6 @@ import { AnswerRequestParam } from '@/types';
 import { usePathname } from 'next/navigation';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import Image from 'next/image';
-import { IChatMessage, ISessionId } from '@/query/type';
 import { useChatMessageContext } from '@/context/ChatMessageContext';
 
 function wait(milliseconds: number | undefined) {
@@ -53,7 +52,7 @@ const ChatTypeField = ({
   setMineMessageLoading,
   setRobotMessageLoading,
 }: Props) => {
-  const { setCurrentMessageList, currentSteps, sessionMap, setSessionMap } =
+  const { setCurrentMessageList, setCurrentSeesion, currnetSessionId } =
     useChatMessageContext();
 
   const [message, setMessage] = useState<string>('');
@@ -87,19 +86,23 @@ const ChatTypeField = ({
     try {
       if (message.trim() !== '') {
         setMineMessageLoading(true);
-        const sessionId = sessionMap[questionId]
-          ? sessionMap[questionId].session_id
-          : null;
         const response = await onSendMessage({
           questionid: questionId,
-          sessionid: sessionId,
+          sessionid: currnetSessionId,
           templateid: template_id,
           message: message.trim(),
           formQuestionAnswer: formAnswers,
           previousSessionids: [],
         });
-        setMineMessageLoading(false);
-        setCurrentMessageList({ from: 'mine', message }, questionId);
+        if (currnetSessionId) {
+          setCurrentMessageList(
+            { from: 'mine', message },
+            questionId,
+            currnetSessionId
+          );
+          setMineMessageLoading(false);
+        }
+
         setRobotMessageLoading(true);
         await wait(1000);
         // reset textarea size
@@ -125,13 +128,23 @@ const ChatTypeField = ({
           .slice(0, -3)
           .map((item) => item.content_delta)
           .join('');
+
+        if (!currnetSessionId) {
+          setCurrentMessageList(
+            { from: 'mine', message },
+            questionId,
+            resultArray[0].session_id
+          );
+          setMineMessageLoading(false);
+        }
         setCurrentMessageList(
           { from: 'robot', message: newRobotMessage },
-          questionId
+          questionId,
+          resultArray[0].session_id
         );
         setRobotMessageLoading(false);
-        if (sessionId !== resultArray[0].session_id) {
-          setSessionMap(resultArray[0].session_id, questionId, currentSteps);
+        if (currnetSessionId !== resultArray[0].session_id) {
+          setCurrentSeesion(resultArray[0].session_id);
         }
       }
     } catch (error) {

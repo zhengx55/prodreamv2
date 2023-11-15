@@ -3,11 +3,15 @@ import { createContext, useContext } from 'react';
 
 type ChatMessageContextPrps = {
   currentMessageList: IChatMesssageList;
-  setCurrentMessageList: (value: IChatMessage, question_id: string) => void;
+  currnetSessionId: string | null;
+  setCurrentSeesion: (value: string) => void;
+  setCurrentMessageList: (
+    value: IChatMessage,
+    question_id: string,
+    session_id: string
+  ) => void;
   currentSteps: number;
   setCurrentSteps: (value: number) => void;
-  sessionMap: ISessionId;
-  setSessionMap: (value: string, question_id: string, step: number) => void;
 };
 
 export const ChatMessageContext = createContext({} as ChatMessageContextPrps);

@@ -24,9 +24,8 @@ type Props = {
 };
 
 const ChatMessageList = ({ messageList }: Props) => {
-  const [sessionId, setSessionId] = useState<string | null>(null);
   const chatPanelRef = useRef<HTMLDivElement>(null);
-  const { currentMessageList } = useChatMessageContext();
+  const { currentMessageList, currnetSessionId } = useChatMessageContext();
   const [isMineMessageLoading, setMineMessageLoading] =
     useState<boolean>(false);
 
@@ -69,17 +68,19 @@ const ChatMessageList = ({ messageList }: Props) => {
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />
         {currentMessageList[messageList.question_id]
-          ? currentMessageList[messageList.question_id].map((item, index) => {
-              return (
-                <Fragment key={`${index}-${item.from}`}>
-                  {item.from === 'mine' ? (
-                    <MineMessage message={item.message} />
-                  ) : (
-                    <RobotMessage message={item.message} />
-                  )}
-                </Fragment>
-              );
-            })
+          ? currentMessageList[messageList.question_id][currnetSessionId!].map(
+              (item, index) => {
+                return (
+                  <Fragment key={`${index}-${item.from}`}>
+                    {item.from === 'mine' ? (
+                      <MineMessage message={item.message} />
+                    ) : (
+                      <RobotMessage message={item.message} />
+                    )}
+                  </Fragment>
+                );
+              }
+            )
           : null}
 
         {isMineMessageLoading && <MineMessagLoading />}

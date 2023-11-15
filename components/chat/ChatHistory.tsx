@@ -4,6 +4,11 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useChatMessageContext } from '@/context/ChatMessageContext';
 
+/**
+ * 从history进入聊天界面时许重置sessionId 为概该聊天section的sessionId
+ * @returns
+ */
+
 const ChatHistory = () => {
   const { setCurrentSteps, currentSteps } = useChatMessageContext();
   return (

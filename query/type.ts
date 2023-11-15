@@ -25,6 +25,10 @@ export interface IChatMessage {
 }
 
 export interface IChatMesssageList {
+  [key: string]: ISessionMesssageList;
+}
+
+export interface ISessionMesssageList {
   [key: string]: IChatMessage[];
 }
 

@@ -17,11 +17,8 @@ const ChatPanel = () => {
   const { questions, isQusetionFetchError, updateCurrentRoute } =
     useChatNavigatorContext();
   const [steps, setSteps] = useState<number>(1);
-  const [showHistory, setShowHistory] = useState(true);
-  const [sessionMap, setSessionMap] = useState<ISessionId>(() => {
-    const memory = localStorage.getItem('chat_session_ids');
-    return memory ? JSON.parse(memory) : {};
-  });
+  const [showHistory, setShowHistory] = useState(false);
+  const [currentSessionId, setCurrnetSessionId] = useState<string | null>(null);
   const [currentMessageList, setCurrentMessageList] =
     useState<IChatMesssageList>(() => {
       const memory = localStorage.getItem('chat_history');
@@ -33,41 +30,48 @@ const ChatPanel = () => {
     localStorage.setItem('chat_history', JSON.stringify(currentMessageList));
   }, [currentMessageList]);
 
-  useDeepCompareEffect(() => {
-    localStorage.setItem('chat_session_ids', JSON.stringify(sessionMap));
-  }, [sessionMap]);
-
   const handleTabNavigation = useCallback(() => {
+    // 当进入下一个聊天引导时清空上一个sessionid 已进入新的聊天窗口并记录上一个sessionId
     if (steps >= 1 && steps < 5) {
+      setCurrnetSessionId(null);
       setSteps((prev) => prev + 1);
     }
   }, [steps]);
 
+  const setCurrentSession = useCallback((value: string | null) => {
+    setCurrnetSessionId(value);
+  }, []);
+
   const addCurrentMessage = useCallback(
-    (value: IChatMessage, question_id: string) => {
+    (value: IChatMessage, question_id: string, session_id: string) => {
       setCurrentMessageList((prevState) => {
-        if (prevState[question_id]) {
+        const isKey1Exist = prevState.hasOwnProperty(question_id);
+        if (isKey1Exist) {
+          const isKey2Exist = prevState[question_id].hasOwnProperty(session_id);
+          if (isKey2Exist) {
+            return {
+              ...prevState,
+              [question_id]: {
+                ...prevState[question_id],
+                [session_id]: [...prevState[question_id][session_id], value],
+              },
+            };
+          }
           return {
             ...prevState,
-            [question_id]: [...prevState[question_id], value],
-          };
-        } else {
-          return {
-            ...prevState,
-            [question_id]: [value],
+            [question_id]: {
+              ...prevState[question_id],
+              [session_id]: [value],
+            },
           };
         }
+        return {
+          ...prevState,
+          [question_id]: {
+            [session_id]: [value],
+          },
+        };
       });
-    },
-    []
-  );
-
-  const addSessionIdLMap = useCallback(
-    (value: string, question_id: string, step: number) => {
-      setSessionMap((prevState) => ({
-        ...prevState,
-        [question_id]: { session_id: value, step },
-      }));
     },
     []
   );
@@ -80,11 +84,11 @@ const ChatPanel = () => {
     <ChatMessageContext.Provider
       value={{
         currentMessageList: currentMessageList,
+        currnetSessionId: currentSessionId,
+        setCurrentSeesion: setCurrentSession,
         setCurrentMessageList: addCurrentMessage,
         currentSteps: steps,
         setCurrentSteps: handleTabChange,
-        sessionMap: sessionMap,
-        setSessionMap: addSessionIdLMap,
       }}
     >
       <motion.section
