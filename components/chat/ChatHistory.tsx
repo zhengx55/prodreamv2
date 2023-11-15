@@ -33,7 +33,7 @@ const ChatHistory = () => {
               key={item[0]}
               onClick={() => handleSessionNavigation(index)}
             >
-              <h1 className='small-semibold'>
+              <h1 className='small-semibold capitalize'>
                 Step {index + 1}:&nbsp; {ChatQuestionIdMap[item[0]]}
               </h1>
               <p className='subtle-medium line-clamp-1 text-shadow'>
