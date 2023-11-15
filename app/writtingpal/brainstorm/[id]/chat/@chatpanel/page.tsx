@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ChatSteps } from '@/constant/enum';
 import { ChatMessageContext } from '@/context/ChatMessageContext';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
-import { IChatMessage, IChatMesssageList, ISessionId } from '@/query/type';
+import { IChatMessage, IChatMesssageList } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CalendarRange } from 'lucide-react';
 import { useCallback, useState } from 'react';
@@ -118,7 +118,7 @@ const ChatPanel = () => {
                   ? ChatSteps.REASON
                   : ChatSteps.PLANNING}
         </h2>
-        <div className='relative my-4 flex h-full max-h-full w-full overflow-y-hidden'>
+        <div className='relative my-4 flex h-full max-h-full w-full flex-col overflow-y-auto md:flex-row md:overflow-y-hidden'>
           {/* chatpanel leftscetion */}
           {!isQusetionFetchError && (
             <>
@@ -146,7 +146,7 @@ const ChatPanel = () => {
             </>
           )}
         </div>
-        <div className='flex-between mb-10 mt-4 w-full'>
+        <div className='flex-between mb-4 mt-4 w-full md:mb-10'>
           <BackButton onBack={() => updateCurrentRoute('introductions')} />
           <Button
             onClick={handleTabNavigation}
