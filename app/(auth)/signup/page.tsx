@@ -159,7 +159,7 @@ export default function Page() {
               <Link href={'/'} className='text-primary-200'>
                 &nbsp;Applify AI&apos;s Term of Service
               </Link>
-              and
+              &nbsp; and
               <Link href={'/'} className='text-primary-200'>
                 &nbsp;Privacy Policy
               </Link>
@@ -177,7 +177,7 @@ export default function Page() {
         </div>
         <GoogleSignin />
         <p className='small-regular mt-4 self-center text-black-200'>
-          Already have an account??&nbsp;
+          Already have an account?&nbsp;
           <Link href={'/login'} className='text-primary-200'>
             Log in
           </Link>

@@ -130,7 +130,6 @@ const ChatTypeField = ({
           questionId
         );
         setRobotMessageLoading(false);
-        console.log(resultArray[0].session_id);
         if (sessionId !== resultArray[0].session_id) {
           setSIdMap(resultArray[0].session_id, questionId);
         }
