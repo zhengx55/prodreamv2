@@ -113,7 +113,7 @@ const ChatPanel = () => {
           {!isQusetionFetchError && (
             <>
               <div className='flex-[0.5] flex-col'>
-                <ChatInfo step={steps} />
+                <ChatInfo />
               </div>
               {/* chatpanel middlesection  */}
               <div className='relative flex flex-[0.5] flex-col md:h-full md:rounded-lg md:border md:border-shadow-border'>

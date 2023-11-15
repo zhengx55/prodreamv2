@@ -17,7 +17,7 @@ const ChatHistory = () => {
     >
       <h1 className='title-semibold mx-4 mt-4'>Chat History</h1>
       <div className='my-4 flex w-full flex-col gap-y-2 px-4'>
-        <div
+        {/* <div
           className={`${
             currentSteps === 1 ? 'bg-primary-50' : ''
           } flex cursor-pointer flex-col gap-y-2 rounded-xl p-2 hover:bg-primary-50`}
@@ -96,7 +96,7 @@ const ChatHistory = () => {
           <p className='subtle-medium text-shadow'>
             Text to speech voice: Introducing...
           </p>
-        </div>
+        </div> */}
       </div>
     </motion.div>
   );

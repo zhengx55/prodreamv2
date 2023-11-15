@@ -1,11 +1,11 @@
 import { moduleExample, moduleNotes } from '@/constant';
+import { useChatMessageContext } from '@/context/ChatMessageContext';
 import Image from 'next/image';
 import React, { memo, useState } from 'react';
 
-type Props = { step: number };
-
-const ChatInfo = ({ step }: Props) => {
+const ChatInfo = () => {
   const [tab, setTabs] = useState(0);
+  const { currentSteps } = useChatMessageContext();
   return (
     <div className='flex h-full w-full flex-col gap-y-8 pr-10'>
       <div className='relative h-80 w-full shrink-0 self-center rounded-lg bg-[#E7D1F9]'>
@@ -39,9 +39,13 @@ const ChatInfo = ({ step }: Props) => {
       {/* info */}
       <ul className='custom-scrollbar flex max-h-full w-full overflow-y-auto'>
         {tab === 1 ? (
-          <li className='small-regular'>{moduleExample[step.toString()]}</li>
+          <li className='small-regular'>
+            {moduleExample[currentSteps.toString()]}
+          </li>
         ) : (
-          <li className='small-regular'>{moduleNotes[step.toString()]}</li>
+          <li className='small-regular'>
+            {moduleNotes[currentSteps.toString()]}
+          </li>
         )}
       </ul>
     </div>
