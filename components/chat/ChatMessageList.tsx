@@ -57,10 +57,6 @@ const ChatMessageList = ({ messageList }: Props) => {
       const session_id = Object.keys(
         currentMessageList[messageList.question_id]
       )[0];
-      console.log(
-        '🚀 ~ file: ChatMessageList.tsx:60 ~ useEffect ~ session_id:',
-        session_id
-      );
       setCurrentSeesion(session_id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
