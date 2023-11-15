@@ -78,6 +78,8 @@ const FormPanel = ({
     []
   );
 
+  // const hadnleModuleAdd = (index: number, item: Module) => {};
+
   const handleSubmit = async () => {
     dispatch(clearEssay());
     dispatch(clearHistory());
@@ -127,27 +129,32 @@ const FormPanel = ({
           </div>
           <Separator orientation='horizontal' className='bg-shadow-border' />
           {/* Switch ------------------------------------------------------- */}
-          <div className='flex gap-x-2'>
-            <Label htmlFor='quality-mode' className='base-semibold flex-[0.3]'>
-              High-Quality Mode
-              <br />
-              <p className='subtle-regular mt-2 text-shadow-100'>
-                Generate higher-quality essays but may require more time. Please
-                be patient
-              </p>
-            </Label>
-            <div className='relative flex h-full flex-[0.7] items-center gap-x-2'>
-              <p>off</p>
-              <Switch
-                checked={qualityMode === 1}
-                onCheckedChange={() => {
-                  qualityMode === 0 ? setQualityMode(1) : setQualityMode(0);
-                }}
-                id='quality-mode'
-              />
-              <p>on</p>
+          {moduleData.has_pro && (
+            <div className='flex gap-x-2'>
+              <Label
+                htmlFor='quality-mode'
+                className='base-semibold flex-[0.3]'
+              >
+                High-Quality Mode
+                <br />
+                <p className='subtle-regular mt-2 text-shadow-100'>
+                  Generate higher-quality essays but may require more time.
+                  Please be patient
+                </p>
+              </Label>
+              <div className='relative flex h-full flex-[0.7] items-center gap-x-2'>
+                <p>off</p>
+                <Switch
+                  checked={qualityMode === 1}
+                  onCheckedChange={() => {
+                    qualityMode === 0 ? setQualityMode(1) : setQualityMode(0);
+                  }}
+                  id='quality-mode'
+                />
+                <p>on</p>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Personal Beta ------------------------------------------------------- */}
           <div className='flex gap-x-2 md:h-[140px]'>
@@ -171,15 +178,23 @@ const FormPanel = ({
             </div>
           </div>
         </div>
-        {moduleData.modules.map((item, index) => {
+        {moduleData.modules.map((item, _index) => {
+          const hasMultiple = item.multiple === 1;
           return (
             <div
               key={item.id}
               className='mt-4 flex flex-col gap-y-4 overflow-y-hidden rounded-xl bg-white p-4 md:w-full'
             >
-              <div className='flex-start gap-x-2'>
-                <span className='h-6 w-2 rounded-[10px] bg-primary-200' />
-                <p className='title-semibold'>{item.name ?? ''}</p>
+              <div className='flex-between'>
+                <div className='flex items-center gap-x-2'>
+                  <span className='h-6 w-2 rounded-[10px] bg-primary-200' />
+                  <p className='title-semibold'>{item.name ?? ''}</p>
+                </div>
+                {hasMultiple && (
+                  <div className='title-semibold cursor-pointer text-primary-200 hover:text-shadow-100'>
+                    + Add
+                  </div>
+                )}
               </div>
               <Separator
                 orientation='horizontal'
@@ -203,7 +218,7 @@ const FormPanel = ({
                         onChange={handleFormStateChange}
                         name={item.id}
                         id={item.id}
-                        className='h-full w-full overflow-y-auto pb-12'
+                        className='small-medium h-full w-full overflow-y-auto pb-12'
                         placeholder={item.example}
                         disabled={!!formStatus[item.id] || submitPending}
                       />

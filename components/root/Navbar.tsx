@@ -8,7 +8,7 @@ import User from './User';
 const Navbar = () => {
   const pathname = usePathname();
   return (
-    <nav className='flex-between h-[var(--top-nav-bar-height)] border-b border-shadow-border bg-white px-12 shadow-sidebar'>
+    <nav className='flex-between h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold hidden capitalize text-black-200 md:block'>
         {pathname.split('/')[2]}
       </h3>

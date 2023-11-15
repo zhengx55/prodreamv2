@@ -8,7 +8,6 @@ import { store } from '../../../../store/store';
 import { useEssayWriting } from '@/query/query';
 export default function Page({ params }: { params: { id: string } }) {
   // !test hard code chat id
-
   const {
     isPending: isSubmitPending,
     mutateAsync: submitEssay,

@@ -13,7 +13,7 @@ export default function WrittingpalLayout({
   return (
     <Provider store={store}>
       <Sidebar />
-      <div className='flex h-full w-full flex-col overflow-x-auto'>
+      <div className='flex h-full w-full flex-col overflow-x-auto md:overflow-y-hidden'>
         <Navbar />
         {children}
       </div>

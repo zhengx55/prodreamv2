@@ -160,23 +160,12 @@ const ChatTypeField = ({
 
   return (
     <div className='relative w-full bg-white px-2 py-2'>
-      <div className='flex-center absolute bottom-[20px] left-4 h-7 w-7 rounded-full bg-primary-200 '>
-        <Image
-          src='/robotoutline.png'
-          alt='robot'
-          width={20}
-          className='h-auto w-auto'
-          height={20}
-          priority
-        />
-      </div>
-
       <Textarea
         ref={ref}
         rows={1}
         disabled={isSending}
         placeholder='Type to chat with Max!'
-        className='max-h-[220px] min-h-[48px] w-[99%] resize-none overflow-hidden py-3 pl-10 pr-14 text-[14px] focus-visible:shadow-textarea focus-visible:ring-0'
+        className='max-h-[220px] min-h-[48px] w-[99%] resize-none overflow-hidden py-3 pl-4 pr-14 text-[14px] focus-visible:shadow-textarea focus-visible:ring-0'
         value={message}
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
