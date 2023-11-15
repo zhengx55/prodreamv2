@@ -38,6 +38,15 @@ const ChatPanel = () => {
     }
   }, [steps]);
 
+  const handleNavBack = () => {
+    if (steps === 1) {
+      updateCurrentRoute('introductions');
+    } else {
+      setSteps((prev) => prev - 1);
+      setCurrnetSessionId(null);
+    }
+  };
+
   const setCurrentSession = useCallback((value: string | null) => {
     setCurrnetSessionId(value);
   }, []);
@@ -147,7 +156,7 @@ const ChatPanel = () => {
           )}
         </div>
         <div className='flex-between mb-4 mt-4 w-full md:mb-10'>
-          <BackButton onBack={() => updateCurrentRoute('introductions')} />
+          <BackButton onBack={handleNavBack} />
           <Button
             onClick={handleTabNavigation}
             className='slef-end'
