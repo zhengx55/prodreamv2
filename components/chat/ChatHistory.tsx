@@ -1,8 +1,9 @@
 'use client';
-import { ChatSteps } from '@/constant/enum';
+import { ChatSteps, QuestionID } from '@/constant/enum';
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useChatMessageContext } from '@/context/ChatMessageContext';
+import { ChatQuestionIdMap } from '@/constant';
 
 /**
  * 从history进入聊天界面时许重置sessionId 为概该聊天section的sessionId
@@ -10,7 +11,9 @@ import { useChatMessageContext } from '@/context/ChatMessageContext';
  */
 
 const ChatHistory = () => {
-  const { setCurrentSteps, currentSteps } = useChatMessageContext();
+  const { setCurrentSteps, currentSteps, currentMessageList } =
+    useChatMessageContext();
+
   return (
     <motion.div
       key='history-chat'
@@ -22,86 +25,21 @@ const ChatHistory = () => {
     >
       <h1 className='title-semibold mx-4 mt-4'>Chat History</h1>
       <div className='my-4 flex w-full flex-col gap-y-2 px-4'>
-        {/* <div
-          className={`${
-            currentSteps === 1 ? 'bg-primary-50' : ''
-          } flex cursor-pointer flex-col gap-y-2 rounded-xl p-2 hover:bg-primary-50`}
-          onClick={() => {
-            setCurrentSteps(1);
-          }}
-        >
-          <h1 className='base-semibold'>
-            Step {currentSteps}:&nbsp;
-            {ChatSteps.MOVTIVATION}
-          </h1>
-          <p className='subtle-medium text-shadow'>
-            Text to speech voice: Introducing...
-          </p>
-        </div>
-        <div
-          className={`${
-            currentSteps === 2 ? 'bg-primary-50' : ''
-          } flex cursor-pointer flex-col gap-y-2 rounded-xl p-2 hover:bg-primary-50`}
-          onClick={() => {
-            setCurrentSteps(2);
-          }}
-        >
-          <h1 className='base-semibold'>
-            Step {currentSteps}:&nbsp;
-            {ChatSteps.EDUCATION}
-          </h1>
-          <p className='subtle-medium text-shadow'>
-            Text to speech voice: Introducing...
-          </p>
-        </div>
-        <div
-          className={`${
-            currentSteps === 3 ? 'bg-primary-50' : ''
-          } flex cursor-pointer flex-col gap-y-2 rounded-xl p-2 hover:bg-primary-50`}
-          onClick={() => {
-            setCurrentSteps(3);
-          }}
-        >
-          <h1 className='base-semibold'>
-            Step {currentSteps}:&nbsp;
-            {ChatSteps.PREVIOUS}
-          </h1>
-          <p className='subtle-medium text-shadow'>
-            Text to speech voice: Introducing...
-          </p>
-        </div>
-        <div
-          className={`${
-            currentSteps === 4 ? 'bg-primary-50' : ''
-          } flex cursor-pointer flex-col gap-y-2 rounded-xl p-2 hover:bg-primary-50`}
-          onClick={() => {
-            setCurrentSteps(4);
-          }}
-        >
-          <h1 className='base-semibold'>
-            Step {currentSteps}:&nbsp;
-            {ChatSteps.PLANNING}
-          </h1>
-          <p className='subtle-medium text-shadow'>
-            Text to speech voice: Introducing...
-          </p>
-        </div>
-        <div
-          className={`${
-            currentSteps === 5 ? 'bg-primary-50' : ''
-          } flex cursor-pointer flex-col gap-y-2 rounded-xl p-2 hover:bg-primary-50`}
-          onClick={() => {
-            setCurrentSteps(5);
-          }}
-        >
-          <h1 className='base-semibold'>
-            Step {currentSteps}:&nbsp;
-            {ChatSteps.REASON}
-          </h1>
-          <p className='subtle-medium text-shadow'>
-            Text to speech voice: Introducing...
-          </p>
-        </div> */}
+        {Object.entries(currentMessageList).map((item, index) => {
+          return (
+            <div
+              className='flex cursor-pointer flex-col gap-y-1 rounded-xl p-2 hover:bg-primary-50'
+              key={item[0]}
+            >
+              <h1 className='base-semibold'>
+                Step{index + 1}:&nbsp; {ChatQuestionIdMap[item[0]]}
+              </h1>
+              <p className='subtle-medium line-clamp-1 text-shadow'>
+                {Object.values(item[1])[0][0].message}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </motion.div>
   );

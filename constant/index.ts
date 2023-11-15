@@ -454,6 +454,14 @@ export const moduleInfo = [
   },
 ];
 
+export const ChatQuestionIdMap: Record<string, string> = {
+  a6fe251ae1eb4c499283bac90d862fd5: 'Motivation',
+  b38def168cc94840a92f1249bd595244: 'Academic achievement',
+  fe96cfa951c346b091c3d1681ad65957: 'Previous Experience',
+  e1c32f5cfbfe45e6a84805a4b35aad8d: 'Why School',
+  aaef5245621e46e5bc0d285d2a464897: 'Career Goal',
+};
+
 export const messageOptions = [
   {
     id: 'chat-message-options-1',

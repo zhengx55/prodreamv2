@@ -37,7 +37,7 @@ type Props = {
 
 const ChatTypeLoading = () => {
   return (
-    <div className='absolute bottom-6 right-5 flex gap-x-1'>
+    <div className='absolute bottom-7 right-7 flex gap-x-1'>
       <span className='h-2 w-2 animate-bounce rounded-full bg-dot' />
       <span className='h-2 w-2 animate-bounce rounded-full bg-dot delay-100' />
       <span className='h-2 w-2 animate-bounce rounded-full bg-dot delay-200' />
@@ -142,6 +142,7 @@ const ChatTypeField = ({
           questionId,
           resultArray[0].session_id
         );
+        console.log(resultArray[resultArray.length - 2]);
         setRobotMessageLoading(false);
         if (currnetSessionId !== resultArray[0].session_id) {
           setCurrentSeesion(resultArray[0].session_id);
@@ -156,8 +157,8 @@ const ChatTypeField = ({
   };
 
   return (
-    <motion.div className='absolute bottom-0 left-4 h-[70px] w-[calc(100%_-_2rem)] bg-white'>
-      <div className='flex-center absolute bottom-9 left-2 h-6 w-6 rounded-full bg-primary-200 '>
+    <motion.div className='relative w-full bg-white px-2 py-2'>
+      <div className='flex-center absolute bottom-[20px] left-4 h-7 w-7 rounded-full bg-primary-200 '>
         <Image
           src='/robotoutline.png'
           alt='robot'
@@ -173,7 +174,7 @@ const ChatTypeField = ({
         rows={1}
         disabled={isSending}
         placeholder='Type to chat with Max!'
-        className='max-h-[220px] min-h-[48px] w-[99%] resize-none py-3 pl-10 pr-14 text-[14px] focus-visible:shadow-textarea focus-visible:ring-0'
+        className='max-h-[220px] min-h-[48px] w-[99%] resize-none overflow-hidden py-3 pl-10 pr-14 text-[14px] focus-visible:shadow-textarea focus-visible:ring-0'
         value={message}
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
@@ -185,7 +186,7 @@ const ChatTypeField = ({
         <Image
           onClick={sendMessage}
           alt='chatsent'
-          className='absolute bottom-9 right-5 cursor-pointer transition-transform hover:-translate-y-1'
+          className='absolute bottom-5 right-5 cursor-pointer transition-transform hover:-translate-y-1'
           src='/telegram_fill.svg'
           width={23}
           height={24}

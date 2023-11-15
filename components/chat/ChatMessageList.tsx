@@ -61,14 +61,14 @@ const ChatMessageList = ({ messageList }: Props) => {
     <>
       <div
         ref={chatPanelRef}
-        className='custom-scrollbar flex h-full w-full select-text flex-col gap-y-14 overflow-y-auto px-4 py-2 pb-[70px]'
+        className='custom-scrollbar flex h-full w-full select-text flex-col gap-y-4 overflow-y-auto px-2 pt-2'
       >
         {/* <ActivityMessage />
       <EditableMessage /> */}
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />
-        {currentMessageList[messageList.question_id]
-          ? currentMessageList[messageList.question_id][currnetSessionId!].map(
+        {currentMessageList[messageList.question_id] && currnetSessionId
+          ? currentMessageList[messageList.question_id][currnetSessionId].map(
               (item, index) => {
                 return (
                   <Fragment key={`${index}-${item.from}`}>
@@ -85,14 +85,14 @@ const ChatMessageList = ({ messageList }: Props) => {
 
         {isMineMessageLoading && <MineMessagLoading />}
         {isRobotMessageLoading && <RobotMessageLoading />}
-        <ChatTypeField
-          onSendMessage={sendMessage}
-          isSending={isSending}
-          questionId={messageList.question_id}
-          setMineMessageLoading={toggleMineMessageLoading}
-          setRobotMessageLoading={toogleRobotMessageLoading}
-        />
       </div>
+      <ChatTypeField
+        onSendMessage={sendMessage}
+        isSending={isSending}
+        questionId={messageList.question_id}
+        setMineMessageLoading={toggleMineMessageLoading}
+        setRobotMessageLoading={toogleRobotMessageLoading}
+      />
     </>
   );
 };
