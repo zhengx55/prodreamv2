@@ -99,13 +99,13 @@ const ChatTypeField = ({
             currnetSessionId
           );
           setMineMessageLoading(false);
+          setMessage('');
+          ref.current.style.height = '48px';
         }
-
         setRobotMessageLoading(true);
         await wait(1000);
         // reset textarea size
-        setMessage('');
-        ref.current.style.height = '48px';
+
         // get reader for stream decode
         const reader = response.body.getReader();
         const { value } = await reader.read();
@@ -133,6 +133,8 @@ const ChatTypeField = ({
             questionId,
             resultArray[0].session_id
           );
+          setMessage('');
+          ref.current.style.height = '48px';
           setMineMessageLoading(false);
         }
         setCurrentMessageList(
@@ -140,7 +142,9 @@ const ChatTypeField = ({
           questionId,
           resultArray[0].session_id
         );
+        console.log(resultArray[resultArray.length - 1]);
         console.log(resultArray[resultArray.length - 2]);
+
         setRobotMessageLoading(false);
         if (currnetSessionId !== resultArray[0].session_id) {
           setCurrentSeesion(resultArray[0].session_id);

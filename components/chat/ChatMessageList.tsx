@@ -25,7 +25,8 @@ type Props = {
 
 const ChatMessageList = ({ messageList }: Props) => {
   const chatPanelRef = useRef<HTMLDivElement>(null);
-  const { currentMessageList, currnetSessionId } = useChatMessageContext();
+  const { currentMessageList, setCurrentSeesion, currnetSessionId } =
+    useChatMessageContext();
   const [isMineMessageLoading, setMineMessageLoading] =
     useState<boolean>(false);
 
@@ -46,6 +47,24 @@ const ChatMessageList = ({ messageList }: Props) => {
         chatPanelRef.current.scrollHeight - chatPanelRef.current.clientHeight;
     }
   };
+
+  useEffect(() => {
+    if (
+      messageList.question_id &&
+      currnetSessionId === null &&
+      currentMessageList[messageList.question_id]
+    ) {
+      const session_id = Object.keys(
+        currentMessageList[messageList.question_id]
+      )[0];
+      console.log(
+        '🚀 ~ file: ChatMessageList.tsx:60 ~ useEffect ~ session_id:',
+        session_id
+      );
+      setCurrentSeesion(session_id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentMessageList, messageList.question_id]);
 
   useEffect(() => {
     scrollToBottom();

@@ -222,7 +222,7 @@ export async function sendChatMessage(params: AnswerRequestParam) {
       body,
       headers: {
         'Content-Type': 'application/json',
-        // Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
       },
     });
     if (!res.ok) {

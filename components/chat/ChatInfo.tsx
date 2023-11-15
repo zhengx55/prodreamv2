@@ -39,11 +39,11 @@ const ChatInfo = () => {
       {/* info */}
       <ul className='custom-scrollbar flex max-h-full w-full overflow-y-auto'>
         {tab === 1 ? (
-          <li className='small-regular'>
+          <li className='small-regular text-justify'>
             {moduleExample[currentSteps.toString()]}
           </li>
         ) : (
-          <li className='small-regular'>
+          <li className='small-regular text-justify'>
             {moduleNotes[currentSteps.toString()]}
           </li>
         )}
