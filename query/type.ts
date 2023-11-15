@@ -9,6 +9,16 @@ export interface IBrainstormHistory {
   }[];
 }
 
+export interface ISessionId {
+  [key: string]: string;
+}
+
+export type ChatPage =
+  | 'startup'
+  | 'informations'
+  | 'introductions'
+  | 'chatPanel';
+
 export interface IChatMessage {
   from: 'mine' | 'robot';
   message: string;

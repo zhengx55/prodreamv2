@@ -13,7 +13,7 @@ import { AnswerRequestParam } from '@/types';
 import { usePathname } from 'next/navigation';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import Image from 'next/image';
-import { IChatMessage } from '@/query/type';
+import { IChatMessage, ISessionId } from '@/query/type';
 
 function wait(milliseconds: number | undefined) {
   return new Promise<void>((resolve) => {
@@ -34,8 +34,8 @@ type Props = {
     AnswerRequestParam,
     unknown
   >;
-  sIdList: string[];
-  setSIdList: (value: string) => void;
+  sIdMap: ISessionId;
+  setSIdMap: (value: string, question_id: string) => void;
 };
 
 const ChatTypeLoading = () => {
@@ -55,11 +55,10 @@ const ChatTypeField = ({
   setMineMessageLoading,
   setRobotMessageLoading,
   setCurrentMessageList,
-  sIdList,
-  setSIdList,
+  sIdMap,
+  setSIdMap,
 }: Props) => {
   const [message, setMessage] = useState<string>('');
-  const [sessionId, setSessionId] = useState<string | null>(null);
   const { formAnswers } = useChatNavigatorContext();
   const ref = useRef<HTMLTextAreaElement>(null);
   const path = usePathname();
@@ -90,13 +89,14 @@ const ChatTypeField = ({
     try {
       if (message.trim() !== '') {
         setMineMessageLoading(true);
+        const sessionId = sIdMap[questionId];
         const response = await onSendMessage({
           questionid: questionId,
-          sessionid: sessionId,
+          sessionid: sessionId ? sessionId : null,
           templateid: template_id,
           message: message.trim(),
           formQuestionAnswer: formAnswers,
-          previousSessionids: sIdList,
+          previousSessionids: [],
         });
         setMineMessageLoading(false);
         setCurrentMessageList({ from: 'mine', message }, questionId);
@@ -130,9 +130,9 @@ const ChatTypeField = ({
           questionId
         );
         setRobotMessageLoading(false);
+        console.log(resultArray[0].session_id);
         if (sessionId !== resultArray[0].session_id) {
-          setSessionId(resultArray[0].session_id);
-          setSIdList(resultArray[0].session_id);
+          setSIdMap(resultArray[0].session_id, questionId);
         }
       }
     } catch (error) {

@@ -17,12 +17,12 @@ import MineMessage from './messages/MineMessage';
 import RobotMessage from './messages/RobotMessage';
 import ChatTypeField from './ChatTypeField';
 import { useSendChat } from '@/query/query';
-import { IChatMessage, IChatMesssageList } from '@/query/type';
+import { IChatMessage, IChatMesssageList, ISessionId } from '@/query/type';
 
 type Props = {
   messageList: Question;
-  sIdList: string[];
-  setSIdList: (value: string) => void;
+  sIdMap: ISessionId;
+  setSIdMap: (value: string, question_id: string) => void;
   currentMsgs: IChatMesssageList;
   setCurMsgs: (value: IChatMessage, question_id: string) => void;
 };
@@ -31,8 +31,8 @@ const ChatMessageList = ({
   messageList,
   currentMsgs,
   setCurMsgs,
-  sIdList,
-  setSIdList,
+  sIdMap,
+  setSIdMap,
 }: Props) => {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const chatPanelRef = useRef<HTMLDivElement>(null);
@@ -101,8 +101,8 @@ const ChatMessageList = ({
           setMineMessageLoading={toggleMineMessageLoading}
           setRobotMessageLoading={toogleRobotMessageLoading}
           setCurrentMessageList={setCurMsgs}
-          sIdList={sIdList}
-          setSIdList={setSIdList}
+          sIdMap={sIdMap}
+          setSIdMap={setSIdMap}
         />
       </div>
     </>

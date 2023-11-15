@@ -6,20 +6,19 @@ import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
 import { ChatSteps } from '@/constant/enum';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
-import { IChatMessage, IChatMesssageList } from '@/query/type';
+import { IChatMessage, IChatMesssageList, ISessionId } from '@/query/type';
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 const ChatPanel = () => {
   const { questions, isQusetionFetchError, updateCurrentRoute } =
     useChatNavigatorContext();
   const [steps, setSteps] = useState<number>(1);
-  const handleTabNavigation = useCallback(() => {
-    if (steps >= 1 && steps < 5) {
-      setSteps((prev) => prev + 1);
-    }
-  }, [steps]);
-  const [sessionIdList, setSessionIdList] = useState<string[]>([]);
+  const [sessionMap, setSessionMap] = useState<ISessionId>(() => {
+    const memory = localStorage.getItem('chat_session_ids');
+    return memory ? JSON.parse(memory) : {};
+  });
   const [currentMessageList, setCurrentMessageList] =
     useState<IChatMesssageList>(() => {
       const memory = localStorage.getItem('chat_history');
@@ -27,12 +26,19 @@ const ChatPanel = () => {
     });
 
   // !test
-  useEffect(() => {
-    if (Object.keys(currentMessageList).length !== 0) {
-      console.log('聊天已放入存储');
-      localStorage.setItem('chat_history', JSON.stringify(currentMessageList));
-    }
+  useDeepCompareEffect(() => {
+    localStorage.setItem('chat_history', JSON.stringify(currentMessageList));
   }, [currentMessageList]);
+
+  useDeepCompareEffect(() => {
+    localStorage.setItem('chat_session_ids', JSON.stringify(sessionMap));
+  }, [sessionMap]);
+
+  const handleTabNavigation = useCallback(() => {
+    if (steps >= 1 && steps < 5) {
+      setSteps((prev) => prev + 1);
+    }
+  }, [steps]);
 
   const addCurrentMessage = useCallback(
     (value: IChatMessage, question_id: string) => {
@@ -53,13 +59,17 @@ const ChatPanel = () => {
     []
   );
 
-  const addSessionIdList = useCallback((value: string) => {
-    setSessionIdList((prev) => [...prev, value]);
+  const addSessionIdList = useCallback((value: string, question_id: string) => {
+    setSessionMap((prevState) => ({
+      ...prevState,
+      [question_id]: value,
+    }));
   }, []);
 
   const handleTabChange = useCallback((value: number) => {
     setSteps(value);
   }, []);
+
   return (
     <motion.section
       key={'introduction'}
@@ -92,8 +102,8 @@ const ChatPanel = () => {
             {/* chatpanel middlesection  */}
             <div className='relative flex flex-[0.5] flex-col p-4 md:h-full md:rounded-bl-lg md:rounded-tl-lg md:border md:border-shadow-border'>
               <ChatMessageList
-                sIdList={sessionIdList}
-                setSIdList={addSessionIdList}
+                sIdMap={sessionMap}
+                setSIdMap={addSessionIdList}
                 currentMsgs={currentMessageList}
                 setCurMsgs={addCurrentMessage}
                 messageList={questions.questions[steps - 1]}

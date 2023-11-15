@@ -2,6 +2,7 @@
 import Loading from '@/components/root/CustomLoading';
 import { ChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import { useChatGuideQas } from '@/query/query';
+import { ChatPage } from '@/query/type';
 import { FormAnswer, FormQuestionResponse } from '@/types';
 import { AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
@@ -19,19 +20,11 @@ export default function ChatLayout({
   chatpanel: React.ReactNode;
 }) {
   const [formAnswers, setFormAnswers] = useState<FormAnswer[]>([]);
-  const [currentRoute, setCurrentRoute] = useState<
-    'startup' | 'informations' | 'introductions' | 'chatPanel'
-  >('startup');
-  const updateCurrentRoute = useCallback(
-    (
-      value: SetStateAction<
-        'startup' | 'informations' | 'introductions' | 'chatPanel'
-      >
-    ) => {
-      setCurrentRoute(value);
-    },
-    []
-  );
+  const [currentRoute, setCurrentRoute] = useState<ChatPage>('startup');
+  const [chatHistoryInfo, setChatHistoryInfo] = useState();
+  const updateCurrentRoute = useCallback((value: SetStateAction<ChatPage>) => {
+    setCurrentRoute(value);
+  }, []);
   const path = usePathname();
   const template_id = path.split('/')[3];
   const {
