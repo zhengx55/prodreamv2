@@ -7,7 +7,7 @@ const ChatInfo = () => {
   const [tab, setTabs] = useState(0);
   const { currentSteps } = useChatMessageContext();
   return (
-    <div className='flex h-full w-full flex-col gap-y-8 pr-10'>
+    <div className='flex h-full w-full flex-col gap-y-8 md:pr-10'>
       <div className='relative h-80 w-full shrink-0 self-center rounded-lg bg-[#E7D1F9]'>
         <Image
           alt='chatavatar'
