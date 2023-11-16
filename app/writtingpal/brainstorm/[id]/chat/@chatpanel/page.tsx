@@ -10,7 +10,7 @@ import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import { IChatMessage, IChatMesssageList } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CalendarRange } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 
 const ChatPanel = () => {
@@ -19,6 +19,10 @@ const ChatPanel = () => {
   const [steps, setSteps] = useState<number>(1);
   const [showHistory, setShowHistory] = useState(false);
   const [currentSessionId, setCurrnetSessionId] = useState<string | null>(null);
+  const [templateAnswers, setTemplateAnswers] = useState<
+    Record<string, string>
+  >({});
+
   const [currentMessageList, setCurrentMessageList] =
     useState<IChatMesssageList>(() => {
       const memory = localStorage.getItem('chat_history');
@@ -37,6 +41,10 @@ const ChatPanel = () => {
       setSteps((prev) => prev + 1);
     }
   }, [steps]);
+
+  const setFinalAnswer = useCallback((question_id: string, answer: string) => {
+    setTemplateAnswers((prev) => ({ ...prev, [question_id]: answer }));
+  }, []);
 
   const handleNavBack = () => {
     if (steps === 1) {
@@ -104,6 +112,7 @@ const ChatPanel = () => {
         setCurrentMessageList: addCurrentMessage,
         currentSteps: steps,
         setCurrentSteps: handleTabChange,
+        setTemplateAnswers: setFinalAnswer,
       }}
     >
       <motion.section
@@ -158,6 +167,11 @@ const ChatPanel = () => {
         <div className='flex-between mb-4 mt-4 w-full md:mb-10'>
           <BackButton onBack={handleNavBack} />
           <Button
+            disabled={
+              !templateAnswers.hasOwnProperty(
+                questions.questions[steps - 1].question_id
+              )
+            }
             onClick={handleTabNavigation}
             className='slef-end'
             size='expand'

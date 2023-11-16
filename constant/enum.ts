@@ -6,6 +6,7 @@ export enum BrainStormTypes {
   GENERAL = 'General',
 }
 
+//!! DEMO USE ONLY
 export enum ChatSteps {
   MOVTIVATION = 'Reasons for applying',
   EDUCATION = 'Educational Experience',

@@ -3,10 +3,12 @@ import {
   OptimizeAnswer,
   SubmitEssayWritting,
   fetchChatGuideQas,
+  fetchFinalAs,
   getBrainstormDetails,
   getBrianstormHistoryById,
   queryEssayResult,
   sendChatMessage,
+  userLogin,
 } from './api';
 import { AnswerRequestParam } from '@/types';
 
@@ -82,5 +84,21 @@ export const useChatGuideQas = (template_id: string) => {
 export const useSendChat = () => {
   return useMutation({
     mutationFn: (params: AnswerRequestParam) => sendChatMessage(params),
+  });
+};
+
+export const useGetFinalAnswer = () => {
+  return useMutation({
+    mutationFn: (session_id: string) => fetchFinalAs(session_id),
+  });
+};
+
+// ============================================================
+// Auth
+// ============================================================
+export const useLogin = () => {
+  return useMutation({
+    mutationFn: (param: { username: string; password: string }) =>
+      userLogin(param),
   });
 };

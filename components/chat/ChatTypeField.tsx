@@ -13,6 +13,7 @@ import { usePathname } from 'next/navigation';
 import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import Image from 'next/image';
 import { useChatMessageContext } from '@/context/ChatMessageContext';
+import { useGetFinalAnswer } from '@/query/query';
 
 function wait(milliseconds: number | undefined) {
   return new Promise<void>((resolve) => {
@@ -51,11 +52,16 @@ const ChatTypeField = ({
   setMineMessageLoading,
   setRobotMessageLoading,
 }: Props) => {
-  const { setCurrentMessageList, setCurrentSeesion, currnetSessionId } =
-    useChatMessageContext();
+  const {
+    setCurrentMessageList,
+    setTemplateAnswers,
+    setCurrentSeesion,
+    currnetSessionId,
+  } = useChatMessageContext();
 
   const [message, setMessage] = useState<string>('');
   const { formAnswers } = useChatNavigatorContext();
+  const { mutateAsync: getFinalAnswer } = useGetFinalAnswer();
   const ref = useRef<HTMLTextAreaElement>(null);
   const path = usePathname();
   const template_id = path.split('/')[3];
@@ -142,12 +148,30 @@ const ChatTypeField = ({
           questionId,
           resultArray[0].session_id
         );
-        console.log(resultArray[resultArray.length - 1]);
-        console.log(resultArray[resultArray.length - 2]);
-
         setRobotMessageLoading(false);
         if (currnetSessionId !== resultArray[0].session_id) {
           setCurrentSeesion(resultArray[0].session_id);
+        }
+        const is_finshed =
+          resultArray[resultArray.length - 1].next_step === 'finish';
+        if (is_finshed) {
+          const response = await getFinalAnswer(currnetSessionId!);
+          const reader = response.body.getReader();
+          const { value } = await reader.read();
+          const chunk = new TextDecoder().decode(value);
+          const jsonObjects = chunk.split('}{').map((item, index, array) => {
+            if (index === 0) {
+              return `${item}}`;
+            } else if (index === array.length - 1) {
+              return `{${item}`;
+            } else {
+              return `{${item}}`;
+            }
+          });
+          const resultArray = jsonObjects.map((jsonString) =>
+            JSON.parse(jsonString)
+          );
+          setTemplateAnswers(questionId, resultArray[0].content_delta);
         }
       }
     } catch (error) {

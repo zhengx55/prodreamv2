@@ -21,6 +21,8 @@ import Link from 'next/link';
 import GoogleSignin from '@/components/auth/GoogleSignin';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import { useLogin } from '@/query/query';
+import { useAppDispatch } from '@/store/storehooks';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
@@ -31,9 +33,9 @@ export default function Page() {
       password: '',
     },
   });
-
-  function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(123);
+  const { mutateAsync: handleLogin } = useLogin();
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
+    const data = await handleLogin(values);
   }
 
   return (

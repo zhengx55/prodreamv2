@@ -65,3 +65,35 @@ export interface Question {
   answer_template: string;
   optional: number;
 }
+
+export interface LoginResponse {
+  code: number;
+  data: LoginData;
+  msg: string;
+  [property: string]: any;
+}
+
+export interface LoginData {
+  access_token: string;
+  avatar: string;
+  email: string;
+  first_name: string;
+  group_id: number;
+  /**
+   * 是否已进行过邮箱验证
+   */
+  is_verified: boolean;
+  last_name: string;
+  /**
+   * 是否已使用google登录过
+   */
+  linked_google: boolean;
+  /**
+   * 是（显示创建密码）否（显示重置密码）
+   */
+  no_password: boolean;
+  role: string;
+  traffic: string;
+  user_id: number;
+  [property: string]: any;
+}

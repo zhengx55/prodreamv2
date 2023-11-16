@@ -301,6 +301,10 @@ export const FormHeightVariant: Variants = {
   collapse: { height: '80px' },
 };
 
+// !!----------------------------------------------------------------
+// !! DEMO USE ONLY
+// !!----------------------------------------------------------------
+
 export const ChatIntroductionCard = [
   {
     id: 'chat-introduction-1',

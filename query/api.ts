@@ -147,7 +147,28 @@ export async function SubmitEssayWritting(
 // Authentication
 // ----------------------------------------------------------------
 
-export async function userLogin() {}
+export async function userLogin(loginParam: {
+  username: string;
+  password: string;
+}) {
+  try {
+    const formData = new FormData();
+    formData.append('email', loginParam.username);
+    formData.append('password', loginParam.password);
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}login`, {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json();
+    if (data.data === null) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function userSignUp() {}
 
@@ -225,6 +246,26 @@ export async function sendChatMessage(params: AnswerRequestParam) {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
       },
     });
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    return res;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function fetchFinalAs(session_id: string): Promise<any> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}answer_guide/${session_id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+        },
+      }
+    );
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
