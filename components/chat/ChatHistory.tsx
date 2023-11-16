@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useChatMessageContext } from '@/context/ChatMessageContext';
 import { ChatQuestionIdMap } from '@/constant';
-import { Cross, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 /**
  * 从history进入聊天界面时许重置sessionId 为概该聊天section的sessionId
@@ -15,8 +15,12 @@ const ChatHistory = ({
 }: {
   handleCloseHistory: () => void;
 }) => {
-  const { setCurrentSteps, addSubSession, currentMessageList } =
-    useChatMessageContext();
+  const {
+    setCurrentSteps,
+    setCurrentSession,
+    addSubSession,
+    currentMessageList,
+  } = useChatMessageContext();
   const handleSessionNavigation = (index: number) => {
     setCurrentSteps(index + 1);
   };
@@ -60,18 +64,19 @@ const ChatHistory = ({
                   {Object.values(item[1])[0].message[0].message}
                 </p>
               ) : (
-                Object.values(item[1]).map((item) => (
+                Object.values(item[1]).map((subItem, subIndex) => (
                   <div
                     onClick={() => {
                       handleSessionNavigation(index);
-                      addSubSession(item.title);
+                      setCurrentSession(Object.keys(item[1])[subIndex]);
+                      addSubSession(subItem.title);
                     }}
-                    key={item.title}
+                    key={`${subItem.title} -${subIndex}`}
                     className='ml-1 w-full rounded-xl p-2 hover:bg-primary-50 '
                   >
-                    <h1 className='small-semibold'>{item.title}</h1>
+                    <h1 className='small-semibold'>{subItem.title}</h1>
                     <p className='subtle-medium line-clamp-1 text-shadow'>
-                      {item.message[0].message}
+                      {subItem.message[0].message}
                     </p>
                   </div>
                 ))

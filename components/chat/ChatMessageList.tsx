@@ -74,20 +74,22 @@ const ChatMessageList = ({ messageList }: Props) => {
   };
 
   // 跳转聊天窗口获取从localstorage中获取session id
-  // 如果当前窗口是previous experience 窗口需要把subsession 也给set回来
   useEffect(() => {
     if (
       messageList.question_id &&
-      currentMessageList[messageList.question_id]
+      currentMessageList[messageList.question_id] &&
+      currnetSessionId === null
     ) {
-      console.log('设置当前聊天id');
-      const session_id = Object.keys(
-        currentMessageList[messageList.question_id]
-      )[0];
-      setCurrentSession(session_id);
+      if (messageList.question_id !== 'fe96cfa951c346b091c3d1681ad65957') {
+        console.log('设置当前聊天id');
+        const session_id = Object.keys(
+          currentMessageList[messageList.question_id]
+        )[0];
+        setCurrentSession(session_id);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentMessageList, messageList.question_id]);
+  }, [currentMessageList, messageList.question_id, currnetSessionId]);
 
   useDeepCompareEffect(() => {
     scrollToBottom();

@@ -53,7 +53,11 @@ const ChatPanel = () => {
     setShowHistory(false);
   }, []);
 
-  const handleTabNavigation = useCallback(() => {
+  const setFinalAnswer = useCallback((question_id: string, answer: any) => {
+    setTemplateAnswers((prev) => ({ ...prev, [question_id]: answer }));
+  }, []);
+
+  const handleNavNext = useCallback(() => {
     // 当进入下一个聊天引导时清空上一个sessionid 已进入新的聊天窗口并记录上一个sessionId
     if (steps >= 1 && steps < 5 && steps !== 2) {
       setCurrnetSessionId(null);
@@ -69,10 +73,6 @@ const ChatPanel = () => {
     }
   }, [currentMessageList, steps]);
 
-  const setFinalAnswer = useCallback((question_id: string, answer: any) => {
-    setTemplateAnswers((prev) => ({ ...prev, [question_id]: answer }));
-  }, []);
-
   const handleNavBack = () => {
     if (steps === 1) {
       updateCurrentRoute('introductions');
@@ -84,6 +84,7 @@ const ChatPanel = () => {
       setCurrentSubSession(subsession_id);
       setSteps((prev) => prev - 1);
     } else {
+      setCurrnetSessionId(null);
       setSteps((prev) => prev - 1);
     }
   };
@@ -226,7 +227,7 @@ const ChatPanel = () => {
                 questions.questions[steps - 1].question_id
               )
             }
-            onClick={handleTabNavigation}
+            onClick={handleNavNext}
             className='slef-end'
             size='expand'
           >
