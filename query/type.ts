@@ -48,7 +48,7 @@ export interface IBrainStormSection {
   modules: Module[];
 }
 
-interface Module {
+export interface Module {
   id: string;
   name: string;
   description: string;
@@ -57,7 +57,7 @@ interface Module {
   question: Question[];
 }
 
-interface Question {
+export interface Question {
   id: string;
   text: string;
   notice: string;

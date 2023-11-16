@@ -19,6 +19,8 @@ import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { clearEssay, setTaskId } from '@/store/reducers/essaySlice';
 import { useToast } from '../ui/use-toast';
+import { IBrainStormSection, Module } from '@/query/type';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 const FormPanel = ({
   submitPending,
@@ -44,13 +46,20 @@ const FormPanel = ({
     useBrainStormDetail(id);
   const dispatch = useAppDispatch();
   const history = useAppSelector(selectBrainStormHistory);
+  const [formData, setFormData] = useState<IBrainStormSection | undefined>();
   const [formState, setFormState] = useState<Record<string, string>>({});
   const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
   const { toast } = useToast();
 
-  // 从History panel 点击填充表格
   useEffect(() => {
+    if (moduleData) {
+      setFormData(moduleData);
+    }
+  }, [moduleData]);
+
+  // 从History panel 点击填充表格
+  useDeepCompareEffect(() => {
     if (Object.keys(history.questionAnswerPair).length === 0) return;
     if (Object.keys(history.questionAnswerPair).length !== 0) {
       setFormState(history.questionAnswerPair);
@@ -77,17 +86,59 @@ const FormPanel = ({
     },
     []
   );
+  const handleModuleRemove = (item: Module) => {
+    if (!formData) return;
+    const temp_question = item.question;
+    const indexToRemove = temp_question.findIndex((item) =>
+      item.id.includes('+')
+    );
+    if (indexToRemove !== -1) {
+      temp_question.splice(indexToRemove, 1);
+    }
 
-  // const hadnleModuleAdd = (index: number, item: Module) => {};
+    const updatedModules = formData.modules.map((module) => {
+      if (module.id === item.id) {
+        const updatedQuestions = temp_question;
+        return { ...module, question: updatedQuestions };
+      }
+      return module;
+    });
+    const updatedObj = { ...formData, modules: updatedModules };
+    setFormData(updatedObj);
+  };
+
+  const handleModuleAdd = (item: Module) => {
+    if (!formData) return;
+    const original_question = item.question[0];
+    // 假设可添加选项的问题原始长度为1
+    const new_question = {
+      ...original_question,
+      id: `${original_question.id}+${Math.floor(Math.random() * 100)}`,
+    };
+    const updatedModules = formData.modules.map((module) => {
+      if (module.id === item.id) {
+        const updatedQuestions = [...module.question, new_question];
+        return { ...module, question: updatedQuestions };
+      }
+      return module;
+    });
+    const updatedObj = { ...formData, modules: updatedModules };
+    setFormData(updatedObj);
+  };
 
   const handleSubmit = async () => {
+    const key_arrays = Object.keys(formState);
+    const key_values = Object.values(formState);
+    const filter_key_arrays = key_arrays.map((item) =>
+      item.includes('+') ? item.split('+')[0] : item
+    );
     dispatch(clearEssay());
     dispatch(clearHistory());
     submitHandler({
       pro_mode: qualityMode === 1,
       template_id: id,
-      texts: Object.values(formState),
-      types: Object.keys(formState),
+      texts: key_values,
+      types: filter_key_arrays,
       word_nums: '',
     }).then((result) => {
       dispatch(setTaskId(result));
@@ -101,7 +152,7 @@ const FormPanel = ({
     setFormState(clearedObjState);
   };
 
-  if (!moduleData || isModuleLoading) {
+  if (isModuleLoading || !formData) {
     return <Loading />;
   }
   return (
@@ -115,12 +166,12 @@ const FormPanel = ({
             {pathname.split('/')[2]}
           </Link>
           <p className='small-regular text-black-200'>
-            &nbsp;/&nbsp;{moduleData.name}
+            &nbsp;/&nbsp;{formData.name}
           </p>
         </div>
         <div className='mt-4 flex flex-col gap-y-4 overflow-y-auto rounded-xl bg-white p-4 md:w-full'>
-          <h1 className='h1-regular text-primary-200'>{moduleData.name}</h1>
-          <p className=' base-regular text-shadow'>{moduleData.description}</p>
+          <h1 className='h1-regular text-primary-200'>{formData.name}</h1>
+          <p className=' base-regular text-shadow'>{formData.description}</p>
         </div>
         <div className='mt-4 flex flex-col gap-y-4 overflow-y-auto rounded-xl bg-white p-4 md:w-full'>
           <div className='flex-start gap-x-2'>
@@ -129,7 +180,7 @@ const FormPanel = ({
           </div>
           <Separator orientation='horizontal' className='bg-shadow-border' />
           {/* Switch ------------------------------------------------------- */}
-          {moduleData.has_pro && (
+          {formData.has_pro && (
             <div className='flex gap-x-2'>
               <Label
                 htmlFor='quality-mode'
@@ -178,11 +229,11 @@ const FormPanel = ({
             </div>
           </div>
         </div>
-        {moduleData.modules.map((item, _index) => {
+        {formData.modules.map((item, index) => {
           const hasMultiple = item.multiple === 1;
           return (
             <div
-              key={item.id}
+              key={`${item.id}-${index}`}
               className='mt-4 flex flex-col gap-y-4 overflow-y-hidden rounded-xl bg-white p-4 md:w-full'
             >
               <div className='flex-between'>
@@ -191,8 +242,21 @@ const FormPanel = ({
                   <p className='title-semibold'>{item.name ?? ''}</p>
                 </div>
                 {hasMultiple && (
-                  <div className='title-semibold cursor-pointer text-primary-200 hover:text-shadow-100'>
-                    + Add
+                  <div className='flex gap-x-5'>
+                    <div
+                      onClick={() => handleModuleAdd(item)}
+                      className='title-semibold cursor-pointer text-primary-200 hover:text-shadow-100'
+                    >
+                      +
+                    </div>
+                    {item.question.length > 1 && (
+                      <div
+                        onClick={() => handleModuleRemove(item)}
+                        className='title-semibold cursor-pointer text-primary-200 hover:text-shadow-100'
+                      >
+                        -
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

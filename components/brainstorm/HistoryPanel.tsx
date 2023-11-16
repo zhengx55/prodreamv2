@@ -4,7 +4,11 @@ import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import Loading from '../root/CustomLoading';
-import { deepEqual, formatTimestamphh } from '@/lib/utils';
+import {
+  addRandomToDuplicates,
+  deepEqual,
+  formatTimestamphh,
+} from '@/lib/utils';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import {
   clearHistory,
@@ -34,8 +38,10 @@ const HistoryPanel = ({
     result: string;
     word_num: string;
   }) => {
-    const mergedObject = item.question_ids.reduce(
+    const filtered_array = addRandomToDuplicates(item.question_ids);
+    const mergedObject = filtered_array.reduce(
       (result: Record<string, string>, key: string, index: number) => {
+        console.log(key);
         result[key] = item.answers[index];
         return result;
       },
@@ -54,7 +60,7 @@ const HistoryPanel = ({
           questionAnswerPair: mergedObject,
         })
       );
-      handleTabChange(0);
+      // handleTabChange(0);
     }
   };
 

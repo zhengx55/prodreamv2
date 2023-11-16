@@ -128,3 +128,23 @@ export function formatTimestamphh(timestampString: string) {
     return timestampString;
   }
 }
+
+export function addRandomToDuplicates(array: string[]) {
+  const countMap: Record<string, number> = {};
+  const newArray = [];
+
+  for (const element of array) {
+    const count = countMap[element] || 0;
+    countMap[element] = count + 1;
+
+    if (count > 0) {
+      // 如果元素已经出现过，添加随机数
+      newArray.push(`${element}+${Math.floor(Math.random() * 100)}`);
+    } else {
+      // 否则直接添加元素
+      newArray.push(element);
+    }
+  }
+
+  return newArray;
+}
