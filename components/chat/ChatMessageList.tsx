@@ -45,6 +45,14 @@ const ChatMessageList = ({ messageList }: Props) => {
     setRobotMessageLoading(value);
   }, []);
 
+  // !! HARD CODE FOR previous experience chat
+  const [previousExp, setPreviousExp] = useState();
+  useEffect(() => {
+    if (messageList.question_id === 'fe96cfa951c346b091c3d1681ad65957') {
+      console.log(13232);
+    }
+  }, [messageList.question_id]);
+
   const scrollToBottom = () => {
     if (chatPanelRef.current) {
       chatPanelRef.current.scrollTop =

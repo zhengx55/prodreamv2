@@ -42,6 +42,10 @@ const ChatPanel = () => {
     localStorage.setItem('chat_history', JSON.stringify(currentMessageList));
   }, [currentMessageList]);
 
+  const handleCloseHistory = useCallback(() => {
+    setShowHistory(false);
+  }, []);
+
   const handleTabNavigation = useCallback(() => {
     // 当进入下一个聊天引导时清空上一个sessionid 已进入新的聊天窗口并记录上一个sessionId
     if (steps >= 1 && steps < 5) {
@@ -168,7 +172,9 @@ const ChatPanel = () => {
               </div>
               {/* chatpanel chathistory */}
               <AnimatePresence initial={false}>
-                {showHistory && <ChatHistory />}
+                {showHistory && (
+                  <ChatHistory handleCloseHistory={handleCloseHistory} />
+                )}
               </AnimatePresence>
             </>
           )}

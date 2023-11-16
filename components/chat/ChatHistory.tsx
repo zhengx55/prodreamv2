@@ -3,13 +3,18 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useChatMessageContext } from '@/context/ChatMessageContext';
 import { ChatQuestionIdMap } from '@/constant';
+import { Cross, X } from 'lucide-react';
 
 /**
  * 从history进入聊天界面时许重置sessionId 为概该聊天section的sessionId
  * @returns
  */
 
-const ChatHistory = () => {
+const ChatHistory = ({
+  handleCloseHistory,
+}: {
+  handleCloseHistory: () => void;
+}) => {
   const { setCurrentSteps, currentSteps, currentMessageList } =
     useChatMessageContext();
   const handleSessionNavigation = (index: number) => {
@@ -21,10 +26,16 @@ const ChatHistory = () => {
       initial={{ scaleX: 0, opacity: 0 }}
       animate={{ scaleX: 1, opacity: 1 }}
       exit={{ scaleX: 0, opacity: 0 }}
-      transition={{ type: 'tween', duration: 0.4 }}
+      transition={{ type: 'tween', duration: 0.2 }}
       className='absolute right-0 top-11 hidden flex-col bg-white md:flex md:w-72 md:rounded-lg md:border md:border-shadow-border'
     >
-      <h1 className='title-semibold mx-4 mt-4'>Chat History</h1>
+      <div className='flex-between mx-4 mt-4'>
+        <h1 className='title-semibold'>Chat History</h1>
+        <X
+          className='cursor-pointer text-shadow-100'
+          onClick={handleCloseHistory}
+        />
+      </div>
       <div className='my-4 flex w-full flex-col gap-y-2 px-4'>
         {Object.entries(currentMessageList).map((item, index) => {
           return (

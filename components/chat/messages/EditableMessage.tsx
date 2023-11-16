@@ -16,14 +16,14 @@ const EditableMessage = ({ message }: Props) => {
         {message}
       </div>
       <div className='flex-between mt-2 flex w-full'>
-        <div className='flex gap-x-2'>
+        {/* <div className='flex gap-x-2'>
           <Button variant={'bold'} size={'sm'}>
             Regenrate
           </Button>
           <Button variant={'bold'} size={'sm'}>
             Edit
           </Button>
-        </div>
+        </div> */}
         <Button
           size={'sm'}
           onClick={() => currentSteps < 5 && setCurrentSteps(currentSteps + 1)}

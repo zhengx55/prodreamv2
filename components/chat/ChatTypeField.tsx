@@ -5,6 +5,7 @@ import React, {
   KeyboardEvent,
   useRef,
   memo,
+  useEffect,
 } from 'react';
 import { Textarea } from '../ui/textarea';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
@@ -66,6 +67,7 @@ const ChatTypeField = ({
   const ref = useRef<HTMLTextAreaElement>(null);
   const path = usePathname();
   const template_id = path.split('/')[3];
+
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (!ref.current) return;
     const textarea = e.target;
