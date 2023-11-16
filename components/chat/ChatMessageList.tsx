@@ -31,6 +31,9 @@ const ChatMessageList = ({ messageList }: Props) => {
     templateAnswers,
     setCurrentSeesion,
     currnetSessionId,
+    currentSubSession,
+    clearSubSession,
+    addSubSession,
   } = useChatMessageContext();
 
   const [isMineMessageLoading, setMineMessageLoading] =
@@ -48,14 +51,11 @@ const ChatMessageList = ({ messageList }: Props) => {
   }, []);
 
   // !! HARD CODE FOR previous experience chat
-  const [currentSubsession, setCurrentSubSession] = useState<string>();
-  const handleAddPreviousExp = useCallback((option: string) => {
-    setCurrentSubSession(option);
-  }, []);
+
   const [textDisabled, setTextDisabled] = useState(false);
   useEffect(() => {
     if (messageList.question_id === 'fe96cfa951c346b091c3d1681ad65957') {
-      if (!currentSubsession) {
+      if (!currentSubSession) {
         setTextDisabled(true);
       } else {
         setTextDisabled(false);
@@ -63,7 +63,8 @@ const ChatMessageList = ({ messageList }: Props) => {
     } else {
       setTextDisabled(false);
     }
-  }, [messageList.question_id, currentSubsession]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messageList.question_id, currentSubSession]);
 
   const scrollToBottom = () => {
     if (chatPanelRef.current) {
@@ -73,19 +74,34 @@ const ChatMessageList = ({ messageList }: Props) => {
   };
 
   // 跳转聊天窗口获取从localstorage中获取session id
+  // 如果当前窗口是previous experience 窗口需要把subsession 也给set回来
   useEffect(() => {
     if (
       messageList.question_id &&
-      currnetSessionId === null &&
       currentMessageList[messageList.question_id]
     ) {
-      const session_id = Object.keys(
-        currentMessageList[messageList.question_id]
-      )[0];
-      setCurrentSeesion(session_id);
+      if (messageList.question_id !== 'fe96cfa951c346b091c3d1681ad65957') {
+        const session_id = Object.keys(
+          currentMessageList[messageList.question_id]
+        )[0];
+        setCurrentSeesion(session_id);
+      } else {
+        const session_id = Object.keys(
+          currentMessageList[messageList.question_id]
+        )[0];
+        setCurrentSeesion(session_id);
+        if (currentSubSession) {
+          addSubSession(currentSubSession);
+        } else {
+          // 如果没有选择subsession 自动检索第一个subsession
+          const subsession_id = Object.values(
+            currentMessageList[messageList.question_id]
+          )[0].title;
+          addSubSession(subsession_id);
+        }
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentMessageList, messageList.question_id]);
+  }, [currentMessageList, messageList.question_id, currentSubSession]);
 
   useDeepCompareEffect(() => {
     scrollToBottom();
@@ -105,12 +121,7 @@ const ChatMessageList = ({ messageList }: Props) => {
       >
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />
-        {messageList.question_id === 'fe96cfa951c346b091c3d1681ad65957' && (
-          <ActivityMessage
-            handleAddPreviousExp={handleAddPreviousExp}
-            currentSubSession={currentSubsession}
-          />
-        )}
+
         {currentMessageList[messageList.question_id] && currnetSessionId
           ? currentMessageList[messageList.question_id][
               currnetSessionId
@@ -128,12 +139,32 @@ const ChatMessageList = ({ messageList }: Props) => {
           : null}
         {isMineMessageLoading && <MineMessagLoading />}
         {isRobotMessageLoading && <RobotMessageLoading />}
-        {templateAnswers.hasOwnProperty(messageList.question_id) && (
-          <EditableMessage message={templateAnswers[messageList.question_id]} />
-        )}
+        {messageList.question_id !== 'fe96cfa951c346b091c3d1681ad65957'
+          ? templateAnswers.hasOwnProperty(messageList.question_id) && (
+              <EditableMessage
+                message={templateAnswers[messageList.question_id]}
+              />
+            )
+          : templateAnswers.hasOwnProperty(messageList.question_id) &&
+            currnetSessionId &&
+            templateAnswers[messageList.question_id][currnetSessionId] && (
+              <EditableMessage
+                isExpSummary
+                clearCurrentSubseesion={clearSubSession}
+                message={
+                  templateAnswers[messageList.question_id][currnetSessionId!]
+                }
+              />
+            )}
+        {messageList.question_id === 'fe96cfa951c346b091c3d1681ad65957' &&
+          !currentSubSession && (
+            <ActivityMessage
+              handleAddPreviousExp={addSubSession}
+              currentSubSession={currentSubSession}
+            />
+          )}
       </div>
       <ChatTypeField
-        currentSubsession={currentSubsession}
         onSendMessage={sendMessage}
         disable={textDisabled}
         isSending={isSending}

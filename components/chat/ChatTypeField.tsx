@@ -26,7 +26,6 @@ type Props = {
   isSending: boolean;
   questionId: string;
   disable: boolean;
-  currentSubsession: string | undefined;
   setMineMessageLoading: (value: boolean) => void;
   setRobotMessageLoading: (value: boolean) => void;
   onSendMessage: UseMutateAsyncFunction<
@@ -53,7 +52,6 @@ const ChatTypeField = ({
   onSendMessage,
   setMineMessageLoading,
   setRobotMessageLoading,
-  currentSubsession,
   disable,
 }: Props) => {
   const {
@@ -61,6 +59,7 @@ const ChatTypeField = ({
     setCurrentMessageList,
     setTemplateAnswers,
     setCurrentSeesion,
+    currentSubSession,
     currnetSessionId,
   } = useChatMessageContext();
 
@@ -108,7 +107,7 @@ const ChatTypeField = ({
             { from: 'mine', message },
             questionId,
             currnetSessionId,
-            currentSubsession ? currentSubsession : ''
+            currentSubSession ? currentSubSession : ''
           );
           setMineMessageLoading(false);
           setMessage('');
@@ -144,7 +143,7 @@ const ChatTypeField = ({
             { from: 'mine', message },
             questionId,
             resultArray[0].session_id,
-            currentSubsession ? currentSubsession : ''
+            currentSubSession ? currentSubSession : ''
           );
           setMessage('');
           ref.current.style.height = '48px';
@@ -154,7 +153,7 @@ const ChatTypeField = ({
           { from: 'robot', message: newRobotMessage },
           questionId,
           resultArray[0].session_id,
-          currentSubsession ? currentSubsession : ''
+          currentSubSession ? currentSubSession : ''
         );
         setRobotMessageLoading(false);
         if (currnetSessionId !== resultArray[0].session_id) {
@@ -180,9 +179,20 @@ const ChatTypeField = ({
             .filter((item: any) => 'content_delta' in item)
             .map((item: { [x: string]: any }) => item['content_delta'])
             .join('');
-
-          if (templateAnswers[questionId] !== concatenatedString) {
-            setTemplateAnswers(questionId, concatenatedString);
+          if (questionId !== 'fe96cfa951c346b091c3d1681ad65957') {
+            if (templateAnswers[questionId] !== concatenatedString) {
+              setTemplateAnswers(questionId, concatenatedString);
+            }
+          } else {
+            if (
+              !templateAnswers[questionId] ||
+              templateAnswers[questionId][resultArray[0].session_id] !==
+                concatenatedString
+            ) {
+              setTemplateAnswers(questionId, {
+                [resultArray[0].session_id]: concatenatedString,
+              });
+            }
           }
         }
       }

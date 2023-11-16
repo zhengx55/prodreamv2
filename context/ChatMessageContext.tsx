@@ -4,7 +4,7 @@ import { createContext, useContext } from 'react';
 type ChatMessageContextPrps = {
   currentMessageList: IChatMesssageList;
   currnetSessionId: string | null;
-  setCurrentSeesion: (value: string) => void;
+  setCurrentSeesion: (value: string | null) => void;
   setCurrentMessageList: (
     value: IChatMessage,
     question_id: string,
@@ -13,8 +13,11 @@ type ChatMessageContextPrps = {
   ) => void;
   currentSteps: number;
   setCurrentSteps: (value: number) => void;
-  setTemplateAnswers: (question_id: string, answer: string) => void;
-  templateAnswers: Record<string, string>;
+  setTemplateAnswers: (question_id: string, answer: any) => void;
+  templateAnswers: Record<string, any>;
+  currentSubSession: string | undefined;
+  clearSubSession: () => void;
+  addSubSession: (value: string) => void;
 };
 
 export const ChatMessageContext = createContext({} as ChatMessageContextPrps);

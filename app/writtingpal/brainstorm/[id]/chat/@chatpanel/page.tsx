@@ -19,18 +19,25 @@ const ChatPanel = () => {
   const [steps, setSteps] = useState<number>(1);
   const [showHistory, setShowHistory] = useState(false);
   const [currentSessionId, setCurrnetSessionId] = useState<string | null>(null);
-  const [templateAnswers, setTemplateAnswers] = useState<
-    Record<string, string>
-  >(() => {
-    const memory = localStorage.getItem('chat_summary');
-    return memory ? JSON.parse(memory) : {};
-  });
-
+  const [templateAnswers, setTemplateAnswers] = useState<Record<string, any>>(
+    () => {
+      const memory = localStorage.getItem('chat_summary');
+      return memory ? JSON.parse(memory) : {};
+    }
+  );
   const [currentMessageList, setCurrentMessageList] =
     useState<IChatMesssageList>(() => {
       const memory = localStorage.getItem('chat_history');
       return memory ? JSON.parse(memory) : {};
     });
+  // !! HARD CODE FOR previous experience chat
+  const [currentSubsession, setCurrentSubSession] = useState<string>();
+  const clearCurrentSubseesion = useCallback(() => {
+    setCurrentSubSession(undefined);
+  }, []);
+  const handleAddPreviousExp = useCallback((option: string) => {
+    setCurrentSubSession(option);
+  }, []);
 
   // !test
 
@@ -50,11 +57,12 @@ const ChatPanel = () => {
     // 当进入下一个聊天引导时清空上一个sessionid 已进入新的聊天窗口并记录上一个sessionId
     if (steps >= 1 && steps < 5) {
       setCurrnetSessionId(null);
+      setCurrentSubSession(undefined);
       setSteps((prev) => prev + 1);
     }
   }, [steps]);
 
-  const setFinalAnswer = useCallback((question_id: string, answer: string) => {
+  const setFinalAnswer = useCallback((question_id: string, answer: any) => {
     setTemplateAnswers((prev) => ({ ...prev, [question_id]: answer }));
   }, []);
 
@@ -64,6 +72,7 @@ const ChatPanel = () => {
     } else {
       setSteps((prev) => prev - 1);
       setCurrnetSessionId(null);
+      setCurrentSubSession(undefined);
     }
   };
 
@@ -141,6 +150,9 @@ const ChatPanel = () => {
         setCurrentSteps: handleTabChange,
         setTemplateAnswers: setFinalAnswer,
         templateAnswers: templateAnswers,
+        currentSubSession: currentSubsession,
+        clearSubSession: clearCurrentSubseesion,
+        addSubSession: handleAddPreviousExp,
       }}
     >
       <motion.section

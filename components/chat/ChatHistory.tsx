@@ -15,7 +15,8 @@ const ChatHistory = ({
 }: {
   handleCloseHistory: () => void;
 }) => {
-  const { setCurrentSteps, currentMessageList } = useChatMessageContext();
+  const { setCurrentSteps, addSubSession, currentMessageList } =
+    useChatMessageContext();
   const handleSessionNavigation = (index: number) => {
     setCurrentSteps(index + 1);
   };
@@ -45,7 +46,11 @@ const ChatHistory = ({
                   : ''
               } flex cursor-pointer flex-col gap-y-1 rounded-xl p-2`}
               key={item[0]}
-              onClick={() => handleSessionNavigation(index)}
+              onClick={() => {
+                Object.values(item[1])[0].title === ''
+                  ? handleSessionNavigation(index)
+                  : null;
+              }}
             >
               <h1 className='small-semibold capitalize'>
                 Step {index + 1}:&nbsp; {ChatQuestionIdMap[item[0]]}
@@ -57,6 +62,10 @@ const ChatHistory = ({
               ) : (
                 Object.values(item[1]).map((item) => (
                   <div
+                    onClick={() => {
+                      handleSessionNavigation(index);
+                      addSubSession(item.title);
+                    }}
                     key={item.title}
                     className='ml-1 w-full rounded-xl p-2 hover:bg-primary-50 '
                   >

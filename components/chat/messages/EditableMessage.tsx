@@ -3,10 +3,20 @@ import { Button } from '@/components/ui/button';
 import { useChatMessageContext } from '@/context/ChatMessageContext';
 import React, { memo } from 'react';
 
-type Props = { message: string };
+type Props = {
+  message: string;
+  clearCurrentSubseesion?: () => void;
+  isExpSummary?: boolean;
+};
 
-const EditableMessage = ({ message }: Props) => {
-  const { setCurrentSteps, currentSteps } = useChatMessageContext();
+const EditableMessage = ({
+  message,
+  isExpSummary,
+  clearCurrentSubseesion,
+}: Props) => {
+  const { setCurrentSteps, currentSteps, setCurrentSeesion } =
+    useChatMessageContext();
+
   return (
     <div className='flex w-[80%] min-w-[485px] flex-col self-start rounded-[20px] bg-shadow-200 p-4'>
       <p className='small-regular text-black-700'>
@@ -26,7 +36,15 @@ const EditableMessage = ({ message }: Props) => {
         </div> */}
         <Button
           size={'sm'}
-          onClick={() => currentSteps < 5 && setCurrentSteps(currentSteps + 1)}
+          onClick={() => {
+            if (!isExpSummary) {
+              currentSteps < 5 && setCurrentSteps(currentSteps + 1);
+            } else {
+              // 清空当前subseesion and currentsessionId
+              setCurrentSeesion(null);
+              clearCurrentSubseesion!();
+            }
+          }}
         >
           😊 Looks Good
         </Button>
