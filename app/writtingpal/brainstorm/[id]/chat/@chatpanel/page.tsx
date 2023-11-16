@@ -64,12 +64,17 @@ const ChatPanel = () => {
       setCurrentSubSession(undefined);
       setSteps((prev) => prev + 1);
     } else if (steps === 2) {
-      setCurrnetSessionId(null);
       if (currentMessageList['fe96cfa951c346b091c3d1681ad65957']) {
+        const subsession_sessionid = Object.keys(
+          currentMessageList['fe96cfa951c346b091c3d1681ad65957']
+        )[0];
+        setCurrnetSessionId(subsession_sessionid);
         const subsession_id = Object.values(
           currentMessageList['fe96cfa951c346b091c3d1681ad65957']
         )[0].title;
         setCurrentSubSession(subsession_id);
+      } else {
+        setCurrnetSessionId(null);
       }
       setSteps((prev) => prev + 1);
     }
@@ -79,11 +84,19 @@ const ChatPanel = () => {
     if (steps === 1) {
       updateCurrentRoute('introductions');
     } else if (steps === 4) {
-      const subsession_id = Object.values(
-        currentMessageList['fe96cfa951c346b091c3d1681ad65957']
-      )[0].title;
-      setCurrnetSessionId(null);
-      setCurrentSubSession(subsession_id);
+      if (currentMessageList['fe96cfa951c346b091c3d1681ad65957']) {
+        const subsession_sessionid = Object.keys(
+          currentMessageList['fe96cfa951c346b091c3d1681ad65957']
+        )[0];
+        const subsession_id = Object.values(
+          currentMessageList['fe96cfa951c346b091c3d1681ad65957']
+        )[0].title;
+        setCurrentSession(subsession_sessionid);
+        setCurrentSubSession(subsession_id);
+      } else {
+        setCurrnetSessionId(null);
+      }
+
       setSteps((prev) => prev - 1);
     } else {
       setCurrnetSessionId(null);
