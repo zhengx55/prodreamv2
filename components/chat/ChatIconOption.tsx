@@ -1,27 +1,22 @@
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useChatMessageContext } from '@/context/ChatMessageContext';
 
 type Props = {
   title: string;
   icon: string;
   theme: string;
-  onClickHandler: (option: string) => void;
-  currentSubSession: string | undefined;
 };
 
-const ChatIconOption = ({
-  title,
-  icon,
-  theme,
-  onClickHandler,
-  currentSubSession,
-}: Props) => {
+const ChatIconOption = ({ title, icon, theme }: Props) => {
+  const { addSubSession, currentSubSession } = useChatMessageContext();
+
   return (
     <motion.div
       whileHover={{ y: -1 }}
       onClick={() => {
-        !currentSubSession && onClickHandler(title);
+        !currentSubSession && addSubSession(title);
       }}
       className={`${
         currentSubSession === title ? 'border border-primary-200' : ''

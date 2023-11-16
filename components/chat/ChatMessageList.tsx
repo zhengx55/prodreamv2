@@ -80,22 +80,14 @@ const ChatMessageList = ({ messageList }: Props) => {
       messageList.question_id &&
       currentMessageList[messageList.question_id]
     ) {
-      if (messageList.question_id !== 'fe96cfa951c346b091c3d1681ad65957') {
-        console.log('设置当前聊天id');
-        const session_id = Object.keys(
-          currentMessageList[messageList.question_id]
-        )[0];
-        setCurrentSession(session_id);
-      } else {
-        console.log('设置当前聊天id');
-        const session_id = Object.keys(
-          currentMessageList[messageList.question_id]
-        )[0];
-        setCurrentSession(session_id);
-      }
+      console.log('设置当前聊天id');
+      const session_id = Object.keys(
+        currentMessageList[messageList.question_id]
+      )[0];
+      setCurrentSession(session_id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentMessageList, messageList.question_id, currentSubSession]);
+  }, [currentMessageList, messageList.question_id]);
 
   useDeepCompareEffect(() => {
     scrollToBottom();
@@ -151,12 +143,7 @@ const ChatMessageList = ({ messageList }: Props) => {
               />
             )}
         {messageList.question_id === 'fe96cfa951c346b091c3d1681ad65957' &&
-          !currentSubSession && (
-            <ActivityMessage
-              handleAddPreviousExp={addSubSession}
-              currentSubSession={currentSubSession}
-            />
-          )}
+          !currentSubSession && <ActivityMessage />}
       </div>
       <ChatTypeField
         onSendMessage={sendMessage}
