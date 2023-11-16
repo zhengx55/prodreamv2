@@ -10,7 +10,7 @@ import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import { IChatMessage, IChatMesssageList } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CalendarRange } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 
 const ChatPanel = () => {

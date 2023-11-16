@@ -14,6 +14,7 @@ import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
 import Image from 'next/image';
 import { useChatMessageContext } from '@/context/ChatMessageContext';
 import { useGetFinalAnswer } from '@/query/query';
+import { useToast } from '../ui/use-toast';
 
 function wait(milliseconds: number | undefined) {
   return new Promise<void>((resolve) => {
@@ -65,7 +66,7 @@ const ChatTypeField = ({
   const ref = useRef<HTMLTextAreaElement>(null);
   const path = usePathname();
   const template_id = path.split('/')[3];
-
+  const { toast } = useToast();
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (!ref.current) return;
     const textarea = e.target;
