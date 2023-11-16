@@ -6,13 +6,26 @@ type Props = {
   title: string;
   icon: string;
   theme: string;
+  onClickHandler: (option: string) => void;
+  currentSubSession: string | undefined;
 };
 
-const ChatIconOption = ({ title, icon, theme }: Props) => {
+const ChatIconOption = ({
+  title,
+  icon,
+  theme,
+  onClickHandler,
+  currentSubSession,
+}: Props) => {
   return (
     <motion.div
       whileHover={{ y: -1 }}
-      className={`flex cursor-pointer items-center gap-x-3 rounded-[64px] bg-white py-1 pl-1 pr-4`}
+      onClick={() => {
+        !currentSubSession && onClickHandler(title);
+      }}
+      className={`${
+        currentSubSession === title ? 'border border-primary-200' : ''
+      } flex cursor-pointer items-center gap-x-3 rounded-[64px] bg-white py-1 pl-1 pr-4`}
     >
       <div
         className='flex-center h-8 w-8 rounded-full'
@@ -26,7 +39,7 @@ const ChatIconOption = ({ title, icon, theme }: Props) => {
           className='h-auto w-auto'
         />
       </div>
-      <h3 className={'small-semibold'}>{title}</h3>
+      <h3 className='small-semibold'>{title}</h3>
     </motion.div>
   );
 };

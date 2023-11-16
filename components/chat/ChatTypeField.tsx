@@ -5,7 +5,6 @@ import React, {
   KeyboardEvent,
   useRef,
   memo,
-  useEffect,
 } from 'react';
 import { Textarea } from '../ui/textarea';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
@@ -26,6 +25,8 @@ function wait(milliseconds: number | undefined) {
 type Props = {
   isSending: boolean;
   questionId: string;
+  disable: boolean;
+  currentSubsession: string | undefined;
   setMineMessageLoading: (value: boolean) => void;
   setRobotMessageLoading: (value: boolean) => void;
   onSendMessage: UseMutateAsyncFunction<
@@ -52,6 +53,8 @@ const ChatTypeField = ({
   onSendMessage,
   setMineMessageLoading,
   setRobotMessageLoading,
+  currentSubsession,
+  disable,
 }: Props) => {
   const {
     templateAnswers,
@@ -104,7 +107,8 @@ const ChatTypeField = ({
           setCurrentMessageList(
             { from: 'mine', message },
             questionId,
-            currnetSessionId
+            currnetSessionId,
+            currentSubsession ? currentSubsession : ''
           );
           setMineMessageLoading(false);
           setMessage('');
@@ -139,7 +143,8 @@ const ChatTypeField = ({
           setCurrentMessageList(
             { from: 'mine', message },
             questionId,
-            resultArray[0].session_id
+            resultArray[0].session_id,
+            currentSubsession ? currentSubsession : ''
           );
           setMessage('');
           ref.current.style.height = '48px';
@@ -148,7 +153,8 @@ const ChatTypeField = ({
         setCurrentMessageList(
           { from: 'robot', message: newRobotMessage },
           questionId,
-          resultArray[0].session_id
+          resultArray[0].session_id,
+          currentSubsession ? currentSubsession : ''
         );
         setRobotMessageLoading(false);
         if (currnetSessionId !== resultArray[0].session_id) {
@@ -191,7 +197,7 @@ const ChatTypeField = ({
       <Textarea
         ref={ref}
         rows={1}
-        disabled={isSending}
+        disabled={isSending || disable}
         placeholder='Type to chat with Max!'
         className='max-h-[220px] min-h-[48px] w-[99%] resize-none overflow-hidden py-3 pl-4 pr-14 text-[14px] focus-visible:shadow-textarea focus-visible:ring-0'
         value={message}

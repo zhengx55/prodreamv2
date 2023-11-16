@@ -15,8 +15,7 @@ const ChatHistory = ({
 }: {
   handleCloseHistory: () => void;
 }) => {
-  const { setCurrentSteps, currentSteps, currentMessageList } =
-    useChatMessageContext();
+  const { setCurrentSteps, currentMessageList } = useChatMessageContext();
   const handleSessionNavigation = (index: number) => {
     setCurrentSteps(index + 1);
   };
@@ -40,16 +39,34 @@ const ChatHistory = ({
         {Object.entries(currentMessageList).map((item, index) => {
           return (
             <div
-              className='flex cursor-pointer flex-col gap-y-1 rounded-xl p-2 hover:bg-primary-50'
+              className={`${
+                Object.values(item[1])[0].title === ''
+                  ? 'hover:bg-primary-50'
+                  : ''
+              } flex cursor-pointer flex-col gap-y-1 rounded-xl p-2`}
               key={item[0]}
               onClick={() => handleSessionNavigation(index)}
             >
               <h1 className='small-semibold capitalize'>
                 Step {index + 1}:&nbsp; {ChatQuestionIdMap[item[0]]}
               </h1>
-              <p className='subtle-medium line-clamp-1 text-shadow'>
-                {Object.values(item[1])[0][0].message}
-              </p>
+              {Object.values(item[1])[0].title === '' ? (
+                <p className='subtle-medium line-clamp-1 text-shadow'>
+                  {Object.values(item[1])[0].message[0].message}
+                </p>
+              ) : (
+                Object.values(item[1]).map((item) => (
+                  <div
+                    key={item.title}
+                    className='ml-1 w-full rounded-xl p-2 hover:bg-primary-50 '
+                  >
+                    <h1 className='small-semibold'>{item.title}</h1>
+                    <p className='subtle-medium line-clamp-1 text-shadow'>
+                      {item.message[0].message}
+                    </p>
+                  </div>
+                ))
+              )}
             </div>
           );
         })}

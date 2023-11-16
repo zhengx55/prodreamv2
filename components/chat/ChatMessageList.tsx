@@ -46,12 +46,22 @@ const ChatMessageList = ({ messageList }: Props) => {
   }, []);
 
   // !! HARD CODE FOR previous experience chat
-  const [previousExp, setPreviousExp] = useState();
+  const [currentSubsession, setCurrentSubSession] = useState<string>();
+  const handleAddPreviousExp = useCallback((option: string) => {
+    setCurrentSubSession(option);
+  }, []);
+  const [textDisabled, setTextDisabled] = useState(false);
   useEffect(() => {
     if (messageList.question_id === 'fe96cfa951c346b091c3d1681ad65957') {
-      console.log(13232);
+      if (!currentSubsession) {
+        setTextDisabled(true);
+      } else {
+        setTextDisabled(false);
+      }
+    } else {
+      setTextDisabled(false);
     }
-  }, [messageList.question_id]);
+  }, [messageList.question_id, currentSubsession]);
 
   const scrollToBottom = () => {
     if (chatPanelRef.current) {
@@ -93,22 +103,25 @@ const ChatMessageList = ({ messageList }: Props) => {
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />
         {messageList.question_id === 'fe96cfa951c346b091c3d1681ad65957' && (
-          <ActivityMessage />
+          <ActivityMessage
+            handleAddPreviousExp={handleAddPreviousExp}
+            currentSubSession={currentSubsession}
+          />
         )}
         {currentMessageList[messageList.question_id] && currnetSessionId
-          ? currentMessageList[messageList.question_id][currnetSessionId].map(
-              (item, index) => {
-                return (
-                  <Fragment key={`${index}-${item.from}`}>
-                    {item.from === 'mine' ? (
-                      <MineMessage message={item.message} />
-                    ) : (
-                      <RobotMessage message={item.message} />
-                    )}
-                  </Fragment>
-                );
-              }
-            )
+          ? currentMessageList[messageList.question_id][
+              currnetSessionId
+            ].message.map((item, index) => {
+              return (
+                <Fragment key={`${index}-${item.from}`}>
+                  {item.from === 'mine' ? (
+                    <MineMessage message={item.message} />
+                  ) : (
+                    <RobotMessage message={item.message} />
+                  )}
+                </Fragment>
+              );
+            })
           : null}
         {isMineMessageLoading && <MineMessagLoading />}
         {isRobotMessageLoading && <RobotMessageLoading />}
@@ -117,7 +130,9 @@ const ChatMessageList = ({ messageList }: Props) => {
         )}
       </div>
       <ChatTypeField
+        currentSubsession={currentSubsession}
         onSendMessage={sendMessage}
+        disable={textDisabled}
         isSending={isSending}
         questionId={messageList.question_id}
         setMineMessageLoading={toggleMineMessageLoading}

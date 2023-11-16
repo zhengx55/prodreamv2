@@ -8,7 +8,8 @@ type ChatMessageContextPrps = {
   setCurrentMessageList: (
     value: IChatMessage,
     question_id: string,
-    session_id: string
+    session_id: string,
+    title: string
   ) => void;
   currentSteps: number;
   setCurrentSteps: (value: number) => void;

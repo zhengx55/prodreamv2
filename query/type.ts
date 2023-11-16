@@ -25,11 +25,14 @@ export interface IChatMessage {
 }
 
 export interface IChatMesssageList {
-  [key: string]: ISessionMesssageList;
+  [key: string]: IPreExpMessageList;
 }
 
-export interface ISessionMesssageList {
-  [key: string]: IChatMessage[];
+export interface IPreExpMessageList {
+  [key: string]: {
+    title: string;
+    message: IChatMessage[];
+  };
 }
 
 export interface IBrainStormSection {

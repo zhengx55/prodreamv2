@@ -72,7 +72,12 @@ const ChatPanel = () => {
   }, []);
 
   const addCurrentMessage = useCallback(
-    (value: IChatMessage, question_id: string, session_id: string) => {
+    (
+      value: IChatMessage,
+      question_id: string,
+      session_id: string,
+      title: string
+    ) => {
       setCurrentMessageList((prevState) => {
         const isKey1Exist = prevState.hasOwnProperty(question_id);
         if (isKey1Exist) {
@@ -82,7 +87,14 @@ const ChatPanel = () => {
               ...prevState,
               [question_id]: {
                 ...prevState[question_id],
-                [session_id]: [...prevState[question_id][session_id], value],
+                // [session_id]: {[...prevState[question_id][session_id], value]},
+                [session_id]: {
+                  ...prevState[question_id][session_id],
+                  message: [
+                    ...prevState[question_id][session_id].message,
+                    value,
+                  ],
+                },
               },
             };
           }
@@ -90,14 +102,17 @@ const ChatPanel = () => {
             ...prevState,
             [question_id]: {
               ...prevState[question_id],
-              [session_id]: [value],
+              [session_id]: {
+                title: title,
+                message: [value],
+              },
             },
           };
         }
         return {
           ...prevState,
           [question_id]: {
-            [session_id]: [value],
+            [session_id]: { title: title, message: [value] },
           },
         };
       });
