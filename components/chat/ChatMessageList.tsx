@@ -18,6 +18,7 @@ import RobotMessage from './messages/RobotMessage';
 import ChatTypeField from './ChatTypeField';
 import { useSendChat } from '@/query/query';
 import { useChatMessageContext } from '@/context/ChatMessageContext';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 type Props = {
   messageList: Question;
@@ -31,6 +32,7 @@ const ChatMessageList = ({ messageList }: Props) => {
     setCurrentSeesion,
     currnetSessionId,
   } = useChatMessageContext();
+
   const [isMineMessageLoading, setMineMessageLoading] =
     useState<boolean>(false);
 
@@ -70,6 +72,7 @@ const ChatMessageList = ({ messageList }: Props) => {
     }
   };
 
+  // 跳转聊天窗口获取从localstorage中获取session id
   useEffect(() => {
     if (
       messageList.question_id &&
@@ -84,9 +87,9 @@ const ChatMessageList = ({ messageList }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMessageList, messageList.question_id]);
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     scrollToBottom();
-  }, [isMineMessageLoading, isRobotMessageLoading]);
+  }, [isMineMessageLoading, isRobotMessageLoading, templateAnswers]);
 
   const {
     mutateAsync: sendMessage,

@@ -164,23 +164,25 @@ const ChatTypeField = ({
           resultArray[resultArray.length - 1].next_step === 'finish';
         if (is_finshed) {
           const response = await getFinalAnswer(currnetSessionId!);
-          const reader = response.body.getReader();
-          const { value } = await reader.read();
-          const chunk = new TextDecoder().decode(value);
-          const jsonObjects = chunk.split('}{').map((item, index, array) => {
-            if (index === 0) {
-              return `${item}}`;
-            } else if (index === array.length - 1) {
-              return `{${item}`;
-            } else {
-              return `{${item}}`;
-            }
-          });
-          const resultArray = jsonObjects.map((jsonString) =>
-            JSON.parse(jsonString)
+          const reader = response.body
+            .pipeThrough(new TextDecoderStream())
+            .getReader();
+          let raw_content = '';
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+            raw_content += value;
+          }
+          const dataArray = JSON.parse(
+            `[${raw_content.replace(/}{/g, '},{')}]`
           );
-          if (templateAnswers[questionId] !== resultArray[0].content_delta) {
-            setTemplateAnswers(questionId, resultArray[0].content_delta);
+          const concatenatedString = dataArray
+            .filter((item: any) => 'content_delta' in item)
+            .map((item: { [x: string]: any }) => item['content_delta'])
+            .join('');
+
+          if (templateAnswers[questionId] !== concatenatedString) {
+            setTemplateAnswers(questionId, concatenatedString);
           }
         }
       }
