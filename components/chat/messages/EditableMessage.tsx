@@ -37,13 +37,10 @@ const EditableMessage = ({
         <Button
           size={'sm'}
           onClick={() => {
-            if (!isExpSummary) {
-              currentSteps < 5 && setCurrentSteps(currentSteps + 1);
-            } else {
-              // 清空当前subseesion and currentsessionId
-              setCurrentSession(null);
-              clearCurrentSubseesion!();
-            }
+            if (!isExpSummary) return;
+            // 清空当前subseesion and currentsessionId
+            setCurrentSession(null);
+            clearCurrentSubseesion!();
           }}
         >
           😊 Looks Good

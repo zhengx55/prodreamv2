@@ -65,10 +65,12 @@ const ChatPanel = () => {
       setSteps((prev) => prev + 1);
     } else if (steps === 2) {
       setCurrnetSessionId(null);
-      const subsession_id = Object.values(
-        currentMessageList['fe96cfa951c346b091c3d1681ad65957']
-      )[0].title;
-      setCurrentSubSession(subsession_id);
+      if (currentMessageList['fe96cfa951c346b091c3d1681ad65957']) {
+        const subsession_id = Object.values(
+          currentMessageList['fe96cfa951c346b091c3d1681ad65957']
+        )[0].title;
+        setCurrentSubSession(subsession_id);
+      }
       setSteps((prev) => prev + 1);
     }
   }, [currentMessageList, steps]);
