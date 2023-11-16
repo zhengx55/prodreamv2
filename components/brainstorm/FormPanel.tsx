@@ -1,7 +1,6 @@
 'use client';
 import { useBrainStormDetail } from '@/query/query';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import Loading from '../root/CustomLoading';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
@@ -24,9 +23,11 @@ import useDeepCompareEffect from 'use-deep-compare-effect';
 
 const FormPanel = ({
   submitPending,
+  brainStormId,
   submitHandler,
 }: {
   submitPending: boolean;
+  brainStormId: string;
   submitHandler: UseMutateAsyncFunction<
     string,
     Error,
@@ -40,10 +41,8 @@ const FormPanel = ({
     unknown
   >;
 }) => {
-  const pathname = usePathname();
-  const id = pathname.split('/')[pathname.split('/').length - 1];
   const { data: moduleData, isPending: isModuleLoading } =
-    useBrainStormDetail(id);
+    useBrainStormDetail(brainStormId);
   const dispatch = useAppDispatch();
   const history = useAppSelector(selectBrainStormHistory);
   const [formData, setFormData] = useState<IBrainStormSection | undefined>();
@@ -59,6 +58,10 @@ const FormPanel = ({
   }, [moduleData]);
 
   // 从History panel 点击填充表格
+  /**
+   * 当history中包含带有+号的key时表示某个form单元有multiple个
+   * 需要找出所有带有➕的元素并将表格元素添加
+   */
   useDeepCompareEffect(() => {
     if (Object.keys(history.questionAnswerPair).length === 0) return;
     if (Object.keys(history.questionAnswerPair).length !== 0) {
@@ -160,7 +163,7 @@ const FormPanel = ({
     dispatch(clearHistory());
     submitHandler({
       pro_mode: qualityMode === 1,
-      template_id: id,
+      template_id: brainStormId,
       texts: key_values,
       types: filter_key_arrays,
       word_nums: '',
@@ -187,7 +190,7 @@ const FormPanel = ({
             className='small-regular capitalize text-shadow hover:underline'
             href={'/writtingpal/brainstorm'}
           >
-            {pathname.split('/')[2]}
+            Brainstorm
           </Link>
           <p className='small-regular text-black-200'>
             &nbsp;/&nbsp;{formData.name}

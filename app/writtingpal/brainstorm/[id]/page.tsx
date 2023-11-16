@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import { store } from '../../../../store/store';
 import { useEssayWriting } from '@/query/query';
 export default function Page({ params }: { params: { id: string } }) {
-  // !test hard code chat id
   const {
     isPending: isSubmitPending,
     mutateAsync: submitEssay,
@@ -20,6 +19,7 @@ export default function Page({ params }: { params: { id: string } }) {
         <PanelGroup direction='horizontal' disablePointerEventsDuringResize>
           <Panel minSize={45} defaultSize={50}>
             <FormPanel
+              brainStormId={params.id}
               submitHandler={submitEssay}
               submitPending={isSubmitPending}
             />

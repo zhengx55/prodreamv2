@@ -26,10 +26,12 @@ const OutputPanel = ({
   const IncrementWordCount = useCallback(() => {
     setAnimatedWordCount((prev) => prev + 1);
   }, []);
+
   // hooks to calculate incremental word count
   const turnOffAnimate = useCallback(() => {
     setShouldAnimate(false);
   }, []);
+
   const handleTabChange = useCallback((value: number) => {
     setTab(value);
   }, []);
