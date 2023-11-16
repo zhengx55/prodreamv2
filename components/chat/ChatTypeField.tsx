@@ -53,6 +53,7 @@ const ChatTypeField = ({
   setRobotMessageLoading,
 }: Props) => {
   const {
+    templateAnswers,
     setCurrentMessageList,
     setTemplateAnswers,
     setCurrentSeesion,
@@ -170,7 +171,9 @@ const ChatTypeField = ({
           const resultArray = jsonObjects.map((jsonString) =>
             JSON.parse(jsonString)
           );
-          setTemplateAnswers(questionId, resultArray[0].content_delta);
+          if (templateAnswers[questionId] !== resultArray[0].content_delta) {
+            setTemplateAnswers(questionId, resultArray[0].content_delta);
+          }
         }
       }
     } catch (error) {

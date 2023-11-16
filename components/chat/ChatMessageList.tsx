@@ -102,7 +102,6 @@ const ChatMessageList = ({ messageList }: Props) => {
               }
             )
           : null}
-
         {isMineMessageLoading && <MineMessagLoading />}
         {isRobotMessageLoading && <RobotMessageLoading />}
         {templateAnswers.hasOwnProperty(messageList.question_id) && (
