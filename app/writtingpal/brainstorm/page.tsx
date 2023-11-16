@@ -24,9 +24,7 @@ export default async function Brainstorm() {
   const uc_data = brainstorms_data.filter(
     (item: IBrainsotrmCard) => item.template_class === BrainStormTypes.UC
   );
-  const other_data = brainstorms_data.filter(
-    (item: IBrainsotrmCard) => item.template_class === BrainStormTypes.OTHER
-  );
+
   const recommand_data = brainstorms_data.filter(
     (item: IBrainsotrmCard) =>
       item.template_class === BrainStormTypes.RECOMMENDATION
@@ -37,7 +35,6 @@ export default async function Brainstorm() {
       <List title={BrainStormTypes.GENERAL} cardList={general_data} />
       <List title={BrainStormTypes.COMMON} cardList={common_data} />
       <List title={BrainStormTypes.UC} cardList={uc_data} />
-      <List title={BrainStormTypes.OTHER} cardList={other_data} />
       <List title={BrainStormTypes.RECOMMENDATION} cardList={recommand_data} />
     </section>
   );
