@@ -21,7 +21,10 @@ const ChatPanel = () => {
   const [currentSessionId, setCurrnetSessionId] = useState<string | null>(null);
   const [templateAnswers, setTemplateAnswers] = useState<
     Record<string, string>
-  >({});
+  >(() => {
+    const memory = localStorage.getItem('chat_summary');
+    return memory ? JSON.parse(memory) : {};
+  });
 
   const [currentMessageList, setCurrentMessageList] =
     useState<IChatMesssageList>(() => {
@@ -30,6 +33,11 @@ const ChatPanel = () => {
     });
 
   // !test
+
+  useDeepCompareEffect(() => {
+    localStorage.setItem('chat_summary', JSON.stringify(templateAnswers));
+  }, [templateAnswers]);
+
   useDeepCompareEffect(() => {
     localStorage.setItem('chat_history', JSON.stringify(currentMessageList));
   }, [currentMessageList]);
@@ -113,6 +121,7 @@ const ChatPanel = () => {
         currentSteps: steps,
         setCurrentSteps: handleTabChange,
         setTemplateAnswers: setFinalAnswer,
+        templateAnswers: templateAnswers,
       }}
     >
       <motion.section

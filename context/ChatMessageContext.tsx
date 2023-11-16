@@ -13,6 +13,7 @@ type ChatMessageContextPrps = {
   currentSteps: number;
   setCurrentSteps: (value: number) => void;
   setTemplateAnswers: (question_id: string, answer: string) => void;
+  templateAnswers: Record<string, string>;
 };
 
 export const ChatMessageContext = createContext({} as ChatMessageContextPrps);

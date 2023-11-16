@@ -25,8 +25,12 @@ type Props = {
 
 const ChatMessageList = ({ messageList }: Props) => {
   const chatPanelRef = useRef<HTMLDivElement>(null);
-  const { currentMessageList, setCurrentSeesion, currnetSessionId } =
-    useChatMessageContext();
+  const {
+    currentMessageList,
+    templateAnswers,
+    setCurrentSeesion,
+    currnetSessionId,
+  } = useChatMessageContext();
   const [isMineMessageLoading, setMineMessageLoading] =
     useState<boolean>(false);
 
@@ -78,8 +82,6 @@ const ChatMessageList = ({ messageList }: Props) => {
         ref={chatPanelRef}
         className='custom-scrollbar flex h-full w-full select-text flex-col gap-y-4 overflow-y-auto px-2 pt-2'
       >
-        {/* <ActivityMessage />
-      <EditableMessage /> */}
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />
         {messageList.question_id === 'fe96cfa951c346b091c3d1681ad65957' && (
@@ -103,6 +105,9 @@ const ChatMessageList = ({ messageList }: Props) => {
 
         {isMineMessageLoading && <MineMessagLoading />}
         {isRobotMessageLoading && <RobotMessageLoading />}
+        {templateAnswers.hasOwnProperty(messageList.question_id) && (
+          <EditableMessage message={templateAnswers[messageList.question_id]} />
+        )}
       </div>
       <ChatTypeField
         onSendMessage={sendMessage}
