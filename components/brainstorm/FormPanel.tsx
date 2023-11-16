@@ -66,24 +66,26 @@ const FormPanel = ({
       let keysWithPlus = Object.keys(history.questionAnswerPair).filter((key) =>
         key.includes('+')
       );
-      const keysOfMultiple = keysWithPlus[0].split('+')[0];
-      const originalQuestion = formData.modules.find(
-        (item) => item.question[0].id === keysOfMultiple
-      );
-      if (originalQuestion !== undefined) {
-        let newQuestion = [...originalQuestion.question];
-        const originalModuleId = originalQuestion?.id;
-        keysWithPlus.forEach((item) => {
-          newQuestion = [...newQuestion, { ...newQuestion[0], id: item }];
-        });
-        const updatedModules = formData.modules.map((module) => {
-          if (module.id === originalModuleId) {
-            return { ...module, question: newQuestion };
-          }
-          return module;
-        });
-        const updatedObj = { ...formData, modules: updatedModules };
-        setFormData(updatedObj);
+      if (keysWithPlus.length > 0) {
+        const keysOfMultiple = keysWithPlus[0].split('+')[0];
+        const originalQuestion = formData.modules.find(
+          (item) => item.question[0].id === keysOfMultiple
+        );
+        if (originalQuestion !== undefined) {
+          let newQuestion = [...originalQuestion.question];
+          const originalModuleId = originalQuestion?.id;
+          keysWithPlus.forEach((item) => {
+            newQuestion = [...newQuestion, { ...newQuestion[0], id: item }];
+          });
+          const updatedModules = formData.modules.map((module) => {
+            if (module.id === originalModuleId) {
+              return { ...module, question: newQuestion };
+            }
+            return module;
+          });
+          const updatedObj = { ...formData, modules: updatedModules };
+          setFormData(updatedObj);
+        }
       }
       setFormState(history.questionAnswerPair);
     }
