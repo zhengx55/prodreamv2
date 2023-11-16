@@ -62,6 +62,7 @@ const FormPanel = ({
   useDeepCompareEffect(() => {
     if (Object.keys(history.questionAnswerPair).length === 0) return;
     if (Object.keys(history.questionAnswerPair).length !== 0) {
+      console.log(history.questionAnswerPair);
       setFormState(history.questionAnswerPair);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

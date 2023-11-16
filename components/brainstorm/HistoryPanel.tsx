@@ -41,7 +41,6 @@ const HistoryPanel = ({
     const filtered_array = addRandomToDuplicates(item.question_ids);
     const mergedObject = filtered_array.reduce(
       (result: Record<string, string>, key: string, index: number) => {
-        console.log(key);
         result[key] = item.answers[index];
         return result;
       },
@@ -60,7 +59,7 @@ const HistoryPanel = ({
           questionAnswerPair: mergedObject,
         })
       );
-      // handleTabChange(0);
+      handleTabChange(0);
     }
   };
 
