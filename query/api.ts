@@ -161,6 +161,7 @@ export async function userLogin(loginParam: {
       body: formData,
     });
     const data = await res.json();
+    console.log(data);
     if (data.data === null) {
       throw new Error(data.msg as string);
     }
@@ -261,6 +262,7 @@ export async function fetchFinalAs(session_id: string): Promise<any> {
       `${process.env.NEXT_PUBLIC_API_URL}answer_guide/${session_id}`,
       {
         method: 'GET',
+        credentials: 'include',
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
         },

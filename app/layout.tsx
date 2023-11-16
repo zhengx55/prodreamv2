@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/context/ThemeProvider';
 // import { i18n } from '@/i18n.config';
 import { Poppins } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
+import UserStoreProvider from '@/store/userProvider';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -32,10 +33,12 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute='class' defaultTheme='light'>
           <TanstackProvider>
-            <section className='h-screen w-screen md:flex md:min-w-[1400px] md:overflow-x-auto'>
-              {children}
-            </section>
-            <Toaster />
+            <UserStoreProvider>
+              <section className='h-screen w-screen md:flex md:min-w-[1400px] md:overflow-x-auto'>
+                {children}
+              </section>
+              <Toaster />
+            </UserStoreProvider>
           </TanstackProvider>
         </ThemeProvider>
       </body>
