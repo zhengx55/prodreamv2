@@ -58,7 +58,7 @@ const ChatTypeField = ({
     templateAnswers,
     setCurrentMessageList,
     setTemplateAnswers,
-    setCurrentSeesion,
+    setCurrentSession,
     currentSubSession,
     currnetSessionId,
   } = useChatMessageContext();
@@ -157,7 +157,7 @@ const ChatTypeField = ({
         );
         setRobotMessageLoading(false);
         if (currnetSessionId !== resultArray[0].session_id) {
-          setCurrentSeesion(resultArray[0].session_id);
+          setCurrentSession(resultArray[0].session_id);
         }
         const is_finshed =
           resultArray[resultArray.length - 1].next_step === 'finish';

@@ -4,7 +4,7 @@ import { createContext, useContext } from 'react';
 type ChatMessageContextPrps = {
   currentMessageList: IChatMesssageList;
   currnetSessionId: string | null;
-  setCurrentSeesion: (value: string | null) => void;
+  setCurrentSession: (value: string | null) => void;
   setCurrentMessageList: (
     value: IChatMessage,
     question_id: string,

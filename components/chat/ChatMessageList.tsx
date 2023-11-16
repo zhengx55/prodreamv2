@@ -29,7 +29,7 @@ const ChatMessageList = ({ messageList }: Props) => {
   const {
     currentMessageList,
     templateAnswers,
-    setCurrentSeesion,
+    setCurrentSession,
     currnetSessionId,
     currentSubSession,
     clearSubSession,
@@ -81,26 +81,20 @@ const ChatMessageList = ({ messageList }: Props) => {
       currentMessageList[messageList.question_id]
     ) {
       if (messageList.question_id !== 'fe96cfa951c346b091c3d1681ad65957') {
+        console.log('设置当前聊天id');
         const session_id = Object.keys(
           currentMessageList[messageList.question_id]
         )[0];
-        setCurrentSeesion(session_id);
+        setCurrentSession(session_id);
       } else {
+        console.log('设置当前聊天id');
         const session_id = Object.keys(
           currentMessageList[messageList.question_id]
         )[0];
-        setCurrentSeesion(session_id);
-        if (currentSubSession) {
-          addSubSession(currentSubSession);
-        } else {
-          // 如果没有选择subsession 自动检索第一个subsession
-          const subsession_id = Object.values(
-            currentMessageList[messageList.question_id]
-          )[0].title;
-          addSubSession(subsession_id);
-        }
+        setCurrentSession(session_id);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMessageList, messageList.question_id, currentSubSession]);
 
   useDeepCompareEffect(() => {

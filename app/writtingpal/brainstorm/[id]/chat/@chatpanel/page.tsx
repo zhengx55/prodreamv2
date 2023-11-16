@@ -55,12 +55,19 @@ const ChatPanel = () => {
 
   const handleTabNavigation = useCallback(() => {
     // 当进入下一个聊天引导时清空上一个sessionid 已进入新的聊天窗口并记录上一个sessionId
-    if (steps >= 1 && steps < 5) {
+    if (steps >= 1 && steps < 5 && steps !== 2) {
       setCurrnetSessionId(null);
       setCurrentSubSession(undefined);
       setSteps((prev) => prev + 1);
+    } else if (steps === 2) {
+      setCurrnetSessionId(null);
+      const subsession_id = Object.values(
+        currentMessageList['fe96cfa951c346b091c3d1681ad65957']
+      )[0].title;
+      setCurrentSubSession(subsession_id);
+      setSteps((prev) => prev + 1);
     }
-  }, [steps]);
+  }, [currentMessageList, steps]);
 
   const setFinalAnswer = useCallback((question_id: string, answer: any) => {
     setTemplateAnswers((prev) => ({ ...prev, [question_id]: answer }));
@@ -69,10 +76,15 @@ const ChatPanel = () => {
   const handleNavBack = () => {
     if (steps === 1) {
       updateCurrentRoute('introductions');
+    } else if (steps === 4) {
+      const subsession_id = Object.values(
+        currentMessageList['fe96cfa951c346b091c3d1681ad65957']
+      )[0].title;
+      setCurrnetSessionId(null);
+      setCurrentSubSession(subsession_id);
+      setSteps((prev) => prev - 1);
     } else {
       setSteps((prev) => prev - 1);
-      setCurrnetSessionId(null);
-      setCurrentSubSession(undefined);
     }
   };
 
@@ -144,7 +156,7 @@ const ChatPanel = () => {
       value={{
         currentMessageList: currentMessageList,
         currnetSessionId: currentSessionId,
-        setCurrentSeesion: setCurrentSession,
+        setCurrentSession: setCurrentSession,
         setCurrentMessageList: addCurrentMessage,
         currentSteps: steps,
         setCurrentSteps: handleTabChange,

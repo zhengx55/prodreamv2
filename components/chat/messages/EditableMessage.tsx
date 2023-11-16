@@ -14,7 +14,7 @@ const EditableMessage = ({
   isExpSummary,
   clearCurrentSubseesion,
 }: Props) => {
-  const { setCurrentSteps, currentSteps, setCurrentSeesion } =
+  const { setCurrentSteps, currentSteps, setCurrentSession } =
     useChatMessageContext();
 
   return (
@@ -41,7 +41,7 @@ const EditableMessage = ({
               currentSteps < 5 && setCurrentSteps(currentSteps + 1);
             } else {
               // 清空当前subseesion and currentsessionId
-              setCurrentSeesion(null);
+              setCurrentSession(null);
               clearCurrentSubseesion!();
             }
           }}
