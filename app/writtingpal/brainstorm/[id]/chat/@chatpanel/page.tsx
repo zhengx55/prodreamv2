@@ -53,9 +53,22 @@ const ChatPanel = () => {
     setShowHistory(false);
   }, []);
 
-  const setFinalAnswer = useCallback((question_id: string, answer: any) => {
-    setTemplateAnswers((prev) => ({ ...prev, [question_id]: answer }));
-  }, []);
+  const setFinalAnswer = useCallback(
+    (question_id: string, answer: any, subsessionId?: string) => {
+      if (!subsessionId) {
+        setTemplateAnswers((prev) => ({ ...prev, [question_id]: answer }));
+      } else {
+        setTemplateAnswers((prev) => ({
+          ...prev,
+          [question_id]: {
+            ...prev[question_id],
+            [subsessionId]: answer,
+          },
+        }));
+      }
+    },
+    []
+  );
 
   const handleNavNext = useCallback(() => {
     // 当进入下一个聊天引导时清空上一个sessionid 已进入新的聊天窗口并记录上一个sessionId

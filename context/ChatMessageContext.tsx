@@ -13,7 +13,11 @@ type ChatMessageContextPrps = {
   ) => void;
   currentSteps: number;
   setCurrentSteps: (value: number) => void;
-  setTemplateAnswers: (question_id: string, answer: any) => void;
+  setTemplateAnswers: (
+    question_id: string,
+    answer: any,
+    subsessionId?: string
+  ) => void;
   templateAnswers: Record<string, any>;
   currentSubSession: string | undefined;
   clearSubSession: () => void;

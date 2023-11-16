@@ -189,9 +189,11 @@ const ChatTypeField = ({
               templateAnswers[questionId][resultArray[0].session_id] !==
                 concatenatedString
             ) {
-              setTemplateAnswers(questionId, {
-                [resultArray[0].session_id]: concatenatedString,
-              });
+              setTemplateAnswers(
+                questionId,
+                concatenatedString,
+                resultArray[0].session_id
+              );
             }
           }
         }
