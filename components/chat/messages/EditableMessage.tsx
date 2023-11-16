@@ -1,10 +1,12 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { useChatMessageContext } from '@/context/ChatMessageContext';
 import React, { memo } from 'react';
 
 type Props = { message: string };
 
 const EditableMessage = ({ message }: Props) => {
+  const { setCurrentSteps, currentSteps } = useChatMessageContext();
   return (
     <div className='flex w-[80%] min-w-[485px] flex-col self-start rounded-[20px] bg-shadow-200 p-4'>
       <p className='small-regular text-black-700'>
@@ -22,7 +24,12 @@ const EditableMessage = ({ message }: Props) => {
             Edit
           </Button>
         </div>
-        <Button size={'sm'}>😊 Looks Good</Button>
+        <Button
+          size={'sm'}
+          onClick={() => currentSteps < 5 && setCurrentSteps(currentSteps + 1)}
+        >
+          😊 Looks Good
+        </Button>
       </div>
     </div>
   );
