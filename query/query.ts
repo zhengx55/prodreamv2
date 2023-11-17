@@ -8,7 +8,6 @@ import {
   getBrianstormHistoryById,
   queryEssayResult,
   sendChatMessage,
-  userLogin,
 } from './api';
 import { AnswerRequestParam } from '@/types';
 
@@ -96,9 +95,3 @@ export const useGetFinalAnswer = () => {
 // ============================================================
 // Auth
 // ============================================================
-export const useLogin = () => {
-  return useMutation({
-    mutationFn: (param: { username: string; password: string }) =>
-      userLogin(param),
-  });
-};

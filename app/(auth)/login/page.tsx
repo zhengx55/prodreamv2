@@ -21,11 +21,19 @@ import Link from 'next/link';
 import GoogleSignin from '@/components/auth/GoogleSignin';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { useLogin } from '@/query/query';
 import { useAppDispatch } from '@/store/storehooks';
+import { UserDispatch } from '../../../store/userStore';
+import { setUser } from '@/store/reducers/userReducer';
+import { useMutation } from '@tanstack/react-query';
+import { userLogin } from '@/query/api';
+import { useToast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
+  const { toast } = useToast();
   const [hidePassword, setHidePassword] = useState(true);
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -33,9 +41,28 @@ export default function Page() {
       password: '',
     },
   });
-  const { mutateAsync: handleLogin } = useLogin();
+  const { mutateAsync: handleLogin } = useMutation({
+    mutationFn: (param: { username: string; password: string }) =>
+      userLogin(param),
+    onSuccess: (data) => {
+      toast({
+        variant: 'default',
+        description: 'Successfully Login',
+      });
+      console.log(data);
+      dispatch(setUser(data));
+      // router.replace('/writtingpal/polish')
+    },
+    onError: (error) => {
+      toast({
+        variant: 'destructive',
+        description: error.message,
+      });
+    },
+  });
+
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    const data = await handleLogin(values);
+    await handleLogin(values);
   }
 
   return (

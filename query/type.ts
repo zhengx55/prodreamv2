@@ -90,3 +90,12 @@ export interface LoginData {
   traffic: string;
   user_id: number;
 }
+
+export interface ISigunUpRequest {
+  email: string;
+  first_name: string;
+  from: string;
+  last_name?: string;
+  password: string;
+  referral: string;
+}

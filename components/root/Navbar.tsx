@@ -1,9 +1,11 @@
 'use client';
-import { Bell, HelpCircle, Search } from 'lucide-react';
+import { Bell, HelpCircle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import User from './User';
+import { useUserSelector } from '@/store/storehooks';
+import { selectUser } from '@/store/reducers/userReducer';
 
 const Navbar = () => {
   const pathname = usePathname();

@@ -1,5 +1,10 @@
 import { AnswerRequestParam, FormQuestionResponse } from '@/types';
-import { IBrainStormSection, IBrainstormHistory } from './type';
+import {
+  IBrainStormSection,
+  IBrainstormHistory,
+  ISigunUpRequest,
+  LoginData,
+} from './type';
 
 // ----------------------------------------------------------------
 // BrainStorm
@@ -150,7 +155,7 @@ export async function SubmitEssayWritting(
 export async function userLogin(loginParam: {
   username: string;
   password: string;
-}) {
+}): Promise<LoginData> {
   try {
     const formData = new FormData();
     formData.append('email', loginParam.username);
@@ -161,9 +166,8 @@ export async function userLogin(loginParam: {
       body: formData,
     });
     const data = await res.json();
-    console.log(data);
     if (data.data === null) {
-      throw new Error(data.msg as string);
+      throw data.msg;
     }
     return data.data;
   } catch (error) {
@@ -171,9 +175,50 @@ export async function userLogin(loginParam: {
   }
 }
 
-export async function userSignUp() {}
+export async function userSignUp(signUpParam: ISigunUpRequest) {
+  try {
+    const formdata = new FormData();
+    formdata.append('first_name', signUpParam.first_name);
+    formdata.append(
+      'last_name',
+      signUpParam.last_name ? signUpParam.last_name : ''
+    );
+    formdata.append('email', signUpParam.email);
+    formdata.append('password', signUpParam.password);
+    formdata.append('from', signUpParam.from ? signUpParam.from : '');
+    formdata.append(
+      'referral',
+      signUpParam.referral ? signUpParam.referral : ''
+    );
 
-export async function userLogOut() {}
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}register`, {
+      method: 'POST',
+      body: formdata,
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function userLogOut() {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}logout`, {
+      method: 'DELETE',
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function userGoogleLogin() {}
 

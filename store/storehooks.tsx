@@ -10,9 +10,11 @@ import { loadStateFromLocalStorage, saveStateToLocalStorage } from './persist';
 import { deepMerge } from '@/lib/utils';
 import { initialResumeState, setResume } from './reducers/resumeSlice';
 import { Resume } from '@/types';
+import { UserState } from './userStore';
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useUserSelector: TypedUseSelectorHook<UserState> = useSelector;
 
 /**
  * Hook to save store to local storage on store change
