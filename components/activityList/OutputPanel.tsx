@@ -1,9 +1,13 @@
 'use client';
-
 import { cn } from '@/lib/utils';
+import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import OutComePanel from './OutComePanel';
+import HistoryPanel from './HistoryPanel';
+import TutorialPanel from './TutorialPanel';
+import { Datum } from '@/query/type';
 
-const OutputPanel = () => {
+const OutputPanel = ({ history_data }: { history_data: Datum[] }) => {
   const [tab, setTab] = useState<number>(0);
 
   return (
@@ -38,6 +42,17 @@ const OutputPanel = () => {
           Tutorial
         </div>
       </div>
+      <main className='overflow-y-auto md:h-full md:w-full'>
+        <AnimatePresence mode='wait'>
+          {tab === 1 ? (
+            <OutComePanel />
+          ) : tab === 0 ? (
+            <HistoryPanel history_data={history_data} />
+          ) : (
+            <TutorialPanel />
+          )}
+        </AnimatePresence>
+      </main>
     </div>
   );
 };

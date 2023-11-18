@@ -15,7 +15,9 @@ const Navbar = () => {
       <h3 className='h3-bold hidden capitalize text-black-200 md:block'>
         {pathname.split('/')[2] === 'activityList'
           ? 'Activity List'
-          : pathname.split('/')[2]}
+          : pathname.split('/')[2] === 'polish'
+            ? 'AI Editor'
+            : pathname.split('/')[2]}
       </h3>
       <div className='flex items-center gap-x-2 md:gap-x-6'>
         <motion.div

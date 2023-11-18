@@ -107,3 +107,28 @@ export interface IOptRequest {
   lengths: number[];
   text: string;
 }
+
+export interface IActivityHistoryResponse {
+  code: number;
+  data: Datum[];
+  msg: string;
+  [property: string]: any;
+}
+
+export interface Datum {
+  /**
+   * UTC时间戳
+   */
+  create_time?: number;
+  lengths?: number[];
+  result?: Result[];
+  text?: string;
+  [property: string]: any;
+}
+
+interface Result {
+  actual_length: number;
+  result: string;
+  target: number;
+  [property: string]: any;
+}
