@@ -9,10 +9,13 @@ import { selectUser } from '@/store/reducers/userReducer';
 
 const Navbar = () => {
   const pathname = usePathname();
+
   return (
     <nav className='flex-between h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold hidden capitalize text-black-200 md:block'>
-        {pathname.split('/')[2]}
+        {pathname.split('/')[2] === 'activityList'
+          ? 'Activity List'
+          : pathname.split('/')[2]}
       </h3>
       <div className='flex items-center gap-x-2 md:gap-x-6'>
         <motion.div

@@ -31,7 +31,7 @@ export default async function Brainstorm() {
   );
 
   return (
-    <section className='flex h-[calc(100%_-_68px)] w-full flex-col gap-y-4 overflow-y-auto bg-sectionBackground md:py-5 md:pl-5 md:pr-10'>
+    <section className='flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col gap-y-4 overflow-y-auto bg-sectionBackground md:py-5 md:pl-5 md:pr-10'>
       <List title={BrainStormTypes.GENERAL} cardList={general_data} />
       <List title={BrainStormTypes.COMMON} cardList={common_data} />
       <List title={BrainStormTypes.UC} cardList={uc_data} />

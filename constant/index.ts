@@ -22,6 +22,13 @@ export const SidebarLinks = [
     active_image: '/resume_active.svg',
     link: '/writtingpal/resume',
   },
+  {
+    id: 'sidebar-04',
+    title: 'Activity List',
+    image: '/activity.svg',
+    active_image: '/activity_active.svg',
+    link: '/writtingpal/activityList',
+  },
 ];
 
 export const brainstorms_data = [

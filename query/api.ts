@@ -164,6 +164,7 @@ export async function userLogin(loginParam: {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}login`, {
       method: 'POST',
       body: formData,
+      credentials: 'include',
     });
     const data = await res.json();
     if (data.data === null) {
