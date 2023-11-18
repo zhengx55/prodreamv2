@@ -99,3 +99,11 @@ export interface ISigunUpRequest {
   password: string;
   referral: string;
 }
+
+export interface IOptRequest {
+  /**
+   * 希望优化到的字数
+   */
+  lengths: number[];
+  text: string;
+}

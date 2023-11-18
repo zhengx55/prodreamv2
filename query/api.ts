@@ -2,6 +2,7 @@ import { AnswerRequestParam, FormQuestionResponse } from '@/types';
 import {
   IBrainStormSection,
   IBrainstormHistory,
+  IOptRequest,
   ISigunUpRequest,
   LoginData,
 } from './type';
@@ -238,19 +239,63 @@ export async function plagiarismCheck() {
   //https://test.quickapply.app/api/ai/plagiarism_check/submit
 }
 
-export async function sendMessage() {
+export async function submitPolish() {
   //https://test.quickapply.app/api/ai/essay_polish_submit
 }
 
-export async function queryMessage() {
+export async function queryPolish() {
   // https://test.quickapply.app/api/ai/essay_polish_query
 }
+
+export async function essayAssess() {
+  ///ai/essay_assess
+}
+
+export async function feedBackReport() {
+  ///ai/report_feedback
+}
+
+export async function downloadReport() {
+  ///ai/report_pdf/{report_id}
+}
+
+// ----------------------------------------------------------------
+// Activity List
+// ----------------------------------------------------------------
+export async function optmize_activity() {}
 
 // ----------------------------------------------------------------
 // Resume
 // ----------------------------------------------------------------
-export async function fetchResume() {
-  //https://test.quickapply.app/api/data/resume
+export async function fetchResume(params: IOptRequest) {
+  try {
+    const body = JSON.stringify({
+      text: params.text,
+      lengths: params.lengths,
+    });
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}activity_optimize`,
+      {
+        method: 'POST',
+        body,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    const data = await res.json();
+    if (data.error) {
+      throw new Error(data.error as string);
+    }
+    return data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
 }
 
 // ----------------------------------------------------------------
@@ -333,3 +378,14 @@ export async function fetchFinalAs(session_id: string): Promise<any> {
     throw new Error(error as string);
   }
 }
+// ----------------------------------------------------------------
+// 通知
+// ----------------------------------------------------------------
+
+export async function fetchNotice() {}
+
+export async function checkNotice() {}
+
+// ----------------------------------------------------------------
+// 打点
+// ----------------------------------------------------------------
