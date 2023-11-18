@@ -9,7 +9,7 @@ export default function WrittingpalLayout({
 }) {
   return (
     <div className='relative flex h-full w-full flex-col overflow-x-auto bg-auth bg-cover bg-center bg-no-repeat'>
-      <div className='flex w-full pl-20 pt-10'>
+      <div className='mb-5 flex w-full px-5 pt-5 md:mb-0 md:pl-20 md:pt-10'>
         <AnimatedLogo pathFill='#fff' show />
         <Toaster />
       </div>

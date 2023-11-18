@@ -18,11 +18,19 @@ import { signUpSchema } from '@/lib/validation';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import GoogleSignin from '@/components/auth/GoogleSignin';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { userSignUp } from '@/query/api';
+import { ISigunUpRequest } from '@/query/type';
+import { useToast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
+  const { toast } = useToast();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -32,16 +40,38 @@ export default function Page() {
       email: '',
     },
   });
-
-  function onSubmit(values: z.infer<typeof signUpSchema>) {
-    console.log(123);
+  const { mutateAsync: handleSignup, isPending: isSignupPending } = useMutation(
+    {
+      mutationFn: (param: ISigunUpRequest) => userSignUp(param),
+      onSuccess: (data) => {
+        toast({
+          variant: 'default',
+          description: 'Successfully Signup',
+        });
+        router.replace('/login');
+      },
+      onError: (error) => {
+        toast({
+          variant: 'destructive',
+          description: error.message,
+        });
+      },
+    }
+  );
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    await handleSignup({
+      first_name: values.firstname,
+      last_name: values.lastname,
+      email: values.email,
+      password: values.password,
+    });
   }
 
   return (
     <section className='flex-center flex-1'>
       <Panel>
         <h1 className='h2-bold self-center'>Create Your Account</h1>
-        <p className='body-normal self-center text-shadow-100'>
+        <p className='base-regular md:body-normal self-center text-center text-shadow-100 md:text-left'>
           Unlock the potential of your personal statement with QuickApply!
         </p>
         <Form {...form}>
@@ -159,7 +189,14 @@ export default function Page() {
                 &nbsp;Privacy Policy
               </Link>
             </p>
-            <Button className='w-full rounded-full' type='submit'>
+            <Button
+              disabled={isSignupPending}
+              className='w-full gap-x-2 rounded-full'
+              type='submit'
+            >
+              {isSignupPending && (
+                <Loader2 className='animate-spin text-white' size={22} />
+              )}
               Sign up
             </Button>
           </form>

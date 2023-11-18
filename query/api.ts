@@ -206,6 +206,7 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
       body: formdata,
     });
     const data = await res.json();
+    console.log('🚀 ~ file: api.ts:209 ~ userSignUp ~ data:', data);
     if (data.code !== 0) {
       throw data.msg;
     }

@@ -16,7 +16,7 @@ export const signUpSchema = z.object({
     .max(50, { message: 'Last name cannot exceed 50 characters' }),
   password: z
     .string()
-    .min(8, { message: 'Password must be at least 8 characters' })
+    .min(6, { message: 'Password must be at least 8 characters' })
     .max(50, { message: 'Password cannot exceed 50 characters' }),
   email: z.string().email({ message: 'Invalid email address' }),
 });
