@@ -26,10 +26,10 @@ export default function Page() {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      username: '',
+      firstname: '',
+      lastname: '',
       password: '',
       email: '',
-      verification: '',
     },
   });
 
@@ -51,17 +51,38 @@ export default function Page() {
           >
             <FormField
               control={form.control}
-              name='username'
+              name='firstname'
               render={({ field }) => (
                 <FormItem className='relative mt-10'>
                   <FormLabel className='text-black-400' htmlFor='username'>
-                    Name
+                    First Name
                   </FormLabel>
                   <FormControl>
                     <Input
-                      autoComplete='name'
-                      id='name'
-                      placeholder='e.g Max Tang'
+                      autoComplete='firstname'
+                      id='firstname'
+                      placeholder='e.g Max'
+                      className='rounded-2xl border-none bg-shadow-50'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='lastname'
+              render={({ field }) => (
+                <FormItem className='relative'>
+                  <FormLabel className='text-black-400' htmlFor='username'>
+                    Last Name
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      autoComplete='lastname'
+                      id='lastname'
+                      placeholder='e.g Tang'
                       className='rounded-2xl border-none bg-shadow-50'
                       {...field}
                     />
@@ -127,33 +148,7 @@ export default function Page() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name='verification'
-              render={({ field }) => (
-                <FormItem className='relative flex flex-col justify-center'>
-                  <Button
-                    type='button'
-                    className='absolute bottom-0 right-0 rounded-3xl'
-                  >
-                    Send Verification
-                  </Button>
-                  <FormLabel className='text-black-400' htmlFor='username'>
-                    Verification
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type='number'
-                      id='verification'
-                      placeholder='Enter Verification Code'
-                      className='rounded-2xl border-none bg-shadow-50'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
-                </FormItem>
-              )}
-            />
+
             <p className='small-regular cursor-pointer self-start text-black-400'>
               By Continuing, you agree to
               <Link href={'/'} className='text-primary-200'>

@@ -1,13 +1,16 @@
 import List from '@/components/brainstorm/List';
 import { BrainStormTypes } from '@/constant/enum';
 import { IBrainsotrmCard } from '@/types';
+import { cookies } from 'next/headers';
 
 export default async function Brainstorm() {
+  const cookieStore = cookies();
+  const cookie = cookieStore.get('token');
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}list_templates?lang=en`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+        Authorization: `Bearer ${cookie?.value}`,
       },
     }
   );
