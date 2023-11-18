@@ -2,8 +2,8 @@
  * 用于储存用户信息
  */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { UserState } from '../userStore';
 import { LoginData } from '@/query/type';
+import { type RootState } from '../store';
 
 const initialUserState: LoginData = {
   access_token: '',
@@ -41,10 +41,10 @@ export const userSlice = createSlice({
 
 export const { setUser, resetUser, setUserAvatar, setUserEmail } =
   userSlice.actions;
-export const selectUser = (state: UserState) => state.user;
-export const selectUserEmail = (state: UserState) => state.user.email;
-export const selectUserAvatar = (state: UserState) => state.user.avatar;
-export const selectUserToken = (state: UserState) => state.user.access_token;
-export const selectUserId = (state: UserState) => state.user.user_id;
+export const selectUser = (state: RootState) => state.user;
+export const selectUserEmail = (state: RootState) => state.user.email;
+export const selectUserAvatar = (state: RootState) => state.user.avatar;
+export const selectUserToken = (state: RootState) => state.user.access_token;
+export const selectUserId = (state: RootState) => state.user.user_id;
 
 export default userSlice.reducer;

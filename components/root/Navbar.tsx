@@ -4,12 +4,12 @@ import { usePathname } from 'next/navigation';
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import User from './User';
-import { useUserSelector } from '@/store/storehooks';
 import { selectUser } from '@/store/reducers/userReducer';
+import { useAppSelector } from '@/store/storehooks';
 
 const Navbar = () => {
   const pathname = usePathname();
-
+  const user = useAppSelector(selectUser);
   return (
     <nav className='flex-between h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold hidden capitalize text-black-200 md:block'>
@@ -31,9 +31,9 @@ const Navbar = () => {
           <Bell className='text-primary-200' size={22} />
         </motion.div>
         <User
-          name='Jane Doe'
-          email='test@gmail.com'
-          imgSrc='https://i.pravatar.cc/150?u=a042581f4e29026024d'
+          name={user.first_name || ''}
+          email={user.email || ''}
+          imgSrc={'https://i.pravatar.cc/150?u=a042581f4e29026024d'}
         />
       </div>
     </nav>

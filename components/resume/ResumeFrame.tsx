@@ -43,7 +43,7 @@ const getIframeInitialContent = (isA4: boolean) => {
 };
 
 function ResumeFrame({
-  scale = 0.7,
+  scale,
   children,
 }: {
   children: ReactNode;

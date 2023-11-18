@@ -4,6 +4,7 @@ import Panel from '@/components/auth/Panel';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useCookies } from 'react-cookie';
 
 import {
   Form,
@@ -22,7 +23,6 @@ import GoogleSignin from '@/components/auth/GoogleSignin';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useAppDispatch } from '@/store/storehooks';
-import { UserDispatch } from '../../../store/userStore';
 import { setUser } from '@/store/reducers/userReducer';
 import { useMutation } from '@tanstack/react-query';
 import { userLogin } from '@/query/api';
@@ -31,6 +31,7 @@ import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const { toast } = useToast();
+  const [_cookies, setCookie] = useCookies(['token', 'user']);
   const [hidePassword, setHidePassword] = useState(true);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -49,9 +50,13 @@ export default function Page() {
         variant: 'default',
         description: 'Successfully Login',
       });
-      console.log(data);
+      setCookie('user', JSON.stringify(data), { path: '/', maxAge: 604800 });
+      setCookie('token', data.access_token, {
+        path: '/',
+        maxAge: 604800,
+      });
       dispatch(setUser(data));
-      // router.replace('/writtingpal/polish')
+      router.replace('/writtingpal/polish');
     },
     onError: (error) => {
       toast({

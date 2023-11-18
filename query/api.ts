@@ -5,6 +5,7 @@ import {
   ISigunUpRequest,
   LoginData,
 } from './type';
+import Cookies from 'js-cookie';
 
 // ----------------------------------------------------------------
 // BrainStorm
@@ -14,6 +15,7 @@ export async function getBrainstormDetails(
   template_id: string
 ): Promise<IBrainStormSection> {
   try {
+    const token = Cookies.get('token');
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}get_template?lang=en`,
       {
@@ -23,7 +25,7 @@ export async function getBrainstormDetails(
         }),
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -38,6 +40,8 @@ export async function getBrianstormHistoryById(
   template_id: string
 ): Promise<IBrainstormHistory> {
   try {
+    const token = Cookies.get('token');
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}write_history_query`,
       {
@@ -49,7 +53,7 @@ export async function getBrianstormHistoryById(
         }),
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -66,6 +70,8 @@ export async function OptimizeAnswer(
   type: 0 | 1
 ): Promise<string> {
   try {
+    const token = Cookies.get('token');
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}answer_optimize`,
       {
@@ -77,7 +83,7 @@ export async function OptimizeAnswer(
         }),
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -92,6 +98,8 @@ export async function queryEssayResult(
   task_id: string
 ): Promise<{ status: 'doing' | 'done'; text: string }> {
   try {
+    const token = Cookies.get('token');
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}essay_write_query`,
       {
@@ -101,7 +109,7 @@ export async function queryEssayResult(
         }),
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -120,6 +128,7 @@ export async function SubmitEssayWritting(
   types: string[]
 ): Promise<string> {
   try {
+    const token = Cookies.get('token');
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}essay_write_submit`,
       {
@@ -134,7 +143,7 @@ export async function SubmitEssayWritting(
         }),
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -160,7 +169,6 @@ export async function userLogin(loginParam: {
     const formData = new FormData();
     formData.append('email', loginParam.username);
     formData.append('password', loginParam.password);
-
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}login`, {
       method: 'POST',
       body: formData,
@@ -252,13 +260,14 @@ export async function fetchChatGuideQas(
   template_id: string
 ): Promise<FormQuestionResponse> {
   try {
+    const token = Cookies.get('token');
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}answer_guide/questions/${template_id}`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -277,6 +286,7 @@ export async function fetchChatGuideQas(
 
 export async function sendChatMessage(params: AnswerRequestParam) {
   try {
+    const token = Cookies.get('token');
     const body = JSON.stringify({
       session_id: params.sessionid,
       template_id: params.templateid,
@@ -290,7 +300,7 @@ export async function sendChatMessage(params: AnswerRequestParam) {
       body,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     if (!res.ok) {
@@ -304,13 +314,14 @@ export async function sendChatMessage(params: AnswerRequestParam) {
 
 export async function fetchFinalAs(session_id: string): Promise<any> {
   try {
+    const token = Cookies.get('token');
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}answer_guide/${session_id}`,
       {
         method: 'GET',
         credentials: 'include',
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TEST_TOKEN}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
