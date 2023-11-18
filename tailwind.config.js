@@ -18,6 +18,9 @@ module.exports = {
       },
       colors: {
         sectionBackground: '#F8F9FF',
+        border: {
+          50: '#EAEAEA',
+        },
         primary: {
           50: '#F6F0FF',
           200: '#9C2CF3',
