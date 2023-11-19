@@ -3,6 +3,8 @@ import { Button } from '../ui/button';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { ArrowRight, Plus, X } from 'lucide-react';
+import ChatMenu from './ChatMenu';
+import ChatHistory from './ChatHistory';
 
 const ChatTrigger = () => {
   return (
@@ -46,59 +48,9 @@ const ChatTrigger = () => {
           </DialogTrigger>
           <DialogContent className='flex p-0 md:h-[700px] md:w-[900px]'>
             <div className='flex w-[70%] flex-col items-center gap-y-2 pt-[100px]'>
-              <div className='flex-center h-16 w-16 rounded-[47px] rounded-bl-none bg-primary-50'>
-                <Image
-                  alt='max'
-                  src='/max.png'
-                  className='h-auto w-auto'
-                  width={26}
-                  height={34}
-                />
-              </div>
-              <h1 className='h2-bold '>
-                Hi, I&apos;m Max. How can I help you ?
-              </h1>
-              <p className='base-regular text-shadow-100'>
-                Ask me questions on the following aspects
-              </p>
-              <div className='flex-between mt-12 w-[80%] cursor-pointer rounded-xl border border-shadow-border p-4 hover:bg-primary-50'>
-                <div className='flex items-center gap-x-2'>
-                  <div className='flex-center h-14 w-14 rounded-xl bg-[#9068D033]'>
-                    <Image
-                      src={'/school-chat.svg'}
-                      width={32}
-                      height={32}
-                      alt='school-chat'
-                    />
-                  </div>
-                  <p className='title-semibold'> School selection</p>
-                </div>
-                <ArrowRight className='text-shadow-100' />
-              </div>
-              <div className='flex-between mt-2 w-[80%] cursor-pointer rounded-xl border border-shadow-border p-4 hover:bg-primary-50'>
-                <div className='flex items-center gap-x-2'>
-                  <div className='flex-center h-14 w-14 rounded-xl bg-[#F6DACE]'>
-                    <Image
-                      src={'/colleage-chat.svg'}
-                      width={32}
-                      height={32}
-                      alt='college-chat'
-                    />
-                  </div>
-                  <p className='title-semibold'> College application</p>
-                </div>
-                <ArrowRight className='text-shadow-100' />
-              </div>
+              <ChatMenu />
             </div>
-            <div className='flex w-[30%] flex-col rounded-r-[20px] bg-shadow-200 p-3'>
-              <div className='flex self-end'>
-                <X />
-              </div>
-
-              <Button className='mt-auto'>
-                <Plus /> New chat
-              </Button>
-            </div>
+            <ChatHistory />
           </DialogContent>
         </Dialog>
       </div>
