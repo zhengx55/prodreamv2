@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   AnimatePresence,
   SVGMotionProps,
@@ -12,6 +12,9 @@ import { SidebarLinks } from '@/constant';
 import { AnimatedLogo, AnimatedxsLogo } from './AnimatedLogo';
 import CommunityCard from './CommunityCard';
 import ChatTrigger from '../chatWithMax/ChatTrigger';
+import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
+import ChatMenu from '../chatWithMax/ChatMenu';
+import ChatHistory from '../chatWithMax/ChatHistory';
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &
@@ -21,6 +24,7 @@ const Path = (
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
   const [topValue, setTopValue] = useState<number | undefined>();
   const [expandSidebar, setExpandSidebar] = useState(true);
@@ -28,6 +32,10 @@ const Sidebar = () => {
   const toggleSidebar = () => {
     setExpandSidebar(!expandSidebar);
   };
+
+  const toggleChatModal = useCallback(() => {
+    setModalOpen((prev) => !prev);
+  }, []);
 
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
@@ -121,19 +129,35 @@ const Sidebar = () => {
           />
         </svg>
       </motion.span>
-      {expandSidebar ? (
-        <ChatTrigger />
-      ) : (
-        <div className='flex-center ml-2 mt-8 h-11 w-11 rounded-[47px] rounded-bl-none bg-primary-50'>
-          <Image
-            alt='max'
-            src='/max.png'
-            className='h-auto w-5'
-            width={0}
-            height={0}
-          />
-        </div>
-      )}
+
+      <Dialog>
+        {expandSidebar ? (
+          <ChatTrigger open={modalOpen} onOpenChage={toggleChatModal} />
+        ) : (
+          <DialogTrigger asChild>
+            <div
+              className='flex-center ml-2 mt-8 h-11 w-11 cursor-pointer rounded-[47px] rounded-bl-none bg-primary-50 transition-transform hover:-translate-y-1'
+              onClick={() => setModalOpen(true)}
+            >
+              <Image
+                alt='max'
+                src='/max.png'
+                className='h-auto w-5'
+                width={0}
+                height={0}
+              />
+            </div>
+          </DialogTrigger>
+        )}
+        <DialogContent className='flex p-0 md:h-[700px] md:w-[900px]'>
+          <div className='flex w-[70%] flex-col items-center gap-y-2 pt-[100px]'>
+            <ChatMenu />
+            {/* <MessageList /> */}
+          </div>
+          <ChatHistory />
+        </DialogContent>
+      </Dialog>
+
       <ul className='relative mt-8 flex flex-col gap-5'>
         {topValue !== undefined ? (
           <span
