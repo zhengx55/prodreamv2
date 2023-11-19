@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { SidebarLinks } from '@/constant';
 import { AnimatedLogo, AnimatedxsLogo } from './AnimatedLogo';
 import CommunityCard from './CommunityCard';
+import ChatTrigger from '../chatWithMax/ChatTrigger';
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &
@@ -77,7 +78,7 @@ const Sidebar = () => {
       initial={false}
       animate={expandSidebar ? 'open' : 'closed'}
       variants={sidebarVariants}
-      className='relative hidden shrink-0 flex-col border-r border-r-shadow-border bg-white md:flex md:px-2 md:py-10'
+      className='relative hidden shrink-0 flex-col border-r border-r-shadow-border bg-white md:flex md:px-2 md:py-5'
     >
       <div className='h-[30px]'>
         <AnimatedLogo show={expandSidebar} />
@@ -120,6 +121,7 @@ const Sidebar = () => {
           />
         </svg>
       </motion.span>
+      {expandSidebar && <ChatTrigger />}
       <ul className='relative mt-10 flex flex-col gap-5'>
         {topValue !== undefined ? (
           <span
