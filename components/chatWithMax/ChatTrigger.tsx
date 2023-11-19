@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { ArrowRight, Plus, X } from 'lucide-react';
 import ChatMenu from './ChatMenu';
 import ChatHistory from './ChatHistory';
+import MessageList from './MessageList';
 
 const ChatTrigger = () => {
   return (
@@ -49,6 +50,7 @@ const ChatTrigger = () => {
           <DialogContent className='flex p-0 md:h-[700px] md:w-[900px]'>
             <div className='flex w-[70%] flex-col items-center gap-y-2 pt-[100px]'>
               <ChatMenu />
+              {/* <MessageList /> */}
             </div>
             <ChatHistory />
           </DialogContent>

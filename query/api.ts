@@ -2,9 +2,12 @@ import { AnswerRequestParam, FormQuestionResponse } from '@/types';
 import {
   IBrainStormSection,
   IBrainstormHistory,
+  IEssayAssessRequest,
   IOptRequest,
   ISigunUpRequest,
+  IessayAssessData,
   LoginData,
+  SupportDetailData,
 } from './type';
 import Cookies from 'js-cookie';
 
@@ -236,8 +239,30 @@ export async function userGoogleLogin() {}
 // ----------------------------------------------------------------
 // Essay Polish
 // ----------------------------------------------------------------
-export async function plagiarismCheck() {
-  //https://test.quickapply.app/api/ai/plagiarism_check/submit
+export async function plagiarismCheck(text: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}plagiarism_check/submit`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          text,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.error) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
 }
 
 export async function submitPolish() {
@@ -248,16 +273,92 @@ export async function queryPolish() {
   // https://test.quickapply.app/api/ai/essay_polish_query
 }
 
-export async function essayAssess() {
-  ///ai/essay_assess
+export async function essayAssess(
+  params: IEssayAssessRequest
+): Promise<IessayAssessData> {
+  try {
+    const body = JSON.stringify({
+      text: params.text,
+      language: params.language,
+      institution_id: params.institution_id,
+      prompt_id: params.prompt_id,
+      direct: params.direct,
+    });
+    const token = Cookies.get('token');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}essay_assess`, {
+      method: 'POST',
+      body,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
 }
 
-export async function feedBackReport() {
+export async function feedBackReport(params: {
+  feedback: 0 | 1 | 2;
+  id: string;
+}) {
   ///ai/report_feedback
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}report_feedback`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          feedback: params.feedback,
+          id: params.id,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) {
+      throw new Error();
+    }
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
 }
 
 export async function downloadReport() {
   ///ai/report_pdf/{report_id}
+}
+
+export async function getSupportDetails(): Promise<SupportDetailData> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}essay_assess/support_detail`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
 }
 
 // ----------------------------------------------------------------

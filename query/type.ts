@@ -132,3 +132,79 @@ interface Result {
   target: number;
   [property: string]: any;
 }
+
+export interface IEssayAssessRequest {
+  /**
+   * 通常该值为False，只有当第一次报10x的错后，用户确认继续再传True，这样会跳过问题检测，直接评估
+   */
+  direct?: boolean;
+  /**
+   * 用户所选Institution的ID(1级）
+   */
+  institution_id: string;
+  /**
+   * 不传该参数时，默认为英文版
+   */
+  language: Language;
+  /**
+   * 用户所选系统下题目的ID。（2级）
+   */
+  prompt_id: string;
+  /**
+   * 文书
+   */
+  text: string;
+  [property: string]: any;
+}
+
+/**
+ * 不传该参数时，默认为英文版
+ */
+export enum Language {
+  Chinese = 'Chinese',
+  English = 'English',
+}
+
+export interface IessayAssessData {
+  detail: Detail[];
+  head: string;
+  /**
+   * report id, 点赞/踩时可用
+   */
+  id: string;
+  score: string;
+  [property: string]: any;
+}
+
+/**
+ * 该数组按Introduction、Language、Authenticity and Creativity、Fit、Organization and Flow、Grammar
+ * 顺序排列
+ */
+export interface Detail {
+  comment: Comment;
+  level: string;
+  score: number | number;
+  title: string;
+  [property: string]: any;
+}
+
+export interface Comment {
+  evaluation: string;
+  example: string;
+  suggestion: string;
+  [property: string]: any;
+}
+
+export interface SupportDetailData {
+  id: string;
+  prompts: Prompt[];
+  title: string;
+  [property: string]: any;
+}
+
+export interface Prompt {
+  detail: string;
+  id: string;
+  title: string;
+  [property: string]: any;
+}

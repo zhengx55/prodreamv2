@@ -121,8 +121,20 @@ const Sidebar = () => {
           />
         </svg>
       </motion.span>
-      {expandSidebar && <ChatTrigger />}
-      <ul className='relative mt-10 flex flex-col gap-5'>
+      {expandSidebar ? (
+        <ChatTrigger />
+      ) : (
+        <div className='flex-center ml-2 mt-8 h-11 w-11 rounded-[47px] rounded-bl-none bg-primary-50'>
+          <Image
+            alt='max'
+            src='/max.png'
+            className='h-auto w-5'
+            width={0}
+            height={0}
+          />
+        </div>
+      )}
+      <ul className='relative mt-8 flex flex-col gap-5'>
         {topValue !== undefined ? (
           <span
             style={{ top: topValue }}
