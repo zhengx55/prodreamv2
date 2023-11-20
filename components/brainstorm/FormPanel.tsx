@@ -20,6 +20,7 @@ import { clearEssay, setTaskId } from '@/store/reducers/essaySlice';
 import { useToast } from '../ui/use-toast';
 import { IBrainStormSection, Module } from '@/query/type';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import { selectUserId } from '@/store/reducers/userReducer';
 
 const FormPanel = ({
   submitPending,
@@ -37,6 +38,7 @@ const FormPanel = ({
       word_nums: string;
       texts: string[];
       types: string[];
+      user_id: number;
     },
     unknown
   >;
@@ -44,6 +46,7 @@ const FormPanel = ({
   const { data: moduleData, isPending: isModuleLoading } =
     useBrainStormDetail(brainStormId);
   const dispatch = useAppDispatch();
+  const user_id = useAppSelector(selectUserId);
   const history = useAppSelector(selectBrainStormHistory);
   const [formData, setFormData] = useState<IBrainStormSection | undefined>();
   const [formState, setFormState] = useState<Record<string, string>>({});
@@ -167,6 +170,7 @@ const FormPanel = ({
       texts: key_values,
       types: filter_key_arrays,
       word_nums: '',
+      user_id,
     }).then((result) => {
       dispatch(setTaskId(result));
     });

@@ -129,7 +129,8 @@ export async function SubmitEssayWritting(
   template_id: string,
   word_nums: string,
   texts: string[],
-  types: string[]
+  types: string[],
+  user_id: number
 ): Promise<string> {
   try {
     const token = Cookies.get('token');
@@ -143,7 +144,7 @@ export async function SubmitEssayWritting(
           word_nums,
           texts,
           types,
-          user_id: '121',
+          user_id,
         }),
         headers: {
           'Content-Type': 'application/json',

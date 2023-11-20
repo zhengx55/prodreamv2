@@ -59,13 +59,23 @@ export const useEssayWriting = () => {
       word_nums,
       texts,
       types,
+      user_id,
     }: {
       pro_mode: boolean;
       template_id: string;
       word_nums: string;
       texts: string[];
       types: string[];
-    }) => SubmitEssayWritting(pro_mode, template_id, word_nums, texts, types),
+      user_id: number;
+    }) =>
+      SubmitEssayWritting(
+        pro_mode,
+        template_id,
+        word_nums,
+        texts,
+        types,
+        user_id
+      ),
   });
 };
 
