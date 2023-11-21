@@ -6,6 +6,7 @@ import useMount from '@/hooks/useMount';
 import { setUser } from '@/store/reducers/userReducer';
 import { store } from '@/store/store';
 import { useAppDispatch } from '@/store/storehooks';
+import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
 import { Provider } from 'react-redux';
@@ -20,6 +21,8 @@ export default function WrittingpalLayout({
   useMount(() => {
     if (cookies.user) {
       dispatch(setUser(cookies.user));
+    } else {
+      redirect('/login');
     }
   });
 
