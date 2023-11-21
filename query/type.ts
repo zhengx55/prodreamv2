@@ -100,6 +100,18 @@ export interface ISigunUpRequest {
   referral?: string;
 }
 
+export interface IResetParams {
+  email: string;
+  password: string;
+  confirm: string;
+}
+
+export interface IVerifyEmail {
+  email: string;
+  type: '1' | '0';
+  code: string;
+}
+
 export interface IOptRequest {
   /**
    * 希望优化到的字数

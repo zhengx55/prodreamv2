@@ -4,8 +4,6 @@ import Panel from '@/components/auth/Panel';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCookies } from 'react-cookie';
-
 import {
   Form,
   FormControl,
@@ -18,21 +16,41 @@ import { Input } from '@/components/ui/input';
 import { resetSchema } from '@/lib/validation';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';
-import { useState } from 'react';
-import { useAppDispatch } from '@/store/storehooks';
-import { setUser } from '@/store/reducers/userReducer';
+import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { userLogin } from '@/query/api';
+import { sendVerificationEmail, userReset, verifyEmail } from '@/query/api';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
+import { IResetParams } from '@/query/type';
 
 export default function Page() {
   const { toast } = useToast();
-  const [_cookies, setCookie] = useCookies(['token', 'user']);
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
+  const [verifyWait, setVerifyWait] = useState(false);
+  const [countdown, setCountdown] = useState(60);
+
+  useEffect(() => {
+    let timer: string | number | NodeJS.Timeout | undefined;
+    if (verifyWait && countdown > 0) {
+      // 启动倒计时
+      timer = setInterval(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [verifyWait, countdown]);
+
+  useEffect(() => {
+    if (countdown === 0) {
+      setVerifyWait(false);
+    }
+  }, [countdown]);
+
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof resetSchema>>({
     resolver: zodResolver(resetSchema),
     defaultValues: {
@@ -42,21 +60,14 @@ export default function Page() {
       verification_code: '',
     },
   });
-  const { mutateAsync: handleLogin } = useMutation({
-    mutationFn: (param: { username: string; password: string }) =>
-      userLogin(param),
-    onSuccess: (data) => {
+  const { mutateAsync: handleReset } = useMutation({
+    mutationFn: (param: IResetParams) => userReset(param),
+    onSuccess: (_data) => {
       toast({
         variant: 'default',
-        description: 'Successfully Login',
+        description: 'Successfully Reset Password',
       });
-      setCookie('user', JSON.stringify(data), { path: '/', maxAge: 604800 });
-      setCookie('token', data.access_token, {
-        path: '/',
-        maxAge: 604800,
-      });
-      dispatch(setUser(data));
-      router.replace('/writtingpal/polish');
+      router.replace('/login');
     },
     onError: (error) => {
       toast({
@@ -66,7 +77,51 @@ export default function Page() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof resetSchema>) {}
+  const { mutateAsync: handleSendVerification } = useMutation({
+    mutationFn: (params: { email: string }) => sendVerificationEmail(params),
+    onSuccess: () => {
+      toast({
+        variant: 'default',
+        description: 'Checked your email',
+      });
+      setVerifyWait(true);
+      setCountdown(60);
+    },
+    onError: (error) => {
+      toast({
+        variant: 'destructive',
+        description: error.message,
+      });
+    },
+  });
+
+  async function handleSentVerificationEmail() {
+    const { email } = form.getValues();
+
+    if (!email) {
+      toast({
+        description: 'Please enter your email',
+        variant: 'destructive',
+      });
+      return;
+    }
+    await handleSendVerification({ email });
+  }
+
+  async function onSubmit(values: z.infer<typeof resetSchema>) {
+    try {
+      await verifyEmail({
+        email: values.email,
+        type: '1',
+        code: values.verification_code,
+      });
+      await handleReset({
+        email: values.email,
+        password: values.password,
+        confirm: values.confirm,
+      });
+    } catch (error) {}
+  }
 
   return (
     <section className='flex-center flex-1'>
@@ -197,10 +252,19 @@ export default function Page() {
                       />
                     </FormControl>
                     <Button
+                      disabled={verifyWait}
+                      onClick={handleSentVerificationEmail}
                       type='button'
                       className='w-[150px] shrink-0 rounded-[20px]'
                     >
-                      Send Verification
+                      {verifyWait ? (
+                        <>
+                          Resend in&nbsp;
+                          {countdown}
+                        </>
+                      ) : (
+                        'Send Verification'
+                      )}
                     </Button>
                   </div>
 

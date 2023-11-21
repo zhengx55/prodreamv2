@@ -4,7 +4,9 @@ import {
   IBrainstormHistory,
   IEssayAssessRequest,
   IOptRequest,
+  IResetParams,
   ISigunUpRequest,
+  IVerifyEmail,
   IessayAssessData,
   LoginData,
   SupportDetailData,
@@ -236,6 +238,64 @@ export async function userLogOut() {
 }
 
 export async function userGoogleLogin() {}
+
+export async function userReset(params: IResetParams) {
+  try {
+    const formData = new FormData();
+    formData.append('email', params.email);
+    formData.append('new_password1', params.password);
+    formData.append('new_password2', params.confirm);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}set_pass`, {
+      method: 'PATCH',
+      body: formData,
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function sendVerificationEmail(params: { email: string }) {
+  try {
+    const formData = new FormData();
+    formData.append('email', params.email);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}verification_code`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+export async function verifyEmail(params: IVerifyEmail) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}verification_code?code=${params.code}&type=${params.type}&email=${params.email}`,
+      {
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 // ----------------------------------------------------------------
 // Essay Polish
