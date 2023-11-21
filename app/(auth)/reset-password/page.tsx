@@ -9,17 +9,14 @@ import { useCookies } from 'react-cookie';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginSchema } from '@/lib/validation';
-import { Separator } from '@/components/ui/separator';
+import { resetSchema } from '@/lib/validation';
 import Link from 'next/link';
-import GoogleSignin from '@/components/auth/GoogleSignin';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useAppDispatch } from '@/store/storehooks';
@@ -33,13 +30,16 @@ export default function Page() {
   const { toast } = useToast();
   const [_cookies, setCookie] = useCookies(['token', 'user']);
   const [hidePassword, setHidePassword] = useState(true);
+  const [hideConfirm, setHideConfirm] = useState(true);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<z.infer<typeof resetSchema>>({
+    resolver: zodResolver(resetSchema),
     defaultValues: {
-      username: '',
+      email: '',
       password: '',
+      confirm: '',
+      verification_code: '',
     },
   });
   const { mutateAsync: handleLogin } = useMutation({
@@ -66,17 +66,13 @@ export default function Page() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof loginSchema>) {
-    await handleLogin(values);
-  }
+  async function onSubmit(values: z.infer<typeof resetSchema>) {}
 
   return (
     <section className='flex-center flex-1'>
       <Panel>
-        <h1 className='h2-bold self-center'>Welcome Back!</h1>
-        <p className='body-normal self-center text-shadow-100'>
-          Ready to continue crafting your unique story?
-        </p>
+        <h1 className='h2-bold self-center'>Reset Password</h1>
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -84,17 +80,18 @@ export default function Page() {
           >
             <FormField
               control={form.control}
-              name='username'
+              name='email'
               render={({ field }) => (
                 <FormItem className='mt-10'>
-                  <FormLabel className='text-black-400' htmlFor='username'>
-                    Username
+                  <FormLabel className='text-black-400' htmlFor='email'>
+                    Enter the Email Linked to Your Account
                   </FormLabel>
                   <FormControl>
                     <Input
                       autoComplete='email'
-                      id='username'
+                      id='email'
                       placeholder=''
+                      type='email'
                       className='rounded-2xl border-none bg-shadow-50'
                       {...field}
                     />
@@ -109,7 +106,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className='relative'>
                   <FormLabel className='text-black-400' htmlFor='password'>
-                    Password
+                    Enter New Password
                   </FormLabel>
                   {!hidePassword ? (
                     <EyeOff
@@ -139,26 +136,89 @@ export default function Page() {
                 </FormItem>
               )}
             />
-            <Link
-              href={'/reset-password'}
-              className='small-semibold cursor-pointer self-end text-primary-200 hover:underline'
-            >
-              Forgot Password?
-            </Link>
+
+            <FormField
+              control={form.control}
+              name='confirm'
+              render={({ field }) => (
+                <FormItem className='relative'>
+                  <FormLabel className='text-black-400' htmlFor='confirm'>
+                    Re-enter New Password
+                  </FormLabel>
+                  {!hideConfirm ? (
+                    <EyeOff
+                      onClick={() => setHideConfirm((prev) => !prev)}
+                      size={22}
+                      className='absolute right-2 top-8 cursor-pointer'
+                    />
+                  ) : (
+                    <Eye
+                      onClick={() => setHideConfirm((prev) => !prev)}
+                      size={22}
+                      className='absolute right-2 top-8 cursor-pointer'
+                    />
+                  )}
+
+                  <FormControl>
+                    <Input
+                      autoComplete='current-password'
+                      id='confirm'
+                      type={hideConfirm ? 'password' : 'text'}
+                      placeholder=''
+                      className='rounded-2xl border-none bg-shadow-50'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className='text-xs text-red-400' />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='verification_code'
+              render={({ field }) => (
+                <FormItem className='relative'>
+                  <FormLabel
+                    className='text-black-400'
+                    htmlFor='verification_code'
+                  >
+                    Verification
+                  </FormLabel>
+                  <div className='flex gap-x-2'>
+                    <FormControl>
+                      <Input
+                        autoComplete='current-password'
+                        id='verification_code'
+                        type='text'
+                        placeholder=''
+                        className='rounded-2xl border-none bg-shadow-50'
+                        {...field}
+                      />
+                    </FormControl>
+                    <Button
+                      type='button'
+                      className='w-[150px] shrink-0 rounded-[20px]'
+                    >
+                      Send Verification
+                    </Button>
+                  </div>
+
+                  <FormMessage className='text-xs text-red-400' />
+                </FormItem>
+              )}
+            />
             <Button className='w-full rounded-full' type='submit'>
-              Sign in
+              Confirm Reset
             </Button>
           </form>
         </Form>
-        <div className='flex-center relative my-10'>
-          <Separator orientation='horizontal' className='bg-shadow-border' />
-          <p className='small-regular absolute bg-white px-2 text-shadow-100'>
-            Or Sign in with
-          </p>
-        </div>
-        <GoogleSignin />
         <p className='small-regular mt-8 self-center text-black-200'>
-          Don&apos;t have an account?&nbsp;
+          Switch to&nbsp;
+          <Link href={'/login'} className='text-primary-200'>
+            Log in
+          </Link>
+          &nbsp;or&nbsp;
           <Link href={'/signup'} className='text-primary-200'>
             Sign up
           </Link>
