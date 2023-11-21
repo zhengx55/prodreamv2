@@ -19,16 +19,16 @@ const Navbar = () => {
             ? 'AI Editor'
             : pathname.split('/')[2]}
       </h3>
-      <div className='flex items-center gap-x-2 md:gap-x-6'>
+      <div className='flex items-center gap-x-2 md:gap-x-4'>
         <motion.div
           whileHover={{ scale: 1.1 }}
-          className='flex-center h-12 w-12 cursor-pointer rounded-full bg-primary-50'
+          className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50'
         >
           <HelpCircle className='text-primary-200' size={22} />
         </motion.div>
         <motion.div
           whileHover={{ scale: 1.1 }}
-          className='flex-center h-12 w-12 cursor-pointer rounded-full bg-primary-50'
+          className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50'
         >
           <Bell className='text-primary-200' size={22} />
         </motion.div>

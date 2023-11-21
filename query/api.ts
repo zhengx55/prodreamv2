@@ -298,6 +298,19 @@ export async function verifyEmail(params: IVerifyEmail) {
 }
 
 // ----------------------------------------------------------------
+// Referral
+// ----------------------------------------------------------------
+export async function getReferralLink() {}
+
+export async function getReferralCount() {}
+
+export async function uploadPaper() {}
+
+export async function redeem() {}
+
+export async function checkRedeemStatus() {}
+
+// ----------------------------------------------------------------
 // Essay Polish
 // ----------------------------------------------------------------
 export async function plagiarismCheck(text: string) {
