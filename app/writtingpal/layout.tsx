@@ -2,6 +2,7 @@
 import Navbar from '@/components/root/Navbar';
 import Sidebar from '@/components/root/Sidebar';
 import { Toaster } from '@/components/ui/toaster';
+import MaxChatProvider from '@/context/MaxChateProvider';
 import useMount from '@/hooks/useMount';
 import { setUser } from '@/store/reducers/userReducer';
 import { store } from '@/store/store';
@@ -28,7 +29,9 @@ export default function WrittingpalLayout({
 
   return (
     <Provider store={store}>
-      <Sidebar />
+      <MaxChatProvider>
+        <Sidebar />
+      </MaxChatProvider>
       <div className='flex h-full w-full flex-col overflow-x-auto md:overflow-y-hidden'>
         <Navbar />
         <Toaster />

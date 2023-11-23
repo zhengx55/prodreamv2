@@ -1,10 +1,10 @@
+import { useMaxChatContext } from '@/context/MaxChateProvider';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
-import React from 'react';
+import React, { memo } from 'react';
 
-type Props = {};
-
-const ChatMenu = (props: Props) => {
+const ChatMenu = () => {
+  const { setShowMenu } = useMaxChatContext();
   return (
     <>
       <div className='flex-center h-16 w-16 rounded-[47px] rounded-bl-none bg-primary-50'>
@@ -21,7 +21,10 @@ const ChatMenu = (props: Props) => {
         I&apos;m an expert in college admissions and have helped hundreds of
         students get into top schools like Harvard, Columbia, UCLA and UPenn
       </p>
-      <div className='flex-between mt-12 w-[80%] cursor-pointer rounded-xl border border-shadow-border p-4 hover:bg-primary-50'>
+      <div
+        onClick={() => setShowMenu(false)}
+        className='flex-between mt-12 w-[80%] cursor-pointer rounded-xl border border-shadow-border p-4 hover:bg-primary-50'
+      >
         <div className='flex items-center gap-x-4'>
           <div className='flex-center h-14 w-14 rounded-xl bg-[#9068D033]'>
             <Image
@@ -53,4 +56,4 @@ const ChatMenu = (props: Props) => {
   );
 };
 
-export default ChatMenu;
+export default memo(ChatMenu);

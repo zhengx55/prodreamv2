@@ -15,6 +15,8 @@ import ChatTrigger from '../chatWithMax/ChatTrigger';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import ChatMenu from '../chatWithMax/ChatMenu';
 import ChatHistory from '../chatWithMax/ChatHistory';
+import MessageList from '../chatWithMax/MessageList';
+import { useMaxChatContext } from '@/context/MaxChateProvider';
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &
@@ -28,6 +30,7 @@ const Sidebar = () => {
   const router = useRouter();
   const [topValue, setTopValue] = useState<number | undefined>();
   const [expandSidebar, setExpandSidebar] = useState(true);
+  const { showMenu } = useMaxChatContext();
 
   const toggleSidebar = () => {
     setExpandSidebar(!expandSidebar);
@@ -151,8 +154,7 @@ const Sidebar = () => {
         )}
         <DialogContent className='flex gap-0 p-0 md:h-[700px] md:w-[900px]'>
           <div className='flex w-[70%] flex-col items-center gap-y-2 px-10 pt-[100px]'>
-            <ChatMenu />
-            {/* <MessageList /> */}
+            {showMenu ? <ChatMenu /> : <MessageList />}
           </div>
           <ChatHistory />
         </DialogContent>
