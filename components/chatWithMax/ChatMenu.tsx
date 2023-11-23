@@ -17,8 +17,9 @@ const ChatMenu = (props: Props) => {
         />
       </div>
       <h1 className='h2-bold '>Hi, I&apos;m Max. How can I help you ?</h1>
-      <p className='base-regular text-shadow-100'>
-        Ask me questions on the following aspects
+      <p className='base-regular break-keep text-center text-shadow-100'>
+        I&apos;m an expert in college admissions and have helped hundreds of
+        students get into top schools like Harvard, Columbia, UCLA and UPenn
       </p>
       <div className='flex-between mt-12 w-[80%] cursor-pointer rounded-xl border border-shadow-border p-4 hover:bg-primary-50'>
         <div className='flex items-center gap-x-4'>
@@ -30,7 +31,7 @@ const ChatMenu = (props: Props) => {
               alt='school-chat'
             />
           </div>
-          <p className='title-semibold'> School selection</p>
+          <p className='title-semibold'>School selection</p>
         </div>
         <ArrowRight className='text-shadow-100' />
       </div>
@@ -44,7 +45,7 @@ const ChatMenu = (props: Props) => {
               alt='college-chat'
             />
           </div>
-          <p className='title-semibold'> College application</p>
+          <p className='title-semibold'>All Topics</p>
         </div>
         <ArrowRight className='text-shadow-100' />
       </div>

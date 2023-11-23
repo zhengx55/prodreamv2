@@ -149,8 +149,8 @@ const Sidebar = () => {
             </div>
           </DialogTrigger>
         )}
-        <DialogContent className='flex p-0 md:h-[700px] md:w-[900px]'>
-          <div className='flex w-[70%] flex-col items-center gap-y-2 pt-[100px]'>
+        <DialogContent className='flex gap-0 p-0 md:h-[700px] md:w-[900px]'>
+          <div className='flex w-[70%] flex-col items-center gap-y-2 px-10 pt-[100px]'>
             <ChatMenu />
             {/* <MessageList /> */}
           </div>

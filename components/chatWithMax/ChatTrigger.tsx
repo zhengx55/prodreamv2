@@ -22,7 +22,7 @@ const ChatTrigger = ({ open, onOpenChage }: Props) => {
       </div>
       {/* max avatar */}
       <div className='flex h-full flex-[0.75] flex-col justify-between'>
-        <h1 className='small-medium'>Hi! I&apos;m Max Tang</h1>
+        <h1 className='small-medium'>Hi! I&apos;m Max</h1>
         <p className='subtle-regular text-shadow-100'>
           Specialize in transfer admissions
         </p>
@@ -45,7 +45,7 @@ const ChatTrigger = ({ open, onOpenChage }: Props) => {
                 fill='#9C2CF3'
               />
             </svg>
-            Start chatting
+            Let&apos;s Chat
           </Button>
         </DialogTrigger>
       </div>
