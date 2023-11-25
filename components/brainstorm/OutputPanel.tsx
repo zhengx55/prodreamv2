@@ -2,13 +2,15 @@
 import { cn } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import MemoizedHistoryPanelCSR from './HistoryPanel';
 import OutcomePanel from './OutcomePanel';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { clearHistory } from '@/store/reducers/brainstormSlice';
 import { useQueryEssay } from '@/query/query';
 import { clearEssay, selectTaskId } from '@/store/reducers/essaySlice';
-
+import dynamic from 'next/dynamic';
+const MemoizedHistoryPanel = dynamic(() => import('./HistoryPanel'), {
+  ssr: false,
+});
 const OutputPanel = ({
   submitPending,
   submitError,
@@ -101,7 +103,7 @@ const OutputPanel = ({
       <main className='overflow-y-auto md:h-full md:w-full'>
         <AnimatePresence mode='wait'>
           {tab === 1 ? (
-            <MemoizedHistoryPanelCSR handleTabChange={handleTabChange} />
+            <MemoizedHistoryPanel handleTabChange={handleTabChange} />
           ) : tab === 0 ? (
             <OutcomePanel
               isSubmitError={submitError}

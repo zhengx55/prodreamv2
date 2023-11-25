@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "ANALYZE=true next build",
+    "build": "ANALYZE=false next build",
+    "analyze:build": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "lint-staged": "lint-staged",

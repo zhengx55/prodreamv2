@@ -6,6 +6,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { Provider } from 'react-redux';
 import { store } from '../../../../store/store';
 import { useEssayWriting } from '@/query/query';
+
 export default function Page({ params }: { params: { id: string } }) {
   const {
     isPending: isSubmitPending,

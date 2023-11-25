@@ -1,7 +1,6 @@
 'use client';
 import { useBrainStormHistoryById } from '@/query/query';
 import { motion } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import Loading from '../root/CustomLoading';
 import {
@@ -11,7 +10,6 @@ import {
 } from '@/lib/utils';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import {
-  clearHistory,
   selectBrainStormHistory,
   setBrainstormHistoryHistory,
 } from '@/store/reducers/brainstormSlice';
@@ -96,9 +94,5 @@ const HistoryPanel = ({
   );
 };
 
-const HistoryPanelCSR = dynamic(() => Promise.resolve(HistoryPanel), {
-  ssr: false,
-});
-
-const MemoizedHistoryPanelCSR = memo(HistoryPanelCSR);
-export default MemoizedHistoryPanelCSR;
+const MemoizedHistoryPanel = memo(HistoryPanel);
+export default MemoizedHistoryPanel;
