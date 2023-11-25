@@ -5,7 +5,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   reactStrictMode: true,
   compress: true,
-  // distDir: 'build',
+  distDir: 'dist',
   // poweredByHeader: false,
   webpack: (config) => {
     // Setting resolve.alias to false tells webpack to ignore a module
