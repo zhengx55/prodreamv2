@@ -13,10 +13,19 @@ import { AnimatedLogo, AnimatedxsLogo } from './AnimatedLogo';
 import CommunityCard from './CommunityCard';
 import ChatTrigger from '../chatWithMax/ChatTrigger';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
-import ChatMenu from '../chatWithMax/ChatMenu';
-import ChatHistory from '../chatWithMax/ChatHistory';
-import MessageList from '../chatWithMax/MessageList';
 import { useMaxChatContext } from '@/context/MaxChateProvider';
+import dynamic from 'next/dynamic';
+
+const ChatMenu = dynamic(() => import('../chatWithMax/ChatMenu'), {
+  ssr: false,
+});
+const MessageList = dynamic(() => import('../chatWithMax/MessageList'), {
+  ssr: false,
+});
+
+const ChatHistory = dynamic(() => import('../chatWithMax/ChatHistory'), {
+  ssr: false,
+});
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &
