@@ -2,7 +2,6 @@ import React from 'react';
 import type { Style } from '@react-pdf/types';
 import { Text, View } from '@react-pdf/renderer';
 import { spacing, styles } from '../ResumeStyle';
-import { space } from 'postcss/lib/list';
 
 type Props = {
   themeColor?: string;
