@@ -220,3 +220,21 @@ export interface Prompt {
   title: string;
   [property: string]: any;
 }
+
+export interface IChatHistoryData {
+  create_time: number;
+  session_id: string;
+  topic: string;
+  fun_type: 1 | 2;
+}
+
+export interface IChatSessionData {
+  message: string;
+  order: number;
+  role: Role;
+}
+
+export enum Role {
+  System = 'system',
+  User = 'user',
+}

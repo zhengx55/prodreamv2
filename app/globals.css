@@ -25,7 +25,6 @@
 
   .primary-title {
     @apply text-[36px] font-[600] text-primary-200 leading-[140%];
-
   }
 
   .h1-regular {
