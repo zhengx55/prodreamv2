@@ -238,3 +238,18 @@ export enum Role {
   System = 'system',
   User = 'user',
 }
+
+export interface IChatRequest {
+  /**
+   * 1: 学校规划， 2： Max聊天
+   */
+  func_type: number;
+  /**
+   * 用户在聊天框输入的内容
+   */
+  query: string;
+  /**
+   * 如果是新创建的会话，请传空串
+   */
+  session_id: string;
+}

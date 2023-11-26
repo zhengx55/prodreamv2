@@ -6,7 +6,7 @@ import React, { memo } from 'react';
 const ChatMenu = () => {
   const { setShowMenu } = useMaxChatContext();
   return (
-    <>
+    <div className='flex w-[70%] flex-col items-center gap-y-2 px-10 pt-[100px]'>
       <div className='flex-center h-16 w-16 rounded-[47px] rounded-bl-none bg-primary-50'>
         <Image
           alt='max'
@@ -52,7 +52,7 @@ const ChatMenu = () => {
         </div>
         <ArrowRight className='text-shadow-100' />
       </div>
-    </>
+    </div>
   );
 };
 

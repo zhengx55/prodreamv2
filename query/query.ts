@@ -3,6 +3,7 @@ import {
   OptimizeAnswer,
   SubmitEssayWritting,
   fetchChatGuideQas,
+  fetchChatHistory,
   fetchFinalAs,
   getBrainstormDetails,
   getBrianstormHistoryById,
@@ -102,6 +103,12 @@ export const useGetFinalAnswer = () => {
   });
 };
 
-// ============================================================
-// Auth
-// ============================================================
+// ----------------------------------------------------------------
+// Chat With Max
+// ----------------------------------------------------------------
+export const useGetChatHistory = () => {
+  return useQuery({
+    queryKey: ['chat_history'],
+    queryFn: () => fetchChatHistory(),
+  });
+};

@@ -2,6 +2,7 @@ import { AnswerRequestParam, FormQuestionResponse } from '@/types';
 import {
   IBrainStormSection,
   IBrainstormHistory,
+  IChatHistoryData,
   IEssayAssessRequest,
   IOptRequest,
   IResetParams,
@@ -554,6 +555,43 @@ export async function fetchFinalAs(session_id: string): Promise<any> {
     throw new Error(error as string);
   }
 }
+
+// ----------------------------------------------------------------
+// Chat With Max
+// ----------------------------------------------------------------
+export async function fetchChatHistory(): Promise<IChatHistoryData[]> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}chat?page=1&page_size=999`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function fetchSessionHistory() {}
+
+export async function sendMessage() {}
+
+export async function deleteSession() {}
+
+export async function fetchResponse() {}
+
 // ----------------------------------------------------------------
 // 通知
 // ----------------------------------------------------------------
