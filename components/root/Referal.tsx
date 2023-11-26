@@ -1,10 +1,13 @@
-import { Gift, GiftIcon } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 
 const Referal = () => {
   return (
     <div className='rounded-lg bg-referal px-[1px] py-[1px]'>
-      <div className='cursor-pointer rounded-lg bg-white px-3 py-1'>
+      <Link
+        href={'/profile/referal'}
+        className='block cursor-pointer rounded-lg bg-white px-3 py-1'
+      >
         <div className='flex-between gap-x-2'>
           <p className='small-semibold'>
             Refer friends to redeem
@@ -32,7 +35,7 @@ const Referal = () => {
             </span>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

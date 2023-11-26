@@ -9,7 +9,7 @@ const User = ({ name, email, imgSrc }: Props) => {
     <div className='flex cursor-pointer items-center gap-x-2'>
       <Avatar>
         <AvatarImage
-          className='border border-primary-200 bg-primary-50'
+          className='rounded-full border border-primary-200 bg-primary-50 object-contain'
           src={imgSrc}
           alt={name}
         />

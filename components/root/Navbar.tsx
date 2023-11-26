@@ -10,6 +10,7 @@ import Referal from './Referal';
 const Navbar = () => {
   const pathname = usePathname();
   const user = useAppSelector(selectUser);
+  console.log('🚀 ~ file: Navbar.tsx:13 ~ Navbar ~ user:', user);
   return (
     <nav className='flex-between h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold hidden capitalize text-black-200 md:block'>
@@ -30,7 +31,7 @@ const Navbar = () => {
         <User
           name={user.first_name || ''}
           email={user.email || ''}
-          imgSrc={'https://i.pravatar.cc/150?u=a042581f4e29026024d'}
+          imgSrc={`${process.env.NEXT_PUBLIC_API_STATIC_URL}${user.avatar}`}
         />
       </div>
     </nav>

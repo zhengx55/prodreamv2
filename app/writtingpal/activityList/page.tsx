@@ -22,7 +22,7 @@ export default async function Page() {
 
   return (
     <section className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full bg-sectionBackground md:flex-row'>
-      <InputPanel />
+      {/* <InputPanel /> */}
     </section>
   );
 }
