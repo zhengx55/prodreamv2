@@ -2,10 +2,10 @@
 import { Bell, HelpCircle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { memo } from 'react';
-import { motion } from 'framer-motion';
 import User from './User';
 import { selectUser } from '@/store/reducers/userReducer';
 import { useAppSelector } from '@/store/storehooks';
+import Referal from './Referal';
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -20,18 +20,13 @@ const Navbar = () => {
             : pathname.split('/')[2]}
       </h3>
       <div className='flex items-center gap-x-2 md:gap-x-4'>
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50'
-        >
+        <Referal />
+        <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 transition-transform hover:scale-110'>
           <HelpCircle className='text-primary-200' size={22} />
-        </motion.div>
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50'
-        >
+        </div>
+        <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 transition-transform hover:scale-110'>
           <Bell className='text-primary-200' size={22} />
-        </motion.div>
+        </div>
         <User
           name={user.first_name || ''}
           email={user.email || ''}

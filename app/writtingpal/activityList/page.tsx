@@ -1,5 +1,4 @@
 import InputPanel from '@/components/activityList/InputPanel';
-import OutputPanel from '@/components/activityList/OutputPanel';
 import { IActivityHistoryResponse } from '@/query/type';
 import { cookies } from 'next/headers';
 
@@ -23,10 +22,7 @@ export default async function Page() {
 
   return (
     <section className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full bg-sectionBackground md:flex-row'>
-      {/* left panel */}
       <InputPanel />
-      {/* right panel */}
-      {/* <OutputPanel history_data={data.data} /> */}
     </section>
   );
 }
