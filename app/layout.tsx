@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/context/ThemeProvider';
 // import { i18n } from '@/i18n.config';
 import { Poppins } from 'next/font/google';
 import UserStoreProvider from '@/store/userProvider';
+import { Analytics } from '@vercel/analytics/react';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -35,6 +36,7 @@ export default function RootLayout({
             <UserStoreProvider>
               <section className='h-screen w-screen md:flex md:min-w-[1400px] md:overflow-x-auto'>
                 {children}
+                <Analytics />
               </section>
             </UserStoreProvider>
           </TanstackProvider>
