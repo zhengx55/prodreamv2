@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply min-h-screen select-text antialiased overflow-y-hidden;
+    @apply min-h-screen font-poppins select-text antialiased overflow-y-hidden;
   }
 }
 

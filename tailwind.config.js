@@ -12,7 +12,7 @@ module.exports = {
         card: 'radial-gradient(88.19% 80.74% at 37.56% 34.2%, rgba(203, 44, 243, 0.70) 0%, rgba(156, 44, 243, 0.70) 55.27%, rgba(120, 44, 243, 0.70) 100%)',
       },
       fontFamily: {
-        poppins: ['Poppins', 'sans-serif'],
+        poppins: ['var(--poppins-font)', 'sans-serif'],
       },
       fontSize: {
         regular: '14px',

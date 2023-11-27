@@ -11,6 +11,7 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600'],
   display: 'swap',
+  variable: '--poppins-font',
 });
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' className={poppins.className} suppressHydrationWarning>
+    <html lang='en' className={poppins.variable} suppressHydrationWarning>
       <body>
         <ThemeProvider attribute='class' defaultTheme='light'>
           <TanstackProvider>
