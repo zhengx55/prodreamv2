@@ -225,11 +225,11 @@ export interface IChatHistoryData {
   create_time: number;
   session_id: string;
   topic: string;
-  fun_type: 1 | 2;
+  func_type: 1 | 2;
 }
 
 export interface IChatSessionData {
-  message: string;
+  content: string;
   order: number;
   role: Role;
 }

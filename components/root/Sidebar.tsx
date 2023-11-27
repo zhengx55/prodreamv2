@@ -15,12 +15,23 @@ import ChatTrigger from '../chatWithMax/ChatTrigger';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import { useMaxChatContext } from '@/context/MaxChateProvider';
 import dynamic from 'next/dynamic';
+import { Loader2 } from 'lucide-react';
 
 const ChatMenu = dynamic(() => import('../chatWithMax/ChatMenu'), {
   ssr: false,
+  loading: () => (
+    <div className='flex-center w-[70%] flex-col'>
+      <Loader2 className='animate-spin' />
+    </div>
+  ),
 });
 const MessageList = dynamic(() => import('../chatWithMax/MessageList'), {
   ssr: false,
+  loading: () => (
+    <div className='flex-center w-[70%] flex-col'>
+      <Loader2 className='animate-spin' />
+    </div>
+  ),
 });
 
 const ChatHistory = dynamic(() => import('../chatWithMax/ChatHistory'), {
@@ -62,13 +73,6 @@ const Sidebar = () => {
       setTopValue(parseInt(storedTopValue));
     }
   }, []);
-
-  useEffect(() => {
-    if (pathname === '/') {
-      setExpandSidebar(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
 
   const sidebarVariants: Variants = {
     open: { width: '250px' },
@@ -161,7 +165,7 @@ const Sidebar = () => {
             </div>
           </DialogTrigger>
         )}
-        <DialogContent className='flex gap-0 border-0 p-0 md:h-[700px] md:w-[900px]'>
+        <DialogContent className='flex gap-0 border-0 p-0 outline-none md:h-[700px] md:w-[900px]'>
           {showMenu ? <ChatMenu /> : <MessageList />}
           <ChatHistory />
         </DialogContent>

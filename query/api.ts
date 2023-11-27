@@ -214,7 +214,7 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
       body: formdata,
     });
     const data = await res.json();
-    console.log('🚀 ~ file: api.ts:209 ~ userSignUp ~ data:', data);
+
     if (data.code !== 0) {
       throw data.msg;
     }
@@ -661,7 +661,27 @@ export async function deleteSession(session_id: string) {
   }
 }
 
-export async function fetchResponse() {}
+export async function fetchResponse(session_id: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}chat/${session_id}/latest`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 // ----------------------------------------------------------------
 // 通知

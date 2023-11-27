@@ -1,19 +1,16 @@
-import { Delete, Loader2, Plus, Trash2, X } from 'lucide-react';
+import { Loader2, Plus, Trash2, X } from 'lucide-react';
 import React, { memo } from 'react';
 import { Button } from '../ui/button';
 import { DialogClose } from '../ui/dialog';
 import { useMaxChatContext } from '@/context/MaxChateProvider';
 import { useGetChatHistory } from '@/query/query';
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteSession } from '@/query/api';
 import { useToast } from '../ui/use-toast';
 
 const ChatHistory = () => {
-  const { setShowMenu, setCurrentSession } = useMaxChatContext();
+  const { setShowMenu, setCurrentChatType, setCurrentSession } =
+    useMaxChatContext();
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const {
@@ -41,8 +38,9 @@ const ChatHistory = () => {
     await deleteHistory(session_id);
   };
 
-  const selectChatHandler = async (session_id: string) => {
+  const selectChatHandler = async (session_id: string, fun_type: 1 | 2) => {
     setCurrentSession(session_id);
+    setCurrentChatType(fun_type);
     setShowMenu(false);
   };
   return (
@@ -56,13 +54,13 @@ const ChatHistory = () => {
         {!isChatHistoryPending && !isChatHistoryError ? (
           chatHistory.map((item) => (
             <div
-              onClick={() => selectChatHandler(item.session_id)}
+              onClick={() => selectChatHandler(item.session_id, item.func_type)}
               className='flex-between cursor-pointer p-2.5 transition-opacity hover:opacity-50'
               key={item.session_id}
             >
               <div>
                 <h1 className='small-semibold'>
-                  {item.fun_type === 1 ? 'School selection' : 'All topics'}
+                  {item.func_type === 1 ? 'School selection' : 'All topics'}
                 </h1>
                 <p className='subtle-regular text-shadow-100'> {item.topic}</p>
               </div>
