@@ -1,17 +1,50 @@
-import { Loader2, Plus, X } from 'lucide-react';
+import { Delete, Loader2, Plus, Trash2, X } from 'lucide-react';
 import React, { memo } from 'react';
 import { Button } from '../ui/button';
 import { DialogClose } from '../ui/dialog';
 import { useMaxChatContext } from '@/context/MaxChateProvider';
 import { useGetChatHistory } from '@/query/query';
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { deleteSession } from '@/query/api';
+import { useToast } from '../ui/use-toast';
 
 const ChatHistory = () => {
-  const { setShowMenu, setCurrentHistory } = useMaxChatContext();
+  const { setShowMenu, setCurrentSession } = useMaxChatContext();
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
   const {
     data: chatHistory,
     isPending: isChatHistoryPending,
     isError: isChatHistoryError,
   } = useGetChatHistory();
+
+  const { mutateAsync: deleteHistory } = useMutation({
+    mutationFn: (session_id: string) => deleteSession(session_id),
+    onSuccess: () => {
+      toast({
+        description: 'Successfully delete chat history.',
+      });
+      queryClient.invalidateQueries({ queryKey: ['chat_history'] });
+    },
+    onError: (error) => {
+      toast({
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+  const deleteChatHistory = async (session_id: string) => {
+    await deleteHistory(session_id);
+  };
+
+  const selectChatHandler = async (session_id: string) => {
+    setCurrentSession(session_id);
+    setShowMenu(false);
+  };
   return (
     <div className='flex w-[30%] flex-col rounded-r-[20px] bg-shadow-200 p-3'>
       <div className='flex self-end'>
@@ -23,7 +56,8 @@ const ChatHistory = () => {
         {!isChatHistoryPending && !isChatHistoryError ? (
           chatHistory.map((item) => (
             <div
-              className='flex cursor-pointer items-center p-2.5 transition-opacity hover:opacity-50'
+              onClick={() => selectChatHandler(item.session_id)}
+              className='flex-between cursor-pointer p-2.5 transition-opacity hover:opacity-50'
               key={item.session_id}
             >
               <div>
@@ -32,6 +66,11 @@ const ChatHistory = () => {
                 </h1>
                 <p className='subtle-regular text-shadow-100'> {item.topic}</p>
               </div>
+              <Trash2
+                onClick={() => deleteChatHistory(item.session_id)}
+                size={20}
+                className='text-shadow-100'
+              />
             </div>
           ))
         ) : (

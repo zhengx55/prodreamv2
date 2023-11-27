@@ -5,6 +5,7 @@ import {
   fetchChatGuideQas,
   fetchChatHistory,
   fetchFinalAs,
+  fetchSessionHistory,
   getBrainstormDetails,
   getBrianstormHistoryById,
   queryEssayResult,
@@ -109,6 +110,14 @@ export const useGetFinalAnswer = () => {
 export const useGetChatHistory = () => {
   return useQuery({
     queryKey: ['chat_history'],
-    queryFn: () => fetchChatHistory(),
+    queryFn: fetchChatHistory,
+  });
+};
+
+export const useGetSessionHistory = (session_id: string) => {
+  return useQuery({
+    queryKey: ['current_session_history', session_id],
+    enabled: !!session_id,
+    queryFn: () => fetchSessionHistory(session_id),
   });
 };

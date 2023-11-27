@@ -3,6 +3,7 @@ import {
   IBrainStormSection,
   IBrainstormHistory,
   IChatHistoryData,
+  IChatRequest,
   IEssayAssessRequest,
   IOptRequest,
   IResetParams,
@@ -584,11 +585,81 @@ export async function fetchChatHistory(): Promise<IChatHistoryData[]> {
   }
 }
 
-export async function fetchSessionHistory() {}
+export async function fetchSessionHistory(session_id: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}chat/${session_id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
-export async function sendMessage() {}
+export async function sendMessage(params: IChatRequest) {
+  try {
+    const token = Cookies.get('token');
+    const body = JSON.stringify({
+      func_type: params.func_type,
+      query: params.query,
+      session_id: params.session_id,
+    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}chat`, {
+      method: 'POST',
+      body,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
-export async function deleteSession() {}
+export async function deleteSession(session_id: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}chat/${session_id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function fetchResponse() {}
 
