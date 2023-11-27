@@ -23,14 +23,14 @@ const MessageLoading = () => (
 );
 
 const MessageList = () => {
-  const { currentSession, currentChatType, setCurrentSession } =
-    useMaxChatContext();
-  // const {
-  //   data: currentMessageList,
-  //   isPending: isMessagePending,
-  //   isError: isMessageError,
-  // } = useGetSessionHistory(currentSession);
+  const { currentSession, currentChatType } = useMaxChatContext();
+  const {
+    data: currentMessageList,
+    isPending: isMessagePending,
+    isError: isMessageError,
+  } = useGetSessionHistory(currentSession);
 
+  const [sessionid, setSessionId] = useState('');
   const [MessageList, setMessageList] = useState<IChatSessionData[]>([]);
   const [userMessage, setUserMessage] = useState('');
   const [systemLoading, setSystemLoading] = useState(false);
@@ -60,7 +60,7 @@ const MessageList = () => {
             clearInterval(respondTimer.current);
             setSystemLoading(false);
             if (!currentSession) {
-              setCurrentSession(data);
+              setSessionId(data);
               queryClient.invalidateQueries({ queryKey: ['chat_history'] });
             }
             setMessageList((prev) => [
@@ -77,12 +77,11 @@ const MessageList = () => {
     onError: () => {},
   });
 
-  // useEffect(() => {
-  //   if (currentMessageList) {
-  //     console.log("🚀 ~ file: MessageList.tsx:77 ~ useEffect ~ currentMessageList:", currentMessageList)
-  //     setMessageList(currentMessageList);
-  //   }
-  // }, [currentMessageList]);
+  useEffect(() => {
+    if (currentMessageList) {
+      setMessageList(currentMessageList);
+    }
+  }, [currentMessageList]);
 
   useDeepCompareEffect(() => {
     scrollToBottom();
@@ -110,7 +109,7 @@ const MessageList = () => {
       await chat({
         query: userMessage.trim(),
         func_type: currentChatType,
-        session_id: currentSession,
+        session_id: currentSession ? currentSession : sessionid,
       });
       setUserMessage('');
       setIsTyping(false);
@@ -138,6 +137,7 @@ const MessageList = () => {
         ref={chatPanelRef}
         className='custom-scrollbar flex min-h-[calc(100%_-8rem)] w-full flex-col gap-y-8 overflow-y-auto  p-7'
       >
+        {!isMessageError && !isMessagePending && null}
         {MessageList.map((item, index) => (
           <div key={`chat-${index}`} className='flex gap-x-3'>
             <div

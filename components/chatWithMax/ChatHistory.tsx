@@ -1,5 +1,5 @@
 import { Loader2, Plus, Trash2, X } from 'lucide-react';
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { DialogClose } from '../ui/dialog';
 import { useMaxChatContext } from '@/context/MaxChateProvider';
@@ -44,6 +44,14 @@ const ChatHistory = () => {
     setCurrentChatType(fun_type);
     setShowMenu(false);
   };
+
+  useEffect(() => {
+    if (chatHistory?.length === 0) {
+      setShowMenu(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatHistory?.length]);
+
   return (
     <div className='flex w-[30%] flex-col rounded-r-[20px] bg-shadow-200 p-3'>
       <div className='flex self-end'>

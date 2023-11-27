@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import ChatTrigger from './ChatTrigger';
 import Image from 'next/image';
 import { useMaxChatContext } from '@/context/MaxChateProvider';
 import dynamic from 'next/dynamic';
 import { Loader2 } from 'lucide-react';
+
 const ChatMenu = dynamic(() => import('./ChatMenu'), {
   ssr: false,
   loading: () => (
@@ -29,14 +30,16 @@ type Props = { expandSidebar: boolean };
 
 const ChatModal = ({ expandSidebar }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const { showMenu, setShowMenu } = useMaxChatContext();
+  const { showMenu, setShowMenu, setCurrentSession } = useMaxChatContext();
 
   return (
     <Dialog
       open={modalOpen}
       onOpenChange={() => {
         if (modalOpen) {
+          // 关闭窗口时清楚共享的数据
           setShowMenu(true);
+          setCurrentSession('');
         }
         setModalOpen((prev) => !prev);
       }}

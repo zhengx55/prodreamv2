@@ -22,6 +22,7 @@ const Path = (
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const [modalOpen, setModalOpen] = useState(false);
   const [topValue, setTopValue] = useState<number | undefined>();
   const [expandSidebar, setExpandSidebar] = useState(true);
 
