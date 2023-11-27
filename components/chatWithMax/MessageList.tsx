@@ -11,7 +11,7 @@ import React, {
 } from 'react';
 import { Input } from '../ui/input';
 import { fetchResponse, sendMessage } from '@/query/api';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 
 const MessageLoading = () => (
@@ -23,12 +23,13 @@ const MessageLoading = () => (
 );
 
 const MessageList = () => {
-  const { currentSession, currentChatType } = useMaxChatContext();
-  const {
-    data: currentMessageList,
-    isPending: isMessagePending,
-    isError: isMessageError,
-  } = useGetSessionHistory(currentSession);
+  const { currentSession, currentChatType, setCurrentSession } =
+    useMaxChatContext();
+  // const {
+  //   data: currentMessageList,
+  //   isPending: isMessagePending,
+  //   isError: isMessageError,
+  // } = useGetSessionHistory(currentSession);
 
   const [MessageList, setMessageList] = useState<IChatSessionData[]>([]);
   const [userMessage, setUserMessage] = useState('');
@@ -36,6 +37,7 @@ const MessageList = () => {
   const respondTimer = useRef<NodeJS.Timeout | undefined>();
   const chatPanelRef = useRef<HTMLElement>(null);
   const [isTyping, setIsTyping] = useState(false);
+  const queryClient = useQueryClient();
 
   const scrollToBottom = () => {
     if (chatPanelRef.current) {
@@ -57,6 +59,10 @@ const MessageList = () => {
           if (response.status === 'done') {
             clearInterval(respondTimer.current);
             setSystemLoading(false);
+            if (!currentSession) {
+              setCurrentSession(data);
+              queryClient.invalidateQueries({ queryKey: ['chat_history'] });
+            }
             setMessageList((prev) => [
               ...prev,
               { role: Role.System, content: response.text, order: 1 },
@@ -71,11 +77,12 @@ const MessageList = () => {
     onError: () => {},
   });
 
-  useEffect(() => {
-    if (currentMessageList) {
-      setMessageList(currentMessageList);
-    }
-  }, [currentMessageList]);
+  // useEffect(() => {
+  //   if (currentMessageList) {
+  //     console.log("🚀 ~ file: MessageList.tsx:77 ~ useEffect ~ currentMessageList:", currentMessageList)
+  //     setMessageList(currentMessageList);
+  //   }
+  // }, [currentMessageList]);
 
   useDeepCompareEffect(() => {
     scrollToBottom();
@@ -131,39 +138,37 @@ const MessageList = () => {
         ref={chatPanelRef}
         className='custom-scrollbar flex min-h-[calc(100%_-8rem)] w-full flex-col gap-y-8 overflow-y-auto  p-7'
       >
-        {!isMessagePending &&
-          !isMessageError &&
-          MessageList.map((item, index) => (
-            <div key={`chat-${index}`} className='flex gap-x-3'>
-              <div
-                className={`flex-center h-12 w-12 shrink-0 rounded-[4px] ${
-                  item.role === Role.User
-                    ? 'border border-shadow-border bg-white'
-                    : 'relative bg-primary-50'
-                } `}
-              >
-                {item.role !== Role.User ? (
-                  <Image
-                    alt='max'
-                    src='/max.png'
-                    width={30}
-                    className='self-end'
-                    height={40}
-                  />
-                ) : (
-                  <p className='text-[30px]'>🦁</p>
-                )}
-              </div>
-              <div className='flex flex-col gap-y-2'>
-                <h1 className='base-semibold'>
-                  {item.role === Role.User ? 'Your' : 'Max'}
-                </h1>
-                <p className='base-regular whitespace-pre-line break-keep'>
-                  {item.content}
-                </p>
-              </div>
+        {MessageList.map((item, index) => (
+          <div key={`chat-${index}`} className='flex gap-x-3'>
+            <div
+              className={`flex-center h-12 w-12 shrink-0 rounded-[4px] ${
+                item.role === Role.User
+                  ? 'border border-shadow-border bg-white'
+                  : 'relative bg-primary-50'
+              } `}
+            >
+              {item.role !== Role.User ? (
+                <Image
+                  alt='max'
+                  src='/max.png'
+                  width={30}
+                  className='self-end'
+                  height={40}
+                />
+              ) : (
+                <p className='text-[30px]'>🦁</p>
+              )}
             </div>
-          ))}
+            <div className='flex flex-col gap-y-2'>
+              <h1 className='base-semibold'>
+                {item.role === Role.User ? 'Your' : 'Max'}
+              </h1>
+              <p className='base-regular whitespace-pre-line break-keep'>
+                {item.content}
+              </p>
+            </div>
+          </div>
+        ))}
         {systemLoading && (
           <div className='flex gap-x-3'>
             <div className='flex-center relative h-12 w-12 shrink-0  rounded-[4px] bg-primary-50'>

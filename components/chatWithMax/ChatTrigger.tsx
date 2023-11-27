@@ -3,11 +3,6 @@ import { Button } from '../ui/button';
 import Image from 'next/image';
 import { DialogTrigger } from '@/components/ui/dialog';
 
-type Props = {
-  open: boolean;
-  onOpenChage: () => void;
-};
-
 const MAX_AVATAR = () => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
@@ -23,7 +18,7 @@ const MAX_AVATAR = () => (
   </svg>
 );
 
-const ChatTrigger = ({ open, onOpenChage }: Props) => {
+const ChatTrigger = () => {
   return (
     <div className='ml-[2.5%] mt-8 flex h-[120px] w-[95%] justify-between gap-x-3 rounded-xl border border-shadow-border p-2.5'>
       <div className='relative flex-[0.25]'>
@@ -43,7 +38,6 @@ const ChatTrigger = ({ open, onOpenChage }: Props) => {
         </p>
         <DialogTrigger asChild>
           <Button
-            onClick={onOpenChage}
             variant={'outline'}
             size={'sm'}
             className='subtle-medium h-7 gap-x-1 border-primary-200 text-primary-200 hover:-translate-y-1 hover:transition-transform'

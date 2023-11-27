@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AnimatePresence,
   SVGMotionProps,
@@ -11,32 +11,7 @@ import Image from 'next/image';
 import { SidebarLinks } from '@/constant';
 import { AnimatedLogo, AnimatedxsLogo } from './AnimatedLogo';
 import CommunityCard from './CommunityCard';
-import ChatTrigger from '../chatWithMax/ChatTrigger';
-import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
-import { useMaxChatContext } from '@/context/MaxChateProvider';
-import dynamic from 'next/dynamic';
-import { Loader2 } from 'lucide-react';
-
-const ChatMenu = dynamic(() => import('../chatWithMax/ChatMenu'), {
-  ssr: false,
-  loading: () => (
-    <div className='flex-center w-[70%] flex-col'>
-      <Loader2 className='animate-spin' />
-    </div>
-  ),
-});
-const MessageList = dynamic(() => import('../chatWithMax/MessageList'), {
-  ssr: false,
-  loading: () => (
-    <div className='flex-center w-[70%] flex-col'>
-      <Loader2 className='animate-spin' />
-    </div>
-  ),
-});
-
-const ChatHistory = dynamic(() => import('../chatWithMax/ChatHistory'), {
-  ssr: false,
-});
+import ChatModal from '../chatWithMax/ChatModal';
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &
@@ -46,19 +21,13 @@ const Path = (
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
   const [topValue, setTopValue] = useState<number | undefined>();
   const [expandSidebar, setExpandSidebar] = useState(true);
-  const { showMenu } = useMaxChatContext();
 
   const toggleSidebar = () => {
     setExpandSidebar(!expandSidebar);
   };
-
-  const toggleChatModal = useCallback(() => {
-    setModalOpen((prev) => !prev);
-  }, []);
 
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
@@ -145,31 +114,7 @@ const Sidebar = () => {
           />
         </svg>
       </motion.span>
-
-      <Dialog>
-        {expandSidebar ? (
-          <ChatTrigger open={modalOpen} onOpenChage={toggleChatModal} />
-        ) : (
-          <DialogTrigger asChild>
-            <div
-              className='flex-center ml-2 mt-8 h-11 w-11 cursor-pointer rounded-[47px] rounded-bl-none bg-primary-50 transition-transform hover:-translate-y-1'
-              onClick={() => setModalOpen(true)}
-            >
-              <Image
-                alt='max'
-                src='/max.png'
-                className='h-auto w-5'
-                width={0}
-                height={0}
-              />
-            </div>
-          </DialogTrigger>
-        )}
-        <DialogContent className='flex gap-0 border-0 p-0 outline-none md:h-[700px] md:w-[900px]'>
-          {showMenu ? <ChatMenu /> : <MessageList />}
-          <ChatHistory />
-        </DialogContent>
-      </Dialog>
+      <ChatModal expandSidebar={expandSidebar} />
 
       <ul className='relative mt-8 flex flex-col gap-5'>
         {topValue !== undefined ? (

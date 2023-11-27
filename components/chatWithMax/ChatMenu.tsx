@@ -4,7 +4,7 @@ import Image from 'next/image';
 import React, { memo } from 'react';
 
 const ChatMenu = () => {
-  const { setShowMenu } = useMaxChatContext();
+  const { setShowMenu, setCurrentChatType } = useMaxChatContext();
   return (
     <div className='flex w-[70%] flex-col items-center gap-y-2 px-10 pt-[100px]'>
       <div className='flex-center h-16 w-16 rounded-[47px] rounded-bl-none bg-primary-50'>
@@ -22,7 +22,10 @@ const ChatMenu = () => {
         students get into top schools like Harvard, Columbia, UCLA and UPenn
       </p>
       <div
-        onClick={() => setShowMenu(false)}
+        onClick={() => {
+          setShowMenu(false);
+          setCurrentChatType(1);
+        }}
         className='flex-between mt-12 w-[80%] cursor-pointer rounded-xl border border-shadow-border p-4 hover:bg-primary-50'
       >
         <div className='flex items-center gap-x-4'>
@@ -38,7 +41,13 @@ const ChatMenu = () => {
         </div>
         <ArrowRight className='text-shadow-100' />
       </div>
-      <div className='flex-between mt-2 w-[80%] cursor-pointer rounded-xl border border-shadow-border p-4 hover:bg-primary-50'>
+      <div
+        onClick={() => {
+          setShowMenu(false);
+          setCurrentChatType(2);
+        }}
+        className='flex-between mt-2 w-[80%] cursor-pointer rounded-xl border border-shadow-border p-4 hover:bg-primary-50'
+      >
         <div className='flex items-center gap-x-4'>
           <div className='flex-center h-14 w-14 rounded-xl bg-[#F6DACE]'>
             <Image

@@ -23,6 +23,7 @@ const ChatHistory = () => {
     mutationFn: (session_id: string) => deleteSession(session_id),
     onSuccess: () => {
       toast({
+        variant: 'default',
         description: 'Successfully delete chat history.',
       });
       queryClient.invalidateQueries({ queryKey: ['chat_history'] });
@@ -76,7 +77,13 @@ const ChatHistory = () => {
         )}
       </div>
 
-      <Button onClick={() => setShowMenu(true)} className='mt-auto'>
+      <Button
+        onClick={() => {
+          setCurrentSession('');
+          setShowMenu(true);
+        }}
+        className='mt-auto'
+      >
         <Plus /> New chat
       </Button>
     </div>
