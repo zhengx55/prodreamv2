@@ -1,60 +1,194 @@
 'use client';
-import { Check } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Trash, Trash2, Upload } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { ChangeEvent, useState } from 'react';
+import { Input } from '../ui/input';
+import { v4 } from 'uuid';
 import { Textarea } from '../ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { useState } from 'react';
 
 const InputPanel = () => {
-  const [selected, setSelected] = useState<number[]>([]);
+  const [listOptions, setListOptions] = useState({
+    uc: false,
+    common: false,
+    custom: false,
+  });
+  const [cutomWordCount, setCustomWordCount] = useState('0');
+  const [descriptions, setDescriptions] = useState([
+    {
+      id: v4(),
+      text: '',
+      wordCount: 0,
+    },
+  ]);
+  const handleDescriptionChange = (
+    e: ChangeEvent<HTMLTextAreaElement>,
+    id: string
+  ) => {
+    const value = e.target.value;
+    const wordsCount = value
+      .replace(/[^a-zA-Z\s]/g, '')
+      .split(/\s+/)
+      .filter((word) => word !== '');
+
+    setDescriptions((prevDescriptions) =>
+      prevDescriptions.map((description) =>
+        description.id === id
+          ? { ...description, text: value, wordCount: wordsCount.length }
+          : description
+      )
+    );
+  };
+  const handleLengthChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === '150' || e.target.value === '350') {
+      setCustomWordCount((parseInt(e.target.value) + 50).toString());
+    } else if (parseInt(e.target.value) > 1250) {
+      return;
+    } else {
+      setCustomWordCount(e.target.value);
+    }
+  };
+  const handleCheckChange = (check: string | boolean, name: string) => {
+    setListOptions((prev) => ({
+      ...prev,
+      [name]: check,
+    }));
+  };
+  const handleAddNewDescription = () => {
+    setDescriptions((prev) => [
+      ...prev,
+      {
+        id: v4(),
+        text: '',
+        wordCount: 0,
+      },
+    ]);
+  };
+  const handleRemoveDescription = (id: string) => {
+    const new_descriptions = descriptions.filter((item) => item.id !== id);
+    setDescriptions(new_descriptions);
+  };
   return (
-    <div className='h-full min-h-[750px] w-1/2 md:p-4'>
-      <div className='flex h-full min-h-[700px] w-full flex-col rounded-xl border border-border-50 bg-white p-4'>
-        <h1 className='h3-bold text-primary-200'>
-          Create a successful Activity List with one click
-        </h1>
-        {/* chips */}
-        <div className='mt-3 flex items-center gap-x-3'>
-          <Badge className='bg-[#FFFBD6]'>Meet Character Limit </Badge>
-          <Badge className='bg-[#EBFFE4]'>Use Stronger Verbs</Badge>
-          <Badge className='bg-[#EBF8FF]'>Demonstrate abilities</Badge>
+    <div className='custom-scrollbar flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'>
+      {/* file upload */}
+      <section className='flex w-full shrink-0 flex-col gap-y-2 rounded-xl bg-white p-6'>
+        <h2 className='small-semibold'>
+          Start by uploading a file with activity descriptions. We will
+          automatically decode it for you.
+        </h2>
+        <p className='small-regular text-shadow'>
+          We support docx, pdf file types.
+        </p>
+        <Button
+          variant={'ghost'}
+          className='mt-1 h-full border border-shadow-border py-3 leading-6 shadow-none'
+        >
+          <Upload />
+          Upload
+        </Button>
+      </section>
+      {/* activity description */}
+      <section className='flex w-full shrink-0 flex-col gap-y-2 rounded-xl bg-white p-6'>
+        <div className='flex-between'>
+          <div className='flex gap-x-2'>
+            <span className='h-6 w-2 rounded-[10px] bg-primary-200' />
+            <p className='title-semibold'>Activity Descriptions</p>
+          </div>
+          <div className='flex gap-x-5'>
+            <div
+              onClick={handleAddNewDescription}
+              className='small-semibold cursor-pointer text-primary-200 hover:underline'
+            >
+              + Add Activity
+            </div>
+          </div>
         </div>
-        <h3 className='title-semibold mt-14'>
-          Paste your activity description here
-        </h3>
-        <Textarea
-          className='mt-3 h-72 resize-none'
-          placeholder='Eg: A comfortable dress made of yarn that has a cotton surface and an airy polyester core. Cotton provides a durable yet lightweight feel and is machine washable...'
-        />
-        <h3 className='title-semibold mt-14'>
-          Select character limit(s) you would like to shorten to
-        </h3>
-        <div className='mt-4 flex w-full gap-x-2'>
-          {[100, 150, 250, 350].map((item, index) => {
-            const isSelected = selected.includes(item);
-            return (
-              <div
-                onClick={() => {
-                  if (!isSelected) setSelected((prev) => [...prev, item]);
-                  else {
-                    const newArray = selected.filter((el) => el !== item);
-                    setSelected(newArray);
-                  }
-                }}
-                className={`${
-                  isSelected && 'bg-primary-200 text-white'
-                } flex-center cursor-pointer gap-x-2 rounded-md border border-shadow-border px-10 py-3 font-bold text-shadow transition-transform hover:-translate-y-1`}
-                key={`character-limits-${index}`}
-              >
-                <Check
-                  size={20}
-                  className={`${isSelected && 'text-white'} text-shadow`}
-                />
-                {item}
+        {descriptions.map((item, index) => (
+          <div className='flex-between my-6 gap-x-4' key={item.id}>
+            <p className='base-semibold self-start'>
+              Activity&nbsp;{index + 1}
+            </p>
+            <div className='flex w-full flex-col gap-y-1'>
+              <Textarea
+                onChange={(e) => handleDescriptionChange(e, item.id)}
+                value={item.text}
+                className='h-[130px]'
+              />
+              <div className='flex-between'>
+                <p className='subtle-regular text-shadow'>
+                  {item.wordCount} / 1250 Characters
+                </p>
+                <div className='flex items-center gap-x-1'>
+                  <Trash2 size={16} />
+                  <p
+                    onClick={() => handleRemoveDescription(item.id)}
+                    className='small-medium cursor-pointer hover:underline'
+                  >
+                    Delete
+                  </p>
+                </div>
               </div>
-            );
-          })}
+            </div>
+          </div>
+        ))}
+      </section>
+      {/* activity options */}
+      <section className='flex w-full shrink-0 flex-col gap-y-2 rounded-xl bg-white p-6'>
+        <h2 className='base-semibold'>Which activity list are you filling?</h2>
+        <p className='small-regular text-shadow'>
+          We will help you reduce to the required character limit and power up
+          your wording.
+        </p>
+        <div className='my-4 flex flex-col gap-y-4'>
+          <div className='flex items-center gap-x-2'>
+            <Checkbox
+              checked={listOptions.uc}
+              onCheckedChange={(check) => handleCheckChange(check, 'uc')}
+              name='uc'
+              id='terms1'
+            />
+            <label htmlFor='terms1' className='small-regular'>
+              UC Applications
+            </label>
+          </div>
+          <div className='flex items-center gap-x-2'>
+            <Checkbox
+              checked={listOptions.common}
+              onCheckedChange={(check) => handleCheckChange(check, 'common')}
+              name='common'
+              id='terms2'
+            />
+            <label htmlFor='terms2' className='small-regular'>
+              Common Applications
+            </label>
+          </div>
+          <div className='flex items-center gap-x-2'>
+            <Checkbox
+              checked={listOptions.custom}
+              onCheckedChange={(check) => handleCheckChange(check, 'custom')}
+              name='custom'
+              id='terms3'
+            />
+            <label htmlFor='terms3' className='small-regular'>
+              Customize Character Limit
+            </label>
+          </div>
+          {listOptions.custom && (
+            <div className='ml-5 flex w-max items-center gap-x-4 rounded-lg border border-shadow-border bg-shadow-50 px-4 py-2'>
+              <h2 className='small-semibold'>Expected length:</h2>
+              <Input
+                value={cutomWordCount}
+                onChange={handleLengthChange}
+                type='number'
+                step={50}
+                className='w-20 py-1 pl-3 pr-1'
+              />
+            </div>
+          )}
         </div>
-      </div>
+
+        <Button className='h-full py-3'>Generate</Button>
+      </section>
     </div>
   );
 };
