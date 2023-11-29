@@ -5,8 +5,6 @@ import React, { memo } from 'react';
 import { selectUser } from '@/store/reducers/userReducer';
 import { useAppSelector } from '@/store/storehooks';
 import Referal from './Referal';
-import dynamic from 'next/dynamic';
-import { Skeleton } from '../ui/skeleton';
 import User from './User';
 
 const Navbar = () => {
