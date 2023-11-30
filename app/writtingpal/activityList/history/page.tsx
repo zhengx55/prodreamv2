@@ -2,9 +2,7 @@ import HistoryTop from '@/components/activityList/history/HistoryTop';
 import List from '@/components/activityList/history/List';
 import { IActHistoryData } from '@/query/type';
 import { cookies } from 'next/headers';
-
-export const dynamic = 'force-dynamic';
-
+export const dynamic = 'auto';
 export default async function Page() {
   async function fetchHistoryData() {
     const cookieStore = cookies();
@@ -23,6 +21,7 @@ export default async function Page() {
   }
 
   const history_data = await fetchHistoryData();
+  console.log('🚀 ~ file: page.tsx:26 ~ Page ~ history_data:', history_data);
   return (
     <section className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col gap-y-4 bg-sectionBackground p-4'>
       <HistoryTop />

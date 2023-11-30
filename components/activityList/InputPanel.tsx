@@ -44,8 +44,6 @@ const InputPanel = () => {
 
   useDeepCompareEffect(() => {
     if (Object.keys(actListData).length !== 0 && isHistoryMode) {
-      console.log(1);
-
       const keys = Object.keys(actListData);
       keys.forEach((key) => {
         if (key === '150') {
