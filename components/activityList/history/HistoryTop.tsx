@@ -1,10 +1,14 @@
+'use client';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { clearState } from '@/store/reducers/activityListSlice';
+import { useAppDispatch } from '@/store/storehooks';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
 const HistoryTop = () => {
+  const dispatch = useAppDispatch();
   return (
     <div className='flex-between w-full rounded-xl bg-white p-6'>
       <div className='flex flex-col gap-y-4'>
@@ -18,7 +22,12 @@ const HistoryTop = () => {
         </div>
       </div>
       <Link href={'/writtingpal/activityList'}>
-        <Button className='gap-x-2 px-8 py-3'>
+        <Button
+          onClick={() => {
+            dispatch(clearState());
+          }}
+          className='gap-x-2 px-8 py-3'
+        >
           <Plus size={22} />
           New Activity List
         </Button>

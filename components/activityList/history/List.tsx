@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { PencilLineIcon } from 'lucide-react';
 import React from 'react';
 import Card from './Card';
-import { IActHistoryData } from '@/query/type';
+import { IActHistoryData, IActListResData } from '@/query/type';
 import { formatTimestampToDateString } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -15,6 +15,9 @@ import { useMutation } from '@tanstack/react-query';
 import { clonectivityListItem, deleteActivityListItem } from '@/query/api';
 import { useToast } from '@/components/ui/use-toast';
 import clearCachesByServerAction from '@/lib/revalidate';
+import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/store/storehooks';
+import { setActListState } from '@/store/reducers/activityListSlice';
 
 type Props = {
   item: IActHistoryData;
@@ -22,6 +25,8 @@ type Props = {
 
 const List = ({ item }: Props) => {
   const { toast } = useToast();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const { mutateAsync: removeItem } = useMutation({
     mutationFn: (id: string) => deleteActivityListItem(id),
     onSuccess() {
@@ -64,6 +69,19 @@ const List = ({ item }: Props) => {
     await cloneItem(id);
   };
 
+  const handleEdit = () => {
+    router.push('/writtingpal/activityList/');
+    const { type, id, activities } = item;
+    const actListData: IActListResData = {
+      [type]: {
+        activities,
+        id,
+      },
+    };
+
+    dispatch(setActListState(actListData));
+  };
+
   return (
     <div className='flex w-full shrink-0 flex-col gap-y-5 rounded-[10px] bg-white p-4'>
       <div className='flex-between'>
@@ -80,7 +98,11 @@ const List = ({ item }: Props) => {
           </p>
         </div>
         <div className='flex items-center gap-x-2'>
-          <Button variant={'ghost'} className='border border-shadow-border'>
+          <Button
+            onClick={handleEdit}
+            variant={'ghost'}
+            className='border border-shadow-border'
+          >
             <PencilLineIcon size={20} />
             View and Edit
           </Button>

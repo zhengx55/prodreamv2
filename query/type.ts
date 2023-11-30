@@ -283,8 +283,6 @@ export interface Activity {
 }
 
 export interface IActListResData {
-  '150': ActListData;
-  '350': ActListData;
   [key: string]: ActListData;
 }
 
@@ -297,4 +295,6 @@ export interface ActData {
   result?: string;
   title: string;
   id: string;
+  original_text?: string;
+  text?: string;
 }
