@@ -1,6 +1,6 @@
 'use client';
 import { AnimatePresence, Variants, motion } from 'framer-motion';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import ActivityCard from './ActivityCard';
 import { useAppSelector } from '@/store/storehooks';
 import { selectActList } from '@/store/reducers/activityListSlice';
