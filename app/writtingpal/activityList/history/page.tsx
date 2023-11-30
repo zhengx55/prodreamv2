@@ -2,7 +2,9 @@ import HistoryTop from '@/components/activityList/history/HistoryTop';
 import List from '@/components/activityList/history/List';
 import { IActHistoryData } from '@/query/type';
 import { cookies } from 'next/headers';
+
 export const dynamic = 'auto';
+
 export default async function Page() {
   async function fetchHistoryData() {
     const cookieStore = cookies();

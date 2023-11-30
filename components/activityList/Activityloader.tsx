@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { activity_list_loading_prompt } from '@/constant';
+import { DialogOverlay } from '@radix-ui/react-dialog';
 const Activityloader = ({
   isGenerating,
   toogleLoadingModal,
@@ -22,7 +23,12 @@ const Activityloader = ({
 
   return (
     <Dialog open={isGenerating} onOpenChange={toogleLoadingModal}>
-      <DialogContent className='md:w-[400px] md:rounded-lg md:p-4'>
+      <DialogContent
+        onPointerDownOutside={(e) => {
+          e.preventDefault();
+        }}
+        className='md:w-[400px] md:rounded-lg md:p-4'
+      >
         <DialogHeader>
           <DialogTitle className='base-semibold flex items-center gap-x-2'>
             <svg
