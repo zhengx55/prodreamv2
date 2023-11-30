@@ -17,7 +17,7 @@ const OutputPanel = ({
     full: { width: '100%' },
     half: { width: '50%' },
   };
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState<number>(0);
   const [tabs, setTabs] = useState<string[]>([]);
   const actListRes = useAppSelector(selectActList);
 
@@ -32,7 +32,6 @@ const OutputPanel = ({
       }
     });
     setTabs(tabs);
-    setSelected(tabs[0]);
   }, [actListRes]);
 
   if (Object.keys(actListRes).length === 0)
@@ -91,10 +90,10 @@ const OutputPanel = ({
           </span>
         )}
         <div className='mt-7 flex w-full'>
-          {tabs.map((item) => {
+          {tabs.map((item, index) => {
             return (
               <div
-                onClick={() => setSelected(item)}
+                onClick={() => setSelected(index)}
                 key={item}
                 className={`${
                   tabs.length === 1
@@ -103,7 +102,7 @@ const OutputPanel = ({
                       ? 'w-1/2'
                       : 'w-1/3'
                 } ${
-                  selected === item
+                  selected === index
                     ? 'border-primary-200'
                     : 'border-shadow-border'
                 } flex-center small-semibold cursor-pointer border-b  pb-2`}
@@ -114,7 +113,7 @@ const OutputPanel = ({
           })}
         </div>
         <AnimatePresence mode='wait' initial={false}>
-          {selected === 'UC Applications' ? (
+          {selected === 0 ? (
             <motion.div
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -134,13 +133,13 @@ const OutputPanel = ({
                 );
               })}
             </motion.div>
-          ) : selected === 'Common Applications' ? (
+          ) : selected === 1 ? (
             <motion.div
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              key='Custom'
+              key='Common Applications'
               className='mt-6 flex w-full flex-col gap-y-4'
             >
               {actListRes[350].activities.map((activity, index) => {
@@ -161,16 +160,26 @@ const OutputPanel = ({
               )[0]
             ]?.activities.map((activity, index) => {
               return (
-                <ActivityCard
-                  type={
-                    Object.keys(actListRes).filter(
-                      (item) => !['150', '350'].includes(item)
-                    )[0]
-                  }
-                  index={index + 1}
-                  data={activity}
-                  key={activity.id}
-                />
+                <motion.div
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  key='Custom character limit'
+                  className='mt-6 flex w-full flex-col gap-y-4'
+                >
+                  {' '}
+                  <ActivityCard
+                    type={
+                      Object.keys(actListRes).filter(
+                        (item) => !['150', '350'].includes(item)
+                      )[0]
+                    }
+                    index={index + 1}
+                    data={activity}
+                    key={activity.id}
+                  />
+                </motion.div>
               );
             })
           )}
