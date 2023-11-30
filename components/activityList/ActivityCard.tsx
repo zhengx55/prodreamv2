@@ -5,6 +5,7 @@ import { ActData } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { deleteActivityListItem } from '@/query/api';
 import { useToast } from '../ui/use-toast';
+import clearCachesByServerAction from '@/lib/revalidate';
 import { useAppDispatch } from '@/store/storehooks';
 import { removeActListItem } from '@/store/reducers/activityListSlice';
 import EditCard from './EditCard';
@@ -30,6 +31,7 @@ const ActivityCard = ({ type, data, index }: Props) => {
         variant: 'default',
       });
       dispatch(removeActListItem({ dataType: type, dataId: data.id }));
+      clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError(error) {
       toast({
