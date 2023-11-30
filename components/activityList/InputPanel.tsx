@@ -15,6 +15,7 @@ import { motion } from 'framer-motion';
 import { useAppDispatch } from '@/store/storehooks';
 import { setActListState } from '@/store/reducers/activityListSlice';
 import FileUploadModal from './FileUploadModal';
+import clearCachesByServerAction from '@/lib/revalidate';
 
 const InputPanel = () => {
   const { toast } = useToast();
@@ -45,6 +46,7 @@ const InputPanel = () => {
         variant: 'default',
       });
       dispatch(setActListState(data));
+      clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError: () => {
       setIsGenerating(false);
@@ -106,43 +108,43 @@ const InputPanel = () => {
   };
 
   const handleGenerate = async () => {
-    // const texts: string[] = [];
-    // const lengths: number[] = [];
-    // descriptions.map((item) => {
-    //   texts.push(item.text);
-    // });
-    // if (texts.length === 1 && texts[0] === '') {
-    //   toast({
-    //     description: 'please fill in you activity description',
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
-    // if (listOptions.custom && parseInt(cutomWordCount) === 0) {
-    //   toast({
-    //     description: 'custome character limit can not be 0',
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
-    // listOptions.uc && lengths.push(150);
-    // listOptions.common && lengths.push(350);
-    // listOptions.custom && lengths.push(parseInt(cutomWordCount));
-    // if (lengths.length === 0) {
-    //   toast({
-    //     description: 'select at lease  one activity list type',
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
-    // const params: IGenerateActListParams = {
-    //   mode: Mode.Generate,
-    //   texts,
-    //   lengths,
-    //   power_up: false,
-    // };
+    const texts: string[] = [];
+    const lengths: number[] = [];
+    descriptions.map((item) => {
+      texts.push(item.text);
+    });
+    if (texts.length === 1 && texts[0] === '') {
+      toast({
+        description: 'please fill in you activity description',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (listOptions.custom && parseInt(cutomWordCount) === 0) {
+      toast({
+        description: 'custome character limit can not be 0',
+        variant: 'destructive',
+      });
+      return;
+    }
+    listOptions.uc && lengths.push(150);
+    listOptions.common && lengths.push(350);
+    listOptions.custom && lengths.push(parseInt(cutomWordCount));
+    if (lengths.length === 0) {
+      toast({
+        description: 'select at lease  one activity list type',
+        variant: 'destructive',
+      });
+      return;
+    }
+    const params: IGenerateActListParams = {
+      mode: Mode.Generate,
+      texts,
+      lengths,
+      power_up: false,
+    };
     setIsGenerating(true);
-    // await generateActList(params);
+    await generateActList(params);
   };
 
   return (

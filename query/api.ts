@@ -497,6 +497,28 @@ export async function deleteActivityListItem(item_id: string) {
   }
 }
 
+export async function clonectivityListItem(item_id: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}activity_list/${item_id}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 // ----------------------------------------------------------------
 // Resume
 // ----------------------------------------------------------------

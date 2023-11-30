@@ -283,27 +283,17 @@ export interface Activity {
 }
 
 export interface IActListResData {
-  '150': The150;
-  '350': The350;
+  '150': ActListData;
+  '350': ActListData;
+  [key: string]: ActListData;
 }
 
-export interface The150 {
-  activities: The150_Activity[];
+export interface ActListData {
+  activities: ActData[];
   id: string;
 }
 
-export interface The150_Activity {
-  result?: string;
-  title: string;
-  id: string;
-}
-
-export interface The350 {
-  activities: The350_Activity[];
-  id: string;
-}
-
-export interface The350_Activity {
+export interface ActData {
   result?: string;
   title: string;
   id: string;

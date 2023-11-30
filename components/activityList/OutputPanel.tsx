@@ -18,9 +18,7 @@ const OutputPanel = ({
     half: { width: '50%' },
   };
   const [selected, setSelected] = useState('');
-  const [tabs, setTabs] = useState<
-    ('UC Applications' | 'Common Applications' | 'Custom')[]
-  >([]);
+  const [tabs, setTabs] = useState<string[]>([]);
   const actListRes = useAppSelector(selectActList);
 
   useDeepCompareEffect(() => {
@@ -30,7 +28,7 @@ const OutputPanel = ({
       } else if (item === '350') {
         return 'Common Applications';
       } else {
-        return 'Custom';
+        return `${item} Character Limit`;
       }
     });
     setTabs(tabs);
@@ -115,7 +113,7 @@ const OutputPanel = ({
             );
           })}
         </div>
-        <AnimatePresence mode='wait'>
+        <AnimatePresence mode='wait' initial={false}>
           {selected === 'UC Applications' ? (
             <motion.div
               initial={{ y: 10, opacity: 0 }}
@@ -141,7 +139,7 @@ const OutputPanel = ({
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              key='Common Applications'
+              key='Custom'
               className='mt-6 flex w-full flex-col gap-y-4'
             >
               {actListRes[350].activities.map((activity, index) => {
@@ -154,7 +152,21 @@ const OutputPanel = ({
                 );
               })}
             </motion.div>
-          ) : null}
+          ) : (
+            actListRes[
+              Object.keys(actListRes).filter(
+                (item) => !['150', '350'].includes(item)
+              )[0]
+            ]?.activities.map((activity, index) => {
+              return (
+                <ActivityCard
+                  index={index + 1}
+                  data={activity}
+                  key={activity.id}
+                />
+              );
+            })
+          )}
         </AnimatePresence>
       </div>
     </motion.div>

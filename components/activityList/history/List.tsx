@@ -12,9 +12,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useMutation } from '@tanstack/react-query';
-import { deleteActivityListItem } from '@/query/api';
+import { clonectivityListItem, deleteActivityListItem } from '@/query/api';
 import { useToast } from '@/components/ui/use-toast';
-import clearCachesByServerAction from '@/app/writtingpal/activityList/history/revalidate';
+import clearCachesByServerAction from '@/lib/revalidate';
 
 type Props = {
   item: IActHistoryData;
@@ -26,7 +26,24 @@ const List = ({ item }: Props) => {
     mutationFn: (id: string) => deleteActivityListItem(id),
     onSuccess() {
       toast({
-        description: 'Delete activity list successfully',
+        description: 'Delete activity successfully',
+        variant: 'default',
+      });
+      clearCachesByServerAction('/writtingpal/activityList/history');
+    },
+    onError(error) {
+      toast({
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const { mutateAsync: cloneItem } = useMutation({
+    mutationFn: (id: string) => clonectivityListItem(id),
+    onSuccess() {
+      toast({
+        description: 'Duplicate activity successfully',
         variant: 'default',
       });
       clearCachesByServerAction('/writtingpal/activityList/history');
@@ -43,6 +60,10 @@ const List = ({ item }: Props) => {
     await removeItem(id);
   };
 
+  const handleClone = async (id: string) => {
+    await cloneItem(id);
+  };
+
   return (
     <div className='flex w-full shrink-0 flex-col gap-y-5 rounded-[10px] bg-white p-4'>
       <div className='flex-between'>
@@ -52,7 +73,7 @@ const List = ({ item }: Props) => {
               ? 'Common App'
               : item.type === 350
                 ? 'UC'
-                : 'Custom'}
+                : `${item.type} Characters Limit`}
           </h1>
           <p className='small-regular text-shadow'>
             {formatTimestampToDateString(item.create_time)}
@@ -89,7 +110,12 @@ const List = ({ item }: Props) => {
               sideOffset={5}
               className='bg-white'
             >
-              <DropdownMenuItem className='cursor-pointer hover:bg-shadow-50'>
+              <DropdownMenuItem
+                onClick={() => {
+                  handleClone(item.id);
+                }}
+                className='cursor-pointer hover:bg-shadow-50'
+              >
                 Duplicate list
               </DropdownMenuItem>
               <DropdownMenuItem

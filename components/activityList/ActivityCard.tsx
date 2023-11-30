@@ -1,9 +1,9 @@
-import { Copy, Pen, PenLine, Trash2 } from 'lucide-react';
+import { Copy, PenLine, Trash2 } from 'lucide-react';
 import React from 'react';
 import Tooltip from '../root/Tooltip';
-import { The150_Activity, The350_Activity } from '@/query/type';
+import { ActData } from '@/query/type';
 
-type Props = { data: The150_Activity | The350_Activity; index: number };
+type Props = { data: ActData; index: number };
 
 const ActivityCard = ({ data, index }: Props) => {
   return (
