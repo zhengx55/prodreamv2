@@ -1,6 +1,10 @@
+'use client';
 import { AnimatePresence, Variants, motion } from 'framer-motion';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import ActivityCard from './ActivityCard';
+import { useAppSelector } from '@/store/storehooks';
+import { selectActList } from '@/store/reducers/activityListSlice';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 const OutputPanel = ({
   fullScreen,
@@ -13,6 +17,32 @@ const OutputPanel = ({
     full: { width: '100%' },
     half: { width: '50%' },
   };
+  const [selected, setSelected] = useState('');
+  const [tabs, setTabs] = useState<
+    ('UC Applications' | 'Common Applications' | 'Custom')[]
+  >([]);
+  const actListRes = useAppSelector(selectActList);
+
+  useDeepCompareEffect(() => {
+    const tabs = Object.keys(actListRes).map((item) => {
+      if (item === '150') {
+        return 'UC Applications';
+      } else if (item === '350') {
+        return 'Common Applications';
+      } else {
+        return 'Custom';
+      }
+    });
+    setTabs(tabs);
+    setSelected(tabs[0]);
+  }, [actListRes]);
+
+  if (Object.keys(actListRes).length === 0)
+    return (
+      <div className='flex min-h-full w-1/2 pl-4'>
+        <div className='h-full w-full rounded-lg bg-white'></div>
+      </div>
+    );
   return (
     <motion.div
       initial={false}
@@ -22,7 +52,7 @@ const OutputPanel = ({
         fullScreen ? 'pl-0' : 'pl-4'
       }`}
     >
-      <div className='flex h-max w-full flex-col rounded-lg bg-white p-4'>
+      <div className='flex h-max min-h-full w-full flex-col rounded-lg bg-white p-4'>
         {fullScreen ? (
           <span
             onClick={() => setFullScreen(!fullScreen)}
@@ -63,26 +93,70 @@ const OutputPanel = ({
           </span>
         )}
         <div className='mt-7 flex w-full'>
-          <div className='flex-center small-semibold w-1/2 cursor-pointer border-b border-shadow-border pb-2'>
-            UC Applications
-          </div>
-          <div className='flex-center small-semibold w-1/2 cursor-pointer border-b border-shadow-border pb-2'>
-            Common Applications
-          </div>
+          {tabs.map((item) => {
+            return (
+              <div
+                onClick={() => setSelected(item)}
+                key={item}
+                className={`${
+                  tabs.length === 1
+                    ? 'w-full'
+                    : tabs.length === 2
+                      ? 'w-1/2'
+                      : 'w-1/3'
+                } ${
+                  selected === item
+                    ? 'border-primary-200'
+                    : 'border-shadow-border'
+                } flex-center small-semibold cursor-pointer border-b  pb-2`}
+              >
+                {item}
+              </div>
+            );
+          })}
         </div>
-        <AnimatePresence>
-          <motion.div className='mt-6 flex w-full flex-col gap-y-4'>
-            <ActivityCard />
-            <ActivityCard />
-            <ActivityCard />
-            <ActivityCard />
-            <ActivityCard />
-            <ActivityCard />
-          </motion.div>
+        <AnimatePresence mode='wait'>
+          {selected === 'UC Applications' ? (
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              key='UC Applications'
+              className='mt-6 flex w-full flex-col gap-y-4'
+            >
+              {actListRes[150].activities.map((activity, index) => {
+                return (
+                  <ActivityCard
+                    index={index + 1}
+                    data={activity}
+                    key={activity.id}
+                  />
+                );
+              })}
+            </motion.div>
+          ) : selected === 'Common Applications' ? (
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              key='Common Applications'
+              className='mt-6 flex w-full flex-col gap-y-4'
+            >
+              {actListRes[350].activities.map((activity, index) => {
+                return (
+                  <ActivityCard
+                    index={index + 1}
+                    data={activity}
+                    key={activity.id}
+                  />
+                );
+              })}
+            </motion.div>
+          ) : null}
         </AnimatePresence>
       </div>
-
-      {/* tab */}
     </motion.div>
   );
 };

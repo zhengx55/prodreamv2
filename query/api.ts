@@ -1,5 +1,6 @@
 import { AnswerRequestParam, FormQuestionResponse } from '@/types';
 import {
+  IActListResData,
   IBrainStormSection,
   IBrainstormHistory,
   IChatHistoryData,
@@ -442,7 +443,9 @@ export async function getSupportDetails(): Promise<SupportDetailData> {
 // Activity List
 // ----------------------------------------------------------------
 
-export async function generateActivityList(params: IGenerateActListParams) {
+export async function generateActivityList(
+  params: IGenerateActListParams
+): Promise<IActListResData> {
   try {
     const body = JSON.stringify({
       texts: params.texts,

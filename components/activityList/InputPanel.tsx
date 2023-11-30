@@ -8,14 +8,16 @@ import { v4 } from 'uuid';
 import { Textarea } from '../ui/textarea';
 import { useMutation } from '@tanstack/react-query';
 import { generateActivityList } from '@/query/api';
-import { IGenerateActListParams } from '@/query/type';
+import { IGenerateActListParams, Mode } from '@/query/type';
 import { useToast } from '../ui/use-toast';
 import Activityloader from './Activityloader';
-import { Variants, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useAppDispatch } from '@/store/storehooks';
+import { setActListState } from '@/store/reducers/activityListSlice';
 
 const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   const { toast } = useToast();
-
+  const dispatch = useAppDispatch();
   const [isGenerating, setIsGenerating] = useState(false);
   const [listOptions, setListOptions] = useState({
     uc: false,
@@ -33,8 +35,21 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   const { mutateAsync: generateActList } = useMutation({
     mutationFn: (params: IGenerateActListParams) =>
       generateActivityList(params),
-    onSuccess: () => {},
-    onError: () => {},
+    onSuccess: (data) => {
+      setIsGenerating(false);
+      toast({
+        description: 'Activity list generated successfully!',
+        variant: 'default',
+      });
+      dispatch(setActListState(data));
+    },
+    onError: () => {
+      setIsGenerating(false);
+      toast({
+        description: 'Oops something went wrong',
+        variant: 'destructive',
+      });
+    },
   });
   const toogleLoadingModal = useCallback(() => {
     setIsGenerating(false);
@@ -45,15 +60,10 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
     id: string
   ) => {
     const value = e.target.value;
-    const wordsCount = value
-      .replace(/[^a-zA-Z\s]/g, '')
-      .split(/\s+/)
-      .filter((word) => word !== '');
-
     setDescriptions((prevDescriptions) =>
       prevDescriptions.map((description) =>
         description.id === id
-          ? { ...description, text: value, wordCount: wordsCount.length }
+          ? { ...description, text: value, wordCount: value.length }
           : description
       )
     );
@@ -89,43 +99,43 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   };
 
   const handleGenerate = async () => {
-    // const texts: string[] = [];
-    // const lengths: number[] = [];
-    // descriptions.map((item) => {
-    //   texts.push(item.text);
-    // });
-    // if (texts.length === 1 && texts[0] === '') {
-    //   toast({
-    //     description: 'please fill in you activity description',
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
-    // if (listOptions.custom && parseInt(cutomWordCount) === 0) {
-    //   toast({
-    //     description: 'custome character limit can not be 0',
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
-    // listOptions.uc && lengths.push(150);
-    // listOptions.common && lengths.push(350);
-    // listOptions.custom && lengths.push(parseInt(cutomWordCount));
-    // if (lengths.length === 0) {
-    //   toast({
-    //     description: 'select at lease  one activity list type',
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
-    // const params: IGenerateActListParams = {
-    //   mode: Mode.Generate,
-    //   texts,
-    //   lengths,
-    //   power_up: false,
-    // };
-    // await generateActList(params);
+    const texts: string[] = [];
+    const lengths: number[] = [];
+    descriptions.map((item) => {
+      texts.push(item.text);
+    });
+    if (texts.length === 1 && texts[0] === '') {
+      toast({
+        description: 'please fill in you activity description',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (listOptions.custom && parseInt(cutomWordCount) === 0) {
+      toast({
+        description: 'custome character limit can not be 0',
+        variant: 'destructive',
+      });
+      return;
+    }
+    listOptions.uc && lengths.push(150);
+    listOptions.common && lengths.push(350);
+    listOptions.custom && lengths.push(parseInt(cutomWordCount));
+    if (lengths.length === 0) {
+      toast({
+        description: 'select at lease  one activity list type',
+        variant: 'destructive',
+      });
+      return;
+    }
+    const params: IGenerateActListParams = {
+      mode: Mode.Generate,
+      texts,
+      lengths,
+      power_up: false,
+    };
     setIsGenerating(true);
+    await generateActList(params);
   };
 
   return (

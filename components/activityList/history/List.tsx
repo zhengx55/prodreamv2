@@ -47,8 +47,8 @@ const List = ({ item }: Props) => {
         </div>
       </div>
       <div className='flex flex-wrap gap-4'>
-        {item.activities.map((item) => {
-          return <Card item={item} key={item.id} />;
+        {item.activities.map((item, index) => {
+          return <Card item={item} index={index + 1} key={item.id} />;
         })}
       </div>
     </div>
