@@ -1,10 +1,10 @@
-import React from 'react';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import { HardDrive } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 import Link from 'next/link';
+import React from 'react';
 
-const ActivityTop = () => {
+const HistoryTop = () => {
   return (
     <div className='flex-between w-full rounded-xl bg-white p-6'>
       <div className='flex flex-col gap-y-4'>
@@ -17,13 +17,14 @@ const ActivityTop = () => {
           <Badge className='bg-[#EBF8FF]'>Demonstrate abilities</Badge>
         </div>
       </div>
-      <Link href={'/writtingpal/activityList/history'}>
+      <Link href={'/writtingpal/activityList'}>
         <Button className='gap-x-2 px-8 py-3'>
-          <HardDrive size={22} /> View History
+          <Plus size={22} />
+          New Activity List
         </Button>
       </Link>
     </div>
   );
 };
 
-export default ActivityTop;
+export default HistoryTop;

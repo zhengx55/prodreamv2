@@ -253,3 +253,15 @@ export interface IChatRequest {
    */
   session_id: string;
 }
+
+export interface IGenerateActListParams {
+  lengths: number[];
+  mode: Mode;
+  power_up: boolean;
+  texts: string[];
+}
+
+export enum Mode {
+  Generate = 'generate',
+  Optimize = 'optimize',
+}

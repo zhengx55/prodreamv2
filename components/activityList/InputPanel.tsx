@@ -1,13 +1,22 @@
 'use client';
 import { Button } from '../ui/button';
-import { Trash, Trash2, Upload } from 'lucide-react';
+import { Trash2, Upload } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { Input } from '../ui/input';
 import { v4 } from 'uuid';
 import { Textarea } from '../ui/textarea';
+import { useMutation } from '@tanstack/react-query';
+import { generateActivityList } from '@/query/api';
+import { IGenerateActListParams } from '@/query/type';
+import { useToast } from '../ui/use-toast';
+import Activityloader from './Activityloader';
+import { Variants, motion } from 'framer-motion';
 
-const InputPanel = () => {
+const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
+  const { toast } = useToast();
+
+  const [isGenerating, setIsGenerating] = useState(false);
   const [listOptions, setListOptions] = useState({
     uc: false,
     common: false,
@@ -21,6 +30,16 @@ const InputPanel = () => {
       wordCount: 0,
     },
   ]);
+  const { mutateAsync: generateActList } = useMutation({
+    mutationFn: (params: IGenerateActListParams) =>
+      generateActivityList(params),
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  const toogleLoadingModal = useCallback(() => {
+    setIsGenerating(false);
+  }, []);
+
   const handleDescriptionChange = (
     e: ChangeEvent<HTMLTextAreaElement>,
     id: string
@@ -68,8 +87,63 @@ const InputPanel = () => {
     const new_descriptions = descriptions.filter((item) => item.id !== id);
     setDescriptions(new_descriptions);
   };
+
+  const handleGenerate = async () => {
+    // const texts: string[] = [];
+    // const lengths: number[] = [];
+    // descriptions.map((item) => {
+    //   texts.push(item.text);
+    // });
+    // if (texts.length === 1 && texts[0] === '') {
+    //   toast({
+    //     description: 'please fill in you activity description',
+    //     variant: 'destructive',
+    //   });
+    //   return;
+    // }
+    // if (listOptions.custom && parseInt(cutomWordCount) === 0) {
+    //   toast({
+    //     description: 'custome character limit can not be 0',
+    //     variant: 'destructive',
+    //   });
+    //   return;
+    // }
+    // listOptions.uc && lengths.push(150);
+    // listOptions.common && lengths.push(350);
+    // listOptions.custom && lengths.push(parseInt(cutomWordCount));
+    // if (lengths.length === 0) {
+    //   toast({
+    //     description: 'select at lease  one activity list type',
+    //     variant: 'destructive',
+    //   });
+    //   return;
+    // }
+    // const params: IGenerateActListParams = {
+    //   mode: Mode.Generate,
+    //   texts,
+    //   lengths,
+    //   power_up: false,
+    // };
+    // await generateActList(params);
+    setIsGenerating(true);
+  };
+
   return (
-    <div className='custom-scrollbar flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'>
+    <motion.div
+      initial={{ width: '50%', opacity: 1 }}
+      animate={{ width: '50%', opacity: 1 }}
+      exit={{ width: '0%', opacity: 0 }}
+      className='custom-scrollbar flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'
+    >
+      {/* Dialogs here */}
+
+      {isGenerating && (
+        <Activityloader
+          isGenerating={isGenerating}
+          toogleLoadingModal={toogleLoadingModal}
+        />
+      )}
+
       {/* file upload */}
       <section className='flex w-full shrink-0 flex-col gap-y-2 rounded-xl bg-white p-6'>
         <h2 className='small-semibold'>
@@ -187,9 +261,11 @@ const InputPanel = () => {
           )}
         </div>
 
-        <Button className='h-full py-3'>Generate</Button>
+        <Button onClick={handleGenerate} className='h-full py-3'>
+          Generate
+        </Button>
       </section>
-    </div>
+    </motion.div>
   );
 };
 

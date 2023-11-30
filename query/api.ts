@@ -5,6 +5,7 @@ import {
   IChatHistoryData,
   IChatRequest,
   IEssayAssessRequest,
+  IGenerateActListParams,
   IOptRequest,
   IResetParams,
   ISigunUpRequest,
@@ -440,7 +441,36 @@ export async function getSupportDetails(): Promise<SupportDetailData> {
 // ----------------------------------------------------------------
 // Activity List
 // ----------------------------------------------------------------
-export async function optmize_activity() {}
+
+export async function generateActivityList(params: IGenerateActListParams) {
+  try {
+    const body = JSON.stringify({
+      texts: params.texts,
+      lengths: params.lengths,
+      power_up: params.power_up,
+      mode: params.mode,
+    });
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}activity_magic`,
+      {
+        method: 'POST',
+        body,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 // ----------------------------------------------------------------
 // Resume

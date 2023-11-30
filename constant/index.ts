@@ -308,6 +308,17 @@ export const FormHeightVariant: Variants = {
   collapse: { height: '80px' },
 };
 
+export const activity_list_loading_prompt = [
+  'Celebrate every step you complete, from finishing an essay draft to submitting a form – each one is a victory on the path to your future.',
+  "Set personal goals and reward yourself when you meet them, whether it's finishing an application section or acing a standardized test.",
+  "Remember, every application is a story about you, and you're the best author of your own narrative – tell it with passion and confidence.",
+  'You got this! Each step you take is building towards a bright and exciting future.',
+  'Take breaks to recharge; your best work comes when you are well-rested and relaxed.',
+  "Keep things in perspective – you're more than this process, and there are many paths to a fulfilling future.",
+  "Do you know each school has thier own admission preference? Don't forget to include them in your application or ask Max for suggestions! ",
+  "Use action verbs to make your activity list standout! Not sure about how to grab admission officers' attention? Try our activity list!",
+];
+
 // !!----------------------------------------------------------------
 // !! DEMO USE ONLY
 // !!----------------------------------------------------------------
