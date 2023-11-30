@@ -1,9 +1,8 @@
 'use client';
-import React, { memo, useEffect, useMemo } from 'react';
+import React, { memo } from 'react';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,

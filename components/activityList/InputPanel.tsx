@@ -14,10 +14,13 @@ import Activityloader from './Activityloader';
 import { motion } from 'framer-motion';
 import { useAppDispatch } from '@/store/storehooks';
 import { setActListState } from '@/store/reducers/activityListSlice';
+import FileUploadModal from './FileUploadModal';
 
-const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
+const InputPanel = () => {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
+
+  const [activeFileUpload, setActiveFileUpload] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [listOptions, setListOptions] = useState({
     uc: false,
@@ -53,6 +56,10 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   });
   const toogleLoadingModal = useCallback(() => {
     setIsGenerating(false);
+  }, []);
+
+  const toogleActive = useCallback(() => {
+    setActiveFileUpload(false);
   }, []);
 
   const handleDescriptionChange = (
@@ -99,43 +106,43 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   };
 
   const handleGenerate = async () => {
-    const texts: string[] = [];
-    const lengths: number[] = [];
-    descriptions.map((item) => {
-      texts.push(item.text);
-    });
-    if (texts.length === 1 && texts[0] === '') {
-      toast({
-        description: 'please fill in you activity description',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (listOptions.custom && parseInt(cutomWordCount) === 0) {
-      toast({
-        description: 'custome character limit can not be 0',
-        variant: 'destructive',
-      });
-      return;
-    }
-    listOptions.uc && lengths.push(150);
-    listOptions.common && lengths.push(350);
-    listOptions.custom && lengths.push(parseInt(cutomWordCount));
-    if (lengths.length === 0) {
-      toast({
-        description: 'select at lease  one activity list type',
-        variant: 'destructive',
-      });
-      return;
-    }
-    const params: IGenerateActListParams = {
-      mode: Mode.Generate,
-      texts,
-      lengths,
-      power_up: false,
-    };
+    // const texts: string[] = [];
+    // const lengths: number[] = [];
+    // descriptions.map((item) => {
+    //   texts.push(item.text);
+    // });
+    // if (texts.length === 1 && texts[0] === '') {
+    //   toast({
+    //     description: 'please fill in you activity description',
+    //     variant: 'destructive',
+    //   });
+    //   return;
+    // }
+    // if (listOptions.custom && parseInt(cutomWordCount) === 0) {
+    //   toast({
+    //     description: 'custome character limit can not be 0',
+    //     variant: 'destructive',
+    //   });
+    //   return;
+    // }
+    // listOptions.uc && lengths.push(150);
+    // listOptions.common && lengths.push(350);
+    // listOptions.custom && lengths.push(parseInt(cutomWordCount));
+    // if (lengths.length === 0) {
+    //   toast({
+    //     description: 'select at lease  one activity list type',
+    //     variant: 'destructive',
+    //   });
+    //   return;
+    // }
+    // const params: IGenerateActListParams = {
+    //   mode: Mode.Generate,
+    //   texts,
+    //   lengths,
+    //   power_up: false,
+    // };
     setIsGenerating(true);
-    await generateActList(params);
+    // await generateActList(params);
   };
 
   return (
@@ -146,7 +153,12 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
       className='custom-scrollbar flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'
     >
       {/* Dialogs here */}
-
+      {activeFileUpload && (
+        <FileUploadModal
+          isActive={activeFileUpload}
+          toogleActive={toogleActive}
+        />
+      )}
       {isGenerating && (
         <Activityloader
           isGenerating={isGenerating}
@@ -164,6 +176,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
           We support docx, pdf file types.
         </p>
         <Button
+          onClick={() => setActiveFileUpload(true)}
           variant={'ghost'}
           className='mt-1 h-full border border-shadow-border py-3 leading-6 shadow-none'
         >
