@@ -6,7 +6,6 @@ import { Button } from '../ui/button';
 import { useToast } from '../ui/use-toast';
 import { useMutation } from '@tanstack/react-query';
 import { generateActivityList, updateActivityListItem } from '@/query/api';
-import clearCachesByServerAction from '@/lib/revalidate';
 import { useAppDispatch } from '@/store/storehooks';
 import { updateActListItem } from '@/store/reducers/activityListSlice';
 import PolishLoader from './PolishLoader';
@@ -39,7 +38,6 @@ const EditCard = ({ type, close, index, data }: Props) => {
           dataType: type,
         })
       );
-      clearCachesByServerAction('/writtingpal/activityList/history');
       close();
     },
     onError: () => {
@@ -59,7 +57,6 @@ const EditCard = ({ type, close, index, data }: Props) => {
         description: 'Activity list polished successfully!',
         variant: 'default',
       });
-      clearCachesByServerAction('/writtingpal/activityList/history');
       setText(result[type].activities[0].result as string);
     },
 

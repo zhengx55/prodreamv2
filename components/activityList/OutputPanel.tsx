@@ -5,6 +5,7 @@ import ActivityCard from './ActivityCard';
 import { useAppSelector } from '@/store/storehooks';
 import { selectActList } from '@/store/reducers/activityListSlice';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import { deepEqual } from '@/lib/utils';
 
 const OutputPanel = ({
   fullScreen,
@@ -22,7 +23,7 @@ const OutputPanel = ({
   const actListRes = useAppSelector(selectActList);
 
   useDeepCompareEffect(() => {
-    const tabs = Object.keys(actListRes).map((item) => {
+    const data_tabs = Object.keys(actListRes).map((item) => {
       if (item === '150') {
         return 'UC Applications';
       } else if (item === '350') {
@@ -31,9 +32,11 @@ const OutputPanel = ({
         return `${item} Character Limit`;
       }
     });
-    setTabs(tabs);
-    setSelected(tabs[0]);
-  }, [actListRes]);
+    if (!deepEqual(data_tabs, tabs)) {
+      setTabs(data_tabs);
+      setSelected(data_tabs[0]);
+    }
+  }, [actListRes, tabs]);
 
   if (Object.keys(actListRes).length === 0)
     return (

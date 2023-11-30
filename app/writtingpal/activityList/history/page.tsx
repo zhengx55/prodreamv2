@@ -3,6 +3,8 @@ import List from '@/components/activityList/history/List';
 import { IActHistoryData } from '@/query/type';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   async function fetchHistoryData() {
     const cookieStore = cookies();

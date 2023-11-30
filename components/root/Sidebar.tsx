@@ -37,10 +37,6 @@ const Sidebar = () => {
 
   useEffect(() => {
     const currentroute = pathname.split('/')[2];
-    console.log(
-      '🚀 ~ file: Sidebar.tsx:40 ~ useEffect ~ currentroute:',
-      currentroute
-    );
     let index = 0;
     switch (currentroute) {
       case 'polish':
