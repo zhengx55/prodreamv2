@@ -541,6 +541,41 @@ export async function deleteActivityListItem(item_id: string) {
   }
 }
 
+export async function updateActivityListItem(params: {
+  id: string;
+  title?: string;
+  text?: string;
+}) {
+  try {
+    const body = JSON.stringify({
+      data: {
+        ...(params.title !== undefined ? { title: params.title } : {}),
+        ...(params.text !== undefined ? { text: params.text } : {}),
+      },
+    });
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}activity/${params.id}`,
+      {
+        method: 'PATCH',
+        body,
+        headers: {
+          'Content-Type': 'application/json',
+
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 // ----------------------------------------------------------------
 // Resume
 // ----------------------------------------------------------------

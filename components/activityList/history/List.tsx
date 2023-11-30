@@ -88,9 +88,9 @@ const List = ({ item }: Props) => {
         <div className='flex items-center gap-x-2'>
           <h1 className='title-semibold'>
             {item.type === 150
-              ? 'Common App'
+              ? 'UC'
               : item.type === 350
-                ? 'UC'
+                ? 'Common App'
                 : `${item.type} Characters Limit`}
           </h1>
           <p className='small-regular text-shadow'>

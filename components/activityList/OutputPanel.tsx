@@ -46,11 +46,11 @@ const OutputPanel = ({
       initial={false}
       variants={fullScreenVariants}
       animate={fullScreen ? 'full' : 'half'}
-      className={`custom-scrollbar flex min-h-full flex-col gap-y-4 overflow-y-auto ${
+      className={`custom-scrollbar flex h-full flex-col gap-y-4 ${
         fullScreen ? 'pl-0' : 'pl-4'
       }`}
     >
-      <div className='flex h-max min-h-full w-full flex-col rounded-lg bg-white p-4'>
+      <div className='flex h-max min-h-full w-full flex-col overflow-y-auto rounded-lg bg-white p-4'>
         {fullScreen ? (
           <span
             onClick={() => setFullScreen(!fullScreen)}

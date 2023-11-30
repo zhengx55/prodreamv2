@@ -1,5 +1,5 @@
 import { Copy, PenLine, Trash2 } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Tooltip from '../root/Tooltip';
 import { ActData } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
@@ -8,6 +8,7 @@ import { useToast } from '../ui/use-toast';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { useAppDispatch } from '@/store/storehooks';
 import { removeActListItem } from '@/store/reducers/activityListSlice';
+import EditCard from './EditCard';
 
 type Props = { type: string; data: ActData; index: number };
 
@@ -19,6 +20,9 @@ const ActivityCard = ({ type, data, index }: Props) => {
     setEditMode(true);
   };
 
+  const closeEditMode = useCallback(() => {
+    setEditMode(false);
+  }, []);
   const { mutateAsync: removeItem } = useMutation({
     mutationFn: (id: string) => deleteActivityListItem(id),
     onSuccess() {
@@ -80,7 +84,9 @@ const ActivityCard = ({ type, data, index }: Props) => {
             </div>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <EditCard close={closeEditMode} type={type} data={data} index={index} />
+      )}
     </>
   );
 };

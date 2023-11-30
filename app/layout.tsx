@@ -37,7 +37,7 @@ export default function RootLayout({
             <UserStoreProvider>
               <section className='h-screen w-screen md:flex md:min-w-[1400px] md:overflow-x-auto'>
                 {children}
-                <Analytics />
+                {/* <Analytics /> */}
               </section>
             </UserStoreProvider>
           </TanstackProvider>

@@ -12,16 +12,21 @@ import { IGenerateActListParams, Mode } from '@/query/type';
 import { useToast } from '../ui/use-toast';
 import Activityloader from './Activityloader';
 import { motion } from 'framer-motion';
-import { useAppDispatch } from '@/store/storehooks';
-import { setActListState } from '@/store/reducers/activityListSlice';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import {
+  selectActList,
+  setActListState,
+} from '@/store/reducers/activityListSlice';
 import FileUploadModal from './FileUploadModal';
 import clearCachesByServerAction from '@/lib/revalidate';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 const InputPanel = () => {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
-
+  const actListData = useAppSelector(selectActList);
   const [activeFileUpload, setActiveFileUpload] = useState(false);
+  const [isHistoryMode, setisHistoryMode] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [listOptions, setListOptions] = useState({
     uc: false,
@@ -36,6 +41,37 @@ const InputPanel = () => {
       wordCount: 0,
     },
   ]);
+
+  useDeepCompareEffect(() => {
+    if (Object.keys(actListData).length !== 0 && isHistoryMode) {
+      const keys = Object.keys(actListData);
+      keys.forEach((key) => {
+        if (key === '150') {
+          setListOptions((prev) => ({ ...prev, uc: true }));
+        } else if (key === '350') {
+          setListOptions((prev) => ({ ...prev, common: true }));
+        } else {
+          setListOptions((prev) => ({ ...prev, custom: true }));
+          setCustomWordCount(key);
+        }
+        const activities = actListData[key].activities;
+        const desciptions_from_history: {
+          id: string;
+          text: string;
+          wordCount: number;
+        }[] = [];
+        activities.forEach((activity) => {
+          desciptions_from_history.push({
+            id: activity.id,
+            text: activity.original_text!,
+            wordCount: activity.original_text!.length,
+          });
+        });
+        setDescriptions(desciptions_from_history);
+      });
+    }
+  }, [actListData, isHistoryMode]);
+
   const { mutateAsync: generateActList } = useMutation({
     mutationFn: (params: IGenerateActListParams) =>
       generateActivityList(params),
@@ -92,6 +128,7 @@ const InputPanel = () => {
       [name]: check,
     }));
   };
+
   const handleAddNewDescription = () => {
     setDescriptions((prev) => [
       ...prev,
@@ -144,6 +181,7 @@ const InputPanel = () => {
       power_up: false,
     };
     setIsGenerating(true);
+    setisHistoryMode(false);
     await generateActList(params);
   };
 
@@ -209,6 +247,7 @@ const InputPanel = () => {
             </p>
             <div className='flex w-full flex-col gap-y-1'>
               <Textarea
+                name='activity-description'
                 onChange={(e) => handleDescriptionChange(e, item.id)}
                 value={item.text}
                 className='h-[130px]'
