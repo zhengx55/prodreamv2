@@ -22,7 +22,6 @@ const Path = (
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const [modalOpen, setModalOpen] = useState(false);
   const [topValue, setTopValue] = useState<number | undefined>();
   const [expandSidebar, setExpandSidebar] = useState(true);
 
@@ -33,16 +32,37 @@ const Sidebar = () => {
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
     const newTopValue = index * (48 + 20);
-    localStorage.setItem('sidebarPos', newTopValue.toString());
     setTopValue(newTopValue);
   };
 
   useEffect(() => {
-    const storedTopValue = localStorage.getItem('sidebarPos');
-    if (storedTopValue) {
-      setTopValue(parseInt(storedTopValue));
+    const currentroute = pathname.split('/')[2];
+    console.log(
+      '🚀 ~ file: Sidebar.tsx:40 ~ useEffect ~ currentroute:',
+      currentroute
+    );
+    let index = 0;
+    switch (currentroute) {
+      case 'polish':
+        index = 0;
+        break;
+      case 'brainstorm':
+        index = 1;
+        break;
+
+      case 'resume':
+        index = 2;
+        break;
+
+      case 'activityList':
+        index = 3;
+        break;
+
+      default:
+        break;
     }
-  }, []);
+    setTopValue(index * (48 + 20));
+  }, [pathname]);
 
   const sidebarVariants: Variants = {
     open: { width: '250px' },
