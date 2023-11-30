@@ -17,7 +17,7 @@ const OutputPanel = ({
     full: { width: '100%' },
     half: { width: '50%' },
   };
-  const [selected, setSelected] = useState<number>(0);
+  const [selected, setSelected] = useState('');
   const [tabs, setTabs] = useState<string[]>([]);
   const actListRes = useAppSelector(selectActList);
 
@@ -32,6 +32,7 @@ const OutputPanel = ({
       }
     });
     setTabs(tabs);
+    setSelected(tabs[0]);
   }, [actListRes]);
 
   if (Object.keys(actListRes).length === 0)
@@ -90,10 +91,10 @@ const OutputPanel = ({
           </span>
         )}
         <div className='mt-7 flex w-full'>
-          {tabs.map((item, index) => {
+          {tabs.map((item) => {
             return (
               <div
-                onClick={() => setSelected(index)}
+                onClick={() => setSelected(item)}
                 key={item}
                 className={`${
                   tabs.length === 1
@@ -102,7 +103,7 @@ const OutputPanel = ({
                       ? 'w-1/2'
                       : 'w-1/3'
                 } ${
-                  selected === index
+                  selected === item
                     ? 'border-primary-200'
                     : 'border-shadow-border'
                 } flex-center small-semibold cursor-pointer border-b  pb-2`}
@@ -113,7 +114,7 @@ const OutputPanel = ({
           })}
         </div>
         <AnimatePresence mode='wait' initial={false}>
-          {selected === 0 ? (
+          {selected === 'UC Applications' ? (
             <motion.div
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -133,7 +134,7 @@ const OutputPanel = ({
                 );
               })}
             </motion.div>
-          ) : selected === 1 ? (
+          ) : selected === 'Common Applications' ? (
             <motion.div
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
