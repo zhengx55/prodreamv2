@@ -126,6 +126,7 @@ const OutputPanel = ({
               {actListRes[150].activities.map((activity, index) => {
                 return (
                   <ActivityCard
+                    type={'150'}
                     index={index + 1}
                     data={activity}
                     key={activity.id}
@@ -145,6 +146,7 @@ const OutputPanel = ({
               {actListRes[350].activities.map((activity, index) => {
                 return (
                   <ActivityCard
+                    type={'350'}
                     index={index + 1}
                     data={activity}
                     key={activity.id}
@@ -160,6 +162,11 @@ const OutputPanel = ({
             ]?.activities.map((activity, index) => {
               return (
                 <ActivityCard
+                  type={
+                    Object.keys(actListRes).filter(
+                      (item) => !['150', '350'].includes(item)
+                    )[0]
+                  }
                   index={index + 1}
                   data={activity}
                   key={activity.id}

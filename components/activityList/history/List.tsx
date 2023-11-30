@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useMutation } from '@tanstack/react-query';
-import { clonectivityListItem, deleteActivityListItem } from '@/query/api';
+import { clonectivityListItem, deleteActivityList } from '@/query/api';
 import { useToast } from '@/components/ui/use-toast';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { useRouter } from 'next/navigation';
@@ -28,7 +28,7 @@ const List = ({ item }: Props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { mutateAsync: removeItem } = useMutation({
-    mutationFn: (id: string) => deleteActivityListItem(id),
+    mutationFn: (id: string) => deleteActivityList(id),
     onSuccess() {
       toast({
         description: 'Delete activity successfully',
@@ -70,7 +70,6 @@ const List = ({ item }: Props) => {
   };
 
   const handleEdit = () => {
-    router.push('/writtingpal/activityList/');
     const { type, id, activities } = item;
     const actListData: IActListResData = {
       [type]: {
@@ -80,6 +79,7 @@ const List = ({ item }: Props) => {
     };
 
     dispatch(setActListState(actListData));
+    router.push('/writtingpal/activityList/');
   };
 
   return (

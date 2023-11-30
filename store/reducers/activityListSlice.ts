@@ -14,8 +14,23 @@ export const activityListSlice = createSlice({
     clearState: () => {
       return initialActivityListState;
     },
+    removeActListItem: (
+      draft,
+      action: PayloadAction<{ dataType: string; dataId: string }>
+    ) => {
+      const filteredData: IActListResData = {
+        [action.payload.dataType]: {
+          activities: draft[action.payload.dataType].activities.filter(
+            (activity) => activity.id !== action.payload.dataId
+          ),
+          id: draft[action.payload.dataType].id,
+        },
+      };
+      return filteredData;
+    },
   },
 });
-export const { setActListState, clearState } = activityListSlice.actions;
+export const { setActListState, clearState, removeActListItem } =
+  activityListSlice.actions;
 export const selectActList = (state: RootState) => state.activityList;
 export default activityListSlice.reducer;
