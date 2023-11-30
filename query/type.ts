@@ -265,3 +265,19 @@ export enum Mode {
   Generate = 'generate',
   Optimize = 'optimize',
 }
+
+export interface IActHistoryData {
+  activities: Activity[];
+  create_time: number;
+  id: string;
+  type: number;
+  update_time: number;
+}
+
+export interface Activity {
+  id: string;
+  original_text: string;
+  text: string;
+  title: string;
+  [property: string]: any;
+}

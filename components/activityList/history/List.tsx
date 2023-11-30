@@ -1,16 +1,29 @@
 import { Button } from '@/components/ui/button';
 import { Dot, PencilLineIcon } from 'lucide-react';
 import React from 'react';
+import Card from './Card';
+import { IActHistoryData } from '@/query/type';
+import { formatTimestampToDateString } from '@/lib/utils';
 
-type Props = {};
+type Props = {
+  item: IActHistoryData;
+};
 
-const List = (props: Props) => {
+const List = ({ item }: Props) => {
   return (
-    <div className='flex w-full shrink-0 flex-col rounded-[10px] bg-white p-4'>
+    <div className='flex w-full shrink-0 flex-col gap-y-5 rounded-[10px] bg-white p-4'>
       <div className='flex-between'>
         <div className='flex items-center gap-x-2'>
-          <h1 className='title-semibold'>UC</h1>
-          <p className='small-regular text-shadow'>Nov 1</p>
+          <h1 className='title-semibold'>
+            {item.type === 150
+              ? 'Common App'
+              : item.type === 350
+                ? 'UC'
+                : 'Custom'}
+          </h1>
+          <p className='small-regular text-shadow'>
+            {formatTimestampToDateString(item.create_time)}
+          </p>
         </div>
         <div className='flex items-center gap-x-2'>
           <Button variant={'ghost'} className='border border-shadow-border'>
@@ -32,6 +45,11 @@ const List = (props: Props) => {
             </svg>
           </Button>
         </div>
+      </div>
+      <div className='flex flex-wrap gap-4'>
+        {item.activities.map((item) => {
+          return <Card item={item} key={item.id} />;
+        })}
       </div>
     </div>
   );

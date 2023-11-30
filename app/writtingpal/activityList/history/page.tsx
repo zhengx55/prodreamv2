@@ -1,5 +1,6 @@
 import HistoryTop from '@/components/activityList/history/HistoryTop';
 import List from '@/components/activityList/history/List';
+import { IActHistoryData } from '@/query/type';
 import { cookies } from 'next/headers';
 
 export default async function Page() {
@@ -14,11 +15,15 @@ export default async function Page() {
     }
   );
   const data = await res.json();
-  console.log('🚀 ~ file: page.tsx:16 ~ Page ~ data:', data);
+  const history_data: IActHistoryData[] = data.data;
   return (
     <section className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col gap-y-4 bg-sectionBackground p-4'>
       <HistoryTop />
-      <List />
+      <div className='flex h-full flex-col gap-y-4 overflow-y-auto'>
+        {history_data.map((item) => {
+          return <List key={item.id} item={item} />;
+        })}
+      </div>
     </section>
   );
 }
