@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { PencilLineIcon } from 'lucide-react';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import Card from './Card';
 import { IActHistoryData, IActListResData } from '@/query/type';
 import { formatTimestampToDateString } from '@/lib/utils';
@@ -17,6 +17,7 @@ import { useToast } from '@/components/ui/use-toast';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { useRouter } from 'next/navigation';
 import { useActListContext } from '@/context/ActListProvider';
+import DeleteModal from '../DeleteModal';
 
 type Props = {
   item: IActHistoryData;
@@ -30,7 +31,7 @@ const List = ({ item }: Props) => {
     mutationFn: (id: string) => deleteActivityList(id),
     onSuccess() {
       toast({
-        description: 'Delete activity successfully',
+        description: 'Delete activity list successfully',
         variant: 'default',
       });
       clearCachesByServerAction('/writtingpal/activityList/history');
@@ -42,6 +43,11 @@ const List = ({ item }: Props) => {
       });
     },
   });
+  const [showDelete, setShowDelete] = useState(false);
+
+  const toogleDeleteModal = useCallback(() => {
+    setShowDelete((prev) => !prev);
+  }, []);
 
   const { mutateAsync: cloneItem } = useMutation({
     mutationFn: (id: string) => clonectivityListItem(id),
@@ -50,6 +56,7 @@ const List = ({ item }: Props) => {
         description: 'Duplicate activity successfully',
         variant: 'default',
       });
+      setShowDelete(false);
       clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError(error) {
@@ -60,9 +67,10 @@ const List = ({ item }: Props) => {
     },
   });
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = useCallback(async (id: string) => {
     await removeItem(id);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleClone = async (id: string) => {
     await cloneItem(id);
@@ -83,6 +91,14 @@ const List = ({ item }: Props) => {
 
   return (
     <div className='flex w-full shrink-0 flex-col gap-y-5 rounded-[10px] bg-white p-4'>
+      {showDelete && (
+        <DeleteModal
+          deleteId={item.id}
+          isActive={showDelete}
+          toogleActive={toogleDeleteModal}
+          removeCallback={handleDelete}
+        />
+      )}
       <div className='flex-between'>
         <div className='flex items-center gap-x-2'>
           <h1 className='title-semibold'>
@@ -141,7 +157,7 @@ const List = ({ item }: Props) => {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  handleDelete(item.id);
+                  setShowDelete(true);
                 }}
                 className='cursor-pointer hover:bg-shadow-50'
               >

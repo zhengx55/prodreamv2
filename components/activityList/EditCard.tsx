@@ -9,6 +9,7 @@ import { generateActivityList, updateActivityListItem } from '@/query/api';
 import clearCachesByServerAction from '@/lib/revalidate';
 import PolishLoader from './PolishLoader';
 import { useActListContext } from '@/context/ActListProvider';
+import DeleteModal from './DeleteModal';
 
 type Props = {
   dataType: 'generated' | 'history';
@@ -26,10 +27,17 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
   );
   const { handleSave } = useActListContext();
   const [isPoslishing, setIsPoslishing] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+
+  const toogleDeleteModal = useCallback(() => {
+    setShowDelete((prev) => !prev);
+  }, []);
+
   const handleRevert = () => {
     setText(data.result ? data.result : data.text);
     setTitle(data.title);
   };
+
   const { mutateAsync: saveChange } = useMutation({
     mutationFn: (params: { id: string; title?: string; text?: string }) =>
       updateActivityListItem(params),
@@ -105,6 +113,9 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
 
   return (
     <div className='relative flex shrink-0 flex-col gap-y-2 rounded-[10px] border border-border-50 bg-sectionBackground px-4 py-3'>
+      {/* {showDelete && (
+        <DeleteModal isActive={showDelete} toogleActive={toogleDeleteModal} />
+      )} */}
       {isPoslishing ? (
         <PolishLoader toogleLoadingModal={toogleLoadingModal} />
       ) : null}

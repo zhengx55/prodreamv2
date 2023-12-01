@@ -8,6 +8,7 @@ import { useToast } from '../ui/use-toast';
 import clearCachesByServerAction from '@/lib/revalidate';
 import EditCard from './EditCard';
 import { useActListContext } from '@/context/ActListProvider';
+import DeleteModal from './DeleteModal';
 
 type Props = {
   dataType: 'generated' | 'history';
@@ -19,6 +20,10 @@ type Props = {
 const ActivityCard = ({ dataType, type, data, index }: Props) => {
   const { toast } = useToast();
   const [editMode, setEditMode] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const toogleDeleteModal = useCallback(() => {
+    setShowDelete((prev) => !prev);
+  }, []);
   const { handleDelete } = useActListContext();
   const handleEdit = async () => {
     setEditMode(true);
@@ -27,6 +32,7 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
   const closeEditMode = useCallback(() => {
     setEditMode(false);
   }, []);
+
   const { mutateAsync: removeItem } = useMutation({
     mutationFn: (id: string) => deleteActivityListItem(id),
     onSuccess() {
@@ -34,6 +40,7 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
         description: 'Delete activity successfully',
         variant: 'default',
       });
+      setShowDelete(false);
       handleDelete(data.id, type, dataType);
       clearCachesByServerAction('/writtingpal/activityList/history');
     },
@@ -45,13 +52,22 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
     },
   });
 
-  const handleDeleteAct = async (id: string) => {
+  const removeCallback = useCallback(async (id: string) => {
     await removeItem(id);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       {!editMode ? (
         <div className='flex shrink-0 flex-col gap-y-2 rounded-[10px] border border-shadow-border px-4 py-3'>
+          {showDelete && (
+            <DeleteModal
+              deleteId={data.id}
+              isActive={showDelete}
+              toogleActive={toogleDeleteModal}
+              removeCallback={removeCallback}
+            />
+          )}
           <h1 className='base-semibold'>
             Activity {index}: {data.title}
           </h1>
@@ -65,7 +81,9 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
             </p>
             <div className='flex items-center gap-x-2'>
               <div
-                onClick={() => handleDeleteAct(data.id)}
+                onClick={() => {
+                  setShowDelete(true);
+                }}
                 className='cursor-pointer rounded-md border-2 border-shadow-200 bg-white p-2.5 hover:bg-nav-selected'
               >
                 <Tooltip tooltipContent='Delete'>
