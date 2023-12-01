@@ -76,7 +76,7 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
           </p>
           <div className='flex-between'>
             <p className='subtle-regular self-end text-shadow'>
-              ({data.result ? data.result?.length : data.text?.length}{' '}
+              ({data.result ? data.result?.length : data.text?.length}&nbsp;
               characters)
             </p>
             <div className='flex items-center gap-x-2'>
@@ -98,7 +98,20 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
                   <PenLine size={20} />
                 </Tooltip>
               </div>
-              <div className='cursor-pointer rounded-md border-2 border-shadow-200 bg-white p-2.5 hover:bg-nav-selected'>
+              <div
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    data.result
+                      ? (data.result as string)
+                      : (data.text as string)
+                  );
+                  toast({
+                    variant: 'default',
+                    description: 'Copy to clipboard',
+                  });
+                }}
+                className='cursor-pointer rounded-md border-2 border-shadow-200 bg-white p-2.5 hover:bg-nav-selected'
+              >
                 <Tooltip tooltipContent='Copy'>
                   <Copy size={20} />
                 </Tooltip>

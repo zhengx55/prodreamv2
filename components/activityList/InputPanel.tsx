@@ -247,7 +247,7 @@ const InputPanel = () => {
                 name='activity-description'
                 onChange={(e) => handleDescriptionChange(e, item.id)}
                 value={item.text}
-                className='h-[130px]'
+                className='h-[130px] text-regular'
               />
               <div className='flex-between'>
                 <p className='subtle-regular text-shadow'>
