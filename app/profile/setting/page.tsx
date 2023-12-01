@@ -1,0 +1,84 @@
+/* eslint-disable @next/next/no-img-element */
+'use client';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { selectUser } from '@/store/reducers/userReducer';
+import { useAppSelector } from '@/store/storehooks';
+import Image from 'next/image';
+
+export default function Page() {
+  const userInfo = useAppSelector(selectUser);
+  return (
+    <main className='flex flex-1 flex-col md:px-16 md:py-10'>
+      <h1 className='h2-bold'>Profile</h1>
+      <Separator orientation='horizontal' className='mt-7 bg-shadow-border' />
+      <div className='mt-7 flex items-center gap-x-4'>
+        <div className='flex w-max flex-col items-center gap-y-2'>
+          <div className='flex-center relative h-[70px] w-[70px] cursor-pointer overflow-hidden rounded-full bg-[rgba(152,34,245,.25)] hover:opacity-50'>
+            <Image
+              alt={userInfo.last_name}
+              className='h-auto w-auto'
+              width={70}
+              height={70}
+              src={
+                !userInfo.avatar
+                  ? '/max.png'
+                  : `${process.env.NEXT_PUBLIC_API_STATIC_URL}${userInfo.avatar}`
+              }
+            />
+          </div>
+          <p className='subtle-regular text-shadow-100'>Edit</p>
+        </div>
+        <div className='flex flex-col'>
+          <h2 className='title-semibold pl-4'>{userInfo.first_name}</h2>
+          <Button className='text-primary-200 ' variant={'ghost'}>
+            Change name
+          </Button>
+        </div>
+      </div>
+      <h2 className='title-semibold mt-12'>Email Address</h2>
+      <div className='flex items-center gap-x-4'>
+        <h2 className='base-regular text-shadow-100'>{userInfo.email}</h2>
+        <Button className='text-primary-200 ' variant={'ghost'}>
+          Change email
+        </Button>
+      </div>
+      <h2 className='title-semibold mt-12'>Password</h2>
+      <div className='flex items-center gap-x-4'>
+        <h2 className='base-regular text-shadow-100'>
+          ***********************
+        </h2>
+        <Button className='text-primary-200 ' variant={'ghost'}>
+          Change password
+        </Button>
+      </div>
+      <Separator orientation='horizontal' className='mt-7 bg-shadow-border' />
+      <div className='mt-7 flex h-[140px] w-[750px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
+        <div className='flex gap-x-6'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            width='23'
+            height='24'
+            viewBox='0 0 23 24'
+            fill='none'
+          >
+            <path
+              fillRule='evenodd'
+              clipRule='evenodd'
+              d='M12.9375 1L2.875 5V11C2.875 16.55 7.16833 21.74 12.9375 23C18.7067 21.74 23 16.55 23 11V5L12.9375 1ZM10.7014 17.0001L6.22917 13.0001L7.80562 11.5901L10.7014 14.1701L18.0694 7.58008L19.6458 9.00008L10.7014 17.0001Z'
+              fill='#E46C6C'
+            />
+          </svg>
+          <h1 className='title-semibold'>Secure Your Account</h1>
+        </div>
+        <div className='flex-between flex gap-x-16 pl-12'>
+          <p className='base-regular text-shadow-100'>
+            To secure your account, please verify via the link we sent to your
+            email address
+          </p>
+          <Button>Resend Link</Button>
+        </div>
+      </div>
+    </main>
+  );
+}

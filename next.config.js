@@ -3,6 +3,19 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'test.quickapply.app',
+      },
+      {
+        protocol: 'https',
+        hostname: 'quickapply.app',
+      },
+    ],
+  },
+
   reactStrictMode: true,
   compress: true,
   optimizeFonts: false,

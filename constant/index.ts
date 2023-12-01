@@ -31,6 +31,19 @@ export const SidebarLinks = [
   },
 ];
 
+export const ProfileSidebarLinks = [
+  {
+    id: 'sidebar-01',
+    title: 'My Profile',
+    link: '/profile/setting',
+  },
+  {
+    id: 'sidebar-02',
+    title: 'Referrals',
+    link: '/profile/referrals',
+  },
+];
+
 export const brainstorms_data = [
   {
     id: 'a66e53e6bb1f4391909b93378170e63c',

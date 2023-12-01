@@ -29,7 +29,6 @@ const Navbar = () => {
       </h3>
       <div className='flex items-center gap-x-2 md:gap-x-4'>
         <Referal />
-        {/* <NavigationMenuDemo /> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 transition-transform hover:scale-110'>
