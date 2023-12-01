@@ -6,6 +6,14 @@ import { selectUser } from '@/store/reducers/userReducer';
 import { useAppSelector } from '@/store/storehooks';
 import Referal from './Referal';
 import User from './User';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import dynamic from 'next/dynamic';
+
+const Bulletin = dynamic(() => import('../notification/Bulletin'));
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -21,9 +29,17 @@ const Navbar = () => {
       </h3>
       <div className='flex items-center gap-x-2 md:gap-x-4'>
         <Referal />
-        <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 transition-transform hover:scale-110'>
-          <HelpCircle className='text-primary-200' size={22} />
-        </div>
+        {/* <NavigationMenuDemo /> */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 transition-transform hover:scale-110'>
+              <HelpCircle className='text-primary-200' size={22} />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className='flex flex-col bg-white p-4 md:h-[450px] md:w-[630px]'>
+            <Bulletin />
+          </DropdownMenuContent>
+        </DropdownMenu>
         <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 transition-transform hover:scale-110'>
           <Bell className='text-primary-200' size={22} />
         </div>

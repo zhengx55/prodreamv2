@@ -96,7 +96,7 @@
   }
 
   .small-regular {
-    @apply text-[14px] font-[400] ;
+    @apply text-[14px] font-[400];
   }
 
   .subtle-semibold {
@@ -146,6 +146,10 @@
 
   .tooltip {
     @apply flex-center p-2 rounded-md bg-white shadow-tooltip cursor-pointer hover:-translate-y-1 transition-transform
+  }
+
+  .bulletin-tab {
+    @apply flex-center small-regular border-b cursor-pointer mt-2 py-2
   }
 
   [contenteditable=true]:empty:before {

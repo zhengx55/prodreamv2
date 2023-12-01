@@ -319,6 +319,23 @@ export const activity_list_loading_prompt = [
   "Use action verbs to make your activity list standout! Not sure about how to grab admission officers' attention? Try our activity list!",
 ];
 
+export const release_data = [
+  {
+    id: 'release_data_01',
+    img: '/Release-1.png',
+    title: '✨ Introducing: Activity List Optimizer!',
+    description:
+      'Struggling with character limits on your college apps? Our new feature helps you distill your achievements using impactful words that showcase your skills. Make every character count and elevate your application with ease. Try it now!',
+  },
+  {
+    id: 'release_data_02',
+    img: '/Release-2.png',
+    title: '✨ Introducing: Activity List Optimizer!',
+    description:
+      'Struggling with character limits on your college apps? Our new feature helps you distill your achievements using impactful words that showcase your skills. Make every character count and elevate your application with ease. Try it now!',
+  },
+];
+
 // !!----------------------------------------------------------------
 // !! DEMO USE ONLY
 // !!----------------------------------------------------------------

@@ -1,5 +1,4 @@
 'use client';
-import React, { useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
 import RotbotLoader from '../root/RotbotLoader';
 import { useAppSelector } from '@/store/storehooks';
@@ -81,8 +80,8 @@ const OutcomePanel = ({
                     {history.result
                       ? countWords(history.result)
                       : shouldAnimate
-                      ? animatedWordCount
-                      : countWords(essaydata)}
+                        ? animatedWordCount
+                        : countWords(essaydata)}
                     &nbsp;Words
                   </p>
                 </div>
