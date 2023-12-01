@@ -8,8 +8,8 @@ import { useToast } from '../ui/use-toast';
 import clearCachesByServerAction from '@/lib/revalidate';
 import EditCard from './EditCard';
 import { useActListContext } from '@/context/ActListProvider';
-import DeleteModal from './DeleteModal';
-
+import dynamic from 'next/dynamic';
+const DeleteModal = dynamic(() => import('./DeleteModal'), { ssr: false });
 type Props = {
   dataType: 'generated' | 'history';
   type: string;
@@ -60,14 +60,13 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
     <>
       {!editMode ? (
         <div className='flex shrink-0 flex-col gap-y-2 rounded-[10px] border border-shadow-border px-4 py-3'>
-          {showDelete && (
-            <DeleteModal
-              deleteId={data.id}
-              isActive={showDelete}
-              toogleActive={toogleDeleteModal}
-              removeCallback={removeCallback}
-            />
-          )}
+          <DeleteModal
+            deleteId={data.id}
+            isActive={showDelete}
+            toogleActive={toogleDeleteModal}
+            removeCallback={removeCallback}
+          />
+
           <h1 className='base-semibold'>
             Activity {index}: {data.title}
           </h1>

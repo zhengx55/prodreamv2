@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 import { Button } from '../ui/button';
+import { memo } from 'react';
 
 type Props = {
   isActive: boolean;
@@ -60,4 +61,4 @@ const DeleteModal = ({
   );
 };
 
-export default DeleteModal;
+export default memo(DeleteModal);
