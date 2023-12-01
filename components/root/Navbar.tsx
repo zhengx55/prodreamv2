@@ -1,5 +1,11 @@
 'use client';
-import { Bell, HelpCircle } from 'lucide-react';
+import {
+  Bell,
+  FileText,
+  Headphones,
+  HelpCircle,
+  Lightbulb,
+} from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { memo } from 'react';
 import { selectUser } from '@/store/reducers/userReducer';
@@ -9,6 +15,7 @@ import User from './User';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import dynamic from 'next/dynamic';
@@ -39,9 +46,25 @@ const Navbar = () => {
             <Bulletin />
           </DropdownMenuContent>
         </DropdownMenu>
-        <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 transition-transform hover:scale-110'>
-          <HelpCircle className='text-primary-200' size={22} />
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 text-primary-200 transition-transform hover:scale-110 data-[state=open]:bg-primary-200 data-[state=open]:text-primary-50 '>
+              <HelpCircle size={22} />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className='flex flex-col bg-white p-2'>
+            <DropdownMenuItem className='flex cursor-pointer gap-x-2 hover:bg-shadow-50'>
+              <Lightbulb size={18} /> Tutorial
+            </DropdownMenuItem>
+            <DropdownMenuItem className='flex cursor-pointer gap-x-2 hover:bg-shadow-50'>
+              <FileText size={18} /> Feedback
+            </DropdownMenuItem>
+            <DropdownMenuItem className='flex cursor-pointer gap-x-2 hover:bg-shadow-50'>
+              <Headphones size={18} /> Contact Us
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <User
           name={user.first_name || ''}
           email={user.email || ''}
