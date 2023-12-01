@@ -127,7 +127,7 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
         onChange={(e) => setTitle(e.target.value)}
       />
       <p className='subtle-regular self-start text-shadow'>
-        ({data.title?.length} characters)
+        ({title?.length} / 100 characters)
       </p>
       <Textarea
         value={text}
@@ -136,7 +136,7 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
         className='mt-4 h-[140px] text-[14px]'
       />
       <p className='subtle-regular self-start text-shadow'>
-        ({data.result ? data.result?.length : data.text?.length} characters)
+        ({text?.length} / 1250 characters)
       </p>
       <div className='flex-between mt-4 gap-x-2'>
         <Button
