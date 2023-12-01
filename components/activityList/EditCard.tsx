@@ -1,5 +1,5 @@
 import { ActData, IGenerateActListParams, Mode } from '@/query/type';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
@@ -7,17 +7,24 @@ import { useToast } from '../ui/use-toast';
 import { useMutation } from '@tanstack/react-query';
 import { generateActivityList, updateActivityListItem } from '@/query/api';
 import clearCachesByServerAction from '@/lib/revalidate';
-import { useAppDispatch } from '@/store/storehooks';
-import { updateActListItem } from '@/store/reducers/activityListSlice';
 import PolishLoader from './PolishLoader';
+import { useActListContext } from '@/context/ActListProvider';
 
-type Props = { type: string; data: ActData; index: number; close: () => void };
+type Props = {
+  dataType: 'generated' | 'history';
+  type: string;
+  data: ActData;
+  index: number;
+  close: () => void;
+};
 
-const EditCard = ({ type, close, index, data }: Props) => {
+const EditCard = ({ type, close, index, data, dataType }: Props) => {
   const { toast } = useToast();
-  const dispatch = useAppDispatch();
   const [title, setTitle] = useState(data.title);
-  const [text, setText] = useState(data.result ? data.result : data.text);
+  const [text, setText] = useState(
+    dataType === 'generated' ? data.result : data.text
+  );
+  const { handleSave } = useActListContext();
   const [isPoslishing, setIsPoslishing] = useState(false);
   const handleRevert = () => {
     setText(data.result ? data.result : data.text);
@@ -31,14 +38,7 @@ const EditCard = ({ type, close, index, data }: Props) => {
         description: 'Changed has been successfully made',
         variant: 'default',
       });
-      dispatch(
-        updateActListItem({
-          dataId: data.id,
-          dataTitle: title,
-          dataText: text as string,
-          dataType: type,
-        })
-      );
+      handleSave(data.id, title, text as string, type, dataType);
       clearCachesByServerAction('/writtingpal/activityList/history');
       close();
     },
@@ -53,6 +53,9 @@ const EditCard = ({ type, close, index, data }: Props) => {
   const { mutateAsync: polishActItem } = useMutation({
     mutationFn: (params: IGenerateActListParams) =>
       generateActivityList(params),
+    onMutate: () => {
+      setIsPoslishing(true);
+    },
     onSuccess: (result) => {
       setIsPoslishing(false);
       toast({
@@ -72,7 +75,7 @@ const EditCard = ({ type, close, index, data }: Props) => {
     },
   });
 
-  const handleSave = async () => {
+  const handleSaveAct = async () => {
     const compate_result = data.result ? data.result : data.text;
     if (text === compate_result && title === data.title) {
       toast({
@@ -92,7 +95,6 @@ const EditCard = ({ type, close, index, data }: Props) => {
   }, []);
 
   const handlePolsh = async () => {
-    setIsPoslishing(true);
     await polishActItem({
       mode: Mode.Optimize,
       power_up: true,
@@ -173,10 +175,10 @@ const EditCard = ({ type, close, index, data }: Props) => {
         >
           Revert changes
         </Button>
-        <Button onClick={handleSave}>Save Changes</Button>
+        <Button onClick={handleSaveAct}>Save Changes</Button>
       </div>
     </div>
   );
 };
 
-export default EditCard;
+export default memo(EditCard);

@@ -3,15 +3,7 @@ import { Button } from '../ui/button';
 
 const CommunityCard = () => {
   return (
-    <div className='absolute bottom-4 hidden h-[270px] w-[90%] items-center gap-y-3 rounded-lg border border-primary-200 px-4 py-2 md:flex md:flex-col'>
-      <Image
-        alt='social-community'
-        src='/social.png'
-        width={140}
-        height={110}
-        className='h-auto w-auto'
-        priority
-      />
+    <div className='absolute bottom-4 hidden h-[150px] w-[90%] items-center gap-y-3 rounded-lg border border-primary-200 px-4 py-2 md:flex md:flex-col'>
       <p className=''>Join our community</p>
       <Button variant={'secondary'} className='w-[130px] gap-x-1 bg-primary-50'>
         <Image

@@ -21,7 +21,6 @@ export default async function Page() {
   }
 
   const history_data = await fetchHistoryData();
-  console.log('🚀 ~ file: page.tsx:26 ~ Page ~ history_data:', history_data);
   return (
     <section className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col gap-y-4 bg-sectionBackground p-4'>
       <HistoryTop />

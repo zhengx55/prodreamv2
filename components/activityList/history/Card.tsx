@@ -1,7 +1,7 @@
-import { Activity } from '@/query/type';
+import { ActData } from '@/query/type';
 import React from 'react';
 
-type Props = { item: Activity; index: number };
+type Props = { item: ActData; index: number };
 
 const Card = ({ item, index }: Props) => {
   return (
@@ -10,7 +10,7 @@ const Card = ({ item, index }: Props) => {
         Activity {index}: {item.title}
       </h2>
       <p className='base-regular line-clamp-5'>{item.text}</p>
-      <p className='small-regular'>({item.text.length} characters)</p>
+      <p className='small-regular'>({item.text?.length} characters)</p>
     </div>
   );
 };

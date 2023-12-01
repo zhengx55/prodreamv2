@@ -1,4 +1,3 @@
-import { IChatHistoryData, IChatSessionData } from '@/query/type';
 import {
   Dispatch,
   ReactNode,

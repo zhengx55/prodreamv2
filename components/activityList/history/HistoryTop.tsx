@@ -1,14 +1,14 @@
 'use client';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { clearState } from '@/store/reducers/activityListSlice';
+import { useActListContext } from '@/context/ActListProvider';
 import { useAppDispatch } from '@/store/storehooks';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
 const HistoryTop = () => {
-  const dispatch = useAppDispatch();
+  const { setGeneratedData, setHistoryData } = useActListContext();
   return (
     <div className='flex-between w-full rounded-xl bg-white p-6'>
       <div className='flex flex-col gap-y-4'>
@@ -24,7 +24,8 @@ const HistoryTop = () => {
       <Link href={'/writtingpal/activityList'}>
         <Button
           onClick={() => {
-            dispatch(clearState());
+            setGeneratedData({});
+            setHistoryData({});
           }}
           className='gap-x-2 px-8 py-3'
         >

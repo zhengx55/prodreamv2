@@ -267,34 +267,31 @@ export enum Mode {
 }
 
 export interface IActHistoryData {
-  activities: Activity[];
+  activities: ActivityHistory[];
   create_time: number;
   id: string;
   type: number;
   update_time: number;
 }
 
-export interface Activity {
+export interface ActivityHistory {
   id: string;
   original_text: string;
   text: string;
   title: string;
-  [property: string]: any;
 }
 
 export interface IActListResData {
   [key: string]: ActListData;
 }
-
-export interface ActListData {
-  activities: ActData[];
-  id: string;
-}
-
 export interface ActData {
   result?: string;
   title: string;
   id: string;
   original_text?: string;
   text?: string;
+}
+export interface ActListData {
+  activities: ActData[];
+  id: string;
 }

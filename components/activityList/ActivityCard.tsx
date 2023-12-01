@@ -6,16 +6,20 @@ import { useMutation } from '@tanstack/react-query';
 import { deleteActivityListItem } from '@/query/api';
 import { useToast } from '../ui/use-toast';
 import clearCachesByServerAction from '@/lib/revalidate';
-import { useAppDispatch } from '@/store/storehooks';
-import { removeActListItem } from '@/store/reducers/activityListSlice';
 import EditCard from './EditCard';
+import { useActListContext } from '@/context/ActListProvider';
 
-type Props = { type: string; data: ActData; index: number };
+type Props = {
+  dataType: 'generated' | 'history';
+  type: string;
+  data: ActData;
+  index: number;
+};
 
-const ActivityCard = ({ type, data, index }: Props) => {
+const ActivityCard = ({ dataType, type, data, index }: Props) => {
   const { toast } = useToast();
-  const dispatch = useAppDispatch();
   const [editMode, setEditMode] = useState(false);
+  const { handleDelete } = useActListContext();
   const handleEdit = async () => {
     setEditMode(true);
   };
@@ -30,7 +34,7 @@ const ActivityCard = ({ type, data, index }: Props) => {
         description: 'Delete activity successfully',
         variant: 'default',
       });
-      dispatch(removeActListItem({ dataType: type, dataId: data.id }));
+      handleDelete(data.id, type, dataType);
       clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError(error) {
@@ -41,7 +45,7 @@ const ActivityCard = ({ type, data, index }: Props) => {
     },
   });
 
-  const handleDelete = async (id: string) => {
+  const handleDeleteAct = async (id: string) => {
     await removeItem(id);
   };
   return (
@@ -61,7 +65,7 @@ const ActivityCard = ({ type, data, index }: Props) => {
             </p>
             <div className='flex items-center gap-x-2'>
               <div
-                onClick={() => handleDelete(data.id)}
+                onClick={() => handleDeleteAct(data.id)}
                 className='cursor-pointer rounded-md border-2 border-shadow-200 bg-white p-2.5 hover:bg-nav-selected'
               >
                 <Tooltip tooltipContent='Delete'>
@@ -85,7 +89,13 @@ const ActivityCard = ({ type, data, index }: Props) => {
           </div>
         </div>
       ) : (
-        <EditCard close={closeEditMode} type={type} data={data} index={index} />
+        <EditCard
+          dataType={dataType}
+          close={closeEditMode}
+          type={type}
+          data={data}
+          index={index}
+        />
       )}
     </>
   );

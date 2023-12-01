@@ -12,21 +12,16 @@ import { IGenerateActListParams, Mode } from '@/query/type';
 import { useToast } from '../ui/use-toast';
 import Activityloader from './Activityloader';
 import { motion } from 'framer-motion';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
-import {
-  selectActList,
-  setActListState,
-} from '@/store/reducers/activityListSlice';
 import FileUploadModal from './FileUploadModal';
 import clearCachesByServerAction from '@/lib/revalidate';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import { useActListContext } from '@/context/ActListProvider';
 
 const InputPanel = () => {
   const { toast } = useToast();
-  const dispatch = useAppDispatch();
-  const actListData = useAppSelector(selectActList);
+  const { setGeneratedData, setHistoryData, historyData } = useActListContext();
+  const hasHistoryData = Object.keys(historyData).length > 0;
   const [activeFileUpload, setActiveFileUpload] = useState(false);
-  const [isHistoryMode, setisHistoryMode] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [listOptions, setListOptions] = useState({
     uc: false,
@@ -43,8 +38,8 @@ const InputPanel = () => {
   ]);
 
   useDeepCompareEffect(() => {
-    if (Object.keys(actListData).length !== 0 && isHistoryMode) {
-      const keys = Object.keys(actListData);
+    if (hasHistoryData) {
+      const keys = Object.keys(historyData);
       keys.forEach((key) => {
         if (key === '150') {
           setListOptions((prev) => ({ ...prev, uc: true }));
@@ -54,7 +49,7 @@ const InputPanel = () => {
           setListOptions((prev) => ({ ...prev, custom: true }));
           setCustomWordCount(key);
         }
-        const activities = actListData[key].activities;
+        const activities = historyData[key].activities;
         const desciptions_from_history: {
           id: string;
           text: string;
@@ -70,7 +65,7 @@ const InputPanel = () => {
         setDescriptions(desciptions_from_history);
       });
     }
-  }, [actListData, isHistoryMode]);
+  }, [historyData]);
 
   const { mutateAsync: generateActList } = useMutation({
     mutationFn: (params: IGenerateActListParams) =>
@@ -81,7 +76,8 @@ const InputPanel = () => {
         description: 'Activity list generated successfully!',
         variant: 'default',
       });
-      dispatch(setActListState(data));
+      setHistoryData({});
+      setGeneratedData(data);
       clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError: () => {
@@ -183,7 +179,6 @@ const InputPanel = () => {
       power_up: false,
     };
     setIsGenerating(true);
-    setisHistoryMode(false);
     await generateActList(params);
   };
 

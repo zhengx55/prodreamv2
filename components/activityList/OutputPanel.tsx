@@ -2,10 +2,9 @@
 import { AnimatePresence, Variants, motion } from 'framer-motion';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import ActivityCard from './ActivityCard';
-import { useAppSelector } from '@/store/storehooks';
-import { selectActList } from '@/store/reducers/activityListSlice';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { deepEqual } from '@/lib/utils';
+import { useActListContext } from '@/context/ActListProvider';
 
 const OutputPanel = ({
   fullScreen,
@@ -20,10 +19,20 @@ const OutputPanel = ({
   };
   const [selected, setSelected] = useState('');
   const [tabs, setTabs] = useState<string[]>([]);
-  const actListRes = useAppSelector(selectActList);
+  const { generatedData, historyData } = useActListContext();
+  const [content, setContent] = useState<typeof generatedData>({});
+  const hasGeneratedData = Object.keys(generatedData).length > 0;
+  const hasHistoryData = Object.keys(historyData).length > 0;
 
   useDeepCompareEffect(() => {
-    const data_tabs = Object.keys(actListRes).map((item) => {
+    if (hasGeneratedData) {
+      setContent(generatedData);
+    } else if (hasHistoryData) {
+      setContent(historyData);
+    }
+    const data_tabs = Object.keys(
+      hasGeneratedData ? generatedData : historyData
+    ).map((item) => {
       if (item === '150') {
         return 'UC Applications';
       } else if (item === '350') {
@@ -32,13 +41,14 @@ const OutputPanel = ({
         return `${item} Character Limit`;
       }
     });
-    if (!deepEqual(data_tabs, tabs)) {
-      setTabs(data_tabs);
-      setSelected(data_tabs[0]);
-    }
-  }, [actListRes, tabs]);
+    setTabs(data_tabs);
+    setSelected(data_tabs[0]);
+  }, [generatedData, historyData]);
 
-  if (Object.keys(actListRes).length === 0)
+  if (
+    Object.keys(historyData).length === 0 &&
+    Object.keys(generatedData).length == 0
+  )
     return (
       <div className='flex min-h-full w-1/2 pl-4'>
         <div className='h-full w-full rounded-lg bg-white'></div>
@@ -126,10 +136,11 @@ const OutputPanel = ({
               key='UC Applications'
               className='mt-6 flex w-full flex-col gap-y-4'
             >
-              {actListRes[150].activities.map((activity, index) => {
+              {content[150].activities.map((activity, index) => {
                 return (
                   <ActivityCard
                     type={'150'}
+                    dataType={hasGeneratedData ? 'generated' : 'history'}
                     index={index + 1}
                     data={activity}
                     key={activity.id}
@@ -146,11 +157,12 @@ const OutputPanel = ({
               key='Common Applications'
               className='mt-6 flex w-full flex-col gap-y-4'
             >
-              {actListRes[350].activities.map((activity, index) => {
+              {content[350].activities.map((activity, index) => {
                 return (
                   <ActivityCard
                     type={'350'}
                     index={index + 1}
+                    dataType={hasGeneratedData ? 'generated' : 'history'}
                     data={activity}
                     key={activity.id}
                   />
@@ -158,8 +170,8 @@ const OutputPanel = ({
               })}
             </motion.div>
           ) : (
-            actListRes[
-              Object.keys(actListRes).filter(
+            content[
+              Object.keys(content).filter(
                 (item) => !['150', '350'].includes(item)
               )[0]
             ]?.activities.map((activity, index) => {
@@ -172,13 +184,13 @@ const OutputPanel = ({
                   key='Custom character limit'
                   className='mt-6 flex w-full flex-col gap-y-4'
                 >
-                  {' '}
                   <ActivityCard
                     type={
-                      Object.keys(actListRes).filter(
+                      Object.keys(content).filter(
                         (item) => !['150', '350'].includes(item)
                       )[0]
                     }
+                    dataType={hasGeneratedData ? 'generated' : 'history'}
                     index={index + 1}
                     data={activity}
                     key={activity.id}

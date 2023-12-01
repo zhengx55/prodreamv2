@@ -16,17 +16,16 @@ import { clonectivityListItem, deleteActivityList } from '@/query/api';
 import { useToast } from '@/components/ui/use-toast';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { useRouter } from 'next/navigation';
-import { useAppDispatch } from '@/store/storehooks';
-import { setActListState } from '@/store/reducers/activityListSlice';
+import { useActListContext } from '@/context/ActListProvider';
 
 type Props = {
   item: IActHistoryData;
 };
 
 const List = ({ item }: Props) => {
+  const { setHistoryData, setGeneratedData } = useActListContext();
   const { toast } = useToast();
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const { mutateAsync: removeItem } = useMutation({
     mutationFn: (id: string) => deleteActivityList(id),
     onSuccess() {
@@ -77,8 +76,8 @@ const List = ({ item }: Props) => {
         id,
       },
     };
-
-    dispatch(setActListState(actListData));
+    setGeneratedData({});
+    setHistoryData(actListData);
     router.push('/writtingpal/activityList/');
   };
 

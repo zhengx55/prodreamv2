@@ -5,6 +5,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   reactStrictMode: true,
   compress: true,
+  optimizeFonts: false,
   // distDir: 'dist',
   // poweredByHeader: false,
   webpack: (config) => {

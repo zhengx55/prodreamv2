@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 import Image from 'next/image';
-import { DropEvent, FileRejection, useDropzone } from 'react-dropzone';
+import { FileRejection, useDropzone } from 'react-dropzone';
 import { useToast } from '../ui/use-toast';
 
 type Props = {
@@ -33,7 +33,6 @@ const FileUploadModal = ({ isActive, toogleActive }: Props) => {
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    maxFiles: 1,
     maxSize: 1024 * 1024,
     accept: {
       'application/pdf': ['.pdf'],
@@ -45,7 +44,12 @@ const FileUploadModal = ({ isActive, toogleActive }: Props) => {
 
   return (
     <Dialog open={isActive} onOpenChange={toogleActive}>
-      <DialogContent className='md:w-[400px] md:gap-y-0 md:rounded-lg md:p-4'>
+      <DialogContent
+        onPointerDownOutside={(e) => {
+          e.preventDefault();
+        }}
+        className='md:w-[400px] md:gap-y-0 md:rounded-lg md:p-4'
+      >
         <DialogHeader>
           <DialogTitle className='base-semibold flex-between'>
             Upload Essay
