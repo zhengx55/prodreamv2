@@ -33,7 +33,7 @@ const InputPanel = () => {
     common: false,
     custom: false,
   });
-  const [cutomWordCount, setCustomWordCount] = useState('0');
+  const [cutomWordCount, setCustomWordCount] = useState('50');
   const [descriptions, setDescriptions] = useState([
     {
       id: v4(),
@@ -115,9 +115,11 @@ const InputPanel = () => {
   };
   const handleLengthChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === '150' || e.target.value === '350') {
-      setCustomWordCount((parseInt(e.target.value) + 50).toString());
-    } else if (parseInt(e.target.value) > 1250) {
-      return;
+      if (parseInt(cutomWordCount) > parseInt(e.target.value)) {
+        setCustomWordCount((parseInt(e.target.value) - 50).toString());
+      } else {
+        setCustomWordCount((parseInt(e.target.value) + 50).toString());
+      }
     } else {
       setCustomWordCount(e.target.value);
     }
@@ -315,6 +317,8 @@ const InputPanel = () => {
             <div className='ml-5 flex w-max items-center gap-x-4 rounded-lg border border-shadow-border bg-shadow-50 px-4 py-2'>
               <h2 className='small-semibold'>Expected length:</h2>
               <Input
+                min={50}
+                max={1250}
                 value={cutomWordCount}
                 onChange={handleLengthChange}
                 type='number'
