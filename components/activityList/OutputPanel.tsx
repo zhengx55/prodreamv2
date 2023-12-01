@@ -41,8 +41,10 @@ const OutputPanel = ({
         return `${item} Character Limit`;
       }
     });
-    setTabs(data_tabs);
-    setSelected(data_tabs[0]);
+    if (!deepEqual(data_tabs, tabs)) {
+      setTabs(data_tabs);
+      setSelected(data_tabs[0]);
+    }
   }, [generatedData, historyData]);
 
   if (
@@ -170,20 +172,20 @@ const OutputPanel = ({
               })}
             </motion.div>
           ) : (
-            content[
-              Object.keys(content).filter(
-                (item) => !['150', '350'].includes(item)
-              )[0]
-            ]?.activities.map((activity, index) => {
-              return (
-                <motion.div
-                  initial={{ y: 10, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -10, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  key='Custom character limit'
-                  className='mt-6 flex w-full flex-col gap-y-4'
-                >
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              key='Custom character limit'
+              className='mt-6 flex w-full flex-col gap-y-4'
+            >
+              {content[
+                Object.keys(content).filter(
+                  (item) => !['150', '350'].includes(item)
+                )[0]
+              ]?.activities.map((activity, index) => {
+                return (
                   <ActivityCard
                     type={
                       Object.keys(content).filter(
@@ -195,9 +197,9 @@ const OutputPanel = ({
                     data={activity}
                     key={activity.id}
                   />
-                </motion.div>
-              );
-            })
+                );
+              })}
+            </motion.div>
           )}
         </AnimatePresence>
       </div>
