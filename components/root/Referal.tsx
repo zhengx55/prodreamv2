@@ -5,7 +5,7 @@ const Referal = () => {
   return (
     <div className='rounded-lg bg-referal px-[1px] py-[1px]'>
       <Link
-        href={'/profile/referal'}
+        href={'/profile/referrals'}
         className='block cursor-pointer rounded-lg bg-white px-3 py-1'
       >
         <div className='flex-between gap-x-2'>
