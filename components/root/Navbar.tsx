@@ -31,8 +31,8 @@ const Navbar = () => {
         <Referal />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 transition-transform hover:scale-110'>
-              <HelpCircle className='text-primary-200' size={22} />
+            <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 text-primary-200 transition-transform hover:scale-110 data-[state=open]:bg-primary-200 data-[state=open]:text-primary-50 '>
+              <Bell size={22} />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className='flex flex-col bg-white p-4 md:h-[450px] md:w-[630px]'>
@@ -40,7 +40,7 @@ const Navbar = () => {
           </DropdownMenuContent>
         </DropdownMenu>
         <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 transition-transform hover:scale-110'>
-          <Bell className='text-primary-200' size={22} />
+          <HelpCircle className='text-primary-200' size={22} />
         </div>
         <User
           name={user.first_name || ''}
