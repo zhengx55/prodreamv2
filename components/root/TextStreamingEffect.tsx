@@ -20,7 +20,6 @@ const TextStreamingEffect = ({
 }: Props) => {
   const [displayedText, setDisplayedText] = useState('');
   const intervalIdRef = useRef<NodeJS.Timeout>();
-  const dispatch = useAppDispatch();
   useEffect(() => {
     if (!text) return;
     let i = printIndexRef?.current;

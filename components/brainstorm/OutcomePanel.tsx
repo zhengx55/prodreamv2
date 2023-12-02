@@ -64,7 +64,7 @@ const OutcomePanel = ({
                       printIndexRef={printIndexRef}
                       text={essaydata}
                       turnOffAnimation={turnOffAnimate}
-                      speed={50}
+                      speed={10}
                     />
                   ) : (
                     essaydata
