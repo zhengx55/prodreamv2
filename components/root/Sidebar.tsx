@@ -148,16 +148,14 @@ const Sidebar = () => {
               onClick={() => handleNavigation(item.link, index)}
               className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-4 text-slate-200 hover:text-slate-300`}
             >
-              <div className='flex items-center gap-x-2'>
-                <Image
-                  src={isActive ? item.active_image : item.image}
-                  alt={item.title}
-                  width={24}
-                  height={24}
-                  className='h-auto w-auto'
-                  priority
-                />
-              </div>
+              <Image
+                src={isActive ? item.active_image : item.image}
+                alt={item.title}
+                width={24}
+                height={24}
+                className='h-auto w-auto'
+                priority
+              />
               <AnimatePresence>
                 {expandSidebar && (
                   <motion.span

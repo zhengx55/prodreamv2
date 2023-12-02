@@ -1,6 +1,7 @@
 'use client';
 import {
   Bell,
+  ChevronUp,
   FileText,
   Headphones,
   HelpCircle,
@@ -19,6 +20,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+} from '../ui/navigation-menu';
 
 const Bulletin = dynamic(() => import('../notification/Bulletin'));
 
@@ -56,8 +64,15 @@ const Navbar = () => {
             <DropdownMenuItem className='flex cursor-pointer gap-x-2 hover:bg-shadow-50'>
               <Lightbulb size={18} /> Tutorial
             </DropdownMenuItem>
-            <DropdownMenuItem className='flex cursor-pointer gap-x-2 hover:bg-shadow-50'>
-              <FileText size={18} /> Feedback
+
+            <DropdownMenuItem>
+              <Link
+                className='flex cursor-pointer gap-x-2 hover:bg-shadow-50'
+                href={'https://tally.so/r/wberBE'}
+                target='_blank'
+              >
+                <FileText size={18} /> Feedback
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className='flex cursor-pointer gap-x-2 hover:bg-shadow-50'>
               <Headphones size={18} /> Contact Us
@@ -65,11 +80,24 @@ const Navbar = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <User
-          name={user.first_name || ''}
-          email={user.email || ''}
-          imgSrc={`${process.env.NEXT_PUBLIC_API_STATIC_URL}${user.avatar}`}
-        />
+        <NavigationMenu>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger asChild>
+              <div className='group'>
+                <User
+                  name={user.first_name || ''}
+                  email={user.email || ''}
+                  imgSrc={`${process.env.NEXT_PUBLIC_API_STATIC_URL}${user.avatar}`}
+                />
+                <ChevronUp
+                  className='relative top-[1px] ml-1 h-7 w-7 text-shadow-100 transition duration-200 group-data-[state=open]:rotate-180'
+                  aria-hidden='true'
+                />
+              </div>
+            </NavigationMenuTrigger>
+            <NavigationMenuContent className='bg-white md:h-[200px] md:w-[400px]'></NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenu>
       </div>
     </nav>
   );

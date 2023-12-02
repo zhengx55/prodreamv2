@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 type Props = {};
 const variants: Variants = {
@@ -95,7 +96,11 @@ const Release = (props: Props) => {
           <p className='small-regular text-shadow-100'>
             {release_data[currentIndex].description}
           </p>
-          {currentIndex === 0 && <Button className='w-1/3'>Try it now!</Button>}
+          {currentIndex === 0 && (
+            <Link href={'/writtingpal/activityList'}>
+              <Button className='w-1/3'>Try it now!</Button>
+            </Link>
+          )}
         </motion.div>
       </AnimatePresence>
     </motion.section>

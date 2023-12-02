@@ -2,8 +2,9 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { ProfileSidebarLinks } from '@/constant';
 import { AnimatedLogo } from './AnimatedLogo';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, User } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const ProfileSidebar = () => {
   const router = useRouter();
@@ -36,6 +37,14 @@ const ProfileSidebar = () => {
                 isActive && 'bg-nav-selected'
               } text-slate-20 z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-4`}
             >
+              <Image
+                src={isActive ? item.active_image : item.image}
+                alt={item.title}
+                width={24}
+                height={24}
+                className='h-auto w-auto'
+                priority
+              />
               <span
                 className={`${
                   isActive ? 'text-primary-200' : 'text-shadow-100'

@@ -36,11 +36,15 @@ export const ProfileSidebarLinks = [
     id: 'sidebar-01',
     title: 'My Profile',
     link: '/profile/setting',
+    image: '/profile.svg',
+    active_image: '/profile_active.svg',
   },
   {
     id: 'sidebar-02',
     title: 'Referrals',
     link: '/profile/referrals',
+    image: '/referrals.svg',
+    active_image: '/referrals_active.svg',
   },
 ];
 
