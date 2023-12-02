@@ -889,15 +889,11 @@ export async function profileResetName(params: {
   last_name: string;
 }) {
   try {
-    const formData = new FormData();
-    formData.append('first_name', params.first_name);
-    formData.append('last_name', params.last_name);
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/name`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/name?last_name=${params.last_name}&first_name=${params.first_name}`,
       {
         method: 'PATCH',
-        body: formData,
         headers: {
           Authorization: `Bearer ${token}`,
         },

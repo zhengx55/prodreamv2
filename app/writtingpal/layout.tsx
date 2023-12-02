@@ -19,12 +19,16 @@ export default function WrittingpalLayout({
   children: ReactNode;
 }) {
   const dispatch = useAppDispatch();
-  const [cookies] = useCookies(['token']);
+  const [cookies, setCookie] = useCookies(['token']);
 
   useMount(() => {
     async function refreshUserInfo() {
       const data = await refreshUserSession();
       dispatch(setUser(data));
+      setCookie('token', data.access_token, {
+        path: '/',
+        maxAge: 604800,
+      });
     }
     if (!cookies.token) {
       redirect('/login');
