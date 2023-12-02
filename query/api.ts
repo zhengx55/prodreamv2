@@ -828,7 +828,7 @@ export async function checkNotice() {}
 // ----------------------------------------------------------------
 // Profile
 // ----------------------------------------------------------------
-export async function resetEmail(params: {
+export async function profileResetEmail(params: {
   new_email: string;
   password: string;
 }) {
@@ -843,21 +843,20 @@ export async function resetEmail(params: {
         method: 'PATCH',
         body: formData,
         headers: {
-          'Content-Type': 'application/form-data',
           Authorization: `Bearer ${token}`,
         },
       }
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
     throw new Error(error as string);
   }
 }
-export async function resetPasswords(params: {
+export async function profileResetPasswords(params: {
   new_password: string;
   old_password: string;
 }) {
@@ -886,7 +885,7 @@ export async function resetPasswords(params: {
     throw new Error(error as string);
   }
 }
-export async function resetName(params: {
+export async function profileResetName(params: {
   first_name: string;
   last_name: string;
 }) {

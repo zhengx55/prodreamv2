@@ -97,7 +97,6 @@ export default function Page() {
 
   async function handleSentVerificationEmail() {
     const { email } = form.getValues();
-
     if (!email) {
       toast({
         description: 'Please enter your email',
@@ -127,7 +126,6 @@ export default function Page() {
     <section className='flex-center flex-1'>
       <Panel>
         <h1 className='h2-bold self-center'>Reset Password</h1>
-
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
