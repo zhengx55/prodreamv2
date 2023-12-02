@@ -4,12 +4,35 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { selectUser } from '@/store/reducers/userReducer';
 import { useAppSelector } from '@/store/storehooks';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useCallback, useState } from 'react';
+const EditEmail = dynamic(() => import('@/components/profile/EditEmail'));
+const EditName = dynamic(() => import('@/components/profile/EditName'));
+const EditPassword = dynamic(() => import('@/components/profile/EditPassword'));
 
 export default function Page() {
   const userInfo = useAppSelector(selectUser);
+  const [IsEditEmail, setEditEmail] = useState(false);
+  const [IsEditPassword, setEditPassword] = useState(false);
+  const [IsEditName, setEditName] = useState(false);
+
+  const toogleEmailModal = useCallback(() => {
+    setEditEmail((prev) => !prev);
+  }, []);
+
+  const togglePassModal = useCallback(() => {
+    setEditPassword((prev) => !prev);
+  }, []);
+
+  const toggleNameModal = useCallback(() => {
+    setEditName((prev) => !prev);
+  }, []);
   return (
     <main className='flex flex-1 flex-col md:px-16 md:py-10'>
+      <EditName isActive={IsEditName} toogleActive={toggleNameModal} />
+      <EditEmail isActive={IsEditEmail} toogleActive={toogleEmailModal} />
+      <EditPassword isActive={IsEditPassword} toogleActive={togglePassModal} />
       <h1 className='h2-bold'>Profile</h1>
       <Separator orientation='horizontal' className='mt-7 bg-shadow-border' />
       <div className='mt-7 flex items-center gap-x-4'>
@@ -30,8 +53,14 @@ export default function Page() {
           <p className='subtle-regular text-shadow-100'>Edit</p>
         </div>
         <div className='flex flex-col'>
-          <h2 className='title-semibold pl-4'>{userInfo.first_name}</h2>
-          <Button className='text-primary-200 ' variant={'ghost'}>
+          <h2 className='title-semibold pl-4'>
+            {userInfo.first_name} {userInfo.last_name}
+          </h2>
+          <Button
+            onClick={toggleNameModal}
+            className='text-primary-200 '
+            variant={'ghost'}
+          >
             Change name
           </Button>
         </div>
@@ -39,7 +68,11 @@ export default function Page() {
       <h2 className='title-semibold mt-12'>Email Address</h2>
       <div className='flex items-center gap-x-4'>
         <h2 className='base-regular text-shadow-100'>{userInfo.email}</h2>
-        <Button className='text-primary-200 ' variant={'ghost'}>
+        <Button
+          onClick={toogleEmailModal}
+          className='text-primary-200 '
+          variant={'ghost'}
+        >
           Change email
         </Button>
       </div>
@@ -48,7 +81,11 @@ export default function Page() {
         <h2 className='base-regular text-shadow-100'>
           ***********************
         </h2>
-        <Button className='text-primary-200 ' variant={'ghost'}>
+        <Button
+          className='text-primary-200'
+          onClick={togglePassModal}
+          variant={'ghost'}
+        >
           Change password
         </Button>
       </div>

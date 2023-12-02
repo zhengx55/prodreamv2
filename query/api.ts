@@ -826,5 +826,96 @@ export async function fetchNotice() {}
 export async function checkNotice() {}
 
 // ----------------------------------------------------------------
+// Profile
+// ----------------------------------------------------------------
+export async function resetEmail(params: {
+  new_email: string;
+  password: string;
+}) {
+  try {
+    const formData = new FormData();
+    formData.append('new_email', params.new_email);
+    formData.append('password', params.password);
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}reset_email`,
+      {
+        method: 'PATCH',
+        body: formData,
+        headers: {
+          'Content-Type': 'application/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+export async function resetPasswords(params: {
+  new_password: string;
+  old_password: string;
+}) {
+  try {
+    const formData = new FormData();
+    formData.append('new_password', params.new_password);
+    formData.append('old_password', params.old_password);
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}reset_pass`,
+      {
+        method: 'PATCH',
+        body: formData,
+        headers: {
+          'Content-Type': 'application/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+export async function resetName(params: {
+  first_name: string;
+  last_name: string;
+}) {
+  try {
+    const formData = new FormData();
+    formData.append('first_name', params.first_name);
+    formData.append('last_name', params.last_name);
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/name`,
+      {
+        method: 'PATCH',
+        body: formData,
+        headers: {
+          'Content-Type': 'application/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.error as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+// ----------------------------------------------------------------
 // 打点
 // ----------------------------------------------------------------
