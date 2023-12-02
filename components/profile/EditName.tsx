@@ -10,6 +10,25 @@ import { X } from 'lucide-react';
 import { Button } from '../ui/button';
 import { memo } from 'react';
 import { Input } from '../ui/input';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import { useToast } from '../ui/use-toast';
+import { useAppDispatch } from '@/store/storehooks';
+import { useForm } from 'react-hook-form';
+import { resetName } from '@/lib/validation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useMutation } from '@tanstack/react-query';
+import { profileResetName } from '@/query/api';
+import {
+  setUserFirstName,
+  setUserLastName,
+} from '@/store/reducers/userReducer';
 
 type Props = {
   isActive: boolean;
@@ -17,6 +36,42 @@ type Props = {
 };
 
 const EditNameModal = ({ isActive, toogleActive }: Props) => {
+  const { toast } = useToast();
+  const dispatch = useAppDispatch();
+  const form = useForm<z.infer<typeof resetName>>({
+    resolver: zodResolver(resetName),
+    defaultValues: {
+      firstname: '',
+      lastname: '',
+    },
+  });
+
+  const { mutateAsync: resetNameAction } = useMutation({
+    mutationFn: (params: { first_name: string; last_name: string }) =>
+      profileResetName(params),
+    onSuccess: () => {
+      toogleActive();
+      toast({
+        variant: 'default',
+        description: 'Name has been reset successfully!',
+      });
+      dispatch(setUserFirstName(form.getValues().firstname));
+      dispatch(setUserLastName(form.getValues().lastname));
+    },
+    onError: (error) => {
+      toast({
+        variant: 'destructive',
+        description: error.message,
+      });
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof resetName>) {
+    resetNameAction({
+      first_name: values.firstname,
+      last_name: values.lastname,
+    });
+  }
   return (
     <Dialog open={isActive} onOpenChange={toogleActive}>
       <DialogContent
@@ -27,34 +82,63 @@ const EditNameModal = ({ isActive, toogleActive }: Props) => {
       >
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
-            <h1 className='h2-bold mt-2 text-center'>Change Name </h1>
+            <p className='h2-bold mt-2 text-center'>Change Name </p>
             <DialogClose>
               <X className='self-end text-shadow' />
             </DialogClose>
           </DialogTitle>
         </DialogHeader>
-        <div className='flex flex-col'>
-          <Input
-            type='text'
-            placeholder='Enter your firstname'
-            name='firstname'
-            className='mt-6 py-6'
-          />
-          <Input
-            type='text'
-            placeholder='Enter your lastname'
-            name='lastname'
-            className='mt-4 py-6'
-          />
-          <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
-            <DialogClose asChild>
-              <Button variant={'ghost'} className=' text-primary-200'>
-                Cancel
-              </Button>
-            </DialogClose>
-            <Button>Save</Button>
-          </div>
-        </div>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='flex flex-col gap-y-2'
+          >
+            <FormField
+              control={form.control}
+              name='firstname'
+              render={({ field }) => (
+                <FormItem className='mt-10'>
+                  <FormControl>
+                    <Input
+                      autoComplete='firstname'
+                      placeholder='Enter your first name'
+                      type='text'
+                      className='h-14'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className='text-xs text-red-400' />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='lastname'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      autoComplete='lastname'
+                      placeholder='Enter your last name'
+                      className='h-14'
+                      type={'text'}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className='text-xs text-red-400' />
+                </FormItem>
+              )}
+            />
+            <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
+              <DialogClose asChild>
+                <Button variant={'ghost'} className=' text-primary-200'>
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button type='submit'>Save</Button>
+            </div>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

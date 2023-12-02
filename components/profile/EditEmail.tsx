@@ -13,7 +13,7 @@ import { Input } from '../ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { resetEmail } from '@/lib/validation';
-import { TypeOf, z } from 'zod';
+import { z } from 'zod';
 import {
   Form,
   FormControl,

@@ -33,14 +33,27 @@ export const userSlice = createSlice({
     setUserAvatar: (draft, action: PayloadAction<string>) => {
       draft.avatar = action.payload;
     },
+    setUserFirstName: (draft, action: PayloadAction<string>) => {
+      draft.first_name = action.payload;
+    },
+    setUserLastName: (draft, action: PayloadAction<string>) => {
+      draft.last_name = action.payload;
+    },
     resetUser: () => {
       return initialUserState;
     },
   },
 });
 
-export const { setUser, resetUser, setUserAvatar, setUserEmail } =
-  userSlice.actions;
+export const {
+  setUser,
+  resetUser,
+  setUserAvatar,
+  setUserEmail,
+  setUserFirstName,
+  setUserLastName,
+} = userSlice.actions;
+
 export const selectUser = (state: RootState) => state.user;
 export const selectUserEmail = (state: RootState) => state.user.email;
 export const selectUserAvatar = (state: RootState) => state.user.avatar;

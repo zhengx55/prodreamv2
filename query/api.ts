@@ -871,7 +871,6 @@ export async function profileResetPasswords(params: {
         method: 'PATCH',
         body: formData,
         headers: {
-          'Content-Type': 'application/form-data',
           Authorization: `Bearer ${token}`,
         },
       }
@@ -900,7 +899,6 @@ export async function profileResetName(params: {
         method: 'PATCH',
         body: formData,
         headers: {
-          'Content-Type': 'application/form-data',
           Authorization: `Bearer ${token}`,
         },
       }
