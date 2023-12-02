@@ -33,6 +33,7 @@ const Bulletin = dynamic(() => import('../notification/Bulletin'));
 const Navbar = () => {
   const pathname = usePathname();
   const user = useAppSelector(selectUser);
+  console.log('🚀 ~ file: Navbar.tsx:36 ~ Navbar ~ user:', user);
   return (
     <nav className='flex-between h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold hidden capitalize text-black-200 md:block'>

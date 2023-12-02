@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
-import { profileResetAvatar } from '@/query/api';
+import { profileResetAvatar, refreshUserSession } from '@/query/api';
 import { selectUser, setUserAvatar } from '@/store/reducers/userReducer';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { useMutation } from '@tanstack/react-query';
@@ -28,12 +28,15 @@ export default function Page() {
 
   const { mutateAsync: upLoadAvatar } = useMutation({
     mutationFn: (params: { file: File }) => profileResetAvatar(params),
-    onSuccess: () => {
+    onSuccess: async () => {
       toast({
         variant: 'default',
         description: 'Email has been reset successfully!',
       });
+      const data = await refreshUserSession();
+      console.log('🚀 ~ file: page.tsx:37 ~ onSuccess: ~ data:', data);
     },
+
     onError: (error) => {
       toast({
         variant: 'destructive',

@@ -4,6 +4,7 @@ import Sidebar from '@/components/root/Sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import MaxChatProvider from '@/context/MaxChateProvider';
 import useMount from '@/hooks/useMount';
+import { refreshUserSession } from '@/query/api';
 import { setUser } from '@/store/reducers/userReducer';
 import { store } from '@/store/store';
 import { useAppDispatch } from '@/store/storehooks';
@@ -18,12 +19,17 @@ export default function WrittingpalLayout({
   children: ReactNode;
 }) {
   const dispatch = useAppDispatch();
-  const [cookies] = useCookies(['user']);
+  const [cookies] = useCookies(['token']);
+
   useMount(() => {
-    if (cookies.user) {
-      dispatch(setUser(cookies.user));
-    } else {
+    async function refreshUserInfo() {
+      const data = await refreshUserSession();
+      dispatch(setUser(data));
+    }
+    if (!cookies.token) {
       redirect('/login');
+    } else {
+      refreshUserInfo();
     }
   });
 

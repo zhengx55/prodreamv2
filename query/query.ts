@@ -9,6 +9,7 @@ import {
   getBrainstormDetails,
   getBrianstormHistoryById,
   queryEssayResult,
+  refreshUserSession,
   sendChatMessage,
 } from './api';
 import { AnswerRequestParam } from '@/types';
@@ -119,5 +120,16 @@ export const useGetSessionHistory = (session_id: string) => {
     queryKey: ['current_session_history', session_id],
     enabled: !!session_id,
     queryFn: () => fetchSessionHistory(session_id),
+  });
+};
+
+// ----------------------------------------------------------------
+// Refresh
+// ----------------------------------------------------------------
+
+export const useRefreshSession = () => {
+  return useQuery({
+    queryKey: ['refresh_session'],
+    queryFn: () => refreshUserSession(),
   });
 };
