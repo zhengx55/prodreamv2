@@ -913,6 +913,31 @@ export async function profileResetName(params: {
   }
 }
 
+export async function profileResetAvatar(params: { file: File }) {
+  try {
+    const formData = new FormData();
+    formData.append('file', params.file);
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/avatar`,
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 // ----------------------------------------------------------------
 // 打点
 // ----------------------------------------------------------------

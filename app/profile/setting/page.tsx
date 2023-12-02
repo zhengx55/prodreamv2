@@ -2,24 +2,59 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { selectUser } from '@/store/reducers/userReducer';
-import { useAppSelector } from '@/store/storehooks';
+import { useToast } from '@/components/ui/use-toast';
+import { profileResetAvatar } from '@/query/api';
+import { selectUser, setUserAvatar } from '@/store/reducers/userReducer';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
 const EditEmail = dynamic(() => import('@/components/profile/EditEmail'));
 const EditName = dynamic(() => import('@/components/profile/EditName'));
 const EditPassword = dynamic(() => import('@/components/profile/EditPassword'));
 
 export default function Page() {
   const userInfo = useAppSelector(selectUser);
+  const uploadRef = useRef<HTMLInputElement>(null);
   const [IsEditEmail, setEditEmail] = useState(false);
   const [IsEditPassword, setEditPassword] = useState(false);
   const [IsEditName, setEditName] = useState(false);
-
+  const dispatch = useAppDispatch();
+  const { toast } = useToast();
   const toogleEmailModal = useCallback(() => {
     setEditEmail((prev) => !prev);
   }, []);
+
+  const { mutateAsync: upLoadAvatar } = useMutation({
+    mutationFn: (params: { file: File }) => profileResetAvatar(params),
+    onSuccess: () => {
+      toast({
+        variant: 'default',
+        description: 'Email has been reset successfully!',
+      });
+    },
+    onError: (error) => {
+      toast({
+        variant: 'destructive',
+        description: error.message,
+      });
+    },
+  });
+
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.size > 200 * 1024) {
+      toast({
+        variant: 'destructive',
+        description: 'File is larger than 200KB',
+      });
+      return;
+    }
+    if (file) {
+      await upLoadAvatar({ file });
+    }
+  };
 
   const togglePassModal = useCallback(() => {
     setEditPassword((prev) => !prev);
@@ -37,7 +72,12 @@ export default function Page() {
       <Separator orientation='horizontal' className='mt-7 bg-shadow-border' />
       <div className='mt-7 flex items-center gap-x-4'>
         <div className='flex w-max flex-col items-center gap-y-2'>
-          <div className='flex-center relative h-[70px] w-[70px] cursor-pointer overflow-hidden rounded-full bg-[rgba(152,34,245,.25)] hover:opacity-50'>
+          <div
+            onClick={() => {
+              uploadRef.current?.click();
+            }}
+            className='flex-center relative h-[70px] w-[70px] cursor-pointer overflow-hidden rounded-full bg-[rgba(152,34,245,.25)] hover:opacity-50'
+          >
             <Image
               alt={userInfo.last_name}
               className='h-auto w-auto'
@@ -48,6 +88,13 @@ export default function Page() {
                   ? '/max.png'
                   : `${process.env.NEXT_PUBLIC_API_STATIC_URL}${userInfo.avatar}`
               }
+            />
+            <input
+              ref={uploadRef}
+              type='file'
+              accept='image/*'
+              onChange={handleFileChange}
+              className='hidden'
             />
           </div>
           <p className='subtle-regular text-shadow-100'>Edit</p>
