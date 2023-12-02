@@ -877,7 +877,7 @@ export async function profileResetPasswords(params: {
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -905,7 +905,7 @@ export async function profileResetName(params: {
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {

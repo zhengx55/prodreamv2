@@ -16,7 +16,7 @@ export const signUpSchema = z.object({
     .max(50, { message: 'Last name cannot exceed 50 characters' }),
   password: z
     .string()
-    .min(6, { message: 'Password must be at least 8 characters' })
+    .min(6, { message: 'Password must be at least 6 characters' })
     .max(50, { message: 'Password cannot exceed 50 characters' }),
   email: z.string().email({ message: 'Invalid email address' }),
 });
@@ -26,11 +26,11 @@ export const resetSchema = z
     email: z.string().email({ message: 'Invalid email address' }),
     password: z
       .string()
-      .min(8, { message: 'Password must be at least 8 characters' })
+      .min(6, { message: 'Password must be at least 6 characters' })
       .max(50, { message: 'Password cannot exceed 50 characters' }),
     confirm: z
       .string()
-      .min(8, { message: 'Password must be at least 8 characters' })
+      .min(6, { message: 'Password must be at least 6 characters' })
       .max(50, { message: 'Password cannot exceed 50 characters' }),
     verification_code: z.string().refine((data) => /^\d{6}$/.test(data), {
       message: 'Verification code must be a 6-digit number',
@@ -49,11 +49,11 @@ export const resetEmail = z.object({
 export const resetPass = z.object({
   new_password: z
     .string()
-    .min(8, { message: 'Password must be at least 8 characters' })
+    .min(6, { message: 'Password must be at least 6 characters' })
     .max(50, { message: 'Password cannot exceed 50 characters' }),
   old_password: z
     .string()
-    .min(8, { message: 'Password must be at least 8 characters' })
+    .min(6, { message: 'Password must be at least 6 characters' })
     .max(50, { message: 'Password cannot exceed 50 characters' }),
 });
 
