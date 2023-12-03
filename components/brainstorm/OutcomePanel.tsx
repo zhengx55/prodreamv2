@@ -6,7 +6,6 @@ import { selectBrainStormHistory } from '@/store/reducers/brainstormSlice';
 import { Button } from '../ui/button';
 import { Copy, Download, Trophy } from 'lucide-react';
 import { countWords } from '@/lib/utils';
-import { usePathname } from 'next/navigation';
 import Tooltip from '../root/Tooltip';
 import TextStreamingEffect from '../root/TextStreamingEffect';
 import PanelError from '../root/PanelError';
@@ -31,9 +30,6 @@ const OutcomePanel = ({
   isSubmitError: boolean;
 }) => {
   const history = useAppSelector(selectBrainStormHistory);
-  const path = usePathname();
-  const id = path.split('/')[path.split('/').length - 1];
-
   return (
     <motion.div
       key='outcome'

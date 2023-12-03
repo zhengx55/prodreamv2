@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 import { profileResetAvatar, refreshUserSession } from '@/query/api';
-import { selectUser, setUserAvatar } from '@/store/reducers/userReducer';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { selectUser } from '@/store/reducers/userReducer';
+import { useAppSelector } from '@/store/storehooks';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -20,7 +20,6 @@ export default function Page() {
   const [IsEditEmail, setEditEmail] = useState(false);
   const [IsEditPassword, setEditPassword] = useState(false);
   const [IsEditName, setEditName] = useState(false);
-  const dispatch = useAppDispatch();
   const { toast } = useToast();
   const toogleEmailModal = useCallback(() => {
     setEditEmail((prev) => !prev);

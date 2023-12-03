@@ -42,11 +42,15 @@ export default function WrittingpalLayout({
       <MaxChatProvider>
         <Sidebar />
       </MaxChatProvider>
-      <div className='flex h-full w-full flex-col overflow-x-auto md:overflow-y-hidden'>
-        <Navbar />
-        <Toaster />
-        {children}
-      </div>
+      <>
+        <div className='hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
+          <Navbar />
+          <Toaster />
+          {children}
+        </div>
+        {/* TODO: Mobile */}
+        <div className='flex sm:hidden'></div>
+      </>
     </Provider>
   );
 }
