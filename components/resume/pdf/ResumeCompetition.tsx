@@ -16,7 +16,10 @@ export const ResumePDFCompetition = ({
   showBulletPoints: boolean;
 }) => {
   return (
-    <ResumePDFSection heading={'Award Experiences'} themeColor={themeColor}>
+    <ResumePDFSection
+      heading={competitions.length > 0 ? 'Award Experiences' : undefined}
+      themeColor={themeColor}
+    >
       {competitions.map(
         ({ name, location, date, results, additional_info }, idx) => {
           const showAddition = additional_info.join() !== '';

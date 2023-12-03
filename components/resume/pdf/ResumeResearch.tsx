@@ -16,7 +16,10 @@ export const ResumePDFResearch = ({
   showBulletPoints: boolean;
 }) => {
   return (
-    <ResumePDFSection heading={'Research Experiences'} themeColor={themeColor}>
+    <ResumePDFSection
+      heading={researches.length > 0 ? 'Research Experiences' : undefined}
+      themeColor={themeColor}
+    >
       {researches.map(
         (
           { starts, state, location, ends, role, project, description },

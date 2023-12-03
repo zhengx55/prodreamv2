@@ -4,13 +4,11 @@ import ResumePdf from '@/components/resume/ResumePdf';
 import { SuppressResumePDFErrorMessage } from '@/components/resume/common/SuppressResumePDFErrorMessage';
 import { selectResume } from '@/store/reducers/resumeSlice';
 import { useAppSelector } from '@/store/storehooks';
-import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { ResumeControllerCSR } from '@/components/resume/Controller';
 
 export default function Page() {
   const resume = useAppSelector(selectResume);
-  const router = useRouter();
   const document = useMemo(
     () => <ResumePdf resume={resume} isPDF={false} themeColor='#7D2FF5' />,
     [resume]

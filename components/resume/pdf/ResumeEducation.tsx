@@ -16,7 +16,10 @@ export const ResumePDFEducation = ({
   showBulletPoints: boolean;
 }) => {
   return (
-    <ResumePDFSection heading={'Education'} themeColor={themeColor}>
+    <ResumePDFSection
+      heading={educations.length > 0 ? 'Education' : undefined}
+      themeColor={themeColor}
+    >
       {educations.map(
         (
           {
@@ -52,7 +55,6 @@ export const ResumePDFEducation = ({
                   </ResumePDFText>
                 )}
               </View>
-
               <View
                 style={{
                   ...styles.flexRowBetween,

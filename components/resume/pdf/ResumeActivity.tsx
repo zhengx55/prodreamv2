@@ -16,7 +16,10 @@ export const ResumePDFActivity = ({
   showBulletPoints: boolean;
 }) => {
   return (
-    <ResumePDFSection heading={'Activity Experiences'} themeColor={themeColor}>
+    <ResumePDFSection
+      heading={activities.length > 0 ? 'Activity Experiences' : undefined}
+      themeColor={themeColor}
+    >
       {activities.map(
         (
           { starts, ends, company, location, description, responsibility },
