@@ -35,15 +35,17 @@ export const ResumePDFResearch = ({
                   marginTop: spacing['1'],
                 }}
               >
-                <ResumePDFText style={{ fontSize: 18 }} bold={true}>
-                  {project}
-                </ResumePDFText>
-                {location && (
+                {project ? (
+                  <ResumePDFText style={{ fontSize: 18 }} bold={true}>
+                    {project}
+                  </ResumePDFText>
+                ) : null}
+                {location ? (
                   <ResumePDFText bold={true}>
                     <ResumePDFIcon type='location' />
                     {location} {state}
                   </ResumePDFText>
-                )}
+                ) : null}
               </View>
 
               <View
@@ -53,20 +55,20 @@ export const ResumePDFResearch = ({
                 }}
               >
                 <ResumePDFText>{role}</ResumePDFText>
-                {starts && (
+                {starts ? (
                   <ResumePDFText>
                     {starts} ~~ {ends}
                   </ResumePDFText>
-                )}{' '}
+                ) : null}
               </View>
-              {showDescriptions && (
+              {showDescriptions ? (
                 <View style={{ ...styles.flexCol, marginTop: spacing['1.5'] }}>
                   <ResumePDFBulletList
                     items={description}
                     showBulletPoints={showBulletPoints}
                   />
                 </View>
-              )}
+              ) : null}
             </View>
           );
         }

@@ -34,15 +34,17 @@ export const ResumePDFWork = ({
                   alignItems: 'center',
                 }}
               >
-                <ResumePDFText style={{ fontSize: 18 }} bold={true}>
-                  {company}
-                </ResumePDFText>
-                {location && (
+                {company ? (
+                  <ResumePDFText style={{ fontSize: 18 }} bold={true}>
+                    {company}
+                  </ResumePDFText>
+                ) : null}
+                {location ? (
                   <ResumePDFText bold={true}>
                     <ResumePDFIcon type='location' />
                     {location} {state}
                   </ResumePDFText>
-                )}
+                ) : null}
               </View>
 
               <View
@@ -52,20 +54,20 @@ export const ResumePDFWork = ({
                 }}
               >
                 <ResumePDFText>{position}</ResumePDFText>
-                {starts && (
+                {starts ? (
                   <ResumePDFText>
                     {starts} ~~ {ends}
                   </ResumePDFText>
-                )}
+                ) : null}
               </View>
-              {showDescriptions && (
+              {showDescriptions ? (
                 <View style={{ ...styles.flexCol, marginTop: spacing['1.5'] }}>
                   <ResumePDFBulletList
                     items={description}
                     showBulletPoints={showBulletPoints}
                   />
                 </View>
-              )}
+              ) : null}
             </View>
           );
         }

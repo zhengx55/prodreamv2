@@ -33,15 +33,17 @@ export const ResumePDFCompetition = ({
                   marginTop: spacing['1'],
                 }}
               >
-                <ResumePDFText style={{ fontSize: 18 }} bold={true}>
-                  {name}
-                </ResumePDFText>
-                {location && (
+                {name ? (
+                  <ResumePDFText style={{ fontSize: 18 }} bold={true}>
+                    {name}
+                  </ResumePDFText>
+                ) : null}
+                {location ? (
                   <ResumePDFText bold={true}>
                     <ResumePDFIcon type='location' />
                     {location}
                   </ResumePDFText>
-                )}
+                ) : null}
               </View>
 
               <View
@@ -51,16 +53,16 @@ export const ResumePDFCompetition = ({
                 }}
               >
                 <ResumePDFText>{results}</ResumePDFText>
-                {date && <ResumePDFText>{date}</ResumePDFText>}
+                {date ? <ResumePDFText>{date}</ResumePDFText> : null}
               </View>
-              {showAddition && (
+              {showAddition ? (
                 <View style={{ ...styles.flexCol, marginTop: spacing['1.5'] }}>
                   <ResumePDFBulletList
                     items={additional_info}
                     showBulletPoints={showBulletPoints}
                   />
                 </View>
-              )}
+              ) : null}
             </View>
           );
         }

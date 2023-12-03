@@ -45,15 +45,17 @@ export const ResumePDFEducation = ({
                   marginTop: spacing['1'],
                 }}
               >
-                <ResumePDFText style={{ fontSize: 18 }} bold={true}>
-                  {school_name}
-                </ResumePDFText>
-                {location && (
+                {school_name ? (
+                  <ResumePDFText style={{ fontSize: 18 }} bold={true}>
+                    {school_name}
+                  </ResumePDFText>
+                ) : null}
+                {location ? (
                   <ResumePDFText bold={true}>
                     <ResumePDFIcon type='location' />
                     {location} {state}
                   </ResumePDFText>
-                )}
+                ) : null}
               </View>
               <View
                 style={{
@@ -61,31 +63,33 @@ export const ResumePDFEducation = ({
                   marginTop: spacing['2'],
                 }}
               >
-                <ResumePDFText>{degree_name}</ResumePDFText>
-                {starts && (
+                {degree_name ? (
+                  <ResumePDFText>{degree_name}</ResumePDFText>
+                ) : null}
+                {starts ? (
                   <ResumePDFText>
                     {starts} ~~ {ends}
                   </ResumePDFText>
-                )}
+                ) : null}
               </View>
               <View style={{ ...styles.flexCol }}>
-                {related_courses && (
+                {related_courses ? (
                   <ResumePDFText>
                     Relevant Courses: {related_courses}
                   </ResumePDFText>
-                )}
-                {areas_of_study && (
+                ) : null}
+                {areas_of_study ? (
                   <ResumePDFText>Area Of Study: {areas_of_study}</ResumePDFText>
-                )}
+                ) : null}
               </View>
-              {showAddition && (
+              {showAddition ? (
                 <View style={{ ...styles.flexCol, marginTop: spacing['1.5'] }}>
                   <ResumePDFBulletList
                     items={additional_info}
                     showBulletPoints={showBulletPoints}
                   />
                 </View>
-              )}
+              ) : null}
             </View>
           );
         }
