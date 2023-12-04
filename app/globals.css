@@ -55,6 +55,10 @@
     @apply text-[20px] font-[400] leading-[140%];
   }
 
+  .title-medium {
+    @apply text-[20px] font-[500] leading-[140%];
+  }
+
   .title-light {
     @apply text-[20px] font-[300] leading-[140%];
   }
