@@ -3,11 +3,9 @@ import { cn } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import OutcomePanel from './OutcomePanel';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
-import { clearHistory } from '@/store/reducers/brainstormSlice';
 import { useQueryEssay } from '@/query/query';
-import { clearEssay, selectTaskId } from '@/store/reducers/essaySlice';
 import dynamic from 'next/dynamic';
+import { useBrainStormContext } from '@/context/BrainStormProvider';
 const MemoizedHistoryPanel = dynamic(() => import('./HistoryPanel'), {
   ssr: false,
 });
@@ -19,9 +17,8 @@ const OutputPanel = ({
   submitError: boolean;
 }) => {
   const [tab, setTab] = useState<number>(0);
-  const dispatch = useAppDispatch();
   const printIndexRef = useRef<number>(0);
-  const task_id = useAppSelector(selectTaskId);
+  const { taskId } = useBrainStormContext();
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [animatedWordCount, setAnimatedWordCount] = useState(0);
 
@@ -42,7 +39,7 @@ const OutputPanel = ({
     refetch: essayRefetch,
     data: queryEssay,
     error,
-  } = useQueryEssay(task_id);
+  } = useQueryEssay(taskId);
 
   useEffect(() => {
     const pollInterval = setInterval(() => {
@@ -59,14 +56,6 @@ const OutputPanel = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryEssay?.status]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearHistory());
-      dispatch(clearEssay());
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>

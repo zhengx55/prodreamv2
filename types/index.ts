@@ -13,10 +13,6 @@ export interface IBrainsotrmCard {
   start_style: boolean;
 }
 
-export interface IEssay {
-  task_id: string;
-}
-
 export interface IBrainStormHistoryState {
   template_id: string;
   result: string;

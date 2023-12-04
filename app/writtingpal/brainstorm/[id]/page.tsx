@@ -3,9 +3,8 @@ import FormPanel from '@/components/brainstorm/FormPanel';
 import OutputPanel from '@/components/brainstorm/OutputPanel';
 import { Grid } from 'lucide-react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-import { Provider } from 'react-redux';
-import { store } from '../../../../store/store';
 import { useEssayWriting } from '@/query/query';
+import BrainStormProvider from '@/context/BrainStormProvider';
 
 export default function Page({ params }: { params: { id: string } }) {
   const {
@@ -15,7 +14,7 @@ export default function Page({ params }: { params: { id: string } }) {
   } = useEssayWriting();
 
   return (
-    <Provider store={store}>
+    <BrainStormProvider>
       <main className='flex h-full w-full overflow-y-hidden bg-sectionBackground'>
         <PanelGroup direction='horizontal' disablePointerEventsDuringResize>
           <Panel minSize={45} defaultSize={50}>
@@ -43,6 +42,6 @@ export default function Page({ params }: { params: { id: string } }) {
           </Panel>
         </PanelGroup>
       </main>
-    </Provider>
+    </BrainStormProvider>
   );
 }

@@ -1,14 +1,13 @@
 'use client';
 import { motion } from 'framer-motion';
 import RotbotLoader from '../root/RotbotLoader';
-import { useAppSelector } from '@/store/storehooks';
-import { selectBrainStormHistory } from '@/store/reducers/brainstormSlice';
 import { Button } from '../ui/button';
 import { Copy, Download, Trophy } from 'lucide-react';
 import { countWords } from '@/lib/utils';
 import Tooltip from '../root/Tooltip';
 import TextStreamingEffect from '../root/TextStreamingEffect';
 import PanelError from '../root/PanelError';
+import { useBrainStormContext } from '@/context/BrainStormProvider';
 
 const OutcomePanel = ({
   submitPending,
@@ -29,7 +28,7 @@ const OutcomePanel = ({
   incrementCount: () => void;
   isSubmitError: boolean;
 }) => {
-  const history = useAppSelector(selectBrainStormHistory);
+  const { historyData } = useBrainStormContext();
   return (
     <motion.div
       key='outcome'
@@ -52,8 +51,8 @@ const OutcomePanel = ({
                 />
               ) : (
                 <p className='small-normal whitespace-pre-line'>
-                  {history.result ? (
-                    history.result
+                  {historyData.result ? (
+                    historyData.result
                   ) : shouldAnimate ? (
                     <TextStreamingEffect
                       setWorkCount={incrementCount}
@@ -73,8 +72,8 @@ const OutcomePanel = ({
               <div className='flex items-center gap-x-2'>
                 <div className='tooltip'>
                   <p className='small-semibold'>
-                    {history.result
-                      ? countWords(history.result)
+                    {historyData.result
+                      ? countWords(historyData.result)
                       : shouldAnimate
                         ? animatedWordCount
                         : countWords(essaydata)}

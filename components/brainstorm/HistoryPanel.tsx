@@ -8,21 +8,15 @@ import {
   deepEqual,
   formatTimestamphh,
 } from '@/lib/utils';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
-import {
-  selectBrainStormHistory,
-  setBrainstormHistoryHistory,
-} from '@/store/reducers/brainstormSlice';
-import { clearEssay } from '@/store/reducers/essaySlice';
 import { memo } from 'react';
+import { useBrainStormContext } from '@/context/BrainStormProvider';
 const HistoryPanel = ({
   handleTabChange,
 }: {
   handleTabChange: (value: number) => void;
 }) => {
   const path = usePathname();
-  const dispatch = useAppDispatch();
-  const currentBrainStormHistory = useAppSelector(selectBrainStormHistory);
+  const { historyData, setHistoryData, setTaskId } = useBrainStormContext();
   const id = path.split('/')[path.split('/').length - 1];
   const { isPending, data, isError } = useBrainStormHistoryById(id);
   if (isPending) {
@@ -45,18 +39,16 @@ const HistoryPanel = ({
       {}
     );
     if (
-      !deepEqual(currentBrainStormHistory.questionAnswerPair, mergedObject) ||
-      currentBrainStormHistory.result !== item.result
+      !deepEqual(historyData.questionAnswerPair, mergedObject) ||
+      historyData.result !== item.result
     ) {
       // clear current output before fill in the history data
-      dispatch(clearEssay());
-      dispatch(
-        setBrainstormHistoryHistory({
-          template_id: item.template_id,
-          result: item.result,
-          questionAnswerPair: mergedObject,
-        })
-      );
+      setTaskId('');
+      setHistoryData({
+        template_id: item.template_id,
+        result: item.result,
+        questionAnswerPair: mergedObject,
+      });
       handleTabChange(0);
     }
   };

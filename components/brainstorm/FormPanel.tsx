@@ -10,17 +10,13 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { CheckCheck } from 'lucide-react';
 import { TextOptimizeBar } from './TextOptimizeBar';
-import {
-  clearHistory,
-  selectBrainStormHistory,
-} from '../../store/reducers/brainstormSlice';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { useAppSelector } from '@/store/storehooks';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
-import { clearEssay, setTaskId } from '@/store/reducers/essaySlice';
 import { useToast } from '../ui/use-toast';
 import { IBrainStormSection, Module } from '@/query/type';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { selectUserId } from '@/store/reducers/userSlice';
+import { useBrainStormContext } from '@/context/BrainStormProvider';
 
 const FormPanel = ({
   submitPending,
@@ -45,9 +41,8 @@ const FormPanel = ({
 }) => {
   const { data: moduleData, isPending: isModuleLoading } =
     useBrainStormDetail(brainStormId);
-  const dispatch = useAppDispatch();
   const user_id = useAppSelector(selectUserId);
-  const history = useAppSelector(selectBrainStormHistory);
+  const { historyData, setTaskId } = useBrainStormContext();
   const [formData, setFormData] = useState<IBrainStormSection | undefined>();
   const [formState, setFormState] = useState<Record<string, string>>({});
   const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
@@ -66,11 +61,11 @@ const FormPanel = ({
    * 需要找出所有带有➕的元素并将表格元素添加
    */
   useDeepCompareEffect(() => {
-    if (Object.keys(history.questionAnswerPair).length === 0) return;
-    if (Object.keys(history.questionAnswerPair).length !== 0) {
+    if (Object.keys(historyData.questionAnswerPair).length === 0) return;
+    if (Object.keys(historyData.questionAnswerPair).length !== 0) {
       if (!formData) return;
-      let keysWithPlus = Object.keys(history.questionAnswerPair).filter((key) =>
-        key.includes('+')
+      let keysWithPlus = Object.keys(historyData.questionAnswerPair).filter(
+        (key) => key.includes('+')
       );
       if (keysWithPlus.length > 0) {
         const keysOfMultiple = keysWithPlus[0].split('+')[0];
@@ -93,9 +88,9 @@ const FormPanel = ({
           setFormData(updatedObj);
         }
       }
-      setFormState(history.questionAnswerPair);
+      setFormState(historyData.questionAnswerPair);
     }
-  }, [history]);
+  }, [historyData]);
 
   const handleFormStateChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const name = event.target.name;
@@ -162,8 +157,6 @@ const FormPanel = ({
     const filter_key_arrays = key_arrays.map((item) =>
       item.includes('+') ? item.split('+')[0] : item
     );
-    dispatch(clearEssay());
-    dispatch(clearHistory());
     submitHandler({
       pro_mode: qualityMode === 1,
       template_id: brainStormId,
@@ -172,7 +165,7 @@ const FormPanel = ({
       word_nums: '',
       user_id,
     }).then((result) => {
-      dispatch(setTaskId(result));
+      setTaskId(result);
     });
   };
 
@@ -297,23 +290,20 @@ const FormPanel = ({
               />
               {item.question.map((item) => {
                 return (
-                  <div key={item.id} className='flex gap-x-2 md:h-[160px]'>
-                    <Label
-                      className='small-semibold flex-[0.3]'
-                      htmlFor={item.id}
-                    >
+                  <div key={item.id} className='flex gap-x-2 md:min-h-[160px]'>
+                    <Label className='small-semibold w-[30%]' htmlFor={item.id}>
                       {item.optional === 0 && (
                         <span className='text-red-500'>*&nbsp;</span>
                       )}
                       {item.text}
                     </Label>
-                    <div className='relative h-full flex-[0.7] rounded-lg border border-shadow-border'>
+                    <div className='relative w-[70%] rounded-lg border border-shadow-border'>
                       <Textarea
                         value={formState[item.id] ?? ''}
                         onChange={handleFormStateChange}
                         name={item.id}
                         id={item.id}
-                        className='small-medium h-full w-full overflow-y-auto pb-12'
+                        className='small-medium min-h-full w-full overflow-y-auto pb-12'
                         placeholder={item.example}
                         disabled={!!formStatus[item.id] || submitPending}
                       />

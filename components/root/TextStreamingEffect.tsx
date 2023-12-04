@@ -1,6 +1,4 @@
 'use client';
-import { setTaskId } from '@/store/reducers/essaySlice';
-import { useAppDispatch } from '@/store/storehooks';
 import { useEffect, useRef, useState } from 'react';
 
 type Props = {
@@ -35,7 +33,6 @@ const TextStreamingEffect = ({
       i++;
       printIndexRef.current = i;
       if (i > text.length) {
-        console.log('cleaning');
         turnOffAnimation();
         clearInterval(intervalIdRef.current);
       }
