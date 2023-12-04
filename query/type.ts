@@ -295,3 +295,14 @@ export interface ActListData {
   activities: ActData[];
   id: string;
 }
+
+export interface INotificationData {
+  content?: string;
+  create_time?: string;
+  has_read?: number;
+  id?: number;
+  notice_id?: number;
+  title?: string;
+  updete_time?: string;
+  user_id?: number;
+}

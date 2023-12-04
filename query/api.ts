@@ -7,6 +7,7 @@ import {
   IChatRequest,
   IEssayAssessRequest,
   IGenerateActListParams,
+  INotificationData,
   IOptRequest,
   IResetParams,
   ISigunUpRequest,
@@ -821,7 +822,24 @@ export async function fetchResponse(session_id: string) {
 // 通知
 // ----------------------------------------------------------------
 
-export async function fetchNotice() {}
+export async function fetchNotice(): Promise<INotificationData> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}notice`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function checkNotice() {}
 

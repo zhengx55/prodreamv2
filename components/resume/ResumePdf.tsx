@@ -31,7 +31,7 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
             rowGap: parseInt(spacing['5']),
           }}
         >
-          {/* <ResumePDFProfile profile={resume.profile} isPDF={isPDF} /> */}
+          <ResumePDFProfile profile={resume.profile} isPDF={isPDF} />
           <ResumePDFEducation
             educations={resume.educations}
             showBulletPoints

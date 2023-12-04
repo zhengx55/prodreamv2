@@ -35,7 +35,6 @@ export const ResumePDFProfile = ({
       >
         {Object.entries(iconProps).map(([key, value]) => {
           if (!value) return null;
-
           let iconType = key as IconType;
           if (key === 'website' || 'linkedin') {
             if (value.includes('github')) {
