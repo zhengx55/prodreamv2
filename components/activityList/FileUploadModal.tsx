@@ -7,32 +7,74 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Trash2, X } from 'lucide-react';
+import { Loader2, Trash2, X } from 'lucide-react';
 import Image from 'next/image';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { useToast } from '../ui/use-toast';
 import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
+import { useMutation } from '@tanstack/react-query';
+import { getDecodedData, uploadActivityFile } from '@/query/api';
 
 type Props = {
   isActive: boolean;
   toogleActive: () => void;
+  toggleDecoding: () => void;
+  appendDecodeData: (value: string[]) => void;
 };
 
-const FileUploadModal = ({ isActive, toogleActive }: Props) => {
+const FileUploadModal = ({
+  isActive,
+  toogleActive,
+  toggleDecoding,
+  appendDecodeData,
+}: Props) => {
   const { toast } = useToast();
   const [files, setFiles] = useState<File[]>([]);
+  const [parsedUrls, setParsedUrls] = useState<string[]>([]);
+  const { mutateAsync: decodeFilesAction } = useMutation({
+    mutationFn: (params: { file_urls: string[] }) => getDecodedData(params),
+    onMutate: () => {
+      toggleDecoding();
+      toogleActive();
+    },
+    onSuccess: (data) => {
+      toggleDecoding();
+      appendDecodeData(data.extracurricular_activities);
+    },
+    onError: (e) => {
+      toggleDecoding();
+      toast({
+        description: 'Opps something went wrong please try again!',
+        variant: 'destructive',
+      });
+    },
+  });
+  const { mutateAsync: handleFileUpload } = useMutation({
+    mutationFn: (params: { file: File }) => uploadActivityFile(params),
+    onSuccess(data, variables, _context) {
+      setFiles((prev) => [...prev, variables.file]);
+      setParsedUrls((prev) => [...prev, data]);
+    },
+    onError: (e) => {
+      toast({
+        description: e.message,
+        variant: 'destructive',
+      });
+    },
+    onMutate: () => {},
+  });
   const handleFileRemove = (index: number) => {
     setFiles((prev) => prev.filter((_el, idx) => idx !== index));
   };
   const onDrop = useCallback(
-    (acceptedFile: File[], fileRejections: FileRejection[]) => {
+    async (acceptedFile: File[], fileRejections: FileRejection[]) => {
       if (fileRejections.length > 0) {
         const error_message = fileRejections[0].errors[0].message;
         toast({ description: error_message, variant: 'destructive' });
         return;
       }
-      setFiles((prev) => [...prev, acceptedFile[0]]);
+      await handleFileUpload({ file: acceptedFile[0] });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -47,6 +89,9 @@ const FileUploadModal = ({ isActive, toogleActive }: Props) => {
         ['.docx'],
     },
   });
+  const handleDecodeFiles = async () => {
+    await decodeFilesAction({ file_urls: parsedUrls });
+  };
 
   return (
     <Dialog open={isActive} onOpenChange={toogleActive}>
@@ -95,7 +140,7 @@ const FileUploadModal = ({ isActive, toogleActive }: Props) => {
                   </div>
                   <div className='flex items-center gap-x-4'>
                     <p className='subtle-regular text-shadow-100'>
-                      {(file.size / 1024).toFixed(2)} kb{' '}
+                      {(file.size / 1024).toFixed(2)} kb
                     </p>
                     <div
                       onClick={() => {
@@ -113,7 +158,9 @@ const FileUploadModal = ({ isActive, toogleActive }: Props) => {
             })}
           </div>
         ) : null}
-        {files.length > 0 ? <Button>Submit</Button> : null}
+        {files.length > 0 ? (
+          <Button onClick={handleDecodeFiles}>Submit</Button>
+        ) : null}
       </DialogContent>
     </Dialog>
   );

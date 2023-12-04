@@ -284,6 +284,7 @@ export async function sendVerificationEmail(params: { email: string }) {
     throw new Error(error as string);
   }
 }
+
 export async function verifyEmail(params: IVerifyEmail) {
   try {
     const res = await fetch(
@@ -567,6 +568,54 @@ export async function updateActivityListItem(params: {
         },
       }
     );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function uploadActivityFile(params: { file: File }) {
+  try {
+    const formData = new FormData();
+    formData.append('file', params.file);
+    const token = Cookies.get('token');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}file`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function getDecodedData(params: {
+  file_urls: string[];
+}): Promise<{ extracurricular_activities: string[] }> {
+  try {
+    const body = JSON.stringify({
+      file_urls: params.file_urls,
+    });
+    const token = Cookies.get('token');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}activity_list`, {
+      method: 'POST',
+      body,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await res.json();
     if (data.code !== 0) {
       throw data.msg;
@@ -874,6 +923,7 @@ export async function profileResetEmail(params: {
     throw new Error(error as string);
   }
 }
+
 export async function profileResetPasswords(params: {
   new_password: string;
   old_password: string;
@@ -902,6 +952,7 @@ export async function profileResetPasswords(params: {
     throw new Error(error as string);
   }
 }
+
 export async function profileResetName(params: {
   first_name: string;
   last_name: string;

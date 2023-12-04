@@ -1,8 +1,8 @@
 'use client';
 import { Button } from '../ui/button';
-import { Trash2, Upload } from 'lucide-react';
+import { Loader2, Trash2, Upload } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Input } from '../ui/input';
 import { v4 } from 'uuid';
 import { Textarea } from '../ui/textarea';
@@ -22,6 +22,8 @@ const Activityloader = dynamic(() => import('./Activityloader'));
 const InputPanel = () => {
   const { toast } = useToast();
   const { setGeneratedData, setHistoryData, historyData } = useActListContext();
+  const [isDecoding, setIsDecoding] = useState(false);
+  const [decodedData, setDecodedData] = useState<string[]>([]);
   const hasHistoryData = Object.keys(historyData).length > 0;
   const [activeFileUpload, setActiveFileUpload] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -38,6 +40,14 @@ const InputPanel = () => {
       wordCount: 0,
     },
   ]);
+
+  const toggleDecoding = useCallback(() => {
+    setIsDecoding((prev) => !prev);
+  }, []);
+
+  const appendDecodeData = useCallback((value: string[]) => {
+    setDecodedData(value);
+  }, []);
 
   useDeepCompareEffect(() => {
     if (hasHistoryData) {
@@ -97,6 +107,28 @@ const InputPanel = () => {
   const toogleActive = useCallback(() => {
     setActiveFileUpload(false);
   }, []);
+
+  useDeepCompareEffect(() => {
+    if (decodedData.length === 0) {
+      return;
+    }
+    let new_desc_el_array: { id: string; text: string; wordCount: number }[] =
+      [];
+    decodedData.forEach((data) => {
+      const new_desc_el = {
+        id: v4(),
+        text: data,
+        wordCount: data.length,
+      };
+      new_desc_el_array = [...new_desc_el_array, new_desc_el];
+    });
+    setDescriptions((prev) => {
+      if (prev.length === 1 && !prev[0].text) {
+        return [...new_desc_el_array];
+      }
+      return [...prev, ...new_desc_el_array];
+    });
+  }, [decodedData]);
 
   const handleDescriptionChange = (
     e: ChangeEvent<HTMLTextAreaElement>,
@@ -196,6 +228,8 @@ const InputPanel = () => {
       <FileUploadModal
         isActive={activeFileUpload}
         toogleActive={toogleActive}
+        toggleDecoding={toggleDecoding}
+        appendDecodeData={appendDecodeData}
       />
 
       {isGenerating && (
@@ -214,14 +248,25 @@ const InputPanel = () => {
         <p className='small-regular text-shadow'>
           We support docx, pdf file types.
         </p>
-        <Button
-          onClick={() => setActiveFileUpload(true)}
-          variant={'ghost'}
-          className='mt-1 h-full border border-shadow-border py-3 leading-6 shadow-none'
-        >
-          <Upload />
-          Upload
-        </Button>
+        {isDecoding ? (
+          <Button
+            disabled
+            variant={'ghost'}
+            className='mt-1 h-full border border-shadow-border py-3 leading-6 shadow-none'
+          >
+            <Loader2 className=' animate-spin' />
+            Decoding File
+          </Button>
+        ) : (
+          <Button
+            onClick={() => setActiveFileUpload(true)}
+            variant={'ghost'}
+            className='mt-1 h-full border border-shadow-border py-3 leading-6 shadow-none'
+          >
+            <Upload />
+            Upload
+          </Button>
+        )}
       </section>
       {/* activity description */}
       <section className='flex w-full shrink-0 flex-col gap-y-2 rounded-xl bg-white p-6'>
@@ -326,7 +371,11 @@ const InputPanel = () => {
           )}
         </div>
 
-        <Button onClick={handleGenerate} className='h-full py-3'>
+        <Button
+          disabled={isDecoding}
+          onClick={handleGenerate}
+          className='h-full py-3'
+        >
           Generate
         </Button>
       </section>
