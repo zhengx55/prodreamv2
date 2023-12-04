@@ -98,9 +98,6 @@ const OutcomePanel = ({
 
                 <Button size={'sm'}>Polish Now</Button>
               </div>
-              <div className='tiny-medium rounded-md bg-shadow-border p-1 text-shadow'>
-                The content above is synthesized by AI
-              </div>
             </div>
           </>
         )}

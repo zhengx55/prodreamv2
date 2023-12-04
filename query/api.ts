@@ -151,7 +151,7 @@ export async function SubmitEssayWritting(
           word_nums,
           texts,
           types,
-          user_id,
+          user_id: user_id.toString(),
         }),
         headers: {
           'Content-Type': 'application/json',
