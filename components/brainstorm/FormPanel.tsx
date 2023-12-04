@@ -20,7 +20,7 @@ import { clearEssay, setTaskId } from '@/store/reducers/essaySlice';
 import { useToast } from '../ui/use-toast';
 import { IBrainStormSection, Module } from '@/query/type';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-import { selectUserId } from '@/store/reducers/userReducer';
+import { selectUserId } from '@/store/reducers/userSlice';
 
 const FormPanel = ({
   submitPending,

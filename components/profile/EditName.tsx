@@ -25,10 +25,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { profileResetName } from '@/query/api';
-import {
-  setUserFirstName,
-  setUserLastName,
-} from '@/store/reducers/userReducer';
+import { setUserFirstName, setUserLastName } from '@/store/reducers/userSlice';
 
 type Props = {
   isActive: boolean;

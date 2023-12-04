@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 import { profileResetAvatar, refreshUserSession } from '@/query/api';
-import { selectUser } from '@/store/reducers/userReducer';
+import { selectUser } from '@/store/reducers/userSlice';
 import { useAppSelector } from '@/store/storehooks';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';

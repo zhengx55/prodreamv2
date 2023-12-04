@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { memo } from 'react';
-import { selectUser } from '@/store/reducers/userReducer';
+import { selectUser } from '@/store/reducers/userSlice';
 import { useAppSelector } from '@/store/storehooks';
 import Referal from './Referal';
 import User from './User';

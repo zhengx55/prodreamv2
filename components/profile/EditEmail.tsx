@@ -26,7 +26,7 @@ import { useMutation } from '@tanstack/react-query';
 import { profileResetEmail } from '@/query/api';
 import { useToast } from '../ui/use-toast';
 import { useAppDispatch } from '@/store/storehooks';
-import { setUserEmail } from '@/store/reducers/userReducer';
+import { setUserEmail } from '@/store/reducers/userSlice';
 
 type Props = {
   isActive: boolean;

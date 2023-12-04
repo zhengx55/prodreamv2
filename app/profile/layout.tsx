@@ -3,7 +3,7 @@ import ProfileSidebar from '@/components/root/ProfileSidebar';
 import { Toaster } from '@/components/ui/toaster';
 import useMount from '@/hooks/useMount';
 import { refreshUserSession } from '@/query/api';
-import { setUser } from '@/store/reducers/userReducer';
+import { setUser } from '@/store/reducers/userSlice';
 import { store } from '@/store/store';
 import { useAppDispatch } from '@/store/storehooks';
 import { redirect } from 'next/navigation';

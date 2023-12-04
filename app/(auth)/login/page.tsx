@@ -22,7 +22,7 @@ import GoogleSignin from '@/components/auth/GoogleSignin';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useAppDispatch } from '@/store/storehooks';
-import { setUser } from '@/store/reducers/userReducer';
+import { setUser } from '@/store/reducers/userSlice';
 import { useMutation } from '@tanstack/react-query';
 import { userLogin } from '@/query/api';
 import { useToast } from '@/components/ui/use-toast';
