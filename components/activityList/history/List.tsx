@@ -17,7 +17,8 @@ import { useToast } from '@/components/ui/use-toast';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { useRouter } from 'next/navigation';
 import { useActListContext } from '@/context/ActListProvider';
-import DeleteModal from '../DeleteModal';
+import dynamic from 'next/dynamic';
+const DeleteModal = dynamic(() => import('../DeleteModal'), { ssr: false });
 
 type Props = {
   item: IActHistoryData;
@@ -34,6 +35,7 @@ const List = ({ item }: Props) => {
         description: 'Delete activity list successfully',
         variant: 'default',
       });
+      toogleDeleteModal();
       clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError(error) {
@@ -91,14 +93,13 @@ const List = ({ item }: Props) => {
 
   return (
     <div className='flex w-full shrink-0 flex-col gap-y-5 rounded-[10px] bg-white p-4'>
-      {showDelete && (
-        <DeleteModal
-          deleteId={item.id}
-          isActive={showDelete}
-          toogleActive={toogleDeleteModal}
-          removeCallback={handleDelete}
-        />
-      )}
+      <DeleteModal
+        deleteId={item.id}
+        isActive={showDelete}
+        toogleActive={toogleDeleteModal}
+        removeCallback={handleDelete}
+      />
+
       <div className='flex-between'>
         <div className='flex items-center gap-x-2'>
           <h1 className='title-semibold'>

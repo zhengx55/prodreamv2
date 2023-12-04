@@ -168,6 +168,9 @@ export function formatTimestampToDateString(timestamp: number) {
   const month = monthNames[date.getMonth()];
   const day = date.getDate();
   const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
 
-  return `${month} ${day}, ${year}`;
+  return `${month} ${day}, ${year} ${hours}:${minutes}:${seconds}`;
 }
