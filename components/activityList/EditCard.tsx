@@ -5,11 +5,18 @@ import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { useToast } from '../ui/use-toast';
 import { useMutation } from '@tanstack/react-query';
-import { generateActivityList, updateActivityListItem } from '@/query/api';
+import {
+  deleteActivityListItem,
+  generateActivityList,
+  updateActivityListItem,
+} from '@/query/api';
 import clearCachesByServerAction from '@/lib/revalidate';
 import PolishLoader from './PolishLoader';
 import { useActListContext } from '@/context/ActListProvider';
-import DeleteModal from './DeleteModal';
+import { Trash2 } from 'lucide-react';
+import Tooltip from '../root/Tooltip';
+import dynamic from 'next/dynamic';
+const DeleteModal = dynamic(() => import('./DeleteModal'), { ssr: false });
 
 type Props = {
   dataType: 'generated' | 'history';
@@ -25,7 +32,10 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
   const [text, setText] = useState(
     dataType === 'generated' ? data.result : data.text
   );
-  const { handleSave } = useActListContext();
+  const [cachedData, setCachedData] = useState<{
+    text: string;
+  }>();
+  const { handleSave, handleDelete } = useActListContext();
   const [isPoslishing, setIsPoslishing] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
@@ -34,8 +44,9 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
   }, []);
 
   const handleRevert = () => {
-    setText(data.result ? data.result : data.text);
-    setTitle(data.title);
+    if (!cachedData) return;
+    setText(cachedData.text);
+    setCachedData(undefined);
   };
 
   const { mutateAsync: saveChange } = useMutation({
@@ -58,20 +69,42 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
     },
   });
 
+  const { mutateAsync: removeItem } = useMutation({
+    mutationFn: (id: string) => deleteActivityListItem(id),
+    onSuccess() {
+      toast({
+        description: 'Delete activity successfully',
+        variant: 'default',
+      });
+      setShowDelete(false);
+      handleDelete(data.id, type, dataType);
+      clearCachesByServerAction('/writtingpal/activityList/history');
+    },
+    onError(error) {
+      toast({
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
   const { mutateAsync: polishActItem } = useMutation({
     mutationFn: (params: IGenerateActListParams) =>
       generateActivityList(params),
     onMutate: () => {
       setIsPoslishing(true);
     },
-    onSuccess: (result) => {
+    onSuccess: (result, varaibles) => {
       setIsPoslishing(false);
       toast({
         description: 'Activity list polished successfully!',
         variant: 'default',
       });
-      clearCachesByServerAction('/writtingpal/activityList/history');
+      setCachedData({
+        text: varaibles.texts[0],
+      });
       setText(result[type].activities[0].result as string);
+      clearCachesByServerAction('/writtingpal/activityList/history');
     },
 
     onError: () => {
@@ -82,6 +115,11 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
       });
     },
   });
+
+  const removeCallback = useCallback(async (id: string) => {
+    await removeItem(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSaveAct = async () => {
     const compate_result = data.result ? data.result : data.text;
@@ -113,13 +151,28 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
 
   return (
     <div className='relative flex shrink-0 flex-col gap-y-2 rounded-[10px] border border-border-50 bg-sectionBackground px-4 py-3'>
-      {/* {showDelete && (
-        <DeleteModal isActive={showDelete} toogleActive={toogleDeleteModal} />
-      )} */}
+      <DeleteModal
+        deleteId={data.id}
+        isActive={showDelete}
+        toogleActive={toogleDeleteModal}
+        removeCallback={removeCallback}
+      />
       {isPoslishing ? (
         <PolishLoader toogleLoadingModal={toogleLoadingModal} />
       ) : null}
-      <h1 className='base-semibold'>Activity {index}</h1>
+      <div className='flex-between'>
+        <h1 className='base-semibold'>Activity {index}</h1>
+        <div
+          onClick={() => {
+            setShowDelete(true);
+          }}
+          className='cursor-pointer rounded-md border-2 border-shadow-200 bg-white p-1.5 hover:bg-nav-selected'
+        >
+          <Tooltip tooltipContent='Delete'>
+            <Trash2 size={20} />
+          </Tooltip>
+        </div>
+      </div>
       <Input
         name='act-title'
         value={title}
@@ -183,6 +236,7 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
           onClick={handleRevert}
           variant={'secondary'}
           className='border-none'
+          disabled={!cachedData}
         >
           Revert changes
         </Button>
