@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { generateActivityList } from '@/query/api';
 import { IGenerateActListParams, Mode } from '@/query/type';
 import { useToast } from '../ui/use-toast';
-import { motion } from 'framer-motion';
+import { Variants, motion } from 'framer-motion';
 import clearCachesByServerAction from '@/lib/revalidate';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { useActListContext } from '@/context/ActListProvider';
@@ -19,7 +19,7 @@ import dynamic from 'next/dynamic';
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 const Activityloader = dynamic(() => import('./Activityloader'));
 
-const InputPanel = () => {
+const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   const { toast } = useToast();
   const { setGeneratedData, setHistoryData, historyData } = useActListContext();
   const [isDecoding, setIsDecoding] = useState(false);
@@ -215,12 +215,16 @@ const InputPanel = () => {
     setIsGenerating(true);
     await generateActList(params);
   };
+  const fullScreenVariants: Variants = {
+    half: { width: '50%', opacity: 1 },
+    full: { width: '0%', opacity: 0 },
+  };
 
   return (
     <motion.div
-      initial={{ width: '50%', opacity: 1 }}
-      animate={{ width: '50%', opacity: 1 }}
-      exit={{ width: '0%', opacity: 0 }}
+      initial={false}
+      variants={fullScreenVariants}
+      animate={fullScreen ? 'full' : 'half'}
       className='custom-scrollbar flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'
     >
       {/* Dialogs here */}
