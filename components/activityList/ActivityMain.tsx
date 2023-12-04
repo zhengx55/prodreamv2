@@ -5,9 +5,7 @@ import InputPanel from './InputPanel';
 import OutputPanel from './OutputPanel';
 import { AnimatePresence } from 'framer-motion';
 
-type Props = {};
-
-const ActivityMain = (props: Props) => {
+const ActivityMain = () => {
   const [fullScreen, setFullScreen] = useState(false);
   return (
     <div className='flex h-[calc(100vh_-var(--top-nav-bar-height)_-142px)] py-4'>

@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import {
   Dialog,
   DialogClose,
@@ -7,10 +7,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { X } from 'lucide-react';
+import { Trash2, X } from 'lucide-react';
 import Image from 'next/image';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { useToast } from '../ui/use-toast';
+import Tooltip from '../root/Tooltip';
+import { Button } from '../ui/button';
 
 type Props = {
   isActive: boolean;
@@ -19,6 +21,10 @@ type Props = {
 
 const FileUploadModal = ({ isActive, toogleActive }: Props) => {
   const { toast } = useToast();
+  const [files, setFiles] = useState<File[]>([]);
+  const handleFileRemove = (index: number) => {
+    setFiles((prev) => prev.filter((_el, idx) => idx !== index));
+  };
   const onDrop = useCallback(
     (acceptedFile: File[], fileRejections: FileRejection[]) => {
       if (fileRejections.length > 0) {
@@ -26,7 +32,7 @@ const FileUploadModal = ({ isActive, toogleActive }: Props) => {
         toast({ description: error_message, variant: 'destructive' });
         return;
       }
-      console.log(acceptedFile);
+      setFiles((prev) => [...prev, acceptedFile[0]]);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -76,9 +82,41 @@ const FileUploadModal = ({ isActive, toogleActive }: Props) => {
           </p>
           <p className='small-regular'>Maximum file size: 1M</p>
         </div>
+        {files.length > 0 ? (
+          <div className='my-6 flex max-h-[184px] flex-col space-y-2 overflow-y-auto'>
+            {files.map((file, index) => {
+              return (
+                <div className='flex-between' key={`file-${index}`}>
+                  <div className='flex items-center gap-x-2'>
+                    <div className='flex-center relative h-10 w-10 rounded-[4px] bg-primary-200/30'>
+                      <Image src='/file.svg' alt='file' fill />
+                    </div>
+                    <p className='subtle-regular'>{file.name}</p>
+                  </div>
+                  <div className='flex items-center gap-x-4'>
+                    <p className='subtle-regular text-shadow-100'>
+                      {(file.size / 1024).toFixed(2)} kb{' '}
+                    </p>
+                    <div
+                      onClick={() => {
+                        handleFileRemove(index);
+                      }}
+                      className='cursor-pointer rounded-md border-2 border-shadow-200 bg-white p-1 hover:bg-nav-selected'
+                    >
+                      <Tooltip tooltipContent='Delete'>
+                        <Trash2 size={18} />
+                      </Tooltip>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
+        {files.length > 0 ? <Button>Submit</Button> : null}
       </DialogContent>
     </Dialog>
   );
 };
 
-export default FileUploadModal;
+export default memo(FileUploadModal);

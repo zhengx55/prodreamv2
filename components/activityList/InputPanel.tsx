@@ -10,12 +10,14 @@ import { useMutation } from '@tanstack/react-query';
 import { generateActivityList } from '@/query/api';
 import { IGenerateActListParams, Mode } from '@/query/type';
 import { useToast } from '../ui/use-toast';
-import Activityloader from './Activityloader';
 import { motion } from 'framer-motion';
-import FileUploadModal from './FileUploadModal';
 import clearCachesByServerAction from '@/lib/revalidate';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { useActListContext } from '@/context/ActListProvider';
+import dynamic from 'next/dynamic';
+
+const FileUploadModal = dynamic(() => import('./FileUploadModal'));
+const Activityloader = dynamic(() => import('./Activityloader'));
 
 const InputPanel = () => {
   const { toast } = useToast();
@@ -190,12 +192,12 @@ const InputPanel = () => {
       className='custom-scrollbar flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'
     >
       {/* Dialogs here */}
-      {activeFileUpload && (
-        <FileUploadModal
-          isActive={activeFileUpload}
-          toogleActive={toogleActive}
-        />
-      )}
+
+      <FileUploadModal
+        isActive={activeFileUpload}
+        toogleActive={toogleActive}
+      />
+
       {isGenerating && (
         <Activityloader
           isGenerating={isGenerating}
