@@ -71,10 +71,8 @@ const HistoryPanel = ({
               key={`history-${item.template_id}-${index}`}
               className='flex cursor-pointer flex-col justify-between rounded-lg bg-white p-5 hover:border hover:border-primary-200 md:h-[200px] md:w-[full]'
             >
-              <p className='small-regular text-left text-shadow'>
-                {item.result.length > 200
-                  ? `${item.result.slice(0, 200)}...`
-                  : item.result}
+              <p className='small-regular line-clamp-6 text-left text-shadow'>
+                {item.result}
               </p>
               <p className='small-regular text-primary-200'>
                 {formatTimestamphh(item.create_time)}
