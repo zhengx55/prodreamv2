@@ -39,7 +39,7 @@ const OutcomePanel = ({
       className='h-full w-full overflow-hidden py-4 pl-2 pr-6'
     >
       <div className='relative h-full w-full rounded-md bg-white px-6 pb-14 pt-6 shadow-panel'>
-        {isSubmitError ? (
+        {isSubmitError && !historyData.result ? (
           <PanelError />
         ) : (
           <>

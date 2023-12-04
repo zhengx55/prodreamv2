@@ -42,7 +42,7 @@ const FormPanel = ({
   const { data: moduleData, isPending: isModuleLoading } =
     useBrainStormDetail(brainStormId);
   const user_id = useAppSelector(selectUserId);
-  const { historyData, setTaskId } = useBrainStormContext();
+  const { historyData, setTaskId, setHistoryData } = useBrainStormContext();
   const [formData, setFormData] = useState<IBrainStormSection | undefined>();
   const [formState, setFormState] = useState<Record<string, string>>({});
   const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
@@ -157,6 +157,7 @@ const FormPanel = ({
     const filter_key_arrays = key_arrays.map((item) =>
       item.includes('+') ? item.split('+')[0] : item
     );
+    setHistoryData({ template_id: '', result: '', questionAnswerPair: {} });
     submitHandler({
       pro_mode: qualityMode === 1,
       template_id: brainStormId,
