@@ -13,11 +13,11 @@ export const AnimatedLogo = ({
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='158'
-      height='25'
+      width='126'
+      height='20'
       viewBox='0 0 158 25'
       fill='none'
-      className={cn(className, `${show ? 'block' : 'hidden'} ml-4`)}
+      className={cn(className, `${show ? 'block' : 'hidden'} ml-2`)}
     >
       <g clipPath='url(#clip0_1292_21308)'>
         <path

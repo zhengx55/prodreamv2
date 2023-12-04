@@ -20,33 +20,30 @@ const MAX_AVATAR = () => (
 
 const ChatTrigger = () => {
   return (
-    <div className='ml-[2.5%] mt-8 flex h-[120px] w-[95%] justify-between gap-x-3 rounded-xl border border-shadow-border p-2.5'>
-      <div className='relative flex-[0.25]'>
-        <Image
-          alt='max'
-          src='/max.png'
-          className='object-contain'
-          fill
-          sizes='(max-width: 768px) 100vw, 33vw'
-        />
+    <div className='ml-[2.5%] mt-8 flex w-[95%] flex-col justify-between gap-y-4'>
+      <div className='flex items-center gap-x-2'>
+        <div className='flex-center h-11 w-11 cursor-pointer rounded-[47px] rounded-bl-none bg-chat'>
+          <Image
+            alt='max'
+            src='/max.png'
+            className='h-auto w-5'
+            width={0}
+            height={0}
+          />
+        </div>
+        <h2 className='text-regular font-semibold'>Hi! I&apos;m Max</h2>
       </div>
-      {/* max avatar */}
-      <div className='flex h-full flex-[0.75] flex-col justify-between'>
-        <h1 className='small-medium'>Hi! I&apos;m Max</h1>
-        <p className='subtle-regular text-shadow-100'>
-          Specialize in transfer admissions
-        </p>
-        <DialogTrigger asChild>
-          <Button
-            variant={'outline'}
-            size={'sm'}
-            className='subtle-medium h-7 gap-x-1 border-primary-200 text-primary-200 hover:-translate-y-1 hover:transition-transform'
-          >
-            <MAX_AVATAR />
-            Let&apos;s Chat
-          </Button>
-        </DialogTrigger>
-      </div>
+
+      <DialogTrigger asChild>
+        <Button
+          variant={'outline'}
+          size={'sm'}
+          className='subtle-medium h-7 gap-x-1 rounded-[5px] border-primary-200 text-primary-200 hover:-translate-y-1 hover:transition-transform'
+        >
+          <MAX_AVATAR />
+          Let&apos;s Chat
+        </Button>
+      </DialogTrigger>
     </div>
   );
 };

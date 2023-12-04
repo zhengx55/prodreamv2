@@ -48,7 +48,7 @@ const ChatModal = ({ expandSidebar }: Props) => {
         <ChatTrigger />
       ) : (
         <DialogTrigger asChild>
-          <div className='flex-center ml-2 mt-8 h-11 w-11 cursor-pointer rounded-[47px] rounded-bl-none bg-primary-50 transition-transform hover:-translate-y-1'>
+          <div className='flex-center ml-2 mt-8 h-11 w-11 cursor-pointer rounded-[47px] rounded-bl-none bg-chat transition-transform hover:-translate-y-1'>
             <Image
               alt='max'
               src='/max.png'

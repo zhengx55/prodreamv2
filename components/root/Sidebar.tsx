@@ -61,7 +61,7 @@ const Sidebar = () => {
   }, [pathname]);
 
   const sidebarVariants: Variants = {
-    open: { width: '250px' },
+    open: { width: '180px' },
     closed: { width: '70px' },
   };
 
