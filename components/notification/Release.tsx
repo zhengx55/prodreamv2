@@ -6,7 +6,6 @@ import { Button } from '../ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
-type Props = {};
 const variants: Variants = {
   enter: (direction: number) => {
     return {
@@ -28,7 +27,7 @@ const variants: Variants = {
   },
 };
 
-const Release = (props: Props) => {
+const Release = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
