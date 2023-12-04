@@ -232,6 +232,7 @@ export interface IChatSessionData {
   content: string;
   order: number;
   role: Role;
+  status?: 'loading';
 }
 
 export enum Role {

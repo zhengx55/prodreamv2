@@ -48,6 +48,7 @@ const ChatHistory = () => {
   useEffect(() => {
     if (chatHistory?.length === 0) {
       setShowMenu(true);
+      setCurrentSession('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatHistory?.length]);

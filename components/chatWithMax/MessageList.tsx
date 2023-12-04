@@ -8,11 +8,14 @@ import React, {
   useState,
   KeyboardEvent,
   useRef,
+  useCallback,
 } from 'react';
 import { Input } from '../ui/input';
 import { fetchResponse, sendMessage } from '@/query/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import TextStreamingEffect from '../root/TextStreamingEffect';
+import ChatTextStreamingEffect from './ChatTextStreamingEffect';
 
 const MessageLoading = () => (
   <div className='flex gap-x-1'>
@@ -38,6 +41,8 @@ const MessageList = () => {
   const chatPanelRef = useRef<HTMLElement>(null);
   const [isTyping, setIsTyping] = useState(false);
   const queryClient = useQueryClient();
+  const printIndexRef = useRef<number>(0);
+  const [animatedText, setAnimatedText] = useState('');
 
   const scrollToBottom = () => {
     if (chatPanelRef.current) {
@@ -56,25 +61,29 @@ const MessageList = () => {
       respondTimer.current = setInterval(async () => {
         try {
           const response = await fetchResponse(data);
+          if (response.status === 'doing') {
+            if (response.text) {
+              setAnimatedText(response.text);
+              setSystemLoading(false);
+            }
+          }
           if (response.status === 'done') {
+            setAnimatedText(response.text);
             clearInterval(respondTimer.current);
-            setSystemLoading(false);
             if (!currentSession) {
               setSessionId(data);
               queryClient.invalidateQueries({ queryKey: ['chat_history'] });
             }
-            setMessageList((prev) => [
-              ...prev,
-              { role: Role.System, content: response.text, order: 1 },
-            ]);
           }
         } catch (error) {
           setSystemLoading(false);
           console.log(error);
         }
-      }, 2000);
+      }, 1500);
     },
-    onError: () => {},
+    onError: () => {
+      setSystemLoading(false);
+    },
   });
 
   useEffect(() => {
@@ -169,6 +178,29 @@ const MessageList = () => {
             </div>
           </div>
         ))}
+        {animatedText && (
+          <div className='flex gap-x-3'>
+            <div className='flex-center relative h-12 w-12 shrink-0  rounded-[4px] bg-primary-50'>
+              <Image
+                alt='max'
+                src='/max.png'
+                width={30}
+                className='self-end'
+                height={40}
+              />
+            </div>
+            <div className='flex flex-col gap-y-2'>
+              <h1 className='base-semibold'>Max</h1>
+              <ChatTextStreamingEffect
+                printIndexRef={printIndexRef}
+                text={animatedText}
+                speed={30}
+                setAnimatedText={setAnimatedText}
+                setMessageList={setMessageList}
+              />
+            </div>
+          </div>
+        )}
         {systemLoading && (
           <div className='flex gap-x-3'>
             <div className='flex-center relative h-12 w-12 shrink-0  rounded-[4px] bg-primary-50'>
