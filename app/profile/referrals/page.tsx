@@ -32,7 +32,7 @@ export default async function Page() {
   const { link, count } = await fetchReferalInfos();
 
   return (
-    <main className='flex flex-1 flex-col overflow-y-auto md:px-16 md:py-10'>
+    <main className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col overflow-y-auto px-16 py-10'>
       <h1 className='h2-bold'>Referrals</h1>
       <Separator orientation='horizontal' className='mt-7 bg-shadow-border' />
       <div className='flex flex-col gap-y-8 pt-8'>

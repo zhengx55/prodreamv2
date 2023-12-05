@@ -1,8 +1,7 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
 import { ProfileSidebarLinks } from '@/constant';
-import { AnimatedLogo } from './AnimatedLogo';
-import { ChevronLeft, User } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -14,14 +13,10 @@ const ProfileSidebar = () => {
   };
 
   return (
-    <aside className='relative hidden w-[250px] shrink-0 flex-col border-r border-r-shadow-border bg-white md:flex md:px-2 md:py-5'>
-      <div className='h-[30px]'>
-        <AnimatedLogo show />
-      </div>
-
-      <ul className='relative mt-8 flex flex-col gap-5'>
+    <aside className='relative hidden w-[180px] shrink-0 flex-col border-r border-r-shadow-border bg-white md:flex md:px-2 md:py-5'>
+      <ul className='relative mt-2 flex flex-col gap-5'>
         <Link
-          className='title-regular flex items-center gap-x-1 pl-2 text-black-200'
+          className='base-regular flex items-center gap-x-1 pl-2 text-black-200'
           href={'/writtingpal/polish'}
         >
           <ChevronLeft />

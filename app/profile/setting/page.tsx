@@ -66,7 +66,7 @@ export default function Page() {
     setEditName((prev) => !prev);
   }, []);
   return (
-    <main className='flex flex-1 flex-col md:px-16 md:py-10'>
+    <main className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col overflow-y-auto px-16 py-10'>
       <EditName isActive={IsEditName} toogleActive={toggleNameModal} />
       <EditEmail isActive={IsEditEmail} toogleActive={toogleEmailModal} />
       <EditPassword isActive={IsEditPassword} toogleActive={togglePassModal} />

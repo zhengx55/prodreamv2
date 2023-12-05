@@ -1,5 +1,7 @@
 'use client';
+import Navbar from '@/components/root/Navbar';
 import ProfileSidebar from '@/components/root/ProfileSidebar';
+import Sidebar from '@/components/root/Sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import useMount from '@/hooks/useMount';
 import { refreshUserSession } from '@/query/api';
@@ -29,10 +31,14 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
 
   return (
     <Provider store={store}>
-      <ProfileSidebar />
-      <div className='flex h-full w-full flex-col overflow-x-auto md:overflow-y-hidden'>
+      <Sidebar />
+      <div className='hidden h-full w-full flex-col overflow-x-auto sm:flex md:overflow-y-hidden'>
+        <Navbar />
         <Toaster />
-        {children}
+        <main className='flex flex-1'>
+          <ProfileSidebar />
+          {children}
+        </main>
       </div>
     </Provider>
   );

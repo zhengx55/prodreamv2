@@ -2,7 +2,6 @@
 import { usePathname } from 'next/navigation';
 import React, { memo } from 'react';
 import Referal from './Referal';
-import dynamic from 'next/dynamic';
 import Notification from './Notification';
 import UserNavMenu from './UserNavMenu';
 
@@ -16,7 +15,9 @@ const Navbar = () => {
           ? 'Activity List'
           : pathname.split('/')[2] === 'polish'
             ? 'AI Editor'
-            : pathname.split('/')[2]}
+            : pathname.split('/')[1] === 'profile'
+              ? 'Account Center'
+              : pathname.split('/')[2]}
       </h3>
       <div className='flex items-center gap-x-2 md:gap-x-4'>
         <Referal />
