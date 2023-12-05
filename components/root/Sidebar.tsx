@@ -99,7 +99,7 @@ const Sidebar = () => {
         whileHover={{
           scale: 1.1,
         }}
-        className='flex-center absolute -right-5 top-2 h-10 w-10 cursor-pointer rounded-full border border-shadow-border bg-white'
+        className='flex-center absolute -right-5 top-2 z-50 h-10 w-10 cursor-pointer rounded-full border border-shadow-border bg-white'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'

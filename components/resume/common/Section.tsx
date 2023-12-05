@@ -28,7 +28,7 @@ const ResumePDFSection = ({
           fontWeight: 'bold',
           textTransform: 'uppercase',
           letterSpacing: '0.3pt', // tracking-wide -> 0.025em * 12 pt = 0.3pt
-          fontSize: 18,
+          fontSize: 20,
         }}
       >
         {heading}
@@ -37,10 +37,9 @@ const ResumePDFSection = ({
     {heading && (
       <View
         style={{
-          height: 2,
+          height: 1,
           width: '100%',
-          marginBottom: spacing['2'],
-          backgroundColor: themeColor,
+          backgroundColor: '#000',
         }}
       />
     )}

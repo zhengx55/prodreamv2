@@ -54,7 +54,7 @@ const Navbar = () => {
             <Bulletin />
           </DropdownMenuContent>
         </DropdownMenu>
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className='flex-center h-11 w-11 cursor-pointer rounded-full bg-primary-50 text-primary-200 transition-transform hover:scale-110 data-[state=open]:bg-primary-200 data-[state=open]:text-primary-50 '>
               <HelpCircle size={22} />
@@ -78,7 +78,7 @@ const Navbar = () => {
               <Headphones size={18} /> Contact Us
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
 
         <NavigationMenu>
           <NavigationMenuItem>

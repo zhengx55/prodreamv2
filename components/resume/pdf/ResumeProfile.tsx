@@ -20,7 +20,7 @@ export const ResumePDFProfile = ({
   return (
     <ResumePDFSection style={{ marginTop: spacing['4'] }}>
       <ResumePDFText
-        themeColor='#7D22F5'
+        themeColor='#000'
         bold={true}
         style={{ fontSize: '20pt', textTransform: 'capitalize' }}
       >
