@@ -49,7 +49,6 @@ export default function Page() {
         variant: 'default',
         description: 'Successfully Login',
       });
-      setCookie('user', JSON.stringify(data), { path: '/', maxAge: 604800 });
       setCookie('token', data.access_token, {
         path: '/',
         maxAge: 604800,

@@ -1,7 +1,7 @@
 'use client';
 import { Bell, ChevronUp } from 'lucide-react';
-import { usePathname } from 'next/navigation';
-import React, { memo } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { Fragment, memo } from 'react';
 import { selectUser } from '@/store/reducers/userSlice';
 import { useAppSelector } from '@/store/storehooks';
 import Referal from './Referal';
@@ -24,13 +24,40 @@ import { ProfileDropdownLinks } from '@/constant';
 import Image from 'next/image';
 import { Separator } from '../ui/separator';
 import Link from 'next/link';
+import { useMutation } from '@tanstack/react-query';
+import { userLogOut } from '@/query/api';
+import { useCookies } from 'react-cookie';
 
 const Bulletin = dynamic(() => import('../notification/Bulletin'));
 
 const Navbar = () => {
   const pathname = usePathname();
   const user = useAppSelector(selectUser);
-  const handleProfileClick = () => {};
+  const router = useRouter();
+  const [_cookies, _setCookie, removeCookie] = useCookies(['token']);
+
+  const { mutateAsync: logOut } = useMutation({
+    mutationFn: () => userLogOut(),
+    onSuccess: () => {
+      removeCookie('token', { path: '/' });
+      router.push('/login');
+    },
+  });
+  const handleProfileClick = async (index: number) => {
+    switch (index) {
+      case 0:
+        router.push('/profile/referrals');
+        break;
+      case 1:
+        window.open('https://quickapply.app/blog', '_blank');
+        break;
+      case 2:
+        await logOut();
+        break;
+      default:
+        break;
+    }
+  };
   return (
     <nav className='flex-between relative h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold hidden capitalize text-black-200 md:block'>
@@ -120,8 +147,8 @@ const Navbar = () => {
                 orientation='horizontal'
                 className='bg-shadow-border'
               />
-              {ProfileDropdownLinks.map((item) => (
-                <>
+              {ProfileDropdownLinks.map((item, index) => (
+                <Fragment key={item.id}>
                   {item.title === 'Log out' ? (
                     <Separator
                       orientation='horizontal'
@@ -129,8 +156,8 @@ const Navbar = () => {
                     />
                   ) : null}
                   <div
-                    key={item.id}
                     className='flex cursor-pointer items-center gap-x-2 px-4 py-3 hover:bg-shadow-50'
+                    onClick={() => handleProfileClick(index)}
                   >
                     <Image
                       alt={item.title}
@@ -141,7 +168,7 @@ const Navbar = () => {
                     />
                     <p className='small-regular'>{item.title}</p>
                   </div>
-                </>
+                </Fragment>
               ))}
             </NavigationMenuContent>
           </NavigationMenuItem>

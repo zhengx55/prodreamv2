@@ -6,7 +6,6 @@ import { ThemeProvider } from '@/context/ThemeProvider';
 import { Poppins } from 'next/font/google';
 import UserStoreProvider from '@/store/userProvider';
 import { Analytics } from '@vercel/analytics/react';
-
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600'],
