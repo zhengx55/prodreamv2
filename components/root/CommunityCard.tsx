@@ -3,7 +3,6 @@ import { Button } from '../ui/button';
 import { memo } from 'react';
 
 const CommunityCard = () => {
-  console.log('render');
   return (
     <div className='absolute bottom-4 hidden h-[180px] w-[90%] items-center gap-y-3 rounded-lg border border-primary-200 px-4 py-2 md:flex md:flex-col'>
       <p className='small-regular text-center'>Join our community</p>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import ChatTrigger from './ChatTrigger';
 import Image from 'next/image';
@@ -67,4 +67,4 @@ const ChatModal = ({ expandSidebar }: Props) => {
   );
 };
 
-export default ChatModal;
+export default memo(ChatModal);
