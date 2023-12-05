@@ -13,11 +13,11 @@ const Card = ({ cardItem }: Props) => {
     <div
       onClick={() => {
         // !TEST
-        if (cardItem.id === '820e6ec3bb1648958140ffac066836e9') {
-          router.push(`/writtingpal/brainstorm/${cardItem.id}/chat`);
-        } else {
-          router.push(`/writtingpal/brainstorm/${cardItem.id}`);
-        }
+        // if (cardItem.id === '820e6ec3bb1648958140ffac066836e9') {
+        //   router.push(`/writtingpal/brainstorm/${cardItem.id}/chat`);
+        // } else {
+        router.push(`/writtingpal/brainstorm/${cardItem.id}`);
+        // }
       }}
       className='flex h-[200px] w-[350px] shrink-0 cursor-pointer flex-col rounded-lg border border-shadow-border bg-white hover:bg-hover-50 md:p-5'
     >
