@@ -12,7 +12,6 @@ import { TutTabs } from '@/constant';
 import ActivityListTut from './ActivityListTut';
 const TutorialSheet = () => {
   const [tutTabs, setTutTabs] = useState(0);
-
   return (
     <Sheet>
       <SheetTrigger asChild>
