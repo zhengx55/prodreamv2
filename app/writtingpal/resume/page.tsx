@@ -10,19 +10,19 @@ export default function Resume() {
       {/* <Dialog> */}
       <div className='flex h-[261px] w-[990px] flex-col justify-between rounded-xl bg-resume bg-cover p-7'>
         <div className='flex items-center gap-x-[30px]'>
-          <div className='flex h-[115px] w-[291px] flex-col gap-y-4 rounded-lg bg-white p-4 shadow-card'>
+          <div className='flex h-[125px] w-[291px] flex-col gap-y-4 rounded-lg bg-white p-4 shadow-card'>
             <h1 className='base-semibold'>Professional Wording</h1>
             <p className='subtle-semibold text-shadow-100'>
               Create polished resumes quickly with automated bullet points
             </p>
           </div>
-          <div className='flex h-[115px] w-[291px] flex-col gap-y-4 rounded-lg bg-white p-4 shadow-card'>
+          <div className='flex h-[125px] w-[291px] flex-col gap-y-4 rounded-lg bg-white p-4 shadow-card'>
             <h1 className='base-semibold'>Time-Saving Formatting</h1>
             <p className='subtle-semibold text-shadow-100'>
               Focus on content while we handle professional formatting
             </p>
           </div>
-          <div className='flex h-[115px] w-[291px] flex-col gap-y-4 rounded-lg bg-white p-4 shadow-card'>
+          <div className='flex h-[125px] w-[291px] flex-col gap-y-4 rounded-lg bg-white p-4 shadow-card'>
             <h1 className='base-semibold'>Specialize in college admissions</h1>
             <p className='subtle-semibold text-shadow-100'>
               Craft distinctive resumes that boost your college application
