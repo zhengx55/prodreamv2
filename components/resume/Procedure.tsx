@@ -9,7 +9,7 @@ const Procedure = () => {
     <Draggable nodeRef={nodeRef} bounds='parent'>
       <div
         ref={nodeRef}
-        className='absolute right-4 z-50 flex cursor-grab flex-col rounded-xl bg-white px-6 md:h-[433px] md:w-[380px]'
+        className='absolute right-4 z-10 flex cursor-grab flex-col rounded-xl bg-white px-6 md:h-[433px] md:w-[380px]'
       >
         <h1 className='h3-bold mt-5 text-black-500'>
           Build a standout college resume the easy way

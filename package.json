@@ -42,6 +42,7 @@
     "next": "latest",
     "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
+    "normalize.css": "^8.0.1",
     "react": "latest",
     "react-cookie": "^6.1.1",
     "react-day-picker": "^8.9.1",

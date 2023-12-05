@@ -14,7 +14,7 @@ const TutorialSheet = () => {
   const [tutTabs, setTutTabs] = useState(0);
 
   return (
-    <Sheet defaultOpen>
+    <Sheet>
       <SheetTrigger asChild>
         <div className='flex-center absolute bottom-5 right-5 z-50 h-11 w-11 cursor-pointer rounded-full bg-primary-50 text-primary-200 transition-transform hover:scale-110'>
           <HelpCircle size={22} />

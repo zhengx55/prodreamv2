@@ -1,12 +1,5 @@
 'use client';
-import {
-  Bell,
-  ChevronUp,
-  FileText,
-  Headphones,
-  HelpCircle,
-  Lightbulb,
-} from 'lucide-react';
+import { Bell, ChevronUp } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { memo } from 'react';
 import { selectUser } from '@/store/reducers/userSlice';
@@ -16,25 +9,30 @@ import User from './User';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuTrigger,
 } from '../ui/navigation-menu';
+import { ProfileDropdownLinks } from '@/constant';
+import Image from 'next/image';
+import { Separator } from '../ui/separator';
+import Link from 'next/link';
 
 const Bulletin = dynamic(() => import('../notification/Bulletin'));
 
 const Navbar = () => {
   const pathname = usePathname();
   const user = useAppSelector(selectUser);
+  const handleProfileClick = () => {};
   return (
-    <nav className='flex-between h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
+    <nav className='flex-between relative h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold hidden capitalize text-black-200 md:block'>
         {pathname.split('/')[2] === 'activityList'
           ? 'Activity List'
@@ -80,7 +78,7 @@ const Navbar = () => {
           </DropdownMenuContent>
         </DropdownMenu> */}
 
-        <NavigationMenu>
+        <NavigationMenu className='z-50'>
           <NavigationMenuItem>
             <NavigationMenuTrigger asChild>
               <div className='group'>
@@ -95,7 +93,57 @@ const Navbar = () => {
                 />
               </div>
             </NavigationMenuTrigger>
-            <NavigationMenuContent className='bg-white md:h-[200px] md:w-[400px]'></NavigationMenuContent>
+            <NavigationMenuContent className='flex flex-col bg-white md:w-[320px]'>
+              <div className='flex items-start gap-x-2 px-4 py-4'>
+                <Avatar>
+                  <AvatarImage
+                    className='rounded-full border border-primary-200 bg-primary-50 object-contain'
+                    src={`${process.env.NEXT_PUBLIC_API_STATIC_URL}${user.avatar}`}
+                    alt={user.first_name}
+                  />
+                  <AvatarFallback>{user.first_name}</AvatarFallback>
+                </Avatar>
+                <div className='flex flex-col'>
+                  <h2 className='base-semibold text-black-100'>
+                    {user.first_name} {user.last_name}
+                  </h2>
+                  <p className='small-regular text-shadow-100'>{user.email}</p>
+                  <Link
+                    href={'/profile/setting'}
+                    className='small-semibold cursor-pointer text-primary-200'
+                  >
+                    View profile
+                  </Link>
+                </div>
+              </div>
+              <Separator
+                orientation='horizontal'
+                className='bg-shadow-border'
+              />
+              {ProfileDropdownLinks.map((item) => (
+                <>
+                  {item.title === 'Log out' ? (
+                    <Separator
+                      orientation='horizontal'
+                      className='bg-shadow-border'
+                    />
+                  ) : null}
+                  <div
+                    key={item.id}
+                    className='flex cursor-pointer items-center gap-x-2 px-4 py-3 hover:bg-shadow-50'
+                  >
+                    <Image
+                      alt={item.title}
+                      src={item.image}
+                      width={24}
+                      height={24}
+                      className='h-auto w-auto'
+                    />
+                    <p className='small-regular'>{item.title}</p>
+                  </div>
+                </>
+              ))}
+            </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenu>
       </div>

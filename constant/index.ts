@@ -58,6 +58,24 @@ export const ProfileSidebarLinks = [
   },
 ];
 
+export const ProfileDropdownLinks = [
+  {
+    id: 'profile-01',
+    title: 'Refer Friends',
+    image: '/referrals_dark.svg',
+  },
+  {
+    id: 'profile-02',
+    title: 'View blogs',
+    image: '/document.svg',
+  },
+  {
+    id: 'profile-03',
+    title: 'Log out',
+    image: '/logout.svg',
+  },
+];
+
 export const ResumeProcedure = [
   { title: 'Input your experiences and description' },
   { title: 'Convert your experience into resume-ready bullet points' },
