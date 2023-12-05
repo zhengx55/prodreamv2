@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
 
 type Props = { name: string; email: string; imgSrc: string };
 

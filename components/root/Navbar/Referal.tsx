@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { memo } from 'react';
 
 const Referal = () => {
   return (
@@ -40,4 +40,4 @@ const Referal = () => {
   );
 };
 
-export default Referal;
+export default memo(Referal);
