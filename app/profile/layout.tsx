@@ -32,7 +32,7 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
   return (
     <Provider store={store}>
       <Sidebar />
-      <div className='hidden h-full w-full flex-col overflow-x-auto sm:flex md:overflow-y-hidden'>
+      <div className='scale-down 2xl:scale-initial hidden h-full w-full flex-col overflow-x-auto sm:flex md:overflow-y-hidden'>
         <Navbar />
         <Toaster />
         <main className='flex flex-1'>
