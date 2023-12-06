@@ -11,7 +11,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         fill
         alt='auth'
         priority
-        className='z-0 object-cover'
+        objectFit='cover'
+        className='z-0'
       />
       <div className='z-10 mb-5 flex w-full px-5 pt-5 md:mb-0 md:pl-20 md:pt-10'>
         <AnimatedLogo pathFill='#fff' show />
