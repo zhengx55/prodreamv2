@@ -8,13 +8,11 @@ import React, {
   useState,
   KeyboardEvent,
   useRef,
-  useCallback,
 } from 'react';
 import { Input } from '../ui/input';
 import { fetchResponse, sendMessage } from '@/query/api';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-import TextStreamingEffect from '../root/TextStreamingEffect';
 import ChatTextStreamingEffect from './ChatTextStreamingEffect';
 
 const MessageLoading = () => (
@@ -33,6 +31,56 @@ const MessageList = () => {
     isError: isMessageError,
   } = useGetSessionHistory(currentSession);
 
+  const { mutateAsync: fetchFirst } = useMutation({
+    mutationFn: (param: IChatRequest) => sendMessage(param),
+    onSuccess: (data) => {
+      setSystemLoading(true);
+      respondTimer.current = setInterval(async () => {
+        try {
+          const response = await fetchResponse(data);
+          if (response.status === 'doing') {
+            if (response.text) {
+              setAnimatedText(response.text);
+              setSystemLoading(false);
+            }
+          }
+          if (response.status === 'done') {
+            setSystemLoading(false);
+            setUserMessage('');
+            setIsTyping(false);
+            setAnimatedText(response.text);
+            clearInterval(respondTimer.current);
+            if (!sessionid) {
+              setSessionId(data);
+              queryClient.invalidateQueries({ queryKey: ['chat_history'] });
+            }
+          }
+        } catch (error) {
+          setSystemLoading(false);
+          console.log(error);
+        }
+      }, 1500);
+    },
+    onError: () => {
+      setSystemLoading(false);
+    },
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!Boolean(currentSession)) {
+        console.log('triggering');
+        fetchFirst({
+          query: '',
+          func_type: currentChatType,
+          session_id: '',
+        });
+      }
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [sessionid, setSessionId] = useState('');
   const [MessageList, setMessageList] = useState<IChatSessionData[]>([]);
   const [userMessage, setUserMessage] = useState('');
@@ -50,6 +98,7 @@ const MessageList = () => {
         chatPanelRef.current.scrollHeight - chatPanelRef.current.clientHeight;
     }
   };
+
   const { mutateAsync: chat } = useMutation({
     mutationFn: (param: IChatRequest) => sendMessage(param),
     onSuccess: (data) => {
@@ -68,9 +117,10 @@ const MessageList = () => {
             }
           }
           if (response.status === 'done') {
+            setSystemLoading(false);
             setAnimatedText(response.text);
             clearInterval(respondTimer.current);
-            if (!currentSession) {
+            if (!sessionid) {
               setSessionId(data);
               queryClient.invalidateQueries({ queryKey: ['chat_history'] });
             }
@@ -91,6 +141,17 @@ const MessageList = () => {
       setMessageList(currentMessageList);
     }
   }, [currentMessageList]);
+
+  useEffect(() => {
+    // 切换聊天窗口时清楚打字机特效残留
+    setAnimatedText((prev) => {
+      if (prev) {
+        return '';
+      }
+      return prev;
+    });
+    printIndexRef.current = 0;
+  }, [currentSession]);
 
   useDeepCompareEffect(() => {
     scrollToBottom();
@@ -120,8 +181,6 @@ const MessageList = () => {
         func_type: currentChatType,
         session_id: currentSession ? currentSession : sessionid,
       });
-      setUserMessage('');
-      setIsTyping(false);
     }
   };
 
@@ -144,7 +203,7 @@ const MessageList = () => {
       {/* chat message list section */}
       <section
         ref={chatPanelRef}
-        className='custom-scrollbar flex min-h-[calc(100%_-8rem)] w-full flex-col gap-y-8 overflow-y-auto  p-7'
+        className='flex min-h-[calc(100%_-8rem)] w-full flex-col gap-y-8 overflow-y-auto  p-7'
       >
         {!isMessageError && !isMessagePending && null}
         {MessageList.map((item, index) => (
@@ -221,7 +280,7 @@ const MessageList = () => {
       </section>
 
       {/* chat type field */}
-      <section className='relative flex h-16 w-full shrink-0 justify-center px-8'>
+      <section className='relative flex h-16 w-full shrink-0 justify-center px-4'>
         <div className='flex-center absolute bottom-7 left-10 h-6 w-6 rounded-full bg-primary-200'>
           <Image
             src='/robotoutline.png'
