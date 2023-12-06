@@ -8,11 +8,19 @@
   }
 
   body {
-    @apply min-h-screen font-poppins select-text antialiased overflow-y-hidden;
+    @apply min-h-screen font-poppins select-text antialiased overflow-y-hidden
   }
 }
 
 @layer utilities {
+
+  .scale-down {
+    zoom: 0.85
+  }
+
+  .scale-initial {
+    zoom: unset
+  }
 
   /* TYPOGRAPHY */
   .h1-bold {
@@ -197,6 +205,7 @@
   --chatpanel-padding: 11.5rem;
   --chathistory-width: 10rem;
 }
+
 
 .bulletpoints::before {
   content: "2022";

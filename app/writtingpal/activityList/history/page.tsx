@@ -22,7 +22,7 @@ export default async function Page() {
 
   const history_data = await fetchHistoryData();
   return (
-    <section className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col gap-y-4 bg-sectionBackground p-4'>
+    <section className='flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col gap-y-4 bg-sectionBackground p-4'>
       <HistoryTop />
       <div className='flex h-full flex-col gap-y-4 overflow-y-auto'>
         {history_data.map((item) => {
