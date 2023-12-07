@@ -1,7 +1,6 @@
 'use client';
 import { FormEvent, useState } from 'react';
-import Tooltip from '../root/Tooltip';
-import { Copy, Download, PencilLine, Upload } from 'lucide-react';
+import EditBar from './EditBar';
 
 const InputPanel = () => {
   const [wordCount, setWordCount] = useState(0);
@@ -18,9 +17,10 @@ const InputPanel = () => {
     }
   };
   return (
-    <div className='relative overflow-hidden md:h-full md:w-1/2 md:p-4'>
+    <div className='relative w-2/3 justify-self-center overflow-hidden'>
+      <EditBar />
       <div className='flex h-full w-full flex-col rounded-lg bg-white py-6 pl-6 pr-4'>
-        <section
+        <div
           onInput={handleInput}
           className='custom-scrollbar h-full w-full overflow-y-auto text-justify outline-none'
           placeholder='Write your message..'
@@ -35,27 +35,6 @@ const InputPanel = () => {
               &nbsp;Words
             </p>
           </div>
-          <Tooltip tooltipContent='copy'>
-            <div className='tooltip'>
-              <Copy size={18} />
-            </div>
-          </Tooltip>
-        </div>
-        <div className='flex items-center gap-x-2'>
-          <div className='tooltip gap-x-1 hover:bg-primary-50'>
-            <PencilLine size={18} />
-            <p className='small-semibold'>Chat Edit</p>
-          </div>
-          <Tooltip tooltipContent='upload essay'>
-            <div className='tooltip'>
-              <Upload size={18} />
-            </div>
-          </Tooltip>
-          <Tooltip tooltipContent='download essay'>
-            <div className='tooltip'>
-              <Download size={18} />
-            </div>
-          </Tooltip>
         </div>
       </div>
     </div>
