@@ -46,8 +46,6 @@ const MessageList = () => {
           }
           if (response.status === 'done') {
             setSystemLoading(false);
-            setUserMessage('');
-            setIsTyping(false);
             setAnimatedText(response.text);
             clearInterval(respondTimer.current);
             if (!sessionid) {
@@ -102,6 +100,8 @@ const MessageList = () => {
   const { mutateAsync: chat } = useMutation({
     mutationFn: (param: IChatRequest) => sendMessage(param),
     onSuccess: (data) => {
+      setUserMessage('');
+      setIsTyping(false);
       setSystemLoading(true);
       setMessageList((prev) => [
         ...prev,
@@ -143,13 +143,8 @@ const MessageList = () => {
   }, [currentMessageList]);
 
   useEffect(() => {
-    // 切换聊天窗口时清楚打字机特效残留
-    setAnimatedText((prev) => {
-      if (prev) {
-        return '';
-      }
-      return prev;
-    });
+    // 切换聊天窗口时清除打字机特效残留
+    setAnimatedText('');
     printIndexRef.current = 0;
   }, [currentSession]);
 
@@ -280,7 +275,7 @@ const MessageList = () => {
       </section>
 
       {/* chat type field */}
-      <section className='relative flex h-16 w-full shrink-0 justify-center px-4'>
+      <section className='relative flex h-16 w-full shrink-0 justify-center px-8'>
         <div className='flex-center absolute bottom-7 left-10 h-6 w-6 rounded-full bg-primary-200'>
           <Image
             src='/robotoutline.png'

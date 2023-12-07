@@ -16,7 +16,7 @@ const nextConfig = {
     ],
   },
 
-  reactStrictMode: true,
+  reactStrictMode: false,
   compress: true,
   optimizeFonts: false,
   // distDir: 'dist',
