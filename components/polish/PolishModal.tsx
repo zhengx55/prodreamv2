@@ -1,6 +1,7 @@
 'use client';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -11,25 +12,73 @@ import { Button } from '../ui/button';
 import { memo, useState } from 'react';
 import { Separator } from '../ui/separator';
 import Spacer from '../root/Spacer';
+import useObjectState from 'beautiful-react-hooks/useObjectState';
+
+const initialState = {
+  polishMentod: 0,
+  domains: -1,
+  styles: -1,
+  lengths: -1,
+};
 
 const PolishModal = () => {
+  const [selected, setSelected] = useObjectState(initialState);
   const [showSetting, setShowSetting] = useState(false);
-  const [polishMentod, setPolishMentod] = useState(['']);
-  const [domains, setDomains] = useState(['']);
-  const [styles, setStyles] = useState(['']);
-  const [lengths, setLengths] = useState(['']);
+  const [polishMentod, setPolishMentod] = useState([
+    'Sentence by Sentence',
+    'Whole Paragraph',
+    'Paragraph by Paragraph',
+  ]);
+  const [domains, setDomains] = useState([
+    'Personal Statement',
+    'Email',
+    'Academic Paper',
+  ]);
+  const [styles, setStyles] = useState([
+    'Passionate',
+    'Entertaining',
+    'Professional',
+  ]);
+  const [lengths, setLengths] = useState(['Shorten to', 'Expand to']);
   const [customLength, setCustomLength] = useState('0');
   const [customStyle, setCustomStyle] = useState('');
+  const reset = () => {
+    setSelected(initialState);
+  };
+  const selectPolishMethod = (value: number) => {
+    setSelected({ polishMentod: value });
+  };
+
+  const selectDomain = (value: number) => {
+    if (value === selected.domains) {
+      setSelected({ domains: -1 });
+      return;
+    }
+    setSelected({ domains: value });
+  };
+
+  const selectStyle = (value: number) => {
+    setSelected({ styles: value });
+  };
+
+  const selectLength = (value: number) => {
+    setSelected({ lengths: value });
+  };
+
   return (
     <Dialog open={showSetting} onOpenChange={setShowSetting}>
       <div className='flex flex-col gap-y-2 rounded-lg border border-shadow-border p-2'>
         <div className='flex shrink-0 flex-col rounded-lg bg-nav-selected p-2'>
           <h1 className='small-semibold'>Polishing Settings</h1>
-          <p className='small-regular text-shadow'>Sentence by Sentence</p>
+          <p className='subtle-regular text-shadow'>
+            {polishMentod[selected.polishMentod]}
+          </p>
         </div>
         <div className='flex shrink-0 flex-col rounded-lg bg-nav-selected p-2'>
           <h1 className='small-semibold'>Domain</h1>
-          <p className='small-regular text-shadow'>Personal statement</p>
+          <p className='subtle-regular text-shadow'>
+            {domains[selected.domains] ?? 'General'}
+          </p>
         </div>
         <DialogTrigger>
           <div className='flex-between cursor-pointer p-2'>
@@ -38,10 +87,15 @@ const PolishModal = () => {
           </div>
         </DialogTrigger>
       </div>
-      <DialogContent className='md:w-[500px] md:gap-y-0 md:rounded-lg md:p-2 md:px-4'>
+      <DialogContent
+        onPointerDownOutside={(e) => {
+          e.preventDefault();
+        }}
+        className='gap-y-0 p-0 md:w-[640px] md:rounded-lg'
+      >
         <DialogHeader>
           <DialogTitle asChild>
-            <header className='flex items-start gap-x-4 p-0'>
+            <header className='flex items-start gap-x-4 p-0 px-8 pt-4'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='32'
@@ -67,18 +121,117 @@ const PolishModal = () => {
           <Spacer y='24' />
           <Separator orientation='horizontal' className='bg-shadow-border' />
           <Spacer y='24' />
-          <div className='flex gap-x-8'>
-            <h2>Polish method</h2>
+          <div className='flex gap-x-8 px-8'>
+            <h2 className='base-semibold w-20 shrink-0'>Polish method</h2>
+            <div className='flex flex-wrap gap-2'>
+              {polishMentod.map((item, index) => {
+                const isActive = selected.polishMentod === index;
+                return (
+                  <div
+                    onClick={() => selectPolishMethod(index)}
+                    key={`polish-method-${index}`}
+                    className={`${
+                      isActive
+                        ? 'small-semibold border-primary-200 bg-primary-50'
+                        : 'small-regular border-shadow-border'
+                    }  cursor-pointer rounded-lg border px-4 py-2`}
+                  >
+                    {item}
+                  </div>
+                );
+              })}
+            </div>
           </div>
           <Spacer y='24' />
           <Separator orientation='horizontal' className='bg-shadow-border' />
           <Spacer y='24' />
+          <div className='flex gap-x-8 px-8'>
+            <h2 className='base-semibold w-20'>Domain</h2>
+            <div className='flex flex-wrap gap-2'>
+              {domains.map((item, index) => {
+                const isActive = selected.domains === index;
+                return (
+                  <div
+                    onClick={() => selectDomain(index)}
+                    key={`domains-method-${index}`}
+                    className={`${
+                      isActive
+                        ? 'small-semibold border-primary-200 bg-primary-50'
+                        : 'small-regular border-shadow-border'
+                    }  cursor-pointer rounded-lg border px-4 py-2`}
+                  >
+                    {item}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
           <Spacer y='24' />
           <Separator orientation='horizontal' className='bg-shadow-border' />
           <Spacer y='24' />
+          <div className='flex gap-x-8 px-8'>
+            <h2 className='base-semibold w-20'>Style</h2>
+            <div className='flex flex-wrap gap-2'>
+              {styles.map((item, index) => {
+                const isActive = selected.styles === index;
+                return (
+                  <div
+                    onClick={() => selectStyle(index)}
+                    key={`styles-method-${index}`}
+                    className={`${
+                      isActive
+                        ? 'small-semibold border-primary-200 bg-primary-50'
+                        : 'small-regular border-shadow-border'
+                    }  cursor-pointer rounded-lg border px-4 py-2`}
+                  >
+                    {item}
+                  </div>
+                );
+              })}
+              <Button variant={'secondary'} className='border-none p-0'>
+                + Add New Style
+              </Button>
+            </div>
+          </div>
           <Spacer y='24' />
           <Separator orientation='horizontal' className='bg-shadow-border' />
           <Spacer y='24' />
+          <div className='flex gap-x-8 px-8'>
+            <h2 className='base-semibold w-20'>Length</h2>
+            <div className='flex flex-wrap gap-2'>
+              {lengths.map((item, index) => {
+                const isActive = selected.lengths === index;
+                return (
+                  <div
+                    onClick={() => selectLength(index)}
+                    key={`lenghts-method-${index}`}
+                    className={`${
+                      isActive
+                        ? 'small-semibold border-primary-200 bg-primary-50'
+                        : 'small-regular border-shadow-border'
+                    }  cursor-pointer rounded-lg border px-4 py-2`}
+                  >
+                    {item}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <Spacer y='24' />
+          <div className='flex justify-end gap-x-4 bg-primary-50 px-8 py-4'>
+            <DialogClose asChild>
+              <Button
+                onClick={reset}
+                variant={'secondary'}
+                className='border-none'
+              >
+                Reset to Default
+              </Button>
+            </DialogClose>
+            <DialogClose asChild>
+              <Button>Save</Button>
+            </DialogClose>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
