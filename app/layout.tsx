@@ -34,7 +34,7 @@ export default function RootLayout({
         <ThemeProvider attribute='class' defaultTheme='light'>
           <TanstackProvider>
             <UserStoreProvider>
-              <section className='h-screen w-screen min-w-[1400px] md:flex md:overflow-x-auto'>
+              <section className='h-screen min-h-[850px] w-screen min-w-[1400px] md:flex md:overflow-auto'>
                 {children}
                 {/* <Analytics /> */}
               </section>

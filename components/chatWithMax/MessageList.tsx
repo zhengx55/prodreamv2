@@ -77,7 +77,7 @@ const MessageList = () => {
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentChatType, currentSession]);
 
   const [sessionid, setSessionId] = useState('');
   const [MessageList, setMessageList] = useState<IChatSessionData[]>([]);
