@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import Image from 'next/image';
 import PolishModal from './PolishModal';
+import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 
 const Rightbar = () => {
   return (
@@ -42,11 +43,6 @@ const Rightbar = () => {
       <h2 className='title-semibold text-black-100'>AI Polish</h2>
       <Spacer y='12' />
       <PolishModal />
-      <Spacer y='20' />
-      <div className='flex gap-x-2'>
-        <Button className='w-1/2'>Reset</Button>
-        <Button className='w-1/2'>Polish</Button>
-      </div>
       <Spacer y='24' />
       <Separator orientation='horizontal' className='bg-shadow-border' />
       <Spacer y='24' />

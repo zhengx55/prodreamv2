@@ -15,43 +15,59 @@ import Spacer from '../root/Spacer';
 import useObjectState from 'beautiful-react-hooks/useObjectState';
 import { Input } from '../ui/input';
 import { useToast } from '../ui/use-toast';
+import { useAiEditiorContext } from '@/context/AIEditiorProvider';
+import { IPolishParams } from '@/query/type';
+import { useMutation } from '@tanstack/react-query';
+import { submitPolish } from '@/query/api';
 
 const initialState = {
   polishMentod: 0,
   domains: -1,
   styles: -1,
   lengths: -1,
+  customStyle: '',
+  customLenght: '',
 };
 
+const initialStyles = ['Passionate', 'Entertaining', 'Professional'];
+
 const PolishModal = () => {
+  const { essay } = useAiEditiorContext();
+
   const { toast } = useToast();
   const [selected, setSelected] = useObjectState(initialState);
   const [showSetting, setShowSetting] = useState(false);
-  const [polishMentod, setPolishMentod] = useState([
+  const [polishMentod] = useState([
     'Sentence by Sentence',
     'Whole Paragraph',
     'Paragraph by Paragraph',
   ]);
-  const [domains, setDomains] = useState([
-    'Personal Statement',
-    'Email',
-    'Academic Paper',
-  ]);
-  const [styles, setStyles] = useState([
-    'Passionate',
-    'Entertaining',
-    'Professional',
-  ]);
-  const [lengths, setLengths] = useState(['Shorten to', 'Expand to']);
+  const [domains] = useState(['Personal Statement', 'Email', 'Academic Paper']);
+  const [styles, setStyles] = useState(initialStyles);
+  const [lengths] = useState(['Shorten to', 'Expand to']);
   const customStyleRef = useRef<HTMLInputElement>(null);
   const customLengthRef = useRef<HTMLInputElement>(null);
   const [addCustomStyle, setAddCustomStyle] = useState(false);
   const [addCustomLength, setAddCustomLength] = useState(false);
+
   const reset = () => {
     setSelected(initialState);
+    setStyles(initialStyles);
   };
+
   const selectPolishMethod = (value: number) => {
     setSelected({ polishMentod: value });
+    if (value === 1) {
+      if (selected.domains === 1) {
+        setSelected({ domains: -1 });
+      }
+    }
+    if (value === 1 || value === 2) {
+      if (selected.lengths !== -1) {
+        setSelected({ lengths: -1 });
+        setAddCustomLength(false);
+      }
+    }
   };
 
   const selectDomain = (value: number) => {
@@ -67,7 +83,11 @@ const PolishModal = () => {
       setSelected({ styles: -1 });
       return;
     }
-    setSelected({ styles: value });
+    if (value > 2) {
+      setSelected({ customStyle: styles[value], styles: value });
+      return;
+    }
+    setSelected({ styles: value, customStyle: '' });
   };
 
   const selectLength = (value: number) => {
@@ -92,6 +112,43 @@ const PolishModal = () => {
       setStyles((prev) => [...prev, customStyleRef.current!.value]);
       setAddCustomStyle(false);
     }
+  };
+
+  const {} = useMutation({
+    mutationFn: (params: IPolishParams) => submitPolish(params),
+    onSuccess(data) {
+      console.log(data);
+      toast({
+        variant: 'default',
+        description: 'Polish completed!',
+      });
+    },
+    onError: (err) => {
+      toast({
+        variant: 'destructive',
+        description: err.message,
+      });
+    },
+  });
+
+  const handlePolish = () => {
+    if (essay.trim() === '') {
+      toast({
+        variant: 'destructive',
+        description: 'No intent is detected',
+      });
+      return;
+    }
+    const polish_params: IPolishParams = {
+      text: essay,
+      granularity: selected.polishMentod,
+      tone: selected.styles > 2 ? selected.customStyle : selected.styles + 1,
+      scenario: selected.domains + 1,
+      volume_control: selected.lengths + 1,
+      volume_target:
+        selected.lengths === -1 ? 0 : parseInt(selected.customLenght),
+    };
+    console.log(polish_params);
   };
 
   return (
@@ -179,11 +236,14 @@ const PolishModal = () => {
             <div className='flex flex-wrap gap-2'>
               {domains.map((item, index) => {
                 const isActive = selected.domains === index;
+                const isDisabled = selected.polishMentod === 1 && index === 1;
                 return (
                   <div
                     onClick={() => selectDomain(index)}
                     key={`domains-method-${index}`}
-                    className={`${
+                    className={`
+                    ${isDisabled && 'pointer-events-none bg-disabled'}
+                    ${
                       isActive
                         ? 'small-semibold border-primary-200 bg-primary-50'
                         : 'small-regular border-shadow-border'
@@ -247,11 +307,15 @@ const PolishModal = () => {
             <div className='flex flex-wrap gap-2'>
               {lengths.map((item, index) => {
                 const isActive = selected.lengths === index;
+                const isDisbaled =
+                  selected.polishMentod === 1 || selected.polishMentod === 2;
                 return (
                   <div
                     onClick={() => selectLength(index)}
                     key={`lenghts-method-${index}`}
-                    className={`${
+                    className={`
+                    ${isDisbaled && 'pointer-events-none bg-disabled'} 
+                    ${
                       isActive
                         ? 'small-semibold border-primary-200 bg-primary-50'
                         : 'small-regular border-shadow-border'
@@ -267,6 +331,11 @@ const PolishModal = () => {
                   <Input
                     ref={customLengthRef}
                     type='number'
+                    onChange={() => {
+                      setSelected({
+                        customLenght: customLengthRef.current?.value,
+                      });
+                    }}
                     min={50}
                     className='w-20'
                     step={50}
@@ -293,6 +362,15 @@ const PolishModal = () => {
           </div>
         </div>
       </DialogContent>
+      <Spacer y='20' />
+      <div className='flex gap-x-2'>
+        <Button onClick={reset} variant={'secondary'} className='w-1/2'>
+          Reset
+        </Button>
+        <Button onClick={handlePolish} className='w-1/2'>
+          Polish
+        </Button>
+      </div>
     </Dialog>
   );
 };

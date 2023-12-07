@@ -307,3 +307,31 @@ export interface INotificationData {
   updete_time?: string;
   user_id?: number;
 }
+
+export interface IPolishParams {
+  /**
+   * 0: 全文, 1: 分段, 2:分句
+   */
+  granularity?: number;
+  /**
+   * 场景更换
+   */
+  scenario?: number;
+  /**
+   * 润色内容
+   */
+  text: string;
+  /**
+   * 更换语调
+   */
+  tone?: string | number;
+  /**
+   * 内容量控制
+   */
+  volume_control?: number;
+  /**
+   * 目标字数
+   */
+  volume_target?: number;
+  [property: string]: any;
+}

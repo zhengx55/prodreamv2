@@ -2,7 +2,7 @@
 import { FormEvent, useState } from 'react';
 import EditBar from './EditBar';
 
-const InputPanel = () => {
+const EssayPanel = () => {
   const [wordCount, setWordCount] = useState(0);
   const handleInput = (e: FormEvent<HTMLElement>) => {
     const text = e.currentTarget.textContent;
@@ -41,4 +41,4 @@ const InputPanel = () => {
   );
 };
 
-export default InputPanel;
+export default EssayPanel;

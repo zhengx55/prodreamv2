@@ -54,6 +54,7 @@ module.exports = {
         nav: '#A0A8B0',
         'shadow-border': '#DADADA',
         dot: '#CFD0D0',
+        disabled: '#DADADA',
       },
       boxShadow: {
         sidebar: '4px 0 5px rgba(0,0,0,.06)',
