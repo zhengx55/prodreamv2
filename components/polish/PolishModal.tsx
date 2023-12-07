@@ -9,10 +9,12 @@ import {
 } from '@/components/ui/dialog';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '../ui/button';
-import { memo, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import { Separator } from '../ui/separator';
 import Spacer from '../root/Spacer';
 import useObjectState from 'beautiful-react-hooks/useObjectState';
+import { Input } from '../ui/input';
+import { useToast } from '../ui/use-toast';
 
 const initialState = {
   polishMentod: 0,
@@ -22,6 +24,7 @@ const initialState = {
 };
 
 const PolishModal = () => {
+  const { toast } = useToast();
   const [selected, setSelected] = useObjectState(initialState);
   const [showSetting, setShowSetting] = useState(false);
   const [polishMentod, setPolishMentod] = useState([
@@ -40,8 +43,10 @@ const PolishModal = () => {
     'Professional',
   ]);
   const [lengths, setLengths] = useState(['Shorten to', 'Expand to']);
-  const [customLength, setCustomLength] = useState('0');
-  const [customStyle, setCustomStyle] = useState('');
+  const customStyleRef = useRef<HTMLInputElement>(null);
+  const customLengthRef = useRef<HTMLInputElement>(null);
+  const [addCustomStyle, setAddCustomStyle] = useState(false);
+  const [addCustomLength, setAddCustomLength] = useState(false);
   const reset = () => {
     setSelected(initialState);
   };
@@ -58,11 +63,35 @@ const PolishModal = () => {
   };
 
   const selectStyle = (value: number) => {
+    if (value === selected.styles) {
+      setSelected({ styles: -1 });
+      return;
+    }
     setSelected({ styles: value });
   };
 
   const selectLength = (value: number) => {
+    if (value === selected.lengths) {
+      setSelected({ lengths: -1 });
+      setAddCustomLength(false);
+      return;
+    }
     setSelected({ lengths: value });
+    setAddCustomLength(true);
+  };
+
+  const addNewCustomStyle = () => {
+    if (!customStyleRef.current?.value) {
+      toast({
+        description: 'Custom style is required!',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (customStyleRef.current) {
+      setStyles((prev) => [...prev, customStyleRef.current!.value]);
+      setAddCustomStyle(false);
+    }
   };
 
   return (
@@ -170,7 +199,7 @@ const PolishModal = () => {
           <Separator orientation='horizontal' className='bg-shadow-border' />
           <Spacer y='24' />
           <div className='flex gap-x-8 px-8'>
-            <h2 className='base-semibold w-20'>Style</h2>
+            <h2 className='base-semibold w-20 shrink-0'>Style</h2>
             <div className='flex flex-wrap gap-2'>
               {styles.map((item, index) => {
                 const isActive = selected.styles === index;
@@ -188,9 +217,26 @@ const PolishModal = () => {
                   </div>
                 );
               })}
-              <Button variant={'secondary'} className='border-none p-0'>
+              <Button
+                onClick={() => setAddCustomStyle(true)}
+                variant={'secondary'}
+                className='border-none p-0'
+              >
                 + Add New Style
               </Button>
+              {addCustomStyle ? (
+                <div className='flex items-center gap-x-4 rounded-lg border border-shadow-border bg-nav-selected px-4 py-2'>
+                  <h2 className='base-semibold'>Describe new style:</h2>
+                  <div className='flex gap-x-2'>
+                    <Input
+                      ref={customStyleRef}
+                      type='text'
+                      name='custom-style'
+                    />
+                    <Button onClick={addNewCustomStyle}>Add</Button>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
           <Spacer y='24' />
@@ -215,6 +261,19 @@ const PolishModal = () => {
                   </div>
                 );
               })}
+              {addCustomLength ? (
+                <div className='flex items-center gap-x-4 rounded-lg border border-shadow-border bg-nav-selected px-4 py-2'>
+                  <h2 className='base-semibold'>Expected length:</h2>
+                  <Input
+                    ref={customLengthRef}
+                    type='number'
+                    min={50}
+                    className='w-20'
+                    step={50}
+                    name='custom-length'
+                  />
+                </div>
+              ) : null}
             </div>
           </div>
           <Spacer y='24' />
