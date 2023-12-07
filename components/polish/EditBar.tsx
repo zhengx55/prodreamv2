@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Separator } from '../ui/separator';
+import { motion } from 'framer-motion';
+import { EssayVariants } from './EssayPanel';
+import { useAiEditiorContext } from '@/context/AIEditiorProvider';
+import { useToast } from '../ui/use-toast';
 
-type Props = {};
+type Props = { mutiScreen: boolean };
 
-const EditBar = (props: Props) => {
+const EditBar = ({ mutiScreen }: Props) => {
+  const { essayRef } = useAiEditiorContext();
+  const { toast } = useToast();
   return (
-    <div className='flex w-2/3 justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1'>
+    <motion.div
+      initial={false}
+      variants={EssayVariants}
+      animate={mutiScreen ? 'half' : 'full'}
+      className={`flex justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1`}
+    >
       <div className='tool'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -66,7 +77,18 @@ const EditBar = (props: Props) => {
         <p>Download</p>
       </div>
       <Separator orientation='vertical' className='bg-shadow-border' />
-      <div className='tool'>
+      <div
+        onClick={() => {
+          if (essayRef.current && essayRef.current.innerText.trim() !== '') {
+            navigator.clipboard.writeText(essayRef.current.innerText);
+            toast({
+              variant: 'default',
+              description: 'Copy to clipboard',
+            });
+          }
+        }}
+        className='tool'
+      >
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='25'
@@ -82,7 +104,13 @@ const EditBar = (props: Props) => {
         <p>Copy</p>
       </div>
       <Separator orientation='vertical' className='bg-shadow-border' />
-      <div className='tool'>
+      <div
+        onClick={() => {
+          if (essayRef.current && essayRef.current.innerText.trim() !== '')
+            essayRef.current.innerText = '';
+        }}
+        className='tool'
+      >
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='23'
@@ -97,8 +125,8 @@ const EditBar = (props: Props) => {
         </svg>
         <p>Delete</p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
-export default EditBar;
+export default memo(EditBar);

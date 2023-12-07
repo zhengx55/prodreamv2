@@ -1,7 +1,7 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Spacer from '../root/Spacer';
-import { ChevronRight, PenLine } from 'lucide-react';
+import { PenLine } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import Image from 'next/image';

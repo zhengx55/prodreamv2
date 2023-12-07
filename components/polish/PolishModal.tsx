@@ -32,8 +32,7 @@ const initialState = {
 const initialStyles = ['Passionate', 'Entertaining', 'Professional'];
 
 const PolishModal = () => {
-  const { essay } = useAiEditiorContext();
-
+  const { essayRef, setTaskId } = useAiEditiorContext();
   const { toast } = useToast();
   const [selected, setSelected] = useObjectState(initialState);
   const [showSetting, setShowSetting] = useState(false);
@@ -114,10 +113,10 @@ const PolishModal = () => {
     }
   };
 
-  const {} = useMutation({
+  const { mutateAsync: polish } = useMutation({
     mutationFn: (params: IPolishParams) => submitPolish(params),
     onSuccess(data) {
-      console.log(data);
+      setTaskId(data);
       toast({
         variant: 'default',
         description: 'Polish completed!',
@@ -131,8 +130,8 @@ const PolishModal = () => {
     },
   });
 
-  const handlePolish = () => {
-    if (essay.trim() === '') {
+  const handlePolish = async () => {
+    if (essayRef.current?.innerText.trim() === '') {
       toast({
         variant: 'destructive',
         description: 'No intent is detected',
@@ -140,7 +139,7 @@ const PolishModal = () => {
       return;
     }
     const polish_params: IPolishParams = {
-      text: essay,
+      text: essayRef.current?.innerText.trim()!,
       granularity: selected.polishMentod,
       tone: selected.styles > 2 ? selected.customStyle : selected.styles + 1,
       scenario: selected.domains + 1,
@@ -148,7 +147,7 @@ const PolishModal = () => {
       volume_target:
         selected.lengths === -1 ? 0 : parseInt(selected.customLenght),
     };
-    console.log(polish_params);
+    await polish(polish_params);
   };
 
   return (
@@ -357,14 +356,23 @@ const PolishModal = () => {
               </Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button>Save</Button>
+              <Button
+                onClick={() => {
+                  toast({
+                    description: 'Successfully save your polish paramters!',
+                    variant: 'default',
+                  });
+                }}
+              >
+                Save
+              </Button>
             </DialogClose>
           </div>
         </div>
       </DialogContent>
       <Spacer y='20' />
       <div className='flex gap-x-2'>
-        <Button onClick={reset} variant={'secondary'} className='w-1/2'>
+        <Button onClick={reset} variant={'outline'} className='w-1/2'>
           Reset
         </Button>
         <Button onClick={handlePolish} className='w-1/2'>

@@ -2,15 +2,18 @@ import { IBrainStormHistoryState } from '@/types';
 import {
   Dispatch,
   ReactNode,
+  RefObject,
   SetStateAction,
   createContext,
   useContext,
+  useRef,
   useState,
 } from 'react';
 
 type IAiEditiorContext = {
-  essay: string;
-  setEssay: Dispatch<SetStateAction<string>>;
+  essayRef: RefObject<HTMLDivElement>;
+  taskId: string | undefined;
+  setTaskId: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const AIEditiorContext = createContext({} as IAiEditiorContext);
@@ -20,12 +23,14 @@ export default function AIEditiorProvider({
 }: {
   children: ReactNode;
 }) {
-  const [essay, setEssay] = useState('');
+  const essayRef = useRef<HTMLDivElement>(null);
+  const [taskId, setTaskId] = useState<string | undefined>();
   return (
     <AIEditiorContext.Provider
       value={{
-        essay,
-        setEssay,
+        essayRef,
+        taskId,
+        setTaskId,
       }}
     >
       {children}
