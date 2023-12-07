@@ -1,6 +1,6 @@
 import InputPanel from '@/components/polish/InputPanel';
 // import ReportPanel from '@/components/polish/ReportPanel';
-import Rightbar from '@/components/root/Rightbar';
+import Rightbar from '@/components/polish/Rightbar';
 
 export default async function Polish() {
   return (

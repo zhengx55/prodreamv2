@@ -1,9 +1,11 @@
-import React from 'react';
-import Spacer from './Spacer';
+'use client';
+import React, { useState } from 'react';
+import Spacer from '../root/Spacer';
 import { ChevronRight, PenLine } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import Image from 'next/image';
+import PolishModal from './PolishModal';
 
 const Rightbar = () => {
   return (
@@ -39,20 +41,7 @@ const Rightbar = () => {
       <Spacer y='24' />
       <h2 className='title-semibold text-black-100'>AI Polish</h2>
       <Spacer y='12' />
-      <div className='flex flex-col gap-y-2 rounded-lg border border-shadow-border p-2'>
-        <div className='flex shrink-0 flex-col rounded-lg bg-nav-selected p-2'>
-          <h1 className='small-semibold'>Polishing Settings</h1>
-          <p className='small-regular text-shadow'>Sentence by Sentence</p>
-        </div>
-        <div className='flex shrink-0 flex-col rounded-lg bg-nav-selected p-2'>
-          <h1 className='small-semibold'>Domain</h1>
-          <p className='small-regular text-shadow'>Personal statement</p>
-        </div>
-        <div className='flex-between cursor-pointer p-2'>
-          <p className='subtle-regular'>Adjust settings</p>
-          <ChevronRight size={14} className='text-shadow' />
-        </div>
-      </div>
+      <PolishModal />
       <Spacer y='20' />
       <div className='flex gap-x-2'>
         <Button className='w-1/2'>Reset</Button>
