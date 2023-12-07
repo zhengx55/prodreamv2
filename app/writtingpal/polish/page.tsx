@@ -4,7 +4,7 @@ import Rightbar from '@/components/root/Rightbar';
 
 export default async function Polish() {
   return (
-    <main className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full bg-sectionBackground md:overflow-hidden md:pr-[240px]'>
+    <main className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full md:overflow-hidden md:pr-[240px] '>
       <InputPanel />
       <Rightbar />
     </main>

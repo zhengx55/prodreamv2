@@ -160,6 +160,10 @@
     @apply flex-center p-2 rounded-md bg-white shadow-tooltip cursor-pointer hover:-translate-y-1 transition-transform
   }
 
+  .tool {
+    @apply cursor-pointer rounded-[4px] bg-transparent p-1 hover:bg-border-50 hover:-translate-y-1 transition-transform flex gap-x-2 font-semibold
+  }
+
   .bulletin-tab {
     @apply flex-center small-regular border-b cursor-pointer mt-2 py-2
   }

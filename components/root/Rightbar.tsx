@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 const Rightbar = () => {
   return (
-    <div className='absolute right-0 top-0 hidden h-full flex-col rounded-md bg-white px-4 md:flex md:w-[240px]'>
+    <div className='absolute right-0 top-0 hidden h-full flex-col rounded-md border-l border-shadow-border bg-white px-4 md:flex md:w-[240px]'>
       <Spacer y='24' />
       <h2 className='title-semibold text-black-100'>Essay Evaluation</h2>
       <Spacer y='12' />
