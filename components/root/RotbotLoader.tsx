@@ -9,7 +9,7 @@ const RotbotLoader = ({
   label: string;
   labelClass: string;
 }) => {
-  const dots = ['.', '.', '.']; // 三个点
+  const dots = ['.', '.', '.'];
   const [dotElements, setDotElements] = useState<any>([]);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const RotbotLoader = ({
         height='116'
         viewBox='0 0 116 116'
         fill='none'
-        className=' animate-spin'
+        className='animate-spin'
       >
         <g clipPath='url(#clip0_333_22926)'>
           <path

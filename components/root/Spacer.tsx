@@ -8,7 +8,7 @@ const Spacer = ({ x, y }: Props) => {
     height: y ? `${y}px` : 'auto',
   };
 
-  return <div style={spacerStyle}></div>;
+  return <div style={spacerStyle} className='shrink-0'></div>;
 };
 
 export default memo(Spacer);

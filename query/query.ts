@@ -9,6 +9,7 @@ import {
   getBrainstormDetails,
   getBrianstormHistoryById,
   queryEssayResult,
+  queryPolish,
   refreshUserSession,
   sendChatMessage,
 } from './api';
@@ -133,3 +134,7 @@ export const useRefreshSession = () => {
     queryFn: () => refreshUserSession(),
   });
 };
+
+// ----------------------------------------------------------------
+// AI Editors
+// ----------------------------------------------------------------

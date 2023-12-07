@@ -18,7 +18,7 @@ import { useToast } from '../ui/use-toast';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { IPolishParams } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
-import { submitPolish } from '@/query/api';
+import { queryPolish, submitPolish } from '@/query/api';
 
 const initialState = {
   polishMentod: 0,
@@ -32,14 +32,14 @@ const initialState = {
 const initialStyles = ['Passionate', 'Entertaining', 'Professional'];
 
 const PolishModal = () => {
-  const { essayRef, setTaskId } = useAiEditiorContext();
+  const { essayRef, setIsPolishing, setPolishResult } = useAiEditiorContext();
   const { toast } = useToast();
   const [selected, setSelected] = useObjectState(initialState);
   const [showSetting, setShowSetting] = useState(false);
   const [polishMentod] = useState([
-    'Sentence by Sentence',
     'Whole Paragraph',
     'Paragraph by Paragraph',
+    'Sentence by Sentence',
   ]);
   const [domains] = useState(['Personal Statement', 'Email', 'Academic Paper']);
   const [styles, setStyles] = useState(initialStyles);
@@ -48,6 +48,7 @@ const PolishModal = () => {
   const customLengthRef = useRef<HTMLInputElement>(null);
   const [addCustomStyle, setAddCustomStyle] = useState(false);
   const [addCustomLength, setAddCustomLength] = useState(false);
+  const reqTimer = useRef<NodeJS.Timeout | undefined>();
 
   const reset = () => {
     setSelected(initialState);
@@ -115,14 +116,32 @@ const PolishModal = () => {
 
   const { mutateAsync: polish } = useMutation({
     mutationFn: (params: IPolishParams) => submitPolish(params),
+    onMutate: () => {
+      setIsPolishing(true);
+    },
     onSuccess(data) {
-      setTaskId(data);
-      toast({
-        variant: 'default',
-        description: 'Polish completed!',
-      });
+      reqTimer.current = setInterval(async () => {
+        try {
+          const res = await queryPolish({ task_id: data });
+          if (res.status === 'doing') {
+          }
+          if (res.status === 'done') {
+            setIsPolishing(false);
+            console.log(res);
+            setPolishResult(res.result);
+            clearInterval(reqTimer.current);
+          }
+        } catch (error: any) {
+          toast({
+            description: error.message,
+            variant: 'destructive',
+          });
+          clearInterval(reqTimer.current);
+        }
+      }, 2000);
     },
     onError: (err) => {
+      setIsPolishing(false);
       toast({
         variant: 'destructive',
         description: err.message,

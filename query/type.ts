@@ -333,5 +333,20 @@ export interface IPolishParams {
    * 目标字数
    */
   volume_target?: number;
-  [property: string]: any;
+}
+
+export interface IPolishQueryData {
+  result: IPolishQueryResult[];
+  status: string;
+}
+
+export interface IPolishQueryResult {
+  end: number;
+  new_sentence: NewSentence[];
+  start: number;
+}
+
+export interface NewSentence {
+  is_identical: boolean;
+  sub_str: string;
 }

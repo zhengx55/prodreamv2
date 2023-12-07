@@ -1,0 +1,15 @@
+import React, { memo } from 'react';
+import RotbotLoader from '../root/RotbotLoader';
+
+const EditiorLoading = () => {
+  return (
+    <div className='flex h-full w-1/2'>
+      <RotbotLoader
+        label='Branstorming'
+        labelClass='text-black-200 body-medium'
+      />
+    </div>
+  );
+};
+
+export default memo(EditiorLoading);

@@ -10,6 +10,7 @@ import {
   INotificationData,
   IOptRequest,
   IPolishParams,
+  IPolishQueryData,
   IResetParams,
   ISigunUpRequest,
   IVerifyEmail,
@@ -347,7 +348,6 @@ export async function plagiarismCheck(text: string) {
 }
 
 export async function submitPolish(params: IPolishParams) {
-  //https://test.quickapply.app/api/ai/essay_polish_submit
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -378,8 +378,32 @@ export async function submitPolish(params: IPolishParams) {
   }
 }
 
-export async function queryPolish() {
-  // https://test.quickapply.app/api/ai/essay_polish_query
+export async function queryPolish(params: {
+  task_id: string;
+}): Promise<IPolishQueryData> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}essay_polish_query`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          task_id: params.task_id,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
 }
 
 export async function essayAssess(

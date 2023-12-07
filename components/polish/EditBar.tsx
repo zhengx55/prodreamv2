@@ -1,21 +1,15 @@
 import React, { memo } from 'react';
 import { Separator } from '../ui/separator';
-import { motion } from 'framer-motion';
-import { EssayVariants } from './EssayPanel';
+
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { useToast } from '../ui/use-toast';
 
-type Props = { mutiScreen: boolean };
-
-const EditBar = ({ mutiScreen }: Props) => {
+const EditBar = () => {
   const { essayRef } = useAiEditiorContext();
   const { toast } = useToast();
   return (
-    <motion.div
-      initial={false}
-      variants={EssayVariants}
-      animate={mutiScreen ? 'half' : 'full'}
-      className={`flex justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1`}
+    <div
+      className={`flex w-full justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1`}
     >
       <div className='tool'>
         <svg
@@ -125,7 +119,7 @@ const EditBar = ({ mutiScreen }: Props) => {
         </svg>
         <p>Delete</p>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
