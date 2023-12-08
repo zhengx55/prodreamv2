@@ -54,7 +54,7 @@ export default function Page() {
         maxAge: 604800,
       });
       dispatch(setUser(data));
-      router.replace('/writtingpal/polish');
+      router.push('/welcome');
     },
     onError: (error) => {
       toast({

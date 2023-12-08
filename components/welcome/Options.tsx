@@ -8,15 +8,12 @@ import { ChevronLeft } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { useAppSelector } from '@/store/storehooks';
-import { selectUser } from '@/store/reducers/userSlice';
 
-const Options = () => {
+const Options = ({ firstname }: { firstname: string }) => {
   const [selected, setSelected] = useState<string>('/writtingpal/polish');
-  const userInfo = useAppSelector(selectUser);
   return (
     <>
-      <h1 className='h2-bold'>Welcome back, {userInfo.first_name}! </h1>
+      <h1 className='h2-bold'>Welcome back, {firstname}! </h1>
       <Spacer y='64' />
       <p className='h3-bold'>What would you like to work on today?</p>
       <Spacer y='24' />
