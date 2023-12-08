@@ -9,7 +9,7 @@ export default function Page() {
       <div className='flex h-max gap-x-8'>
         <div className='rounded-lg bg-black-200/50 px-12 pt-20 md:h-[500px] md:w-[390px]'>
           <Image
-            src='/maxWelcome.png'
+            src='/welcome/maxWelcome.png'
             alt='welcome'
             width={1000}
             height={1000}

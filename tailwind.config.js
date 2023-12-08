@@ -19,6 +19,10 @@ module.exports = {
         regular: '14px',
       },
       colors: {
+        welcome: {
+          border: '#525758',
+          background: '#525758',
+        },
         sectionBackground: '#F8F9FF',
         border: {
           50: '#EAEAEA',
