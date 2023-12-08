@@ -40,7 +40,6 @@ const SuggestionPanel = () => {
       </div>
       <Spacer y='24' />
       <AnimatePresence>
-        {' '}
         {suggestions.map((item, index) => {
           // 过滤没有更新的句子
           const isExpanded = item.expand;

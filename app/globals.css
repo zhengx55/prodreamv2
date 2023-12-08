@@ -168,6 +168,14 @@
     @apply flex-center small-regular border-b cursor-pointer mt-2 py-2
   }
 
+  .suggest-change {
+    @apply underline decoration-[2px] decoration-red-400 underline-offset-[5px]
+  }
+
+  .suggenst-artice{
+    @apply text-[16px] leading-relaxed whitespace-pre-wrap
+  }
+
   [contenteditable=true]:empty:before {
     content: attr(placeholder);
     pointer-events: none;

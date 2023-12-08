@@ -1,5 +1,5 @@
 'use client';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import EditBar from './EditBar';
 import { Variants, motion } from 'framer-motion';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
@@ -24,15 +24,31 @@ export const EssayVariants: Variants = {
 const EssayPanel = () => {
   const [wordCount, setWordCount] = useState(0);
   const { essayRef, isPolishing, polishResult } = useAiEditiorContext();
-  console.log(
-    '🚀 ~ file: EssayPanel.tsx:21 ~ EssayPanel ~ polishResult:',
-    polishResult
-  );
   const hasPolishResult = polishResult.length > 0;
   const isMultScreen = hasPolishResult || isPolishing;
   useDeepCompareEffect(() => {
     if (polishResult.length > 0 && essayRef.current) {
-      console.log(essayRef.current.innerHTML);
+      // 查询起始索引和终止索引
+      let finalText = '<p class="suggenst-artice">';
+      polishResult.map((item) => {
+        if (!essayRef.current) {
+          return;
+        }
+        item.original_sentence.map((sentence, idx) => {
+          if (sentence.is_identical) {
+            const sentenceHtml = `${sentence.sub_str}`;
+            finalText += sentenceHtml;
+          } else {
+            const sentenceHtml = `<span class="suggest-change">&nbsp;${sentence.sub_str}&nbsp;</span>`;
+            finalText += sentenceHtml;
+          }
+          if (idx === item.original_sentence.length - 1) {
+            finalText += `<br/><br/>`;
+          }
+        });
+      });
+      finalText += '</p>';
+      essayRef.current.innerHTML = finalText;
     }
   }, [polishResult]);
 

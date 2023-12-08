@@ -1,8 +1,14 @@
 'use client';
-import EssayPanel from '@/components/polish/EssayPanel';
 // import ReportPanel from '@/components/polish/ReportPanel';
 import Rightbar from '@/components/polish/Rightbar';
 import AIEditiorProvider from '@/context/AIEditiorProvider';
+import dynamic from 'next/dynamic';
+import Loading from '@/components/root/CustomLoading';
+
+const EssayPanel = dynamic(() => import('@/components/polish/EssayPanel'), {
+  ssr: false,
+  loading: () => <Loading />,
+});
 
 export default function Polish() {
   return (
