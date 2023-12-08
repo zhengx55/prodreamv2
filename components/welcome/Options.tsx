@@ -1,5 +1,4 @@
 'use client';
-
 import { WelcomOptions } from '@/constant';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -9,7 +8,13 @@ import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
-const Options = ({ firstname }: { firstname: string }) => {
+const Options = ({
+  firstname,
+  type,
+}: {
+  firstname: string;
+  type?: 'onboard';
+}) => {
   const [selected, setSelected] = useState<string>('/writtingpal/polish');
   return (
     <>
@@ -47,7 +52,7 @@ const Options = ({ firstname }: { firstname: string }) => {
       <Spacer y='64' />
       <div className='flex-between'>
         <Link
-          href={'/login'}
+          href={type ? '/welcome/info' : '/login'}
           className={cn(buttonVariants({ variant: 'ghost' }), 'px-0')}
         >
           <ChevronLeft size={20} /> Back
