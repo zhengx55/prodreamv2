@@ -1,10 +1,11 @@
 'use client';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import EditBar from './EditBar';
 import { Variants, motion } from 'framer-motion';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import SuggestionPanel from './SuggestionPanel';
 import EditiorLoading from './EditiorLoading';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 export const EssayVariants: Variants = {
   half: {
@@ -18,7 +19,18 @@ export const EssayVariants: Variants = {
 const EssayPanel = () => {
   const [wordCount, setWordCount] = useState(0);
   const { essayRef, isPolishing, polishResult } = useAiEditiorContext();
+  console.log(
+    '🚀 ~ file: EssayPanel.tsx:21 ~ EssayPanel ~ polishResult:',
+    polishResult
+  );
   const hasPolishResult = polishResult.length > 0;
+
+  useDeepCompareEffect(() => {
+    if (polishResult.length > 0 && essayRef.current) {
+      console.log(essayRef.current.innerHTML);
+    }
+  }, [polishResult]);
+
   const handleInput = (e: FormEvent<HTMLElement>) => {
     const text = e.currentTarget.textContent;
     if (text) {
@@ -47,9 +59,10 @@ const EssayPanel = () => {
             <div
               ref={essayRef}
               onInput={handleInput}
-              className='h-full w-full overflow-y-auto text-justify outline-none'
+              className='h-full w-full overflow-y-auto whitespace-pre-wrap leading-relaxed outline-none'
               placeholder='Write your message..'
-              contentEditable
+              contentEditable={!hasPolishResult && !isPolishing}
+              spellCheck={false}
             />
             <div className='flex-between absolute -bottom-6 left-0 flex h-12 w-full'>
               <div className='flex items-center gap-x-2'>

@@ -19,7 +19,7 @@ const List = ({ title, cardList }: Props) => {
 
   const ListVariant: Variants = {
     open: { height: 'auto' },
-    closed: { height: '297px' },
+    closed: { height: '300px' },
   };
 
   return (

@@ -1,3 +1,4 @@
+'use client';
 import React, { memo } from 'react';
 import { Separator } from '../ui/separator';
 

@@ -16,10 +16,6 @@ type IAiEditiorContext = {
   setPolishResult: Dispatch<SetStateAction<IPolishQueryResult[]>>;
   isPolishing: boolean;
   setIsPolishing: Dispatch<SetStateAction<boolean>>;
-  markStart: number;
-  markEnd: number;
-  setMarkStart: Dispatch<SetStateAction<number>>;
-  setMarkEnd: Dispatch<SetStateAction<number>>;
 };
 
 const AIEditiorContext = createContext({} as IAiEditiorContext);
@@ -30,8 +26,6 @@ export default function AIEditiorProvider({
   children: ReactNode;
 }) {
   const essayRef = useRef<HTMLDivElement>(null);
-  const [markStart, setMarkStart] = useState(0);
-  const [markEnd, setMarkEnd] = useState(0);
   const [polishResult, setPolishResult] = useState<IPolishQueryResult[]>([]);
   const [isPolishing, setIsPolishing] = useState(false);
   return (
@@ -42,10 +36,6 @@ export default function AIEditiorProvider({
         setPolishResult,
         isPolishing,
         setIsPolishing,
-        markStart,
-        markEnd,
-        setMarkStart,
-        setMarkEnd,
       }}
     >
       {children}

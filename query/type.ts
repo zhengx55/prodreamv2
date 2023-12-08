@@ -343,7 +343,9 @@ export interface IPolishQueryData {
 export interface IPolishQueryResult {
   end: number;
   new_sentence: NewSentence[];
+  original_sentence: NewSentence[];
   start: number;
+  [property: string]: any;
 }
 
 export interface NewSentence {
