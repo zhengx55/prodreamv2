@@ -6,14 +6,6 @@ export const loginSchema = z.object({
 });
 
 export const signUpSchema = z.object({
-  firstname: z
-    .string()
-    .min(2, { message: 'First name must be at least 2 characters' })
-    .max(50, { message: 'First name cannot exceed 50 characters' }),
-  lastname: z
-    .string()
-    .min(2, { message: 'Last name must be at least 2 characters' })
-    .max(50, { message: 'Last name cannot exceed 50 characters' }),
   password: z
     .string()
     .min(6, { message: 'Password must be at least 6 characters' })
