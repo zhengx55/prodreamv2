@@ -39,75 +39,127 @@ const SuggestionPanel = () => {
         <h2 className='base-semibold'>All Suggestions</h2>
       </div>
       <Spacer y='24' />
-      {suggestions.map((item, index) => {
-        // 过滤没有更新的句子
-        const isExpanded = item.expand;
-        const hasNew = item.new_sentence.find(
-          (el) => el.is_identical === false
-        );
-        if (!hasNew) return null;
-        return (
-          <motion.div
-            onClick={() => {
-              toogleExpand(index);
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className='mt-4 h-auto w-full shrink-0 cursor-pointer rounded-lg border border-shadow-border px-4 py-3 hover:shadow-xl'
-            key={`polish-${index}`}
-          >
-            <p className={`leading-relaxed ${!isExpanded && 'line-clamp-1'}`}>
-              {item.new_sentence.map((sentence, idx) => {
-                const isNew = sentence.is_identical;
-                return (
-                  <span
-                    key={`sentence-${index}-${idx}`}
-                    className={`${
-                      sentence.is_identical
-                        ? 'text-black-100'
-                        : 'text-primary-200'
-                    }`}
+      <AnimatePresence>
+        {' '}
+        {suggestions.map((item, index) => {
+          // 过滤没有更新的句子
+          const isExpanded = item.expand;
+          const hasNew = item.new_sentence.find(
+            (el) => el.is_identical === false
+          );
+          if (!hasNew) return null;
+          return (
+            <motion.div
+              onClick={() => {
+                toogleExpand(index);
+              }}
+              layout='size'
+              style={{ height: isExpanded ? 'auto' : '48px' }}
+              // initial={false}
+              // animate={isExpanded ? { height: 'auto' } : { height: '48px' }}
+              className='mt-4 w-full shrink-0 cursor-pointer rounded-lg border border-shadow-border px-4 py-3 hover:shadow-xl'
+              key={`polish-${index}`}
+            >
+              {isExpanded && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className={`leading-relaxed ${!isExpanded && 'line-clamp-1'}`}
+                >
+                  {item.new_sentence.map((sentence, idx) => {
+                    const isNew = sentence.is_identical;
+                    return (
+                      <span
+                        key={`sentence-${index}-${idx}`}
+                        className={`${
+                          sentence.is_identical
+                            ? 'text-black-100'
+                            : 'text-primary-200'
+                        }`}
+                      >
+                        {!isNew && item.original_sentence[idx] && (
+                          <>
+                            <span className='text-red-500 line-through'>
+                              {item.original_sentence[idx].sub_str}
+                            </span>
+                            &nbsp;
+                          </>
+                        )}
+                        {sentence.sub_str}&nbsp;
+                      </span>
+                    );
+                  })}
+                </motion.p>
+              )}
+
+              {!isExpanded && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className={`leading-relaxed ${!isExpanded && 'line-clamp-1'}`}
+                >
+                  {item.new_sentence.map((sentence, idx) => {
+                    const isNew = sentence.is_identical;
+                    return (
+                      <span
+                        key={`sentence-${index}-${idx}`}
+                        className={`${
+                          sentence.is_identical
+                            ? 'text-black-100'
+                            : 'text-primary-200'
+                        }`}
+                      >
+                        {!isNew && item.original_sentence[idx] && (
+                          <>
+                            <span className='text-red-500 line-through'>
+                              {item.original_sentence[idx].sub_str}
+                            </span>
+                            &nbsp;
+                          </>
+                        )}
+                        {sentence.sub_str}&nbsp;
+                      </span>
+                    );
+                  })}
+                </motion.p>
+              )}
+
+              {isExpanded && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
+                  className='mt-4 flex gap-x-2 animate-in'
+                >
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log(1);
+                    }}
+                    className='font-semibold'
                   >
-                    {!isNew && item.original_sentence[idx] && (
-                      <>
-                        <span className='text-red-500 line-through'>
-                          {item.original_sentence[idx].sub_str}
-                        </span>
-                        &nbsp;
-                      </>
-                    )}
-                    {sentence.sub_str}&nbsp;
-                  </span>
-                );
-              })}
-            </p>
-            {isExpanded && (
-              <div className='mt-4 flex gap-x-2 animate-in'>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    console.log(1);
-                  }}
-                  className='font-semibold'
-                >
-                  Accept
-                </Button>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    remove(index);
-                  }}
-                  variant={'ghost'}
-                  className='font-semibold text-shadow'
-                >
-                  Dismiss
-                </Button>
-              </div>
-            )}
-          </motion.div>
-        );
-      })}
+                    Accept
+                  </Button>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      remove(index);
+                    }}
+                    variant={'ghost'}
+                    className='font-semibold text-shadow'
+                  >
+                    Dismiss
+                  </Button>
+                </motion.div>
+              )}
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
     </div>
   );
 };

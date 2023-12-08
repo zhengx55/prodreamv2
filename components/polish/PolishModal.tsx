@@ -127,7 +127,6 @@ const PolishModal = () => {
           }
           if (res.status === 'done') {
             setIsPolishing(false);
-            console.log(res);
             setPolishResult(res.result);
             clearInterval(reqTimer.current);
           }

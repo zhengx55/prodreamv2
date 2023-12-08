@@ -3,9 +3,14 @@ import { FormEvent, useEffect, useState } from 'react';
 import EditBar from './EditBar';
 import { Variants, motion } from 'framer-motion';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
-import SuggestionPanel from './SuggestionPanel';
 import EditiorLoading from './EditiorLoading';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import dynamic from 'next/dynamic';
+
+const SuggestionPanel = dynamic(() => import('./SuggestionPanel'), {
+  ssr: false,
+  loading: () => <EditiorLoading />,
+});
 
 export const EssayVariants: Variants = {
   half: {
@@ -24,7 +29,7 @@ const EssayPanel = () => {
     polishResult
   );
   const hasPolishResult = polishResult.length > 0;
-
+  const isMultScreen = hasPolishResult || isPolishing;
   useDeepCompareEffect(() => {
     if (polishResult.length > 0 && essayRef.current) {
       console.log(essayRef.current.innerHTML);
@@ -49,7 +54,7 @@ const EssayPanel = () => {
         <motion.div
           initial={false}
           variants={EssayVariants}
-          animate={hasPolishResult || isPolishing ? 'half' : 'full'}
+          animate={isMultScreen ? 'half' : 'full'}
           className='flex h-full flex-col'
         >
           <EditBar />
