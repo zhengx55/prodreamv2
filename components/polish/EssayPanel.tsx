@@ -35,20 +35,18 @@ const EssayPanel = () => {
       while ((match = regex.exec(essayRef.current.innerText)) !== null) {
         lineBreakPositions.push(match.index);
       }
-      console.log(essayRef.current.innerHTML);
-      console.log(lineBreakPositions);
       // 查询起始索引和终止索引
-      let finalText = '<p class="suggenst-artice">';
+      let finalText = '<article class="suggest-artice">';
       polishResult.map((item, index) => {
         if (!essayRef.current) {
           return;
         }
-        item.original_sentence.map((sentence) => {
+        item.original_sentence.map((sentence, sentence_idx) => {
           if (sentence.is_identical) {
-            const sentenceHtml = sentence.sub_str;
+            const sentenceHtml = `${sentence.sub_str}`;
             finalText += sentenceHtml;
           } else {
-            const sentenceHtml = `<span class="suggest-change"> ${sentence.sub_str} </span>`;
+            const sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
             finalText += sentenceHtml;
           }
         });
@@ -58,7 +56,7 @@ const EssayPanel = () => {
           }
         });
       });
-      finalText += '</p>';
+      finalText += '</article>';
       essayRef.current.innerHTML = finalText;
     }
   }, [polishResult]);
