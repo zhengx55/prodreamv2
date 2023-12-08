@@ -1,7 +1,7 @@
 'use client';
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import { useChatMessageContext } from '@/context/ChatMessageContext';
+import { useChatMessageContext } from '@/_archived/ChatMessageContext';
 import { ChatQuestionIdMap } from '@/constant';
 import { X } from 'lucide-react';
 

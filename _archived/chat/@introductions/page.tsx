@@ -2,7 +2,7 @@
 import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
 import { ChatIntroductionCard, moduleInfo, moduleMenu } from '@/constant';
-import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { useChatNavigatorContext } from '@/_archived/ChatNavigationProvider';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 

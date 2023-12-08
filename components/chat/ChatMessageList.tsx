@@ -17,7 +17,7 @@ import MineMessage from './messages/MineMessage';
 import RobotMessage from './messages/RobotMessage';
 import ChatTypeField from './ChatTypeField';
 import { useSendChat } from '@/query/query';
-import { useChatMessageContext } from '@/context/ChatMessageContext';
+import { useChatMessageContext } from '@/_archived/ChatMessageContext';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 
 type Props = {

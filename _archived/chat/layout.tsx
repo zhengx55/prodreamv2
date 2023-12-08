@@ -1,6 +1,6 @@
 'use client';
 import Loading from '@/components/root/CustomLoading';
-import { ChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { ChatNavigatorContext } from '@/_archived/ChatNavigationProvider';
 import { useChatGuideQas } from '@/query/query';
 import { ChatPage } from '@/query/type';
 import { FormAnswer, FormQuestionResponse } from '@/types';

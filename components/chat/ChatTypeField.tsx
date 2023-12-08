@@ -10,9 +10,9 @@ import { Textarea } from '../ui/textarea';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { AnswerRequestParam } from '@/types';
 import { usePathname } from 'next/navigation';
-import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { useChatNavigatorContext } from '@/_archived/ChatNavigationProvider';
 import Image from 'next/image';
-import { useChatMessageContext } from '@/context/ChatMessageContext';
+import { useChatMessageContext } from '@/_archived/ChatMessageContext';
 import { useGetFinalAnswer } from '@/query/query';
 
 function wait(milliseconds: number | undefined) {

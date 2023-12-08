@@ -1,5 +1,5 @@
 import { moduleExample, moduleNotes } from '@/constant';
-import { useChatMessageContext } from '@/context/ChatMessageContext';
+import { useChatMessageContext } from '@/_archived/ChatMessageContext';
 import Image from 'next/image';
 import React, { memo, useState } from 'react';
 

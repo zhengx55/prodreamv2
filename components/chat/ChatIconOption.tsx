@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useChatMessageContext } from '@/context/ChatMessageContext';
+import { useChatMessageContext } from '@/_archived/ChatMessageContext';
 
 type Props = {
   title: string;

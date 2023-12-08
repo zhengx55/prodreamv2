@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { useChatNavigatorContext } from '@/context/ChatNavigationProvider';
+import { useChatNavigatorContext } from '@/_archived/ChatNavigationProvider';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
