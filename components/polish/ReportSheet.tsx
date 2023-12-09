@@ -91,7 +91,7 @@ const TEST_TITLE = [
 ];
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { memo } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Button } from '../ui/button';
 import Spacer from '../root/Spacer';
 import Image from 'next/image';
@@ -102,10 +102,42 @@ import {
   AccordionTrigger,
 } from '../ui/accordion';
 import { Separator } from '../ui/separator';
+import dynamic from 'next/dynamic';
+import { AnimatePresence } from 'framer-motion';
+
+const OptionsMenu = dynamic(() => import('./OptionsMenu'), { ssr: false });
+
 const ReportSheet = () => {
+  const [showOptions, setShowOptions] = useState(true);
+  const toggleOptions = useCallback(() => {
+    setShowOptions((prev) => !prev);
+  }, []);
   return (
-    <Sheet defaultOpen>
-      <SheetTrigger asChild></SheetTrigger>
+    <Sheet>
+      {/* <SheetTrigger asChild> */}
+      <AnimatePresence>
+        {showOptions && (
+          <OptionsMenu show={showOptions} toggleShow={toggleOptions} />
+        )}
+      </AnimatePresence>
+
+      <div className='flex flex-col gap-y-4 rounded-xl bg-card p-4'>
+        <Image
+          alt='rated'
+          src='/rated.png'
+          className='self-center'
+          width={54}
+          height={54}
+        />
+        <Button
+          onClick={() => setShowOptions((prev) => !prev)}
+          variant={'white'}
+          className='small-semibold justify-center'
+        >
+          Get Rated
+        </Button>
+      </div>
+      {/* </SheetTrigger> */}
       <SheetContent className='flex flex-col overflow-y-auto px-4 py-6'>
         <div className='flex gap-x-4'>
           <div className='flex flex-col'>

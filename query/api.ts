@@ -14,7 +14,7 @@ import {
   IResetParams,
   ISigunUpRequest,
   IVerifyEmail,
-  IessayAssessData,
+  IEssayAssessData,
   LoginData,
   SupportDetailData,
 } from './type';
@@ -162,8 +162,8 @@ export async function SubmitEssayWritting(
       }
     );
     const data = await res.json();
-    if (data.error) {
-      throw new Error(data.error as string);
+    if (data.msg) {
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -333,8 +333,8 @@ export async function plagiarismCheck(text: string) {
       }
     );
     const data = await res.json();
-    if (data.error) {
-      throw new Error(data.error as string);
+    if (data.msg) {
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -403,7 +403,7 @@ export async function queryPolish(params: {
 
 export async function essayAssess(
   params: IEssayAssessRequest
-): Promise<IessayAssessData> {
+): Promise<IEssayAssessData> {
   try {
     const body = JSON.stringify({
       text: params.text,
@@ -423,7 +423,7 @@ export async function essayAssess(
     });
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -466,7 +466,7 @@ export async function downloadReport() {
   ///ai/report_pdf/{report_id}
 }
 
-export async function getSupportDetails(): Promise<SupportDetailData> {
+export async function getInstitutionOptions(): Promise<SupportDetailData[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -481,7 +481,7 @@ export async function getSupportDetails(): Promise<SupportDetailData> {
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data as string);
     }
     return data.data;
   } catch (error) {
@@ -699,8 +699,8 @@ export async function fetchResume(params: IOptRequest) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
     const data = await res.json();
-    if (data.error) {
-      throw new Error(data.error as string);
+    if (data.msg) {
+      throw new Error(data.msg as string);
     }
     return data;
   } catch (error) {
@@ -730,8 +730,8 @@ export async function fetchChatGuideQas(
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
     const data = await res.json();
-    if (data.error) {
-      throw new Error(data.error as string);
+    if (data.msg) {
+      throw new Error(data.msg as string);
     }
     return data;
   } catch (error) {
@@ -809,7 +809,7 @@ export async function fetchChatHistory(): Promise<IChatHistoryData[]> {
     }
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -834,7 +834,7 @@ export async function fetchSessionHistory(session_id: string) {
     }
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -860,7 +860,7 @@ export async function sendMessage(params: IChatRequest) {
     });
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -885,7 +885,7 @@ export async function deleteSession(session_id: string) {
     }
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -907,7 +907,7 @@ export async function fetchResponse(session_id: string) {
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {

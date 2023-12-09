@@ -4,7 +4,6 @@ import Spacer from '../root/Spacer';
 import { PenLine } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
-import Image from 'next/image';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import dynamic from 'next/dynamic';
 
@@ -16,19 +15,7 @@ const Rightbar = () => {
       <Spacer y='24' />
       <h2 className='title-semibold text-black-100'>Essay Evaluation</h2>
       <Spacer y='12' />
-      <div className='flex flex-col gap-y-4 rounded-xl bg-card p-4'>
-        <ReportSheet />
-        <Image
-          alt='rated'
-          src='/rated.png'
-          className='self-center'
-          width={54}
-          height={54}
-        />
-        <Button variant={'white'} className='small-semibold justify-center'>
-          Get Rated
-        </Button>
-      </div>
+      <ReportSheet />
       <Spacer y='24' />
       <Separator orientation='horizontal' className='bg-shadow-border' />
       <Spacer y='24' />

@@ -8,6 +8,7 @@ import {
   fetchSessionHistory,
   getBrainstormDetails,
   getBrianstormHistoryById,
+  getInstitutionOptions,
   queryEssayResult,
   queryPolish,
   refreshUserSession,
@@ -138,3 +139,9 @@ export const useRefreshSession = () => {
 // ----------------------------------------------------------------
 // AI Editors
 // ----------------------------------------------------------------
+export const useInstitutionOptions = () => {
+  return useQuery({
+    queryKey: ['fetch_rate_options'],
+    queryFn: () => getInstitutionOptions(),
+  });
+};

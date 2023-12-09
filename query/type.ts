@@ -177,48 +177,16 @@ export enum Language {
   English = 'English',
 }
 
-export interface IessayAssessData {
-  detail: Detail[];
-  head: string;
-  /**
-   * report id, 点赞/踩时可用
-   */
-  id: string;
-  score: string;
-  [property: string]: any;
-}
-
-/**
- * 该数组按Introduction、Language、Authenticity and Creativity、Fit、Organization and Flow、Grammar
- * 顺序排列
- */
-export interface Detail {
-  comment: Comment;
-  level: string;
-  score: number | number;
-  title: string;
-  [property: string]: any;
-}
-
-export interface Comment {
-  evaluation: string;
-  example: string;
-  suggestion: string;
-  [property: string]: any;
-}
-
 export interface SupportDetailData {
   id: string;
   prompts: Prompt[];
   title: string;
-  [property: string]: any;
 }
 
 export interface Prompt {
   detail: string;
   id: string;
   title: string;
-  [property: string]: any;
 }
 
 export interface IChatHistoryData {
