@@ -462,8 +462,26 @@ export async function feedBackReport(params: {
   }
 }
 
-export async function downloadReport() {
-  ///ai/report_pdf/{report_id}
+export async function downloadReport(report_id: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}report_pdf/${report_id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/pdf',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) {
+      throw new Error('Failed to Download PDF report');
+    }
+    return res;
+  } catch (error) {
+    throw new Error('Failed to Download PDF report');
+  }
 }
 
 export async function getInstitutionOptions(): Promise<SupportDetailData[]> {

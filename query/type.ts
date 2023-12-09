@@ -157,7 +157,7 @@ export interface IEssayAssessRequest {
   /**
    * 不传该参数时，默认为英文版
    */
-  language: Language;
+  language?: Language;
   /**
    * 用户所选系统下题目的ID。（2级）
    */
@@ -166,7 +166,6 @@ export interface IEssayAssessRequest {
    * 文书
    */
   text: string;
-  [property: string]: any;
 }
 
 /**

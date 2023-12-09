@@ -85,6 +85,15 @@ export const ProfileSidebarLinks = [
   },
 ];
 
+export const EvaluationsTitle = [
+  'Attractiveness of the Beginning',
+  'Expressiveness',
+  'Authenticity and Uniqueness',
+  'Fit',
+  'Writing and Structure',
+  'Grammar Accuracy',
+];
+
 export const ProfileDropdownLinks = [
   {
     id: 'profile-01',

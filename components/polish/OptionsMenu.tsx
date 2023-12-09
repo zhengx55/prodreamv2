@@ -1,7 +1,15 @@
 'use client';
 import { memo, useMemo, useState } from 'react';
 
-type Props = { show: boolean; toggleShow: () => void };
+type Props = {
+  submitFunction: UseMutateAsyncFunction<
+    IEssayAssessData,
+    Error,
+    IEssayAssessRequest,
+    void
+  >;
+  toggleShow: () => void;
+};
 
 import {
   Select,
@@ -16,9 +24,15 @@ import { useInstitutionOptions } from '@/query/query';
 import { Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { v4 } from 'uuid';
+import { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { IEssayAssessData, IEssayAssessRequest } from '@/query/type';
+import { useAiEditiorContext } from '@/context/AIEditiorProvider';
+import { useToast } from '../ui/use-toast';
 
-const OptionsMenu = ({ show, toggleShow }: Props) => {
+const OptionsMenu = ({ submitFunction, toggleShow }: Props) => {
   const [category, setCategory] = useState('');
+  const { toast } = useToast();
+  const { essayRef } = useAiEditiorContext();
   const [prompt, setPrompt] = useState('');
   const {
     data: rateOptions,
@@ -30,13 +44,28 @@ const OptionsMenu = ({ show, toggleShow }: Props) => {
     if (isOptionsError) {
       return [];
     } else {
-      return rateOptions?.map((option) => option.title);
+      return rateOptions?.map((option) => {
+        return {
+          title: option.title,
+          id: option.id,
+        };
+      });
     }
   }, [isOptionsError, rateOptions]);
 
+  const prompt_details = useMemo(() => {
+    if (prompt) {
+      return rateOptions
+        ?.find((option) => option.id === category)
+        ?.prompts.find((el) => el.id === prompt)?.detail;
+    } else {
+      return '';
+    }
+  }, [category, prompt, rateOptions]);
+
   const prompts = useMemo(() => {
     if (category) {
-      return rateOptions?.find((option) => option.title === category)?.prompts;
+      return rateOptions?.find((option) => option.id === category)?.prompts;
     } else {
       return [
         {
@@ -47,6 +76,33 @@ const OptionsMenu = ({ show, toggleShow }: Props) => {
       ];
     }
   }, [category, rateOptions]);
+
+  const handleEvaluation = async () => {
+    if (!essayRef.current) {
+      return;
+    }
+    const essayContent = essayRef.current.innerText.trim();
+    if (!prompt || !category) {
+      toast({
+        description: 'No institution/prompt detected',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (essayContent === '') {
+      toast({
+        description: 'No content detected',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    await submitFunction({
+      text: essayContent,
+      institution_id: category,
+      prompt_id: prompt,
+    });
+  };
 
   if (isOptionsPending) {
     return (
@@ -74,8 +130,8 @@ const OptionsMenu = ({ show, toggleShow }: Props) => {
         <SelectContent className='bg-white '>
           {categories?.map((category) => {
             return (
-              <SelectItem key={category} value={category}>
-                {category}
+              <SelectItem key={category.id} value={category.id}>
+                {category.title}
               </SelectItem>
             );
           })}
@@ -94,7 +150,7 @@ const OptionsMenu = ({ show, toggleShow }: Props) => {
               <SelectItem
                 disabled={prompt.detail === 'disabled'}
                 key={prompt.id}
-                value={prompt.title}
+                value={prompt.id}
               >
                 {prompt.title}
               </SelectItem>
@@ -102,13 +158,20 @@ const OptionsMenu = ({ show, toggleShow }: Props) => {
           })}
         </SelectContent>
       </Select>
+      <Spacer y='24' />
+      {prompt_details ? (
+        <div className='flex flex-col rounded-lg border border-shadow-border bg-sectionBackground p-5'>
+          <h2 className='base-semibold'>Essay Prompt</h2>
+          <Spacer y='10' />
+          <p className='small-regular'>{prompt_details}</p>
+        </div>
+      ) : null}
       <Spacer y='14' />
-
       <div className='flex justify-end gap-x-2'>
         <Button onClick={() => toggleShow()} variant={'ghost'}>
           Cancel
         </Button>
-        <Button>Done</Button>
+        <Button onClick={handleEvaluation}>Done</Button>
       </div>
     </motion.div>
   );
