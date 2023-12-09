@@ -90,13 +90,7 @@ const TEST_TITLE = [
   'Grammar Accuracy',
 ];
 
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { memo } from 'react';
 import { Button } from '../ui/button';
 import Spacer from '../root/Spacer';
@@ -107,6 +101,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '../ui/accordion';
+import { Separator } from '../ui/separator';
 const ReportSheet = () => {
   return (
     <Sheet defaultOpen>
@@ -144,13 +139,16 @@ const ReportSheet = () => {
         <Accordion type='multiple'>
           {TEST.data.detail.map((item, index) => (
             <AccordionItem
-              className='bg-primary-500'
               key={`report-acc${index}`}
               value={`report-acc${index}`}
             >
-              <AccordionTrigger className='title-semibold px-2'>
+              <AccordionTrigger className='title-semibold px-4'>
                 {TEST_TITLE[index]}:
               </AccordionTrigger>
+              <Separator
+                orientation='horizontal'
+                className='ml-[2.5%] w-[95%] bg-shadow-border'
+              />
               <AccordionContent className='border-l border-primary-200 bg-white px-4 pt-4 '>
                 <article
                   dangerouslySetInnerHTML={{ __html: item.comment.evaluation }}
@@ -176,14 +174,14 @@ const ReportSheet = () => {
         <Spacer y='64' />
         <div className='flex-center gap-x-6'>
           <Image
-            className='h-auto w-auto cursor-pointer hover:opacity-50'
+            className='h-[60px] w-[60px] cursor-pointer hover:opacity-50'
             src='/thumbUp.svg'
             width={60}
             height={60}
             alt='thumbup'
           />
           <Image
-            className='h-auto w-auto cursor-pointer hover:opacity-50'
+            className='w-[60px h-[60px] cursor-pointer hover:opacity-50'
             src='/thumbDown.svg'
             width={60}
             height={60}
