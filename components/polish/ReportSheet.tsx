@@ -59,12 +59,7 @@ const ReportSheet = () => {
     try {
       if (!evaluateResult) return;
       const res = await downloadReport(evaluateResult?.id);
-      console.log(
-        '🚀 ~ file: ReportSheet.tsx:62 ~ handleDownloadReport ~ res:',
-        res
-      );
       const blob = await res.blob();
-
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       let d = new Date();
