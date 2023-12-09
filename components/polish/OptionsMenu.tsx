@@ -15,6 +15,7 @@ import { Button } from '../ui/button';
 import { useInstitutionOptions } from '@/query/query';
 import { Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { v4 } from 'uuid';
 
 const OptionsMenu = ({ show, toggleShow }: Props) => {
   const [category, setCategory] = useState('');
@@ -37,7 +38,13 @@ const OptionsMenu = ({ show, toggleShow }: Props) => {
     if (category) {
       return rateOptions?.find((option) => option.title === category)?.prompts;
     } else {
-      return [];
+      return [
+        {
+          id: v4(),
+          detail: 'disabled',
+          title: 'Please What kind of essay are you reviewing?',
+        },
+      ];
     }
   }, [category, rateOptions]);
 
@@ -84,7 +91,11 @@ const OptionsMenu = ({ show, toggleShow }: Props) => {
         <SelectContent className='bg-white'>
           {prompts?.map((prompt) => {
             return (
-              <SelectItem key={prompt.id} value={prompt.title}>
+              <SelectItem
+                disabled={prompt.detail === 'disabled'}
+                key={prompt.id}
+                value={prompt.title}
+              >
                 {prompt.title}
               </SelectItem>
             );

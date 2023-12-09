@@ -108,7 +108,7 @@ import { AnimatePresence } from 'framer-motion';
 const OptionsMenu = dynamic(() => import('./OptionsMenu'), { ssr: false });
 
 const ReportSheet = () => {
-  const [showOptions, setShowOptions] = useState(true);
+  const [showOptions, setShowOptions] = useState(false);
   const toggleOptions = useCallback(() => {
     setShowOptions((prev) => !prev);
   }, []);
@@ -120,7 +120,6 @@ const ReportSheet = () => {
           <OptionsMenu show={showOptions} toggleShow={toggleOptions} />
         )}
       </AnimatePresence>
-
       <div className='flex flex-col gap-y-4 rounded-xl bg-card p-4'>
         <Image
           alt='rated'

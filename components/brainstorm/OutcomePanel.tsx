@@ -8,6 +8,7 @@ import Tooltip from '../root/Tooltip';
 import TextStreamingEffect from '../root/TextStreamingEffect';
 import PanelError from '../root/PanelError';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
+import { useToast } from '../ui/use-toast';
 
 const OutcomePanel = ({
   submitPending,
@@ -29,6 +30,7 @@ const OutcomePanel = ({
   isSubmitError: boolean;
 }) => {
   const { historyData } = useBrainStormContext();
+  const { toast } = useToast();
   return (
     <motion.div
       key='outcome'
@@ -81,11 +83,22 @@ const OutcomePanel = ({
                   </p>
                 </div>
                 <Tooltip tooltipContent='copy'>
-                  <div className='tooltip'>
+                  <div
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        historyData.result ? historyData.result : essaydata
+                      );
+                      toast({
+                        variant: 'default',
+                        description: 'Copy to clipboard',
+                      });
+                    }}
+                    className='tooltip'
+                  >
                     <Copy size={18} />
                   </div>
                 </Tooltip>
-                <Tooltip tooltipContent='download resume'>
+                <Tooltip tooltipContent='download'>
                   <div className='tooltip'>
                     <Download size={18} />
                   </div>
@@ -95,7 +108,6 @@ const OutcomePanel = ({
                     <Trophy size={18} />
                   </div>
                 </Tooltip>
-
                 <Button size={'sm'}>Polish Now</Button>
               </div>
             </div>
