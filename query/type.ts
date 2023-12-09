@@ -352,3 +352,27 @@ export interface NewSentence {
   is_identical: boolean;
   sub_str: string;
 }
+
+export interface IEssayAssessData {
+  detail: Detail[];
+  head: string;
+  id: string;
+  score: string;
+}
+
+/**
+ * 该数组按Introduction、Language、Authenticity and Creativity、Fit、Organization and Flow、Grammar
+ * 顺序排列
+ */
+export interface Detail {
+  comment: Comment;
+  level: string;
+  score: number | number;
+  title: string;
+}
+
+export interface Comment {
+  evaluation: string;
+  example: string;
+  suggestion: string;
+}

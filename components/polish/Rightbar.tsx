@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import dynamic from 'next/dynamic';
 
+const ReportSheet = dynamic(() => import('./ReportSheet'), { ssr: false });
 const PolishModal = dynamic(() => import('./PolishModal'), { ssr: false });
 const Rightbar = () => {
   return (
@@ -16,6 +17,7 @@ const Rightbar = () => {
       <h2 className='title-semibold text-black-100'>Essay Evaluation</h2>
       <Spacer y='12' />
       <div className='flex flex-col gap-y-4 rounded-xl bg-card p-4'>
+        <ReportSheet />
         <Image
           alt='rated'
           src='/rated.png'
