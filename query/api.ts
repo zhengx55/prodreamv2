@@ -17,6 +17,7 @@ import {
   IEssayAssessData,
   LoginData,
   SupportDetailData,
+  IBriansotrmReq,
 } from './type';
 import Cookies from 'js-cookie';
 
@@ -112,7 +113,6 @@ export async function queryEssayResult(
 ): Promise<{ status: 'doing' | 'done'; text: string }> {
   try {
     const token = Cookies.get('token');
-
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}essay_write_query`,
       {
@@ -134,12 +134,7 @@ export async function queryEssayResult(
 }
 
 export async function SubmitEssayWritting(
-  pro_mode: boolean,
-  template_id: string,
-  word_nums: string,
-  texts: string[],
-  types: string[],
-  user_id: number
+  params: IBriansotrmReq
 ): Promise<string> {
   try {
     const token = Cookies.get('token');
@@ -148,12 +143,12 @@ export async function SubmitEssayWritting(
       {
         method: 'POST',
         body: JSON.stringify({
-          pro_mode,
-          template_id,
-          word_nums,
-          texts,
-          types,
-          user_id: user_id.toString(),
+          pro_mode: params.pro_mode,
+          template_id: params.template_id,
+          word_nums: params.word_nums,
+          texts: params.texts,
+          types: params.types,
+          user_id: params.user_id.toString(),
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -162,7 +157,7 @@ export async function SubmitEssayWritting(
       }
     );
     const data = await res.json();
-    if (data.msg) {
+    if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
     return data.data;

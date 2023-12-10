@@ -1,61 +1,24 @@
 'use client';
 import { cn } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import OutcomePanel from './OutcomePanel';
-import { useQueryEssay } from '@/query/query';
 import dynamic from 'next/dynamic';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
 const MemoizedHistoryPanel = dynamic(() => import('./HistoryPanel'), {
   ssr: false,
 });
-const OutputPanel = ({
-  submitPending,
-  submitError,
-}: {
-  submitPending: boolean;
-  submitError: boolean;
-}) => {
+const OutputPanel = () => {
   const [tab, setTab] = useState<number>(0);
   const printIndexRef = useRef<number>(0);
-  const { taskId } = useBrainStormContext();
-  const [shouldAnimate, setShouldAnimate] = useState(false);
   const [animatedWordCount, setAnimatedWordCount] = useState(0);
 
   const IncrementWordCount = useCallback(() => {
     setAnimatedWordCount((prev) => prev + 1);
   }, []);
 
-  // hooks to calculate incremental word count
-  const turnOffAnimate = useCallback(() => {
-    setShouldAnimate(false);
-  }, []);
-
   const handleTabChange = useCallback((value: number) => {
     setTab(value);
   }, []);
-
-  const {
-    refetch: essayRefetch,
-    data: queryEssay,
-    error,
-  } = useQueryEssay(taskId);
-
-  useEffect(() => {
-    const pollInterval = setInterval(() => {
-      setShouldAnimate(true);
-      if (queryEssay?.status === 'doing') {
-        essayRefetch();
-      }
-      if (queryEssay?.status === 'done') {
-        clearInterval(pollInterval);
-      }
-    }, 2000);
-    return () => {
-      clearInterval(pollInterval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryEssay?.status]);
 
   return (
     <>
@@ -95,12 +58,7 @@ const OutputPanel = ({
             <MemoizedHistoryPanel handleTabChange={handleTabChange} />
           ) : tab === 0 ? (
             <OutcomePanel
-              isSubmitError={submitError}
               printIndexRef={printIndexRef}
-              shouldAnimate={shouldAnimate}
-              turnOffAnimate={turnOffAnimate}
-              submitPending={submitPending}
-              essaydata={queryEssay?.text ?? ''}
               animatedWordCount={animatedWordCount}
               incrementCount={IncrementWordCount}
             />

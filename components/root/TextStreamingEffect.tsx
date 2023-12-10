@@ -1,4 +1,5 @@
 'use client';
+import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { useEffect, useRef, useState } from 'react';
 
 type Props = {
@@ -6,7 +7,6 @@ type Props = {
   speed: number;
   printIndexRef: React.MutableRefObject<number>;
   setWorkCount?: () => void;
-  turnOffAnimation: () => void;
 };
 
 const TextStreamingEffect = ({
@@ -14,8 +14,8 @@ const TextStreamingEffect = ({
   speed,
   printIndexRef,
   setWorkCount,
-  turnOffAnimation,
 }: Props) => {
+  const { setStartTyping } = useBrainStormContext();
   const [displayedText, setDisplayedText] = useState('');
   const intervalIdRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
@@ -33,7 +33,7 @@ const TextStreamingEffect = ({
       i++;
       printIndexRef.current = i;
       if (i > text.length) {
-        turnOffAnimation();
+        setStartTyping(false);
         clearInterval(intervalIdRef.current);
       }
     }, speed);

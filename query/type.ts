@@ -9,6 +9,15 @@ export interface IBrainstormHistory {
   }[];
 }
 
+export interface IBriansotrmReq {
+  pro_mode: boolean;
+  template_id: string;
+  word_nums: string;
+  texts: string[];
+  types: string[];
+  user_id: number;
+}
+
 export interface ISessionId {
   [key: string]: { session_id: string; step: number };
 }

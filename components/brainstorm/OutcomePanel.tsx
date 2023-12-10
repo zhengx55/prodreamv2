@@ -11,25 +11,16 @@ import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { useToast } from '../ui/use-toast';
 
 const OutcomePanel = ({
-  submitPending,
   printIndexRef,
-  essaydata,
-  shouldAnimate,
-  turnOffAnimate,
   animatedWordCount,
   incrementCount,
-  isSubmitError,
 }: {
-  submitPending: boolean;
   printIndexRef: React.MutableRefObject<number>;
-  essaydata: string;
-  shouldAnimate: boolean;
-  turnOffAnimate: () => void;
   animatedWordCount: number;
   incrementCount: () => void;
-  isSubmitError: boolean;
 }) => {
-  const { historyData } = useBrainStormContext();
+  const { historyData, startTyping, eassyResult, isSubmiting, submitError } =
+    useBrainStormContext();
   const { toast } = useToast();
   return (
     <motion.div
@@ -41,12 +32,12 @@ const OutcomePanel = ({
       className='h-full w-full overflow-hidden py-4 pl-2 pr-6'
     >
       <div className='relative h-full w-full rounded-md bg-white px-6 pb-14 pt-6 shadow-panel'>
-        {isSubmitError && !historyData.result ? (
+        {submitError && !historyData.result ? (
           <PanelError />
         ) : (
           <>
             <div className='custom-scrollbar h-full w-full select-text overflow-y-auto overflow-x-hidden'>
-              {submitPending ? (
+              {isSubmiting ? (
                 <RotbotLoader
                   label='Branstorming'
                   labelClass='text-black-200 body-medium'
@@ -55,16 +46,15 @@ const OutcomePanel = ({
                 <p className='small-normal whitespace-pre-line'>
                   {historyData.result ? (
                     historyData.result
-                  ) : shouldAnimate ? (
+                  ) : startTyping ? (
                     <TextStreamingEffect
                       setWorkCount={incrementCount}
                       printIndexRef={printIndexRef}
-                      text={essaydata}
-                      turnOffAnimation={turnOffAnimate}
+                      text={eassyResult}
                       speed={10}
                     />
                   ) : (
-                    essaydata
+                    eassyResult
                   )}
                 </p>
               )}
@@ -76,9 +66,9 @@ const OutcomePanel = ({
                   <p className='small-semibold'>
                     {historyData.result
                       ? countWords(historyData.result)
-                      : shouldAnimate
+                      : startTyping
                         ? animatedWordCount
-                        : countWords(essaydata)}
+                        : countWords(eassyResult)}
                     &nbsp;Words
                   </p>
                 </div>
@@ -86,7 +76,7 @@ const OutcomePanel = ({
                   <div
                     onClick={() => {
                       navigator.clipboard.writeText(
-                        historyData.result ? historyData.result : essaydata
+                        historyData.result ? historyData.result : eassyResult
                       );
                       toast({
                         variant: 'default',
