@@ -11,8 +11,14 @@ import {
 type IBrainStormContext = {
   historyData: IBrainStormHistoryState;
   setHistoryData: Dispatch<SetStateAction<IBrainStormHistoryState>>;
-  taskId: string;
-  setTaskId: Dispatch<SetStateAction<string>>;
+  isSubmiting: boolean;
+  setIsSubmiting: Dispatch<SetStateAction<boolean>>;
+  submitError: string;
+  setSubmitError: Dispatch<SetStateAction<string>>;
+  eassyResult: string;
+  setEassyResult: Dispatch<SetStateAction<string>>;
+  startTyping: boolean;
+  setStartTyping: Dispatch<SetStateAction<boolean>>;
 };
 
 const BrainStormContext = createContext({} as IBrainStormContext);
@@ -28,15 +34,24 @@ export default function BrainStormProvider({
     questionAnswerPair: {},
   });
 
-  const [taskId, setTaskId] = useState<string>('');
+  const [isSubmiting, setIsSubmiting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [startTyping, setStartTyping] = useState(false);
+  const [eassyResult, setEassyResult] = useState('');
 
   return (
     <BrainStormContext.Provider
       value={{
         historyData,
         setHistoryData,
-        taskId,
-        setTaskId,
+        isSubmiting,
+        setIsSubmiting,
+        submitError,
+        setSubmitError,
+        eassyResult,
+        setEassyResult,
+        startTyping,
+        setStartTyping,
       }}
     >
       {children}

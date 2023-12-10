@@ -6,48 +6,38 @@ import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import { Switch } from '@/components/ui/switch';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { CheckCheck } from 'lucide-react';
 import { TextOptimizeBar } from './TextOptimizeBar';
 import { useAppSelector } from '@/store/storehooks';
-import { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useToast } from '../ui/use-toast';
-import { IBrainStormSection, Module } from '@/query/type';
+import type { IBrainStormSection, IBriansotrmReq, Module } from '@/query/type';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { selectUserId } from '@/store/reducers/userSlice';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
+import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
 
-const FormPanel = ({
-  submitPending,
-  brainStormId,
-  submitHandler,
-}: {
-  submitPending: boolean;
-  brainStormId: string;
-  submitHandler: UseMutateAsyncFunction<
-    string,
-    Error,
-    {
-      pro_mode: boolean;
-      template_id: string;
-      word_nums: string;
-      texts: string[];
-      types: string[];
-      user_id: number;
-    },
-    unknown
-  >;
-}) => {
+const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
   const { data: moduleData, isPending: isModuleLoading } =
     useBrainStormDetail(brainStormId);
   const user_id = useAppSelector(selectUserId);
-  const { historyData, setTaskId, setHistoryData } = useBrainStormContext();
+  const {
+    setIsSubmiting,
+    setSubmitError,
+    historyData,
+    setHistoryData,
+    setStartTyping,
+    setEassyResult,
+    isSubmiting,
+  } = useBrainStormContext();
   const [formData, setFormData] = useState<IBrainStormSection | undefined>();
   const [formState, setFormState] = useState<Record<string, string>>({});
   const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
   const { toast } = useToast();
+  const queryTimer = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     if (moduleData) {
@@ -151,6 +141,34 @@ const FormPanel = ({
     setFormData(updatedObj);
   };
 
+  const { mutateAsync: handleBrainstorm } = useMutation({
+    mutationFn: (params: IBriansotrmReq) => SubmitEssayWritting(params),
+    onSuccess: (data) => {
+      queryTimer.current = setInterval(async () => {
+        const res = await queryEssayResult(data);
+        setStartTyping(true);
+        if (res.status === 'doing') {
+          if (res.text !== '') {
+            setEassyResult(res.text);
+            setIsSubmiting(false);
+          }
+        }
+        if (res.status === 'done') {
+          clearInterval(queryTimer.current);
+          setEassyResult(res.text);
+          setIsSubmiting(false);
+        }
+      }, 2000);
+    },
+    onError: (err) => {
+      setSubmitError(err.message);
+      setIsSubmiting(false);
+    },
+    onMutate: () => {
+      setIsSubmiting(true);
+    },
+  });
+
   const handleSubmit = async () => {
     const key_arrays = Object.keys(formState);
     const key_values = Object.values(formState);
@@ -158,15 +176,13 @@ const FormPanel = ({
       item.includes('+') ? item.split('+')[0] : item
     );
     setHistoryData({ template_id: '', result: '', questionAnswerPair: {} });
-    submitHandler({
+    await handleBrainstorm({
       pro_mode: qualityMode === 1,
       template_id: brainStormId,
       texts: key_values,
       types: filter_key_arrays,
       word_nums: '',
       user_id,
-    }).then((result) => {
-      setTaskId(result);
     });
   };
 
@@ -306,7 +322,7 @@ const FormPanel = ({
                         id={item.id}
                         className='small-medium min-h-full w-full overflow-y-auto pb-12'
                         placeholder={item.example}
-                        disabled={!!formStatus[item.id] || submitPending}
+                        disabled={!!formStatus[item.id] || isSubmiting}
                       />
                       <TextOptimizeBar
                         value={formState[item.id] ?? ''}

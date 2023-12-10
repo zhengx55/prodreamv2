@@ -30,7 +30,7 @@ import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const { toast } = useToast();
-  const [_cookies, setCookie] = useCookies(['token', 'user']);
+  const [_cookies, setCookie] = useCookies(['token']);
   const [hidePassword, setHidePassword] = useState(true);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -54,7 +54,7 @@ export default function Page() {
         maxAge: 604800,
       });
       dispatch(setUser(data));
-      router.replace('/writtingpal/polish');
+      router.push('/welcome');
     },
     onError: (error) => {
       toast({
@@ -71,8 +71,8 @@ export default function Page() {
   return (
     <section className='flex-center flex-1'>
       <Panel>
-        <h1 className='h2-bold self-center'>Welcome Back!</h1>
-        <p className='body-normal self-center text-shadow-100'>
+        <h1 className='h3-bold self-center'>Welcome Back!</h1>
+        <p className='small-regular self-center text-shadow-100'>
           Ready to continue crafting your unique story?
         </p>
         <Form {...form}>

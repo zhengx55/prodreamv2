@@ -9,6 +9,15 @@ export interface IBrainstormHistory {
   }[];
 }
 
+export interface IBriansotrmReq {
+  pro_mode: boolean;
+  template_id: string;
+  word_nums: string;
+  texts: string[];
+  types: string[];
+  user_id: number;
+}
+
 export interface ISessionId {
   [key: string]: { session_id: string; step: number };
 }
@@ -93,7 +102,7 @@ export interface LoginData {
 
 export interface ISigunUpRequest {
   email: string;
-  first_name: string;
+  first_name?: string;
   from?: string;
   last_name?: string;
   password: string;
@@ -157,7 +166,7 @@ export interface IEssayAssessRequest {
   /**
    * 不传该参数时，默认为英文版
    */
-  language: Language;
+  language?: Language;
   /**
    * 用户所选系统下题目的ID。（2级）
    */
@@ -166,7 +175,6 @@ export interface IEssayAssessRequest {
    * 文书
    */
   text: string;
-  [property: string]: any;
 }
 
 /**
@@ -177,48 +185,16 @@ export enum Language {
   English = 'English',
 }
 
-export interface IessayAssessData {
-  detail: Detail[];
-  head: string;
-  /**
-   * report id, 点赞/踩时可用
-   */
-  id: string;
-  score: string;
-  [property: string]: any;
-}
-
-/**
- * 该数组按Introduction、Language、Authenticity and Creativity、Fit、Organization and Flow、Grammar
- * 顺序排列
- */
-export interface Detail {
-  comment: Comment;
-  level: string;
-  score: number | number;
-  title: string;
-  [property: string]: any;
-}
-
-export interface Comment {
-  evaluation: string;
-  example: string;
-  suggestion: string;
-  [property: string]: any;
-}
-
 export interface SupportDetailData {
   id: string;
   prompts: Prompt[];
   title: string;
-  [property: string]: any;
 }
 
 export interface Prompt {
   detail: string;
   id: string;
   title: string;
-  [property: string]: any;
 }
 
 export interface IChatHistoryData {
@@ -351,4 +327,28 @@ export interface IPolishQueryResult {
 export interface NewSentence {
   is_identical: boolean;
   sub_str: string;
+}
+
+export interface IEssayAssessData {
+  detail: Detail[];
+  head: string;
+  id: string;
+  score: string;
+}
+
+/**
+ * 该数组按Introduction、Language、Authenticity and Creativity、Fit、Organization and Flow、Grammar
+ * 顺序排列
+ */
+export interface Detail {
+  comment: Comment;
+  level: string;
+  score: number | number;
+  title: string;
+}
+
+export interface Comment {
+  evaluation: string;
+  example: string;
+  suggestion: string;
 }
