@@ -161,7 +161,7 @@
   }
 
   .tool {
-    @apply cursor-pointer rounded-[4px] bg-transparent p-1 hover:bg-border-50 hover:-translate-y-[2px] transition-transform flex gap-x-2 font-semibold
+    @apply cursor-pointer rounded-[4px] bg-transparent p-1 hover:bg-border-50 flex gap-x-2 font-semibold
   }
 
   .bulletin-tab {

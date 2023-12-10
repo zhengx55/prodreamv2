@@ -8,6 +8,7 @@ import {
   fetchSessionHistory,
   getBrainstormDetails,
   getBrianstormHistoryById,
+  getInstitutionOptions,
   queryEssayResult,
   queryPolish,
   refreshUserSession,
@@ -44,42 +45,6 @@ export const useAnswerOptimize = () => {
       answer: string;
       type: 0 | 1;
     }) => OptimizeAnswer(question_id, answer, type),
-  });
-};
-
-export const useQueryEssay = (task_id: string) => {
-  return useQuery({
-    queryKey: ['query_essay', task_id],
-    enabled: !!task_id,
-    queryFn: () => queryEssayResult(task_id),
-  });
-};
-
-export const useEssayWriting = () => {
-  return useMutation({
-    mutationFn: ({
-      pro_mode,
-      template_id,
-      word_nums,
-      texts,
-      types,
-      user_id,
-    }: {
-      pro_mode: boolean;
-      template_id: string;
-      word_nums: string;
-      texts: string[];
-      types: string[];
-      user_id: number;
-    }) =>
-      SubmitEssayWritting(
-        pro_mode,
-        template_id,
-        word_nums,
-        texts,
-        types,
-        user_id
-      ),
   });
 };
 
@@ -138,3 +103,9 @@ export const useRefreshSession = () => {
 // ----------------------------------------------------------------
 // AI Editors
 // ----------------------------------------------------------------
+export const useInstitutionOptions = () => {
+  return useQuery({
+    queryKey: ['fetch_rate_options'],
+    queryFn: () => getInstitutionOptions(),
+  });
+};

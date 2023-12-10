@@ -14,9 +14,10 @@ import {
   IResetParams,
   ISigunUpRequest,
   IVerifyEmail,
-  IessayAssessData,
+  IEssayAssessData,
   LoginData,
   SupportDetailData,
+  IBriansotrmReq,
 } from './type';
 import Cookies from 'js-cookie';
 
@@ -112,7 +113,6 @@ export async function queryEssayResult(
 ): Promise<{ status: 'doing' | 'done'; text: string }> {
   try {
     const token = Cookies.get('token');
-
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}essay_write_query`,
       {
@@ -134,12 +134,7 @@ export async function queryEssayResult(
 }
 
 export async function SubmitEssayWritting(
-  pro_mode: boolean,
-  template_id: string,
-  word_nums: string,
-  texts: string[],
-  types: string[],
-  user_id: number
+  params: IBriansotrmReq
 ): Promise<string> {
   try {
     const token = Cookies.get('token');
@@ -148,12 +143,12 @@ export async function SubmitEssayWritting(
       {
         method: 'POST',
         body: JSON.stringify({
-          pro_mode,
-          template_id,
-          word_nums,
-          texts,
-          types,
-          user_id: user_id.toString(),
+          pro_mode: params.pro_mode,
+          template_id: params.template_id,
+          word_nums: params.word_nums,
+          texts: params.texts,
+          types: params.types,
+          user_id: params.user_id.toString(),
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -162,8 +157,8 @@ export async function SubmitEssayWritting(
       }
     );
     const data = await res.json();
-    if (data.error) {
-      throw new Error(data.error as string);
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -201,11 +196,6 @@ export async function userLogin(loginParam: {
 export async function userSignUp(signUpParam: ISigunUpRequest) {
   try {
     const formdata = new FormData();
-    formdata.append('first_name', signUpParam.first_name);
-    formdata.append(
-      'last_name',
-      signUpParam.last_name ? signUpParam.last_name : ''
-    );
     formdata.append('email', signUpParam.email);
     formdata.append('password', signUpParam.password);
     formdata.append('from', signUpParam.from ? signUpParam.from : '');
@@ -338,8 +328,8 @@ export async function plagiarismCheck(text: string) {
       }
     );
     const data = await res.json();
-    if (data.error) {
-      throw new Error(data.error as string);
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -408,7 +398,7 @@ export async function queryPolish(params: {
 
 export async function essayAssess(
   params: IEssayAssessRequest
-): Promise<IessayAssessData> {
+): Promise<IEssayAssessData> {
   try {
     const body = JSON.stringify({
       text: params.text,
@@ -428,7 +418,7 @@ export async function essayAssess(
     });
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -467,11 +457,29 @@ export async function feedBackReport(params: {
   }
 }
 
-export async function downloadReport() {
-  ///ai/report_pdf/{report_id}
+export async function downloadReport(report_id: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}report_pdf/${report_id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/pdf',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) {
+      throw new Error('Failed to Download PDF report');
+    }
+    return res;
+  } catch (error) {
+    throw new Error('Failed to Download PDF report');
+  }
 }
 
-export async function getSupportDetails(): Promise<SupportDetailData> {
+export async function getInstitutionOptions(): Promise<SupportDetailData[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -486,13 +494,37 @@ export async function getSupportDetails(): Promise<SupportDetailData> {
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data as string);
     }
     return data.data;
   } catch (error) {
     throw new Error(error as string);
   }
 }
+
+export async function uploadEssay(params: { file: File }) {
+  try {
+    const formData = new FormData();
+    formData.append('file', params.file);
+    const token = Cookies.get('token');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}file2text`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function downloadEassy() {}
 
 // ----------------------------------------------------------------
 // Activity List
@@ -704,8 +736,8 @@ export async function fetchResume(params: IOptRequest) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
     const data = await res.json();
-    if (data.error) {
-      throw new Error(data.error as string);
+    if (data.msg) {
+      throw new Error(data.msg as string);
     }
     return data;
   } catch (error) {
@@ -735,8 +767,8 @@ export async function fetchChatGuideQas(
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
     const data = await res.json();
-    if (data.error) {
-      throw new Error(data.error as string);
+    if (data.msg) {
+      throw new Error(data.msg as string);
     }
     return data;
   } catch (error) {
@@ -814,7 +846,7 @@ export async function fetchChatHistory(): Promise<IChatHistoryData[]> {
     }
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -839,7 +871,7 @@ export async function fetchSessionHistory(session_id: string) {
     }
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -865,7 +897,7 @@ export async function sendMessage(params: IChatRequest) {
     });
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -890,7 +922,7 @@ export async function deleteSession(session_id: string) {
     }
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {
@@ -912,7 +944,7 @@ export async function fetchResponse(session_id: string) {
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.error as string);
+      throw new Error(data.msg as string);
     }
     return data.data;
   } catch (error) {

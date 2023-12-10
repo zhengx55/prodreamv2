@@ -41,6 +41,33 @@ export const TutTabs = [
   { id: 'tut-tabs04', title: 'Activity List' },
 ];
 
+export const WelcomOptions = [
+  {
+    id: 'welcome-01',
+    title: 'Essay Review & Edit',
+    image: '/welcome/Review.png',
+    link: '/writtingpal/polish',
+  },
+  {
+    id: 'welcome-02',
+    title: 'Explore Essay Ideas & Drafting',
+    image: '/welcome/Ideas.png',
+    link: '/writtingpal/brainstorm',
+  },
+  {
+    id: 'welcome-03',
+    title: 'Activity List',
+    image: '/welcome/ActivityList.png',
+    link: '/writtingpal/activityList',
+  },
+  {
+    id: 'welcome-04',
+    title: 'Resume',
+    image: '/welcome/Resume.png',
+    link: '/writtingpal/resume',
+  },
+];
+
 export const ProfileSidebarLinks = [
   {
     id: 'sidebar-01',
@@ -56,6 +83,15 @@ export const ProfileSidebarLinks = [
     image: '/referrals.svg',
     active_image: '/referrals_active.svg',
   },
+];
+
+export const EvaluationsTitle = [
+  'Attractiveness of the Beginning',
+  'Expressiveness',
+  'Authenticity and Uniqueness',
+  'Fit',
+  'Writing and Structure',
+  'Grammar Accuracy',
 ];
 
 export const ProfileDropdownLinks = [

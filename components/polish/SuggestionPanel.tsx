@@ -2,11 +2,11 @@ import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import React, { useState } from 'react';
 import Spacer from '../root/Spacer';
 import { IPolishQueryResult } from '@/query/type';
-import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '../ui/button';
 
 const SuggestionPanel = () => {
-  const { polishResult } = useAiEditiorContext();
+  const { polishResult, essayRef } = useAiEditiorContext();
 
   const [suggestions, setSuggestions] = useState<IPolishQueryResult[]>(() => {
     if (polishResult.length === 0) {
@@ -28,6 +28,26 @@ const SuggestionPanel = () => {
     setSuggestions((prev) => {
       return prev.filter((_item, idx) => idx !== index);
     });
+  };
+
+  const replaceText = (index: number, item: IPolishQueryResult) => {
+    if (!essayRef.current) {
+      return;
+    }
+    console.log(item);
+    // item.new_sentence.forEach((sentence, sentence_idx) => {
+    //   if (sentence.is_identical) {
+    //     return;
+    //   }
+    //   const originalElement = document.getElementById(
+    //     `suggest-${index}-${sentence_idx}`
+    //   );
+    //   if (originalElement) {
+    //     originalElement.innerText = ` ${sentence.sub_str} `;
+    //     originalElement.classList.remove('suggest-change');
+    //     remove(index);
+    //   }
+    // });
   };
 
   return (
@@ -137,7 +157,7 @@ const SuggestionPanel = () => {
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log(1);
+                      replaceText(index, item);
                     }}
                     className='font-semibold'
                   >

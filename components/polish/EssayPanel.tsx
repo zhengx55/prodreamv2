@@ -28,26 +28,35 @@ const EssayPanel = () => {
   const isMultScreen = hasPolishResult || isPolishing;
   useDeepCompareEffect(() => {
     if (polishResult.length > 0 && essayRef.current) {
+      // 查询原文当中所有的换行符位置
+      const lineBreakPositions: number[] = [];
+      const regex = /\n/g;
+      let match;
+      while ((match = regex.exec(essayRef.current.innerText)) !== null) {
+        lineBreakPositions.push(match.index);
+      }
       // 查询起始索引和终止索引
-      let finalText = '<p class="suggenst-artice">';
-      polishResult.map((item) => {
+      let finalText = '<article class="suggest-artice">';
+      polishResult.map((item, index) => {
         if (!essayRef.current) {
           return;
         }
-        item.original_sentence.map((sentence, idx) => {
+        item.original_sentence.map((sentence, sentence_idx) => {
           if (sentence.is_identical) {
             const sentenceHtml = `${sentence.sub_str}`;
             finalText += sentenceHtml;
           } else {
-            const sentenceHtml = `<span class="suggest-change">&nbsp;${sentence.sub_str}&nbsp;</span>`;
+            const sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
             finalText += sentenceHtml;
           }
-          if (idx === item.original_sentence.length - 1) {
-            finalText += `<br/><br/>`;
+        });
+        lineBreakPositions.forEach((_, point_idx) => {
+          if (Math.abs(item.end - lineBreakPositions[point_idx]) <= 2) {
+            finalText += `<br/>`;
           }
         });
       });
-      finalText += '</p>';
+      finalText += '</article>';
       essayRef.current.innerHTML = finalText;
     }
   }, [polishResult]);
@@ -80,9 +89,11 @@ const EssayPanel = () => {
             <div
               ref={essayRef}
               onInput={handleInput}
-              className='h-full w-full overflow-y-auto whitespace-pre-wrap leading-relaxed outline-none'
+              className='h-full w-full overflow-y-auto whitespace-pre-line break-words leading-relaxed outline-none'
               placeholder='Write your message..'
-              contentEditable={!hasPolishResult && !isPolishing}
+              contentEditable={
+                !hasPolishResult && !isPolishing ? 'plaintext-only' : false
+              }
               spellCheck={false}
             />
             <div className='flex-between absolute -bottom-6 left-0 flex h-12 w-full'>

@@ -3,24 +3,13 @@ import FormPanel from '@/components/brainstorm/FormPanel';
 import OutputPanel from '@/components/brainstorm/OutputPanel';
 import { Grid } from 'lucide-react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-import { useEssayWriting } from '@/query/query';
 
 export default function Page({ params }: { params: { id: string } }) {
-  const {
-    isPending: isSubmitPending,
-    mutateAsync: submitEssay,
-    isError: isSubmitError,
-  } = useEssayWriting();
-
   return (
     <main className='flex h-full w-full overflow-y-hidden bg-sectionBackground'>
       <PanelGroup direction='horizontal' disablePointerEventsDuringResize>
         <Panel minSize={45} defaultSize={50}>
-          <FormPanel
-            brainStormId={params.id}
-            submitHandler={submitEssay}
-            submitPending={isSubmitPending}
-          />
+          <FormPanel brainStormId={params.id} />
         </Panel>
         <PanelResizeHandle className='relative w-[1px] rounded-lg bg-shadow-border'>
           <Grid
@@ -33,10 +22,7 @@ export default function Page({ params }: { params: { id: string } }) {
           minSize={45}
           defaultSize={50}
         >
-          <OutputPanel
-            submitPending={isSubmitPending}
-            submitError={isSubmitError}
-          />
+          <OutputPanel />
         </Panel>
       </PanelGroup>
     </main>

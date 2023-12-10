@@ -16,7 +16,7 @@ const HistoryPanel = ({
   handleTabChange: (value: number) => void;
 }) => {
   const path = usePathname();
-  const { historyData, setHistoryData, setTaskId } = useBrainStormContext();
+  const { historyData, setHistoryData } = useBrainStormContext();
   const id = path.split('/')[path.split('/').length - 1];
   const { isPending, data, isError } = useBrainStormHistoryById(id);
   if (isPending) {
@@ -43,7 +43,6 @@ const HistoryPanel = ({
       historyData.result !== item.result
     ) {
       // clear current output before fill in the history data
-      setTaskId('');
       setHistoryData({
         template_id: item.template_id,
         result: item.result,

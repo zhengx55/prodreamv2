@@ -21,21 +21,21 @@ import GoogleSignin from '@/components/auth/GoogleSignin';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { userSignUp } from '@/query/api';
+import { userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
+import { useCookies } from 'react-cookie';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
   const { toast } = useToast();
   const router = useRouter();
+  const [_cookies, setCookie] = useCookies(['token']);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      firstname: '',
-      lastname: '',
       password: '',
       email: '',
     },
@@ -43,12 +43,20 @@ export default function Page() {
   const { mutateAsync: handleSignup, isPending: isSignupPending } = useMutation(
     {
       mutationFn: (param: ISigunUpRequest) => userSignUp(param),
-      onSuccess: (data) => {
+      onSuccess: async (_, variables, _contex) => {
         toast({
           variant: 'default',
           description: 'Successfully Signup',
         });
-        router.replace('/login');
+        const login_data = await userLogin({
+          username: variables.email,
+          password: variables.password,
+        });
+        setCookie('token', login_data.access_token, {
+          path: '/',
+          maxAge: 604800,
+        });
+        router.push('/welcome/info');
       },
       onError: (error) => {
         toast({
@@ -60,8 +68,6 @@ export default function Page() {
   );
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     await handleSignup({
-      first_name: values.firstname,
-      last_name: values.lastname,
       email: values.email,
       password: values.password,
     });
@@ -70,8 +76,8 @@ export default function Page() {
   return (
     <section className='flex-center flex-1'>
       <Panel>
-        <h1 className='h2-bold self-center'>Create Your Account</h1>
-        <p className='base-regular md:body-normal self-center text-center text-shadow-100 md:text-left'>
+        <h1 className='h3-bold self-center'>Create Your Account</h1>
+        <p className='small-regular self-center text-center text-shadow-100'>
           Unlock the potential of your personal statement with QuickApply!
         </p>
         <Form {...form}>
@@ -81,51 +87,9 @@ export default function Page() {
           >
             <FormField
               control={form.control}
-              name='firstname'
-              render={({ field }) => (
-                <FormItem className='relative mt-10'>
-                  <FormLabel className='text-black-400' htmlFor='username'>
-                    First Name
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      autoComplete='firstname'
-                      id='firstname'
-                      placeholder='e.g Max'
-                      className='rounded-2xl border-none bg-shadow-50'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='lastname'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel className='text-black-400' htmlFor='username'>
-                    Last Name
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      autoComplete='lastname'
-                      id='lastname'
-                      placeholder='e.g Tang'
-                      className='rounded-2xl border-none bg-shadow-50'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name='email'
               render={({ field }) => (
-                <FormItem className='relative'>
+                <FormItem className='relative mt-10'>
                   <FormLabel className='text-black-400' htmlFor='username'>
                     Email Address
                   </FormLabel>

@@ -2,6 +2,7 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { memo, useEffect, useState } from 'react';
+
 const RotbotLoader = ({
   label,
   labelClass,
