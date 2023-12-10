@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import { Copy, Download, Trophy } from 'lucide-react';
 import { countWords } from '@/lib/utils';
 import Tooltip from '../root/Tooltip';
-import TextStreamingEffect from '../root/TextStreamingEffect';
+import TextStreamingEffect from './TextStreamingEffect';
 import PanelError from '../root/PanelError';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { useToast } from '../ui/use-toast';

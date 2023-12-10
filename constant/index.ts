@@ -146,9 +146,9 @@ export const release_data = [
   {
     id: 'release_data_02',
     img: '/Release-2.png',
-    title: '✨ Introducing: Activity List Optimizer!',
+    title: 'Your dream is now professionally supported 🎓',
     description:
-      'Struggling with character limits on your college apps? Our new feature helps you distill your achievements using impactful words that showcase your skills. Make every character count and elevate your application with ease. Try it now!',
+      "Exciting news, we met a fortune teller who said changing our name could help our users get into their dream schools. So, we switched from 'QuickApply' to 'ProDream'! Just kidding – we chose 'ProDream' because it better fits our mission of building a Co-Pilot to achieve your dreams.Same dedication, fresh vibe – welcome to the ProDream family! Let's make our college dreams a reality together!",
   },
 ];
 
