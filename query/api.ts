@@ -333,7 +333,7 @@ export async function plagiarismCheck(text: string) {
       }
     );
     const data = await res.json();
-    if (data.msg) {
+    if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
     return data.data;
@@ -506,6 +506,30 @@ export async function getInstitutionOptions(): Promise<SupportDetailData[]> {
     throw new Error(error as string);
   }
 }
+
+export async function uploadEssay(params: { file: File }) {
+  try {
+    const formData = new FormData();
+    formData.append('file', params.file);
+    const token = Cookies.get('token');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}file2text`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function downloadEassy() {}
 
 // ----------------------------------------------------------------
 // Activity List

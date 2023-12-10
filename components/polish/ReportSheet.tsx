@@ -77,7 +77,6 @@ const ReportSheet = () => {
 
   return (
     <Sheet>
-      {/* <SheetTrigger asChild> */}
       <AnimatePresence>
         {showOptions && (
           <OptionsMenu submitFunction={evaluation} toggleShow={toggleOptions} />
@@ -117,13 +116,12 @@ const ReportSheet = () => {
           </Button>
         )}
       </div>
-      {/* </SheetTrigger> */}
       <SheetContent className='flex flex-col overflow-y-auto px-4 py-6'>
         <div className='flex gap-x-4'>
           <div className='flex flex-col'>
             <h2 className='title-semibold'>
               Your overall essay score is&nbsp;
-              <span className='text-primary-200'>A</span>
+              <span className='text-primary-200'>{evaluateResult?.score}</span>
             </h2>
             <Spacer y='22' />
             <Button className='title-semibold self-start bg-card px-4'>
@@ -154,8 +152,11 @@ const ReportSheet = () => {
               key={`report-acc${index}`}
               value={`report-acc${index}`}
             >
-              <AccordionTrigger className='title-semibold px-4'>
-                {EvaluationsTitle[index]}:
+              <AccordionTrigger className='px-4'>
+                <span className='base-semibold'>
+                  {EvaluationsTitle[index]}:&nbsp;
+                  <span className='text-primary-200'>{item.level}</span>
+                </span>
               </AccordionTrigger>
               <Separator
                 orientation='horizontal'
