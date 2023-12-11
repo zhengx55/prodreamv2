@@ -18,7 +18,9 @@ const Options = ({
   const [selected, setSelected] = useState<string>('/writtingpal/polish');
   return (
     <>
-      <h1 className='h2-bold'>Welcome back, {firstname}! </h1>
+      <h1 className='h2-bold'>
+        Welcome {type ? '' : 'back'}, {firstname}!{' '}
+      </h1>
       <Spacer y='64' />
       <p className='h3-bold'>What would you like to work on today?</p>
       <Spacer y='24' />
