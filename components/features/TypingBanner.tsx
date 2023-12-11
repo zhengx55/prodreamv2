@@ -61,7 +61,7 @@ const TypingBanner = () => {
                   id='firstname'
                   name='firstname'
                   type='text'
-                  className='w-full border-shadow-border bg-transparent'
+                  className='h-12 w-full border-shadow-border bg-welcome-background/5'
                   required
                 />
               </div>
@@ -75,7 +75,7 @@ const TypingBanner = () => {
                   id='lastname'
                   name='lastname'
                   type='text'
-                  className=' w-full border-shadow-border bg-transparent'
+                  className='h-12 w-full border-shadow-border bg-welcome-background/5'
                   required
                 />
               </div>
