@@ -31,7 +31,7 @@ const Options = ({
             className={` flex shrink-0 cursor-pointer flex-col justify-between gap-y-4 rounded-lg p-4 hover:brightness-110 ${
               item.link === selected
                 ? ' border-[4px] border-primary-200 bg-transparent'
-                : 'border border-welcome-border bg-welcome-background/5'
+                : 'border border-welcome-border bg-welcome-background/40'
             }`}
             key={item.id}
           >
