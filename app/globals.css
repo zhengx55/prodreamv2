@@ -172,7 +172,7 @@
     @apply underline decoration-[2px] decoration-red-400 underline-offset-[5px]
   }
 
-  .suggenst-artice{
+  .suggenst-artice {
     @apply text-[16px] leading-relaxed whitespace-pre-wrap
   }
 
@@ -209,6 +209,7 @@
     @apply flex hover:opacity-50 cursor-pointer flex-col items-center justify-center rounded-[10px] md:h-[20rem] gap-y-4 md:w-[25rem] px-12
   }
 }
+
 
 :root {
   --top-nav-bar-height: 4rem;
