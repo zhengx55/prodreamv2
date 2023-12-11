@@ -1,3 +1,4 @@
+import { StepType } from '@reactour/tour';
 import { Variants } from 'framer-motion';
 
 export const SidebarLinks = [
@@ -166,6 +167,24 @@ export const release_data = [
     title: 'Your dream is now professionally supported 🎓',
     description:
       "Exciting news, we met a fortune teller who said changing our name could help our users get into their dream schools. So, we switched from 'QuickApply' to 'ProDream'! Just kidding – we chose 'ProDream' because it better fits our mission of building a Co-Pilot to achieve your dreams.Same dedication, fresh vibe – welcome to the ProDream family! Let's make our college dreams a reality together!",
+  },
+];
+
+export const ActivityListTour: StepType[] = [
+  {
+    selector: '.first-step',
+    content:
+      'A message which appears when a cursor is positioned over an icon, image, hyperlink, or other element in a graphical user interface.',
+  },
+  {
+    selector: '.second-step',
+    content:
+      'A message which appears when a cursor is positioned over an icon, image, hyperlink, or other element in a graphical user interface.',
+  },
+  {
+    selector: '.third-step',
+    content:
+      'A message which appears when a cursor is positioned over an icon, image, hyperlink, or other element in a graphical user interface.',
   },
 ];
 

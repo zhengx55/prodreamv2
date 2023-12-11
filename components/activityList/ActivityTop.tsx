@@ -18,7 +18,7 @@ const ActivityTop = () => {
         </div>
       </div>
       <Link href={'/writtingpal/activityList/history'}>
-        <Button className='gap-x-2 px-8 py-3'>
+        <Button className='third-step gap-x-2 px-8 py-3'>
           <HardDrive size={22} /> View History
         </Button>
       </Link>

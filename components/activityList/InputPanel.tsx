@@ -15,12 +15,14 @@ import clearCachesByServerAction from '@/lib/revalidate';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { useActListContext } from '@/context/ActListProvider';
 import dynamic from 'next/dynamic';
+import { useTour } from '@reactour/tour';
 
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 const Activityloader = dynamic(() => import('./Activityloader'));
 
 const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   const { toast } = useToast();
+  const { setIsOpen } = useTour();
   const { setGeneratedData, setHistoryData, historyData } = useActListContext();
   const [isDecoding, setIsDecoding] = useState(false);
   const [decodedData, setDecodedData] = useState<string[]>([]);
@@ -40,6 +42,10 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
       wordCount: 0,
     },
   ]);
+
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
 
   const toggleDecoding = useCallback(() => {
     setIsDecoding((prev) => !prev);
@@ -265,7 +271,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
           <Button
             onClick={() => setActiveFileUpload(true)}
             variant={'ghost'}
-            className='mt-1 h-full border border-shadow-border py-3 leading-6 shadow-none'
+            className='first-step mt-1 h-full border border-shadow-border py-3 leading-6 shadow-none'
           >
             <Upload />
             Upload
@@ -378,7 +384,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
         <Button
           disabled={isDecoding}
           onClick={handleGenerate}
-          className='h-full py-3'
+          className='second-step h-full py-3'
         >
           Generate
         </Button>

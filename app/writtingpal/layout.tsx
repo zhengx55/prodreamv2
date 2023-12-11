@@ -13,6 +13,7 @@ import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
 import { Provider } from 'react-redux';
+
 const TutorialSheet = dynamic(() => import('@/components/tutorial'), {
   ssr: false,
 });
