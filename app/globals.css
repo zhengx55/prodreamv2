@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply min-h-screen font-poppins select-text antialiased
+    @apply min-h-screen w-screen font-poppins select-text antialiased
   }
 }
 
