@@ -1,7 +1,7 @@
 'use client';
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { memo, useCallback, useState } from 'react';
+import { memo, useState } from 'react';
 import { Button } from '../ui/button';
 import Spacer from '../root/Spacer';
 import Image from 'next/image';
@@ -12,25 +12,19 @@ import {
   AccordionTrigger,
 } from '../ui/accordion';
 import { Separator } from '../ui/separator';
-import dynamic from 'next/dynamic';
-import { AnimatePresence } from 'framer-motion';
 import { useMutation } from '@tanstack/react-query';
 import { downloadReport, essayAssess } from '@/query/api';
 import { IEssayAssessData, IEssayAssessRequest } from '@/query/type';
 import { useToast } from '../ui/use-toast';
 import LoadingDot from '../root/LoadingDot';
 import { EvaluationsTitle } from '@/constant';
-
-const OptionsMenu = dynamic(() => import('./OptionsMenu'), { ssr: false });
+import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 
 const ReportSheet = () => {
   const { toast } = useToast();
-  const [showOptions, setShowOptions] = useState(false);
-  const toggleOptions = useCallback(() => {
-    setShowOptions((prev) => !prev);
-  }, []);
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluateResult, setEvaluateResult] = useState<IEssayAssessData>();
+  const { essayRef } = useAiEditiorContext();
 
   const { mutateAsync: evaluation } = useMutation({
     mutationFn: (params: IEssayAssessRequest) => essayAssess(params),
@@ -43,7 +37,6 @@ const ReportSheet = () => {
       });
     },
     onMutate: () => {
-      toggleOptions();
       setIsEvaluating(true);
     },
     onError: (err) => {
@@ -77,11 +70,6 @@ const ReportSheet = () => {
 
   return (
     <Sheet>
-      <AnimatePresence>
-        {showOptions && (
-          <OptionsMenu submitFunction={evaluation} toggleShow={toggleOptions} />
-        )}
-      </AnimatePresence>
       <div className='flex flex-col gap-y-3 rounded-xl bg-card p-4'>
         {evaluateResult ? (
           <>
@@ -107,7 +95,20 @@ const ReportSheet = () => {
           </SheetTrigger>
         ) : (
           <Button
-            onClick={() => setShowOptions((prev) => !prev)}
+            onClick={async () => {
+              if (!essayRef.current) return;
+              const essayContent = essayRef.current.innerText.trim();
+              if (essayContent === '') {
+                toast({
+                  description: 'No content detected',
+                  variant: 'destructive',
+                });
+                return;
+              }
+              await evaluation({
+                text: essayRef.current?.innerText,
+              });
+            }}
             variant={'white'}
             disabled={isEvaluating}
             className='small-semibold justify-center'

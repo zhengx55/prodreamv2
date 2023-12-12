@@ -18,8 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import Spacer from '../root/Spacer';
-import { Button } from '../ui/button';
+import Spacer from '../components/root/Spacer';
+import { Button } from '../components/ui/button';
 import { useInstitutionOptions } from '@/query/query';
 import { Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -27,7 +27,7 @@ import { v4 } from 'uuid';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { IEssayAssessData, IEssayAssessRequest } from '@/query/type';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
-import { useToast } from '../ui/use-toast';
+import { useToast } from '../components/ui/use-toast';
 
 const OptionsMenu = ({ submitFunction, toggleShow }: Props) => {
   const [category, setCategory] = useState('');

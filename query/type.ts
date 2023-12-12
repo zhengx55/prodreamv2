@@ -162,7 +162,7 @@ export interface IEssayAssessRequest {
   /**
    * 用户所选Institution的ID(1级）
    */
-  institution_id: string;
+  institution_id?: string;
   /**
    * 不传该参数时，默认为英文版
    */
@@ -170,7 +170,7 @@ export interface IEssayAssessRequest {
   /**
    * 用户所选系统下题目的ID。（2级）
    */
-  prompt_id: string;
+  prompt_id?: string;
   /**
    * 文书
    */
