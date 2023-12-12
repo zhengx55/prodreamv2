@@ -6,7 +6,7 @@ import React, {
   useRef,
   memo,
 } from 'react';
-import { Textarea } from '../ui/textarea';
+import { Textarea } from '../../components/ui/textarea';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { AnswerRequestParam } from '@/types';
 import { usePathname } from 'next/navigation';

@@ -1,21 +1,51 @@
-import React from 'react';
-import { Input } from '../ui/input';
+import { memo } from 'react';
 import Spacer from '../root/Spacer';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
+import { Textarea } from '../ui/textarea';
+import { usePreDefinedOptions } from '@/query/query';
+import { Trash2 } from 'lucide-react';
 
-type Props = {};
+const ChatEditPanel = () => {
+  const { selectText, setSelectText } = useAiEditiorContext();
+  const { data: options } = usePreDefinedOptions();
 
-const ChatEditPanel = (props: Props) => {
-  const { selectText } = useAiEditiorContext();
   return (
-    <div className='relative flex min-h-full w-1/2 flex-col overflow-y-hidden'>
-      <div className='flex h-full w-full flex-col overflow-y-auto px-1'></div>
+    <div className='relative flex min-h-full w-1/2 flex-col justify-between overflow-y-hidden py-1'>
+      <div className='flex h-full w-full flex-col overflow-y-auto'></div>
       <Spacer y='10' />
-      <div className='absolute bottom-1 h-14 w-full px-1'>
-        <Input className='h-full shadow-xl' placeholder='Tell us to ...' />
+      <div className='flex w-full shrink-0 flex-col gap-y-2 rounded-lg border border-shadow-border px-3 py-2 '>
+        <h2 className='base-semibold'>Polishing:</h2>
+        <div className='flex-between items-start'>
+          <p className='base-regular w-11/12'>{selectText}</p>
+          <Trash2
+            onClick={() => setSelectText('')}
+            className='cursor-pointer hover:text-shadow-100'
+          />
+        </div>
+        <div className='flex flex-wrap gap-2'>
+          {Object.keys(options).map((option) => {
+            return (
+              <div
+                className='cursor-pointer rounded-lg border border-shadow-border px-4 py-1'
+                key={option}
+              >
+                {option}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <Spacer y='10' />
+      <div className='relative h-14 w-full'>
+        <Textarea
+          aria-label='prompt'
+          rows={1}
+          className='base-regular min-h-full w-full py-4 shadow-md focus-visible:ring-0'
+          placeholder='Tell us to ...'
+        />
       </div>
     </div>
   );
 };
 
-export default ChatEditPanel;
+export default memo(ChatEditPanel);

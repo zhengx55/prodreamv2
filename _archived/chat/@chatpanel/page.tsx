@@ -1,7 +1,7 @@
 'use client';
-import ChatHistory from '@/components/chat/ChatHistory';
-import ChatInfo from '@/components/chat/ChatInfo';
-import ChatMessageList from '@/components/chat/ChatMessageList';
+import ChatHistory from '@/_archived/chat_comp/ChatHistory';
+import ChatInfo from '@/_archived/chat_comp/ChatInfo';
+import ChatMessageList from '@/_archived/chat_comp/ChatMessageList';
 import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
 import { ChatSteps } from '@/constant/enum';
