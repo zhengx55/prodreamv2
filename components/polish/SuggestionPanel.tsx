@@ -1,14 +1,14 @@
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import React, { useState } from 'react';
 import Spacer from '../root/Spacer';
-import { IPolishQueryResult } from '@/query/type';
+import { IPolishResultAData } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '../ui/button';
 
 const SuggestionPanel = () => {
   const { polishResult, essayRef } = useAiEditiorContext();
 
-  const [suggestions, setSuggestions] = useState<IPolishQueryResult[]>(() => {
+  const [suggestions, setSuggestions] = useState<IPolishResultAData[]>(() => {
     if (polishResult.length === 0) {
       return [];
     } else {
@@ -30,7 +30,7 @@ const SuggestionPanel = () => {
     });
   };
 
-  const replaceText = (index: number, item: IPolishQueryResult) => {
+  const replaceText = (index: number, item: IPolishResultAData) => {
     if (!essayRef.current) {
       return;
     }
@@ -63,10 +63,6 @@ const SuggestionPanel = () => {
         {suggestions.map((item, index) => {
           // 过滤没有更新的句子
           const isExpanded = item.expand;
-          const hasNew = item.new_sentence.find(
-            (el) => el.is_identical === false
-          );
-          if (!hasNew) return null;
           return (
             <motion.div
               onClick={() => {
@@ -74,8 +70,6 @@ const SuggestionPanel = () => {
               }}
               layout='size'
               style={{ height: isExpanded ? 'auto' : '48px' }}
-              // initial={false}
-              // animate={isExpanded ? { height: 'auto' } : { height: '48px' }}
               className='mt-4 w-full shrink-0 cursor-pointer rounded-lg border border-shadow-border px-4 py-3 hover:shadow-xl'
               key={`polish-${index}`}
             >
@@ -84,28 +78,55 @@ const SuggestionPanel = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className={`leading-relaxed ${!isExpanded && 'line-clamp-1'}`}
+                  className={`break-words leading-relaxed ${
+                    !isExpanded && 'line-clamp-1'
+                  }`}
                 >
-                  {item.new_sentence.map((sentence, idx) => {
-                    const isNew = sentence.is_identical;
+                  {item.data.map((sentence, idx) => {
+                    const isAdd = sentence.status === 1;
+                    const isDelete = sentence.status === 2;
+                    const isModify = sentence.status === 3;
+                    const isNoChange = sentence.status === 0;
                     return (
                       <span
+                        className='base-regular'
                         key={`sentence-${index}-${idx}`}
-                        className={`${
-                          sentence.is_identical
-                            ? 'text-black-100'
-                            : 'text-primary-200'
-                        }`}
                       >
-                        {!isNew && item.original_sentence[idx] && (
+                        {isNoChange ? (
+                          <span className='text-black-400'>
+                            &nbsp;{sentence.sub_str}&nbsp;
+                          </span>
+                        ) : isAdd ? (
                           <>
+                            <span className='text-primary-200'>
+                              &nbsp;{sentence.new_str}&nbsp;
+                            </span>
+                            {sentence.sub_str && (
+                              <span className='text-black-400'>
+                                &nbsp;{sentence.sub_str}&nbsp;
+                              </span>
+                            )}
+                          </>
+                        ) : isDelete ? (
+                          <>
+                            &nbsp;
                             <span className='text-red-500 line-through'>
-                              {item.original_sentence[idx].sub_str}
+                              {sentence.sub_str}
                             </span>
                             &nbsp;
                           </>
-                        )}
-                        {sentence.sub_str}&nbsp;
+                        ) : isModify ? (
+                          <>
+                            &nbsp;
+                            <span className='text-red-500 line-through'>
+                              {sentence.sub_str}
+                            </span>
+                            &nbsp;
+                            <span className='text-primary-200'>
+                              &nbsp;{sentence.new_str}&nbsp;
+                            </span>
+                          </>
+                        ) : null}
                       </span>
                     );
                   })}
@@ -118,28 +139,55 @@ const SuggestionPanel = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ delay: 0.1 }}
-                  className={`leading-relaxed ${!isExpanded && 'line-clamp-1'}`}
+                  className={`break-words leading-relaxed ${
+                    !isExpanded && 'line-clamp-1'
+                  }`}
                 >
-                  {item.new_sentence.map((sentence, idx) => {
-                    const isNew = sentence.is_identical;
+                  {item.data.map((sentence, idx) => {
+                    const isAdd = sentence.status === 1;
+                    const isDelete = sentence.status === 2;
+                    const isModify = sentence.status === 3;
+                    const isNoChange = sentence.status === 0;
                     return (
                       <span
+                        className='base-regular'
                         key={`sentence-${index}-${idx}`}
-                        className={`${
-                          sentence.is_identical
-                            ? 'text-black-100'
-                            : 'text-primary-200'
-                        }`}
                       >
-                        {!isNew && item.original_sentence[idx] && (
+                        {isNoChange ? (
+                          <span className='text-black-400'>
+                            &nbsp;{sentence.sub_str}&nbsp;
+                          </span>
+                        ) : isAdd ? (
                           <>
+                            <span className='text-primary-200'>
+                              &nbsp;{sentence.new_str}&nbsp;
+                            </span>
+                            {sentence.sub_str && (
+                              <span className='text-black-400'>
+                                &nbsp;{sentence.sub_str}&nbsp;
+                              </span>
+                            )}
+                          </>
+                        ) : isDelete ? (
+                          <>
+                            &nbsp;
                             <span className='text-red-500 line-through'>
-                              {item.original_sentence[idx].sub_str}
+                              {sentence.sub_str}
                             </span>
                             &nbsp;
                           </>
-                        )}
-                        {sentence.sub_str}&nbsp;
+                        ) : isModify ? (
+                          <>
+                            &nbsp;
+                            <span className='text-red-500 line-through'>
+                              {sentence.sub_str}
+                            </span>
+                            &nbsp;
+                            <span className='text-primary-200'>
+                              &nbsp;{sentence.new_str}&nbsp;
+                            </span>
+                          </>
+                        ) : null}
                       </span>
                     );
                   })}

@@ -316,6 +316,30 @@ export interface IPolishQueryData {
   status: string;
 }
 
+export interface IPolishResultA {
+  // 分段或分句的数据格式响应
+  result: IPolishResultAData[];
+  status: string;
+}
+
+export interface IPolishResultAData {
+  end: number;
+  data: {
+    sub_str: string;
+    new_str: string;
+    /**
+     * 0 - 无变化
+     * 1 - 增
+     * 2 - 删
+     * 3 - 改
+     *
+     */
+    status: 0 | 1 | 2 | 3;
+  }[];
+  start: number;
+  expand?: boolean;
+}
+
 export interface IPolishQueryResult {
   end: number;
   new_sentence: NewSentence[];

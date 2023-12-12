@@ -18,6 +18,7 @@ import {
   LoginData,
   SupportDetailData,
   IBriansotrmReq,
+  IPolishResultA,
 } from './type';
 import Cookies from 'js-cookie';
 
@@ -421,7 +422,7 @@ export async function submitPolish(params: IPolishParams) {
 
 export async function queryPolish(params: {
   task_id: string;
-}): Promise<IPolishQueryData> {
+}): Promise<IPolishResultA> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(

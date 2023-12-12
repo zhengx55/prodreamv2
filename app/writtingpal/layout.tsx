@@ -37,7 +37,7 @@ export default function WrittingpalLayout({
          * 用于检查是否是第一次登录 或是 第一次使用某些功能
          **/
         dispatch(setUser(data));
-        dispatch(setUsage(user_usage));
+        if (user_usage) dispatch(setUsage(user_usage));
         setCookie('token', data.access_token, {
           path: '/',
           maxAge: 604800,

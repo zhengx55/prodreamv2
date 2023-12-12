@@ -1,4 +1,4 @@
-import { IPolishQueryResult } from '@/query/type';
+import { IPolishResultAData } from '@/query/type';
 import {
   Dispatch,
   ReactNode,
@@ -12,8 +12,8 @@ import {
 
 type IAiEditiorContext = {
   essayRef: RefObject<HTMLDivElement>;
-  polishResult: IPolishQueryResult[];
-  setPolishResult: Dispatch<SetStateAction<IPolishQueryResult[]>>;
+  polishResult: IPolishResultAData[];
+  setPolishResult: Dispatch<SetStateAction<IPolishResultAData[]>>;
   isPolishing: boolean;
   setIsPolishing: Dispatch<SetStateAction<boolean>>;
 };
@@ -26,7 +26,7 @@ export default function AIEditiorProvider({
   children: ReactNode;
 }) {
   const essayRef = useRef<HTMLDivElement>(null);
-  const [polishResult, setPolishResult] = useState<IPolishQueryResult[]>([]);
+  const [polishResult, setPolishResult] = useState<IPolishResultAData[]>([]);
   const [isPolishing, setIsPolishing] = useState(false);
   return (
     <AIEditiorContext.Provider
