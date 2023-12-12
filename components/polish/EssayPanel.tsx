@@ -23,43 +23,44 @@ export const EssayVariants: Variants = {
 
 const EssayPanel = () => {
   const [wordCount, setWordCount] = useState(0);
-  const { essayRef, isPolishing, polishResult } = useAiEditiorContext();
-  const hasPolishResult = polishResult.length > 0;
+  const { essayRef, isPolishing, polishResult, polishResultB } =
+    useAiEditiorContext();
+  const hasPolishResult = polishResult.length > 0 || polishResultB !== '';
   const isMultScreen = hasPolishResult || isPolishing;
-  // useDeepCompareEffect(() => {
-  //   if (polishResult.length > 0 && essayRef.current) {
-  //     // 查询原文当中所有的换行符位置
-  //     const lineBreakPositions: number[] = [];
-  //     const regex = /\n/g;
-  //     let match;
-  //     while ((match = regex.exec(essayRef.current.innerText)) !== null) {
-  //       lineBreakPositions.push(match.index);
-  //     }
-  //     // 查询起始索引和终止索引
-  //     let finalText = '<article class="suggest-artice">';
-  //     polishResult.map((item, index) => {
-  //       if (!essayRef.current) {
-  //         return;
-  //       }
-  //       item.original_sentence.map((sentence, sentence_idx) => {
-  //         if (sentence.is_identical) {
-  //           const sentenceHtml = `${sentence.sub_str}`;
-  //           finalText += sentenceHtml;
-  //         } else {
-  //           const sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
-  //           finalText += sentenceHtml;
-  //         }
-  //       });
-  //       lineBreakPositions.forEach((_, point_idx) => {
-  //         if (Math.abs(item.end - lineBreakPositions[point_idx]) <= 2) {
-  //           finalText += `<br/>`;
-  //         }
-  //       });
-  //     });
-  //     finalText += '</article>';
-  //     essayRef.current.innerHTML = finalText;
-  //   }
-  // }, [polishResult]);
+  useDeepCompareEffect(() => {
+    if (polishResult.length > 0 && essayRef.current) {
+      // 查询原文当中所有的换行符位置
+      const lineBreakPositions: number[] = [];
+      const regex = /\n/g;
+      let match;
+      while ((match = regex.exec(essayRef.current.innerText)) !== null) {
+        lineBreakPositions.push(match.index);
+      }
+      // 查询起始索引和终止索引
+      let finalText = '<article class="suggest-artice">';
+      polishResult.map((item, index) => {
+        if (!essayRef.current) {
+          return;
+        }
+        item.data.map((sentence, sentence_idx) => {
+          if ([1, 2, 3].includes(sentence.status)) {
+            const sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
+            finalText += sentenceHtml;
+          } else {
+            const sentenceHtml = `${sentence.sub_str} `;
+            finalText += sentenceHtml;
+          }
+        });
+        lineBreakPositions.forEach((break_point, _point_idx) => {
+          if (Math.abs(item.end - break_point) <= 5) {
+            finalText += `<br/>`;
+          }
+        });
+      });
+      finalText += '</article>';
+      essayRef.current.innerHTML = finalText;
+    }
+  }, [polishResult]);
 
   const handleInput = (e: FormEvent<HTMLElement>) => {
     const text = e.currentTarget.textContent;

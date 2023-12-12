@@ -338,6 +338,7 @@ export interface IPolishResultAData {
   }[];
   start: number;
   expand?: boolean;
+  hide?: boolean;
 }
 
 export interface IPolishQueryResult {

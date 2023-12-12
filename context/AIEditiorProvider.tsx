@@ -14,6 +14,8 @@ type IAiEditiorContext = {
   essayRef: RefObject<HTMLDivElement>;
   polishResult: IPolishResultAData[];
   setPolishResult: Dispatch<SetStateAction<IPolishResultAData[]>>;
+  polishResultB: string;
+  setPolishResultB: Dispatch<SetStateAction<string>>;
   isPolishing: boolean;
   setIsPolishing: Dispatch<SetStateAction<boolean>>;
 };
@@ -27,6 +29,7 @@ export default function AIEditiorProvider({
 }) {
   const essayRef = useRef<HTMLDivElement>(null);
   const [polishResult, setPolishResult] = useState<IPolishResultAData[]>([]);
+  const [polishResultB, setPolishResultB] = useState<string>('');
   const [isPolishing, setIsPolishing] = useState(false);
   return (
     <AIEditiorContext.Provider
@@ -34,6 +37,8 @@ export default function AIEditiorProvider({
         essayRef,
         polishResult,
         setPolishResult,
+        polishResultB,
+        setPolishResultB,
         isPolishing,
         setIsPolishing,
       }}

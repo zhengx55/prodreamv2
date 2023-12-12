@@ -32,7 +32,8 @@ const initialState = {
 const initialStyles = ['Passionate', 'Entertaining', 'Professional'];
 
 const PolishModal = () => {
-  const { essayRef, setIsPolishing, setPolishResult } = useAiEditiorContext();
+  const { essayRef, setIsPolishing, setPolishResult, setPolishResultB } =
+    useAiEditiorContext();
   const { toast } = useToast();
   const [selected, setSelected] = useObjectState(initialState);
   const [showSetting, setShowSetting] = useState(false);
@@ -127,7 +128,11 @@ const PolishModal = () => {
           }
           if (res.status === 'done') {
             setIsPolishing(false);
-            setPolishResult(res.result);
+            if (typeof res.result === 'string') {
+              setPolishResultB(res.result);
+            } else {
+              setPolishResult(res.result);
+            }
             clearInterval(reqTimer.current);
           }
         } catch (error: any) {
