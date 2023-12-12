@@ -32,8 +32,13 @@ const initialState = {
 const initialStyles = ['Passionate', 'Entertaining', 'Professional'];
 
 const PolishModal = () => {
-  const { essayRef, setIsPolishing, setPolishResult, setPolishResultB } =
-    useAiEditiorContext();
+  const {
+    essayRef,
+    setIsPolishing,
+    setChatEditMode,
+    setPolishResult,
+    setPolishResultB,
+  } = useAiEditiorContext();
   const { toast } = useToast();
   const [selected, setSelected] = useObjectState(initialState);
   const [showSetting, setShowSetting] = useState(false);
@@ -118,6 +123,7 @@ const PolishModal = () => {
   const { mutateAsync: polish } = useMutation({
     mutationFn: (params: IPolishParams) => submitPolish(params),
     onMutate: () => {
+      setChatEditMode(false);
       setIsPolishing(true);
     },
     onSuccess(data) {

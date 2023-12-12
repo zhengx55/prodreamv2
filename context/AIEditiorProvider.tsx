@@ -18,6 +18,10 @@ type IAiEditiorContext = {
   setPolishResultB: Dispatch<SetStateAction<string>>;
   isPolishing: boolean;
   setIsPolishing: Dispatch<SetStateAction<boolean>>;
+  chatEditMode: boolean;
+  setChatEditMode: Dispatch<SetStateAction<boolean>>;
+  selectText: string;
+  setSelectText: Dispatch<SetStateAction<string>>;
 };
 
 const AIEditiorContext = createContext({} as IAiEditiorContext);
@@ -31,6 +35,9 @@ export default function AIEditiorProvider({
   const [polishResult, setPolishResult] = useState<IPolishResultAData[]>([]);
   const [polishResultB, setPolishResultB] = useState<string>('');
   const [isPolishing, setIsPolishing] = useState(false);
+  const [chatEditMode, setChatEditMode] = useState(false);
+  const [selectText, setSelectText] = useState('');
+
   return (
     <AIEditiorContext.Provider
       value={{
@@ -41,6 +48,10 @@ export default function AIEditiorProvider({
         setPolishResultB,
         isPolishing,
         setIsPolishing,
+        chatEditMode,
+        setChatEditMode,
+        selectText,
+        setSelectText,
       }}
     >
       {children}

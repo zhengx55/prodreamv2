@@ -12,6 +12,11 @@ const SuggestionPanel = dynamic(() => import('./SuggestionPanel'), {
   loading: () => <EditiorLoading />,
 });
 
+const ChatEditPanel = dynamic(() => import('./ChatEditPanel'), {
+  ssr: false,
+  loading: () => <EditiorLoading />,
+});
+
 export const EssayVariants: Variants = {
   half: {
     width: '50%',
@@ -23,10 +28,16 @@ export const EssayVariants: Variants = {
 
 const EssayPanel = () => {
   const [wordCount, setWordCount] = useState(0);
-  const { essayRef, isPolishing, polishResult, polishResultB } =
-    useAiEditiorContext();
+  const {
+    essayRef,
+    isPolishing,
+    polishResult,
+    setSelectText,
+    chatEditMode,
+    polishResultB,
+  } = useAiEditiorContext();
   const hasPolishResult = polishResult.length > 0 || polishResultB !== '';
-  const isMultScreen = hasPolishResult || isPolishing;
+  const isMultScreen = hasPolishResult || isPolishing || chatEditMode;
   useDeepCompareEffect(() => {
     if (polishResult.length > 0 && essayRef.current) {
       // 查询原文当中所有的换行符位置
@@ -74,6 +85,13 @@ const EssayPanel = () => {
       setWordCount(0);
     }
   };
+
+  const handleTextSelection = () => {
+    if (!chatEditMode) return;
+    const selection_text = window.getSelection();
+    if (selection_text && selection_text.toString())
+      setSelectText(selection_text.toString());
+  };
   return (
     <>
       <div className='flex h-full w-full justify-center gap-x-8 overflow-hidden p-4'>
@@ -88,9 +106,10 @@ const EssayPanel = () => {
             className={`relative flex h-[calc(100%_-50px)] w-full flex-col rounded-lg py-6`}
           >
             <div
+              onMouseUp={handleTextSelection}
               ref={essayRef}
               onInput={handleInput}
-              className='h-full w-full overflow-y-auto whitespace-pre-line break-words leading-relaxed outline-none'
+              className='h-full w-full overflow-y-auto whitespace-pre-line text-[18px] leading-relaxed outline-none'
               placeholder='Write your message..'
               contentEditable={
                 !hasPolishResult && !isPolishing ? 'plaintext-only' : false
@@ -109,9 +128,10 @@ const EssayPanel = () => {
             </div>
           </div>
         </motion.div>
-        {isPolishing ? (
+        {chatEditMode && <ChatEditPanel />}
+        {isPolishing && !chatEditMode ? (
           <EditiorLoading />
-        ) : hasPolishResult ? (
+        ) : hasPolishResult && !chatEditMode ? (
           <SuggestionPanel />
         ) : null}
       </div>
