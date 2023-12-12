@@ -1,5 +1,7 @@
 'use client';
 import BrainStormProvider from '@/context/BrainStormProvider';
+import { selectUsage } from '@/store/reducers/usageSlice';
+import { useAppSelector } from '@/store/storehooks';
 import dynamic from 'next/dynamic';
 import { ReactNode } from 'react';
 const OnboardModal = dynamic(
@@ -13,10 +15,13 @@ export default function BrainstormLayout({
 }: {
   children: ReactNode;
 }) {
+  const usage = useAppSelector(selectUsage);
+  const notFirstTime =
+    usage.first_brainstorm !== undefined && !usage.first_brainstorm;
   return (
     <BrainStormProvider>
       {children}
-      <OnboardModal />
+      {!notFirstTime ? <OnboardModal /> : null}
     </BrainStormProvider>
   );
 }

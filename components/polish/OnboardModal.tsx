@@ -3,20 +3,41 @@ import { Dialog, DialogClose, DialogContent } from '@/components/ui/dialog';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import Image from 'next/image';
-type Props = {};
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
+import { updateUserInfo } from '@/query/api';
+import { selectUserEmail } from '@/store/reducers/userSlice';
+import { useMutation } from '@tanstack/react-query';
+import { IUsage } from '@/types';
 
-const OnboardModal = (props: Props) => {
+const OnboardModal = () => {
+  const dispatch = useAppDispatch();
+  const usage = useAppSelector(selectUsage);
+  const email = useAppSelector(selectUserEmail);
+  const { mutateAsync: updateUsage } = useMutation({
+    mutationFn: (args: { email: string; params: IUsage }) =>
+      updateUserInfo(args.email, args.params),
+    onSuccess: () => {
+      dispatch(setSingleUsage('first_editior'));
+    },
+  });
+  const handleUpdateUsage = async () => {
+    await updateUsage({
+      email,
+      params: { ...usage, first_editior: false },
+    });
+  };
   return (
     <Dialog defaultOpen>
       <DialogContent
-        maskClass='backdrop-blur-none bg-black-400/50'
+        maskclass='backdrop-blur-none bg-black-400/50'
         onPointerDownOutside={(e) => {
           e.preventDefault();
         }}
         className='md:w-[640px] md:gap-y-0 md:rounded-lg md:p-0'
       >
         <div className='relative flex h-96 w-full overflow-hidden rounded-t-lg bg-primary-600'>
-          <DialogClose>
+          <DialogClose onClick={handleUpdateUsage}>
             <span className='absolute right-3 top-2 z-10 h-6 w-6 cursor-pointer bg-transparent' />
           </DialogClose>
 
@@ -58,7 +79,7 @@ const OnboardModal = (props: Props) => {
         <Spacer y='32' />
         <div className='flex justify-end px-8 py-4'>
           <DialogClose asChild>
-            <Button>Got it!</Button>
+            <Button onClick={handleUpdateUsage}>Got it!</Button>
           </DialogClose>
         </div>
       </DialogContent>

@@ -4,7 +4,8 @@ import Sidebar from '@/components/root/Sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import MaxChatProvider from '@/context/MaxChateProvider';
 import useMount from '@/hooks/useMount';
-import { refreshUserSession } from '@/query/api';
+import { getUserInfo, refreshUserSession } from '@/query/api';
+import { setUsage } from '@/store/reducers/usageSlice';
 import { setUser } from '@/store/reducers/userSlice';
 import { store } from '@/store/store';
 import { useAppDispatch } from '@/store/storehooks';
@@ -28,12 +29,22 @@ export default function WrittingpalLayout({
 
   useMount(() => {
     async function refreshUserInfo() {
-      const data = await refreshUserSession();
-      dispatch(setUser(data));
-      setCookie('token', data.access_token, {
-        path: '/',
-        maxAge: 604800,
-      });
+      try {
+        const data = await refreshUserSession();
+        const user_usage = await getUserInfo(data.email);
+        /**
+         * 获取用户经历信息
+         * 用于检查是否是第一次登录 或是 第一次使用某些功能
+         **/
+        dispatch(setUser(data));
+        dispatch(setUsage(user_usage));
+        setCookie('token', data.access_token, {
+          path: '/',
+          maxAge: 604800,
+        });
+      } catch (error) {
+        redirect('/login');
+      }
     }
     if (!cookies.token) {
       redirect('/login');

@@ -182,3 +182,14 @@ export interface Question {
   welcome: string;
   [property: string]: any;
 }
+
+export interface IUsage {
+  /**
+   * 是否是以第一次使用ai editor
+   * 以此类推
+   */
+  first_editior: boolean;
+  first_brainstorm: boolean;
+  first_resume: boolean;
+  first_activity_list: boolean;
+}

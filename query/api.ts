@@ -1,4 +1,4 @@
-import { AnswerRequestParam, FormQuestionResponse } from '@/types';
+import { AnswerRequestParam, FormQuestionResponse, IUsage } from '@/types';
 import {
   IActListResData,
   IBrainStormSection,
@@ -167,6 +167,58 @@ export async function SubmitEssayWritting(
 }
 
 // ----------------------------------------------------------------
+// Info
+// ----------------------------------------------------------------
+
+export async function getUserInfo(email: string): Promise<IUsage> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/info?email=${email}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function updateUserInfo(
+  email: string,
+  params: IUsage
+): Promise<void> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/info?email=${email}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...params,
+        }),
+        method: 'POST',
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+// ----------------------------------------------------------------
 // Authentication
 // ----------------------------------------------------------------
 
@@ -181,7 +233,6 @@ export async function userLogin(loginParam: {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}login`, {
       method: 'POST',
       body: formData,
-      credentials: 'include',
     });
     const data = await res.json();
     if (data.data === null) {
@@ -811,7 +862,6 @@ export async function fetchFinalAs(session_id: string): Promise<any> {
       `${process.env.NEXT_PUBLIC_API_URL}answer_guide/${session_id}`,
       {
         method: 'GET',
-        credentials: 'include',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -1088,7 +1138,7 @@ export async function profileResetAvatar(params: { file: File }) {
   }
 }
 
-export async function refreshUserSession() {
+export async function refreshUserSession(): Promise<LoginData> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}refresh`, {
