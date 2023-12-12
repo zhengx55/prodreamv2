@@ -12,6 +12,7 @@ const OnboardModal = (props: Props) => {
         onPointerDownOutside={(e) => {
           e.preventDefault();
         }}
+        maskClass='backdrop-blur-none bg-black-400/50'
         className='md:w-[640px] md:gap-y-0 md:rounded-lg md:p-0'
       >
         <div className='relative flex h-96 w-full overflow-hidden rounded-t-lg bg-primary-600'>

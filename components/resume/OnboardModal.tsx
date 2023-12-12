@@ -9,6 +9,7 @@ const OnboardModal = (props: Props) => {
   return (
     <Dialog defaultOpen>
       <DialogContent
+        maskClass='backdrop-blur-none bg-black-400/50'
         onPointerDownOutside={(e) => {
           e.preventDefault();
         }}
