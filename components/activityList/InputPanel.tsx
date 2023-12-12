@@ -264,8 +264,8 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
         ) : (
           <Button
             onClick={() => setActiveFileUpload(true)}
-            variant={'ghost'}
-            className='mt-1 h-full border border-shadow-border py-3 leading-6 shadow-none'
+            variant={'default'}
+            className='h-full border border-shadow-border py-2 leading-6 shadow-none'
           >
             <Upload />
             Upload
@@ -377,8 +377,9 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
 
         <Button
           disabled={isDecoding}
+          variant={'ghost'}
           onClick={handleGenerate}
-          className='h-full py-3'
+          className='h-full border border-shadow-border py-3'
         >
           Generate
         </Button>
