@@ -22,8 +22,7 @@ type IChatEditItem = {
 };
 
 const ChatEditPanel = () => {
-  const { essayRef, selectedRange, cursorIndex, selectText, setSelectText } =
-    useAiEditiorContext();
+  const { essayRef, selectText, setSelectText } = useAiEditiorContext();
   const { toast } = useToast();
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
   const [isPolishing, setIsPolishing] = useState(false);
@@ -92,26 +91,23 @@ const ChatEditPanel = () => {
   const handleInsert = (target: IChatEditItem) => {
     if (!essayRef.current) return;
     const eassyContent = essayRef.current.innerText;
-    if (cursorIndex) {
-      console.log(cursorIndex);
-      // handle insert after current cursor
-      const updateEassyContent = `${eassyContent.slice(0, cursorIndex)}${
-        target.result
-      }${eassyContent.slice(cursorIndex)}`;
-      essayRef.current.innerHTML = `<span>${updateEassyContent}</span>`;
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      const { endOffset, startOffset } = range;
+      if (startOffset - endOffset === 0) {
+        const updateEassyContent = `${eassyContent.slice(0, startOffset)}${
+          target.result
+        }${eassyContent.slice(startOffset)}`;
+        essayRef.current.innerHTML = `${updateEassyContent}`;
+      } else {
+        const updateEassyContent = `${eassyContent.slice(0, startOffset)}${
+          target.result
+        }${eassyContent.slice(endOffset)}`;
+        essayRef.current.innerHTML = `${updateEassyContent}`;
+      }
     }
 
-    if (selectedRange) {
-      console.log(
-        '🚀 ~ file: ChatEditPanel.tsx:103 ~ handleInsert ~ selectedRange:',
-        selectedRange
-      );
-      // handle substitude the current selection range
-      const updateEassyContent = `${eassyContent.slice(0, selectedRange[0])}${
-        target.result
-      }${eassyContent.slice(selectedRange[1])}`;
-      essayRef.current.innerHTML = `<span>${updateEassyContent}</span>`;
-    }
     // if both conditions are false, insert to the original text positions and replace the original text
   };
 

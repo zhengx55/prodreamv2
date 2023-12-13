@@ -37,8 +37,6 @@ const EssayPanel = () => {
     setSelectText,
     chatEditMode,
     polishResultB,
-    setSelectedRange,
-    setCursorIndex,
   } = useAiEditiorContext();
   const hasPolishResult = polishResult.length > 0 || polishResultB !== '';
   const isMultScreen = hasPolishResult || isPolishing || chatEditMode;
@@ -99,19 +97,17 @@ const EssayPanel = () => {
       if (selection.anchorNode?.parentElement?.ariaLabel !== 'essay-editor') {
         return;
       }
-      const { startOffset, endOffset } = selection.getRangeAt(0);
-      if (endOffset - startOffset === 0) {
-        const cursorPosition = selection.focusOffset;
-        // console.log(
-        //   '🚀 ~ file: EssayPanel.tsx:99 ~ handleTextSelection ~ cursorPosition:',
-        //   cursorPosition
-        // );
-        setSelectedRange(null);
-        setCursorIndex(cursorPosition);
-      } else {
-        setCursorIndex(null);
-        setSelectedRange([startOffset, endOffset]);
-      }
+      // const { startOffset, endOffset } = selection.getRangeAt(0);
+      // console.log(
+      //   '🚀 ~ file: EssayPanel.tsx:103 ~ onSelectionChange ~ startOffset:',
+      //   startOffset
+      // );
+
+      // if (endOffset - startOffset === 0) {
+      //   setSelectedRange(null);
+      // } else {
+      //   setSelectedRange([startOffset, endOffset]);
+      // }
       setSelectText(selection.getRangeAt(0).toString());
     }
   });
@@ -124,11 +120,6 @@ const EssayPanel = () => {
       // 阻止回车键的默认行为
       event.preventDefault();
       const selection_text = window.getSelection();
-      // if (selection_text && selection_text.rangeCount > 0) {
-      //   const cursorPosition = selection_text.focusOffset;
-      //   const content = essayRef.current?.innerText;
-      //   essayRef.current.innerHTML = `<span>`
-      // }
     }
   };
 
