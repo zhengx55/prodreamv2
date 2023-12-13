@@ -225,7 +225,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
       initial={false}
       variants={fullScreenVariants}
       animate={fullScreen ? 'full' : 'half'}
-      className='custom-scrollbar flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'
+      className='flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'
     >
       {/* Dialogs here */}
 

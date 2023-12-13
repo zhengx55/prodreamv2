@@ -37,7 +37,7 @@ const ChatInfo = () => {
         </div>
       </div>
       {/* info */}
-      <ul className='custom-scrollbar flex max-h-full w-full overflow-y-auto'>
+      <ul className='flex max-h-full w-full overflow-y-auto'>
         {tab === 1 ? (
           <li className='small-regular text-justify'>
             {moduleExample[currentSteps.toString()]}

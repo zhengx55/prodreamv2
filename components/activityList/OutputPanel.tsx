@@ -61,7 +61,7 @@ const OutputPanel = ({
       initial={false}
       variants={fullScreenVariants}
       animate={fullScreen ? 'full' : 'half'}
-      className={`custom-scrollbar flex h-full flex-col gap-y-4 ${
+      className={` flex h-full flex-col gap-y-4 ${
         fullScreen ? 'pl-0' : 'pl-4'
       }`}
     >

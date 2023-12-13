@@ -105,7 +105,7 @@ const ChatMessageList = ({ messageList }: Props) => {
     <>
       <div
         ref={chatPanelRef}
-        className='custom-scrollbar flex h-full w-full select-text flex-col gap-y-4 overflow-y-auto px-2 pt-2'
+        className=' flex h-full w-full select-text flex-col gap-y-4 overflow-y-auto px-2 pt-2'
       >
         <RobotMessage message={messageList.welcome} />
         <RobotMessage message={messageList.question} />

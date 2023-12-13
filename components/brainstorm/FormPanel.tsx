@@ -198,7 +198,7 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
   }
   return (
     <div className='relative h-full overflow-y-hidden px-6 pb-2 pt-6'>
-      <div className='custom-scrollbar relative h-[calc(100%_-_95px)] overflow-y-auto'>
+      <div className=' relative h-[calc(100%_-_95px)] overflow-y-auto'>
         <div className='flex items-center'>
           <Link
             className='small-regular capitalize text-shadow hover:underline'

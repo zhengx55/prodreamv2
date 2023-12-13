@@ -36,7 +36,7 @@ const OutcomePanel = ({
           <PanelError />
         ) : (
           <>
-            <div className='custom-scrollbar h-full w-full select-text overflow-y-auto overflow-x-hidden'>
+            <div className=' h-full w-full select-text overflow-y-auto overflow-x-hidden'>
               {isSubmiting ? (
                 <RotbotLoader
                   label='Branstorming'
