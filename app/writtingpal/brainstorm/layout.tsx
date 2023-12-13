@@ -18,7 +18,10 @@ export default function BrainstormLayout({
   const usage = useAppSelector(selectUsage);
   const [isFirstTime, setIsFirstTime] = useState(false);
   useEffect(() => {
-    if (Object.keys(usage).length > 0 && usage.first_brainstorm) {
+    if (
+      Object.keys(usage).length > 0 &&
+      (usage.first_brainstorm || usage.first_brainstorm === undefined)
+    ) {
       setIsFirstTime(true);
     }
   }, [usage]);

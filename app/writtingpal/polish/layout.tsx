@@ -11,7 +11,10 @@ export default function AIEditiorLayout({ children }: { children: ReactNode }) {
   const usage = useAppSelector(selectUsage);
   const [isFirstTime, setIsFirstTime] = useState(false);
   useEffect(() => {
-    if (Object.keys(usage).length > 0 && usage.first_editior) {
+    if (
+      Object.keys(usage).length > 0 &&
+      (usage.first_editior || usage.first_editior === undefined)
+    ) {
       setIsFirstTime(true);
     }
   }, [usage]);

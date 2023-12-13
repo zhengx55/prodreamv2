@@ -10,7 +10,10 @@ export default function ResumeLayout({ children }: { children: ReactNode }) {
   const usage = useAppSelector(selectUsage);
   const [isFirstTime, setIsFirstTime] = useState(false);
   useEffect(() => {
-    if (Object.keys(usage).length > 0 && usage.first_resume) {
+    if (
+      Object.keys(usage).length > 0 &&
+      (usage.first_resume || usage.first_resume === undefined)
+    ) {
       setIsFirstTime(true);
     }
   }, [usage]);
