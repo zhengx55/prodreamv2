@@ -4,7 +4,7 @@ import Spacer from '../root/Spacer';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { usePreDefinedOptions } from '@/query/query';
 import ChatEditInputField from './ChatEditInputField';
-import { Loader2, RefreshCwIcon, Trash2 } from 'lucide-react';
+import { ChevronUp, Loader2, RefreshCwIcon, Trash2 } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
 import { IPolishParams } from '@/query/type';
@@ -18,6 +18,7 @@ type IChatEditItem = {
   original: string;
   result: string;
   instruction: string | number;
+  expand: boolean;
 };
 
 const ChatEditPanel = () => {
@@ -72,6 +73,7 @@ const ChatEditPanel = () => {
                 original: variables.text,
                 result: polishData,
                 instruction: variables.instruction!,
+                expand: false,
               },
             ]);
             clearInterval(reqTimer.current);
@@ -93,17 +95,21 @@ const ChatEditPanel = () => {
     if (cursorIndex) {
       console.log(cursorIndex);
       // handle insert after current cursor
-      const updateEassyContent = `${eassyContent.slice(0, cursorIndex)} ${
+      const updateEassyContent = `${eassyContent.slice(0, cursorIndex)}${
         target.result
-      } ${eassyContent.slice(cursorIndex)}`;
+      }${eassyContent.slice(cursorIndex)}`;
       essayRef.current.innerHTML = `<span>${updateEassyContent}</span>`;
     }
 
     if (selectedRange) {
+      console.log(
+        '🚀 ~ file: ChatEditPanel.tsx:103 ~ handleInsert ~ selectedRange:',
+        selectedRange
+      );
       // handle substitude the current selection range
-      const updateEassyContent = `${eassyContent.slice(0, selectedRange[0])} ${
+      const updateEassyContent = `${eassyContent.slice(0, selectedRange[0])}${
         target.result
-      } ${eassyContent.slice(selectedRange[1])}`;
+      }${eassyContent.slice(selectedRange[1])}`;
       essayRef.current.innerHTML = `<span>${updateEassyContent}</span>`;
     }
     // if both conditions are false, insert to the original text positions and replace the original text
@@ -119,6 +125,10 @@ const ChatEditPanel = () => {
     }
     await polish({ instruction: option, text: selectText });
   };
+
+  const handleRegenerate = async (item: IChatEditItem) => {
+    await polish({ instruction: item.instruction, text: item.original });
+  };
   if (isOptionsLoading) return null;
   return (
     <div className='relative flex min-h-full w-1/2 flex-col justify-between overflow-y-hidden'>
@@ -128,43 +138,81 @@ const ChatEditPanel = () => {
       >
         <AnimatePresence mode='sync'>
           {polishResult.map((result, idx) => {
+            const isExpand = result.expand;
             return (
               <motion.li
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.3 }}
-                className='flex shrink-0 flex-col gap-y-2 rounded-lg border border-shadow-border px-4 py-2 hover:bg-black-400/10'
+                layout='size'
+                data-state={isExpand ? 'open' : 'close'}
+                style={{ height: isExpand ? 'auto' : '90px' }}
+                className='flex shrink-0 select-none flex-col gap-y-2 rounded-lg border border-shadow-border px-4 py-2 hover:bg-black-400/10 '
                 key={`chat-edit-${idx}`}
               >
-                <p className='subtle-regular text-shadow'>
-                  {PresetInstructions[result.instruction.toString()] ??
-                    result.instruction}
-                </p>
-                {result.result}
-                <span
-                  className='subtle-regular flex cursor-pointer items-center gap-x-2 text-shadow'
-                  aria-label='regenerate'
+                <div
+                  data-state={isExpand ? 'open' : 'close'}
+                  className='flex-between [&[data-state=open]>svg]:rotate-180'
                 >
-                  <RefreshCwIcon size={18} className='text-shadow' />
-                  Regenerate
-                </span>
-                <Spacer y='10' />
-                <div className='flex items-start gap-x-2'>
-                  <Button
-                    onClick={() => handleInsert(result)}
-                    className='rounded-md'
-                  >
-                    Insert
-                  </Button>
-                  <Button
-                    onClick={() => handleDismiss(idx)}
-                    variant={'ghost'}
-                    className='text-shadow'
-                  >
-                    Dismiss
-                  </Button>
+                  <p className='subtle-regular text-shadow'>
+                    {PresetInstructions[result.instruction.toString()] ??
+                      result.instruction}
+                  </p>
+                  <ChevronUp
+                    size={18}
+                    onClick={() =>
+                      setPolishResult((prev) => {
+                        return prev.map((el, el_index) =>
+                          el_index === idx ? { ...el, expand: !el.expand } : el
+                        );
+                      })
+                    }
+                    className='shrink-0 cursor-pointer text-shadow transition-transform duration-200'
+                  />
                 </div>
+
+                {isExpand && (
+                  <>
+                    <p className='small-regular'>{result.result}</p>
+                    <Button
+                      variant={'ghost'}
+                      className='subtle-regular flex w-max cursor-pointer items-center gap-x-2 px-0 text-shadow'
+                      aria-label='regenerate'
+                      onClick={() => handleRegenerate(result)}
+                    >
+                      <RefreshCwIcon size={18} className='text-shadow' />
+                      Regenerate
+                    </Button>
+                    <Spacer y='10' />
+                    <div className='flex items-start gap-x-2'>
+                      <Button
+                        onClick={() => handleInsert(result)}
+                        className='rounded-md'
+                      >
+                        Insert
+                      </Button>
+                      <Button
+                        onClick={() => handleDismiss(idx)}
+                        variant={'ghost'}
+                        className='text-shadow'
+                      >
+                        Dismiss
+                      </Button>
+                    </div>
+                  </>
+                )}
+                {!isExpand && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className='small-regular line-clamp-2'
+                  >
+                    {result.result}
+                  </motion.p>
+                )}
               </motion.li>
             );
           })}

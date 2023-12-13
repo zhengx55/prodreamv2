@@ -1,11 +1,13 @@
 'use client';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import EditBar from './EditBar';
 import { Variants, motion } from 'framer-motion';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import EditiorLoading from './EditiorLoading';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import dynamic from 'next/dynamic';
+import useEvent from 'beautiful-react-hooks/useGlobalEvent';
+import useGlobalEvent from 'beautiful-react-hooks/useGlobalEvent';
 
 const SuggestionPanel = dynamic(() => import('./SuggestionPanel'), {
   ssr: false,
@@ -88,41 +90,47 @@ const EssayPanel = () => {
     }
   };
 
-  const handleTextSelection = () => {
-    if (!chatEditMode) return;
-    const selection_text = window.getSelection();
-    if (selection_text && selection_text.rangeCount > 0) {
-      const { startOffset, endOffset } = selection_text.getRangeAt(0);
+  const onSelectionChange = useGlobalEvent('mouseup');
+
+  onSelectionChange(() => {
+    const selection = window.getSelection();
+    if (selection && selection.toString().length > 0) {
+      // 处理选中文本
+      if (selection.anchorNode?.parentElement?.ariaLabel !== 'essay-editor') {
+        return;
+      }
+      const { startOffset, endOffset } = selection.getRangeAt(0);
       if (endOffset - startOffset === 0) {
-        const cursorPosition = selection_text.focusOffset;
-        console.log(
-          '🚀 ~ file: EssayPanel.tsx:99 ~ handleTextSelection ~ cursorPosition:',
-          cursorPosition
-        );
+        const cursorPosition = selection.focusOffset;
+        // console.log(
+        //   '🚀 ~ file: EssayPanel.tsx:99 ~ handleTextSelection ~ cursorPosition:',
+        //   cursorPosition
+        // );
         setSelectedRange(null);
         setCursorIndex(cursorPosition);
       } else {
         setCursorIndex(null);
         setSelectedRange([startOffset, endOffset]);
       }
-      setSelectText(selection_text.getRangeAt(0).toString());
+      setSelectText(selection.getRangeAt(0).toString());
+    }
+  });
+
+  const handleKeyDown = (event: {
+    key: string;
+    preventDefault: () => void;
+  }) => {
+    if (event.key === 'Enter') {
+      // 阻止回车键的默认行为
+      event.preventDefault();
+      const selection_text = window.getSelection();
+      // if (selection_text && selection_text.rangeCount > 0) {
+      //   const cursorPosition = selection_text.focusOffset;
+      //   const content = essayRef.current?.innerText;
+      //   essayRef.current.innerHTML = `<span>`
+      // }
     }
   };
-
-  // const handleKeyDown = (event: {
-  //   key: string;
-  //   preventDefault: () => void;
-  // }) => {
-  //   if (event.key === 'Enter') {
-  //     // 阻止回车键的默认行为
-  //     event.preventDefault();
-  //     const selection_text = window.getSelection();
-  //     if (selection_text && selection_text.rangeCount > 0) {
-  //       const cursorPosition = selection_text.focusOffset;
-  //       essayRef.current.innerHTML += '<br>';
-  //     }
-  //   }
-  // };
 
   return (
     <>
@@ -135,12 +143,13 @@ const EssayPanel = () => {
         >
           <EditBar />
           <div
+            aria-label='editor-parent'
             className={`relative flex h-[calc(100%_-50px)] w-full flex-col rounded-lg py-6`}
           >
             <div
+              aria-label='essay-editor'
               ref={essayRef}
-              // onKeyDown={handleKeyDown}
-              onMouseUp={handleTextSelection}
+              onKeyDown={handleKeyDown}
               onInput={handleInput}
               className='h-full w-full overflow-y-auto whitespace-pre-line text-[16px] leading-relaxed outline-none'
               placeholder='Write your message..'
