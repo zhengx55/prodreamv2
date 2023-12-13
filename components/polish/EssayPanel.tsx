@@ -40,40 +40,40 @@ const EssayPanel = () => {
   } = useAiEditiorContext();
   const hasPolishResult = polishResult.length > 0 || polishResultB !== '';
   const isMultScreen = hasPolishResult || isPolishing || chatEditMode;
-  useDeepCompareEffect(() => {
-    if (polishResult.length > 0 && essayRef.current) {
-      // 查询原文当中所有的换行符位置
-      const lineBreakPositions: number[] = [];
-      const regex = /\n/g;
-      let match;
-      while ((match = regex.exec(essayRef.current.innerText)) !== null) {
-        lineBreakPositions.push(match.index);
-      }
-      // 查询起始索引和终止索引
-      let finalText = '<article class="suggest-artice">';
-      polishResult.map((item, index) => {
-        if (!essayRef.current) {
-          return;
-        }
-        item.data.map((sentence, sentence_idx) => {
-          if ([1, 2, 3].includes(sentence.status)) {
-            const sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
-            finalText += sentenceHtml;
-          } else {
-            const sentenceHtml = `${sentence.sub_str} `;
-            finalText += sentenceHtml;
-          }
-        });
-        lineBreakPositions.forEach((break_point, _point_idx) => {
-          if (Math.abs(item.end - break_point) <= 5) {
-            finalText += `<br/>`;
-          }
-        });
-      });
-      finalText += '</article>';
-      essayRef.current.innerHTML = finalText;
-    }
-  }, [polishResult]);
+  // useDeepCompareEffect(() => {
+  //   if (polishResult.length > 0 && essayRef.current) {
+  //     // 查询原文当中所有的换行符位置
+  //     const lineBreakPositions: number[] = [];
+  //     const regex = /\n/g;
+  //     let match;
+  //     while ((match = regex.exec(essayRef.current.innerText)) !== null) {
+  //       lineBreakPositions.push(match.index);
+  //     }
+  //     // 查询起始索引和终止索引
+  //     let finalText = '<article class="suggest-artice">';
+  //     polishResult.map((item, index) => {
+  //       if (!essayRef.current) {
+  //         return;
+  //       }
+  //       item.data.map((sentence, sentence_idx) => {
+  //         if ([1, 2, 3].includes(sentence.status)) {
+  //           const sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
+  //           finalText += sentenceHtml;
+  //         } else {
+  //           const sentenceHtml = `${sentence.sub_str} `;
+  //           finalText += sentenceHtml;
+  //         }
+  //       });
+  //       lineBreakPositions.forEach((break_point, _point_idx) => {
+  //         if (Math.abs(item.end - break_point) <= 5) {
+  //           finalText += `<br/>`;
+  //         }
+  //       });
+  //     });
+  //     finalText += '</article>';
+  //     essayRef.current.innerHTML = finalText;
+  //   }
+  // }, [polishResult]);
 
   const handleInput = (e: FormEvent<HTMLElement>) => {
     const text = e.currentTarget.textContent;
@@ -83,6 +83,7 @@ const EssayPanel = () => {
         .split(/\s+/)
         .filter((word) => word !== '');
       setWordCount(words.length);
+      console.log('🚀 ~ file: EssayPanel.tsx:88 ~ handleInput ~ text:', text);
     } else {
       setWordCount(0);
     }
@@ -120,16 +121,18 @@ const EssayPanel = () => {
             className={`relative flex h-[calc(100%_-50px)] w-full flex-col rounded-lg py-6`}
           >
             <div
-              onMouseUp={handleTextSelection}
               ref={essayRef}
+              onMouseUp={handleTextSelection}
               onInput={handleInput}
               className='h-full w-full overflow-y-auto whitespace-pre-line text-[16px] leading-relaxed outline-none'
               placeholder='Write your message..'
+              suppressContentEditableWarning
               contentEditable={
                 !hasPolishResult && !isPolishing ? 'plaintext-only' : false
               }
               spellCheck={false}
             />
+
             <div className='flex-between absolute -bottom-6 left-0 flex h-12 w-full'>
               <div className='flex items-center gap-x-2'>
                 <div className='tooltip'>
