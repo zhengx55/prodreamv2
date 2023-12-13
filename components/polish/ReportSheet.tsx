@@ -85,6 +85,7 @@ const ReportSheet = () => {
             className='h-[54px] w-[54px] self-center rounded-full'
             width={1000}
             height={1000}
+            priority
           />
         )}
         {evaluateResult ? (

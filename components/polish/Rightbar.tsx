@@ -10,7 +10,8 @@ import dynamic from 'next/dynamic';
 const ReportSheet = dynamic(() => import('./ReportSheet'), { ssr: false });
 const PolishModal = dynamic(() => import('./PolishModal'), { ssr: false });
 const Rightbar = () => {
-  const { setChatEditMode, chatEditMode } = useAiEditiorContext();
+  const { setChatEditMode, chatEditMode, setPolishResult, setPolishResultB } =
+    useAiEditiorContext();
   return (
     <div className='absolute right-0 top-0 hidden h-full flex-col rounded-md border-l border-shadow-border bg-white px-4 md:flex md:w-[240px]'>
       <Spacer y='24' />
@@ -27,6 +28,8 @@ const Rightbar = () => {
         variant={chatEditMode ? 'default' : 'ghost'}
         onClick={() => {
           setChatEditMode((prev) => !prev);
+          setPolishResult([]);
+          setPolishResultB('');
         }}
         className='small-semibold border border-shadow-border'
       >

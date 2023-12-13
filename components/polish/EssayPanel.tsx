@@ -6,7 +6,6 @@ import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import EditiorLoading from './EditiorLoading';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import dynamic from 'next/dynamic';
-import useEvent from 'beautiful-react-hooks/useGlobalEvent';
 import useGlobalEvent from 'beautiful-react-hooks/useGlobalEvent';
 
 const SuggestionPanel = dynamic(() => import('./SuggestionPanel'), {
@@ -155,9 +154,7 @@ const EssayPanel = () => {
               className='h-full w-full overflow-y-auto whitespace-pre-line text-[16px] leading-relaxed outline-none'
               placeholder='Write your message..'
               suppressContentEditableWarning
-              contentEditable={
-                !hasPolishResult && !isPolishing ? 'plaintext-only' : false
-              }
+              contentEditable={!isPolishing ? 'plaintext-only' : false}
               spellCheck={false}
             />
 

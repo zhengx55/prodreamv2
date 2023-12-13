@@ -13,6 +13,7 @@ import { PresetInstructions } from '@/constant';
 import { Button } from '../ui/button';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { AnimatePresence, motion } from 'framer-motion';
+import EditiorLoading from './EditiorLoading';
 
 type IChatEditItem = {
   original: string;
@@ -125,7 +126,7 @@ const ChatEditPanel = () => {
   const handleRegenerate = async (item: IChatEditItem) => {
     await polish({ instruction: item.instruction, text: item.original });
   };
-  if (isOptionsLoading) return null;
+  if (isOptionsLoading) return <EditiorLoading />;
   return (
     <div className='relative flex min-h-full w-1/2 flex-col justify-between overflow-y-hidden'>
       <ul
