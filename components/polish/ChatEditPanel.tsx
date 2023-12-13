@@ -141,11 +141,17 @@ const ChatEditPanel = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.2 }}
                 layout='size'
                 data-state={isExpand ? 'open' : 'close'}
-                style={{ height: isExpand ? 'auto' : '90px' }}
-                className='flex shrink-0 select-none flex-col gap-y-2 rounded-lg border border-shadow-border px-4 py-2 hover:bg-black-400/10 '
+                style={{
+                  height: isExpand ? 'auto' : '90px',
+                  boxShadow: isExpand
+                    ? '2px 2px 12px 4px rgba(82, 86, 90, 0.10)'
+                    : 'none',
+                  borderColor: !isExpand ? '#EAEAEA' : '#7C757E',
+                }}
+                className='flex shrink-0 select-none flex-col gap-y-2 rounded-lg border px-4 py-2 hover:bg-black-400/10 '
                 key={`chat-edit-${idx}`}
               >
                 <div
@@ -247,9 +253,8 @@ const ChatEditPanel = () => {
           </div>
         </div>
       )}
-
       <Spacer y='10' />
-      <ChatEditInputField />
+      <ChatEditInputField handleSubmit={polish} />
     </div>
   );
 };

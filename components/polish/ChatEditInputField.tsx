@@ -1,9 +1,25 @@
-import React, { ChangeEvent, memo, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  memo,
+  useRef,
+  useState,
+} from 'react';
 import { Textarea } from '../ui/textarea';
+import type { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { IPolishParams } from '@/query/type';
+import { useAiEditiorContext } from '@/context/AIEditiorProvider';
+import { useToast } from '../ui/use-toast';
 
-const ChatEditInputField = () => {
+const ChatEditInputField = ({
+  handleSubmit,
+}: {
+  handleSubmit: UseMutateAsyncFunction<any, Error, IPolishParams, void>;
+}) => {
   const [customPrompt, setCustomPrompt] = useState('');
   const ref = useRef<HTMLTextAreaElement>(null);
+  const { selectText } = useAiEditiorContext();
+  const { toast } = useToast();
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (!ref.current) return;
@@ -16,9 +32,36 @@ const ChatEditInputField = () => {
     ref.current.style.height = `${textarea.scrollHeight}px`;
     setCustomPrompt(e.target.value);
   };
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handlePolish();
+    }
+  };
+
+  const handlePolish = async () => {
+    if (!selectText) {
+      toast({
+        variant: 'destructive',
+        description: 'no content selected',
+      });
+      return;
+    }
+    if (!customPrompt.trim()) {
+      toast({
+        variant: 'destructive',
+        description: 'no input detected',
+      });
+      return;
+    }
+    await handleSubmit({ instruction: customPrompt.trim(), text: selectText });
+    setCustomPrompt('');
+  };
   return (
     <div className='relative w-full py-2'>
       <Textarea
+        onKeyDown={handleKeyPress}
         ref={ref}
         id='prompt'
         value={customPrompt}
@@ -44,7 +87,10 @@ const ChatEditInputField = () => {
           </svg>
         </span>
       ) : (
-        <span className='flex-center absolute bottom-[18px] right-3 h-8 w-8 cursor-pointer rounded-lg bg-primary-200 hover:brightness-125'>
+        <span
+          onClick={handlePolish}
+          className='flex-center absolute bottom-[18px] right-3 h-8 w-8 cursor-pointer rounded-lg bg-primary-200 hover:brightness-125'
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='24'
