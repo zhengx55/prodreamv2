@@ -89,8 +89,8 @@ const EssayPanel = () => {
   const handleTextSelection = () => {
     if (!chatEditMode) return;
     const selection_text = window.getSelection();
-    if (selection_text && selection_text.toString())
-      setSelectText(selection_text.toString());
+    if (selection_text && selection_text.rangeCount > 0)
+      setSelectText(selection_text.getRangeAt(0).toString());
   };
   return (
     <>
@@ -109,7 +109,7 @@ const EssayPanel = () => {
               onMouseUp={handleTextSelection}
               ref={essayRef}
               onInput={handleInput}
-              className='h-full w-full overflow-y-auto whitespace-pre-line text-[18px] leading-relaxed outline-none'
+              className='h-full w-full overflow-y-auto whitespace-pre-line text-[16px] leading-relaxed outline-none'
               placeholder='Write your message..'
               contentEditable={
                 !hasPolishResult && !isPolishing ? 'plaintext-only' : false

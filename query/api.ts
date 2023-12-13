@@ -406,6 +406,7 @@ export async function submitPolish(params: IPolishParams) {
           volume_control: params.volume_control,
           volume_target: params.volume_target,
           scenario: params.scenario,
+          instruction: params.instruction,
         }),
         headers: {
           'Content-Type': 'application/json',

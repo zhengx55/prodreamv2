@@ -309,6 +309,7 @@ export interface IPolishParams {
    * 目标字数
    */
   volume_target?: number;
+  instruction?: string | number;
 }
 
 export interface IPolishQueryData {
@@ -318,7 +319,7 @@ export interface IPolishQueryData {
 
 export interface IPolishResultA {
   // 分段或分句的数据格式响应
-  result: IPolishResultAData[];
+  result: IPolishResultAData[] | string;
   status: string;
 }
 

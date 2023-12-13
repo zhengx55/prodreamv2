@@ -111,6 +111,14 @@ export const EvaluationsTitle = [
   'Grammar Accuracy',
 ];
 
+export const PresetInstructions: { [key: string]: string } = {
+  '1': 'Fix any mistakes',
+  '2': 'Sound fluent',
+  '3': 'Improve it',
+  '4': 'Make it passionate',
+  '5': 'Make it professional',
+};
+
 export const ProfileDropdownLinks = [
   {
     id: 'profile-01',
