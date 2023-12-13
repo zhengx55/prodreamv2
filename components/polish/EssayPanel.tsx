@@ -83,7 +83,6 @@ const EssayPanel = () => {
         .split(/\s+/)
         .filter((word) => word !== '');
       setWordCount(words.length);
-      console.log('🚀 ~ file: EssayPanel.tsx:88 ~ handleInput ~ text:', text);
     } else {
       setWordCount(0);
     }
@@ -97,16 +96,34 @@ const EssayPanel = () => {
       if (endOffset - startOffset === 0) {
         const cursorPosition = selection_text.focusOffset;
         console.log(
-          '🚀 ~ file: EssayPanel.tsx:98 ~ handleTextSelection ~ cursorPosition:',
+          '🚀 ~ file: EssayPanel.tsx:99 ~ handleTextSelection ~ cursorPosition:',
           cursorPosition
         );
+        setSelectedRange(null);
         setCursorIndex(cursorPosition);
       } else {
+        setCursorIndex(null);
         setSelectedRange([startOffset, endOffset]);
       }
       setSelectText(selection_text.getRangeAt(0).toString());
     }
   };
+
+  // const handleKeyDown = (event: {
+  //   key: string;
+  //   preventDefault: () => void;
+  // }) => {
+  //   if (event.key === 'Enter') {
+  //     // 阻止回车键的默认行为
+  //     event.preventDefault();
+  //     const selection_text = window.getSelection();
+  //     if (selection_text && selection_text.rangeCount > 0) {
+  //       const cursorPosition = selection_text.focusOffset;
+  //       essayRef.current.innerHTML += '<br>';
+  //     }
+  //   }
+  // };
+
   return (
     <>
       <div className='flex h-full w-full justify-center gap-x-8 overflow-hidden p-4'>
@@ -122,6 +139,7 @@ const EssayPanel = () => {
           >
             <div
               ref={essayRef}
+              // onKeyDown={handleKeyDown}
               onMouseUp={handleTextSelection}
               onInput={handleInput}
               className='h-full w-full overflow-y-auto whitespace-pre-line text-[16px] leading-relaxed outline-none'

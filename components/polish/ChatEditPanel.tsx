@@ -90,25 +90,22 @@ const ChatEditPanel = () => {
   const handleInsert = (target: IChatEditItem) => {
     if (!essayRef.current) return;
     const eassyContent = essayRef.current.innerText;
-    console.log(
-      '🚀 ~ file: ChatEditPanel.tsx:93 ~ handleInsert ~ eassyContent:',
-      eassyContent
-    );
     if (cursorIndex) {
+      console.log(cursorIndex);
       // handle insert after current cursor
       const updateEassyContent = `${eassyContent.slice(0, cursorIndex)} ${
         target.result
       } ${eassyContent.slice(cursorIndex)}`;
-      essayRef.current.innerText = updateEassyContent;
+      essayRef.current.innerHTML = `<span>${updateEassyContent}</span>`;
     }
 
-    // if (selectedRange) {
-    //   // handle substitude the current selection range
-    //   const updateEassyContent = `${eassyContent.slice(0, selectedRange[0])} ${
-    //     target.result
-    //   } ${eassyContent.slice(selectedRange[1])}`;
-    //   essayRef.current.innerText = updateEassyContent;
-    // }
+    if (selectedRange) {
+      // handle substitude the current selection range
+      const updateEassyContent = `${eassyContent.slice(0, selectedRange[0])} ${
+        target.result
+      } ${eassyContent.slice(selectedRange[1])}`;
+      essayRef.current.innerHTML = `<span>${updateEassyContent}</span>`;
+    }
     // if both conditions are false, insert to the original text positions and replace the original text
   };
 
