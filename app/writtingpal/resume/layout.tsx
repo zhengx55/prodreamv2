@@ -1,6 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { selectUsage } from '@/store/reducers/usageSlice';
 import { useAppSelector } from '@/store/storehooks';
 const OnboardModal = dynamic(() => import('@/components/resume/OnboardModal'), {
@@ -8,12 +8,16 @@ const OnboardModal = dynamic(() => import('@/components/resume/OnboardModal'), {
 });
 export default function ResumeLayout({ children }: { children: ReactNode }) {
   const usage = useAppSelector(selectUsage);
-  const notFirstTime =
-    usage && usage.first_resume !== undefined && !usage.first_resume;
+  const [isFirstTime, setIsFirstTime] = useState(false);
+  useEffect(() => {
+    if (Object.keys(usage).length > 0 && usage.first_resume) {
+      setIsFirstTime(true);
+    }
+  }, [usage]);
   return (
     <>
       {children}
-      {!notFirstTime ? <OnboardModal /> : null}
+      {isFirstTime ? <OnboardModal /> : null}
     </>
   );
 }

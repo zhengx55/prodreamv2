@@ -3,7 +3,7 @@ import BrainStormProvider from '@/context/BrainStormProvider';
 import { selectUsage } from '@/store/reducers/usageSlice';
 import { useAppSelector } from '@/store/storehooks';
 import dynamic from 'next/dynamic';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 const OnboardModal = dynamic(
   () => import('@/components/brainstorm/OnboardModal'),
   {
@@ -16,12 +16,17 @@ export default function BrainstormLayout({
   children: ReactNode;
 }) {
   const usage = useAppSelector(selectUsage);
-  const notFirstTime =
-    usage && usage.first_brainstorm !== undefined && !usage.first_brainstorm;
+  const [isFirstTime, setIsFirstTime] = useState(false);
+  useEffect(() => {
+    if (Object.keys(usage).length > 0 && usage.first_brainstorm) {
+      setIsFirstTime(true);
+    }
+  }, [usage]);
+
   return (
     <BrainStormProvider>
       {children}
-      {!notFirstTime ? <OnboardModal /> : null}
+      {isFirstTime ? <OnboardModal /> : null}
     </BrainStormProvider>
   );
 }

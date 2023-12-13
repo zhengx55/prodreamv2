@@ -5,12 +5,7 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { type RootState } from '../store';
 import { IUsage } from '@/types';
 
-const initialUsageState: IUsage = {
-  first_editior: true,
-  first_brainstorm: true,
-  first_resume: true,
-  first_activity_list: true,
-};
+const initialUsageState = {} as IUsage;
 
 export const usageSlice = createSlice({
   name: 'usage',
