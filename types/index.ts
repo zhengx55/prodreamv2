@@ -192,4 +192,7 @@ export interface IUsage {
   first_brainstorm: boolean;
   first_resume: boolean;
   first_activity_list: boolean;
+  first_activity_list_upload: boolean;
+  first_activity_list_generate: boolean;
+  first_activity_list_edit: boolean;
 }

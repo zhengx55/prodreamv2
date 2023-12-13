@@ -5,6 +5,7 @@ import ActivityCard from './ActivityCard';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { deepEqual } from '@/lib/utils';
 import { useActListContext } from '@/context/ActListProvider';
+import TutCard from '../root/TutCard';
 
 const OutputPanel = ({
   fullScreen,
@@ -61,11 +62,16 @@ const OutputPanel = ({
       initial={false}
       variants={fullScreenVariants}
       animate={fullScreen ? 'full' : 'half'}
-      className={` flex h-full flex-col gap-y-4 ${
-        fullScreen ? 'pl-0' : 'pl-4'
-      }`}
+      className={`flex h-full flex-col gap-y-4 ${fullScreen ? 'pl-0' : 'pl-4'}`}
     >
-      <div className='flex h-max min-h-full w-full flex-col overflow-y-auto rounded-lg bg-white p-4'>
+      <div className='relative flex h-max min-h-full w-full flex-col overflow-y-auto rounded-lg bg-white p-4'>
+        <TutCard
+          className='right-0 top-[80px] w-[210px]'
+          title='Edit outputs here'
+          info='Power Up to boost writing quality. Fit Character Limit to reduce characters'
+          button='Got it!'
+          arrowPosition='bottom'
+        />
         {fullScreen ? (
           <span
             onClick={() => setFullScreen(!fullScreen)}
@@ -105,10 +111,10 @@ const OutputPanel = ({
             <p>View in full screen</p>
           </span>
         )}
-        <div className='mt-7 flex w-full'>
+        <nav className='mt-7 flex w-full'>
           {tabs.map((item) => {
             return (
-              <div
+              <span
                 onClick={() => setSelected(item)}
                 key={item}
                 className={`${
@@ -124,13 +130,13 @@ const OutputPanel = ({
                 } flex-center small-semibold cursor-pointer border-b  pb-2`}
               >
                 {item}
-              </div>
+              </span>
             );
           })}
-        </div>
+        </nav>
         <AnimatePresence mode='wait' initial={false}>
           {selected === 'UC Applications' ? (
-            <motion.div
+            <motion.ul
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
@@ -149,9 +155,9 @@ const OutputPanel = ({
                   />
                 );
               })}
-            </motion.div>
+            </motion.ul>
           ) : selected === 'Common Applications' ? (
-            <motion.div
+            <motion.ul
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
@@ -170,9 +176,9 @@ const OutputPanel = ({
                   />
                 );
               })}
-            </motion.div>
+            </motion.ul>
           ) : (
-            <motion.div
+            <motion.ul
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
@@ -199,7 +205,7 @@ const OutputPanel = ({
                   />
                 );
               })}
-            </motion.div>
+            </motion.ul>
           )}
         </AnimatePresence>
       </div>

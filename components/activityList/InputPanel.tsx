@@ -18,6 +18,7 @@ import dynamic from 'next/dynamic';
 
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 const Activityloader = dynamic(() => import('./Activityloader'));
+import TutCard from '../root/TutCard';
 
 const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   const { toast } = useToast();
@@ -225,8 +226,16 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
       initial={false}
       variants={fullScreenVariants}
       animate={fullScreen ? 'full' : 'half'}
-      className='flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'
+      className='relative flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'
     >
+      <TutCard
+        className='left-[calc(50%_-160px)] top-32 w-[320px]'
+        title='Upload to get draft'
+        info="Start by either uploading your files for automatic activity draft completion or click 'Add Activity' to manually enter your details"
+        button='Got it!'
+        arrowPosition='top'
+      />
+
       {/* Dialogs here */}
 
       <FileUploadModal
@@ -263,6 +272,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
           </Button>
         ) : (
           <Button
+            id='act-tut-01'
             onClick={() => setActiveFileUpload(true)}
             variant={'default'}
             className='h-full border border-shadow-border py-2 leading-6 shadow-none'
@@ -319,7 +329,14 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
         ))}
       </section>
       {/* activity options */}
-      <section className='flex w-full shrink-0 flex-col gap-y-2 rounded-xl bg-white p-6'>
+      <section className='relative flex w-full shrink-0 flex-col gap-y-2 overflow-visible rounded-xl bg-white p-6'>
+        <TutCard
+          className='bottom-[80px] left-[calc(50%_-95px)] w-[190px]'
+          title='Click here to generate!'
+          button='Okay!'
+          arrowPosition='bottom'
+          buttonClassName='w-full'
+        />
         <h2 className='base-semibold'>Which activity list are you filling?</h2>
         <p className='small-regular text-shadow'>
           We will help you reduce to the required character limit and power up
@@ -376,6 +393,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
         </div>
 
         <Button
+          id='act-tut-02'
           disabled={isDecoding}
           variant={'ghost'}
           onClick={handleGenerate}

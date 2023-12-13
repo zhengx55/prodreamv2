@@ -1,5 +1,5 @@
 import { Copy, PenLine, Trash2 } from 'lucide-react';
-import React, { useCallback, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import Tooltip from '../root/Tooltip';
 import { ActData } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
@@ -59,7 +59,7 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
   return (
     <>
       {!editMode ? (
-        <div className='flex shrink-0 flex-col gap-y-2 rounded-[10px] border border-shadow-border px-4 py-3'>
+        <li className='flex shrink-0 flex-col gap-y-2 rounded-[10px] border border-shadow-border px-4 py-3'>
           <DeleteModal
             deleteId={data.id}
             isActive={showDelete}
@@ -117,7 +117,7 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
               </div>
             </div>
           </div>
-        </div>
+        </li>
       ) : (
         <EditCard
           dataType={dataType}
@@ -131,4 +131,4 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
   );
 };
 
-export default ActivityCard;
+export default memo(ActivityCard);

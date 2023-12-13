@@ -1,11 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Separator } from '../ui/separator';
 import InputPanel from './InputPanel';
 import OutputPanel from './OutputPanel';
 
 const ActivityMain = () => {
   const [fullScreen, setFullScreen] = useState(false);
+
   return (
     <div className='flex h-[calc(100%_-var(--top-nav-bar-height)_-20px)] py-4'>
       {/* Input Panel */}
