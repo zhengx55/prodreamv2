@@ -56,11 +56,11 @@ const EssayPanel = () => {
           return;
         }
         item.data.map((sentence, sentence_idx) => {
-          if ([1, 2, 3].includes(sentence.status)) {
-            const sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
+          if ([2, 3].includes(sentence.status)) {
+            const sentenceHtml = `&nbsp;<span id="suggest-${index}-${sentence_idx}" class="suggest-change">${sentence.sub_str} </span>`;
             finalText += sentenceHtml;
           } else {
-            const sentenceHtml = `${sentence.sub_str} `;
+            const sentenceHtml = `${sentence.sub_str}`;
             finalText += sentenceHtml;
           }
         });
@@ -151,7 +151,7 @@ const EssayPanel = () => {
               ref={essayRef}
               onKeyDown={handleKeyDown}
               onInput={handleInput}
-              className='h-full w-full overflow-y-auto whitespace-pre-line text-[16px] leading-relaxed outline-none'
+              className='h-full w-full overflow-y-auto whitespace-pre-line text-[16px] leading-loose outline-none'
               placeholder='Write your message..'
               suppressContentEditableWarning
               contentEditable={!isPolishing ? 'plaintext-only' : false}
