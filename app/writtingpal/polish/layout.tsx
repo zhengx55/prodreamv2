@@ -10,7 +10,7 @@ const OnboardModal = dynamic(() => import('@/components/polish/OnboardModal'), {
 export default function AIEditiorLayout({ children }: { children: ReactNode }) {
   const usage = useAppSelector(selectUsage);
   const notFirstTime =
-    usage.first_editior !== undefined && !usage.first_editior;
+    usage && usage.first_editior !== undefined && !usage.first_editior;
   return (
     <AIEditiorProvider>
       {children}

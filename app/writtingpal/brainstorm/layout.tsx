@@ -17,7 +17,7 @@ export default function BrainstormLayout({
 }) {
   const usage = useAppSelector(selectUsage);
   const notFirstTime =
-    usage.first_brainstorm !== undefined && !usage.first_brainstorm;
+    usage && usage.first_brainstorm !== undefined && !usage.first_brainstorm;
   return (
     <BrainStormProvider>
       {children}

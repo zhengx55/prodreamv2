@@ -12,7 +12,9 @@ const OnboardModal = dynamic(
 export default function ActListLayout({ children }: { children: ReactNode }) {
   const usage = useAppSelector(selectUsage);
   const notFirstTime =
-    usage.first_activity_list !== undefined && !usage.first_activity_list;
+    usage &&
+    usage.first_activity_list !== undefined &&
+    !usage.first_activity_list;
   return (
     <ActListProvider>
       {children}

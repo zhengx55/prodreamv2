@@ -8,7 +8,8 @@ const OnboardModal = dynamic(() => import('@/components/resume/OnboardModal'), {
 });
 export default function ResumeLayout({ children }: { children: ReactNode }) {
   const usage = useAppSelector(selectUsage);
-  const notFirstTime = usage.first_resume !== undefined && !usage.first_resume;
+  const notFirstTime =
+    usage && usage.first_resume !== undefined && !usage.first_resume;
   return (
     <>
       {children}
