@@ -35,6 +35,8 @@ const EssayPanel = () => {
     setSelectText,
     chatEditMode,
     polishResultB,
+    setSelectedRange,
+    setCursorIndex,
   } = useAiEditiorContext();
   const hasPolishResult = polishResult.length > 0 || polishResultB !== '';
   const isMultScreen = hasPolishResult || isPolishing || chatEditMode;
@@ -89,8 +91,20 @@ const EssayPanel = () => {
   const handleTextSelection = () => {
     if (!chatEditMode) return;
     const selection_text = window.getSelection();
-    if (selection_text && selection_text.rangeCount > 0)
+    if (selection_text && selection_text.rangeCount > 0) {
+      const { startOffset, endOffset } = selection_text.getRangeAt(0);
+      if (endOffset - startOffset === 0) {
+        const cursorPosition = selection_text.focusOffset;
+        console.log(
+          '🚀 ~ file: EssayPanel.tsx:98 ~ handleTextSelection ~ cursorPosition:',
+          cursorPosition
+        );
+        setCursorIndex(cursorPosition);
+      } else {
+        setSelectedRange([startOffset, endOffset]);
+      }
       setSelectText(selection_text.getRangeAt(0).toString());
+    }
   };
   return (
     <>

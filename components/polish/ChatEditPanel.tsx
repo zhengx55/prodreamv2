@@ -21,7 +21,8 @@ type IChatEditItem = {
 };
 
 const ChatEditPanel = () => {
-  const { essayRef, selectText, setSelectText } = useAiEditiorContext();
+  const { essayRef, selectedRange, cursorIndex, selectText, setSelectText } =
+    useAiEditiorContext();
   const { toast } = useToast();
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
   const [isPolishing, setIsPolishing] = useState(false);
@@ -86,7 +87,30 @@ const ChatEditPanel = () => {
     },
   });
 
-  const handleInsert = () => {};
+  const handleInsert = (target: IChatEditItem) => {
+    if (!essayRef.current) return;
+    const eassyContent = essayRef.current.innerText;
+    console.log(
+      '🚀 ~ file: ChatEditPanel.tsx:93 ~ handleInsert ~ eassyContent:',
+      eassyContent
+    );
+    if (cursorIndex) {
+      // handle insert after current cursor
+      const updateEassyContent = `${eassyContent.slice(0, cursorIndex)} ${
+        target.result
+      } ${eassyContent.slice(cursorIndex)}`;
+      essayRef.current.innerText = updateEassyContent;
+    }
+
+    // if (selectedRange) {
+    //   // handle substitude the current selection range
+    //   const updateEassyContent = `${eassyContent.slice(0, selectedRange[0])} ${
+    //     target.result
+    //   } ${eassyContent.slice(selectedRange[1])}`;
+    //   essayRef.current.innerText = updateEassyContent;
+    // }
+    // if both conditions are false, insert to the original text positions and replace the original text
+  };
 
   const handlePolishSubmit = async (option: string | number) => {
     if (!selectText) {
@@ -113,7 +137,7 @@ const ChatEditPanel = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.3 }}
-                className='flex shrink-0 flex-col gap-y-2 rounded-lg border border-shadow-border px-4 py-2'
+                className='flex shrink-0 flex-col gap-y-2 rounded-lg border border-shadow-border px-4 py-2 hover:bg-black-400/10'
                 key={`chat-edit-${idx}`}
               >
                 <p className='subtle-regular text-shadow'>
@@ -130,7 +154,12 @@ const ChatEditPanel = () => {
                 </span>
                 <Spacer y='10' />
                 <div className='flex items-start gap-x-2'>
-                  <Button className='rounded-md'>Insert</Button>
+                  <Button
+                    onClick={() => handleInsert(result)}
+                    className='rounded-md'
+                  >
+                    Insert
+                  </Button>
                   <Button
                     onClick={() => handleDismiss(idx)}
                     variant={'ghost'}
