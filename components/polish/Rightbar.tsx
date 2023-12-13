@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { memo } from 'react';
 import Spacer from '../root/Spacer';
 import { PenLine } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -9,6 +9,10 @@ import dynamic from 'next/dynamic';
 
 const ReportSheet = dynamic(() => import('./ReportSheet'), { ssr: false });
 const PolishModal = dynamic(() => import('./PolishModal'), { ssr: false });
+const PlagReportSheet = dynamic(() => import('./PlagReportSheet'), {
+  ssr: false,
+});
+
 const Rightbar = () => {
   const { setChatEditMode, chatEditMode, setPolishResult, setPolishResultB } =
     useAiEditiorContext();
@@ -47,14 +51,9 @@ const Rightbar = () => {
       <Spacer y='24' />
       <h2 className='title-semibold text-black-100'>Check</h2>
       <Spacer y='12' />
-      <Button
-        variant={'ghost'}
-        className='small-semibold border border-shadow-border'
-      >
-        Plagiarism Check
-      </Button>
+      <PlagReportSheet />
     </div>
   );
 };
 
-export default Rightbar;
+export default memo(Rightbar);

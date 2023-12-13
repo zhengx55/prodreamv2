@@ -378,3 +378,14 @@ export interface Comment {
   example: string;
   suggestion: string;
 }
+
+export interface IPlagiarismData {
+  scores: number;
+  spans: Span[];
+  status: string;
+}
+
+export interface Span {
+  span: number[];
+  urls: string[];
+}

@@ -24,7 +24,10 @@ const ReportSheet = () => {
   const { toast } = useToast();
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluateResult, setEvaluateResult] = useState<IEssayAssessData>();
-  const { essayRef } = useAiEditiorContext();
+  const { essayRef, setIsEvaluationOpen } = useAiEditiorContext();
+  const handleOpen = (status: boolean) => {
+    setIsEvaluationOpen(status);
+  };
 
   const { mutateAsync: evaluation } = useMutation({
     mutationFn: (params: IEssayAssessRequest) => essayAssess(params),
@@ -69,7 +72,7 @@ const ReportSheet = () => {
   };
 
   return (
-    <Sheet>
+    <Sheet onOpenChange={handleOpen}>
       <div className='flex flex-col gap-y-3 rounded-xl bg-card p-4'>
         {evaluateResult ? (
           <>

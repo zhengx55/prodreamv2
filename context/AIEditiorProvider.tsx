@@ -22,6 +22,10 @@ type IAiEditiorContext = {
   setChatEditMode: Dispatch<SetStateAction<boolean>>;
   selectText: string;
   setSelectText: Dispatch<SetStateAction<string>>;
+  isEvaluationOpen: boolean;
+  setIsEvaluationOpen: Dispatch<SetStateAction<boolean>>;
+  isPlagiarismOpen: boolean;
+  setIsPlagiarismOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 const AIEditiorContext = createContext({} as IAiEditiorContext);
@@ -37,7 +41,8 @@ export default function AIEditiorProvider({
   const [isPolishing, setIsPolishing] = useState(false);
   const [chatEditMode, setChatEditMode] = useState(false);
   const [selectText, setSelectText] = useState('');
-
+  const [isEvaluationOpen, setIsEvaluationOpen] = useState(false);
+  const [isPlagiarismOpen, setIsPlagiarismOpen] = useState(false);
   return (
     <AIEditiorContext.Provider
       value={{
@@ -52,6 +57,10 @@ export default function AIEditiorProvider({
         setChatEditMode,
         selectText,
         setSelectText,
+        isEvaluationOpen,
+        setIsEvaluationOpen,
+        isPlagiarismOpen,
+        setIsPlagiarismOpen,
       }}
     >
       {children}

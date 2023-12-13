@@ -24,9 +24,10 @@ import { useState } from 'react';
 import { useAppDispatch } from '@/store/storehooks';
 import { setUser } from '@/store/reducers/userSlice';
 import { useMutation } from '@tanstack/react-query';
-import { userLogin } from '@/query/api';
+import { getUserInfo, userLogin } from '@/query/api';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
+import { setUsage } from '@/store/reducers/usageSlice';
 
 export default function Page() {
   const { toast } = useToast();
@@ -44,16 +45,18 @@ export default function Page() {
   const { mutateAsync: handleLogin } = useMutation({
     mutationFn: (param: { username: string; password: string }) =>
       userLogin(param),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       toast({
         variant: 'default',
         description: 'Successfully Login',
       });
+      const user_usage = await getUserInfo(data.email);
+      if (user_usage) dispatch(setUsage(user_usage));
+      dispatch(setUser(data));
       setCookie('token', data.access_token, {
         path: '/',
         maxAge: 604800,
       });
-      dispatch(setUser(data));
       router.push('/welcome');
     },
     onError: (error) => {

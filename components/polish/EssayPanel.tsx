@@ -18,15 +18,6 @@ const ChatEditPanel = dynamic(() => import('./ChatEditPanel'), {
   loading: () => <EditiorLoading />,
 });
 
-export const EssayVariants: Variants = {
-  half: {
-    width: '50%',
-  },
-  full: {
-    width: '66.666667%',
-  },
-};
-
 const EssayPanel = () => {
   const [wordCount, setWordCount] = useState(0);
   const {
@@ -35,10 +26,17 @@ const EssayPanel = () => {
     polishResult,
     setSelectText,
     chatEditMode,
+    isEvaluationOpen,
+    isPlagiarismOpen,
     polishResultB,
   } = useAiEditiorContext();
   const hasPolishResult = polishResult.length > 0 || polishResultB !== '';
-  const isMultScreen = hasPolishResult || isPolishing || chatEditMode;
+  const isMultScreen =
+    hasPolishResult ||
+    isPolishing ||
+    chatEditMode ||
+    isEvaluationOpen ||
+    isPlagiarismOpen;
 
   useDeepCompareEffect(() => {
     if (polishResult.length > 0 && essayRef.current) {
@@ -134,11 +132,16 @@ const EssayPanel = () => {
 
   return (
     <>
-      <div className='flex h-full w-full justify-center gap-x-8 overflow-hidden p-4'>
+      <motion.div
+        layout='position'
+        style={{
+          justifyContent: isMultScreen ? 'flex-start' : 'center',
+        }}
+        className='flex h-full w-full gap-x-8 overflow-hidden p-4'
+      >
         <motion.div
-          initial={false}
-          variants={EssayVariants}
-          animate={isMultScreen ? 'half' : 'full'}
+          layout='size'
+          style={{ width: isMultScreen ? '50%' : '66.666667%' }}
           className='flex h-full flex-col'
         >
           <EditBar />
@@ -176,7 +179,7 @@ const EssayPanel = () => {
         ) : hasPolishResult && !chatEditMode ? (
           <SuggestionPanel />
         ) : null}
-      </div>
+      </motion.div>
     </>
   );
 };
