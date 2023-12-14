@@ -1,7 +1,7 @@
 'use client';
 import { Textarea } from '@/components/ui/textarea';
 import { useEffect, useRef, useState } from 'react';
-import { useOnClickOutside } from 'usehooks-ts';
+// import { useOnClickOutside } from 'usehooks-ts';
 
 export default function Home() {
   const [selectedText, setSelectedText] = useState('');

@@ -12,7 +12,6 @@ import { CheckCheck } from 'lucide-react';
 import { TextOptimizeBar } from './TextOptimizeBar';
 import { useAppSelector } from '@/store/storehooks';
 import { useMutation } from '@tanstack/react-query';
-import { useToast } from '../ui/use-toast';
 import type { IBrainStormSection, IBriansotrmReq, Module } from '@/query/type';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { selectUserId } from '@/store/reducers/userSlice';
@@ -36,7 +35,6 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
   const [formState, setFormState] = useState<Record<string, string>>({});
   const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
-  const { toast } = useToast();
   const queryTimer = useRef<NodeJS.Timeout>();
 
   useEffect(() => {

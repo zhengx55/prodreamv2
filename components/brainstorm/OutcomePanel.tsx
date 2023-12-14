@@ -9,6 +9,7 @@ import TextStreamingEffect from './TextStreamingEffect';
 import PanelError from '../root/PanelError';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { useToast } from '../ui/use-toast';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 
 const OutcomePanel = ({
   printIndexRef,
@@ -22,6 +23,7 @@ const OutcomePanel = ({
   const { historyData, startTyping, eassyResult, isSubmiting, submitError } =
     useBrainStormContext();
   const { toast } = useToast();
+
   return (
     <motion.div
       key='outcome'

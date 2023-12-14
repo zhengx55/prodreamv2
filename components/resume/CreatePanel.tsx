@@ -2,23 +2,18 @@
 import { PencilLine } from 'lucide-react';
 import { Separator } from '../ui/separator';
 import { Input } from '../ui/input';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import UserInfo from './forms/userInfo';
 import EducationInfo from './forms/educationInfo';
 import WorkInfo from './forms/workInfo';
 import ResearchInfo from './forms/researchInfo';
 import CompetionsInfo from './forms/competitionInfo';
 import ActivityInfo from './forms/activityInfo';
-import { useOnClickOutside } from 'usehooks-ts';
 
 const CreatePanel = () => {
   const [title, setTitle] = useState('');
   const [showTitleInput, setShowTitleInput] = useState(false);
-  const ref = useRef<HTMLInputElement>(null);
-  const handleHideInput = () => {
-    setShowTitleInput(false);
-  };
-  useOnClickOutside(ref, handleHideInput);
+
   return (
     <div className=' h-full overflow-y-auto bg-transparent md:w-[49.5%] md:px-8 md:py-5'>
       {!showTitleInput ? (
@@ -35,7 +30,6 @@ const CreatePanel = () => {
         </div>
       ) : (
         <Input
-          ref={ref}
           id='resume title'
           type='text'
           placeholder='Resume Title'

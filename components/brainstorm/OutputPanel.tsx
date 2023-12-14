@@ -4,6 +4,8 @@ import { AnimatePresence } from 'framer-motion';
 import { useCallback, useRef, useState } from 'react';
 import OutcomePanel from './OutcomePanel';
 import dynamic from 'next/dynamic';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
+import { useBrainStormContext } from '@/context/BrainStormProvider';
 const MemoizedHistoryPanel = dynamic(() => import('./HistoryPanel'), {
   ssr: false,
 });
@@ -11,7 +13,7 @@ const OutputPanel = () => {
   const [tab, setTab] = useState<number>(0);
   const printIndexRef = useRef<number>(0);
   const [animatedWordCount, setAnimatedWordCount] = useState(0);
-
+  const { setHistoryData, setEassyResult } = useBrainStormContext();
   const IncrementWordCount = useCallback(() => {
     setAnimatedWordCount((prev) => prev + 1);
   }, []);
@@ -19,6 +21,11 @@ const OutputPanel = () => {
   const handleTabChange = useCallback((value: number) => {
     setTab(value);
   }, []);
+
+  useUnmount(() => {
+    setEassyResult('');
+    setHistoryData({ template_id: '', result: '', questionAnswerPair: {} });
+  });
 
   return (
     <>
