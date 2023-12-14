@@ -28,6 +28,7 @@ import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 import { setUsage } from '@/store/reducers/usageSlice';
 import { useAppDispatch } from '@/store/storehooks';
+import { initialUsage } from '@/constant';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
@@ -57,6 +58,7 @@ export default function Page() {
         });
         const user_usage = await getUserInfo(login_data.email);
         if (user_usage) dispatch(setUsage(user_usage));
+        else dispatch(setUsage(initialUsage));
         setCookie('token', login_data.access_token, {
           path: '/',
           maxAge: 604800,

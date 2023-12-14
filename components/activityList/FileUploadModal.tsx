@@ -15,6 +15,9 @@ import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { useMutation } from '@tanstack/react-query';
 import { getDecodedData, uploadActivityFile } from '@/query/api';
+import { useActListContext } from '@/context/ActListProvider';
+import { useAppSelector } from '@/store/storehooks';
+import { selectUsage } from '@/store/reducers/usageSlice';
 
 type Props = {
   isActive: boolean;
@@ -30,6 +33,8 @@ const FileUploadModal = ({
   appendDecodeData,
 }: Props) => {
   const { toast } = useToast();
+  const { setShowGenerateTut } = useActListContext();
+  const usage = useAppSelector(selectUsage);
   const [files, setFiles] = useState<File[]>([]);
   const [parsedUrls, setParsedUrls] = useState<string[]>([]);
   const { mutateAsync: decodeFilesAction } = useMutation({
@@ -40,6 +45,12 @@ const FileUploadModal = ({
     },
     onSuccess: (data) => {
       toggleDecoding();
+      if (
+        (Object.keys(usage).length > 0 && usage.first_activity_list_generate) ||
+        usage.first_activity_list_generate === undefined
+      ) {
+        setShowGenerateTut(true);
+      }
       appendDecodeData(data.extracurricular_activities);
     },
     onError: (e) => {

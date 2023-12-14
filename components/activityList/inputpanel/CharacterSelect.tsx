@@ -6,7 +6,10 @@ import { useActListContext } from '@/context/ActListProvider';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { generateActivityList } from '@/query/api';
 import { IGenerateActListParams, Mode } from '@/query/type';
+import { selectUsage } from '@/store/reducers/usageSlice';
+import { useAppSelector } from '@/store/storehooks';
 import { useMutation } from '@tanstack/react-query';
+import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import React, { ChangeEvent, memo, useState } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
@@ -29,13 +32,20 @@ const CharacterSelect = ({
   setIsGenerating,
 }: Props) => {
   const { toast } = useToast();
+  const usage = useAppSelector(selectUsage);
   const [listOptions, setListOptions] = useState({
     uc: false,
     common: false,
     custom: false,
   });
   const [cutomWordCount, setCustomWordCount] = useState('50');
-  const { setGeneratedData, setHistoryData, historyData } = useActListContext();
+  const {
+    setGeneratedData,
+    showGenerateTut,
+    setShowEditTut,
+    setHistoryData,
+    historyData,
+  } = useActListContext();
   const hasHistoryData = Object.keys(historyData).length > 0;
 
   useDeepCompareEffect(() => {
@@ -72,6 +82,12 @@ const CharacterSelect = ({
       });
       setHistoryData({});
       setGeneratedData(data);
+      if (
+        (Object.keys(usage).length > 0 && usage.first_activity_list_edit) ||
+        usage.first_activity_list_edit === undefined
+      ) {
+        setShowEditTut(true);
+      }
       clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError: () => {
@@ -136,13 +152,17 @@ const CharacterSelect = ({
   };
   return (
     <section className='relative flex w-full shrink-0 flex-col gap-y-2 overflow-visible rounded-xl bg-white p-6'>
-      <TutCard
-        className='bottom-[80px] left-[calc(50%_-95px)] w-[190px]'
-        title='Click here to generate!'
-        button='Okay!'
-        arrowPosition='bottom'
-        buttonClassName='w-full'
-      />
+      <AnimatePresence>
+        {showGenerateTut && (
+          <TutCard
+            className='bottom-[80px] left-[calc(50%_-95px)] w-[190px]'
+            title='Click here to generate!'
+            button='Okay!'
+            arrowPosition='bottom'
+            buttonClassName='w-full'
+          />
+        )}
+      </AnimatePresence>
       <h2 className='base-semibold'>Which activity list are you filling?</h2>
       <p className='small-regular text-shadow'>
         We will help you reduce to the required character limit and power up
@@ -197,7 +217,6 @@ const CharacterSelect = ({
           </div>
         )}
       </div>
-
       <Button
         id='act-tut-02'
         disabled={isDecoding}

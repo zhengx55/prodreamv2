@@ -1,5 +1,14 @@
+import { IUsage } from '@/types';
 import { Variants } from 'framer-motion';
-
+export const initialUsage: IUsage = {
+  first_editior: true,
+  first_brainstorm: true,
+  first_resume: true,
+  first_activity_list: true,
+  first_activity_list_upload: true,
+  first_activity_list_generate: true,
+  first_activity_list_edit: true,
+};
 export const SidebarLinks = [
   {
     id: 'sidebar-01',

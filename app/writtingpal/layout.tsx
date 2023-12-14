@@ -2,6 +2,7 @@
 import Navbar from '@/components/root/Navbar';
 import Sidebar from '@/components/root/Sidebar';
 import { Toaster } from '@/components/ui/toaster';
+import { initialUsage } from '@/constant';
 import MaxChatProvider from '@/context/MaxChateProvider';
 import useMount from '@/hooks/useMount';
 import { getUserInfo, refreshUserSession } from '@/query/api';
@@ -38,6 +39,7 @@ export default function WrittingpalLayout({
          **/
         dispatch(setUser(data));
         if (user_usage) dispatch(setUsage(user_usage));
+        else dispatch(setUsage(initialUsage));
         setCookie('token', data.access_token, {
           path: '/',
           maxAge: 604800,

@@ -11,6 +11,10 @@ import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
 import Description from './inputpanel/Description';
 import CharacterSelect from './inputpanel/CharacterSelect';
+import { useMutation } from '@tanstack/react-query';
+import { IUsage } from '@/types';
+import { updateUserInfo } from '@/query/api';
+import { selectUserEmail } from '@/store/reducers/userSlice';
 
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 const Activityloader = dynamic(() => import('./Activityloader'));
@@ -18,6 +22,7 @@ const TutCard = dynamic(() => import('../root/TutCard'), { ssr: false });
 
 const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   const usage = useAppSelector(selectUsage);
+  const email = useAppSelector(selectUserEmail);
   const dispatch = useAppDispatch();
   const { historyData } = useActListContext();
   const [isDecoding, setIsDecoding] = useState(false);
@@ -32,9 +37,11 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
       wordCount: 0,
     },
   ]);
+
   const isFirstTimeUpload =
-    usage.first_activity_list_upload ||
-    usage.first_activity_list_upload === undefined;
+    Object.keys(usage).length > 0 &&
+    (usage.first_activity_list_upload ||
+      usage.first_activity_list_upload === undefined);
 
   const toogleIsGenerating = useCallback((value: boolean) => {
     setIsGenerating(value);
@@ -136,6 +143,24 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
     full: { width: '0%', opacity: 0 },
   };
 
+  const { mutateAsync: updateUsage } = useMutation({
+    mutationFn: (args: { email: string; params: IUsage }) =>
+      updateUserInfo(args.email, args.params),
+    onSuccess: () => {
+      dispatch(setSingleUsage('first_activity_list_upload'));
+    },
+    onError: () => {
+      dispatch(setSingleUsage('first_activity_list_upload'));
+    },
+  });
+
+  const handleCloseTutOne = async () => {
+    await updateUsage({
+      email,
+      params: { ...usage, first_activity_list_upload: false },
+    });
+  };
+
   return (
     <motion.div
       initial={false}
@@ -147,9 +172,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
         <AnimatePresence>
           {isFirstTimeUpload && (
             <TutCard
-              onClickHandler={() => {
-                dispatch(setSingleUsage('first_activity_list_upload'));
-              }}
+              onClickHandler={handleCloseTutOne}
               className='left-[calc(50%_-160px)] top-32 w-[320px]'
               title='Upload to get draft'
               info="Start by either uploading your files for automatic activity draft completion or click 'Add Activity' to manually enter your details"
@@ -161,7 +184,6 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
       }
 
       {/* Dialogs here */}
-
       <FileUploadModal
         isActive={activeFileUpload}
         toogleActive={toogleActive}

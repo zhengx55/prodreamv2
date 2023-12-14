@@ -28,6 +28,7 @@ import { getUserInfo, userLogin } from '@/query/api';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { setUsage } from '@/store/reducers/usageSlice';
+import { initialUsage } from '@/constant';
 
 export default function Page() {
   const { toast } = useToast();
@@ -52,6 +53,7 @@ export default function Page() {
       });
       const user_usage = await getUserInfo(data.email);
       if (user_usage) dispatch(setUsage(user_usage));
+      else dispatch(setUsage(initialUsage));
       dispatch(setUser(data));
       setCookie('token', data.access_token, {
         path: '/',
