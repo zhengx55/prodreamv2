@@ -167,6 +167,7 @@ const PolishModal = () => {
       });
       return;
     }
+    console.log(essayRef.current?.innerText.trim());
     const polish_params: IPolishParams = {
       text: essayRef.current?.innerText.trim()!,
       granularity: selected.polishMentod,

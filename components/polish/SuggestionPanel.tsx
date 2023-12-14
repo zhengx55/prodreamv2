@@ -199,6 +199,7 @@ const SuggestionPanel = () => {
                                   {sentence.sub_str}
                                 </span>
                               )}
+                              &nbsp;
                             </>
                           ) : isDelete ? (
                             <>

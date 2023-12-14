@@ -173,7 +173,7 @@
   }
 
   .suggenst-artice {
-    @apply text-[16px] leading-loose whitespace-pre-wrap
+    @apply text-[16px] break-keep leading-loose
   }
 
   [contenteditable=true]:empty:before {

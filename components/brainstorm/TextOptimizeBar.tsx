@@ -1,11 +1,9 @@
 import dynamic from 'next/dynamic';
-import React, { memo, useState } from 'react';
-import { Variants, motion } from 'framer-motion';
+import React, { memo } from 'react';
 import Image from 'next/image';
 import { useToast } from '../ui/use-toast';
 import { useAnswerOptimize } from '@/query/query';
 import Tooltip from '../root/Tooltip';
-import { TooltipContent } from '../ui/tooltip';
 
 type Props = {
   questionId: string;

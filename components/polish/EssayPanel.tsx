@@ -48,17 +48,19 @@ const EssayPanel = () => {
         lineBreakPositions.push(match.index);
       }
       // 查询起始索引和终止索引
-      let finalText = '<article class="suggest-artice">';
+      let finalText = '';
       polishResult.map((item, index) => {
         if (!essayRef.current) {
           return;
         }
         item.data.map((sentence, sentence_idx) => {
           if ([2, 3].includes(sentence.status)) {
-            const sentenceHtml = `&nbsp;<span id="suggest-${index}-${sentence_idx}" class="suggest-change">${sentence.sub_str} </span>`;
+            const sentenceHtml = ` <span id="suggest-${index}-${sentence_idx}" class="suggest-change">${sentence.sub_str}</span> `;
             finalText += sentenceHtml;
+          } else if (sentence.status === 1) {
+            finalText += ' ';
           } else {
-            const sentenceHtml = `${sentence.sub_str}`;
+            const sentenceHtml = `<span>${sentence.sub_str}</span>`;
             finalText += sentenceHtml;
           }
         });
@@ -68,7 +70,7 @@ const EssayPanel = () => {
           }
         });
       });
-      finalText += '</article>';
+      console.log(finalText);
       essayRef.current.innerHTML = finalText;
     }
   }, [polishResult]);
@@ -104,17 +106,6 @@ const EssayPanel = () => {
       if (selection.anchorNode?.parentElement?.ariaLabel !== 'essay-editor') {
         return;
       }
-      // const { startOffset, endOffset } = selection.getRangeAt(0);
-      // console.log(
-      //   '🚀 ~ file: EssayPanel.tsx:103 ~ onSelectionChange ~ startOffset:',
-      //   startOffset
-      // );
-
-      // if (endOffset - startOffset === 0) {
-      //   setSelectedRange(null);
-      // } else {
-      //   setSelectedRange([startOffset, endOffset]);
-      // }
       setSelectText(selection.getRangeAt(0).toString());
     }
   });
@@ -154,7 +145,7 @@ const EssayPanel = () => {
               ref={essayRef}
               onKeyDown={handleKeyDown}
               onInput={handleInput}
-              className='h-full w-full overflow-y-auto whitespace-pre-line text-[16px] leading-loose outline-none'
+              className='h-full w-full overflow-y-auto whitespace-pre-line break-words text-[16px] leading-loose outline-none'
               placeholder='Write your message..'
               suppressContentEditableWarning
               contentEditable={!isPolishing ? 'plaintext-only' : false}
