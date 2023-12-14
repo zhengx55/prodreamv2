@@ -1,39 +1,30 @@
 'use client';
 import { Button } from '../ui/button';
-import { Loader2, Trash2, Upload } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Input } from '../ui/input';
+import { Loader2, Upload } from 'lucide-react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { v4 } from 'uuid';
-import { Textarea } from '../ui/textarea';
-import { useMutation } from '@tanstack/react-query';
-import { generateActivityList } from '@/query/api';
-import { IGenerateActListParams, Mode } from '@/query/type';
-import { useToast } from '../ui/use-toast';
-import { Variants, motion } from 'framer-motion';
-import clearCachesByServerAction from '@/lib/revalidate';
+import { AnimatePresence, Variants, motion } from 'framer-motion';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { useActListContext } from '@/context/ActListProvider';
 import dynamic from 'next/dynamic';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
+import Description from './inputpanel/Description';
+import CharacterSelect from './inputpanel/CharacterSelect';
 
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 const Activityloader = dynamic(() => import('./Activityloader'));
-import TutCard from '../root/TutCard';
+const TutCard = dynamic(() => import('../root/TutCard'), { ssr: false });
 
 const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
-  const { toast } = useToast();
-  const { setGeneratedData, setHistoryData, historyData } = useActListContext();
+  const usage = useAppSelector(selectUsage);
+  const dispatch = useAppDispatch();
+  const { historyData } = useActListContext();
   const [isDecoding, setIsDecoding] = useState(false);
   const [decodedData, setDecodedData] = useState<string[]>([]);
   const hasHistoryData = Object.keys(historyData).length > 0;
   const [activeFileUpload, setActiveFileUpload] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [listOptions, setListOptions] = useState({
-    uc: false,
-    common: false,
-    custom: false,
-  });
-  const [cutomWordCount, setCustomWordCount] = useState('50');
   const [descriptions, setDescriptions] = useState([
     {
       id: v4(),
@@ -41,6 +32,13 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
       wordCount: 0,
     },
   ]);
+  const isFirstTimeUpload =
+    usage.first_activity_list_upload ||
+    usage.first_activity_list_upload === undefined;
+
+  const toogleIsGenerating = useCallback((value: boolean) => {
+    setIsGenerating(value);
+  }, []);
 
   const toggleDecoding = useCallback(() => {
     setIsDecoding((prev) => !prev);
@@ -54,14 +52,6 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
     if (hasHistoryData) {
       const keys = Object.keys(historyData);
       keys.forEach((key) => {
-        if (key === '150') {
-          setListOptions((prev) => ({ ...prev, uc: true }));
-        } else if (key === '350') {
-          setListOptions((prev) => ({ ...prev, common: true }));
-        } else {
-          setListOptions((prev) => ({ ...prev, custom: true }));
-          setCustomWordCount(key);
-        }
         const activities = historyData[key].activities;
         const desciptions_from_history: {
           id: string;
@@ -80,27 +70,6 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
     }
   }, [historyData]);
 
-  const { mutateAsync: generateActList } = useMutation({
-    mutationFn: (params: IGenerateActListParams) =>
-      generateActivityList(params),
-    onSuccess: (data) => {
-      setIsGenerating(false);
-      toast({
-        description: 'Activity list generated successfully!',
-        variant: 'default',
-      });
-      setHistoryData({});
-      setGeneratedData(data);
-      clearCachesByServerAction('/writtingpal/activityList/history');
-    },
-    onError: () => {
-      setIsGenerating(false);
-      toast({
-        description: 'Oops something went wrong',
-        variant: 'destructive',
-      });
-    },
-  });
   const toogleLoadingModal = useCallback(() => {
     setIsGenerating(false);
   }, []);
@@ -131,38 +100,21 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
     });
   }, [decodedData]);
 
-  const handleDescriptionChange = (
-    e: ChangeEvent<HTMLTextAreaElement>,
-    id: string
-  ) => {
-    const value = e.target.value;
-    setDescriptions((prevDescriptions) =>
-      prevDescriptions.map((description) =>
-        description.id === id
-          ? { ...description, text: value, wordCount: value.length }
-          : description
-      )
-    );
-  };
-  const handleLengthChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === '150' || e.target.value === '350') {
-      if (parseInt(cutomWordCount) > parseInt(e.target.value)) {
-        setCustomWordCount((parseInt(e.target.value) - 50).toString());
-      } else {
-        setCustomWordCount((parseInt(e.target.value) + 50).toString());
-      }
-    } else {
-      setCustomWordCount(e.target.value);
-    }
-  };
-  const handleCheckChange = (check: string | boolean, name: string) => {
-    setListOptions((prev) => ({
-      ...prev,
-      [name]: check,
-    }));
-  };
+  const handleDescriptionChange = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>, id: string) => {
+      const value = e.target.value;
+      setDescriptions((prevDescriptions) =>
+        prevDescriptions.map((description) =>
+          description.id === id
+            ? { ...description, text: value, wordCount: value.length }
+            : description
+        )
+      );
+    },
+    []
+  );
 
-  const handleAddNewDescription = () => {
+  const handleAddNewDescription = useCallback(() => {
     setDescriptions((prev) => [
       ...prev,
       {
@@ -171,51 +123,14 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
         wordCount: 0,
       },
     ]);
-  };
-  const handleRemoveDescription = (id: string) => {
-    const new_descriptions = descriptions.filter((item) => item.id !== id);
-    setDescriptions(new_descriptions);
-  };
+  }, []);
 
-  const handleGenerate = async () => {
-    const texts: string[] = [];
-    const lengths: number[] = [];
-    descriptions.map((item) => {
-      texts.push(item.text);
+  const handleRemoveDescription = useCallback((id: string) => {
+    setDescriptions((prev) => {
+      return prev.filter((item) => item.id !== id);
     });
-    if (texts.length === 1 && texts[0] === '') {
-      toast({
-        description: 'please fill in you activity description',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (listOptions.custom && parseInt(cutomWordCount) === 0) {
-      toast({
-        description: 'custome character limit can not be 0',
-        variant: 'destructive',
-      });
-      return;
-    }
-    listOptions.uc && lengths.push(150);
-    listOptions.common && lengths.push(350);
-    listOptions.custom && lengths.push(parseInt(cutomWordCount));
-    if (lengths.length === 0) {
-      toast({
-        description: 'select at lease  one activity list type',
-        variant: 'destructive',
-      });
-      return;
-    }
-    const params: IGenerateActListParams = {
-      mode: Mode.Generate,
-      texts,
-      lengths,
-      power_up: false,
-    };
-    setIsGenerating(true);
-    await generateActList(params);
-  };
+  }, []);
+
   const fullScreenVariants: Variants = {
     half: { width: '50%', opacity: 1 },
     full: { width: '0%', opacity: 0 },
@@ -228,13 +143,22 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
       animate={fullScreen ? 'full' : 'half'}
       className='relative flex min-h-full w-1/2 flex-col gap-y-4 overflow-y-auto pr-2'
     >
-      <TutCard
-        className='left-[calc(50%_-160px)] top-32 w-[320px]'
-        title='Upload to get draft'
-        info="Start by either uploading your files for automatic activity draft completion or click 'Add Activity' to manually enter your details"
-        button='Got it!'
-        arrowPosition='top'
-      />
+      {
+        <AnimatePresence>
+          {isFirstTimeUpload && (
+            <TutCard
+              onClickHandler={() => {
+                dispatch(setSingleUsage('first_activity_list_upload'));
+              }}
+              className='left-[calc(50%_-160px)] top-32 w-[320px]'
+              title='Upload to get draft'
+              info="Start by either uploading your files for automatic activity draft completion or click 'Add Activity' to manually enter your details"
+              button='Got it!'
+              arrowPosition='top'
+            />
+          )}
+        </AnimatePresence>
+      }
 
       {/* Dialogs here */}
 
@@ -244,14 +168,12 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
         toggleDecoding={toggleDecoding}
         appendDecodeData={appendDecodeData}
       />
-
       {isGenerating && (
         <Activityloader
           isGenerating={isGenerating}
           toogleLoadingModal={toogleLoadingModal}
         />
       )}
-
       {/* file upload */}
       <section className='flex w-full shrink-0 flex-col gap-y-2 rounded-xl bg-white p-6'>
         <h2 className='small-semibold'>
@@ -283,125 +205,18 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
         )}
       </section>
       {/* activity description */}
-      <section className='flex w-full shrink-0 flex-col gap-y-2 rounded-xl bg-white p-6'>
-        <div className='flex-between'>
-          <div className='flex gap-x-2'>
-            <span className='h-6 w-2 rounded-[10px] bg-primary-200' />
-            <p className='title-semibold'>Activity Descriptions</p>
-          </div>
-          <div className='flex gap-x-5'>
-            <div
-              onClick={handleAddNewDescription}
-              className='small-semibold cursor-pointer text-primary-200 hover:underline'
-            >
-              + Add Activity
-            </div>
-          </div>
-        </div>
-        {descriptions.map((item, index) => (
-          <div className='flex-between my-6 gap-x-4' key={item.id}>
-            <p className='base-semibold self-start'>
-              Activity&nbsp;{index + 1}
-            </p>
-            <div className='flex w-full flex-col gap-y-1'>
-              <Textarea
-                name='activity-description'
-                onChange={(e) => handleDescriptionChange(e, item.id)}
-                value={item.text}
-                className='h-[130px] text-regular'
-              />
-              <div className='flex-between'>
-                <p className='subtle-regular text-shadow'>
-                  {item.wordCount} / 1250 Characters
-                </p>
-                <div className='flex items-center gap-x-1'>
-                  <Trash2 size={16} />
-                  <p
-                    onClick={() => handleRemoveDescription(item.id)}
-                    className='small-medium cursor-pointer hover:underline'
-                  >
-                    Delete
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </section>
+      <Description
+        descriptions={descriptions}
+        handleAddNewDescription={handleAddNewDescription}
+        handleRemoveDescription={handleRemoveDescription}
+        handleDescriptionChange={handleDescriptionChange}
+      />
       {/* activity options */}
-      <section className='relative flex w-full shrink-0 flex-col gap-y-2 overflow-visible rounded-xl bg-white p-6'>
-        <TutCard
-          className='bottom-[80px] left-[calc(50%_-95px)] w-[190px]'
-          title='Click here to generate!'
-          button='Okay!'
-          arrowPosition='bottom'
-          buttonClassName='w-full'
-        />
-        <h2 className='base-semibold'>Which activity list are you filling?</h2>
-        <p className='small-regular text-shadow'>
-          We will help you reduce to the required character limit and power up
-          your wording.
-        </p>
-        <div className='my-4 flex flex-col gap-y-4'>
-          <div className='flex items-center gap-x-2'>
-            <Checkbox
-              checked={listOptions.uc}
-              onCheckedChange={(check) => handleCheckChange(check, 'uc')}
-              name='uc'
-              id='terms1'
-            />
-            <label htmlFor='terms1' className='small-regular'>
-              UC Applications
-            </label>
-          </div>
-          <div className='flex items-center gap-x-2'>
-            <Checkbox
-              checked={listOptions.common}
-              onCheckedChange={(check) => handleCheckChange(check, 'common')}
-              name='common'
-              id='terms2'
-            />
-            <label htmlFor='terms2' className='small-regular'>
-              Common Applications
-            </label>
-          </div>
-          <div className='flex items-center gap-x-2'>
-            <Checkbox
-              checked={listOptions.custom}
-              onCheckedChange={(check) => handleCheckChange(check, 'custom')}
-              name='custom'
-              id='terms3'
-            />
-            <label htmlFor='terms3' className='small-regular'>
-              Customize Character Limit
-            </label>
-          </div>
-          {listOptions.custom && (
-            <div className='ml-5 flex w-max items-center gap-x-4 rounded-lg border border-shadow-border bg-shadow-50 px-4 py-2'>
-              <h2 className='small-semibold'>Expected length:</h2>
-              <Input
-                min={50}
-                max={1250}
-                value={cutomWordCount}
-                onChange={handleLengthChange}
-                type='number'
-                step={50}
-                className='w-20 py-1 pl-3 pr-1'
-              />
-            </div>
-          )}
-        </div>
-
-        <Button
-          id='act-tut-02'
-          disabled={isDecoding}
-          variant={'ghost'}
-          onClick={handleGenerate}
-          className='h-full border border-shadow-border py-3'
-        >
-          Generate
-        </Button>
-      </section>
+      <CharacterSelect
+        descriptions={descriptions}
+        setIsGenerating={toogleIsGenerating}
+        isDecoding={isDecoding}
+      />
     </motion.div>
   );
 };
