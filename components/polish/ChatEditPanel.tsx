@@ -4,7 +4,7 @@ import Spacer from '../root/Spacer';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { usePreDefinedOptions } from '@/query/query';
 import ChatEditInputField from './ChatEditInputField';
-import { ChevronUp, Loader2, RefreshCwIcon, Trash2 } from 'lucide-react';
+import { ChevronDown, Loader2, RefreshCwIcon, Trash2 } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
 import { IPolishParams } from '@/query/type';
@@ -162,7 +162,7 @@ const ChatEditPanel = () => {
                     {PresetInstructions[result.instruction.toString()] ??
                       result.instruction}
                   </p>
-                  <ChevronUp
+                  <ChevronDown
                     size={18}
                     onClick={() =>
                       setPolishResult((prev) => {

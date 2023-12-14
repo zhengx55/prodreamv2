@@ -62,7 +62,7 @@ export const TutTabs = [
   {
     id: 'tut-tabs04',
     title: 'Activity List',
-    image: '/tutorials/activityList.png',
+    image: '/tutorials/actList.png',
     bg: '#F6DACE',
   },
 ];
