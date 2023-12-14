@@ -4,10 +4,12 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { useActListContext } from '@/context/ActListProvider';
 import clearCachesByServerAction from '@/lib/revalidate';
-import { generateActivityList } from '@/query/api';
+import { generateActivityList, updateUserInfo } from '@/query/api';
 import { IGenerateActListParams, Mode } from '@/query/type';
-import { selectUsage } from '@/store/reducers/usageSlice';
-import { useAppSelector } from '@/store/storehooks';
+import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
+import { selectUserEmail } from '@/store/reducers/userSlice';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import type { IUsage } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -32,7 +34,9 @@ const CharacterSelect = ({
   setIsGenerating,
 }: Props) => {
   const { toast } = useToast();
+  const dispatch = useAppDispatch();
   const usage = useAppSelector(selectUsage);
+  const email = useAppSelector(selectUserEmail);
   const [listOptions, setListOptions] = useState({
     uc: false,
     common: false,
@@ -150,6 +154,25 @@ const CharacterSelect = ({
       setCustomWordCount(e.target.value);
     }
   };
+
+  const { mutateAsync: updateUsage } = useMutation({
+    mutationFn: (args: { email: string; params: IUsage }) =>
+      updateUserInfo(args.email, args.params),
+    onSuccess: () => {
+      dispatch(setSingleUsage('first_activity_list_generate'));
+    },
+    onError: () => {
+      dispatch(setSingleUsage('first_activity_list_generate'));
+    },
+  });
+
+  const handleCloseTutGenerate = async () => {
+    await updateUsage({
+      email,
+      params: { ...usage, first_activity_list_upload: false },
+    });
+  };
+
   return (
     <section className='relative flex w-full shrink-0 flex-col gap-y-2 overflow-visible rounded-xl bg-white p-6'>
       <AnimatePresence>
@@ -160,6 +183,7 @@ const CharacterSelect = ({
             button='Okay!'
             arrowPosition='bottom'
             buttonClassName='w-full'
+            onClickHandler={handleCloseTutGenerate}
           />
         )}
       </AnimatePresence>
