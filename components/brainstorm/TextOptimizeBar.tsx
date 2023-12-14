@@ -4,6 +4,8 @@ import { Variants, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useToast } from '../ui/use-toast';
 import { useAnswerOptimize } from '@/query/query';
+import Tooltip from '../root/Tooltip';
+import { TooltipContent } from '../ui/tooltip';
 
 type Props = {
   questionId: string;
@@ -98,34 +100,39 @@ const OptimizeBar = ({
           <>
             {hover && (
               <>
-                <motion.div
-                  initial={'false'}
-                  animate={hover ? 'show' : 'hide'}
-                  variants={iconVariants}
-                  className='flex-center bg-primary h-[30px] rounded-full bg-shadow-100 hover:bg-primary-200'
-                >
-                  <Image
-                    src='/reply.svg'
-                    onClick={() => onRedoHandler(questionId)}
-                    alt='reply'
-                    width={24}
-                    height={24}
-                  />
-                </motion.div>
-                <motion.div
-                  initial={'false'}
-                  animate={hover ? 'show' : 'hide'}
-                  variants={iconVariants}
-                  className='flex-center bg-primary h-[30px] rounded-full bg-shadow-100 hover:bg-primary-200'
-                >
-                  <Image
-                    onClick={handleOptimze}
-                    src='/optimize.svg'
-                    alt='polish'
-                    width={20}
-                    height={20}
-                  />
-                </motion.div>
+                <Tooltip tooltipContent='Undo'>
+                  <motion.div
+                    initial={'false'}
+                    animate={hover ? 'show' : 'hide'}
+                    variants={iconVariants}
+                    className='flex-center bg-primary h-[30px] rounded-full bg-shadow-100 hover:bg-primary-200'
+                  >
+                    <Image
+                      src='/reply.svg'
+                      onClick={() => onRedoHandler(questionId)}
+                      alt='reply'
+                      width={24}
+                      height={24}
+                    />
+                  </motion.div>
+                </Tooltip>
+
+                <Tooltip tooltipContent='expand'>
+                  <motion.div
+                    initial={'false'}
+                    animate={hover ? 'show' : 'hide'}
+                    variants={iconVariants}
+                    className='flex-center bg-primary h-[30px] rounded-full bg-shadow-100 hover:bg-primary-200'
+                  >
+                    <Image
+                      onClick={handleOptimze}
+                      src='/optimize.svg'
+                      alt='polish'
+                      width={20}
+                      height={20}
+                    />
+                  </motion.div>
+                </Tooltip>
               </>
             )}
             <div className='flex-center bg-primary h-[30px] w-[30px] rounded-full bg-primary-200'>

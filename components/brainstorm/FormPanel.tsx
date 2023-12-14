@@ -16,6 +16,11 @@ import { selectUserId } from '@/store/reducers/userSlice';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
 
+type InputProps = {
+  value: string;
+  disable: boolean;
+};
+
 const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
   const user_id = useAppSelector(selectUserId);
   const {
