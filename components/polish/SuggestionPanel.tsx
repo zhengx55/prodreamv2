@@ -13,18 +13,34 @@ const SuggestionPanel = () => {
     if (polishResult.length === 0) {
       return [];
     } else {
-      return polishResult.map((item) => ({
-        ...item,
-        expand: false,
-        hide: false,
-      }));
+      return polishResult.map((item, idx) =>
+        idx === 0
+          ? {
+              ...item,
+              expand: true,
+              hide: false,
+            }
+          : {
+              ...item,
+              expand: false,
+              hide: false,
+            }
+      );
     }
   });
 
-  const toogleExpand = (index: number) => {
+  const expand = (index: number) => {
     setSuggestions((prev) => {
       return prev.map((item, i) =>
-        i === index ? { ...item, expand: !item.expand } : item
+        i === index ? { ...item, expand: true } : { ...item, expand: false }
+      );
+    });
+  };
+
+  const close = (index: number) => {
+    setSuggestions((prev) => {
+      return prev.map((item, i) =>
+        i === index ? { ...item, expand: false } : item
       );
     });
   };
@@ -103,9 +119,7 @@ const SuggestionPanel = () => {
             if (isHide) return null;
             return (
               <motion.div
-                onClick={() => {
-                  toogleExpand(index);
-                }}
+                onClick={() => (isExpanded ? close(index) : expand(index))}
                 layout='size'
                 style={{ height: isExpanded ? 'auto' : '48px' }}
                 className='mt-4 w-full shrink-0 cursor-pointer rounded-lg border border-shadow-border px-4 py-3 hover:shadow-xl'
