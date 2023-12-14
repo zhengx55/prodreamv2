@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import {
   AnimatePresence,
   SVGMotionProps,
@@ -20,6 +20,7 @@ const Path = (
 ) => <motion.path fill='#9C2CF3' strokeLinecap='round' {...props} />;
 
 const Sidebar = () => {
+  console.log('Sidebar');
   const pathname = usePathname();
   const router = useRouter();
   const [topValue, setTopValue] = useState<number | undefined>();
@@ -45,15 +46,12 @@ const Sidebar = () => {
       case 'brainstorm':
         index = 1;
         break;
-
       case 'resume':
         index = 2;
         break;
-
       case 'activityList':
         index = 3;
         break;
-
       default:
         break;
     }
@@ -180,4 +178,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

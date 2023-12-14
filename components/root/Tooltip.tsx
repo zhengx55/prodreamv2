@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import {
   TooltipContent,
   Tooltip as UITooltip,
@@ -31,4 +31,4 @@ const Tooltip = ({
   );
 };
 
-export default Tooltip;
+export default memo(Tooltip);
