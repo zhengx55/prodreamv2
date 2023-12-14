@@ -173,7 +173,6 @@ const ChatEditPanel = () => {
                         result.instruction}
                     </p>
                   </div>
-
                   <ChevronDown
                     size={18}
                     onClick={() =>
@@ -199,7 +198,6 @@ const ChatEditPanel = () => {
                       <RefreshCwIcon size={18} className='text-shadow' />
                       Regenerate
                     </Button>
-                    <Spacer y='10' />
                     <div className='flex items-start gap-x-2'>
                       <Button
                         onClick={() => handleInsert(result)}
