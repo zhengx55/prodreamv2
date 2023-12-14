@@ -136,7 +136,9 @@ const PolishModal = () => {
             setIsPolishing(false);
             if (typeof res.result === 'string') {
               setPolishResultB(res.result);
+              setPolishResult([]);
             } else {
+              setPolishResultB('');
               setPolishResult(res.result);
             }
             clearInterval(reqTimer.current);
