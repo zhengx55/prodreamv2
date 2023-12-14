@@ -68,7 +68,7 @@ const ChatEditInputField = ({
         onChange={handleInputChange}
         aria-label='prompt'
         rows={1}
-        className='base-regular min-h-14 max-h-[100px] w-full overflow-hidden py-4 pl-4 pr-14 shadow-md focus-visible:ring-0'
+        className='base-regular min-h-14 max-h-[100px] w-full overflow-hidden rounded-xl py-4 pl-4 pr-14 shadow-md focus-visible:ring-0'
         placeholder='Tell us to ...'
       />
       {customPrompt.trim() === '' ? (

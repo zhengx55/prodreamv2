@@ -73,28 +73,30 @@ const OptimizeBar = ({
         ) : (
           <>
             <Tooltip tooltipContent='Undo'>
-              <div className='flex-center bg-primary h-[28px] w-[28px] rounded-full bg-shadow-100 hover:bg-primary-200'>
+              <div className='flex-center bg-primary h-[28px] w-[28px] cursor-pointer rounded-full bg-shadow-100 hover:bg-primary-200'>
                 <Image
                   src='/reply.svg'
                   onClick={() => onRedoHandler(questionId)}
                   alt='reply'
+                  className='h-auto w-auto'
                   width={24}
                   height={24}
                 />
               </div>
             </Tooltip>
             <Tooltip tooltipContent='expand'>
-              <div className='flex-center bg-primary h-[28px] w-[28px] rounded-full bg-shadow-100 hover:bg-primary-200'>
+              <div className='flex-center bg-primary h-[28px] w-[28px] cursor-pointer rounded-full bg-shadow-100 hover:bg-primary-200'>
                 <Image
                   onClick={handleOptimze}
                   src='/optimize.svg'
                   alt='polish'
-                  width={20}
-                  height={20}
+                  width={24}
+                  className='h-auto w-auto'
+                  height={24}
                 />
               </div>
             </Tooltip>
-            <div className='flex-center bg-primary h-[28px] w-[28px] rounded-full bg-primary-200'>
+            <div className='flex-center bg-primary h-[28px] w-[28px] cursor-pointer rounded-full bg-primary-200'>
               <Image
                 src='/robotoutline.png'
                 alt='robot'

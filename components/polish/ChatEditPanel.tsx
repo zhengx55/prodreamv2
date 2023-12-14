@@ -9,11 +9,12 @@ import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
 import { IPolishParams } from '@/query/type';
 import { useToast } from '../ui/use-toast';
-import { PresetInstructions } from '@/constant';
+import { PresetIcons, PresetInstructions } from '@/constant';
 import { Button } from '../ui/button';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { AnimatePresence, motion } from 'framer-motion';
 import EditiorLoading from './EditiorLoading';
+import Image from 'next/image';
 
 type IChatEditItem = {
   original: string;
@@ -149,7 +150,6 @@ const ChatEditPanel = () => {
                   boxShadow: isExpand
                     ? '2px 2px 12px 4px rgba(82, 86, 90, 0.10)'
                     : 'none',
-                  borderColor: !isExpand ? '#EAEAEA' : '#7C757E',
                 }}
                 className='flex shrink-0 select-none flex-col gap-y-2 rounded-lg border px-4 py-2 hover:bg-black-400/10 '
                 key={`chat-edit-${idx}`}
@@ -158,10 +158,22 @@ const ChatEditPanel = () => {
                   data-state={isExpand ? 'open' : 'close'}
                   className='flex-between [&[data-state=open]>svg]:rotate-180'
                 >
-                  <p className='subtle-regular text-shadow'>
-                    {PresetInstructions[result.instruction.toString()] ??
-                      result.instruction}
-                  </p>
+                  <div className='flex items-center gap-x-2'>
+                    {PresetInstructions[result.instruction.toString()] ? (
+                      <Image
+                        alt={PresetInstructions[result.instruction.toString()]}
+                        width={24}
+                        height={24}
+                        className='h-4 w-4'
+                        src={PresetIcons[result.instruction.toString()]}
+                      />
+                    ) : null}
+                    <p className='subtle-regular text-shadow'>
+                      {PresetInstructions[result.instruction.toString()] ??
+                        result.instruction}
+                    </p>
+                  </div>
+
                   <ChevronDown
                     size={18}
                     onClick={() =>
@@ -231,23 +243,36 @@ const ChatEditPanel = () => {
       ) : (
         <div className='flex w-full shrink-0 flex-col gap-y-2 rounded-lg border border-shadow-border px-3 py-2 '>
           <h2 className='base-semibold'>Polishing:</h2>
-          <div className='flex-between items-start'>
-            <p className='base-regular line-clamp-4 w-11/12'>{selectText}</p>
+          <div className='flex-between items-start rounded-lg bg-nav-selected p-2'>
+            <p className='base-regular line-clamp-2 w-11/12'>
+              <strong>Work with: </strong>
+              {selectText}
+            </p>
             <Trash2
               onClick={() => setSelectText('')}
               className='cursor-pointer hover:text-shadow-100'
+              size={20}
             />
           </div>
+          <p className='small-regular text-shadow'>Try the following ideas:</p>
           <div className='flex flex-wrap gap-2'>
             {Object.keys(options).map((option, idx) => {
               return (
-                <div
+                <Button
+                  variant={'ghost'}
                   onClick={() => handlePolishSubmit(idx + 1)}
-                  className='cursor-pointer rounded-lg border border-shadow-border px-4  py-1 hover:opacity-50'
+                  className='cursor-pointer rounded-lg border border-shadow-border px-4 py-1 hover:opacity-50'
                   key={option}
                 >
+                  <Image
+                    alt={option}
+                    width={24}
+                    height={24}
+                    className='h-6 w-6'
+                    src={PresetIcons[idx + 1]}
+                  />
                   {option}
-                </div>
+                </Button>
               );
             })}
           </div>

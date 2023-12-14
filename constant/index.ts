@@ -128,6 +128,14 @@ export const PresetInstructions: { [key: string]: string } = {
   '5': 'Make it professional',
 };
 
+export const PresetIcons: { [key: string]: string } = {
+  '1': '/ai_editors/Fix.svg',
+  '2': '/ai_editors/Fluent.svg',
+  '3': '/ai_editors/Improve.svg',
+  '4': '/ai_editors/Passionate.svg',
+  '5': '/ai_editors/Professional.svg',
+};
+
 export const ProfileDropdownLinks = [
   {
     id: 'profile-01',
