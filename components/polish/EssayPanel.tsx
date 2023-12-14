@@ -153,14 +153,10 @@ const EssayPanel = () => {
             />
 
             <div className='flex-between absolute -bottom-6 left-0 flex h-12 w-full'>
-              <div className='flex items-center gap-x-2'>
-                <div className='tooltip'>
-                  <p className='small-semibold'>
-                    {wordCount}
-                    &nbsp;Words
-                  </p>
-                </div>
-              </div>
+              <p className='small-semibold text-shadow-100'>
+                {wordCount}
+                &nbsp;Words
+              </p>
             </div>
           </div>
         </motion.div>
