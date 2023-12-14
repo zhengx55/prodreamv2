@@ -20,7 +20,6 @@ const Path = (
 ) => <motion.path fill='#9C2CF3' strokeLinecap='round' {...props} />;
 
 const Sidebar = () => {
-  console.log('Sidebar');
   const pathname = usePathname();
   const router = useRouter();
   const [topValue, setTopValue] = useState<number | undefined>();
