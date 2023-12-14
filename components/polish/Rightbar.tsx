@@ -14,8 +14,13 @@ const PlagReportSheet = dynamic(() => import('./PlagReportSheet'), {
 });
 
 const Rightbar = () => {
-  const { setChatEditMode, chatEditMode, setPolishResult, setPolishResultB } =
-    useAiEditiorContext();
+  const {
+    setChatEditMode,
+    chatEditMode,
+    setSelectText,
+    setPolishResult,
+    setPolishResultB,
+  } = useAiEditiorContext();
   return (
     <div className='absolute right-0 top-0 hidden h-full flex-col rounded-md border-l border-shadow-border bg-white px-4 md:flex md:w-[240px]'>
       <Spacer y='24' />
@@ -32,6 +37,7 @@ const Rightbar = () => {
         variant={chatEditMode ? 'default' : 'ghost'}
         onClick={() => {
           setChatEditMode((prev) => !prev);
+          setSelectText('');
           setPolishResult([]);
           setPolishResultB('');
         }}
