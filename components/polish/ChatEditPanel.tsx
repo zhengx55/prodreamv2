@@ -191,7 +191,7 @@ const ChatEditPanel = () => {
                     <p className='small-regular'>{result.result}</p>
                     <Button
                       variant={'ghost'}
-                      className='subtle-regular flex w-max cursor-pointer items-center gap-x-2 px-0 text-shadow'
+                      className='subtle-regular flex h-max w-max cursor-pointer items-center gap-x-2 px-0 text-shadow'
                       aria-label='regenerate'
                       onClick={() => handleRegenerate(result)}
                     >
