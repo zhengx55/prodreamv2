@@ -16,7 +16,7 @@ export interface IBrainsotrmCard {
 export interface IBrainStormHistoryState {
   template_id: string;
   result: string;
-  questionAnswerPair: Record<string, string>;
+  questionAnswerPair: Record<string, InputProps>;
 }
 
 export type CreateHandleChangeArgsWithDescription<T> =
@@ -196,3 +196,8 @@ export interface IUsage {
   first_activity_list_generate: boolean;
   first_activity_list_edit: boolean;
 }
+
+export type InputProps = {
+  value: string;
+  disable: boolean;
+};

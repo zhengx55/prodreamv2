@@ -18,7 +18,7 @@ type Props = {
 const IconLoading = () => {
   return (
     <div className='flex-center relative h-fit w-fit'>
-      <div className='h-[30px] w-[30px] animate-spin rounded-full border-[2px]  border-b-primary-200' />
+      <div className='h-[28px] w-[28px] animate-spin rounded-full border-[2px]  border-b-primary-200' />
       <Image
         src='/optimize_active.svg'
         alt='loading'
@@ -40,7 +40,6 @@ const OptimizeBar = ({
   const { toast } = useToast();
   const { isPending: isOptPending, mutateAsync: OptimizeAnswer } =
     useAnswerOptimize();
-  const [hover, setHover] = useState(false);
   const handleOptimze = async () => {
     if (!value) {
       toast({
@@ -68,74 +67,36 @@ const OptimizeBar = ({
     }
   };
 
-  const menuVariants: Variants = {
-    show: { width: '110px' },
-    hide: { width: '40px', transition: { delay: 0.05 } },
-  };
-
-  const iconVariants: Variants = {
-    show: { width: '30px' },
-    hide: { width: '0px' },
-  };
-
   return (
     <div className='absolute bottom-0 right-0 z-10 flex h-12 justify-end rounded-lg px-2 py-1'>
-      <motion.div
-        onMouseEnter={() => {
-          if (isOptPending) return;
-          setHover(true);
-        }}
-        onMouseLeave={() => {
-          if (isOptPending) return;
-          setHover(false);
-        }}
-        initial='false'
-        animate={hover ? 'show' : 'hide'}
-        variants={menuVariants}
-        className='flex-center h-full cursor-pointer gap-x-1 rounded-t-full rounded-bl-full border border-shadow-border bg-white'
-      >
+      <div className='flex-center h-full gap-x-1 rounded-t-full rounded-bl-full border border-shadow-border bg-white px-2'>
         {isOptPending ? (
           <IconLoading />
         ) : (
           <>
-            {hover && (
-              <>
-                <Tooltip tooltipContent='Undo'>
-                  <motion.div
-                    initial={'false'}
-                    animate={hover ? 'show' : 'hide'}
-                    variants={iconVariants}
-                    className='flex-center bg-primary h-[30px] rounded-full bg-shadow-100 hover:bg-primary-200'
-                  >
-                    <Image
-                      src='/reply.svg'
-                      onClick={() => onRedoHandler(questionId)}
-                      alt='reply'
-                      width={24}
-                      height={24}
-                    />
-                  </motion.div>
-                </Tooltip>
-
-                <Tooltip tooltipContent='expand'>
-                  <motion.div
-                    initial={'false'}
-                    animate={hover ? 'show' : 'hide'}
-                    variants={iconVariants}
-                    className='flex-center bg-primary h-[30px] rounded-full bg-shadow-100 hover:bg-primary-200'
-                  >
-                    <Image
-                      onClick={handleOptimze}
-                      src='/optimize.svg'
-                      alt='polish'
-                      width={20}
-                      height={20}
-                    />
-                  </motion.div>
-                </Tooltip>
-              </>
-            )}
-            <div className='flex-center bg-primary h-[30px] w-[30px] rounded-full bg-primary-200'>
+            <Tooltip tooltipContent='Undo'>
+              <div className='flex-center bg-primary h-[28px] w-[28px] rounded-full bg-shadow-100 hover:bg-primary-200'>
+                <Image
+                  src='/reply.svg'
+                  onClick={() => onRedoHandler(questionId)}
+                  alt='reply'
+                  width={24}
+                  height={24}
+                />
+              </div>
+            </Tooltip>
+            <Tooltip tooltipContent='expand'>
+              <div className='flex-center bg-primary h-[28px] w-[28px] rounded-full bg-shadow-100 hover:bg-primary-200'>
+                <Image
+                  onClick={handleOptimze}
+                  src='/optimize.svg'
+                  alt='polish'
+                  width={20}
+                  height={20}
+                />
+              </div>
+            </Tooltip>
+            <div className='flex-center bg-primary h-[28px] w-[28px] rounded-full bg-primary-200'>
               <Image
                 src='/robotoutline.png'
                 alt='robot'
@@ -147,7 +108,7 @@ const OptimizeBar = ({
             </div>
           </>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 };

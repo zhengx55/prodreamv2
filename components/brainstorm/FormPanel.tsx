@@ -15,11 +15,7 @@ import useDeepCompareEffect from 'use-deep-compare-effect';
 import { selectUserId } from '@/store/reducers/userSlice';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
-
-type InputProps = {
-  value: string;
-  disable: boolean;
-};
+import { InputProps } from '@/types';
 
 const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
   const user_id = useAppSelector(selectUserId);
@@ -33,8 +29,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
     isSubmiting,
   } = useBrainStormContext();
   const [formData, setFormData] = useState<IBrainStormSection>(templateData);
-  const [formState, setFormState] = useState<Record<string, string>>({});
-  const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
+  const [formState, setFormState] = useState<Record<string, InputProps>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
   const queryTimer = useRef<NodeJS.Timeout>();
 
@@ -77,20 +72,32 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
 
   const handleFormStateChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const name = event.target.name;
-    const value = event.target.value;
-    setFormState((values) => ({ ...values, [name]: value }));
+    const text = event.target.value;
+    setFormState((values) => ({
+      ...values,
+      [name]: { ...values[name], value: text },
+    }));
   };
 
   const handleCallbackFormStateChange = useCallback(
-    (fileld: string, value: string) => {
-      setFormState((prev) => ({ ...prev, [fileld]: value }));
+    (field: string, value: string) => {
+      setFormState((prev) => ({
+        ...prev,
+        [field]: {
+          ...prev[field],
+          value,
+        },
+      }));
     },
     []
   );
 
   const handleDisabledWhenFetchingdata = useCallback(
     (fileld: string, value: boolean) => {
-      setFormStatus((prev) => ({ ...prev, [fileld]: value }));
+      setFormState((prev) => ({
+        ...prev,
+        [fileld]: { ...prev[fileld], disable: true },
+      }));
     },
     []
   );
@@ -164,7 +171,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
 
   const handleSubmit = async () => {
     const key_arrays = Object.keys(formState);
-    const key_values = Object.values(formState);
+    const key_values = Object.values(formState).map((el) => el.value);
     const filter_key_arrays = key_arrays.map((item) =>
       item.includes('+') ? item.split('+')[0] : item
     );
@@ -181,7 +188,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
 
   const handleClearAll = () => {
     const clearedObjState = Object.fromEntries(
-      Object.keys(formState).map((key) => [key, ''])
+      Object.keys(formState).map((key) => [key, { value: '', disable: false }])
     );
     setFormState(clearedObjState);
   };
@@ -254,7 +261,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
                 id='personal'
                 className='h-full w-full pb-8'
                 placeholder=''
-                value={formState['personal'] ?? ''}
+                value={formState['personal'] ? formState['personal'].value : ''}
                 onChange={handleFormStateChange}
               />
             </div>
@@ -306,16 +313,23 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
                     </Label>
                     <div className='relative w-[70%] rounded-lg border border-shadow-border'>
                       <Textarea
-                        value={formState[item.id] ?? ''}
+                        value={
+                          formState[item.id] ? formState[item.id].value : ''
+                        }
                         onChange={handleFormStateChange}
                         name={item.id}
                         id={item.id}
                         className='small-medium min-h-full w-full overflow-y-auto pb-12'
                         placeholder={item.example}
-                        disabled={!!formStatus[item.id] || isSubmiting}
+                        disabled={
+                          (formState[item.id] && formState[item.id].disable) ||
+                          isSubmiting
+                        }
                       />
                       <TextOptimizeBar
-                        value={formState[item.id] ?? ''}
+                        value={
+                          formState[item.id] ? formState[item.id].value : ''
+                        }
                         onChangeHanlder={handleCallbackFormStateChange}
                         mode={qualityMode}
                         questionId={item.id}

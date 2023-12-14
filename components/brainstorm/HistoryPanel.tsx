@@ -10,6 +10,7 @@ import {
 } from '@/lib/utils';
 import { memo } from 'react';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
+import { InputProps } from '@/types';
 const HistoryPanel = ({
   handleTabChange,
 }: {
@@ -32,8 +33,8 @@ const HistoryPanel = ({
   }) => {
     const filtered_array = addRandomToDuplicates(item.question_ids);
     const mergedObject = filtered_array.reduce(
-      (result: Record<string, string>, key: string, index: number) => {
-        result[key] = item.answers[index];
+      (result: Record<string, InputProps>, key: string, index: number) => {
+        result[key] = { value: item.answers[index], disable: false };
         return result;
       },
       {}
