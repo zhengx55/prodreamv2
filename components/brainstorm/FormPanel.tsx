@@ -1,12 +1,10 @@
 'use client';
-import { useBrainStormDetail } from '@/query/query';
 import Link from 'next/link';
-import Loading from '../root/CustomLoading';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import { Switch } from '@/components/ui/switch';
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { CheckCheck } from 'lucide-react';
 import { TextOptimizeBar } from './TextOptimizeBar';
@@ -18,9 +16,7 @@ import { selectUserId } from '@/store/reducers/userSlice';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
 
-const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
-  const { data: moduleData, isPending: isModuleLoading } =
-    useBrainStormDetail(brainStormId);
+const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
   const user_id = useAppSelector(selectUserId);
   const {
     setIsSubmiting,
@@ -31,17 +27,11 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
     setEassyResult,
     isSubmiting,
   } = useBrainStormContext();
-  const [formData, setFormData] = useState<IBrainStormSection | undefined>();
+  const [formData, setFormData] = useState<IBrainStormSection>(templateData);
   const [formState, setFormState] = useState<Record<string, string>>({});
   const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
   const queryTimer = useRef<NodeJS.Timeout>();
-
-  useEffect(() => {
-    if (moduleData) {
-      setFormData(moduleData);
-    }
-  }, [moduleData]);
 
   // 从History panel 点击填充表格
   /**
@@ -176,7 +166,7 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
     setHistoryData({ template_id: '', result: '', questionAnswerPair: {} });
     await handleBrainstorm({
       pro_mode: qualityMode === 1,
-      template_id: brainStormId,
+      template_id: formData?.id,
       texts: key_values,
       types: filter_key_arrays,
       word_nums: '',
@@ -191,12 +181,9 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
     setFormState(clearedObjState);
   };
 
-  if (isModuleLoading || !formData) {
-    return <Loading />;
-  }
   return (
     <div className='relative h-full overflow-y-hidden px-6 pb-2 pt-6'>
-      <div className=' relative h-[calc(100%_-_95px)] overflow-y-auto'>
+      <div className='relative h-[calc(100%_-95px)] overflow-y-auto'>
         <div className='flex items-center'>
           <Link
             className='small-regular capitalize text-shadow hover:underline'
