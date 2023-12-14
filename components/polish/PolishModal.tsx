@@ -16,7 +16,7 @@ import useObjectState from 'beautiful-react-hooks/useObjectState';
 import { Input } from '../ui/input';
 import { useToast } from '../ui/use-toast';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
-import { IPolishParams } from '@/query/type';
+import { IPolishParams, IPolishResultAData } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
 
@@ -139,6 +139,7 @@ const PolishModal = () => {
               setPolishResult([]);
             } else {
               setPolishResultB('');
+              handleDecorateEassy(res.result);
               setPolishResult(res.result);
             }
             clearInterval(reqTimer.current);
@@ -161,6 +162,44 @@ const PolishModal = () => {
     },
   });
 
+  const handleDecorateEassy = (result: IPolishResultAData[]) => {
+    if (!essayRef.current) {
+      return;
+    }
+    // 查询原文当中所有的换行符位置
+    const lineBreakPositions: number[] = [];
+    const regex = /\n/g;
+    let match;
+    while ((match = regex.exec(essayRef.current.innerText)) !== null) {
+      lineBreakPositions.push(match.index);
+    }
+    // 查询起始索引和终止索引
+    let finalText = '';
+    result.map((item, index) => {
+      if (!essayRef.current) {
+        return;
+      }
+      item.data.map((sentence, sentence_idx) => {
+        if ([2, 3].includes(sentence.status)) {
+          const sentenceHtml = ` <span id="suggest-${index}-${sentence_idx}" class="suggest-change">${sentence.sub_str}</span> `;
+          finalText += sentenceHtml;
+        } else if (sentence.status === 1) {
+          finalText += ' ';
+        } else {
+          const sentenceHtml = `<span>${sentence.sub_str}</span>`;
+          finalText += sentenceHtml;
+        }
+      });
+      lineBreakPositions.forEach((break_point, _point_idx) => {
+        if (Math.abs(item.end - break_point) <= 5) {
+          finalText += `<br/>`;
+        }
+      });
+    });
+    console.log(finalText);
+    essayRef.current.innerHTML = finalText;
+  };
+
   const handlePolish = async () => {
     if (essayRef.current?.innerText.trim() === '') {
       toast({
@@ -169,7 +208,6 @@ const PolishModal = () => {
       });
       return;
     }
-    console.log(essayRef.current?.innerText.trim());
     const polish_params: IPolishParams = {
       text: essayRef.current?.innerText.trim()!,
       granularity: selected.polishMentod,

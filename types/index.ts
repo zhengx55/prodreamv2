@@ -201,3 +201,10 @@ export type InputProps = {
   value: string;
   disable: boolean;
 };
+
+export type IChatEditItem = {
+  original: string;
+  result: string;
+  instruction: string | number;
+  expand: boolean;
+};

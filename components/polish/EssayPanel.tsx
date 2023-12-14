@@ -1,10 +1,9 @@
 'use client';
 import { FormEvent, useEffect, useState } from 'react';
 import EditBar from './EditBar';
-import { Variants, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import EditiorLoading from './EditiorLoading';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 import dynamic from 'next/dynamic';
 import useGlobalEvent from 'beautiful-react-hooks/useGlobalEvent';
 
@@ -37,43 +36,6 @@ const EssayPanel = () => {
     chatEditMode ||
     isEvaluationOpen ||
     isPlagiarismOpen;
-
-  useDeepCompareEffect(() => {
-    if (polishResult.length > 0 && essayRef.current) {
-      // 查询原文当中所有的换行符位置
-      const lineBreakPositions: number[] = [];
-      const regex = /\n/g;
-      let match;
-      while ((match = regex.exec(essayRef.current.innerText)) !== null) {
-        lineBreakPositions.push(match.index);
-      }
-      // 查询起始索引和终止索引
-      let finalText = '';
-      polishResult.map((item, index) => {
-        if (!essayRef.current) {
-          return;
-        }
-        item.data.map((sentence, sentence_idx) => {
-          if ([2, 3].includes(sentence.status)) {
-            const sentenceHtml = ` <span id="suggest-${index}-${sentence_idx}" class="suggest-change">${sentence.sub_str}</span> `;
-            finalText += sentenceHtml;
-          } else if (sentence.status === 1) {
-            finalText += ' ';
-          } else {
-            const sentenceHtml = `<span>${sentence.sub_str}</span>`;
-            finalText += sentenceHtml;
-          }
-        });
-        lineBreakPositions.forEach((break_point, _point_idx) => {
-          if (Math.abs(item.end - break_point) <= 5) {
-            finalText += `<br/>`;
-          }
-        });
-      });
-      console.log(finalText);
-      essayRef.current.innerHTML = finalText;
-    }
-  }, [polishResult]);
 
   useEffect(() => {
     if (chatEditMode) {

@@ -151,7 +151,7 @@ const ChatEditPanel = () => {
                     ? '2px 2px 12px 4px rgba(82, 86, 90, 0.10)'
                     : 'none',
                 }}
-                className='flex shrink-0 select-none flex-col gap-y-2 rounded-lg border px-4 py-2 hover:bg-black-400/10 '
+                className='flex shrink-0 select-none flex-col gap-y-2 rounded-lg border px-4 py-2'
                 key={`chat-edit-${idx}`}
               >
                 <div
