@@ -41,15 +41,6 @@ const EssayPanel = () => {
     isEvaluationOpen ||
     isPlagiarismOpen;
 
-  useEffect(() => {
-    if (chatEditMode) {
-      if (essayRef.current) {
-        essayRef.current.innerHTML = essayRef.current.innerText;
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chatEditMode]);
-
   // 检查是否有内容从其他页面传入
   useDeepCompareEffect(() => {
     if (!essayRef.current) {
@@ -60,18 +51,48 @@ const EssayPanel = () => {
     }
   }, [essay]);
 
-  const handleInput = (e: FormEvent<HTMLElement>) => {
-    const text = e.currentTarget.textContent;
-    if (text) {
-      const words = text
-        .replace(/[^a-zA-Z\s]/g, '')
-        .split(/\s+/)
-        .filter((word) => word !== '');
-      setWordCount(words.length);
-    } else {
-      setWordCount(0);
-    }
-  };
+  useEffect(() => {
+    if (!essayRef.current) return;
+    const observer = new MutationObserver((mutationsList) => {
+      if (!essayRef.current) return;
+      for (const mutation of mutationsList) {
+        if (
+          mutation.type === 'childList' ||
+          mutation.type === 'characterData'
+        ) {
+          const text = essayRef.current.innerText;
+          const words = text
+            .replace(/[^a-zA-Z\s]/g, '')
+            .split(/\s+/)
+            .filter((word) => word !== '');
+          setWordCount(words.length);
+        }
+      }
+    });
+
+    const targetNode = essayRef.current;
+    const config = { subtree: true, characterData: true, childList: true };
+
+    observer.observe(targetNode, config);
+
+    return () => {
+      observer.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const handleInput = (e: FormEvent<HTMLElement>) => {
+  //   const text = e.currentTarget.textContent;
+  //   if (text) {
+  //     const words = text
+  //       .replace(/[^a-zA-Z\s]/g, '')
+  //       .split(/\s+/)
+  //       .filter((word) => word !== '');
+  //     setWordCount(words.length);
+  //   } else {
+  //     setWordCount(0);
+  //   }
+  // };
 
   const onSelectionChange = useGlobalEvent('mouseup');
 
@@ -120,7 +141,6 @@ const EssayPanel = () => {
               aria-label='essay-editor'
               ref={essayRef}
               onKeyDown={handleKeyDown}
-              onInput={handleInput}
               className='h-full w-full overflow-y-auto whitespace-pre-line break-words text-[16px] leading-loose outline-none'
               placeholder='Write your message..'
               suppressContentEditableWarning

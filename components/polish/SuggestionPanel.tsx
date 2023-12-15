@@ -63,9 +63,12 @@ const SuggestionPanel = () => {
       );
       if (originalElement) {
         if (sentence.status === 2) {
-          originalElement.innerText = ' ';
+          const parent = originalElement.parentNode;
+          parent?.removeChild(originalElement);
+        } else if (sentence.status === 3) {
+          originalElement.innerText = ` ${sentence.new_str} `;
           originalElement.classList.remove('suggest-change');
-        } else if ([1, 3].includes(sentence.status)) {
+        } else if (sentence.status === 1) {
           originalElement.innerText = ` ${sentence.new_str} `;
           originalElement.classList.remove('suggest-change');
         }

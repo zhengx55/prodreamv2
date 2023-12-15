@@ -181,10 +181,10 @@ const PolishModal = () => {
       }
       item.data.map((sentence, sentence_idx) => {
         if ([2, 3].includes(sentence.status)) {
-          const sentenceHtml = ` <span id="suggest-${index}-${sentence_idx}" class="suggest-change">${sentence.sub_str}</span> `;
+          const sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
           finalText += sentenceHtml;
         } else if (sentence.status === 1) {
-          finalText += ' ';
+          finalText += `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> </span>`;
         } else {
           const sentenceHtml = `<span>${sentence.sub_str}</span>`;
           finalText += sentenceHtml;
@@ -196,7 +196,6 @@ const PolishModal = () => {
         }
       });
     });
-    console.log(finalText);
     essayRef.current.innerHTML = finalText;
   };
 

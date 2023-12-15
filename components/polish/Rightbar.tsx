@@ -15,6 +15,7 @@ const PlagReportSheet = dynamic(() => import('./PlagReportSheet'), {
 
 const Rightbar = () => {
   const {
+    essayRef,
     setChatEditMode,
     chatEditMode,
     setSelectText,
@@ -40,6 +41,10 @@ const Rightbar = () => {
           setSelectText('');
           setPolishResult([]);
           setPolishResultB('');
+          if (essayRef.current) {
+            //清除划线样式等
+            essayRef.current.innerHTML = essayRef.current.innerText;
+          }
         }}
         className='small-semibold border border-shadow-border'
       >
