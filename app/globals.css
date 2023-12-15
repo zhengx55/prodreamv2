@@ -157,7 +157,7 @@
   }
 
   .tooltip {
-    @apply flex-center p-2 rounded-md bg-white shadow-tooltip cursor-pointer hover:-translate-y-1 transition-transform
+    @apply flex-center p-2 gap-x-2 rounded-md small-semibold bg-white shadow-tooltip cursor-pointer hover:-translate-y-1 transition-transform
   }
 
   .tool {
