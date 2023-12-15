@@ -29,7 +29,7 @@ const TypingBanner = () => {
             setFinsish(true);
           },
         ]}
-        speed={70}
+        speed={90}
         wrapper='p'
         className='title-regular w-[700px]'
         cursor={false}

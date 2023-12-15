@@ -125,7 +125,7 @@ export default function Page() {
   return (
     <section className='flex-center flex-1'>
       <Panel>
-        <h1 className='h2-bold self-center'>Reset Password</h1>
+        <h1 className='h3-bold self-center'>Reset Password</h1>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
