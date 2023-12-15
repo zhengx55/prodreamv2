@@ -48,6 +48,11 @@ const EssayPanel = () => {
     }
     if (essay.content) {
       essayRef.current.innerText = essay.content;
+      const words = essay.content
+        .replace(/[^a-zA-Z\s]/g, '')
+        .split(/\s+/)
+        .filter((word) => word !== '');
+      setWordCount(words.length);
     }
   }, [essay]);
 
@@ -78,21 +83,7 @@ const EssayPanel = () => {
     return () => {
       observer.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // const handleInput = (e: FormEvent<HTMLElement>) => {
-  //   const text = e.currentTarget.textContent;
-  //   if (text) {
-  //     const words = text
-  //       .replace(/[^a-zA-Z\s]/g, '')
-  //       .split(/\s+/)
-  //       .filter((word) => word !== '');
-  //     setWordCount(words.length);
-  //   } else {
-  //     setWordCount(0);
-  //   }
-  // };
+  }, [essayRef]);
 
   const onSelectionChange = useGlobalEvent('mouseup');
 
@@ -156,10 +147,11 @@ const EssayPanel = () => {
             </div>
           </div>
         </motion.div>
-        {chatEditMode && <ChatEditPanel />}
-        {isPolishing && !chatEditMode ? (
+        {chatEditMode ? (
+          <ChatEditPanel />
+        ) : isPolishing ? (
           <EditiorLoading />
-        ) : hasPolishResult && !chatEditMode ? (
+        ) : hasPolishResult ? (
           <SuggestionPanel />
         ) : null}
       </motion.div>

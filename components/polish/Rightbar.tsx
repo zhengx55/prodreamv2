@@ -22,6 +22,21 @@ const Rightbar = () => {
     setPolishResult,
     setPolishResultB,
   } = useAiEditiorContext();
+
+  const toggleChatEditMode = () => {
+    if (!chatEditMode) {
+      setChatEditMode(true);
+      setSelectText('');
+      setPolishResult([]);
+      setPolishResultB('');
+      if (essayRef.current) {
+        //清除划线样式等
+        essayRef.current.innerHTML = essayRef.current.innerText;
+      }
+    } else {
+      setChatEditMode(false);
+    }
+  };
   return (
     <div className='absolute right-0 top-0 hidden h-full flex-col rounded-md border-l border-shadow-border bg-white px-4 md:flex md:w-[240px]'>
       <Spacer y='24' />
@@ -36,16 +51,7 @@ const Rightbar = () => {
       <Spacer y='12' />
       <Button
         variant={chatEditMode ? 'default' : 'ghost'}
-        onClick={() => {
-          setChatEditMode((prev) => !prev);
-          setSelectText('');
-          setPolishResult([]);
-          setPolishResultB('');
-          if (essayRef.current) {
-            //清除划线样式等
-            essayRef.current.innerHTML = essayRef.current.innerText;
-          }
-        }}
+        onClick={toggleChatEditMode}
         className='small-semibold border border-shadow-border'
       >
         <PenLine size={20} />
