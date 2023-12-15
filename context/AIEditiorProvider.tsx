@@ -43,6 +43,7 @@ export default function AIEditiorProvider({
   const [selectText, setSelectText] = useState('');
   const [isEvaluationOpen, setIsEvaluationOpen] = useState(false);
   const [isPlagiarismOpen, setIsPlagiarismOpen] = useState(false);
+
   return (
     <AIEditiorContext.Provider
       value={{

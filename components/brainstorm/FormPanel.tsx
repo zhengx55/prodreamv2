@@ -319,7 +319,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
                         onChange={handleFormStateChange}
                         name={item.id}
                         id={item.id}
-                        className='small-medium min-h-full w-full overflow-y-auto pb-12'
+                        className='small-medium min-h-full w-full overflow-y-auto pb-10'
                         placeholder={item.example}
                         disabled={
                           (formState[item.id] && formState[item.id].disable) ||
