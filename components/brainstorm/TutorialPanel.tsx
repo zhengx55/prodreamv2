@@ -1,5 +1,5 @@
 'use client';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Spacer from '../root/Spacer';
 import { useState } from 'react';
 import { Button } from '../ui/button';
@@ -8,7 +8,11 @@ import { BrianstormAutoFill } from '@/constant';
 import { InputProps } from '@/types';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 
-const TutorialPanel = () => {
+const TutorialPanel = ({
+  handleTabChange,
+}: {
+  handleTabChange: (value: number) => void;
+}) => {
   const [steps, setSteps] = useState(0);
   const path = usePathname();
   const template_id = path.split('/')[3];
@@ -100,6 +104,7 @@ const TutorialPanel = () => {
             const generate_button = document.getElementById('generate-button');
             if (generate_button) {
               generate_button.click();
+              handleTabChange(0);
             }
           }
         }}

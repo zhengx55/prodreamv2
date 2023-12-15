@@ -19,7 +19,7 @@ const HistoryPanel = ({
   const path = usePathname();
   const { historyData, setHistoryData } = useBrainStormContext();
   const id = path.split('/')[path.split('/').length - 1];
-  const { isPending, data, isError } = useBrainStormHistoryById(id);
+  const { isPending, data } = useBrainStormHistoryById(id);
   if (isPending) {
     return <Loading />;
   }

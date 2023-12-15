@@ -45,7 +45,7 @@ const OutcomePanel = ({
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='h-full w-full overflow-hidden pb-4 pl-2 pr-6'
+      className='h-full w-full overflow-hidden pb-4 pl-2'
     >
       <div className='relative h-full w-full rounded-md bg-white px-6 pb-14 pt-6 shadow-panel'>
         {submitError && !historyData.result ? (

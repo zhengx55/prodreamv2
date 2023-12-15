@@ -74,7 +74,7 @@ const OutputPanel = () => {
               incrementCount={IncrementWordCount}
             />
           ) : (
-            <TutorialPanel />
+            <TutorialPanel handleTabChange={handleTabChange} />
           )}
         </AnimatePresence>
       </main>
