@@ -63,7 +63,7 @@ const OutputPanel = () => {
         </span>
       </div>
       <Spacer y='20' />
-      <main className='overflow-y-auto md:h-full md:w-full'>
+      <main className='h-full w-full overflow-y-auto'>
         <AnimatePresence mode='wait'>
           {tab === 1 ? (
             <HistoryPanel handleTabChange={handleTabChange} />

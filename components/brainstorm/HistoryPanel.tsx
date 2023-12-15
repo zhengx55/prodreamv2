@@ -60,7 +60,7 @@ const HistoryPanel = ({
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='md:grid md:w-full md:grid-cols-2 md:gap-x-4 md:gap-y-4'
+      className='grid w-full grid-cols-2 gap-x-4 gap-y-4'
     >
       {/* Card */}
       {!isPending &&
@@ -69,7 +69,7 @@ const HistoryPanel = ({
             <div
               onClick={() => handleSelectHistory(item)}
               key={`history-${item.template_id}-${index}`}
-              className='flex cursor-pointer flex-col justify-between rounded-lg bg-white p-5 hover:border hover:border-primary-200 md:h-[200px] md:w-[full]'
+              className='flex cursor-pointer flex-col justify-between rounded-lg bg-white p-4 hover:border hover:border-primary-200 md:h-[200px] md:w-[full]'
             >
               <p className='small-regular line-clamp-6 text-left text-shadow'>
                 {item.result}

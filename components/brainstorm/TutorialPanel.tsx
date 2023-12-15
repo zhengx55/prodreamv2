@@ -24,7 +24,7 @@ const TutorialPanel = ({
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='flex h-full w-full flex-col gap-y-6 overflow-hidden rounded-lg bg-white px-4 py-6'
+      className='flex h-full w-full flex-col gap-y-6 rounded-lg bg-white px-4 py-6'
     >
       <h1 className='h3-bold'>Tutorial</h1>
       {/* step 1 */}
