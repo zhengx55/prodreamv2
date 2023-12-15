@@ -6,8 +6,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '../ui/button';
 
 const SuggestionPanel = () => {
-  const { essayRef, polishResult, polishResultB, setPolishResultB } =
-    useAiEditiorContext();
+  const {
+    essayRef,
+    polishResult,
+    setPolishResult,
+    polishResultB,
+    setPolishResultB,
+  } = useAiEditiorContext();
 
   const [suggestions, setSuggestions] = useState<IPolishResultAData[]>(() => {
     if (polishResult.length === 0) {
@@ -77,13 +82,50 @@ const SuggestionPanel = () => {
     remove(index);
   };
 
+  const handleAcceptAll = () => {
+    suggestions.forEach((suggestion, suggestion_idx) => {
+      replaceText(suggestion_idx, suggestion);
+    });
+    setPolishResult([]);
+  };
+
+  const handleRejectAll = () => {
+    // clear all suggestions
+    setSuggestions([]);
+    // clear all underline styling
+    if (!essayRef.current) return;
+    if (polishResult) setPolishResult([]);
+    essayRef.current.innerHTML = essayRef.current.innerText;
+    // turn off suggestions panel
+  };
+
   return (
     <div className='flex min-h-full w-1/2 flex-col overflow-y-auto'>
-      <div aria-label='all suggestions' className='flex items-center gap-x-2'>
-        <span className='small-semibold flex-center h-8 w-8 rounded-full border-shadow-border bg-primary-50 '>
-          {polishResultB ? 1 : suggestions.length}
-        </span>
-        <h2 className='base-semibold'>All Suggestions</h2>
+      <div aria-label='all suggestions' className='flex-between'>
+        <div className='flex items-center gap-x-2'>
+          <span className='small-semibold flex-center h-8 w-8 rounded-full border-shadow-border bg-primary-50 '>
+            {polishResultB ? 1 : suggestions.length}
+          </span>
+          <h2 className='base-semibold'>All Suggestions</h2>
+        </div>
+        {polishResultB ? null : (
+          <div className='flex items-center'>
+            <Button
+              onClick={handleAcceptAll}
+              variant={'secondary'}
+              className='border-none'
+            >
+              Accept all
+            </Button>
+            <Button
+              onClick={handleRejectAll}
+              variant={'ghost'}
+              className='text-shadow'
+            >
+              Reject all
+            </Button>
+          </div>
+        )}
       </div>
       <Spacer y='24' />
       {polishResultB ? (
