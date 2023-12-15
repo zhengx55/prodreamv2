@@ -93,7 +93,7 @@ const EssayPanel = () => {
     if (event.key === 'Enter') {
       // 阻止回车键的默认行为
       event.preventDefault();
-      const selection_text = window.getSelection();
+      // document.execCommand('insertHTML', false, '<br><br>');
     }
   };
 

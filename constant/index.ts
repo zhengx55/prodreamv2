@@ -413,3 +413,45 @@ export const moduleNotes: Record<string, string> = {
   '5': "Express a thoughtful choice of program by highlighting its alignment with your aspirations, such as the Advanced Neural Studies course at XYZ University. Emphasize faculty influence, citing Professor Johnson's cognitive neuroscience research as a source of excitement. Additionally, underscore the appeal of campus culture, like the tight-knit community and emphasis on interdisciplinary learning, discovered through interactions with alumni.",
   '4': 'Craft a specific career goal, avoiding generic statements like "working in tech." For instance, aspire to be a Machine Learning Specialist focused on medical imaging. Highlight lacking skills and how the program addresses them. Portray your career goal as a guiding lighthouse, intertwining past, present, and future. A precise, realistic, and congruent goal will resonate profoundly with the admissions committee, culminating in a compelling personal statement.',
 };
+
+// ----------------------------------------------------------------
+// Brainstorm Tut Info
+// ----------------------------------------------------------------
+
+export const BrianstormAutoFill = [
+  {
+    id: 'a66e53e6bb1f4391909b93378170e63c',
+    info: [
+      {
+        question_id: 'a8dd3b68cac3470db9d28362f5c29916',
+        content:
+          '• Passionate about computer programming\n• Active member and leader in coding clubs and hackathons\n• Developed several mobile apps addressing social issues',
+      },
+      {
+        question_id: 'd0310db639924bf9a7761e290286f627',
+        content:
+          'I first discovered my love for programming in a middle school computer science class. The ability to translate complex problems into logical, solvable code captivated me. I was particularly drawn to the creative aspect of coding - the endless possibilities of creating something impactful from scratch using just a computer.',
+      },
+      {
+        question_id: 'b4ce7db2387d45d8b4d6a4e3b0aa6461',
+        content:
+          '• Learning advanced coding languages on my own\n• Balancing coding projects with academic responsibilities\n• Overcoming initial failures in app development and learning from mistakes',
+      },
+      {
+        question_id: 'b463c647095843fe9d350cd19b7431ac',
+        content:
+          'A defining moment in my coding journey was when I won my first hackathon in sophomore year. The challenge was to develop an app to assist the visually impaired with navigation. The success of this project not only boosted my confidence but also cemented my commitment to using my coding skills for social good.',
+      },
+      {
+        question_id: 'ae1652bc02ca4e8ab7ef574a6a923dc8',
+        content:
+          '• Enhanced problem-solving and logical thinking skills\n• Fosters a sense of perseverance and resilience\n• Encourages a perspective of viewing challenges as opportunities for innovation',
+      },
+      {
+        question_id: 'ef31976a2861434392100df611472c38',
+        content:
+          '• Plan to major in Computer Science with a focus on AI\n• Aspire to develop more apps that address educational disparities\n• Hope to intern at tech companies to gain real-world experience',
+      },
+    ],
+  },
+];

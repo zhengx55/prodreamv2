@@ -60,7 +60,7 @@ const HistoryPanel = ({
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='mt-2 md:grid md:w-full md:grid-cols-2 md:gap-x-4 md:gap-y-4'
+      className='md:grid md:w-full md:grid-cols-2 md:gap-x-4 md:gap-y-4'
     >
       {/* Card */}
       {!isPending &&

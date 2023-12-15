@@ -66,20 +66,30 @@ const OnboardModal = () => {
           </svg>
           <div className='flex flex-col gap-y-4'>
             <h2 className='h3-semibold'>
-              Start by uploading a file describing activities or fill in
-              activity description drafts
+              Introducing Brainstorm, your easiest way to turn ideas into essay
+              drafts!
             </h2>
             <p className='small-regular'>
-              Upload your resume, personal statement or any document that
-              details your experience. We will create a draft for you to
-              generate your powered-up activity list, with one click! 🪄
+              Start with an idea, input draft bullet points, and we generate. We
+              help you turn ideas into sample essays and gives you the
+              opportunity to try different ideas, stories and writing styles
+              without doing the tedious writing!
             </p>
           </div>
         </div>
         <Spacer y='32' />
-        <div className='flex justify-end px-8 py-4'>
+        <div className='flex justify-end gap-x-2 px-8 py-4'>
           <DialogClose asChild>
-            <Button onClick={handleUpdateUsage}>Got it!</Button>
+            <Button
+              onClick={handleUpdateUsage}
+              className='text-shadow'
+              variant={'ghost'}
+            >
+              Skip
+            </Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button onClick={handleUpdateUsage}>Show me</Button>
           </DialogClose>
         </div>
       </DialogContent>

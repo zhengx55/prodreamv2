@@ -4,7 +4,7 @@ import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import { Switch } from '@/components/ui/switch';
-import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { CheckCheck } from 'lucide-react';
 import { TextOptimizeBar } from './TextOptimizeBar';
@@ -16,6 +16,7 @@ import { selectUserId } from '@/store/reducers/userSlice';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
 import { InputProps } from '@/types';
+import { BrianstormAutoFill } from '@/constant';
 
 const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
   const user_id = useAppSelector(selectUserId);
@@ -27,11 +28,18 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
     setStartTyping,
     setEassyResult,
     isSubmiting,
+    tutorial,
   } = useBrainStormContext();
   const [formData, setFormData] = useState<IBrainStormSection>(templateData);
   const [formState, setFormState] = useState<Record<string, InputProps>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
   const queryTimer = useRef<NodeJS.Timeout>();
+
+  useDeepCompareEffect(() => {
+    if (Object.keys(tutorial).length > 0) {
+      setFormState(tutorial);
+    }
+  }, [tutorial]);
 
   // 从History panel 点击填充表格
   /**
@@ -39,7 +47,6 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
    * 需要找出所有带有➕的元素并将表格元素添加
    */
   useDeepCompareEffect(() => {
-    if (Object.keys(historyData.questionAnswerPair).length === 0) return;
     if (Object.keys(historyData.questionAnswerPair).length !== 0) {
       if (!formData) return;
       let keysWithPlus = Object.keys(historyData.questionAnswerPair).filter(
@@ -355,7 +362,13 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
           <Button variant={'secondary'} onClick={handleClearAll}>
             Clear
           </Button>
-          <Button onClick={handleSubmit}>Generate</Button>
+          <Button
+            aria-label='generate-button'
+            id='generate-button'
+            onClick={handleSubmit}
+          >
+            Generate
+          </Button>
         </div>
       </div>
     </div>

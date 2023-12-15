@@ -2,13 +2,16 @@
 import { cn } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useCallback, useRef, useState } from 'react';
-import OutcomePanel from './OutcomePanel';
 import dynamic from 'next/dynamic';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
-const MemoizedHistoryPanel = dynamic(() => import('./HistoryPanel'), {
+import Spacer from '../root/Spacer';
+const HistoryPanel = dynamic(() => import('./HistoryPanel'), {
   ssr: false,
 });
+const OutcomePanel = dynamic(() => import('./OutcomePanel'), { ssr: false });
+const TutorialPanel = dynamic(() => import('./TutorialPanel'), { ssr: false });
+
 const OutputPanel = () => {
   const [tab, setTab] = useState<number>(0);
   const printIndexRef = useRef<number>(0);
@@ -59,17 +62,20 @@ const OutputPanel = () => {
           Tutorial
         </span>
       </div>
+      <Spacer y='20' />
       <main className='overflow-y-auto md:h-full md:w-full'>
         <AnimatePresence mode='wait'>
           {tab === 1 ? (
-            <MemoizedHistoryPanel handleTabChange={handleTabChange} />
+            <HistoryPanel handleTabChange={handleTabChange} />
           ) : tab === 0 ? (
             <OutcomePanel
               printIndexRef={printIndexRef}
               animatedWordCount={animatedWordCount}
               incrementCount={IncrementWordCount}
             />
-          ) : null}
+          ) : (
+            <TutorialPanel />
+          )}
         </AnimatePresence>
       </main>
     </>
