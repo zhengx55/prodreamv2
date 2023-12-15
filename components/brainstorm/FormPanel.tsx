@@ -96,7 +96,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
     (fileld: string, value: boolean) => {
       setFormState((prev) => ({
         ...prev,
-        [fileld]: { ...prev[fileld], disable: true },
+        [fileld]: { ...prev[fileld], disable: value },
       }));
     },
     []

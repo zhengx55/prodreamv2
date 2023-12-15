@@ -16,7 +16,7 @@ type Props = {
 const IconLoading = () => {
   return (
     <div className='flex-center relative h-fit w-fit'>
-      <div className='h-[28px] w-[28px] animate-spin rounded-full border-[2px]  border-b-primary-200' />
+      <div className='h-[30px] w-[30px] animate-spin rounded-full border-[2px]  border-b-primary-200' />
       <Image
         src='/optimize_active.svg'
         alt='loading'
@@ -38,6 +38,7 @@ const OptimizeBar = ({
   const { toast } = useToast();
   const { isPending: isOptPending, mutateAsync: OptimizeAnswer } =
     useAnswerOptimize();
+
   const handleOptimze = async () => {
     if (!value) {
       toast({
@@ -74,7 +75,7 @@ const OptimizeBar = ({
           <Tooltip tooltipContent='Revert'>
             <div
               onClick={() => onRedoHandler(questionId)}
-              className='flex-center bg-primary h-[28px] w-[28px] cursor-pointer rounded-lg border border-shadow-border bg-white hover:bg-shadow-200'
+              className='flex-center bg-primary h-[30px] w-[30px] cursor-pointer rounded-lg border border-shadow-border bg-white hover:bg-shadow-200'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -93,7 +94,7 @@ const OptimizeBar = ({
           <Tooltip tooltipContent='Expand'>
             <div
               onClick={handleOptimze}
-              className='flex-center bg-primary h-[28px] w-[28px] cursor-pointer rounded-lg border border-shadow-border bg-white hover:bg-shadow-200'
+              className='flex-center bg-primary h-[30px] w-[30px] cursor-pointer rounded-lg border border-shadow-border bg-white hover:bg-shadow-200'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
