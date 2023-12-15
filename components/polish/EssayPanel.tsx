@@ -6,6 +6,9 @@ import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import EditiorLoading from './EditiorLoading';
 import dynamic from 'next/dynamic';
 import useGlobalEvent from 'beautiful-react-hooks/useGlobalEvent';
+import { useAppSelector } from '@/store/storehooks';
+import { selectEssay } from '@/store/reducers/essaySlice';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 const SuggestionPanel = dynamic(() => import('./SuggestionPanel'), {
   ssr: false,
@@ -19,6 +22,7 @@ const ChatEditPanel = dynamic(() => import('./ChatEditPanel'), {
 
 const EssayPanel = () => {
   const [wordCount, setWordCount] = useState(0);
+  const essay = useAppSelector(selectEssay);
   const {
     essayRef,
     isPolishing,
@@ -45,6 +49,16 @@ const EssayPanel = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatEditMode]);
+
+  // 检查是否有内容从其他页面传入
+  useDeepCompareEffect(() => {
+    if (!essayRef.current) {
+      return;
+    }
+    if (essay.content) {
+      essayRef.current.innerText = essay.content;
+    }
+  }, [essay]);
 
   const handleInput = (e: FormEvent<HTMLElement>) => {
     const text = e.currentTarget.textContent;

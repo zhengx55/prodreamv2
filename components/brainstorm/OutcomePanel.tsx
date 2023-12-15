@@ -2,13 +2,16 @@
 import { motion } from 'framer-motion';
 import RotbotLoader from '../root/RotbotLoader';
 import { Button } from '../ui/button';
-import { Copy, Download, Import, Trophy } from 'lucide-react';
 import { countWords } from '@/lib/utils';
 import Tooltip from '../root/Tooltip';
 import TextStreamingEffect from './TextStreamingEffect';
 import PanelError from '../root/PanelError';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { useToast } from '../ui/use-toast';
+import Image from 'next/image';
+import { useAppDispatch } from '@/store/storehooks';
+import { setEssay } from '@/store/reducers/essaySlice';
+import { useRouter } from 'next/navigation';
 
 const OutcomePanel = ({
   printIndexRef,
@@ -22,7 +25,19 @@ const OutcomePanel = ({
   const { historyData, startTyping, eassyResult, isSubmiting, submitError } =
     useBrainStormContext();
   const { toast } = useToast();
-
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const handlePolish = () => {
+    if (!historyData.result && !eassyResult) {
+      return;
+    }
+    dispatch(
+      setEssay({
+        content: historyData.result ? historyData.result : eassyResult,
+      })
+    );
+    router.push('/writtingpal/polish');
+  };
   return (
     <motion.div
       key='outcome'
@@ -74,6 +89,18 @@ const OutcomePanel = ({
                 &nbsp;Words
               </p>
               <div className='flex items-center gap-x-2'>
+                <Tooltip tooltipContent='download'>
+                  <div className='tooltip'>
+                    <Image
+                      src='/download.svg'
+                      alt='download'
+                      width={1000}
+                      height={2000}
+                      className='h-5 w-5'
+                    />
+                    Download
+                  </div>
+                </Tooltip>
                 <Tooltip tooltipContent='copy'>
                   <div
                     onClick={() => {
@@ -87,17 +114,21 @@ const OutcomePanel = ({
                     }}
                     className='tooltip'
                   >
-                    <Copy size={18} />
+                    <Image
+                      src='/copy.svg'
+                      alt='copy'
+                      width={1000}
+                      height={2000}
+                      className='h-5 w-5'
+                    />
                     Copy
                   </div>
                 </Tooltip>
-                <Tooltip tooltipContent='download'>
-                  <div className='tooltip'>
-                    <Import size={18} />
-                    Download
-                  </div>
-                </Tooltip>
-                <Button className='rounded-md' size={'sm'}>
+                <Button
+                  onClick={handlePolish}
+                  className='rounded-md'
+                  size={'sm'}
+                >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     width='24'
