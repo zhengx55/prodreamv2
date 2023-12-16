@@ -8,8 +8,8 @@ import React, {
 import { Textarea } from '../ui/textarea';
 import type { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { IPolishParams } from '@/query/type';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { useToast } from '../ui/use-toast';
+import useAIEditorStore from '@/zustand/store';
 
 const ChatEditInputField = ({
   handleSubmit,
@@ -18,9 +18,8 @@ const ChatEditInputField = ({
 }) => {
   const [customPrompt, setCustomPrompt] = useState('');
   const ref = useRef<HTMLTextAreaElement>(null);
-  const { selectText } = useAiEditiorContext();
   const { toast } = useToast();
-
+  const selectedText = useAIEditorStore((state) => state.selectText);
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (!ref.current) return;
     const textarea = e.target;
@@ -41,7 +40,7 @@ const ChatEditInputField = ({
   };
 
   const handlePolish = async () => {
-    if (!selectText) {
+    if (!selectedText) {
       toast({
         variant: 'destructive',
         description: 'no content selected',
@@ -55,7 +54,10 @@ const ChatEditInputField = ({
       });
       return;
     }
-    await handleSubmit({ instruction: customPrompt.trim(), text: selectText });
+    await handleSubmit({
+      instruction: customPrompt.trim(),
+      text: selectedText,
+    });
     setCustomPrompt('');
   };
   return (

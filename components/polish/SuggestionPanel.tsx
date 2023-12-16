@@ -5,18 +5,20 @@ import { IPolishResultAData } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '../ui/button';
 import { useAIEditiorHistoryContext } from '@/context/AIEditiorHistoryProvider';
+import useAIEditorStore from '@/zustand/store';
 
 const SuggestionPanel = () => {
-  const {
-    essayRef,
-    polishResult,
-    setPolishResult,
-    polishResultB,
-    setPolishResultB,
-  } = useAiEditiorContext();
+  const { essayRef } = useAiEditiorContext();
 
   const { storeIntoHistory } = useAIEditiorHistoryContext();
-
+  const polishResult = useAIEditorStore((state) => state.polishResult);
+  const polishResultB = useAIEditorStore(
+    (state) => state.polishResultWholeParagraph
+  );
+  const setPolishResult = useAIEditorStore((state) => state.updatePolishResult);
+  const setPolishResultB = useAIEditorStore(
+    (state) => state.updatePolishResultWholeParagraph
+  );
   const [suggestions, setSuggestions] = useState<IPolishResultAData[]>(() => {
     if (polishResult.length === 0) {
       return [];

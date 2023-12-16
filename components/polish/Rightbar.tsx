@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import dynamic from 'next/dynamic';
+import useAIEditorStore from '@/zustand/store';
 
 const ReportSheet = dynamic(() => import('./ReportSheet'), { ssr: false });
 const PolishModal = dynamic(() => import('./PolishModal'), { ssr: false });
@@ -14,21 +15,20 @@ const PlagReportSheet = dynamic(() => import('./PlagReportSheet'), {
 });
 
 const Rightbar = () => {
-  const {
-    essayRef,
-    setChatEditMode,
-    chatEditMode,
-    setSelectText,
-    setPolishResult,
-    setPolishResultB,
-  } = useAiEditiorContext();
-
+  const { essayRef } = useAiEditiorContext();
+  const setChatEditMode = useAIEditorStore(
+    (state) => state.updateIsChatEditMode
+  );
+  const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
+  const setSelectText = useAIEditorStore((state) => state.updateSelectText);
+  const clearPolishResult = useAIEditorStore(
+    (state) => state.clearPolishResult
+  );
   const toggleChatEditMode = () => {
-    if (!chatEditMode) {
+    if (!isChatEditMode) {
       setChatEditMode(true);
       setSelectText('');
-      setPolishResult([]);
-      setPolishResultB('');
+      clearPolishResult();
       if (essayRef.current) {
         //清除划线样式等
         essayRef.current.innerHTML = essayRef.current.innerText;
@@ -50,7 +50,7 @@ const Rightbar = () => {
       <p className='small-regular text-shadow'>AI writing polish</p>
       <Spacer y='12' />
       <Button
-        variant={chatEditMode ? 'default' : 'ghost'}
+        variant={isChatEditMode ? 'default' : 'ghost'}
         onClick={toggleChatEditMode}
         className='small-semibold border border-shadow-border'
       >

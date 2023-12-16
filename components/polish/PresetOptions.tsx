@@ -8,6 +8,7 @@ import { PresetIcons } from '@/constant';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
 import { useToast } from '../ui/use-toast';
+import useAIEditorStore from '@/zustand/store';
 
 type Props = {
   isPolishing: boolean;
@@ -17,6 +18,9 @@ type Props = {
 
 const PresetOptions = ({ isPolishing, options, polish }: Props) => {
   const { toast } = useToast();
+  const selectText = useAIEditorStore((state) => state.selectText);
+
+  const updateSelectText = useAIEditorStore((state) => state.updateSelectText);
   const handlePolishSubmit = async (option: string | number) => {
     if (!selectText) {
       toast({
@@ -27,7 +31,6 @@ const PresetOptions = ({ isPolishing, options, polish }: Props) => {
     }
     await polish({ instruction: option, text: selectText });
   };
-  const { selectText, setSelectText } = useAiEditiorContext();
   return isPolishing ? (
     <div className='flex w-full shrink-0 gap-x-2 rounded-lg border border-shadow-border px-3 py-2 '>
       <h2 className='base-semibold'>Polishing:</h2>
@@ -42,7 +45,7 @@ const PresetOptions = ({ isPolishing, options, polish }: Props) => {
           {selectText}
         </p>
         <Trash2
-          onClick={() => setSelectText('')}
+          onClick={() => updateSelectText('')}
           className='cursor-pointer hover:text-shadow-100'
           size={20}
         />

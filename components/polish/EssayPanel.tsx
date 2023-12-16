@@ -9,6 +9,7 @@ import useGlobalEvent from 'beautiful-react-hooks/useGlobalEvent';
 import { useAppSelector } from '@/store/storehooks';
 import { selectEssay } from '@/store/reducers/essaySlice';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import useAIEditorStore from '@/zustand/store';
 
 const SuggestionPanel = dynamic(() => import('./SuggestionPanel'), {
   ssr: false,
@@ -23,14 +24,24 @@ const ChatEditPanel = dynamic(() => import('./ChatEditPanel'), {
 const EssayPanel = () => {
   const [wordCount, setWordCount] = useState(0);
   const essay = useAppSelector(selectEssay);
-  const {
-    essayRef,
-    hasPolishResult,
-    isMultiScreen,
-    isPolishing,
-    setSelectText,
-    chatEditMode,
-  } = useAiEditiorContext();
+  const { essayRef } = useAiEditiorContext();
+  const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
+  const isPolishing = useAIEditorStore((state) => state.isPolishing);
+  const polishResult = useAIEditorStore((state) => state.polishResult);
+  const isEvaluationOpen = useAIEditorStore((state) => state.isEvaluationOpen);
+  const isPlagiarismOpen = useAIEditorStore((state) => state.isPlagiarismOpen);
+  const polishResultParagraph = useAIEditorStore(
+    (state) => state.polishResultWholeParagraph
+  );
+  const isMultiScreen =
+    isPolishing ||
+    isChatEditMode ||
+    polishResult.length > 0 ||
+    polishResultParagraph ||
+    isPlagiarismOpen ||
+    isEvaluationOpen;
+
+  const updateSelectText = useAIEditorStore((state) => state.updateSelectText);
 
   // 检查是否有内容从其他页面传入
   useDeepCompareEffect(() => {
@@ -80,7 +91,7 @@ const EssayPanel = () => {
       if (selection.anchorNode?.parentElement?.ariaLabel !== 'essay-editor') {
         return;
       }
-      setSelectText(selection.getRangeAt(0).toString());
+      updateSelectText(selection.getRangeAt(0).toString());
     }
   });
 
@@ -133,11 +144,11 @@ const EssayPanel = () => {
             </div>
           </div>
         </motion.div>
-        {chatEditMode ? (
+        {isChatEditMode ? (
           <ChatEditPanel />
         ) : isPolishing ? (
           <EditiorLoading />
-        ) : hasPolishResult ? (
+        ) : polishResult.length > 0 || polishResultParagraph ? (
           <SuggestionPanel />
         ) : null}
       </motion.div>

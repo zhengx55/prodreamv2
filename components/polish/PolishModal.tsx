@@ -19,6 +19,7 @@ import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { IPolishParams, IPolishResultAData } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
+import useAIEditorStore from '@/zustand/store';
 
 const initialState = {
   polishMentod: 0,
@@ -32,15 +33,17 @@ const initialState = {
 const initialStyles = ['Passionate', 'Entertaining', 'Professional'];
 
 const PolishModal = () => {
-  const {
-    essayRef,
-    setIsPolishing,
-    setChatEditMode,
-    setPolishResult,
-    setPolishResultB,
-  } = useAiEditiorContext();
+  const { essayRef } = useAiEditiorContext();
   const { toast } = useToast();
   const [selected, setSelected] = useObjectState(initialState);
+  const setIsPolishing = useAIEditorStore((state) => state.updateIsPolishing);
+  const setChatEditMode = useAIEditorStore(
+    (state) => state.updateIsChatEditMode
+  );
+  const setPolishResult = useAIEditorStore((state) => state.updatePolishResult);
+  const setPolishResultB = useAIEditorStore(
+    (state) => state.updatePolishResultWholeParagraph
+  );
   const [showSetting, setShowSetting] = useState(false);
   const [polishMentod] = useState([
     'Whole Paragraph',

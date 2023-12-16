@@ -13,22 +13,6 @@ import {
 
 type IAiEditiorContext = {
   essayRef: RefObject<HTMLDivElement>;
-  polishResult: IPolishResultAData[];
-  setPolishResult: Dispatch<SetStateAction<IPolishResultAData[]>>;
-  polishResultB: string;
-  setPolishResultB: Dispatch<SetStateAction<string>>;
-  isPolishing: boolean;
-  setIsPolishing: Dispatch<SetStateAction<boolean>>;
-  chatEditMode: boolean;
-  setChatEditMode: Dispatch<SetStateAction<boolean>>;
-  selectText: string;
-  setSelectText: Dispatch<SetStateAction<string>>;
-  isEvaluationOpen: boolean;
-  setIsEvaluationOpen: Dispatch<SetStateAction<boolean>>;
-  isPlagiarismOpen: boolean;
-  setIsPlagiarismOpen: Dispatch<SetStateAction<boolean>>;
-  isMultiScreen: boolean;
-  hasPolishResult: boolean;
 };
 
 const AIEditiorContext = createContext({} as IAiEditiorContext);
@@ -39,56 +23,11 @@ export default function AIEditiorProvider({
   children: ReactNode;
 }) {
   const essayRef = useRef<HTMLDivElement>(null);
-  const [polishResult, setPolishResult] = useState<IPolishResultAData[]>([]);
-  const [polishResultB, setPolishResultB] = useState<string>('');
-  const [isPolishing, setIsPolishing] = useState(false);
-  const [chatEditMode, setChatEditMode] = useState(false);
-  const [selectText, setSelectText] = useState('');
-  const [isEvaluationOpen, setIsEvaluationOpen] = useState(false);
-  const [isPlagiarismOpen, setIsPlagiarismOpen] = useState(false);
-
-  const hasPolishResult = useMemo(() => {
-    return polishResult.length > 0 || polishResultB !== '';
-  }, [polishResult.length, polishResultB]);
-
-  const isMultiScreen = useMemo(() => {
-    return (
-      polishResult.length > 0 ||
-      polishResultB !== '' ||
-      isPolishing ||
-      chatEditMode ||
-      isEvaluationOpen ||
-      isPlagiarismOpen
-    );
-  }, [
-    chatEditMode,
-    isEvaluationOpen,
-    isPlagiarismOpen,
-    isPolishing,
-    polishResult.length,
-    polishResultB,
-  ]);
 
   return (
     <AIEditiorContext.Provider
       value={{
-        hasPolishResult,
-        isMultiScreen,
         essayRef,
-        polishResult,
-        setPolishResult,
-        polishResultB,
-        setPolishResultB,
-        isPolishing,
-        setIsPolishing,
-        chatEditMode,
-        setChatEditMode,
-        selectText,
-        setSelectText,
-        isEvaluationOpen,
-        setIsEvaluationOpen,
-        isPlagiarismOpen,
-        setIsPlagiarismOpen,
       }}
     >
       {children}

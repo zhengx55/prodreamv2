@@ -18,14 +18,18 @@ import { useToast } from '../ui/use-toast';
 import LoadingDot from '../root/LoadingDot';
 import { EvaluationsTitle } from '@/constant';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
+import useAIEditorStore from '@/zustand/store';
 
 const ReportSheet = () => {
   const { toast } = useToast();
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluateResult, setEvaluateResult] = useState<IEssayAssessData>();
-  const { essayRef, isEvaluationOpen, setIsEvaluationOpen } =
-    useAiEditiorContext();
+  const { essayRef } = useAiEditiorContext();
 
+  const isEvaluationOpen = useAIEditorStore((state) => state.isEvaluationOpen);
+  const setIsEvaluationOpen = useAIEditorStore(
+    (state) => state.updateIsEvaluationOpen
+  );
   const { mutateAsync: evaluation } = useMutation({
     mutationFn: (params: IEssayAssessRequest) => essayAssess(params),
     onSuccess: (data) => {
