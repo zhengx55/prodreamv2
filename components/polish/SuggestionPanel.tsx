@@ -4,6 +4,7 @@ import Spacer from '../root/Spacer';
 import { IPolishResultAData } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '../ui/button';
+import { useAIEditiorHistoryContext } from '@/context/AIEditiorHistoryProvider';
 
 const SuggestionPanel = () => {
   const {
@@ -13,6 +14,8 @@ const SuggestionPanel = () => {
     polishResultB,
     setPolishResultB,
   } = useAiEditiorContext();
+
+  const { storeIntoHistory } = useAIEditiorHistoryContext();
 
   const [suggestions, setSuggestions] = useState<IPolishResultAData[]>(() => {
     if (polishResult.length === 0) {
@@ -59,7 +62,10 @@ const SuggestionPanel = () => {
   };
 
   const replaceText = (index: number, item: IPolishResultAData) => {
+    if (!essayRef.current) return;
+    const essay_html = essayRef.current.innerHTML;
     item.data.map((sentence, sentence_idx) => {
+      if (!essayRef.current) return;
       if (sentence.status === 0) {
         return;
       }
@@ -79,6 +85,7 @@ const SuggestionPanel = () => {
         }
       }
     });
+    storeIntoHistory(essay_html);
     remove(index);
   };
 

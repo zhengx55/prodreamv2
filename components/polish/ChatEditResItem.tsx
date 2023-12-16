@@ -45,7 +45,6 @@ const ChatEditResItem = ({
         essayRef.current.innerHTML = `${updateEassyContent}`;
       }
     }
-
     // if both conditions are false, insert to the original text positions and replace the original text
   };
 

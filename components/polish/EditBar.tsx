@@ -5,6 +5,7 @@ import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { useToast } from '../ui/use-toast';
 import Tooltip from '../root/Tooltip';
 import dynamic from 'next/dynamic';
+import { useAIEditiorHistoryContext } from '@/context/AIEditiorHistoryProvider';
 
 const UploadModal = dynamic(() => import('./UploadModal'), { ssr: false });
 
@@ -13,12 +14,13 @@ const DownloadModal = dynamic(() => import('./DownloadModal'), { ssr: false });
 const EditBar = () => {
   const { essayRef } = useAiEditiorContext();
   const { toast } = useToast();
+  const { handleUndo, handleRedo } = useAIEditiorHistoryContext();
   return (
     <div
       className={`flex w-full justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1`}
     >
       <Tooltip tooltipContent='Undo'>
-        <button className='tool'>
+        <button onClick={handleUndo} className='tool'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='24'
@@ -35,7 +37,7 @@ const EditBar = () => {
       </Tooltip>
 
       <Tooltip tooltipContent='Redo'>
-        <button className='tool'>
+        <button onClick={handleRedo} className='tool'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='25'

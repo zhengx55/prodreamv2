@@ -8,7 +8,7 @@ import { queryPolish, submitPolish } from '@/query/api';
 import { IPolishParams } from '@/query/type';
 import { useToast } from '../ui/use-toast';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import EditiorLoading from './EditiorLoading';
 import dynamic from 'next/dynamic';
 import ChatEditResItem from './ChatEditResItem';

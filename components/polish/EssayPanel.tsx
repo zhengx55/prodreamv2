@@ -1,5 +1,5 @@
 'use client';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditBar from './EditBar';
 import { motion } from 'framer-motion';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
@@ -47,12 +47,11 @@ const EssayPanel = () => {
       return;
     }
     if (essay.content) {
-      essayRef.current.innerText = essay.content;
-      const words = essay.content
-        .replace(/[^a-zA-Z\s]/g, '')
-        .split(/\s+/)
-        .filter((word) => word !== '');
-      setWordCount(words.length);
+      essayRef.current.innerHTML = essay.content;
+      const text = essay.content;
+      const wordsArray = text.split(/\s+/);
+      const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
+      setWordCount(nonEmptyWords.length);
     }
   }, [essay]);
 
@@ -66,11 +65,14 @@ const EssayPanel = () => {
           mutation.type === 'characterData'
         ) {
           const text = essayRef.current.innerText;
-          const words = text
-            .replace(/[^a-zA-Z\s]/g, '')
-            .split(/\s+/)
-            .filter((word) => word !== '');
-          setWordCount(words.length);
+          const wordsArray = text.split(/\s+/);
+          const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
+          console.log(
+            '🚀 ~ file: EssayPanel.tsx:70 ~ observer ~ nonEmptyWords:',
+            nonEmptyWords
+          );
+
+          setWordCount(nonEmptyWords.length);
         }
       }
     });

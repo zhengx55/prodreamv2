@@ -181,10 +181,16 @@ const PolishModal = () => {
       }
       item.data.map((sentence, sentence_idx) => {
         if ([2, 3].includes(sentence.status)) {
-          const sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
+          let sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
+          if (
+            sentence_idx !== item.data.length - 1 &&
+            [2, 3].includes(item.data[sentence_idx + 1].status)
+          ) {
+            sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str}</span>`;
+          }
           finalText += sentenceHtml;
         } else if (sentence.status === 1) {
-          finalText += `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> </span>`;
+          finalText += `<span id="suggest-${index}-${sentence_idx}"></span>`;
         } else {
           const sentenceHtml = `<span>${sentence.sub_str}</span>`;
           finalText += sentenceHtml;
