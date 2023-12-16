@@ -67,10 +67,6 @@ const EssayPanel = () => {
           const text = essayRef.current.innerText;
           const wordsArray = text.split(/\s+/);
           const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
-          console.log(
-            '🚀 ~ file: EssayPanel.tsx:70 ~ observer ~ nonEmptyWords:',
-            nonEmptyWords
-          );
 
           setWordCount(nonEmptyWords.length);
         }

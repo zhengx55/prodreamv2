@@ -1,5 +1,5 @@
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useMemo, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { IPolishResultAData } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -36,6 +36,10 @@ const SuggestionPanel = () => {
       );
     }
   });
+  console.log(
+    '🚀 ~ file: SuggestionPanel.tsx:39 ~ SuggestionPanel ~ suggestions:',
+    suggestions
+  );
 
   const expand = (index: number) => {
     setSuggestions((prev) => {
@@ -144,7 +148,7 @@ const SuggestionPanel = () => {
             <Button
               onClick={() => {
                 if (!essayRef.current) return;
-                essayRef.current.innerText = polishResultB;
+                essayRef.current.innerHTML = polishResultB;
                 setPolishResultB('');
               }}
               className='font-semibold'
@@ -182,7 +186,7 @@ const SuggestionPanel = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className={`leading-relaxed`}
+                    className='break-words leading-relaxed text-black-400'
                   >
                     {item.data.map((sentence, idx) => {
                       const isAdd = sentence.status === 1;
@@ -192,12 +196,10 @@ const SuggestionPanel = () => {
                       return (
                         <Fragment key={`sentence-${index}-${idx}`}>
                           {isNoChange ? (
-                            <span className='text-black-400'>
-                              {sentence.sub_str}
-                            </span>
+                            sentence.sub_str
                           ) : isAdd ? (
                             <>
-                              &nbsp;
+                              {' '}
                               <span className='text-primary-200'>
                                 {sentence.new_str}
                               </span>
@@ -205,28 +207,24 @@ const SuggestionPanel = () => {
                                 <span className='text-black-400'>
                                   {sentence.sub_str}
                                 </span>
-                              )}
-                              &nbsp;
+                              )}{' '}
                             </>
                           ) : isDelete ? (
                             <>
-                              &nbsp;
+                              {' '}
                               <span className='text-red-500 line-through'>
                                 {sentence.sub_str}
-                              </span>
-                              &nbsp;
+                              </span>{' '}
                             </>
                           ) : isModify ? (
                             <>
-                              &nbsp;
+                              {' '}
                               <span className='text-red-500 line-through'>
                                 {sentence.sub_str}
-                              </span>
-                              &nbsp;
+                              </span>{' '}
                               <span className='text-primary-200'>
                                 {sentence.new_str}
-                              </span>
-                              &nbsp;
+                              </span>{' '}
                             </>
                           ) : null}
                         </Fragment>
@@ -256,7 +254,7 @@ const SuggestionPanel = () => {
                             </span>
                           ) : isAdd ? (
                             <>
-                              &nbsp;
+                              {' '}
                               <span className='text-primary-200'>
                                 {sentence.new_str}
                               </span>
@@ -264,28 +262,24 @@ const SuggestionPanel = () => {
                                 <span className='text-black-400'>
                                   {sentence.sub_str}
                                 </span>
-                              )}
-                              &nbsp;
+                              )}{' '}
                             </>
                           ) : isDelete ? (
                             <>
-                              &nbsp;
+                              {' '}
                               <span className='text-red-500 line-through'>
                                 {sentence.sub_str}
-                              </span>
-                              &nbsp;
+                              </span>{' '}
                             </>
                           ) : isModify ? (
                             <>
-                              &nbsp;
+                              {' '}
                               <span className='text-red-500 line-through'>
                                 {sentence.sub_str}
-                              </span>
-                              &nbsp;
+                              </span>{' '}
                               <span className='text-primary-200'>
                                 {sentence.new_str}
-                              </span>
-                              &nbsp;
+                              </span>{' '}
                             </>
                           ) : null}
                         </Fragment>
