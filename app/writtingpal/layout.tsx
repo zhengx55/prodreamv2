@@ -1,7 +1,6 @@
 'use client';
 import Navbar from '@/components/root/Navbar';
 import Sidebar from '@/components/root/Sidebar';
-import { Toaster } from '@/components/ui/toaster';
 import { initialUsage } from '@/constant';
 import MaxChatProvider from '@/context/MaxChateProvider';
 import useMount from '@/hooks/useMount';
@@ -63,7 +62,6 @@ export default function WrittingpalLayout({
       <>
         <div className='scale-down 2xl:scale-initial relative hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
           <Navbar />
-          <Toaster />
           <TutorialSheet />
           {children}
         </div>

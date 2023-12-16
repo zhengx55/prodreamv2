@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import EditBar from './EditBar';
 import { motion } from 'framer-motion';
 import { useAiEditiorContext } from '@/context/AIEditiorProvider';
@@ -25,21 +25,12 @@ const EssayPanel = () => {
   const essay = useAppSelector(selectEssay);
   const {
     essayRef,
+    hasPolishResult,
+    isMultiScreen,
     isPolishing,
-    polishResult,
     setSelectText,
     chatEditMode,
-    isEvaluationOpen,
-    isPlagiarismOpen,
-    polishResultB,
   } = useAiEditiorContext();
-  const hasPolishResult = polishResult.length > 0 || polishResultB !== '';
-  const isMultScreen =
-    hasPolishResult ||
-    isPolishing ||
-    chatEditMode ||
-    isEvaluationOpen ||
-    isPlagiarismOpen;
 
   // 检查是否有内容从其他页面传入
   useDeepCompareEffect(() => {
@@ -67,7 +58,6 @@ const EssayPanel = () => {
           const text = essayRef.current.innerText;
           const wordsArray = text.split(/\s+/);
           const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
-
           setWordCount(nonEmptyWords.length);
         }
       }
@@ -75,9 +65,7 @@ const EssayPanel = () => {
 
     const targetNode = essayRef.current;
     const config = { subtree: true, characterData: true, childList: true };
-
     observer.observe(targetNode, config);
-
     return () => {
       observer.disconnect();
     };
@@ -112,13 +100,13 @@ const EssayPanel = () => {
       <motion.div
         layout='position'
         style={{
-          justifyContent: isMultScreen ? 'flex-start' : 'center',
+          justifyContent: isMultiScreen ? 'flex-start' : 'center',
         }}
         className='flex h-full w-full gap-x-8 overflow-hidden p-4'
       >
         <motion.div
           layout='size'
-          style={{ width: isMultScreen ? '50%' : '66.666667%' }}
+          style={{ width: isMultiScreen ? '50%' : '66.666667%' }}
           className='flex h-full flex-col'
         >
           <EditBar />
@@ -157,4 +145,4 @@ const EssayPanel = () => {
   );
 };
 
-export default EssayPanel;
+export default memo(EssayPanel);

@@ -6,6 +6,7 @@ import {
   SetStateAction,
   createContext,
   useContext,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -26,6 +27,8 @@ type IAiEditiorContext = {
   setIsEvaluationOpen: Dispatch<SetStateAction<boolean>>;
   isPlagiarismOpen: boolean;
   setIsPlagiarismOpen: Dispatch<SetStateAction<boolean>>;
+  isMultiScreen: boolean;
+  hasPolishResult: boolean;
 };
 
 const AIEditiorContext = createContext({} as IAiEditiorContext);
@@ -44,9 +47,33 @@ export default function AIEditiorProvider({
   const [isEvaluationOpen, setIsEvaluationOpen] = useState(false);
   const [isPlagiarismOpen, setIsPlagiarismOpen] = useState(false);
 
+  const hasPolishResult = useMemo(() => {
+    return polishResult.length > 0 || polishResultB !== '';
+  }, [polishResult.length, polishResultB]);
+
+  const isMultiScreen = useMemo(() => {
+    return (
+      polishResult.length > 0 ||
+      polishResultB !== '' ||
+      isPolishing ||
+      chatEditMode ||
+      isEvaluationOpen ||
+      isPlagiarismOpen
+    );
+  }, [
+    chatEditMode,
+    isEvaluationOpen,
+    isPlagiarismOpen,
+    isPolishing,
+    polishResult.length,
+    polishResultB,
+  ]);
+
   return (
     <AIEditiorContext.Provider
       value={{
+        hasPolishResult,
+        isMultiScreen,
         essayRef,
         polishResult,
         setPolishResult,

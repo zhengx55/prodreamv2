@@ -1,11 +1,11 @@
 'use client';
 import React, { memo } from 'react';
 import { Separator } from '../ui/separator';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { useToast } from '../ui/use-toast';
 import Tooltip from '../root/Tooltip';
 import dynamic from 'next/dynamic';
 import { useAIEditiorHistoryContext } from '@/context/AIEditiorHistoryProvider';
+import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 
 const UploadModal = dynamic(() => import('./UploadModal'), { ssr: false });
 

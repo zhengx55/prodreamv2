@@ -36,10 +36,6 @@ const SuggestionPanel = () => {
       );
     }
   });
-  console.log(
-    '🚀 ~ file: SuggestionPanel.tsx:39 ~ SuggestionPanel ~ suggestions:',
-    suggestions
-  );
 
   const expand = (index: number) => {
     setSuggestions((prev) => {
