@@ -1,5 +1,4 @@
 'use client';
-
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { memo, useState } from 'react';
 import { Button } from '../ui/button';
@@ -24,10 +23,8 @@ const ReportSheet = () => {
   const { toast } = useToast();
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluateResult, setEvaluateResult] = useState<IEssayAssessData>();
-  const { essayRef, setIsEvaluationOpen } = useAiEditiorContext();
-  const handleOpen = (status: boolean) => {
-    setIsEvaluationOpen(status);
-  };
+  const { essayRef, isEvaluationOpen, setIsEvaluationOpen } =
+    useAiEditiorContext();
 
   const { mutateAsync: evaluation } = useMutation({
     mutationFn: (params: IEssayAssessRequest) => essayAssess(params),
@@ -41,6 +38,12 @@ const ReportSheet = () => {
     },
     onMutate: () => {
       setIsEvaluating(true);
+      if (evaluateResult) {
+        setEvaluateResult(undefined);
+      }
+      if (isEvaluationOpen) {
+        setIsEvaluationOpen(false);
+      }
     },
     onError: (err) => {
       setIsEvaluating(false);
@@ -71,8 +74,23 @@ const ReportSheet = () => {
     }
   };
 
+  const handleEvaluate = async () => {
+    if (!essayRef.current) return;
+    const essayContent = essayRef.current.innerText.trim();
+    if (essayContent === '') {
+      toast({
+        description: 'No content detected',
+        variant: 'destructive',
+      });
+      return;
+    }
+    await evaluation({
+      text: essayRef.current?.innerText,
+    });
+  };
+
   return (
-    <Sheet onOpenChange={handleOpen}>
+    <Sheet open={isEvaluationOpen} onOpenChange={setIsEvaluationOpen}>
       <div className='flex flex-col gap-y-3 rounded-xl bg-card p-4'>
         {evaluateResult ? (
           <>
@@ -99,20 +117,7 @@ const ReportSheet = () => {
           </SheetTrigger>
         ) : (
           <Button
-            onClick={async () => {
-              if (!essayRef.current) return;
-              const essayContent = essayRef.current.innerText.trim();
-              if (essayContent === '') {
-                toast({
-                  description: 'No content detected',
-                  variant: 'destructive',
-                });
-                return;
-              }
-              await evaluation({
-                text: essayRef.current?.innerText,
-              });
-            }}
+            onClick={handleEvaluate}
             variant={'white'}
             disabled={isEvaluating}
             className='small-semibold justify-center'
@@ -129,7 +134,10 @@ const ReportSheet = () => {
               <span className='text-primary-200'>{evaluateResult?.score}</span>
             </h2>
             <Spacer y='22' />
-            <Button className='title-semibold self-start bg-card px-4'>
+            <Button
+              onClick={handleEvaluate}
+              className='title-semibold self-start bg-card px-4'
+            >
               Re-evaluate
             </Button>
           </div>
