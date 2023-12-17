@@ -16,7 +16,7 @@ export interface IBrainsotrmCard {
 export interface IBrainStormHistoryState {
   template_id: string;
   result: string;
-  questionAnswerPair: Record<string, string>;
+  questionAnswerPair: Record<string, InputProps>;
 }
 
 export type CreateHandleChangeArgsWithDescription<T> =
@@ -182,3 +182,29 @@ export interface Question {
   welcome: string;
   [property: string]: any;
 }
+
+export interface IUsage {
+  /**
+   * 是否是以第一次使用ai editor
+   * 以此类推
+   */
+  first_editior: boolean;
+  first_brainstorm: boolean;
+  first_resume: boolean;
+  first_activity_list: boolean;
+  first_activity_list_upload: boolean;
+  first_activity_list_generate: boolean;
+  first_activity_list_edit: boolean;
+}
+
+export type InputProps = {
+  value: string;
+  disable: boolean;
+};
+
+export type IChatEditItem = {
+  original: string;
+  result: string;
+  instruction: string | number;
+  expand: boolean;
+};

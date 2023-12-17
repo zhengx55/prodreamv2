@@ -174,3 +174,8 @@ export function formatTimestampToDateString(timestamp: number) {
 
   return `${month} ${day}, ${year} ${hours}:${minutes}:${seconds}`;
 }
+
+export function removeHtmlTags(input: string): string {
+  let resultwithBR = input.replace(/<\/?span[^>]*>/g, '');
+  return resultwithBR.replace(/<br\s*\/?>/gi, '\n');
+}

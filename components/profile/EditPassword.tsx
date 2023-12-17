@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/form';
 import { useMutation } from '@tanstack/react-query';
 import { profileResetPasswords } from '@/query/api';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 
 type Props = {
   isActive: boolean;
@@ -31,7 +31,6 @@ type Props = {
 };
 
 const EditPassModal = ({ isActive, toogleActive }: Props) => {
-  const { toast } = useToast();
   const [hidePassword, setHidePassword] = useState(true);
   const [hideNewPassword, setHideNewPassword] = useState(true);
 
@@ -48,16 +47,10 @@ const EditPassModal = ({ isActive, toogleActive }: Props) => {
       profileResetPasswords(params),
     onSuccess: () => {
       toogleActive();
-      toast({
-        variant: 'default',
-        description: 'Password has been reset successfully!',
-      });
+      toast.success('Password has been reset successfully!');
     },
     onError: (error) => {
-      toast({
-        variant: 'destructive',
-        description: error.message,
-      });
+      toast.error(error.message);
     },
   });
 

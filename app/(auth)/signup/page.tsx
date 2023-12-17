@@ -21,15 +21,19 @@ import GoogleSignin from '@/components/auth/GoogleSignin';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { userLogin, userSignUp } from '@/query/api';
+import { getUserInfo, userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
+import { setUsage } from '@/store/reducers/usageSlice';
+import { useAppDispatch } from '@/store/storehooks';
+import { initialUsage } from '@/constant';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
-  const { toast } = useToast();
+
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
 
@@ -44,14 +48,14 @@ export default function Page() {
     {
       mutationFn: (param: ISigunUpRequest) => userSignUp(param),
       onSuccess: async (_, variables, _contex) => {
-        toast({
-          variant: 'default',
-          description: 'Successfully Signup',
-        });
+        toast.success('Successfully Signup');
         const login_data = await userLogin({
           username: variables.email,
           password: variables.password,
         });
+        const user_usage = await getUserInfo(login_data.email);
+        if (user_usage) dispatch(setUsage(user_usage));
+        else dispatch(setUsage(initialUsage));
         setCookie('token', login_data.access_token, {
           path: '/',
           maxAge: 604800,
@@ -59,10 +63,7 @@ export default function Page() {
         router.push('/welcome/info');
       },
       onError: (error) => {
-        toast({
-          variant: 'destructive',
-          description: error.message,
-        });
+        toast.error(error.message);
       },
     }
   );

@@ -1,7 +1,7 @@
 'use client';
-import ChatHistory from '@/components/chat/ChatHistory';
-import ChatInfo from '@/components/chat/ChatInfo';
-import ChatMessageList from '@/components/chat/ChatMessageList';
+import ChatHistory from '@/_archived/chat_comp/ChatHistory';
+import ChatInfo from '@/_archived/chat_comp/ChatInfo';
+import ChatMessageList from '@/_archived/chat_comp/ChatMessageList';
 import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
 import { ChatSteps } from '@/constant/enum';
@@ -202,7 +202,7 @@ const ChatPanel = () => {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -10, opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className='md:custom-scrollbar relative flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col items-center px-4 pt-5 md:overflow-y-auto md:px-10 md:pt-10'
+        className='relative flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col items-center px-4 pt-5 md:overflow-y-auto md:px-10 md:pt-10'
       >
         {/* steps */}
         <h2 className='h3-semibold self-start text-primary-200'>

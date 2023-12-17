@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    @apply box-border list-none p-0 m-0 scroll-smooth;
+    @apply box-border list-none p-0 m-0 scroll-smooth scrollbar-track-transparent scrollbar-thumb-slate-200;
   }
 
   body {
@@ -157,11 +157,11 @@
   }
 
   .tooltip {
-    @apply flex-center p-2 rounded-md bg-white shadow-tooltip cursor-pointer hover:-translate-y-1 transition-transform
+    @apply flex-center p-2 gap-x-2 rounded-md small-semibold bg-white shadow-tooltip cursor-pointer hover:-translate-y-1 transition-transform
   }
 
   .tool {
-    @apply cursor-pointer rounded-[4px] bg-transparent p-1 hover:bg-border-50 flex gap-x-2 font-semibold
+    @apply cursor-pointer rounded-[4px] bg-transparent p-1 hover:bg-border-50 flex gap-x-2 small-semibold items-center
   }
 
   .bulletin-tab {
@@ -172,8 +172,8 @@
     @apply underline decoration-[2px] decoration-red-400 underline-offset-[5px]
   }
 
-  .suggenst-artice{
-    @apply text-[16px] leading-relaxed whitespace-pre-wrap
+  .suggenst-artice {
+    @apply text-[16px] break-keep leading-loose
   }
 
   [contenteditable=true]:empty:before {
@@ -183,32 +183,15 @@
     color: gray;
   }
 
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #F4F5F6;
-    border-radius: 50px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #F4F5F6;
-  }
-
   .common-container {
-    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
+    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14;
   }
 
   .chat-mode {
     @apply flex hover:opacity-50 cursor-pointer flex-col items-center justify-center rounded-[10px] md:h-[20rem] gap-y-4 md:w-[25rem] px-12
   }
 }
+
 
 :root {
   --top-nav-bar-height: 4rem;

@@ -7,11 +7,27 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TutTabs } from '@/constant';
 import ActivityListTut from './ActivityListTut';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 const TutorialSheet = () => {
+  const path = usePathname();
+  const currnetRoute = path.split('/')[2];
   const [tutTabs, setTutTabs] = useState(0);
+
+  useEffect(() => {
+    if (currnetRoute === 'polish') {
+      setTutTabs(0);
+    } else if (currnetRoute === 'brainstorm') {
+      setTutTabs(1);
+    } else if (currnetRoute === 'resume') {
+      setTutTabs(2);
+    } else {
+      setTutTabs(3);
+    }
+  }, [currnetRoute]);
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -22,17 +38,30 @@ const TutorialSheet = () => {
       <SheetContent className='flex flex-col px-4 py-6'>
         <SheetHeader>
           <SheetTitle className='px-4'>Tutorial</SheetTitle>
-          <div className='mt-4 flex items-center'>
+          <div className='mt-4 flex items-center gap-x-2'>
             {TutTabs.map((item, index) => (
               <div
                 onClick={() => setTutTabs(index)}
                 key={item.id}
                 className={`${
                   tutTabs === index
-                    ? 'border-b-2 border-black-100 font-semibold'
-                    : 'font-regular border-b border-shadow-border'
-                } flex cursor-pointer justify-center px-4 py-2 text-[16px]`}
+                    ? 'border-2 border-primary-200 bg-primary-50'
+                    : 'border border-shadow-border'
+                } base-semibold flex w-36 cursor-pointer flex-col justify-center gap-y-2 rounded-lg p-2 text-[16px]`}
               >
+                <div
+                  style={{ backgroundColor: item.bg }}
+                  className='flex-center h-full w-full shrink-0 overflow-hidden py-2'
+                >
+                  <Image
+                    alt={item.title}
+                    src={item.image}
+                    width={1000}
+                    height={1000}
+                    className='h-[60px] w-[60px]'
+                  />
+                </div>
+
                 {item.title}
               </div>
             ))}

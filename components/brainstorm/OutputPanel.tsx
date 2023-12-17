@@ -2,16 +2,21 @@
 import { cn } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useCallback, useRef, useState } from 'react';
-import OutcomePanel from './OutcomePanel';
 import dynamic from 'next/dynamic';
-const MemoizedHistoryPanel = dynamic(() => import('./HistoryPanel'), {
+import useUnmount from 'beautiful-react-hooks/useUnmount';
+import { useBrainStormContext } from '@/context/BrainStormProvider';
+import Spacer from '../root/Spacer';
+const HistoryPanel = dynamic(() => import('./HistoryPanel'), {
   ssr: false,
 });
+const OutcomePanel = dynamic(() => import('./OutcomePanel'), { ssr: false });
+const TutorialPanel = dynamic(() => import('./TutorialPanel'), { ssr: false });
+
 const OutputPanel = () => {
   const [tab, setTab] = useState<number>(0);
   const printIndexRef = useRef<number>(0);
   const [animatedWordCount, setAnimatedWordCount] = useState(0);
-
+  const { setHistoryData, setEassyResult } = useBrainStormContext();
   const IncrementWordCount = useCallback(() => {
     setAnimatedWordCount((prev) => prev + 1);
   }, []);
@@ -20,11 +25,16 @@ const OutputPanel = () => {
     setTab(value);
   }, []);
 
+  useUnmount(() => {
+    setEassyResult('');
+    setHistoryData({ template_id: '', result: '', questionAnswerPair: {} });
+  });
+
   return (
     <>
       {/* tabs */}
       <div className='h-13 flex shrink-0 items-center gap-x-[10px] rounded-xl border border-shadow-border bg-white p-1 md:h-12 md:w-[60%]'>
-        <div
+        <span
           className={cn(
             'tab-default',
             tab === 0 && 'bg-primary-50 text-primary-200'
@@ -32,8 +42,8 @@ const OutputPanel = () => {
           onClick={() => setTab(0)}
         >
           New Output
-        </div>
-        <div
+        </span>
+        <span
           className={cn(
             'tab-default',
             tab === 1 && 'bg-primary-50 text-primary-200'
@@ -41,8 +51,8 @@ const OutputPanel = () => {
           onClick={() => setTab(1)}
         >
           History
-        </div>
-        <div
+        </span>
+        <span
           className={cn(
             'tab-default',
             tab === 2 && 'bg-primary-50 text-primary-200'
@@ -50,19 +60,22 @@ const OutputPanel = () => {
           onClick={() => setTab(2)}
         >
           Tutorial
-        </div>
+        </span>
       </div>
-      <main className='overflow-y-auto md:h-full md:w-full'>
+      <Spacer y='20' />
+      <main className='h-full w-full overflow-y-auto'>
         <AnimatePresence mode='wait'>
           {tab === 1 ? (
-            <MemoizedHistoryPanel handleTabChange={handleTabChange} />
+            <HistoryPanel handleTabChange={handleTabChange} />
           ) : tab === 0 ? (
             <OutcomePanel
               printIndexRef={printIndexRef}
               animatedWordCount={animatedWordCount}
               incrementCount={IncrementWordCount}
             />
-          ) : null}
+          ) : (
+            <TutorialPanel handleTabChange={handleTabChange} />
+          )}
         </AnimatePresence>
       </main>
     </>

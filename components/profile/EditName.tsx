@@ -17,7 +17,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 import { useAppDispatch } from '@/store/storehooks';
 import { useForm } from 'react-hook-form';
 import { resetName } from '@/lib/validation';
@@ -33,7 +33,6 @@ type Props = {
 };
 
 const EditNameModal = ({ isActive, toogleActive }: Props) => {
-  const { toast } = useToast();
   const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof resetName>>({
     resolver: zodResolver(resetName),
@@ -48,18 +47,12 @@ const EditNameModal = ({ isActive, toogleActive }: Props) => {
       profileResetName(params),
     onSuccess: () => {
       toogleActive();
-      toast({
-        variant: 'default',
-        description: 'Name has been reset successfully!',
-      });
+      toast.success('Name has been reset successfully!');
       dispatch(setUserFirstName(form.getValues().firstname));
       dispatch(setUserLastName(form.getValues().lastname));
     },
     onError: (error) => {
-      toast({
-        variant: 'destructive',
-        description: error.message,
-      });
+      toast.error(error.message);
     },
   });
 

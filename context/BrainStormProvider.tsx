@@ -1,4 +1,4 @@
-import { IBrainStormHistoryState } from '@/types';
+import { IBrainStormHistoryState, InputProps } from '@/types';
 import {
   Dispatch,
   ReactNode,
@@ -19,6 +19,8 @@ type IBrainStormContext = {
   setEassyResult: Dispatch<SetStateAction<string>>;
   startTyping: boolean;
   setStartTyping: Dispatch<SetStateAction<boolean>>;
+  tutorial: Record<string, InputProps>;
+  setTutorial: Dispatch<SetStateAction<Record<string, InputProps>>>;
 };
 
 const BrainStormContext = createContext({} as IBrainStormContext);
@@ -33,7 +35,7 @@ export default function BrainStormProvider({
     result: '',
     questionAnswerPair: {},
   });
-
+  const [tutorial, setTutorial] = useState<Record<string, InputProps>>({});
   const [isSubmiting, setIsSubmiting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [startTyping, setStartTyping] = useState(false);
@@ -52,6 +54,8 @@ export default function BrainStormProvider({
         setEassyResult,
         startTyping,
         setStartTyping,
+        tutorial,
+        setTutorial,
       }}
     >
       {children}

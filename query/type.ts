@@ -162,7 +162,7 @@ export interface IEssayAssessRequest {
   /**
    * 用户所选Institution的ID(1级）
    */
-  institution_id: string;
+  institution_id?: string;
   /**
    * 不传该参数时，默认为英文版
    */
@@ -170,7 +170,7 @@ export interface IEssayAssessRequest {
   /**
    * 用户所选系统下题目的ID。（2级）
    */
-  prompt_id: string;
+  prompt_id?: string;
   /**
    * 文书
    */
@@ -309,11 +309,37 @@ export interface IPolishParams {
    * 目标字数
    */
   volume_target?: number;
+  instruction?: string | number;
 }
 
 export interface IPolishQueryData {
   result: IPolishQueryResult[];
   status: string;
+}
+
+export interface IPolishResultA {
+  // 分段或分句的数据格式响应
+  result: IPolishResultAData[] | string;
+  status: string;
+}
+
+export interface IPolishResultAData {
+  end: number;
+  data: {
+    sub_str: string;
+    new_str: string;
+    /**
+     * 0 - 无变化
+     * 1 - 增
+     * 2 - 删
+     * 3 - 改
+     *
+     */
+    status: 0 | 1 | 2 | 3;
+  }[];
+  start: number;
+  expand?: boolean;
+  hide?: boolean;
 }
 
 export interface IPolishQueryResult {
@@ -351,4 +377,15 @@ export interface Comment {
   evaluation: string;
   example: string;
   suggestion: string;
+}
+
+export interface IPlagiarismData {
+  scores: number;
+  spans: Span[];
+  status: string;
+}
+
+export interface Span {
+  span: number[];
+  urls: string[];
 }

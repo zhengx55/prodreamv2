@@ -6,13 +6,13 @@ import { useMaxChatContext } from '@/context/MaxChateProvider';
 import { useGetChatHistory } from '@/query/query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteSession } from '@/query/api';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 
 const ChatHistory = () => {
   const { setShowMenu, setCurrentChatType, setCurrentSession } =
     useMaxChatContext();
   const queryClient = useQueryClient();
-  const { toast } = useToast();
+
   const {
     data: chatHistory,
     isPending: isChatHistoryPending,
@@ -22,17 +22,11 @@ const ChatHistory = () => {
   const { mutateAsync: deleteHistory } = useMutation({
     mutationFn: (session_id: string) => deleteSession(session_id),
     onSuccess: () => {
-      toast({
-        variant: 'default',
-        description: 'Successfully delete chat history.',
-      });
+      toast.success('Successfully delete chat history.');
       queryClient.invalidateQueries({ queryKey: ['chat_history'] });
     },
     onError: (error) => {
-      toast({
-        description: error.message,
-        variant: 'destructive',
-      });
+      toast.error(error.message);
     },
   });
   const deleteChatHistory = async (session_id: string) => {

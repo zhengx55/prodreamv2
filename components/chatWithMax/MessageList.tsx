@@ -67,7 +67,6 @@ const MessageList = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!Boolean(currentSession)) {
-        console.log('triggering');
         fetchFirst({
           query: '',
           func_type: currentChatType,

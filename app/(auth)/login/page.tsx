@@ -24,12 +24,13 @@ import { useState } from 'react';
 import { useAppDispatch } from '@/store/storehooks';
 import { setUser } from '@/store/reducers/userSlice';
 import { useMutation } from '@tanstack/react-query';
-import { userLogin } from '@/query/api';
-import { useToast } from '@/components/ui/use-toast';
+import { getUserInfo, userLogin } from '@/query/api';
 import { useRouter } from 'next/navigation';
+import { setUsage } from '@/store/reducers/usageSlice';
+import { initialUsage } from '@/constant';
+import { toast } from 'sonner';
 
 export default function Page() {
-  const { toast } = useToast();
   const [_cookies, setCookie] = useCookies(['token']);
   const [hidePassword, setHidePassword] = useState(true);
   const router = useRouter();
@@ -44,23 +45,20 @@ export default function Page() {
   const { mutateAsync: handleLogin } = useMutation({
     mutationFn: (param: { username: string; password: string }) =>
       userLogin(param),
-    onSuccess: (data) => {
-      toast({
-        variant: 'default',
-        description: 'Successfully Login',
-      });
+    onSuccess: async (data) => {
+      toast.success('Successfully Login');
+      const user_usage = await getUserInfo(data.email);
+      if (user_usage) dispatch(setUsage(user_usage));
+      else dispatch(setUsage(initialUsage));
+      dispatch(setUser(data));
       setCookie('token', data.access_token, {
         path: '/',
         maxAge: 604800,
       });
-      dispatch(setUser(data));
       router.push('/welcome');
     },
     onError: (error) => {
-      toast({
-        variant: 'destructive',
-        description: error.message,
-      });
+      toast.error(error.message);
     },
   });
 

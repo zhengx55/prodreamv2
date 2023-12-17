@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import {
   AnimatePresence,
   SVGMotionProps,
@@ -45,15 +45,12 @@ const Sidebar = () => {
       case 'brainstorm':
         index = 1;
         break;
-
       case 'resume':
         index = 2;
         break;
-
       case 'activityList':
         index = 3;
         break;
-
       default:
         break;
     }
@@ -180,4 +177,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

@@ -1,4 +1,4 @@
-import { AnswerRequestParam, FormQuestionResponse } from '@/types';
+import { AnswerRequestParam, FormQuestionResponse, IUsage } from '@/types';
 import {
   IActListResData,
   IBrainStormSection,
@@ -18,6 +18,8 @@ import {
   LoginData,
   SupportDetailData,
   IBriansotrmReq,
+  IPolishResultA,
+  IPlagiarismData,
 } from './type';
 import Cookies from 'js-cookie';
 
@@ -72,6 +74,9 @@ export async function getBrianstormHistoryById(
       }
     );
     const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
     return data;
   } catch (error) {
     throw new Error(error as string);
@@ -167,6 +172,58 @@ export async function SubmitEssayWritting(
 }
 
 // ----------------------------------------------------------------
+// Info
+// ----------------------------------------------------------------
+
+export async function getUserInfo(email: string): Promise<IUsage> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/info?email=${email}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function updateUserInfo(
+  email: string,
+  params: IUsage
+): Promise<void> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/info?email=${email}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...params,
+        }),
+        method: 'POST',
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+// ----------------------------------------------------------------
 // Authentication
 // ----------------------------------------------------------------
 
@@ -181,7 +238,6 @@ export async function userLogin(loginParam: {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}login`, {
       method: 'POST',
       body: formData,
-      credentials: 'include',
     });
     const data = await res.json();
     if (data.data === null) {
@@ -337,6 +393,34 @@ export async function plagiarismCheck(text: string) {
   }
 }
 
+export async function plagiarismQuery(
+  scan_id: string
+): Promise<IPlagiarismData> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}plagiarism_check/query`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          scan_id,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function submitPolish(params: IPolishParams) {
   try {
     const token = Cookies.get('token');
@@ -351,6 +435,7 @@ export async function submitPolish(params: IPolishParams) {
           volume_control: params.volume_control,
           volume_target: params.volume_target,
           scenario: params.scenario,
+          instruction: params.instruction,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -370,7 +455,7 @@ export async function submitPolish(params: IPolishParams) {
 
 export async function queryPolish(params: {
   task_id: string;
-}): Promise<IPolishQueryData> {
+}): Promise<IPolishResultA> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -525,6 +610,28 @@ export async function uploadEssay(params: { file: File }) {
 }
 
 export async function downloadEassy() {}
+
+export async function getPreDefinedOptions() {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}essay_polish/preset_prompt`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 // ----------------------------------------------------------------
 // Activity List
@@ -811,7 +918,6 @@ export async function fetchFinalAs(session_id: string): Promise<any> {
       `${process.env.NEXT_PUBLIC_API_URL}answer_guide/${session_id}`,
       {
         method: 'GET',
-        credentials: 'include',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -1088,7 +1194,7 @@ export async function profileResetAvatar(params: { file: File }) {
   }
 }
 
-export async function refreshUserSession() {
+export async function refreshUserSession(): Promise<LoginData> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}refresh`, {

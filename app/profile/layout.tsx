@@ -2,7 +2,6 @@
 import Navbar from '@/components/root/Navbar';
 import ProfileSidebar from '@/components/root/ProfileSidebar';
 import Sidebar from '@/components/root/Sidebar';
-import { Toaster } from '@/components/ui/toaster';
 import MaxChatProvider from '@/context/MaxChateProvider';
 import useMount from '@/hooks/useMount';
 import { refreshUserSession } from '@/query/api';
@@ -37,7 +36,6 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
       </MaxChatProvider>
       <div className='scale-down 2xl:scale-initial hidden h-full w-full flex-col overflow-x-auto sm:flex md:overflow-y-hidden'>
         <Navbar />
-        <Toaster />
         <main className='flex flex-1'>
           <ProfileSidebar />
           {children}

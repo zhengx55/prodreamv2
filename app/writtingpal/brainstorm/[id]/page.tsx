@@ -1,30 +1,29 @@
-'use client';
-import FormPanel from '@/components/brainstorm/FormPanel';
-import OutputPanel from '@/components/brainstorm/OutputPanel';
-import { Grid } from 'lucide-react';
-import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import ResizePanel from '@/components/brainstorm/ResizePanel';
+import { IBrainStormSection } from '@/query/type';
+import { cookies } from 'next/headers';
 
-export default function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: { id: string } }) {
+  const cookieStore = cookies();
+  const cookie = cookieStore.get('token');
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}get_template?lang=en`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        template_id: params.id,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${cookie?.value}`,
+      },
+    }
+  );
+  const data = await res.json();
+  const template_data: IBrainStormSection = data.data.result;
+
   return (
     <main className='flex h-full w-full overflow-y-hidden bg-sectionBackground'>
-      <PanelGroup direction='horizontal' disablePointerEventsDuringResize>
-        <Panel minSize={45} defaultSize={50}>
-          <FormPanel brainStormId={params.id} />
-        </Panel>
-        <PanelResizeHandle className='relative w-[1px] rounded-lg bg-shadow-border'>
-          <Grid
-            className='absolute -left-2.5 top-[50%] text-shadow'
-            size={20}
-          />
-        </PanelResizeHandle>
-        <Panel
-          className='flex h-full w-full flex-col overflow-y-hidden px-6 pt-4'
-          minSize={45}
-          defaultSize={50}
-        >
-          <OutputPanel />
-        </Panel>
-      </PanelGroup>
+      <ResizePanel template_data={template_data} />
     </main>
   );
 }

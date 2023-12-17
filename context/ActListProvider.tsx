@@ -5,6 +5,7 @@ import {
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
@@ -25,6 +26,10 @@ type IActListContext = {
     type: string,
     dataType: 'generated' | 'history'
   ) => void;
+  showGenerateTut: boolean;
+  setShowGenerateTut: Dispatch<SetStateAction<boolean>>;
+  showEditTut: boolean;
+  setShowEditTut: Dispatch<SetStateAction<boolean>>;
 };
 
 const ActListContext = createContext({} as IActListContext);
@@ -32,6 +37,8 @@ const ActListContext = createContext({} as IActListContext);
 export default function ActListProvider({ children }: { children: ReactNode }) {
   const [historyData, setHistoryData] = useState<IActListResData>({});
   const [generatedData, setGeneratedData] = useState<IActListResData>({});
+  const [showGenerateTut, setShowGenerateTut] = useState(false);
+  const [showEditTut, setShowEditTut] = useState(false);
 
   const handleDelete = (
     id: string,
@@ -116,6 +123,10 @@ export default function ActListProvider({ children }: { children: ReactNode }) {
         setHistoryData,
         setGeneratedData,
         handleSave,
+        showGenerateTut,
+        setShowGenerateTut,
+        showEditTut,
+        setShowEditTut,
       }}
     >
       {children}
