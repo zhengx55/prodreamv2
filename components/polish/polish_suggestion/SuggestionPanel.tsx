@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react';
-import Spacer from '../root/Spacer';
+import Spacer from '../../root/Spacer';
 import { IPolishResultAData } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { useAIEditiorHistoryContext } from '@/context/AIEditiorHistoryProvider';
 import useAIEditorStore from '@/zustand/store';
 

@@ -9,12 +9,15 @@ import useAIEditorStore from '@/zustand/store';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 import { removeHtmlTags } from '@/lib/utils';
 
-const SuggestionPanel = dynamic(() => import('./SuggestionPanel'), {
-  ssr: false,
-  loading: () => <EditiorLoading />,
-});
+const SuggestionPanel = dynamic(
+  () => import('./polish_suggestion/SuggestionPanel'),
+  {
+    ssr: false,
+    loading: () => <EditiorLoading />,
+  }
+);
 
-const ChatEditPanel = dynamic(() => import('./ChatEditPanel'), {
+const ChatEditPanel = dynamic(() => import('./chat_edit/ChatEditPanel'), {
   ssr: false,
   loading: () => <EditiorLoading />,
 });
@@ -42,7 +45,7 @@ const EssayPanel = () => {
   const updateSelectText = useAIEditorStore((state) => state.updateSelectText);
 
   const handleInput = (event: ContentEditableEvent) => {
-    updateHtml(event.target.value);
+    updateHtml(event.currentTarget.innerText);
   };
 
   const eassyWordCount = useMemo(() => {
@@ -102,6 +105,7 @@ const EssayPanel = () => {
               disabled={false}
               onChange={handleInput}
               spellCheck={false}
+              contentEditable='plaintext-only'
             />
 
             <div className='flex-between absolute -bottom-6 left-0 flex h-12 w-full'>

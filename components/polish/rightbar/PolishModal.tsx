@@ -8,13 +8,13 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { ChevronRight } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { memo, useRef, useState } from 'react';
-import { Separator } from '../ui/separator';
-import Spacer from '../root/Spacer';
+import { Separator } from '../../ui/separator';
+import Spacer from '../../root/Spacer';
 import useObjectState from 'beautiful-react-hooks/useObjectState';
-import { Input } from '../ui/input';
-import { useToast } from '../ui/use-toast';
+import { Input } from '../../ui/input';
+import { useToast } from '../../ui/use-toast';
 import { IPolishParams, IPolishResultAData } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';

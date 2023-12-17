@@ -5,10 +5,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Textarea } from '../ui/textarea';
+import { Textarea } from '../../ui/textarea';
 import type { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { IPolishParams } from '@/query/type';
-import { useToast } from '../ui/use-toast';
+import { useToast } from '../../ui/use-toast';
 import useAIEditorStore from '@/zustand/store';
 
 const ChatEditInputField = ({

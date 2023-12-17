@@ -4,7 +4,7 @@ import Image from 'next/image';
 import React, { SetStateAction, memo } from 'react';
 import { PresetIcons, PresetInstructions } from '@/constant';
 import { IChatEditItem } from '@/types';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { ChevronDown, RefreshCwIcon } from 'lucide-react';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
@@ -36,6 +36,10 @@ const ChatEditResItem = ({
         const updateEassyContent = `${editor_html.slice(0, startOffset)}${
           target.result
         }${editor_html.slice(startOffset)}`;
+        console.log(
+          '🚀 ~ file: ChatEditResItem.tsx:39 ~ updateEassyContent ~ updateEassyContent:',
+          updateEassyContent
+        );
         updateHtml(`${updateEassyContent}`);
       } else {
         const updateEassyContent = `${editor_html.slice(0, startOffset)}${

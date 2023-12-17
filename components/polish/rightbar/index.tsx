@@ -1,9 +1,9 @@
 'use client';
 import React, { memo } from 'react';
-import Spacer from '../root/Spacer';
+import Spacer from '../../root/Spacer';
 import { PenLine } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Separator } from '../ui/separator';
+import { Button } from '../../ui/button';
+import { Separator } from '../../ui/separator';
 import dynamic from 'next/dynamic';
 import useAIEditorStore from '@/zustand/store';
 

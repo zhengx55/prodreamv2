@@ -1,21 +1,21 @@
 'use client';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { memo, useState } from 'react';
-import { Button } from '../ui/button';
-import Spacer from '../root/Spacer';
+import { Button } from '../../ui/button';
+import Spacer from '../../root/Spacer';
 import Image from 'next/image';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '../ui/accordion';
-import { Separator } from '../ui/separator';
+} from '../../ui/accordion';
+import { Separator } from '../../ui/separator';
 import { useMutation } from '@tanstack/react-query';
 import { downloadReport, essayAssess } from '@/query/api';
 import { IEssayAssessData, IEssayAssessRequest } from '@/query/type';
-import { useToast } from '../ui/use-toast';
-import LoadingDot from '../root/LoadingDot';
+import { useToast } from '../../ui/use-toast';
+import LoadingDot from '../../root/LoadingDot';
 import { EvaluationsTitle } from '@/constant';
 import useAIEditorStore from '@/zustand/store';
 import { removeHtmlTags } from '@/lib/utils';

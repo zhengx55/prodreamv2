@@ -1,19 +1,21 @@
 'use client';
 import { SetStateAction, memo, useCallback, useRef, useState } from 'react';
-import Spacer from '../root/Spacer';
+import Spacer from '../../root/Spacer';
 import { usePreDefinedOptions } from '@/query/query';
 import ChatEditInputField from './ChatEditInputField';
 import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
 import { IPolishParams } from '@/query/type';
-import { useToast } from '../ui/use-toast';
+import { useToast } from '../../ui/use-toast';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { AnimatePresence } from 'framer-motion';
-import EditiorLoading from './EditiorLoading';
+import EditiorLoading from '../EditiorLoading';
 import dynamic from 'next/dynamic';
 import ChatEditResItem from './ChatEditResItem';
 
-const PresetOptions = dynamic(() => import('./PresetOptions'), { ssr: false });
+const PresetOptions = dynamic(() => import('../rightbar/PresetOptions'), {
+  ssr: false,
+});
 
 type IChatEditItem = {
   original: string;

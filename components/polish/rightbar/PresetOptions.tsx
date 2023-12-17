@@ -1,12 +1,12 @@
 'use client';
 import { Loader2, Trash2 } from 'lucide-react';
 import React, { memo } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import Image from 'next/image';
 import { PresetIcons } from '@/constant';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
-import { useToast } from '../ui/use-toast';
+import { useToast } from '../../ui/use-toast';
 import useAIEditorStore from '@/zustand/store';
 
 type Props = {

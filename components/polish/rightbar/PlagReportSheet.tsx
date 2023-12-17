@@ -6,13 +6,13 @@ const TEST = {
 };
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { memo, useRef, useState } from 'react';
-import { Button } from '../ui/button';
-import Spacer from '../root/Spacer';
+import { Button } from '../../ui/button';
+import Spacer from '../../root/Spacer';
 import { useMutation } from '@tanstack/react-query';
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
 import { IPlagiarismData } from '@/query/type';
-import { useToast } from '../ui/use-toast';
-import LoadingDot from '../root/LoadingDot';
+import { useToast } from '../../ui/use-toast';
+import LoadingDot from '../../root/LoadingDot';
 import { Loader2 } from 'lucide-react';
 import useAIEditorStore from '@/zustand/store';
 
