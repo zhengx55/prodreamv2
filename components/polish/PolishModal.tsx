@@ -171,7 +171,7 @@ const PolishModal = () => {
     const lineBreakPositions: number[] = [];
     const regex = /\n/g;
     let match;
-    while ((match = regex.exec(editor_html)) !== null) {
+    while ((match = regex.exec(removeHtmlTags(editor_html))) !== null) {
       lineBreakPositions.push(match.index);
     }
     // 查询起始索引和终止索引
@@ -196,7 +196,7 @@ const PolishModal = () => {
       });
       lineBreakPositions.forEach((break_point, _point_idx) => {
         if (Math.abs(item.end - break_point) <= 5) {
-          finalText += `<br/>`;
+          finalText += `<br>`;
         }
       });
     });

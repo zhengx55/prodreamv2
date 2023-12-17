@@ -42,7 +42,6 @@ const EssayPanel = () => {
   const updateSelectText = useAIEditorStore((state) => state.updateSelectText);
 
   const handleInput = (event: ContentEditableEvent) => {
-    console.log(event.target.value);
     updateHtml(event.target.value);
   };
 
