@@ -1,7 +1,5 @@
 'use client';
-import { useBrainStormDetail } from '@/query/query';
 import Link from 'next/link';
-import Loading from '../root/CustomLoading';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
@@ -12,16 +10,15 @@ import { CheckCheck } from 'lucide-react';
 import { TextOptimizeBar } from './TextOptimizeBar';
 import { useAppSelector } from '@/store/storehooks';
 import { useMutation } from '@tanstack/react-query';
-import { useToast } from '../ui/use-toast';
 import type { IBrainStormSection, IBriansotrmReq, Module } from '@/query/type';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { selectUserId } from '@/store/reducers/userSlice';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
+import { InputProps } from '@/types';
+import { BrianstormAutoFill } from '@/constant';
 
-const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
-  const { data: moduleData, isPending: isModuleLoading } =
-    useBrainStormDetail(brainStormId);
+const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
   const user_id = useAppSelector(selectUserId);
   const {
     setIsSubmiting,
@@ -31,19 +28,18 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
     setStartTyping,
     setEassyResult,
     isSubmiting,
+    tutorial,
   } = useBrainStormContext();
-  const [formData, setFormData] = useState<IBrainStormSection | undefined>();
-  const [formState, setFormState] = useState<Record<string, string>>({});
-  const [formStatus, setFormStatus] = useState<Record<string, boolean>>({});
+  const [formData, setFormData] = useState<IBrainStormSection>(templateData);
+  const [formState, setFormState] = useState<Record<string, InputProps>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
-  const { toast } = useToast();
   const queryTimer = useRef<NodeJS.Timeout>();
 
-  useEffect(() => {
-    if (moduleData) {
-      setFormData(moduleData);
+  useDeepCompareEffect(() => {
+    if (Object.keys(tutorial).length > 0) {
+      setFormState(tutorial);
     }
-  }, [moduleData]);
+  }, [tutorial]);
 
   // 从History panel 点击填充表格
   /**
@@ -51,7 +47,6 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
    * 需要找出所有带有➕的元素并将表格元素添加
    */
   useDeepCompareEffect(() => {
-    if (Object.keys(historyData.questionAnswerPair).length === 0) return;
     if (Object.keys(historyData.questionAnswerPair).length !== 0) {
       if (!formData) return;
       let keysWithPlus = Object.keys(historyData.questionAnswerPair).filter(
@@ -84,20 +79,32 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
 
   const handleFormStateChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const name = event.target.name;
-    const value = event.target.value;
-    setFormState((values) => ({ ...values, [name]: value }));
+    const text = event.target.value;
+    setFormState((values) => ({
+      ...values,
+      [name]: { ...values[name], value: text },
+    }));
   };
 
   const handleCallbackFormStateChange = useCallback(
-    (fileld: string, value: string) => {
-      setFormState((prev) => ({ ...prev, [fileld]: value }));
+    (field: string, value: string) => {
+      setFormState((prev) => ({
+        ...prev,
+        [field]: {
+          ...prev[field],
+          value,
+        },
+      }));
     },
     []
   );
 
   const handleDisabledWhenFetchingdata = useCallback(
     (fileld: string, value: boolean) => {
-      setFormStatus((prev) => ({ ...prev, [fileld]: value }));
+      setFormState((prev) => ({
+        ...prev,
+        [fileld]: { ...prev[fileld], disable: value },
+      }));
     },
     []
   );
@@ -171,14 +178,14 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
 
   const handleSubmit = async () => {
     const key_arrays = Object.keys(formState);
-    const key_values = Object.values(formState);
+    const key_values = Object.values(formState).map((el) => el.value);
     const filter_key_arrays = key_arrays.map((item) =>
       item.includes('+') ? item.split('+')[0] : item
     );
     setHistoryData({ template_id: '', result: '', questionAnswerPair: {} });
     await handleBrainstorm({
       pro_mode: qualityMode === 1,
-      template_id: brainStormId,
+      template_id: formData?.id,
       texts: key_values,
       types: filter_key_arrays,
       word_nums: '',
@@ -188,17 +195,14 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
 
   const handleClearAll = () => {
     const clearedObjState = Object.fromEntries(
-      Object.keys(formState).map((key) => [key, ''])
+      Object.keys(formState).map((key) => [key, { value: '', disable: false }])
     );
     setFormState(clearedObjState);
   };
 
-  if (isModuleLoading || !formData) {
-    return <Loading />;
-  }
   return (
     <div className='relative h-full overflow-y-hidden px-6 pb-2 pt-6'>
-      <div className='custom-scrollbar relative h-[calc(100%_-_95px)] overflow-y-auto'>
+      <div className='relative h-[calc(100%_-95px)] overflow-y-auto'>
         <div className='flex items-center'>
           <Link
             className='small-regular capitalize text-shadow hover:underline'
@@ -264,7 +268,7 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
                 id='personal'
                 className='h-full w-full pb-8'
                 placeholder=''
-                value={formState['personal'] ?? ''}
+                value={formState['personal'] ? formState['personal'].value : ''}
                 onChange={handleFormStateChange}
               />
             </div>
@@ -316,16 +320,23 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
                     </Label>
                     <div className='relative w-[70%] rounded-lg border border-shadow-border'>
                       <Textarea
-                        value={formState[item.id] ?? ''}
+                        value={
+                          formState[item.id] ? formState[item.id].value : ''
+                        }
                         onChange={handleFormStateChange}
                         name={item.id}
                         id={item.id}
-                        className='small-medium min-h-full w-full overflow-y-auto pb-12'
+                        className='small-medium min-h-full w-full overflow-y-auto pb-10'
                         placeholder={item.example}
-                        disabled={!!formStatus[item.id] || isSubmiting}
+                        disabled={
+                          (formState[item.id] && formState[item.id].disable) ||
+                          isSubmiting
+                        }
                       />
                       <TextOptimizeBar
-                        value={formState[item.id] ?? ''}
+                        value={
+                          formState[item.id] ? formState[item.id].value : ''
+                        }
                         onChangeHanlder={handleCallbackFormStateChange}
                         mode={qualityMode}
                         questionId={item.id}
@@ -351,7 +362,13 @@ const FormPanel = ({ brainStormId }: { brainStormId: string }) => {
           <Button variant={'secondary'} onClick={handleClearAll}>
             Clear
           </Button>
-          <Button onClick={handleSubmit}>Generate</Button>
+          <Button
+            aria-label='generate-button'
+            id='generate-button'
+            onClick={handleSubmit}
+          >
+            Generate
+          </Button>
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
 import { Copy, PenLine, Trash2 } from 'lucide-react';
-import React, { useCallback, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import Tooltip from '../root/Tooltip';
 import { ActData } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { deleteActivityListItem } from '@/query/api';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 import clearCachesByServerAction from '@/lib/revalidate';
 import EditCard from './EditCard';
 import { useActListContext } from '@/context/ActListProvider';
@@ -18,7 +18,6 @@ type Props = {
 };
 
 const ActivityCard = ({ dataType, type, data, index }: Props) => {
-  const { toast } = useToast();
   const [editMode, setEditMode] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const toogleDeleteModal = useCallback(() => {
@@ -36,19 +35,13 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
   const { mutateAsync: removeItem } = useMutation({
     mutationFn: (id: string) => deleteActivityListItem(id),
     onSuccess() {
-      toast({
-        description: 'Delete activity successfully',
-        variant: 'default',
-      });
+      toast.success('Delete activity successfully');
       setShowDelete(false);
       handleDelete(data.id, type, dataType);
       clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError(error) {
-      toast({
-        description: error.message,
-        variant: 'destructive',
-      });
+      toast.error(error.message);
     },
   });
 
@@ -59,7 +52,7 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
   return (
     <>
       {!editMode ? (
-        <div className='flex shrink-0 flex-col gap-y-2 rounded-[10px] border border-shadow-border px-4 py-3'>
+        <li className='flex shrink-0 flex-col gap-y-2 rounded-[10px] border border-shadow-border px-4 py-3'>
           <DeleteModal
             deleteId={data.id}
             isActive={showDelete}
@@ -104,10 +97,7 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
                       ? (data.result as string)
                       : (data.text as string)
                   );
-                  toast({
-                    variant: 'default',
-                    description: 'Copy to clipboard',
-                  });
+                  toast.success('Copy to clipboard');
                 }}
                 className='cursor-pointer rounded-md border-2 border-shadow-200 bg-white p-2.5 hover:bg-nav-selected'
               >
@@ -117,7 +107,7 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
               </div>
             </div>
           </div>
-        </div>
+        </li>
       ) : (
         <EditCard
           dataType={dataType}
@@ -131,4 +121,4 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
   );
 };
 
-export default ActivityCard;
+export default memo(ActivityCard);

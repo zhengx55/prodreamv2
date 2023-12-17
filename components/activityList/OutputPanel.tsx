@@ -5,6 +5,13 @@ import ActivityCard from './ActivityCard';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { deepEqual } from '@/lib/utils';
 import { useActListContext } from '@/context/ActListProvider';
+import TutCard from '../root/TutCard';
+import { useMutation } from '@tanstack/react-query';
+import { IUsage } from '@/types';
+import { updateUserInfo } from '@/query/api';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
+import { selectUserEmail } from '@/store/reducers/userSlice';
 
 const OutputPanel = ({
   fullScreen,
@@ -19,10 +26,14 @@ const OutputPanel = ({
   };
   const [selected, setSelected] = useState('');
   const [tabs, setTabs] = useState<string[]>([]);
-  const { generatedData, historyData } = useActListContext();
+  const { generatedData, historyData, showEditTut, setShowEditTut } =
+    useActListContext();
   const [content, setContent] = useState<typeof generatedData>({});
+  const email = useAppSelector(selectUserEmail);
+  const usage = useAppSelector(selectUsage);
   const hasGeneratedData = Object.keys(generatedData).length > 0;
   const hasHistoryData = Object.keys(historyData).length > 0;
+  const dispatch = useAppDispatch();
 
   useDeepCompareEffect(() => {
     if (hasGeneratedData) {
@@ -47,12 +58,32 @@ const OutputPanel = ({
     }
   }, [generatedData, historyData]);
 
+  const { mutateAsync: updateUsage } = useMutation({
+    mutationFn: (args: { email: string; params: IUsage }) =>
+      updateUserInfo(args.email, args.params),
+    onSuccess: () => {
+      dispatch(setSingleUsage('first_activity_list_edit'));
+      setShowEditTut(false);
+    },
+    onError: () => {
+      dispatch(setSingleUsage('first_activity_list_edit'));
+      setShowEditTut(false);
+    },
+  });
+
+  const handleCloseTutEdit = async () => {
+    await updateUsage({
+      email,
+      params: { ...usage, first_activity_list_edit: false },
+    });
+  };
+
   if (
     Object.keys(historyData).length === 0 &&
     Object.keys(generatedData).length == 0
   )
     return (
-      <div className='flex min-h-full w-1/2 pl-4'>
+      <div className='flex min-h-full w-1/2 pl-2'>
         <div className='h-full w-full rounded-lg bg-white'></div>
       </div>
     );
@@ -61,11 +92,22 @@ const OutputPanel = ({
       initial={false}
       variants={fullScreenVariants}
       animate={fullScreen ? 'full' : 'half'}
-      className={`custom-scrollbar flex h-full flex-col gap-y-4 ${
-        fullScreen ? 'pl-0' : 'pl-4'
-      }`}
+      className={`flex h-full flex-col gap-y-4 ${fullScreen ? 'pl-0' : 'pl-2'}`}
     >
-      <div className='flex h-max min-h-full w-full flex-col overflow-y-auto rounded-lg bg-white p-4'>
+      <div className='relative flex h-max min-h-full w-full flex-col overflow-y-auto rounded-lg bg-white p-4'>
+        <AnimatePresence>
+          {showEditTut && (
+            <TutCard
+              className='right-0 top-[80px] w-[210px]'
+              title='Edit outputs here'
+              info='Power Up to boost writing quality. Fit Character Limit to reduce characters'
+              button='Got it!'
+              arrowPosition='bottom'
+              onClickHandler={handleCloseTutEdit}
+            />
+          )}
+        </AnimatePresence>
+
         {fullScreen ? (
           <span
             onClick={() => setFullScreen(!fullScreen)}
@@ -105,10 +147,10 @@ const OutputPanel = ({
             <p>View in full screen</p>
           </span>
         )}
-        <div className='mt-7 flex w-full'>
+        <nav className='mt-7 flex w-full'>
           {tabs.map((item) => {
             return (
-              <div
+              <span
                 onClick={() => setSelected(item)}
                 key={item}
                 className={`${
@@ -124,13 +166,13 @@ const OutputPanel = ({
                 } flex-center small-semibold cursor-pointer border-b  pb-2`}
               >
                 {item}
-              </div>
+              </span>
             );
           })}
-        </div>
+        </nav>
         <AnimatePresence mode='wait' initial={false}>
           {selected === 'UC Applications' ? (
-            <motion.div
+            <motion.ul
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
@@ -149,9 +191,9 @@ const OutputPanel = ({
                   />
                 );
               })}
-            </motion.div>
+            </motion.ul>
           ) : selected === 'Common Applications' ? (
-            <motion.div
+            <motion.ul
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
@@ -170,9 +212,9 @@ const OutputPanel = ({
                   />
                 );
               })}
-            </motion.div>
+            </motion.ul>
           ) : (
-            <motion.div
+            <motion.ul
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
@@ -199,7 +241,7 @@ const OutputPanel = ({
                   />
                 );
               })}
-            </motion.div>
+            </motion.ul>
           )}
         </AnimatePresence>
       </div>

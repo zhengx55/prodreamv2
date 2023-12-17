@@ -2,7 +2,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { profileResetAvatar, refreshUserSession } from '@/query/api';
 import { selectUser } from '@/store/reducers/userSlice';
 import { useAppSelector } from '@/store/storehooks';
@@ -20,7 +20,7 @@ export default function Page() {
   const [IsEditEmail, setEditEmail] = useState(false);
   const [IsEditPassword, setEditPassword] = useState(false);
   const [IsEditName, setEditName] = useState(false);
-  const { toast } = useToast();
+
   const toogleEmailModal = useCallback(() => {
     setEditEmail((prev) => !prev);
   }, []);
@@ -28,29 +28,19 @@ export default function Page() {
   const { mutateAsync: upLoadAvatar } = useMutation({
     mutationFn: (params: { file: File }) => profileResetAvatar(params),
     onSuccess: async () => {
-      toast({
-        variant: 'default',
-        description: 'Email has been reset successfully!',
-      });
+      toast.success('Email has been reset successfully!');
       const data = await refreshUserSession();
-      console.log('🚀 ~ file: page.tsx:37 ~ onSuccess: ~ data:', data);
     },
 
     onError: (error) => {
-      toast({
-        variant: 'destructive',
-        description: error.message,
-      });
+      toast.error(error.message);
     },
   });
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && file.size > 200 * 1024) {
-      toast({
-        variant: 'destructive',
-        description: 'File is larger than 200KB',
-      });
+      toast.error('File is larger than 200KB');
       return;
     }
     if (file) {

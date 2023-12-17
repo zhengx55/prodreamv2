@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useMutation } from '@tanstack/react-query';
 import { clonectivityListItem, deleteActivityList } from '@/query/api';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { useRouter } from 'next/navigation';
 import { useActListContext } from '@/context/ActListProvider';
@@ -26,23 +26,17 @@ type Props = {
 
 const List = ({ item }: Props) => {
   const { setHistoryData, setGeneratedData } = useActListContext();
-  const { toast } = useToast();
+
   const router = useRouter();
   const { mutateAsync: removeItem } = useMutation({
     mutationFn: (id: string) => deleteActivityList(id),
     onSuccess() {
-      toast({
-        description: 'Delete activity list successfully',
-        variant: 'default',
-      });
+      toast.success('Delete activity list successfully');
       toogleDeleteModal();
       clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError(error) {
-      toast({
-        description: error.message,
-        variant: 'destructive',
-      });
+      toast.error(error.message);
     },
   });
   const [showDelete, setShowDelete] = useState(false);
@@ -54,18 +48,12 @@ const List = ({ item }: Props) => {
   const { mutateAsync: cloneItem } = useMutation({
     mutationFn: (id: string) => clonectivityListItem(id),
     onSuccess() {
-      toast({
-        description: 'Duplicate activity successfully',
-        variant: 'default',
-      });
+      toast.success('Duplicate activity successfully');
       setShowDelete(false);
       clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError(error) {
-      toast({
-        description: error.message,
-        variant: 'destructive',
-      });
+      toast.error(error.message);
     },
   });
 

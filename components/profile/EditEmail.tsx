@@ -24,7 +24,7 @@ import {
 import { Eye, EyeOff } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
 import { profileResetEmail } from '@/query/api';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 import { useAppDispatch } from '@/store/storehooks';
 import { setUserEmail } from '@/store/reducers/userSlice';
 
@@ -34,7 +34,6 @@ type Props = {
 };
 
 const EditEmailModal = ({ isActive, toogleActive }: Props) => {
-  const { toast } = useToast();
   const [hidePassword, setHidePassword] = useState(true);
   const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof resetEmail>>({
@@ -50,17 +49,11 @@ const EditEmailModal = ({ isActive, toogleActive }: Props) => {
       profileResetEmail(params),
     onSuccess: () => {
       toogleActive();
-      toast({
-        variant: 'default',
-        description: 'Email has been reset successfully!',
-      });
+      toast.success('Email has been reset successfully!');
       dispatch(setUserEmail(form.getValues().email));
     },
     onError: (error) => {
-      toast({
-        variant: 'destructive',
-        description: error.message,
-      });
+      toast.error(error.message);
     },
   });
 

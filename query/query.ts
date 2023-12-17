@@ -1,16 +1,13 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   OptimizeAnswer,
-  SubmitEssayWritting,
   fetchChatGuideQas,
   fetchChatHistory,
   fetchFinalAs,
   fetchSessionHistory,
   getBrainstormDetails,
   getBrianstormHistoryById,
-  getInstitutionOptions,
-  queryEssayResult,
-  queryPolish,
+  getPreDefinedOptions,
   refreshUserSession,
   sendChatMessage,
 } from './api';
@@ -103,9 +100,10 @@ export const useRefreshSession = () => {
 // ----------------------------------------------------------------
 // AI Editors
 // ----------------------------------------------------------------
-export const useInstitutionOptions = () => {
+
+export const usePreDefinedOptions = () => {
   return useQuery({
-    queryKey: ['fetch_rate_options'],
-    queryFn: () => getInstitutionOptions(),
+    queryKey: ['fetch_predefined_options'],
+    queryFn: () => getPreDefinedOptions(),
   });
 };

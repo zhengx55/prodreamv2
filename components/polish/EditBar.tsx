@@ -1,20 +1,25 @@
 'use client';
 import React, { memo } from 'react';
 import { Separator } from '../ui/separator';
-
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 import Tooltip from '../root/Tooltip';
+import dynamic from 'next/dynamic';
+import useAIEditorStore from '@/zustand/store';
+
+const UploadModal = dynamic(() => import('./UploadModal'), { ssr: false });
+
+const DownloadModal = dynamic(() => import('./DownloadModal'), { ssr: false });
 
 const EditBar = () => {
-  const { essayRef } = useAiEditiorContext();
-  const { toast } = useToast();
+  const editor_html = useAIEditorStore((state) => state.editor_html);
+  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
+
   return (
     <div
       className={`flex w-full justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1`}
     >
       <Tooltip tooltipContent='Undo'>
-        <div className='tool'>
+        <button className='tool'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='24'
@@ -27,11 +32,11 @@ const EditBar = () => {
               fill='#1D1B1E'
             />
           </svg>
-        </div>
+        </button>
       </Tooltip>
 
       <Tooltip tooltipContent='Redo'>
-        <div className='tool'>
+        <button className='tool'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='25'
@@ -44,50 +49,17 @@ const EditBar = () => {
               fill='#1D1B1E'
             />
           </svg>
-        </div>
+        </button>
       </Tooltip>
 
       <Separator orientation='vertical' className='bg-shadow-border' />
-      <div className='tool'>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          width='25'
-          height='24'
-          viewBox='0 0 25 24'
-          fill='none'
-        >
-          <path
-            d='M12.4517 21.9858C13.0037 21.9858 13.4517 21.5378 13.4517 20.9858L13.4517 11.9858L16.4517 11.9858L12.4517 7.98585L8.45166 11.9858L11.4517 11.9858L11.4517 20.9858C11.4517 21.5378 11.8997 21.9858 12.4517 21.9858ZM17.4517 18.9858C19.6607 18.9858 21.4517 17.1948 21.4517 14.9858L21.4517 6.98585C21.4517 4.77685 19.6607 2.98585 17.4517 2.98585L7.45166 2.98585C5.24266 2.98585 3.45166 4.77685 3.45166 6.98585L3.45166 14.9858C3.45166 17.1948 5.24266 18.9858 7.45166 18.9858C8.00366 18.9858 8.45166 18.5378 8.45166 17.9858C8.45166 17.4338 8.00366 16.9858 7.45166 16.9858C6.34666 16.9858 5.45166 16.0908 5.45166 14.9858L5.45166 6.98585C5.45166 5.88085 6.34666 4.98585 7.45166 4.98585L17.4517 4.98585C18.5567 4.98585 19.4517 5.88085 19.4517 6.98585L19.4517 14.9858C19.4517 16.0908 18.5567 16.9858 17.4517 16.9858C16.8997 16.9858 16.4517 17.4338 16.4517 17.9858C16.4517 18.5378 16.8997 18.9858 17.4517 18.9858Z'
-            fill='#1D1B1E'
-          />
-        </svg>
-        <p>Upload</p>
-      </div>
-      <div className='tool'>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          width='25'
-          height='24'
-          viewBox='0 0 25 24'
-          fill='none'
-        >
-          <path
-            d='M12.9138 2.01416C12.3618 2.01416 11.9138 2.46216 11.9138 3.01416V12.0142H8.91382L12.9138 16.0141L16.9138 12.0142H13.9138V3.01416C13.9138 2.46216 13.4658 2.01416 12.9138 2.01416ZM7.91382 5.01416C5.70482 5.01416 3.91382 6.80516 3.91382 9.01415V17.0141C3.91382 19.2231 5.70482 21.0141 7.91382 21.0141H17.9138C20.1228 21.0141 21.9138 19.2231 21.9138 17.0141V9.01415C21.9138 6.80516 20.1228 5.01416 17.9138 5.01416C17.3618 5.01416 16.9138 5.46216 16.9138 6.01416C16.9138 6.56616 17.3618 7.01416 17.9138 7.01416C19.0188 7.01416 19.9138 7.90916 19.9138 9.01415V17.0141C19.9138 18.1191 19.0188 19.0141 17.9138 19.0141H7.91382C6.80882 19.0141 5.91382 18.1191 5.91382 17.0141V9.01415C5.91382 7.90916 6.80882 7.01416 7.91382 7.01416C8.46582 7.01416 8.91382 6.56616 8.91382 6.01416C8.91382 5.46216 8.46582 5.01416 7.91382 5.01416Z'
-            fill='#1D1B1E'
-          />
-        </svg>
-        <p>Download</p>
-      </div>
+      <UploadModal />
+      <DownloadModal />
       <Separator orientation='vertical' className='bg-shadow-border' />
-      <div
+      <button
         onClick={() => {
-          if (essayRef.current && essayRef.current.innerText.trim() !== '') {
-            navigator.clipboard.writeText(essayRef.current.innerText);
-            toast({
-              variant: 'default',
-              description: 'Copy to clipboard',
-            });
-          }
+          navigator.clipboard.writeText(editor_html);
+          toast.success('Copy to clipboard');
         }}
         className='tool'
       >
@@ -104,12 +76,11 @@ const EditBar = () => {
           />
         </svg>
         <p>Copy</p>
-      </div>
+      </button>
       <Separator orientation='vertical' className='bg-shadow-border' />
-      <div
+      <button
         onClick={() => {
-          if (essayRef.current && essayRef.current.innerText.trim() !== '')
-            essayRef.current.innerText = '';
+          if (editor_html.trim() !== '') updateHtml('');
         }}
         className='tool'
       >
@@ -126,7 +97,7 @@ const EditBar = () => {
           />
         </svg>
         <p>Delete</p>
-      </div>
+      </button>
     </div>
   );
 };

@@ -13,7 +13,7 @@ module.exports = {
         card: 'radial-gradient(88.19% 80.74% at 37.56% 34.2%, rgba(203, 44, 243, 0.70) 0%, rgba(156, 44, 243, 0.70) 55.27%, rgba(120, 44, 243, 0.70) 100%)',
       },
       fontFamily: {
-        poppins: ['var(--poppins-font)', 'sans-serif'],
+        poppins: ['var(--poppins-font)'],
       },
       fontSize: {
         regular: '14px',
@@ -34,6 +34,7 @@ module.exports = {
           300: '#BB35FF',
           400: '#E5D7FD',
           500: '#FCF9FF',
+          600: '#EAD9FC',
         },
         black: {
           50: '#3B4453',
@@ -100,5 +101,9 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    require('@tailwindcss/typography'),
+    require('tailwind-scrollbar'),
+  ],
 };

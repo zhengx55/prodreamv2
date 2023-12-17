@@ -10,6 +10,7 @@ import {
 } from '@/lib/utils';
 import { memo } from 'react';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
+import { InputProps } from '@/types';
 const HistoryPanel = ({
   handleTabChange,
 }: {
@@ -18,7 +19,7 @@ const HistoryPanel = ({
   const path = usePathname();
   const { historyData, setHistoryData } = useBrainStormContext();
   const id = path.split('/')[path.split('/').length - 1];
-  const { isPending, data, isError } = useBrainStormHistoryById(id);
+  const { isPending, data } = useBrainStormHistoryById(id);
   if (isPending) {
     return <Loading />;
   }
@@ -32,8 +33,8 @@ const HistoryPanel = ({
   }) => {
     const filtered_array = addRandomToDuplicates(item.question_ids);
     const mergedObject = filtered_array.reduce(
-      (result: Record<string, string>, key: string, index: number) => {
-        result[key] = item.answers[index];
+      (result: Record<string, InputProps>, key: string, index: number) => {
+        result[key] = { value: item.answers[index], disable: false };
         return result;
       },
       {}
@@ -59,7 +60,7 @@ const HistoryPanel = ({
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className='mt-2 md:grid md:w-full md:grid-cols-2 md:gap-x-4 md:gap-y-4'
+      className='grid w-full grid-cols-2 gap-x-4 gap-y-4'
     >
       {/* Card */}
       {!isPending &&
@@ -68,7 +69,7 @@ const HistoryPanel = ({
             <div
               onClick={() => handleSelectHistory(item)}
               key={`history-${item.template_id}-${index}`}
-              className='flex cursor-pointer flex-col justify-between rounded-lg bg-white p-5 hover:border hover:border-primary-200 md:h-[200px] md:w-[full]'
+              className='flex cursor-pointer flex-col justify-between rounded-lg bg-white p-4 hover:border hover:border-primary-200 md:h-[200px] md:w-[full]'
             >
               <p className='small-regular line-clamp-6 text-left text-shadow'>
                 {item.result}

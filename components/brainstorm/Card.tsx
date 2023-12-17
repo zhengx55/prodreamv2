@@ -2,6 +2,7 @@
 
 import { IBrainsotrmCard } from '@/types';
 import { useRouter } from 'next/navigation';
+import { memo } from 'react';
 
 type Props = {
   cardItem: IBrainsotrmCard;
@@ -32,4 +33,4 @@ const Card = ({ cardItem }: Props) => {
   );
 };
 
-export default Card;
+export default memo(Card);

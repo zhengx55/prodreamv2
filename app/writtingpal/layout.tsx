@@ -1,10 +1,11 @@
 'use client';
 import Navbar from '@/components/root/Navbar';
 import Sidebar from '@/components/root/Sidebar';
-import { Toaster } from '@/components/ui/toaster';
+import { initialUsage } from '@/constant';
 import MaxChatProvider from '@/context/MaxChateProvider';
 import useMount from '@/hooks/useMount';
-import { refreshUserSession } from '@/query/api';
+import { getUserInfo, refreshUserSession } from '@/query/api';
+import { setUsage } from '@/store/reducers/usageSlice';
 import { setUser } from '@/store/reducers/userSlice';
 import { store } from '@/store/store';
 import { useAppDispatch } from '@/store/storehooks';
@@ -13,6 +14,7 @@ import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
 import { Provider } from 'react-redux';
+
 const TutorialSheet = dynamic(() => import('@/components/tutorial'), {
   ssr: false,
 });
@@ -27,12 +29,23 @@ export default function WrittingpalLayout({
 
   useMount(() => {
     async function refreshUserInfo() {
-      const data = await refreshUserSession();
-      dispatch(setUser(data));
-      setCookie('token', data.access_token, {
-        path: '/',
-        maxAge: 604800,
-      });
+      try {
+        const data = await refreshUserSession();
+        const user_usage = await getUserInfo(data.email);
+        /**
+         * 获取用户经历信息
+         * 用于检查是否是第一次登录 或是 第一次使用某些功能
+         **/
+        dispatch(setUser(data));
+        if (user_usage) dispatch(setUsage(user_usage));
+        else dispatch(setUsage(initialUsage));
+        setCookie('token', data.access_token, {
+          path: '/',
+          maxAge: 604800,
+        });
+      } catch (error) {
+        redirect('/login');
+      }
     }
     if (!cookies.token) {
       redirect('/login');
@@ -49,7 +62,6 @@ export default function WrittingpalLayout({
       <>
         <div className='scale-down 2xl:scale-initial relative hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
           <Navbar />
-          <Toaster />
           <TutorialSheet />
           {children}
         </div>

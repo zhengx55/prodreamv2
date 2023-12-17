@@ -1,6 +1,5 @@
 'use client';
-// import ReportPanel from '@/components/polish/ReportPanel';
-import Rightbar from '@/components/polish/Rightbar';
+import Rightbar from '@/components/polish/rightbar';
 import dynamic from 'next/dynamic';
 import Loading from '@/components/root/CustomLoading';
 

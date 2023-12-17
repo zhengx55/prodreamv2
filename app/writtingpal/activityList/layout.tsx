@@ -1,7 +1,29 @@
 'use client';
 import ActListProvider from '@/context/ActListProvider';
-import { ReactNode } from 'react';
+import { selectUsage } from '@/store/reducers/usageSlice';
+import { useAppSelector } from '@/store/storehooks';
+import { ReactNode, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+const OnboardModal = dynamic(
+  () => import('@/components/activityList/OnboardModal'),
+  { ssr: false }
+);
 
 export default function ActListLayout({ children }: { children: ReactNode }) {
-  return <ActListProvider>{children}</ActListProvider>;
+  const usage = useAppSelector(selectUsage);
+  const [isFirstTime, setIsFirstTime] = useState(false);
+  useEffect(() => {
+    if (
+      Object.keys(usage).length > 0 &&
+      (usage.first_activity_list || usage.first_activity_list === undefined)
+    ) {
+      setIsFirstTime(true);
+    }
+  }, [usage]);
+  return (
+    <ActListProvider>
+      {children}
+      {isFirstTime ? <OnboardModal /> : null}
+    </ActListProvider>
+  );
 }
