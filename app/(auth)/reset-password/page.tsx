@@ -19,12 +19,11 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { sendVerificationEmail, userReset, verifyEmail } from '@/query/api';
-import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { IResetParams } from '@/query/type';
+import { toast } from 'sonner';
 
 export default function Page() {
-  const { toast } = useToast();
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
   const [verifyWait, setVerifyWait] = useState(false);
@@ -63,45 +62,28 @@ export default function Page() {
   const { mutateAsync: handleReset } = useMutation({
     mutationFn: (param: IResetParams) => userReset(param),
     onSuccess: (_data) => {
-      toast({
-        variant: 'default',
-        description: 'Successfully Reset Password',
-      });
+      toast.success('Successfully Reset Password');
       router.replace('/login');
     },
-    onError: (error) => {
-      toast({
-        variant: 'destructive',
-        description: error.message,
-      });
-    },
+    onError: (error) => {},
   });
 
   const { mutateAsync: handleSendVerification } = useMutation({
     mutationFn: (params: { email: string }) => sendVerificationEmail(params),
     onSuccess: () => {
-      toast({
-        variant: 'default',
-        description: 'Checked your email',
-      });
+      toast.success('Checked your email');
       setVerifyWait(true);
       setCountdown(60);
     },
     onError: (error) => {
-      toast({
-        variant: 'destructive',
-        description: error.message,
-      });
+      toast.error(error.message);
     },
   });
 
   async function handleSentVerificationEmail() {
     const { email } = form.getValues();
     if (!email) {
-      toast({
-        description: 'Please enter your email',
-        variant: 'destructive',
-      });
+      toast.error('Please enter your email address');
       return;
     }
     await handleSendVerification({ email });

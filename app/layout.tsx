@@ -6,7 +6,7 @@ import { ThemeProvider } from '@/context/ThemeProvider';
 import { Poppins } from 'next/font/google';
 import UserStoreProvider from '@/store/userProvider';
 import { Analytics } from '@vercel/analytics/react';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from 'sonner';
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600'],
@@ -37,7 +37,7 @@ export default function RootLayout({
             <UserStoreProvider>
               <section className='h-screen min-h-[850px] w-screen min-w-[1400px] md:flex md:overflow-auto'>
                 {children}
-                <Toaster />
+                <Toaster richColors visibleToasts={1} />
                 {/* <Analytics /> */}
               </section>
             </UserStoreProvider>

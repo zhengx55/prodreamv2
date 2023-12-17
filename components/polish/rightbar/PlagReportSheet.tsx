@@ -11,13 +11,12 @@ import Spacer from '../../root/Spacer';
 import { useMutation } from '@tanstack/react-query';
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
 import { IPlagiarismData } from '@/query/type';
-import { useToast } from '../../ui/use-toast';
+import { toast } from 'sonner';
 import LoadingDot from '../../root/LoadingDot';
 import { Loader2 } from 'lucide-react';
 import useAIEditorStore from '@/zustand/store';
 
 const PlagReportSheet = () => {
-  const { toast } = useToast();
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluateResult, setEvaluateResult] = useState<IPlagiarismData>();
   const setIsPlagiarism = useAIEditorStore(
@@ -41,17 +40,11 @@ const PlagReportSheet = () => {
             setIsEvaluating(false);
             setEvaluateResult(res);
             clearInterval(reqTimer.current);
-            toast({
-              description: 'Plagiarism check finished!',
-              variant: 'default',
-            });
+            toast.error('Plagiarism check finished!');
           }
         } catch (error: any) {
           setIsEvaluating(false);
-          toast({
-            description: error.message,
-            variant: 'destructive',
-          });
+          toast.error(error.message);
           clearInterval(reqTimer.current);
         }
       }, 15000);
@@ -61,10 +54,7 @@ const PlagReportSheet = () => {
     },
     onError: (err) => {
       setIsEvaluating(false);
-      toast({
-        description: err.message,
-        variant: 'destructive',
-      });
+      toast.error(err.message);
     },
   });
 
@@ -88,10 +78,7 @@ const PlagReportSheet = () => {
           // onClick={async () => {
           //   const essayContent = essayRef.current.innerText.trim();
           //   if (essayContent === '') {
-          //     toast({
-          //       description: 'No content detected',
-          //       variant: 'destructive',
-          //     });
+
           //     return;
           //   }
           //   await check(essayRef.current?.innerText);

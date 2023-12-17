@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { PresetIcons } from '@/constant';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
-import { useToast } from '../../ui/use-toast';
+import { toast } from 'sonner';
 import useAIEditorStore from '@/zustand/store';
 
 type Props = {
@@ -16,16 +16,12 @@ type Props = {
 };
 
 const PresetOptions = ({ isPolishing, options, polish }: Props) => {
-  const { toast } = useToast();
   const selectText = useAIEditorStore((state) => state.selectText);
 
   const updateSelectText = useAIEditorStore((state) => state.updateSelectText);
   const handlePolishSubmit = async (option: string | number) => {
     if (!selectText) {
-      toast({
-        variant: 'destructive',
-        description: 'no content selected',
-      });
+      toast.error('no content selected');
       return;
     }
     await polish({ instruction: option, text: selectText });

@@ -10,7 +10,7 @@ import {
 import { Loader2, Trash2, X } from 'lucide-react';
 import Image from 'next/image';
 import { FileRejection, useDropzone } from 'react-dropzone';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { useMutation } from '@tanstack/react-query';
@@ -32,7 +32,6 @@ const FileUploadModal = ({
   toggleDecoding,
   appendDecodeData,
 }: Props) => {
-  const { toast } = useToast();
   const { setShowGenerateTut } = useActListContext();
   const usage = useAppSelector(selectUsage);
   const [files, setFiles] = useState<File[]>([]);
@@ -55,10 +54,7 @@ const FileUploadModal = ({
     },
     onError: (e) => {
       toggleDecoding();
-      toast({
-        description: 'Opps something went wrong please try again!',
-        variant: 'destructive',
-      });
+      toast.error('Opps something went wrong please try again!');
     },
   });
   const { mutateAsync: handleFileUpload } = useMutation({
@@ -68,10 +64,7 @@ const FileUploadModal = ({
       setParsedUrls((prev) => [...prev, data]);
     },
     onError: (e) => {
-      toast({
-        description: e.message,
-        variant: 'destructive',
-      });
+      toast.error('e.message');
     },
     onMutate: () => {},
   });
@@ -82,7 +75,7 @@ const FileUploadModal = ({
     async (acceptedFile: File[], fileRejections: FileRejection[]) => {
       if (fileRejections.length > 0) {
         const error_message = fileRejections[0].errors[0].message;
-        toast({ description: error_message, variant: 'destructive' });
+        toast.error(error_message);
         return;
       }
       await handleFileUpload({ file: acceptedFile[0] });

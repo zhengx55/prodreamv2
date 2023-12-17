@@ -6,7 +6,7 @@ import ChatEditInputField from './ChatEditInputField';
 import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
 import { IPolishParams } from '@/query/type';
-import { useToast } from '../../ui/use-toast';
+import { toast } from 'sonner';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { AnimatePresence } from 'framer-motion';
 import EditiorLoading from '../EditiorLoading';
@@ -26,7 +26,6 @@ type IChatEditItem = {
 };
 
 const ChatEditPanel = () => {
-  const { toast } = useToast();
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
   const [isPolishing, setIsPolishing] = useState(false);
@@ -59,10 +58,7 @@ const ChatEditPanel = () => {
     },
     onError: (err) => {
       setIsPolishing(false);
-      toast({
-        variant: 'destructive',
-        description: err.message,
-      });
+      toast.error(err.message);
     },
     onSuccess: (data, variables) => {
       reqTimer.current = setInterval(async () => {
@@ -83,10 +79,7 @@ const ChatEditPanel = () => {
             clearInterval(reqTimer.current);
           }
         } catch (error: any) {
-          toast({
-            description: error.message,
-            variant: 'destructive',
-          });
+          toast.error(error.message);
           clearInterval(reqTimer.current);
         }
       }, 2000);

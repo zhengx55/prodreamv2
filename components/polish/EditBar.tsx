@@ -1,7 +1,7 @@
 'use client';
 import React, { memo } from 'react';
 import { Separator } from '../ui/separator';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 import Tooltip from '../root/Tooltip';
 import dynamic from 'next/dynamic';
 import useAIEditorStore from '@/zustand/store';
@@ -11,7 +11,6 @@ const UploadModal = dynamic(() => import('./UploadModal'), { ssr: false });
 const DownloadModal = dynamic(() => import('./DownloadModal'), { ssr: false });
 
 const EditBar = () => {
-  const { toast } = useToast();
   const editor_html = useAIEditorStore((state) => state.editor_html);
   const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
 
@@ -60,10 +59,7 @@ const EditBar = () => {
       <button
         onClick={() => {
           navigator.clipboard.writeText(editor_html);
-          toast({
-            variant: 'default',
-            description: 'Copy to clipboard',
-          });
+          toast.success('Copy to clipboard');
         }}
         className='tool'
       >

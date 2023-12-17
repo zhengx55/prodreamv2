@@ -14,14 +14,13 @@ import { Separator } from '../../ui/separator';
 import { useMutation } from '@tanstack/react-query';
 import { downloadReport, essayAssess } from '@/query/api';
 import { IEssayAssessData, IEssayAssessRequest } from '@/query/type';
-import { useToast } from '../../ui/use-toast';
+import { toast } from 'sonner';
 import LoadingDot from '../../root/LoadingDot';
 import { EvaluationsTitle } from '@/constant';
 import useAIEditorStore from '@/zustand/store';
 import { removeHtmlTags } from '@/lib/utils';
 
 const ReportSheet = () => {
-  const { toast } = useToast();
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluateResult, setEvaluateResult] = useState<IEssayAssessData>();
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
@@ -34,10 +33,7 @@ const ReportSheet = () => {
     onSuccess: (data) => {
       setEvaluateResult(data);
       setIsEvaluating(false);
-      toast({
-        description: 'Eassy evaluation finished!',
-        variant: 'default',
-      });
+      toast.success('Eassy evaluation finished!');
     },
     onMutate: () => {
       setIsEvaluating(true);
@@ -50,10 +46,7 @@ const ReportSheet = () => {
     },
     onError: (err) => {
       setIsEvaluating(false);
-      toast({
-        description: err.message,
-        variant: 'destructive',
-      });
+      toast.error(err.message);
     },
   });
 
@@ -70,10 +63,7 @@ const ReportSheet = () => {
       URL.revokeObjectURL(a.href);
       a.remove();
     } catch (error: any) {
-      toast({
-        description: error,
-        variant: 'default',
-      });
+      toast.error(error.message);
     }
   };
 
@@ -84,10 +74,7 @@ const ReportSheet = () => {
     });
     const essayContent = eassy_plain_text.trim();
     if (essayContent === '') {
-      toast({
-        description: 'No content detected',
-        variant: 'destructive',
-      });
+      toast.error('No content detected');
       return;
     }
     await evaluation({

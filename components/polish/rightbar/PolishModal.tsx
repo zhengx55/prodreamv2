@@ -14,11 +14,11 @@ import { Separator } from '../../ui/separator';
 import Spacer from '../../root/Spacer';
 import useObjectState from 'beautiful-react-hooks/useObjectState';
 import { Input } from '../../ui/input';
-import { useToast } from '../../ui/use-toast';
 import { IPolishParams, IPolishResultAData } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
 import useAIEditorStore from '@/zustand/store';
+import { toast } from 'sonner';
 
 const initialState = {
   polishMentod: 0,
@@ -32,7 +32,6 @@ const initialState = {
 const initialStyles = ['Passionate', 'Entertaining', 'Professional'];
 
 const PolishModal = () => {
-  const { toast } = useToast();
   const [selected, setSelected] = useObjectState(initialState);
   const setIsPolishing = useAIEditorStore((state) => state.updateIsPolishing);
   const setChatEditMode = useAIEditorStore(
@@ -110,10 +109,7 @@ const PolishModal = () => {
 
   const addNewCustomStyle = () => {
     if (!customStyleRef.current?.value) {
-      toast({
-        description: 'Custom style is required!',
-        variant: 'destructive',
-      });
+      toast.error('Custom style is required!');
       return;
     }
     if (customStyleRef.current) {
@@ -147,20 +143,14 @@ const PolishModal = () => {
             clearInterval(reqTimer.current);
           }
         } catch (error: any) {
-          toast({
-            description: error.message,
-            variant: 'destructive',
-          });
+          toast.error(error.message);
           clearInterval(reqTimer.current);
         }
       }, 2000);
     },
     onError: (err) => {
       setIsPolishing(false);
-      toast({
-        variant: 'destructive',
-        description: err.message,
-      });
+      toast.error(err.message);
     },
   });
 
@@ -197,10 +187,7 @@ const PolishModal = () => {
       blockSeparator: '\n\n',
     });
     if (eassy_plain_text.trim() === '') {
-      toast({
-        variant: 'destructive',
-        description: 'No intent is detected',
-      });
+      toast.error('No intent is detected');
       return;
     }
     const polish_params: IPolishParams = {
@@ -423,10 +410,7 @@ const PolishModal = () => {
             <DialogClose asChild>
               <Button
                 onClick={() => {
-                  toast({
-                    description: 'Successfully save your polish paramters!',
-                    variant: 'default',
-                  });
+                  toast.success('Successfully save your polish paramters!');
                 }}
               >
                 Save

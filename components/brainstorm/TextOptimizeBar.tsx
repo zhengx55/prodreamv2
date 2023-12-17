@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import React, { memo } from 'react';
 import Image from 'next/image';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 import { useAnswerOptimize } from '@/query/query';
 import Tooltip from '../root/Tooltip';
 
@@ -35,16 +35,12 @@ const OptimizeBar = ({
   setDisableHandler,
   onChangeHanlder,
 }: Props) => {
-  const { toast } = useToast();
   const { isPending: isOptPending, mutateAsync: OptimizeAnswer } =
     useAnswerOptimize();
 
   const handleOptimze = async () => {
     if (!value) {
-      toast({
-        variant: 'destructive',
-        title: 'Please type something.',
-      });
+      toast.error('Please type something.');
       return;
     }
     setDisableHandler(questionId, true);

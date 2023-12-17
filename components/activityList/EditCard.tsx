@@ -3,7 +3,7 @@ import React, { memo, useCallback, useState } from 'react';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';
 import {
   deleteActivityListItem,
@@ -27,7 +27,6 @@ type Props = {
 };
 
 const EditCard = ({ type, close, index, data, dataType }: Props) => {
-  const { toast } = useToast();
   const [title, setTitle] = useState(data.title);
   const [text, setText] = useState(
     dataType === 'generated' ? data.result : data.text
@@ -53,38 +52,26 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
     mutationFn: (params: { id: string; title?: string; text?: string }) =>
       updateActivityListItem(params),
     onSuccess: () => {
-      toast({
-        description: 'Changed has been successfully made',
-        variant: 'default',
-      });
+      toast.success('Changed has been successfully made');
       handleSave(data.id, title, text as string, type, dataType);
       clearCachesByServerAction('/writtingpal/activityList/history');
       close();
     },
     onError: () => {
-      toast({
-        description: 'Opps, something went wrong',
-        variant: 'destructive',
-      });
+      toast.error('Opps, something went wrong');
     },
   });
 
   const { mutateAsync: removeItem } = useMutation({
     mutationFn: (id: string) => deleteActivityListItem(id),
     onSuccess() {
-      toast({
-        description: 'Delete activity successfully',
-        variant: 'default',
-      });
+      toast.success('Delete activity successfully');
       setShowDelete(false);
       handleDelete(data.id, type, dataType);
       clearCachesByServerAction('/writtingpal/activityList/history');
     },
     onError(error) {
-      toast({
-        description: error.message,
-        variant: 'destructive',
-      });
+      toast.error(error.message);
     },
   });
 
@@ -96,10 +83,7 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
     },
     onSuccess: (result, varaibles) => {
       setIsPoslishing(false);
-      toast({
-        description: 'Activity list polished successfully!',
-        variant: 'default',
-      });
+      toast.success('Activity list polished successfully!');
       setCachedData({
         text: varaibles.texts[0],
       });
@@ -109,10 +93,7 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
 
     onError: () => {
       setIsPoslishing(false);
-      toast({
-        description: 'Oops something went wrong',
-        variant: 'destructive',
-      });
+      toast.error('Oops something went wrong');
     },
   });
 
@@ -124,10 +105,7 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
   const handleSaveAct = async () => {
     const compate_result = data.result ? data.result : data.text;
     if (text === compate_result && title === data.title) {
-      toast({
-        description: 'No changes were detected',
-        variant: 'default',
-      });
+      toast.success('No changes were detected');
       close();
       return;
     }

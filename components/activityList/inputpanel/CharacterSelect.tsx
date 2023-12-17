@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { useActListContext } from '@/context/ActListProvider';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { generateActivityList, updateUserInfo } from '@/query/api';
@@ -33,7 +33,6 @@ const CharacterSelect = ({
   isDecoding,
   setIsGenerating,
 }: Props) => {
-  const { toast } = useToast();
   const dispatch = useAppDispatch();
   const usage = useAppSelector(selectUsage);
   const email = useAppSelector(selectUserEmail);
@@ -80,10 +79,7 @@ const CharacterSelect = ({
       generateActivityList(params),
     onSuccess: (data) => {
       setIsGenerating(false);
-      toast({
-        description: 'Activity list generated successfully!',
-        variant: 'default',
-      });
+      toast.success('Activity list generated successfully!');
       setHistoryData({});
       setGeneratedData(data);
       if (
@@ -96,10 +92,7 @@ const CharacterSelect = ({
     },
     onError: () => {
       setIsGenerating(false);
-      toast({
-        description: 'Oops something went wrong',
-        variant: 'destructive',
-      });
+      toast.error('Oops something went wrong');
     },
   });
 
@@ -110,27 +103,18 @@ const CharacterSelect = ({
       texts.push(item.text);
     });
     if (texts.length === 1 && texts[0] === '') {
-      toast({
-        description: 'please fill in you activity description',
-        variant: 'destructive',
-      });
+      toast.error('please fill in you activity description');
       return;
     }
     if (listOptions.custom && parseInt(cutomWordCount) === 0) {
-      toast({
-        description: 'custome character limit can not be 0',
-        variant: 'destructive',
-      });
+      toast.error('custome character limit can not be 0');
       return;
     }
     listOptions.uc && lengths.push(150);
     listOptions.common && lengths.push(350);
     listOptions.custom && lengths.push(parseInt(cutomWordCount));
     if (lengths.length === 0) {
-      toast({
-        description: 'select at lease  one activity list type',
-        variant: 'destructive',
-      });
+      toast.error('select at lease  one activity list type');
       return;
     }
     const params: IGenerateActListParams = {

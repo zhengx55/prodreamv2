@@ -70,23 +70,22 @@ const SuggestionPanel = () => {
       if (sentence.status === 0) {
         return;
       }
-      const originalElement = document.getElementById(
-        `suggest-${index}-${sentence_idx}`
-      );
-      if (originalElement) {
-        if (sentence.status === 2) {
-          const parent = originalElement.parentNode;
-          parent?.removeChild(originalElement);
-        } else if (sentence.status === 3) {
-          originalElement.innerText = ` ${sentence.new_str} `;
-          originalElement.classList.remove('suggest-change');
-        } else if (sentence.status === 1) {
-          originalElement.innerText = ` ${sentence.new_str} `;
-          originalElement.classList.remove('suggest-change');
-        }
-      }
+      // const originalElement = document.getElementById(
+      //   `suggest-${index}-${sentence_idx}`
+      // );
+      // if (originalElement) {
+      //   if (sentence.status === 2) {
+      //     const parent = originalElement.parentNode;
+      //     parent?.removeChild(originalElement);
+      //   } else if (sentence.status === 3) {
+      //     originalElement.innerText = ` ${sentence.new_str} `;
+      //     originalElement.classList.remove('suggest-change');
+      //   } else if (sentence.status === 1) {
+      //     originalElement.innerText = ` ${sentence.new_str} `;
+      //     originalElement.classList.remove('suggest-change');
+      //   }
+      // }
     });
-    // storeIntoHistory(essay_html);
     remove(index);
   };
 

@@ -7,7 +7,7 @@ import Tooltip from '../root/Tooltip';
 import TextStreamingEffect from './TextStreamingEffect';
 import PanelError from '../root/PanelError';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import useAIEditorStore from '@/zustand/store';
@@ -24,7 +24,7 @@ const OutcomePanel = ({
   const { historyData, startTyping, eassyResult, isSubmiting, submitError } =
     useBrainStormContext();
   const update = useAIEditorStore((state) => state.updateEditor_html);
-  const { toast } = useToast();
+
   const router = useRouter();
   const handlePolish = () => {
     if (!historyData.result && !eassyResult) {
@@ -102,10 +102,7 @@ const OutcomePanel = ({
                       navigator.clipboard.writeText(
                         historyData.result ? historyData.result : eassyResult
                       );
-                      toast({
-                        variant: 'default',
-                        description: 'Copy to clipboard',
-                      });
+                      toast.success('Copy to clipboard');
                     }}
                     className='tooltip'
                   >

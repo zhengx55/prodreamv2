@@ -9,10 +9,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 const DownloadModal = () => {
-  const { toast } = useToast();
-
   return (
     <Dialog>
       <DialogTrigger asChild>

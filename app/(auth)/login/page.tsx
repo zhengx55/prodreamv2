@@ -25,13 +25,12 @@ import { useAppDispatch } from '@/store/storehooks';
 import { setUser } from '@/store/reducers/userSlice';
 import { useMutation } from '@tanstack/react-query';
 import { getUserInfo, userLogin } from '@/query/api';
-import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { setUsage } from '@/store/reducers/usageSlice';
 import { initialUsage } from '@/constant';
+import { toast } from 'sonner';
 
 export default function Page() {
-  const { toast } = useToast();
   const [_cookies, setCookie] = useCookies(['token']);
   const [hidePassword, setHidePassword] = useState(true);
   const router = useRouter();
@@ -47,10 +46,7 @@ export default function Page() {
     mutationFn: (param: { username: string; password: string }) =>
       userLogin(param),
     onSuccess: async (data) => {
-      toast({
-        variant: 'default',
-        description: 'Successfully Login',
-      });
+      toast.success('Successfully Login');
       const user_usage = await getUserInfo(data.email);
       if (user_usage) dispatch(setUsage(user_usage));
       else dispatch(setUsage(initialUsage));
@@ -62,10 +58,7 @@ export default function Page() {
       router.push('/welcome');
     },
     onError: (error) => {
-      toast({
-        variant: 'destructive',
-        description: error.message,
-      });
+      toast.error(error.message);
     },
   });
 

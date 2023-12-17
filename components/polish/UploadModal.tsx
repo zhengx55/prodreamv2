@@ -11,14 +11,13 @@ import {
 import { Trash2, X } from 'lucide-react';
 import Image from 'next/image';
 import { FileRejection, useDropzone } from 'react-dropzone';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { useMutation } from '@tanstack/react-query';
 import { uploadEssay } from '@/query/api';
 import useAIEditorStore from '@/zustand/store';
 const UploadModal = () => {
-  const { toast } = useToast();
   const [file, setFile] = useState<File>();
   const [decodeData, setDecodeData] = useState<string>('');
   const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
@@ -30,10 +29,7 @@ const UploadModal = () => {
       setFile(variables.file);
     },
     onError: (e) => {
-      toast({
-        description: e.message,
-        variant: 'destructive',
-      });
+      toast.error('e.message');
     },
   });
 
@@ -49,7 +45,7 @@ const UploadModal = () => {
     async (acceptedFile: File[], fileRejections: FileRejection[]) => {
       if (fileRejections.length > 0) {
         const error_message = fileRejections[0].errors[0].message;
-        toast({ description: error_message, variant: 'destructive' });
+        toast.error(error_message);
         return;
       }
       await handleFileUpload({ file: acceptedFile[0] });
