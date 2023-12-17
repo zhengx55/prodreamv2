@@ -5,10 +5,6 @@ import EditiorLoading from './EditiorLoading';
 import dynamic from 'next/dynamic';
 import useGlobalEvent from 'beautiful-react-hooks/useGlobalEvent';
 import useAIEditorStore from '@/zustand/store';
-import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
-import { removeHtmlTags } from '@/lib/utils';
-import Tiptap from './Editor';
-
 const SuggestionPanel = dynamic(
   () => import('./polish_suggestion/SuggestionPanel'),
   {
@@ -17,13 +13,14 @@ const SuggestionPanel = dynamic(
   }
 );
 
+const Tiptap = dynamic(() => import('./Editor'), { ssr: false });
+
 const ChatEditPanel = dynamic(() => import('./chat_edit/ChatEditPanel'), {
   ssr: false,
   loading: () => <EditiorLoading />,
 });
 
 const EssayPanel = () => {
-  const editor_html = useAIEditorStore((state) => state.editor_html);
   const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
   const isPolishing = useAIEditorStore((state) => state.isPolishing);
   const polishResult = useAIEditorStore((state) => state.polishResult);
@@ -32,7 +29,6 @@ const EssayPanel = () => {
   const polishResultParagraph = useAIEditorStore(
     (state) => state.polishResultWholeParagraph
   );
-  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
 
   const isMultiScreen =
     isPolishing ||
@@ -43,16 +39,6 @@ const EssayPanel = () => {
     isEvaluationOpen;
 
   const updateSelectText = useAIEditorStore((state) => state.updateSelectText);
-
-  const handleInput = (event: ContentEditableEvent) => {
-    updateHtml(event.currentTarget.innerText);
-  };
-
-  const eassyWordCount = useMemo(() => {
-    const wordsArray = removeHtmlTags(editor_html).split(/\s+/);
-    const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
-    return nonEmptyWords.length;
-  }, [editor_html]);
 
   const onSelectionChange = useGlobalEvent('mouseup');
 
@@ -66,16 +52,6 @@ const EssayPanel = () => {
       updateSelectText(selection.getRangeAt(0).toString());
     }
   });
-
-  // const handleKeyDown = (event: {
-  //   key: string;
-  //   preventDefault: () => void;
-  // }) => {
-  //   if (event.key === 'Enter') {
-  //     // 阻止回车键的默认行为
-  //     event.preventDefault();
-  //   }
-  // };
 
   return (
     <>

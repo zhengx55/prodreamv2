@@ -1,5 +1,5 @@
 'use client';
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import Text from '@tiptap/extension-text';
 import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
@@ -10,7 +10,12 @@ import Underline from '@tiptap/extension-underline';
 import HardBreak from '@tiptap/extension-hard-break';
 import CharacterCount from '@tiptap/extension-character-count';
 import EditBar from './EditBar';
+import useAIEditorStore from '@/zustand/store';
+import Spacer from '../root/Spacer';
 const Tiptap = () => {
+  const setEditorInstance = useAIEditorStore(
+    (state) => state.setEditorInstance
+  );
   const editor = useEditor({
     extensions: [
       CharacterCount,
@@ -25,32 +30,40 @@ const Tiptap = () => {
       HighLight.configure({
         multicolor: false,
       }),
-      Underline,
+      Underline.configure({
+        HTMLAttributes: {
+          class: 'decoration-[2px] decoration-red-400 underline-offset-[5px]',
+        },
+      }),
     ],
     editorProps: {
       attributes: {
         class:
-          'focus:outline-none max-w-full prose prose-lg prose-p:text-black-400 h-full',
+          'focus:outline-none max-w-full prose prose-p:text-black-400 h-full',
         spellcheck: 'false',
       },
     },
     injectCSS: false,
     autofocus: true,
     content: '',
+    onCreate: ({ editor }) => {
+      setEditorInstance(editor as Editor);
+    },
   });
   if (!editor) return null;
 
   return (
     <div
       aria-label='editor-parent'
-      className={`relative flex h-[calc(100%_-50px)] w-full flex-col rounded-lg py-6`}
+      className='flex h-[calc(100%_-50px)] w-full flex-col rounded-lg'
     >
       <EditBar />
+      <Spacer y='10' />
       <EditorContent
         className='min-h-full overflow-y-auto whitespace-pre-wrap'
         editor={editor}
       />
-      <div className='flex-between absolute -bottom-6 left-0 flex h-12 w-full'>
+      <div className='flex-between flex h-12 w-full'>
         <p className='small-semibold text-shadow-100'>
           {editor.storage.characterCount.words()}
           &nbsp;Words

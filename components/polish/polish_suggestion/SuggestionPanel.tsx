@@ -60,6 +60,11 @@ const SuggestionPanel = () => {
     });
   };
 
+  /**
+   * 切换editor中对应的文字内容
+   * @param index
+   * @param item
+   */
   const replaceText = (index: number, item: IPolishResultAData) => {
     item.data.map((sentence, sentence_idx) => {
       if (sentence.status === 0) {

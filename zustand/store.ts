@@ -2,6 +2,7 @@ import { IPolishResultAData } from '@/query/type';
 import { create } from 'zustand';
 import { sanitize } from 'isomorphic-dompurify';
 import { removeHtmlTags } from '@/lib/utils';
+import { Editor } from '@tiptap/react';
 
 type AIEditorState = {
   polishResult: IPolishResultAData[];
@@ -12,6 +13,7 @@ type AIEditorState = {
   isPlagiarismOpen: boolean;
   selectText: string;
   editor_html: string;
+  editor_instance: Editor | null;
 };
 
 type AIEditorAction = {
@@ -27,9 +29,11 @@ type AIEditorAction = {
   clearPolishResult: () => void;
   updateEditor_html: (result: AIEditorState['editor_html']) => void;
   removesStyling: () => void;
+  setEditorInstance: (result: Editor) => void;
 };
 
 const useAIEditorStore = create<AIEditorState & AIEditorAction>((set) => ({
+  editor_instance: null,
   editor_html: '',
   polishResult: [],
   selectText: '',
@@ -58,6 +62,10 @@ const useAIEditorStore = create<AIEditorState & AIEditorAction>((set) => ({
   removesStyling: () =>
     set((state) => ({
       editor_html: removeHtmlTags(state.editor_html),
+    })),
+  setEditorInstance: (result) =>
+    set(() => ({
+      editor_instance: result,
     })),
 }));
 

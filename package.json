@@ -55,7 +55,6 @@
     "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
     "react": "latest",
-    "react-contenteditable": "^3.3.7",
     "react-cookie": "^6.1.1",
     "react-day-picker": "^8.9.1",
     "react-dom": "latest",

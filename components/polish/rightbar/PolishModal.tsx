@@ -19,7 +19,6 @@ import { IPolishParams, IPolishResultAData } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
 import useAIEditorStore from '@/zustand/store';
-import { removeHtmlTags } from '@/lib/utils';
 
 const initialState = {
   polishMentod: 0,
@@ -57,8 +56,7 @@ const PolishModal = () => {
   const [addCustomStyle, setAddCustomStyle] = useState(false);
   const [addCustomLength, setAddCustomLength] = useState(false);
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
-  const editor_html = useAIEditorStore((state) => state.editor_html);
-  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
+  const editor_instance = useAIEditorStore((state) => state.editor_instance);
 
   const reset = () => {
     setSelected(initialState);
@@ -166,45 +164,37 @@ const PolishModal = () => {
     },
   });
 
+  // 原文内容划线
+
   const handleDecorateEassy = (result: IPolishResultAData[]) => {
-    // 查询原文当中所有的换行符位置
-    const lineBreakPositions: number[] = [];
-    const regex = /\n/g;
-    let match;
-    while ((match = regex.exec(removeHtmlTags(editor_html))) !== null) {
-      lineBreakPositions.push(match.index);
-    }
     // 查询起始索引和终止索引
-    let finalText = '';
-    result.map((item, index) => {
-      item.data.map((sentence, sentence_idx) => {
+    result.map((item) => {
+      const range_substring = editor_instance
+        ?.getText()
+        .substring(item.start, item.end);
+      item.data.map((sentence) => {
         if ([2, 3].includes(sentence.status)) {
-          let sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
-          if (
-            sentence_idx !== item.data.length - 1 &&
-            [2, 3].includes(item.data[sentence_idx + 1].status)
-          ) {
-            sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str}</span>`;
-          }
-          finalText += sentenceHtml;
-        } else if (sentence.status === 1) {
-          finalText += `<span id="suggest-${index}-${sentence_idx}"></span>`;
-        } else {
-          const sentenceHtml = `<span>${sentence.sub_str}</span>`;
-          finalText += sentenceHtml;
-        }
-      });
-      lineBreakPositions.forEach((break_point, _point_idx) => {
-        if (Math.abs(item.end - break_point) <= 5) {
-          finalText += `<br>`;
+          if (!range_substring) return;
+          const originalIndex =
+            range_substring.indexOf(sentence.sub_str) + item.start;
+          const originalLength = sentence.sub_str.length;
+          editor_instance
+            ?.chain()
+            .setTextSelection({
+              from: originalIndex! + 1!,
+              to: originalIndex! + originalLength + 1,
+            })
+            .setUnderline();
         }
       });
     });
-    updateHtml(finalText);
   };
 
   const handlePolish = async () => {
-    const eassy_plain_text = removeHtmlTags(editor_html);
+    if (!editor_instance) return;
+    const eassy_plain_text = editor_instance.getText({
+      blockSeparator: '\n\n',
+    });
     if (eassy_plain_text.trim() === '') {
       toast({
         variant: 'destructive',

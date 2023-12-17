@@ -24,8 +24,7 @@ const ReportSheet = () => {
   const { toast } = useToast();
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluateResult, setEvaluateResult] = useState<IEssayAssessData>();
-  const editor_html = useAIEditorStore((state) => state.editor_html);
-
+  const editor_instance = useAIEditorStore((state) => state.editor_instance);
   const isEvaluationOpen = useAIEditorStore((state) => state.isEvaluationOpen);
   const setIsEvaluationOpen = useAIEditorStore(
     (state) => state.updateIsEvaluationOpen
@@ -79,7 +78,10 @@ const ReportSheet = () => {
   };
 
   const handleEvaluate = async () => {
-    const eassy_plain_text = removeHtmlTags(editor_html);
+    if (!editor_instance) return;
+    const eassy_plain_text = editor_instance.getText({
+      blockSeparator: '\n\n',
+    });
     const essayContent = eassy_plain_text.trim();
     if (essayContent === '') {
       toast({

@@ -12,6 +12,7 @@ import { AnimatePresence } from 'framer-motion';
 import EditiorLoading from '../EditiorLoading';
 import dynamic from 'next/dynamic';
 import ChatEditResItem from './ChatEditResItem';
+import useAIEditorStore from '@/zustand/store';
 
 const PresetOptions = dynamic(() => import('../rightbar/PresetOptions'), {
   ssr: false,
@@ -26,6 +27,7 @@ type IChatEditItem = {
 
 const ChatEditPanel = () => {
   const { toast } = useToast();
+  const editor_instance = useAIEditorStore((state) => state.editor_instance);
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
   const [isPolishing, setIsPolishing] = useState(false);
   const [polishResult, setPolishResult] = useState<IChatEditItem[]>([]);
@@ -94,6 +96,13 @@ const ChatEditPanel = () => {
   if (isOptionsLoading) return <EditiorLoading />;
   return (
     <div className='relative flex min-h-full w-1/2 flex-col justify-between overflow-y-hidden'>
+      <button
+        onClick={() =>
+          console.log(editor_instance?.getText({ blockSeparator: '\n\n' }))
+        }
+      >
+        test
+      </button>
       <ul
         ref={listRef}
         className='flex h-full w-full flex-col gap-y-4 overflow-y-auto'
