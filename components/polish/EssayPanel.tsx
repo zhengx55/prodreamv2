@@ -10,6 +10,7 @@ import { useAppSelector } from '@/store/storehooks';
 import { selectEssay } from '@/store/reducers/essaySlice';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import useAIEditorStore from '@/zustand/store';
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 
 const SuggestionPanel = dynamic(() => import('./SuggestionPanel'), {
   ssr: false,
@@ -23,6 +24,7 @@ const ChatEditPanel = dynamic(() => import('./ChatEditPanel'), {
 
 const EssayPanel = () => {
   const [wordCount, setWordCount] = useState(0);
+  const editor_html = useAIEditorStore((state) => state.editor_html);
   const essay = useAppSelector(selectEssay);
   const { essayRef } = useAiEditiorContext();
   const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
@@ -33,6 +35,8 @@ const EssayPanel = () => {
   const polishResultParagraph = useAIEditorStore(
     (state) => state.polishResultWholeParagraph
   );
+  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
+
   const isMultiScreen =
     isPolishing ||
     isChatEditMode ||
@@ -42,6 +46,10 @@ const EssayPanel = () => {
     isEvaluationOpen;
 
   const updateSelectText = useAIEditorStore((state) => state.updateSelectText);
+
+  const handleInput = (event: ContentEditableEvent) => {
+    updateHtml(event.target.value);
+  };
 
   // 检查是否有内容从其他页面传入
   useDeepCompareEffect(() => {
@@ -57,30 +65,30 @@ const EssayPanel = () => {
     }
   }, [essay]);
 
-  useEffect(() => {
-    if (!essayRef.current) return;
-    const observer = new MutationObserver((mutationsList) => {
-      if (!essayRef.current) return;
-      for (const mutation of mutationsList) {
-        if (
-          mutation.type === 'childList' ||
-          mutation.type === 'characterData'
-        ) {
-          const text = essayRef.current.innerText;
-          const wordsArray = text.split(/\s+/);
-          const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
-          setWordCount(nonEmptyWords.length);
-        }
-      }
-    });
+  // useEffect(() => {
+  //   if (!essayRef.current) return;
+  //   const observer = new MutationObserver((mutationsList) => {
+  //     if (!essayRef.current) return;
+  //     for (const mutation of mutationsList) {
+  //       if (
+  //         mutation.type === 'childList' ||
+  //         mutation.type === 'characterData'
+  //       ) {
+  //         const text = essayRef.current.innerText;
+  //         const wordsArray = text.split(/\s+/);
+  //         const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
+  //         setWordCount(nonEmptyWords.length);
+  //       }
+  //     }
+  //   });
 
-    const targetNode = essayRef.current;
-    const config = { subtree: true, characterData: true, childList: true };
-    observer.observe(targetNode, config);
-    return () => {
-      observer.disconnect();
-    };
-  }, [essayRef]);
+  //   const targetNode = essayRef.current;
+  //   const config = { subtree: true, characterData: true, childList: true };
+  //   observer.observe(targetNode, config);
+  //   return () => {
+  //     observer.disconnect();
+  //   };
+  // }, [essayRef]);
 
   const onSelectionChange = useGlobalEvent('mouseup');
 
@@ -125,14 +133,14 @@ const EssayPanel = () => {
             aria-label='editor-parent'
             className={`relative flex h-[calc(100%_-50px)] w-full flex-col rounded-lg py-6`}
           >
-            <div
-              aria-label='essay-editor'
-              ref={essayRef}
+            <ContentEditable
+              html={editor_html}
               onKeyDown={handleKeyDown}
+              aria-label='essay-editor'
               className='h-full w-full overflow-y-auto whitespace-pre-line break-words text-[16px] leading-loose outline-none'
-              placeholder='Write your message..'
-              suppressContentEditableWarning
-              contentEditable={!isPolishing ? 'plaintext-only' : false}
+              tagName='article'
+              disabled={false}
+              onChange={handleInput}
               spellCheck={false}
             />
 

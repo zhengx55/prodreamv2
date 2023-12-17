@@ -1,5 +1,6 @@
 import { IPolishResultAData } from '@/query/type';
 import { create } from 'zustand';
+import { sanitize } from 'isomorphic-dompurify';
 
 type AIEditorState = {
   polishResult: IPolishResultAData[];
@@ -9,6 +10,7 @@ type AIEditorState = {
   isEvaluationOpen: boolean;
   isPlagiarismOpen: boolean;
   selectText: string;
+  editor_html: string;
 };
 
 type AIEditorAction = {
@@ -22,9 +24,11 @@ type AIEditorAction = {
   updateIsPlagiarismOpen: (result: AIEditorState['isPlagiarismOpen']) => void;
   updateSelectText: (result: AIEditorState['selectText']) => void;
   clearPolishResult: () => void;
+  updateEditor_html: (result: AIEditorState['editor_html']) => void;
 };
 
 const useAIEditorStore = create<AIEditorState & AIEditorAction>((set) => ({
+  editor_html: '<span></span>',
   polishResult: [],
   selectText: '',
   polishResultWholeParagraph: '',
@@ -44,6 +48,10 @@ const useAIEditorStore = create<AIEditorState & AIEditorAction>((set) => ({
     set(() => ({
       polishResult: [],
       polishResultWholeParagraph: '',
+    })),
+  updateEditor_html: (result) =>
+    set(() => ({
+      editor_html: sanitize(result),
     })),
 }));
 
