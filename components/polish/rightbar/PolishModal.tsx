@@ -184,7 +184,8 @@ const PolishModal = () => {
               from: originalIndex! + 1!,
               to: originalIndex! + originalLength + 1,
             })
-            .setUnderline();
+            .setUnderline()
+            .run();
         }
       });
     });
