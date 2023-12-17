@@ -1,5 +1,4 @@
 'use client';
-import AIEditiorHistoryProvider from '@/context/AIEditiorHistoryProvider';
 import { selectUsage } from '@/store/reducers/usageSlice';
 import { useAppSelector } from '@/store/storehooks';
 import dynamic from 'next/dynamic';
@@ -19,9 +18,9 @@ export default function AIEditiorLayout({ children }: { children: ReactNode }) {
     }
   }, [usage]);
   return (
-    <AIEditiorHistoryProvider>
+    <>
       {children}
       {isFirstTime ? <OnboardModal /> : null}
-    </AIEditiorHistoryProvider>
+    </>
   );
 }

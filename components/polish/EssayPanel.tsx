@@ -1,6 +1,5 @@
 'use client';
 import { memo, useMemo } from 'react';
-import EditBar from './EditBar';
 import { motion } from 'framer-motion';
 import EditiorLoading from './EditiorLoading';
 import dynamic from 'next/dynamic';
@@ -8,6 +7,7 @@ import useGlobalEvent from 'beautiful-react-hooks/useGlobalEvent';
 import useAIEditorStore from '@/zustand/store';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 import { removeHtmlTags } from '@/lib/utils';
+import Tiptap from './Editor';
 
 const SuggestionPanel = dynamic(
   () => import('./polish_suggestion/SuggestionPanel'),
@@ -67,15 +67,15 @@ const EssayPanel = () => {
     }
   });
 
-  const handleKeyDown = (event: {
-    key: string;
-    preventDefault: () => void;
-  }) => {
-    if (event.key === 'Enter') {
-      // 阻止回车键的默认行为
-      event.preventDefault();
-    }
-  };
+  // const handleKeyDown = (event: {
+  //   key: string;
+  //   preventDefault: () => void;
+  // }) => {
+  //   if (event.key === 'Enter') {
+  //     // 阻止回车键的默认行为
+  //     event.preventDefault();
+  //   }
+  // };
 
   return (
     <>
@@ -91,12 +91,7 @@ const EssayPanel = () => {
           style={{ width: isMultiScreen ? '50%' : '66.666667%' }}
           className='flex h-full flex-col'
         >
-          <EditBar />
-          <div
-            aria-label='editor-parent'
-            className={`relative flex h-[calc(100%_-50px)] w-full flex-col rounded-lg py-6`}
-          >
-            <ContentEditable
+          {/* <ContentEditable
               html={editor_html}
               onKeyDown={handleKeyDown}
               aria-label='essay-editor'
@@ -106,15 +101,9 @@ const EssayPanel = () => {
               onChange={handleInput}
               spellCheck={false}
               contentEditable='plaintext-only'
-            />
+            /> */}
 
-            <div className='flex-between absolute -bottom-6 left-0 flex h-12 w-full'>
-              <p className='small-semibold text-shadow-100'>
-                {eassyWordCount}
-                &nbsp;Words
-              </p>
-            </div>
-          </div>
+          <Tiptap />
         </motion.div>
         {isChatEditMode ? (
           <ChatEditPanel />

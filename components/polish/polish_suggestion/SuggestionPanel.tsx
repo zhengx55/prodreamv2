@@ -3,11 +3,9 @@ import Spacer from '../../root/Spacer';
 import { IPolishResultAData } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '../../ui/button';
-import { useAIEditiorHistoryContext } from '@/context/AIEditiorHistoryProvider';
 import useAIEditorStore from '@/zustand/store';
 
 const SuggestionPanel = () => {
-  const { storeIntoHistory } = useAIEditiorHistoryContext();
   const polishResult = useAIEditorStore((state) => state.polishResult);
   const polishResultB = useAIEditorStore(
     (state) => state.polishResultWholeParagraph
