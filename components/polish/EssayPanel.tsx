@@ -1,5 +1,5 @@
 'use client';
-import { memo, useMemo, useRef, useState } from 'react';
+import { memo, useMemo } from 'react';
 import EditBar from './EditBar';
 import { motion } from 'framer-motion';
 import EditiorLoading from './EditiorLoading';
@@ -42,9 +42,8 @@ const EssayPanel = () => {
   const updateSelectText = useAIEditorStore((state) => state.updateSelectText);
 
   const handleInput = (event: ContentEditableEvent) => {
+    console.log(event.target.value);
     updateHtml(event.target.value);
-    const wordsArray = event.target.value.split(/\s+/);
-    const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
   };
 
   const eassyWordCount = useMemo(() => {
@@ -73,7 +72,6 @@ const EssayPanel = () => {
     if (event.key === 'Enter') {
       // 阻止回车键的默认行为
       event.preventDefault();
-      // document.execCommand('insertHTML', false, '<br><br>');
     }
   };
 

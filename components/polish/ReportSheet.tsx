@@ -18,6 +18,7 @@ import { useToast } from '../ui/use-toast';
 import LoadingDot from '../root/LoadingDot';
 import { EvaluationsTitle } from '@/constant';
 import useAIEditorStore from '@/zustand/store';
+import { removeHtmlTags } from '@/lib/utils';
 
 const ReportSheet = () => {
   const { toast } = useToast();
@@ -78,7 +79,8 @@ const ReportSheet = () => {
   };
 
   const handleEvaluate = async () => {
-    const essayContent = editor_html.trim();
+    const eassy_plain_text = removeHtmlTags(editor_html);
+    const essayContent = eassy_plain_text.trim();
     if (essayContent === '') {
       toast({
         description: 'No content detected',
