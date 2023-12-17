@@ -1,5 +1,5 @@
 'use client';
-import { memo, useRef, useState } from 'react';
+import { memo, useMemo, useRef, useState } from 'react';
 import EditBar from './EditBar';
 import { motion } from 'framer-motion';
 import EditiorLoading from './EditiorLoading';
@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import useGlobalEvent from 'beautiful-react-hooks/useGlobalEvent';
 import useAIEditorStore from '@/zustand/store';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
+import { removeHtmlTags } from '@/lib/utils';
 
 const SuggestionPanel = dynamic(() => import('./SuggestionPanel'), {
   ssr: false,
@@ -19,7 +20,6 @@ const ChatEditPanel = dynamic(() => import('./ChatEditPanel'), {
 });
 
 const EssayPanel = () => {
-  const [wordCount, setWordCount] = useState(0);
   const editor_html = useAIEditorStore((state) => state.editor_html);
   const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
   const isPolishing = useAIEditorStore((state) => state.isPolishing);
@@ -45,8 +45,13 @@ const EssayPanel = () => {
     updateHtml(event.target.value);
     const wordsArray = event.target.value.split(/\s+/);
     const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
-    setWordCount(nonEmptyWords.length);
   };
+
+  const eassyWordCount = useMemo(() => {
+    const wordsArray = removeHtmlTags(editor_html).split(/\s+/);
+    const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
+    return nonEmptyWords.length;
+  }, [editor_html]);
 
   const onSelectionChange = useGlobalEvent('mouseup');
 
@@ -104,7 +109,7 @@ const EssayPanel = () => {
 
             <div className='flex-between absolute -bottom-6 left-0 flex h-12 w-full'>
               <p className='small-semibold text-shadow-100'>
-                {wordCount}
+                {eassyWordCount}
                 &nbsp;Words
               </p>
             </div>
