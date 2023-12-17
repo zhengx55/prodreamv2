@@ -1,5 +1,4 @@
 'use client';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { Loader2, Trash2 } from 'lucide-react';
 import React, { memo } from 'react';
 import { Button } from '../ui/button';

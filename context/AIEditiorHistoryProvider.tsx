@@ -6,7 +6,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useAiEditiorContext } from './AIEditiorProvider';
 
 type IAiEditiorContext = {
   history: string[];
@@ -24,7 +23,6 @@ export default function AIEditiorHistoryProvider({
   children: ReactNode;
 }) {
   const [history, setHistory] = useState<string[]>([]);
-  const { essayRef } = useAiEditiorContext();
   const [currentStep, setCurrentStep] = useState(0);
 
   const storeIntoHistory = (content: string) => {
@@ -33,21 +31,15 @@ export default function AIEditiorHistoryProvider({
   };
 
   const handleRedo = useCallback(() => {
-    if (!essayRef.current) return;
     if (currentStep < history.length - 1) {
       setCurrentStep((prevStep) => prevStep + 1);
-      essayRef.current.innerHTML = history[currentStep + 1];
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep, history]);
 
   const handleUndo = useCallback(() => {
-    if (!essayRef.current) return;
     if (currentStep > 0) {
-      console.log(currentStep);
-      console.log(history);
       setCurrentStep((prevStep) => prevStep - 1);
-      essayRef.current.innerHTML = history[currentStep - 1];
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep, history]);

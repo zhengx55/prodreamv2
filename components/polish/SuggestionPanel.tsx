@@ -1,5 +1,4 @@
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
-import React, { Fragment, useMemo, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { IPolishResultAData } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -8,13 +7,13 @@ import { useAIEditiorHistoryContext } from '@/context/AIEditiorHistoryProvider';
 import useAIEditorStore from '@/zustand/store';
 
 const SuggestionPanel = () => {
-  const { essayRef } = useAiEditiorContext();
-
   const { storeIntoHistory } = useAIEditiorHistoryContext();
   const polishResult = useAIEditorStore((state) => state.polishResult);
   const polishResultB = useAIEditorStore(
     (state) => state.polishResultWholeParagraph
   );
+  const editor_html = useAIEditorStore((state) => state.editor_html);
+  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
   const setPolishResult = useAIEditorStore((state) => state.updatePolishResult);
   const setPolishResultB = useAIEditorStore(
     (state) => state.updatePolishResultWholeParagraph
@@ -64,10 +63,7 @@ const SuggestionPanel = () => {
   };
 
   const replaceText = (index: number, item: IPolishResultAData) => {
-    if (!essayRef.current) return;
-    const essay_html = essayRef.current.innerHTML;
     item.data.map((sentence, sentence_idx) => {
-      if (!essayRef.current) return;
       if (sentence.status === 0) {
         return;
       }
@@ -87,7 +83,7 @@ const SuggestionPanel = () => {
         }
       }
     });
-    storeIntoHistory(essay_html);
+    // storeIntoHistory(essay_html);
     remove(index);
   };
 
@@ -102,9 +98,7 @@ const SuggestionPanel = () => {
     // clear all suggestions
     setSuggestions([]);
     // clear all underline styling
-    if (!essayRef.current) return;
     if (polishResult) setPolishResult([]);
-    essayRef.current.innerHTML = essayRef.current.innerText;
     // turn off suggestions panel
   };
 
@@ -145,8 +139,7 @@ const SuggestionPanel = () => {
           <div className='mt-4 flex gap-x-2'>
             <Button
               onClick={() => {
-                if (!essayRef.current) return;
-                essayRef.current.innerHTML = polishResultB;
+                updateHtml(polishResultB);
                 setPolishResultB('');
               }}
               className='font-semibold'

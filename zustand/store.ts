@@ -1,6 +1,7 @@
 import { IPolishResultAData } from '@/query/type';
 import { create } from 'zustand';
 import { sanitize } from 'isomorphic-dompurify';
+import { removeHtmlTags } from '@/lib/utils';
 
 type AIEditorState = {
   polishResult: IPolishResultAData[];
@@ -25,10 +26,11 @@ type AIEditorAction = {
   updateSelectText: (result: AIEditorState['selectText']) => void;
   clearPolishResult: () => void;
   updateEditor_html: (result: AIEditorState['editor_html']) => void;
+  removesStyling: () => void;
 };
 
 const useAIEditorStore = create<AIEditorState & AIEditorAction>((set) => ({
-  editor_html: '<span></span>',
+  editor_html: '',
   polishResult: [],
   selectText: '',
   polishResultWholeParagraph: '',
@@ -52,6 +54,10 @@ const useAIEditorStore = create<AIEditorState & AIEditorAction>((set) => ({
   updateEditor_html: (result) =>
     set(() => ({
       editor_html: sanitize(result),
+    })),
+  removesStyling: () =>
+    set((state) => ({
+      editor_html: removeHtmlTags(state.editor_html),
     })),
 }));
 

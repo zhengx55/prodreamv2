@@ -13,7 +13,6 @@ import { plagiarismCheck, plagiarismQuery } from '@/query/api';
 import { IPlagiarismData } from '@/query/type';
 import { useToast } from '../ui/use-toast';
 import LoadingDot from '../root/LoadingDot';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { Loader2 } from 'lucide-react';
 import useAIEditorStore from '@/zustand/store';
 
@@ -21,7 +20,6 @@ const PlagReportSheet = () => {
   const { toast } = useToast();
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluateResult, setEvaluateResult] = useState<IPlagiarismData>();
-  const { essayRef } = useAiEditiorContext();
   const setIsPlagiarism = useAIEditorStore(
     (store) => store.updateIsPlagiarismOpen
   );
@@ -87,18 +85,17 @@ const PlagReportSheet = () => {
         <Button
           variant={'ghost'}
           className='small-semibold border border-shadow-border'
-          onClick={async () => {
-            if (!essayRef.current) return;
-            const essayContent = essayRef.current.innerText.trim();
-            if (essayContent === '') {
-              toast({
-                description: 'No content detected',
-                variant: 'destructive',
-              });
-              return;
-            }
-            await check(essayRef.current?.innerText);
-          }}
+          // onClick={async () => {
+          //   const essayContent = essayRef.current.innerText.trim();
+          //   if (essayContent === '') {
+          //     toast({
+          //       description: 'No content detected',
+          //       variant: 'destructive',
+          //     });
+          //     return;
+          //   }
+          //   await check(essayRef.current?.innerText);
+          // }}
         >
           Plagiarism Check
         </Button>

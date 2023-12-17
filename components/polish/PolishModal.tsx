@@ -15,11 +15,11 @@ import Spacer from '../root/Spacer';
 import useObjectState from 'beautiful-react-hooks/useObjectState';
 import { Input } from '../ui/input';
 import { useToast } from '../ui/use-toast';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { IPolishParams, IPolishResultAData } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
 import useAIEditorStore from '@/zustand/store';
+import { removeHtmlTags } from '@/lib/utils';
 
 const initialState = {
   polishMentod: 0,
@@ -33,7 +33,6 @@ const initialState = {
 const initialStyles = ['Passionate', 'Entertaining', 'Professional'];
 
 const PolishModal = () => {
-  const { essayRef } = useAiEditiorContext();
   const { toast } = useToast();
   const [selected, setSelected] = useObjectState(initialState);
   const setIsPolishing = useAIEditorStore((state) => state.updateIsPolishing);
@@ -58,6 +57,8 @@ const PolishModal = () => {
   const [addCustomStyle, setAddCustomStyle] = useState(false);
   const [addCustomLength, setAddCustomLength] = useState(false);
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
+  const editor_html = useAIEditorStore((state) => state.editor_html);
+  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
 
   const reset = () => {
     setSelected(initialState);
@@ -166,22 +167,16 @@ const PolishModal = () => {
   });
 
   const handleDecorateEassy = (result: IPolishResultAData[]) => {
-    if (!essayRef.current) {
-      return;
-    }
     // 查询原文当中所有的换行符位置
     const lineBreakPositions: number[] = [];
     const regex = /\n/g;
     let match;
-    while ((match = regex.exec(essayRef.current.innerText)) !== null) {
+    while ((match = regex.exec(editor_html)) !== null) {
       lineBreakPositions.push(match.index);
     }
     // 查询起始索引和终止索引
     let finalText = '';
     result.map((item, index) => {
-      if (!essayRef.current) {
-        return;
-      }
       item.data.map((sentence, sentence_idx) => {
         if ([2, 3].includes(sentence.status)) {
           let sentenceHtml = `<span id="suggest-${index}-${sentence_idx}" class="suggest-change"> ${sentence.sub_str} </span>`;
@@ -205,11 +200,12 @@ const PolishModal = () => {
         }
       });
     });
-    essayRef.current.innerHTML = finalText;
+    updateHtml(finalText);
   };
 
   const handlePolish = async () => {
-    if (essayRef.current?.innerText.trim() === '') {
+    const eassy_plain_text = removeHtmlTags(editor_html);
+    if (eassy_plain_text.trim() === '') {
       toast({
         variant: 'destructive',
         description: 'No intent is detected',
@@ -217,7 +213,7 @@ const PolishModal = () => {
       return;
     }
     const polish_params: IPolishParams = {
-      text: essayRef.current?.innerText.trim()!,
+      text: eassy_plain_text.trim()!,
       granularity: selected.polishMentod,
       tone: selected.styles > 2 ? selected.customStyle : selected.styles + 1,
       scenario: selected.domains + 1,

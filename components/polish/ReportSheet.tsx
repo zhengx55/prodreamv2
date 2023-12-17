@@ -17,14 +17,13 @@ import { IEssayAssessData, IEssayAssessRequest } from '@/query/type';
 import { useToast } from '../ui/use-toast';
 import LoadingDot from '../root/LoadingDot';
 import { EvaluationsTitle } from '@/constant';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import useAIEditorStore from '@/zustand/store';
 
 const ReportSheet = () => {
   const { toast } = useToast();
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluateResult, setEvaluateResult] = useState<IEssayAssessData>();
-  const { essayRef } = useAiEditiorContext();
+  const editor_html = useAIEditorStore((state) => state.editor_html);
 
   const isEvaluationOpen = useAIEditorStore((state) => state.isEvaluationOpen);
   const setIsEvaluationOpen = useAIEditorStore(
@@ -79,8 +78,7 @@ const ReportSheet = () => {
   };
 
   const handleEvaluate = async () => {
-    if (!essayRef.current) return;
-    const essayContent = essayRef.current.innerText.trim();
+    const essayContent = editor_html.trim();
     if (essayContent === '') {
       toast({
         description: 'No content detected',
@@ -89,7 +87,7 @@ const ReportSheet = () => {
       return;
     }
     await evaluation({
-      text: essayRef.current?.innerText,
+      text: essayContent,
     });
   };
 

@@ -9,9 +9,8 @@ import PanelError from '../root/PanelError';
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { useToast } from '../ui/use-toast';
 import Image from 'next/image';
-import { useAppDispatch } from '@/store/storehooks';
-import { setEssay } from '@/store/reducers/essaySlice';
 import { useRouter } from 'next/navigation';
+import useAIEditorStore from '@/zustand/store';
 
 const OutcomePanel = ({
   printIndexRef,
@@ -24,18 +23,14 @@ const OutcomePanel = ({
 }) => {
   const { historyData, startTyping, eassyResult, isSubmiting, submitError } =
     useBrainStormContext();
+  const update = useAIEditorStore((state) => state.updateEditor_html);
   const { toast } = useToast();
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const handlePolish = () => {
     if (!historyData.result && !eassyResult) {
       return;
     }
-    dispatch(
-      setEssay({
-        content: historyData.result ? historyData.result : eassyResult,
-      })
-    );
+    update(historyData.result ? historyData.result : eassyResult);
     router.push('/writtingpal/polish');
   };
   return (

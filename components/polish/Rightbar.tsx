@@ -4,7 +4,6 @@ import Spacer from '../root/Spacer';
 import { PenLine } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import dynamic from 'next/dynamic';
 import useAIEditorStore from '@/zustand/store';
 
@@ -15,10 +14,10 @@ const PlagReportSheet = dynamic(() => import('./PlagReportSheet'), {
 });
 
 const Rightbar = () => {
-  const { essayRef } = useAiEditiorContext();
   const setChatEditMode = useAIEditorStore(
     (state) => state.updateIsChatEditMode
   );
+  const removeStyling = useAIEditorStore((state) => state.removesStyling);
   const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
   const setSelectText = useAIEditorStore((state) => state.updateSelectText);
   const clearPolishResult = useAIEditorStore(
@@ -26,13 +25,10 @@ const Rightbar = () => {
   );
   const toggleChatEditMode = () => {
     if (!isChatEditMode) {
+      removeStyling();
       setChatEditMode(true);
       setSelectText('');
       clearPolishResult();
-      if (essayRef.current) {
-        //清除划线样式等
-        essayRef.current.innerHTML = essayRef.current.innerText;
-      }
     } else {
       setChatEditMode(false);
     }

@@ -10,10 +10,8 @@ import {
 } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 import { useToast } from '../ui/use-toast';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 const DownloadModal = () => {
   const { toast } = useToast();
-  const { essayRef } = useAiEditiorContext();
 
   return (
     <Dialog>

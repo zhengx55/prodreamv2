@@ -6,9 +6,9 @@ import { PresetIcons, PresetInstructions } from '@/constant';
 import { IChatEditItem } from '@/types';
 import { Button } from '../ui/button';
 import { ChevronDown, RefreshCwIcon } from 'lucide-react';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
+import useAIEditorStore from '@/zustand/store';
 
 type Props = {
   idx: number;
@@ -25,24 +25,23 @@ const ChatEditResItem = ({
   setPolishResult,
   item,
 }: Props) => {
-  const { essayRef } = useAiEditiorContext();
+  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
+  const editor_html = useAIEditorStore((state) => state.editor_html);
   const handleInsert = (target: IChatEditItem) => {
-    if (!essayRef.current) return;
-    const eassyContent = essayRef.current.innerText;
     const selection = window.getSelection();
     if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0);
       const { endOffset, startOffset } = range;
       if (startOffset - endOffset === 0) {
-        const updateEassyContent = `${eassyContent.slice(0, startOffset)}${
+        const updateEassyContent = `${editor_html.slice(0, startOffset)}${
           target.result
-        }${eassyContent.slice(startOffset)}`;
-        essayRef.current.innerHTML = `${updateEassyContent}`;
+        }${editor_html.slice(startOffset)}`;
+        updateHtml(`${updateEassyContent}`);
       } else {
-        const updateEassyContent = `${eassyContent.slice(0, startOffset)}${
+        const updateEassyContent = `${editor_html.slice(0, startOffset)}${
           target.result
-        }${eassyContent.slice(endOffset)}`;
-        essayRef.current.innerHTML = `${updateEassyContent}`;
+        }${editor_html.slice(endOffset)}`;
+        updateHtml(`${updateEassyContent}`);
       }
     }
     // if both conditions are false, insert to the original text positions and replace the original text

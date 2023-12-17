@@ -5,16 +5,18 @@ import { useToast } from '../ui/use-toast';
 import Tooltip from '../root/Tooltip';
 import dynamic from 'next/dynamic';
 import { useAIEditiorHistoryContext } from '@/context/AIEditiorHistoryProvider';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
+import useAIEditorStore from '@/zustand/store';
 
 const UploadModal = dynamic(() => import('./UploadModal'), { ssr: false });
 
 const DownloadModal = dynamic(() => import('./DownloadModal'), { ssr: false });
 
 const EditBar = () => {
-  const { essayRef } = useAiEditiorContext();
   const { toast } = useToast();
   const { handleUndo, handleRedo } = useAIEditiorHistoryContext();
+  const editor_html = useAIEditorStore((state) => state.editor_html);
+  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
+
   return (
     <div
       className={`flex w-full justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1`}
@@ -59,13 +61,11 @@ const EditBar = () => {
       <Separator orientation='vertical' className='bg-shadow-border' />
       <button
         onClick={() => {
-          if (essayRef.current && essayRef.current.innerText.trim() !== '') {
-            navigator.clipboard.writeText(essayRef.current.innerText);
-            toast({
-              variant: 'default',
-              description: 'Copy to clipboard',
-            });
-          }
+          navigator.clipboard.writeText(editor_html);
+          toast({
+            variant: 'default',
+            description: 'Copy to clipboard',
+          });
         }}
         className='tool'
       >
@@ -86,8 +86,7 @@ const EditBar = () => {
       <Separator orientation='vertical' className='bg-shadow-border' />
       <button
         onClick={() => {
-          if (essayRef.current && essayRef.current.innerText.trim() !== '')
-            essayRef.current.innerText = '';
+          if (editor_html.trim() !== '') updateHtml('');
         }}
         className='tool'
       >

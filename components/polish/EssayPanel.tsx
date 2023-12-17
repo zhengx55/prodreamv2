@@ -1,14 +1,10 @@
 'use client';
-import { memo, useEffect, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import EditBar from './EditBar';
 import { motion } from 'framer-motion';
-import { useAiEditiorContext } from '@/context/AIEditiorProvider';
 import EditiorLoading from './EditiorLoading';
 import dynamic from 'next/dynamic';
 import useGlobalEvent from 'beautiful-react-hooks/useGlobalEvent';
-import { useAppSelector } from '@/store/storehooks';
-import { selectEssay } from '@/store/reducers/essaySlice';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 import useAIEditorStore from '@/zustand/store';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 
@@ -25,8 +21,6 @@ const ChatEditPanel = dynamic(() => import('./ChatEditPanel'), {
 const EssayPanel = () => {
   const [wordCount, setWordCount] = useState(0);
   const editor_html = useAIEditorStore((state) => state.editor_html);
-  const essay = useAppSelector(selectEssay);
-  const { essayRef } = useAiEditiorContext();
   const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
   const isPolishing = useAIEditorStore((state) => state.isPolishing);
   const polishResult = useAIEditorStore((state) => state.polishResult);
@@ -49,46 +43,10 @@ const EssayPanel = () => {
 
   const handleInput = (event: ContentEditableEvent) => {
     updateHtml(event.target.value);
+    const wordsArray = event.target.value.split(/\s+/);
+    const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
+    setWordCount(nonEmptyWords.length);
   };
-
-  // 检查是否有内容从其他页面传入
-  useDeepCompareEffect(() => {
-    if (!essayRef.current) {
-      return;
-    }
-    if (essay.content) {
-      essayRef.current.innerHTML = essay.content;
-      const text = essay.content;
-      const wordsArray = text.split(/\s+/);
-      const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
-      setWordCount(nonEmptyWords.length);
-    }
-  }, [essay]);
-
-  // useEffect(() => {
-  //   if (!essayRef.current) return;
-  //   const observer = new MutationObserver((mutationsList) => {
-  //     if (!essayRef.current) return;
-  //     for (const mutation of mutationsList) {
-  //       if (
-  //         mutation.type === 'childList' ||
-  //         mutation.type === 'characterData'
-  //       ) {
-  //         const text = essayRef.current.innerText;
-  //         const wordsArray = text.split(/\s+/);
-  //         const nonEmptyWords = wordsArray.filter((word) => word.trim() !== '');
-  //         setWordCount(nonEmptyWords.length);
-  //       }
-  //     }
-  //   });
-
-  //   const targetNode = essayRef.current;
-  //   const config = { subtree: true, characterData: true, childList: true };
-  //   observer.observe(targetNode, config);
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // }, [essayRef]);
 
   const onSelectionChange = useGlobalEvent('mouseup');
 
