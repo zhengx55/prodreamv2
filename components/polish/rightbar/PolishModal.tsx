@@ -123,6 +123,8 @@ const PolishModal = () => {
     onMutate: () => {
       setChatEditMode(false);
       setIsPolishing(true);
+      // 清除其他功能的样式变化
+      editor_instance?.chain().selectAll().unsetHighlight().run();
     },
     onSuccess(data) {
       reqTimer.current = setInterval(async () => {

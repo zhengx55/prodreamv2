@@ -52,7 +52,6 @@ const ChatEditPanel = () => {
     if (from !== to) {
       setSelectedTextHanlder(editor.getText().substring(from - 1, to));
       setRange({ from, to });
-      editor.commands.setHighlight();
     }
   });
 

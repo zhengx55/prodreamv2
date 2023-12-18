@@ -2,6 +2,16 @@ import { IPolishResultAData } from '@/query/type';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
+const initialState: AIEditorState = {
+  editor_instance: null,
+  polishResult: [],
+  polishResultWholeParagraph: '',
+  isPolishing: false,
+  isChatEditMode: false,
+  isEvaluationOpen: false,
+  isPlagiarismOpen: false,
+};
+
 export type AIEditorState = {
   polishResult: IPolishResultAData[];
   polishResultWholeParagraph: string;
@@ -23,18 +33,13 @@ export type AIEditorAction = {
   updateIsPlagiarismOpen: (result: AIEditorState['isPlagiarismOpen']) => void;
   clearPolishResult: () => void;
   setEditorInstance: (result: Editor) => void;
+  reset: () => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditorState & AIEditorAction> = (
   set
 ) => ({
-  editor_instance: null,
-  polishResult: [],
-  polishResultWholeParagraph: '',
-  isPolishing: false,
-  isChatEditMode: false,
-  isEvaluationOpen: false,
-  isPlagiarismOpen: false,
+  ...initialState,
   updatePolishResult: (result) => set(() => ({ polishResult: result })),
   updatePolishResultWholeParagraph: (result) =>
     set(() => ({ polishResultWholeParagraph: result })),
@@ -42,6 +47,7 @@ export const useAIEditorStore: StateCreator<AIEditorState & AIEditorAction> = (
   updateIsChatEditMode: (result) => set(() => ({ isChatEditMode: result })),
   updateIsEvaluationOpen: (result) => set(() => ({ isEvaluationOpen: result })),
   updateIsPlagiarismOpen: (result) => set(() => ({ isPlagiarismOpen: result })),
+  reset: () => set(initialState),
   clearPolishResult: () =>
     set(() => ({
       polishResult: [],

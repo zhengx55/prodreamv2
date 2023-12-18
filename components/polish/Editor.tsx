@@ -10,20 +10,20 @@ import Underline from '@tiptap/extension-underline';
 import HardBreak from '@tiptap/extension-hard-break';
 import CharacterCount from '@tiptap/extension-character-count';
 import EditBar from './EditBar';
-import useAIEditorStore from '@/zustand/store';
 import Spacer from '../root/Spacer';
 import Bold from '@tiptap/extension-bold';
+import useRootStore from '@/zustand/store';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {}
 }
 
 const Tiptap = () => {
-  const globalEssay = useAIEditorStore((state) => state.eassy);
-  const updateGlobalEssay = useAIEditorStore((state) => state.updateEssay);
-  const setEditorInstance = useAIEditorStore(
-    (state) => state.setEditorInstance
-  );
+  const globalEssay = useRootStore((state) => state.eassy);
+
+  const updateGlobalEssay = useRootStore((state) => state.updateEssay);
+  const reset = useRootStore((state) => state.reset);
+  const setEditorInstance = useRootStore((state) => state.setEditorInstance);
   const editor = useEditor({
     extensions: [
       CharacterCount,
@@ -66,6 +66,7 @@ const Tiptap = () => {
     },
     onDestroy: () => {
       if (globalEssay) updateGlobalEssay('');
+      reset();
     },
   });
   if (!editor) return null;
