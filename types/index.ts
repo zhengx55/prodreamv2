@@ -208,3 +208,9 @@ export type IChatEditItem = {
   instruction: string | number;
   expand: boolean;
 };
+
+export type IResumeListItem = {
+  id: string;
+  title: string;
+  update_time: string;
+};

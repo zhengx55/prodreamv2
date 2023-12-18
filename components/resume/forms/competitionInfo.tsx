@@ -1,16 +1,10 @@
 'use client';
-import { Textarea } from '@/components/ui/textarea';
-import { ICompetitionForm } from '@/types';
 import DatePicker from '@/components/root/DatePicker';
+import ReorderItem from '@/components/root/ReorderItem';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AnimatePresence, Reorder, motion } from 'framer-motion';
-import { ChevronDown, Plus, Trash2 } from 'lucide-react';
-import React, { ChangeEvent, useState } from 'react';
-import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import {
   addSectionInForm,
   changeCompetitions,
@@ -18,8 +12,12 @@ import {
   selectCompetitions,
   setCompetitions,
 } from '@/store/reducers/resumeSlice';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { ICompetitionForm } from '@/types';
+import { AnimatePresence, Reorder, motion } from 'framer-motion';
+import { ChevronDown, Plus, Trash2 } from 'lucide-react';
+import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
-import { findSwappedElements } from '@/lib/utils';
 
 const CompetitionInfo = () => {
   const competitionsInfo = useAppSelector(selectCompetitions);
@@ -60,7 +58,7 @@ const CompetitionInfo = () => {
 
   return (
     <>
-      <h1 className='title-semibold mt-8 text-black-100'>Competition</h1>
+      <h1 className='title-semibold text-black-100'>Competition</h1>
       <Reorder.Group
         axis='y'
         values={competitionsInfo}
@@ -185,10 +183,10 @@ const CompetitionInfo = () => {
       <Button
         onClick={handleAddSection}
         variant='ghost'
-        className='mt-4 text-xl'
+        className='small-regular gap-x-1'
         size={'spaceOff'}
       >
-        <Plus className='text-primary-200' />
+        <Plus size={20} className='text-primary-200' />
         <h1 className='text-primary-200'>Add Competition</h1>
       </Button>
     </>

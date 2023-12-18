@@ -1,14 +1,15 @@
 'use client';
 import { PencilLine } from 'lucide-react';
-import { Separator } from '../ui/separator';
-import { Input } from '../ui/input';
 import { useState } from 'react';
-import UserInfo from './forms/userInfo';
-import EducationInfo from './forms/educationInfo';
-import WorkInfo from './forms/workInfo';
-import ResearchInfo from './forms/researchInfo';
-import CompetionsInfo from './forms/competitionInfo';
+import Spacer from '../root/Spacer';
+import { Input } from '../ui/input';
+import { Separator } from '../ui/separator';
 import ActivityInfo from './forms/activityInfo';
+import CompetionsInfo from './forms/competitionInfo';
+import EducationInfo from './forms/educationInfo';
+import ResearchInfo from './forms/researchInfo';
+import UserInfo from './forms/userInfo';
+import WorkInfo from './forms/workInfo';
 
 const CreatePanel = () => {
   const [title, setTitle] = useState('');
@@ -38,18 +39,23 @@ const CreatePanel = () => {
           onChange={(e) => setTitle(e.target.value)}
         />
       )}
-
       <Separator orientation='horizontal' className='mt-4 bg-shadow-border' />
       {/* personal info section */}
+      <Spacer y='16' />
       <UserInfo />
+      <Spacer y='32' />
       {/* education */}
       <EducationInfo />
+      <Spacer y='32' />
       {/* work exprience */}
       <WorkInfo />
+      <Spacer y='32' />
       {/* Research Experience */}
       <ResearchInfo />
+      <Spacer y='32' />
       {/* Competition exprience */}
       <CompetionsInfo />
+      <Spacer y='32' />
       {/* activity exprience */}
       <ActivityInfo />
     </div>

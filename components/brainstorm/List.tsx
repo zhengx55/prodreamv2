@@ -1,11 +1,11 @@
 'use client';
-import { Variants, motion } from 'framer-motion';
-import { Separator } from '../ui/separator';
-import { useState } from 'react';
-import { ChevronRight, ChevronUp } from 'lucide-react';
-import Card from './Card';
 import { IBrainsotrmCard } from '@/types';
+import { Variants, motion } from 'framer-motion';
+import { ChevronRight, ChevronUp } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
+import { Separator } from '../ui/separator';
+import Card from './Card';
 
 type Props = {
   title: string;
@@ -19,12 +19,12 @@ const List = ({ title, cardList }: Props) => {
 
   const ListVariant: Variants = {
     open: { height: 'auto' },
-    closed: { height: '300px' },
+    closed: { height: '276px' },
   };
 
   return (
     <motion.div
-      className='flex h-[300px] shrink-0 flex-col overflow-hidden rounded-md bg-white'
+      className='flex shrink-0 flex-col overflow-hidden rounded-md bg-white'
       variants={ListVariant}
       initial={false}
       animate={isExpended ? 'open' : 'closed'}

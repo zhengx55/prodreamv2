@@ -88,7 +88,7 @@ export const Scissor = () => (
   </svg>
 );
 
-export function Upload({}) {
+export function Upload() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -106,7 +106,7 @@ export function Upload({}) {
   );
 }
 
-export function ActivityListLoading({}) {
+export function ActivityListLoading() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -143,7 +143,7 @@ export function ActivityListLoading({}) {
   );
 }
 
-export function Secure({}) {
+export function Secure() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -177,7 +177,7 @@ export const PowerUp = () => (
   </svg>
 );
 
-export function SvgComponents({}) {
+export function SvgComponents() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -211,7 +211,7 @@ export const Revert = () => {
   );
 };
 
-export function DoubleArrow({}) {
+export function DoubleArrow() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -228,7 +228,7 @@ export function DoubleArrow({}) {
   );
 }
 
-export function DoubleArrowLeft({}) {
+export function DoubleArrowLeft() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -245,7 +245,7 @@ export function DoubleArrowLeft({}) {
   );
 }
 
-export function Download({}) {
+export function Download() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -277,7 +277,7 @@ export const MAX_AVATAR = () => (
   </svg>
 );
 
-export function PolishNow({}) {
+export function PolishNow() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -296,7 +296,7 @@ export function PolishNow({}) {
   );
 }
 
-export function ThreeDots({}) {
+export function ThreeDots() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -313,7 +313,7 @@ export function ThreeDots({}) {
   );
 }
 
-export function Optimize({}) {
+export function Optimize() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -330,7 +330,7 @@ export function Optimize({}) {
   );
 }
 
-export function PrimarySpinner({}) {
+export function PrimarySpinner() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -384,7 +384,7 @@ export const GiftSvg = () => {
   );
 };
 
-export function Send({}) {
+export function Send() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -401,7 +401,7 @@ export function Send({}) {
   );
 }
 
-export function SendActive({}) {
+export function SendActive() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -418,7 +418,7 @@ export function SendActive({}) {
   );
 }
 
-export function Stars({}) {
+export function Stars() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
