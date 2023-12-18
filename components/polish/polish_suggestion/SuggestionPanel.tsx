@@ -10,7 +10,7 @@ const SuggestionPanel = () => {
   const polishResultB = useAIEditorStore(
     (state) => state.polishResultWholeParagraph
   );
-  const editor_html = useAIEditorStore((state) => state.editor_html);
+  const editor_instance = useAIEditorStore((state) => state.editor_instance);
   const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
   const setPolishResult = useAIEditorStore((state) => state.updatePolishResult);
   const setPolishResultB = useAIEditorStore(
@@ -66,27 +66,38 @@ const SuggestionPanel = () => {
    * @param item
    */
   const replaceText = (index: number, item: IPolishResultAData) => {
-    item.data.map((sentence, sentence_idx) => {
+    // 先获取新的文字内容
+    let relpace_string = '';
+    let original_string = '';
+    // 查找就文字内容 删除旧内容 并插入新内容
+    console.log(item);
+    item.data.map((sentence) => {
+      original_string += ` ${sentence.sub_str}`;
       if (sentence.status === 0) {
-        return;
+        relpace_string += sentence.sub_str;
+      } else if ([1, 2, 3].includes(sentence.status)) {
+        relpace_string += ` ${sentence.new_str} `;
       }
-      // const originalElement = document.getElementById(
-      //   `suggest-${index}-${sentence_idx}`
-      // );
-      // if (originalElement) {
-      //   if (sentence.status === 2) {
-      //     const parent = originalElement.parentNode;
-      //     parent?.removeChild(originalElement);
-      //   } else if (sentence.status === 3) {
-      //     originalElement.innerText = ` ${sentence.new_str} `;
-      //     originalElement.classList.remove('suggest-change');
-      //   } else if (sentence.status === 1) {
-      //     originalElement.innerText = ` ${sentence.new_str} `;
-      //     originalElement.classList.remove('suggest-change');
-      //   }
-      // }
     });
-    remove(index);
+    const original_range = editor_instance
+      ?.getText()
+      .indexOf(original_string.trim());
+    console.log(
+      '🚀 ~ file: SuggestionPanel.tsx:83 ~ replaceText ~ original_range:',
+      original_range
+    );
+    editor_instance
+      ?.chain()
+      .deleteRange({
+        from: original_range! + 1,
+        to: original_range! + original_string.length + 1,
+      })
+      .insertContentAt(original_range!, relpace_string, {
+        parseOptions: { preserveWhitespace: false },
+      })
+      .run();
+
+    // remove(index);
   };
 
   const handleAcceptAll = () => {

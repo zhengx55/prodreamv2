@@ -12,7 +12,10 @@ import CharacterCount from '@tiptap/extension-character-count';
 import EditBar from './EditBar';
 import useAIEditorStore from '@/zustand/store';
 import Spacer from '../root/Spacer';
+
 const Tiptap = () => {
+  const globalEssay = useAIEditorStore((state) => state.eassy);
+  const updateGlobalEssay = useAIEditorStore((state) => state.updateEssay);
   const setEditorInstance = useAIEditorStore(
     (state) => state.setEditorInstance
   );
@@ -29,6 +32,9 @@ const Tiptap = () => {
       Strike,
       HighLight.configure({
         multicolor: false,
+        HTMLAttributes: {
+          class: 'bg-primary-200',
+        },
       }),
       Underline.configure({
         HTMLAttributes: {
@@ -45,9 +51,15 @@ const Tiptap = () => {
     },
     injectCSS: false,
     autofocus: true,
-    content: '',
+    content: globalEssay ? `${globalEssay}` : '',
+    parseOptions: {
+      preserveWhitespace: 'full',
+    },
     onCreate: ({ editor }) => {
       setEditorInstance(editor as Editor);
+    },
+    onDestroy: () => {
+      if (globalEssay) updateGlobalEssay('');
     },
   });
   if (!editor) return null;
@@ -55,7 +67,7 @@ const Tiptap = () => {
   return (
     <div
       aria-label='editor-parent'
-      className='flex h-[calc(100%_-50px)] w-full flex-col rounded-lg'
+      className='flex h-[calc(100%_-50px)] w-full flex-col rounded-lg pb-2'
     >
       <EditBar />
       <Spacer y='10' />

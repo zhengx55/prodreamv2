@@ -10,7 +10,7 @@ import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { toast } from 'sonner';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import useAIEditorStore from '@/zustand/store';
+import useRootStore from '@/zustand/store';
 
 const OutcomePanel = ({
   printIndexRef,
@@ -23,14 +23,13 @@ const OutcomePanel = ({
 }) => {
   const { historyData, startTyping, eassyResult, isSubmiting, submitError } =
     useBrainStormContext();
-  const update = useAIEditorStore((state) => state.updateEditor_html);
-
   const router = useRouter();
+  const updateGlobalEssay = useRootStore((state) => state.updateEssay);
   const handlePolish = () => {
     if (!historyData.result && !eassyResult) {
       return;
     }
-    update(historyData.result ? historyData.result : eassyResult);
+    updateGlobalEssay(historyData.result ? historyData.result : eassyResult);
     router.push('/writtingpal/polish');
   };
   return (

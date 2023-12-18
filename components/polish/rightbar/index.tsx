@@ -17,6 +17,7 @@ const Rightbar = () => {
   const setChatEditMode = useAIEditorStore(
     (state) => state.updateIsChatEditMode
   );
+  const editor_instance = useAIEditorStore((state) => state.editor_instance);
   const removeStyling = useAIEditorStore((state) => state.removesStyling);
   const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
   const setSelectText = useAIEditorStore((state) => state.updateSelectText);
@@ -25,6 +26,7 @@ const Rightbar = () => {
   );
   const toggleChatEditMode = () => {
     if (!isChatEditMode) {
+      editor_instance?.chain().selectAll().unsetUnderline().run();
       removeStyling();
       setChatEditMode(true);
       setSelectText('');

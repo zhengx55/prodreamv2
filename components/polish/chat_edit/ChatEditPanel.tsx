@@ -89,13 +89,6 @@ const ChatEditPanel = () => {
   if (isOptionsLoading) return <EditiorLoading />;
   return (
     <div className='relative flex min-h-full w-1/2 flex-col justify-between overflow-y-hidden'>
-      <button
-        onClick={() =>
-          console.log(editor_instance?.getText({ blockSeparator: '\n\n' }))
-        }
-      >
-        test
-      </button>
       <ul
         ref={listRef}
         className='flex h-full w-full flex-col gap-y-4 overflow-y-auto'
