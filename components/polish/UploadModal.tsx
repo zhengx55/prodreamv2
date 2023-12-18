@@ -16,10 +16,11 @@ import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { useMutation } from '@tanstack/react-query';
 import { uploadEssay } from '@/query/api';
-import useAIEditorStore from '@/zustand/store';
+import useRootStore from '@/zustand/store';
 const UploadModal = () => {
   const [file, setFile] = useState<File>();
   const [decodeData, setDecodeData] = useState<string>('');
+  const editor_instance = useRootStore((state) => state.editor_instance);
 
   const { mutateAsync: handleFileUpload } = useMutation({
     mutationFn: (params: { file: File }) => uploadEssay(params),
@@ -36,7 +37,10 @@ const UploadModal = () => {
     setFile(undefined);
   };
 
-  const handleDecodeFiles = async () => {};
+  const handleDecodeFiles = async () => {
+    if (!editor_instance) return;
+    editor_instance.commands.insertContent(decodeData);
+  };
 
   const onDrop = useCallback(
     async (acceptedFile: File[], fileRejections: FileRejection[]) => {
