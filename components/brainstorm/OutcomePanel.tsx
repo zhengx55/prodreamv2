@@ -53,7 +53,7 @@ const OutcomePanel = ({
                   labelClass='text-black-200 body-medium'
                 />
               ) : (
-                <p className='prose-lg whitespace-pre-line'>
+                <p className='prose max-w-max whitespace-pre-line'>
                   {historyData.result ? (
                     historyData.result
                   ) : startTyping ? (

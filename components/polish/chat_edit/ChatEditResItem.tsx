@@ -9,13 +9,19 @@ import { ChevronDown, RefreshCwIcon } from 'lucide-react';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
+import useRootStore from '@/zustand/store';
 
 type Props = {
   idx: number;
   isExpand: boolean;
   item: IChatEditItem;
+  range: {
+    from: number;
+    to: number;
+  } | null;
   polish: UseMutateAsyncFunction<any, Error, IPolishParams, void>;
   setPolishResult: (newItem: SetStateAction<IChatEditItem[]>) => void;
+  resetRange: () => void;
 };
 
 const ChatEditResItem = ({
@@ -23,10 +29,30 @@ const ChatEditResItem = ({
   isExpand,
   polish,
   setPolishResult,
+  range,
   item,
+  resetRange,
 }: Props) => {
+  const editor_instance = useRootStore((state) => state.editor_instance);
   const handleInsert = (target: IChatEditItem) => {
-    // if both conditions are false, insert to the original text positions and replace the original text
+    if (!editor_instance) return;
+    if (range) {
+      editor_instance
+        .chain()
+        .focus()
+        .deleteRange({ from: range.from, to: range.to })
+        .insertContentAt(range.from, target.result)
+        .run();
+      resetRange();
+    } else {
+      const { from } = editor_instance.state.selection;
+      editor_instance
+        .chain()
+        .focus()
+        .insertContentAt(from, target.result)
+        .run();
+      resetRange();
+    }
   };
 
   const handleDismiss = (index: number) => {

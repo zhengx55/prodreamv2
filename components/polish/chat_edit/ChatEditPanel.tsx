@@ -34,7 +34,7 @@ type Range = {
 const ChatEditPanel = () => {
   const [isPolishing, setIsPolishing] = useState(false);
   const [polishResult, setPolishResult] = useState<IChatEditItem[]>([]);
-  const [range, setRange] = useState<Range>({ from: 0, to: 0 });
+  const [range, setRange] = useState<Range | null>(null);
   const [selectedText, setSelectedText] = useState('');
   const listRef = useRef<HTMLUListElement>(null);
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
@@ -57,6 +57,10 @@ const ChatEditPanel = () => {
 
   const memoRemoveSelectedText = useCallback(() => {
     setSelectedText('');
+  }, []);
+
+  const memoRemoveRange = useCallback(() => {
+    setRange(null);
   }, []);
 
   const scrollToBottom = () => {
@@ -104,7 +108,7 @@ const ChatEditPanel = () => {
             ]);
             editor_instance
               ?.chain()
-              .setTextSelection({ from: range.from, to: range.to })
+              .setTextSelection({ from: range!.from, to: range!.to })
               .setHighlight()
               .run();
             clearInterval(reqTimer.current);
@@ -132,8 +136,10 @@ const ChatEditPanel = () => {
                 key={`chat-edit-${idx}`}
                 isExpand={isExpand}
                 item={result}
+                range={range}
                 idx={idx}
                 setPolishResult={memoSetPolishResult}
+                resetRange={memoRemoveRange}
                 polish={polish}
               />
             );
