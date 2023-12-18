@@ -53,7 +53,7 @@ const OutcomePanel = ({
                   labelClass='text-black-200 body-medium'
                 />
               ) : (
-                <p className='small-normal whitespace-pre-line'>
+                <p className='prose-lg whitespace-pre-line'>
                   {historyData.result ? (
                     historyData.result
                   ) : startTyping ? (
@@ -71,10 +71,7 @@ const OutcomePanel = ({
             </div>
 
             <div className='flex-between absolute bottom-2 left-0 flex h-12 w-full px-6'>
-              <p
-                className='small-regular text-shadow
-                  '
-              >
+              <p className='small-regular text-shadow'>
                 {historyData.result
                   ? countWords(historyData.result)
                   : startTyping

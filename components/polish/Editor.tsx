@@ -33,7 +33,7 @@ const Tiptap = () => {
       Document,
       Paragraph,
       History.configure({
-        depth: 10,
+        depth: 5,
       }),
       Strike,
       HighLight.configure({

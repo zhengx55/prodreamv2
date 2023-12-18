@@ -161,19 +161,11 @@
   }
 
   .tool {
-    @apply cursor-pointer rounded-[4px] bg-transparent p-1 hover:bg-border-50 flex gap-x-2 small-semibold items-center
+    @apply cursor-pointer rounded-[4px] bg-transparent p-1 hover:bg-border-50 flex gap-x-2 small-semibold items-center disabled:pointer-events-none disabled:opacity-20
   }
 
   .bulletin-tab {
     @apply flex-center small-regular border-b cursor-pointer mt-2 py-2
-  }
-
-  .suggest-change {
-    @apply underline decoration-[2px] decoration-red-400 underline-offset-[5px]
-  }
-
-  .suggenst-artice {
-    @apply text-[16px] break-keep leading-loose
   }
 
   [contenteditable=true]:empty:before {

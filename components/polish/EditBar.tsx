@@ -14,11 +14,11 @@ const EditBar = () => {
   const editor_instance = useRootStore((state) => state.editor_instance);
   const handleUndo = () => {
     if (!editor_instance) return;
-    editor_instance.commands.undo();
+    editor_instance.chain().focus().undo().run();
   };
   const handleRedo = () => {
     if (!editor_instance) return;
-    editor_instance.commands.redo();
+    editor_instance.chain().focus().redo().run();
   };
   const handleClear = () => {
     if (!editor_instance) return;
@@ -87,7 +87,6 @@ const EditBar = () => {
           <p>Copy</p>
         </button>
       </Tooltip>
-
       <Separator orientation='vertical' className='bg-shadow-border' />
       <button onClick={handleClear} className='tool'>
         <svg
