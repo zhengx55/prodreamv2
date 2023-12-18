@@ -4,22 +4,37 @@ import { Separator } from '../ui/separator';
 import { toast } from 'sonner';
 import Tooltip from '../root/Tooltip';
 import dynamic from 'next/dynamic';
-import useAIEditorStore from '@/zustand/store';
+import useRootStore from '@/zustand/store';
 
 const UploadModal = dynamic(() => import('./UploadModal'), { ssr: false });
 
 const DownloadModal = dynamic(() => import('./DownloadModal'), { ssr: false });
 
 const EditBar = () => {
-  const editor_html = useAIEditorStore((state) => state.editor_html);
-  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
-
+  const editor_instance = useRootStore((state) => state.editor_instance);
+  const handleUndo = () => {
+    if (!editor_instance) return;
+    editor_instance.commands.undo();
+  };
+  const handleRedo = () => {
+    if (!editor_instance) return;
+    editor_instance.commands.redo();
+  };
+  const handleClear = () => {
+    if (!editor_instance) return;
+    editor_instance.commands.clearContent();
+  };
+  const handleCopy = () => {
+    if (!editor_instance) return;
+    navigator.clipboard.writeText(editor_instance.getText());
+    toast.success('Copy to clipboard');
+  };
   return (
     <div
       className={`flex w-full justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1`}
     >
       <Tooltip tooltipContent='Undo ⌘+Z'>
-        <button className='tool'>
+        <button onClick={handleUndo} className='tool'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='24'
@@ -36,7 +51,7 @@ const EditBar = () => {
       </Tooltip>
 
       <Tooltip tooltipContent='Redo ⌘+Y'>
-        <button className='tool'>
+        <button onClick={handleRedo} className='tool'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='25'
@@ -56,13 +71,7 @@ const EditBar = () => {
       <DownloadModal />
       <Separator orientation='vertical' className='bg-shadow-border' />
       <Tooltip tooltipContent='Copy ⌘+C'>
-        <button
-          onClick={() => {
-            navigator.clipboard.writeText(editor_html);
-            toast.success('Copy to clipboard');
-          }}
-          className='tool'
-        >
+        <button onClick={handleCopy} className='tool'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='25'
@@ -80,12 +89,7 @@ const EditBar = () => {
       </Tooltip>
 
       <Separator orientation='vertical' className='bg-shadow-border' />
-      <button
-        onClick={() => {
-          if (editor_html.trim() !== '') updateHtml('');
-        }}
-        className='tool'
-      >
+      <button onClick={handleClear} className='tool'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='23'

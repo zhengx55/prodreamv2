@@ -70,7 +70,7 @@ const SuggestionPanel = () => {
     let relpace_string = '';
     let original_string = '';
     // 查找就文字内容 删除旧内容 并插入新内容
-    item.data.map((sentence, sentence_idx) => {
+    item.data.map((sentence) => {
       if (sentence.status === 0) {
         original_string += ` ${sentence.sub_str}`;
         relpace_string += sentence.sub_str;
@@ -93,19 +93,16 @@ const SuggestionPanel = () => {
     }
     const from = original_range + 1;
     const to = original_range + original_string.trim().length + 1;
-    editor_instance.commands.deleteRange({
-      from,
-      to,
-    });
-
-    editor_instance.commands.insertContentAt(
-      original_range + 1,
-      `${relpace_string}`,
-      {
+    editor_instance
+      .chain()
+      .deleteRange({
+        from,
+        to,
+      })
+      .insertContentAt(original_range + 1, `${relpace_string}`, {
         parseOptions: { preserveWhitespace: 'full' },
-      }
-    );
-
+      })
+      .run();
     remove(index);
   };
 
