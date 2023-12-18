@@ -34,7 +34,7 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
       <MaxChatProvider>
         <Sidebar />
       </MaxChatProvider>
-      <div className='scale-down 2xl:scale-initial hidden h-full w-full flex-col overflow-x-auto sm:flex md:overflow-y-hidden'>
+      <div className='hidden h-full w-full flex-col overflow-x-auto sm:flex md:overflow-y-hidden'>
         <Navbar />
         <main className='flex flex-1'>
           <ProfileSidebar />

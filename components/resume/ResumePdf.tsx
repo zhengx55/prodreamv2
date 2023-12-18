@@ -1,12 +1,12 @@
-import { Page, View, Document, Text } from '@react-pdf/renderer';
-import { spacing, styles } from './ResumeStyle';
-import { ResumePDFProfile } from './pdf/ResumeProfile';
 import { Resume } from '@/types';
-import { ResumePDFEducation } from './pdf/ResumeEducation';
-import { ResumePDFWork } from './pdf/ResumeWork';
-import { ResumePDFCompetition } from './pdf/ResumeCompetition';
-import { ResumePDFResearch } from './pdf/ResumeResearch';
+import { Document, Page, View } from '@react-pdf/renderer';
+import { spacing, styles } from './ResumeStyle';
 import { ResumePDFActivity } from './pdf/ResumeActivity';
+import { ResumePDFCompetition } from './pdf/ResumeCompetition';
+import { ResumePDFEducation } from './pdf/ResumeEducation';
+import { ResumePDFProfile } from './pdf/ResumeProfile';
+import { ResumePDFResearch } from './pdf/ResumeResearch';
+import { ResumePDFWork } from './pdf/ResumeWork';
 
 type Props = { resume: Resume; isPDF?: boolean; themeColor: string };
 

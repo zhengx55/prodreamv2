@@ -1,17 +1,17 @@
 'use client';
-import React, { memo, useEffect, useState } from 'react';
+import { SidebarLinks } from '@/constant';
 import {
   AnimatePresence,
   SVGMotionProps,
   Variants,
   motion,
 } from 'framer-motion';
-import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { SidebarLinks } from '@/constant';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { memo, useEffect, useState } from 'react';
+import ChatModal from '../chatWithMax/ChatModal';
 import { AnimatedLogo, AnimatedxsLogo } from './AnimatedLogo';
 import CommunityCard from './CommunityCard';
-import ChatModal from '../chatWithMax/ChatModal';
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &
@@ -85,7 +85,7 @@ const Sidebar = () => {
       initial={false}
       animate={expandSidebar ? 'open' : 'closed'}
       variants={sidebarVariants}
-      className='scale-down 2xl:scale-initial relative hidden shrink-0 flex-col border-r border-r-shadow-border bg-white md:flex md:px-2 md:py-5'
+      className='relative hidden shrink-0 flex-col border-r border-r-shadow-border bg-white md:flex md:px-2 md:py-5'
     >
       <div className='h-[30px]'>
         <AnimatedLogo show={expandSidebar} />

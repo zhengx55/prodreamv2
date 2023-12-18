@@ -60,7 +60,7 @@ export default function WrittingpalLayout({
         <Sidebar />
       </MaxChatProvider>
       <>
-        <div className='scale-down 2xl:scale-initial relative hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
+        <div className='relative hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
           <Navbar />
           <TutorialSheet />
           {children}
