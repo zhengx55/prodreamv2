@@ -1,4 +1,5 @@
 'use client';
+import { Slider } from '@/components/root/SvgComponents';
 import {
   Dialog,
   DialogClose,
@@ -7,19 +8,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ChevronRight } from 'lucide-react';
-import { Button } from '../../ui/button';
-import { memo, useRef, useState } from 'react';
-import { Separator } from '../../ui/separator';
-import Spacer from '../../root/Spacer';
-import useObjectState from 'beautiful-react-hooks/useObjectState';
-import { Input } from '../../ui/input';
-import { IPolishParams, IPolishResultAData } from '@/query/type';
-import { useMutation } from '@tanstack/react-query';
 import { queryPolish, submitPolish } from '@/query/api';
+import { IPolishParams, IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
+import useObjectState from 'beautiful-react-hooks/useObjectState';
+import { ChevronRight } from 'lucide-react';
+import { memo, useRef, useState } from 'react';
 import { toast } from 'sonner';
-import { Slider } from '@/components/root/SvgComponents';
+import Spacer from '../../root/Spacer';
+import { Button } from '../../ui/button';
+import { Input } from '../../ui/input';
+import { Separator } from '../../ui/separator';
 
 const initialState = {
   polishMentod: 0,

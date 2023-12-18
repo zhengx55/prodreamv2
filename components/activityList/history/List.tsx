@@ -1,23 +1,24 @@
 'use client';
+import { ThreeDots } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
-import { PencilLineIcon } from 'lucide-react';
-import React, { useCallback, useState } from 'react';
-import Card from './Card';
-import { IActHistoryData, IActListResData } from '@/query/type';
-import { formatTimestampToDateString } from '@/lib/utils';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useMutation } from '@tanstack/react-query';
-import { clonectivityListItem, deleteActivityList } from '@/query/api';
-import { toast } from 'sonner';
-import clearCachesByServerAction from '@/lib/revalidate';
-import { useRouter } from 'next/navigation';
 import { useActListContext } from '@/context/ActListProvider';
+import clearCachesByServerAction from '@/lib/revalidate';
+import { formatTimestampToDateString } from '@/lib/utils';
+import { clonectivityListItem, deleteActivityList } from '@/query/api';
+import { IActHistoryData, IActListResData } from '@/query/type';
+import { useMutation } from '@tanstack/react-query';
+import { PencilLineIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
+import { toast } from 'sonner';
+import Card from './Card';
 const DeleteModal = dynamic(() => import('../DeleteModal'), { ssr: false });
 
 type Props = {
@@ -116,18 +117,7 @@ const List = ({ item }: Props) => {
                 variant={'ghost'}
                 className='border border-shadow-border p-2'
               >
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='20'
-                  height='21'
-                  viewBox='0 0 20 21'
-                  fill='none'
-                >
-                  <path
-                    d='M3.34632 8.84131C2.42551 8.84131 1.67969 9.58713 1.67969 10.5079C1.67969 11.4288 2.42551 12.1746 3.34632 12.1746C4.26714 12.1746 5.01295 11.4288 5.01295 10.5079C5.01295 9.58713 4.26714 8.84131 3.34632 8.84131ZM10.0129 8.84131C9.09204 8.84131 8.34622 9.58713 8.34622 10.5079C8.34622 11.4288 9.09204 12.1746 10.0129 12.1746C10.9337 12.1746 11.6795 11.4288 11.6795 10.5079C11.6795 9.58713 10.9337 8.84131 10.0129 8.84131ZM16.6794 8.84131C15.7586 8.84131 15.0128 9.58713 15.0128 10.5079C15.0128 11.4288 15.7586 12.1746 16.6794 12.1746C17.6002 12.1746 18.346 11.4288 18.346 10.5079C18.346 9.58713 17.6002 8.84131 16.6794 8.84131Z'
-                    fill='#1D1B1E'
-                  />
-                </svg>
+                <ThreeDots />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent

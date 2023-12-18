@@ -1,5 +1,4 @@
 'use client';
-import React, { memo, useCallback, useState } from 'react';
 import {
   Dialog,
   DialogClose,
@@ -8,15 +7,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { uploadEssay } from '@/query/api';
+import useRootStore from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import { Trash2, X } from 'lucide-react';
 import Image from 'next/image';
+import { memo, useCallback, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
-import { useMutation } from '@tanstack/react-query';
-import { uploadEssay } from '@/query/api';
-import useRootStore from '@/zustand/store';
+
 const UploadModal = () => {
   const [file, setFile] = useState<File>();
   const [decodeData, setDecodeData] = useState<string>('');
