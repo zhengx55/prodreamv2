@@ -155,7 +155,6 @@ const PolishModal = () => {
   });
 
   // 原文内容划线
-
   const handleDecorateEassy = (result: IPolishResultAData[]) => {
     // 查询起始索引和终止索引
     result.map((item) => {

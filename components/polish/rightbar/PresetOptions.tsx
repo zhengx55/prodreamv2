@@ -22,12 +22,15 @@ const PresetOptions = ({ isPolishing, options, polish }: Props) => {
     setSelectedText(value);
   });
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
+
   editor_instance?.on('selectionUpdate', ({ editor }) => {
     const { from, to } = editor?.state.selection;
     if (from !== to) {
       setSelectedTextHanlder(editor.getText().substring(from - 1, to));
+      editor.commands.setHighlight();
     }
   });
+
   const handlePolishSubmit = async (option: string | number) => {
     if (!selectedText) {
       toast.error('no content selected');

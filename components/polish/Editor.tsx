@@ -12,6 +12,7 @@ import CharacterCount from '@tiptap/extension-character-count';
 import EditBar from './EditBar';
 import useAIEditorStore from '@/zustand/store';
 import Spacer from '../root/Spacer';
+import Bold from '@tiptap/extension-bold';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {}
@@ -27,6 +28,7 @@ const Tiptap = () => {
     extensions: [
       CharacterCount,
       HardBreak,
+      Bold,
       Text,
       Document,
       Paragraph,
@@ -37,7 +39,7 @@ const Tiptap = () => {
       HighLight.configure({
         multicolor: false,
         HTMLAttributes: {
-          class: 'bg-primary-200',
+          class: 'bg-primary-200 text-white',
         },
       }),
       Underline.configure({

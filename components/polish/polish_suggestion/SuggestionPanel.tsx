@@ -211,7 +211,7 @@ const SuggestionPanel = () => {
                           ) : isAdd ? (
                             <>
                               {' '}
-                              <span className='text-primary-200'>
+                              <span className='font-semibold text-primary-200'>
                                 {sentence.new_str}
                               </span>
                               {sentence.sub_str && (
@@ -223,17 +223,17 @@ const SuggestionPanel = () => {
                           ) : isDelete ? (
                             <>
                               {' '}
-                              <span className='text-red-500 line-through'>
+                              <span className='font-semibold text-red-500 line-through'>
                                 {sentence.sub_str}
                               </span>{' '}
                             </>
                           ) : isModify ? (
                             <>
                               {' '}
-                              <span className='text-red-500 line-through'>
+                              <span className='font-semibold text-red-500 line-through'>
                                 {sentence.sub_str}
                               </span>{' '}
-                              <span className='text-primary-200'>
+                              <span className='font-semibold text-primary-200'>
                                 {sentence.new_str}
                               </span>{' '}
                             </>
