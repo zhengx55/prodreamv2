@@ -160,7 +160,10 @@ const SuggestionPanel = () => {
           <div className='mt-4 flex gap-x-2'>
             <Button
               onClick={() => {
-                // todo
+                if (!editor_instance) return;
+                editor_instance.commands.setContent(polishResultB, false, {
+                  preserveWhitespace: 'full',
+                });
                 setPolishResultB('');
               }}
               className='font-semibold'
