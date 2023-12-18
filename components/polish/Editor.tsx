@@ -13,6 +13,10 @@ import EditBar from './EditBar';
 import useAIEditorStore from '@/zustand/store';
 import Spacer from '../root/Spacer';
 
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {}
+}
+
 const Tiptap = () => {
   const globalEssay = useAIEditorStore((state) => state.eassy);
   const updateGlobalEssay = useAIEditorStore((state) => state.updateEssay);

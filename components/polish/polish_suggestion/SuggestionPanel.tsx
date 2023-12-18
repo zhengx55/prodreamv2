@@ -66,38 +66,47 @@ const SuggestionPanel = () => {
    * @param item
    */
   const replaceText = (index: number, item: IPolishResultAData) => {
-    // 先获取新的文字内容
+    if (!editor_instance) return;
     let relpace_string = '';
     let original_string = '';
     // 查找就文字内容 删除旧内容 并插入新内容
-    console.log(item);
-    item.data.map((sentence) => {
-      original_string += ` ${sentence.sub_str}`;
+    item.data.map((sentence, sentence_idx) => {
       if (sentence.status === 0) {
+        original_string += ` ${sentence.sub_str}`;
         relpace_string += sentence.sub_str;
       } else if ([1, 2, 3].includes(sentence.status)) {
-        relpace_string += ` ${sentence.new_str} `;
+        if (sentence.status !== 1) {
+          original_string += ` ${sentence.sub_str}`;
+        }
+        if (sentence.status !== 2) {
+          relpace_string += ` ${sentence.new_str} `;
+        }
       }
     });
     const original_range = editor_instance
-      ?.getText()
+      .getText()
       .indexOf(original_string.trim());
-    console.log(
-      '🚀 ~ file: SuggestionPanel.tsx:83 ~ replaceText ~ original_range:',
-      original_range
-    );
-    editor_instance
-      ?.chain()
-      .deleteRange({
-        from: original_range! + 1,
-        to: original_range! + original_string.length + 1,
-      })
-      .insertContentAt(original_range!, relpace_string, {
-        parseOptions: { preserveWhitespace: false },
-      })
-      .run();
 
-    // remove(index);
+    if (original_range === -1) {
+      remove(index);
+      return;
+    }
+    const from = original_range + 1;
+    const to = original_range + original_string.trim().length + 1;
+    editor_instance.commands.deleteRange({
+      from,
+      to,
+    });
+
+    editor_instance.commands.insertContentAt(
+      original_range + 1,
+      `${relpace_string}`,
+      {
+        parseOptions: { preserveWhitespace: 'full' },
+      }
+    );
+
+    remove(index);
   };
 
   const handleAcceptAll = () => {
