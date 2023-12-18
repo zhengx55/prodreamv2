@@ -8,7 +8,6 @@ import { Button } from '../../ui/button';
 import { ChevronDown, RefreshCwIcon } from 'lucide-react';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
-import useAIEditorStore from '@/zustand/store';
 import useRootStore from '@/zustand/store';
 
 type Props = {
