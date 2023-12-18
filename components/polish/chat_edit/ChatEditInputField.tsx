@@ -18,8 +18,6 @@ const ChatEditInputField = ({
 }) => {
   const [customPrompt, setCustomPrompt] = useState('');
   const ref = useRef<HTMLTextAreaElement>(null);
-
-  const selectedText = useAIEditorStore((state) => state.selectText);
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (!ref.current) return;
     const textarea = e.target;
@@ -40,18 +38,18 @@ const ChatEditInputField = ({
   };
 
   const handlePolish = async () => {
-    if (!selectedText) {
-      toast.error('no content selected');
-      return;
-    }
-    if (!customPrompt.trim()) {
-      toast.error('no input detected');
-      return;
-    }
-    await handleSubmit({
-      instruction: customPrompt.trim(),
-      text: selectedText,
-    });
+    // if (!selectedText) {
+    //   toast.error('no content selected');
+    //   return;
+    // }
+    // if (!customPrompt.trim()) {
+    //   toast.error('no input detected');
+    //   return;
+    // }
+    // await handleSubmit({
+    //   instruction: customPrompt.trim(),
+    //   text: selectedText,
+    // });
     setCustomPrompt('');
   };
   return (

@@ -18,18 +18,14 @@ const Rightbar = () => {
     (state) => state.updateIsChatEditMode
   );
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
-  const removeStyling = useAIEditorStore((state) => state.removesStyling);
   const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
-  const setSelectText = useAIEditorStore((state) => state.updateSelectText);
   const clearPolishResult = useAIEditorStore(
     (state) => state.clearPolishResult
   );
   const toggleChatEditMode = () => {
     if (!isChatEditMode) {
       editor_instance?.chain().selectAll().unsetUnderline().run();
-      removeStyling();
       setChatEditMode(true);
-      setSelectText('');
       clearPolishResult();
     } else {
       setChatEditMode(false);

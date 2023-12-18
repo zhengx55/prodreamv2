@@ -20,7 +20,6 @@ import useAIEditorStore from '@/zustand/store';
 const UploadModal = () => {
   const [file, setFile] = useState<File>();
   const [decodeData, setDecodeData] = useState<string>('');
-  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
 
   const { mutateAsync: handleFileUpload } = useMutation({
     mutationFn: (params: { file: File }) => uploadEssay(params),
@@ -37,9 +36,7 @@ const UploadModal = () => {
     setFile(undefined);
   };
 
-  const handleDecodeFiles = async () => {
-    updateHtml(decodeData);
-  };
+  const handleDecodeFiles = async () => {};
 
   const onDrop = useCallback(
     async (acceptedFile: File[], fileRejections: FileRejection[]) => {

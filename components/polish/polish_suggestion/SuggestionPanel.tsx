@@ -11,7 +11,6 @@ const SuggestionPanel = () => {
     (state) => state.polishResultWholeParagraph
   );
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
-  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
   const setPolishResult = useAIEditorStore((state) => state.updatePolishResult);
   const setPolishResultB = useAIEditorStore(
     (state) => state.updatePolishResultWholeParagraph
@@ -117,8 +116,10 @@ const SuggestionPanel = () => {
     // clear all suggestions
     setSuggestions([]);
     // clear all underline styling
-    if (polishResult) setPolishResult([]);
+    if (!editor_instance) return;
+    editor_instance.chain().selectAll().unsetUnderline().run();
     // turn off suggestions panel
+    if (polishResult) setPolishResult([]);
   };
 
   return (
@@ -158,7 +159,7 @@ const SuggestionPanel = () => {
           <div className='mt-4 flex gap-x-2'>
             <Button
               onClick={() => {
-                updateHtml(polishResultB);
+                // todo
                 setPolishResultB('');
               }}
               className='font-semibold'

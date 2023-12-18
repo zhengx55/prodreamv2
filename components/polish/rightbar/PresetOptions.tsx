@@ -1,6 +1,6 @@
 'use client';
 import { Loader2, Trash2 } from 'lucide-react';
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { Button } from '../../ui/button';
 import Image from 'next/image';
 import { PresetIcons } from '@/constant';
@@ -8,6 +8,7 @@ import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
 import { toast } from 'sonner';
 import useAIEditorStore from '@/zustand/store';
+import useDebouncedCallback from 'beautiful-react-hooks/useDebouncedCallback';
 
 type Props = {
   isPolishing: boolean;
@@ -16,15 +17,23 @@ type Props = {
 };
 
 const PresetOptions = ({ isPolishing, options, polish }: Props) => {
-  const selectText = useAIEditorStore((state) => state.selectText);
-
-  const updateSelectText = useAIEditorStore((state) => state.updateSelectText);
+  const [selectedText, setSelectedText] = useState('');
+  const setSelectedTextHanlder = useDebouncedCallback((value: string) => {
+    setSelectedText(value);
+  });
+  const editor_instance = useAIEditorStore((state) => state.editor_instance);
+  editor_instance?.on('selectionUpdate', ({ editor }) => {
+    const { from, to } = editor?.state.selection;
+    if (from !== to) {
+      setSelectedTextHanlder(editor.getText().substring(from - 1, to));
+    }
+  });
   const handlePolishSubmit = async (option: string | number) => {
-    if (!selectText) {
+    if (!selectedText) {
       toast.error('no content selected');
       return;
     }
-    await polish({ instruction: option, text: selectText });
+    await polish({ instruction: option, text: selectedText });
   };
   return isPolishing ? (
     <div className='flex w-full shrink-0 gap-x-2 rounded-lg border border-shadow-border px-3 py-2 '>
@@ -37,10 +46,10 @@ const PresetOptions = ({ isPolishing, options, polish }: Props) => {
       <div className='flex-between items-start rounded-lg bg-nav-selected p-2'>
         <p className='base-regular line-clamp-2 w-11/12'>
           <strong>Work with: </strong>
-          {selectText}
+          {selectedText}
         </p>
         <Trash2
-          onClick={() => updateSelectText('')}
+          onClick={() => setSelectedText('')}
           className='cursor-pointer hover:text-shadow-100'
           size={20}
         />

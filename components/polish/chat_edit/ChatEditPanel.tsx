@@ -26,7 +26,6 @@ type IChatEditItem = {
 };
 
 const ChatEditPanel = () => {
-  const editor_instance = useAIEditorStore((state) => state.editor_instance);
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
   const [isPolishing, setIsPolishing] = useState(false);
   const [polishResult, setPolishResult] = useState<IChatEditItem[]>([]);
