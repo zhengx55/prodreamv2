@@ -1,36 +1,28 @@
 'use client';
 import { Loader2, Trash2 } from 'lucide-react';
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import { Button } from '../../ui/button';
 import Image from 'next/image';
 import { PresetIcons } from '@/constant';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
 import { toast } from 'sonner';
-import useAIEditorStore from '@/zustand/store';
-import useDebouncedCallback from 'beautiful-react-hooks/useDebouncedCallback';
 
 type Props = {
   isPolishing: boolean;
   options: string[];
+  selectedText: string;
   polish: UseMutateAsyncFunction<any, Error, IPolishParams, void>;
+  removeSelected: () => void;
 };
 
-const PresetOptions = ({ isPolishing, options, polish }: Props) => {
-  const [selectedText, setSelectedText] = useState('');
-  const setSelectedTextHanlder = useDebouncedCallback((value: string) => {
-    setSelectedText(value);
-  });
-  const editor_instance = useAIEditorStore((state) => state.editor_instance);
-
-  editor_instance?.on('selectionUpdate', ({ editor }) => {
-    const { from, to } = editor?.state.selection;
-    if (from !== to) {
-      setSelectedTextHanlder(editor.getText().substring(from - 1, to));
-      editor.commands.setHighlight();
-    }
-  });
-
+const PresetOptions = ({
+  isPolishing,
+  options,
+  polish,
+  removeSelected,
+  selectedText,
+}: Props) => {
   const handlePolishSubmit = async (option: string | number) => {
     if (!selectedText) {
       toast.error('no content selected');
@@ -52,7 +44,7 @@ const PresetOptions = ({ isPolishing, options, polish }: Props) => {
           {selectedText}
         </p>
         <Trash2
-          onClick={() => setSelectedText('')}
+          onClick={removeSelected}
           className='cursor-pointer hover:text-shadow-100'
           size={20}
         />

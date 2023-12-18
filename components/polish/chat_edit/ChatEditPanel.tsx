@@ -12,7 +12,8 @@ import { AnimatePresence } from 'framer-motion';
 import EditiorLoading from '../EditiorLoading';
 import dynamic from 'next/dynamic';
 import ChatEditResItem from './ChatEditResItem';
-import useAIEditorStore from '@/zustand/store';
+import useDebouncedCallback from 'beautiful-react-hooks/useDebouncedCallback';
+import useRootStore from '@/zustand/store';
 
 const PresetOptions = dynamic(() => import('../rightbar/PresetOptions'), {
   ssr: false,
@@ -25,12 +26,39 @@ type IChatEditItem = {
   expand: boolean;
 };
 
+type Range = {
+  from: number;
+  to: number;
+};
+
 const ChatEditPanel = () => {
-  const reqTimer = useRef<NodeJS.Timeout | undefined>();
   const [isPolishing, setIsPolishing] = useState(false);
   const [polishResult, setPolishResult] = useState<IChatEditItem[]>([]);
+  const [range, setRange] = useState<Range>({ from: 0, to: 0 });
+  const [selectedText, setSelectedText] = useState('');
   const listRef = useRef<HTMLUListElement>(null);
+  const reqTimer = useRef<NodeJS.Timeout | undefined>();
+
   const { data: options, isPending: isOptionsLoading } = usePreDefinedOptions();
+
+  const editor_instance = useRootStore((state) => state.editor_instance);
+
+  const setSelectedTextHanlder = useDebouncedCallback((value: string) => {
+    setSelectedText(value);
+  });
+
+  editor_instance?.on('selectionUpdate', ({ editor }) => {
+    const { from, to } = editor?.state.selection;
+    if (from !== to) {
+      setSelectedTextHanlder(editor.getText().substring(from - 1, to));
+      setRange({ from, to });
+      editor.commands.setHighlight();
+    }
+  });
+
+  const memoRemoveSelectedText = useCallback(() => {
+    setSelectedText('');
+  }, []);
 
   const scrollToBottom = () => {
     if (listRef.current) {
@@ -75,6 +103,11 @@ const ChatEditPanel = () => {
                 expand: false,
               },
             ]);
+            editor_instance
+              ?.chain()
+              .setTextSelection({ from: range.from, to: range.to })
+              .setHighlight()
+              .run();
             clearInterval(reqTimer.current);
           }
         } catch (error: any) {
@@ -113,9 +146,11 @@ const ChatEditPanel = () => {
         isPolishing={isPolishing}
         polish={polish}
         options={options}
+        selectedText={selectedText}
+        removeSelected={memoRemoveSelectedText}
       />
       <Spacer y='10' />
-      <ChatEditInputField handleSubmit={polish} />
+      <ChatEditInputField selectedText={selectedText} handleSubmit={polish} />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { IPolishResultAData } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '../../ui/button';
 import useAIEditorStore from '@/zustand/store';
+import SentenceFragment from './SentenceFragment';
 
 const SuggestionPanel = () => {
   const polishResult = useAIEditorStore((state) => state.polishResult);
@@ -205,40 +206,14 @@ const SuggestionPanel = () => {
                       const isModify = sentence.status === 3;
                       const isNoChange = sentence.status === 0;
                       return (
-                        <Fragment key={`sentence-${index}-${idx}`}>
-                          {isNoChange ? (
-                            sentence.sub_str
-                          ) : isAdd ? (
-                            <>
-                              {' '}
-                              <span className='font-semibold text-primary-200'>
-                                {sentence.new_str}
-                              </span>
-                              {sentence.sub_str && (
-                                <span className='text-black-400'>
-                                  {sentence.sub_str}
-                                </span>
-                              )}{' '}
-                            </>
-                          ) : isDelete ? (
-                            <>
-                              {' '}
-                              <span className='font-semibold text-red-500 line-through'>
-                                {sentence.sub_str}
-                              </span>{' '}
-                            </>
-                          ) : isModify ? (
-                            <>
-                              {' '}
-                              <span className='font-semibold text-red-500 line-through'>
-                                {sentence.sub_str}
-                              </span>{' '}
-                              <span className='font-semibold text-primary-200'>
-                                {sentence.new_str}
-                              </span>{' '}
-                            </>
-                          ) : null}
-                        </Fragment>
+                        <SentenceFragment
+                          isNoChange={isNoChange}
+                          isDelete={isDelete}
+                          isModify={isModify}
+                          isAdd={isAdd}
+                          sentence={sentence}
+                          key={`sentence-${index}-${idx}`}
+                        />
                       );
                     })}
                   </motion.p>
@@ -258,42 +233,14 @@ const SuggestionPanel = () => {
                       const isModify = sentence.status === 3;
                       const isNoChange = sentence.status === 0;
                       return (
-                        <Fragment key={`sentence-${index}-${idx}`}>
-                          {isNoChange ? (
-                            <span className='text-black-400'>
-                              {sentence.sub_str}
-                            </span>
-                          ) : isAdd ? (
-                            <>
-                              {' '}
-                              <span className='text-primary-200'>
-                                {sentence.new_str}
-                              </span>
-                              {sentence.sub_str && (
-                                <span className='text-black-400'>
-                                  {sentence.sub_str}
-                                </span>
-                              )}{' '}
-                            </>
-                          ) : isDelete ? (
-                            <>
-                              {' '}
-                              <span className='text-red-500 line-through'>
-                                {sentence.sub_str}
-                              </span>{' '}
-                            </>
-                          ) : isModify ? (
-                            <>
-                              {' '}
-                              <span className='text-red-500 line-through'>
-                                {sentence.sub_str}
-                              </span>{' '}
-                              <span className='text-primary-200'>
-                                {sentence.new_str}
-                              </span>{' '}
-                            </>
-                          ) : null}
-                        </Fragment>
+                        <SentenceFragment
+                          isNoChange={isNoChange}
+                          isDelete={isDelete}
+                          isModify={isModify}
+                          isAdd={isAdd}
+                          sentence={sentence}
+                          key={`sentence-${index}-${idx}`}
+                        />
                       );
                     })}
                   </motion.p>

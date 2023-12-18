@@ -9,11 +9,12 @@ import { Textarea } from '../../ui/textarea';
 import type { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { IPolishParams } from '@/query/type';
 import { toast } from 'sonner';
-import useAIEditorStore from '@/zustand/store';
 
 const ChatEditInputField = ({
   handleSubmit,
+  selectedText,
 }: {
+  selectedText: string;
   handleSubmit: UseMutateAsyncFunction<any, Error, IPolishParams, void>;
 }) => {
   const [customPrompt, setCustomPrompt] = useState('');
@@ -38,18 +39,18 @@ const ChatEditInputField = ({
   };
 
   const handlePolish = async () => {
-    // if (!selectedText) {
-    //   toast.error('no content selected');
-    //   return;
-    // }
-    // if (!customPrompt.trim()) {
-    //   toast.error('no input detected');
-    //   return;
-    // }
-    // await handleSubmit({
-    //   instruction: customPrompt.trim(),
-    //   text: selectedText,
-    // });
+    if (!selectedText) {
+      toast.error('no content selected');
+      return;
+    }
+    if (!customPrompt.trim()) {
+      toast.error('no input detected');
+      return;
+    }
+    await handleSubmit({
+      instruction: customPrompt.trim(),
+      text: selectedText,
+    });
     setCustomPrompt('');
   };
   return (

@@ -39,7 +39,7 @@ const Tiptap = () => {
       HighLight.configure({
         multicolor: false,
         HTMLAttributes: {
-          class: 'bg-primary-200 text-white',
+          class: 'bg-[#E9DAFF]',
         },
       }),
       Underline.configure({
