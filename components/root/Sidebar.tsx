@@ -87,7 +87,7 @@ const Sidebar = () => {
         initial={false}
         animate={expandSidebar ? 'open' : 'closed'}
         variants={sidebarVariants}
-        className='relative hidden shrink-0 flex-col border-r border-r-shadow-border bg-white md:flex md:px-2 md:py-5'
+        className='relative hidden shrink-0 flex-col border-r border-r-shadow-border bg-white sm:flex sm:px-2 sm:py-5'
       >
         <div className='h-[30px]'>
           <AnimatedLogo show={expandSidebar} />

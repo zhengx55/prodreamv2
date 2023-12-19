@@ -19,7 +19,6 @@ import { Separator } from '@/components/ui/separator';
 import { signUpSchema } from '@/lib/validation';
 import { userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
-import { useAppDispatch } from '@/store/storehooks';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -30,8 +29,6 @@ import { toast } from 'sonner';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
-
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
 
