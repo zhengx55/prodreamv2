@@ -14,7 +14,7 @@ export default function Polish() {
         <EssayPanel />
         <Rightbar />
       </main>
-      <main className='flex flex-1 sm:hidden'></main>
+      {/* <main className='flex flex-1 sm:hidden'></main> */}
     </>
   );
 }

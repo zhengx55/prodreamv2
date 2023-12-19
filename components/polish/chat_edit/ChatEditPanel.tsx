@@ -5,6 +5,7 @@ import { IPolishParams } from '@/query/type';
 import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useDebouncedCallback from 'beautiful-react-hooks/useDebouncedCallback';
+import useToggle from 'beautiful-react-hooks/useToggle';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { SetStateAction, memo, useCallback, useRef, useState } from 'react';
@@ -32,7 +33,8 @@ type Range = {
 };
 
 const ChatEditPanel = () => {
-  const [isPolishing, setIsPolishing] = useState(false);
+  const [isPolishing, setIsPolishing] = useToggle(false);
+  const [hasHighLight, toggleHasHighlight] = useToggle(false);
   const [polishResult, setPolishResult] = useState<IChatEditItem[]>([]);
   const [range, setRange] = useState<Range | null>(null);
   const [selectedText, setSelectedText] = useState('');
@@ -42,6 +44,20 @@ const ChatEditPanel = () => {
   const editor_instance = useRootStore((state) => state.editor_instance);
   const setSelectedTextHanlder = useDebouncedCallback((value: string) => {
     setSelectedText(value);
+  });
+
+  editor_instance?.on('focus', ({ editor }) => {
+    if (hasHighLight) {
+      toggleHasHighlight();
+      editor_instance
+        ?.chain()
+        .focus()
+        .setTextSelection({ from: range!.from, to: range!.to })
+        .unsetHighlight()
+        .setTextSelection(editor.state.selection.from)
+        .run();
+    }
+    return;
   });
 
   editor_instance?.on('selectionUpdate', ({ editor }) => {
@@ -81,10 +97,11 @@ const ChatEditPanel = () => {
   const { mutateAsync: polish } = useMutation({
     mutationFn: (params: IPolishParams) => submitPolish(params),
     onMutate: () => {
-      setIsPolishing(true);
+      setIsPolishing();
+      toggleHasHighlight();
     },
     onError: (err) => {
-      setIsPolishing(false);
+      setIsPolishing();
       toast.error(err.message);
     },
     onSuccess: (data, variables) => {
@@ -92,7 +109,7 @@ const ChatEditPanel = () => {
         try {
           const res = await queryPolish({ task_id: data });
           if (res.status === 'done') {
-            setIsPolishing(false);
+            setIsPolishing();
             const polishData = res.result as string;
             setPolishResult((prev) => [
               ...prev,
@@ -108,6 +125,7 @@ const ChatEditPanel = () => {
               .setTextSelection({ from: range!.from, to: range!.to })
               .setHighlight()
               .run();
+            toggleHasHighlight();
             clearInterval(reqTimer.current);
           }
         } catch (error: any) {

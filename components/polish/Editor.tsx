@@ -1,26 +1,21 @@
 'use client';
-import { useEditor, EditorContent, Editor } from '@tiptap/react';
-import Text from '@tiptap/extension-text';
-import Document from '@tiptap/extension-document';
-import Paragraph from '@tiptap/extension-paragraph';
-import History from '@tiptap/extension-history';
-import Strike from '@tiptap/extension-strike';
-import HighLight from '@tiptap/extension-highlight';
-import Underline from '@tiptap/extension-underline';
-import HardBreak from '@tiptap/extension-hard-break';
-import CharacterCount from '@tiptap/extension-character-count';
-import EditBar from './EditBar';
-import Spacer from '../root/Spacer';
-import Bold from '@tiptap/extension-bold';
 import useRootStore from '@/zustand/store';
-
-declare module '@tiptap/core' {
-  interface Commands<ReturnType> {}
-}
+import Bold from '@tiptap/extension-bold';
+import CharacterCount from '@tiptap/extension-character-count';
+import Document from '@tiptap/extension-document';
+import HardBreak from '@tiptap/extension-hard-break';
+import HighLight from '@tiptap/extension-highlight';
+import History from '@tiptap/extension-history';
+import Paragraph from '@tiptap/extension-paragraph';
+import Strike from '@tiptap/extension-strike';
+import Text from '@tiptap/extension-text';
+import Underline from '@tiptap/extension-underline';
+import { Editor, EditorContent, useEditor } from '@tiptap/react';
+import Spacer from '../root/Spacer';
+import EditBar from './EditBar';
 
 const Tiptap = () => {
   const globalEssay = useRootStore((state) => state.eassy);
-
   const updateGlobalEssay = useRootStore((state) => state.updateEssay);
   const reset = useRootStore((state) => state.reset);
   const setEditorInstance = useRootStore((state) => state.setEditorInstance);
@@ -32,9 +27,7 @@ const Tiptap = () => {
       Text,
       Document,
       Paragraph,
-      History.configure({
-        depth: 5,
-      }),
+      History,
       Strike,
       HighLight.configure({
         multicolor: false,
@@ -57,7 +50,12 @@ const Tiptap = () => {
     },
     injectCSS: false,
     autofocus: true,
-    content: globalEssay ? `${globalEssay}` : '',
+    content: globalEssay
+      ? `${globalEssay
+          .split(/\n\s*\n/)
+          .map((paragraph) => `<p>${paragraph}</p>`)
+          .join('')}`
+      : '',
     parseOptions: {
       preserveWhitespace: 'full',
     },
@@ -78,10 +76,7 @@ const Tiptap = () => {
     >
       <EditBar />
       <Spacer y='10' />
-      <EditorContent
-        className='min-h-full overflow-y-auto whitespace-pre-wrap'
-        editor={editor}
-      />
+      <EditorContent className='min-h-full overflow-y-auto' editor={editor} />
       <div className='flex-between flex h-12 w-full'>
         <p className='small-semibold text-shadow-100'>
           {editor.storage.characterCount.words()}
