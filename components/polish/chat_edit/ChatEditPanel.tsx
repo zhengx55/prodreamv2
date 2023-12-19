@@ -45,13 +45,11 @@ const ChatEditPanel = () => {
   const setSelectedTextHanlder = useDebouncedCallback((value: string) => {
     setSelectedText(value);
   });
-
   editor_instance?.on('focus', ({ editor }) => {
     if (hasHighLight) {
       toggleHasHighlight();
       editor_instance
         ?.chain()
-        .focus()
         .setTextSelection({ from: range!.from, to: range!.to })
         .unsetHighlight()
         .setTextSelection(editor.state.selection.from)
@@ -123,7 +121,7 @@ const ChatEditPanel = () => {
             editor_instance
               ?.chain()
               .setTextSelection({ from: range!.from, to: range!.to })
-              .setHighlight()
+              .setHighlight({ color: '#E9DAFF' })
               .run();
             toggleHasHighlight();
             clearInterval(reqTimer.current);

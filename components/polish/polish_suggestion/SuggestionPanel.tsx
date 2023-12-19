@@ -1,9 +1,9 @@
-import React, { Fragment, useState } from 'react';
-import Spacer from '../../root/Spacer';
 import { IPolishResultAData } from '@/query/type';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Button } from '../../ui/button';
 import useAIEditorStore from '@/zustand/store';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import Spacer from '../../root/Spacer';
+import { Button } from '../../ui/button';
 import SentenceFragment from './SentenceFragment';
 
 const SuggestionPanel = () => {
@@ -37,6 +37,33 @@ const SuggestionPanel = () => {
   });
 
   const expand = (index: number) => {
+    // hight light changed fragments on the essay
+    if (!editor_instance) return;
+    editor_instance.chain().selectAll().unsetHighlight().run();
+    const current_suggestion = suggestions.at(index);
+    if (current_suggestion) {
+      const corrsponding_segement = editor_instance
+        .getText()
+        .substring(current_suggestion?.start, current_suggestion?.end);
+      current_suggestion.data.forEach((suggestion) => {
+        if ([2, 3].includes(suggestion.status)) {
+          const position = corrsponding_segement.indexOf(suggestion.sub_str);
+          editor_instance
+            .chain()
+            .setTextSelection({
+              from: position + current_suggestion.start + 1,
+              to:
+                position +
+                current_suggestion.start +
+                suggestion.sub_str.length +
+                1,
+            })
+            .setHighlight({ color: 'rgba(236, 120, 113, 0.2)' })
+            .run();
+        }
+      });
+    }
+
     setSuggestions((prev) => {
       return prev.map((item, i) =>
         i === index ? { ...item, expand: true } : { ...item, expand: false }

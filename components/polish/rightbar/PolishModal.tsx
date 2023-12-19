@@ -43,6 +43,7 @@ const PolishModal = () => {
     (state) => state.updatePolishResultWholeParagraph
   );
   const [showSetting, setShowSetting] = useState(false);
+  const isPolishing = useAIEditorStore((state) => state.isPolishing);
   const [polishMentod] = useState([
     'Whole Paragraph',
     'Paragraph by Paragraph',
@@ -412,10 +413,15 @@ const PolishModal = () => {
       </DialogContent>
       <Spacer y='20' />
       <div className='flex gap-x-2'>
-        <Button onClick={reset} variant={'outline'} className='w-1/2'>
+        <Button
+          disabled={isPolishing}
+          onClick={reset}
+          variant={'outline'}
+          className='w-1/2'
+        >
           Reset
         </Button>
-        <Button onClick={handlePolish} className='w-1/2'>
+        <Button disabled={isPolishing} onClick={handlePolish} className='w-1/2'>
           Polish
         </Button>
       </div>

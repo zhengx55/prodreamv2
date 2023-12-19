@@ -30,10 +30,7 @@ const Tiptap = () => {
       History,
       Strike,
       HighLight.configure({
-        multicolor: false,
-        HTMLAttributes: {
-          class: 'bg-[#E9DAFF]',
-        },
+        multicolor: true,
       }),
       Underline.configure({
         HTMLAttributes: {
