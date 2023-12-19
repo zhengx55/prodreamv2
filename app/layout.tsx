@@ -1,11 +1,10 @@
 import { TanstackProvider } from '@/context/TanstackProvider';
-import './globals.css';
-import type { Metadata } from 'next';
 import { ThemeProvider } from '@/context/ThemeProvider';
+import type { Metadata } from 'next';
+import './globals.css';
 // import { i18n } from '@/i18n.config';
-import { Poppins } from 'next/font/google';
 import UserStoreProvider from '@/store/userProvider';
-import { Analytics } from '@vercel/analytics/react';
+import { Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 const poppins = Poppins({
   subsets: ['latin'],

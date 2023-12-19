@@ -2,18 +2,15 @@
 import Navbar from '@/components/root/Navbar';
 import Sidebar from '@/components/root/Sidebar';
 import { initialUsage } from '@/constant';
-import MaxChatProvider from '@/context/MaxChateProvider';
 import useMount from '@/hooks/useMount';
 import { getUserInfo, refreshUserSession } from '@/query/api';
 import { setUsage } from '@/store/reducers/usageSlice';
 import { setUser } from '@/store/reducers/userSlice';
-import { store } from '@/store/store';
 import { useAppDispatch } from '@/store/storehooks';
 import dynamic from 'next/dynamic';
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
-import { Provider } from 'react-redux';
 
 const TutorialSheet = dynamic(() => import('@/components/tutorial'), {
   ssr: false,
@@ -55,19 +52,15 @@ export default function WrittingpalLayout({
   });
 
   return (
-    <Provider store={store}>
-      <MaxChatProvider>
-        <Sidebar />
-      </MaxChatProvider>
-      <>
-        <div className='relative hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
-          <Navbar />
-          <TutorialSheet />
-          {children}
-        </div>
-        {/* TODO: Mobile */}
-        <div className='flex sm:hidden'></div>
-      </>
-    </Provider>
+    <>
+      <Sidebar />
+      <div className='relative hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
+        <Navbar />
+        <TutorialSheet />
+        {children}
+      </div>
+      {/* TODO: Mobile */}
+      <div className='flex sm:hidden'></div>
+    </>
   );
 }
