@@ -34,7 +34,7 @@ export default function RootLayout({
         <ThemeProvider attribute='class' defaultTheme='light'>
           <TanstackProvider>
             <StoreProvider>
-              <main className='flex h-screen w-screen overflow-auto sm:min-h-[850px] sm:min-w-[1400px]'>
+              <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1400px]'>
                 {children}
                 <Toaster richColors visibleToasts={1} />
                 {/* <Analytics /> */}
