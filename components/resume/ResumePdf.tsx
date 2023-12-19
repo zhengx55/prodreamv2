@@ -1,5 +1,5 @@
 import { Resume } from '@/types';
-import { Document, Page, View } from '@react-pdf/renderer';
+import { Document, Font, Page, View } from '@react-pdf/renderer';
 import { spacing, styles } from './ResumeStyle';
 import { ResumePDFActivity } from './pdf/ResumeActivity';
 import { ResumePDFCompetition } from './pdf/ResumeCompetition';
@@ -7,6 +7,17 @@ import { ResumePDFEducation } from './pdf/ResumeEducation';
 import { ResumePDFProfile } from './pdf/ResumeProfile';
 import { ResumePDFResearch } from './pdf/ResumeResearch';
 import { ResumePDFWork } from './pdf/ResumeWork';
+
+Font.register({
+  family: 'Times',
+  fonts: [
+    {
+      src: '/fonts/Times-Roman-Regular.ttf',
+      fontWeight: 'normal',
+    },
+    { src: '/fonts/Times-Roman-Bold.ttf', fontWeight: 'bold' },
+  ],
+});
 
 type Props = { resume: Resume; isPDF?: boolean; themeColor: string };
 
@@ -18,7 +29,7 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
       producer={'QuickAppply'}
     >
       <Page
-        size={'A4'}
+        size='A4'
         style={{
           ...styles.flexCol,
           fontSize: 14,
@@ -29,6 +40,7 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
             ...styles.flexCol,
             padding: `${spacing[0]} ${spacing[10]}`,
             rowGap: parseInt(spacing['5']),
+            fontFamily: 'Times',
           }}
         >
           <ResumePDFProfile profile={resume.profile} isPDF={isPDF} />
