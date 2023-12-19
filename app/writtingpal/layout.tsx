@@ -1,16 +1,10 @@
-'use client';
+import GlobalInfoProvider from '@/components/root/GlobalInfoProvider';
 import Navbar from '@/components/root/Navbar';
 import Sidebar from '@/components/root/Sidebar';
-import { initialUsage } from '@/constant';
-import useMount from '@/hooks/useMount';
-import { getUserInfo, refreshUserSession } from '@/query/api';
-import { setUsage } from '@/store/reducers/usageSlice';
-import { setUser } from '@/store/reducers/userSlice';
-import { useAppDispatch } from '@/store/storehooks';
 import dynamic from 'next/dynamic';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
-import { useCookies } from 'react-cookie';
 
 const TutorialSheet = dynamic(() => import('@/components/tutorial'), {
   ssr: false,
@@ -21,38 +15,13 @@ export default function WrittingpalLayout({
 }: {
   children: ReactNode;
 }) {
-  const dispatch = useAppDispatch();
-  const [cookies, setCookie] = useCookies(['token']);
-
-  useMount(() => {
-    async function refreshUserInfo() {
-      try {
-        const data = await refreshUserSession();
-        const user_usage = await getUserInfo(data.email);
-        /**
-         * 获取用户经历信息
-         * 用于检查是否是第一次登录 或是 第一次使用某些功能
-         **/
-        dispatch(setUser(data));
-        if (user_usage) dispatch(setUsage(user_usage));
-        else dispatch(setUsage(initialUsage));
-        setCookie('token', data.access_token, {
-          path: '/',
-          maxAge: 604800,
-        });
-      } catch (error) {
-        redirect('/login');
-      }
-    }
-    if (!cookies.token) {
-      redirect('/login');
-    } else {
-      refreshUserInfo();
-    }
-  });
+  const cookieStore = cookies();
+  if (!cookieStore.get('token')) {
+    redirect('/login');
+  }
 
   return (
-    <>
+    <GlobalInfoProvider>
       <Sidebar />
       <div className='relative hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
         <Navbar />
@@ -61,6 +30,6 @@ export default function WrittingpalLayout({
       </div>
       {/* TODO: Mobile */}
       <div className='flex sm:hidden'></div>
-    </>
+    </GlobalInfoProvider>
   );
 }

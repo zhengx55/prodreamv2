@@ -1,42 +1,18 @@
-'use client';
+import GlobalInfoProvider from '@/components/root/GlobalInfoProvider';
 import Navbar from '@/components/root/Navbar';
 import ProfileSidebar from '@/components/root/ProfileSidebar';
 import Sidebar from '@/components/root/Sidebar';
-import { initialUsage } from '@/constant';
-import useMount from '@/hooks/useMount';
-import { getUserInfo, refreshUserSession } from '@/query/api';
-import { setUsage } from '@/store/reducers/usageSlice';
-import { setUser } from '@/store/reducers/userSlice';
-import { useAppDispatch } from '@/store/storehooks';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
-import { useCookies } from 'react-cookie';
 
 export default function ProfileLayout({ children }: { children: ReactNode }) {
-  const dispatch = useAppDispatch();
-  const [cookies, setCookie] = useCookies(['token']);
-
-  useMount(() => {
-    async function refreshUserInfo() {
-      const data = await refreshUserSession();
-      const user_usage = await getUserInfo(data.email);
-      dispatch(setUser(data));
-      if (user_usage) dispatch(setUsage(user_usage));
-      else dispatch(setUsage(initialUsage));
-      setCookie('token', data.access_token, {
-        path: '/',
-        maxAge: 604800,
-      });
-    }
-    if (!cookies.token) {
-      redirect('/login');
-    } else {
-      refreshUserInfo();
-    }
-  });
-
+  const cookieStore = cookies();
+  if (!cookieStore.get('token')) {
+    redirect('/login');
+  }
   return (
-    <>
+    <GlobalInfoProvider>
       <Sidebar />
       <div className='hidden h-full w-full flex-col overflow-x-auto sm:flex md:overflow-y-hidden'>
         <Navbar />
@@ -45,6 +21,6 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
           {children}
         </main>
       </div>
-    </>
+    </GlobalInfoProvider>
   );
 }
