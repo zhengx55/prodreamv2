@@ -23,22 +23,6 @@
   }
 
   /* TYPOGRAPHY */
-  .h1-bold {
-    @apply text-[40px] font-[700] leading-[140%];
-  }
-
-  .h1-semibold {
-    @apply text-[40px] font-[600] leading-[140%];
-  }
-
-  .primary-title {
-    @apply text-[36px] font-[600] text-primary-200 leading-[140%];
-  }
-
-  .h1-regular {
-    @apply text-[28px] font-[400] leading-[140%];
-  }
-
   .h2-bold {
     @apply text-[30px] font-[600] leading-[140%];
   }
@@ -51,8 +35,8 @@
     @apply text-[24px] font-[500] leading-[140%];
   }
 
-  .h3-light {
-    @apply text-[24px] font-[300] leading-[140%];
+  .h3-regular {
+    @apply text-[24px] font-[400] leading-[140%];
   }
 
   .title-semibold {
