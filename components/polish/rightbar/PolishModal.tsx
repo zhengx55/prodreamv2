@@ -163,26 +163,25 @@ const PolishModal = () => {
 
   // 原文内容划线
   const handleDecorateEassy = (result: IPolishResultAData[]) => {
+    if (!editor_instance) return null;
     // 查询起始索引和终止索引
     result.map((item) => {
       const range_substring = editor_instance
-        ?.getText()
+        .getText()
         .substring(item.start, item.end);
       item.data.map((sentence) => {
         if ([2, 3].includes(sentence.status)) {
           if (!range_substring) return;
           const substring_regex = new RegExp(
-            `\\b${sentence.sub_str.replace(/[^\w\s]/g, '')}\\b`
+            `\\b${sentence.sub_str.replace(/[.,!?:;]/g, '')}\\b`
           );
           const originalIndex =
             range_substring.search(substring_regex) + item.start;
-          // const originalIndex =
-          //   range_substring.indexOf(sentence.sub_str) + item.start;
           const originalLength = sentence.sub_str.length;
           editor_instance
-            ?.chain()
+            .chain()
             .setTextSelection({
-              from: originalIndex! + 1!,
+              from: originalIndex! + 1,
               to: originalIndex! + originalLength + 1,
             })
             .setUnderline()

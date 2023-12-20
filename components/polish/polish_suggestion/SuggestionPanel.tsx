@@ -94,7 +94,13 @@ const SuggestionPanel = () => {
         } else {
           corrsponding_segement += ` ${suggestion.sub_str} `;
         }
-      } else if (suggestion.status === 1) {
+      } else if (
+        suggestion.status === 1 &&
+        suggenstion_idx < current_suggestion.data.length - 1 &&
+        ![1, 2, 3].includes(
+          current_suggestion.data.at(suggenstion_idx + 1)!.status
+        )
+      ) {
         corrsponding_segement += ' ';
       } else {
         corrsponding_segement += suggestion.sub_str;
@@ -116,7 +122,7 @@ const SuggestionPanel = () => {
       current_suggestion.data.forEach((suggestion) => {
         if ([2, 3].includes(suggestion.status)) {
           const substring_regex = new RegExp(
-            `\\b${suggestion.sub_str.replace(/[^\w\s]/g, '')}\\b`
+            `\\b${suggestion.sub_str.replace(/[.,!?:;]/g, '')}\\b`
           );
           const position = corrsponding_segement!.search(substring_regex);
           highLightAtPosition(
@@ -199,7 +205,7 @@ const SuggestionPanel = () => {
         parseOptions: { preserveWhitespace: 'full' },
       })
       .run();
-    // remove(index);
+    remove(index);
   };
 
   const handleAcceptAll = () => {
