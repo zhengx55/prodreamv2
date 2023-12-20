@@ -87,10 +87,6 @@ const SuggestionPanel = () => {
     const current_suggestion = suggestions.at(index);
     if (current_suggestion) {
       const corrsponding_segement = getSubStrPos(current_suggestion);
-      console.log(
-        '🚀 ~ file: SuggestionPanel.tsx:90 ~ expand ~ corrsponding_segement:',
-        corrsponding_segement
-      );
       const start_position = editor_instance
         .getText()
         .indexOf(corrsponding_segement.trim());
