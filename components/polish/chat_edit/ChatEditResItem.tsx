@@ -1,14 +1,14 @@
 'use client';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import React, { SetStateAction, memo } from 'react';
 import { PresetIcons, PresetInstructions } from '@/constant';
-import { IChatEditItem } from '@/types';
-import { Button } from '../../ui/button';
-import { ChevronDown, RefreshCwIcon } from 'lucide-react';
-import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
+import { IChatEditItem } from '@/types';
 import useRootStore from '@/zustand/store';
+import { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { ChevronDown, RefreshCwIcon } from 'lucide-react';
+import Image from 'next/image';
+import { SetStateAction, memo } from 'react';
+import { Button } from '../../ui/button';
 
 type Props = {
   idx: number;
@@ -38,18 +38,13 @@ const ChatEditResItem = ({
     if (range) {
       editor_instance
         .chain()
-        .focus()
         .deleteRange({ from: range.from, to: range.to })
         .insertContentAt(range.from, target.result)
         .run();
       resetRange();
     } else {
       const { from } = editor_instance.state.selection;
-      editor_instance
-        .chain()
-        .focus()
-        .insertContentAt(from, target.result)
-        .run();
+      editor_instance.chain().insertContentAt(from, target.result).run();
       resetRange();
     }
   };

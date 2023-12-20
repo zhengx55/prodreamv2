@@ -54,6 +54,7 @@ const ChatEditPanel = () => {
         .unsetHighlight()
         .setTextSelection(editor.state.selection.from)
         .run();
+      setRange(null);
     }
     return;
   });
@@ -118,8 +119,9 @@ const ChatEditPanel = () => {
                 expand: false,
               },
             ]);
+            if (!editor_instance) return;
             editor_instance
-              ?.chain()
+              .chain()
               .setTextSelection({ from: range!.from, to: range!.to })
               .setHighlight({ color: '#E9DAFF' })
               .run();
