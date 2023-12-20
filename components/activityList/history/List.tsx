@@ -81,7 +81,7 @@ const List = ({ item }: Props) => {
   };
 
   return (
-    <div className='flex w-full shrink-0 flex-col gap-y-5 rounded-[10px] bg-white p-4'>
+    <div className='flex w-full shrink-0 flex-col gap-y-2 rounded-[10px] bg-white p-3'>
       <DeleteModal
         deleteId={item.id}
         isActive={showDelete}
