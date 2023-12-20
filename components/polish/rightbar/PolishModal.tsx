@@ -22,7 +22,7 @@ import { Input } from '../../ui/input';
 import { Separator } from '../../ui/separator';
 
 const initialState = {
-  polishMentod: 0,
+  polishMentod: 2,
   domains: -1,
   styles: -1,
   lengths: -1,
@@ -31,6 +31,12 @@ const initialState = {
 };
 
 const initialStyles = ['Passionate', 'Entertaining', 'Professional'];
+const initialDomains = ['Personal Statement', 'Email', 'Academic Paper'];
+const initialPolishMethods = [
+  'Whole Paragraph',
+  'Paragraph by Paragraph',
+  'Sentence by Sentence',
+];
 
 const PolishModal = () => {
   const [selected, setSelected] = useObjectState(initialState);
@@ -42,20 +48,17 @@ const PolishModal = () => {
   const setPolishResultB = useAIEditorStore(
     (state) => state.updatePolishResultWholeParagraph
   );
-  const [showSetting, setShowSetting] = useState(false);
   const isPolishing = useAIEditorStore((state) => state.isPolishing);
-  const [polishMentod] = useState([
-    'Whole Paragraph',
-    'Paragraph by Paragraph',
-    'Sentence by Sentence',
-  ]);
-  const [domains] = useState(['Personal Statement', 'Email', 'Academic Paper']);
+  const [polishMentod] = useState(initialPolishMethods);
+  const [domains] = useState(initialDomains);
   const [styles, setStyles] = useState(initialStyles);
   const [lengths] = useState(['Shorten to', 'Expand to']);
   const customStyleRef = useRef<HTMLInputElement>(null);
   const customLengthRef = useRef<HTMLInputElement>(null);
   const [addCustomStyle, setAddCustomStyle] = useState(false);
   const [addCustomLength, setAddCustomLength] = useState(false);
+  const [showSetting, setShowSetting] = useState(false);
+
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
 
@@ -168,8 +171,14 @@ const PolishModal = () => {
       item.data.map((sentence) => {
         if ([2, 3].includes(sentence.status)) {
           if (!range_substring) return;
+
+          const substring_regex = new RegExp(
+            `\\b${sentence.sub_str.replace(/[^\w\s]/g, '')}\\b`
+          );
           const originalIndex =
-            range_substring.indexOf(sentence.sub_str) + item.start;
+            range_substring.search(substring_regex) + item.start;
+          // const originalIndex =
+          //   range_substring.indexOf(sentence.sub_str) + item.start;
           const originalLength = sentence.sub_str.length;
           editor_instance
             ?.chain()

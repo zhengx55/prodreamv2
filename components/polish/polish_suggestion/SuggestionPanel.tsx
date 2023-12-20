@@ -13,9 +13,8 @@ const SuggestionPanel = () => {
     (state) => state.polishResultWholeParagraph
   );
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
-  const setPolishResult = useAIEditorStore((state) => state.updatePolishResult);
-  const setPolishResultB = useAIEditorStore(
-    (state) => state.updatePolishResultWholeParagraph
+  const clearPolishResult = useAIEditorStore(
+    (state) => state.clearPolishResult
   );
   const [suggestions, setSuggestions] = useState<IPolishResultAData[]>([]);
 
@@ -31,9 +30,11 @@ const SuggestionPanel = () => {
                 .substring(current_suggestion?.start, current_suggestion?.end);
               current_suggestion.data.forEach((suggestion) => {
                 if ([2, 3].includes(suggestion.status)) {
-                  const position = corrsponding_segement?.indexOf(
-                    suggestion.sub_str
+                  const substring_regex = new RegExp(
+                    `\\b${suggestion.sub_str.replace(/[^\w\s]/g, '')}\\b`
                   );
+                  const position =
+                    corrsponding_segement?.search(substring_regex);
                   highLightAtPosition(
                     position! + current_suggestion.start + 1,
                     position! +
@@ -89,7 +90,10 @@ const SuggestionPanel = () => {
         .substring(current_suggestion?.start, current_suggestion?.end);
       current_suggestion.data.forEach((suggestion) => {
         if ([2, 3].includes(suggestion.status)) {
-          const position = corrsponding_segement.indexOf(suggestion.sub_str);
+          const substring_regex = new RegExp(
+            `\\b${suggestion.sub_str.replace(/[^\w\s]/g, '')}\\b`
+          );
+          const position = corrsponding_segement.search(substring_regex);
           highLightAtPosition(
             position + current_suggestion.start + 1,
             position + current_suggestion.start + suggestion.sub_str.length + 1
@@ -172,7 +176,7 @@ const SuggestionPanel = () => {
     suggestions.forEach((suggestion, suggestion_idx) => {
       replaceText(suggestion_idx, suggestion);
     });
-    setPolishResult([]);
+    clearPolishResult();
   };
 
   const handleRejectAll = () => {
@@ -183,7 +187,7 @@ const SuggestionPanel = () => {
     if (!editor_instance) return;
     editor_instance.chain().selectAll().unsetUnderline().run();
     // turn off suggestions panel
-    if (polishResult) setPolishResult([]);
+    if (polishResult) clearPolishResult();
   };
 
   return (
@@ -227,16 +231,14 @@ const SuggestionPanel = () => {
                 editor_instance.commands.setContent(polishResultB, false, {
                   preserveWhitespace: 'full',
                 });
-                setPolishResultB('');
+                clearPolishResult();
               }}
               className='font-semibold'
             >
               Accept
             </Button>
             <Button
-              onClick={() => {
-                setPolishResultB('');
-              }}
+              onClick={clearPolishResult}
               variant={'ghost'}
               className='font-semibold text-shadow'
             >
