@@ -2,6 +2,7 @@ import { IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 import Spacer from '../../root/Spacer';
 import { Button } from '../../ui/button';
 import SentenceFragment from './SentenceFragment';
@@ -16,30 +17,71 @@ const SuggestionPanel = () => {
   const setPolishResultB = useAIEditorStore(
     (state) => state.updatePolishResultWholeParagraph
   );
-  const [suggestions, setSuggestions] = useState<IPolishResultAData[]>(() => {
-    if (polishResult.length === 0) {
-      return [];
-    } else {
-      return polishResult.map((item, idx) =>
-        idx === 0
-          ? {
+  const [suggestions, setSuggestions] = useState<IPolishResultAData[]>([]);
+
+  useDeepCompareEffect(() => {
+    if (polishResult.length > 0) {
+      setSuggestions(
+        polishResult.map((item, idx) => {
+          if (idx === 0) {
+            const current_suggestion = polishResult.at(0);
+            if (current_suggestion) {
+              const corrsponding_segement = editor_instance
+                ?.getText()
+                .substring(current_suggestion?.start, current_suggestion?.end);
+              current_suggestion.data.forEach((suggestion) => {
+                if ([2, 3].includes(suggestion.status)) {
+                  const position = corrsponding_segement?.indexOf(
+                    suggestion.sub_str
+                  );
+                  highLightAtPosition(
+                    position! + current_suggestion.start + 1,
+                    position! +
+                      current_suggestion.start +
+                      suggestion.sub_str.length +
+                      1
+                  );
+                }
+              });
+            }
+            return {
               ...item,
               expand: true,
               hide: false,
-            }
-          : {
+            };
+          } else {
+            return {
               ...item,
               expand: false,
               hide: false,
-            }
+            };
+          }
+        })
       );
     }
-  });
+  }, [polishResult]);
+
+  const highLightAtPosition = (from: number, to: number) => {
+    if (!editor_instance) return;
+    editor_instance
+      .chain()
+      .setTextSelection({
+        from,
+        to,
+      })
+      .setHighlight({ color: 'rgba(236, 120, 113, 0.2)' })
+      .run();
+  };
+
+  const clearAllHightLight = () => {
+    if (!editor_instance) return null;
+    editor_instance.chain().selectAll().unsetHighlight().run();
+  };
 
   const expand = (index: number) => {
     // hight light changed fragments on the essay
     if (!editor_instance) return;
-    editor_instance.chain().selectAll().unsetHighlight().run();
+    clearAllHightLight();
     const current_suggestion = suggestions.at(index);
     if (current_suggestion) {
       const corrsponding_segement = editor_instance
@@ -48,22 +90,13 @@ const SuggestionPanel = () => {
       current_suggestion.data.forEach((suggestion) => {
         if ([2, 3].includes(suggestion.status)) {
           const position = corrsponding_segement.indexOf(suggestion.sub_str);
-          editor_instance
-            .chain()
-            .setTextSelection({
-              from: position + current_suggestion.start + 1,
-              to:
-                position +
-                current_suggestion.start +
-                suggestion.sub_str.length +
-                1,
-            })
-            .setHighlight({ color: 'rgba(236, 120, 113, 0.2)' })
-            .run();
+          highLightAtPosition(
+            position + current_suggestion.start + 1,
+            position + current_suggestion.start + suggestion.sub_str.length + 1
+          );
         }
       });
     }
-
     setSuggestions((prev) => {
       return prev.map((item, i) =>
         i === index ? { ...item, expand: true } : { ...item, expand: false }
@@ -72,6 +105,7 @@ const SuggestionPanel = () => {
   };
 
   const close = (index: number) => {
+    clearAllHightLight();
     setSuggestions((prev) => {
       return prev.map((item, i) =>
         i === index ? { ...item, expand: false } : item
@@ -134,6 +168,7 @@ const SuggestionPanel = () => {
   };
 
   const handleAcceptAll = () => {
+    clearAllHightLight();
     suggestions.forEach((suggestion, suggestion_idx) => {
       replaceText(suggestion_idx, suggestion);
     });
@@ -142,6 +177,7 @@ const SuggestionPanel = () => {
 
   const handleRejectAll = () => {
     // clear all suggestions
+    clearAllHightLight();
     setSuggestions([]);
     // clear all underline styling
     if (!editor_instance) return;
