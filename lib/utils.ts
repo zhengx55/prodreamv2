@@ -221,6 +221,8 @@ export const getDiffSentencesPair = (item: IPolishResultAData) => {
       }
       if (sentence.status !== 2) {
         relpace_string += ` ${sentence.new_str} `;
+      } else {
+        relpace_string += ' ';
       }
     }
   });

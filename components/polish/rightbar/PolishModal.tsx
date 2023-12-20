@@ -173,7 +173,7 @@ const PolishModal = () => {
         if ([2, 3].includes(sentence.status)) {
           if (!range_substring) return;
           const substring_regex = new RegExp(
-            `\\b${sentence.sub_str.replace(/[.,!?:;]/g, '')}\\b`
+            `\\b${sentence.sub_str.replace(/[.,!?:;'"“”]/g, '')}\\b`
           );
           const originalIndex =
             range_substring.search(substring_regex) + item.start;
@@ -196,6 +196,7 @@ const PolishModal = () => {
     const eassy_plain_text = editor_instance.getText({
       blockSeparator: '\n\n',
     });
+
     if (eassy_plain_text.trim() === '') {
       toast.error('No intent is detected');
       return;

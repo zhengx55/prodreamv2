@@ -87,13 +87,17 @@ const SuggestionPanel = () => {
     const current_suggestion = suggestions.at(index);
     if (current_suggestion) {
       const corrsponding_segement = getSubStrPos(current_suggestion);
+      console.log(
+        '🚀 ~ file: SuggestionPanel.tsx:90 ~ expand ~ corrsponding_segement:',
+        corrsponding_segement
+      );
       const start_position = editor_instance
         .getText()
-        .indexOf(corrsponding_segement!);
+        .indexOf(corrsponding_segement.trim());
       current_suggestion.data.forEach((suggestion) => {
         if ([2, 3].includes(suggestion.status)) {
           const substring_regex = new RegExp(
-            `\\b${suggestion.sub_str.replace(/[.,!?:;]/g, '')}\\b`
+            `\\b${suggestion.sub_str.replace(/[.,!?:;'"“”]/g, '')}\\b`
           );
           const position = corrsponding_segement!.search(substring_regex);
           highLightAtPosition(
