@@ -1,3 +1,4 @@
+import { getDiffSentencesPair, getSubStrPos } from '@/lib/utils';
 import { IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -79,36 +80,6 @@ const SuggestionPanel = () => {
     editor_instance.chain().selectAll().unsetHighlight().run();
   };
 
-  const getSubStrPos = (current_suggestion: IPolishResultAData) => {
-    if (!editor_instance) return null;
-    let corrsponding_segement = '';
-    current_suggestion?.data.forEach((suggestion, suggenstion_idx) => {
-      if ([2, 3].includes(suggestion.status)) {
-        if (
-          suggenstion_idx < current_suggestion.data.length - 1 &&
-          [2, 3].includes(
-            current_suggestion.data.at(suggenstion_idx + 1)!.status
-          )
-        ) {
-          corrsponding_segement += ` ${suggestion.sub_str}`;
-        } else {
-          corrsponding_segement += ` ${suggestion.sub_str} `;
-        }
-      } else if (
-        suggestion.status === 1 &&
-        suggenstion_idx < current_suggestion.data.length - 1 &&
-        ![1, 2, 3].includes(
-          current_suggestion.data.at(suggenstion_idx + 1)!.status
-        )
-      ) {
-        corrsponding_segement += ' ';
-      } else {
-        corrsponding_segement += suggestion.sub_str;
-      }
-    });
-    return corrsponding_segement;
-  };
-
   const expand = (index: number) => {
     // hight light changed fragments on the essay
     if (!editor_instance) return;
@@ -163,22 +134,8 @@ const SuggestionPanel = () => {
    */
   const replaceText = (index: number, item: IPolishResultAData) => {
     if (!editor_instance) return;
-    let relpace_string = '';
-    let original_string = '';
-    // 查找就文字内容 删除旧内容 并插入新内容
-    item.data.map((sentence) => {
-      if (sentence.status === 0) {
-        original_string += ` ${sentence.sub_str}`;
-        relpace_string += sentence.sub_str;
-      } else if ([1, 2, 3].includes(sentence.status)) {
-        if (sentence.status !== 1) {
-          original_string += ` ${sentence.sub_str}`;
-        }
-        if (sentence.status !== 2) {
-          relpace_string += ` ${sentence.new_str} `;
-        }
-      }
-    });
+    const { original_string, relpace_string } = getDiffSentencesPair(item);
+    // 查找文字内容 删除旧内容 并插入新内容
     const original_range = editor_instance
       .getText()
       .indexOf(original_string.trim());
@@ -201,7 +158,7 @@ const SuggestionPanel = () => {
         from,
         to,
       })
-      .insertContentAt(original_range + 1, `${relpace_string}`, {
+      .insertContentAt(from, `${relpace_string}`, {
         parseOptions: { preserveWhitespace: 'full' },
       })
       .run();
@@ -217,13 +174,10 @@ const SuggestionPanel = () => {
   };
 
   const handleRejectAll = () => {
-    // clear all suggestions
     clearAllHightLight();
     setSuggestions([]);
-    // clear all underline styling
     if (!editor_instance) return;
     editor_instance.chain().selectAll().unsetUnderline().run();
-    // turn off suggestions panel
     if (polishResult) clearPolishResult();
   };
 
