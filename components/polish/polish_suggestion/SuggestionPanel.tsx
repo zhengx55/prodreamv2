@@ -79,24 +79,49 @@ const SuggestionPanel = () => {
     editor_instance.chain().selectAll().unsetHighlight().run();
   };
 
+  const getSubStrPos = (current_suggestion: IPolishResultAData) => {
+    if (!editor_instance) return null;
+    let corrsponding_segement = '';
+    current_suggestion?.data.forEach((suggestion, suggenstion_idx) => {
+      if ([2, 3].includes(suggestion.status)) {
+        if (
+          suggenstion_idx < current_suggestion.data.length - 1 &&
+          [2, 3].includes(
+            current_suggestion.data.at(suggenstion_idx + 1)!.status
+          )
+        ) {
+          corrsponding_segement += ` ${suggestion.sub_str}`;
+        } else {
+          corrsponding_segement += ` ${suggestion.sub_str} `;
+        }
+      } else if (suggestion.status === 1) {
+        corrsponding_segement += ' ';
+      } else {
+        corrsponding_segement += suggestion.sub_str;
+      }
+    });
+    return corrsponding_segement;
+  };
+
   const expand = (index: number) => {
     // hight light changed fragments on the essay
     if (!editor_instance) return;
     clearAllHightLight();
     const current_suggestion = suggestions.at(index);
     if (current_suggestion) {
-      const corrsponding_segement = editor_instance
+      const corrsponding_segement = getSubStrPos(current_suggestion);
+      const start_position = editor_instance
         .getText()
-        .substring(current_suggestion?.start, current_suggestion?.end);
+        .indexOf(corrsponding_segement!);
       current_suggestion.data.forEach((suggestion) => {
         if ([2, 3].includes(suggestion.status)) {
           const substring_regex = new RegExp(
             `\\b${suggestion.sub_str.replace(/[^\w\s]/g, '')}\\b`
           );
-          const position = corrsponding_segement.search(substring_regex);
+          const position = corrsponding_segement!.search(substring_regex);
           highLightAtPosition(
-            position + current_suggestion.start + 1,
-            position + current_suggestion.start + suggestion.sub_str.length + 1
+            position + start_position + 1,
+            position + start_position + suggestion.sub_str.length + 1
           );
         }
       });
@@ -160,6 +185,12 @@ const SuggestionPanel = () => {
     const to = original_range + original_string.trim().length + 1;
     editor_instance
       .chain()
+      .setTextSelection({ from, to })
+      .unsetHighlight()
+      .unsetUnderline()
+      .run();
+    editor_instance
+      .chain()
       .deleteRange({
         from,
         to,
@@ -168,7 +199,7 @@ const SuggestionPanel = () => {
         parseOptions: { preserveWhitespace: 'full' },
       })
       .run();
-    remove(index);
+    // remove(index);
   };
 
   const handleAcceptAll = () => {

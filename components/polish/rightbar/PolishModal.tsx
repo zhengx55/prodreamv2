@@ -171,7 +171,6 @@ const PolishModal = () => {
       item.data.map((sentence) => {
         if ([2, 3].includes(sentence.status)) {
           if (!range_substring) return;
-
           const substring_regex = new RegExp(
             `\\b${sentence.sub_str.replace(/[^\w\s]/g, '')}\\b`
           );
