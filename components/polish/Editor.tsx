@@ -41,7 +41,7 @@ const Tiptap = () => {
     editorProps: {
       attributes: {
         class:
-          'focus:outline-none max-w-full prose prose-p:text-black-400 h-full',
+          'focus:outline-none max-w-full prose whitespace-pre-wrap prose-p:text-black-400 h-full',
         spellcheck: 'false',
       },
     },

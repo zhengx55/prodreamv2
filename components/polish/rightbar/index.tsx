@@ -1,11 +1,11 @@
 'use client';
-import React, { memo } from 'react';
-import Spacer from '../../root/Spacer';
+import useAIEditorStore from '@/zustand/store';
 import { PenLine } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { memo } from 'react';
+import Spacer from '../../root/Spacer';
 import { Button } from '../../ui/button';
 import { Separator } from '../../ui/separator';
-import dynamic from 'next/dynamic';
-import useAIEditorStore from '@/zustand/store';
 
 const ReportSheet = dynamic(() => import('./ReportSheet'), { ssr: false });
 const PolishModal = dynamic(() => import('./PolishModal'), { ssr: false });
@@ -24,7 +24,12 @@ const Rightbar = () => {
   );
   const toggleChatEditMode = () => {
     if (!isChatEditMode) {
-      editor_instance?.chain().selectAll().unsetUnderline().run();
+      editor_instance
+        ?.chain()
+        .selectAll()
+        .unsetUnderline()
+        .unsetHighlight()
+        .run();
       setChatEditMode(true);
       clearPolishResult();
     } else {
