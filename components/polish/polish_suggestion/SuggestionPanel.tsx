@@ -1,4 +1,8 @@
-import { getDiffSentencesPair, getSubStrPos } from '@/lib/utils';
+import {
+  getDiffSentencesPair,
+  getSubStrPos,
+  punctuationRegex,
+} from '@/lib/utils';
 import { IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -87,15 +91,21 @@ const SuggestionPanel = () => {
     const current_suggestion = suggestions.at(index);
     if (current_suggestion) {
       const corrsponding_segement = getSubStrPos(current_suggestion);
-      const start_position = editor_instance
+      let start_position = editor_instance
         .getText()
         .indexOf(corrsponding_segement.trim());
+      if ([1, 2, 3].includes(current_suggestion.data.at(0)!.status)) {
+        start_position -= 1;
+      }
+
       current_suggestion.data.forEach((suggestion) => {
         if ([2, 3].includes(suggestion.status)) {
-          const substring_regex = new RegExp(
-            `\\b${suggestion.sub_str.replace(/[.,!?:;'"“”]/g, '')}\\b`
-          );
+          let substring_regex = new RegExp(`\\b${suggestion.sub_str}\\b`, 'g');
+          if (punctuationRegex.test(suggestion.sub_str)) {
+            substring_regex = new RegExp(suggestion.sub_str, 'g');
+          }
           const position = corrsponding_segement!.search(substring_regex);
+          if (position === -1) return;
           highLightAtPosition(
             position + start_position + 1,
             position + start_position + suggestion.sub_str.length + 1

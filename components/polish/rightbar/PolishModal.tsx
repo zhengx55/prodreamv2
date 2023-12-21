@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { punctuationRegex } from '@/lib/utils';
 import { queryPolish, submitPolish } from '@/query/api';
 import { IPolishParams, IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
@@ -164,19 +165,20 @@ const PolishModal = () => {
   // 原文内容划线
   const handleDecorateEassy = (result: IPolishResultAData[]) => {
     if (!editor_instance) return null;
-    // 查询起始索引和终止索引
-    result.map((item) => {
+    result.forEach((item) => {
       const range_substring = editor_instance
         .getText()
         .substring(item.start, item.end);
-      item.data.map((sentence) => {
+      item.data.forEach((sentence) => {
         if ([2, 3].includes(sentence.status)) {
           if (!range_substring) return;
-          const substring_regex = new RegExp(
-            `\\b${sentence.sub_str.replace(/[.,!?:;'"“”]/g, '')}\\b`
-          );
+          let substring_regex = new RegExp(`\\b${sentence.sub_str}\\b`, 'g');
+          if (punctuationRegex.test(sentence.sub_str)) {
+            substring_regex = new RegExp(sentence.sub_str, 'g');
+          }
           const originalIndex =
             range_substring.search(substring_regex) + item.start;
+          if (originalIndex === -1) return;
           const originalLength = sentence.sub_str.length;
           editor_instance
             .chain()
