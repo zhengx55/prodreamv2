@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { punctuationRegex } from '@/lib/utils';
 import { queryPolish, submitPolish } from '@/query/api';
 import { IPolishParams, IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
@@ -173,7 +172,7 @@ const PolishModal = () => {
         if ([2, 3].includes(sentence.status)) {
           if (!range_substring) return;
           let substring_regex = new RegExp(`\\b${sentence.sub_str}\\b`, 'g');
-          if (punctuationRegex.test(sentence.sub_str)) {
+          if (/[^\w\s]+/g.test(sentence.sub_str)) {
             substring_regex = new RegExp(sentence.sub_str, 'g');
           }
           const originalIndex =

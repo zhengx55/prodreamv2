@@ -1,8 +1,4 @@
-import {
-  getDiffSentencesPair,
-  getSubStrPos,
-  punctuationRegex,
-} from '@/lib/utils';
+import { getDiffSentencesPair, getSubStrPos } from '@/lib/utils';
 import { IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -32,23 +28,8 @@ const SuggestionPanel = () => {
             if (current_suggestion) {
               const corrsponding_segement = editor_instance
                 ?.getText()
-                .substring(current_suggestion?.start, current_suggestion?.end);
-              current_suggestion.data.forEach((suggestion) => {
-                if ([2, 3].includes(suggestion.status)) {
-                  const substring_regex = new RegExp(
-                    `\\b${suggestion.sub_str.replace(/[^\w\s]/g, '')}\\b`
-                  );
-                  const position =
-                    corrsponding_segement?.search(substring_regex);
-                  highLightAtPosition(
-                    position! + current_suggestion.start + 1,
-                    position! +
-                      current_suggestion.start +
-                      suggestion.sub_str.length +
-                      1
-                  );
-                }
-              });
+                .substring(current_suggestion.start, current_suggestion.end);
+              hightLightSentence(current_suggestion, corrsponding_segement!);
             }
             return {
               ...item,
@@ -84,6 +65,33 @@ const SuggestionPanel = () => {
     editor_instance.chain().selectAll().unsetHighlight().run();
   };
 
+  const hightLightSentence = (
+    current_suggestion: IPolishResultAData,
+    corrsponding_segement: string
+  ) => {
+    if (!editor_instance) return;
+    let start_position = editor_instance
+      .getText()
+      .indexOf(corrsponding_segement.trim());
+    if ([1, 2, 3].includes(current_suggestion.data.at(0)!.status)) {
+      start_position -= 1;
+    }
+    current_suggestion.data.forEach((suggestion) => {
+      if ([2, 3].includes(suggestion.status)) {
+        let substring_regex = new RegExp(`\\b${suggestion.sub_str}\\b`, 'g');
+        if (/[^\w\s]+/g.test(suggestion.sub_str)) {
+          substring_regex = new RegExp(suggestion.sub_str, 'g');
+        }
+        const position = corrsponding_segement!.search(substring_regex);
+        if (position === -1) return;
+        highLightAtPosition(
+          position + start_position + 1,
+          position + start_position + suggestion.sub_str.length + 1
+        );
+      }
+    });
+  };
+
   const expand = (index: number) => {
     // hight light changed fragments on the essay
     if (!editor_instance) return;
@@ -91,27 +99,7 @@ const SuggestionPanel = () => {
     const current_suggestion = suggestions.at(index);
     if (current_suggestion) {
       const corrsponding_segement = getSubStrPos(current_suggestion);
-      let start_position = editor_instance
-        .getText()
-        .indexOf(corrsponding_segement.trim());
-      if ([1, 2, 3].includes(current_suggestion.data.at(0)!.status)) {
-        start_position -= 1;
-      }
-
-      current_suggestion.data.forEach((suggestion) => {
-        if ([2, 3].includes(suggestion.status)) {
-          let substring_regex = new RegExp(`\\b${suggestion.sub_str}\\b`, 'g');
-          if (punctuationRegex.test(suggestion.sub_str)) {
-            substring_regex = new RegExp(suggestion.sub_str, 'g');
-          }
-          const position = corrsponding_segement!.search(substring_regex);
-          if (position === -1) return;
-          highLightAtPosition(
-            position + start_position + 1,
-            position + start_position + suggestion.sub_str.length + 1
-          );
-        }
-      });
+      hightLightSentence(current_suggestion, corrsponding_segement);
     }
     setSuggestions((prev) => {
       return prev.map((item, i) =>

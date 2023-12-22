@@ -5,8 +5,6 @@ import { twMerge } from 'tailwind-merge';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-export const punctuationRegex = /[.,\/#!$%\^&\*;:{}=\-_`~()]/g;
-
 type Object = { [key: string]: any };
 
 const isObject = (item: any): item is Object => {
