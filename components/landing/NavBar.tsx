@@ -1,11 +1,8 @@
-import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 
 const NavBar = () => {
-  const cookieStore = cookies();
-  const token = cookieStore.get('token');
   return (
     <section className='z-50 flex h-16 w-full justify-center py-3'>
       <nav className='flex-between w-full max-w-[1450px]'>
@@ -23,7 +20,7 @@ const NavBar = () => {
           </Link>
         </div>
         <div className='flex items-center gap-x-8'>
-          <Link href={!token ? '/login' : '/writtingpal/polish'} passHref>
+          <Link href={'/writtingpal/polish'} passHref>
             <Button variant={'ghost'} className='text-primary-200'>
               Login
             </Button>
