@@ -1,12 +1,12 @@
 'use client';
-import ChatHistory from '@/_archived/chat_comp/ChatHistory';
-import ChatInfo from '@/_archived/chat_comp/ChatInfo';
-import ChatMessageList from '@/_archived/chat_comp/ChatMessageList';
+import { ChatMessageContext } from '@/_archived__/ChatMessageContext';
+import { useChatNavigatorContext } from '@/_archived__/ChatNavigationProvider';
+import ChatHistory from '@/_archived__/chat_comp/ChatHistory';
+import ChatInfo from '@/_archived__/chat_comp/ChatInfo';
+import ChatMessageList from '@/_archived__/chat_comp/ChatMessageList';
 import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
 import { ChatSteps } from '@/constant/enum';
-import { ChatMessageContext } from '@/_archived/ChatMessageContext';
-import { useChatNavigatorContext } from '@/_archived/ChatNavigationProvider';
 import { IChatMessage, IChatMesssageList } from '@/query/type';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CalendarRange } from 'lucide-react';

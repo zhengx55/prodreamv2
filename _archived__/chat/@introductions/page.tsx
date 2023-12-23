@@ -1,8 +1,8 @@
 'use client';
+import { useChatNavigatorContext } from '@/_archived__/ChatNavigationProvider';
 import BackButton from '@/components/root/BackButton';
 import { Button } from '@/components/ui/button';
 import { ChatIntroductionCard, moduleInfo, moduleMenu } from '@/constant';
-import { useChatNavigatorContext } from '@/_archived/ChatNavigationProvider';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 

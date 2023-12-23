@@ -1,4 +1,7 @@
-import React, {
+import { useChatMessageContext } from '@/_archived__/ChatMessageContext';
+import { useSendChat } from '@/query/query';
+import { Question } from '@/types';
+import {
   Fragment,
   memo,
   useCallback,
@@ -6,19 +9,16 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import useDeepCompareEffect from 'use-deep-compare-effect';
+import ChatTypeField from './ChatTypeField';
+import ActivityMessage from './messages/ActivityMessage';
 import EditableMessage from './messages/EditableMessage';
 import {
   MineMessagLoading,
   RobotMessageLoading,
 } from './messages/MessageLoading';
-import ActivityMessage from './messages/ActivityMessage';
-import { Question } from '@/types';
 import MineMessage from './messages/MineMessage';
 import RobotMessage from './messages/RobotMessage';
-import ChatTypeField from './ChatTypeField';
-import { useSendChat } from '@/query/query';
-import { useChatMessageContext } from '@/_archived/ChatMessageContext';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 
 type Props = {
   messageList: Question;

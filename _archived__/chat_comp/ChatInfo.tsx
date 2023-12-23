@@ -1,7 +1,7 @@
+import { useChatMessageContext } from '@/_archived__/ChatMessageContext';
 import { moduleExample, moduleNotes } from '@/constant';
-import { useChatMessageContext } from '@/_archived/ChatMessageContext';
 import Image from 'next/image';
-import React, { memo, useState } from 'react';
+import { memo, useState } from 'react';
 
 const ChatInfo = () => {
   const [tab, setTabs] = useState(0);

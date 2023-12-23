@@ -1,7 +1,7 @@
 'use client';
+import { useChatMessageContext } from '@/_archived__/ChatMessageContext';
 import { Button } from '@/components/ui/button';
-import { useChatMessageContext } from '@/_archived/ChatMessageContext';
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 type Props = {
   message: string;

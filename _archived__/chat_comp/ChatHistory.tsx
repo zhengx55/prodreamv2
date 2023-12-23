@@ -1,9 +1,9 @@
 'use client';
-import { memo } from 'react';
-import { motion } from 'framer-motion';
-import { useChatMessageContext } from '@/_archived/ChatMessageContext';
+import { useChatMessageContext } from '@/_archived__/ChatMessageContext';
 import { ChatQuestionIdMap } from '@/constant';
+import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
+import { memo } from 'react';
 
 /**
  * 从history进入聊天界面时许重置sessionId 为概该聊天section的sessionId

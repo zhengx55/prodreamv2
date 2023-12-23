@@ -31,7 +31,7 @@
 
 // // const OptionsMenu = ({ submitFunction, toggleShow }: Props) => {
 // //   const [category, setCategory] = useState('');
-// //   
+// //
 // //   const { essayRef } = useAiEditiorContext();
 // //   const [prompt, setPrompt] = useState('');
 // //   const {
