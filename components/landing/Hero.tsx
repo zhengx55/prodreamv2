@@ -2,6 +2,7 @@
 import { fadeIn, staggerContainer, textVariant } from '@/constant/motion';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
@@ -61,9 +62,11 @@ const Hero = () => {
               height={28}
               className='absolute -left-4 -top-4 h-7 w-7'
             />
-            <Button className='h-max rounded-[40px] px-8 py-3.5'>
-              <strong>Sign Up Now!</strong>It&apos;s Free
-            </Button>
+            <Link href={'/signup'} passHref>
+              <Button className='h-max rounded-[40px] px-8 py-3.5'>
+                <strong>Sign Up Now!</strong>It&apos;s Free
+              </Button>
+            </Link>
             <Button
               className='h-max rounded-[40px] border border-black-400 px-8 py-3.5'
               variant={'ghost'}

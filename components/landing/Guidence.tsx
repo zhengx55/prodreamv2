@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { fadeIn, staggerContainer, textVariant } from '@/constant/motion';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
 import Spacer from '../root/Spacer';
 const Guidence = () => {
   return (
@@ -70,12 +71,18 @@ const Guidence = () => {
                 </span>
               </div>
             </span>
-            <Button
-              variant={'white'}
-              className='small-semibold justify-center rounded-3xl'
+            <Link
+              passHref
+              href={'https://discord.com/invite/h37uz8HYSH'}
+              target='_blank'
             >
-              Join our discord community!
-            </Button>
+              <Button
+                variant={'white'}
+                className='small-semibold justify-center rounded-3xl'
+              >
+                Join our discord community!
+              </Button>
+            </Link>
           </div>
         </motion.div>
         <Spacer y='24' />
@@ -111,7 +118,9 @@ const Guidence = () => {
           </motion.div>
         </div>
         <Spacer y='40' />
-        <Button>Get Started</Button>
+        <Link passHref href={'/writtingpal/polish'}>
+          <Button>Get Started</Button>
+        </Link>
       </div>
     </motion.section>
   );
