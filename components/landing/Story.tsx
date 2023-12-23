@@ -80,7 +80,12 @@ const Story = () => {
 
         <Spacer y='48' />
         <div className='relative flex w-full flex-col justify-between gap-y-4 overflow-hidden rounded-[32px] bg-primary-200 py-6 sm:max-w-[1450px] sm:py-12'>
-          <Image alt='background' src='/landing/showcase/background.png' fill />
+          <Image
+            alt='background'
+            src='/landing/showcase/background.png'
+            fill
+            sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
+          />
           <h2 className='h3-bold sm:h2-bold text-center text-white'>
             You&apos;ve come this far.
             <br /> Let&apos;s make your essay unforgettable!

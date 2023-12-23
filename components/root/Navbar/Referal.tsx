@@ -7,6 +7,7 @@ const Referal = () => {
     <div className='rounded-lg bg-referal px-[1px] py-[1px]'>
       <Link
         href={'/profile/referrals'}
+        passHref
         className='block cursor-pointer rounded-lg bg-white px-3 py-1'
       >
         <div className='flex-between gap-x-2'>
