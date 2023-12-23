@@ -17,7 +17,7 @@ const Hero = () => {
       viewport={{
         once: true,
       }}
-      className='relative flex w-full justify-center px-4 sm:min-h-[calc(100vh_-64px)] sm:px-0'
+      className='relative mt-4 flex w-full justify-center px-4 sm:mt-0 sm:min-h-[calc(100vh_-64px)] sm:px-0'
     >
       <motion.div
         variants={fadeIn('left', 'tween', 0, 0.5)}
