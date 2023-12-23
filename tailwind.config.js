@@ -36,6 +36,9 @@ module.exports = {
           500: '#FCF9FF',
           600: '#EAD9FC',
         },
+        gray: {
+          50: '#313746',
+        },
         black: {
           50: '#3B4453',
           100: '#1E1E1E',
@@ -59,6 +62,7 @@ module.exports = {
         'shadow-100': '#828282',
         'shadow-200': '#F3F5F7',
         'shadow-300': '#5A5A5A',
+        'shadow-400': '#FAFAFA',
         'nav-active': '#5E59FF',
         'nav-selected': '#F4F5F6',
         nav: '#A0A8B0',

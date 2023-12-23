@@ -251,29 +251,58 @@ const SuggestionPanel = () => {
                 key={`polish-${index}`}
               >
                 {isExpanded && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className='break-words leading-relaxed text-black-400'
-                  >
-                    {item.data.map((sentence, idx) => {
-                      const isAdd = sentence.status === 1;
-                      const isDelete = sentence.status === 2;
-                      const isModify = sentence.status === 3;
-                      const isNoChange = sentence.status === 0;
-                      return (
-                        <SentenceFragment
-                          isNoChange={isNoChange}
-                          isDelete={isDelete}
-                          isModify={isModify}
-                          isAdd={isAdd}
-                          sentence={sentence}
-                          key={`sentence-${index}-${idx}`}
-                        />
-                      );
-                    })}
-                  </motion.p>
+                  <>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className='break-words leading-relaxed text-black-400'
+                    >
+                      {item.data.map((sentence, idx) => {
+                        const isAdd = sentence.status === 1;
+                        const isDelete = sentence.status === 2;
+                        const isModify = sentence.status === 3;
+                        const isNoChange = sentence.status === 0;
+                        return (
+                          <SentenceFragment
+                            isNoChange={isNoChange}
+                            isDelete={isDelete}
+                            isModify={isModify}
+                            isAdd={isAdd}
+                            sentence={sentence}
+                            key={`sentence-${index}-${idx}`}
+                          />
+                        );
+                      })}
+                    </motion.p>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.1 }}
+                      className='mt-4 flex gap-x-2'
+                    >
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          replaceText(index, item);
+                        }}
+                        className='font-semibold'
+                      >
+                        Accept
+                      </Button>
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          remove(index);
+                        }}
+                        variant={'ghost'}
+                        className='font-semibold text-shadow'
+                      >
+                        Dismiss
+                      </Button>
+                    </motion.div>
+                  </>
                 )}
 
                 {!isExpanded && (
@@ -301,36 +330,6 @@ const SuggestionPanel = () => {
                       );
                     })}
                   </motion.p>
-                )}
-
-                {isExpanded && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.1 }}
-                    className='mt-4 flex gap-x-2'
-                  >
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        replaceText(index, item);
-                      }}
-                      className='font-semibold'
-                    >
-                      Accept
-                    </Button>
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        remove(index);
-                      }}
-                      variant={'ghost'}
-                      className='font-semibold text-shadow'
-                    >
-                      Dismiss
-                    </Button>
-                  </motion.div>
                 )}
               </motion.div>
             );

@@ -3,7 +3,7 @@ import { IBrainsotrmCard } from '@/types';
 import { Variants, motion } from 'framer-motion';
 import { ChevronRight, ChevronUp } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { Separator } from '../ui/separator';
 import Card from './Card';
 
@@ -71,4 +71,4 @@ const List = ({ title, cardList }: Props) => {
   );
 };
 
-export default List;
+export default memo(List);

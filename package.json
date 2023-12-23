@@ -66,6 +66,7 @@
     "react-type-animation": "^3.2.0",
     "server-only": "^0.0.1",
     "sonner": "^1.2.4",
+    "swiper": "^11.0.5",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "use-deep-compare-effect": "^1.8.1",

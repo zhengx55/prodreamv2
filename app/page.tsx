@@ -1,11 +1,21 @@
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
+import Footer from '@/components/landing/Footer';
+import Guidence from '@/components/landing/Guidence';
+import Hero from '@/components/landing/Hero';
+import NavBar from '@/components/landing/NavBar';
+import ShowCase from '@/components/landing/ShowCase';
+import Story from '@/components/landing/Story';
+import Team from '@/components/landing/Team';
 
 export default async function Home({}) {
-  const cookieStore = cookies();
-  if (cookieStore.get('token')) {
-    redirect('/writtingpal/polish');
-  } else {
-    redirect('/login');
-  }
+  return (
+    <main className='relative flex w-full flex-col'>
+      <NavBar />
+      <Hero />
+      <Guidence />
+      <Team />
+      <ShowCase />
+      <Story />
+      <Footer />
+    </main>
+  );
 }
