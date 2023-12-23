@@ -14,8 +14,10 @@ const ShowCase = () => {
             whileInView='show'
             viewport={{ once: true, amount: 0.25 }}
             className={`${
-              index === 1 && 'flex-row-reverse'
-            } flex flex-col items-center justify-evenly sm:flex-row`}
+              index === 1
+                ? 'flex-col sm:flex-row-reverse'
+                : 'flex-col sm:flex-row'
+            } flex items-center justify-evenly gap-y-4 sm:gap-y-0`}
             key={item.id}
           >
             <motion.div
