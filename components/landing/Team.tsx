@@ -4,14 +4,15 @@ import Spacer from '../root/Spacer';
 
 const Team = () => {
   return (
-    <section className='relative flex w-full justify-center py-20'>
-      <div className='flex-center w-full max-w-[1450px] flex-col'>
-        <div className='flex w-full justify-between px-10'>
-          <h1 className='h3-semibold'>
-            Incubated by Harvard Innovation Lab and <br /> Microsoft Founders
-            Hub
+    <section className='relative flex w-full justify-center px-4 py-20 sm:px-0'>
+      <div className='flex-center w-full flex-col sm:max-w-[1450px]'>
+        <div className='flex w-full flex-col px-10 sm:flex-row sm:justify-between'>
+          <h1 className='title-semibold sm:h3-semibold text-center sm:text-left'>
+            Incubated by Harvard Innovation Lab and{' '}
+            <br className='hidden sm:block' /> Microsoft Founders Hub
           </h1>
-          <div className='flex items-center'>
+          <Spacer y='14' className='block sm:hidden' />
+          <div className='flex items-center justify-center sm:justify-start'>
             <Image
               alt='Harvard'
               src='/landing/team/Harvard.png'
@@ -30,9 +31,11 @@ const Team = () => {
         </div>
         <Spacer y='40' />
         <div className='flex-center w-full flex-col rounded-xl bg-[#383838] px-6 py-10'>
-          <h3 className='h2-bold text-white'>Meet our team members</h3>
+          <h3 className='h3-semibold sm:h2-bold text-center text-white sm:text-left'>
+            Meet our team members
+          </h3>
           <Spacer y='24' />
-          <div className='grid grid-cols-4 gap-6'>
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-4'>
             {TeamMembers.map((item) => (
               <div className='flex flex-col gap-y-3' key={item.id}>
                 <div

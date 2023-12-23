@@ -6,8 +6,8 @@ import Image from 'next/image';
 
 const ShowCase = () => {
   return (
-    <section className='relative flex w-full justify-center py-20'>
-      <div className='flex-center w-full max-w-[1450px] flex-col gap-y-10'>
+    <section className='relative flex w-full justify-center px-4 py-20 sm:px-0'>
+      <div className='flex-center w-full flex-col gap-y-10 sm:max-w-[1450px]'>
         {ShowCases.map((item, index) => (
           <motion.div
             initial='hidden'
@@ -15,7 +15,7 @@ const ShowCase = () => {
             viewport={{ once: true, amount: 0.25 }}
             className={`${
               index === 1 && 'flex-row-reverse'
-            } flex items-center justify-evenly`}
+            } flex flex-col items-center justify-evenly sm:flex-row`}
             key={item.id}
           >
             <motion.div
@@ -40,10 +40,12 @@ const ShowCase = () => {
                   ? fadeIn('right', 'tween', 0.2, 1)
                   : fadeIn('left', 'tween', 0.2, 1)
               }
-              className='flex w-1/3 flex-col gap-y-2'
+              className='flex w-full flex-col gap-y-2 sm:w-1/3'
             >
-              <h1 className='h2-bold'>{item.title}</h1>
-              <p className='small-regular'>{item.description}</p>
+              <h1 className='h2-bold text-center sm:text-left'>{item.title}</h1>
+              <p className='small-regular text-center sm:text-left'>
+                {item.description}
+              </p>
             </motion.div>
           </motion.div>
         ))}

@@ -29,7 +29,7 @@ const Footer = () => {
     }
   };
   return (
-    <footer className='relative flex w-full justify-center bg-shadow-400 py-20'>
+    <footer className='relative flex w-full justify-center bg-shadow-400 px-4 py-5 sm:px-0 sm:py-20'>
       <div className='flex w-full max-w-[1450px] flex-col'>
         <section className='flex flex-col gap-y-4 md:flex-row md:justify-between md:gap-y-0'>
           <div className='flex flex-col gap-y-5'>
