@@ -8,7 +8,7 @@ import Team from '@/components/landing/Team';
 
 export default async function Home({}) {
   return (
-    <main className='relative flex w-full flex-col'>
+    <main className='relative flex w-full touch-none flex-col'>
       <NavBar />
       <Hero />
       <Guidence />

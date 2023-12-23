@@ -95,7 +95,7 @@ const Guidence = () => {
         <div className='flex-between w-full flex-col gap-y-4 sm:gap-x-4 sm:gap-y-0 md:flex-row'>
           <motion.div
             variants={fadeIn('right', 'tween', 1.3, 1)}
-            className='flex w-full flex-col gap-y-4 rounded-xl bg-white p-8 sm:w-1/2'
+            className='flex w-full flex-col gap-y-4 rounded-xl bg-white p-5 sm:w-1/2 sm:p-8'
           >
             <span className='self-start rounded-2xl bg-shadow-400 p-2'>
               <LightBulb />
@@ -110,13 +110,13 @@ const Guidence = () => {
           </motion.div>
           <motion.div
             variants={fadeIn('left', 'tween', 1.3, 1)}
-            className='flex w-full flex-col gap-y-4 rounded-xl bg-white p-8 sm:w-1/2'
+            className='flex w-full flex-col gap-y-4 rounded-xl bg-white p-5 sm:w-1/2 sm:p-8'
           >
             <span className='self-start rounded-2xl bg-shadow-400 p-2'>
               <Security />
             </span>
             <h2 className='title-semibold sm:h3-semibold'>
-              Your Privacy is Our Priority{' '}
+              Your Privacy is Our Priority
             </h2>
             <p className='small-regular'>
               We prioritize your privacy, safeguarding your data with

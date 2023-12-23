@@ -1,8 +1,8 @@
 'use client';
-
 import { Storys, Universitys } from '@/constant';
 import Image from 'next/image';
 import 'swiper/css';
+import 'swiper/css/autoplay';
 import 'swiper/css/free-mode';
 import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -36,27 +36,48 @@ const Story = () => {
           ))}
         </div>
         <Spacer y='48' />
-        <Swiper
-          loop={true}
-          className='w-full'
-          modules={[FreeMode]}
-          freeMode={true}
-          autoplay
-          slidesPerView={3}
-          spaceBetween={30}
-        >
-          {Storys.map((item) => (
-            <SwiperSlide key={item.id}>
-              <Image
-                alt={item.alt}
-                src={item.image}
-                width={1920}
-                height={920}
-                className='h-auto w-auto'
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <div className='hidden w-full sm:flex '>
+          <Swiper
+            modules={[FreeMode]}
+            freeMode={true}
+            autoplay
+            slidesPerView={3}
+            spaceBetween={20}
+          >
+            {Storys.map((item) => (
+              <SwiperSlide className='h-full' key={item.id}>
+                <Image
+                  alt={item.alt}
+                  src={item.image}
+                  width={1920}
+                  height={920}
+                  className='h-full w-auto'
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+        <div className='flex w-full sm:hidden '>
+          <Swiper
+            modules={[FreeMode]}
+            freeMode={true}
+            autoplay
+            slidesPerView={1}
+          >
+            {Storys.map((item) => (
+              <SwiperSlide className='h-full' key={item.id}>
+                <Image
+                  alt={item.alt}
+                  src={item.image}
+                  width={1920}
+                  height={920}
+                  className='h-auto w-full'
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
         <Spacer y='48' />
         <div className='relative flex w-full flex-col justify-between gap-y-4 overflow-hidden rounded-[32px] bg-primary-200 py-6 sm:max-w-[1450px] sm:py-12'>
           <Image alt='background' src='/landing/showcase/background.png' fill />
