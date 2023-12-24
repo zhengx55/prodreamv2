@@ -1,11 +1,11 @@
 'use client';
 import { Switch } from '@/components/ui/switch';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
 import type { IBrainStormSection, IBriansotrmReq, Module } from '@/query/type';
 import { selectUserId } from '@/store/reducers/userSlice';
 import { useAppSelector } from '@/store/storehooks';
 import { InputProps } from '@/types';
+import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { CheckCheck } from 'lucide-react';
 import Link from 'next/link';
@@ -19,21 +19,18 @@ import { TextOptimizeBar } from './TextOptimizeBar';
 
 const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
   const user_id = useAppSelector(selectUserId);
-  const {
-    setIsSubmiting,
-    setSubmitError,
-    historyData,
-    setHistoryData,
-    setStartTyping,
-    setEassyResult,
-    isSubmiting,
-    tutorial,
-  } = useBrainStormContext();
   const [formData, setFormData] = useState<IBrainStormSection>(templateData);
   const [formState, setFormState] = useState<Record<string, InputProps>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
   const queryTimer = useRef<NodeJS.Timeout>();
-
+  const tutorial = useRootStore((state) => state.bstutorial);
+  const setIsSubmiting = useRootStore((state) => state.updatebsIsSubmiting);
+  const setSubmitError = useRootStore((state) => state.updatebsSubmitError);
+  const historyData = useRootStore((state) => state.bshistoryData);
+  const isSubmiting = useRootStore((state) => state.bsisSubmiting);
+  const setStartTyping = useRootStore((state) => state.updatebsStartTyping);
+  const setEassyResult = useRootStore((state) => state.updatebsEassyResult);
+  const resetHistory = useRootStore((state) => state.resetbsHistoryData);
   useDeepCompareEffect(() => {
     if (Object.keys(tutorial).length > 0) {
       setFormState(tutorial);
@@ -181,7 +178,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
     const filter_key_arrays = key_arrays.map((item) =>
       item.includes('+') ? item.split('+')[0] : item
     );
-    setHistoryData({ template_id: '', result: '', questionAnswerPair: {} });
+    resetHistory();
     await handleBrainstorm({
       pro_mode: qualityMode === 1,
       template_id: formData?.id,

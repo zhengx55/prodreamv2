@@ -1,5 +1,4 @@
 'use client';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { countWords } from '@/lib/utils';
 import useRootStore from '@/zustand/store';
 import { m } from 'framer-motion';
@@ -22,8 +21,11 @@ const OutcomePanel = ({
   animatedWordCount: number;
   incrementCount: () => void;
 }) => {
-  const { historyData, startTyping, eassyResult, isSubmiting, submitError } =
-    useBrainStormContext();
+  const historyData = useRootStore((state) => state.bshistoryData);
+  const isSubmiting = useRootStore((state) => state.bsisSubmiting);
+  const startTyping = useRootStore((state) => state.bsstartTyping);
+  const eassyResult = useRootStore((state) => state.bseassyResult);
+  const submitError = useRootStore((state) => state.bssubmitError);
   const router = useRouter();
   const updateGlobalEssay = useRootStore((state) => state.updateEssay);
   const handlePolish = () => {

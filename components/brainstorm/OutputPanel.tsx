@@ -1,10 +1,10 @@
 'use client';
 import { cn } from '@/lib/utils';
-import { AnimatePresence } from 'framer-motion';
-import { useCallback, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
+import useRootStore from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
+import { AnimatePresence } from 'framer-motion';
+import dynamic from 'next/dynamic';
+import { useCallback, useRef, useState } from 'react';
 import Spacer from '../root/Spacer';
 const HistoryPanel = dynamic(() => import('./HistoryPanel'), {
   ssr: false,
@@ -16,18 +16,16 @@ const OutputPanel = () => {
   const [tab, setTab] = useState<number>(0);
   const printIndexRef = useRef<number>(0);
   const [animatedWordCount, setAnimatedWordCount] = useState(0);
-  const { setHistoryData, setEassyResult } = useBrainStormContext();
   const IncrementWordCount = useCallback(() => {
     setAnimatedWordCount((prev) => prev + 1);
   }, []);
-
+  const resetHistory = useRootStore((state) => state.resetbsHistoryData);
   const handleTabChange = useCallback((value: number) => {
     setTab(value);
   }, []);
 
   useUnmount(() => {
-    setEassyResult('');
-    setHistoryData({ template_id: '', result: '', questionAnswerPair: {} });
+    resetHistory();
   });
 
   return (

@@ -1,5 +1,4 @@
 'use client';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
 import {
   addRandomToDuplicates,
   deepEqual,
@@ -7,6 +6,7 @@ import {
 } from '@/lib/utils';
 import { useBrainStormHistoryById } from '@/query/query';
 import { InputProps } from '@/types';
+import useRootStore from '@/zustand/store';
 import { m } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { memo } from 'react';
@@ -17,7 +17,9 @@ const HistoryPanel = ({
   handleTabChange: (value: number) => void;
 }) => {
   const path = usePathname();
-  const { historyData, setHistoryData } = useBrainStormContext();
+  const historyData = useRootStore((state) => state.bshistoryData);
+  const setHistoryData = useRootStore((state) => state.updatebsHistoryData);
+
   const id = path.split('/')[path.split('/').length - 1];
   const { isPending, data } = useBrainStormHistoryById(id);
   if (isPending) {

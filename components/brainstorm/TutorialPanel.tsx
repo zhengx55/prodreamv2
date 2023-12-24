@@ -1,7 +1,7 @@
 'use client';
 import { BrianstormAutoFill } from '@/constant';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { InputProps } from '@/types';
+import useRootStore from '@/zustand/store';
 import { m } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -16,7 +16,7 @@ const TutorialPanel = ({
   const [steps, setSteps] = useState(0);
   const path = usePathname();
   const template_id = path.split('/')[3];
-  const { setTutorial } = useBrainStormContext();
+  const setTutorial = useRootStore((state) => state.updatebsTutorial);
   return (
     <m.div
       key='tutorial'
