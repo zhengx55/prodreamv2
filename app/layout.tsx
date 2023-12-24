@@ -15,9 +15,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   // openGraph: { title: 'ProDream' },
-  icons: { icon: '/favicon.ico' },
   title: 'ProDream',
-  keywords: [],
   creator: 'applify-ai',
   description:
     'The most powerful AI copilot in crafting personal statements. Powered by years of college admission expertise, QuickApply&apos;s AI offers instant and professional feedback with detailed suggestions 24/7. Get insights on structure, authenticity, and wording, ensuring your essay truly reflects the traits and values that schools seek.',
