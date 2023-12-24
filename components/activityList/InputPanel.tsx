@@ -1,20 +1,20 @@
 'use client';
-import { Button } from '../ui/button';
-import { Loader2, Upload } from 'lucide-react';
-import { ChangeEvent, useCallback, useState } from 'react';
-import { v4 } from 'uuid';
-import { AnimatePresence, Variants, motion } from 'framer-motion';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 import { useActListContext } from '@/context/ActListProvider';
-import dynamic from 'next/dynamic';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
-import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
-import Description from './inputpanel/Description';
-import CharacterSelect from './inputpanel/CharacterSelect';
-import { useMutation } from '@tanstack/react-query';
-import { IUsage } from '@/types';
 import { updateUserInfo } from '@/query/api';
+import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
 import { selectUserEmail } from '@/store/reducers/userSlice';
+import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { IUsage } from '@/types';
+import { useMutation } from '@tanstack/react-query';
+import { AnimatePresence, Variants, m } from 'framer-motion';
+import { Loader2, Upload } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { ChangeEvent, useCallback, useState } from 'react';
+import useDeepCompareEffect from 'use-deep-compare-effect';
+import { v4 } from 'uuid';
+import { Button } from '../ui/button';
+import CharacterSelect from './inputpanel/CharacterSelect';
+import Description from './inputpanel/Description';
 
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 const Activityloader = dynamic(() => import('./Activityloader'));
@@ -162,7 +162,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   };
 
   return (
-    <motion.div
+    <m.div
       initial={false}
       variants={fullScreenVariants}
       animate={fullScreen ? 'full' : 'half'}
@@ -239,7 +239,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
         setIsGenerating={toogleIsGenerating}
         isDecoding={isDecoding}
       />
-    </motion.div>
+    </m.div>
   );
 };
 

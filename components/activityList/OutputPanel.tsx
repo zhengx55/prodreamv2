@@ -7,7 +7,7 @@ import { selectUserEmail } from '@/store/reducers/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { IUsage } from '@/types';
 import { useMutation } from '@tanstack/react-query';
-import { AnimatePresence, Variants, motion } from 'framer-motion';
+import { AnimatePresence, Variants, m } from 'framer-motion';
 import { Dispatch, SetStateAction, useState } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { DoubleArrow, DoubleArrowLeft } from '../root/SvgComponents';
@@ -89,7 +89,7 @@ const OutputPanel = ({
       </div>
     );
   return (
-    <motion.div
+    <m.div
       initial={false}
       variants={fullScreenVariants}
       animate={fullScreen ? 'full' : 'half'}
@@ -151,7 +151,7 @@ const OutputPanel = ({
         </nav>
         <AnimatePresence mode='wait' initial={false}>
           {selected === 'UC Applications' ? (
-            <motion.ul
+            <m.ul
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
@@ -170,9 +170,9 @@ const OutputPanel = ({
                   />
                 );
               })}
-            </motion.ul>
+            </m.ul>
           ) : selected === 'Common Applications' ? (
-            <motion.ul
+            <m.ul
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
@@ -191,9 +191,9 @@ const OutputPanel = ({
                   />
                 );
               })}
-            </motion.ul>
+            </m.ul>
           ) : (
-            <motion.ul
+            <m.ul
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -10, opacity: 0 }}
@@ -220,11 +220,11 @@ const OutputPanel = ({
                   />
                 );
               })}
-            </motion.ul>
+            </m.ul>
           )}
         </AnimatePresence>
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 
