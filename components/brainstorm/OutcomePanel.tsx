@@ -2,7 +2,7 @@
 import { useBrainStormContext } from '@/context/BrainStormProvider';
 import { countWords } from '@/lib/utils';
 import useRootStore from '@/zustand/store';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -34,7 +34,7 @@ const OutcomePanel = ({
     router.push('/writtingpal/polish');
   };
   return (
-    <motion.div
+    <m.div
       key='outcome'
       initial={{ y: 10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -126,7 +126,7 @@ const OutcomePanel = ({
           </>
         )}
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 

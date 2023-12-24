@@ -1,16 +1,16 @@
 'use client';
-import { useBrainStormHistoryById } from '@/query/query';
-import { motion } from 'framer-motion';
-import { usePathname } from 'next/navigation';
-import Loading from '../root/CustomLoading';
+import { useBrainStormContext } from '@/context/BrainStormProvider';
 import {
   addRandomToDuplicates,
   deepEqual,
   formatTimestamphh,
 } from '@/lib/utils';
-import { memo } from 'react';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
+import { useBrainStormHistoryById } from '@/query/query';
 import { InputProps } from '@/types';
+import { m } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import { memo } from 'react';
+import Loading from '../root/CustomLoading';
 const HistoryPanel = ({
   handleTabChange,
 }: {
@@ -54,7 +54,7 @@ const HistoryPanel = ({
   };
 
   return (
-    <motion.div
+    <m.div
       key={'history'}
       initial={{ y: 10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -80,7 +80,7 @@ const HistoryPanel = ({
             </div>
           );
         })}
-    </motion.div>
+    </m.div>
   );
 };
 

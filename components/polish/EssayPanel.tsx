@@ -1,9 +1,9 @@
 'use client';
-import { memo } from 'react';
-import { motion } from 'framer-motion';
-import EditiorLoading from './EditiorLoading';
-import dynamic from 'next/dynamic';
 import useAIEditorStore from '@/zustand/store';
+import { m } from 'framer-motion';
+import dynamic from 'next/dynamic';
+import { memo } from 'react';
+import EditiorLoading from './EditiorLoading';
 const SuggestionPanel = dynamic(
   () => import('./polish_suggestion/SuggestionPanel'),
   {
@@ -39,20 +39,20 @@ const EssayPanel = () => {
 
   return (
     <>
-      <motion.div
+      <m.div
         layout='position'
         style={{
           justifyContent: isMultiScreen ? 'flex-start' : 'center',
         }}
         className='flex h-full w-full gap-x-8 overflow-hidden p-4'
       >
-        <motion.div
+        <m.div
           layout='size'
           style={{ width: isMultiScreen ? '50%' : '66.666667%' }}
           className='flex h-full flex-col'
         >
           <Tiptap />
-        </motion.div>
+        </m.div>
         {isChatEditMode ? (
           <ChatEditPanel />
         ) : isPolishing ? (
@@ -60,7 +60,7 @@ const EssayPanel = () => {
         ) : polishResult.length > 0 || polishResultParagraph ? (
           <SuggestionPanel />
         ) : null}
-      </motion.div>
+      </m.div>
     </>
   );
 };

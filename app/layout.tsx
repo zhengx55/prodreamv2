@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/context/ThemeProvider';
 import type { Metadata } from 'next';
 import './globals.css';
 // import { i18n } from '@/i18n.config';
+import { siteConfig } from '@/config/siteConfig';
 import StoreProvider from '@/store/storeProvider';
 import { Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
@@ -15,10 +16,9 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   // openGraph: { title: 'ProDream' },
-  title: 'ProDream',
+  title: siteConfig.name,
   creator: 'applify-ai',
-  description:
-    'The most powerful AI copilot in crafting personal statements. Powered by years of college admission expertise, QuickApply&apos;s AI offers instant and professional feedback with detailed suggestions 24/7. Get insights on structure, authenticity, and wording, ensuring your essay truly reflects the traits and values that schools seek.',
+  description: siteConfig.description,
 };
 
 // export async function generateStaticParams() {

@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ].map((route) => ({
     url: `${siteConfig.url}${route}`,
     lastModified: new Date().toISOString(),
+    priority: 0.8,
   }));
   return [
     {
