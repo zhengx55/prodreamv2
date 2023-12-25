@@ -1,6 +1,7 @@
 import { getDiffSentencesPair, getSubStrPos } from '@/lib/utils';
 import { IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
+import escapeStringRegExp from 'escape-string-regexp';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
@@ -77,9 +78,14 @@ const SuggestionPanel = () => {
     }
     current_suggestion.data.forEach((suggestion) => {
       if ([2, 3].includes(suggestion.status)) {
-        let substring_regex = new RegExp(`\\b${suggestion.sub_str}\\b`, 'g');
+        let substring_regex: RegExp;
         if (/[^\w\s]+/g.test(suggestion.sub_str)) {
-          substring_regex = new RegExp(suggestion.sub_str, 'g');
+          substring_regex = new RegExp(
+            escapeStringRegExp(suggestion.sub_str),
+            'g'
+          );
+        } else {
+          substring_regex = new RegExp(`\\b${suggestion.sub_str}\\b`, 'g');
         }
         const position = corrsponding_segement!.search(substring_regex);
         if (position === -1) return;

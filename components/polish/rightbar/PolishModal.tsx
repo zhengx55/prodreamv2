@@ -13,6 +13,7 @@ import { IPolishParams, IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useObjectState from 'beautiful-react-hooks/useObjectState';
+import escapeStringRegExp from 'escape-string-regexp';
 import { ChevronRight } from 'lucide-react';
 import { memo, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -171,9 +172,14 @@ const PolishModal = () => {
       item.data.forEach((sentence) => {
         if ([2, 3].includes(sentence.status)) {
           if (!range_substring) return;
-          let substring_regex = new RegExp(`\\b${sentence.sub_str}\\b`, 'g');
+          let substring_regex: RegExp;
           if (/[^\w\s]+/g.test(sentence.sub_str)) {
-            substring_regex = new RegExp(sentence.sub_str, 'g');
+            substring_regex = new RegExp(
+              escapeStringRegExp(sentence.sub_str),
+              'g'
+            );
+          } else {
+            substring_regex = new RegExp(`\\b${sentence.sub_str}\\b`, 'g');
           }
           const originalIndex =
             range_substring.search(substring_regex) + item.start;

@@ -46,6 +46,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
+    "escape-string-regexp": "^5.0.0",
     "framer-motion": "10.9.1",
     "immer": "^10.0.3",
     "isomorphic-dompurify": "^1.12.0",
