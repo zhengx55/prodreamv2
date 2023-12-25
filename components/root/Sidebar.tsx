@@ -11,8 +11,8 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { memo, useEffect, useState } from 'react';
 import ChatModal from '../chatWithMax/ChatModal';
-import { AnimatedLogo, AnimatedxsLogo } from './AnimatedLogo';
 import CommunityCard from './CommunityCard';
+import { AnimatedLogo, AnimatedxsLogo } from './SvgComponents';
 
 const Path = (
   props: React.JSX.IntrinsicAttributes &

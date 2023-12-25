@@ -1,5 +1,5 @@
 'use client';
-import { AnimatedLogo } from '@/components/root/AnimatedLogo';
+import { AnimatedLogo } from '@/components/root/SvgComponents';
 import { AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { ReactNode } from 'react';

@@ -1,4 +1,4 @@
-import { AnimatedLogo } from '@/components/root/AnimatedLogo';
+import { AnimatedLogo } from '@/components/root/SvgComponents';
 import { ReactNode } from 'react';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
