@@ -8,9 +8,9 @@ import {
   Variants,
   domAnimation,
   m,
-  motion,
 } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { memo, useEffect, useState } from 'react';
 import ChatModal from '../chatWithMax/ChatModal';
@@ -21,7 +21,7 @@ const Path = (
   props: React.JSX.IntrinsicAttributes &
     SVGMotionProps<SVGPathElement> &
     React.RefAttributes<SVGPathElement>
-) => <motion.path fill='#9C2CF3' strokeLinecap='round' {...props} />;
+) => <m.path fill='#9C2CF3' strokeLinecap='round' {...props} />;
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -93,9 +93,12 @@ const Sidebar = () => {
           variants={sidebarVariants}
           className='relative hidden shrink-0 flex-col border-r border-r-shadow-border bg-white sm:flex sm:px-2 sm:py-5'
         >
-          <AnimatedLogo show={expandSidebar} />
-          <AnimatedxsLogo show={!expandSidebar} />
-          <motion.span
+          <Link passHref href={'/'}>
+            <AnimatedLogo show={expandSidebar} />
+            <AnimatedxsLogo show={!expandSidebar} />
+          </Link>
+
+          <m.span
             onClick={toggleSidebar}
             whileHover={{
               scale: 1.1,
@@ -131,7 +134,7 @@ const Sidebar = () => {
                 }}
               />
             </svg>
-          </motion.span>
+          </m.span>
           <ChatModal expandSidebar={expandSidebar} />
 
           <ul className='relative mt-8 flex flex-col gap-5'>
@@ -151,7 +154,7 @@ const Sidebar = () => {
                 >
                   <Image
                     src={isActive ? item.active_image : item.image}
-                    alt={item.title}
+                    alt={'sidebar'}
                     width={24}
                     height={24}
                     className='h-auto w-auto'
@@ -159,7 +162,7 @@ const Sidebar = () => {
                   />
                   <AnimatePresence>
                     {expandSidebar && (
-                      <motion.span
+                      <m.span
                         initial='hidden'
                         animate='show'
                         exit='hidden'
@@ -169,7 +172,7 @@ const Sidebar = () => {
                         } whitespace-nowrap text-[14px]`}
                       >
                         {item.title}
-                      </motion.span>
+                      </m.span>
                     )}
                   </AnimatePresence>
                 </li>
