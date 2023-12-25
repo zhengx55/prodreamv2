@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     // images: [`${siteConfig.url}/og.jpg`],
     creator: '@applify-ai',
   },
-  manifest: `${siteConfig.url}/site.webmanifest`,
+  // manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
 // export async function generateStaticParams() {
