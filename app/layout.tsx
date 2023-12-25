@@ -15,6 +15,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   openGraph: {
     type: 'website',
     locale: 'en_US',
