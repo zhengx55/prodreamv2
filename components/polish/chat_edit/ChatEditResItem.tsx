@@ -4,7 +4,7 @@ import type { IPolishParams } from '@/query/type';
 import { IChatEditItem } from '@/types';
 import useRootStore from '@/zustand/store';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ChevronDown, RefreshCwIcon } from 'lucide-react';
 import Image from 'next/image';
 import { SetStateAction, memo } from 'react';
@@ -60,7 +60,7 @@ const ChatEditResItem = ({
   };
 
   return (
-    <motion.li
+    <m.li
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
@@ -134,7 +134,7 @@ const ChatEditResItem = ({
         </>
       )}
       {!isExpand && (
-        <motion.p
+        <m.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -142,9 +142,9 @@ const ChatEditResItem = ({
           className='small-regular line-clamp-2'
         >
           {item.result}
-        </motion.p>
+        </m.p>
       )}
-    </motion.li>
+    </m.li>
   );
 };
 

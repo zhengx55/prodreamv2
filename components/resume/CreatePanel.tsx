@@ -1,4 +1,5 @@
 'use client';
+import { LazyMotion, domAnimation } from 'framer-motion';
 import { PencilLine } from 'lucide-react';
 import { useState } from 'react';
 import Spacer from '../root/Spacer';
@@ -40,24 +41,26 @@ const CreatePanel = () => {
         />
       )}
       <Separator orientation='horizontal' className='mt-4 bg-shadow-border' />
-      {/* personal info section */}
-      <Spacer y='16' />
-      <UserInfo />
-      <Spacer y='32' />
-      {/* education */}
-      <EducationInfo />
-      <Spacer y='32' />
-      {/* work exprience */}
-      <WorkInfo />
-      <Spacer y='32' />
-      {/* Research Experience */}
-      <ResearchInfo />
-      <Spacer y='32' />
-      {/* Competition exprience */}
-      <CompetionsInfo />
-      <Spacer y='32' />
-      {/* activity exprience */}
-      <ActivityInfo />
+      <LazyMotion features={domAnimation}>
+        {/* personal info section */}
+        <Spacer y='16' />
+        <UserInfo />
+        <Spacer y='32' />
+        {/* education */}
+        <EducationInfo />
+        <Spacer y='32' />
+        {/* work exprience */}
+        <WorkInfo />
+        <Spacer y='32' />
+        {/* Research Experience */}
+        <ResearchInfo />
+        <Spacer y='32' />
+        {/* Competition exprience */}
+        <CompetionsInfo />
+        <Spacer y='32' />
+        {/* activity exprience */}
+        <ActivityInfo />
+      </LazyMotion>
     </div>
   );
 };

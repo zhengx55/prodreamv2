@@ -1,6 +1,6 @@
 'use client';
+import ReorderItem from '@/components/resume/forms/ReorderItem';
 import DatePicker from '@/components/root/DatePicker';
-import ReorderItem from '@/components/root/ReorderItem';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,7 +14,7 @@ import {
 } from '@/store/reducers/resumeSlice';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { ICompetitionForm } from '@/types';
-import { AnimatePresence, Reorder, motion } from 'framer-motion';
+import { AnimatePresence, Reorder, m } from 'framer-motion';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
@@ -99,7 +99,7 @@ const CompetitionInfo = () => {
               </div>
               <AnimatePresence>
                 {item.expand === 'expand' && (
-                  <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
+                  <m.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
                       <Label htmlFor='competition' aria-label='name'>
                         Competition Name
@@ -172,7 +172,7 @@ const CompetitionInfo = () => {
                         value={item.additional_info}
                       />
                     </div>
-                  </motion.section>
+                  </m.section>
                 )}
               </AnimatePresence>
             </ReorderItem>
