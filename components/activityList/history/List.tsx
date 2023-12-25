@@ -7,11 +7,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useActListContext } from '@/context/ActListProvider';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { formatTimestampToDateString } from '@/lib/utils';
 import { clonectivityListItem, deleteActivityList } from '@/query/api';
 import { IActHistoryData, IActListResData } from '@/query/type';
+import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { PencilLineIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -26,8 +26,8 @@ type Props = {
 };
 
 const List = ({ item }: Props) => {
-  const { setHistoryData, setGeneratedData } = useActListContext();
-
+  const setGeneratedData = useRootStore((state) => state.setalGeneratedData);
+  const setHistoryData = useRootStore((state) => state.setalHistoryData);
   const router = useRouter();
   const { mutateAsync: removeItem } = useMutation({
     mutationFn: (id: string) => deleteActivityList(id),

@@ -1,14 +1,14 @@
-import { Copy, PenLine, Trash2 } from 'lucide-react';
-import React, { memo, useCallback, useState } from 'react';
-import Tooltip from '../root/Tooltip';
-import { ActData } from '@/query/type';
-import { useMutation } from '@tanstack/react-query';
-import { deleteActivityListItem } from '@/query/api';
-import { toast } from 'sonner';
 import clearCachesByServerAction from '@/lib/revalidate';
-import EditCard from './EditCard';
-import { useActListContext } from '@/context/ActListProvider';
+import { deleteActivityListItem } from '@/query/api';
+import { ActData } from '@/query/type';
+import useRootStore from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
+import { Copy, PenLine, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { memo, useCallback, useState } from 'react';
+import { toast } from 'sonner';
+import Tooltip from '../root/Tooltip';
+import EditCard from './EditCard';
 const DeleteModal = dynamic(() => import('./DeleteModal'), { ssr: false });
 type Props = {
   dataType: 'generated' | 'history';
@@ -23,7 +23,7 @@ const ActivityCard = ({ dataType, type, data, index }: Props) => {
   const toogleDeleteModal = useCallback(() => {
     setShowDelete((prev) => !prev);
   }, []);
-  const { handleDelete } = useActListContext();
+  const handleDelete = useRootStore((state) => state.handlealDelete);
   const handleEdit = async () => {
     setEditMode(true);
   };

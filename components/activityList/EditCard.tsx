@@ -1,4 +1,3 @@
-import { useActListContext } from '@/context/ActListProvider';
 import clearCachesByServerAction from '@/lib/revalidate';
 import {
   deleteActivityListItem,
@@ -6,6 +5,7 @@ import {
   updateActivityListItem,
 } from '@/query/api';
 import { ActData, IGenerateActListParams, Mode } from '@/query/type';
+import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -35,7 +35,8 @@ const EditCard = ({ type, close, index, data, dataType }: Props) => {
   const [cachedData, setCachedData] = useState<{
     text: string;
   }>();
-  const { handleSave, handleDelete } = useActListContext();
+  const handleDelete = useRootStore((state) => state.handlealDelete);
+  const handleSave = useRootStore((state) => state.handlealSave);
   const [isPoslishing, setIsPoslishing] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 

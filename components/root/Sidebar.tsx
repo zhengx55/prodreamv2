@@ -89,10 +89,8 @@ const Sidebar = () => {
         variants={sidebarVariants}
         className='relative hidden shrink-0 flex-col border-r border-r-shadow-border bg-white sm:flex sm:px-2 sm:py-5'
       >
-        <div className='h-[30px]'>
-          <AnimatedLogo show={expandSidebar} />
-          <AnimatedxsLogo show={!expandSidebar} />
-        </div>
+        <AnimatedLogo show={expandSidebar} />
+        <AnimatedxsLogo show={!expandSidebar} />
         <motion.span
           onClick={toggleSidebar}
           whileHover={{

@@ -1,10 +1,10 @@
 'use client';
-import { useActListContext } from '@/context/ActListProvider';
 import { updateUserInfo } from '@/query/api';
 import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
 import { selectUserEmail } from '@/store/reducers/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { IUsage } from '@/types';
+import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { Loader2, Upload } from 'lucide-react';
@@ -24,7 +24,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   const usage = useAppSelector(selectUsage);
   const email = useAppSelector(selectUserEmail);
   const dispatch = useAppDispatch();
-  const { historyData } = useActListContext();
+  const historyData = useRootStore((state) => state.alhistoryData);
   const [isDecoding, setIsDecoding] = useState(false);
   const [decodedData, setDecodedData] = useState<string[]>([]);
   const hasHistoryData = Object.keys(historyData).length > 0;

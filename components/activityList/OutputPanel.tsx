@@ -1,11 +1,11 @@
 'use client';
-import { useActListContext } from '@/context/ActListProvider';
 import { deepEqual } from '@/lib/utils';
 import { updateUserInfo } from '@/query/api';
 import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
 import { selectUserEmail } from '@/store/reducers/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { IUsage } from '@/types';
+import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -27,8 +27,12 @@ const OutputPanel = ({
   };
   const [selected, setSelected] = useState('');
   const [tabs, setTabs] = useState<string[]>([]);
-  const { generatedData, historyData, showEditTut, setShowEditTut } =
-    useActListContext();
+
+  const generatedData = useRootStore((state) => state.algeneratedData);
+  const historyData = useRootStore((state) => state.alhistoryData);
+  const showEditTut = useRootStore((state) => state.showalEditTut);
+  const setShowEditTut = useRootStore((state) => state.setShowalEditTut);
+
   const [content, setContent] = useState<typeof generatedData>({});
   const email = useAppSelector(selectUserEmail);
   const usage = useAppSelector(selectUsage);

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { BrainstormStore, useBrainStorm } from './slice/brainstorm';
 
+import { ActivityListStore, useActListStore } from './slice/activity-list';
 import {
   AIEditorAction,
   AIEditorState,
@@ -17,11 +18,13 @@ const useRootStore = create<
     AIEditorAction &
     GlobalEassyState &
     GlobalEassyAction &
-    BrainstormStore
+    BrainstormStore &
+    ActivityListStore
 >((...a) => ({
   ...useAIEditorStore(...a),
   ...useGlobalEssay(...a),
   ...useBrainStorm(...a),
+  ...useActListStore(...a),
 }));
 
 export default useRootStore;
