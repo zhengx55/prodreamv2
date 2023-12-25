@@ -4,7 +4,6 @@ import useAIEditorStore from '@/zustand/store';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-import Spacer from '../../root/Spacer';
 import { Button } from '../../ui/button';
 import SentenceFragment from './SentenceFragment';
 
@@ -207,7 +206,6 @@ const SuggestionPanel = () => {
           </div>
         )}
       </div>
-      <Spacer y='24' />
       {polishResultB ? (
         <div className='mt-4 w-full shrink-0 cursor-pointer rounded-lg border border-shadow-border px-4 py-3 hover:shadow-xl'>
           <p className={`whitespace-pre-line leading-relaxed`}>
