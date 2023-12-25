@@ -5,7 +5,6 @@ import { m } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import PanelError from '../root/PanelError';
 import RotbotLoader from '../root/RotbotLoader';
 import { PolishNow } from '../root/SvgComponents';
 import Tooltip from '../root/Tooltip';
@@ -46,7 +45,8 @@ const OutcomePanel = ({
     >
       <div className='relative h-full w-full rounded-md bg-white px-6 pb-14 pt-6 shadow-panel'>
         {submitError && !historyData.result ? (
-          <PanelError />
+          // todo
+          <p>error</p>
         ) : (
           <>
             <div className=' h-full w-full select-text overflow-y-auto overflow-x-hidden'>
