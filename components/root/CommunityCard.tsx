@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { Button } from '../ui/button';
 import { memo } from 'react';
+import { Button } from '../ui/button';
 
 const CommunityCard = () => {
   return (
@@ -11,7 +11,7 @@ const CommunityCard = () => {
           className='h-auto w-auto object-contain'
           width={18}
           height={18}
-          alt='discord'
+          alt='social'
           src='/discord.png'
         />
         Discord

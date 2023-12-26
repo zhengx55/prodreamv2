@@ -16,15 +16,15 @@ const Team = () => {
             <Image
               alt='Harvard'
               src='/landing/team/Harvard.png'
-              width={1920}
-              height={920}
+              width={200}
+              height={60}
               className='h-auto w-40'
             />
             <Image
               alt='Founders Hub'
               src='/landing/team/FHubs.png'
-              width={1920}
-              height={920}
+              width={200}
+              height={60}
               className='h-auto w-40'
             />
           </div>
@@ -39,16 +39,18 @@ const Team = () => {
             {TeamMembers.map((item) => (
               <div className='flex flex-col gap-y-3' key={item.id}>
                 <div
-                  className='h-56 w-full overflow-hidden rounded-xl px-4 pt-6'
+                  className='relative h-56 w-full overflow-hidden rounded-xl px-4 pt-6'
                   style={{ backgroundColor: item.background }}
                 >
-                  <Image
-                    alt={item.name}
-                    src={item.image}
-                    width={300}
-                    height={200}
-                    className='h-full w-full object-contain'
-                  />
+                  <div className='relative h-full w-full'>
+                    <Image
+                      alt={item.name}
+                      src={item.image}
+                      fill
+                      className='object-contain'
+                      sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
+                    />
+                  </div>
                 </div>
                 <div className='flex flex-col'>
                   <div className='flex items-center gap-x-1'>

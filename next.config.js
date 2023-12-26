@@ -15,7 +15,7 @@ const nextConfig = {
       },
     ],
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
   compress: true,
   // poweredByHeader: false,
   webpack: (config) => {
