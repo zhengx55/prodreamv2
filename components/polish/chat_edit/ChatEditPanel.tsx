@@ -34,7 +34,6 @@ const ChatEditPanel = () => {
   const [selectedText, setSelectedText] = useState('');
   const listRef = useRef<HTMLUListElement>(null);
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
-
   const editor_instance = useRootStore((state) => state.editor_instance);
   const setSelectedTextHanlder = useDebouncedCallback((value: string) => {
     setSelectedText(value);

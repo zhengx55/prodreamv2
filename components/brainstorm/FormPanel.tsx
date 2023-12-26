@@ -4,7 +4,7 @@ import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
 import type { IBrainStormSection, IBriansotrmReq, Module } from '@/query/type';
 import { selectUserId } from '@/store/reducers/userSlice';
 import { useAppSelector } from '@/store/storehooks';
-import { InputProps } from '@/types';
+import type { InputProps } from '@/types';
 import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { CheckCheck } from 'lucide-react';
