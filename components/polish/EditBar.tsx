@@ -1,11 +1,11 @@
 'use client';
-import React, { memo } from 'react';
-import { Separator } from '../ui/separator';
-import { toast } from 'sonner';
-import Tooltip from '../root/Tooltip';
-import dynamic from 'next/dynamic';
 import useRootStore from '@/zustand/store';
+import dynamic from 'next/dynamic';
+import { memo } from 'react';
+import { toast } from 'sonner';
 import { Copy, Delete, Redo, Undo } from '../root/SvgComponents';
+import Tooltip from '../root/Tooltip';
+import { Separator } from '../ui/separator';
 
 const UploadModal = dynamic(() => import('./UploadModal'), { ssr: false });
 
@@ -35,13 +35,23 @@ const EditBar = () => {
       className={`flex w-full justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1`}
     >
       <Tooltip tooltipContent='Undo ⌘+Z'>
-        <button onClick={handleUndo} className='tool'>
+        <button
+          id='undo'
+          aria-label='Undo Button'
+          onClick={handleUndo}
+          className='tool'
+        >
           <Undo />
         </button>
       </Tooltip>
 
       <Tooltip tooltipContent='Redo ⌘+Y'>
-        <button onClick={handleRedo} className='tool'>
+        <button
+          id='redo'
+          aria-label='Redo Button'
+          onClick={handleRedo}
+          className='tool'
+        >
           <Redo />
         </button>
       </Tooltip>
