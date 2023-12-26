@@ -131,18 +131,18 @@ const Hero = () => {
             <Image
               alt='herodemo-1'
               src='/landing/heros/hero-1.gif'
-              className='z-10 h-auto w-full sm:w-[800px]'
-              width={1920}
-              height={950}
+              className='z-10 h-auto w-full'
+              width={800}
+              height={500}
               priority
             />
           ) : (
             <Image
               alt='herodemo-2'
               src='/landing/heros/hero-2.gif'
-              className='h-auto w-full sm:w-[800px]'
-              width={1920}
-              height={950}
+              className='h-auto w-full'
+              width={800}
+              height={500}
               priority
             />
           )}

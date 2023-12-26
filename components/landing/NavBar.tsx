@@ -9,8 +9,8 @@ const NavBar = () => {
         <div className='flex items-center gap-x-10'>
           <Image
             src='/logo/Prodream.png'
-            width={1920}
-            height={920}
+            width={160}
+            height={30}
             alt='logo'
             className='h-auto w-40 sm:w-36'
             priority

@@ -35,8 +35,8 @@ const Footer = () => {
           <div className='flex flex-col gap-y-5'>
             <Image
               src='/logo/Prodream.png'
-              width={1920}
-              height={920}
+              width={120}
+              height={20}
               alt='logo'
               className='h-auto w-36'
             />

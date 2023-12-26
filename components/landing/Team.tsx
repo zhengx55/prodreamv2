@@ -45,8 +45,8 @@ const Team = () => {
                   <Image
                     alt={item.name}
                     src={item.image}
-                    width={1920}
-                    height={950}
+                    width={300}
+                    height={200}
                     className='h-full w-full object-contain'
                   />
                 </div>

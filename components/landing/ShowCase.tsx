@@ -31,8 +31,8 @@ const ShowCase = () => {
                 alt={item.title}
                 src={item.image}
                 className='h-auto w-[600px] object-contain'
-                width={1920}
-                height={920}
+                width={600}
+                height={400}
               />
             </motion.div>
 

@@ -49,8 +49,8 @@ const Story = () => {
                 <Image
                   alt={item.alt}
                   src={item.image}
-                  width={1920}
-                  height={920}
+                  width={500}
+                  height={300}
                   className='h-full w-auto'
                 />
               </SwiperSlide>
@@ -69,8 +69,8 @@ const Story = () => {
                 <Image
                   alt={item.alt}
                   src={item.image}
-                  width={1920}
-                  height={920}
+                  width={500}
+                  height={300}
                   className='h-auto w-full'
                 />
               </SwiperSlide>
