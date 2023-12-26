@@ -1,24 +1,18 @@
 'use client';
 import { queryPolish, submitPolish } from '@/query/api';
-import { usePreDefinedOptions } from '@/query/query';
 import { IPolishParams } from '@/query/type';
 import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useDebouncedCallback from 'beautiful-react-hooks/useDebouncedCallback';
 import useToggle from 'beautiful-react-hooks/useToggle';
 import { AnimatePresence } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import { SetStateAction, memo, useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import Spacer from '../../root/Spacer';
-import EditiorLoading from '../EditiorLoading';
+import PresetOptions from '../rightbar/PresetOptions';
 import ChatEditInputField from './ChatEditInputField';
 import ChatEditResItem from './ChatEditResItem';
-
-const PresetOptions = dynamic(() => import('../rightbar/PresetOptions'), {
-  ssr: false,
-});
 
 type IChatEditItem = {
   original: string;
@@ -40,7 +34,7 @@ const ChatEditPanel = () => {
   const [selectedText, setSelectedText] = useState('');
   const listRef = useRef<HTMLUListElement>(null);
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
-  const { data: options, isPending: isOptionsLoading } = usePreDefinedOptions();
+
   const editor_instance = useRootStore((state) => state.editor_instance);
   const setSelectedTextHanlder = useDebouncedCallback((value: string) => {
     setSelectedText(value);
@@ -136,7 +130,6 @@ const ChatEditPanel = () => {
     },
   });
 
-  if (isOptionsLoading) return <EditiorLoading />;
   return (
     <div className='relative flex min-h-full w-1/2 flex-col justify-between overflow-y-hidden'>
       <ul
@@ -165,7 +158,6 @@ const ChatEditPanel = () => {
       <PresetOptions
         isPolishing={isPolishing}
         polish={polish}
-        options={options}
         selectedText={selectedText}
         removeSelected={memoRemoveSelectedText}
       />
