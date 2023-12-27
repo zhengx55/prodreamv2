@@ -55,7 +55,7 @@ export default function RootLayout({
             <StoreProvider>
               <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1400px]'>
                 {children}
-                <Toaster richColors visibleToasts={1} />{' '}
+                <Toaster richColors visibleToasts={1} />
                 {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
                   <GoogleAnalytics />
                 ) : null}

@@ -5,7 +5,6 @@ import {
   A4_WIDTH_PX,
   LETTER_WIDTH_PT,
 } from '@/constant/pdfsize';
-import dynamic from 'next/dynamic';
 import { ReactNode, useMemo } from 'react';
 import Frame from 'react-frame-component';
 
@@ -81,6 +80,4 @@ function ResumeFrame({
   );
 }
 
-export const ResumeIframeCSR = dynamic(() => Promise.resolve(ResumeFrame), {
-  ssr: false,
-});
+export default ResumeFrame;
