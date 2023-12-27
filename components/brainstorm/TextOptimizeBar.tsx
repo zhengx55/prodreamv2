@@ -1,5 +1,4 @@
 import { useAnswerOptimize } from '@/query/query';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo } from 'react';
 import { toast } from 'sonner';
@@ -91,9 +90,4 @@ const OptimizeBar = ({
   );
 };
 
-const TextOptimizeBar = dynamic(() => Promise.resolve(OptimizeBar), {
-  ssr: false,
-});
-const MemoizedTextOptimizeBar = memo(TextOptimizeBar);
-
-export { MemoizedTextOptimizeBar as TextOptimizeBar };
+export default memo(OptimizeBar);

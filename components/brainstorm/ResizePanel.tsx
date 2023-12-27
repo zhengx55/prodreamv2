@@ -1,10 +1,14 @@
 'use client';
-import FormPanel from '@/components/brainstorm/FormPanel';
 import OutputPanel from '@/components/brainstorm/OutputPanel';
 import { IBrainStormSection } from '@/query/type';
 import { Grid } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-
+import Loading from '../root/CustomLoading';
+const FormPanel = dynamic(() => import('@/components/brainstorm/FormPanel'), {
+  ssr: false,
+  loading: () => <Loading />,
+});
 type Props = { template_data: IBrainStormSection };
 
 const ResizePanel = ({ template_data }: Props) => {

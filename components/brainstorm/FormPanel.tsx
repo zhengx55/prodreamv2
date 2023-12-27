@@ -15,7 +15,7 @@ import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import { Textarea } from '../ui/textarea';
-import { TextOptimizeBar } from './TextOptimizeBar';
+import TextOptimizeBar from './TextOptimizeBar';
 
 const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
   const user_id = useAppSelector(selectUserId);
