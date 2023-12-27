@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 // import { i18n } from '@/i18n.config';
 import { siteConfig } from '@/config/siteConfig';
+import GoogleAnalytics from '@/google/GoogleAnalytics';
 import StoreProvider from '@/store/storeProvider';
 import { Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
@@ -59,8 +60,10 @@ export default function RootLayout({
             <StoreProvider>
               <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1400px]'>
                 {children}
-                <Toaster richColors visibleToasts={1} />
-                {/* <Analytics /> */}
+                <Toaster richColors visibleToasts={1} />{' '}
+                {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+                  <GoogleAnalytics />
+                ) : null}
               </main>
             </StoreProvider>
           </TanstackProvider>
