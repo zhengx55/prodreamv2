@@ -225,3 +225,9 @@ export type SiteConfig = {
     github: string;
   };
 };
+
+export interface IEvaluationHistory {
+  text: string;
+  id: string;
+  create_time: number;
+}
