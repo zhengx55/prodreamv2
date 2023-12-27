@@ -5,6 +5,7 @@ import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useDebouncedCallback from 'beautiful-react-hooks/useDebouncedCallback';
 import useToggle from 'beautiful-react-hooks/useToggle';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { AnimatePresence } from 'framer-motion';
 import { SetStateAction, memo, useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -38,6 +39,11 @@ const ChatEditPanel = () => {
   const setSelectedTextHanlder = useDebouncedCallback((value: string) => {
     setSelectedText(value);
   });
+
+  useUnmount(() => {
+    setSelectedTextHanlder.cancel();
+  });
+
   editor_instance?.on('focus', ({ editor }) => {
     if (hasHighLight) {
       toggleHasHighlight();

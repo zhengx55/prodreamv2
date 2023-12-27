@@ -1,5 +1,5 @@
-export default function Polish() {
-  return (
-    <main className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full overflow-y-auto'></main>
-  );
+import EvaluationHistory from '@/components/polish/history';
+
+export default function Page() {
+  return <EvaluationHistory />;
 }
