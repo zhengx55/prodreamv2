@@ -1,31 +1,54 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { memo } from 'react';
 import { Button } from '../ui/button';
 
 const CommunityCard = () => {
   return (
-    <div className='absolute bottom-4 hidden h-[180px] w-[90%] items-center gap-y-3 rounded-lg border border-primary-200 px-4 py-2 md:flex md:flex-col'>
-      <p className='small-regular text-center'>Join our community</p>
-      <Button variant={'secondary'} className='w-[130px] gap-x-1 bg-primary-50'>
-        <Image
-          className='h-auto w-auto object-contain'
-          width={18}
-          height={18}
-          alt='social'
-          src='/discord.png'
-        />
-        Discord
-      </Button>
-      <Button variant={'secondary'} className='w-[130px] gap-x-1 bg-primary-50'>
-        <Image
-          className='h-auto w-auto object-contain'
-          alt='ins'
-          width={18}
-          height={18}
-          src='/instagram.png'
-        />
-        Instagram
-      </Button>
+    <div className='absolute bottom-4 flex h-[250px] w-[90%] flex-col items-center gap-y-3 rounded-lg border border-shadow-border px-4 py-2 shadow-lg'>
+      <Image
+        alt='community'
+        src='/social.png'
+        width={130}
+        height={50}
+        className='h-auto w-full'
+      />
+      <h1 className='base-semibold text-center'>Join our community</h1>
+
+      <div className='flex items-center gap-x-2'>
+        <Link
+          passHref
+          href={'https://discord.com/invite/h37uz8HYSH'}
+          target='_blank'
+        >
+          <Button variant={'secondary'} className='w-max bg-primary-50'>
+            <Image
+              className='h-5 w-5 object-contain'
+              width={18}
+              height={18}
+              alt='social'
+              src='/discord.png'
+            />
+          </Button>
+        </Link>
+        <Link
+          passHref
+          href={
+            'https://www.instagram.com/quickapplysuccess/?igshid=MzRlODBiNWFlZA%3D%3D'
+          }
+          target='_blank'
+        >
+          <Button variant={'secondary'} className='w-max bg-primary-50'>
+            <Image
+              className='h-5 w-5 object-contain'
+              alt='ins'
+              width={18}
+              height={18}
+              src='/instagram.png'
+            />
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };
