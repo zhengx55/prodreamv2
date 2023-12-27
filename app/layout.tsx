@@ -1,13 +1,13 @@
+import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import { ThemeProvider } from '@/context/ThemeProvider';
-import type { Metadata } from 'next';
-import './globals.css';
-// import { i18n } from '@/i18n.config';
-import { siteConfig } from '@/config/siteConfig';
 import GoogleAnalytics from '@/google/GoogleAnalytics';
 import StoreProvider from '@/store/storeProvider';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
+import './globals.css';
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
@@ -64,6 +64,7 @@ export default function RootLayout({
                 {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
                   <GoogleAnalytics />
                 ) : null}
+                <SpeedInsights />
               </main>
             </StoreProvider>
           </TanstackProvider>
