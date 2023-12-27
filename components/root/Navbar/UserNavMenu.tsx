@@ -50,7 +50,6 @@ const UserNavMenu = () => {
   return (
     <NavigationMenu className='z-50'>
       <NavigationMenuList>
-        {' '}
         <NavigationMenuItem>
           <NavigationMenuTrigger asChild>
             <div className='group'>

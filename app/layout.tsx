@@ -28,11 +28,6 @@ export const metadata: Metadata = {
   title: siteConfig.name,
   creator: 'applify-ai',
   description: siteConfig.description,
-  icons: {
-    icon: '/config/favicon.ico',
-    shortcut: '/config/favicon-16x16.png',
-    apple: '/config/apple-touch-icon.png',
-  },
   twitter: {
     card: 'summary_large_image',
     title: siteConfig.name,
@@ -64,7 +59,9 @@ export default function RootLayout({
                 {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
                   <GoogleAnalytics />
                 ) : null}
-                <SpeedInsights />
+                {process.env.NODE_ENV === 'production' ? (
+                  <SpeedInsights />
+                ) : null}
               </main>
             </StoreProvider>
           </TanstackProvider>
