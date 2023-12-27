@@ -7,6 +7,7 @@ import {
   IBriansotrmReq,
   IChatHistoryData,
   IChatRequest,
+  IChatSessionData,
   IEssayAssessData,
   IEssayAssessRequest,
   IGenerateActListParams,
@@ -929,7 +930,9 @@ export async function fetchChatHistory(): Promise<IChatHistoryData[]> {
   }
 }
 
-export async function fetchSessionHistory(session_id: string) {
+export async function fetchSessionHistory(
+  session_id: string
+): Promise<IChatSessionData[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
