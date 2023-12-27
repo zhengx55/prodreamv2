@@ -1,3 +1,4 @@
+import { AnswerRequestParam } from '@/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   OptimizeAnswer,
@@ -6,12 +7,10 @@ import {
   fetchFinalAs,
   fetchSessionHistory,
   getBrainstormDetails,
-  getBrianstormHistoryById,
   getPreDefinedOptions,
   refreshUserSession,
   sendChatMessage,
 } from './api';
-import { AnswerRequestParam } from '@/types';
 
 // ============================================================
 // BRAINSOTRM QUERIES
@@ -21,13 +20,6 @@ export const useBrainStormDetail = (template_id: string) => {
     queryKey: ['brainstormdetail', template_id],
     enabled: !!template_id,
     queryFn: () => getBrainstormDetails(template_id),
-  });
-};
-export const useBrainStormHistoryById = (template_id: string) => {
-  return useQuery({
-    queryKey: ['brainsotrmhistory', template_id],
-    enabled: !!template_id,
-    queryFn: () => getBrianstormHistoryById(template_id),
   });
 };
 

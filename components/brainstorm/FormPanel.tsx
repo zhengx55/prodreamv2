@@ -1,5 +1,6 @@
 'use client';
 import { Switch } from '@/components/ui/switch';
+import clearCachesByServerAction from '@/lib/revalidate';
 import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
 import type { IBrainStormSection, IBriansotrmReq, Module } from '@/query/type';
 import { selectUserId } from '@/store/reducers/userSlice';
@@ -146,7 +147,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
 
   const { mutateAsync: handleBrainstorm } = useMutation({
     mutationFn: (params: IBriansotrmReq) => SubmitEssayWritting(params),
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       queryTimer.current = setInterval(async () => {
         const res = await queryEssayResult(data);
         setStartTyping(true);
@@ -160,6 +161,9 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
           clearInterval(queryTimer.current);
           setEassyResult(res.text);
           setIsSubmiting(false);
+          clearCachesByServerAction(
+            `/writtingpal/brainstorm/${variables.template_id}`
+          );
         }
       }, 2000);
     },
