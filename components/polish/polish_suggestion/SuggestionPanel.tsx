@@ -2,7 +2,7 @@ import { getDiffSentencesPair, getSubStrPos } from '@/lib/utils';
 import { IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
 import escapeStringRegExp from 'escape-string-regexp';
-import { AnimatePresence, m } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { Button } from '../../ui/button';
@@ -247,7 +247,7 @@ const SuggestionPanel = () => {
             const isHide = item.hide;
             if (isHide) return null;
             return (
-              <m.div
+              <motion.div
                 onClick={() => (isExpanded ? close(index) : expand(index))}
                 layout='size'
                 style={{ height: isExpanded ? 'auto' : '48px' }}
@@ -256,7 +256,7 @@ const SuggestionPanel = () => {
               >
                 {isExpanded && (
                   <>
-                    <m.p
+                    <motion.p
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -278,8 +278,8 @@ const SuggestionPanel = () => {
                           />
                         );
                       })}
-                    </m.p>
-                    <m.div
+                    </motion.p>
+                    <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -305,12 +305,12 @@ const SuggestionPanel = () => {
                       >
                         Dismiss
                       </Button>
-                    </m.div>
+                    </motion.div>
                   </>
                 )}
 
                 {!isExpanded && (
-                  <m.p
+                  <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -333,9 +333,9 @@ const SuggestionPanel = () => {
                         />
                       );
                     })}
-                  </m.p>
+                  </motion.p>
                 )}
-              </m.div>
+              </motion.div>
             );
           })}
         </AnimatePresence>
