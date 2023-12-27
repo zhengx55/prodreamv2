@@ -7,7 +7,7 @@ const EssayPanel = dynamic(() => import('@/components/polish/EssayPanel'), {
   loading: () => <Loading />,
 });
 
-export default function Polish() {
+export default function Page() {
   return (
     <main className='relative hidden h-[calc(100%_-var(--top-nav-bar-height))] w-full overflow-hidden pr-[240px] sm:flex'>
       <EssayPanel />

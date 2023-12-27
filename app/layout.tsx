@@ -13,6 +13,7 @@ const poppins = Poppins({
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
   variable: '--poppins-font',
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -35,7 +36,6 @@ export const metadata: Metadata = {
     // images: [`${siteConfig.url}/og.jpg`],
     creator: '@applify-ai',
   },
-  // manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
 // export async function generateStaticParams() {

@@ -1,5 +1,4 @@
 import ResizePanel from '@/components/brainstorm/ResizePanel';
-import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import { IBrainStormSection } from '@/query/type';
 import { cookies } from 'next/headers';
 
@@ -24,9 +23,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className='flex h-full w-full overflow-y-hidden bg-sectionBackground'>
-      <LazyMotionProvider>
-        <ResizePanel template_data={template_data} />
-      </LazyMotionProvider>
+      <ResizePanel template_data={template_data} />
     </main>
   );
 }

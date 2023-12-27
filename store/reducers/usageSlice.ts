@@ -1,11 +1,19 @@
 /**
  * 用于储存用户使用信息
  */
+import { IUsage } from '@/types';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { type RootState } from '../store';
-import { IUsage } from '@/types';
 
-const initialUsageState = {} as IUsage;
+const initialUsageState = {
+  first_editior: false,
+  first_brainstorm: false,
+  first_resume: false,
+  first_activity_list: false,
+  first_activity_list_upload: false,
+  first_activity_list_generate: false,
+  first_activity_list_edit: false,
+} as IUsage;
 
 export const usageSlice = createSlice({
   name: 'usage',

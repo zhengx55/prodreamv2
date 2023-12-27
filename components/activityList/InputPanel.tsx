@@ -39,9 +39,8 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   ]);
 
   const isFirstTimeUpload =
-    Object.keys(usage).length > 0 &&
-    (usage.first_activity_list_upload ||
-      usage.first_activity_list_upload === undefined);
+    usage.first_activity_list_upload ||
+    usage.first_activity_list_upload === undefined;
 
   const toogleIsGenerating = useCallback((value: boolean) => {
     setIsGenerating(value);
