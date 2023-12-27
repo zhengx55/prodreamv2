@@ -12,6 +12,16 @@ type BrianStormState = {
   bsstartTyping: boolean;
   bstutorial: Record<string, BrainStormInput>;
 };
+
+const initialState: BrianStormState = {
+  bshistoryData: { template_id: '', result: '', questionAnswerPair: {} },
+  bsisSubmiting: false,
+  bsstartTyping: false,
+  bseassyResult: '',
+  bssubmitError: '',
+  bstutorial: {},
+};
+
 type BrianStormAction = {
   updatebsHistoryData: (result: BrianStormState['bshistoryData']) => void;
   updatebsIsSubmiting: (result: boolean) => void;
@@ -20,17 +30,13 @@ type BrianStormAction = {
   updatebsStartTyping: (result: boolean) => void;
   updatebsTutorial: (result: BrianStormState['bstutorial']) => void;
   resetbsHistoryData: () => void;
+  resetbsData: () => void;
 };
 
 export type BrainstormStore = BrianStormState & BrianStormAction;
 
 export const useBrainStorm: StateCreator<BrainstormStore> = (set) => ({
-  bshistoryData: { template_id: '', result: '', questionAnswerPair: {} },
-  bsisSubmiting: false,
-  bsstartTyping: false,
-  bseassyResult: '',
-  bssubmitError: '',
-  bstutorial: {},
+  ...initialState,
   updatebsEassyResult: (result) =>
     set(() => ({
       bseassyResult: result,
@@ -60,4 +66,7 @@ export const useBrainStorm: StateCreator<BrainstormStore> = (set) => ({
       bshistoryData: { template_id: '', result: '', questionAnswerPair: {} },
       bseassyResult: '',
     })),
+  resetbsData: () => {
+    set(initialState);
+  },
 });

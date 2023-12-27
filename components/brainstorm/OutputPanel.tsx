@@ -7,11 +7,9 @@ import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { useCallback, useRef, useState } from 'react';
 import Spacer from '../root/Spacer';
-const HistoryPanel = dynamic(() => import('./HistoryPanel'), {
-  ssr: false,
-});
-const OutcomePanel = dynamic(() => import('./OutcomePanel'), { ssr: false });
-const TutorialPanel = dynamic(() => import('./TutorialPanel'), { ssr: false });
+const HistoryPanel = dynamic(() => import('./HistoryPanel'));
+const OutcomePanel = dynamic(() => import('./OutcomePanel'));
+const TutorialPanel = dynamic(() => import('./TutorialPanel'));
 
 const OutputPanel = ({ history }: { history: IBrainstormHistory }) => {
   const [tab, setTab] = useState<number>(0);
@@ -20,13 +18,13 @@ const OutputPanel = ({ history }: { history: IBrainstormHistory }) => {
   const IncrementWordCount = useCallback(() => {
     setAnimatedWordCount((prev) => prev + 1);
   }, []);
-  const resetHistory = useRootStore((state) => state.resetbsHistoryData);
+  const resetbsData = useRootStore((state) => state.resetbsData);
   const handleTabChange = useCallback((value: number) => {
     setTab(value);
   }, []);
 
   useUnmount(() => {
-    resetHistory();
+    resetbsData();
   });
 
   return (
