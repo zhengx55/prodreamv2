@@ -1,5 +1,4 @@
 'use client';
-import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import { selectUsage } from '@/store/reducers/usageSlice';
 import { useAppSelector } from '@/store/storehooks';
 import dynamic from 'next/dynamic';
@@ -16,9 +15,9 @@ export default function AIEditiorLayout({ children }: { children: ReactNode }) {
     }
   }, [usage]);
   return (
-    <LazyMotionProvider>
+    <>
       {children}
       {isFirstTime ? <OnboardModal /> : null}
-    </LazyMotionProvider>
+    </>
   );
 }

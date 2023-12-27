@@ -4,6 +4,7 @@ import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import EditiorLoading from './EditiorLoading';
+import Tiptap from './Editor';
 const SuggestionPanel = dynamic(
   () => import('./polish_suggestion/SuggestionPanel'),
   {
@@ -11,7 +12,6 @@ const SuggestionPanel = dynamic(
     loading: () => <EditiorLoading />,
   }
 );
-const Tiptap = dynamic(() => import('./Editor'), { ssr: false });
 const ChatEditPanel = dynamic(() => import('./chat_edit/ChatEditPanel'), {
   ssr: false,
   loading: () => <EditiorLoading />,

@@ -1,15 +1,12 @@
 'use client';
 import useRootStore from '@/zustand/store';
-import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import { toast } from 'sonner';
 import { Copy, Delete, Redo, Undo } from '../root/SvgComponents';
 import Tooltip from '../root/Tooltip';
 import { Separator } from '../ui/separator';
-
-const UploadModal = dynamic(() => import('./UploadModal'), { ssr: false });
-
-const DownloadModal = dynamic(() => import('./DownloadModal'), { ssr: false });
+import DownloadModal from './DownloadModal';
+import UploadModal from './UploadModal';
 
 const EditBar = () => {
   const editor_instance = useRootStore((state) => state.editor_instance);
