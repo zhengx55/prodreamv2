@@ -4,27 +4,20 @@ import {
   deepEqual,
   formatTimestamphh,
 } from '@/lib/utils';
-import { useBrainStormHistoryById } from '@/query/query';
+import { IBrainstormHistory } from '@/query/type';
 import { InputProps } from '@/types';
 import useRootStore from '@/zustand/store';
 import { m } from 'framer-motion';
-import { usePathname } from 'next/navigation';
 import { memo } from 'react';
-import Loading from '../root/CustomLoading';
 const HistoryPanel = ({
   handleTabChange,
+  data,
 }: {
   handleTabChange: (value: number) => void;
+  data: IBrainstormHistory;
 }) => {
-  const path = usePathname();
   const historyData = useRootStore((state) => state.bshistoryData);
   const setHistoryData = useRootStore((state) => state.updatebsHistoryData);
-
-  const id = path.split('/')[path.split('/').length - 1];
-  const { isPending, data } = useBrainStormHistoryById(id);
-  if (isPending) {
-    return <Loading />;
-  }
   const handleSelectHistory = (item: {
     template_id: string;
     create_time: string;
@@ -65,23 +58,22 @@ const HistoryPanel = ({
       className='grid w-full grid-cols-2 gap-x-4 gap-y-4'
     >
       {/* Card */}
-      {!isPending &&
-        data?.data?.map((item, index) => {
-          return (
-            <div
-              onClick={() => handleSelectHistory(item)}
-              key={`history-${item.template_id}-${index}`}
-              className='flex cursor-pointer flex-col justify-between rounded-lg bg-white p-4 hover:border hover:border-primary-200 md:h-[200px] md:w-[full]'
-            >
-              <p className='small-regular line-clamp-6 text-left text-shadow'>
-                {item.result}
-              </p>
-              <p className='small-regular text-primary-200'>
-                {formatTimestamphh(item.create_time)}
-              </p>
-            </div>
-          );
-        })}
+      {data.data.map((item, index) => {
+        return (
+          <div
+            onClick={() => handleSelectHistory(item)}
+            key={`history-${item.template_id}-${index}`}
+            className='flex cursor-pointer flex-col justify-between rounded-lg bg-white p-4 hover:border hover:border-primary-200 md:h-[200px] md:w-[full]'
+          >
+            <p className='small-regular line-clamp-6 text-left text-shadow'>
+              {item.result}
+            </p>
+            <p className='small-regular text-primary-200'>
+              {formatTimestamphh(item.create_time)}
+            </p>
+          </div>
+        );
+      })}
     </m.div>
   );
 };
