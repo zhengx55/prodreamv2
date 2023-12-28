@@ -1,7 +1,6 @@
 import EvaluationHistory from '@/components/polish/history';
 import { IEvaluationHistory } from '@/types';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 async function getEvaluationHistory(
   token: string
 ): Promise<IEvaluationHistory[]> {
@@ -19,8 +18,6 @@ async function getEvaluationHistory(
 export default async function Page() {
   const cookieStore = cookies();
   const cookie = cookieStore.get('token');
-  if (!cookie?.value) redirect('/login');
-  const history = await getEvaluationHistory(cookie.value);
-
+  const history = await getEvaluationHistory(cookie!.value);
   return <EvaluationHistory history_list={history} />;
 }

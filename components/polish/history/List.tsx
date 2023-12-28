@@ -17,7 +17,7 @@ const List = ({ history_list }: Props) => {
       next={() => {}}
       loader={<Loading />}
     >
-      <div className='grid w-full grid-flow-row grid-cols-6 gap-x-4 gap-y-8 px-4 2xl:grid-cols-7'>
+      <div className='grid w-full grid-flow-row grid-cols-5 gap-x-6 gap-y-8 px-6 2xl:grid-cols-6'>
         <div className='flex h-[250px] w-full flex-col gap-y-4'>
           <span
             className='flex-center h-1/2 w-full cursor-pointer gap-x-2 rounded-lg hover:opacity-50'

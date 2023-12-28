@@ -11,6 +11,7 @@ const CommunityCard = () => {
         src='/social.png'
         width={130}
         height={50}
+        priority
         className='h-auto w-full'
       />
       <h1 className='base-semibold text-center'>Join our community</h1>
@@ -26,6 +27,7 @@ const CommunityCard = () => {
               className='h-5 w-5 object-contain'
               width={18}
               height={18}
+              priority
               alt='social'
               src='/discord.png'
             />
@@ -44,6 +46,7 @@ const CommunityCard = () => {
               alt='ins'
               width={18}
               height={18}
+              priority
               src='/instagram.png'
             />
           </Button>

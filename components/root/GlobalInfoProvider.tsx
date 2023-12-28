@@ -11,7 +11,7 @@ import { useCookies } from 'react-cookie';
 
 const GlobalInfoProvider = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
-  const [cookies, setCookie] = useCookies(['token']);
+  const [_cookies, setCookie] = useCookies(['token']);
 
   useMount(() => {
     async function refreshUserInfo() {
@@ -33,11 +33,8 @@ const GlobalInfoProvider = ({ children }: { children: ReactNode }) => {
         redirect('/login');
       }
     }
-    if (!cookies.token) {
-      redirect('/login');
-    } else {
-      refreshUserInfo();
-    }
+
+    refreshUserInfo();
   });
 
   return children;

@@ -12,6 +12,7 @@ import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import Spacer from '../root/Spacer';
+import { Input } from '../ui/input';
 import EditBar from './EditBar';
 
 const Tiptap = ({ content }: { content: string }) => {
@@ -71,12 +72,20 @@ const Tiptap = ({ content }: { content: string }) => {
   return (
     <div
       aria-label='editor-parent'
-      className='flex h-[calc(100%_-50px)] w-full flex-col rounded-lg pb-2'
+      className='flex h-[calc(100%_-125px)] w-full flex-col rounded-lg pb-2'
     >
       <EditBar />
-      <Spacer y='10' />
+      <Spacer y='16' />
+      <div className='flex h-12 w-full shrink-0 border-b-2 border-shadow-border'>
+        <Input
+          placeholder={'Untitled Document'}
+          type='text'
+          className='title-semibold h-full border-none p-0 shadow-none focus-visible:ring-0'
+        />
+      </div>
+      <Spacer y='16' />
       <EditorContent className='min-h-full overflow-y-auto' editor={editor} />
-      <div className='flex-between flex h-12 w-full'>
+      <div className='flex-between flex h-12 w-full px-0'>
         <p className='small-semibold text-shadow-100'>
           {editor.storage.characterCount.words()}
           &nbsp;Words
