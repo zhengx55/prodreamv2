@@ -231,3 +231,27 @@ export interface IEvaluationHistory {
   id: string;
   create_time: number;
 }
+
+export interface IEssayEvaluationDetail {
+  result: Result;
+  text: string;
+}
+
+export interface Result {
+  detail: Detail[];
+  head: string;
+  score: number;
+}
+
+export interface Detail {
+  comment: Comment;
+  level: number | number;
+  order: number;
+  title: string;
+}
+
+export interface Comment {
+  evaluation: string;
+  example: string;
+  suggestion: string;
+}

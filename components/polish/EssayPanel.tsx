@@ -1,4 +1,5 @@
 'use client';
+import { IEssayEvaluationDetail } from '@/types';
 import useAIEditorStore from '@/zustand/store';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -11,13 +12,13 @@ const SuggestionPanel = dynamic(
     loading: () => <EditiorLoading />,
   }
 );
-const Tiptap = dynamic(() => import('./Editor'));
+const Tiptap = dynamic(() => import('./Editor'), { ssr: false });
 const ChatEditPanel = dynamic(() => import('./chat_edit/ChatEditPanel'), {
   ssr: false,
   loading: () => <EditiorLoading />,
 });
 
-const EssayPanel = () => {
+const EssayPanel = ({ detail }: { detail: IEssayEvaluationDetail | null }) => {
   const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
   const isPolishing = useAIEditorStore((state) => state.isPolishing);
   const polishResult = useAIEditorStore((state) => state.polishResult);
@@ -48,7 +49,7 @@ const EssayPanel = () => {
         style={{ width: isMultiScreen ? '50%' : '66.666667%' }}
         className='flex h-full flex-col'
       >
-        <Tiptap />
+        <Tiptap content={detail ? detail.text : ''} />
       </motion.div>
       {isChatEditMode ? (
         <ChatEditPanel />

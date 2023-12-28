@@ -14,7 +14,7 @@ import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import Spacer from '../root/Spacer';
 import EditBar from './EditBar';
 
-const Tiptap = () => {
+const Tiptap = ({ content }: { content: string }) => {
   const globalEssay = useRootStore((state) => state.eassy);
   const updateGlobalEssay = useRootStore((state) => state.updateEssay);
   const reset = useRootStore((state) => state.reset);
@@ -47,12 +47,14 @@ const Tiptap = () => {
     },
     injectCSS: false,
     autofocus: true,
-    content: globalEssay
-      ? `${globalEssay
-          .split(/\n\s*\n/)
-          .map((paragraph) => `<p>${paragraph}</p>`)
-          .join('')}`
-      : '',
+    content: content
+      ? content
+      : globalEssay
+        ? `${globalEssay
+            .split(/\n\s*\n/)
+            .map((paragraph) => `<p>${paragraph}</p>`)
+            .join('')}`
+        : '',
     parseOptions: {
       preserveWhitespace: 'full',
     },
