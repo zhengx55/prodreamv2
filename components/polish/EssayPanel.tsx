@@ -8,13 +8,11 @@ import EditiorLoading from './EditiorLoading';
 const SuggestionPanel = dynamic(
   () => import('./polish_suggestion/SuggestionPanel'),
   {
-    ssr: false,
     loading: () => <EditiorLoading />,
   }
 );
-const Tiptap = dynamic(() => import('./Editor'), { ssr: false });
+const Tiptap = dynamic(() => import('./Editor'));
 const ChatEditPanel = dynamic(() => import('./chat_edit/ChatEditPanel'), {
-  ssr: false,
   loading: () => <EditiorLoading />,
 });
 

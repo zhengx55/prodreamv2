@@ -12,10 +12,8 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import Card from './Card';
-const DeleteModal = dynamic(() => import('../DeleteModal'), { ssr: false });
-const HistoryDropDown = dynamic(() => import('./HistoryDropDown'), {
-  ssr: false,
-});
+const DeleteModal = dynamic(() => import('../DeleteModal'));
+const HistoryDropDown = dynamic(() => import('./HistoryDropDown'));
 type Props = {
   item: IActHistoryData;
 };

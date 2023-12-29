@@ -7,11 +7,9 @@ import Spacer from '../../root/Spacer';
 import { Button } from '../../ui/button';
 import { Separator } from '../../ui/separator';
 
-const ReportSheet = dynamic(() => import('./ReportSheet'), { ssr: false });
-const PolishModal = dynamic(() => import('./PolishModal'), { ssr: false });
-const PlagReportSheet = dynamic(() => import('./PlagReportSheet'), {
-  ssr: false,
-});
+const ReportSheet = dynamic(() => import('./ReportSheet'));
+const PolishModal = dynamic(() => import('./PolishModal'));
+const PlagReportSheet = dynamic(() => import('./PlagReportSheet'));
 
 const Rightbar = () => {
   const setChatEditMode = useAIEditorStore(

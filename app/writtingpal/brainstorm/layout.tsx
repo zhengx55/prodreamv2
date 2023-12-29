@@ -5,10 +5,7 @@ import { useAppSelector } from '@/store/storehooks';
 import dynamic from 'next/dynamic';
 import { ReactNode, useEffect, useState } from 'react';
 const OnboardModal = dynamic(
-  () => import('@/components/brainstorm/OnboardModal'),
-  {
-    ssr: false,
-  }
+  () => import('@/components/brainstorm/OnboardModal')
 );
 export default function BrainstormLayout({
   children,

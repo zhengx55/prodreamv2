@@ -17,7 +17,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import PolishLoader from './PolishLoader';
-const DeleteModal = dynamic(() => import('./DeleteModal'), { ssr: false });
+const DeleteModal = dynamic(() => import('./DeleteModal'));
 
 type Props = {
   dataType: 'generated' | 'history';

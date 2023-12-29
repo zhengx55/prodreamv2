@@ -5,8 +5,7 @@ import { useAppSelector } from '@/store/storehooks';
 import dynamic from 'next/dynamic';
 import { ReactNode, useEffect, useState } from 'react';
 const OnboardModal = dynamic(
-  () => import('@/components/activityList/OnboardModal'),
-  { ssr: false }
+  () => import('@/components/activityList/OnboardModal')
 );
 
 export default function ActListLayout({ children }: { children: ReactNode }) {

@@ -5,8 +5,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 const AnimatedLayout = dynamic(
-  () => import('@/components/welcome/AnimatedLayout'),
-  { ssr: false }
+  () => import('@/components/welcome/AnimatedLayout')
 );
 
 export default async function Page() {

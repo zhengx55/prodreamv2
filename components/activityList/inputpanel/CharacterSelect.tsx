@@ -15,7 +15,7 @@ import dynamic from 'next/dynamic';
 import { ChangeEvent, memo, useState } from 'react';
 import { toast } from 'sonner';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-const TutCard = dynamic(() => import('../../root/TutCard'), { ssr: false });
+const TutCard = dynamic(() => import('../../root/TutCard'));
 
 type IDescriptionItem = {
   id: string;

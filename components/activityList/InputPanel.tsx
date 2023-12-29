@@ -18,7 +18,7 @@ import Description from './inputpanel/Description';
 
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 const Activityloader = dynamic(() => import('./Activityloader'));
-const TutCard = dynamic(() => import('../root/TutCard'), { ssr: false });
+const TutCard = dynamic(() => import('../root/TutCard'));
 
 const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   const usage = useAppSelector(selectUsage);

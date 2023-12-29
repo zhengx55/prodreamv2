@@ -9,7 +9,7 @@ import { memo, useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import Tooltip from '../root/Tooltip';
 import EditCard from './EditCard';
-const DeleteModal = dynamic(() => import('./DeleteModal'), { ssr: false });
+const DeleteModal = dynamic(() => import('./DeleteModal'));
 type Props = {
   dataType: 'generated' | 'history';
   type: string;
