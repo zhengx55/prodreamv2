@@ -8,6 +8,7 @@ import {
   fetchSessionHistory,
   getBrainstormDetails,
   getPreDefinedOptions,
+  getReferralCount,
   refreshUserSession,
   sendChatMessage,
 } from './api';
@@ -97,5 +98,15 @@ export const usePreDefinedOptions = () => {
   return useQuery({
     queryKey: ['fetch_predefined_options'],
     queryFn: () => getPreDefinedOptions(),
+  });
+};
+
+// ----------------------------------------------------------------
+// Referals
+// ----------------------------------------------------------------
+export const useReferralsCount = () => {
+  return useQuery({
+    queryKey: ['referrals_count'],
+    queryFn: () => getReferralCount(),
   });
 };

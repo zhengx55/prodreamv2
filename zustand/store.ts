@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create, useStore } from 'zustand';
 import { ActivityListStore, useActListStore } from './slice/activity-list';
 import { AIEditiorStore, useAIEditorStore } from './slice/ai-editor';
 import { BrainstormStore, useBrainStorm } from './slice/brainstorm';
@@ -20,5 +20,9 @@ const useRootStore = create<
   ...useBrainStorm(...a),
   ...useActListStore(...a),
 }));
+
+export function useAIEditor<T>(selector?: (state: AIEditiorStore) => T) {
+  return useStore(useRootStore, selector!);
+}
 
 export default useRootStore;

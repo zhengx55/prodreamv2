@@ -1,3 +1,4 @@
+'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   NavigationMenu,
@@ -9,6 +10,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { ProfileDropdownLinks } from '@/constant';
 import { userLogOut } from '@/query/api';
+import { useReferralsCount } from '@/query/query';
 import { selectUser } from '@/store/reducers/userSlice';
 import { useAppSelector } from '@/store/storehooks';
 import { useMutation } from '@tanstack/react-query';
@@ -25,6 +27,7 @@ const UserNavMenu = () => {
   const user = useAppSelector(selectUser);
   const router = useRouter();
   const [_cookies, _setCookie, removeCookie] = useCookies(['token']);
+  const { data: referralCount } = useReferralsCount();
   const { mutateAsync: logOut } = useMutation({
     mutationFn: () => userLogOut(),
     onSuccess: () => {
@@ -59,7 +62,8 @@ const UserNavMenu = () => {
                 imgSrc={`${process.env.NEXT_PUBLIC_API_STATIC_URL}${user.avatar}`}
               />
               <ChevronUp
-                className='relative top-[1px] ml-1 h-7 w-7 text-shadow-100 transition duration-200 group-data-[state=open]:rotate-180'
+                size={20}
+                className='relative top-[1px] ml-1 text-shadow-100 transition duration-200 group-data-[state=open]:rotate-180'
                 aria-hidden='true'
               />
             </div>
@@ -102,7 +106,9 @@ const UserNavMenu = () => {
                 />
               </svg>
               <div className='flex-between'>
-                <h1 className='base-semibold'>Referral count: 3</h1>
+                <h1 className='base-semibold'>
+                  Referral count: {referralCount}
+                </h1>
                 <Link
                   href={'/profile/referrals'}
                   className='small-regular text-primary-200'

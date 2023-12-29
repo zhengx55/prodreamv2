@@ -23,8 +23,8 @@ export default async function Resume() {
   return (
     <section className='relative flex flex-1 flex-col overflow-y-auto bg-sectionBackground p-4'>
       {/* <Dialog> */}
-      <div className='flex h-[260px] w-[990px] shrink-0 flex-col justify-between rounded-xl bg-resume bg-cover p-7'>
-        <div className='flex items-center gap-x-[30px]'>
+      <div className='relative flex h-[260px] w-[990px] shrink-0 flex-col justify-between rounded-xl bg-resume bg-cover p-7 before:absolute before:inset-0 before:z-0 before:bg-white/70'>
+        <div className='z-10 flex items-center gap-x-[30px]'>
           <div className='flex h-[125px] w-[291px] flex-col gap-y-4 rounded-lg bg-white p-4 shadow-card'>
             <h1 className='base-semibold'>Professional Wording</h1>
             <p className='subtle-semibold text-shadow-100'>
@@ -45,7 +45,11 @@ export default async function Resume() {
             </p>
           </div>
         </div>
-        <Link passHref href={`/writtingpal/resume/${v4()}/edit`}>
+        <Link
+          className='z-10'
+          passHref
+          href={`/writtingpal/resume/${v4()}/edit`}
+        >
           <Button className='w-max gap-x-2'>
             Create new Resume
             <ArrowRight className='text-white' size={16} />

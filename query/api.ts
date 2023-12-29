@@ -178,7 +178,7 @@ export async function getUserInfo(email: string): Promise<IUsage> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/info?email=${email}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/info?email=${email}`,
       {
         headers: { Authorization: `Bearer ${token}` },
         method: 'GET',
@@ -355,7 +355,23 @@ export async function verifyEmail(params: IVerifyEmail) {
 // ----------------------------------------------------------------
 export async function getReferralLink() {}
 
-export async function getReferralCount() {}
+export async function getReferralCount() {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/referral_count`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const count_data = await res.json();
+    return count_data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function uploadPaper() {}
 
