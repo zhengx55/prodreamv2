@@ -1,6 +1,5 @@
 'use client';
 import ReorderItem from '@/components/resume/forms/ReorderItem';
-import DatePicker from '@/components/root/DatePicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,9 +15,12 @@ import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { IWorkForm } from '@/types';
 import { AnimatePresence, Reorder, m } from 'framer-motion';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
-
+const DatePicker = dynamic(() => import('@/components/root/DatePicker'), {
+  ssr: false,
+});
 const WorkInfo = () => {
   const workInfos = useAppSelector(selectWorkExperiences);
   const dispatch = useAppDispatch();
