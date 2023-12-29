@@ -1,5 +1,6 @@
 'use client';
 import { Storys, Universitys } from '@/constant';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -8,6 +9,8 @@ import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
+
+const StorySwiper = dynamic(() => import('./StorySwiper'));
 
 const Story = () => {
   return (
@@ -36,27 +39,7 @@ const Story = () => {
           ))}
         </div>
         <Spacer y='48' />
-        <div className='hidden w-full sm:flex '>
-          <Swiper
-            modules={[FreeMode]}
-            freeMode={true}
-            autoplay
-            slidesPerView={3}
-            spaceBetween={20}
-          >
-            {Storys.map((item) => (
-              <SwiperSlide className='h-full' key={item.id}>
-                <Image
-                  alt={item.alt}
-                  src={item.image}
-                  width={500}
-                  height={300}
-                  className='h-full w-auto'
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+        <StorySwiper />
         <div className='flex w-full sm:hidden '>
           <Swiper
             modules={[FreeMode]}

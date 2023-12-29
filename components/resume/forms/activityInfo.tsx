@@ -19,9 +19,7 @@ import dynamic from 'next/dynamic';
 import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
 
-const DatePicker = dynamic(() => import('@/components/root/DatePicker'), {
-  ssr: false,
-});
+const DatePicker = dynamic(() => import('@/components/root/DatePicker'));
 
 const ActivityInfo = () => {
   const activitiesinfo = useAppSelector(selectActivities);
