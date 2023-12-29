@@ -1,12 +1,7 @@
 'use client';
-import { Storys, Universitys } from '@/constant';
+import { Universitys } from '@/constant';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import 'swiper/css';
-import 'swiper/css/autoplay';
-import 'swiper/css/free-mode';
-import { FreeMode } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 
@@ -40,27 +35,6 @@ const Story = () => {
         </div>
         <Spacer y='48' />
         <StorySwiper />
-        <div className='flex w-full sm:hidden '>
-          <Swiper
-            modules={[FreeMode]}
-            freeMode={true}
-            autoplay
-            slidesPerView={1}
-          >
-            {Storys.map((item) => (
-              <SwiperSlide className='h-full' key={item.id}>
-                <Image
-                  alt={item.alt}
-                  src={item.image}
-                  width={500}
-                  height={300}
-                  className='h-auto w-full'
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-
         <Spacer y='48' />
         <div className='relative flex w-full flex-col justify-between gap-y-4 overflow-hidden rounded-[32px] bg-primary-200 py-6 sm:max-w-[1450px] sm:py-12'>
           <Image
