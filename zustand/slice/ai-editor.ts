@@ -2,6 +2,8 @@ import { IPolishResultAData } from '@/query/type';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
+export type AIEditiorStore = AIEditorState & AIEditorAction;
+
 const initialState: AIEditorState = {
   editor_instance: null,
   polishResult: [],
@@ -12,7 +14,7 @@ const initialState: AIEditorState = {
   isPlagiarismOpen: false,
 };
 
-export type AIEditorState = {
+type AIEditorState = {
   polishResult: IPolishResultAData[];
   polishResultWholeParagraph: string;
   isPolishing: boolean;
@@ -22,7 +24,7 @@ export type AIEditorState = {
   editor_instance: Editor | null;
 };
 
-export type AIEditorAction = {
+type AIEditorAction = {
   updatePolishResult: (polishResult: AIEditorState['polishResult']) => void;
   updatePolishResultWholeParagraph: (
     result: AIEditorState['polishResultWholeParagraph']
@@ -36,9 +38,7 @@ export type AIEditorAction = {
   reset: () => void;
 };
 
-export const useAIEditorStore: StateCreator<AIEditorState & AIEditorAction> = (
-  set
-) => ({
+export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   ...initialState,
   updatePolishResult: (result) => set(() => ({ polishResult: result })),
   updatePolishResultWholeParagraph: (result) =>

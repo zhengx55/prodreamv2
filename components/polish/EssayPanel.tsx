@@ -1,6 +1,6 @@
 'use client';
 import { IEssayEvaluationDetail } from '@/types';
-import useAIEditorStore from '@/zustand/store';
+import useRootStore from '@/zustand/store';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
@@ -17,15 +17,14 @@ const ChatEditPanel = dynamic(() => import('./chat_edit/ChatEditPanel'), {
 });
 
 const EssayPanel = ({ detail }: { detail: IEssayEvaluationDetail | null }) => {
-  const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
-  const isPolishing = useAIEditorStore((state) => state.isPolishing);
-  const polishResult = useAIEditorStore((state) => state.polishResult);
-  const isEvaluationOpen = useAIEditorStore((state) => state.isEvaluationOpen);
-  const isPlagiarismOpen = useAIEditorStore((state) => state.isPlagiarismOpen);
-  const polishResultParagraph = useAIEditorStore(
+  const isChatEditMode = useRootStore((state) => state.isChatEditMode);
+  const isPolishing = useRootStore((state) => state.isPolishing);
+  const polishResult = useRootStore((state) => state.polishResult);
+  const isEvaluationOpen = useRootStore((state) => state.isEvaluationOpen);
+  const isPlagiarismOpen = useRootStore((state) => state.isPlagiarismOpen);
+  const polishResultParagraph = useRootStore(
     (state) => state.polishResultWholeParagraph
   );
-
   const isMultiScreen =
     isPolishing ||
     isChatEditMode ||
