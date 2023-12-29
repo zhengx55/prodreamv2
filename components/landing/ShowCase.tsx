@@ -1,7 +1,7 @@
 'use client';
 import { ShowCases } from '@/constant';
 import { fadeIn } from '@/constant/motion';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import Image from 'next/image';
 
 const ShowCase = () => {
@@ -9,7 +9,7 @@ const ShowCase = () => {
     <section className='relative flex w-full justify-center px-4 py-20 sm:px-0'>
       <div className='flex-center w-full flex-col gap-y-10 sm:max-w-[1450px]'>
         {ShowCases.map((item, index) => (
-          <motion.div
+          <m.div
             initial='hidden'
             whileInView='show'
             viewport={{ once: true, amount: 0.25 }}
@@ -20,7 +20,7 @@ const ShowCase = () => {
             } flex items-center justify-evenly gap-y-4 sm:gap-y-0`}
             key={item.id}
           >
-            <motion.div
+            <m.div
               variants={
                 index === 1
                   ? fadeIn('left', 'tween', 0.2, 1)
@@ -34,9 +34,9 @@ const ShowCase = () => {
                 width={700}
                 height={500}
               />
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={
                 index === 1
                   ? fadeIn('right', 'tween', 0.2, 1)
@@ -48,8 +48,8 @@ const ShowCase = () => {
               <p className='small-regular text-center sm:text-left'>
                 {item.description}
               </p>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         ))}
       </div>
     </section>

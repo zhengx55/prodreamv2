@@ -1,6 +1,6 @@
 'use client';
 import { fadeIn, staggerContainer, textVariant } from '@/constant/motion';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ import { Button } from '../ui/button';
 const Hero = () => {
   const [selected, setSelected] = useState(0);
   return (
-    <motion.section
+    <m.section
       variants={staggerContainer()}
       initial='hidden'
       whileInView='show'
@@ -19,7 +19,7 @@ const Hero = () => {
       }}
       className='relative mt-4 flex w-full justify-center px-4 sm:mt-0 sm:min-h-[calc(100vh_-64px)] sm:px-0'
     >
-      <motion.div
+      <m.div
         variants={fadeIn('left', 'tween', 0, 0.5)}
         className='absolute hidden h-full w-full sm:block'
       >
@@ -28,14 +28,14 @@ const Hero = () => {
           alt='gardient-bg'
           priority
           className='absolute -right-[200px] top-10 h-full w-auto'
-          width={1920}
-          height={950}
+          width={1400}
+          height={900}
           sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
           src='/landing/heros/herobg.png'
         />
-      </motion.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         variants={textVariant(0)}
         className='sm:flex-center flex h-full w-full flex-col gap-y-4 sm:max-w-[1450px] sm:flex-row sm:gap-y-0'
       >
@@ -147,8 +147,8 @@ const Hero = () => {
             />
           )}
         </section>
-      </motion.div>
-    </motion.section>
+      </m.div>
+    </m.section>
   );
 };
 export default Hero;

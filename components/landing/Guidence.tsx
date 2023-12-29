@@ -7,13 +7,13 @@ import {
 } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { fadeIn, staggerContainer, textVariant } from '@/constant/motion';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import Spacer from '../root/Spacer';
 const Guidence = () => {
   return (
-    <motion.section
+    <m.section
       variants={staggerContainer()}
       initial='hidden'
       whileInView='show'
@@ -23,14 +23,14 @@ const Guidence = () => {
       className='relative flex w-full justify-center bg-shadow-400 px-4 py-20 md:px-0'
     >
       <div className='flex-center w-full flex-col sm:max-w-[1450px]'>
-        <motion.h1
+        <m.h1
           variants={textVariant(1.1)}
           className='h3-semibold sm:h2-bold text-center sm:text-left'
         >
           Expert College Guidance with Privacy Assurance
-        </motion.h1>
+        </m.h1>
         <Spacer y='40' />
-        <motion.div
+        <m.div
           variants={textVariant(1.2)}
           className='flex-between w-full flex-col gap-x-4 sm:h-80 sm:flex-row'
         >
@@ -90,10 +90,10 @@ const Guidence = () => {
               </Button>
             </Link>
           </div>
-        </motion.div>
+        </m.div>
         <Spacer y='24' />
         <div className='flex-between w-full flex-col gap-y-4 sm:gap-x-4 sm:gap-y-0 md:flex-row'>
-          <motion.div
+          <m.div
             variants={fadeIn('right', 'tween', 1.3, 1)}
             className='flex w-full flex-col gap-y-4 rounded-xl bg-white p-5 sm:w-1/2 sm:p-8'
           >
@@ -107,8 +107,8 @@ const Guidence = () => {
               Benefit from the insights of our Harvard and Stanford alums who
               have successfully navigated the college application process.
             </p>
-          </motion.div>
-          <motion.div
+          </m.div>
+          <m.div
             variants={fadeIn('left', 'tween', 1.3, 1)}
             className='flex w-full flex-col gap-y-4 rounded-xl bg-white p-5 sm:w-1/2 sm:p-8'
           >
@@ -123,14 +123,14 @@ const Guidence = () => {
               entreprise-level encryption and the robust security of Microsoft
               Azure.
             </p>
-          </motion.div>
+          </m.div>
         </div>
         <Spacer y='40' />
         <Button className='rounded-[40px] sm:rounded-2xl' asChild>
           <Link href={'/writtingpal/polish'}>Get Started</Link>
         </Button>
       </div>
-    </motion.section>
+    </m.section>
   );
 };
 export default Guidence;
