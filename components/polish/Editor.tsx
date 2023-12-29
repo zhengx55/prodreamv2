@@ -49,7 +49,10 @@ const Tiptap = ({ content }: { content: string }) => {
     injectCSS: false,
     autofocus: true,
     content: content
-      ? content
+      ? `${content
+          .split(/\n\s*\n/)
+          .map((paragraph) => `<p>${paragraph}</p>`)
+          .join('')}`
       : globalEssay
         ? `${globalEssay
             .split(/\n\s*\n/)
