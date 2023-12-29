@@ -45,7 +45,7 @@ export default async function Resume() {
             </p>
           </div>
         </div>
-        <Link passHref prefetch href={`/writtingpal/resume/${v4()}/edit`}>
+        <Link passHref href={`/writtingpal/resume/${v4()}/edit`}>
           <Button className='w-max gap-x-2'>
             Create new Resume
             <ArrowRight className='text-white' size={16} />
