@@ -1,4 +1,4 @@
-import { Resume } from '@/types';
+import { useResume } from '@/zustand/store';
 import { Document, Font, Page, View } from '@react-pdf/renderer';
 import { spacing, styles } from './ResumeStyle';
 import { ResumePDFActivity } from './pdf/ResumeActivity';
@@ -19,13 +19,19 @@ Font.register({
   ],
 });
 
-type Props = { resume: Resume; isPDF?: boolean; themeColor: string };
+type Props = { isPDF?: boolean; themeColor: string };
 
-const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
-  const { firstname, lastname } = resume.profile;
+const ResumePdf = ({ isPDF = false, themeColor }: Props) => {
+  const profile = useResume((state) => state.profile);
+  const educations = useResume((state) => state.educations);
+  const works = useResume((state) => state.works);
+  const researches = useResume((state) => state.researches);
+  const competitions = useResume((state) => state.competitions);
+  const activities = useResume((state) => state.activities);
+
   return (
     <Document
-      title={`${firstname} ${lastname}'s Resume`}
+      title={`${profile.firstname} ${profile.lastname}'s Resume`}
       producer={'QuickAppply'}
     >
       <Page
@@ -43,29 +49,29 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
             fontFamily: 'Times',
           }}
         >
-          <ResumePDFProfile profile={resume.profile} isPDF={isPDF} />
+          <ResumePDFProfile profile={profile} isPDF={isPDF} />
           <ResumePDFEducation
-            educations={resume.educations}
+            educations={educations}
             showBulletPoints
             themeColor={themeColor}
           />
           <ResumePDFWork
-            works={resume.works}
+            works={works}
             showBulletPoints
             themeColor={themeColor}
           />
           <ResumePDFResearch
-            researches={resume.researches}
+            researches={researches}
             showBulletPoints
             themeColor={themeColor}
           />
           <ResumePDFCompetition
-            competitions={resume.competitions}
+            competitions={competitions}
             showBulletPoints
             themeColor={themeColor}
           />
           <ResumePDFActivity
-            activities={resume.activities}
+            activities={activities}
             showBulletPoints
             themeColor={themeColor}
           />

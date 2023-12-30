@@ -5,14 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { FormHeightVariant } from '@/constant';
-import {
-  addSectionInForm,
-  changeEducations,
-  deleteSectionInFormByIdx,
-  selectEducations,
-  setEducations,
-} from '@/store/reducers/resumeSlice';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { useResume } from '@/zustand/store';
 import { AnimatePresence, Reorder, m } from 'framer-motion';
 import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -20,21 +13,24 @@ import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
 const DatePicker = dynamic(() => import('@/components/root/DatePicker'));
 const EducationInfo = () => {
-  const educationInfos = useAppSelector(selectEducations);
-  const dispatch = useAppDispatch();
+  const educationsInfo = useResume((state) => state.educations);
+  const updateEducations = useResume((state) => state.changeEducations);
+  const addSection = useResume((state) => state.addSectionInForm);
+  const deleteSections = useResume((state) => state.deleteSectionInFormByIdx);
+  const setEducations = useResume((state) => state.setEducations);
 
   const handleDeleteClick = (index: number) => {
-    dispatch(deleteSectionInFormByIdx({ form: 'educations', idx: index }));
+    deleteSections('educations', index);
   };
 
   const handleAddSection = () => {
-    dispatch(addSectionInForm({ form: 'educations' }));
+    addSection('educations');
   };
 
   const toogleFormExpand = (index: number) => {
     const expand =
-      educationInfos[index].expand === 'expand' ? 'collapse' : 'expand';
-    dispatch(changeEducations({ idx: index, field: 'expand', value: expand }));
+      educationsInfo[index].expand === 'expand' ? 'collapse' : 'expand';
+    updateEducations(index, 'expand', expand);
   };
 
   const handleValueChange = (
@@ -43,11 +39,11 @@ const EducationInfo = () => {
   ) => {
     const field = e.target.name as any;
     const value = e.target.value;
-    dispatch(changeEducations({ idx: index, field, value }));
+    updateEducations(index, field, value);
   };
 
   const handleDateChange = (index: number, value: string, field: any) => {
-    dispatch(changeEducations({ field, value, idx: index }));
+    updateEducations(index, field, value);
   };
 
   return (
@@ -55,13 +51,13 @@ const EducationInfo = () => {
       <h1 className='title-semibold text-black-100'>Education</h1>
       <Reorder.Group
         axis='y'
-        values={educationInfos}
+        values={educationsInfo}
         onReorder={(newOrder) => {
-          dispatch(setEducations(newOrder));
+          setEducations(newOrder);
         }}
         className='relative'
       >
-        {educationInfos.map((item, index) => {
+        {educationsInfo.map((item, index) => {
           return (
             <ReorderItem
               value={item}
@@ -196,13 +192,7 @@ const EducationInfo = () => {
                         id='additional-info'
                         className='h-[150px]'
                         onChange={(field, value) => {
-                          dispatch(
-                            changeEducations({
-                              field,
-                              value,
-                              idx: index,
-                            })
-                          );
+                          updateEducations(index, field, value);
                         }}
                         value={item.additional_info}
                       />

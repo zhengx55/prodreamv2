@@ -4,15 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { FormHeightVariant } from '@/constant';
-import {
-  addSectionInForm,
-  changeCompetitions,
-  deleteSectionInFormByIdx,
-  selectCompetitions,
-  setCompetitions,
-} from '@/store/reducers/resumeSlice';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { ICompetitionForm } from '@/types';
+import { useResume } from '@/zustand/store';
 import { AnimatePresence, Reorder, m } from 'framer-motion';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -20,23 +13,24 @@ import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
 const DatePicker = dynamic(() => import('@/components/root/DatePicker'));
 const CompetitionInfo = () => {
-  const competitionsInfo = useAppSelector(selectCompetitions);
-  const dispatch = useAppDispatch();
+  const competitionsInfo = useResume((state) => state.competitions);
+  const updateCompetitions = useResume((state) => state.changeCompetitions);
+  const addSection = useResume((state) => state.addSectionInForm);
+  const deleteSections = useResume((state) => state.deleteSectionInFormByIdx);
+  const setCompetitions = useResume((state) => state.setCompetitions);
 
   const handleDeleteClick = (index: number) => {
-    dispatch(deleteSectionInFormByIdx({ form: 'competitions', idx: index }));
+    deleteSections('activities', index);
   };
 
   const handleAddSection = () => {
-    dispatch(addSectionInForm({ form: 'competitions' }));
+    addSection('activities');
   };
 
   const toogleFormExpand = (index: number) => {
     const expand =
       competitionsInfo[index].expand === 'expand' ? 'collapse' : 'expand';
-    dispatch(
-      changeCompetitions({ idx: index, field: 'expand', value: expand })
-    );
+    updateCompetitions(index, 'expand', expand);
   };
 
   const handleDateChange = (
@@ -44,7 +38,7 @@ const CompetitionInfo = () => {
     value: string,
     field: keyof ICompetitionForm
   ) => {
-    dispatch(changeCompetitions({ field, value, idx: index } as any));
+    updateCompetitions(index, field, value);
   };
 
   const handleValueChange = (
@@ -53,7 +47,7 @@ const CompetitionInfo = () => {
   ) => {
     const field = e.target.name as keyof ICompetitionForm;
     const value = e.target.value;
-    dispatch(changeCompetitions({ field, value, idx: index } as any));
+    updateCompetitions(index, field, value);
   };
 
   return (
@@ -63,7 +57,7 @@ const CompetitionInfo = () => {
         axis='y'
         values={competitionsInfo}
         onReorder={(newOrder) => {
-          dispatch(setCompetitions(newOrder));
+          setCompetitions(newOrder);
         }}
         className='relative'
       >
@@ -161,13 +155,7 @@ const CompetitionInfo = () => {
                         id='cmp-additional'
                         className='h-[150px]'
                         onChange={(field, value) => {
-                          dispatch(
-                            changeCompetitions({
-                              field,
-                              value,
-                              idx: index,
-                            })
-                          );
+                          updateCompetitions(index, field, value);
                         }}
                         value={item.additional_info}
                       />

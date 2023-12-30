@@ -4,15 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { FormHeightVariant } from '@/constant';
-import {
-  addSectionInForm,
-  changeActivities,
-  deleteSectionInFormByIdx,
-  selectActivities,
-  setActivities,
-} from '@/store/reducers/resumeSlice';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import { IActivityForm } from '@/types';
+import { useResume } from '@/zustand/store';
 import { AnimatePresence, Reorder, m } from 'framer-motion';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -22,21 +15,24 @@ import { BulletListTextarea } from './BulletPointTextarea';
 const DatePicker = dynamic(() => import('@/components/root/DatePicker'));
 
 const ActivityInfo = () => {
-  const activitiesinfo = useAppSelector(selectActivities);
-  const dispatch = useAppDispatch();
+  const activitiesinfo = useResume((state) => state.activities);
+  const updateActivities = useResume((state) => state.changeActivities);
+  const addSection = useResume((state) => state.addSectionInForm);
+  const deleteSections = useResume((state) => state.deleteSectionInFormByIdx);
+  const setActivities = useResume((state) => state.setActivities);
 
   const handleDeleteClick = (index: number) => {
-    dispatch(deleteSectionInFormByIdx({ form: 'activities', idx: index }));
+    deleteSections('activities', index);
   };
 
   const handleAddSection = () => {
-    dispatch(addSectionInForm({ form: 'activities' }));
+    addSection('activities');
   };
 
   const toogleFormExpand = (index: number) => {
     const expand =
       activitiesinfo[index].expand === 'expand' ? 'collapse' : 'expand';
-    dispatch(changeActivities({ idx: index, field: 'expand', value: expand }));
+    updateActivities(index, 'expand', expand);
   };
 
   const handleValueChange = (
@@ -45,7 +41,7 @@ const ActivityInfo = () => {
   ) => {
     const field = e.target.name as keyof IActivityForm;
     const value = e.target.value;
-    dispatch(changeActivities({ field, value, idx: index } as any));
+    updateActivities(index, field, value);
   };
 
   const handleDateChange = (
@@ -53,7 +49,7 @@ const ActivityInfo = () => {
     value: string,
     field: keyof IActivityForm
   ) => {
-    dispatch(changeActivities({ field, value, idx: index } as any));
+    updateActivities(index, field, value);
   };
   return (
     <>
@@ -62,7 +58,7 @@ const ActivityInfo = () => {
         axis='y'
         values={activitiesinfo}
         onReorder={(newOrder) => {
-          dispatch(setActivities(newOrder));
+          setActivities(newOrder);
         }}
         className='relative'
       >
@@ -178,13 +174,7 @@ const ActivityInfo = () => {
                         id='activity-description'
                         className='h-[150px]'
                         onChange={(field, value) => {
-                          dispatch(
-                            changeActivities({
-                              field,
-                              value,
-                              idx: index,
-                            })
-                          );
+                          updateActivities(index, field, value);
                         }}
                         value={item.description}
                       />
