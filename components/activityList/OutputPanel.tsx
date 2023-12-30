@@ -1,10 +1,8 @@
 'use client';
 import { deepEqual } from '@/lib/utils';
 import { updateUserInfo } from '@/query/api';
-import { selectUserEmail } from '@/store/reducers/userSlice';
-import { useAppSelector } from '@/store/storehooks';
 import { IUsage } from '@/types';
-import useRootStore, { useUsage } from '@/zustand/store';
+import useRootStore, { useUsage, useUserInfo } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -31,7 +29,7 @@ const OutputPanel = ({
   const showEditTut = useRootStore((state) => state.showalEditTut);
   const setShowEditTut = useRootStore((state) => state.setShowalEditTut);
   const [content, setContent] = useState<typeof generatedData>({});
-  const email = useAppSelector(selectUserEmail);
+  const email = useUserInfo((state) => state.user.email);
   const usage = useUsage((state) => state.usage);
   const updateUsageItem = useUsage((state) => state.updateSingleUsage);
   const hasGeneratedData = Object.keys(generatedData).length > 0;

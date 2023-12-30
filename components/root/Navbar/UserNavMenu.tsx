@@ -11,8 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { ProfileDropdownLinks } from '@/constant';
 import { userLogOut } from '@/query/api';
 import { useReferralsCount } from '@/query/query';
-import { selectUser } from '@/store/reducers/userSlice';
-import { useAppSelector } from '@/store/storehooks';
+import { useUserInfo } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { ChevronUp } from 'lucide-react';
 import Image from 'next/image';
@@ -24,7 +23,7 @@ import { Stars } from '../SvgComponents';
 import User from './User';
 
 const UserNavMenu = () => {
-  const user = useAppSelector(selectUser);
+  const user = useUserInfo((state) => state.user);
   const router = useRouter();
   const [_cookies, _setCookie, removeCookie] = useCookies(['token']);
   const { data: referralCount } = useReferralsCount();

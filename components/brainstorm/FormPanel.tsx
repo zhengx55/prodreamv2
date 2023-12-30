@@ -3,10 +3,8 @@ import { Switch } from '@/components/ui/switch';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
 import type { IBrainStormSection, IBriansotrmReq, Module } from '@/query/type';
-import { selectUserId } from '@/store/reducers/userSlice';
-import { useAppSelector } from '@/store/storehooks';
 import type { InputProps } from '@/types';
-import useRootStore from '@/zustand/store';
+import useRootStore, { useUserInfo } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { CheckCheck } from 'lucide-react';
 import Link from 'next/link';
@@ -19,7 +17,7 @@ import { Textarea } from '../ui/textarea';
 import TextOptimizeBar from './TextOptimizeBar';
 
 const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
-  const user_id = useAppSelector(selectUserId);
+  const user_id = useUserInfo((state) => state.user.user_id);
   const [formData, setFormData] = useState<IBrainStormSection>(templateData);
   const [formState, setFormState] = useState<Record<string, InputProps>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);

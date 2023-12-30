@@ -1,9 +1,7 @@
 'use client';
 import { updateUserInfo } from '@/query/api';
-import { selectUserEmail } from '@/store/reducers/userSlice';
-import { useAppSelector } from '@/store/storehooks';
 import { IUsage } from '@/types';
-import useRootStore, { useUsage } from '@/zustand/store';
+import useRootStore, { useUsage, useUserInfo } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { Loader2, Upload } from 'lucide-react';
@@ -22,7 +20,7 @@ const TutCard = dynamic(() => import('../root/TutCard'));
 const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   const usage = useUsage((state) => state.usage);
   const updateUsageItem = useUsage((state) => state.updateSingleUsage);
-  const email = useAppSelector(selectUserEmail);
+  const email = useUserInfo((state) => state.user.email);
   const historyData = useRootStore((state) => state.alhistoryData);
   const [isDecoding, setIsDecoding] = useState(false);
   const [decodedData, setDecodedData] = useState<string[]>([]);

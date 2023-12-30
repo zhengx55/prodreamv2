@@ -3,8 +3,7 @@ import { Secure } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { profileResetAvatar, refreshUserSession } from '@/query/api';
-import { selectUser } from '@/store/reducers/userSlice';
-import { useAppSelector } from '@/store/storehooks';
+import { useUserInfo } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -15,7 +14,7 @@ const EditName = dynamic(() => import('@/components/profile/EditName'));
 const EditPassword = dynamic(() => import('@/components/profile/EditPassword'));
 
 export default function Page() {
-  const userInfo = useAppSelector(selectUser);
+  const userInfo = useUserInfo((state) => state.user);
   const uploadRef = useRef<HTMLInputElement>(null);
   const [IsEditEmail, setEditEmail] = useState(false);
   const [IsEditPassword, setEditPassword] = useState(false);

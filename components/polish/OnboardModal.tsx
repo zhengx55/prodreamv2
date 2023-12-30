@@ -1,10 +1,8 @@
 'use client';
 import { Dialog, DialogClose, DialogContent } from '@/components/ui/dialog';
 import { updateUserInfo } from '@/query/api';
-import { selectUserEmail } from '@/store/reducers/userSlice';
-import { useAppSelector } from '@/store/storehooks';
 import { IUsage } from '@/types';
-import { useUsage } from '@/zustand/store';
+import { useUsage, useUserInfo } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
@@ -14,7 +12,7 @@ import { Button } from '../ui/button';
 const OnboardModal = () => {
   const usage = useUsage((state) => state.usage);
   const updateUsageItem = useUsage((state) => state.updateSingleUsage);
-  const email = useAppSelector(selectUserEmail);
+  const email = useUserInfo((state) => state.user.email);
   const { mutateAsync: updateUsage } = useMutation({
     mutationFn: (args: { email: string; params: IUsage }) =>
       updateUserInfo(args.email, args.params),

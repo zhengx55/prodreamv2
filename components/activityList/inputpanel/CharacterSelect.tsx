@@ -4,10 +4,8 @@ import { Input } from '@/components/ui/input';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { generateActivityList, updateUserInfo } from '@/query/api';
 import { IGenerateActListParams, Mode } from '@/query/type';
-import { selectUserEmail } from '@/store/reducers/userSlice';
-import { useAppSelector } from '@/store/storehooks';
 import type { IUsage } from '@/types';
-import useRootStore, { useUsage } from '@/zustand/store';
+import useRootStore, { useUsage, useUserInfo } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -34,8 +32,7 @@ const CharacterSelect = ({
 }: Props) => {
   const usage = useUsage((state) => state.usage);
   const updateUsageItem = useUsage((state) => state.updateSingleUsage);
-
-  const email = useAppSelector(selectUserEmail);
+  const email = useUserInfo((state) => state.user.email);
   const [listOptions, setListOptions] = useState({
     uc: false,
     common: false,
