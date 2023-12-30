@@ -1,5 +1,5 @@
 'use client';
-import useAIEditorStore from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { PenLine } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
@@ -12,14 +12,10 @@ const PolishModal = dynamic(() => import('./PolishModal'));
 const PlagReportSheet = dynamic(() => import('./PlagReportSheet'));
 
 const Rightbar = () => {
-  const setChatEditMode = useAIEditorStore(
-    (state) => state.updateIsChatEditMode
-  );
-  const editor_instance = useAIEditorStore((state) => state.editor_instance);
-  const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
-  const clearPolishResult = useAIEditorStore(
-    (state) => state.clearPolishResult
-  );
+  const setChatEditMode = useAIEditor((state) => state.updateIsChatEditMode);
+  const editor_instance = useAIEditor((state) => state.editor_instance);
+  const isChatEditMode = useAIEditor((state) => state.isChatEditMode);
+  const clearPolishResult = useAIEditor((state) => state.clearPolishResult);
   const toggleChatEditMode = () => {
     if (!isChatEditMode) {
       editor_instance

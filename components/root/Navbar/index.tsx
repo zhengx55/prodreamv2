@@ -7,7 +7,6 @@ import UserNavMenu from './UserNavMenu';
 
 const Navbar = () => {
   const pathname = usePathname();
-
   return (
     <nav className='flex-between relative h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
       <h3 className='h3-bold capitalize text-black-200'>
