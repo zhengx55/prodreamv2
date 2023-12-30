@@ -4,11 +4,10 @@ import { Input } from '@/components/ui/input';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { generateActivityList, updateUserInfo } from '@/query/api';
 import { IGenerateActListParams, Mode } from '@/query/type';
-import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
 import { selectUserEmail } from '@/store/reducers/userSlice';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { useAppSelector } from '@/store/storehooks';
 import type { IUsage } from '@/types';
-import useRootStore from '@/zustand/store';
+import useRootStore, { useUsage } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -33,8 +32,9 @@ const CharacterSelect = ({
   isDecoding,
   setIsGenerating,
 }: Props) => {
-  const dispatch = useAppDispatch();
-  const usage = useAppSelector(selectUsage);
+  const usage = useUsage((state) => state.usage);
+  const updateUsageItem = useUsage((state) => state.updateSingleUsage);
+
   const email = useAppSelector(selectUserEmail);
   const [listOptions, setListOptions] = useState({
     uc: false,
@@ -143,10 +143,10 @@ const CharacterSelect = ({
     mutationFn: (args: { email: string; params: IUsage }) =>
       updateUserInfo(args.email, args.params),
     onSuccess: () => {
-      dispatch(setSingleUsage('first_activity_list_generate'));
+      updateUsageItem('first_activity_list_generate');
     },
     onError: () => {
-      dispatch(setSingleUsage('first_activity_list_generate'));
+      updateUsageItem('first_activity_list_generate');
     },
   });
 

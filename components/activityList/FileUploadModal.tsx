@@ -7,9 +7,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { getDecodedData, uploadActivityFile } from '@/query/api';
-import { selectUsage } from '@/store/reducers/usageSlice';
-import { useAppSelector } from '@/store/storehooks';
-import useRootStore from '@/zustand/store';
+import useRootStore, { useUsage } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Trash2, X } from 'lucide-react';
 import Image from 'next/image';
@@ -35,7 +33,7 @@ const FileUploadModal = ({
   const setShowGenerateTut = useRootStore(
     (state) => state.setShowalGenerateTut
   );
-  const usage = useAppSelector(selectUsage);
+  const usage = useUsage((state) => state.usage);
   const [files, setFiles] = useState<File[]>([]);
   const [parsedUrls, setParsedUrls] = useState<string[]>([]);
   const { mutateAsync: decodeFilesAction } = useMutation({

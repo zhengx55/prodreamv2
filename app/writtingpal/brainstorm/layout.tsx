@@ -1,7 +1,6 @@
 'use client';
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
-import { selectUsage } from '@/store/reducers/usageSlice';
-import { useAppSelector } from '@/store/storehooks';
+import { useUsage } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import { ReactNode, useEffect, useState } from 'react';
 const OnboardModal = dynamic(
@@ -12,7 +11,7 @@ export default function BrainstormLayout({
 }: {
   children: ReactNode;
 }) {
-  const usage = useAppSelector(selectUsage);
+  const usage = useUsage((state) => state.usage);
   const [isFirstTime, setIsFirstTime] = useState(false);
   useEffect(() => {
     if (usage.first_brainstorm || usage.first_brainstorm === undefined) {

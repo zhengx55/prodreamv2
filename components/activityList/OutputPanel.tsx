@@ -1,11 +1,10 @@
 'use client';
 import { deepEqual } from '@/lib/utils';
 import { updateUserInfo } from '@/query/api';
-import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
 import { selectUserEmail } from '@/store/reducers/userSlice';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { useAppSelector } from '@/store/storehooks';
 import { IUsage } from '@/types';
-import useRootStore from '@/zustand/store';
+import useRootStore, { useUsage } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -27,18 +26,16 @@ const OutputPanel = ({
   };
   const [selected, setSelected] = useState('');
   const [tabs, setTabs] = useState<string[]>([]);
-
   const generatedData = useRootStore((state) => state.algeneratedData);
   const historyData = useRootStore((state) => state.alhistoryData);
   const showEditTut = useRootStore((state) => state.showalEditTut);
   const setShowEditTut = useRootStore((state) => state.setShowalEditTut);
-
   const [content, setContent] = useState<typeof generatedData>({});
   const email = useAppSelector(selectUserEmail);
-  const usage = useAppSelector(selectUsage);
+  const usage = useUsage((state) => state.usage);
+  const updateUsageItem = useUsage((state) => state.updateSingleUsage);
   const hasGeneratedData = Object.keys(generatedData).length > 0;
   const hasHistoryData = Object.keys(historyData).length > 0;
-  const dispatch = useAppDispatch();
 
   useDeepCompareEffect(() => {
     if (hasGeneratedData) {
@@ -67,11 +64,11 @@ const OutputPanel = ({
     mutationFn: (args: { email: string; params: IUsage }) =>
       updateUserInfo(args.email, args.params),
     onSuccess: () => {
-      dispatch(setSingleUsage('first_activity_list_edit'));
+      updateUsageItem('first_activity_list_edit');
       setShowEditTut(false);
     },
     onError: () => {
-      dispatch(setSingleUsage('first_activity_list_edit'));
+      updateUsageItem('first_activity_list_edit');
       setShowEditTut(false);
     },
   });

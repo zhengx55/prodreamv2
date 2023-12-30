@@ -7,21 +7,28 @@ import {
   GlobalEassyState,
   useGlobalEssay,
 } from './slice/global-eassy';
+import { UsageStore, useUsageStore } from './slice/usage';
 
 const useRootStore = create<
   AIEditiorStore &
     GlobalEassyState &
     GlobalEassyAction &
     BrainstormStore &
-    ActivityListStore
+    ActivityListStore &
+    UsageStore
 >((...a) => ({
   ...useAIEditorStore(...a),
   ...useGlobalEssay(...a),
   ...useBrainStorm(...a),
   ...useActListStore(...a),
+  ...useUsageStore(...a),
 }));
 
 export function useAIEditor<T>(selector?: (state: AIEditiorStore) => T) {
+  return useStore(useRootStore, selector!);
+}
+
+export function useUsage<T>(selector?: (state: UsageStore) => T) {
   return useStore(useRootStore, selector!);
 }
 

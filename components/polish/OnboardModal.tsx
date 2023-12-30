@@ -1,10 +1,10 @@
 'use client';
 import { Dialog, DialogClose, DialogContent } from '@/components/ui/dialog';
 import { updateUserInfo } from '@/query/api';
-import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
 import { selectUserEmail } from '@/store/reducers/userSlice';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
+import { useAppSelector } from '@/store/storehooks';
 import { IUsage } from '@/types';
+import { useUsage } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
@@ -12,14 +12,14 @@ import { Upload } from '../root/SvgComponents';
 import { Button } from '../ui/button';
 
 const OnboardModal = () => {
-  const dispatch = useAppDispatch();
-  const usage = useAppSelector(selectUsage);
+  const usage = useUsage((state) => state.usage);
+  const updateUsageItem = useUsage((state) => state.updateSingleUsage);
   const email = useAppSelector(selectUserEmail);
   const { mutateAsync: updateUsage } = useMutation({
     mutationFn: (args: { email: string; params: IUsage }) =>
       updateUserInfo(args.email, args.params),
     onSuccess: () => {
-      dispatch(setSingleUsage('first_editior'));
+      updateUsageItem('first_editior');
     },
   });
   const handleUpdateUsage = async () => {
