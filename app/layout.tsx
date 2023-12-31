@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
   },
   title: siteConfig.name,
-  creator: 'applify-ai',
+  creator: '@applify-ai',
   description: siteConfig.description,
   twitter: {
     card: 'summary_large_image',
