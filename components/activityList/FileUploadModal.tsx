@@ -1,5 +1,4 @@
 'use client';
-import React, { memo, useCallback, useState } from 'react';
 import {
   Dialog,
   DialogClose,
@@ -7,17 +6,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Loader2, Trash2, X } from 'lucide-react';
+import { getDecodedData, uploadActivityFile } from '@/query/api';
+import useRootStore, { useUsage } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
+import { Trash2, X } from 'lucide-react';
 import Image from 'next/image';
+import { memo, useCallback, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
-import { useMutation } from '@tanstack/react-query';
-import { getDecodedData, uploadActivityFile } from '@/query/api';
-import { useActListContext } from '@/context/ActListProvider';
-import { useAppSelector } from '@/store/storehooks';
-import { selectUsage } from '@/store/reducers/usageSlice';
 
 type Props = {
   isActive: boolean;
@@ -32,8 +30,10 @@ const FileUploadModal = ({
   toggleDecoding,
   appendDecodeData,
 }: Props) => {
-  const { setShowGenerateTut } = useActListContext();
-  const usage = useAppSelector(selectUsage);
+  const setShowGenerateTut = useRootStore(
+    (state) => state.setShowalGenerateTut
+  );
+  const usage = useUsage((state) => state.usage);
   const [files, setFiles] = useState<File[]>([]);
   const [parsedUrls, setParsedUrls] = useState<string[]>([]);
   const { mutateAsync: decodeFilesAction } = useMutation({

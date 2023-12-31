@@ -8,7 +8,8 @@ module.exports = {
       backgroundImage: {
         chat: 'linear-gradient(180deg, rgba(156, 44, 243, 0.20) 0%, rgba(58, 73, 249, 0.20) 100%)',
         auth: "url('/auth.svg')",
-        resume: "url('/resume_bg.jpg')",
+        onboard: "url('/welcome/welcomebg.webp')",
+        resume: "url('/resume_bg.webp')",
         referal: 'linear-gradient(to left, #E32CF3, #9C2CF3, #2C40F3, #2CABF3)',
         card: 'radial-gradient(88.19% 80.74% at 37.56% 34.2%, rgba(203, 44, 243, 0.70) 0%, rgba(156, 44, 243, 0.70) 55.27%, rgba(120, 44, 243, 0.70) 100%)',
       },
@@ -36,6 +37,9 @@ module.exports = {
           500: '#FCF9FF',
           600: '#EAD9FC',
         },
+        gray: {
+          50: '#313746',
+        },
         black: {
           50: '#3B4453',
           100: '#1E1E1E',
@@ -59,6 +63,7 @@ module.exports = {
         'shadow-100': '#828282',
         'shadow-200': '#F3F5F7',
         'shadow-300': '#5A5A5A',
+        'shadow-400': '#FAFAFA',
         'nav-active': '#5E59FF',
         'nav-selected': '#F4F5F6',
         nav: '#A0A8B0',

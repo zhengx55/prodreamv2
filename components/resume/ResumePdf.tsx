@@ -1,24 +1,41 @@
-import { Page, View, Document, Text } from '@react-pdf/renderer';
+import { useResume } from '@/zustand/store';
+import { Document, Font, Page, View } from '@react-pdf/renderer';
 import { spacing, styles } from './ResumeStyle';
-import { ResumePDFProfile } from './pdf/ResumeProfile';
-import { Resume } from '@/types';
-import { ResumePDFEducation } from './pdf/ResumeEducation';
-import { ResumePDFWork } from './pdf/ResumeWork';
-import { ResumePDFCompetition } from './pdf/ResumeCompetition';
-import { ResumePDFResearch } from './pdf/ResumeResearch';
 import { ResumePDFActivity } from './pdf/ResumeActivity';
+import { ResumePDFCompetition } from './pdf/ResumeCompetition';
+import { ResumePDFEducation } from './pdf/ResumeEducation';
+import { ResumePDFProfile } from './pdf/ResumeProfile';
+import { ResumePDFResearch } from './pdf/ResumeResearch';
+import { ResumePDFWork } from './pdf/ResumeWork';
 
-type Props = { resume: Resume; isPDF?: boolean; themeColor: string };
+Font.register({
+  family: 'Times',
+  fonts: [
+    {
+      src: '/fonts/Times-Roman-Regular.ttf',
+      fontWeight: 'normal',
+    },
+    { src: '/fonts/Times-Roman-Bold.ttf', fontWeight: 'bold' },
+  ],
+});
 
-const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
-  const { firstname, lastname } = resume.profile;
+type Props = { isPDF?: boolean; themeColor: string };
+
+const ResumePdf = ({ isPDF = false, themeColor }: Props) => {
+  const profile = useResume((state) => state.profile);
+  const educations = useResume((state) => state.educations);
+  const works = useResume((state) => state.works);
+  const researches = useResume((state) => state.researches);
+  const competitions = useResume((state) => state.competitions);
+  const activities = useResume((state) => state.activities);
+
   return (
     <Document
-      title={`${firstname} ${lastname}'s Resume`}
+      title={`${profile.firstname} ${profile.lastname}'s Resume`}
       producer={'QuickAppply'}
     >
       <Page
-        size={'A4'}
+        size='A4'
         style={{
           ...styles.flexCol,
           fontSize: 14,
@@ -29,31 +46,32 @@ const ResumePdf = ({ resume, isPDF = false, themeColor }: Props) => {
             ...styles.flexCol,
             padding: `${spacing[0]} ${spacing[10]}`,
             rowGap: parseInt(spacing['5']),
+            fontFamily: 'Times',
           }}
         >
-          <ResumePDFProfile profile={resume.profile} isPDF={isPDF} />
+          <ResumePDFProfile profile={profile} isPDF={isPDF} />
           <ResumePDFEducation
-            educations={resume.educations}
+            educations={educations}
             showBulletPoints
             themeColor={themeColor}
           />
           <ResumePDFWork
-            works={resume.works}
+            works={works}
             showBulletPoints
             themeColor={themeColor}
           />
           <ResumePDFResearch
-            researches={resume.researches}
+            researches={researches}
             showBulletPoints
             themeColor={themeColor}
           />
           <ResumePDFCompetition
-            competitions={resume.competitions}
+            competitions={competitions}
             showBulletPoints
             themeColor={themeColor}
           />
           <ResumePDFActivity
-            activities={resume.activities}
+            activities={activities}
             showBulletPoints
             themeColor={themeColor}
           />

@@ -1,24 +1,24 @@
 'use client';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import React, { ChangeEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../store/storehooks';
-import { changeProfile, selectProfile } from '@/store/reducers/resumeSlice';
 import { IResumeProfile } from '@/types';
+import { useResume } from '@/zustand/store';
+import { ChangeEvent, memo } from 'react';
 
 const UserInfo = () => {
-  const profile = useAppSelector(selectProfile);
-  const dispatch = useAppDispatch();
+  const profile = useResume((state) => state.profile);
+  const updateProfile = useResume((state) => state.changeProfile);
+
   const handleValueChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const field = e.target.name as keyof IResumeProfile;
     const value = e.target.value;
-    dispatch(changeProfile({ field, value }));
+    updateProfile(field, value);
   };
   return (
     <>
-      <h1 className='title-semibold mt-4'>Personal Info</h1>
+      <h1 className='title-semibold'>Personal Info</h1>
       <section className='mt-8 grid grid-flow-row grid-cols-2 gap-x-14 gap-y-5'>
         <div className='form-input-group'>
           <Label htmlFor='first-name' aria-label='firstname'>
@@ -120,4 +120,4 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default memo(UserInfo);

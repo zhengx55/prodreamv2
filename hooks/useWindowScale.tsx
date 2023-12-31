@@ -30,12 +30,11 @@ export const useSetDefaultScale = ({
         CSS_VARIABLES['--resume-control-bar-height']
       );
       const resumePadding = parseFloat(CSS_VARIABLES['--resume-padding']);
-      const topAndBottomResumePadding = resumePadding * 2;
       const defaultResumeHeightRem =
         screenHeightRem -
         topNavBarHeightRem -
         resumeControlBarHeight -
-        topAndBottomResumePadding;
+        resumePadding;
       const resumeHeightPx = defaultResumeHeightRem * PX_PER_REM;
       const height = documentSize === 'A4' ? A4_HEIGHT_PX : LETTER_HEIGHT_PX;
       const defaultScale = Math.round((resumeHeightPx / height) * 100) / 100;

@@ -1,33 +1,30 @@
 'use client';
 import { cn } from '@/lib/utils';
-import { AnimatePresence } from 'framer-motion';
-import { useCallback, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
+import { IBrainstormHistory } from '@/query/type';
+import useRootStore from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
+import { AnimatePresence } from 'framer-motion';
+import dynamic from 'next/dynamic';
+import { useCallback, useRef, useState } from 'react';
 import Spacer from '../root/Spacer';
-const HistoryPanel = dynamic(() => import('./HistoryPanel'), {
-  ssr: false,
-});
-const OutcomePanel = dynamic(() => import('./OutcomePanel'), { ssr: false });
-const TutorialPanel = dynamic(() => import('./TutorialPanel'), { ssr: false });
+const HistoryPanel = dynamic(() => import('./HistoryPanel'));
+const OutcomePanel = dynamic(() => import('./OutcomePanel'));
+const TutorialPanel = dynamic(() => import('./TutorialPanel'));
 
-const OutputPanel = () => {
+const OutputPanel = ({ history }: { history: IBrainstormHistory }) => {
   const [tab, setTab] = useState<number>(0);
   const printIndexRef = useRef<number>(0);
   const [animatedWordCount, setAnimatedWordCount] = useState(0);
-  const { setHistoryData, setEassyResult } = useBrainStormContext();
   const IncrementWordCount = useCallback(() => {
     setAnimatedWordCount((prev) => prev + 1);
   }, []);
-
+  const resetbsData = useRootStore((state) => state.resetbsData);
   const handleTabChange = useCallback((value: number) => {
     setTab(value);
   }, []);
 
   useUnmount(() => {
-    setEassyResult('');
-    setHistoryData({ template_id: '', result: '', questionAnswerPair: {} });
+    resetbsData();
   });
 
   return (
@@ -66,7 +63,7 @@ const OutputPanel = () => {
       <main className='h-full w-full overflow-y-auto'>
         <AnimatePresence mode='wait'>
           {tab === 1 ? (
-            <HistoryPanel handleTabChange={handleTabChange} />
+            <HistoryPanel data={history} handleTabChange={handleTabChange} />
           ) : tab === 0 ? (
             <OutcomePanel
               printIndexRef={printIndexRef}

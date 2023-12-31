@@ -1,27 +1,26 @@
 import { AnswerRequestParam, FormQuestionResponse, IUsage } from '@/types';
+import Cookies from 'js-cookie';
 import {
   IActListResData,
   IBrainStormSection,
   IBrainstormHistory,
+  IBriansotrmReq,
   IChatHistoryData,
   IChatRequest,
+  IChatSessionData,
+  IEssayAssessData,
   IEssayAssessRequest,
   IGenerateActListParams,
   INotificationData,
-  IOptRequest,
+  IPlagiarismData,
   IPolishParams,
-  IPolishQueryData,
+  IPolishResultA,
   IResetParams,
   ISigunUpRequest,
   IVerifyEmail,
-  IEssayAssessData,
   LoginData,
   SupportDetailData,
-  IBriansotrmReq,
-  IPolishResultA,
-  IPlagiarismData,
 } from './type';
-import Cookies from 'js-cookie';
 
 // ----------------------------------------------------------------
 // BrainStorm
@@ -179,7 +178,7 @@ export async function getUserInfo(email: string): Promise<IUsage> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/info?email=${email}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/info?email=${email}`,
       {
         headers: { Authorization: `Bearer ${token}` },
         method: 'GET',
@@ -356,7 +355,23 @@ export async function verifyEmail(params: IVerifyEmail) {
 // ----------------------------------------------------------------
 export async function getReferralLink() {}
 
-export async function getReferralCount() {}
+export async function getReferralCount() {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/referral_count`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const count_data = await res.json();
+    return count_data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function uploadPaper() {}
 
@@ -821,36 +836,7 @@ export async function getDecodedData(params: {
 // ----------------------------------------------------------------
 // Resume
 // ----------------------------------------------------------------
-export async function fetchResume(params: IOptRequest) {
-  try {
-    const body = JSON.stringify({
-      text: params.text,
-      lengths: params.lengths,
-    });
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}activity_optimize`,
-      {
-        method: 'POST',
-        body,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok) {
-      throw new Error(`HTTP error! Status: ${res.status}`);
-    }
-    const data = await res.json();
-    if (data.msg) {
-      throw new Error(data.msg as string);
-    }
-    return data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
+export async function saveResume() {}
 
 // ----------------------------------------------------------------
 // Chat
@@ -960,7 +946,9 @@ export async function fetchChatHistory(): Promise<IChatHistoryData[]> {
   }
 }
 
-export async function fetchSessionHistory(session_id: string) {
+export async function fetchSessionHistory(
+  session_id: string
+): Promise<IChatSessionData[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(

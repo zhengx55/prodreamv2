@@ -2,6 +2,8 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
+const withPlugins = require('next-compose-plugins');
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -15,11 +17,8 @@ const nextConfig = {
       },
     ],
   },
-
   reactStrictMode: false,
   compress: true,
-  optimizeFonts: false,
-  // distDir: 'dist',
   // poweredByHeader: false,
   webpack: (config) => {
     // Setting resolve.alias to false tells webpack to ignore a module
@@ -30,4 +29,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports = withPlugins([withBundleAnalyzer], nextConfig);

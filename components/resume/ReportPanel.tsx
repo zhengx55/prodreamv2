@@ -1,19 +1,17 @@
 'use client';
-import { useAppSelector } from '@/store/storehooks';
-import { ResumeIframeCSR } from './ResumeFrame';
-import ResumePdf from './ResumePdf';
-import { SuppressResumePDFErrorMessage } from './common/SuppressResumePDFErrorMessage';
-import { selectResume } from '@/store/reducers/resumeSlice';
-import { Separator } from '../ui/separator';
 import { useSetDefaultScale } from '@/hooks/useWindowScale';
+import dynamic from 'next/dynamic';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
-import { useParams, useRouter } from 'next/navigation';
+import ResumeFrame from './ResumeFrame';
+import { SuppressResumePDFErrorMessage } from './common/SuppressResumePDFErrorMessage';
+
+const ResumePdf = dynamic(() => import('./ResumePdf'), { ssr: false });
 
 const ReportPanel = () => {
   const param = useParams();
   const router = useRouter();
-  const resume = useAppSelector(selectResume);
   const [scale, setScale] = useState<number>(0.8);
   const { setScaleOnResize } = useSetDefaultScale({
     setScale,
@@ -26,16 +24,12 @@ const ReportPanel = () => {
   }, []);
 
   return (
-    <div className='relative flex h-full flex-col items-center bg-sectionBackground md:w-[50%] md:overflow-hidden md:p-[var(--resume-padding)]'>
-      <ResumeIframeCSR scale={scale}>
-        <ResumePdf themeColor='#7D2FF5' resume={resume} />
-      </ResumeIframeCSR>
+    <div className='relative flex h-full w-1/2 flex-col items-center justify-between overflow-hidden bg-sectionBackground px-[var(--resume-padding)] pt-[var(--resume-padding)]'>
+      <ResumeFrame scale={scale}>
+        <ResumePdf themeColor='#7D2FF5' />
+      </ResumeFrame>
       <SuppressResumePDFErrorMessage />
-      <Separator
-        orientation='horizontal'
-        className='absolute bottom-[var(--resume-control-bar-height)] bg-shadow-border'
-      />
-      <div className='flex-center absolute bottom-0 left-0 right-0 flex h-[var(--resume-control-bar-height)] px-[var(--resume-padding)] md:w-full md:gap-x-10'>
+      <div className='flex-center h-[var(--resume-control-bar-height)] w-full gap-x-10 border-t border-shadow-border px-[var(--resume-padding)]'>
         <Button onClick={() => router.push(`/writtingpal/resume`)}>
           save and return
         </Button>

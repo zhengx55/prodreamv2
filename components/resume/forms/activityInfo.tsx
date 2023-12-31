@@ -1,40 +1,38 @@
 'use client';
-import { IActivityForm } from '@/types';
-import DatePicker from '@/components/root/DatePicker';
+import ReorderItem from '@/components/resume/forms/ReorderItem';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AnimatePresence, Reorder, motion } from 'framer-motion';
-import { ChevronDown, Plus, Trash2 } from 'lucide-react';
-import React, { ChangeEvent } from 'react';
-import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
-import {
-  addSectionInForm,
-  changeActivities,
-  deleteSectionInFormByIdx,
-  selectActivities,
-  setActivities,
-} from '@/store/reducers/resumeSlice';
+import { IActivityForm } from '@/types';
+import { useResume } from '@/zustand/store';
+import { AnimatePresence, Reorder, m } from 'framer-motion';
+import { ChevronDown, Plus, Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
 
+const DatePicker = dynamic(() => import('@/components/root/DatePicker'));
+
 const ActivityInfo = () => {
-  const activitiesinfo = useAppSelector(selectActivities);
-  const dispatch = useAppDispatch();
+  const activitiesinfo = useResume((state) => state.activities);
+  const updateActivities = useResume((state) => state.changeActivities);
+  const addSection = useResume((state) => state.addSectionInForm);
+  const deleteSections = useResume((state) => state.deleteSectionInFormByIdx);
+  const setActivities = useResume((state) => state.setActivities);
 
   const handleDeleteClick = (index: number) => {
-    dispatch(deleteSectionInFormByIdx({ form: 'activities', idx: index }));
+    deleteSections('activities', index);
   };
 
   const handleAddSection = () => {
-    dispatch(addSectionInForm({ form: 'activities' }));
+    addSection('activities');
   };
 
   const toogleFormExpand = (index: number) => {
     const expand =
       activitiesinfo[index].expand === 'expand' ? 'collapse' : 'expand';
-    dispatch(changeActivities({ idx: index, field: 'expand', value: expand }));
+    updateActivities(index, 'expand', expand);
   };
 
   const handleValueChange = (
@@ -43,7 +41,7 @@ const ActivityInfo = () => {
   ) => {
     const field = e.target.name as keyof IActivityForm;
     const value = e.target.value;
-    dispatch(changeActivities({ field, value, idx: index } as any));
+    updateActivities(index, field, value);
   };
 
   const handleDateChange = (
@@ -51,16 +49,16 @@ const ActivityInfo = () => {
     value: string,
     field: keyof IActivityForm
   ) => {
-    dispatch(changeActivities({ field, value, idx: index } as any));
+    updateActivities(index, field, value);
   };
   return (
     <>
-      <h1 className='title-semibold mt-8 text-black-100'>Activity</h1>
+      <h1 className='title-semibold text-black-100'>Activity</h1>
       <Reorder.Group
         axis='y'
         values={activitiesinfo}
         onReorder={(newOrder) => {
-          dispatch(setActivities(newOrder));
+          setActivities(newOrder);
         }}
         className='relative'
       >
@@ -96,7 +94,7 @@ const ActivityInfo = () => {
               </div>
               <AnimatePresence>
                 {item.expand === 'expand' && (
-                  <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
+                  <m.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
                       <Label htmlFor='activity' aria-label='company'>
                         Company/Organization Name
@@ -176,18 +174,12 @@ const ActivityInfo = () => {
                         id='activity-description'
                         className='h-[150px]'
                         onChange={(field, value) => {
-                          dispatch(
-                            changeActivities({
-                              field,
-                              value,
-                              idx: index,
-                            })
-                          );
+                          updateActivities(index, field, value);
                         }}
                         value={item.description}
                       />
                     </div>
-                  </motion.section>
+                  </m.section>
                 )}
               </AnimatePresence>
             </ReorderItem>
@@ -199,9 +191,9 @@ const ActivityInfo = () => {
         onClick={handleAddSection}
         variant='ghost'
         size={'spaceOff'}
-        className='mt-4 text-xl'
+        className='small-regular gap-x-1'
       >
-        <Plus className='text-primary-200' />
+        <Plus size={20} className='text-primary-200' />
         <h1 className='text-primary-200'>Add Activity</h1>
       </Button>
     </>

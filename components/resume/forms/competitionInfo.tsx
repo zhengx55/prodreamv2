@@ -1,44 +1,36 @@
 'use client';
-import { Textarea } from '@/components/ui/textarea';
-import { ICompetitionForm } from '@/types';
-import DatePicker from '@/components/root/DatePicker';
+import ReorderItem from '@/components/resume/forms/ReorderItem';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AnimatePresence, Reorder, motion } from 'framer-motion';
-import { ChevronDown, Plus, Trash2 } from 'lucide-react';
-import React, { ChangeEvent, useState } from 'react';
-import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
-import {
-  addSectionInForm,
-  changeCompetitions,
-  deleteSectionInFormByIdx,
-  selectCompetitions,
-  setCompetitions,
-} from '@/store/reducers/resumeSlice';
+import { ICompetitionForm } from '@/types';
+import { useResume } from '@/zustand/store';
+import { AnimatePresence, Reorder, m } from 'framer-motion';
+import { ChevronDown, Plus, Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
-import { findSwappedElements } from '@/lib/utils';
-
+const DatePicker = dynamic(() => import('@/components/root/DatePicker'));
 const CompetitionInfo = () => {
-  const competitionsInfo = useAppSelector(selectCompetitions);
-  const dispatch = useAppDispatch();
+  const competitionsInfo = useResume((state) => state.competitions);
+  const updateCompetitions = useResume((state) => state.changeCompetitions);
+  const addSection = useResume((state) => state.addSectionInForm);
+  const deleteSections = useResume((state) => state.deleteSectionInFormByIdx);
+  const setCompetitions = useResume((state) => state.setCompetitions);
 
   const handleDeleteClick = (index: number) => {
-    dispatch(deleteSectionInFormByIdx({ form: 'competitions', idx: index }));
+    deleteSections('activities', index);
   };
 
   const handleAddSection = () => {
-    dispatch(addSectionInForm({ form: 'competitions' }));
+    addSection('activities');
   };
 
   const toogleFormExpand = (index: number) => {
     const expand =
       competitionsInfo[index].expand === 'expand' ? 'collapse' : 'expand';
-    dispatch(
-      changeCompetitions({ idx: index, field: 'expand', value: expand })
-    );
+    updateCompetitions(index, 'expand', expand);
   };
 
   const handleDateChange = (
@@ -46,7 +38,7 @@ const CompetitionInfo = () => {
     value: string,
     field: keyof ICompetitionForm
   ) => {
-    dispatch(changeCompetitions({ field, value, idx: index } as any));
+    updateCompetitions(index, field, value);
   };
 
   const handleValueChange = (
@@ -55,17 +47,17 @@ const CompetitionInfo = () => {
   ) => {
     const field = e.target.name as keyof ICompetitionForm;
     const value = e.target.value;
-    dispatch(changeCompetitions({ field, value, idx: index } as any));
+    updateCompetitions(index, field, value);
   };
 
   return (
     <>
-      <h1 className='title-semibold mt-8 text-black-100'>Competition</h1>
+      <h1 className='title-semibold text-black-100'>Competition</h1>
       <Reorder.Group
         axis='y'
         values={competitionsInfo}
         onReorder={(newOrder) => {
-          dispatch(setCompetitions(newOrder));
+          setCompetitions(newOrder);
         }}
         className='relative'
       >
@@ -101,7 +93,7 @@ const CompetitionInfo = () => {
               </div>
               <AnimatePresence>
                 {item.expand === 'expand' && (
-                  <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
+                  <m.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
                       <Label htmlFor='competition' aria-label='name'>
                         Competition Name
@@ -163,18 +155,12 @@ const CompetitionInfo = () => {
                         id='cmp-additional'
                         className='h-[150px]'
                         onChange={(field, value) => {
-                          dispatch(
-                            changeCompetitions({
-                              field,
-                              value,
-                              idx: index,
-                            })
-                          );
+                          updateCompetitions(index, field, value);
                         }}
                         value={item.additional_info}
                       />
                     </div>
-                  </motion.section>
+                  </m.section>
                 )}
               </AnimatePresence>
             </ReorderItem>
@@ -185,10 +171,10 @@ const CompetitionInfo = () => {
       <Button
         onClick={handleAddSection}
         variant='ghost'
-        className='mt-4 text-xl'
+        className='small-regular gap-x-1'
         size={'spaceOff'}
       >
-        <Plus className='text-primary-200' />
+        <Plus size={20} className='text-primary-200' />
         <h1 className='text-primary-200'>Add Competition</h1>
       </Button>
     </>

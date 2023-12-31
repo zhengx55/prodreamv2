@@ -1,5 +1,5 @@
 'use client';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
+import useRootStore from '@/zustand/store';
 import { useEffect, useRef, useState } from 'react';
 
 type Props = {
@@ -15,7 +15,7 @@ const TextStreamingEffect = ({
   printIndexRef,
   setWorkCount,
 }: Props) => {
-  const { setStartTyping } = useBrainStormContext();
+  const setStartTyping = useRootStore((state) => state.updatebsStartTyping);
   const [displayedText, setDisplayedText] = useState('');
   const intervalIdRef = useRef<NodeJS.Timeout>();
   useEffect(() => {

@@ -1,41 +1,35 @@
 'use client';
-import { IWorkForm } from '@/types';
-import DatePicker from '@/components/root/DatePicker';
+import ReorderItem from '@/components/resume/forms/ReorderItem';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AnimatePresence, Reorder, motion } from 'framer-motion';
-import { ChevronDown, Plus, Trash2 } from 'lucide-react';
-import React, { ChangeEvent } from 'react';
-import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
-import {
-  addSectionInForm,
-  changeWorkExperiences,
-  deleteSectionInFormByIdx,
-  selectWorkExperiences,
-  setWorks,
-} from '@/store/reducers/resumeSlice';
+import { IWorkForm } from '@/types';
+import { useResume } from '@/zustand/store';
+import { AnimatePresence, Reorder, m } from 'framer-motion';
+import { ChevronDown, Plus, Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
-
+const DatePicker = dynamic(() => import('@/components/root/DatePicker'));
 const WorkInfo = () => {
-  const workInfos = useAppSelector(selectWorkExperiences);
-  const dispatch = useAppDispatch();
+  const addSection = useResume((state) => state.addSectionInForm);
+  const deleteSections = useResume((state) => state.deleteSectionInFormByIdx);
+  const workInfos = useResume((state) => state.works);
+  const updateWorks = useResume((state) => state.changeWorkExperiences);
+  const setWork = useResume((state) => state.setWorks);
 
   const handleDeleteClick = (index: number) => {
-    dispatch(deleteSectionInFormByIdx({ form: 'works', idx: index }));
+    deleteSections('works', index);
   };
 
   const handleAddSection = () => {
-    dispatch(addSectionInForm({ form: 'works' }));
+    addSection('works');
   };
 
   const toogleFormExpand = (index: number) => {
     const expand = workInfos[index].expand === 'expand' ? 'collapse' : 'expand';
-    dispatch(
-      changeWorkExperiences({ idx: index, field: 'expand', value: expand })
-    );
+    updateWorks(index, 'expand', expand);
   };
 
   const handleValueChange = (
@@ -44,23 +38,23 @@ const WorkInfo = () => {
   ) => {
     const field = e.target.name as keyof IWorkForm;
     const value = e.target.value;
-    dispatch(changeWorkExperiences({ field, value, idx: index } as any));
+    updateWorks(index, field, value);
   };
   const handleDateChange = (
     index: number,
     value: string,
     field: keyof IWorkForm
   ) => {
-    dispatch(changeWorkExperiences({ field, value, idx: index } as any));
+    updateWorks(index, field, value);
   };
   return (
     <>
-      <h1 className='title-semibold mt-8 text-black-100'>Work</h1>
+      <h1 className='title-semibold text-black-100'>Work</h1>
       <Reorder.Group
         axis='y'
         values={workInfos}
         onReorder={(newOrder) => {
-          dispatch(setWorks(newOrder));
+          setWork(newOrder);
         }}
         className='relative'
       >
@@ -96,7 +90,7 @@ const WorkInfo = () => {
               </div>
               <AnimatePresence>
                 {item.expand === 'expand' && (
-                  <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
+                  <m.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
                       <Label htmlFor='work-position' aria-label='school'>
                         Position
@@ -173,18 +167,12 @@ const WorkInfo = () => {
                         id='work-description'
                         className='h-[150px]'
                         onChange={(field, value) => {
-                          dispatch(
-                            changeWorkExperiences({
-                              field,
-                              value,
-                              idx: index,
-                            })
-                          );
+                          updateWorks(index, field, value);
                         }}
                         value={item.description}
                       />
                     </div>
-                  </motion.section>
+                  </m.section>
                 )}
               </AnimatePresence>
             </ReorderItem>
@@ -196,9 +184,9 @@ const WorkInfo = () => {
         onClick={handleAddSection}
         variant='ghost'
         size={'spaceOff'}
-        className='mt-4 text-xl'
+        className='small-regular gap-x-1'
       >
-        <Plus className='text-primary-200' />
+        <Plus size={20} className='text-primary-200' />
         <h1 className='text-primary-200'>Add Work</h1>
       </Button>
     </>

@@ -1,18 +1,13 @@
 import { useMaxChatContext } from '@/context/MaxChateProvider';
+import { fetchResponse, sendMessage } from '@/query/api';
 import { useGetSessionHistory } from '@/query/query';
 import { IChatRequest, IChatSessionData, Role } from '@/query/type';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import Image from 'next/image';
-import React, {
-  ChangeEvent,
-  useEffect,
-  useState,
-  KeyboardEvent,
-  useRef,
-} from 'react';
-import { Input } from '../ui/input';
-import { fetchResponse, sendMessage } from '@/query/api';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import { Input } from '../ui/input';
 import ChatTextStreamingEffect from './ChatTextStreamingEffect';
 
 const MessageLoading = () => (
@@ -55,9 +50,8 @@ const MessageList = () => {
           }
         } catch (error) {
           setSystemLoading(false);
-          console.log(error);
         }
-      }, 1500);
+      }, 2000);
     },
     onError: () => {
       setSystemLoading(false);
@@ -126,9 +120,8 @@ const MessageList = () => {
           }
         } catch (error) {
           setSystemLoading(false);
-          console.log(error);
         }
-      }, 1500);
+      }, 2000);
     },
     onError: () => {
       setSystemLoading(false);
@@ -136,27 +129,29 @@ const MessageList = () => {
   });
 
   useEffect(() => {
-    if (currentMessageList) {
-      setMessageList(currentMessageList);
-    }
-  }, [currentMessageList]);
-
-  useEffect(() => {
     // 切换聊天窗口时清除打字机特效残留
     setAnimatedText('');
     printIndexRef.current = 0;
+    respondTimer.current && clearInterval(respondTimer.current);
   }, [currentSession]);
+
+  useUnmount(() => {
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      respondTimer.current && clearInterval(respondTimer.current);
+    };
+  });
 
   useDeepCompareEffect(() => {
     scrollToBottom();
   }, [MessageList]);
 
   useEffect(() => {
-    return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      respondTimer.current && clearInterval(respondTimer.current);
-    };
-  }, []);
+    if (!currentMessageList) return;
+    if (currentMessageList.length > 0) {
+      setMessageList(currentMessageList);
+    }
+  }, [currentMessageList]);
 
   const onMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -247,7 +242,7 @@ const MessageList = () => {
               <ChatTextStreamingEffect
                 printIndexRef={printIndexRef}
                 text={animatedText}
-                speed={30}
+                speed={20}
                 setAnimatedText={setAnimatedText}
                 setMessageList={setMessageList}
               />

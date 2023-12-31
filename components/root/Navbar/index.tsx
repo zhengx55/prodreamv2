@@ -1,16 +1,15 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import React, { memo } from 'react';
-import Referal from './Referal';
+import { memo } from 'react';
 import Notification from './Notification';
+import Referal from './Referal';
 import UserNavMenu from './UserNavMenu';
 
 const Navbar = () => {
   const pathname = usePathname();
-
   return (
     <nav className='flex-between relative h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
-      <h3 className='h3-bold hidden capitalize text-black-200 md:block'>
+      <h3 className='h3-bold capitalize text-black-200'>
         {pathname.split('/')[2] === 'activityList'
           ? 'Activity List'
           : pathname.split('/')[2] === 'polish'

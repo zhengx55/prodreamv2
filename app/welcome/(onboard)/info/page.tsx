@@ -5,13 +5,11 @@ import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
 const AnimatedLayout = dynamic(
-  () => import('@/components/welcome/AnimatedLayout'),
-  { ssr: false }
+  () => import('@/components/welcome/AnimatedLayout')
 );
 
 const TypingBanner = dynamic(
-  () => import('@/components/features/TypingBanner'),
-  { ssr: false }
+  () => import('@/components/features/TypingBanner')
 );
 
 export default async function Page() {

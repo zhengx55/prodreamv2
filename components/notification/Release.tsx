@@ -1,10 +1,10 @@
 import { release_data } from '@/constant';
-import { AnimatePresence, Variants, motion, wrap } from 'framer-motion';
-import Image from 'next/image';
-import React, { useState } from 'react';
-import { Button } from '../ui/button';
+import { AnimatePresence, Variants, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
+import { Button } from '../ui/button';
 
 const variants: Variants = {
   enter: (direction: number) => {
@@ -96,7 +96,7 @@ const Release = () => {
             {release_data[currentIndex].description}
           </p>
           {currentIndex === 0 && (
-            <Link href={'/writtingpal/activityList'}>
+            <Link href={'/writtingpal/activityList'} passHref>
               <Button className='w-1/3'>Try it now!</Button>
             </Link>
           )}

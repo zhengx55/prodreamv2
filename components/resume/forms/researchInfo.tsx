@@ -1,40 +1,36 @@
 'use client';
-import { IResearchForm } from '@/types';
-import DatePicker from '@/components/root/DatePicker';
+import ReorderItem from '@/components/resume/forms/ReorderItem';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AnimatePresence, Reorder, motion } from 'framer-motion';
-import { ChevronDown, Plus, Trash2 } from 'lucide-react';
-import React, { ChangeEvent } from 'react';
-import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
-import {
-  addSectionInForm,
-  changeResearches,
-  deleteSectionInFormByIdx,
-  selectResearches,
-  setResearches,
-} from '@/store/reducers/resumeSlice';
+import { IResearchForm } from '@/types';
+import { useResume } from '@/zustand/store';
+import { AnimatePresence, Reorder, m } from 'framer-motion';
+import { ChevronDown, Plus, Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
-
+const DatePicker = dynamic(() => import('@/components/root/DatePicker'));
 const ResearchInfo = () => {
-  const researchesInfo = useAppSelector(selectResearches);
-  const dispatch = useAppDispatch();
+  const researchesInfo = useResume((state) => state.researches);
+  const updateResearches = useResume((state) => state.changeResearches);
+  const addSection = useResume((state) => state.addSectionInForm);
+  const deleteSections = useResume((state) => state.deleteSectionInFormByIdx);
+  const setResearches = useResume((state) => state.setResearches);
 
   const handleDeleteClick = (index: number) => {
-    dispatch(deleteSectionInFormByIdx({ form: 'researches', idx: index }));
+    deleteSections('researches', index);
   };
 
   const handleAddSection = () => {
-    dispatch(addSectionInForm({ form: 'researches' }));
+    addSection('researches');
   };
 
   const toogleFormExpand = (index: number) => {
     const expand =
       researchesInfo[index].expand === 'expand' ? 'collapse' : 'expand';
-    dispatch(changeResearches({ idx: index, field: 'expand', value: expand }));
+    updateResearches(index, 'expand', expand);
   };
 
   const handleValueChange = (
@@ -43,7 +39,7 @@ const ResearchInfo = () => {
   ) => {
     const field = e.target.name as keyof IResearchForm;
     const value = e.target.value;
-    dispatch(changeResearches({ field, value, idx: index } as any));
+    updateResearches(index, field, value);
   };
 
   const handleDateChange = (
@@ -51,17 +47,17 @@ const ResearchInfo = () => {
     value: string,
     field: keyof IResearchForm
   ) => {
-    dispatch(changeResearches({ field, value, idx: index } as any));
+    updateResearches(index, field, value);
   };
 
   return (
     <>
-      <h1 className='title-semibold mt-8 text-black-100'>Research</h1>
+      <h1 className='title-semibold text-black-100'>Research</h1>
       <Reorder.Group
         axis='y'
         values={researchesInfo}
         onReorder={(newOrder) => {
-          dispatch(setResearches(newOrder));
+          setResearches(newOrder);
         }}
         className='relative'
       >
@@ -97,7 +93,7 @@ const ResearchInfo = () => {
               </div>
               <AnimatePresence>
                 {item.expand === 'expand' && (
-                  <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
+                  <m.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
                       <Label htmlFor='position' aria-label='position'>
                         Project Name
@@ -174,18 +170,12 @@ const ResearchInfo = () => {
                         id='research-description'
                         className='h-[150px]'
                         onChange={(field, value) => {
-                          dispatch(
-                            changeResearches({
-                              field,
-                              value,
-                              idx: index,
-                            })
-                          );
+                          updateResearches(index, field, value);
                         }}
                         value={item.description}
                       />
                     </div>
-                  </motion.section>
+                  </m.section>
                 )}
               </AnimatePresence>
             </ReorderItem>
@@ -197,9 +187,9 @@ const ResearchInfo = () => {
         onClick={handleAddSection}
         variant='ghost'
         size={'spaceOff'}
-        className='mt-4 text-xl'
+        className='small-regular gap-x-1'
       >
-        <Plus className='text-primary-200' />
+        <Plus size={20} className='text-primary-200' />
         <h1 className='text-primary-200'>Add Research</h1>
       </Button>
     </>

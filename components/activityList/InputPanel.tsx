@@ -1,30 +1,27 @@
 'use client';
-import { Button } from '../ui/button';
-import { Loader2, Upload } from 'lucide-react';
-import { ChangeEvent, useCallback, useState } from 'react';
-import { v4 } from 'uuid';
-import { AnimatePresence, Variants, motion } from 'framer-motion';
-import useDeepCompareEffect from 'use-deep-compare-effect';
-import { useActListContext } from '@/context/ActListProvider';
-import dynamic from 'next/dynamic';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
-import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
-import Description from './inputpanel/Description';
-import CharacterSelect from './inputpanel/CharacterSelect';
-import { useMutation } from '@tanstack/react-query';
-import { IUsage } from '@/types';
 import { updateUserInfo } from '@/query/api';
-import { selectUserEmail } from '@/store/reducers/userSlice';
+import { IUsage } from '@/types';
+import useRootStore, { useUsage, useUserInfo } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
+import { AnimatePresence, Variants, m } from 'framer-motion';
+import { Loader2, Upload } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { ChangeEvent, useCallback, useState } from 'react';
+import useDeepCompareEffect from 'use-deep-compare-effect';
+import { v4 } from 'uuid';
+import { Button } from '../ui/button';
+import CharacterSelect from './inputpanel/CharacterSelect';
+import Description from './inputpanel/Description';
 
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 const Activityloader = dynamic(() => import('./Activityloader'));
-const TutCard = dynamic(() => import('../root/TutCard'), { ssr: false });
+const TutCard = dynamic(() => import('../root/TutCard'));
 
 const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
-  const usage = useAppSelector(selectUsage);
-  const email = useAppSelector(selectUserEmail);
-  const dispatch = useAppDispatch();
-  const { historyData } = useActListContext();
+  const usage = useUsage((state) => state.usage);
+  const updateUsageItem = useUsage((state) => state.updateSingleUsage);
+  const email = useUserInfo((state) => state.user.email);
+  const historyData = useRootStore((state) => state.alhistoryData);
   const [isDecoding, setIsDecoding] = useState(false);
   const [decodedData, setDecodedData] = useState<string[]>([]);
   const hasHistoryData = Object.keys(historyData).length > 0;
@@ -39,9 +36,8 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   ]);
 
   const isFirstTimeUpload =
-    Object.keys(usage).length > 0 &&
-    (usage.first_activity_list_upload ||
-      usage.first_activity_list_upload === undefined);
+    usage.first_activity_list_upload ||
+    usage.first_activity_list_upload === undefined;
 
   const toogleIsGenerating = useCallback((value: boolean) => {
     setIsGenerating(value);
@@ -147,10 +143,10 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
     mutationFn: (args: { email: string; params: IUsage }) =>
       updateUserInfo(args.email, args.params),
     onSuccess: () => {
-      dispatch(setSingleUsage('first_activity_list_upload'));
+      updateUsageItem('first_activity_list_upload');
     },
     onError: () => {
-      dispatch(setSingleUsage('first_activity_list_upload'));
+      updateUsageItem('first_activity_list_upload');
     },
   });
 
@@ -162,7 +158,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
   };
 
   return (
-    <motion.div
+    <m.div
       initial={false}
       variants={fullScreenVariants}
       animate={fullScreen ? 'full' : 'half'}
@@ -239,7 +235,7 @@ const InputPanel = ({ fullScreen }: { fullScreen: boolean }) => {
         setIsGenerating={toogleIsGenerating}
         isDecoding={isDecoding}
       />
-    </motion.div>
+    </m.div>
   );
 };
 

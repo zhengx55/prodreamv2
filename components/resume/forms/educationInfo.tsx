@@ -1,40 +1,36 @@
 'use client';
-import DatePicker from '@/components/root/DatePicker';
+import ReorderItem from '@/components/resume/forms/ReorderItem';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { AnimatePresence, Reorder, motion } from 'framer-motion';
-import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react';
-import React, { ChangeEvent } from 'react';
-import ReorderItem from '@/components/root/ReorderItem';
 import { FormHeightVariant } from '@/constant';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
-import {
-  addSectionInForm,
-  changeEducations,
-  deleteSectionInFormByIdx,
-  selectEducations,
-  setEducations,
-} from '@/store/reducers/resumeSlice';
+import { useResume } from '@/zustand/store';
+import { AnimatePresence, Reorder, m } from 'framer-motion';
+import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
-
+const DatePicker = dynamic(() => import('@/components/root/DatePicker'));
 const EducationInfo = () => {
-  const educationInfos = useAppSelector(selectEducations);
-  const dispatch = useAppDispatch();
+  const educationsInfo = useResume((state) => state.educations);
+  const updateEducations = useResume((state) => state.changeEducations);
+  const addSection = useResume((state) => state.addSectionInForm);
+  const deleteSections = useResume((state) => state.deleteSectionInFormByIdx);
+  const setEducations = useResume((state) => state.setEducations);
 
   const handleDeleteClick = (index: number) => {
-    dispatch(deleteSectionInFormByIdx({ form: 'educations', idx: index }));
+    deleteSections('educations', index);
   };
 
   const handleAddSection = () => {
-    dispatch(addSectionInForm({ form: 'educations' }));
+    addSection('educations');
   };
 
   const toogleFormExpand = (index: number) => {
     const expand =
-      educationInfos[index].expand === 'expand' ? 'collapse' : 'expand';
-    dispatch(changeEducations({ idx: index, field: 'expand', value: expand }));
+      educationsInfo[index].expand === 'expand' ? 'collapse' : 'expand';
+    updateEducations(index, 'expand', expand);
   };
 
   const handleValueChange = (
@@ -43,25 +39,25 @@ const EducationInfo = () => {
   ) => {
     const field = e.target.name as any;
     const value = e.target.value;
-    dispatch(changeEducations({ idx: index, field, value }));
+    updateEducations(index, field, value);
   };
 
   const handleDateChange = (index: number, value: string, field: any) => {
-    dispatch(changeEducations({ field, value, idx: index }));
+    updateEducations(index, field, value);
   };
 
   return (
     <>
-      <h1 className='title-semibold mt-8 text-black-100'>Education</h1>
+      <h1 className='title-semibold text-black-100'>Education</h1>
       <Reorder.Group
         axis='y'
-        values={educationInfos}
+        values={educationsInfo}
         onReorder={(newOrder) => {
-          dispatch(setEducations(newOrder));
+          setEducations(newOrder);
         }}
         className='relative'
       >
-        {educationInfos.map((item, index) => {
+        {educationsInfo.map((item, index) => {
           return (
             <ReorderItem
               value={item}
@@ -103,7 +99,7 @@ const EducationInfo = () => {
               </div>
               <AnimatePresence>
                 {item.expand === 'expand' && (
-                  <motion.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
+                  <m.section className='mt-4 grid grid-flow-row grid-cols-2 gap-x-10 gap-y-5 px-2 pb-4'>
                     <div className='form-input-group'>
                       <Label htmlFor='school_name' aria-label='school'>
                         School Name
@@ -196,18 +192,12 @@ const EducationInfo = () => {
                         id='additional-info'
                         className='h-[150px]'
                         onChange={(field, value) => {
-                          dispatch(
-                            changeEducations({
-                              field,
-                              value,
-                              idx: index,
-                            })
-                          );
+                          updateEducations(index, field, value);
                         }}
                         value={item.additional_info}
                       />
                     </div>
-                  </motion.section>
+                  </m.section>
                 )}
               </AnimatePresence>
             </ReorderItem>
@@ -218,10 +208,10 @@ const EducationInfo = () => {
       <Button
         onClick={handleAddSection}
         variant='ghost'
-        className='mt-4 text-xl'
+        className='small-regular gap-x-1'
         size={'spaceOff'}
       >
-        <Plus className='text-primary-200' />
+        <Plus size={20} className='text-primary-200' />
         <h1 className='text-primary-200'>Add Education</h1>
       </Button>
     </>

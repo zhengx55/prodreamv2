@@ -1,25 +1,19 @@
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  memo,
-  useRef,
-  useState,
-} from 'react';
-import { Textarea } from '../../ui/textarea';
-import type { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { Send, SendActive } from '@/components/root/SvgComponents';
 import { IPolishParams } from '@/query/type';
+import type { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { ChangeEvent, KeyboardEvent, memo, useRef, useState } from 'react';
 import { toast } from 'sonner';
-import useAIEditorStore from '@/zustand/store';
+import { Textarea } from '../../ui/textarea';
 
 const ChatEditInputField = ({
   handleSubmit,
+  selectedText,
 }: {
+  selectedText: string;
   handleSubmit: UseMutateAsyncFunction<any, Error, IPolishParams, void>;
 }) => {
   const [customPrompt, setCustomPrompt] = useState('');
   const ref = useRef<HTMLTextAreaElement>(null);
-
-  const selectedText = useAIEditorStore((state) => state.selectText);
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (!ref.current) return;
     const textarea = e.target;
@@ -69,36 +63,14 @@ const ChatEditInputField = ({
       />
       {customPrompt.trim() === '' ? (
         <span className='flex-center absolute bottom-[18px] right-3 h-8 w-8 rounded-lg bg-shadow-border'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-          >
-            <path
-              d='M19.3037 3.03392C18.8307 2.98792 18.2817 3.06692 17.6787 3.31492C17.6787 3.31492 4.96373 8.55291 4.55373 8.72191C3.54273 9.11491 2.99072 9.54292 2.99072 10.5339V10.6589C2.99072 11.6689 3.80873 12.3649 4.77173 12.5029L10.1787 13.8149L11.4597 19.1909C11.5827 20.1729 12.3097 21.0029 13.3347 21.0029H13.4597C14.4507 21.0029 14.8717 20.4379 15.2717 19.4089L20.6787 6.31493C21.4237 4.50493 20.7197 3.17292 19.3037 3.03392ZM18.9907 5.00291C19.0317 5.04391 18.9927 5.18093 18.8347 5.56493L13.4287 18.6909C13.4197 18.7129 13.4047 18.7019 13.3967 18.7219L11.9597 12.7529C11.8717 12.3889 11.6047 12.1219 11.2407 12.0339L5.30373 10.5969C5.73173 10.4209 18.4287 5.15892 18.4287 5.15892C18.8127 5.00092 18.9497 4.96191 18.9907 5.00291Z'
-              fill='#9C9C9C'
-            />
-          </svg>
+          <Send />
         </span>
       ) : (
         <span
           onClick={handlePolish}
           className='flex-center absolute bottom-[18px] right-3 h-8 w-8 cursor-pointer rounded-lg bg-primary-200 hover:brightness-125'
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-          >
-            <path
-              d='M19.3037 3.03392C18.8307 2.98792 18.2817 3.06692 17.6787 3.31492C17.6787 3.31492 4.96373 8.55291 4.55373 8.72191C3.54273 9.11491 2.99072 9.54292 2.99072 10.5339V10.6589C2.99072 11.6689 3.80873 12.3649 4.77173 12.5029L10.1787 13.8149L11.4597 19.1909C11.5827 20.1729 12.3097 21.0029 13.3347 21.0029H13.4597C14.4507 21.0029 14.8717 20.4379 15.2717 19.4089L20.6787 6.31493C21.4237 4.50493 20.7197 3.17292 19.3037 3.03392ZM18.9907 5.00291C19.0317 5.04391 18.9927 5.18093 18.8347 5.56493L13.4287 18.6909C13.4197 18.7129 13.4047 18.7019 13.3967 18.7219L11.9597 12.7529C11.8717 12.3889 11.6047 12.1219 11.2407 12.0339L5.30373 10.5969C5.73173 10.4209 18.4287 5.15892 18.4287 5.15892C18.8127 5.00092 18.9497 4.96191 18.9907 5.00291Z'
-              fill='white'
-            />
-          </svg>
+          <SendActive />
         </span>
       )}
     </div>

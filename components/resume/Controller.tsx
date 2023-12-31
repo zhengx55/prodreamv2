@@ -1,17 +1,15 @@
 'use client';
 
+import { usePDF } from '@react-pdf/renderer';
+import { Download, PencilLine } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
-import { Download, PencilLine } from 'lucide-react';
-import { usePDF } from '@react-pdf/renderer';
-import dynamic from 'next/dynamic';
+import ResumePdf from './ResumePdf';
 
-type Props = {
-  document: JSX.Element;
-};
-
-const Controller = ({ document }: Props) => {
-  const [instance] = usePDF({ document });
+const Controller = () => {
+  const [instance] = usePDF({
+    document: <ResumePdf isPDF={false} themeColor='#7D2FF5' />,
+  });
 
   const router = useRouter();
   return (
@@ -29,6 +27,4 @@ const Controller = ({ document }: Props) => {
   );
 };
 
-export const ResumeControllerCSR = dynamic(() => Promise.resolve(Controller), {
-  ssr: false,
-});
+export default Controller;

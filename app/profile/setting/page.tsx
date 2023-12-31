@@ -1,21 +1,20 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
+import { Secure } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { toast } from 'sonner';
 import { profileResetAvatar, refreshUserSession } from '@/query/api';
-import { selectUser } from '@/store/reducers/userSlice';
-import { useAppSelector } from '@/store/storehooks';
+import { useUserInfo } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import { toast } from 'sonner';
 const EditEmail = dynamic(() => import('@/components/profile/EditEmail'));
 const EditName = dynamic(() => import('@/components/profile/EditName'));
 const EditPassword = dynamic(() => import('@/components/profile/EditPassword'));
 
 export default function Page() {
-  const userInfo = useAppSelector(selectUser);
+  const userInfo = useUserInfo((state) => state.user);
   const uploadRef = useRef<HTMLInputElement>(null);
   const [IsEditEmail, setEditEmail] = useState(false);
   const [IsEditPassword, setEditPassword] = useState(false);
@@ -131,20 +130,7 @@ export default function Page() {
       <Separator orientation='horizontal' className='mt-7 bg-shadow-border' />
       <div className='mt-7 flex h-[140px] w-[750px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
         <div className='flex gap-x-6'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='23'
-            height='24'
-            viewBox='0 0 23 24'
-            fill='none'
-          >
-            <path
-              fillRule='evenodd'
-              clipRule='evenodd'
-              d='M12.9375 1L2.875 5V11C2.875 16.55 7.16833 21.74 12.9375 23C18.7067 21.74 23 16.55 23 11V5L12.9375 1ZM10.7014 17.0001L6.22917 13.0001L7.80562 11.5901L10.7014 14.1701L18.0694 7.58008L19.6458 9.00008L10.7014 17.0001Z'
-              fill='#E46C6C'
-            />
-          </svg>
+          <Secure />
           <h1 className='title-semibold'>Secure Your Account</h1>
         </div>
         <div className='flex-between flex gap-x-16 pl-12'>

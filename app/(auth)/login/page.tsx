@@ -1,11 +1,12 @@
 'use client';
-import * as z from 'zod';
 import Panel from '@/components/auth/Panel';
 import { Button } from '@/components/ui/button';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCookies } from 'react-cookie';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
+import GoogleSignin from '@/components/auth/GoogleSignin';
 import {
   Form,
   FormControl,
@@ -15,26 +16,20 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginSchema } from '@/lib/validation';
 import { Separator } from '@/components/ui/separator';
-import Link from 'next/link';
-import GoogleSignin from '@/components/auth/GoogleSignin';
-import { Eye, EyeOff } from 'lucide-react';
-import { useState } from 'react';
-import { useAppDispatch } from '@/store/storehooks';
-import { setUser } from '@/store/reducers/userSlice';
+import { loginSchema } from '@/lib/validation';
+import { userLogin } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
-import { getUserInfo, userLogin } from '@/query/api';
+import { Eye, EyeOff } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { setUsage } from '@/store/reducers/usageSlice';
-import { initialUsage } from '@/constant';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function Page() {
   const [_cookies, setCookie] = useCookies(['token']);
   const [hidePassword, setHidePassword] = useState(true);
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -47,10 +42,6 @@ export default function Page() {
       userLogin(param),
     onSuccess: async (data) => {
       toast.success('Successfully Login');
-      const user_usage = await getUserInfo(data.email);
-      if (user_usage) dispatch(setUsage(user_usage));
-      else dispatch(setUsage(initialUsage));
-      dispatch(setUser(data));
       setCookie('token', data.access_token, {
         path: '/',
         maxAge: 604800,
@@ -155,7 +146,7 @@ export default function Page() {
         <GoogleSignin />
         <p className='small-regular mt-8 self-center text-black-200'>
           Don&apos;t have an account?&nbsp;
-          <Link href={'/signup'} className='text-primary-200'>
+          <Link href={'/signup'} prefetch className='text-primary-200'>
             Sign up
           </Link>
         </p>

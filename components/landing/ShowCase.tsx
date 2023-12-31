@@ -1,0 +1,58 @@
+'use client';
+import { ShowCases } from '@/constant';
+import { fadeIn } from '@/constant/motion';
+import { m } from 'framer-motion';
+import Image from 'next/image';
+
+const ShowCase = () => {
+  return (
+    <section className='relative flex w-full justify-center px-4 py-20 sm:px-0'>
+      <div className='flex-center w-full flex-col gap-y-10 sm:max-w-[1450px]'>
+        {ShowCases.map((item, index) => (
+          <m.div
+            initial='hidden'
+            whileInView='show'
+            viewport={{ once: true, amount: 0.25 }}
+            className={`${
+              index === 1
+                ? 'flex-col sm:flex-row-reverse'
+                : 'flex-col sm:flex-row'
+            } flex items-center justify-evenly gap-y-4 sm:gap-y-0`}
+            key={item.id}
+          >
+            <m.div
+              variants={
+                index === 1
+                  ? fadeIn('left', 'tween', 0.2, 1)
+                  : fadeIn('right', 'tween', 0.2, 1)
+              }
+            >
+              <Image
+                alt={item.title}
+                src={item.image}
+                className='h-auto w-[600px] object-contain'
+                width={700}
+                height={500}
+              />
+            </m.div>
+
+            <m.div
+              variants={
+                index === 1
+                  ? fadeIn('right', 'tween', 0.2, 1)
+                  : fadeIn('left', 'tween', 0.2, 1)
+              }
+              className='flex w-full flex-col gap-y-2 sm:w-1/3'
+            >
+              <h1 className='h2-bold text-center sm:text-left'>{item.title}</h1>
+              <p className='small-regular text-center sm:text-left'>
+                {item.description}
+              </p>
+            </m.div>
+          </m.div>
+        ))}
+      </div>
+    </section>
+  );
+};
+export default ShowCase;
