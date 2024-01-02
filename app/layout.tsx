@@ -2,6 +2,7 @@ import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import GoogleAnalytics from '@/google/GoogleAnalytics';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
@@ -50,16 +51,22 @@ export default function RootLayout({
     <html lang='en' className={poppins.variable} suppressHydrationWarning>
       <body>
         <ThemeProvider attribute='class' defaultTheme='light'>
-          <TanstackProvider>
-            <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1400px]'>
-              {children}
-              <Toaster richColors visibleToasts={1} />
-              {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
-                <GoogleAnalytics />
-              ) : null}
-              {process.env.NODE_ENV === 'production' ? <SpeedInsights /> : null}
-            </main>
-          </TanstackProvider>
+          <GoogleOAuthProvider
+            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
+          >
+            <TanstackProvider>
+              <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1400px]'>
+                {children}
+                <Toaster richColors visibleToasts={1} />
+                {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+                  <GoogleAnalytics />
+                ) : null}
+                {process.env.NODE_ENV === 'production' ? (
+                  <SpeedInsights />
+                ) : null}
+              </main>
+            </TanstackProvider>
+          </GoogleOAuthProvider>
         </ThemeProvider>
       </body>
     </html>

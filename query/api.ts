@@ -226,6 +226,36 @@ export async function updateUserInfo(
 // Authentication
 // ----------------------------------------------------------------
 
+export async function googleLogin(loginParam: {
+  access_token: string;
+  from?: string;
+  refferal?: string;
+}): Promise<LoginData> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}login_google`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          access_token: loginParam.access_token,
+          from: loginParam.from ?? '',
+          refferal: loginParam.refferal ?? '',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function userLogin(loginParam: {
   username: string;
   password: string;
@@ -288,8 +318,6 @@ export async function userLogOut() {
     throw new Error(error as string);
   }
 }
-
-export async function userGoogleLogin() {}
 
 export async function userReset(params: IResetParams) {
   try {
