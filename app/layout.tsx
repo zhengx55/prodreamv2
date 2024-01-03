@@ -1,6 +1,6 @@
+import CSPostHogProvider from '@/components/root/PostHogProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
-import { ThemeProvider } from '@/context/ThemeProvider';
 import GoogleAnalytics from '@/google/GoogleAnalytics';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -51,8 +51,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' className={poppins.variable} suppressHydrationWarning>
-      <body>
-        <ThemeProvider attribute='class' defaultTheme='light'>
+      <CSPostHogProvider>
+        <body>
           <GoogleOAuthProvider
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
           >
@@ -69,8 +69,8 @@ export default function RootLayout({
               </main>
             </TanstackProvider>
           </GoogleOAuthProvider>
-        </ThemeProvider>
-      </body>
+        </body>
+      </CSPostHogProvider>
     </html>
   );
 }
