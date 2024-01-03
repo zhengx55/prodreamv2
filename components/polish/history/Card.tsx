@@ -1,19 +1,20 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import clearCachesByServerAction from '@/lib/revalidate';
 import { formatTimestampToDateString } from '@/lib/utils';
 import { deleteDoc } from '@/query/api';
 import { IDocDetail } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-type Props = { item: IDocDetail };
-const Card = ({ item }: Props) => {
+type Props = { item: IDocDetail; deleteListItem: (id: string) => void };
+const Card = ({ item, deleteListItem }: Props) => {
+  const router = useRouter();
   const { mutateAsync: deleteDocument } = useMutation({
     mutationFn: (doc_id: string) => deleteDoc(doc_id),
     onSuccess: () => {
       toast.success('Document deleted successfully');
-      clearCachesByServerAction('/writtingpal/polish');
+      deleteListItem(item.id);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -24,7 +25,7 @@ const Card = ({ item }: Props) => {
     await deleteDocument(item.id);
   };
   return (
-    <div className='flex h-[250px] w-full shrink-0 flex-col overflow-hidden rounded-lg border border-shadow-border hover:shadow-lg hover:brightness-95'>
+    <li className='flex h-[250px] w-full shrink-0 flex-col overflow-hidden rounded-lg border border-shadow-border hover:shadow-lg hover:brightness-95'>
       <div className='h-2/3 w-full rounded-t-lg bg-nav-selected px-3 py-2.5'>
         <p className='subtle-regular line-clamp-[8] text-shadow'>{item.text}</p>
       </div>
@@ -43,7 +44,7 @@ const Card = ({ item }: Props) => {
           <Trash2 size={18} className='text-shadow' />
         </Button>
       </div>
-    </div>
+    </li>
   );
 };
 export default Card;

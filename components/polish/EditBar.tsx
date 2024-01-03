@@ -1,5 +1,7 @@
 'use client';
 import useRootStore from '@/zustand/store';
+import { ChevronLeft } from 'lucide-react';
+import Link from 'next/link';
 import { memo } from 'react';
 import { toast } from 'sonner';
 import { Copy, Delete, Redo, Undo } from '../root/SvgComponents';
@@ -31,6 +33,13 @@ const EditBar = () => {
     <div
       className={`flex w-full justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1`}
     >
+      <Link passHref href={'/writtingpal/polish'}>
+        <button aria-label='return' className='tool'>
+          <ChevronLeft /> Home
+        </button>
+      </Link>
+
+      <Separator orientation='vertical' className='bg-shadow-border' />
       <Tooltip tooltipContent='Undo ⌘+Z'>
         <button
           id='undo'

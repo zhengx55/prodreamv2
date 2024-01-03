@@ -1240,7 +1240,10 @@ export async function refreshUserSession(): Promise<LoginData> {
 export async function createDoc(text?: string, file?: File) {
   const formData = new FormData();
   formData.append('text', text ?? ' ');
-  if (file) formData.append('file', file);
+  if (file) {
+    formData.append('file', file);
+    formData.delete('text');
+  }
   try {
     const token = Cookies.get('token');
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}document`, {

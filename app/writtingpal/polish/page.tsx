@@ -3,7 +3,7 @@ import { IDocDetail } from '@/query/type';
 import { cookies } from 'next/headers';
 async function getEvaluationHistory(token: string): Promise<IDocDetail[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}document?page=1&page_size=10`,
+    `${process.env.NEXT_PUBLIC_API_URL}document?page=1&page_size=15`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
