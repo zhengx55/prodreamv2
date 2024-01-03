@@ -1,15 +1,31 @@
 'use client';
 import Loading from '@/components/root/CustomLoading';
+import { createDoc } from '@/query/api';
 import { IEvaluationHistory } from '@/types';
+import { useMutation } from '@tanstack/react-query';
 import { Plus, Upload } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { memo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { v4 } from 'uuid';
+import { toast } from 'sonner';
 import Card from './Card';
 
 type Props = { history_list: IEvaluationHistory[] };
+
 const List = ({ history_list }: Props) => {
+  const router = useRouter();
+  const { mutateAsync: createNew } = useMutation({
+    mutationFn: (params: { text?: string; file?: File }) =>
+      createDoc(params.text, params.file),
+    onSuccess: (data) => {
+      router.push(`/writtingpal/polish/${data}`);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   return (
     <InfiniteScroll
       dataLength={history_list.length}
@@ -29,13 +45,15 @@ const List = ({ history_list }: Props) => {
             <Upload className='text-white' size={20} />
             <p className='base-semibold text-white'>Upload Essay</p>
           </span>
-          <Link
+          <button
+            onClick={async () =>
+              await createNew({ text: undefined, file: undefined })
+            }
             className='flex-center h-1/2 w-full cursor-pointer gap-x-2 rounded-lg border border-shadow-border bg-transparent hover:opacity-50'
-            href={`/writtingpal/polish/${v4()}`}
           >
             <Plus className='text-primary-200' size={20} />
             <p className='base-semibold'>New Essay</p>
-          </Link>
+          </button>
         </div>
         {history_list.map((item) => (
           <Link passHref href={`/writtingpal/polish/${item.id}`} key={item.id}>

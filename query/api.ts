@@ -1232,3 +1232,102 @@ export async function refreshUserSession(): Promise<LoginData> {
 // ----------------------------------------------------------------
 // 打点
 // ----------------------------------------------------------------
+
+// ----------------------------------------------------------------
+// Doc
+// ----------------------------------------------------------------
+
+export async function createDoc(text?: string, file?: File) {
+  const formData = new FormData();
+  formData.append('text', text ?? ' ');
+  if (file) formData.append('file', file);
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}document`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function saveDoc(doc_id: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}document/${doc_id}`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function deleteDoc(doc_id: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}document/${doc_id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function getDocs(
+  page: number,
+  pageSize: number = 10,
+  keyword?: string
+) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_API_URL
+      }document?page=${page}&page_size=${pageSize}&keyword=${keyword ?? ''}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}

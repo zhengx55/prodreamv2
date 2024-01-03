@@ -1,5 +1,5 @@
 'use client';
-import { IEssayEvaluationDetail } from '@/types';
+import { IDocDetail } from '@/query/type';
 import useRootStore from '@/zustand/store';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -16,7 +16,7 @@ const ChatEditPanel = dynamic(() => import('./chat_edit/ChatEditPanel'), {
   loading: () => <EditiorLoading />,
 });
 
-const EssayPanel = ({ detail }: { detail: IEssayEvaluationDetail | null }) => {
+const EssayPanel = ({ detail }: { detail: IDocDetail | null }) => {
   const isChatEditMode = useRootStore((state) => state.isChatEditMode);
   const isPolishing = useRootStore((state) => state.isPolishing);
   const polishResult = useRootStore((state) => state.polishResult);

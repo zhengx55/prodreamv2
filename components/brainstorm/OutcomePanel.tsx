@@ -1,6 +1,8 @@
 'use client';
 import { countWords } from '@/lib/utils';
+import { createDoc } from '@/query/api';
 import useRootStore from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import { m } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -21,18 +23,28 @@ const OutcomePanel = ({
   incrementCount: () => void;
 }) => {
   const router = useRouter();
+  const { mutateAsync: createNew } = useMutation({
+    mutationFn: (params: { text?: string; file?: File }) =>
+      createDoc(params.text, params.file),
+    onSuccess: (data) => {
+      router.push(`/writtingpal/polish/${data}`);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
   const historyData = useRootStore((state) => state.bshistoryData);
   const isSubmiting = useRootStore((state) => state.bsisSubmiting);
   const startTyping = useRootStore((state) => state.bsstartTyping);
   const eassyResult = useRootStore((state) => state.bseassyResult);
   const submitError = useRootStore((state) => state.bssubmitError);
-  const updateGlobalEssay = useRootStore((state) => state.updateEssay);
-  const handlePolish = () => {
+  const handlePolish = async () => {
     if (!historyData.result && !eassyResult) {
       return;
     }
-    updateGlobalEssay(historyData.result ? historyData.result : eassyResult);
-    router.push('/writtingpal/polish');
+    await createNew({
+      text: historyData.result ? historyData.result : eassyResult,
+    });
   };
   return (
     <m.div

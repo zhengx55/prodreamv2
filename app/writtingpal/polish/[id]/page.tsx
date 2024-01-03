@@ -1,19 +1,16 @@
 import EssayPanel from '@/components/polish/EssayPanel';
 import Rightbar from '@/components/polish/rightbar';
-import { IEssayEvaluationDetail } from '@/types';
+import { IDocDetail } from '@/query/type';
 import { cookies } from 'next/headers';
 
 async function getEassyDetail(id: string, token: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}essay_assess/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}document/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const data = await res.json();
-  return data.data as IEssayEvaluationDetail;
+  return data.data as IDocDetail;
 }
 
 export default async function Page({ params }: { params: { id: string } }) {

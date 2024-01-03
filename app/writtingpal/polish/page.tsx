@@ -5,7 +5,7 @@ async function getEvaluationHistory(
   token: string
 ): Promise<IEvaluationHistory[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}essay_assess?page=1&page_size=20`,
+    `${process.env.NEXT_PUBLIC_API_URL}document?page=1&page_size=10`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -13,7 +13,7 @@ async function getEvaluationHistory(
     }
   );
   const data = await res.json();
-  return data.data;
+  return data.data.docs;
 }
 export default async function Page() {
   const cookieStore = cookies();
