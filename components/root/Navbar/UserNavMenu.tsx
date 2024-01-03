@@ -59,8 +59,8 @@ const UserNavMenu = () => {
           <NavigationMenuTrigger asChild>
             <div className='group'>
               <User
-                name={user.first_name || ''}
-                email={user.email || ''}
+                name={user.first_name}
+                email={user.email}
                 imgSrc={userAvatar}
               />
               <ChevronUp
