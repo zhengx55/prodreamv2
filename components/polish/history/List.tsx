@@ -4,6 +4,7 @@ import clearCachesByServerAction from '@/lib/revalidate';
 import { createDoc } from '@/query/api';
 import { IDocDetail } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { Plus } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -23,12 +24,15 @@ const List = ({ history_list }: Props) => {
     mutationFn: (params: { text?: string; file?: File }) =>
       createDoc(params.text, params.file),
     onSuccess: (data) => {
-      clearCachesByServerAction('/writtingpal/polish');
       router.push(`/writtingpal/polish/${data}`);
     },
     onError: (error) => {
       toast.error(error.message);
     },
+  });
+
+  useUnmount(() => {
+    clearCachesByServerAction('/writtingpal/polish');
   });
 
   const appendListItem = () => {};

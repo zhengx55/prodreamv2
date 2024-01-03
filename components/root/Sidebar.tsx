@@ -49,11 +49,8 @@ const Sidebar = () => {
       case 'brainstorm':
         index = 1;
         break;
-      case 'resume':
-        index = 2;
-        break;
       case 'activityList':
-        index = 3;
+        index = 2;
         break;
       default:
         break;

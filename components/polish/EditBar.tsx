@@ -31,7 +31,7 @@ const EditBar = () => {
   };
   return (
     <div
-      className={`flex w-full justify-evenly rounded-lg border-shadow-border bg-nav-selected px-4 py-1`}
+      className={`flex w-full justify-evenly rounded-lg border-shadow-border bg-nav-selected px-2 py-1`}
     >
       <Link passHref href={'/writtingpal/polish'}>
         <button aria-label='return' className='tool'>

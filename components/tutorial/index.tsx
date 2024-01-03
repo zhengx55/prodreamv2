@@ -1,5 +1,4 @@
 'use client';
-import { HelpCircle } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -7,11 +6,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { useEffect, useState } from 'react';
 import { TutTabs } from '@/constant';
-import ActivityListTut from './ActivityListTut';
-import { usePathname } from 'next/navigation';
+import { HelpCircle } from 'lucide-react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import ActivityListTut from './ActivityListTut';
 const TutorialSheet = () => {
   const path = usePathname();
   const currnetRoute = path.split('/')[2];
@@ -22,10 +22,8 @@ const TutorialSheet = () => {
       setTutTabs(0);
     } else if (currnetRoute === 'brainstorm') {
       setTutTabs(1);
-    } else if (currnetRoute === 'resume') {
-      setTutTabs(2);
     } else {
-      setTutTabs(3);
+      setTutTabs(2);
     }
   }, [currnetRoute]);
   return (
@@ -66,10 +64,7 @@ const TutorialSheet = () => {
               </div>
             ))}
           </div>
-          {tutTabs === 0 ? null : tutTabs === 1 ? null : tutTabs ===
-            2 ? null : (
-            <ActivityListTut />
-          )}
+          {tutTabs === 0 ? null : tutTabs === 1 ? null : <ActivityListTut />}
         </SheetHeader>
       </SheetContent>
     </Sheet>

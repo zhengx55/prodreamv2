@@ -24,13 +24,13 @@ export const SidebarLinks = [
     active_image: '/templates_active.svg',
     link: '/writtingpal/brainstorm',
   },
-  {
-    id: 'sidebar-03',
-    title: 'Resume',
-    image: '/resume.svg',
-    active_image: '/resume_active.svg',
-    link: '/writtingpal/resume',
-  },
+  // {
+  //   id: 'sidebar-03',
+  //   title: 'Resume',
+  //   image: '/resume.svg',
+  //   active_image: '/resume_active.svg',
+  //   link: '/writtingpal/resume',
+  // },
   {
     id: 'sidebar-04',
     title: 'Activity List',
@@ -53,12 +53,12 @@ export const TutTabs = [
     image: '/tutorials/brainstorm.png',
     bg: '#EBFFE4',
   },
-  {
-    id: 'tut-tabs03',
-    title: 'Resume',
-    image: '/tutorials/resume.png',
-    bg: '#EBF8FF',
-  },
+  // {
+  //   id: 'tut-tabs03',
+  //   title: 'Resume',
+  //   image: '/tutorials/resume.png',
+  //   bg: '#EBF8FF',
+  // },
   {
     id: 'tut-tabs04',
     title: 'Activity List',
