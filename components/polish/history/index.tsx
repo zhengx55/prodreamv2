@@ -1,6 +1,6 @@
 'use client';
 import Spacer from '@/components/root/Spacer';
-import { IEvaluationHistory } from '@/types';
+import { IDocDetail } from '@/query/type';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import dynamic from 'next/dynamic';
 import { useCallback, useState } from 'react';
@@ -11,7 +11,7 @@ const List = dynamic(() => import('./List'));
 const EvaluationHistory = ({
   history_list,
 }: {
-  history_list: IEvaluationHistory[];
+  history_list: IDocDetail[];
 }) => {
   const [keyword, setKeyword] = useState('');
   const [debouncedKeyword, fn] = useDebounce(keyword, 700, { maxWait: 2000 });

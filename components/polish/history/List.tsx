@@ -1,7 +1,7 @@
 'use client';
 import Loading from '@/components/root/CustomLoading';
 import { createDoc } from '@/query/api';
-import { IEvaluationHistory } from '@/types';
+import { IDocDetail } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { Plus, Upload } from 'lucide-react';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { toast } from 'sonner';
 import Card from './Card';
 
-type Props = { history_list: IEvaluationHistory[] };
+type Props = { history_list: IDocDetail[] };
 
 const List = ({ history_list }: Props) => {
   const router = useRouter();

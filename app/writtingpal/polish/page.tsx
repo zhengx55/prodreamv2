@@ -1,9 +1,7 @@
 import EvaluationHistory from '@/components/polish/history';
-import { IEvaluationHistory } from '@/types';
+import { IDocDetail } from '@/query/type';
 import { cookies } from 'next/headers';
-async function getEvaluationHistory(
-  token: string
-): Promise<IEvaluationHistory[]> {
+async function getEvaluationHistory(token: string): Promise<IDocDetail[]> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}document?page=1&page_size=10`,
     {
