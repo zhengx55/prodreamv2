@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
 
 type Props = { name: string; email: string; imgSrc: string };
@@ -10,6 +10,7 @@ const User = ({ name, email, imgSrc }: Props) => {
         <AvatarImage
           className='rounded-full border border-primary-200 bg-primary-50 object-contain'
           src={imgSrc}
+          referrerPolicy='no-referrer'
           alt={name}
         />
         <AvatarFallback>{name}</AvatarFallback>

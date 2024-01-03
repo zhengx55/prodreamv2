@@ -1,4 +1,3 @@
-import { CSPostHogProvider } from '@/components/root/PostHogProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import { ThemeProvider } from '@/context/ThemeProvider';
@@ -9,6 +8,7 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
+
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
@@ -19,6 +19,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
+  referrer: 'no-referrer',
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -55,20 +56,18 @@ export default function RootLayout({
           <GoogleOAuthProvider
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
           >
-            <CSPostHogProvider>
-              <TanstackProvider>
-                <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1400px]'>
-                  {children}
-                  <Toaster richColors visibleToasts={1} />
-                  {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
-                    <GoogleAnalytics />
-                  ) : null}
-                  {process.env.NODE_ENV === 'production' ? (
-                    <SpeedInsights />
-                  ) : null}
-                </main>
-              </TanstackProvider>
-            </CSPostHogProvider>
+            <TanstackProvider>
+              <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1400px]'>
+                {children}
+                <Toaster richColors visibleToasts={1} />
+                {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+                  <GoogleAnalytics />
+                ) : null}
+                {process.env.NODE_ENV === 'production' ? (
+                  <SpeedInsights />
+                ) : null}
+              </main>
+            </TanstackProvider>
           </GoogleOAuthProvider>
         </ThemeProvider>
       </body>
