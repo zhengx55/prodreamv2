@@ -34,10 +34,15 @@
     "@react-pdf/renderer": "^3.1.14",
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-query": "^5.4.3",
+    "@tiptap-pro/extension-drag-handle": "2.1.0",
+    "@tiptap-pro/extension-drag-handle-react": "2.1.0",
+    "@tiptap-pro/extension-node-range": "^2.5.1",
     "@tiptap/extension-character-count": "^2.1.13",
+    "@tiptap/extension-collaboration": "^2.1.13",
     "@tiptap/extension-dropcursor": "^2.1.13",
     "@tiptap/extension-hard-break": "^2.1.13",
     "@tiptap/extension-highlight": "^2.1.13",
+    "@tiptap/extension-placeholder": "^2.1.13",
     "@tiptap/extension-underline": "^2.1.13",
     "@tiptap/pm": "^2.1.13",
     "@tiptap/react": "^2.1.13",
@@ -79,6 +84,9 @@
     "use-debounce": "^10.0.0",
     "use-deep-compare-effect": "^1.8.1",
     "uuid": "^9.0.1",
+    "y-prosemirror": "^1.2.2",
+    "y-protocols": "^1.0.6",
+    "yjs": "^13.6.10",
     "zod": "^3.22.4",
     "zustand": "^4.4.7"
   },
@@ -116,5 +124,9 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "peerDependencies": {
+    "@tiptap-pro/extension-drag-handle": "^2.5.1",
+    "@tiptap-pro/extension-drag-handle-react": "^2.5.1"
   }
 }

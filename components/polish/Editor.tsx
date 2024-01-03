@@ -1,5 +1,7 @@
 'use client';
+import { TrailingNode } from '@/extension/TrailingNode';
 import useRootStore from '@/zustand/store';
+import DragHandle from '@tiptap-pro/extension-drag-handle-react';
 import Bold from '@tiptap/extension-bold';
 import CharacterCount from '@tiptap/extension-character-count';
 import Document from '@tiptap/extension-document';
@@ -11,13 +13,12 @@ import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
+import { GripVertical } from 'lucide-react';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
 import EditBar from './EditBar';
 
 const Tiptap = ({ content }: { content: string }) => {
-  const globalEssay = useRootStore((state) => state.eassy);
-  const updateGlobalEssay = useRootStore((state) => state.updateEssay);
   const reset = useRootStore((state) => state.reset);
   const setEditorInstance = useRootStore((state) => state.setEditorInstance);
   const editor = useEditor({
@@ -30,6 +31,7 @@ const Tiptap = ({ content }: { content: string }) => {
       Paragraph,
       History,
       Strike,
+      TrailingNode,
       HighLight.configure({
         multicolor: true,
       }),
@@ -41,6 +43,9 @@ const Tiptap = ({ content }: { content: string }) => {
     ],
     editorProps: {
       attributes: {
+        autocomplete: 'off',
+        autocorrect: 'off',
+        autocapitalize: 'off',
         class:
           'focus:outline-none max-w-full prose whitespace-pre-wrap prose-p:text-black-400 h-full',
         spellcheck: 'false',
@@ -53,12 +58,7 @@ const Tiptap = ({ content }: { content: string }) => {
           .split(/\n\s*\n/)
           .map((paragraph) => `<p>${paragraph}</p>`)
           .join('')}`
-      : globalEssay
-        ? `${globalEssay
-            .split(/\n\s*\n/)
-            .map((paragraph) => `<p>${paragraph}</p>`)
-            .join('')}`
-        : '',
+      : '',
     parseOptions: {
       preserveWhitespace: 'full',
     },
@@ -66,7 +66,6 @@ const Tiptap = ({ content }: { content: string }) => {
       setEditorInstance(editor as Editor);
     },
     onDestroy: () => {
-      if (globalEssay) updateGlobalEssay('');
       reset();
     },
   });
@@ -87,6 +86,19 @@ const Tiptap = ({ content }: { content: string }) => {
         />
       </div>
       <Spacer y='16' />
+      <DragHandle
+        pluginKey='menu'
+        editor={editor}
+        onNodeChange={() => {}}
+        tippyOptions={{
+          offset: [-2, 16],
+          zIndex: 99,
+        }}
+      >
+        <div className='flex items-center gap-0.5'>
+          <GripVertical />
+        </div>
+      </DragHandle>
       <EditorContent className='min-h-full overflow-y-auto' editor={editor} />
       <div className='flex-between flex h-12 w-full px-0'>
         <p className='small-semibold text-shadow-100'>

@@ -7,7 +7,7 @@ import { FormHeightVariant } from '@/constant';
 import { ICompetitionForm } from '@/types';
 import { useResume } from '@/zustand/store';
 import { AnimatePresence, Reorder, m } from 'framer-motion';
-import { ChevronDown, Plus, Trash2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { ChangeEvent } from 'react';
 import { BulletListTextarea } from './BulletPointTextarea';
@@ -85,11 +85,19 @@ const CompetitionInfo = () => {
                 <h3 className='base-semibold text-black-300'>
                   {item.name ? item.name : 'New Competition experience'}
                 </h3>
-                <ChevronDown
-                  onClick={() => toogleFormExpand(index)}
-                  className='cursor-pointer'
-                  size={24}
-                />
+                {item.expand === 'collapse' ? (
+                  <ChevronDown
+                    onClick={() => toogleFormExpand(index)}
+                    className='cursor-pointer'
+                    size={24}
+                  />
+                ) : (
+                  <ChevronUp
+                    onClick={() => toogleFormExpand(index)}
+                    className='cursor-pointer'
+                    size={24}
+                  />
+                )}
               </div>
               <AnimatePresence>
                 {item.expand === 'expand' && (
