@@ -2,19 +2,12 @@ import { create, useStore } from 'zustand';
 import { ActivityListStore, useActListStore } from './slice/activity-list';
 import { AIEditiorStore, useAIEditorStore } from './slice/ai-editor';
 import { BrainstormStore, useBrainStorm } from './slice/brainstorm';
-import {
-  GlobalEassyAction,
-  GlobalEassyState,
-  useGlobalEssay,
-} from './slice/global-eassy';
 import { ResumeStore, useResumeStore } from './slice/resume';
 import { UsageStore, useUsageStore } from './slice/usage';
 import useUserStore, { UserStore } from './slice/user-info';
 
 const useRootStore = create<
   AIEditiorStore &
-    GlobalEassyState &
-    GlobalEassyAction &
     BrainstormStore &
     ActivityListStore &
     UsageStore &
@@ -22,7 +15,6 @@ const useRootStore = create<
     ResumeStore
 >((...a) => ({
   ...useAIEditorStore(...a),
-  ...useGlobalEssay(...a),
   ...useBrainStorm(...a),
   ...useActListStore(...a),
   ...useUsageStore(...a),
