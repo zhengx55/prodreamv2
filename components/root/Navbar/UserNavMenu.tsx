@@ -31,7 +31,7 @@ const UserNavMenu = () => {
     mutationFn: () => userLogOut(),
     onSuccess: () => {
       removeCookie('token', { path: '/' });
-      router.push('/login');
+      router.replace('/login');
     },
   });
   const handleProfileClick = async (index: number) => {
@@ -49,6 +49,9 @@ const UserNavMenu = () => {
         break;
     }
   };
+  const userAvatar = user.linked_google
+    ? user.avatar
+    : `${process.env.NEXT_PUBLIC_API_STATIC_URL}${user.avatar}`;
   return (
     <NavigationMenu className='z-50'>
       <NavigationMenuList>
@@ -58,7 +61,7 @@ const UserNavMenu = () => {
               <User
                 name={user.first_name || ''}
                 email={user.email || ''}
-                imgSrc={`${process.env.NEXT_PUBLIC_API_STATIC_URL}${user.avatar}`}
+                imgSrc={userAvatar}
               />
               <ChevronUp
                 size={20}
@@ -72,7 +75,7 @@ const UserNavMenu = () => {
               <Avatar>
                 <AvatarImage
                   className='rounded-full border border-primary-200 bg-primary-50 object-contain'
-                  src={`${process.env.NEXT_PUBLIC_API_STATIC_URL}${user.avatar}`}
+                  src={userAvatar}
                   alt={user.first_name}
                 />
                 <AvatarFallback>{user.first_name}</AvatarFallback>
