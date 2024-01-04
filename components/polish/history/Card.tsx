@@ -5,11 +5,9 @@ import { deleteDoc } from '@/query/api';
 import { IDocDetail } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 type Props = { item: IDocDetail; deleteListItem: (id: string) => void };
 const Card = ({ item, deleteListItem }: Props) => {
-  const router = useRouter();
   const { mutateAsync: deleteDocument } = useMutation({
     mutationFn: (doc_id: string) => deleteDoc(doc_id),
     onSuccess: () => {

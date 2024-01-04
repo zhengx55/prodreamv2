@@ -8,6 +8,7 @@ import {
   IChatHistoryData,
   IChatRequest,
   IChatSessionData,
+  IDocDetail,
   IEssayAssessData,
   IEssayAssessRequest,
   IGenerateActListParams,
@@ -1311,13 +1312,11 @@ export async function getDocs(
   page: number,
   pageSize: number = 10,
   keyword?: string
-) {
+): Promise<IDocDetail[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_API_URL
-      }document?page=${page}&page_size=${pageSize}&keyword=${keyword ?? ''}`,
+      `${process.env.NEXT_PUBLIC_API_URL}document?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -1329,7 +1328,7 @@ export async function getDocs(
     if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
-    return data.data;
+    return data.data.docs;
   } catch (error) {
     throw new Error(error as string);
   }
