@@ -16,6 +16,7 @@ const EvaluationHistory = () => {
   const { data: history_list, isPending: isDataLoading } = useQuery({
     queryKey: ['Document_history_list'],
     queryFn: () => getDocs(1, 15),
+    gcTime: 0,
   });
   const memoSetKeyword = useCallback((value: string) => {
     setKeyword(value);
