@@ -1,5 +1,8 @@
 'use client';
+import { useDebouncedState } from '@/hooks/useDebounceState';
+import { saveDoc } from '@/query/api';
 import useRootStore from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import Bold from '@tiptap/extension-bold';
 import CharacterCount from '@tiptap/extension-character-count';
 import Document from '@tiptap/extension-document';
@@ -11,13 +14,51 @@ import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
+import useToggle from 'beautiful-react-hooks/useToggle';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
+import { useParams } from 'next/navigation';
+import { ChangeEvent } from 'react';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
 import EditBar from './EditBar';
 
-const Tiptap = ({ content }: { content: string }) => {
+const Tiptap = ({
+  essay_content,
+  essay_title,
+}: {
+  essay_content: string;
+  essay_title: string;
+}) => {
+  const { id }: { id: string } = useParams();
   const reset = useRootStore((state) => state.reset);
+  const [title, setTitle] = useDebouncedState(essay_title, 500);
+  const [content, setContent] = useDebouncedState(essay_content, 1500);
+  const [saving, toggleSaving] = useToggle(false);
   const setEditorInstance = useRootStore((state) => state.setEditorInstance);
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.currentTarget.value);
+  };
+  const { mutateAsync: saveDocument } = useMutation({
+    mutationFn: (params: { id: string; text?: string; title?: string }) =>
+      saveDoc(params),
+    onMutate: () => {
+      toggleSaving();
+    },
+    onSuccess: () => {
+      toggleSaving();
+    },
+    onError: () => {
+      toggleSaving();
+    },
+  });
+  useUpdateEffect(() => {
+    saveDocument({ id, title });
+  }, [title]);
+
+  useUpdateEffect(() => {
+    saveDocument({ id, text: content });
+  }, [content]);
+
   const editor = useEditor({
     extensions: [
       CharacterCount,
@@ -49,14 +90,17 @@ const Tiptap = ({ content }: { content: string }) => {
     },
     injectCSS: false,
     autofocus: true,
-    content: content
-      ? `${content
+    content: essay_content
+      ? `${essay_content
           .split(/\n\s*\n/)
           .map((paragraph) => `<p>${paragraph}</p>`)
           .join('')}`
       : '',
     onCreate: ({ editor }) => {
       setEditorInstance(editor as Editor);
+    },
+    onUpdate: ({ editor }) => {
+      setContent(editor.getText());
     },
     onDestroy: () => {
       reset();
@@ -74,8 +118,10 @@ const Tiptap = ({ content }: { content: string }) => {
       <div className='flex h-12 w-full shrink-0 border-b-2 border-shadow-border'>
         <Input
           placeholder={'Untitled Document'}
+          defaultValue={title}
+          onChange={handleTitleChange}
           type='text'
-          className='title-semibold h-full border-none p-0 shadow-none focus-visible:ring-0'
+          className='title-semibold h-full border-none p-0 capitalize shadow-none focus-visible:ring-0'
         />
       </div>
       <Spacer y='16' />

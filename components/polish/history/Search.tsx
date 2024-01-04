@@ -29,7 +29,7 @@ const SearchBar = ({ keyword, setKeyword }: Props) => {
         <Search size={22} />
       </div>
       <Input
-        value={keyword}
+        defaultValue={keyword}
         onChange={handleKeywordChange}
         type='text'
         className='h-full w-11/12 border-none focus-visible:ring-0'

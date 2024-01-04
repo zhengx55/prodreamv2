@@ -57,7 +57,7 @@ export default function RootLayout({
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
           >
             <TanstackProvider>
-              <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1400px]'>
+              <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1500px]'>
                 {children}
                 <Toaster richColors visibleToasts={1} />
                 {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (

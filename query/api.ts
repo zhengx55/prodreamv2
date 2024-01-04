@@ -1264,16 +1264,25 @@ export async function createDoc(text?: string, file?: File) {
   }
 }
 
-export async function saveDoc(doc_id: string) {
+export async function saveDoc(params: {
+  id: string;
+  title?: string;
+  text?: string;
+}) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}document/${doc_id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}document/${params.id}`,
       {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          text: params.text ? params.text : null,
+          title: params.title ? params.title : null,
+        }),
       }
     );
     const data = await res.json();

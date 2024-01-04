@@ -46,7 +46,10 @@ const EssayPanel = ({ detail }: { detail: IDocDetail | null }) => {
         style={{ width: isMultiScreen ? '50%' : '66.666667%' }}
         className='flex h-full flex-col'
       >
-        <Tiptap content={detail ? detail.text : ''} />
+        <Tiptap
+          essay_title={detail ? detail.title : ''}
+          essay_content={detail ? detail.text : ''}
+        />
       </motion.div>
       {isChatEditMode ? (
         <ChatEditPanel />

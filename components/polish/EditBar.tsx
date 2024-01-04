@@ -38,7 +38,6 @@ const EditBar = () => {
           <ChevronLeft /> Home
         </button>
       </Link>
-
       <Separator orientation='vertical' className='bg-shadow-border' />
       <Tooltip tooltipContent='Undo ⌘+Z'>
         <button
