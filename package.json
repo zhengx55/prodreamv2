@@ -56,7 +56,6 @@
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.292.0",
     "next": "latest",
-    "next-auth": "^4.24.5",
     "next-compose-plugins": "^2.2.1",
     "next-themes": "^0.2.1",
     "posthog-js": "^1.96.1",

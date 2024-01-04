@@ -4,7 +4,6 @@ import { IDocDetail } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { memo, useCallback, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -52,9 +51,7 @@ const List = ({ history_list }: Props) => {
         </button>
       </li>
       {list.map((item) => (
-        <Link passHref href={`/writtingpal/polish/${item.id}`} key={item.id}>
-          <Card deleteListItem={deleteListItem} item={item} />
-        </Link>
+        <Card deleteListItem={deleteListItem} item={item} key={item.id} />
       ))}
     </ul>
   );
