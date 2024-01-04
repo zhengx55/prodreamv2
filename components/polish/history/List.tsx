@@ -52,12 +52,7 @@ const List = ({ history_list }: Props) => {
         </button>
       </li>
       {list.map((item) => (
-        <Link
-          prefetch={false}
-          passHref
-          href={`/writtingpal/polish/${item.id}`}
-          key={item.id}
-        >
+        <Link passHref href={`/writtingpal/polish/${item.id}`} key={item.id}>
           <Card deleteListItem={deleteListItem} item={item} />
         </Link>
       ))}
