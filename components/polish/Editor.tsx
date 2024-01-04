@@ -17,7 +17,7 @@ import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { Loader2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
 import EditBar from './EditBar';
@@ -143,4 +143,4 @@ const Tiptap = ({
   );
 };
 
-export default Tiptap;
+export default memo(Tiptap);
