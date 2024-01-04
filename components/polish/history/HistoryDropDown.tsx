@@ -28,7 +28,7 @@ const HistoryDropDown = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent
           side='bottom'
-          align='center'
+          align='end'
           sideOffset={10}
           className='bg-white'
         >

@@ -1,5 +1,5 @@
 'use client';
-import { formatTimestampToDateString } from '@/lib/utils';
+import { formatTimestamphh_number } from '@/lib/utils';
 import { IDocDetail } from '@/query/type';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
@@ -29,7 +29,7 @@ const Card = ({ setCurrentItem, toggleDeleteModal, item }: Props) => {
         </h1>
         <div className='flex-between'>
           <p className='subtle-regular text-shadow'>
-            {formatTimestampToDateString(item.create_time)}
+            Opened {formatTimestamphh_number(item.update_time)}
           </p>
           <HistoryDropDown
             toggleDeleteModal={toggleDeleteModal}

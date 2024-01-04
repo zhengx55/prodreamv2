@@ -2,9 +2,11 @@
 
 import { FileIcon } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
+import { formatTimestamphh_number } from '@/lib/utils';
 import { IDocDetail } from '@/query/type';
-import { MoreVertical } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
+const HistoryDropDown = dynamic(() => import('./HistoryDropDown'));
 
 type Props = {
   list: IDocDetail[];
@@ -13,12 +15,9 @@ type Props = {
 };
 const ListView = ({ list, setCurrentItem, toggleDeleteModal }: Props) => {
   return (
-    <ul role='list' className='flex w-full flex-col gap-y-2 px-6'>
+    <ul role='list' className='flex w-full flex-col gap-y-2 pl-6 pr-16'>
       {list.map((item) => (
-        <li
-          className='flex-between cursor-pointer items-center py-2'
-          key={item.id}
-        >
+        <li className='flex-between items-center py-2' key={item.id}>
           <Link passHref href={`/writtingpal/polish/${item.id}`}>
             <Button
               variant={'outline'}
@@ -29,13 +28,14 @@ const ListView = ({ list, setCurrentItem, toggleDeleteModal }: Props) => {
             </Button>
           </Link>
           <div className='flex-between w-1/3'>
-            <p className='small-regular text-shadow'>{item.create_time}</p>
-            <span className='rounded-md p-1 hover:bg-shadow-border'>
-              <MoreVertical
-                className='text-shadow hover:opacity-50'
-                size={18}
-              />
-            </span>
+            <p className='small-regular pl-7 text-shadow'>
+              Opened {formatTimestamphh_number(item.update_time)}
+            </p>
+            <HistoryDropDown
+              toggleDeleteModal={toggleDeleteModal}
+              setCurrentItem={setCurrentItem}
+              item={item}
+            />
           </div>
         </li>
       ))}

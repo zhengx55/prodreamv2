@@ -41,19 +41,26 @@ const List = ({ history_list }: Props) => {
       />
       <div className='flex-between w-full px-6'>
         <h1 className='title-semibold'>My documents</h1>
-        <div className='flex gap-x-4'>
-          {viewType === 'grid' ? (
-            <ListViewIcon
-              onClick={() => setViewType('list')}
-              className='cursor-pointer hover:opacity-50'
-            />
+        <div className='flex-between w-1/3'>
+          {viewType === 'list' ? (
+            <p className='title-regular'>Last opened </p>
           ) : (
-            <LayoutGrid
-              onClick={() => setViewType('grid')}
-              className='cursor-pointer hover:opacity-50'
-            />
+            <span />
           )}
-          <ArrowUpNarrowWide className='cursor-pointer hover:opacity-50' />
+          <div className='flex gap-x-4'>
+            {viewType === 'grid' ? (
+              <ListViewIcon
+                onClick={() => setViewType('list')}
+                className='cursor-pointer hover:opacity-50'
+              />
+            ) : (
+              <LayoutGrid
+                onClick={() => setViewType('grid')}
+                className='cursor-pointer hover:opacity-50'
+              />
+            )}
+            <ArrowUpNarrowWide className='cursor-pointer hover:opacity-50' />
+          </div>
         </div>
       </div>
       <Spacer y='24' />

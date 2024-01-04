@@ -129,6 +129,26 @@ export function formatTimestamphh(timestampString: string) {
   }
 }
 
+export function formatTimestamphh_number(timestamp: number) {
+  const currentTime = new Date().getTime();
+  const timeDifference = currentTime - timestamp * 1000;
+
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 1) {
+    return `${days} days ago`;
+  } else if (hours > 1) {
+    return `${hours} hours ago`;
+  } else if (minutes > 1) {
+    return `${minutes} mins ago`;
+  } else {
+    return `${seconds} seconds ago`;
+  }
+}
+
 export function addRandomToDuplicates(array: string[]) {
   const countMap: Record<string, number> = {};
   const newArray = [];
