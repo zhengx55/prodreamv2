@@ -97,6 +97,7 @@ const Tiptap = ({
       : '',
     onCreate: ({ editor }) => {
       setEditorInstance(editor as Editor);
+      editor.commands.focus('end');
     },
     onUpdate: ({ editor }) => {
       toggleSaving(true);
