@@ -1,5 +1,6 @@
 'use client';
 import { useDebouncedState } from '@/hooks/useDebounceState';
+import clearCachesByServerAction from '@/lib/revalidate';
 import { saveDoc } from '@/query/api';
 import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -100,10 +101,12 @@ const Tiptap = ({
       editor.commands.focus('end');
     },
     onUpdate: ({ editor }) => {
+      if (editor.getText() === content) return;
       toggleSaving(true);
       setContent(editor.getText());
     },
     onDestroy: () => {
+      clearCachesByServerAction(`writtingpal/polish/${id}`);
       reset();
     },
   });
