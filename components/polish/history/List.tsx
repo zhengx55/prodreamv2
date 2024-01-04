@@ -1,11 +1,13 @@
 'use client';
 import Spacer from '@/components/root/Spacer';
+import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
 import { IDocDetail } from '@/query/type';
 import { ArrowUpNarrowWide, LayoutGrid } from 'lucide-react';
 import { memo, useCallback, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import Card from './Card';
+import CardView from './CardView';
 import DeleteModal from './DeleteModal';
+import ListView from './ListView';
 
 type Props = { history_list: IDocDetail[] };
 
@@ -40,24 +42,34 @@ const List = ({ history_list }: Props) => {
       <div className='flex-between w-full px-6'>
         <h1 className='title-semibold'>My documents</h1>
         <div className='flex gap-x-4'>
-          <LayoutGrid className='cursor-pointer hover:opacity-50' />
+          {viewType === 'grid' ? (
+            <ListViewIcon
+              onClick={() => setViewType('list')}
+              className='cursor-pointer hover:opacity-50'
+            />
+          ) : (
+            <LayoutGrid
+              onClick={() => setViewType('grid')}
+              className='cursor-pointer hover:opacity-50'
+            />
+          )}
           <ArrowUpNarrowWide className='cursor-pointer hover:opacity-50' />
         </div>
       </div>
       <Spacer y='24' />
-      <ul
-        role='list'
-        className='grid w-full grid-flow-row grid-cols-6 gap-4 px-6 2xl:grid-cols-7'
-      >
-        {list.map((item) => (
-          <Card
-            toggleDeleteModal={toggleDeleteModal}
-            item={item}
-            key={item.id}
-            setCurrentItem={memoSetCurrentItem}
-          />
-        ))}
-      </ul>
+      {viewType === 'grid' ? (
+        <CardView
+          list={list}
+          toggleDeleteModal={toggleDeleteModal}
+          setCurrentItem={memoSetCurrentItem}
+        />
+      ) : (
+        <ListView
+          list={list}
+          toggleDeleteModal={toggleDeleteModal}
+          setCurrentItem={memoSetCurrentItem}
+        />
+      )}
     </>
   );
 };
