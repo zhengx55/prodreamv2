@@ -14,10 +14,10 @@ import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
-import useToggle from 'beautiful-react-hooks/useToggle';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
+import { Loader2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
 import EditBar from './EditBar';
@@ -31,24 +31,24 @@ const Tiptap = ({
 }) => {
   const { id }: { id: string } = useParams();
   const reset = useRootStore((state) => state.reset);
-  const [title, setTitle] = useDebouncedState(essay_title, 500);
+  const [title, setTitle] = useDebouncedState(essay_title, 1500);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
-  const [saving, toggleSaving] = useToggle(false);
+  const [saving, toggleSaving] = useState(false);
   const setEditorInstance = useRootStore((state) => state.setEditorInstance);
+
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    toggleSaving(true);
     setTitle(e.currentTarget.value);
   };
   const { mutateAsync: saveDocument } = useMutation({
     mutationFn: (params: { id: string; text?: string; title?: string }) =>
       saveDoc(params),
-    onMutate: () => {
-      toggleSaving();
-    },
+    onMutate: () => {},
     onSuccess: () => {
-      toggleSaving();
+      toggleSaving(false);
     },
     onError: () => {
-      toggleSaving();
+      toggleSaving(false);
     },
   });
   useUpdateEffect(() => {
@@ -100,6 +100,7 @@ const Tiptap = ({
       setEditorInstance(editor as Editor);
     },
     onUpdate: ({ editor }) => {
+      toggleSaving(true);
       setContent(editor.getText());
     },
     onDestroy: () => {
@@ -131,6 +132,12 @@ const Tiptap = ({
           {editor.storage.characterCount.words()}
           &nbsp;Words
         </p>
+        {saving ? (
+          <p className='small-semibold flex items-center gap-x-1 text-shadow-100'>
+            <Loader2 className='animate-spin' size={16} />
+            Saving
+          </p>
+        ) : null}
       </div>
     </div>
   );
