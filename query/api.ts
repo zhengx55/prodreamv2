@@ -1321,7 +1321,7 @@ export async function getDocs(
   page: number,
   pageSize: number = 10,
   keyword?: string
-): Promise<IDocDetail[]> {
+): Promise<{ hasMore: boolean; list: IDocDetail[] }> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -1337,7 +1337,7 @@ export async function getDocs(
     if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
-    return data.data.docs;
+    return { hasMore: data.data.n_remaining_page > 0, list: data.data.docs };
   } catch (error) {
     throw new Error(error as string);
   }

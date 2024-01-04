@@ -1,23 +1,56 @@
 'use client';
 import Spacer from '@/components/root/Spacer';
 import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
+import { getDocs } from '@/query/api';
 import { IDocDetail } from '@/query/type';
-import { ArrowUpNarrowWide, LayoutGrid } from 'lucide-react';
-import { memo, useCallback, useState } from 'react';
+import { ArrowUpNarrowWide, LayoutGrid, Loader2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import CardView from './CardView';
-import DeleteModal from './DeleteModal';
-import ListView from './ListView';
 
-type Props = { history_list: IDocDetail[] };
+const ListView = dynamic(() => import('./ListView'));
+const DeleteModal = dynamic(() => import('./DeleteModal'));
 
-const List = ({ history_list }: Props) => {
+type Props = { history_list: IDocDetail[]; hasMorePage: boolean };
+
+const List = ({ history_list, hasMorePage }: Props) => {
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const { ref, inView } = useInView();
   const [list, setList] = useState(history_list);
   const [page, setPage] = useState(1);
+  const [morePage, setMorePage] = useState(hasMorePage);
+  const [loadingMore, toogleLoadingMore] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentItem, setCurrentItem] = useState<IDocDetail>();
+
+  const loadMoreDocs = async () => {
+    if (!morePage) return;
+    try {
+      toogleLoadingMore(true);
+      const next = page + 1;
+      const more_data = await getDocs(next, 15);
+      if (more_data.list.length > 0) {
+        if (more_data.hasMore) {
+          setMorePage(true);
+        } else {
+          setMorePage(false);
+        }
+        setPage(next);
+        setList((prev) => [...(prev?.length ? prev : []), ...more_data.list]);
+      }
+    } catch (error) {
+    } finally {
+      toogleLoadingMore(false);
+    }
+  };
+
+  useEffect(() => {
+    if (inView) {
+      loadMoreDocs();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView, morePage]);
 
   const toggleDeleteModal = useCallback((value: boolean) => {
     setShowDeleteModal(value);
@@ -77,6 +110,12 @@ const List = ({ history_list }: Props) => {
           setCurrentItem={memoSetCurrentItem}
         />
       )}
+      <Spacer y='10' />
+      <div className='flex-center h-10 w-full' ref={ref}>
+        {loadingMore ? (
+          <Loader2 className='animate-spin text-primary-200' />
+        ) : null}
+      </div>
     </>
   );
 };

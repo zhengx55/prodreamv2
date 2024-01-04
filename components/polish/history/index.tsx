@@ -11,11 +11,16 @@ const SearchBar = dynamic(() => import('./Search'));
 const List = dynamic(() => import('./List'));
 const EvaluationHistory = () => {
   const [keyword, setKeyword] = useDebouncedState('', 500);
-  const { data: history_list, isPending: isDataLoading } = useQuery({
+  const {
+    data,
+    isPending: isDataLoading,
+    isError,
+  } = useQuery({
     queryKey: ['Document_history_list'],
     queryFn: () => getDocs(1, 15),
     gcTime: 0,
   });
+
   const memoSetKeyword = useCallback(
     (value: string) => {
       setKeyword(value);
@@ -28,8 +33,15 @@ const EvaluationHistory = () => {
       <Spacer y='24' />
       <SearchBar keyword={keyword} setKeyword={memoSetKeyword} />
       <Spacer y='48' />
-      {isDataLoading ? <Loading /> : <List history_list={history_list!} />}
-      <Spacer y='24' />
+      {isDataLoading ? (
+        <Loading />
+      ) : (
+        <List
+          history_list={isError ? [] : data.list}
+          hasMorePage={isError ? false : data.hasMore}
+        />
+      )}
+      <Spacer y='14' />
     </main>
   );
 };
