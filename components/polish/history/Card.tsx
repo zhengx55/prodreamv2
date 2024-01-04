@@ -24,7 +24,7 @@ const Card = ({ setCurrentItem, toggleDeleteModal, item }: Props) => {
         <p className='subtle-regular line-clamp-[8] text-shadow'>{item.text}</p>
       </div>
       <div className='flex h-1/3 w-full flex-col justify-between rounded-b-lg px-4 py-2'>
-        <h1 className='small-semibold line-clamp-2'>
+        <h1 className='small-semibold line-clamp-2 capitalize'>
           {item.title === 'Untitled' ? 'Untitled Document' : item.title}
         </h1>
         <div className='flex-between'>

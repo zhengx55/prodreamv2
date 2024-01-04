@@ -24,7 +24,7 @@ const ListView = ({ list, setCurrentItem, toggleDeleteModal }: Props) => {
               className='gap-x-1.5 border-none px-0 hover:underline'
             >
               <FileIcon />
-              <p className='small-regular'>{item.title}</p>
+              <p className='small-regular capitalize'>{item.title}</p>
             </Button>
           </Link>
           <div className='flex-between w-1/3'>
