@@ -1280,8 +1280,8 @@ export async function saveDoc(params: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          text: params.text ? params.text : null,
-          title: params.title ? params.title : null,
+          text: params.text ?? null,
+          title: params.title ?? null,
         }),
       }
     );

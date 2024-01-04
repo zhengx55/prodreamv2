@@ -1,10 +1,14 @@
 'use client';
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { memo } from 'react';
 import Notification from './Notification';
 import Referal from './Referal';
-import UserNavMenu from './UserNavMenu';
-
+import { UserSkeleton } from './User';
+const UserNavMenu = dynamic(() => import('./UserNavMenu'), {
+  ssr: false,
+  loading: () => <UserSkeleton />,
+});
 const Navbar = () => {
   const pathname = usePathname();
   return (

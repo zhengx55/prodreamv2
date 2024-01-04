@@ -43,7 +43,6 @@ const Tiptap = ({
   const { mutateAsync: saveDocument } = useMutation({
     mutationFn: (params: { id: string; text?: string; title?: string }) =>
       saveDoc(params),
-    onMutate: () => {},
     onSuccess: () => {
       toggleSaving(false);
     },

@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic';
 import { ReactNode, useState } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
-
 const TutorialSheet = dynamic(() => import('@/components/tutorial'));
+
 const DeviceProvider = ({ children }: { children: ReactNode }) => {
   const [width, setWidth] = useState(window.innerWidth);
   const onWindowResize = useWindowResize();
