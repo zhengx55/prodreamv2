@@ -1,29 +1,17 @@
 'use client';
-import { Button } from '@/components/ui/button';
 import { formatTimestampToDateString } from '@/lib/utils';
-import { deleteDoc } from '@/query/api';
 import { IDocDetail } from '@/query/type';
-import { useMutation } from '@tanstack/react-query';
-import { Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-type Props = { item: IDocDetail; deleteListItem: (id: string) => void };
-const Card = ({ item, deleteListItem }: Props) => {
+const HistoryDropDown = dynamic(() => import('./HistoryDropDown'));
+
+type Props = {
+  item: IDocDetail;
+  toggleDeleteModal: (value: boolean) => void;
+  setCurrentItem: (value: IDocDetail) => void;
+};
+const Card = ({ setCurrentItem, toggleDeleteModal, item }: Props) => {
   const router = useRouter();
-  const { mutateAsync: deleteDocument } = useMutation({
-    mutationFn: (doc_id: string) => deleteDoc(doc_id),
-    onSuccess: () => {
-      toast.success('Document deleted successfully');
-      deleteListItem(item.id);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    await deleteDocument(item.id);
-  };
   return (
     <li
       onClick={() => {
@@ -36,19 +24,19 @@ const Card = ({ item, deleteListItem }: Props) => {
         <p className='subtle-regular line-clamp-[8] text-shadow'>{item.text}</p>
       </div>
       <div className='flex h-1/3 w-full flex-col justify-between rounded-b-lg px-4 py-2'>
-        <h1 className='small-semibold line-clamp-1'>
+        <h1 className='small-semibold line-clamp-2'>
           {item.title === 'Untitled' ? 'Untitled Document' : item.title}
         </h1>
-        <p className='subtle-regular text-shadow'>
-          {formatTimestampToDateString(item.create_time)}
-        </p>
-        <Button
-          onClickCapture={handleDelete}
-          className='h-max w-max self-end p-1.5'
-          variant={'white'}
-        >
-          <Trash2 size={18} className='text-shadow' />
-        </Button>
+        <div className='flex-between'>
+          <p className='subtle-regular text-shadow'>
+            {formatTimestampToDateString(item.create_time)}
+          </p>
+          <HistoryDropDown
+            toggleDeleteModal={toggleDeleteModal}
+            setCurrentItem={setCurrentItem}
+            item={item}
+          />
+        </div>
       </div>
     </li>
   );

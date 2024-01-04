@@ -1,59 +1,64 @@
 'use client';
-import { createDoc } from '@/query/api';
+import Spacer from '@/components/root/Spacer';
 import { IDocDetail } from '@/query/type';
-import { useMutation } from '@tanstack/react-query';
-import { Plus } from 'lucide-react';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/navigation';
+import { ArrowUpNarrowWide, LayoutGrid } from 'lucide-react';
 import { memo, useCallback, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { toast } from 'sonner';
 import Card from './Card';
+import DeleteModal from './DeleteModal';
 
-const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 type Props = { history_list: IDocDetail[] };
 
 const List = ({ history_list }: Props) => {
-  const router = useRouter();
+  const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const { ref, inView } = useInView();
   const [list, setList] = useState(history_list);
   const [page, setPage] = useState(1);
-  const { mutateAsync: createNew } = useMutation({
-    mutationFn: (params: { text?: string; file?: File }) =>
-      createDoc(params.text, params.file),
-    onSuccess: (data) => {
-      router.push(`/writtingpal/polish/${data}`);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [currentItem, setCurrentItem] = useState<IDocDetail>();
+
+  const toggleDeleteModal = useCallback((value: boolean) => {
+    setShowDeleteModal(value);
+  }, []);
+
+  const memoSetCurrentItem = useCallback((value: IDocDetail) => {
+    setCurrentItem(value);
+  }, []);
 
   const deleteListItem = useCallback((id: string) => {
     setList((prev) => prev.filter((item) => item.id !== id));
   }, []);
 
   return (
-    <ul
-      role='list'
-      className='grid w-full grid-flow-row grid-cols-5 gap-x-6 gap-y-8 px-6 2xl:grid-cols-6'
-    >
-      <li className='flex h-[250px] w-full flex-col gap-y-4'>
-        <FileUploadModal />
-        <button
-          onClick={async () =>
-            await createNew({ text: undefined, file: undefined })
-          }
-          className='flex-center h-1/2 w-full cursor-pointer gap-x-2 rounded-lg border border-shadow-border bg-transparent hover:opacity-50'
-        >
-          <Plus className='text-primary-200' size={20} />
-          <p className='base-semibold'>New Essay</p>
-        </button>
-      </li>
-      {list.map((item) => (
-        <Card deleteListItem={deleteListItem} item={item} key={item.id} />
-      ))}
-    </ul>
+    <>
+      <DeleteModal
+        isActive={showDeleteModal}
+        toogleActive={setShowDeleteModal}
+        currentItem={currentItem!}
+        deleteListItem={deleteListItem}
+      />
+      <div className='flex-between w-full px-6'>
+        <h1 className='title-semibold'>My documents</h1>
+        <div className='flex gap-x-4'>
+          <LayoutGrid className='cursor-pointer hover:opacity-50' />
+          <ArrowUpNarrowWide className='cursor-pointer hover:opacity-50' />
+        </div>
+      </div>
+      <Spacer y='24' />
+      <ul
+        role='list'
+        className='grid w-full grid-flow-row grid-cols-6 gap-4 px-6 2xl:grid-cols-7'
+      >
+        {list.map((item) => (
+          <Card
+            toggleDeleteModal={toggleDeleteModal}
+            item={item}
+            key={item.id}
+            setCurrentItem={memoSetCurrentItem}
+          />
+        ))}
+      </ul>
+    </>
   );
 };
 export default memo(List);

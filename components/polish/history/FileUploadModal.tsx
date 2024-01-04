@@ -59,7 +59,7 @@ const FileUploadModal = () => {
     <Dialog>
       <DialogTrigger asChild>
         <span
-          className='flex-center h-1/2 w-full cursor-pointer gap-x-2 rounded-lg hover:opacity-50'
+          className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg hover:opacity-50'
           style={{
             background:
               'linear-gradient(132deg, #DC3DC1 1.6%, #9C2CF3 49.22%, #7A4EF6 91.53%)',
