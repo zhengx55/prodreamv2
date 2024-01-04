@@ -15,6 +15,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'quickapply.app',
       },
+      { hostname: 'lh3.googleusercontent.com', protocol: 'https' },
     ],
   },
   reactStrictMode: false,
