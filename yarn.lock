@@ -1008,6 +1008,11 @@
   dependencies:
     tippy.js "^6.3.7"
 
+"@tiptap/extension-focus@^2.1.13":
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-focus/-/extension-focus-2.1.13.tgz#d66a5d28322d1c9b72f6fb78c577abf7efcac3da"
+  integrity sha512-36qpfcmdjihZlFGonjZYd+CEIkLfP4iHB0HqWt0iAPWdN0Ak2EIxeDRjvrumxBhI5+3MSJ/Kav53t4MuqlMTIQ==
+
 "@tiptap/extension-gapcursor@^2.1.13":
   version "2.1.13"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-gapcursor/-/extension-gapcursor-2.1.13.tgz#994a54e1d4106dfaede0acce184c48457ab34450"
@@ -1144,6 +1149,11 @@
     "@tiptap/extension-paragraph" "^2.1.13"
     "@tiptap/extension-strike" "^2.1.13"
     "@tiptap/extension-text" "^2.1.13"
+
+"@tiptap/suggestion@^2.1.13":
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/@tiptap/suggestion/-/suggestion-2.1.13.tgz#0a8317260baed764a523a09099c0889a0e5b507e"
+  integrity sha512-Y05TsiXTFAJ5SrfoV+21MAxig5UNbY0AVa03lQlh/yicTRPpIc6hgZzblB0uxDSYoj6+kaHE4MIZvPvhUD8BJQ==
 
 "@trysound/sax@0.2.0":
   version "0.2.0"

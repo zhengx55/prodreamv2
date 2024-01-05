@@ -29,10 +29,12 @@ const Card = ({ setCurrentItem, toggleDeleteModal, item }: Props) => {
           {item.title === 'Untitled' ? 'Untitled Document' : item.title}
         </h1>
         <Spacer y='5' />
-
-        <p className='subtle-regular line-clamp-4 text-shadow'>{item.text}</p>
+        <p
+          className='subtle-regular line-clamp-4 text-shadow'
+          dangerouslySetInnerHTML={{ __html: item.text }}
+        ></p>
       </div>
-      <div className='flex h-1/5 w-full flex-col justify-between rounded-b-lg px-4 py-2'>
+      <div className='flex h-1/5 w-full flex-col justify-between rounded-b-lg px-2 py-2'>
         <div className='flex-between'>
           <p className='subtle-regular text-shadow'>
             Opened {formatTimestamphh_number(item.update_time)}
