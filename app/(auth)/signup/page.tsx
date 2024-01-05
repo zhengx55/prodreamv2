@@ -52,7 +52,7 @@ export default function Page() {
           path: '/',
           maxAge: 604800,
         });
-        router.push('/writtingpal/polish');
+        router.push('/welcome/info');
       },
       onError: (error) => {
         toast.error(error.message);

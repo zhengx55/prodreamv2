@@ -86,12 +86,6 @@ export const WelcomOptions = [
     image: '/welcome/ActivityList.png',
     link: '/writtingpal/activityList',
   },
-  {
-    id: 'welcome-04',
-    title: 'Resume',
-    image: '/welcome/Resume.png',
-    link: '/writtingpal/resume',
-  },
 ];
 
 export const ProfileSidebarLinks = [
