@@ -11,10 +11,7 @@ type Props = {
 };
 const CardView = ({ list, setCurrentItem, toggleDeleteModal }: Props) => {
   return (
-    <ul
-      role='list'
-      className='grid w-[1100px] grid-flow-row grid-cols-5 gap-4 px-6'
-    >
+    <ul role='list' className='grid w-[1100px] grid-flow-row grid-cols-5 gap-4'>
       {list.map((item) => (
         <Card
           toggleDeleteModal={toggleDeleteModal}

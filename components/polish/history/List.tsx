@@ -72,7 +72,7 @@ const List = ({ history_list, hasMorePage }: Props) => {
         currentItem={currentItem!}
         deleteListItem={deleteListItem}
       />
-      <div className='flex-between w-[1100px] px-6'>
+      <div className='flex-between w-[1100px]'>
         <h1 className='title-semibold'>My documents</h1>
         <div className='flex-between w-1/3'>
           {viewType === 'list' ? (

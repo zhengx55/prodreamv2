@@ -3,6 +3,7 @@
 module.exports = {
   darkMode: ['class'],
   content: ['./components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}'],
+  safelist: ['ProseMirror'],
   theme: {
     extend: {
       backgroundImage: {

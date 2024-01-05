@@ -28,7 +28,7 @@ const ListView = ({ list, setCurrentItem, toggleDeleteModal }: Props) => {
             </Button>
           </Link>
           <div className='flex-between w-1/3'>
-            <p className='small-regular pl-7 text-shadow'>
+            <p className='small-regular text-shadow'>
               Opened {formatTimestamphh_number(item.update_time)}
             </p>
             <HistoryDropDown

@@ -4,8 +4,7 @@
     }
 
     ul {
-        list-style-type: disc;
-
+        @apply list-disc;
     }
 
     ul,
