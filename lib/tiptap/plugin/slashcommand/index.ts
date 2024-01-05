@@ -25,7 +25,7 @@ export const SlashCommand = Extension.create({
       placement: 'bottom-start',
       theme: 'slash-command',
       maxWidth: '16rem',
-      offset: [16, 8],
+      offset: [14, 5],
       popperOptions: {
         strategy: 'fixed',
         modifiers: [

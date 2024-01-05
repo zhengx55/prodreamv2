@@ -11,8 +11,6 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
   const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
   const [selectedCommandIndex, setSelectedCommandIndex] = useState(0);
 
-  // Anytime the groups change, i.e. the user types to narrow it down, we want to
-  // reset the current selection to the first menu item
   useEffect(() => {
     setSelectedGroupIndex(0);
     setSelectedCommandIndex(0);
@@ -118,7 +116,9 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
   return (
     <Surface
       ref={scrollContainer}
-      className='mb-8 max-h-[min(80vh,24rem)] flex-wrap overflow-auto p-3 text-black-400'
+      withBorder
+      withShadow
+      className='max-h-[min(80vh,24rem)] flex-wrap overflow-auto p-2 text-black-400'
     >
       <div className='grid grid-cols-1 gap-0.5'>
         {props.items.map((group, groupIndex: number) => (

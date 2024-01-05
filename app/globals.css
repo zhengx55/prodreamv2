@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    @apply box-border list-none p-0 m-0 scroll-smooth scrollbar-track-transparent scrollbar-thumb-slate-200;
+    @apply box-border p-0 m-0 scroll-smooth scrollbar-track-transparent scrollbar-thumb-slate-200;
   }
 
   body {
@@ -213,3 +213,4 @@
   animation: fade 1.5s infinite;
   display: inline-block;
 }
+
