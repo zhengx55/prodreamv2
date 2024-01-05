@@ -122,7 +122,7 @@ const Tiptap = ({
         autocorrect: 'off',
         autocapitalize: 'off',
         class:
-          'focus:outline-none max-w-full prose whitespace-pre-wrap prose-p:text-black-400 h-full',
+          'focus:outline-none max-w-full font-inter prose whitespace-pre-wrap prose-p:text-black-400 h-full',
         spellcheck: 'false',
       },
     },

@@ -16,6 +16,7 @@ module.exports = {
       },
       fontFamily: {
         poppins: ['var(--poppins-font)'],
+        inter: ['var(--inter-font)'],
       },
       fontSize: {
         regular: '14px',

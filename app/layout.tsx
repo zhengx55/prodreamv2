@@ -5,7 +5,7 @@ import GoogleAnalytics from '@/google/GoogleAnalytics';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Inter, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
 
@@ -15,6 +15,14 @@ const poppins = Poppins({
   display: 'swap',
   variable: '--poppins-font',
   preload: true,
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--inter-font',
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -50,7 +58,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' className={poppins.variable} suppressHydrationWarning>
+    <html
+      lang='en'
+      className={(poppins.variable, inter.className)}
+      suppressHydrationWarning
+    >
       <CSPostHogProvider>
         <body>
           <GoogleOAuthProvider
