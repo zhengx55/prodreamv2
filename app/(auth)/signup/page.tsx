@@ -1,10 +1,11 @@
 'use client';
-import * as z from 'zod';
 import Panel from '@/components/auth/Panel';
 import { Button } from '@/components/ui/button';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
+import GoogleSignin from '@/components/auth/GoogleSignin';
 import {
   Form,
   FormControl,
@@ -14,26 +15,20 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { signUpSchema } from '@/lib/validation';
 import { Separator } from '@/components/ui/separator';
-import Link from 'next/link';
-import GoogleSignin from '@/components/auth/GoogleSignin';
-import { Eye, EyeOff, Loader2 } from 'lucide-react';
-import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { getUserInfo, userLogin, userSignUp } from '@/query/api';
+import { signUpSchema } from '@/lib/validation';
+import { userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
-import { toast } from 'sonner';
+import { useMutation } from '@tanstack/react-query';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { setUsage } from '@/store/reducers/usageSlice';
-import { useAppDispatch } from '@/store/storehooks';
-import { initialUsage } from '@/constant';
+import { toast } from 'sonner';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
-
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
 
@@ -53,9 +48,6 @@ export default function Page() {
           username: variables.email,
           password: variables.password,
         });
-        const user_usage = await getUserInfo(login_data.email);
-        if (user_usage) dispatch(setUsage(user_usage));
-        else dispatch(setUsage(initialUsage));
         setCookie('token', login_data.access_token, {
           path: '/',
           maxAge: 604800,

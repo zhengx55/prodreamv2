@@ -1,12 +1,12 @@
 'use client';
-import { motion } from 'framer-motion';
-import Spacer from '../root/Spacer';
-import { useState } from 'react';
-import { Button } from '../ui/button';
-import { usePathname } from 'next/navigation';
 import { BrianstormAutoFill } from '@/constant';
 import { InputProps } from '@/types';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
+import useRootStore from '@/zustand/store';
+import { m } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import Spacer from '../root/Spacer';
+import { Button } from '../ui/button';
 
 const TutorialPanel = ({
   handleTabChange,
@@ -16,9 +16,9 @@ const TutorialPanel = ({
   const [steps, setSteps] = useState(0);
   const path = usePathname();
   const template_id = path.split('/')[3];
-  const { setTutorial } = useBrainStormContext();
+  const setTutorial = useRootStore((state) => state.updatebsTutorial);
   return (
-    <motion.div
+    <m.div
       key='tutorial'
       initial={{ y: 10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -58,7 +58,7 @@ const TutorialPanel = ({
         </p>
       </section>
       {steps === 1 && (
-        <motion.section
+        <m.section
           id='tut-step-2'
           className={`${
             steps === 1
@@ -80,7 +80,7 @@ const TutorialPanel = ({
             Jessie is satisfied with the info she just filled. She then clicks
             generate to generate her sample essay.
           </p>
-        </motion.section>
+        </m.section>
       )}
       <Spacer y='24' />
       <Button
@@ -112,7 +112,7 @@ const TutorialPanel = ({
       >
         Next
       </Button>
-    </motion.div>
+    </m.div>
   );
 };
 

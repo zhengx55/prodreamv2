@@ -389,3 +389,11 @@ export interface Span {
   span: number[];
   urls: string[];
 }
+
+export type IDocDetail = {
+  id: string;
+  text: string;
+  title: string;
+  create_time: number;
+  update_time: number;
+};

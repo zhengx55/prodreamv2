@@ -20,9 +20,9 @@ const Card = ({ cardItem }: Props) => {
         router.push(`/writtingpal/brainstorm/${cardItem.id}`);
         // }
       }}
-      className='flex h-[200px] w-[350px] shrink-0 cursor-pointer flex-col rounded-lg border border-shadow-border bg-white hover:bg-hover-50 md:p-5'
+      className='flex h-[180px] w-[320px] shrink-0 cursor-pointer flex-col rounded-lg border border-shadow-border bg-white p-3 hover:bg-hover-50'
     >
-      <h1 className='title-medium'>{cardItem.name}</h1>
+      <h1 className='body-medium'>{cardItem.name}</h1>
       <p className='small-regular mt-2 line-clamp-2 text-shadow'>
         {cardItem.description}
       </p>

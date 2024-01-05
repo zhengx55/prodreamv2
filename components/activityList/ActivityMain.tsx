@@ -1,8 +1,10 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { useState } from 'react';
 import { Separator } from '../ui/separator';
-import InputPanel from './InputPanel';
-import OutputPanel from './OutputPanel';
+
+const InputPanel = dynamic(() => import('./InputPanel'));
+const OutputPanel = dynamic(() => import('./OutputPanel'));
 
 const ActivityMain = () => {
   const [fullScreen, setFullScreen] = useState(false);

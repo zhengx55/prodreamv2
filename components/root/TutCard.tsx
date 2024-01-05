@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils';
-import React, { CSSProperties, memo } from 'react';
+import { m } from 'framer-motion';
+import { CSSProperties, memo } from 'react';
 import { Button } from '../ui/button';
 import Spacer from './Spacer';
-import { motion } from 'framer-motion';
 
 type Props = {
   title: string;
@@ -26,7 +26,7 @@ const TutCard = ({
   styles,
 }: Props) => {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 0 }}
@@ -73,7 +73,7 @@ const TutCard = ({
       >
         {button}
       </Button>
-    </motion.div>
+    </m.div>
   );
 };
 

@@ -1,33 +1,30 @@
 'use client';
-import React, { memo } from 'react';
-import Spacer from '../../root/Spacer';
+import { useAIEditor } from '@/zustand/store';
 import { PenLine } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { memo } from 'react';
+import Spacer from '../../root/Spacer';
 import { Button } from '../../ui/button';
 import { Separator } from '../../ui/separator';
-import dynamic from 'next/dynamic';
-import useAIEditorStore from '@/zustand/store';
 
-const ReportSheet = dynamic(() => import('./ReportSheet'), { ssr: false });
-const PolishModal = dynamic(() => import('./PolishModal'), { ssr: false });
-const PlagReportSheet = dynamic(() => import('./PlagReportSheet'), {
-  ssr: false,
-});
+const ReportSheet = dynamic(() => import('./ReportSheet'));
+const PolishModal = dynamic(() => import('./PolishModal'));
+const PlagReportSheet = dynamic(() => import('./PlagReportSheet'));
 
 const Rightbar = () => {
-  const setChatEditMode = useAIEditorStore(
-    (state) => state.updateIsChatEditMode
-  );
-  const removeStyling = useAIEditorStore((state) => state.removesStyling);
-  const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
-  const setSelectText = useAIEditorStore((state) => state.updateSelectText);
-  const clearPolishResult = useAIEditorStore(
-    (state) => state.clearPolishResult
-  );
+  const setChatEditMode = useAIEditor((state) => state.updateIsChatEditMode);
+  const editor_instance = useAIEditor((state) => state.editor_instance);
+  const isChatEditMode = useAIEditor((state) => state.isChatEditMode);
+  const clearPolishResult = useAIEditor((state) => state.clearPolishResult);
   const toggleChatEditMode = () => {
     if (!isChatEditMode) {
-      removeStyling();
+      editor_instance
+        ?.chain()
+        .selectAll()
+        .unsetUnderline()
+        .unsetHighlight()
+        .run();
       setChatEditMode(true);
-      setSelectText('');
       clearPolishResult();
     } else {
       setChatEditMode(false);

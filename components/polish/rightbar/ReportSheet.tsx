@@ -1,24 +1,23 @@
 'use client';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { memo, useState } from 'react';
-import { Button } from '../../ui/button';
-import Spacer from '../../root/Spacer';
+import { EvaluationsTitle } from '@/constant';
+import { downloadReport, essayAssess } from '@/query/api';
+import { IEssayAssessData, IEssayAssessRequest } from '@/query/type';
+import useAIEditorStore from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
+import { memo, useState } from 'react';
+import { toast } from 'sonner';
+import LoadingDot from '../../root/LoadingDot';
+import Spacer from '../../root/Spacer';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '../../ui/accordion';
+import { Button } from '../../ui/button';
 import { Separator } from '../../ui/separator';
-import { useMutation } from '@tanstack/react-query';
-import { downloadReport, essayAssess } from '@/query/api';
-import { IEssayAssessData, IEssayAssessRequest } from '@/query/type';
-import { toast } from 'sonner';
-import LoadingDot from '../../root/LoadingDot';
-import { EvaluationsTitle } from '@/constant';
-import useAIEditorStore from '@/zustand/store';
-import { removeHtmlTags } from '@/lib/utils';
 
 const ReportSheet = () => {
   const [isEvaluating, setIsEvaluating] = useState(false);

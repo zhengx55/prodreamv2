@@ -1,13 +1,12 @@
-import React, { memo, useState } from 'react';
+import { useMaxChatContext } from '@/context/MaxChateProvider';
+import { Loader2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import { memo, useState } from 'react';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import ChatTrigger from './ChatTrigger';
-import Image from 'next/image';
-import { useMaxChatContext } from '@/context/MaxChateProvider';
-import dynamic from 'next/dynamic';
-import { Loader2 } from 'lucide-react';
 
 const ChatMenu = dynamic(() => import('./ChatMenu'), {
-  ssr: false,
   loading: () => (
     <div className='flex-center w-[70%] flex-col'>
       <Loader2 className='animate-spin' />
@@ -15,7 +14,6 @@ const ChatMenu = dynamic(() => import('./ChatMenu'), {
   ),
 });
 const MessageList = dynamic(() => import('./MessageList'), {
-  ssr: false,
   loading: () => (
     <div className='flex-center w-[70%] flex-col'>
       <Loader2 className='animate-spin' />
@@ -23,9 +21,7 @@ const MessageList = dynamic(() => import('./MessageList'), {
   ),
 });
 
-const ChatHistory = dynamic(() => import('./ChatHistory'), {
-  ssr: false,
-});
+const ChatHistory = dynamic(() => import('./ChatHistory'));
 type Props = { expandSidebar: boolean };
 
 const ChatModal = ({ expandSidebar }: Props) => {

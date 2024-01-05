@@ -6,14 +6,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { X } from 'lucide-react';
-import { Button } from '../ui/button';
-import { memo, useState } from 'react';
-import { Input } from '../ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { resetEmail } from '@/lib/validation';
-import { z } from 'zod';
 import {
   Form,
   FormControl,
@@ -21,12 +13,18 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { Eye, EyeOff } from 'lucide-react';
-import { useMutation } from '@tanstack/react-query';
+import { resetEmail } from '@/lib/validation';
 import { profileResetEmail } from '@/query/api';
+import { useUserInfo } from '@/zustand/store';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { Eye, EyeOff, X } from 'lucide-react';
+import { memo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { useAppDispatch } from '@/store/storehooks';
-import { setUserEmail } from '@/store/reducers/userSlice';
+import { z } from 'zod';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 type Props = {
   isActive: boolean;
@@ -35,7 +33,7 @@ type Props = {
 
 const EditEmailModal = ({ isActive, toogleActive }: Props) => {
   const [hidePassword, setHidePassword] = useState(true);
-  const dispatch = useAppDispatch();
+  const updateUserEmail = useUserInfo((state) => state.setUserEmail);
   const form = useForm<z.infer<typeof resetEmail>>({
     resolver: zodResolver(resetEmail),
     defaultValues: {
@@ -50,7 +48,7 @@ const EditEmailModal = ({ isActive, toogleActive }: Props) => {
     onSuccess: () => {
       toogleActive();
       toast.success('Email has been reset successfully!');
-      dispatch(setUserEmail(form.getValues().email));
+      updateUserEmail(form.getValues().email);
     },
     onError: (error) => {
       toast.error(error.message);

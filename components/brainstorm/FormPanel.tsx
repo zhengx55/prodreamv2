@@ -1,40 +1,35 @@
 'use client';
+import { Switch } from '@/components/ui/switch';
+import clearCachesByServerAction from '@/lib/revalidate';
+import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
+import type { IBrainStormSection, IBriansotrmReq, Module } from '@/query/type';
+import type { InputProps } from '@/types';
+import useRootStore, { useUserInfo } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
+import { CheckCheck } from 'lucide-react';
 import Link from 'next/link';
-import { Textarea } from '../ui/textarea';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import useDeepCompareEffect from 'use-deep-compare-effect';
+import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
-import { Switch } from '@/components/ui/switch';
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { Button } from '../ui/button';
-import { CheckCheck } from 'lucide-react';
-import { TextOptimizeBar } from './TextOptimizeBar';
-import { useAppSelector } from '@/store/storehooks';
-import { useMutation } from '@tanstack/react-query';
-import type { IBrainStormSection, IBriansotrmReq, Module } from '@/query/type';
-import useDeepCompareEffect from 'use-deep-compare-effect';
-import { selectUserId } from '@/store/reducers/userSlice';
-import { useBrainStormContext } from '@/context/BrainStormProvider';
-import { SubmitEssayWritting, queryEssayResult } from '@/query/api';
-import { InputProps } from '@/types';
-import { BrianstormAutoFill } from '@/constant';
+import { Textarea } from '../ui/textarea';
+import TextOptimizeBar from './TextOptimizeBar';
 
 const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
-  const user_id = useAppSelector(selectUserId);
-  const {
-    setIsSubmiting,
-    setSubmitError,
-    historyData,
-    setHistoryData,
-    setStartTyping,
-    setEassyResult,
-    isSubmiting,
-    tutorial,
-  } = useBrainStormContext();
+  const user_id = useUserInfo((state) => state.user.user_id);
   const [formData, setFormData] = useState<IBrainStormSection>(templateData);
   const [formState, setFormState] = useState<Record<string, InputProps>>({});
   const [qualityMode, setQualityMode] = useState<0 | 1>(0);
   const queryTimer = useRef<NodeJS.Timeout>();
-
+  const tutorial = useRootStore((state) => state.bstutorial);
+  const setIsSubmiting = useRootStore((state) => state.updatebsIsSubmiting);
+  const setSubmitError = useRootStore((state) => state.updatebsSubmitError);
+  const historyData = useRootStore((state) => state.bshistoryData);
+  const isSubmiting = useRootStore((state) => state.bsisSubmiting);
+  const setStartTyping = useRootStore((state) => state.updatebsStartTyping);
+  const setEassyResult = useRootStore((state) => state.updatebsEassyResult);
+  const resetHistory = useRootStore((state) => state.resetbsHistoryData);
   useDeepCompareEffect(() => {
     if (Object.keys(tutorial).length > 0) {
       setFormState(tutorial);
@@ -150,7 +145,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
 
   const { mutateAsync: handleBrainstorm } = useMutation({
     mutationFn: (params: IBriansotrmReq) => SubmitEssayWritting(params),
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       queryTimer.current = setInterval(async () => {
         const res = await queryEssayResult(data);
         setStartTyping(true);
@@ -164,6 +159,9 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
           clearInterval(queryTimer.current);
           setEassyResult(res.text);
           setIsSubmiting(false);
+          clearCachesByServerAction(
+            `/writtingpal/brainstorm/${variables.template_id}`
+          );
         }
       }, 2000);
     },
@@ -182,7 +180,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
     const filter_key_arrays = key_arrays.map((item) =>
       item.includes('+') ? item.split('+')[0] : item
     );
-    setHistoryData({ template_id: '', result: '', questionAnswerPair: {} });
+    resetHistory();
     await handleBrainstorm({
       pro_mode: qualityMode === 1,
       template_id: formData?.id,
@@ -201,7 +199,7 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
   };
 
   return (
-    <div className='relative h-full overflow-y-hidden px-6 pb-2 pt-6'>
+    <div className='relative h-full overflow-y-hidden px-4 pb-2 pt-4'>
       <div className='relative h-[calc(100%_-95px)] overflow-y-auto'>
         <div className='flex items-center'>
           <Link
@@ -215,8 +213,8 @@ const FormPanel = ({ templateData }: { templateData: IBrainStormSection }) => {
           </p>
         </div>
         <div className='mt-4 flex flex-col gap-y-4 overflow-y-auto rounded-xl bg-white p-4 md:w-full'>
-          <h1 className='h1-regular text-primary-200'>{formData.name}</h1>
-          <p className=' base-regular text-shadow'>{formData.description}</p>
+          <h1 className='h3-regular text-primary-200'>{formData.name}</h1>
+          <p className='base-regular text-shadow'>{formData.description}</p>
         </div>
         <div className='mt-4 flex flex-col gap-y-4 overflow-y-auto rounded-xl bg-white p-4 md:w-full'>
           <div className='flex-start gap-x-2'>
