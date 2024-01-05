@@ -9,9 +9,12 @@ import Document from '@tiptap/extension-document';
 import HardBreak from '@tiptap/extension-hard-break';
 import HighLight from '@tiptap/extension-highlight';
 import History from '@tiptap/extension-history';
+import Italic from '@tiptap/extension-italic';
 import Paragraph from '@tiptap/extension-paragraph';
 import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
+import TextAlign from '@tiptap/extension-text-align';
+import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
@@ -66,8 +69,17 @@ const Tiptap = ({
       Text,
       Document,
       Paragraph,
+      TextStyle,
       History,
       Strike,
+      Italic,
+      TextAlign.extend({
+        addKeyboardShortcuts() {
+          return {};
+        },
+      }).configure({
+        types: ['heading', 'paragraph'],
+      }),
       HighLight.configure({
         multicolor: true,
       }),

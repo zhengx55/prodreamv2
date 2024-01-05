@@ -43,7 +43,7 @@ const EssayPanel = ({ detail }: { detail: IDocDetail | null }) => {
     >
       <motion.div
         layout='size'
-        style={{ width: isMultiScreen ? '50%' : '66.666667%' }}
+        style={{ width: isMultiScreen ? '50%' : '750px' }}
         className='flex h-full flex-col'
       >
         <Tiptap

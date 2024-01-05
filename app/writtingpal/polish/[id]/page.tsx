@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const cookie = cookieStore.get('token');
   const detail = await getEassyDetail(params.id, cookie?.value!);
   return (
-    <main className='relative hidden h-[calc(100%_-var(--top-nav-bar-height))] w-full overflow-hidden pr-[240px] sm:flex'>
+    <main className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full justify-center overflow-hidden pr-[240px]'>
       <EssayPanel detail={detail} />
       <Rightbar />
     </main>

@@ -34,7 +34,7 @@ const SearchBar = ({ keyword, setKeyword }: Props) => {
     }
   };
   return (
-    <div className='flex-between w-full px-6'>
+    <div className='flex-between w-[1100px] px-6'>
       <div className='flex w-full gap-x-4'>
         <FileUploadModal />
         <button

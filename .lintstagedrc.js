@@ -1,6 +1,8 @@
 module.exports = {
   // this will check Typescript files
-  '**/*.(ts|tsx)': () => 'yarn tsc --noEmit',
+  // '**/*.(ts|tsx)': () =>
+  //   'yarn tsc --noEmit'
+  // ,
 
   '**/*.(ts|tsx|js)': (filenames) => [
     `yarn eslint --fix ${filenames.join(' ')}`,

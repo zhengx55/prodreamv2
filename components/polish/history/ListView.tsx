@@ -15,7 +15,7 @@ type Props = {
 };
 const ListView = ({ list, setCurrentItem, toggleDeleteModal }: Props) => {
   return (
-    <ul role='list' className='flex w-full flex-col gap-y-2 pl-6 pr-16'>
+    <ul role='list' className='flex w-[1100px] flex-col gap-y-2'>
       {list.map((item) => (
         <li className='flex-between items-center py-2' key={item.id}>
           <Link passHref href={`/writtingpal/polish/${item.id}`}>

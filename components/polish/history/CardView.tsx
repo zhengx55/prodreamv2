@@ -13,7 +13,7 @@ const CardView = ({ list, setCurrentItem, toggleDeleteModal }: Props) => {
   return (
     <ul
       role='list'
-      className='grid w-full grid-flow-row grid-cols-6 gap-4 px-6 2xl:grid-cols-7'
+      className='grid w-[1100px] grid-flow-row grid-cols-5 gap-4 px-6'
     >
       {list.map((item) => (
         <Card

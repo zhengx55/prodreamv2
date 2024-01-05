@@ -29,7 +29,7 @@ const EvaluationHistory = () => {
   );
 
   return (
-    <main className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col overflow-y-auto'>
+    <main className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto'>
       <Spacer y='24' />
       <SearchBar keyword={keyword} setKeyword={memoSetKeyword} />
       <Spacer y='48' />
