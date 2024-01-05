@@ -3,6 +3,7 @@ import { useDebouncedState } from '@/hooks/useDebounceState';
 import FontSize from '@/lib/tiptap/plugin/fontsize';
 import SlashCommand from '@/lib/tiptap/plugin/slashcommand';
 import '@/lib/tiptap/styles/index.css';
+import { hasHtmlTags } from '@/lib/utils';
 import { saveDoc } from '@/query/api';
 import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -126,7 +127,14 @@ const Tiptap = ({
       },
     },
     autofocus: true,
-    content: essay_content ? essay_content : '',
+    content: essay_content
+      ? hasHtmlTags(essay_content)
+        ? essay_content
+        : `${essay_content
+            .split(/\n\s*\n/)
+            .map((paragraph) => `<p>${paragraph}</p>`)
+            .join('')}`
+      : '',
     onCreate: ({ editor }) => {
       setEditorInstance(editor as Editor);
       editor.commands.focus('end');

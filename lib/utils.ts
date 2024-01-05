@@ -129,6 +129,17 @@ export function formatTimestamphh(timestampString: string) {
   }
 }
 
+export function hasHtmlTags(htmlString: string) {
+  // 创建一个新的 DOMParser 实例
+  const parser = new DOMParser();
+
+  // 使用 DOMParser 将 HTML 字符串解析为 DOM 文档
+  const doc = parser.parseFromString(htmlString, 'text/html');
+
+  // 检查是否存在任何 HTML 元素
+  return doc.body.firstChild instanceof HTMLElement;
+}
+
 export function formatTimestamphh_number(timestamp: number) {
   const currentTime = new Date().getTime();
   const timeDifference = currentTime - timestamp * 1000;
