@@ -19,7 +19,7 @@ const GoogleSignin = () => {
         path: '/',
         maxAge: 604800,
       });
-      router.push('/welcome');
+      router.push('/writtingpal/polish');
       toast.success('Successfully Login');
     },
     onError: (errorResponse) => {
