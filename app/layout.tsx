@@ -22,7 +22,7 @@ const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
   variable: '--inter-font',
-  preload: false,
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -60,7 +60,7 @@ export default function RootLayout({
   return (
     <html
       lang='en'
-      className={(poppins.variable, inter.className)}
+      className={`${poppins.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
       <CSPostHogProvider>

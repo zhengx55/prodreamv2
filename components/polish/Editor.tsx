@@ -1,32 +1,11 @@
 'use client';
 import { useDebouncedState } from '@/hooks/useDebounceState';
-import FontSize from '@/lib/tiptap/plugin/fontsize';
-import SlashCommand from '@/lib/tiptap/plugin/slashcommand';
+import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { hasHtmlTags } from '@/lib/utils';
 import { saveDoc } from '@/query/api';
 import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
-import Blockquote from '@tiptap/extension-blockquote';
-import Bold from '@tiptap/extension-bold';
-import BulletList from '@tiptap/extension-bullet-list';
-import CharacterCount from '@tiptap/extension-character-count';
-import Document from '@tiptap/extension-document';
-import Focus from '@tiptap/extension-focus';
-import HardBreak from '@tiptap/extension-hard-break';
-import Heading from '@tiptap/extension-heading';
-import HighLight from '@tiptap/extension-highlight';
-import History from '@tiptap/extension-history';
-import Italic from '@tiptap/extension-italic';
-import ListItem from '@tiptap/extension-list-item';
-import OrderedList from '@tiptap/extension-ordered-list';
-import Paragraph from '@tiptap/extension-paragraph';
-import Placeholder from '@tiptap/extension-placeholder';
-import Strike from '@tiptap/extension-strike';
-import Text from '@tiptap/extension-text';
-import TextAlign from '@tiptap/extension-text-align';
-import TextStyle from '@tiptap/extension-text-style';
-import Underline from '@tiptap/extension-underline';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { Loader2 } from 'lucide-react';
@@ -73,49 +52,7 @@ const Tiptap = ({
   }, [content]);
 
   const editor = useEditor({
-    extensions: [
-      CharacterCount,
-      HardBreak,
-      Bold,
-      ListItem,
-      OrderedList,
-      BulletList,
-      Text,
-      Document,
-      Paragraph,
-      FontSize,
-      Blockquote,
-      TextStyle,
-      History,
-      Focus.configure({
-        className: 'has-focus',
-        mode: 'all',
-      }),
-      Placeholder.configure({
-        includeChildren: true,
-        showOnlyCurrent: false,
-        placeholder: () => '',
-      }),
-      Heading.configure({ levels: [1, 2, 3] }),
-      Strike,
-      Italic,
-      SlashCommand,
-      TextAlign.extend({
-        addKeyboardShortcuts() {
-          return {};
-        },
-      }).configure({
-        types: ['heading', 'paragraph'],
-      }),
-      HighLight.configure({
-        multicolor: true,
-      }),
-      Underline.configure({
-        HTMLAttributes: {
-          class: 'decoration-[2px] decoration-red-400 underline-offset-[5px]',
-        },
-      }),
-    ],
+    extensions: [...ExtensionKit()],
     editorProps: {
       attributes: {
         autocomplete: 'off',
@@ -163,7 +100,7 @@ const Tiptap = ({
           defaultValue={title}
           onChange={handleTitleChange}
           type='text'
-          className='title-semibold h-full border-none p-0 capitalize shadow-none focus-visible:ring-0'
+          className='title-semibold h-full border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
         />
       </div>
       <Spacer y='16' />
