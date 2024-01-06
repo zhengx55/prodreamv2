@@ -82,17 +82,23 @@ const List = ({ history_list, hasMorePage }: Props) => {
           )}
           <div className='flex gap-x-4'>
             {viewType === 'grid' ? (
-              <ListViewIcon
+              <span
                 onClick={() => setViewType('list')}
-                className='cursor-pointer hover:opacity-50'
-              />
+                className='cursor-pointer rounded-md bg-transparent p-1 hover:bg-shadow-border'
+              >
+                <ListViewIcon />
+              </span>
             ) : (
-              <LayoutGrid
+              <span
                 onClick={() => setViewType('grid')}
-                className='cursor-pointer hover:opacity-50'
-              />
+                className='cursor-pointer rounded-md bg-transparent p-1 hover:bg-shadow-border'
+              >
+                <LayoutGrid />
+              </span>
             )}
-            <ArrowUpNarrowWide className='cursor-pointer hover:opacity-50' />
+            <span className='cursor-pointer rounded-md bg-transparent p-1 hover:bg-shadow-border'>
+              <ArrowUpNarrowWide />
+            </span>
           </div>
         </div>
       </div>

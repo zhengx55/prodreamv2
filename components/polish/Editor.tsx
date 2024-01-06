@@ -77,7 +77,7 @@ const Tiptap = ({
       editor.commands.focus('end');
     },
     onUpdate: ({ editor }) => {
-      if (editor.getText() === content) return;
+      if (editor.getHTML() === content) return;
       toggleSaving(true);
       setContent(editor.getHTML());
     },

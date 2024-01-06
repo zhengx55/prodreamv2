@@ -708,7 +708,7 @@ export const ListView = ({
   className,
   onClick,
 }: {
-  className: string;
+  className?: string;
   onClick?: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
 }) => (
   <svg

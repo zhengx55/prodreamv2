@@ -22,14 +22,14 @@ const HistoryDropDown = ({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <span className='rounded-md p-1 hover:bg-shadow-border'>
-            <MoreVertical className='text-shadow hover:opacity-50' size={18} />
+          <span className='cursor-pointer rounded-md p-1 hover:bg-shadow-border'>
+            <MoreVertical className='text-shadow' size={18} />
           </span>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           side='bottom'
           align='end'
-          sideOffset={10}
+          sideOffset={2}
           className='bg-white'
         >
           <DropdownMenuItem

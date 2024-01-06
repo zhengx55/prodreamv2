@@ -26,12 +26,12 @@ export const DropdownButton = ({
   className?: string;
 }) => {
   const buttonClass = cn(
-    'flex items-center gap-2 p-1.5 text-sm font-medium text-neutral-500 dark:text-neutral-400 text-left bg-transparent w-full rounded',
+    'flex items-center gap-2 p-1.5 text-sm font-medium text-shadow dark:text-neutral-400 text-left bg-transparent w-full rounded',
     !isActive && !disabled,
     'hover:bg-neutral-100 hover:text-neutral-800 dark:hover:bg-neutral-900 dark:hover:text-neutral-200',
     isActive &&
       !disabled &&
-      'bg-neutral-100 text-neutral-800 dark:bg-neutral-900 dark:text-neutral-200',
+      'bg-neutral-100 text-black-400 dark:bg-neutral-900 dark:text-neutral-200',
     disabled && 'text-neutral-400 cursor-not-allowed dark:text-neutral-600',
     className
   );
