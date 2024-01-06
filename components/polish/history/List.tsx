@@ -3,7 +3,9 @@ import Spacer from '@/components/root/Spacer';
 import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
 import { getDocs } from '@/query/api';
 import { IDocDetail } from '@/query/type';
-import { ArrowUpNarrowWide, LayoutGrid, Loader2 } from 'lucide-react';
+import { DocSortingMethods } from '@/types';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
+import { LayoutGrid, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -11,17 +13,20 @@ import CardView from './CardView';
 
 const ListView = dynamic(() => import('./ListView'));
 const DeleteModal = dynamic(() => import('./DeleteModal'));
+const FilterDropdown = dynamic(() => import('./FilterDropDown'));
 
 type Props = { history_list: IDocDetail[]; hasMorePage: boolean };
 
 const List = ({ history_list, hasMorePage }: Props) => {
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const { ref, inView } = useInView();
-  const [list, setList] = useState(history_list);
+  const [list, setList] = useState<IDocDetail[]>(history_list);
   const [page, setPage] = useState(1);
   const [morePage, setMorePage] = useState(hasMorePage);
   const [loadingMore, toogleLoadingMore] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [sortingMethod, setSortingMethod] =
+    useState<DocSortingMethods>('lastOpenedTime');
   const [currentItem, setCurrentItem] = useState<IDocDetail>();
 
   const loadMoreDocs = async () => {
@@ -45,6 +50,22 @@ const List = ({ history_list, hasMorePage }: Props) => {
     }
   };
 
+  useUpdateEffect(() => {
+    if (sortingMethod === 'title') {
+      setList((prev) => [
+        ...(prev?.length
+          ? prev.sort((a, b) => a.title.localeCompare(b.title))
+          : []),
+      ]);
+    } else {
+      setList((prev) => [
+        ...(prev?.length
+          ? prev.sort((a, b) => a.update_time - b.update_time)
+          : []),
+      ]);
+    }
+  }, [sortingMethod]);
+
   useEffect(() => {
     if (inView) {
       loadMoreDocs();
@@ -58,6 +79,10 @@ const List = ({ history_list, hasMorePage }: Props) => {
 
   const memoSetCurrentItem = useCallback((value: IDocDetail) => {
     setCurrentItem(value);
+  }, []);
+
+  const memoSetSortingMethod = useCallback((value: DocSortingMethods) => {
+    setSortingMethod(value);
   }, []);
 
   const deleteListItem = useCallback((id: string) => {
@@ -96,9 +121,10 @@ const List = ({ history_list, hasMorePage }: Props) => {
                 <LayoutGrid />
               </span>
             )}
-            <span className='cursor-pointer rounded-md bg-transparent p-1 hover:bg-shadow-border'>
-              <ArrowUpNarrowWide />
-            </span>
+            <FilterDropdown
+              setSortingMethod={memoSetSortingMethod}
+              sortingMethod={sortingMethod}
+            />
           </div>
         </div>
       </div>

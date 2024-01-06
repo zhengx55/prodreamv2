@@ -68,7 +68,7 @@ const ChatEditResItem = ({
       layout='size'
       data-state={isExpand ? 'open' : 'close'}
       style={{
-        height: isExpand ? 'auto' : '90px',
+        height: isExpand ? 'auto' : '70px',
         boxShadow: isExpand
           ? '2px 2px 12px 4px rgba(82, 86, 90, 0.10)'
           : 'none',
@@ -138,7 +138,7 @@ const ChatEditResItem = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ delay: 0.1 }}
-          className='small-regular line-clamp-2'
+          className='small-regular line-clamp-1'
         >
           {item.result}
         </motion.p>

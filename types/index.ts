@@ -255,3 +255,5 @@ export interface Comment {
   example: string;
   suggestion: string;
 }
+
+export type DocSortingMethods = 'lastOpenedTime' | 'title';

@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { IDocDetail } from '@/query/type';
-import { Download, MoreVertical, Trash2 } from 'lucide-react';
+import { Download, FolderSymlink, MoreVertical, Trash2 } from 'lucide-react';
 
 type Props = {
   toggleDeleteModal: (value: boolean) => void;
@@ -49,6 +49,14 @@ const HistoryDropDown = ({
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >
             <Download size={16} /> Download
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
+          >
+            <FolderSymlink size={16} /> Move
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
