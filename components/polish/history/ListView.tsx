@@ -12,8 +12,14 @@ type Props = {
   list: IDocDetail[];
   setCurrentItem: (value: IDocDetail) => void;
   toggleDeleteModal: (value: boolean) => void;
+  toggleMoveModal: (value: boolean) => void;
 };
-const ListView = ({ list, setCurrentItem, toggleDeleteModal }: Props) => {
+const ListView = ({
+  list,
+  setCurrentItem,
+  toggleDeleteModal,
+  toggleMoveModal,
+}: Props) => {
   return (
     <ul role='list' className='flex w-[1100px] flex-col gap-y-2'>
       {list.map((item) => (
@@ -32,6 +38,7 @@ const ListView = ({ list, setCurrentItem, toggleDeleteModal }: Props) => {
               Opened {formatTimestamphh_number(item.update_time)}
             </p>
             <HistoryDropDown
+              toggleMoveModal={toggleMoveModal}
               toggleDeleteModal={toggleDeleteModal}
               setCurrentItem={setCurrentItem}
               item={item}

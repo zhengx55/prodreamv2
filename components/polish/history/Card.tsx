@@ -11,8 +11,14 @@ type Props = {
   item: IDocDetail;
   toggleDeleteModal: (value: boolean) => void;
   setCurrentItem: (value: IDocDetail) => void;
+  toggleMoveModal: (value: boolean) => void;
 };
-const Card = ({ setCurrentItem, toggleDeleteModal, item }: Props) => {
+const Card = ({
+  setCurrentItem,
+  toggleDeleteModal,
+  toggleMoveModal,
+  item,
+}: Props) => {
   const router = useRouter();
   return (
     <li
@@ -40,6 +46,7 @@ const Card = ({ setCurrentItem, toggleDeleteModal, item }: Props) => {
             Opened {formatTimestamphh_number(item.update_time)}
           </p>
           <HistoryDropDown
+            toggleMoveModal={toggleMoveModal}
             toggleDeleteModal={toggleDeleteModal}
             setCurrentItem={setCurrentItem}
             item={item}

@@ -47,7 +47,7 @@ const SearchBar = ({ keyword, setKeyword }: Props) => {
           <p className='base-semibold'>New Essay</p>
         </button>
       </div>
-      <div className='relative flex h-14 w-1/3 shrink-0 items-center rounded-lg border border-shadow-border shadow-lg'>
+      <div className='relative flex h-14 w-2/5 shrink-0 items-center rounded-lg border border-shadow-border'>
         <div
           className={`${
             isTyping

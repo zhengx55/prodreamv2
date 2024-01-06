@@ -11,10 +11,12 @@ type Props = {
   toggleDeleteModal: (value: boolean) => void;
   item: IDocDetail;
   setCurrentItem: (value: IDocDetail) => void;
+  toggleMoveModal: (value: boolean) => void;
 };
 
 const HistoryDropDown = ({
   toggleDeleteModal,
+  toggleMoveModal,
   item,
   setCurrentItem,
 }: Props) => {
@@ -53,6 +55,8 @@ const HistoryDropDown = ({
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
+              toggleMoveModal(true);
+              setCurrentItem(item);
             }}
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >

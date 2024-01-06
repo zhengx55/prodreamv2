@@ -13,18 +13,24 @@ import CardView from './CardView';
 
 const ListView = dynamic(() => import('./ListView'));
 const DeleteModal = dynamic(() => import('./DeleteModal'));
+const MoveModal = dynamic(() => import('./MoveModal'));
 const FilterDropdown = dynamic(() => import('./FilterDropDown'));
 
-type Props = { history_list: IDocDetail[]; hasMorePage: boolean };
+type Props = {
+  history_list: IDocDetail[];
+  hasMorePage: boolean;
+  searchKeyword: string;
+};
 
-const List = ({ history_list, hasMorePage }: Props) => {
-  const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
+const List = ({ history_list, hasMorePage, searchKeyword }: Props) => {
   const { ref, inView } = useInView();
+  const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const [list, setList] = useState<IDocDetail[]>(history_list);
   const [page, setPage] = useState(1);
   const [morePage, setMorePage] = useState(hasMorePage);
   const [loadingMore, toogleLoadingMore] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showMoveModal, setshowMoveModal] = useState(false);
   const [sortingMethod, setSortingMethod] =
     useState<DocSortingMethods>('lastOpenedTime');
   const [currentItem, setCurrentItem] = useState<IDocDetail>();
@@ -77,6 +83,10 @@ const List = ({ history_list, hasMorePage }: Props) => {
     setShowDeleteModal(value);
   }, []);
 
+  const toggleMoveModal = useCallback((value: boolean) => {
+    setshowMoveModal(value);
+  }, []);
+
   const memoSetCurrentItem = useCallback((value: IDocDetail) => {
     setCurrentItem(value);
   }, []);
@@ -91,6 +101,11 @@ const List = ({ history_list, hasMorePage }: Props) => {
 
   return (
     <>
+      <MoveModal
+        isActive={showMoveModal}
+        toogleActive={toggleMoveModal}
+        currentItem={currentItem!}
+      />
       <DeleteModal
         isActive={showDeleteModal}
         toogleActive={setShowDeleteModal}
@@ -133,12 +148,14 @@ const List = ({ history_list, hasMorePage }: Props) => {
         <CardView
           list={list}
           toggleDeleteModal={toggleDeleteModal}
+          toggleMoveModal={toggleMoveModal}
           setCurrentItem={memoSetCurrentItem}
         />
       ) : (
         <ListView
           list={list}
           toggleDeleteModal={toggleDeleteModal}
+          toggleMoveModal={toggleMoveModal}
           setCurrentItem={memoSetCurrentItem}
         />
       )}

@@ -37,6 +37,7 @@ const EvaluationHistory = () => {
         <Loading />
       ) : (
         <List
+          searchKeyword={keyword}
           history_list={isError ? [] : data.list}
           hasMorePage={isError ? false : data.hasMore}
         />
