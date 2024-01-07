@@ -1,19 +1,17 @@
 import { Input } from '@/components/ui/input';
+import { useDebouncedState } from '@/hooks/useDebounceState';
 import { createDoc } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, memo, useState } from 'react';
+import { ChangeEvent, memo, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 
-type Props = {
-  keyword: string;
-  setKeyword: (value: string) => void;
-};
-const SearchBar = ({ keyword, setKeyword }: Props) => {
+const SearchBar = () => {
   const [isTyping, setIsTyping] = useState(false);
+  const [keyword, setKeyword] = useDebouncedState('', 750);
   const router = useRouter();
   const { mutateAsync: createNew } = useMutation({
     mutationFn: (params: { text?: string; file?: File }) =>
@@ -25,6 +23,15 @@ const SearchBar = ({ keyword, setKeyword }: Props) => {
       toast.error(error.message);
     },
   });
+
+  useEffect(() => {
+    if (keyword) {
+      router.push(`/writtingpal/polish?search=${keyword}`);
+    } else {
+      router.push(`/writtingpal/polish`);
+    }
+  }, [keyword, router]);
+
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
     if (!e.target.value.trim()) {

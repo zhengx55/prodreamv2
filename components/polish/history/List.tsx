@@ -1,4 +1,5 @@
 'use client';
+import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
 import { getDocs } from '@/query/api';
@@ -19,10 +20,10 @@ const FilterDropdown = dynamic(() => import('./FilterDropDown'));
 type Props = {
   history_list: IDocDetail[];
   hasMorePage: boolean;
-  searchKeyword: string;
+  isLoading: boolean;
 };
 
-const List = ({ history_list, hasMorePage, searchKeyword }: Props) => {
+const List = ({ history_list, hasMorePage, isLoading }: Props) => {
   const { ref, inView } = useInView();
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const [list, setList] = useState<IDocDetail[]>(history_list);
@@ -144,7 +145,9 @@ const List = ({ history_list, hasMorePage, searchKeyword }: Props) => {
         </div>
       </div>
       <Spacer y='24' />
-      {viewType === 'grid' ? (
+      {isLoading ? (
+        <Loading />
+      ) : viewType === 'grid' ? (
         <CardView
           list={list}
           toggleDeleteModal={toggleDeleteModal}
@@ -159,6 +162,7 @@ const List = ({ history_list, hasMorePage, searchKeyword }: Props) => {
           setCurrentItem={memoSetCurrentItem}
         />
       )}
+
       <Spacer y='10' />
       <div className='flex-center h-10 w-full' ref={ref}>
         {loadingMore ? (

@@ -1,11 +1,10 @@
 'use client';
 
 import { FileIcon } from '@/components/root/SvgComponents';
-import { Button } from '@/components/ui/button';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { IDocDetail } from '@/query/type';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 const HistoryDropDown = dynamic(() => import('./HistoryDropDown'));
 
 type Props = {
@@ -20,19 +19,22 @@ const ListView = ({
   toggleDeleteModal,
   toggleMoveModal,
 }: Props) => {
+  const router = useRouter();
   return (
     <ul role='list' className='flex w-[1100px] flex-col gap-y-2'>
       {list.map((item) => (
-        <li className='flex-between items-center py-2' key={item.id}>
-          <Link passHref href={`/writtingpal/polish/${item.id}`}>
-            <Button
-              variant={'outline'}
-              className='gap-x-1.5 border-none px-0 hover:underline'
-            >
-              <FileIcon />
-              <p className='small-regular capitalize'>{item.title}</p>
-            </Button>
-          </Link>
+        <li
+          onClick={() => {
+            router.push(`/writtingpal/polish/${item.id}`);
+            router.refresh();
+          }}
+          className='flex-between cursor-pointer items-center rounded-lg py-2 hover:bg-nav-selected'
+          key={item.id}
+        >
+          <span className='flex items-center gap-x-1.5'>
+            <FileIcon />
+            <p className='small-regular capitalize'>{item.title}</p>
+          </span>
           <div className='flex-between w-1/3'>
             <p className='small-regular text-shadow'>
               Opened {formatTimestamphh_number(item.update_time)}

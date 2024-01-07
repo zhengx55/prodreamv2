@@ -1325,7 +1325,9 @@ export async function getDocs(
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}document?page=${page}&page_size=${pageSize}`,
+      `${
+        process.env.NEXT_PUBLIC_API_URL
+      }document?page=${page}&page_size=${pageSize}&keyword=${keyword ?? ''}`,
       {
         method: 'GET',
         headers: {
