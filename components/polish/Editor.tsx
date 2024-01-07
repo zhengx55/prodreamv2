@@ -59,10 +59,11 @@ const Tiptap = ({
         autocorrect: 'off',
         autocapitalize: 'off',
         class:
-          'focus:outline-none max-w-full font-inter prose whitespace-pre-wrap prose-p:text-black-400 h-full',
+          'focus:outline-none max-w-full font-inter prose whitespace-pre-wrap h-full',
         spellcheck: 'false',
       },
     },
+    injectCSS: false,
     autofocus: true,
     content: essay_content
       ? hasHtmlTags(essay_content)

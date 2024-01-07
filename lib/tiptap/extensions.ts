@@ -18,7 +18,6 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
 import TextAlign from '@tiptap/extension-text-align';
-import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 
 const ExtensionKit = () => [
@@ -33,7 +32,7 @@ const ExtensionKit = () => [
   Paragraph,
   FontSize,
   Blockquote,
-  TextStyle,
+  // TextStyle,
   History,
   Focus.configure({
     className: 'has-focus',
