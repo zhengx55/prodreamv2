@@ -35,10 +35,13 @@ const EvaluationHistory = () => {
       <List
         key={v4()}
         isLoading={isDataLoading || isRefetching}
-        history_list={isError ? [] : data!.list}
-        hasMorePage={isError ? false : data!.hasMore}
+        history_list={
+          isError || isDataLoading || isRefetching ? [] : data!.list
+        }
+        hasMorePage={
+          isError || isDataLoading || isRefetching ? false : data!.hasMore
+        }
       />
-
       <Spacer y='14' />
     </main>
   );
