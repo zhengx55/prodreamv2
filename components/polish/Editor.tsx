@@ -56,7 +56,7 @@ const Tiptap = ({
     editorProps: {
       attributes: {
         autocomplete: 'off',
-        autocorrect: 'off',
+        autocorrect: 'on',
         autocapitalize: 'off',
         class:
           'focus:outline-none max-w-full font-inter prose whitespace-pre-wrap h-full',
@@ -105,7 +105,11 @@ const Tiptap = ({
         />
       </div>
       <Spacer y='16' />
-      <EditorContent className='min-h-full overflow-y-auto' editor={editor} />
+      <EditorContent
+        spellCheck
+        className='min-h-full overflow-y-auto'
+        editor={editor}
+      />
       <div className='flex-between flex h-12 w-full px-0'>
         <p className='small-semibold text-shadow-100'>
           {editor.storage.characterCount.words()}

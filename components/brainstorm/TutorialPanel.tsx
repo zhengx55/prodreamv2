@@ -101,6 +101,10 @@ const TutorialPanel = ({
             setTutorial(autofillQsPair);
           } else {
             // handle generate essay
+            const match = BrianstormAutoFill.find(
+              (item) => item.id === template_id
+            );
+            if (!match) return;
             const generate_button = document.getElementById('generate-button');
             if (generate_button) {
               generate_button.click();

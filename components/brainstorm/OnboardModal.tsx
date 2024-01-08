@@ -19,11 +19,21 @@ const OnboardModal = () => {
     onSuccess: () => {
       updateUsageItem('first_brainstorm');
     },
+    onError: () => {
+      updateUsageItem('first_brainstorm');
+    },
   });
   const handleUpdateUsage = async () => {
     await updateUsage({
       email,
       params: { ...usage, first_brainstorm: false },
+    });
+  };
+
+  const handleShowMe = async () => {
+    await updateUsage({
+      email,
+      params: { ...usage, first_brainstorm: true },
     });
   };
   return (

@@ -1,9 +1,11 @@
 'use client';
-import { IDocDetail } from '@/query/type';
+import { getDocDetail } from '@/query/api';
 import useRootStore from '@/zustand/store';
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
+import { Skeleton } from '../ui/skeleton';
 import EditiorLoading from './EditiorLoading';
 const SuggestionPanel = dynamic(
   () => import('./polish_suggestion/SuggestionPanel'),
@@ -16,7 +18,15 @@ const ChatEditPanel = dynamic(() => import('./chat_edit/ChatEditPanel'), {
   loading: () => <EditiorLoading />,
 });
 
-const EssayPanel = ({ detail }: { detail: IDocDetail | null }) => {
+const EssayPanel = ({ id }: { id: string }) => {
+  const {
+    data: document_content,
+    isFetching,
+    isError,
+  } = useQuery({
+    queryKey: ['document_item', id],
+    queryFn: () => getDocDetail(id),
+  });
   const isChatEditMode = useRootStore((state) => state.isChatEditMode);
   const isPolishing = useRootStore((state) => state.isPolishing);
   const polishResult = useRootStore((state) => state.polishResult);
@@ -33,6 +43,7 @@ const EssayPanel = ({ detail }: { detail: IDocDetail | null }) => {
     isPlagiarismOpen ||
     isEvaluationOpen;
 
+  if (isError) return null;
   return (
     <motion.div
       layout='position'
@@ -46,10 +57,16 @@ const EssayPanel = ({ detail }: { detail: IDocDetail | null }) => {
         style={{ width: isMultiScreen ? '50%' : '750px' }}
         className='flex h-full flex-col'
       >
-        <Tiptap
-          essay_title={detail ? detail.title : ''}
-          essay_content={detail ? detail.text : ''}
-        />
+        {isFetching ? (
+          <div className='w-full'>
+            <Skeleton className='h-10 w-full rounded-lg' />
+          </div>
+        ) : (
+          <Tiptap
+            essay_title={document_content ? document_content.title : ''}
+            essay_content={document_content ? document_content.text : ''}
+          />
+        )}
       </motion.div>
       {isChatEditMode ? (
         <ChatEditPanel />
