@@ -136,7 +136,7 @@ const ChatEditPanel = () => {
   });
 
   return (
-    <div className='relative flex min-h-full w-1/2 flex-col justify-between overflow-y-hidden'>
+    <div className='relative flex min-h-full w-1/2 max-w-[750px] flex-col justify-between overflow-y-hidden'>
       <ul
         ref={listRef}
         className='flex h-full w-full flex-col gap-y-4 overflow-y-auto'

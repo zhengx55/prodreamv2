@@ -13,7 +13,6 @@ const SuggestionPanel = () => {
   const polishResultB = useAIEditorStore(
     (state) => state.polishResultWholeParagraph
   );
-  const activeSaving = useAIEditorStore((state) => state.activeSaving);
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
   const clearPolishResult = useAIEditorStore(
     (state) => state.clearPolishResult
@@ -175,7 +174,6 @@ const SuggestionPanel = () => {
   };
 
   const handleAcceptAll = () => {
-    activeSaving();
     clearAllHightLight();
     suggestions.forEach((suggestion, suggestion_idx) => {
       replaceText(suggestion_idx, suggestion);
@@ -184,14 +182,13 @@ const SuggestionPanel = () => {
   };
 
   const handleRejectAll = () => {
-    activeSaving();
     clearAllHightLight();
     clearAllUnderLine();
-    if (polishResult) clearPolishResult();
+    clearPolishResult();
   };
 
   return (
-    <div className='flex min-h-full w-1/2 flex-col overflow-y-auto'>
+    <div className='flex min-h-full w-1/2 max-w-[750px] flex-col overflow-y-auto'>
       <div aria-label='all suggestions' className='flex-between'>
         <div className='flex items-center gap-x-2'>
           <span className='small-semibold flex-center h-8 w-8 rounded-full border-shadow-border bg-primary-50 '>
@@ -257,7 +254,7 @@ const SuggestionPanel = () => {
                 onClick={() => (isExpanded ? close(index) : expand(index))}
                 layout='size'
                 style={{ height: isExpanded ? 'auto' : '48px' }}
-                className='mt-4 w-full shrink-0 cursor-pointer rounded-lg border border-shadow-border px-4 py-3 hover:shadow-xl'
+                className='small-regular mt-4 w-full shrink-0 cursor-pointer rounded-lg border border-shadow-border p-3 hover:shadow-xl'
                 key={`polish-${index}`}
               >
                 {isExpanded && (

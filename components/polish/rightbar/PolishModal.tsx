@@ -49,7 +49,6 @@ const PolishModal = () => {
   const setPolishResultB = useAIEditorStore(
     (state) => state.updatePolishResultWholeParagraph
   );
-  const deactivateSaving = useAIEditorStore((state) => state.deactivateSaving);
   const isPolishing = useAIEditorStore((state) => state.isPolishing);
   const [polishMentod] = useState(initialPolishMethods);
   const [domains] = useState(initialDomains);
@@ -127,7 +126,6 @@ const PolishModal = () => {
   const { mutateAsync: polish } = useMutation({
     mutationFn: (params: IPolishParams) => submitPolish(params),
     onMutate: () => {
-      deactivateSaving();
       setChatEditMode(false);
       setIsPolishing(true);
       // 清除其他功能的样式变化

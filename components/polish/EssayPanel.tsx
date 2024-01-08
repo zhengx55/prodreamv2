@@ -2,6 +2,7 @@
 import { getDocDetail } from '@/query/api';
 import useRootStore from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
@@ -35,6 +36,8 @@ const EssayPanel = ({ id }: { id: string }) => {
   const polishResultParagraph = useRootStore(
     (state) => state.polishResultWholeParagraph
   );
+  const deactivateSaving = useRootStore((state) => state.deactivateSaving);
+  const activeSaving = useRootStore((state) => state.activeSaving);
   const isMultiScreen =
     isPolishing ||
     isChatEditMode ||
@@ -43,15 +46,17 @@ const EssayPanel = ({ id }: { id: string }) => {
     isPlagiarismOpen ||
     isEvaluationOpen;
 
+  useUpdateEffect(() => {
+    if (isMultiScreen) {
+      deactivateSaving();
+    } else {
+      activeSaving();
+    }
+  }, [isMultiScreen]);
+
   if (isError) return null;
   return (
-    <motion.div
-      layout='position'
-      style={{
-        justifyContent: isMultiScreen ? 'flex-start' : 'center',
-      }}
-      className='flex h-full w-full gap-x-8 overflow-hidden p-4'
-    >
+    <div className='flex h-full w-full justify-center gap-x-8 overflow-hidden p-4'>
       <motion.div
         layout='size'
         style={{ width: isMultiScreen ? '50%' : '750px' }}
@@ -75,7 +80,7 @@ const EssayPanel = ({ id }: { id: string }) => {
       ) : polishResult.length > 0 || polishResultParagraph ? (
         <SuggestionPanel />
       ) : null}
-    </motion.div>
+    </div>
   );
 };
 
