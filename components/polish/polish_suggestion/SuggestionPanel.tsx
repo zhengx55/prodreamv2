@@ -66,6 +66,11 @@ const SuggestionPanel = () => {
     editor_instance.chain().selectAll().unsetHighlight().run();
   };
 
+  const clearAllUnderLine = () => {
+    if (!editor_instance) return null;
+    editor_instance.chain().selectAll().unsetPolishUnderline().run();
+  };
+
   const hightLightSentence = (
     current_suggestion: IPolishResultAData,
     corrsponding_segement: string
@@ -181,7 +186,7 @@ const SuggestionPanel = () => {
   const handleRejectAll = () => {
     activeSaving();
     clearAllHightLight();
-    setSuggestions([]);
+    clearAllUnderLine();
     if (polishResult) clearPolishResult();
   };
 
