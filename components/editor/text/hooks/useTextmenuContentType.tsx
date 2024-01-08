@@ -8,7 +8,7 @@ import {
   Type,
 } from 'lucide-react';
 import { useMemo } from 'react';
-import { ContentPickerOptions } from '../../../picker/content';
+import { ContentPickerOptions } from '../../picker/content';
 
 export const useTextmenuContentTypes = (editor: Editor) => {
   const options = useMemo<ContentPickerOptions>(() => {

@@ -9,14 +9,15 @@ import {
   Bold,
   Italic,
   MoreVertical,
+  PenLine,
   Redo,
   Strikethrough,
   Underline,
   Undo,
 } from 'lucide-react';
 import { memo } from 'react';
-import { ContentTypePicker } from '../../picker/content';
-import { FontSizePicker } from '../../picker/fontsize';
+import { ContentTypePicker } from '../picker/content';
+import { FontSizePicker } from '../picker/fontsize';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
 import { useTextmenuStates } from './hooks/useTextmenuStates';
@@ -39,7 +40,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
   return (
     <BubbleMenu
       tippyOptions={{
-        popperOptions: { placement: 'top-start' },
+        popperOptions: { placement: 'top-end' },
         appendTo: 'parent',
       }}
       editor={editor}
@@ -48,12 +49,12 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
       updateDelay={200}
     >
       <Toolbar.Wrapper className='border-shadow-borde border shadow-lg'>
-        <MemoContentTypePicker options={blockOptions} />
-        <MemoFontSizePicker
-          onChange={commands.onSetFontSize}
-          value={states.currentSize || ''}
-        />
+        <MemoButton>
+          <PenLine size={16} />
+          Chat Edit
+        </MemoButton>
         <Toolbar.Divider />
+        <MemoContentTypePicker options={blockOptions} />
         <MemoButton
           tooltip='Undo'
           tooltipShortcut={['Mod', 'Z']}

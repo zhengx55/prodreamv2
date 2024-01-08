@@ -6,8 +6,8 @@ import Suggestion, {
   SuggestionProps,
 } from '@tiptap/suggestion';
 import tippy from 'tippy.js';
-import MenuList from '../../view/menu/slash-commands';
-import GROUPS from '../../view/menu/slash-commands/group';
+import MenuList from '../../../../components/editor/slash-commands';
+import GROUPS from '../../../../components/editor/slash-commands/group';
 
 const extensionName = 'slashCommand';
 

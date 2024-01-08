@@ -1,8 +1,8 @@
 'use client';
+import { TextMenu } from '@/components/editor/text';
 import { useDebouncedState } from '@/hooks/useDebounceState';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
-import { TextMenu } from '@/lib/tiptap/view/menu/text';
 import { hasHtmlTags } from '@/lib/utils';
 import { saveDoc } from '@/query/api';
 import useRootStore from '@/zustand/store';
@@ -95,7 +95,7 @@ const Tiptap = ({
   return (
     <div
       aria-label='editor-parent'
-      className='flex h-[calc(100%_-75px)] w-full flex-col rounded-lg pb-2'
+      className='flex h-full w-full flex-col rounded-lg'
     >
       {/* <EditBar /> */}
       <div className='flex h-12 w-full shrink-0 border-b-2 border-shadow-border'>
@@ -104,6 +104,7 @@ const Tiptap = ({
           defaultValue={title}
           onChange={handleTitleChange}
           type='text'
+          id='title'
           className='title-semibold h-full border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
         />
       </div>
@@ -111,10 +112,10 @@ const Tiptap = ({
       <TextMenu editor={editor} />
       <EditorContent
         spellCheck
-        className='min-h-full overflow-y-auto'
+        className='h-full overflow-y-auto'
         editor={editor}
       />
-      <div className='flex-between flex h-12 w-full px-0'>
+      <div className='flex-between flex h-10 w-full shrink-0 px-0'>
         {saving ? (
           <p className='small-semibold flex items-center gap-x-1 text-shadow-100'>
             <Loader2 className='animate-spin' size={16} />
