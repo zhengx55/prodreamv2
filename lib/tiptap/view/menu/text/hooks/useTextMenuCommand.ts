@@ -2,6 +2,13 @@ import { Editor } from '@tiptap/react';
 import { useCallback } from 'react';
 
 export const useTextmenuCommands = (editor: Editor) => {
+  const onRedo = useCallback(
+    () => editor.chain().focus().redo().run(),
+    [editor]
+  );
+  const onUndo = useCallback(() => {
+    editor.chain().focus().undo().run();
+  }, [editor]);
   const onBold = useCallback(
     () => editor.chain().focus().toggleBold().run(),
     [editor]
@@ -36,15 +43,6 @@ export const useTextmenuCommands = (editor: Editor) => {
     [editor]
   );
 
-  const onChangeHighlight = useCallback(
-    (color: string) => editor.chain().setHighlight({ color }).run(),
-    [editor]
-  );
-  const onClearHighlight = useCallback(
-    () => editor.chain().focus().unsetHighlight().run(),
-    [editor]
-  );
-
   const onSetFontSize = useCallback(
     (fontSize: string) => {
       if (!fontSize || fontSize.length === 0) {
@@ -64,8 +62,8 @@ export const useTextmenuCommands = (editor: Editor) => {
     onAlignCenter,
     onAlignRight,
     onAlignJustify,
-    onChangeHighlight,
-    onClearHighlight,
     onSetFontSize,
+    onRedo,
+    onUndo,
   };
 };

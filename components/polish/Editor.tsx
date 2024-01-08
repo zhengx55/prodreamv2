@@ -2,6 +2,7 @@
 import { useDebouncedState } from '@/hooks/useDebounceState';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
+import { TextMenu } from '@/lib/tiptap/view/menu/text';
 import { hasHtmlTags } from '@/lib/utils';
 import { saveDoc } from '@/query/api';
 import useRootStore from '@/zustand/store';
@@ -13,7 +14,6 @@ import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
-import EditBar from './EditBar';
 
 const Tiptap = ({
   essay_content,
@@ -95,10 +95,9 @@ const Tiptap = ({
   return (
     <div
       aria-label='editor-parent'
-      className='flex h-[calc(100%_-125px)] w-full flex-col rounded-lg pb-2'
+      className='flex h-[calc(100%_-75px)] w-full flex-col rounded-lg pb-2'
     >
-      <EditBar />
-      <Spacer y='16' />
+      {/* <EditBar /> */}
       <div className='flex h-12 w-full shrink-0 border-b-2 border-shadow-border'>
         <Input
           placeholder={'Untitled Document'}
@@ -109,16 +108,13 @@ const Tiptap = ({
         />
       </div>
       <Spacer y='16' />
+      <TextMenu editor={editor} />
       <EditorContent
         spellCheck
         className='min-h-full overflow-y-auto'
         editor={editor}
       />
       <div className='flex-between flex h-12 w-full px-0'>
-        <p className='small-semibold text-shadow-100'>
-          {editor.storage.characterCount.words()}
-          &nbsp;Words
-        </p>
         {saving ? (
           <p className='small-semibold flex items-center gap-x-1 text-shadow-100'>
             <Loader2 className='animate-spin' size={16} />

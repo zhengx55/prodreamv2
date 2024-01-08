@@ -1,0 +1,12 @@
+.ProseMirror {
+    .selection {
+        @apply inline;
+    }
+
+    .selection,
+    *::selection {
+        @apply bg-black-400/10 dark:bg-white/20;
+    }
+
+
+}
