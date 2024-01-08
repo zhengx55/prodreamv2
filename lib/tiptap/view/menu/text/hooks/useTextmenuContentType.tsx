@@ -21,13 +21,7 @@ export const useTextmenuContentTypes = (editor: Editor) => {
       {
         icon: <Type size={16} />,
         onClick: () =>
-          editor
-            .chain()
-            .focus()
-            .lift('taskItem')
-            .liftListItem('listItem')
-            .setParagraph()
-            .run(),
+          editor.chain().focus().liftListItem('listItem').setParagraph().run(),
         id: 'paragraph',
         disabled: () => !editor.can().setParagraph(),
         isActive: () =>
@@ -44,7 +38,6 @@ export const useTextmenuContentTypes = (editor: Editor) => {
           editor
             .chain()
             .focus()
-            .lift('taskItem')
             .liftListItem('listItem')
             .setHeading({ level: 1 })
             .run(),
@@ -60,7 +53,6 @@ export const useTextmenuContentTypes = (editor: Editor) => {
           editor
             .chain()
             .focus()
-            .lift('taskItem')
             .liftListItem('listItem')
             .setHeading({ level: 2 })
             .run(),
@@ -76,7 +68,6 @@ export const useTextmenuContentTypes = (editor: Editor) => {
           editor
             .chain()
             .focus()
-            .lift('taskItem')
             .liftListItem('listItem')
             .setHeading({ level: 3 })
             .run(),

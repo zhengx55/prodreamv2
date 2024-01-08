@@ -45,7 +45,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
       editor={editor}
       pluginKey='textMenu'
       shouldShow={states.shouldShow}
-      updateDelay={100}
+      updateDelay={200}
     >
       <Toolbar.Wrapper className='border-shadow-borde border shadow-lg'>
         <MemoContentTypePicker options={blockOptions} />
