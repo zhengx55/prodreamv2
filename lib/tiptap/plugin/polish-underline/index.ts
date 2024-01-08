@@ -1,53 +1,79 @@
-import { Mark, mergeAttributes } from '@tiptap/core';
+import { Extension } from '@tiptap/core';
 
-export interface PolishUnderlineOptions {
-  HTMLAttributes: Record<string, any>;
-}
+export type PolishUnderlineOptions = {
+  types: string[];
+};
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    polishUnderline: {
+    polish_underline: {
       /**
-       * Set an underline mark
+       * Set text polish_underline
        */
       setPolishUnderline: () => ReturnType;
-
       /**
-       * Unset an underline mark
+       * Unset text polish_underline
        */
       unsetPolishUnderline: () => ReturnType;
     };
   }
 }
 
-export const PolishUnderline = Mark.create<PolishUnderlineOptions>({
-  name: 'polish-underline',
+export const PolishUnderline = Extension.create<PolishUnderlineOptions>({
+  name: 'polish_underline',
 
   addOptions() {
     return {
-      HTMLAttributes: {},
+      types: ['textStyle'],
     };
   },
 
-  parseHTML() {
+  addGlobalAttributes() {
     return [
       {
-        tag: 'span',
-      },
-      {
-        style: 'text-decoration',
-        consuming: false,
-        getAttrs: (style) =>
-          (style as string).includes('underline') ? {} : false,
-      },
-    ];
-  },
+        types: this.options.types,
+        attributes: {
+          polish_underline: {
+            default: {
+              color: null,
+              offset: null,
+            },
+            parseHTML: (element) => ({
+              color: element.style.textDecorationColor,
+              offset: element.style.textDecorationThickness,
+            }),
+            renderHTML: (attributes) => {
+              if (
+                !attributes.polish_underline ||
+                (!attributes.polish_underline.color &&
+                  !attributes.polish_underline.offset)
+              ) {
+                return {};
+              }
 
-  renderHTML({ HTMLAttributes }) {
-    return [
-      'u',
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0,
+              const style = [];
+              style.push(`text-decoration: underline`);
+              style.push(`text-underline-offset: 5px`);
+
+              if (attributes.polish_underline.color) {
+                style.push(
+                  `text-decoration-color: ${attributes.polish_underline.color}`
+                );
+              }
+
+              if (attributes.polish_underline.offset) {
+                style.push(
+                  `text-decoration-thickness: ${attributes.polish_underline.offset}`
+                );
+              }
+
+              return {
+                style: style.join('; '),
+              };
+            },
+          },
+        },
+      },
     ];
   },
 
@@ -55,13 +81,23 @@ export const PolishUnderline = Mark.create<PolishUnderlineOptions>({
     return {
       setPolishUnderline:
         () =>
-        ({ commands }) => {
-          return commands.setMark(this.name);
+        ({ chain }) => {
+          const markAttributes = {
+            polish_underline: {
+              color: 'red',
+              offset: '2px',
+            },
+          };
+
+          return chain().setMark('textStyle', markAttributes).run();
         },
       unsetPolishUnderline:
         () =>
-        ({ commands }) => {
-          return commands.unsetMark(this.name);
+        ({ chain }) => {
+          return chain()
+            .setMark('textStyle', { polish_underline: null })
+            .removeEmptyTextStyle()
+            .run();
         },
     };
   },

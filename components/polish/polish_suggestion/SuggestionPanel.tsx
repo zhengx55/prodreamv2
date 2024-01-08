@@ -180,7 +180,7 @@ const SuggestionPanel = () => {
     clearAllHightLight();
     setSuggestions([]);
     if (!editor_instance) return;
-    editor_instance.chain().selectAll().unsetUnderline().run();
+    editor_instance.chain().selectAll().unsetPolishUnderline().run();
     if (polishResult) clearPolishResult();
   };
 
