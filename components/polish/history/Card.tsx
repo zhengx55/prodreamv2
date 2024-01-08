@@ -3,9 +3,8 @@ import Spacer from '@/components/root/Spacer';
 import { FileIcon } from '@/components/root/SvgComponents';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { IDocDetail } from '@/query/type';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
-const HistoryDropDown = dynamic(() => import('./HistoryDropDown'));
+import HistoryDropDown from './HistoryDropDown';
 
 type Props = {
   item: IDocDetail;
