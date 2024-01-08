@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { queryPolish, submitPolish } from '@/query/api';
 import { IPolishParams, IPolishResultAData } from '@/query/type';
-import useAIEditorStore from '@/zustand/store';
+import { default as useAIEditorStore } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useObjectState from 'beautiful-react-hooks/useObjectState';
 import escapeStringRegExp from 'escape-string-regexp';
@@ -49,6 +49,7 @@ const PolishModal = () => {
   const setPolishResultB = useAIEditorStore(
     (state) => state.updatePolishResultWholeParagraph
   );
+  const deactivateSaving = useAIEditorStore((state) => state.deactivateSaving);
   const isPolishing = useAIEditorStore((state) => state.isPolishing);
   const [polishMentod] = useState(initialPolishMethods);
   const [domains] = useState(initialDomains);
@@ -59,7 +60,6 @@ const PolishModal = () => {
   const [addCustomStyle, setAddCustomStyle] = useState(false);
   const [addCustomLength, setAddCustomLength] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
-
   const reqTimer = useRef<NodeJS.Timeout | undefined>();
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
 
@@ -127,6 +127,7 @@ const PolishModal = () => {
   const { mutateAsync: polish } = useMutation({
     mutationFn: (params: IPolishParams) => submitPolish(params),
     onMutate: () => {
+      deactivateSaving();
       setChatEditMode(false);
       setIsPolishing(true);
       // 清除其他功能的样式变化
@@ -136,8 +137,6 @@ const PolishModal = () => {
       reqTimer.current = setInterval(async () => {
         try {
           const res = await queryPolish({ task_id: data });
-          if (res.status === 'doing') {
-          }
           if (res.status === 'done') {
             setIsPolishing(false);
             if (typeof res.result === 'string') {

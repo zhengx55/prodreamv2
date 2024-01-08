@@ -28,7 +28,7 @@ const Tiptap = ({
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const [saving, toggleSaving] = useState(false);
   const setEditorInstance = useRootStore((state) => state.setEditorInstance);
-
+  const savingMode = useRootStore((state) => state.savingMode);
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     toggleSaving(true);
     setTitle(e.currentTarget.value);
@@ -48,8 +48,10 @@ const Tiptap = ({
   }, [title]);
 
   useUpdateEffect(() => {
-    saveDocument({ id, text: content });
-  }, [content]);
+    if (savingMode) {
+      saveDocument({ id, text: content });
+    }
+  }, [content, savingMode]);
 
   const editor = useEditor({
     extensions: [...ExtensionKit()],
@@ -79,8 +81,10 @@ const Tiptap = ({
     },
     onUpdate: ({ editor }) => {
       if (editor.getHTML() === content) return;
-      toggleSaving(true);
-      setContent(editor.getHTML());
+      if (savingMode) {
+        toggleSaving(true);
+        setContent(editor.getHTML());
+      }
     },
     onDestroy: () => {
       reset();

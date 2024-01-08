@@ -12,6 +12,7 @@ const initialState: AIEditorState = {
   isChatEditMode: false,
   isEvaluationOpen: false,
   isPlagiarismOpen: false,
+  savingMode: true,
 };
 
 type AIEditorState = {
@@ -22,6 +23,7 @@ type AIEditorState = {
   isEvaluationOpen: boolean;
   isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
+  savingMode: boolean;
 };
 
 type AIEditorAction = {
@@ -36,6 +38,8 @@ type AIEditorAction = {
   clearPolishResult: () => void;
   setEditorInstance: (result: Editor) => void;
   reset: () => void;
+  activeSaving: () => void;
+  deactivateSaving: () => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -56,5 +60,13 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   setEditorInstance: (result) =>
     set(() => ({
       editor_instance: result,
+    })),
+  activeSaving: () =>
+    set(() => ({
+      savingMode: true,
+    })),
+  deactivateSaving: () =>
+    set(() => ({
+      savingMode: false,
     })),
 });

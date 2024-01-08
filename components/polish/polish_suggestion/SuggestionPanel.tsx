@@ -13,6 +13,7 @@ const SuggestionPanel = () => {
   const polishResultB = useAIEditorStore(
     (state) => state.polishResultWholeParagraph
   );
+  const activeSaving = useAIEditorStore((state) => state.activeSaving);
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
   const clearPolishResult = useAIEditorStore(
     (state) => state.clearPolishResult
@@ -153,7 +154,7 @@ const SuggestionPanel = () => {
       .chain()
       .setTextSelection({ from, to })
       .unsetHighlight()
-      .unsetUnderline()
+      .unsetPolishUnderline()
       .run();
     editor_instance
       .chain()
@@ -169,6 +170,7 @@ const SuggestionPanel = () => {
   };
 
   const handleAcceptAll = () => {
+    activeSaving();
     clearAllHightLight();
     suggestions.forEach((suggestion, suggestion_idx) => {
       replaceText(suggestion_idx, suggestion);
@@ -177,10 +179,9 @@ const SuggestionPanel = () => {
   };
 
   const handleRejectAll = () => {
+    activeSaving();
     clearAllHightLight();
     setSuggestions([]);
-    if (!editor_instance) return;
-    editor_instance.chain().selectAll().unsetPolishUnderline().run();
     if (polishResult) clearPolishResult();
   };
 
