@@ -49,7 +49,6 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
     >
       <Toolbar.Wrapper className='border-shadow-borde border shadow-lg'>
         <MemoContentTypePicker options={blockOptions} />
-        <Toolbar.Divider />
         <MemoFontSizePicker
           onChange={commands.onSetFontSize}
           value={states.currentSize || ''}

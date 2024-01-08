@@ -43,16 +43,27 @@ export const ContentTypePicker = ({ options }: ContentTypePickerProps) => {
 
   return (
     <Dropdown.Root>
-      <Dropdown.Trigger asChild>
-        <Toolbar.Button
-          className='w-40 justify-evenly'
-          active={activeItem?.id !== 'paragraph' && !!activeItem?.type}
-        >
-          {activeItem?.type === 'option' ? activeItem.icon : <Type size={16} />}
-          <p>{activeItem?.label}</p>
-          <ChevronsUpDown size={16} />
-        </Toolbar.Button>
-      </Dropdown.Trigger>
+      {activeItem ? (
+        <>
+          <Dropdown.Trigger asChild>
+            <Toolbar.Button
+              className='w-40 justify-between'
+              active={activeItem?.id !== 'paragraph' && !!activeItem?.type}
+            >
+              <span className='inline-flex items-center gap-x-1.5'>
+                {activeItem?.type === 'option' ? (
+                  activeItem.icon
+                ) : (
+                  <Type size={16} />
+                )}
+                {activeItem?.label}
+              </span>
+              <ChevronsUpDown size={16} />
+            </Toolbar.Button>
+          </Dropdown.Trigger>
+          <Toolbar.Divider />
+        </>
+      ) : null}
       <Dropdown.Content asChild>
         <Surface className='flex flex-col gap-1 border border-shadow-border p-2'>
           {options.map((option) => {
