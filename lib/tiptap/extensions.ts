@@ -4,6 +4,7 @@ import Blockquote from '@tiptap/extension-blockquote';
 import Bold from '@tiptap/extension-bold';
 import BulletList from '@tiptap/extension-bullet-list';
 import CharacterCount from '@tiptap/extension-character-count';
+import { Color } from '@tiptap/extension-color';
 import Document from '@tiptap/extension-document';
 import Focus from '@tiptap/extension-focus';
 import HardBreak from '@tiptap/extension-hard-break';
@@ -18,7 +19,9 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
 import TextAlign from '@tiptap/extension-text-align';
+import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
+import { PolishUnderline } from './plugin/polish-underline';
 
 const ExtensionKit = () => [
   CharacterCount,
@@ -32,7 +35,8 @@ const ExtensionKit = () => [
   Paragraph,
   FontSize,
   Blockquote,
-  // TextStyle,
+  TextStyle,
+  Color,
   History,
   Focus.configure({
     className: 'has-focus',
@@ -57,7 +61,8 @@ const ExtensionKit = () => [
   HighLight.configure({
     multicolor: true,
   }),
-  Underline.configure({
+  Underline,
+  PolishUnderline.configure({
     HTMLAttributes: {
       class: 'decoration-[2px] decoration-red-400 underline-offset-[5px]',
     },

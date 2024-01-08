@@ -35,6 +35,7 @@
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-query": "^5.4.3",
     "@tiptap/extension-character-count": "^2.1.13",
+    "@tiptap/extension-color": "^2.1.13",
     "@tiptap/extension-focus": "^2.1.13",
     "@tiptap/extension-hard-break": "^2.1.13",
     "@tiptap/extension-highlight": "^2.1.13",
