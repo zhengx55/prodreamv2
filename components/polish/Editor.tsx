@@ -1,5 +1,4 @@
 'use client';
-import { TextMenu } from '@/components/editor/text';
 import { useDebouncedState } from '@/hooks/useDebounceState';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
@@ -12,6 +11,7 @@ import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
 import BottomBar from '../editor/bottombar';
+import { TextMenu } from '../editor/text';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
 
@@ -97,8 +97,7 @@ const Tiptap = ({
       aria-label='editor-parent'
       className='flex h-full w-full flex-col rounded-lg'
     >
-      {/* <EditBar /> */}
-      <div className='flex h-12 w-full shrink-0 border-b-2 border-shadow-border'>
+      <div className='flex h-12 w-full border-b-2 border-shadow-border'>
         <Input
           placeholder={'Untitled Document'}
           defaultValue={title}
@@ -110,11 +109,7 @@ const Tiptap = ({
       </div>
       <Spacer y='16' />
       <TextMenu editor={editor} />
-      <EditorContent
-        spellCheck
-        className='h-full overflow-y-auto'
-        editor={editor}
-      />
+      <EditorContent className='h-full overflow-y-auto' editor={editor} />
       <div className='flex h-10 w-full shrink-0 px-0'>
         <BottomBar editor={editor} />
         {/* {saving ? (

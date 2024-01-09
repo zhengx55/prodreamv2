@@ -13,17 +13,10 @@ const PlagReportSheet = dynamic(() => import('./PlagReportSheet'));
 
 const Rightbar = () => {
   const setChatEditMode = useAIEditor((state) => state.updateIsChatEditMode);
-  const editor_instance = useAIEditor((state) => state.editor_instance);
   const isChatEditMode = useAIEditor((state) => state.isChatEditMode);
   const clearPolishResult = useAIEditor((state) => state.clearPolishResult);
   const toggleChatEditMode = () => {
     if (!isChatEditMode) {
-      editor_instance
-        ?.chain()
-        .selectAll()
-        .unsetUnderline()
-        .unsetHighlight()
-        .run();
       setChatEditMode(true);
       clearPolishResult();
     } else {
