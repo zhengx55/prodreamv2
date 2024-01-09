@@ -9,7 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useParams } from 'next/navigation';
-import { ChangeEvent, memo, useState } from 'react';
+import { memo, useState } from 'react';
 import BottomBar from '../editor/bottombar';
 import { TextMenu } from '../editor/text';
 import Spacer from '../root/Spacer';
@@ -23,15 +23,14 @@ const Tiptap = ({
 }) => {
   const { id }: { id: string } = useParams();
   const reset = useRootStore((state) => state.reset);
-  const [title, setTitle] = useDebouncedState(essay_title, 1500);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const [saving, toggleSaving] = useState(false);
   const setEditorInstance = useRootStore((state) => state.setEditorInstance);
   const savingMode = useRootStore((state) => state.savingMode);
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    toggleSaving(true);
-    setTitle(e.currentTarget.value);
-  };
+  // const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   toggleSaving(true);
+  //   setTitle(e.currentTarget.value);
+  // };
   const { mutateAsync: saveDocument } = useMutation({
     mutationFn: (params: { id: string; text?: string; title?: string }) =>
       saveDoc(params),
