@@ -1,3 +1,4 @@
+import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
 import { getDiffSentencesPair, getSubStrPos } from '@/lib/utils';
 import { IPolishResultAData } from '@/query/type';
 import useAIEditorStore from '@/zustand/store';
@@ -18,7 +19,7 @@ const SuggestionPanel = () => {
     (state) => state.clearPolishResult
   );
   const [suggestions, setSuggestions] = useState<IPolishResultAData[]>([]);
-
+  const command = useEditorCommand(editor_instance!);
   useDeepCompareEffect(() => {
     if (polishResult.length > 0) {
       setSuggestions(
@@ -48,28 +49,6 @@ const SuggestionPanel = () => {
     }
   }, [polishResult]);
 
-  const highLightAtPosition = (from: number, to: number) => {
-    if (!editor_instance) return;
-    editor_instance
-      .chain()
-      .setTextSelection({
-        from,
-        to,
-      })
-      .setHighlight({ color: 'rgba(236, 120, 113, 0.2)' })
-      .run();
-  };
-
-  const clearAllHightLight = () => {
-    if (!editor_instance) return null;
-    editor_instance.chain().selectAll().unsetHighlight().run();
-  };
-
-  const clearAllUnderLine = () => {
-    if (!editor_instance) return null;
-    editor_instance.chain().selectAll().unsetPolishUnderline().run();
-  };
-
   const hightLightSentence = (
     current_suggestion: IPolishResultAData,
     corrsponding_segement: string
@@ -94,7 +73,7 @@ const SuggestionPanel = () => {
         }
         const position = corrsponding_segement!.search(substring_regex);
         if (position === -1) return;
-        highLightAtPosition(
+        command.highLightAtPosition(
           position + start_position + 1,
           position + start_position + suggestion.sub_str.length + 1
         );
@@ -105,7 +84,7 @@ const SuggestionPanel = () => {
   const expand = (index: number) => {
     // hight light changed fragments on the essay
     if (!editor_instance) return;
-    clearAllHightLight();
+    command.clearAllHightLight();
     const current_suggestion = suggestions.at(index);
     if (current_suggestion) {
       const corrsponding_segement = getSubStrPos(current_suggestion);
@@ -119,7 +98,7 @@ const SuggestionPanel = () => {
   };
 
   const close = (index: number) => {
-    clearAllHightLight();
+    command.clearAllHightLight();
     setSuggestions((prev) => {
       return prev.map((item, i) =>
         i === index ? { ...item, expand: false } : item
@@ -174,7 +153,7 @@ const SuggestionPanel = () => {
   };
 
   const handleAcceptAll = () => {
-    clearAllHightLight();
+    command.clearAllHightLight();
     suggestions.forEach((suggestion, suggestion_idx) => {
       replaceText(suggestion_idx, suggestion);
     });
@@ -182,8 +161,8 @@ const SuggestionPanel = () => {
   };
 
   const handleRejectAll = () => {
-    clearAllHightLight();
-    clearAllUnderLine();
+    command.clearAllHightLight();
+    command.clearAllUnderLine();
     clearPolishResult();
   };
 
