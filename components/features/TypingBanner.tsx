@@ -1,11 +1,11 @@
 'use client';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { handleWelcomeSubmit } from '@/actions/action';
+import { m } from 'framer-motion';
+import { ChangeEvent, useRef, useState } from 'react';
 import { TypeAnimation } from 'react-type-animation';
 import Spacer from '../root/Spacer';
-import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { handleWelcomeSubmit } from '@/actions/action';
-import { motion } from 'framer-motion';
+import { Input } from '../ui/input';
 
 const TypingBanner = () => {
   const [finsish, setFinsish] = useState(false);
@@ -36,7 +36,7 @@ const TypingBanner = () => {
       />
       <Spacer y='64' />
       {finsish && (
-        <motion.section
+        <m.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className='flex flex-1 shrink-0 flex-col'
@@ -88,7 +88,7 @@ const TypingBanner = () => {
               Next
             </Button>
           </form>
-        </motion.section>
+        </m.section>
       )}
     </>
   );

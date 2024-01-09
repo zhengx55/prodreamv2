@@ -6,10 +6,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { X } from 'lucide-react';
-import { Button } from '../ui/button';
-import { memo } from 'react';
-import { Input } from '../ui/input';
 import {
   Form,
   FormControl,
@@ -17,15 +13,18 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { toast } from 'sonner';
-import { useAppDispatch } from '@/store/storehooks';
-import { useForm } from 'react-hook-form';
 import { resetName } from '@/lib/validation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useMutation } from '@tanstack/react-query';
 import { profileResetName } from '@/query/api';
-import { setUserFirstName, setUserLastName } from '@/store/reducers/userSlice';
+import { useUserInfo } from '@/zustand/store';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { X } from 'lucide-react';
+import { memo } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 type Props = {
   isActive: boolean;
@@ -33,7 +32,8 @@ type Props = {
 };
 
 const EditNameModal = ({ isActive, toogleActive }: Props) => {
-  const dispatch = useAppDispatch();
+  const updateUserFirstName = useUserInfo((state) => state.setUserFirstName);
+  const updateUserLastName = useUserInfo((state) => state.setUserLastName);
   const form = useForm<z.infer<typeof resetName>>({
     resolver: zodResolver(resetName),
     defaultValues: {
@@ -48,8 +48,8 @@ const EditNameModal = ({ isActive, toogleActive }: Props) => {
     onSuccess: () => {
       toogleActive();
       toast.success('Name has been reset successfully!');
-      dispatch(setUserFirstName(form.getValues().firstname));
-      dispatch(setUserLastName(form.getValues().lastname));
+      updateUserFirstName(form.getValues().firstname);
+      updateUserLastName(form.getValues().lastname);
     },
     onError: (error) => {
       toast.error(error.message);

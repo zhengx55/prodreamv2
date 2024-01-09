@@ -1,35 +1,43 @@
 'use client';
-import { memo, useMemo } from 'react';
+import { getDocDetail } from '@/query/api';
+import useRootStore from '@/zustand/store';
+import { useQuery } from '@tanstack/react-query';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { motion } from 'framer-motion';
-import EditiorLoading from './EditiorLoading';
 import dynamic from 'next/dynamic';
-import useGlobalEvent from 'beautiful-react-hooks/useGlobalEvent';
-import useAIEditorStore from '@/zustand/store';
+import { memo } from 'react';
+import { Skeleton } from '../ui/skeleton';
+import EditiorLoading from './EditiorLoading';
 const SuggestionPanel = dynamic(
   () => import('./polish_suggestion/SuggestionPanel'),
   {
-    ssr: false,
     loading: () => <EditiorLoading />,
   }
 );
-
 const Tiptap = dynamic(() => import('./Editor'), { ssr: false });
-
 const ChatEditPanel = dynamic(() => import('./chat_edit/ChatEditPanel'), {
-  ssr: false,
   loading: () => <EditiorLoading />,
 });
 
-const EssayPanel = () => {
-  const isChatEditMode = useAIEditorStore((state) => state.isChatEditMode);
-  const isPolishing = useAIEditorStore((state) => state.isPolishing);
-  const polishResult = useAIEditorStore((state) => state.polishResult);
-  const isEvaluationOpen = useAIEditorStore((state) => state.isEvaluationOpen);
-  const isPlagiarismOpen = useAIEditorStore((state) => state.isPlagiarismOpen);
-  const polishResultParagraph = useAIEditorStore(
+const EssayPanel = ({ id }: { id: string }) => {
+  const {
+    data: document_content,
+    isFetching,
+    isError,
+  } = useQuery({
+    queryKey: ['document_item', id],
+    queryFn: () => getDocDetail(id),
+  });
+  const isChatEditMode = useRootStore((state) => state.isChatEditMode);
+  const isPolishing = useRootStore((state) => state.isPolishing);
+  const polishResult = useRootStore((state) => state.polishResult);
+  const isEvaluationOpen = useRootStore((state) => state.isEvaluationOpen);
+  const isPlagiarismOpen = useRootStore((state) => state.isPlagiarismOpen);
+  const polishResultParagraph = useRootStore(
     (state) => state.polishResultWholeParagraph
   );
-
+  const deactivateSaving = useRootStore((state) => state.deactivateSaving);
+  const activeSaving = useRootStore((state) => state.activeSaving);
   const isMultiScreen =
     isPolishing ||
     isChatEditMode ||
@@ -38,58 +46,41 @@ const EssayPanel = () => {
     isPlagiarismOpen ||
     isEvaluationOpen;
 
-  const updateSelectText = useAIEditorStore((state) => state.updateSelectText);
-
-  const onSelectionChange = useGlobalEvent('mouseup');
-
-  onSelectionChange(() => {
-    const selection = window.getSelection();
-    if (selection && selection.toString().length > 0) {
-      // 处理选中文本
-      if (selection.anchorNode?.parentElement?.ariaLabel !== 'essay-editor') {
-        return;
-      }
-      updateSelectText(selection.getRangeAt(0).toString());
+  useUpdateEffect(() => {
+    if (isMultiScreen) {
+      deactivateSaving();
+    } else {
+      activeSaving();
     }
-  });
+  }, [isMultiScreen]);
 
+  if (isError) return null;
   return (
-    <>
+    <div className='flex h-full w-full justify-center gap-x-8 overflow-hidden px-2 pt-2'>
       <motion.div
-        layout='position'
-        style={{
-          justifyContent: isMultiScreen ? 'flex-start' : 'center',
-        }}
-        className='flex h-full w-full gap-x-8 overflow-hidden p-4'
+        layout='size'
+        style={{ width: isMultiScreen ? '50%' : '750px' }}
+        className='flex h-full flex-col'
       >
-        <motion.div
-          layout='size'
-          style={{ width: isMultiScreen ? '50%' : '66.666667%' }}
-          className='flex h-full flex-col'
-        >
-          {/* <ContentEditable
-              html={editor_html}
-              onKeyDown={handleKeyDown}
-              aria-label='essay-editor'
-              className='h-full w-full overflow-y-auto whitespace-pre-line break-words text-[16px] leading-loose outline-none'
-              tagName='article'
-              disabled={false}
-              onChange={handleInput}
-              spellCheck={false}
-              contentEditable='plaintext-only'
-            /> */}
-
-          <Tiptap />
-        </motion.div>
-        {isChatEditMode ? (
-          <ChatEditPanel />
-        ) : isPolishing ? (
-          <EditiorLoading />
-        ) : polishResult.length > 0 || polishResultParagraph ? (
-          <SuggestionPanel />
-        ) : null}
+        {isFetching ? (
+          <div className='w-full'>
+            <Skeleton className='h-10 w-full rounded-lg' />
+          </div>
+        ) : (
+          <Tiptap
+            essay_title={document_content ? document_content.title : ''}
+            essay_content={document_content ? document_content.text : ''}
+          />
+        )}
       </motion.div>
-    </>
+      {isChatEditMode ? (
+        <ChatEditPanel />
+      ) : isPolishing ? (
+        <EditiorLoading />
+      ) : polishResult.length > 0 || polishResultParagraph ? (
+        <SuggestionPanel />
+      ) : null}
+    </div>
   );
 };
 

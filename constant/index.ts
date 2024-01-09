@@ -24,13 +24,13 @@ export const SidebarLinks = [
     active_image: '/templates_active.svg',
     link: '/writtingpal/brainstorm',
   },
-  {
-    id: 'sidebar-03',
-    title: 'Resume',
-    image: '/resume.svg',
-    active_image: '/resume_active.svg',
-    link: '/writtingpal/resume',
-  },
+  // {
+  //   id: 'sidebar-03',
+  //   title: 'Resume',
+  //   image: '/resume.svg',
+  //   active_image: '/resume_active.svg',
+  //   link: '/writtingpal/resume',
+  // },
   {
     id: 'sidebar-04',
     title: 'Activity List',
@@ -53,12 +53,12 @@ export const TutTabs = [
     image: '/tutorials/brainstorm.png',
     bg: '#EBFFE4',
   },
-  {
-    id: 'tut-tabs03',
-    title: 'Resume',
-    image: '/tutorials/resume.png',
-    bg: '#EBF8FF',
-  },
+  // {
+  //   id: 'tut-tabs03',
+  //   title: 'Resume',
+  //   image: '/tutorials/resume.png',
+  //   bg: '#EBF8FF',
+  // },
   {
     id: 'tut-tabs04',
     title: 'Activity List',
@@ -85,12 +85,6 @@ export const WelcomOptions = [
     title: 'Activity List',
     image: '/welcome/ActivityList.png',
     link: '/writtingpal/activityList',
-  },
-  {
-    id: 'welcome-04',
-    title: 'Resume',
-    image: '/welcome/Resume.png',
-    link: '/writtingpal/resume',
   },
 ];
 
@@ -191,6 +185,122 @@ export const release_data = [
     title: 'Your dream is now professionally supported 🎓',
     description:
       "Exciting news, we met a fortune teller who said changing our name could help our users get into their dream schools. So, we switched from 'QuickApply' to 'ProDream'! Just kidding – we chose 'ProDream' because it better fits our mission of building a Co-Pilot to achieve your dreams.Same dedication, fresh vibe – welcome to the ProDream family! Let's make our college dreams a reality together!",
+  },
+];
+
+// ----------------------------------------------------------------
+// LANDING PAGE
+// ----------------------------------------------------------------
+export const TeamMembers = [
+  {
+    id: 'teams-01',
+    name: 'Max Tang',
+    role: 'CEO',
+    image: '/landing/team/Max.png',
+    background: '#CFBDFF',
+    education: 'Harvard School of Education',
+    description:
+      "As the founder of ProDream Education since 2019, I've guided over a hundred community college students to top universities. I earned my Bachelor's in History from UCLA and a Master's in Education from Harvard, focusing on assisting underrepresented students in college admissions.",
+  },
+  {
+    id: 'teams-02',
+    name: 'Yun Fan',
+    role: 'CMO',
+    image: '/landing/team/Yun.png',
+    background: '#FFB686',
+    education: 'Harvard School of Education, MBA',
+    description:
+      "As a co-founder of Applify AI and the entrepreneur behind Super Link Inc., I bring extensive college consulting experience. I've supported over 10,000 students, holding a Bachelor's degree from DePaul University and a Master's in Education from Harvard.",
+  },
+  {
+    id: 'teams-03',
+    name: 'Kevinn',
+    role: 'CTO',
+    image: '/landing/team/Kevin.png',
+    background: '#92E3F5',
+    education: 'Harvard PhD, Computer Science ',
+    description:
+      "As a full-stack engineer and Ph.D. candidate in Computational Physics at Harvard, my expertise spans large language models, finetuning, and human-computer interaction. I've been recognized with awards like the Harvard Purcell Fellowship and the Guo Moruo Scholarship, serving as a reviewer for IEEE CHI, IEEE PacificVis, and ICML.",
+  },
+  {
+    id: 'teams-04',
+    name: 'Jessie',
+    role: 'CPO',
+    image: '/landing/team/Jessie.png',
+    background: '#D7FFBF',
+    education: 'Stanford Class of 2022, MS&E and Economics',
+    description:
+      'As an recent alum, I know how stressful college application process can be! My goal is to create a product where students get accessible and affordable support that they truly need.',
+  },
+];
+
+export const ShowCases = [
+  {
+    id: 'show-cases-01',
+    title: 'Essay evaluation',
+    description:
+      'This means that you can download and use any of the templates in the UI Market Web library, as many times as you want. This can be a great way to save time and money on design costs.',
+    image: '/landing/showcase/Evaluate.png',
+  },
+  {
+    id: 'show-cases-02',
+    title: 'Essay polishing',
+    description:
+      'The All-Access Pass also includes access to premium features, such as the ability to export your designs in high resolution, the ability to add custom fonts and colors, and the ability to collaborate with other designers.',
+    image: '/landing/showcase/Polish.png',
+  },
+  {
+    id: 'show-cases-03',
+    title: 'Time saving',
+    description:
+      'All-Access Pass holders also get priority support from the UI Market Web team. This means that you can get help with any problems you have with your designs quickly and easily.',
+    image: '/landing/showcase/Team.png',
+  },
+];
+
+export const Universitys = [
+  {
+    id: 'university-01',
+    alt: 'university',
+    image: '/landing/university/uclalogo.png',
+  },
+  {
+    id: 'university-02',
+    alt: 'university',
+    image: '/landing/university/nyu.png',
+  },
+  {
+    id: 'university-03',
+    alt: 'university',
+    image: '/landing/university/berkeley.png',
+  },
+  {
+    id: 'university-04',
+    alt: 'university',
+    image: '/landing/university/ucla.png',
+  },
+];
+
+export const Storys = [
+  {
+    image: '/landing/stories/story1.png',
+    alt: 'story',
+    id: 'story-slider-item-01',
+  },
+  {
+    image: '/landing/stories/story2.png',
+    alt: 'story',
+    id: 'story-slider-item-02',
+  },
+  {
+    image: '/landing/stories/story3.png',
+    alt: 'story',
+    id: 'story-slider-item-03',
+  },
+  {
+    image: '/landing/stories/story4.png',
+    alt: 'story',
+    id: 'story-slider-item-04',
   },
 ];
 

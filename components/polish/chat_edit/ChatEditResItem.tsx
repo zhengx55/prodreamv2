@@ -1,21 +1,26 @@
 'use client';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import React, { SetStateAction, memo } from 'react';
 import { PresetIcons, PresetInstructions } from '@/constant';
-import { IChatEditItem } from '@/types';
-import { Button } from '../../ui/button';
-import { ChevronDown, RefreshCwIcon } from 'lucide-react';
-import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import type { IPolishParams } from '@/query/type';
-import useAIEditorStore from '@/zustand/store';
+import { IChatEditItem } from '@/types';
+import useRootStore from '@/zustand/store';
+import { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { ChevronDown, RefreshCwIcon } from 'lucide-react';
+import Image from 'next/image';
+import { SetStateAction, memo } from 'react';
+import { Button } from '../../ui/button';
 
 type Props = {
   idx: number;
   isExpand: boolean;
   item: IChatEditItem;
+  range: {
+    from: number;
+    to: number;
+  } | null;
   polish: UseMutateAsyncFunction<any, Error, IPolishParams, void>;
   setPolishResult: (newItem: SetStateAction<IChatEditItem[]>) => void;
+  resetRange: () => void;
 };
 
 const ChatEditResItem = ({
@@ -23,32 +28,25 @@ const ChatEditResItem = ({
   isExpand,
   polish,
   setPolishResult,
+  range,
   item,
+  resetRange,
 }: Props) => {
-  const updateHtml = useAIEditorStore((state) => state.updateEditor_html);
-  const editor_html = useAIEditorStore((state) => state.editor_html);
+  const editor_instance = useRootStore((state) => state.editor_instance);
   const handleInsert = (target: IChatEditItem) => {
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      const { endOffset, startOffset } = range;
-      if (startOffset - endOffset === 0) {
-        const updateEassyContent = `${editor_html.slice(0, startOffset)}${
-          target.result
-        }${editor_html.slice(startOffset)}`;
-        console.log(
-          '🚀 ~ file: ChatEditResItem.tsx:39 ~ updateEassyContent ~ updateEassyContent:',
-          updateEassyContent
-        );
-        updateHtml(`${updateEassyContent}`);
-      } else {
-        const updateEassyContent = `${editor_html.slice(0, startOffset)}${
-          target.result
-        }${editor_html.slice(endOffset)}`;
-        updateHtml(`${updateEassyContent}`);
-      }
+    if (!editor_instance) return;
+    if (range) {
+      editor_instance
+        .chain()
+        .deleteRange({ from: range.from, to: range.to })
+        .insertContentAt(range.from, target.result)
+        .run();
+      resetRange();
+    } else {
+      const { from } = editor_instance.state.selection;
+      editor_instance.chain().insertContentAt(from, target.result).run();
+      resetRange();
     }
-    // if both conditions are false, insert to the original text positions and replace the original text
   };
 
   const handleDismiss = (index: number) => {
@@ -70,7 +68,7 @@ const ChatEditResItem = ({
       layout='size'
       data-state={isExpand ? 'open' : 'close'}
       style={{
-        height: isExpand ? 'auto' : '90px',
+        height: isExpand ? 'auto' : '70px',
         boxShadow: isExpand
           ? '2px 2px 12px 4px rgba(82, 86, 90, 0.10)'
           : 'none',
@@ -109,7 +107,7 @@ const ChatEditResItem = ({
         />
       </div>
 
-      {isExpand && (
+      {isExpand ? (
         <>
           <p className='small-regular'>{item.result}</p>
           <Button
@@ -134,14 +132,13 @@ const ChatEditResItem = ({
             </Button>
           </div>
         </>
-      )}
-      {!isExpand && (
+      ) : (
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ delay: 0.1 }}
-          className='small-regular line-clamp-2'
+          className='small-regular line-clamp-1'
         >
           {item.result}
         </motion.p>

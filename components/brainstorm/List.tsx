@@ -1,11 +1,11 @@
 'use client';
-import { Variants, motion } from 'framer-motion';
-import { Separator } from '../ui/separator';
-import { useState } from 'react';
-import { ChevronRight, ChevronUp } from 'lucide-react';
-import Card from './Card';
 import { IBrainsotrmCard } from '@/types';
+import { LazyMotion, Variants, domAnimation, m } from 'framer-motion';
+import { ChevronRight, ChevronUp } from 'lucide-react';
 import Image from 'next/image';
+import { memo, useState } from 'react';
+import { Separator } from '../ui/separator';
+import Card from './Card';
 
 type Props = {
   title: string;
@@ -19,56 +19,58 @@ const List = ({ title, cardList }: Props) => {
 
   const ListVariant: Variants = {
     open: { height: 'auto' },
-    closed: { height: '300px' },
+    closed: { height: '275px' },
   };
 
   return (
-    <motion.div
-      className='flex h-[300px] shrink-0 flex-col overflow-hidden rounded-md bg-white'
-      variants={ListVariant}
-      initial={false}
-      animate={isExpended ? 'open' : 'closed'}
-    >
-      <div className='flex-between h-14 shrink-0 px-5'>
-        <div className='flex items-center gap-x-2'>
-          <div className='flex-center h-9 w-9 rounded-full bg-primary-200'>
-            <Image
-              alt='telegram'
-              src='/telegram.svg'
-              width={24}
-              height={24}
-              priority
-            />
-          </div>
-          <h1 className='title-semibold text-black-200'>{title}</h1>
-        </div>
-        <div className='flex cursor-pointer gap-x-2' onClick={togglePanel}>
-          {isExpended ? (
-            <>
-              <p className='body-normal text-primary-200'>Collapse</p>
-              <ChevronUp className='text-primary-200' />
-            </>
-          ) : (
-            <>
-              <p className='body-normal text-primary-200'>Expand</p>
-              <ChevronRight className='text-primary-200' />
-            </>
-          )}
-        </div>
-      </div>
-
-      <Separator className='bg-shadow-border' />
-      <div
-        className={`flex gap-5 overflow-x-auto px-5 py-5 ${
-          isExpended ? 'flex-wrap' : 'flex-nowrap'
-        }`}
+    <LazyMotion features={domAnimation}>
+      <m.div
+        className='flex shrink-0 flex-col overflow-hidden rounded-md bg-white'
+        variants={ListVariant}
+        initial={false}
+        animate={isExpended ? 'open' : 'closed'}
       >
-        {cardList.map((item) => {
-          return <Card key={item.id} cardItem={item} />;
-        })}
-      </div>
-    </motion.div>
+        <div className='flex-between h-14 shrink-0 px-5'>
+          <div className='flex items-center gap-x-2'>
+            <div className='flex-center h-9 w-9 rounded-full bg-primary-200'>
+              <Image
+                alt='telegram'
+                src='/telegram.svg'
+                width={24}
+                height={24}
+                priority
+              />
+            </div>
+            <h1 className='title-semibold text-black-200'>{title}</h1>
+          </div>
+          <div className='flex cursor-pointer gap-x-2' onClick={togglePanel}>
+            {isExpended ? (
+              <>
+                <p className='body-normal text-primary-200'>Collapse</p>
+                <ChevronUp className='text-primary-200' />
+              </>
+            ) : (
+              <>
+                <p className='body-normal text-primary-200'>Expand</p>
+                <ChevronRight className='text-primary-200' />
+              </>
+            )}
+          </div>
+        </div>
+
+        <Separator className='bg-shadow-border' />
+        <div
+          className={`flex gap-5 overflow-x-auto px-5 py-5 ${
+            isExpended ? 'flex-wrap' : 'flex-nowrap'
+          }`}
+        >
+          {cardList.map((item) => {
+            return <Card key={item.id} cardItem={item} />;
+          })}
+        </div>
+      </m.div>
+    </LazyMotion>
   );
 };
 
-export default List;
+export default memo(List);

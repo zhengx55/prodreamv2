@@ -17,6 +17,14 @@ yarn dev
 yarn husky-install
 ```
 
+Tiptap Global Setup
+
+```base
+npm config set "@tiptap-pro:registry" https://registry.tiptap.dev/
+npm config set "//registry.tiptap.dev/:_authToken" Q1t0XltVA/YyR2wmmd/ItSnZ+ByL/CKuKjDGF0VBlGVjBxPd6Mt0u6SL7mObc/Op
+
+```
+
 ## 测试环境地址
 
 https://quickapply.vercel.app/

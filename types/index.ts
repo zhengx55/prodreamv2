@@ -208,3 +208,52 @@ export type IChatEditItem = {
   instruction: string | number;
   expand: boolean;
 };
+
+export type IResumeListItem = {
+  id: string;
+  title: string;
+  update_time: string;
+};
+
+export type SiteConfig = {
+  name: string;
+  description: string;
+  url: string;
+  ogImage: string;
+  links: {
+    twitter: string;
+    github: string;
+  };
+};
+
+export interface IEvaluationHistory {
+  text: string;
+  id: string;
+  create_time: number;
+}
+
+export interface IEssayEvaluationDetail {
+  result: Result;
+  text: string;
+}
+
+export interface Result {
+  detail: Detail[];
+  head: string;
+  score: number;
+}
+
+export interface Detail {
+  comment: Comment;
+  level: number | number;
+  order: number;
+  title: string;
+}
+
+export interface Comment {
+  evaluation: string;
+  example: string;
+  suggestion: string;
+}
+
+export type DocSortingMethods = 'lastOpenedTime' | 'title';

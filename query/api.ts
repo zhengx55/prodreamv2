@@ -1,27 +1,27 @@
 import { AnswerRequestParam, FormQuestionResponse, IUsage } from '@/types';
+import Cookies from 'js-cookie';
 import {
   IActListResData,
   IBrainStormSection,
   IBrainstormHistory,
+  IBriansotrmReq,
   IChatHistoryData,
   IChatRequest,
+  IChatSessionData,
+  IDocDetail,
+  IEssayAssessData,
   IEssayAssessRequest,
   IGenerateActListParams,
   INotificationData,
-  IOptRequest,
+  IPlagiarismData,
   IPolishParams,
-  IPolishQueryData,
+  IPolishResultA,
   IResetParams,
   ISigunUpRequest,
   IVerifyEmail,
-  IEssayAssessData,
   LoginData,
   SupportDetailData,
-  IBriansotrmReq,
-  IPolishResultA,
-  IPlagiarismData,
 } from './type';
-import Cookies from 'js-cookie';
 
 // ----------------------------------------------------------------
 // BrainStorm
@@ -179,7 +179,7 @@ export async function getUserInfo(email: string): Promise<IUsage> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/info?email=${email}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/info?email=${email}`,
       {
         headers: { Authorization: `Bearer ${token}` },
         method: 'GET',
@@ -226,6 +226,36 @@ export async function updateUserInfo(
 // ----------------------------------------------------------------
 // Authentication
 // ----------------------------------------------------------------
+
+export async function googleLogin(loginParam: {
+  access_token: string;
+  from?: string;
+  refferal?: string;
+}): Promise<LoginData> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}login_google`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          access_token: loginParam.access_token,
+          from: loginParam.from ?? '',
+          refferal: loginParam.refferal ?? '',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function userLogin(loginParam: {
   username: string;
@@ -289,8 +319,6 @@ export async function userLogOut() {
     throw new Error(error as string);
   }
 }
-
-export async function userGoogleLogin() {}
 
 export async function userReset(params: IResetParams) {
   try {
@@ -356,7 +384,23 @@ export async function verifyEmail(params: IVerifyEmail) {
 // ----------------------------------------------------------------
 export async function getReferralLink() {}
 
-export async function getReferralCount() {}
+export async function getReferralCount() {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/referral_count`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const count_data = await res.json();
+    return count_data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function uploadPaper() {}
 
@@ -821,36 +865,7 @@ export async function getDecodedData(params: {
 // ----------------------------------------------------------------
 // Resume
 // ----------------------------------------------------------------
-export async function fetchResume(params: IOptRequest) {
-  try {
-    const body = JSON.stringify({
-      text: params.text,
-      lengths: params.lengths,
-    });
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}activity_optimize`,
-      {
-        method: 'POST',
-        body,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok) {
-      throw new Error(`HTTP error! Status: ${res.status}`);
-    }
-    const data = await res.json();
-    if (data.msg) {
-      throw new Error(data.msg as string);
-    }
-    return data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
+export async function saveResume() {}
 
 // ----------------------------------------------------------------
 // Chat
@@ -960,7 +975,9 @@ export async function fetchChatHistory(): Promise<IChatHistoryData[]> {
   }
 }
 
-export async function fetchSessionHistory(session_id: string) {
+export async function fetchSessionHistory(
+  session_id: string
+): Promise<IChatSessionData[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -1216,3 +1233,136 @@ export async function refreshUserSession(): Promise<LoginData> {
 // ----------------------------------------------------------------
 // 打点
 // ----------------------------------------------------------------
+
+// ----------------------------------------------------------------
+// Doc
+// ----------------------------------------------------------------
+
+export async function createDoc(text?: string, file?: File) {
+  const formData = new FormData();
+  formData.append('text', text ?? ' ');
+  if (file) {
+    formData.append('file', file);
+    formData.delete('text');
+  }
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}document`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function saveDoc(params: {
+  id: string;
+  title?: string;
+  text?: string;
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}document/${params.id}`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: params.text ?? null,
+          title: params.title ?? null,
+        }),
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function deleteDoc(doc_id: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}document/${doc_id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function getDocs(
+  page: number,
+  pageSize: number = 10,
+  keyword?: string
+): Promise<{ hasMore: boolean; list: IDocDetail[] }> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_API_URL
+      }document?page=${page}&page_size=${pageSize}&keyword=${keyword ?? ''}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return { hasMore: data.data.n_remaining_page > 0, list: data.data.docs };
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}document/${doc_id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}

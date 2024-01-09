@@ -1,21 +1,18 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
-import { useActListContext } from '@/context/ActListProvider';
 import clearCachesByServerAction from '@/lib/revalidate';
 import { generateActivityList, updateUserInfo } from '@/query/api';
 import { IGenerateActListParams, Mode } from '@/query/type';
-import { selectUsage, setSingleUsage } from '@/store/reducers/usageSlice';
-import { selectUserEmail } from '@/store/reducers/userSlice';
-import { useAppDispatch, useAppSelector } from '@/store/storehooks';
 import type { IUsage } from '@/types';
+import useRootStore, { useUsage, useUserInfo } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import React, { ChangeEvent, memo, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
+import { toast } from 'sonner';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-const TutCard = dynamic(() => import('../../root/TutCard'), { ssr: false });
+const TutCard = dynamic(() => import('../../root/TutCard'));
 
 type IDescriptionItem = {
   id: string;
@@ -33,22 +30,22 @@ const CharacterSelect = ({
   isDecoding,
   setIsGenerating,
 }: Props) => {
-  const dispatch = useAppDispatch();
-  const usage = useAppSelector(selectUsage);
-  const email = useAppSelector(selectUserEmail);
+  const usage = useUsage((state) => state.usage);
+  const updateUsageItem = useUsage((state) => state.updateSingleUsage);
+  const email = useUserInfo((state) => state.user.email);
   const [listOptions, setListOptions] = useState({
     uc: false,
     common: false,
     custom: false,
   });
   const [cutomWordCount, setCustomWordCount] = useState('50');
-  const {
-    setGeneratedData,
-    showGenerateTut,
-    setShowEditTut,
-    setHistoryData,
-    historyData,
-  } = useActListContext();
+
+  const historyData = useRootStore((state) => state.alhistoryData);
+  const setGeneratedData = useRootStore((state) => state.setalGeneratedData);
+  const showGenerateTut = useRootStore((state) => state.showalGenerateTut);
+  const setShowEditTut = useRootStore((state) => state.setShowalEditTut);
+  const setHistoryData = useRootStore((state) => state.setalHistoryData);
+
   const hasHistoryData = Object.keys(historyData).length > 0;
 
   useDeepCompareEffect(() => {
@@ -143,10 +140,10 @@ const CharacterSelect = ({
     mutationFn: (args: { email: string; params: IUsage }) =>
       updateUserInfo(args.email, args.params),
     onSuccess: () => {
-      dispatch(setSingleUsage('first_activity_list_generate'));
+      updateUsageItem('first_activity_list_generate');
     },
     onError: () => {
-      dispatch(setSingleUsage('first_activity_list_generate'));
+      updateUsageItem('first_activity_list_generate');
     },
   });
 

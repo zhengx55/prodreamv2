@@ -1,12 +1,12 @@
-import { Loader2, Plus, Trash2, X } from 'lucide-react';
-import React, { memo, useEffect } from 'react';
-import { Button } from '../ui/button';
-import { DialogClose } from '../ui/dialog';
 import { useMaxChatContext } from '@/context/MaxChateProvider';
+import { deleteSession } from '@/query/api';
 import { useGetChatHistory } from '@/query/query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteSession } from '@/query/api';
+import { Loader2, Plus, Trash2, X } from 'lucide-react';
+import { memo, useEffect } from 'react';
 import { toast } from 'sonner';
+import { Button } from '../ui/button';
+import { DialogClose } from '../ui/dialog';
 
 const ChatHistory = () => {
   const { setShowMenu, setCurrentChatType, setCurrentSession } =
@@ -54,9 +54,10 @@ const ChatHistory = () => {
           <X className='cursor-pointer text-shadow-100 transition-transform hover:-translate-y-1' />
         </DialogClose>
       </div>
-      <div className='flex flex-col gap-y-2 overflow-y-auto'>
-        {!isChatHistoryPending && !isChatHistoryError ? (
-          chatHistory.map((item) => (
+
+      {!isChatHistoryPending && !isChatHistoryError ? (
+        <div className='flex flex-col gap-y-2 overflow-y-auto'>
+          {chatHistory.map((item) => (
             <div
               onClick={() => selectChatHandler(item.session_id, item.func_type)}
               className='flex-between cursor-pointer p-2.5 transition-opacity hover:opacity-50'
@@ -74,11 +75,13 @@ const ChatHistory = () => {
                 className='text-shadow-100'
               />
             </div>
-          ))
-        ) : (
-          <Loader2 className=' animate-spin' />
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className='flex-center flex-1'>
+          <Loader2 className='animate-spin' />
+        </div>
+      )}
 
       <Button
         onClick={() => {
