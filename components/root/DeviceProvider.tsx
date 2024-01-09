@@ -19,11 +19,7 @@ const DeviceProvider = ({ children }: { children: ReactNode }) => {
   });
 
   if (width <= 640) {
-    return (
-      <section className='relative flex h-full w-full overflow-y-auto sm:hidden'>
-        {children}
-      </section>
-    );
+    return null;
   }
   return (
     <>
