@@ -16,11 +16,7 @@
     }
 
     /* Default Placeholder */
-    &>h1.is-editor-empty::before {
-        content: 'Untitled Document';
-    }
-
-    &>p.is-editor-empty::before {
+    &>.is-editor-empty::before {
         content: 'Click here to start writing …';
     }
 

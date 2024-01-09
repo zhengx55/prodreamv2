@@ -9,10 +9,11 @@ import { useMutation } from '@tanstack/react-query';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useParams } from 'next/navigation';
-import { memo, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
 import BottomBar from '../editor/bottombar';
 import { TextMenu } from '../editor/text';
 import Spacer from '../root/Spacer';
+import { Input } from '../ui/input';
 
 const Tiptap = ({
   essay_content,
@@ -23,14 +24,15 @@ const Tiptap = ({
 }) => {
   const { id }: { id: string } = useParams();
   const reset = useRootStore((state) => state.reset);
+  const [title, setTitle] = useDebouncedState(essay_title, 1500);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const [saving, toggleSaving] = useState(false);
   const setEditorInstance = useRootStore((state) => state.setEditorInstance);
   const savingMode = useRootStore((state) => state.savingMode);
-  // const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   toggleSaving(true);
-  //   setTitle(e.currentTarget.value);
-  // };
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    toggleSaving(true);
+    setTitle(e.currentTarget.value);
+  };
   const { mutateAsync: saveDocument } = useMutation({
     mutationFn: (params: { id: string; text?: string; title?: string }) =>
       saveDoc(params),
@@ -41,9 +43,10 @@ const Tiptap = ({
       toggleSaving(false);
     },
   });
-  // useUpdateEffect(() => {
-  //   saveDocument({ id, title });
-  // }, [title]);
+
+  useUpdateEffect(() => {
+    saveDocument({ id, title });
+  }, [title]);
 
   useUpdateEffect(() => {
     if (savingMode) {
@@ -94,17 +97,17 @@ const Tiptap = ({
       aria-label='editor-parent'
       className='flex h-full w-full flex-col rounded-lg'
     >
-      {/* <div className='flex h-12 w-full border-b-2 border-shadow-border'>
+      <div className='flex h-12 w-full'>
         <Input
           placeholder={'Untitled Document'}
           defaultValue={title}
           onChange={handleTitleChange}
           type='text'
           id='title'
-          className='title-semibold h-full border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
+          className='h1-bold h-full border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
         />
-      </div> */}
-      <Spacer y='16' />
+      </div>
+      <Spacer y='20' />
       <TextMenu editor={editor} />
       <EditorContent className='h-full overflow-y-auto' editor={editor} />
       <div className='flex h-10 w-full shrink-0 px-0'>

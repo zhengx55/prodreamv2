@@ -31,9 +31,7 @@ const ExtensionKit = () => [
   OrderedList,
   BulletList,
   Text,
-  Document.extend({
-    content: 'heading block*',
-  }),
+  Document,
   Paragraph,
   FontSize,
   Blockquote,
