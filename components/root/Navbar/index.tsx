@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { memo } from 'react';
 import Notification from './Notification';
-import Referal from './Referal';
 import { UserSkeleton } from './User';
 const UserNavMenu = dynamic(() => import('./UserNavMenu'), {
   ssr: false,
@@ -15,7 +14,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const param = useParams();
   return (
-    <nav className='flex-between relative h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-12 shadow-sidebar'>
+    <nav className='flex-between relative h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-8 shadow-sidebar'>
       <h1 className='h3-bold capitalize text-black-200'>
         {pathname.split('/')[2] === 'activityList' ? (
           'Activity List'
@@ -38,7 +37,6 @@ const Navbar = () => {
         )}
       </h1>
       <div className='flex items-center gap-x-2 md:gap-x-4'>
-        <Referal />
         <Notification />
         <UserNavMenu />
       </div>
