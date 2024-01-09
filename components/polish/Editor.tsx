@@ -13,7 +13,6 @@ import { ChangeEvent, memo, useState } from 'react';
 import BottomBar from '../editor/bottombar';
 import { TextMenu } from '../editor/text';
 import Spacer from '../root/Spacer';
-import { Input } from '../ui/input';
 
 const Tiptap = ({
   essay_content,
@@ -43,9 +42,9 @@ const Tiptap = ({
       toggleSaving(false);
     },
   });
-  useUpdateEffect(() => {
-    saveDocument({ id, title });
-  }, [title]);
+  // useUpdateEffect(() => {
+  //   saveDocument({ id, title });
+  // }, [title]);
 
   useUpdateEffect(() => {
     if (savingMode) {
@@ -91,13 +90,12 @@ const Tiptap = ({
     },
   });
   if (!editor) return null;
-
   return (
     <div
       aria-label='editor-parent'
       className='flex h-full w-full flex-col rounded-lg'
     >
-      <div className='flex h-12 w-full border-b-2 border-shadow-border'>
+      {/* <div className='flex h-12 w-full border-b-2 border-shadow-border'>
         <Input
           placeholder={'Untitled Document'}
           defaultValue={title}
@@ -106,7 +104,7 @@ const Tiptap = ({
           id='title'
           className='title-semibold h-full border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
         />
-      </div>
+      </div> */}
       <Spacer y='16' />
       <TextMenu editor={editor} />
       <EditorContent className='h-full overflow-y-auto' editor={editor} />

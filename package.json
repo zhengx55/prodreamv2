@@ -35,6 +35,7 @@
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-query": "^5.4.3",
     "@tippyjs/react": "^4.2.6",
+    "@tiptap-pro/extension-table-of-content": "^2.4.1",
     "@tiptap/extension-character-count": "^2.1.13",
     "@tiptap/extension-color": "^2.1.13",
     "@tiptap/extension-focus": "^2.1.13",
