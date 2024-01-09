@@ -17,7 +17,6 @@ import {
 } from 'lucide-react';
 import { memo } from 'react';
 import { ContentTypePicker } from '../picker/content';
-import { FontSizePicker } from '../picker/fontsize';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
 import { useTextmenuStates } from './hooks/useTextmenuStates';
@@ -25,7 +24,6 @@ import { useTextmenuStates } from './hooks/useTextmenuStates';
 // We memorize the button so each button is not rerendered
 // on every editor state change
 const MemoButton = memo(Toolbar.Button);
-const MemoFontSizePicker = memo(FontSizePicker);
 const MemoContentTypePicker = memo(ContentTypePicker);
 
 export type TextMenuProps = {

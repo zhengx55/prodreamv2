@@ -9,9 +9,9 @@ import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
-import { Loader2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
+import BottomBar from '../editor/bottombar';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
 
@@ -115,13 +115,14 @@ const Tiptap = ({
         className='h-full overflow-y-auto'
         editor={editor}
       />
-      <div className='flex-between flex h-10 w-full shrink-0 px-0'>
-        {saving ? (
+      <div className='flex h-10 w-full shrink-0 px-0'>
+        <BottomBar editor={editor} />
+        {/* {saving ? (
           <p className='small-semibold flex items-center gap-x-1 text-shadow-100'>
             <Loader2 className='animate-spin' size={16} />
             Saving
           </p>
-        ) : null}
+        ) : null} */}
       </div>
     </div>
   );
