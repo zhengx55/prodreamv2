@@ -98,6 +98,7 @@ const Tiptap = ({
     <section className='flex h-full w-full flex-col'>
       <div
         aria-label='editor-parent'
+        id='editor-parent'
         className='flex h-[calc(100%_-40px)] w-full flex-col overflow-y-auto rounded-lg'
       >
         <Spacer y='30' />

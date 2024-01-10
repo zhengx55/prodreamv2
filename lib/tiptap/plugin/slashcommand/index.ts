@@ -131,7 +131,7 @@ export const SlashCommand = Extension.create({
         },
         render: () => {
           let component: any;
-
+          let editor_parent: HTMLElement | null;
           let scrollHandler: (() => void) | null = null;
 
           return {
@@ -144,6 +144,11 @@ export const SlashCommand = Extension.create({
               const { view } = props.editor;
 
               const editorNode = view.dom as HTMLElement;
+              editor_parent = document.getElementById('editor-parent');
+              editor_parent!.classList.replace(
+                'overflow-y-auto',
+                'overflow-y-hidden'
+              );
 
               const getReferenceClientRect = () => {
                 if (!props.clientRect) {
@@ -251,6 +256,10 @@ export const SlashCommand = Extension.create({
 
             onExit(props: { editor: { view: any } }) {
               popup?.[0].hide();
+              editor_parent!.classList.replace(
+                'overflow-y-hidden',
+                'overflow-y-auto'
+              );
               if (scrollHandler) {
                 const { view } = props.editor;
                 view.dom.parentElement?.removeEventListener(
