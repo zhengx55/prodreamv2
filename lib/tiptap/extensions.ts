@@ -1,3 +1,4 @@
+'use client';
 import FontSize from '@/lib/tiptap/plugin/fontsize';
 import SlashCommand from '@/lib/tiptap/plugin/slashcommand';
 import Blockquote from '@tiptap/extension-blockquote';
@@ -5,6 +6,7 @@ import Bold from '@tiptap/extension-bold';
 import BulletList from '@tiptap/extension-bullet-list';
 import CharacterCount from '@tiptap/extension-character-count';
 import Document from '@tiptap/extension-document';
+import DropCursor from '@tiptap/extension-dropcursor';
 import Focus from '@tiptap/extension-focus';
 import HardBreak from '@tiptap/extension-hard-break';
 import Heading from '@tiptap/extension-heading';
@@ -63,6 +65,10 @@ const ExtensionKit = () => [
   Underline,
   PolishUnderline,
   Selection,
+  DropCursor.configure({
+    width: 2,
+    color: '#DADADA',
+  }),
 ];
 
 export default ExtensionKit;

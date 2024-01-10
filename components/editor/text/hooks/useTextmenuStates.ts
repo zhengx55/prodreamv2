@@ -5,16 +5,11 @@ import { useCallback } from 'react';
 
 export const useTextmenuStates = (editor: Editor) => {
   const shouldShow = useCallback(
-    ({ view, from }: ShouldShowProps) => {
+    ({ view }: ShouldShowProps) => {
       if (!view) {
         return false;
       }
-
-      const domAtPos = view.domAtPos(from || 0).node as HTMLElement;
-      const nodeDOM = view.nodeDOM(from || 0) as HTMLElement;
-      const node = nodeDOM || domAtPos;
-
-      return isTextSelected({ editor });
+      return isTextSelected({ editor }) && !view.dragging?.move;
     },
     [editor]
   );

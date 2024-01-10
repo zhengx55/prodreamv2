@@ -16,6 +16,7 @@ import {
   Undo,
 } from 'lucide-react';
 import { memo } from 'react';
+
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';

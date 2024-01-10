@@ -67,7 +67,6 @@ export const SlashCommand = Extension.create({
         command: ({ editor, props }: { editor: Editor; props: any }) => {
           const { view, state } = editor;
           const { $head, $from } = view.state.selection;
-
           const end = $from.pos;
           const from = $head?.nodeBefore
             ? end -
@@ -82,6 +81,7 @@ export const SlashCommand = Extension.create({
           props.action(editor);
           view.focus();
         },
+
         items: ({ query }: { query: string }) => {
           const withFilteredCommands = GROUPS.map((group) => ({
             ...group,
@@ -238,7 +238,6 @@ export const SlashCommand = Extension.create({
             onKeyDown(props: SuggestionKeyDownProps) {
               if (props.event.key === 'Escape') {
                 popup?.[0].hide();
-
                 return true;
               }
 

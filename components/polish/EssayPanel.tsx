@@ -59,7 +59,7 @@ const EssayPanel = ({ id }: { id: string }) => {
     <div className='flex h-full w-full justify-center gap-x-8 overflow-hidden px-2 pt-2'>
       <motion.div
         layout='size'
-        style={{ width: isMultiScreen ? '50%' : '750px' }}
+        style={{ width: isMultiScreen ? '50%' : '100%' }}
         className='flex h-full flex-col'
       >
         {isFetching ? (

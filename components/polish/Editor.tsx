@@ -10,6 +10,7 @@ import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
+import BlockMenu from '../editor/blockmenu';
 import BottomBar from '../editor/bottombar';
 import { TextMenu } from '../editor/text';
 import Spacer from '../root/Spacer';
@@ -61,8 +62,7 @@ const Tiptap = ({
         autocomplete: 'off',
         autocorrect: 'on',
         autocapitalize: 'off',
-        class:
-          'focus:outline-none max-w-full font-inter prose whitespace-pre-wrap h-full',
+        class: 'min-h-full whitespace-pre-wrap',
         spellcheck: 'false',
       },
     },
@@ -93,24 +93,27 @@ const Tiptap = ({
   });
   if (!editor) return null;
   return (
-    <div
-      aria-label='editor-parent'
-      className='flex h-full w-full flex-col rounded-lg'
-    >
-      <div className='flex h-12 w-full'>
-        <Input
-          placeholder={'Untitled Document'}
-          defaultValue={title}
-          onChange={handleTitleChange}
-          type='text'
-          id='title'
-          className='h1-bold h-full border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
-        />
+    <section className='flex h-full w-full flex-col'>
+      <div
+        aria-label='editor-parent'
+        className='flex h-[calc(100%_-40px)] w-full flex-col overflow-y-auto rounded-lg'
+      >
+        <div className='flex h-12 w-full justify-center'>
+          <Input
+            placeholder={'Untitled Document'}
+            defaultValue={title}
+            onChange={handleTitleChange}
+            type='text'
+            id='title'
+            className='h1-bold h-full w-[750px] border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
+          />
+        </div>
+        <Spacer y='20' />
+        <TextMenu editor={editor} />
+        <EditorContent className='flex-1' editor={editor} />
+        <BlockMenu editor={editor} />
       </div>
-      <Spacer y='20' />
-      <TextMenu editor={editor} />
-      <EditorContent className='h-full overflow-y-auto' editor={editor} />
-      <div className='flex h-10 w-full shrink-0 px-0'>
+      <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>
         <BottomBar editor={editor} />
         {/* {saving ? (
           <p className='small-semibold flex items-center gap-x-1 text-shadow-100'>
@@ -119,7 +122,7 @@ const Tiptap = ({
           </p>
         ) : null} */}
       </div>
-    </div>
+    </section>
   );
 };
 
