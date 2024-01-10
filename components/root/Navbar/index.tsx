@@ -11,9 +11,7 @@ const UserNavMenu = dynamic(() => import('./UserNavMenu'), {
 const Navbar = () => {
   const pathname = usePathname();
   const param = useParams();
-  const hideNavbar =
-    pathname.split('/')[2] === 'polish' && param.hasOwnProperty('id');
-  if (hideNavbar) return null;
+
   return (
     <nav className='flex-between relative h-[var(--top-nav-bar-height)] shrink-0 border-b border-shadow-border bg-white px-8 shadow-sidebar'>
       <h1 className='h3-bold capitalize text-black-200'>

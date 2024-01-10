@@ -13,7 +13,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { memo, useEffect, useState } from 'react';
-import ChatModal from '../chatWithMax/ChatModal';
 import CommunityCard from './CommunityCard';
 import { AnimatedLogo, AnimatedxsLogo } from './SvgComponents';
 
@@ -132,7 +131,7 @@ const Sidebar = () => {
               />
             </svg>
           </m.span>
-          <ChatModal expandSidebar={expandSidebar} />
+          {/* <ChatModal expandSidebar={expandSidebar} /> */}
 
           <ul className='relative mt-8 flex flex-col gap-5'>
             {topValue !== undefined ? (
