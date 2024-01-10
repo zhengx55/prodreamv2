@@ -49,7 +49,8 @@ export const SlashCommand = Extension.create({
         allow: ({ state, range }) => {
           const $from = state.doc.resolve(range.from);
           const isRootDepth = $from.depth === 1;
-          const isParagraph = $from.parent.type.name === 'paragraph';
+          const isParagraph =
+            $from.parent.type.name === 'paragraph' || 'heading';
           const isStartOfNode = $from.parent.textContent?.charAt(0) === '/';
           // TODO
           const isInColumn = this.editor.isActive('column');
