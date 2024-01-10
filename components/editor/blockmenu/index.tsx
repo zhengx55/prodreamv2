@@ -8,12 +8,19 @@ import { Editor } from '@tiptap/react';
 import { GripVertical, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Toolbar } from '../Toolbar';
+import useBlockMenuAction from './hooks/useBlockMenuAction';
 import { useData } from './hooks/useData';
 
 type Props = { editor: Editor };
 const BlockMenu = ({ editor }: Props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const data = useData();
+  const actions = useBlockMenuAction(
+    editor,
+    data.currentNode,
+    data.currentNodePos
+  );
+
   useEffect(() => {
     if (menuOpen) {
       editor.commands.setMeta('lockDragHandle', true);
@@ -32,7 +39,7 @@ const BlockMenu = ({ editor }: Props) => {
       }}
     >
       <div className='flex select-none items-center gap-0.5'>
-        <Toolbar.Button>
+        <Toolbar.Button onClick={actions.handleAdd}>
           <Plus size={16} className='text-shadow' />
         </Toolbar.Button>
         <Popover open={menuOpen} onOpenChange={setMenuOpen}>
