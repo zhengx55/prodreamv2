@@ -100,6 +100,7 @@ const Tiptap = ({
         aria-label='editor-parent'
         className='flex h-[calc(100%_-40px)] w-full flex-col overflow-y-auto rounded-lg'
       >
+        <Spacer y='30' />
         <div className='flex h-12 w-full justify-center'>
           <Input
             placeholder={'Untitled Document'}

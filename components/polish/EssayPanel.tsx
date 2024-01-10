@@ -56,7 +56,7 @@ const EssayPanel = ({ id }: { id: string }) => {
 
   if (isError) return null;
   return (
-    <div className='flex h-full w-full justify-center gap-x-8 overflow-hidden px-2 pt-2'>
+    <div className='flex h-full w-full justify-center gap-x-8 overflow-hidden px-2'>
       <motion.div
         layout='size'
         style={{ width: isMultiScreen ? '50%' : '100%' }}
