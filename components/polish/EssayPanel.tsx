@@ -1,7 +1,6 @@
 'use client';
-import { getDocDetail } from '@/query/api';
+import { IDocDetail } from '@/query/type';
 import useRootStore from '@/zustand/store';
-import { useQuery } from '@tanstack/react-query';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -19,15 +18,15 @@ const ChatEditPanel = dynamic(() => import('./chat_edit/ChatEditPanel'), {
   loading: () => <EditiorLoading />,
 });
 
-const EssayPanel = ({ id }: { id: string }) => {
-  const {
-    data: document_content,
-    isFetching,
-    isError,
-  } = useQuery({
-    queryKey: ['document_item', id],
-    queryFn: () => getDocDetail(id),
-  });
+const EssayPanel = ({
+  isFetching,
+  isError,
+  document_content,
+}: {
+  isFetching: boolean;
+  isError: boolean;
+  document_content: IDocDetail | undefined;
+}) => {
   const isChatEditMode = useRootStore((state) => state.isChatEditMode);
   const isPolishing = useRootStore((state) => state.isPolishing);
   const polishResult = useRootStore((state) => state.polishResult);
@@ -63,8 +62,8 @@ const EssayPanel = ({ id }: { id: string }) => {
         className='flex h-full flex-col'
       >
         {isFetching ? (
-          <div className='w-full'>
-            <Skeleton className='h-10 w-full rounded-lg' />
+          <div className='flex-center w-full'>
+            <Skeleton className='h-10 w-[750px] rounded-lg' />
           </div>
         ) : (
           <Tiptap
