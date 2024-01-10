@@ -95,7 +95,7 @@ const Tiptap = ({
   });
   if (!editor) return null;
   return (
-    <section className='flex h-full w-full flex-col'>
+    <>
       <div
         aria-label='editor-parent'
         id='editor-parent'
@@ -126,7 +126,7 @@ const Tiptap = ({
           </p>
         ) : null} */}
       </div>
-    </section>
+    </>
   );
 };
 

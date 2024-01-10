@@ -2,6 +2,7 @@
 import { IDocDetail } from '@/query/type';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
+import Spacer from '../root/Spacer';
 import { Skeleton } from '../ui/skeleton';
 const Tiptap = dynamic(() => import('./Editor'), { ssr: false });
 
@@ -17,9 +18,10 @@ const EssayPanel = ({
   if (isError) return null;
   return (
     <div className='flex h-full w-full justify-center overflow-hidden px-2'>
-      <div className='flex flex-1 flex-col'>
+      <div className='flex h-full w-full flex-col'>
         {isFetching ? (
-          <div className='flex-center w-full'>
+          <div className='flex flex-1 flex-col items-center'>
+            <Spacer y='30' />
             <Skeleton className='h-10 w-[750px] rounded-lg' />
           </div>
         ) : (
@@ -29,6 +31,7 @@ const EssayPanel = ({
           />
         )}
       </div>
+      <div className='min-h-full w-[300px] overflow-y-auto border-l border-shadow-border'></div>
     </div>
   );
 };
