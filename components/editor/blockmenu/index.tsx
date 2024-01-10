@@ -45,6 +45,7 @@ const BlockMenu = ({ editor }: Props) => {
             side='right'
             align='start'
             sideOffset={5}
+            className='bg-white'
           ></PopoverContent>
         </Popover>
       </div>

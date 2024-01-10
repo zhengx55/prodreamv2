@@ -8,13 +8,15 @@ import useRootStore from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
+import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
-import BlockMenu from '../editor/blockmenu';
 import BottomBar from '../editor/bottombar';
-import { TextMenu } from '../editor/text';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
+
+const TextMenu = dynamic(() => import('../editor/text'), { ssr: false });
+const BlockMenu = dynamic(() => import('../editor/blockmenu'), { ssr: false });
 
 const Tiptap = ({
   essay_content,

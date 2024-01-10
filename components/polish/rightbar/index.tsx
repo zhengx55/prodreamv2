@@ -9,7 +9,7 @@ import { Separator } from '../../ui/separator';
 
 const ReportSheet = dynamic(() => import('./ReportSheet'));
 const PolishModal = dynamic(() => import('./PolishModal'));
-const PlagReportSheet = dynamic(() => import('./PlagReportSheet'));
+// const PlagReportSheet = dynamic(() => import('./PlagReportSheet'));
 
 const Rightbar = () => {
   const setChatEditMode = useAIEditor((state) => state.updateIsChatEditMode);
@@ -50,11 +50,11 @@ const Rightbar = () => {
       <Spacer y='12' />
       <PolishModal />
       <Spacer y='24' />
-      <Separator orientation='horizontal' className='bg-shadow-border' />
-      <Spacer y='24' />
+      {/* <Separator orientation='horizontal' className='bg-shadow-border' /> */}
+      {/* <Spacer y='24' />
       <h2 className='title-semibold text-black-100'>Check</h2>
-      <Spacer y='12' />
-      <PlagReportSheet />
+      <Spacer y='12' /> */}
+      {/* <PlagReportSheet /> */}
     </div>
   );
 };
