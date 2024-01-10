@@ -5,14 +5,11 @@ const execPromise = promisify(exec);
 
 try {
     await execPromise(
-        `npm config set "@tiptap-pro:registry" https://registry.tiptap.dev/,
-`,
+        'npm config set "@tiptap-pro:registry" https://registry.tiptap.dev/'
     );
 
     await execPromise(
-        `npm config set "//registry.tiptap.dev/:_authToken" Q1t0XltVA/YyR2wmmd/ItSnZ+ByL/CKuKjDGF0VBlGVjBxPd6Mt0u6SL7mObc/Op
-,
-`,
+        'npm config set "//registry.tiptap.dev/:_authToken" Q1t0XltVA/YyR2wmmd/ItSnZ+ByL/CKuKjDGF0VBlGVjBxPd6Mt0u6SL7mObc/Op'
     );
 } catch (error) {
     throw new Error(
