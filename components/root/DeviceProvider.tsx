@@ -26,7 +26,7 @@ const DeviceProvider = ({ children }: { children: ReactNode }) => {
       {!isEssayDetail && <Sidebar />}
       <div className='relative hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
         <Navbar />
-        <TutorialSheet />
+        {/* <TutorialSheet /> */}
         {children}
       </div>
     </>
