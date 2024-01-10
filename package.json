@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "preinstall": "node preinstall.mjs",
     "dev": "next dev --port 8000",
     "build": "ANALYZE=false next build",
     "analyze:build": "ANALYZE=true next build",
