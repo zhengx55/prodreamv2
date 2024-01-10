@@ -14,13 +14,14 @@ export default function Page({ params }: { params: { id: string } }) {
     queryFn: () => getDocDetail(params.id),
   });
   return (
-    <main className='relative flex h-full w-full flex-col justify-center overflow-hidden'>
+    <main className='relative flex h-full w-full flex-col justify-center'>
       <DocNavbar title={document_content ? document_content.title : ''} />
       <EssayPanel
         isFetching={isFetching}
         isError={isError}
         document_content={document_content}
       />
+
       {/* <Rightbar /> */}
     </main>
   );
