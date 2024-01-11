@@ -7,13 +7,11 @@ import { memo } from 'react';
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from '../text/hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from '../text/hooks/useTextmenuContentType';
-import { useTextmenuStates } from '../text/hooks/useTextmenuStates';
 const MemoButton = memo(Toolbar.Button);
 const MemoContentTypePicker = memo(ContentTypePicker);
 
 const BottomBar = ({ editor }: { editor: Editor }) => {
   const commands = useTextmenuCommands(editor);
-  const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   return (
     <Toolbar.Wrapper className='justify-between gap-x-3 !rounded-none border-none'>

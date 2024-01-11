@@ -97,7 +97,7 @@ const Tiptap = ({
   if (!editor) return null;
   return (
     <section className='flex h-full w-full flex-col'>
-      <div className='flex h-[calc(100%_-40px)]  w-full'>
+      <div className='flex h-[calc(100%_-40px)] w-full'>
         <TableOfContents editor={editor} />
         <div
           aria-label='editor-parent'

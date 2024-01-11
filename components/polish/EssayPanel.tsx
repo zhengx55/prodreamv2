@@ -33,7 +33,7 @@ const EssayPanel = ({
   if (isError) return null;
 
   return (
-    <div className='relative flex h-full w-full justify-center overflow-hidden pl-2'>
+    <div className='relative flex h-full w-full justify-center overflow-hidden'>
       {isFetching ? (
         <div className='flex flex-1 flex-col items-center'>
           <Spacer y='30' />

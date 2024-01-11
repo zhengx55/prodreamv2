@@ -14,7 +14,7 @@ import {
   Strikethrough,
   Underline,
 } from 'lucide-react';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 import { BookHalf, Copilot } from '@/components/root/SvgComponents';
 import { ContentTypePicker } from '../picker/content';
@@ -33,6 +33,26 @@ const TextMenu = ({ editor }: TextMenuProps) => {
   const commands = useTextmenuCommands(editor);
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
+  const [selectedLength, setSelectedLength] = useState(0);
+  useEffect(() => {
+    const handler = ({ editor }: { editor: Editor }) => {
+      const {
+        state: {
+          doc,
+          selection,
+          selection: { empty, from, to },
+        },
+      } = editor;
+      const text = doc.textBetween(from, to);
+      if (!text) return;
+      const words = text.match(/\b\w+\b/g);
+      setSelectedLength(words ? words.length : 0);
+    };
+    editor.on('selectionUpdate', () => handler({ editor }));
+    return () => {
+      editor.off('selectionUpdate', () => handler({ editor }));
+    };
+  }, [editor]);
 
   return (
     <BubbleMenu
@@ -150,7 +170,7 @@ const TextMenu = ({ editor }: TextMenuProps) => {
         </Popover.Root>
         <span className='flex h-full items-center px-2'>
           <p className='small-regular text-shadow'>
-            {editor.storage.characterCount.words()}
+            {selectedLength}
             &nbsp;Words
           </p>
         </span>
