@@ -7,16 +7,16 @@ import {
   AlignLeft,
   AlignRight,
   Bold,
+  CornerDownLeft,
+  CornerDownRight,
   Italic,
   MoreVertical,
-  PenLine,
-  Redo,
   Strikethrough,
   Underline,
-  Undo,
 } from 'lucide-react';
 import { memo } from 'react';
 
+import { BookHalf, Copilot } from '@/components/root/SvgComponents';
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
@@ -46,25 +46,31 @@ const TextMenu = ({ editor }: TextMenuProps) => {
       updateDelay={200}
     >
       <Toolbar.Wrapper className='border-shadow-borde border shadow-lg'>
-        <MemoButton>
-          <PenLine size={16} />
-          Chat Edit
+        <MemoButton className='text-doc-primary'>
+          <Copilot />
+          AI Copilot
         </MemoButton>
         <Toolbar.Divider />
+        <MemoButton className='text-doc-primary'>
+          <BookHalf size={18} />
+          Citation
+        </MemoButton>
+        <Toolbar.Divider />
+
         <MemoContentTypePicker options={blockOptions} />
         <MemoButton
           tooltip='Undo'
           tooltipShortcut={['Mod', 'Z']}
           onClick={commands.onUndo}
         >
-          <Undo size={16} />
+          <CornerDownLeft size={18} />
         </MemoButton>
         <MemoButton
           tooltip='Redo'
           tooltipShortcut={['Mod', 'Y']}
           onClick={commands.onRedo}
         >
-          <Redo size={16} />
+          <CornerDownRight size={18} />
         </MemoButton>
         <Toolbar.Divider />
         <MemoButton

@@ -32,7 +32,7 @@ const DocRightBar = ({ show, toggle }: Props) => {
             key={'doc-right-bar'}
             initial={{ width: 0 }}
             animate={{
-              width: 300,
+              width: 500,
               transition: { duration: 0.2, delay: 0.1 },
             }}
             exit={{
