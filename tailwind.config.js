@@ -64,6 +64,9 @@ module.exports = {
           50: '#F9FBFF',
           100: '#CEDEFE',
         },
+        doc: {
+          primary: '#774EBB',
+        },
         shadow: '#797979',
         'shadow-50': '#F9F9F9',
         'shadow-100': '#828282',
