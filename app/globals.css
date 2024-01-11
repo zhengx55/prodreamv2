@@ -26,6 +26,10 @@
   }
 
   /* TYPOGRAPHY */
+  .h1-bold {
+    @apply text-[36px] font-[700] leading-[140%];
+  }
+
   .h2-bold {
     @apply text-[30px] font-[600] leading-[140%];
   }
@@ -213,4 +217,3 @@
   animation: fade 1.5s infinite;
   display: inline-block;
 }
-

@@ -49,7 +49,8 @@ export const SlashCommand = Extension.create({
         allow: ({ state, range }) => {
           const $from = state.doc.resolve(range.from);
           const isRootDepth = $from.depth === 1;
-          const isParagraph = $from.parent.type.name === 'paragraph';
+          const isParagraph =
+            $from.parent.type.name === 'paragraph' || 'heading';
           const isStartOfNode = $from.parent.textContent?.charAt(0) === '/';
           // TODO
           const isInColumn = this.editor.isActive('column');
@@ -67,7 +68,6 @@ export const SlashCommand = Extension.create({
         command: ({ editor, props }: { editor: Editor; props: any }) => {
           const { view, state } = editor;
           const { $head, $from } = view.state.selection;
-
           const end = $from.pos;
           const from = $head?.nodeBefore
             ? end -
@@ -82,6 +82,7 @@ export const SlashCommand = Extension.create({
           props.action(editor);
           view.focus();
         },
+
         items: ({ query }: { query: string }) => {
           const withFilteredCommands = GROUPS.map((group) => ({
             ...group,
@@ -130,7 +131,7 @@ export const SlashCommand = Extension.create({
         },
         render: () => {
           let component: any;
-
+          let editor_parent: HTMLElement | null;
           let scrollHandler: (() => void) | null = null;
 
           return {
@@ -143,6 +144,11 @@ export const SlashCommand = Extension.create({
               const { view } = props.editor;
 
               const editorNode = view.dom as HTMLElement;
+              editor_parent = document.getElementById('editor-parent');
+              editor_parent!.classList.replace(
+                'overflow-y-auto',
+                'overflow-y-hidden'
+              );
 
               const getReferenceClientRect = () => {
                 if (!props.clientRect) {
@@ -238,7 +244,6 @@ export const SlashCommand = Extension.create({
             onKeyDown(props: SuggestionKeyDownProps) {
               if (props.event.key === 'Escape') {
                 popup?.[0].hide();
-
                 return true;
               }
 
@@ -251,6 +256,10 @@ export const SlashCommand = Extension.create({
 
             onExit(props: { editor: { view: any } }) {
               popup?.[0].hide();
+              editor_parent!.classList.replace(
+                'overflow-y-hidden',
+                'overflow-y-auto'
+              );
               if (scrollHandler) {
                 const { view } = props.editor;
                 view.dom.parentElement?.removeEventListener(

@@ -1,3 +1,13 @@
+.ProseMirror {
+    @apply outline-0 z-0 font-inter;
+
+    &>* {
+        @apply mx-auto max-w-[750px];
+    }
+}
+
+
 @import './list.css';
 @import './placeholder.css';
-@import './selection.css'
+@import './selection.css';
+@import './typography.css'

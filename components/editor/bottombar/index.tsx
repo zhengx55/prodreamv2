@@ -29,10 +29,10 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   return (
-    <Toolbar.Wrapper className='border-shadow-borde w-full gap-x-2 !rounded-none border !border-l-0 !border-r-0'>
+    <Toolbar.Wrapper className='w-[750px] justify-between !rounded-none border-none'>
       <MemoButton>
         <PenLine size={16} />
-        Chat Edit
+        AI Copilot
       </MemoButton>
       <Toolbar.Divider />
       <MemoContentTypePicker options={blockOptions} />

@@ -1,12 +1,5 @@
 import { Group } from '@/lib/tiptap/type';
-import {
-  Heading1,
-  Heading2,
-  Heading3,
-  List,
-  ListOrdered,
-  Quote,
-} from 'lucide-react';
+import { Heading1, Heading2, Heading3, List, ListOrdered } from 'lucide-react';
 
 export const GROUPS: Group[] = [
   {
@@ -61,15 +54,6 @@ export const GROUPS: Group[] = [
         aliases: ['ol'],
         action: (editor) => {
           editor.chain().focus().toggleOrderedList().run();
-        },
-      },
-      {
-        name: 'blockquote',
-        label: 'Blockquote',
-        iconName: <Quote size={16} />,
-        description: 'Element for quoting',
-        action: (editor) => {
-          editor.chain().focus().setBlockquote().run();
         },
       },
     ],

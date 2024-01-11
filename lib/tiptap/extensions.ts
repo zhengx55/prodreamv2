@@ -1,10 +1,13 @@
+'use client';
 import FontSize from '@/lib/tiptap/plugin/fontsize';
 import SlashCommand from '@/lib/tiptap/plugin/slashcommand';
+import TableOfContent from '@tiptap-pro/extension-table-of-content';
 import Blockquote from '@tiptap/extension-blockquote';
 import Bold from '@tiptap/extension-bold';
 import BulletList from '@tiptap/extension-bullet-list';
 import CharacterCount from '@tiptap/extension-character-count';
 import Document from '@tiptap/extension-document';
+import DropCursor from '@tiptap/extension-dropcursor';
 import Focus from '@tiptap/extension-focus';
 import HardBreak from '@tiptap/extension-hard-break';
 import Heading from '@tiptap/extension-heading';
@@ -21,6 +24,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import { PolishUnderline } from './plugin/polish-underline';
 import Selection from './plugin/selection';
+import { TrailingNode } from './plugin/trailing-node';
 import { Underline } from './plugin/underline';
 
 const ExtensionKit = () => [
@@ -48,6 +52,7 @@ const ExtensionKit = () => [
   }),
   Heading.configure({ levels: [1, 2, 3] }),
   Strike,
+  TableOfContent,
   Italic,
   SlashCommand,
   TextAlign.extend({
@@ -62,7 +67,12 @@ const ExtensionKit = () => [
   }),
   Underline,
   PolishUnderline,
+  TrailingNode,
   Selection,
+  DropCursor.configure({
+    width: 2,
+    color: '#DADADA',
+  }),
 ];
 
 export default ExtensionKit;

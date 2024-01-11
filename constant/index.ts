@@ -12,18 +12,18 @@ export const initialUsage: IUsage = {
 export const SidebarLinks = [
   {
     id: 'sidebar-01',
-    title: 'AI editors',
+    title: 'Home',
     image: '/polish.svg',
     active_image: '/polish_active.svg',
     link: '/writtingpal/polish',
   },
-  {
-    id: 'sidebar-02',
-    title: 'Brainstorm',
-    image: '/templates.svg',
-    active_image: '/templates_active.svg',
-    link: '/writtingpal/brainstorm',
-  },
+  // {
+  //   id: 'sidebar-02',
+  //   title: 'Brainstorm',
+  //   image: '/templates.svg',
+  //   active_image: '/templates_active.svg',
+  //   link: '/writtingpal/brainstorm',
+  // },
   // {
   //   id: 'sidebar-03',
   //   title: 'Resume',
@@ -31,13 +31,13 @@ export const SidebarLinks = [
   //   active_image: '/resume_active.svg',
   //   link: '/writtingpal/resume',
   // },
-  {
-    id: 'sidebar-04',
-    title: 'Activity List',
-    image: '/activity.svg',
-    active_image: '/activity_active.svg',
-    link: '/writtingpal/activityList',
-  },
+  // {
+  //   id: 'sidebar-04',
+  //   title: 'Activity List',
+  //   image: '/activity.svg',
+  //   active_image: '/activity_active.svg',
+  //   link: '/writtingpal/activityList',
+  // },
 ];
 
 export const TutTabs = [
