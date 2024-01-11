@@ -32,7 +32,7 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
     <Toolbar.Wrapper className='w-[750px] justify-between !rounded-none border-none'>
       <MemoButton>
         <PenLine size={16} />
-        Chat Edit
+        AI Copilot
       </MemoButton>
       <Toolbar.Divider />
       <MemoContentTypePicker options={blockOptions} />

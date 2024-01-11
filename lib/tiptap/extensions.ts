@@ -24,6 +24,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import { PolishUnderline } from './plugin/polish-underline';
 import Selection from './plugin/selection';
+import { TrailingNode } from './plugin/trailing-node';
 import { Underline } from './plugin/underline';
 
 const ExtensionKit = () => [
@@ -66,6 +67,7 @@ const ExtensionKit = () => [
   }),
   Underline,
   PolishUnderline,
+  TrailingNode,
   Selection,
   DropCursor.configure({
     width: 2,
