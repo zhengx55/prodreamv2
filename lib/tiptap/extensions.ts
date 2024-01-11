@@ -1,6 +1,7 @@
 'use client';
 import FontSize from '@/lib/tiptap/plugin/fontsize';
 import SlashCommand from '@/lib/tiptap/plugin/slashcommand';
+import TableOfContent from '@tiptap-pro/extension-table-of-content';
 import Blockquote from '@tiptap/extension-blockquote';
 import Bold from '@tiptap/extension-bold';
 import BulletList from '@tiptap/extension-bullet-list';
@@ -50,6 +51,7 @@ const ExtensionKit = () => [
   }),
   Heading.configure({ levels: [1, 2, 3] }),
   Strike,
+  TableOfContent,
   Italic,
   SlashCommand,
   TextAlign.extend({

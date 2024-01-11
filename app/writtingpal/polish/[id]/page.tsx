@@ -21,7 +21,6 @@ export default function Page({ params }: { params: { id: string } }) {
         isError={isError}
         document_content={document_content}
       />
-      {/* <Rightbar /> */}
     </main>
   );
 }

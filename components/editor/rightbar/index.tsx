@@ -16,7 +16,7 @@ const DocRightBar = (props: Props) => {
   const [selected, setSelected] = useState(0);
   return (
     <LazyMotion features={domAnimation}>
-      <aside className='flex min-h-full w-[500px] flex-col overflow-y-auto border-l border-shadow-border px-4 py-3'>
+      <aside className='flex min-h-full w-[300px] flex-col overflow-y-auto border-l border-shadow-border px-4 py-3'>
         <PanelRightClose className='cursor-pointer text-shadow hover:opacity-50' />
         <Spacer y='15' />
         <div className='flex-between w-full gap-x-4'>
@@ -29,7 +29,7 @@ const DocRightBar = (props: Props) => {
               selected === 0
                 ? 'bg-doc-primary'
                 : 'border border-doc-primary bg-transparent'
-            }  flex-center h-11 cursor-pointer rounded-md `}
+            }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
           >
             <BookHalf fill={selected === 1 ? '#774EBB' : '#FFFFFF'} />
             {selected === 0 && <p className='h3-bold text-white'>Citation</p>}
@@ -43,7 +43,7 @@ const DocRightBar = (props: Props) => {
               selected === 1
                 ? 'w-5/6 bg-doc-primary'
                 : 'w-1/6 border border-doc-primary bg-transparent'
-            }  flex-center h-11 cursor-pointer rounded-md `}
+            }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
           >
             <GenerateFill fill={selected === 0 ? '#774EBB' : '#FFFFFF'} />
             {selected === 1 && <p className='h3-bold text-white'>Generate</p>}

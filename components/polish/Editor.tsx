@@ -12,6 +12,7 @@ import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
 import BottomBar from '../editor/bottombar';
+import TableOfContents from '../editor/table-of-contents';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
 
@@ -83,11 +84,11 @@ const Tiptap = ({
       editor.commands.focus('end');
     },
     onUpdate: ({ editor }) => {
-      if (editor.getHTML() === content) return;
-      if (savingMode) {
-        toggleSaving(true);
-        setContent(editor.getHTML());
-      }
+      // if (editor.getHTML() === content) return;
+      // if (savingMode) {
+      //   toggleSaving(true);
+      //   setContent(editor.getHTML());
+      // }
     },
     onDestroy: () => {
       reset();
@@ -95,38 +96,35 @@ const Tiptap = ({
   });
   if (!editor) return null;
   return (
-    <>
-      <div
-        aria-label='editor-parent'
-        id='editor-parent'
-        className='flex h-[calc(100%_-40px)] w-full flex-col overflow-y-auto rounded-lg'
-      >
-        <Spacer y='30' />
-        <div className='flex h-12 w-full justify-center'>
-          <Input
-            placeholder={'Untitled Document'}
-            defaultValue={title}
-            onChange={handleTitleChange}
-            type='text'
-            id='title'
-            className='h1-bold h-full w-[750px] border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
-          />
+    <section className='flex h-full w-full flex-col'>
+      <div className='flex h-[calc(100%_-40px)]  w-full'>
+        <TableOfContents editor={editor} />
+        <div
+          aria-label='editor-parent'
+          id='editor-parent'
+          className='flex w-full flex-col overflow-y-auto rounded-lg'
+        >
+          <Spacer y='30' />
+          <div className='flex h-12 w-full justify-center'>
+            <Input
+              placeholder={'Untitled Document'}
+              defaultValue={title}
+              onChange={handleTitleChange}
+              type='text'
+              id='title'
+              className='h1-bold h-full w-[750px] border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
+            />
+          </div>
+          <Spacer y='20' />
+          <TextMenu editor={editor} />
+          <EditorContent className='flex-1' editor={editor} />
+          <BlockMenu editor={editor} />
         </div>
-        <Spacer y='20' />
-        <TextMenu editor={editor} />
-        <EditorContent className='flex-1' editor={editor} />
-        <BlockMenu editor={editor} />
       </div>
       <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>
         <BottomBar editor={editor} />
-        {/* {saving ? (
-          <p className='small-semibold flex items-center gap-x-1 text-shadow-100'>
-            <Loader2 className='animate-spin' size={16} />
-            Saving
-          </p>
-        ) : null} */}
       </div>
-    </>
+    </section>
   );
 };
 
