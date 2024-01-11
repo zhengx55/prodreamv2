@@ -19,8 +19,6 @@ const OptionsVariants: Variants = {
   collasped: { width: '16.666667%' },
 };
 
-const MenuVariants: Variants = {};
-
 type Props = {};
 const DocRightBar = (props: Props) => {
   const [selected, setSelected] = useState(0);
@@ -69,7 +67,7 @@ const DocRightBar = (props: Props) => {
                 <m.span
                   onClick={() => setSelected(1)}
                   initial={false}
-                  variants={MenuVariants}
+                  variants={OptionsVariants}
                   animate={selected === 1 ? 'expanded' : 'collasped'}
                   className={`${
                     selected === 1
