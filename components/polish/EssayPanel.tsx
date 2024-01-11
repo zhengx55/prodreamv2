@@ -1,7 +1,7 @@
 'use client';
 import { IDocDetail } from '@/query/type';
 import dynamic from 'next/dynamic';
-import { memo } from 'react';
+import { memo, useCallback, useState } from 'react';
 import DocRightBar from '../editor/rightbar';
 import Spacer from '../root/Spacer';
 import { Skeleton } from '../ui/skeleton';
@@ -25,7 +25,13 @@ const EssayPanel = ({
   isError: boolean;
   document_content: IDocDetail | undefined;
 }) => {
+  const [showRightBar, setShowRightBar] = useState(false);
+  const memoToggleRightBar = useCallback((value: boolean) => {
+    setShowRightBar(value);
+  }, []);
+
   if (isError) return null;
+
   return (
     <div className='relative flex h-full w-full justify-center overflow-hidden pl-2'>
       {isFetching ? (
@@ -39,7 +45,7 @@ const EssayPanel = ({
           essay_content={document_content ? document_content.text : ''}
         />
       )}
-      <DocRightBar />
+      <DocRightBar show={showRightBar} toggle={memoToggleRightBar} />
     </div>
   );
 };

@@ -9,7 +9,6 @@ import {
   Variants,
   domAnimation,
   m,
-  useCycle,
 } from 'framer-motion';
 import { PanelRight, PanelRightClose } from 'lucide-react';
 import { memo, useState } from 'react';
@@ -19,10 +18,12 @@ const OptionsVariants: Variants = {
   collasped: { width: '16.666667%' },
 };
 
-type Props = {};
-const DocRightBar = (props: Props) => {
+type Props = {
+  show: boolean;
+  toggle: (value: boolean) => void;
+};
+const DocRightBar = ({ show, toggle }: Props) => {
   const [selected, setSelected] = useState(0);
-  const [show, cycleOpen] = useCycle(false, true);
   return (
     <LazyMotion features={domAnimation}>
       <AnimatePresence>
@@ -43,7 +44,7 @@ const DocRightBar = (props: Props) => {
             <section className='flex min-h-full flex-col overflow-y-auto px-3 py-4'>
               <PanelRightClose
                 size={20}
-                onClick={() => cycleOpen()}
+                onClick={() => toggle(false)}
                 className='cursor-pointer text-shadow hover:opacity-50'
               />
               <Spacer y='15' />
@@ -99,9 +100,7 @@ const DocRightBar = (props: Props) => {
             <Button
               className='absolute right-0 top-1'
               variant={'ghost'}
-              onClick={() => {
-                cycleOpen();
-              }}
+              onClick={() => toggle(true)}
             >
               <PanelRight size={20} className='text-shadow' />
             </Button>
