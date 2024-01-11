@@ -4,7 +4,7 @@
     }
 
     &>p {
-        @apply my-6 first:mt-0 last:mb-0;
+        @apply my-3 first:mt-0 last:mb-0;
     }
 
     h1 {
@@ -29,14 +29,9 @@
     h1,
     h2,
     h3 {
-        @apply mt-12;
+        @apply mt-6;
     }
 
-    h4,
-    h5,
-    h6 {
-        @apply mt-8;
-    }
 
     a.link {
         @apply text-blue-500 font-extrabold dark:text-blue-400;
