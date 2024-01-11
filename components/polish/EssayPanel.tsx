@@ -2,10 +2,9 @@
 import { IDocDetail } from '@/query/type';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
+import DocRightBar from '../editor/rightbar';
 import Spacer from '../root/Spacer';
 import { Skeleton } from '../ui/skeleton';
-
-const DocRightBar = dynamic(() => import('../editor/rightbar'), { ssr: false });
 
 const Tiptap = dynamic(() => import('./Editor'), {
   ssr: false,
@@ -28,7 +27,7 @@ const EssayPanel = ({
 }) => {
   if (isError) return null;
   return (
-    <div className='flex h-full w-full justify-center overflow-hidden px-2'>
+    <div className='relative flex h-full w-full justify-center overflow-hidden pl-2'>
       {isFetching ? (
         <div className='flex flex-1 flex-col items-center'>
           <Spacer y='30' />
