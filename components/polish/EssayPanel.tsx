@@ -2,9 +2,11 @@
 import { IDocDetail } from '@/query/type';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
-import DocRightBar from '../editor/rightbar';
 import Spacer from '../root/Spacer';
 import { Skeleton } from '../ui/skeleton';
+
+const DocRightBar = dynamic(() => import('../editor/rightbar'), { ssr: false });
+
 const Tiptap = dynamic(() => import('./Editor'), {
   ssr: false,
   loading: () => (
