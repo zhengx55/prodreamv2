@@ -11,9 +11,6 @@ import SentenceFragment from './SentenceFragment';
 
 const SuggestionPanel = () => {
   const polishResult = useAIEditorStore((state) => state.polishResult);
-  const polishResultB = useAIEditorStore(
-    (state) => state.polishResultWholeParagraph
-  );
   const editor_instance = useAIEditorStore((state) => state.editor_instance);
   const clearPolishResult = useAIEditorStore(
     (state) => state.clearPolishResult
@@ -170,134 +167,47 @@ const SuggestionPanel = () => {
     <div className='flex min-h-full w-1/2 max-w-[750px] flex-col overflow-y-auto'>
       <div aria-label='all suggestions' className='flex-between'>
         <div className='flex items-center gap-x-2'>
-          <span className='small-semibold flex-center h-8 w-8 rounded-full border-shadow-border bg-primary-50 '>
-            {polishResultB ? 1 : suggestions.length}
-          </span>
           <h2 className='base-semibold'>All Suggestions</h2>
         </div>
-        {polishResultB ? null : (
-          <div className='flex items-center'>
-            <Button
-              onClick={handleAcceptAll}
-              variant={'secondary'}
-              className='border-none'
-            >
-              Accept all
-            </Button>
-            <Button
-              onClick={handleRejectAll}
-              variant={'ghost'}
-              className='text-shadow'
-            >
-              Reject all
-            </Button>
-          </div>
-        )}
-      </div>
-      {polishResultB ? (
-        <div className='mt-4 w-full shrink-0 cursor-pointer rounded-lg border border-shadow-border px-4 py-3 hover:shadow-xl'>
-          <p className={`whitespace-pre-line leading-relaxed`}>
-            {polishResultB}
-          </p>
-          <div className='mt-4 flex gap-x-2'>
-            <Button
-              onClick={() => {
-                if (!editor_instance) return;
-                editor_instance.commands.setContent(polishResultB, false, {
-                  preserveWhitespace: 'full',
-                });
-                clearPolishResult();
-              }}
-              className='font-semibold'
-            >
-              Accept
-            </Button>
-            <Button
-              onClick={clearPolishResult}
-              variant={'ghost'}
-              className='font-semibold text-shadow'
-            >
-              Dismiss
-            </Button>
-          </div>
+        <div className='flex items-center'>
+          <Button
+            onClick={handleAcceptAll}
+            variant={'secondary'}
+            className='border-none'
+          >
+            Accept all
+          </Button>
+          <Button
+            onClick={handleRejectAll}
+            variant={'ghost'}
+            className='text-shadow'
+          >
+            Reject all
+          </Button>
         </div>
-      ) : (
-        <AnimatePresence>
-          {suggestions.map((item, index) => {
-            // 过滤没有更新的句子
-            const isExpanded = item.expand;
-            const isHide = item.hide;
-            if (isHide) return null;
-            return (
-              <motion.div
-                onClick={() => (isExpanded ? close(index) : expand(index))}
-                layout='size'
-                style={{ height: isExpanded ? 'auto' : '48px' }}
-                className='small-regular mt-4 w-full shrink-0 cursor-pointer rounded-lg border border-shadow-border p-3 hover:shadow-xl'
-                key={`polish-${index}`}
-              >
-                {isExpanded && (
-                  <>
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className='break-words leading-relaxed text-black-400'
-                    >
-                      {item.data.map((sentence, idx) => {
-                        const isAdd = sentence.status === 1;
-                        const isDelete = sentence.status === 2;
-                        const isModify = sentence.status === 3;
-                        const isNoChange = sentence.status === 0;
-                        return (
-                          <SentenceFragment
-                            isNoChange={isNoChange}
-                            isDelete={isDelete}
-                            isModify={isModify}
-                            isAdd={isAdd}
-                            sentence={sentence}
-                            key={`sentence-${index}-${idx}`}
-                          />
-                        );
-                      })}
-                    </motion.p>
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.1 }}
-                      className='mt-4 flex gap-x-2'
-                    >
-                      <Button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          replaceText(index, item);
-                        }}
-                        className='font-semibold'
-                      >
-                        Accept
-                      </Button>
-                      <Button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          remove(index);
-                        }}
-                        variant={'ghost'}
-                        className='font-semibold text-shadow'
-                      >
-                        Dismiss
-                      </Button>
-                    </motion.div>
-                  </>
-                )}
+      </div>
 
-                {!isExpanded && (
+      <AnimatePresence>
+        {suggestions.map((item, index) => {
+          // 过滤没有更新的句子
+          const isExpanded = item.expand;
+          const isHide = item.hide;
+          if (isHide) return null;
+          return (
+            <motion.div
+              onClick={() => (isExpanded ? close(index) : expand(index))}
+              layout='size'
+              style={{ height: isExpanded ? 'auto' : '48px' }}
+              className='small-regular mt-4 w-full shrink-0 cursor-pointer rounded-lg border border-shadow-border p-3 hover:shadow-xl'
+              key={`polish-${index}`}
+            >
+              {isExpanded && (
+                <>
                   <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className={`line-clamp-1 leading-relaxed`}
+                    className='break-words leading-relaxed text-black-400'
                   >
                     {item.data.map((sentence, idx) => {
                       const isAdd = sentence.status === 1;
@@ -316,12 +226,66 @@ const SuggestionPanel = () => {
                       );
                     })}
                   </motion.p>
-                )}
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      )}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.1 }}
+                    className='mt-4 flex gap-x-2'
+                  >
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        replaceText(index, item);
+                      }}
+                      className='font-semibold'
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        remove(index);
+                      }}
+                      variant={'ghost'}
+                      className='font-semibold text-shadow'
+                    >
+                      Dismiss
+                    </Button>
+                  </motion.div>
+                </>
+              )}
+
+              {!isExpanded && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className={`line-clamp-1 leading-relaxed`}
+                >
+                  {item.data.map((sentence, idx) => {
+                    const isAdd = sentence.status === 1;
+                    const isDelete = sentence.status === 2;
+                    const isModify = sentence.status === 3;
+                    const isNoChange = sentence.status === 0;
+                    return (
+                      <SentenceFragment
+                        isNoChange={isNoChange}
+                        isDelete={isDelete}
+                        isModify={isModify}
+                        isAdd={isAdd}
+                        sentence={sentence}
+                        key={`sentence-${index}-${idx}`}
+                      />
+                    );
+                  })}
+                </motion.p>
+              )}
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
     </div>
   );
 };

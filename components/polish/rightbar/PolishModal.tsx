@@ -42,13 +42,7 @@ const initialPolishMethods = [
 const PolishModal = () => {
   const [selected, setSelected] = useObjectState(initialState);
   const setIsPolishing = useAIEditorStore((state) => state.updateIsPolishing);
-  const setChatEditMode = useAIEditorStore(
-    (state) => state.updateIsChatEditMode
-  );
   const setPolishResult = useAIEditorStore((state) => state.updatePolishResult);
-  const setPolishResultB = useAIEditorStore(
-    (state) => state.updatePolishResultWholeParagraph
-  );
   const isPolishing = useAIEditorStore((state) => state.isPolishing);
   const [polishMentod] = useState(initialPolishMethods);
   const [domains] = useState(initialDomains);
@@ -126,7 +120,6 @@ const PolishModal = () => {
   const { mutateAsync: polish } = useMutation({
     mutationFn: (params: IPolishParams) => submitPolish(params),
     onMutate: () => {
-      setChatEditMode(false);
       setIsPolishing(true);
       // 清除其他功能的样式变化
     },
@@ -137,10 +130,8 @@ const PolishModal = () => {
           if (res.status === 'done') {
             setIsPolishing(false);
             if (typeof res.result === 'string') {
-              setPolishResultB(res.result);
               setPolishResult([]);
             } else {
-              setPolishResultB('');
               handleDecorateEassy(res.result);
               setPolishResult(res.result);
             }

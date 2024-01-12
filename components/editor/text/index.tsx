@@ -15,7 +15,7 @@ import {
   Strikethrough,
   Underline,
 } from 'lucide-react';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { BookHalf, Copilot, Synonym } from '@/components/root/SvgComponents';
 import { ContentTypePicker } from '../picker/content';
@@ -31,12 +31,12 @@ export type TextMenuProps = {
 };
 
 const TextMenu = ({ editor }: TextMenuProps) => {
-  const commands = useTextmenuCommands(editor);
   const [open, setOpen] = useState(false);
-  const states = useTextmenuStates(editor);
-  const blockOptions = useTextmenuContentTypes(editor);
   const [selectedLength, setSelectedLength] = useState(0);
   const [isWord, setIsWord] = useState(false);
+  const states = useTextmenuStates(editor);
+  const blockOptions = useTextmenuContentTypes(editor);
+  const commands = useTextmenuCommands(editor);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const { x, y, strategy, refs } = useFloating({
     open: open,
@@ -53,7 +53,7 @@ const TextMenu = ({ editor }: TextMenuProps) => {
     ],
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handler = () => {
       if (editor.view.state.selection.empty) {
         setOpen(false);
