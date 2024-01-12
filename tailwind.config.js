@@ -66,6 +66,7 @@ module.exports = {
         },
         doc: {
           primary: '#774EBB',
+          secondary: '#F1F2FA',
         },
         shadow: '#797979',
         'shadow-50': '#F9F9F9',
@@ -77,6 +78,7 @@ module.exports = {
         'nav-selected': '#F4F5F6',
         nav: '#A0A8B0',
         'shadow-border': '#DADADA',
+        'doc-shadow': '#7C757E',
         dot: '#CFD0D0',
         disabled: '#DADADA',
       },

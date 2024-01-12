@@ -11,6 +11,7 @@ import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
+import AiMenu from '../editor/ai-menu';
 import BottomBar from '../editor/bottombar';
 import TableOfContents from '../editor/table-of-contents';
 import Spacer from '../root/Spacer';
@@ -32,6 +33,7 @@ const Tiptap = ({
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const [saving, toggleSaving] = useState(false);
   const setEditorInstance = useRootStore((state) => state.setEditorInstance);
+  const showCopilotMenu = useRootStore((state) => state.showCopilotMenu);
   const savingMode = useRootStore((state) => state.savingMode);
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     toggleSaving(true);
@@ -97,12 +99,12 @@ const Tiptap = ({
   if (!editor) return null;
   return (
     <section className='flex h-full w-full flex-col'>
-      <div className='flex h-[calc(100%_-40px)] w-full'>
+      <div className='flex  h-[calc(100%_-40px)] w-full'>
         <TableOfContents editor={editor} />
         <div
           aria-label='editor-parent'
           id='editor-parent'
-          className='flex w-full flex-col overflow-y-auto rounded-lg'
+          className='relative flex w-full flex-col overflow-y-auto rounded-lg'
         >
           <Spacer y='30' />
           <div className='flex h-12 w-full justify-center'>
@@ -116,6 +118,7 @@ const Tiptap = ({
             />
           </div>
           <Spacer y='20' />
+          {showCopilotMenu && <AiMenu editor={editor} />}{' '}
           <TextMenu editor={editor} />
           <EditorContent className='flex-1' editor={editor} />
           <BlockMenu editor={editor} />

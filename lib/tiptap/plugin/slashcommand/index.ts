@@ -52,8 +52,6 @@ export const SlashCommand = Extension.create({
           const isParagraph =
             $from.parent.type.name === 'paragraph' || 'heading';
           const isStartOfNode = $from.parent.textContent?.charAt(0) === '/';
-          // TODO
-          const isInColumn = this.editor.isActive('column');
           const afterContent = $from.parent.textContent?.substring(
             $from.parent.textContent?.indexOf('/')
           );
@@ -61,7 +59,7 @@ export const SlashCommand = Extension.create({
 
           return (
             ((isRootDepth && isParagraph && isStartOfNode) ||
-              (isInColumn && isParagraph && isStartOfNode)) &&
+              (isParagraph && isStartOfNode)) &&
             isValidAfterContent
           );
         },
@@ -149,20 +147,15 @@ export const SlashCommand = Extension.create({
                 'overflow-y-auto',
                 'overflow-y-hidden'
               );
-
               const getReferenceClientRect = () => {
                 if (!props.clientRect) {
                   return props.editor.storage[extensionName].rect;
                 }
-
                 const rect = props.clientRect();
-
                 if (!rect) {
                   return props.editor.storage[extensionName].rect;
                 }
-
                 let yPos = rect.y;
-
                 if (
                   rect.top + component.element.offsetHeight + 40 >
                   window.innerHeight

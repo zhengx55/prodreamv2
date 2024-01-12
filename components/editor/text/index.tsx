@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { memo, useEffect, useState } from 'react';
 
-import { BookHalf, Copilot } from '@/components/root/SvgComponents';
+import { BookHalf, Copilot, Synonym } from '@/components/root/SvgComponents';
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
@@ -34,18 +34,23 @@ const TextMenu = ({ editor }: TextMenuProps) => {
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const [selectedLength, setSelectedLength] = useState(0);
+  const [isWord, setIsWord] = useState(false);
   useEffect(() => {
     const handler = ({ editor }: { editor: Editor }) => {
       const {
         state: {
           doc,
-          selection,
           selection: { empty, from, to },
         },
       } = editor;
       const text = doc.textBetween(from, to);
-      if (!text) return;
+      if (!text || empty) return;
       const words = text.match(/\b\w+\b/g);
+      if (words && words.length === 1) {
+        setIsWord(true);
+      } else {
+        setIsWord(false);
+      }
       setSelectedLength(words ? words.length : 0);
     };
     editor.on('selectionUpdate', () => handler({ editor }));
@@ -66,17 +71,23 @@ const TextMenu = ({ editor }: TextMenuProps) => {
       updateDelay={200}
     >
       <Toolbar.Wrapper className='border-shadow-borde border shadow-lg'>
-        <MemoButton className='text-doc-primary'>
+        <MemoButton onClick={commands.onAiMenu} className='text-doc-primary'>
           <Copilot />
           AI Copilot
         </MemoButton>
         <Toolbar.Divider />
-        <MemoButton className='text-doc-primary'>
-          <BookHalf size={18} />
-          Citation
-        </MemoButton>
+        {isWord ? (
+          <MemoButton className='text-doc-primary'>
+            <Synonym />
+            Synonym
+          </MemoButton>
+        ) : (
+          <MemoButton className='text-doc-primary'>
+            <BookHalf size={18} />
+            Citation
+          </MemoButton>
+        )}
         <Toolbar.Divider />
-
         <MemoContentTypePicker options={blockOptions} />
         <MemoButton
           tooltip='Undo'

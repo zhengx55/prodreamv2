@@ -2,6 +2,9 @@ import { Editor } from '@tiptap/react';
 import { useCallback } from 'react';
 
 export const useTextmenuCommands = (editor: Editor) => {
+  const onAiMenu = useCallback(() => {
+    editor.chain().blur().setMeta('aicopilotMenu', true).run();
+  }, [editor]);
   const onRedo = useCallback(
     () => editor.chain().focus().redo().run(),
     [editor]
@@ -54,6 +57,7 @@ export const useTextmenuCommands = (editor: Editor) => {
   );
 
   return {
+    onAiMenu,
     onBold,
     onItalic,
     onStrike,

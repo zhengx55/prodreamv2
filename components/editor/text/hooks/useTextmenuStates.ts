@@ -1,6 +1,6 @@
 import { ShouldShowProps } from '@/lib/tiptap/type';
 import { isTextSelected } from '@/lib/tiptap/utils';
-import { Editor } from '@tiptap/react';
+import { Editor, posToDOMRect } from '@tiptap/react';
 import { useCallback } from 'react';
 
 export const useTextmenuStates = (editor: Editor) => {
@@ -9,6 +9,8 @@ export const useTextmenuStates = (editor: Editor) => {
       if (!view) {
         return false;
       }
+      const { from, to } = editor.state.selection;
+      console.log(posToDOMRect(view, from, to));
       return isTextSelected({ editor }) && !view.dragging?.move;
     },
     [editor]

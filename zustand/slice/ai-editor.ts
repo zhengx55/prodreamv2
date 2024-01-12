@@ -13,6 +13,7 @@ const initialState: AIEditorState = {
   isEvaluationOpen: false,
   isPlagiarismOpen: false,
   savingMode: true,
+  showCopilotMenu: false,
 };
 
 type AIEditorState = {
@@ -24,6 +25,7 @@ type AIEditorState = {
   isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
   savingMode: boolean;
+  showCopilotMenu: false;
 };
 
 type AIEditorAction = {
@@ -40,6 +42,7 @@ type AIEditorAction = {
   reset: () => void;
   activeSaving: () => void;
   deactivateSaving: () => void;
+  updateCopilotMenu: (result: AIEditorState['showCopilotMenu']) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -68,5 +71,9 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   deactivateSaving: () =>
     set(() => ({
       savingMode: false,
+    })),
+  updateCopilotMenu: (result) =>
+    set(() => ({
+      showCopilotMenu: result,
     })),
 });

@@ -2,8 +2,9 @@
     .selection {
         @apply inline;
     }
+
     .selection,
     *::selection {
-        @apply bg-black-400/10 dark:bg-white/20;
+        @apply bg-[#AFB5FF];
     }
 }
