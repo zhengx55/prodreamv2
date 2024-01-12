@@ -18,6 +18,7 @@ import {
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { BookHalf, Copilot, Synonym } from '@/components/root/SvgComponents';
+import useRootStore from '@/zustand/store';
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
@@ -32,12 +33,16 @@ export type TextMenuProps = {
 
 const TextMenu = ({ editor }: TextMenuProps) => {
   const [open, setOpen] = useState(false);
+  const selectionRect = useRef<number | null>(null);
   const [selectedLength, setSelectedLength] = useState(0);
   const [isWord, setIsWord] = useState(false);
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const commands = useTextmenuCommands(editor);
   const timer = useRef<NodeJS.Timeout | null>(null);
+  const updateCopilotMenu = useRootStore((state) => state.updateCopilotMenu);
+  const updateCopilotRect = useRootStore((state) => state.updateCopilotRect);
+
   const { x, y, strategy, refs } = useFloating({
     open: open,
     strategy: 'fixed',
@@ -67,12 +72,15 @@ const TextMenu = ({ editor }: TextMenuProps) => {
             getBoundingClientRect() {
               if (isNodeSelection(editor.state.selection)) {
                 const node = editor.view.nodeDOM(from) as HTMLElement;
-
                 if (node) {
-                  console.log(node);
                   return node.getBoundingClientRect();
                 }
               }
+              const el_srcoll_top =
+                editor.view.dom.parentElement?.parentElement?.scrollTop;
+              selectionRect.current =
+                posToDOMRect(editor.view, from, to).bottom +
+                (el_srcoll_top ?? 0);
               return posToDOMRect(editor.view, from, to);
             },
           });
@@ -118,7 +126,11 @@ const TextMenu = ({ editor }: TextMenuProps) => {
     >
       <Toolbar.Wrapper className='border-shadow-borde border shadow-lg'>
         <MemoButton
-          // onClick={() => updateCopilotMenu(true)}
+          onClick={() => {
+            updateCopilotMenu(true);
+            updateCopilotRect(selectionRect.current);
+            setOpen(false);
+          }}
           className='text-doc-primary'
         >
           <Copilot />

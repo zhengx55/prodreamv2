@@ -29,6 +29,8 @@ const Tiptap = ({
 }) => {
   const { id }: { id: string } = useParams();
   const reset = useRootStore((state) => state.reset);
+  const showCopilotMenu = useRootStore((state) => state.showCopilotMenu);
+
   const [title, setTitle] = useDebouncedState(essay_title, 1500);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const [saving, toggleSaving] = useState(false);
@@ -117,9 +119,9 @@ const Tiptap = ({
             />
           </div>
           <Spacer y='20' />
-          <AiMenu editor={editor} />
+          {showCopilotMenu && <AiMenu editor={editor} />}{' '}
           <TextMenu editor={editor} />
-          <EditorContent className='flex-1' editor={editor} />
+          <EditorContent editor={editor} />
           <BlockMenu editor={editor} />
         </div>
       </div>

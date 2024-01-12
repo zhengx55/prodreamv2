@@ -4,17 +4,26 @@ import { Copilot } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
+import useClickOutside from '@/hooks/useClickOutside';
+import useRootStore from '@/zustand/store';
 import { Editor } from '@tiptap/react';
 import { AlertTriangle, ChevronRight, Frown, Smile } from 'lucide-react';
-import { ChangeEvent, cloneElement, memo, useState } from 'react';
+import { ChangeEvent, cloneElement, memo, useRef, useState } from 'react';
 import { useAiOptions } from './hooks/useAiOptions';
 
 type Props = { editor: Editor };
 const AiMenu = ({ editor }: Props) => {
+  const copilotRect = useRootStore((state) => state.copilotRect);
+  const updateCopilotMenu = useRootStore((state) => state.updateCopilotMenu);
   const options = useAiOptions();
   const [hoverItem, setHoverItem] = useState<number | null>(null);
   const [istTyping, setIsTyping] = useState(false);
   const [prompt, setPrompt] = useState('');
+  const elRef = useRef<HTMLDivElement>(null);
+  useClickOutside(elRef, () => {
+    updateCopilotMenu(false);
+  });
+
   const handlePromptChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setPrompt(value);
@@ -24,9 +33,14 @@ const AiMenu = ({ editor }: Props) => {
       setIsTyping(false);
     }
   };
+
+  if (!copilotRect) return null;
   return (
-    <section className='absolute -left-[80px] top-[140px] flex w-full justify-center overflow-visible '>
-      <div className='relative flex flex-col bg-transparent'>
+    <section
+      style={{ top: `${copilotRect - 44}px` }}
+      className='absolute -left-20 flex w-full justify-center overflow-visible '
+    >
+      <div ref={elRef} className='relative flex flex-col bg-transparent'>
         <div className='flex-between h-11 w-[600px] rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
           <Copilot size='24' />
           <Input
