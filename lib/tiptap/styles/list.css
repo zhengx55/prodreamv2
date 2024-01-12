@@ -1,53 +1,53 @@
 .ProseMirror {
-    ol {
-        @apply list-decimal;
-    }
+  ol {
+    @apply list-decimal;
+  }
 
-    ul {
-        @apply list-disc;
-    }
+  ul {
+    @apply list-disc;
+  }
+
+  ul,
+  ol {
+    @apply py-0 px-8 my-3 first:mt-0 last:mb-0;
 
     ul,
-    ol {
-        @apply py-0 px-8 my-6 first:mt-0 last:mb-0;
-
-        ul,
-        ol,
-        li {
-            @apply my-1 px-0;
-        }
-
-        p {
-            @apply mt-0 mb-1;
-        }
+    ol,
+    li {
+      @apply my-1;
     }
 
-    &>ul,
-    &>ol {
-        @apply my-8 first:mt-0 last:mb-0;
+    p {
+      @apply mt-0 mb-1;
+    }
+  }
+
+  & > ul,
+  & > ol {
+    @apply my-3 first:mt-0 last:mb-0;
+  }
+
+  ul[data-type='taskList'] {
+    @apply list-none p-0;
+
+    p {
+      @apply m-0;
     }
 
-    ul[data-type='taskList'] {
-        @apply list-none p-0;
+    li {
+      @apply flex;
 
-        p {
-            @apply m-0;
-        }
+      > label {
+        @apply grow-0 shrink-0 flex-auto mt-1 mr-2 select-none;
+      }
 
-        li {
-            @apply flex;
+      > div {
+        @apply flex-auto;
+      }
 
-            >label {
-                @apply grow-0 shrink-0 flex-auto mt-1 mr-2 select-none;
-            }
-
-            >div {
-                @apply flex-auto;
-            }
-
-            &[data-checked='true'] {
-                @apply line-through;
-            }
-        }
+      &[data-checked='true'] {
+        @apply line-through;
+      }
     }
+  }
 }

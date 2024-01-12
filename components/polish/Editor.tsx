@@ -11,15 +11,13 @@ import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
-import AiMenu from '../editor/ai-menu';
-import BottomBar from '../editor/bottombar';
 import TableOfContents from '../editor/table-of-contents';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
 
 const TextMenu = dynamic(() => import('../editor/text'), { ssr: false });
 const BlockMenu = dynamic(() => import('../editor/blockmenu'), { ssr: false });
-
+const AiMenu = dynamic(() => import('../editor/ai-menu'), { ssr: false });
 const Tiptap = ({
   essay_content,
   essay_title,
@@ -69,7 +67,6 @@ const Tiptap = ({
         autocorrect: 'on',
         autocapitalize: 'off',
         class: 'min-h-full whitespace-pre-wrap',
-        spellcheck: 'false',
       },
     },
     injectCSS: false,
@@ -119,14 +116,14 @@ const Tiptap = ({
             />
           </div>
           <Spacer y='20' />
-          {showCopilotMenu && <AiMenu editor={editor} />}{' '}
+          {showCopilotMenu && <AiMenu editor={editor} />}
           <TextMenu editor={editor} />
-          <EditorContent editor={editor} />
+          <EditorContent className='flex-1' editor={editor} />
           <BlockMenu editor={editor} />
         </div>
       </div>
       <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>
-        <BottomBar editor={editor} />
+        {/* <BottomBar editor={editor} /> */}
       </div>
     </section>
   );

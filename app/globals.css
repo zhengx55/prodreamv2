@@ -11,8 +11,8 @@
     @apply min-h-screen font-poppins select-text antialiased;
     text-rendering: optimizeLegibility;
     font-synthesis-weight: none;
-
   }
+
 }
 
 @layer utilities {
