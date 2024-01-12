@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Download, MoreVertical, Settings, Shuffle } from 'lucide-react';
+import { FileOutput, MoreVertical, Settings, Shuffle } from 'lucide-react';
 
 type Props = {};
 
@@ -29,7 +29,8 @@ const NavbarDropdown = ({}: Props) => {
             }}
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >
-            <Settings size={16} /> Export
+            <FileOutput size={16} />
+            Export
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={(e) => {
@@ -37,7 +38,7 @@ const NavbarDropdown = ({}: Props) => {
             }}
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >
-            <Download size={16} /> Settings
+            <Settings size={16} /> Settings
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={(e) => {

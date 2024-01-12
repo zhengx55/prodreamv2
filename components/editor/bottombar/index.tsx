@@ -4,9 +4,9 @@ import { BookHalf, Copilot } from '@/components/root/SvgComponents';
 import { Editor } from '@tiptap/react';
 import { CornerDownLeft, CornerDownRight } from 'lucide-react';
 import { memo } from 'react';
+import { useTextmenuCommands } from '../bubble-menu/hooks/useTextMenuCommand';
+import { useTextmenuContentTypes } from '../bubble-menu/hooks/useTextmenuContentType';
 import { ContentTypePicker } from '../picker/content';
-import { useTextmenuCommands } from '../text/hooks/useTextMenuCommand';
-import { useTextmenuContentTypes } from '../text/hooks/useTextmenuContentType';
 const MemoButton = memo(Toolbar.Button);
 const MemoContentTypePicker = memo(ContentTypePicker);
 

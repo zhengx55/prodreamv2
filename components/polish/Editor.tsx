@@ -11,11 +11,12 @@ import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
+import BottomBar from '../editor/bottombar';
 import TableOfContents from '../editor/table-of-contents';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
 
-const TextMenu = dynamic(() => import('../editor/text'), { ssr: false });
+const TextMenu = dynamic(() => import('../editor/bubble-menu'), { ssr: false });
 const BlockMenu = dynamic(() => import('../editor/blockmenu'), { ssr: false });
 const AiMenu = dynamic(() => import('../editor/ai-menu'), { ssr: false });
 const Tiptap = ({
@@ -123,7 +124,7 @@ const Tiptap = ({
         </div>
       </div>
       <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>
-        {/* <BottomBar editor={editor} /> */}
+        <BottomBar editor={editor} />
       </div>
     </section>
   );
