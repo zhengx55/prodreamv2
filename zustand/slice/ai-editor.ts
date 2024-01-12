@@ -25,7 +25,7 @@ type AIEditorState = {
   isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
   savingMode: boolean;
-  showCopilotMenu: false;
+  showCopilotMenu: boolean;
 };
 
 type AIEditorAction = {

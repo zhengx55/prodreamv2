@@ -1,6 +1,6 @@
 import { ShouldShowProps } from '@/lib/tiptap/type';
 import { isTextSelected } from '@/lib/tiptap/utils';
-import { Editor, posToDOMRect } from '@tiptap/react';
+import { Editor } from '@tiptap/react';
 import { useCallback } from 'react';
 
 export const useTextmenuStates = (editor: Editor) => {
@@ -9,8 +9,8 @@ export const useTextmenuStates = (editor: Editor) => {
       if (!view) {
         return false;
       }
+      console.log(view.state);
       const { from, to } = editor.state.selection;
-      console.log(posToDOMRect(view, from, to));
       return isTextSelected({ editor }) && !view.dragging?.move;
     },
     [editor]
@@ -25,8 +25,7 @@ export const useTextmenuStates = (editor: Editor) => {
     isAlignCenter: editor.isActive({ textAlign: 'center' }),
     isAlignRight: editor.isActive({ textAlign: 'right' }),
     isAlignJustify: editor.isActive({ textAlign: 'justify' }),
-    currentFont: editor.getAttributes('textStyle')?.fontFamily || undefined,
-    currentSize: editor.getAttributes('textStyle')?.fontSize || undefined,
+
     shouldShow,
   };
 };

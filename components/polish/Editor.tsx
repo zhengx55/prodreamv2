@@ -33,7 +33,6 @@ const Tiptap = ({
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const [saving, toggleSaving] = useState(false);
   const setEditorInstance = useRootStore((state) => state.setEditorInstance);
-  const showCopilotMenu = useRootStore((state) => state.showCopilotMenu);
   const savingMode = useRootStore((state) => state.savingMode);
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     toggleSaving(true);
@@ -118,7 +117,7 @@ const Tiptap = ({
             />
           </div>
           <Spacer y='20' />
-          {showCopilotMenu && <AiMenu editor={editor} />}{' '}
+          <AiMenu editor={editor} />
           <TextMenu editor={editor} />
           <EditorContent className='flex-1' editor={editor} />
           <BlockMenu editor={editor} />

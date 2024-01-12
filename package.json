@@ -13,6 +13,7 @@
     "type-check": "tsc --project tsconfig.json --pretty --noEmit && eslint --fix . && prettier --write ."
   },
   "dependencies": {
+    "@floating-ui/react-dom": "^2.0.5",
     "@formatjs/intl-localematcher": "^0.4.2",
     "@hookform/resolvers": "^3.3.2",
     "@next/bundle-analyzer": "^14.0.1",

@@ -1,6 +1,7 @@
 import { Toolbar } from '@/components/editor/Toolbar';
+import { autoUpdate, flip, offset, useFloating } from '@floating-ui/react-dom';
 import * as Popover from '@radix-ui/react-popover';
-import { BubbleMenu, Editor } from '@tiptap/react';
+import { Editor, isNodeSelection, posToDOMRect } from '@tiptap/react';
 import {
   AlignCenter,
   AlignJustify,
@@ -14,7 +15,7 @@ import {
   Strikethrough,
   Underline,
 } from 'lucide-react';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 
 import { BookHalf, Copilot, Synonym } from '@/components/root/SvgComponents';
 import { ContentTypePicker } from '../picker/content';
@@ -31,10 +32,61 @@ export type TextMenuProps = {
 
 const TextMenu = ({ editor }: TextMenuProps) => {
   const commands = useTextmenuCommands(editor);
+  const [open, setOpen] = useState(false);
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const [selectedLength, setSelectedLength] = useState(0);
   const [isWord, setIsWord] = useState(false);
+  const timer = useRef<NodeJS.Timeout | null>(null);
+  const { x, y, strategy, refs } = useFloating({
+    open: open,
+    strategy: 'fixed',
+    whileElementsMounted: autoUpdate,
+    placement: 'top-start',
+    middleware: [
+      offset({ mainAxis: 10 }),
+      flip({
+        padding: 8,
+        boundary: editor.options.element,
+        fallbackPlacements: ['bottom-start'],
+      }),
+    ],
+  });
+
+  useEffect(() => {
+    const handler = () => {
+      if (editor.view.state.selection.empty) {
+        setOpen(false);
+        if (timer.current) clearTimeout(timer.current);
+      } else {
+        timer.current = setTimeout(() => {
+          const { ranges } = editor.state.selection;
+          const from = Math.min(...ranges.map((range) => range.$from.pos));
+          const to = Math.max(...ranges.map((range) => range.$to.pos));
+          refs.setReference({
+            getBoundingClientRect() {
+              if (isNodeSelection(editor.state.selection)) {
+                const node = editor.view.nodeDOM(from) as HTMLElement;
+
+                if (node) {
+                  console.log(node);
+                  return node.getBoundingClientRect();
+                }
+              }
+              return posToDOMRect(editor.view, from, to);
+            },
+          });
+          setOpen(true);
+        }, 200);
+      }
+    };
+    editor.on('selectionUpdate', handler);
+    return () => {
+      editor.off('selectionUpdate', handler);
+      timer.current && clearTimeout(timer.current);
+    };
+  }, [editor, refs]);
+
   useEffect(() => {
     const handler = ({ editor }: { editor: Editor }) => {
       const {
@@ -58,20 +110,17 @@ const TextMenu = ({ editor }: TextMenuProps) => {
       editor.off('selectionUpdate', () => handler({ editor }));
     };
   }, [editor]);
-
+  if (!open) return null;
   return (
-    <BubbleMenu
-      tippyOptions={{
-        popperOptions: { placement: 'top-end' },
-        appendTo: 'parent',
-      }}
-      editor={editor}
-      pluginKey='textMenu'
-      shouldShow={states.shouldShow}
-      updateDelay={200}
+    <div
+      ref={refs.setFloating}
+      style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
     >
       <Toolbar.Wrapper className='border-shadow-borde border shadow-lg'>
-        <MemoButton onClick={commands.onAiMenu} className='text-doc-primary'>
+        <MemoButton
+          // onClick={() => updateCopilotMenu(true)}
+          className='text-doc-primary'
+        >
           <Copilot />
           AI Copilot
         </MemoButton>
@@ -186,7 +235,7 @@ const TextMenu = ({ editor }: TextMenuProps) => {
           </p>
         </span>
       </Toolbar.Wrapper>
-    </BubbleMenu>
+    </div>
   );
 };
 
