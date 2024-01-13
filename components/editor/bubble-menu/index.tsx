@@ -15,10 +15,10 @@ import {
   Strikethrough,
   Underline,
 } from 'lucide-react';
-import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { memo, useLayoutEffect, useRef, useState } from 'react';
 
 import { BookHalf, Copilot, Synonym } from '@/components/root/SvgComponents';
-import useRootStore from '@/zustand/store';
+import useAiEditor from '@/zustand/store';
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
@@ -40,8 +40,9 @@ const TextMenu = ({ editor }: TextMenuProps) => {
   const blockOptions = useTextmenuContentTypes(editor);
   const commands = useTextmenuCommands(editor);
   const timer = useRef<NodeJS.Timeout | null>(null);
-  const updateCopilotMenu = useRootStore((state) => state.updateCopilotMenu);
-  const updateCopilotRect = useRootStore((state) => state.updateCopilotRect);
+  const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
+  const updateCopilotRect = useAiEditor((state) => state.updateCopilotRect);
+  const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
 
   const { x, y, strategy, refs } = useFloating({
     open: open,
@@ -53,7 +54,7 @@ const TextMenu = ({ editor }: TextMenuProps) => {
       flip({
         padding: 8,
         boundary: editor.options.element,
-        fallbackPlacements: ['bottom-start'],
+        fallbackPlacements: ['top-end', 'bottom-start'],
       }),
     ],
   });
@@ -65,9 +66,18 @@ const TextMenu = ({ editor }: TextMenuProps) => {
         if (timer.current) clearTimeout(timer.current);
       } else {
         timer.current = setTimeout(() => {
-          const { ranges } = editor.state.selection;
+          const { doc, selection } = editor.state;
+          const { ranges } = selection;
           const from = Math.min(...ranges.map((range) => range.$from.pos));
           const to = Math.max(...ranges.map((range) => range.$to.pos));
+          const text = doc.textBetween(from, to);
+          const words = text.match(/\b\w+\b/g);
+          if (words && words.length === 1) {
+            setIsWord(true);
+          } else {
+            setIsWord(false);
+          }
+          setSelectedLength(words ? words.length : 0);
           refs.setReference({
             getBoundingClientRect() {
               if (isNodeSelection(editor.state.selection)) {
@@ -95,29 +105,6 @@ const TextMenu = ({ editor }: TextMenuProps) => {
     };
   }, [editor, refs]);
 
-  useEffect(() => {
-    const handler = ({ editor }: { editor: Editor }) => {
-      const {
-        state: {
-          doc,
-          selection: { empty, from, to },
-        },
-      } = editor;
-      const text = doc.textBetween(from, to);
-      if (!text || empty) return;
-      const words = text.match(/\b\w+\b/g);
-      if (words && words.length === 1) {
-        setIsWord(true);
-      } else {
-        setIsWord(false);
-      }
-      setSelectedLength(words ? words.length : 0);
-    };
-    editor.on('selectionUpdate', () => handler({ editor }));
-    return () => {
-      editor.off('selectionUpdate', () => handler({ editor }));
-    };
-  }, [editor]);
   if (!open) return null;
   return (
     <div
@@ -143,7 +130,14 @@ const TextMenu = ({ editor }: TextMenuProps) => {
             Synonym
           </MemoButton>
         ) : (
-          <MemoButton className='text-doc-primary'>
+          <MemoButton
+            onClick={() => {
+              updateCitationMenu(true);
+              updateCopilotRect(selectionRect.current);
+              setOpen(false);
+            }}
+            className='text-doc-primary'
+          >
             <BookHalf size={18} />
             Citation
           </MemoButton>

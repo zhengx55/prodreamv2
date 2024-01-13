@@ -11,7 +11,9 @@ const initialState: AIEditorState = {
   isPlagiarismOpen: false,
   savingMode: true,
   showCopilotMenu: false,
+  showCitiationMenu: false,
   copilotRect: null,
+  showSynonymMenu: false,
 };
 
 type AIEditorState = {
@@ -21,7 +23,9 @@ type AIEditorState = {
   editor_instance: Editor | null;
   savingMode: boolean;
   showCopilotMenu: boolean;
+  showCitiationMenu: boolean;
   copilotRect: null | number;
+  showSynonymMenu: boolean;
 };
 
 type AIEditorAction = {
@@ -35,6 +39,8 @@ type AIEditorAction = {
   deactivateSaving: () => void;
   updateCopilotMenu: (result: AIEditorState['showCopilotMenu']) => void;
   updateCopilotRect: (result: AIEditiorStore['copilotRect']) => void;
+  updateCitationMenu: (result: AIEditorState['showCitiationMenu']) => void;
+  updateSynonymMenu: (result: AIEditorState['showSynonymMenu']) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -66,5 +72,13 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateCopilotRect: (result) =>
     set(() => ({
       copilotRect: result,
+    })),
+  updateCitationMenu: (result) =>
+    set(() => ({
+      showCitiationMenu: result,
+    })),
+  updateSynonymMenu: (result) =>
+    set(() => ({
+      showSynonymMenu: result,
     })),
 });

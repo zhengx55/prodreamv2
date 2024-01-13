@@ -63,5 +63,30 @@ export const useAiOptions = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return options;
+  const operations = useMemo(() => {
+    return [
+      {
+        id: 'copilot-operation-01',
+        name: 'Replace selection',
+        icon: <Copilot_Edit />,
+      },
+      {
+        id: 'copilot-operation-02',
+        name: 'Insert below',
+        icon: <Copilot_Generate />,
+      },
+      {
+        id: 'copilot-operation-03',
+        name: 'Try again',
+        icon: <Copilot_Continue />,
+      },
+      {
+        id: 'copilot-operation-04',
+        name: 'Discard',
+        icon: <Copilot_Generate_Essay />,
+      },
+    ];
+  }, []);
+
+  return { options, operations };
 };

@@ -4,7 +4,7 @@ import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { hasHtmlTags } from '@/lib/utils';
 import { saveDoc } from '@/query/api';
-import useRootStore from '@/zustand/store';
+import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
@@ -12,6 +12,7 @@ import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
 import BottomBar from '../editor/bottombar';
+import CitiationMenu from '../editor/citiation-menu';
 import TableOfContents from '../editor/table-of-contents';
 import Spacer from '../root/Spacer';
 import { Input } from '../ui/input';
@@ -27,14 +28,15 @@ const Tiptap = ({
   essay_title: string;
 }) => {
   const { id }: { id: string } = useParams();
-  const reset = useRootStore((state) => state.reset);
-  const showCopilotMenu = useRootStore((state) => state.showCopilotMenu);
+  const reset = useAiEditor((state) => state.reset);
+  const showCopilotMenu = useAiEditor((state) => state.showCopilotMenu);
+  const showCitiationMenu = useAiEditor((state) => state.showCitiationMenu);
 
   const [title, setTitle] = useDebouncedState(essay_title, 1500);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const [saving, toggleSaving] = useState(false);
-  const setEditorInstance = useRootStore((state) => state.setEditorInstance);
-  const savingMode = useRootStore((state) => state.savingMode);
+  const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
+  const savingMode = useAiEditor((state) => state.savingMode);
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     toggleSaving(true);
     setTitle(e.currentTarget.value);
@@ -118,6 +120,7 @@ const Tiptap = ({
           </div>
           <Spacer y='20' />
           {showCopilotMenu && <AiMenu editor={editor} />}
+          {showCitiationMenu && <CitiationMenu editor={editor} />}
           <TextMenu editor={editor} />
           <EditorContent className='flex-1' editor={editor} />
           <BlockMenu editor={editor} />
