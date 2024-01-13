@@ -1,4 +1,9 @@
 'use client';
+import BottomBar from '@/components/editor/bottombar';
+import { CitiationMenu } from '@/components/editor/citiation-menu';
+import { TableOfContent } from '@/components/editor/table-of-contents';
+import Spacer from '@/components/root/Spacer';
+import { Input } from '@/components/ui/input';
 import { useDebouncedState } from '@/hooks/useDebounceState';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
@@ -8,18 +13,12 @@ import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
-import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
-import BottomBar from '../editor/bottombar';
-import CitiationMenu from '../editor/citiation-menu';
-import TableOfContents from '../editor/table-of-contents';
-import Spacer from '../root/Spacer';
-import { Input } from '../ui/input';
+import { AiMenu } from '../editor/ai-menu';
+import { BlockMenu } from '../editor/blockmenu';
+import { TextMenu } from '../editor/bubble-menu';
 
-const TextMenu = dynamic(() => import('../editor/bubble-menu'), { ssr: false });
-const BlockMenu = dynamic(() => import('../editor/blockmenu'), { ssr: false });
-const AiMenu = dynamic(() => import('../editor/ai-menu'), { ssr: false });
 const Tiptap = ({
   essay_content,
   essay_title,
@@ -31,7 +30,7 @@ const Tiptap = ({
   const reset = useAiEditor((state) => state.reset);
   const showCopilotMenu = useAiEditor((state) => state.showCopilotMenu);
   const showCitiationMenu = useAiEditor((state) => state.showCitiationMenu);
-
+  const showSynonymMenu = useAiEditor((state) => state.showSynonymMenu);
   const [title, setTitle] = useDebouncedState(essay_title, 1500);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const [saving, toggleSaving] = useState(false);
@@ -101,7 +100,7 @@ const Tiptap = ({
   return (
     <section className='flex h-full w-full flex-col'>
       <div className='relative flex h-[calc(100%_-40px)] w-full'>
-        <TableOfContents editor={editor} />
+        <TableOfContent editor={editor} />
         <div
           aria-label='editor-parent'
           id='editor-parent'
