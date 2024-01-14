@@ -13,21 +13,15 @@ type Props = { editor: Editor };
 export const CitiationMenu = memo(({ editor }: Props) => {
   const copilotRect = useRootStore((state) => state.copilotRect);
   const updateCitationMenu = useRootStore((state) => state.updateCitationMenu);
-  const [istTyping, setIsTyping] = useState(false);
-  const [prompt, setPrompt] = useState('');
+  const [keyword, setKeyword] = useState('');
   const elRef = useRef<HTMLDivElement>(null);
   useClickOutside(elRef, () => {
     updateCitationMenu(false);
   });
 
-  const handlePromptChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setPrompt(value);
-    if (value.trim() !== '') {
-      setIsTyping(true);
-    } else {
-      setIsTyping(false);
-    }
+    setKeyword(value);
   };
 
   if (!copilotRect) return null;
@@ -41,9 +35,9 @@ export const CitiationMenu = memo(({ editor }: Props) => {
           <Search className='text-primary-doc' size={20} />
           <Input
             type='text'
-            value={prompt}
+            value={keyword}
             autoFocus
-            onChange={handlePromptChange}
+            onChange={handleKeywordChange}
             id='citiation-search'
             className='small-regular h-full border-none px-0 py-0 shadow-none focus-visible:right-0 focus-visible:ring-0'
             placeholder='enter your text...'
@@ -51,7 +45,7 @@ export const CitiationMenu = memo(({ editor }: Props) => {
         </div>
 
         <Spacer y='5' />
-        <Surface className='w-[600px] rounded px-1 py-2' withBorder></Surface>
+        <Surface className='w-[600px] !rounded px-1 py-2' withBorder></Surface>
       </div>
     </section>
   );

@@ -22,6 +22,7 @@ import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
+import { AutoComplete } from './plugin/autocomplete';
 import { PolishUnderline } from './plugin/polish-underline';
 import Selection from './plugin/selection';
 import { Underline } from './plugin/underline';
@@ -54,6 +55,7 @@ const ExtensionKit = () => [
   TableOfContent,
   Italic,
   SlashCommand,
+  AutoComplete,
   TextAlign.extend({
     addKeyboardShortcuts() {
       return {};

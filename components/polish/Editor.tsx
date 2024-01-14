@@ -17,7 +17,7 @@ import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
 import { AiMenu } from '../editor/ai-menu';
 import { BlockMenu } from '../editor/blockmenu';
-import { TextMenu } from '../editor/bubble-menu';
+import { BubbleMenu } from '../editor/bubble-menu';
 
 const Tiptap = ({
   essay_content,
@@ -120,7 +120,7 @@ const Tiptap = ({
           <Spacer y='20' />
           {showCopilotMenu && <AiMenu editor={editor} />}
           {showCitiationMenu && <CitiationMenu editor={editor} />}
-          <TextMenu editor={editor} />
+          <BubbleMenu editor={editor} />
           <EditorContent className='flex-1' editor={editor} />
           <BlockMenu editor={editor} />
         </div>

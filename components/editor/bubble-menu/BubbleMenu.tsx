@@ -31,7 +31,7 @@ export type TextMenuProps = {
   editor: Editor;
 };
 
-export const TextMenu = ({ editor }: TextMenuProps) => {
+export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const [open, setOpen] = useState(false);
   const selectionRect = useRef<number | null>(null);
   const [selectedLength, setSelectedLength] = useState(0);
@@ -43,6 +43,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
   const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
   const updateCopilotRect = useAiEditor((state) => state.updateCopilotRect);
   const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
+  const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
 
   const { x, y, strategy, refs } = useFloating({
     open: open,
@@ -125,7 +126,13 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
         </MemoButton>
         <Toolbar.Divider />
         {isWord ? (
-          <MemoButton className='text-doc-primary'>
+          <MemoButton
+            onClick={() => {
+              updateSynonymMenu(true);
+              setOpen(false);
+            }}
+            className='text-doc-primary'
+          >
             <Synonym />
             Synonym
           </MemoButton>
@@ -243,4 +250,6 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
       </Toolbar.Wrapper>
     </div>
   );
-};
+});
+
+BubbleMenu.displayName = 'BubbleMenu';

@@ -3,11 +3,19 @@
         @apply text-black-400/40 dark:text-white/40 float-left h-0 pointer-events-none w-full;
     }
 
+    .ai-autocomplete::after {
+        @apply text-black-400/40 dark:text-white/40 small-regular pointer-events-none
+    }
+
     &.ProseMirror-focused {
 
         /* Slashmenu Placeholder */
         >p.has-focus.is-empty::before {
             content: 'Type  /  to browse options';
+        }
+
+        >p.has-focus.ai-autocomplete::after {
+            content: ' Press  /  for Continue Writing';
         }
 
         >[data-type='columns']>[data-type='column']>p.is-empty.has-focus::before {

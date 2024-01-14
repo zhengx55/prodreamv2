@@ -14,6 +14,7 @@ const initialState: AIEditorState = {
   showCitiationMenu: false,
   copilotRect: null,
   showSynonymMenu: false,
+  showCustomCitiation: false,
 };
 
 type AIEditorState = {
@@ -26,6 +27,7 @@ type AIEditorState = {
   showCitiationMenu: boolean;
   copilotRect: null | number;
   showSynonymMenu: boolean;
+  showCustomCitiation: boolean;
 };
 
 type AIEditorAction = {
@@ -41,6 +43,7 @@ type AIEditorAction = {
   updateCopilotRect: (result: AIEditiorStore['copilotRect']) => void;
   updateCitationMenu: (result: AIEditorState['showCitiationMenu']) => void;
   updateSynonymMenu: (result: AIEditorState['showSynonymMenu']) => void;
+  updateCustomCitiation: (result: AIEditorState['showCustomCitiation']) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -80,5 +83,9 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateSynonymMenu: (result) =>
     set(() => ({
       showSynonymMenu: result,
+    })),
+  updateCustomCitiation: (result) =>
+    set(() => ({
+      showCustomCitiation: result,
     })),
 });
