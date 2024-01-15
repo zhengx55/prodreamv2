@@ -33,7 +33,8 @@ export type TextMenuProps = {
 
 export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const [open, setOpen] = useState(false);
-  const selectionRect = useRef<number | null>(null);
+  const menuYOffside = useRef<number | null>(null);
+  const menuXOffside = useRef<number | null>(null);
   const [selectedLength, setSelectedLength] = useState(0);
   const [isWord, setIsWord] = useState(false);
   const states = useTextmenuStates(editor);
@@ -45,7 +46,10 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
   const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
   const updateSelectedText = useAiEditor((state) => state.updateSelectedText);
-
+  const updateCopilotRectX = useAiEditor((state) => state.updateCopilotRectX);
+  const showCitiationMenu = useAiEditor((state) => state.showCitiationMenu);
+  const showSynonymMenu = useAiEditor((state) => state.showSynonymMenu);
+  const showCopilotMenu = useAiEditor((state) => state.showCopilotMenu);
   const { x, y, strategy, refs } = useFloating({
     open: open,
     strategy: 'fixed',
@@ -66,6 +70,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       if (editor.view.dragging && editor.view.dragging.move) {
         return;
       }
+
       if (editor.view.state.selection.empty) {
         setOpen(false);
         if (timer.current) clearTimeout(timer.current);
@@ -83,6 +88,9 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
             setIsWord(false);
           }
           setSelectedLength(words ? words.length : 0);
+          if (showCitiationMenu || showCopilotMenu || showSynonymMenu) {
+            return;
+          }
           updateSelectedText(text);
           refs.setReference({
             getBoundingClientRect() {
@@ -92,9 +100,13 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
                   return node.getBoundingClientRect();
                 }
               }
+              const client_width =
+                editor.view.dom.parentElement?.parentElement?.clientWidth;
+              const editor_width = !client_width ? 0 : (client_width - 750) / 2;
+              menuXOffside.current = posToDOMRect(editor.view, from, to).left;
               const el_srcoll_top =
                 editor.view.dom.parentElement?.parentElement?.scrollTop;
-              selectionRect.current =
+              menuYOffside.current =
                 posToDOMRect(editor.view, from, to).bottom +
                 (el_srcoll_top ?? 0);
               return posToDOMRect(editor.view, from, to);
@@ -109,7 +121,8 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       editor.off('selectionUpdate', handler);
       timer.current && clearTimeout(timer.current);
     };
-  }, [editor, refs]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor, refs, showCitiationMenu, showCopilotMenu, showSynonymMenu]);
 
   if (!open) return null;
   return (
@@ -121,7 +134,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
         <MemoButton
           onClick={() => {
             updateCopilotMenu(true);
-            updateCopilotRect(selectionRect.current);
+            updateCopilotRect(menuYOffside.current);
             setOpen(false);
           }}
           className='text-doc-primary'
@@ -134,6 +147,8 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           <MemoButton
             onClick={() => {
               updateSynonymMenu(true);
+              updateCopilotRectX(menuXOffside.current);
+              updateCopilotRect(menuYOffside.current);
               setOpen(false);
             }}
             className='text-doc-primary'
@@ -145,7 +160,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           <MemoButton
             onClick={() => {
               updateCitationMenu(true);
-              updateCopilotRect(selectionRect.current);
+              updateCopilotRect(menuYOffside.current);
               setOpen(false);
             }}
             className='text-doc-primary'

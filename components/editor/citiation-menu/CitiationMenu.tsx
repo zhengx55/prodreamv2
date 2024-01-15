@@ -43,7 +43,6 @@ export const CitiationMenu = memo(({ editor }: Props) => {
             placeholder='enter your text...'
           />
         </div>
-
         <Spacer y='5' />
         <Surface className='w-[600px] !rounded px-1 py-2' withBorder></Surface>
       </div>

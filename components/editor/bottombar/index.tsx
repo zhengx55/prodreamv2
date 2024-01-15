@@ -14,7 +14,7 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
   const commands = useTextmenuCommands(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   return (
-    <Toolbar.Wrapper className='justify-between gap-x-3 !rounded-none border-none'>
+    <Toolbar.Wrapper className='justify-between gap-x-3 w-[750px] !rounded-none border-none'>
       <MemoButton className='text-doc-primary'>
         <Copilot />
         AI Copilot

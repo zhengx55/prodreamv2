@@ -1,9 +1,23 @@
 import { Cloud } from '@/components/root/SvgComponents';
-import { ChevronLeft, FileCheck, ShieldCheck } from 'lucide-react';
+import Tooltip from '@/components/root/Tooltip';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  ChevronLeft,
+  FileCheck,
+  MoreVertical,
+  ShieldCheck,
+} from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
-import NavbarDropdown from './NavbarDropdown';
 type Props = { title: string };
+
+const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
+
 const DocNavbar = ({ title }: Props) => {
   return (
     <nav className='flex h-[var(--top-nav-bar-height)] w-full shrink-0 items-center justify-between border-b border-shadow-border px-5 py-3'>
@@ -13,14 +27,28 @@ const DocNavbar = ({ title }: Props) => {
             <ChevronLeft />
           </span>
         </Link>
-
         <h1 className='h3-bold'>{title}</h1>
         <Cloud />
       </div>
-      <div className='flex items-center gap-x-4'>
-        <FileCheck size={18} />
-        <ShieldCheck size={18} />
-        <NavbarDropdown />
+      <div className='flex items-center gap-x-1'>
+        <Tooltip tooltipContent='Grammar Check'>
+          <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
+            <FileCheck size={18} />
+          </Button>
+        </Tooltip>
+        <Tooltip tooltipContent='Plagiarism Check'>
+          <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
+            <ShieldCheck size={18} />
+          </Button>
+        </Tooltip>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
+              <MoreVertical size={18} />
+            </Button>
+          </DropdownMenuTrigger>
+          <NavbarDropdown />
+        </DropdownMenu>
       </div>
     </nav>
   );

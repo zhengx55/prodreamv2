@@ -13,6 +13,7 @@ const initialState: AIEditorState = {
   showCopilotMenu: false,
   showCitiationMenu: false,
   copilotRect: null,
+  copilotRectX: null,
   showSynonymMenu: false,
   showCustomCitiation: false,
   selectedText: '',
@@ -30,6 +31,7 @@ type AIEditorState = {
   showSynonymMenu: boolean;
   showCustomCitiation: boolean;
   selectedText: string;
+  copilotRectX: null | number;
 };
 
 type AIEditorAction = {
@@ -47,6 +49,7 @@ type AIEditorAction = {
   updateSynonymMenu: (result: AIEditorState['showSynonymMenu']) => void;
   updateCustomCitiation: (result: AIEditorState['showCustomCitiation']) => void;
   updateSelectedText: (result: AIEditorState['selectedText']) => void;
+  updateCopilotRectX: (resutl: AIEditorState['copilotRectX']) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -94,5 +97,9 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateSelectedText: (result) =>
     set(() => ({
       selectedText: result,
+    })),
+  updateCopilotRectX: (result) =>
+    set(() => ({
+      copilotRectX: result,
     })),
 });

@@ -769,11 +769,17 @@ export const Copilot = ({
   </svg>
 );
 
-export const Synonym = ({ color = '#774EBB' }: { color?: string }) => (
+export const Synonym = ({
+  color = '#774EBB',
+  size = '18',
+}: {
+  color?: string;
+  size?: string;
+}) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='18'
-    height='18'
+    width={size}
+    height={size}
     viewBox='0 0 18 18'
     fill='none'
   >
