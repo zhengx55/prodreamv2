@@ -4,7 +4,7 @@
     }
 
     .ai-autocomplete::after {
-        @apply text-black-400/40 dark:text-white/40 small-regular pointer-events-none
+        @apply text-black-400/40 dark:text-white/40 pointer-events-none text-xs
     }
 
     &.ProseMirror-focused {
@@ -15,7 +15,7 @@
         }
 
         >p.has-focus.ai-autocomplete::after {
-            content: ' Press  /  for Continue Writing';
+            content: " Press '/' for Continue Writing";
         }
 
         >[data-type='columns']>[data-type='column']>p.is-empty.has-focus::before {

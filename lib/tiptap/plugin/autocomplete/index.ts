@@ -26,19 +26,20 @@ export const AutoComplete = Extension.create<AutoCompleteOptions>({
             const { anchor } = selection;
             if (!active) return null;
             doc.descendants((node, pos) => {
-              const isEmpty = !node.isLeaf && !node.childCount;
-              const hasText =
-                node.textContent.length !== 0 &&
-                node.textContent.trim() !== '/' &&
-                node.textContent.trim();
-              const hasAnchor = anchor === node.nodeSize + pos - 1;
-              let classes;
-              if (!isEmpty && hasText && hasAnchor)
-                classes = [this.options.autocompleteClass];
-              const decoration = Decoration.node(pos, pos + node.nodeSize, {
-                class: classes?.join(''),
-              });
-              decorations.push(decoration);
+              if (node.isTextblock && node.textContent.trim().length > 0) {
+                const isEmpty = !node.isLeaf && !node.childCount;
+                const hasText =
+                  node.textContent.trim() !== '/' && node.textContent.trim();
+                const hasSlash =
+                  node.textContent.charAt(node.textContent.length - 1) === '/';
+                const hasAnchor = anchor === node.nodeSize + pos - 1;
+                if (!isEmpty && hasText && hasAnchor && !hasSlash) {
+                  const decoration = Decoration.node(pos, pos + node.nodeSize, {
+                    class: this.options.autocompleteClass,
+                  });
+                  decorations.push(decoration);
+                }
+              }
             });
             return DecorationSet.create(doc, decorations);
           },

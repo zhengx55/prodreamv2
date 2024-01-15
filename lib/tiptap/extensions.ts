@@ -1,6 +1,5 @@
 'use client';
 import FontSize from '@/lib/tiptap/plugin/fontsize';
-import SlashCommand from '@/lib/tiptap/plugin/slashcommand';
 import TableOfContent from '@tiptap-pro/extension-table-of-content';
 import Blockquote from '@tiptap/extension-blockquote';
 import Bold from '@tiptap/extension-bold';
@@ -25,6 +24,7 @@ import TextStyle from '@tiptap/extension-text-style';
 import { AutoComplete } from './plugin/autocomplete';
 import { PolishUnderline } from './plugin/polish-underline';
 import Selection from './plugin/selection';
+import { SlashCommand } from './plugin/slashcommand';
 import { Underline } from './plugin/underline';
 
 const ExtensionKit = () => [
@@ -55,7 +55,6 @@ const ExtensionKit = () => [
   TableOfContent,
   Italic,
   SlashCommand,
-  AutoComplete,
   TextAlign.extend({
     addKeyboardShortcuts() {
       return {};
@@ -68,6 +67,7 @@ const ExtensionKit = () => [
   }),
   Underline,
   PolishUnderline,
+  AutoComplete,
   // TrailingNode,
   Selection,
   DropCursor.configure({

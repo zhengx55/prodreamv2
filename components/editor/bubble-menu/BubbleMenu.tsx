@@ -62,6 +62,9 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
 
   useLayoutEffect(() => {
     const handler = () => {
+      if (editor.view.dragging && editor.view.dragging.move) {
+        return;
+      }
       if (editor.view.state.selection.empty) {
         setOpen(false);
         if (timer.current) clearTimeout(timer.current);
