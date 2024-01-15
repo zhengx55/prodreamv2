@@ -47,9 +47,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
   const updateSelectedText = useAiEditor((state) => state.updateSelectedText);
   const updateCopilotRectX = useAiEditor((state) => state.updateCopilotRectX);
-  const showCitiationMenu = useAiEditor((state) => state.showCitiationMenu);
-  const showSynonymMenu = useAiEditor((state) => state.showSynonymMenu);
-  const showCopilotMenu = useAiEditor((state) => state.showCopilotMenu);
   const { x, y, strategy, refs } = useFloating({
     open: open,
     strategy: 'fixed',
@@ -88,9 +85,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
             setIsWord(false);
           }
           setSelectedLength(words ? words.length : 0);
-          if (showCitiationMenu || showCopilotMenu || showSynonymMenu) {
-            return;
-          }
           updateSelectedText(text);
           refs.setReference({
             getBoundingClientRect() {
@@ -100,9 +94,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
                   return node.getBoundingClientRect();
                 }
               }
-              const client_width =
-                editor.view.dom.parentElement?.parentElement?.clientWidth;
-              const editor_width = !client_width ? 0 : (client_width - 750) / 2;
+
               menuXOffside.current = posToDOMRect(editor.view, from, to).left;
               const el_srcoll_top =
                 editor.view.dom.parentElement?.parentElement?.scrollTop;
@@ -121,8 +113,8 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       editor.off('selectionUpdate', handler);
       timer.current && clearTimeout(timer.current);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, refs, showCitiationMenu, showCopilotMenu, showSynonymMenu]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor, refs]);
 
   if (!open) return null;
   return (
