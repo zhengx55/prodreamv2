@@ -23,7 +23,6 @@ export const AutoCompleteSlashCommand = Extension.create({
       interactive: true,
       trigger: 'manual',
       placement: 'bottom-start',
-      theme: 'slash-command',
       maxWidth: '16rem',
       offset: [14, 5],
       popperOptions: {
@@ -64,13 +63,12 @@ export const AutoCompleteSlashCommand = Extension.create({
           const from = $head?.nodeBefore
             ? end -
               ($head.nodeBefore.text?.substring(
-                $head.nodeBefore.text?.indexOf('/')
+                $head.nodeBefore.text?.lastIndexOf('/')
               ).length ?? 0)
             : $from.start();
 
           const tr = state.tr.deleteRange(from, end);
           view.dispatch(tr);
-
           props.action(editor);
           view.focus();
         },
@@ -78,29 +76,11 @@ export const AutoCompleteSlashCommand = Extension.create({
         items: ({ query }: { query: string }) => {
           const withFilteredCommands = AutoCompleteMenuGROUPS.map((group) => ({
             ...group,
-            commands: group.commands
-              .filter((item) => {
-                const labelNormalized = item.label.toLowerCase().trim();
-                const queryNormalized = query.toLowerCase().trim();
-
-                if (item.aliases) {
-                  const aliases = item.aliases.map((alias) =>
-                    alias.toLowerCase().trim()
-                  );
-
-                  return (
-                    labelNormalized.includes(queryNormalized) ||
-                    aliases.includes(queryNormalized)
-                  );
-                }
-
-                return labelNormalized.includes(queryNormalized);
-              })
-              .filter((command) =>
-                command.shouldBeHidden
-                  ? !command.shouldBeHidden(this.editor as any)
-                  : true
-              ),
+            commands: group.commands.filter((item) => {
+              const labelNormalized = item.label.toLowerCase().trim();
+              const queryNormalized = query.toLowerCase().trim();
+              return labelNormalized.includes(queryNormalized);
+            }),
           }));
 
           const withoutEmptyGroups = withFilteredCommands.filter((group) => {
@@ -161,9 +141,6 @@ export const AutoCompleteSlashCommand = Extension.create({
                     40;
                   yPos = rect.y - diff;
                 }
-
-                // Account for when the editor is bound inside a container that doesn't go all the way to the edge of the screen
-                const editorXOffset = editorNode.getBoundingClientRect().x;
                 return new DOMRect(rect.x, yPos, rect.width, rect.height);
               };
 
