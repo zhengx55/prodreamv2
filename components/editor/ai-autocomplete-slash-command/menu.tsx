@@ -13,7 +13,7 @@ export const AutoCompleteMenuList = React.forwardRef(
 
     useEffect(() => {
       setSelectedGroupIndex(0);
-      setSelectedCommandIndex(0);
+      setSelectedCommandIndex(-1);
     }, [props.items]);
 
     const selectItem = useCallback(

@@ -15,7 +15,7 @@
         }
 
         >p.has-focus.ai-autocomplete::after {
-            content: " Press '/' for Continue Writing";
+            content: " Press 'Space' + '/' for Continue Writing";
         }
 
         >[data-type='columns']>[data-type='column']>p.is-empty.has-focus::before {
