@@ -19,6 +19,7 @@ const nextConfig = {
     ],
   },
   reactStrictMode: false,
+  output:"standalone",
   compress: true,
   // poweredByHeader: false,
   webpack: (config) => {
