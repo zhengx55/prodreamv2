@@ -411,6 +411,55 @@ export async function checkRedeemStatus() {}
 // ----------------------------------------------------------------
 // Essay Polish
 // ----------------------------------------------------------------
+export async function copilot(params: { tool: string; text: string }) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/v1/editor/tool/${params.tool}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          text: params.text,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1OTMxNDc0LCJpYXQiOjE3MDUzMjY2NzQsImp0aSI6ImJmNWMwNWY5LWJkZjYtNDU1NC1hYTk1LTMwNDM0ZDIyMWZjNCJ9.nuVLZtOTjKlGYixRc_0ETdy8lcINSaeKn6lRFArQGxc`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function synonym(params: { word: string }) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/v1/editor/synonyms/${params.word}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1OTMxNDc0LCJpYXQiOjE3MDUzMjY2NzQsImp0aSI6ImJmNWMwNWY5LWJkZjYtNDU1NC1hYTk1LTMwNDM0ZDIyMWZjNCJ9.nuVLZtOTjKlGYixRc_0ETdy8lcINSaeKn6lRFArQGxc`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function plagiarismCheck(text: string) {
   try {
     const token = Cookies.get('token');

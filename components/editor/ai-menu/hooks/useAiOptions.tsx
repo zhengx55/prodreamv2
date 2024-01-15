@@ -16,31 +16,63 @@ export const useAiOptions = () => {
         submenu: [
           {
             id: 'edit-tools-01',
+            lable: 'paraphrase',
             name: 'Paraphrase',
           },
           {
             id: 'edit-tools-02',
+            lable: 'more_academic',
             name: 'Make academic',
           },
           {
             id: 'edit-tools-03',
+            lable: 'improve_fluency',
             name: 'Improve fluency',
           },
           {
             id: 'edit-tools-04',
+            lable: 'simplify_language',
             name: 'Simplify language',
           },
           {
             id: 'edit-tools-05',
+            lable: 'translate',
             name: 'Translate',
           },
           {
             id: 'edit-tools-06',
+            lable: 'make_concise',
             name: 'Shorten',
           },
           {
             id: 'edit-tools-07',
+            lable: 'make_longer',
             name: 'Make longer',
+          },
+          {
+            id: 'edit-tools-08',
+            lable: 'opposing_arguments',
+            name: 'Opposing arguments',
+          },
+          {
+            id: 'edit-tools-09',
+            lable: 'more_depth',
+            name: 'More depth',
+          },
+          {
+            id: 'edit-tools-10',
+            lable: 'summarize',
+            name: 'Summarize',
+          },
+          {
+            id: 'edit-tools-11',
+            lable: 'continue_write_sentence',
+            name: 'Next sentence',
+          },
+          {
+            id: 'edit-tools-12',
+            lable: 'continue_write_paragraph',
+            name: 'Next paragraph',
           },
         ],
       },

@@ -44,6 +44,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const updateCopilotRect = useAiEditor((state) => state.updateCopilotRect);
   const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
   const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
+  const updateSelectedText = useAiEditor((state) => state.updateSelectedText);
 
   const { x, y, strategy, refs } = useFloating({
     open: open,
@@ -82,6 +83,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
             setIsWord(false);
           }
           setSelectedLength(words ? words.length : 0);
+          updateSelectedText(text);
           refs.setReference({
             getBoundingClientRect() {
               if (isNodeSelection(editor.state.selection)) {

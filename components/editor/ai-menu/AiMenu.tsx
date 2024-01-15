@@ -6,16 +6,26 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
+import { copilot } from '@/query/api';
 import useAiEditor from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { AlertTriangle, ChevronRight, Frown, Smile } from 'lucide-react';
-import { ChangeEvent, cloneElement, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  cloneElement,
+  useRef,
+  useState,
+} from 'react';
+import { toast } from 'sonner';
 import { useAiOptions } from './hooks/useAiOptions';
 
 type Props = { editor: Editor };
 export const AiMenu = ({ editor }: Props) => {
   const copilotRect = useAiEditor((state) => state.copilotRect);
   const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
+  const selectedText = useAiEditor((state) => state.selectedText);
   const { options, operations } = useAiOptions();
   const [hoverItem, setHoverItem] = useState<number | null>(null);
   const [generating, setGenerating] = useState(false);
@@ -37,10 +47,34 @@ export const AiMenu = ({ editor }: Props) => {
     }
   };
 
+  const { mutateAsync: handleCopilot } = useMutation({
+    mutationFn: (params: { tool: string; text: string }) => copilot(params),
+    onMutate: () => {},
+    onSuccess: () => {},
+    onError: (error) => {},
+  });
+
+  const handleEditTools = async (tool: string) => {
+    if (!selectedText) return;
+    await handleCopilot({ tool, text: selectedText });
+  };
+
+  const handleCustomPrompt = async () => {
+    if (!prompt.trim()) return toast.error('please enter a custom prompt');
+  };
+
+  const handleCopilotOptions = async (tool: string) => {};
+
+  const handleKeyEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'Enter') {
+      handleCustomPrompt();
+    }
+  };
+
   if (!copilotRect) return null;
   return (
     <section
-      style={{ top: `${copilotRect - 44}px` }}
+      style={{ top: `${copilotRect - 54}px` }}
       className='absolute -left-20 flex w-full justify-center overflow-visible '
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>
@@ -52,12 +86,14 @@ export const AiMenu = ({ editor }: Props) => {
                 type='text'
                 value={prompt}
                 autoFocus
+                onKeyDown={handleKeyEnter}
                 onChange={handlePromptChange}
                 id='ai-prompt'
                 className='small-regular h-full border-none px-0 py-0 shadow-none focus-visible:right-0 focus-visible:ring-0'
                 placeholder='Ask Al to edit or generate...'
               />
               <Button
+                onClick={handleCustomPrompt}
                 disabled={!istTyping}
                 className='h-7 rounded bg-doc-primary disabled:bg-doc-shadow'
               >
@@ -99,6 +135,12 @@ export const AiMenu = ({ editor }: Props) => {
                     className={` ${
                       hoverItem === idx ? 'bg-doc-secondary' : ''
                     } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
+                    onClick={() => {
+                      if (idx === 0) {
+                        return;
+                      }
+                      handleCopilotOptions('');
+                    }}
                     key={item.id}
                     onMouseEnter={() => setHoverItem(idx)}
                     onMouseLeave={() => setHoverItem(null)}
@@ -121,6 +163,7 @@ export const AiMenu = ({ editor }: Props) => {
                       >
                         {item.submenu.map((subitem) => (
                           <div
+                            onClick={() => handleEditTools(subitem.lable)}
                             className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-2 py-1 hover:bg-doc-secondary hover:text-doc-primary'
                             key={subitem.id}
                           >
