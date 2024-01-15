@@ -127,7 +127,7 @@
     ]
   },
   "engines": {
-    "node": "=18.17.0"
+    "node": "=18.17.1"
   },
   "peerDependencies": {
     "@tiptap-pro/extension-drag-handle": "^2.5.1",
