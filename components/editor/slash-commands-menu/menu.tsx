@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import Spacer from '@/components/root/Spacer';
 import { DropdownButton } from '@/components/ui/dropdown-button';
 import { Surface } from '@/components/ui/surface';
 import { Command, MenuListProps } from '@/lib/tiptap/type';
@@ -31,10 +30,8 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
           return false;
         }
         const commands = props.items[selectedGroupIndex].commands;
-
         let newCommandIndex = selectedCommandIndex + 1;
         let newGroupIndex = selectedGroupIndex;
-
         if (commands.length - 1 < newCommandIndex) {
           newCommandIndex = 0;
           newGroupIndex = selectedGroupIndex + 1;
@@ -129,7 +126,6 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
             >
               {group.title}
             </div>
-            <Spacer y='10' />
             {group.commands.map((command: Command, commandIndex: number) => (
               <DropdownButton
                 key={`${command.label}`}

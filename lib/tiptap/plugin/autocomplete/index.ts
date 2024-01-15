@@ -26,7 +26,10 @@ export const AutoComplete = Extension.create<AutoCompleteOptions>({
             const { anchor } = selection;
             if (!active) return null;
             doc.descendants((node, pos) => {
-              if (node.isTextblock && node.textContent.trim().length > 0) {
+              if (
+                node.type.name === 'paragraph' &&
+                node.textContent.trim().length > 0
+              ) {
                 const isEmpty = !node.isLeaf && !node.childCount;
                 const hasText =
                   node.textContent.trim() !== '/' && node.textContent.trim();

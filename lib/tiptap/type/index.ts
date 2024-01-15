@@ -29,8 +29,8 @@ export interface Command {
   label: string;
   description: string;
   aliases?: string[];
-  iconName: ReactNode;
-  action: (editor: Editor) => void;
+  iconName?: ReactNode;
+  action?: (editor: Editor) => void;
   shouldBeHidden?: (editor: Editor) => boolean;
 }
 

@@ -1,3 +1,4 @@
+import { GROUPS, MenuList } from '@/components/editor/slash-commands-menu';
 import { Editor, Extension } from '@tiptap/core';
 import { PluginKey } from '@tiptap/pm/state';
 import { ReactRenderer } from '@tiptap/react';
@@ -6,8 +7,6 @@ import Suggestion, {
   SuggestionProps,
 } from '@tiptap/suggestion';
 import tippy from 'tippy.js';
-import MenuList from '../../../../components/editor/slash-commands';
-import GROUPS from '../../../../components/editor/slash-commands/group';
 
 const extensionName = 'slashCommand';
 
@@ -49,8 +48,7 @@ export const SlashCommand = Extension.create({
         allow: ({ state, range }) => {
           const $from = state.doc.resolve(range.from);
           const isRootDepth = $from.depth === 1;
-          const isParagraph =
-            $from.parent.type.name === 'paragraph' || 'heading';
+          const isParagraph = $from.parent.type.name === 'paragraph';
           const isStartOfNode = $from.parent.textContent?.charAt(0) === '/';
           const afterContent = $from.parent.textContent?.substring(
             $from.parent.textContent?.indexOf('/')
@@ -58,9 +56,7 @@ export const SlashCommand = Extension.create({
           const isValidAfterContent = !afterContent?.endsWith('  ');
 
           return (
-            ((isRootDepth && isParagraph && isStartOfNode) ||
-              (isParagraph && isStartOfNode)) &&
-            isValidAfterContent
+            isRootDepth && isParagraph && isStartOfNode && isValidAfterContent
           );
         },
         command: ({ editor, props }: { editor: Editor; props: any }) => {

@@ -24,7 +24,8 @@ import TextStyle from '@tiptap/extension-text-style';
 import { AutoComplete } from './plugin/autocomplete';
 import { PolishUnderline } from './plugin/polish-underline';
 import Selection from './plugin/selection';
-import { SlashCommand } from './plugin/slashcommand';
+import { AutoCompleteSlashCommand, SlashCommand } from './plugin/slashcommand';
+import { TrailingNode } from './plugin/trailing-node';
 import { Underline } from './plugin/underline';
 
 const ExtensionKit = () => [
@@ -68,7 +69,8 @@ const ExtensionKit = () => [
   Underline,
   PolishUnderline,
   AutoComplete,
-  // TrailingNode,
+  TrailingNode,
+  AutoCompleteSlashCommand,
   Selection,
   DropCursor.configure({
     width: 2,
