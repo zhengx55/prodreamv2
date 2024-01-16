@@ -118,13 +118,13 @@ export const AiMenu = ({ editor }: Props) => {
       .chain()
       .deleteRange({ from, to })
       .insertContentAt(from, aiResult)
+      .setTextSelection({ from, to: aiResult.length + from })
       .run();
     updateCopilotMenu(false);
   };
   const handleInsert = () => {
     const { selection } = editor.state;
     const { to } = selection;
-    console.log('🚀 ~ handleInsert ~ to:', to);
     editor
       .chain()
       .blur()
@@ -271,28 +271,30 @@ export const AiMenu = ({ editor }: Props) => {
                   </div>
                 );
               })
-            : operations.map((item, idx) => {
-                return (
-                  <div
-                    className={` ${
-                      hoverItem === idx ? 'bg-doc-secondary' : ''
-                    } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
-                    key={item.id}
-                    onMouseEnter={() => setHoverItem(idx)}
-                    onMouseLeave={() => setHoverItem(null)}
-                    onClick={() => handleOperation(idx)}
-                  >
-                    <div className='flex items-center gap-x-2'>
-                      {hoverItem === idx
-                        ? cloneElement(item.icon, { color: '#774EBB' })
-                        : cloneElement(item.icon)}
-                      <p className='small-regular group-hover:text-doc-primary'>
-                        {item.name}
-                      </p>
+            : generating
+              ? null
+              : operations.map((item, idx) => {
+                  return (
+                    <div
+                      className={` ${
+                        hoverItem === idx ? 'bg-doc-secondary' : ''
+                      } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
+                      key={item.id}
+                      onMouseEnter={() => setHoverItem(idx)}
+                      onMouseLeave={() => setHoverItem(null)}
+                      onClick={() => handleOperation(idx)}
+                    >
+                      <div className='flex items-center gap-x-2'>
+                        {hoverItem === idx
+                          ? cloneElement(item.icon, { color: '#774EBB' })
+                          : cloneElement(item.icon)}
+                        <p className='small-regular group-hover:text-doc-primary'>
+                          {item.name}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
         </Surface>
       </div>
     </section>
