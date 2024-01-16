@@ -58,7 +58,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       flip({
         padding: 8,
         boundary: editor.options.element,
-        fallbackPlacements: ['top-end', 'bottom-start'],
+        fallbackPlacements: ['bottom-start'],
       }),
     ],
   });
