@@ -411,11 +411,14 @@ export async function checkRedeemStatus() {}
 // ----------------------------------------------------------------
 // Essay Polish
 // ----------------------------------------------------------------
-export async function copilot(params: { tool: string; text: string }) {
+export async function copilot(params: {
+  tool: string;
+  text: string;
+}): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `http://127.0.0.1:8080/api/v1/editor/tool/${params.tool}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/tool/${params.tool}`,
       {
         method: 'POST',
         body: JSON.stringify({
@@ -423,16 +426,14 @@ export async function copilot(params: { tool: string; text: string }) {
         }),
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'text/event-stream',
           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1OTMxNDc0LCJpYXQiOjE3MDUzMjY2NzQsImp0aSI6ImJmNWMwNWY5LWJkZjYtNDU1NC1hYTk1LTMwNDM0ZDIyMWZjNCJ9.nuVLZtOTjKlGYixRc_0ETdy8lcINSaeKn6lRFArQGxc`,
         },
       }
     );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
-  } catch (error) {
+    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
+    return res.body;
+    } catch (error) {
     throw new Error(error as string);
   }
 }

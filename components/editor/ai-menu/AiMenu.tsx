@@ -33,6 +33,7 @@ export const AiMenu = ({ editor }: Props) => {
   const [istTyping, setIsTyping] = useState(false);
   const [prompt, setPrompt] = useState('');
   const elRef = useRef<HTMLDivElement>(null);
+
   useClickOutside(elRef, () => {
     updateCopilotMenu(false);
   });
@@ -49,10 +50,46 @@ export const AiMenu = ({ editor }: Props) => {
 
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { tool: string; text: string }) => copilot(params),
-    onMutate: () => {},
-    onSuccess: () => {},
+    onMutate: () => {
+      setGenerating(true);
+    },
+    onSuccess: async (data: ReadableStream, variables) => {
+      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        handleStreamData(value);
+      }
+    },
+    onSettled: () => {
+      setGenerating(false);
+    },
+
     onError: (error) => {},
   });
+
+  const handleStreamData = (value: string | undefined) => {
+    if (!value) return;
+    const lines = value.split('\n');
+    const dataLines = lines.filter((line) => line.startsWith('data:'));
+    const eventData = dataLines.map((line) =>
+      line.slice('data:'.length).trimEnd()
+    );
+    let result = '';
+    eventData.forEach((word) => {
+      const leadingSpaces = word.match(/^\s*/);
+      const spacesLength = leadingSpaces ? leadingSpaces[0].length : 0;
+      if (spacesLength === 2) {
+        result += ` ${word.trim()}`;
+      } else {
+        if (/^\d/.test(word.trim())) {
+          result += ` ${word.trim()}`;
+        }
+        result += word.trim();
+      }
+    });
+    setAiResult((prev) => (prev += result));
+  };
 
   const handleEditTools = async (tool: string) => {
     if (!selectedText) return;
@@ -71,17 +108,68 @@ export const AiMenu = ({ editor }: Props) => {
     }
   };
 
+  const handleDiscard = () => {
+    updateCopilotMenu(false);
+  };
+  const handleReplace = () => {
+    const { selection } = editor.state;
+    const { from, to } = selection;
+    editor
+      .chain()
+      .deleteRange({ from, to })
+      .insertContentAt(from, aiResult)
+      .run();
+    updateCopilotMenu(false);
+  };
+  const handleInsert = () => {
+    const { selection } = editor.state;
+    const node_pos = selection.$head.pos;
+    const { $from } = selection;
+    editor
+      .chain()
+      .insertContentAt($from.parent.nodeSize + node_pos, `${aiResult}\n\n`, {
+        parseOptions: { preserveWhitespace: 'full' },
+      })
+      .run();
+    updateCopilotMenu(false);
+  };
+
+  const handleOperation = (idx: number) => {
+    switch (idx) {
+      case 0:
+        handleReplace();
+        break;
+      case 1:
+        handleInsert();
+        break;
+      case 2:
+        break;
+      case 3:
+        handleDiscard();
+        break;
+      default:
+        break;
+    }
+  };
+
   if (!copilotRect) return null;
   return (
     <section
       style={{ top: `${copilotRect - 54}px` }}
       className='absolute -left-20 flex w-full justify-center overflow-visible '
     >
-      <div ref={elRef} className='relative flex flex-col bg-transparent'>
-        <div className='flex-between h-11 w-[600px] gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
-          <Copilot size='24' />
-          {!generating ? (
-            <>
+      <div
+        ref={elRef}
+        className='relative flex w-[600px] flex-col bg-transparent'
+      >
+        {!generating ? (
+          aiResult !== '' ? (
+            <div className='flex min-h-12 w-full items-center rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
+              <p className='base-regular px-2'>{aiResult}</p>
+            </div>
+          ) : (
+            <div className='flex-between h-12 w-full gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
+              <Copilot size='24' />
               <Input
                 type='text'
                 value={prompt}
@@ -89,7 +177,7 @@ export const AiMenu = ({ editor }: Props) => {
                 onKeyDown={handleKeyEnter}
                 onChange={handlePromptChange}
                 id='ai-prompt'
-                className='small-regular h-full border-none px-0 py-0 shadow-none focus-visible:right-0 focus-visible:ring-0'
+                className='small-regular h-8 border-none px-0 py-0 shadow-none focus-visible:right-0 focus-visible:ring-0'
                 placeholder='Ask Al to edit or generate...'
               />
               <Button
@@ -99,15 +187,16 @@ export const AiMenu = ({ editor }: Props) => {
               >
                 Enter
               </Button>
-            </>
-          ) : (
-            <>
-              <p className='base-semibold w-full text-doc-primary'>
-                Al is writing <LoadingDot label='' />
-              </p>
-            </>
-          )}
-        </div>
+            </div>
+          )
+        ) : (
+          <div className='flex h-12 w-full items-center gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
+            <Copilot size='24' />
+            <p className='base-semibold text-doc-primary'>
+              Al is writing <LoadingDot label='' />
+            </p>
+          </div>
+        )}
         <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
           <div className='flex gap-x-2'>
             <AlertTriangle className='text-shadow' size={15} />
@@ -159,12 +248,14 @@ export const AiMenu = ({ editor }: Props) => {
                         style={{ top: `${idx * 27 + 80}px` }}
                         withBorder
                         data-state={hoverItem === idx ? 'open' : 'closed'}
-                        className='absolute left-[250px] w-[200px] rounded px-1 py-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
+                        className='absolute left-[250px] rounded px-1 py-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
                       >
                         {item.submenu.map((subitem) => (
                           <div
-                            onClick={() => handleEditTools(subitem.lable)}
-                            className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-2 py-1 hover:bg-doc-secondary hover:text-doc-primary'
+                            onClick={() => {
+                              idx !== 2 && handleEditTools(subitem.lable);
+                            }}
+                            className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-doc-secondary hover:text-doc-primary'
                             key={subitem.id}
                           >
                             <p className='small-regular'>{subitem.name}</p>
@@ -184,6 +275,7 @@ export const AiMenu = ({ editor }: Props) => {
                     key={item.id}
                     onMouseEnter={() => setHoverItem(idx)}
                     onMouseLeave={() => setHoverItem(null)}
+                    onClick={() => handleOperation(idx)}
                   >
                     <div className='flex items-center gap-x-2'>
                       {hoverItem === idx

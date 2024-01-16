@@ -121,6 +121,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
     <div
       ref={refs.setFloating}
       style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
+      className='z-[9999]'
     >
       <Toolbar.Wrapper className='border-shadow-borde border shadow-lg'>
         <MemoButton

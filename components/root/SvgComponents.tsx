@@ -728,7 +728,7 @@ export const GenerateFill = ({ fill }: { fill: string }) => (
 );
 
 export const BookHalf = ({
-  fill = '#774EBB',
+  fill = '#8652DB',
   size = 24,
 }: {
   fill?: string;
@@ -749,7 +749,7 @@ export const BookHalf = ({
 );
 
 export const Copilot = ({
-  color = '#774EBB',
+  color = '#8652DB',
   size = '18',
 }: {
   color?: string;
@@ -770,7 +770,7 @@ export const Copilot = ({
 );
 
 export const Synonym = ({
-  color = '#774EBB',
+  color = '#8652DB',
   size = '18',
 }: {
   color?: string;
