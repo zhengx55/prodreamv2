@@ -35,6 +35,7 @@ export const AiMenu = ({ editor }: Props) => {
   const [istTyping, setIsTyping] = useState(false);
   const [prompt, setPrompt] = useState('');
   const elRef = useRef<HTMLDivElement>(null);
+  const tool = useRef<string | null>(null);
 
   const hasAiResult = aiResult !== '';
 
@@ -58,6 +59,7 @@ export const AiMenu = ({ editor }: Props) => {
       setGenerating(true);
     },
     onSuccess: async (data: ReadableStream, variables) => {
+      tool.current = variables.tool;
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
@@ -115,6 +117,12 @@ export const AiMenu = ({ editor }: Props) => {
   const handleDiscard = () => {
     updateCopilotMenu(false);
   };
+
+  const handleRegenerate = async () => {
+    if (!selectedText || !tool.current) return;
+    await handleCopilot({ tool: tool.current, text: selectedText });
+  };
+
   const handleReplace = () => {
     const { selection } = editor.state;
     const { from, to } = selection;
@@ -152,6 +160,7 @@ export const AiMenu = ({ editor }: Props) => {
         handleInsert();
         break;
       case 2:
+        handleRegenerate();
         break;
       case 3:
         handleDiscard();
