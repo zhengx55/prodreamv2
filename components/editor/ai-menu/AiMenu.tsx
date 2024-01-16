@@ -106,8 +106,6 @@ export const AiMenu = ({ editor }: Props) => {
     if (!prompt.trim()) return toast.error('please enter a custom prompt');
   };
 
-  const handleCopilotOptions = async (tool: string) => {};
-
   const handleKeyEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.code === 'Enter') {
       handleCustomPrompt();
@@ -242,12 +240,6 @@ export const AiMenu = ({ editor }: Props) => {
                     className={` ${
                       hoverItem === idx ? 'bg-doc-secondary' : ''
                     } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
-                    onClick={() => {
-                      if (idx === 0) {
-                        return;
-                      }
-                      handleCopilotOptions('');
-                    }}
                     key={item.id}
                     onMouseEnter={() => setHoverItem(idx)}
                     onMouseLeave={() => setHoverItem(null)}

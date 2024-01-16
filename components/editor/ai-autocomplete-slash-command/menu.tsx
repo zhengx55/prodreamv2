@@ -19,6 +19,7 @@ export const AutoCompleteMenuList = React.forwardRef(
     const selectItem = useCallback(
       (groupIndex: number, commandIndex: number) => {
         const command = props.items[groupIndex].commands[commandIndex];
+        console.log(command);
         props.command(command);
       },
       [props]

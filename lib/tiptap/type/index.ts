@@ -27,11 +27,12 @@ export interface Group {
 export interface Command {
   name: string;
   label: string;
-  description: string;
+  description?: string;
   aliases?: string[];
   iconName?: ReactNode;
   action?: (editor: Editor) => void;
   shouldBeHidden?: (editor: Editor) => boolean;
+  apiEndpoint?: string;
 }
 
 export interface MenuListProps {
