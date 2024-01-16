@@ -18,9 +18,11 @@ import {
   useRef,
   useState,
 } from 'react';
+import Typed from 'react-typed';
 import { toast } from 'sonner';
 import { useAiOptions } from './hooks/useAiOptions';
-
+// import dynamic from 'next/dynamic';
+// const Typed = dynamic(() => import('react-typed'));
 type Props = { editor: Editor };
 export const AiMenu = ({ editor }: Props) => {
   const copilotRect = useAiEditor((state) => state.copilotRect);
@@ -170,7 +172,7 @@ export const AiMenu = ({ editor }: Props) => {
         {!generating ? (
           aiResult !== '' ? (
             <div className='flex min-h-12 w-full items-center rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
-              <p className='base-regular px-2'>{aiResult}</p>
+              <Typed strings={[aiResult]} className='px-2' typeSpeed={5} />
             </div>
           ) : (
             <div className='flex-between h-12 w-full gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
