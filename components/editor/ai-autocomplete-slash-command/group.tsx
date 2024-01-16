@@ -8,12 +8,12 @@ export const AutoCompleteMenuGROUPS: Group[] = [
       {
         name: 'next sentence',
         label: 'Write the next sentence',
-        apiEndpoint: 'continue_write_sentence',
+        apiEndpoint: 'paraphrase',
       },
       {
         name: 'more content',
         label: 'Write more content',
-        apiEndpoint: 'continue_write_paragraph',
+        apiEndpoint: 'paraphrase',
       },
     ],
   },

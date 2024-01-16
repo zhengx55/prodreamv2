@@ -63,13 +63,11 @@ export const AutoCompleteSlashCommand = Extension.create({
           const from = $head?.nodeBefore
             ? end -
               ($head.nodeBefore.text?.substring(
-                $head.nodeBefore.text?.lastIndexOf('/')
+                $head.nodeBefore.text?.indexOf('/')
               ).length ?? 0)
             : $from.start();
-
           const tr = state.tr.deleteRange(from, end);
           view.dispatch(tr);
-          props.action(editor);
           view.focus();
         },
 

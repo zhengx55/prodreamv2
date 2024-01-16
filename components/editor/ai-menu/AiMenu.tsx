@@ -71,7 +71,9 @@ export const AiMenu = ({ editor }: Props) => {
       setGenerating(false);
     },
 
-    onError: (error) => {},
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
 
   const handleStreamData = (value: string | undefined) => {
