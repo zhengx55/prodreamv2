@@ -11,6 +11,7 @@ import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { AlertTriangle, ChevronRight, Frown, Smile } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import {
   ChangeEvent,
   KeyboardEvent,
@@ -18,11 +19,10 @@ import {
   useRef,
   useState,
 } from 'react';
-import Typed from 'react-typed';
 import { toast } from 'sonner';
 import { useAiOptions } from './hooks/useAiOptions';
-// import dynamic from 'next/dynamic';
-// const Typed = dynamic(() => import('react-typed'));
+const Typed = dynamic(() => import('react-typed'), { ssr: false });
+
 type Props = { editor: Editor };
 export const AiMenu = ({ editor }: Props) => {
   const copilotRect = useAiEditor((state) => state.copilotRect);
@@ -35,6 +35,8 @@ export const AiMenu = ({ editor }: Props) => {
   const [istTyping, setIsTyping] = useState(false);
   const [prompt, setPrompt] = useState('');
   const elRef = useRef<HTMLDivElement>(null);
+
+  const hasAiResult = aiResult !== '';
 
   useClickOutside(elRef, () => {
     updateCopilotMenu(false);
@@ -170,7 +172,7 @@ export const AiMenu = ({ editor }: Props) => {
         className='relative flex w-[600px] flex-col bg-transparent'
       >
         {!generating ? (
-          aiResult !== '' ? (
+          hasAiResult ? (
             <div className='flex min-h-12 w-full items-center rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
               <Typed strings={[aiResult]} className='px-2' typeSpeed={5} />
             </div>
@@ -224,7 +226,7 @@ export const AiMenu = ({ editor }: Props) => {
         </div>
         <Spacer y='5' />
         <Surface className='w-[256px] rounded px-1 py-2' withBorder>
-          {!aiResult
+          {!hasAiResult
             ? options.map((item, idx) => {
                 return (
                   <div
