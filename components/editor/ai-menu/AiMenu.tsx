@@ -123,12 +123,17 @@ export const AiMenu = ({ editor }: Props) => {
   };
   const handleInsert = () => {
     const { selection } = editor.state;
-    const node_pos = selection.$head.pos;
-    const { $from } = selection;
+    const { to } = selection;
+    console.log('🚀 ~ handleInsert ~ to:', to);
     editor
       .chain()
-      .insertContentAt($from.parent.nodeSize + node_pos, `${aiResult}\n\n`, {
+      .blur()
+      .insertContentAt(to, ` ${aiResult}`, {
         parseOptions: { preserveWhitespace: 'full' },
+      })
+      .setTextSelection({
+        from: to,
+        to: ` ${aiResult}`.length + to,
       })
       .run();
     updateCopilotMenu(false);

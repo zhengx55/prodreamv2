@@ -47,6 +47,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
   const updateSelectedText = useAiEditor((state) => state.updateSelectedText);
   const updateCopilotRectX = useAiEditor((state) => state.updateCopilotRectX);
+
   const { x, y, strategy, refs } = useFloating({
     open: open,
     strategy: 'fixed',
