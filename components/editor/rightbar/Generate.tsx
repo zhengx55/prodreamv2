@@ -129,7 +129,7 @@ export const Generate = memo(() => {
                           </p>
                         </div>
                         <ChevronUp
-                          className='text-doc-font group-hover:text-doc-primary group-data-[state=open]:rotate-180'
+                          className='text-doc-font transition-transform group-hover:text-doc-primary group-data-[state=open]:rotate-180'
                           size={20}
                         />
                       </div>
