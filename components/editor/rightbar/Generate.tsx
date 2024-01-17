@@ -32,7 +32,6 @@ const Typed = dynamic(() => import('react-typed'), { ssr: false });
 
 export const Generate = memo(() => {
   const [generateTab, setGenerateTab] = useState<number | string>(-1);
-  const [outlineSubmenu, setOutlineSubmenu] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResult, setGeneratedResult] = useState('');
   const editor = useAIEditor((state) => state.editor_instance);
