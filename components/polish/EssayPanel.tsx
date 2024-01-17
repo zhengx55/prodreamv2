@@ -2,7 +2,6 @@
 import { IDocDetail } from '@/query/type';
 import dynamic from 'next/dynamic';
 import { memo, useCallback, useState } from 'react';
-import { DocRightBar } from '../editor/rightbar';
 import Spacer from '../root/Spacer';
 import { Skeleton } from '../ui/skeleton';
 
@@ -15,6 +14,10 @@ const Tiptap = dynamic(() => import('./Editor'), {
     </div>
   ),
 });
+
+const DocRightBar = dynamic(() =>
+  import('../editor/rightbar').then((mod) => mod.DocRightBar)
+);
 
 const EssayPanel = ({
   isFetching,

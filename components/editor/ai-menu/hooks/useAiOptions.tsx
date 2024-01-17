@@ -10,6 +10,23 @@ export const useAiOptions = () => {
   const options = useMemo(() => {
     return [
       {
+        id: 'copilot-00',
+        name: 'Continue Writing',
+        icon: <Copilot_Continue />,
+        submenu: [
+          {
+            id: 'edit-tools-17',
+            lable: 'continue_write_sentence',
+            name: 'Write the next sentence',
+          },
+          {
+            id: 'edit-tools-18',
+            lable: 'continue_write_paragraph',
+            name: 'Write more content',
+          },
+        ],
+      },
+      {
         id: 'copilot-01',
         name: 'Edit tools',
         icon: <Copilot_Edit />,

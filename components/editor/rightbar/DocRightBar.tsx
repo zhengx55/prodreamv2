@@ -1,18 +1,22 @@
 'use client';
 
-import { Generate } from '@/components/editor/rightbar';
 import Spacer from '@/components/root/Spacer';
 import { BookHalf, GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import {
-    AnimatePresence,
-    LazyMotion,
-    Variants,
-    domAnimation,
-    m,
+  AnimatePresence,
+  LazyMotion,
+  Variants,
+  domAnimation,
+  m,
 } from 'framer-motion';
 import { FileCheck, PanelRight, PanelRightClose } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
+
+const Generate = dynamic(() =>
+  import('@/components/editor/rightbar').then((mod) => mod.Generate)
+);
 
 const OptionsVariants: Variants = {
   expanded: { width: '70%' },
