@@ -1,4 +1,3 @@
-'use client';
 import Spacer from '@/components/root/Spacer';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';

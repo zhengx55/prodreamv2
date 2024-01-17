@@ -10,12 +10,12 @@ import {
   domAnimation,
   m,
 } from 'framer-motion';
-import { PanelRight, PanelRightClose } from 'lucide-react';
+import { FileCheck, PanelRight, PanelRightClose } from 'lucide-react';
 import { memo, useState } from 'react';
 
 const OptionsVariants: Variants = {
-  expanded: { width: '83.333333%' },
-  collasped: { width: '16.666667%' },
+  expanded: { width: '312px' },
+  collasped: { width: '66px' },
 };
 
 type Props = {
@@ -39,7 +39,7 @@ const DocRightBar = ({ show, toggle }: Props) => {
               width: 0,
               transition: { duration: 0.2 },
             }}
-            className='flex h-full flex-col  border-l border-shadow-border'
+            className='flex h-full flex-col border-l border-shadow-border'
           >
             <section className='flex min-h-full flex-col overflow-y-auto px-3 py-4'>
               <PanelRightClose
@@ -60,10 +60,28 @@ const DocRightBar = ({ show, toggle }: Props) => {
                       : 'border border-doc-primary bg-transparent'
                   }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
                 >
-                  <BookHalf fill={selected === 1 ? '#774EBB' : '#FFFFFF'} />
-                  {selected === 0 && (
-                    <p className='h3-bold text-white'>Citation</p>
-                  )}
+                  <FileCheck
+                    className={`${
+                      selected === 0 ? 'text-white' : 'text-doc-primary'
+                    }`}
+                  />
+                  <AnimatePresence>
+                    {selected === 0 && (
+                      <m.p
+                        key={'rightbar-grammar-check'}
+                        initial={{ opacity: 0, scale: 0 }}
+                        exit={{ opacity: 0, scale: 0 }}
+                        animate={{
+                          opacity: 1,
+                          scale: 1,
+                          transition: { duration: 0.5 },
+                        }}
+                        className='title-semibold text-white'
+                      >
+                        Grammar Check
+                      </m.p>
+                    )}
+                  </AnimatePresence>
                 </m.span>
                 <m.span
                   onClick={() => setSelected(1)}
@@ -72,13 +90,29 @@ const DocRightBar = ({ show, toggle }: Props) => {
                   animate={selected === 1 ? 'expanded' : 'collasped'}
                   className={`${
                     selected === 1
-                      ? 'w-5/6 bg-doc-primary'
-                      : 'w-1/6 border border-doc-primary bg-transparent'
+                      ? 'bg-doc-primary'
+                      : 'border border-doc-primary bg-transparent'
                   }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
                 >
-                  <GenerateFill fill={selected === 0 ? '#774EBB' : '#FFFFFF'} />
+                  <BookHalf fill={selected !== 1 ? '#8652DB' : '#FFFFFF'} />
                   {selected === 1 && (
-                    <p className='h3-bold text-white'>Generate</p>
+                    <p className='title-semibold text-white'>Citation</p>
+                  )}
+                </m.span>
+                <m.span
+                  onClick={() => setSelected(2)}
+                  initial={false}
+                  variants={OptionsVariants}
+                  animate={selected === 2 ? 'expanded' : 'collasped'}
+                  className={`${
+                    selected === 2
+                      ? 'bg-doc-primary'
+                      : 'border border-doc-primary bg-transparent'
+                  }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
+                >
+                  <GenerateFill fill={selected !== 2 ? '#8652DB' : '#FFFFFF'} />
+                  {selected === 2 && (
+                    <p className='title-semibold text-white'>Generate</p>
                   )}
                 </m.span>
               </div>

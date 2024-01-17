@@ -1,4 +1,3 @@
-'use client';
 import Spacer from '@/components/root/Spacer';
 import { Synonym } from '@/components/root/SvgComponents';
 import useClickOutside from '@/hooks/useClickOutside';
@@ -22,13 +21,15 @@ export const SynonymMenu = memo(({ editor }: Props) => {
   return (
     <section
       style={{ top: `${copilotRect - 54}px`, left: `${copilotRectX}px` }}
-      className='absolute flex w-[450px justify-center overflow-visible '
+      className='w-[450px absolute flex justify-center overflow-visible '
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>
         <div className='flex h-60 w-full flex-col gap-x-2 rounded-t border border-shadow-border bg-white p-4 shadow-lg'>
           <div className='flex items-center gap-x-2'>
             <Synonym size='24' />
-            <h1 className='base-semibold'>Synonyms for &quot;{selectedText}&quot;</h1>
+            <h1 className='base-semibold'>
+              Synonyms for &quot;{selectedText}&quot;
+            </h1>
           </div>
           <Spacer y='14' />
           <div className='flex items-center gap-x-1'>

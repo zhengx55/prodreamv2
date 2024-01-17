@@ -1,4 +1,3 @@
-'use client';
 import LoadingDot from '@/components/root/LoadingDot';
 import Spacer from '@/components/root/Spacer';
 import { Copilot } from '@/components/root/SvgComponents';
