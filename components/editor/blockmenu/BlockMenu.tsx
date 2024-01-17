@@ -1,8 +1,3 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import DragHandle from '@tiptap-pro/extension-drag-handle-react';
 import { Editor } from '@tiptap/react';
 import { GripVertical, Plus } from 'lucide-react';
@@ -42,19 +37,9 @@ export const BlockMenu = memo(({ editor }: Props) => {
         <Toolbar.Button onClick={actions.handleAdd}>
           <Plus size={16} className='text-shadow' />
         </Toolbar.Button>
-        <Popover open={menuOpen} onOpenChange={setMenuOpen}>
-          <PopoverTrigger asChild>
-            <Toolbar.Button>
-              <GripVertical size={16} className='text-shadow' />
-            </Toolbar.Button>
-          </PopoverTrigger>
-          <PopoverContent
-            side='right'
-            align='start'
-            sideOffset={5}
-            className='bg-white'
-          ></PopoverContent>
-        </Popover>
+        <Toolbar.Button onClick={actions.handleSelectAll}>
+          <GripVertical size={16} className='text-shadow' />
+        </Toolbar.Button>
       </div>
     </DragHandle>
   );
