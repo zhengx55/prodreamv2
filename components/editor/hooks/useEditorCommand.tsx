@@ -28,9 +28,31 @@ export const useEditorCommand = (editor: Editor) => {
     editor.chain().selectAll().unsetHighlight().setTextSelection(0).run();
   }, [editor]);
 
+  const insertAtPostion = useCallback(
+    (from: number, to: number, value: string) => {
+      if (!editor) return;
+      if (from === to) {
+        editor
+          .chain()
+          .insertContentAt(from, value)
+          .setTextSelection({ from, to: from + value.length })
+          .run();
+      } else {
+        editor
+          .chain()
+          .deleteRange({ from, to })
+          .insertContentAt(from, value)
+          .setTextSelection({ from, to: from + value.length })
+          .run();
+      }
+    },
+    [editor]
+  );
+
   return {
     highLightAtPosition,
     clearAllHightLight,
     clearAllUnderLine,
+    insertAtPostion,
   };
 };
