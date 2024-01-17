@@ -42,14 +42,14 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
             }}
             className='flex h-full shrink-0 flex-col border-l border-shadow-border'
           >
-            <section className='flex min-h-full flex-col overflow-y-auto px-3 py-4'>
+            <section className='flex h-full flex-col px-3 py-4'>
               <PanelRightClose
                 size={20}
                 onClick={() => toggle(false)}
                 className='shrink-0 cursor-pointer text-shadow hover:opacity-50'
               />
               <Spacer y='15' />
-              <div className='flex-between w-full gap-x-4'>
+              <div className='flex-between w-full gap-x-2.5'>
                 <m.span
                   onClick={() => setSelected(0)}
                   initial={false}
@@ -58,7 +58,7 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
                   className={`${
                     selected === 0
                       ? 'bg-doc-primary'
-                      : 'border border-doc-primary bg-transparent'
+                      : 'border-2 border-doc-primary bg-transparent'
                   }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
                 >
                   <FileCheck
@@ -92,8 +92,8 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
                   className={`${
                     selected === 1
                       ? 'bg-doc-primary'
-                      : 'border border-doc-primary bg-transparent'
-                  }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
+                      : 'border-2 border-doc-primary bg-transparent'
+                  }  flex-center h-11 cursor-pointer gap-x-2 rounded `}
                 >
                   <BookHalf fill={selected !== 1 ? '#8652DB' : '#FFFFFF'} />
                   {selected === 1 && (
@@ -108,8 +108,8 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
                   className={`${
                     selected === 2
                       ? 'bg-doc-primary'
-                      : 'border border-doc-primary bg-transparent'
-                  }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
+                      : 'border-2 border-doc-primary bg-transparent'
+                  }  flex-center h-11 cursor-pointer gap-x-2 rounded `}
                 >
                   <GenerateFill fill={selected !== 2 ? '#8652DB' : '#FFFFFF'} />
                   {selected === 2 && (
