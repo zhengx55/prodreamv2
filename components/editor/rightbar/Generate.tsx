@@ -3,6 +3,11 @@ import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import Spacer from '@/components/root/Spacer';
 import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { GenerateOptions } from '@/constant';
 import { copilot } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
@@ -107,33 +112,60 @@ export const Generate = memo(() => {
             key='generate-panel'
             className='flex w-full flex-col overflow-hidden'
           >
-            {GenerateOptions.map((item, index) => (
-              <div
-                key={item.id}
-                onClick={() => {
-                  if (index === GenerateOptions.length - 1) return;
-                  copilot_option.current = item.label!;
-                  setGenerateTab(item.title);
-                }}
-                className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'
-              >
-                <div className='flex items-center gap-x-3'>
-                  <FileText
-                    className='text-doc-font group-hover:text-doc-primary'
-                    size={20}
-                  />
-                  <p className='base-regular text-doc-font group-hover:text-doc-primary'>
-                    {item.title}
-                  </p>
+            {GenerateOptions.map((item, index) => {
+              if (item.submenu)
+                return (
+                  <DropdownMenu key={item.id}>
+                    <DropdownMenuTrigger asChild>
+                      <div className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'>
+                        <div className='flex items-center gap-x-3'>
+                          <FileText
+                            className='text-doc-font group-hover:text-doc-primary'
+                            size={20}
+                          />
+                          <p className='base-regular text-doc-font group-hover:text-doc-primary'>
+                            {item.title}
+                          </p>
+                        </div>
+                        <ChevronUp
+                          className='text-doc-font group-hover:text-doc-primary group-data-[state=open]:rotate-180'
+                          size={20}
+                        />
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className='w-[350px] rounded'>
+                      {item.submenu.map((subItem) => (
+                        <div
+                          className='group cursor-pointer px-2.5 py-2 hover:bg-doc-secondary'
+                          key={subItem.id}
+                        >
+                          {subItem.label}
+                        </div>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                );
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => {
+                    copilot_option.current = item.label!;
+                    setGenerateTab(item.title);
+                  }}
+                  className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'
+                >
+                  <div className='flex items-center gap-x-3'>
+                    <FileText
+                      className='text-doc-font group-hover:text-doc-primary'
+                      size={20}
+                    />
+                    <p className='base-regular text-doc-font group-hover:text-doc-primary'>
+                      {item.title}
+                    </p>
+                  </div>
                 </div>
-                {item.submenu && (
-                  <ChevronUp
-                    className='text-doc-font group-hover:text-doc-primary'
-                    size={20}
-                  />
-                )}
-              </div>
-            ))}
+              );
+            })}
           </m.div>
         )}
         {generateTab !== -1 && (
