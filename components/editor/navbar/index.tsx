@@ -5,12 +5,7 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  ChevronLeft,
-  FileCheck,
-  MoreVertical,
-  ShieldCheck,
-} from 'lucide-react';
+import { ChevronLeft, MoreHorizontal, ShieldCheck } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -31,20 +26,16 @@ const DocNavbar = ({ title }: Props) => {
         <Cloud />
       </div>
       <div className='flex items-center gap-x-1'>
-        <Tooltip tooltipContent='Grammar Check'>
-          <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
-            <FileCheck size={18} />
-          </Button>
-        </Tooltip>
         <Tooltip tooltipContent='Plagiarism Check'>
-          <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
-            <ShieldCheck size={18} />
+          <Button className='bg-transparent border border-doc-primary rounded h-max py-1 px-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
+            <ShieldCheck size={18} className='text-doc-primary' />
+            <p className='text-doc-primary small-regular'>Plaglarism Check</p>
           </Button>
         </Tooltip>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
-              <MoreVertical size={18} />
+              <MoreHorizontal size={18} />
             </Button>
           </DropdownMenuTrigger>
           <NavbarDropdown />

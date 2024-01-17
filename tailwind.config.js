@@ -67,6 +67,7 @@ module.exports = {
         doc: {
           primary: '#8652DB',
           secondary: '#F1F2FA',
+          font: '#4B454D'
         },
         shadow: '#797979',
         'shadow-50': '#F9F9F9',

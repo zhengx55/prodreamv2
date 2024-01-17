@@ -1,0 +1,149 @@
+'use client';
+
+import { Generate } from '@/components/editor/rightbar';
+import Spacer from '@/components/root/Spacer';
+import { BookHalf, GenerateFill } from '@/components/root/SvgComponents';
+import { Button } from '@/components/ui/button';
+import {
+    AnimatePresence,
+    LazyMotion,
+    Variants,
+    domAnimation,
+    m,
+} from 'framer-motion';
+import { FileCheck, PanelRight, PanelRightClose } from 'lucide-react';
+import { memo, useState } from 'react';
+
+const OptionsVariants: Variants = {
+  expanded: { width: '70%' },
+  collasped: { width: '15%' },
+};
+
+type Props = {
+  show: boolean;
+  toggle: (value: boolean) => void;
+};
+export const DocRightBar = memo(({ show, toggle }: Props) => {
+  const [selected, setSelected] = useState(0);
+  return (
+    <LazyMotion features={domAnimation}>
+      <AnimatePresence mode='wait'>
+        {show && (
+          <m.aside
+            key={'doc-right-bar'}
+            initial={{ width: 0 }}
+            animate={{
+              width: 400,
+              transition: { duration: 0.2, delay: 0.1 },
+            }}
+            exit={{
+              width: 0,
+              transition: { duration: 0.2 },
+            }}
+            className='flex h-full shrink-0 flex-col border-l border-shadow-border'
+          >
+            <section className='flex min-h-full flex-col overflow-y-auto px-3 py-4'>
+              <PanelRightClose
+                size={20}
+                onClick={() => toggle(false)}
+                className='shrink-0 cursor-pointer text-shadow hover:opacity-50'
+              />
+              <Spacer y='15' />
+              <div className='flex-between w-full gap-x-4'>
+                <m.span
+                  onClick={() => setSelected(0)}
+                  initial={false}
+                  variants={OptionsVariants}
+                  animate={selected === 0 ? 'expanded' : 'collasped'}
+                  className={`${
+                    selected === 0
+                      ? 'bg-doc-primary'
+                      : 'border border-doc-primary bg-transparent'
+                  }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
+                >
+                  <FileCheck
+                    className={`${
+                      selected === 0 ? 'text-white' : 'text-doc-primary'
+                    }`}
+                  />
+                  <AnimatePresence>
+                    {selected === 0 && (
+                      <m.p
+                        key={'rightbar-grammar-check'}
+                        initial={{ opacity: 0, scale: 0 }}
+                        exit={{ opacity: 0, scale: 0 }}
+                        animate={{
+                          opacity: 1,
+                          scale: 1,
+                          transition: { duration: 0.5 },
+                        }}
+                        className='title-semibold text-white'
+                      >
+                        Grammar Check
+                      </m.p>
+                    )}
+                  </AnimatePresence>
+                </m.span>
+                <m.span
+                  onClick={() => setSelected(1)}
+                  initial={false}
+                  variants={OptionsVariants}
+                  animate={selected === 1 ? 'expanded' : 'collasped'}
+                  className={`${
+                    selected === 1
+                      ? 'bg-doc-primary'
+                      : 'border border-doc-primary bg-transparent'
+                  }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
+                >
+                  <BookHalf fill={selected !== 1 ? '#8652DB' : '#FFFFFF'} />
+                  {selected === 1 && (
+                    <p className='title-semibold text-white'>Citation</p>
+                  )}
+                </m.span>
+                <m.span
+                  onClick={() => setSelected(2)}
+                  initial={false}
+                  variants={OptionsVariants}
+                  animate={selected === 2 ? 'expanded' : 'collasped'}
+                  className={`${
+                    selected === 2
+                      ? 'bg-doc-primary'
+                      : 'border border-doc-primary bg-transparent'
+                  }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
+                >
+                  <GenerateFill fill={selected !== 2 ? '#8652DB' : '#FFFFFF'} />
+                  {selected === 2 && (
+                    <p className='title-semibold text-white'>Generate</p>
+                  )}
+                </m.span>
+              </div>
+              <Spacer y='15' />
+              {selected === 0 ? null : selected === 2 ? <Generate /> : null}
+            </section>
+          </m.aside>
+        )}
+        {!show && (
+          <m.span
+            key={'doc-rightbar-trigger'}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              transition: { duration: 0.2, delay: 0.2 },
+            }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+          >
+            <Button
+              className='absolute right-0 top-1'
+              variant={'ghost'}
+              onClick={() => toggle(true)}
+            >
+              <PanelRight size={20} className='text-shadow' />
+            </Button>
+          </m.span>
+        )}
+      </AnimatePresence>
+    </LazyMotion>
+  );
+});
+
+DocRightBar.displayName = 'DocRightBar';

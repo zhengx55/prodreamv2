@@ -40,6 +40,20 @@ export const SidebarLinks = [
   // },
 ];
 
+export const GenerateOptions = [
+  { id: 'generation-01', title: 'Write Introduction' },
+  { id: 'generation-02', title: 'Write Conclusion' },
+  { id: 'generation-03', title: 'Generate title' },
+  {
+    id: 'generation-04',
+    title: 'Generate Outline',
+    submenu: [
+      { id: 'outline-01', label: 'Essay' },
+      { id: 'outline-02', label: 'Research article' },
+    ],
+  },
+];
+
 export const TutTabs = [
   {
     id: 'tut-tabs01',
