@@ -5,7 +5,6 @@ import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { GenerateOptions } from '@/constant';
@@ -26,7 +25,9 @@ import dynamic from 'next/dynamic';
 import { memo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { useEditorCommand } from '../hooks/useEditorCommand';
-import Warn from './Warn';
+
+const Warn = dynamic(() => import('./Warn'));
+const GenerateDropdown = dynamic(() => import('./dropdown/GenerateDropdown'));
 const Typed = dynamic(() => import('react-typed'), { ssr: false });
 
 export const Generate = memo(() => {
@@ -133,16 +134,7 @@ export const Generate = memo(() => {
                         />
                       </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='w-[350px] rounded'>
-                      {item.submenu.map((subItem) => (
-                        <div
-                          className='group cursor-pointer px-2.5 py-2 hover:bg-doc-secondary'
-                          key={subItem.id}
-                        >
-                          {subItem.label}
-                        </div>
-                      ))}
-                    </DropdownMenuContent>
+                    <GenerateDropdown items={item.submenu} />
                   </DropdownMenu>
                 );
               return (
