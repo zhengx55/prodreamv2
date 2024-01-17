@@ -4,71 +4,117 @@ import Spacer from '../root/Spacer';
 
 const Team = () => {
   return (
-    <section className='relative flex w-full justify-center px-4 py-20 sm:px-0'>
+    <section className='relative flex w-full justify-center px-4 pt-20 sm:py-20 sm:px-0'>
       <div className='flex-center w-full flex-col sm:max-w-[1450px]'>
-        <div className='flex w-full flex-col px-10 sm:flex-row sm:justify-between'>
-          <h1 className='title-semibold sm:h3-semibold text-center sm:text-left'>
-            Incubated by Harvard Innovation Lab and{' '}
-            <br className='hidden sm:block' /> Microsoft Founders Hub
-          </h1>
+        <div className='flex w-full items-center flex-col px-10 sm:flex-col sm:justify-between'>
+          <p className='text-[#3B3A40] sm:text-[32px] text-[14px] text-center font-[400]'>Trusted by academic writers from top universities around the world</p>
           <Spacer y='14' className='block sm:hidden' />
-          <div className='flex items-center justify-center sm:justify-start'>
+          <div className='flex sm:w-[80%] w-full items-center justify-between'>
             <Image
               alt='Harvard'
-              src='/landing/team/Harvard.png'
-              width={200}
-              height={60}
-              className='h-auto w-40'
+              src='/landing/team/harvardLogo1.png'
+              width={256}
+              height={144}
+              className='h-auto w-[58px] sm:w-40'
             />
             <Image
               alt='Founders Hub'
-              src='/landing/team/FHubs.png'
-              width={200}
-              height={60}
-              className='h-auto w-40'
+              src='/landing/team/stanfordLogo1.png'
+              width={328}
+              height={144}
+              className='h-auto w-[58px] sm:w-40'
+            />
+            <Image
+              alt='Founders Hub'
+              src='/landing/team/Brand.png'
+              width={282}
+              height={144}
+              className='h-auto w-[58px] sm:w-40'
+            />
+            <Image
+              alt='Founders Hub'
+              src='/landing/team/Brand2.png'
+              width={282}
+              height={144}
+              className='h-auto w-[58px] sm:w-40'
+            />
+            <Image
+              alt='Founders Hub'
+              src='/landing/team/brand3.png'
+              width={367}
+              height={144}
+              className='h-auto w-[58px] sm:w-40'
             />
           </div>
         </div>
         <Spacer y='40' />
-        <div className='flex-center w-full flex-col rounded-xl bg-[#383838] px-6 py-10'>
-          <h3 className='h3-semibold sm:h2-bold text-center text-white sm:text-left'>
-            Meet our team members
-          </h3>
-          <Spacer y='24' />
-          <div className='grid grid-cols-1 gap-6 sm:grid-cols-4'>
-            {TeamMembers.map((item) => (
-              <div className='flex flex-col gap-y-3' key={item.id}>
-                <div
-                  className='relative h-56 w-full overflow-hidden rounded-xl px-4 pt-6'
-                  style={{ backgroundColor: item.background }}
-                >
-                  <div className='relative h-full w-full'>
-                    <Image
-                      alt={item.name}
-                      src={item.image}
-                      fill
-                      className='object-contain'
-                      sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
-                    />
-                  </div>
-                </div>
-                <div className='flex flex-col'>
-                  <div className='flex items-center gap-x-1'>
-                    <h2 className='base-semibold text-white'>{item.name}</h2>
-                    <p className='small-regular text-shadow-50'>{item.role}</p>
-                  </div>
-                  <p className='small-regular text-shadow-50'>
-                    {item.education}
-                  </p>
-                </div>
-
-                <div className='rounded-lg bg-[#464646] p-2'>
-                  <p className='small-regular text-shadow-50'>
-                    {item.description}
-                  </p>
-                </div>
+        <div className='flex-center w-full flex-col rounded-xl px-6 py-10'>
+          <h1 className='font-baskerville text-center w-full text-[28px] font-[400] tracking-tighter sm:text-center sm:text-[72px]'>
+            <span className="before:block before:absolute sm:before:top-[56px] before:top-[22px] before:-inset-1 before:-skew-y-0 before:h-[40%] before:bg-[#F2C8FB] relative inline-block before:z-[-1]">Seamless Excellence</span> in<br/> Every Word, Every Paper.
+          </h1>
+          <Spacer y='20' />
+          <p className='small-regular text-[#64626A] text-center sm:text-[32px] sm:text-center'>
+          ProDream's Ease-of-Use Features Assist You in<br className='hidden sm:block'/> Writing, Editing, and Citing.
+          </p>
+          <Spacer y='40' />
+          <div className='relative flex w-full flex-col sm:rounded-[36px] rounded-[8px] sm:p-[67px] overflow-hidden w-[320px] sm:w-[1200px]'>
+            <section className='relative flex w-full flex-col sm:rounded-[24px] rounded-[8px] bg-[#fff] overflow-hidden sm:w-full sm:h-[740px] h-[216px]'>
+              <Image
+                draggable='false'
+                alt='gardient-bg'
+                priority
+                className='absolute sm:top-10 w-full w-auto sm:rounded-[36px] rounded-[8px] bg-[#F5F6F9] sm:p-[40px] p-[4px]'
+                width={1070}
+                height={720}
+                sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
+                src='/landing/heros/hero-1.gif'
+              />
+            </section>
+            <Spacer y='40' />
+            <h4 className='text-left text-[16px] font-[600] tracking-tighter sm:text-left sm:text-[36px]'>Get citation job done with just one click</h4>
+            <Spacer y='20' />
+            <p className='small-regular text-left text-[#64626A] sm:text-[32px]'>
+            ProDream streamlines your citations with the latest research and your PDF uploads. Simply choose from MLA, IEEE, and APA styles.
+            </p>
+            <Spacer y='40' />
+            <section className='relative flex flex-col sm:flex-row justify-between w-full overflow-hidden sm:w-full'>
+              <div className='relative flex flex-col w-full sm:w-[48%]'>
+                <Image
+                  draggable='false'
+                  alt='gardient-bg'
+                  priority
+                  className='w-full w-auto sm:rounded-[36px] rounded-[8px] bg-[#F5F6F9] sm:p-[25px] p-[6px]'
+                  width={605}
+                  height={336}
+                  sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
+                  src='/landing/heros/herobg.png'
+                />
+                <Spacer y='20' />
+                <h4 className='text-left text-[16px] font-[500] tracking-tighter sm:text-left sm:text-[30px]'>Get citation job done with just one click</h4>
+                <Spacer y='20' />
+                <p className='small-regular text-left text-[#64626A] sm:text-[28px] sm:text-left'>
+                ProDream streamlines your citations with the latest research and your PDF uploads. Simply choose from MLA, IEEE, and APA styles.
+                </p>
               </div>
-            ))}
+              <div className='relative flex flex-col w-full mt-[20px] sm:mt-0 sm:w-[48%]'>
+                <Image
+                  draggable='false'
+                  alt='gardient-bg'
+                  priority
+                  className='w-full w-auto sm:rounded-[36px] rounded-[8px] bg-[#F5F6F9] sm:p-[25px] p-[6px]'
+                  width={605}
+                  height={336}
+                  sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
+                  src='/landing/heros/herobg.png'
+                />
+                <Spacer y='20' />
+                <h4 className='text-left text-[16px] font-[500] tracking-tighter sm:text-left sm:text-[30px]'>Real-time AI academic expert support</h4>
+                <Spacer y='20' />
+                <p className='small-regular text-left text-[#64626A] sm:text-[28px] sm:text-left'>
+                Our tool offers extensive English language recommendations, accurate detection of complex grammar errors, and checks for structural and technical inconsistencies all in real-time
+                </p>
+              </div>
+            </section>
           </div>
         </div>
       </div>
