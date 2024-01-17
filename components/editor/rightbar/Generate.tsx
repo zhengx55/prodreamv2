@@ -6,7 +6,7 @@ import { memo, useState } from 'react';
 
 type Props = {};
 export const Generate = memo((props: Props) => {
-  const [generateTab, setGenerateTab] = useState(1);
+  const [generateTab, setGenerateTab] = useState<number | string>(-1);
   const [outlineSubmenu, setOutlineSubmenu] = useState(false);
   return (
     <LazyMotionProvider>
@@ -22,7 +22,7 @@ export const Generate = memo((props: Props) => {
             {GenerateOptions.map((item, index) => (
               <div
                 key={item.id}
-                onClick={() => setGenerateTab(index)}
+                onClick={() => setGenerateTab(item.title)}
                 className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'
               >
                 <div className='flex items-center gap-x-3'>
@@ -57,15 +57,7 @@ export const Generate = memo((props: Props) => {
               className='flex cursor-pointer items-center gap-x-3 px-2 hover:underline'
             >
               <ChevronLeft size={20} className='text-doc-font' />
-              <p className='text-doc-font base-regular'>
-                {generateTab === 0
-                  ? 'Write Introduction'
-                  : generateTab === 1
-                    ? 'Write Conclusion'
-                    : generateTab === 2
-                      ? 'Generate title'
-                      : 'Generate Outline'}
-              </p>
+              <p className='text-doc-font base-regular'>{generateTab}</p>
             </div>
             <div className='flex min-h-full flex-col overflow-y-auto'></div>
           </m.div>

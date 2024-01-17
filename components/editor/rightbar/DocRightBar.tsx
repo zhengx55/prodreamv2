@@ -34,11 +34,9 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
             initial={{ width: 0 }}
             animate={{
               width: 400,
-              transition: { duration: 0.2, delay: 0.1 },
             }}
             exit={{
               width: 0,
-              transition: { duration: 0.2 },
             }}
             className='flex h-full shrink-0 flex-col border-l border-shadow-border'
           >
@@ -128,9 +126,8 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
-              transition: { duration: 0.2, delay: 0.2 },
             }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            exit={{ opacity: 0 }}
           >
             <Button
               className='absolute right-0 top-1'
