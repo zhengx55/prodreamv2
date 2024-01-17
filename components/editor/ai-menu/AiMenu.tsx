@@ -233,52 +233,51 @@ export const AiMenu = ({ editor }: Props) => {
           </div>
         </div>
         <Spacer y='5' />
-        <Surface className='w-[256px] rounded px-1 py-2' withBorder>
-          {!hasAiResult
-            ? options.map((item, idx) => {
-                return (
-                  <div
-                    className={` ${
-                      hoverItem === idx ? 'bg-doc-secondary' : ''
-                    } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
-                    key={item.id}
-                    onMouseEnter={() => setHoverItem(idx)}
-                    onMouseLeave={() => setHoverItem(null)}
-                  >
-                    <div className='flex items-center gap-x-2'>
-                      {hoverItem === idx
-                        ? cloneElement(item.icon, { color: '#774EBB' })
-                        : cloneElement(item.icon)}
-                      <p className='small-regular group-hover:text-doc-primary'>
-                        {item.name}
-                      </p>
+        {generating ? null : (
+          <Surface className='w-[256px] rounded px-1 py-2' withBorder>
+            {!hasAiResult
+              ? options.map((item, idx) => {
+                  return (
+                    <div
+                      className={` ${
+                        hoverItem === idx ? 'bg-doc-secondary' : ''
+                      } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
+                      key={item.id}
+                      onMouseEnter={() => setHoverItem(idx)}
+                      onMouseLeave={() => setHoverItem(null)}
+                    >
+                      <div className='flex items-center gap-x-2'>
+                        {hoverItem === idx
+                          ? cloneElement(item.icon, { color: '#774EBB' })
+                          : cloneElement(item.icon)}
+                        <p className='small-regular group-hover:text-doc-primary'>
+                          {item.name}
+                        </p>
+                      </div>
+                      {item.submenu ? <ChevronRight size={18} /> : null}
+                      {item.submenu && hoverItem === idx && (
+                        <Surface
+                          style={{ top: `${idx * 27 + 80}px` }}
+                          withBorder
+                          data-state={hoverItem === idx ? 'open' : 'closed'}
+                          className='absolute left-[250px] rounded px-1 py-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
+                        >
+                          {item.submenu.map((subitem) => (
+                            <div
+                              onClick={() => {
+                                idx !== 2 && handleEditTools(subitem.lable);
+                              }}
+                              className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-doc-secondary hover:text-doc-primary'
+                              key={subitem.id}
+                            >
+                              <p className='small-regular'>{subitem.name}</p>
+                            </div>
+                          ))}
+                        </Surface>
+                      )}
                     </div>
-                    {item.submenu ? <ChevronRight size={18} /> : null}
-                    {item.submenu && hoverItem === idx && (
-                      <Surface
-                        style={{ top: `${idx * 27 + 80}px` }}
-                        withBorder
-                        data-state={hoverItem === idx ? 'open' : 'closed'}
-                        className='absolute left-[250px] rounded px-1 py-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
-                      >
-                        {item.submenu.map((subitem) => (
-                          <div
-                            onClick={() => {
-                              idx !== 2 && handleEditTools(subitem.lable);
-                            }}
-                            className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-doc-secondary hover:text-doc-primary'
-                            key={subitem.id}
-                          >
-                            <p className='small-regular'>{subitem.name}</p>
-                          </div>
-                        ))}
-                      </Surface>
-                    )}
-                  </div>
-                );
-              })
-            : generating
-              ? null
+                  );
+                })
               : operations.map((item, idx) => {
                   return (
                     <div
@@ -301,7 +300,8 @@ export const AiMenu = ({ editor }: Props) => {
                     </div>
                   );
                 })}
-        </Surface>
+          </Surface>
+        )}
       </div>
     </section>
   );
