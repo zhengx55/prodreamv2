@@ -712,11 +712,17 @@ export const Floder = (
   </svg>
 );
 
-export const GenerateFill = ({ fill }: { fill: string }) => (
+export const GenerateFill = ({
+  fill,
+  size = '24',
+}: {
+  fill: string;
+  size?: string;
+}) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='25'
-    height='24'
+    width={size}
+    height={size}
     viewBox='0 0 25 24'
     fill='none'
   >
@@ -728,7 +734,7 @@ export const GenerateFill = ({ fill }: { fill: string }) => (
 );
 
 export const BookHalf = ({
-  fill = '#774EBB',
+  fill = '#8652DB',
   size = 24,
 }: {
   fill?: string;
@@ -749,7 +755,7 @@ export const BookHalf = ({
 );
 
 export const Copilot = ({
-  color = '#774EBB',
+  color = '#8652DB',
   size = '18',
 }: {
   color?: string;
@@ -769,11 +775,17 @@ export const Copilot = ({
   </svg>
 );
 
-export const Synonym = ({ color = '#774EBB' }: { color?: string }) => (
+export const Synonym = ({
+  color = '#8652DB',
+  size = '18',
+}: {
+  color?: string;
+  size?: string;
+}) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='18'
-    height='18'
+    width={size}
+    height={size}
     viewBox='0 0 18 18'
     fill='none'
   >

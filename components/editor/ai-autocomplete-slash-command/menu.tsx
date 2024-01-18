@@ -3,6 +3,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { DropdownButton } from '@/components/ui/dropdown-button';
 import { Surface } from '@/components/ui/surface';
 import { Command, MenuListProps } from '@/lib/tiptap/type';
+import { copilot } from '@/query/api';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 export const AutoCompleteMenuList = React.forwardRef(
   (props: MenuListProps, ref) => {
@@ -11,16 +14,66 @@ export const AutoCompleteMenuList = React.forwardRef(
     const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
     const [selectedCommandIndex, setSelectedCommandIndex] = useState(0);
 
+    const { mutateAsync: handleCopilot } = useMutation({
+      mutationFn: (params: { tool: string; text: string }) => copilot(params),
+      onSuccess: async (data: ReadableStream) => {
+        const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          handleStreamData(value);
+        }
+      },
+
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
+
+    const handleStreamData = (value: string | undefined) => {
+      if (!value) return;
+      const lines = value.split('\n');
+      const dataLines = lines.filter((line) => line.startsWith('data:'));
+      const eventData = dataLines.map((line) =>
+        line.slice('data:'.length).trimEnd()
+      );
+      let result = '';
+      eventData.forEach((word) => {
+        const leadingSpaces = word.match(/^\s*/);
+        const spacesLength = leadingSpaces ? leadingSpaces[0].length : 0;
+        if (spacesLength === 2) {
+          result += ` ${word.trim()}`;
+        } else {
+          if (/^\d/.test(word.trim())) {
+            result += ` ${word.trim()}`;
+          }
+          result += word.trim();
+        }
+      });
+      props.editor.commands.insertContent(result, {
+        parseOptions: {
+          preserveWhitespace: 'full',
+        },
+      });
+    };
+
     useEffect(() => {
       setSelectedGroupIndex(0);
       setSelectedCommandIndex(-1);
     }, [props.items]);
 
     const selectItem = useCallback(
-      (groupIndex: number, commandIndex: number) => {
+      async (groupIndex: number, commandIndex: number) => {
         const command = props.items[groupIndex].commands[commandIndex];
+        const { selection } = props.editor.state;
+        const original_paragraph = selection.$head.parent.textContent;
         props.command(command);
+        await handleCopilot({
+          tool: command.apiEndpoint!,
+          text: original_paragraph,
+        });
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [props]
     );
 

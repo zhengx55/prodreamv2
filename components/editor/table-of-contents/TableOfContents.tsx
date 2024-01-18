@@ -28,10 +28,6 @@ export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
   return (
     <aside className='absolute left-0 z-10 h-full w-40 shrink-0 overflow-hidden'>
       <div className='h-full w-full overflow-y-auto px-3 pb-6 pt-12'>
-        <div className='mb-2 text-xs font-semibold uppercase text-neutral-500 dark:text-neutral-400'>
-          Table of contents
-        </div>
-
         {data?.content && data.content.length > 0 ? (
           <div className='flex flex-col gap-1'>
             {data.content.map((item) => (

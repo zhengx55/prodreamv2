@@ -33,7 +33,8 @@ export type TextMenuProps = {
 
 export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const [open, setOpen] = useState(false);
-  const selectionRect = useRef<number | null>(null);
+  const menuYOffside = useRef<number | null>(null);
+  const menuXOffside = useRef<number | null>(null);
   const [selectedLength, setSelectedLength] = useState(0);
   const [isWord, setIsWord] = useState(false);
   const states = useTextmenuStates(editor);
@@ -44,6 +45,8 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const updateCopilotRect = useAiEditor((state) => state.updateCopilotRect);
   const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
   const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
+  const updateSelectedText = useAiEditor((state) => state.updateSelectedText);
+  const updateCopilotRectX = useAiEditor((state) => state.updateCopilotRectX);
 
   const { x, y, strategy, refs } = useFloating({
     open: open,
@@ -55,7 +58,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       flip({
         padding: 8,
         boundary: editor.options.element,
-        fallbackPlacements: ['top-end', 'bottom-start'],
+        fallbackPlacements: ['bottom-start'],
       }),
     ],
   });
@@ -65,6 +68,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       if (editor.view.dragging && editor.view.dragging.move) {
         return;
       }
+
       if (editor.view.state.selection.empty) {
         setOpen(false);
         if (timer.current) clearTimeout(timer.current);
@@ -82,6 +86,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
             setIsWord(false);
           }
           setSelectedLength(words ? words.length : 0);
+          updateSelectedText(text);
           refs.setReference({
             getBoundingClientRect() {
               if (isNodeSelection(editor.state.selection)) {
@@ -90,9 +95,11 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
                   return node.getBoundingClientRect();
                 }
               }
+
+              menuXOffside.current = posToDOMRect(editor.view, from, to).left;
               const el_srcoll_top =
                 editor.view.dom.parentElement?.parentElement?.scrollTop;
-              selectionRect.current =
+              menuYOffside.current =
                 posToDOMRect(editor.view, from, to).bottom +
                 (el_srcoll_top ?? 0);
               return posToDOMRect(editor.view, from, to);
@@ -107,6 +114,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       editor.off('selectionUpdate', handler);
       timer.current && clearTimeout(timer.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, refs]);
 
   if (!open) return null;
@@ -114,12 +122,13 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
     <div
       ref={refs.setFloating}
       style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
+      className='z-[9999]'
     >
       <Toolbar.Wrapper className='border-shadow-borde border shadow-lg'>
         <MemoButton
           onClick={() => {
             updateCopilotMenu(true);
-            updateCopilotRect(selectionRect.current);
+            updateCopilotRect(menuYOffside.current);
             setOpen(false);
           }}
           className='text-doc-primary'
@@ -132,6 +141,8 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           <MemoButton
             onClick={() => {
               updateSynonymMenu(true);
+              updateCopilotRectX(menuXOffside.current);
+              updateCopilotRect(menuYOffside.current);
               setOpen(false);
             }}
             className='text-doc-primary'
@@ -143,7 +154,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           <MemoButton
             onClick={() => {
               updateCitationMenu(true);
-              updateCopilotRect(selectionRect.current);
+              updateCopilotRect(menuYOffside.current);
               setOpen(false);
             }}
             className='text-doc-primary'

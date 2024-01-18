@@ -5,6 +5,6 @@
 
     .selection,
     *::selection {
-        @apply bg-[#AFB5FF];
+        @apply bg-[#D4D7FF];
     }
 }

@@ -27,7 +27,6 @@ const NavBar = () => {
               Login
             </Button>
           </Link>
-
           <Link href={'/signup'} passHref>
             <Button>Sign Up For FREE</Button>
           </Link>

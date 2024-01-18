@@ -1,4 +1,3 @@
-'use client';
 import Spacer from '@/components/root/Spacer';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
@@ -27,7 +26,7 @@ export const CitiationMenu = memo(({ editor }: Props) => {
   if (!copilotRect) return null;
   return (
     <section
-      style={{ top: `${copilotRect - 44}px` }}
+      style={{ top: `${copilotRect - 54}px` }}
       className='absolute -left-20 flex w-full justify-center overflow-visible '
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>
@@ -43,7 +42,6 @@ export const CitiationMenu = memo(({ editor }: Props) => {
             placeholder='enter your text...'
           />
         </div>
-
         <Spacer y='5' />
         <Surface className='w-[600px] !rounded px-1 py-2' withBorder></Surface>
       </div>

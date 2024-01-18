@@ -28,9 +28,70 @@ export const useEditorCommand = (editor: Editor) => {
     editor.chain().selectAll().unsetHighlight().setTextSelection(0).run();
   }, [editor]);
 
+  const insertAtPostion = useCallback(
+    (from: number, to: number, value: string) => {
+      if (!editor) return;
+      if (from === to) {
+        editor
+          .chain()
+          .insertContentAt(from, value, {
+            parseOptions: { preserveWhitespace: 'full' },
+          })
+          .setTextSelection({ from, to: from + value.length })
+          .run();
+      } else {
+        editor
+          .chain()
+          .deleteRange({ from, to })
+          .insertContentAt(from, value, {
+            parseOptions: { preserveWhitespace: 'full' },
+          })
+          .setTextSelection({ from, to: from + value.length })
+          .run();
+      }
+    },
+    [editor]
+  );
+
+  const replaceText = useCallback(
+    (from: number, to: number, value: string) => {
+      if (!editor) return;
+      editor
+        .chain()
+        .deleteRange({ from, to })
+        .insertContentAt(from, value, {
+          parseOptions: { preserveWhitespace: 'full' },
+        })
+        .setTextSelection({ from, to: value.length + from })
+        .run();
+    },
+    [editor]
+  );
+
+  const insertNext = useCallback(
+    (to: number, value: string) => {
+      if (!editor) return;
+      editor
+        .chain()
+        .blur()
+        .insertContentAt(to, ` ${value}`, {
+          parseOptions: { preserveWhitespace: 'full' },
+        })
+        .setTextSelection({
+          from: to,
+          to: ` ${value}`.length + to,
+        })
+        .run();
+    },
+    [editor]
+  );
+
   return {
+    insertNext,
+    replaceText,
     highLightAtPosition,
     clearAllHightLight,
     clearAllUnderLine,
+    insertAtPostion,
   };
 };

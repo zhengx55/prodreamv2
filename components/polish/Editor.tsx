@@ -18,6 +18,7 @@ import { ChangeEvent, memo, useState } from 'react';
 import { AiMenu } from '../editor/ai-menu';
 import { BlockMenu } from '../editor/blockmenu';
 import { BubbleMenu } from '../editor/bubble-menu';
+import { SynonymMenu } from '../editor/synonym-menu';
 
 const Tiptap = ({
   essay_content,
@@ -118,6 +119,7 @@ const Tiptap = ({
             />
           </div>
           <Spacer y='20' />
+          {showSynonymMenu && <SynonymMenu editor={editor} />}
           {showCopilotMenu && <AiMenu editor={editor} />}
           {showCitiationMenu && <CitiationMenu editor={editor} />}
           <BubbleMenu editor={editor} />
