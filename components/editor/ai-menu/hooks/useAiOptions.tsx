@@ -10,36 +10,60 @@ export const useAiOptions = () => {
   const options = useMemo(() => {
     return [
       {
+        id: 'copilot-00',
+        name: 'Continue Writing',
+        icon: <Copilot_Continue />,
+        submenu: [
+          {
+            id: 'edit-tools-17',
+            lable: 'continue_write_sentence',
+            name: 'Write the next sentence',
+          },
+          {
+            id: 'edit-tools-18',
+            lable: 'continue_write_paragraph',
+            name: 'Write more content',
+          },
+        ],
+      },
+      {
         id: 'copilot-01',
         name: 'Edit tools',
         icon: <Copilot_Edit />,
         submenu: [
           {
             id: 'edit-tools-01',
+            lable: 'paraphrase',
             name: 'Paraphrase',
           },
           {
             id: 'edit-tools-02',
+            lable: 'more_academic',
             name: 'Make academic',
           },
           {
             id: 'edit-tools-03',
+            lable: 'improve_fluency',
             name: 'Improve fluency',
           },
           {
             id: 'edit-tools-04',
+            lable: 'simplify_language',
             name: 'Simplify language',
           },
           {
             id: 'edit-tools-05',
+            lable: 'translate',
             name: 'Translate',
           },
           {
             id: 'edit-tools-06',
+            lable: 'make_concise',
             name: 'Shorten',
           },
           {
             id: 'edit-tools-07',
+            lable: 'make_longer',
             name: 'Make longer',
           },
         ],
@@ -48,16 +72,50 @@ export const useAiOptions = () => {
         id: 'copilot-02',
         name: 'Generate from selection',
         icon: <Copilot_Generate />,
+        submenu: [
+          {
+            id: 'edit-tools-08',
+            lable: 'opposing_arguments',
+            name: 'Write Opposing Argument',
+          },
+          {
+            id: 'edit-tools-09',
+            lable: 'more_depth',
+            name: 'Write with more depth',
+          },
+          {
+            id: 'edit-tools-10',
+            lable: 'summarize',
+            name: 'Generate summary',
+          },
+        ],
       },
       {
         id: 'copilot-03',
-        name: 'Continue Writing',
-        icon: <Copilot_Continue />,
-      },
-      {
-        id: 'copilot-04',
         name: 'Generate from essay',
         icon: <Copilot_Generate_Essay />,
+        submenu: [
+          {
+            id: 'edit-tools-13',
+            lable: 'opposing_arguments',
+            name: 'Write Introduction',
+          },
+          {
+            id: 'edit-tools-14',
+            lable: 'more_depth',
+            name: 'Write Conclusion',
+          },
+          {
+            id: 'edit-tools-15',
+            lable: 'summarize',
+            name: 'Generate title',
+          },
+          {
+            id: 'edit-tools-16',
+            lable: 'summarize',
+            name: 'Generate Outline',
+          },
+        ],
       },
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps

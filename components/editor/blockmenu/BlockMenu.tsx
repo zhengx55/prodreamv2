@@ -1,19 +1,13 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import DragHandle from '@tiptap-pro/extension-drag-handle-react';
 import { Editor } from '@tiptap/react';
 import { GripVertical, Plus } from 'lucide-react';
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { Toolbar } from '../Toolbar';
 import useBlockMenuAction from './hooks/useBlockMenuAction';
 import { useData } from './hooks/useData';
 
 type Props = { editor: Editor };
 export const BlockMenu = memo(({ editor }: Props) => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const data = useData();
   const actions = useBlockMenuAction(
     editor,
@@ -21,13 +15,6 @@ export const BlockMenu = memo(({ editor }: Props) => {
     data.currentNodePos
   );
 
-  useEffect(() => {
-    if (menuOpen) {
-      editor.commands.setMeta('lockDragHandle', true);
-    } else {
-      editor.commands.setMeta('lockDragHandle', false);
-    }
-  }, [editor, menuOpen]);
   return (
     <DragHandle
       pluginKey='blockMenu'
@@ -42,19 +29,9 @@ export const BlockMenu = memo(({ editor }: Props) => {
         <Toolbar.Button onClick={actions.handleAdd}>
           <Plus size={16} className='text-shadow' />
         </Toolbar.Button>
-        <Popover open={menuOpen} onOpenChange={setMenuOpen}>
-          <PopoverTrigger asChild>
-            <Toolbar.Button>
-              <GripVertical size={16} className='text-shadow' />
-            </Toolbar.Button>
-          </PopoverTrigger>
-          <PopoverContent
-            side='right'
-            align='start'
-            sideOffset={5}
-            className='bg-white'
-          ></PopoverContent>
-        </Popover>
+        <Toolbar.Button onClick={actions.handleSelectAll}>
+          <GripVertical size={16} className='text-shadow' />
+        </Toolbar.Button>
       </div>
     </DragHandle>
   );

@@ -7,6 +7,12 @@ const useContentItemActions = (
   currentNode: Node | null,
   currentNodePos: number
 ) => {
+  const handleSelectAll = useCallback(() => {
+    if (currentNodePos !== -1) {
+      editor.commands.setNodeSelection(currentNodePos);
+    }
+  }, [currentNodePos, editor]);
+  
   const handleAdd = useCallback(() => {
     if (currentNodePos !== -1) {
       const currentNodeSize = currentNode?.nodeSize || 0;
@@ -45,6 +51,7 @@ const useContentItemActions = (
 
   return {
     handleAdd,
+    handleSelectAll,
   };
 };
 
