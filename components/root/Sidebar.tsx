@@ -44,12 +44,6 @@ const Sidebar = () => {
       case 'polish':
         index = 0;
         break;
-      case 'brainstorm':
-        index = 1;
-        break;
-      case 'activityList':
-        index = 2;
-        break;
       default:
         break;
     }
