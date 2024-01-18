@@ -252,7 +252,7 @@ export const AiMenu = ({ editor }: Props) => {
                           {item.submenu.map((subitem) => (
                             <div
                               onClick={() => {
-                                idx !== 2 && handleEditTools(subitem.lable);
+                                handleEditTools(subitem.lable);
                               }}
                               className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-doc-secondary hover:text-doc-primary'
                               key={subitem.id}

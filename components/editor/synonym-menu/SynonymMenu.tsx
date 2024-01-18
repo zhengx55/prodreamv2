@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { Info } from 'lucide-react';
 import { memo, useRef } from 'react';
+import { useEditorCommand } from '../hooks/useEditorCommand';
 
 type Props = { editor: Editor };
 export const SynonymMenu = memo(({ editor }: Props) => {
@@ -15,7 +16,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
   const copilotRect = useAiEditor((state) => state.copilotRect);
   const copilotRectX = useAiEditor((state) => state.copilotRectX);
   const selectedText = useAiEditor((state) => state.selectedText);
-
+  const { replaceText } = useEditorCommand(editor);
   const {
     data: synoymwords,
     isPending,
@@ -34,12 +35,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
   const handleReplace = (word: string) => {
     const { selection } = editor.state;
     const { from, to } = selection;
-    editor
-      .chain()
-      .deleteRange({ from, to })
-      .insertContentAt(from, word)
-      .setTextSelection({ from, to: word.length + from })
-      .run();
+    replaceText(from, to, word);
     updateSynonymMenu(false);
   };
 
