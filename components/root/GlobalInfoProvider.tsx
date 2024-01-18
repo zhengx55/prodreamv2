@@ -13,10 +13,6 @@ const GlobalInfoProvider = ({ children }: { children: ReactNode }) => {
     async function refreshUserInfo() {
       try {
         const data = await refreshUserSession();
-        /**
-         * 获取用户经历信息
-         * 用于检查是否是第一次登录 或是 第一次使用某些功能
-         **/
         updateUserInfo(data);
         setCookie('token', data.access_token, {
           path: '/',
