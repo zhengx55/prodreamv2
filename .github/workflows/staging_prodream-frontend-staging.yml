@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: applifyai.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_77dce1efdebf4c92a4c46ef3b745b65a }}/prodream-next:${{ github.sha }}
+        tags: applifyai.azurecr.io/prodream-next:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'prodream-frontend-staging'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_37d5842689b24a96b541a5b452272dcb }}
-        images: 'applifyai.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_77dce1efdebf4c92a4c46ef3b745b65a }}/prodream-next:${{ github.sha }}'
+        images: 'applifyai.azurecr.io/prodream-next:${{ github.sha }}'
