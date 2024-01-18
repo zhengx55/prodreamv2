@@ -3,7 +3,6 @@ import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import GoogleAnalytics from '@/google/GoogleAnalytics';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
@@ -74,9 +73,6 @@ export default function RootLayout({
                 <Toaster richColors visibleToasts={1} />
                 {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
                   <GoogleAnalytics />
-                ) : null}
-                {process.env.NODE_ENV === 'production' ? (
-                  <SpeedInsights />
                 ) : null}
               </main>
             </TanstackProvider>
