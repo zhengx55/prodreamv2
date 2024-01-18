@@ -4,7 +4,7 @@
     }
 
     &>p {
-        @apply my-3 first:mt-0 last:mb-0;
+        @apply my-2 first:mt-0 last:mb-0;
     }
 
     h1 {
@@ -28,7 +28,7 @@
     h1,
     h2,
     h3 {
-        @apply mt-6;
+        @apply my-3;
     }
 
 

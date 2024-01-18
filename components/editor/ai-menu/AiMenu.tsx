@@ -19,6 +19,7 @@ import {
   useState,
 } from 'react';
 import { toast } from 'sonner';
+import { useEditorCommand } from '../hooks/useEditorCommand';
 import { useAiOptions } from './hooks/useAiOptions';
 const Typed = dynamic(() => import('react-typed'), { ssr: false });
 
@@ -35,7 +36,7 @@ export const AiMenu = ({ editor }: Props) => {
   const [prompt, setPrompt] = useState('');
   const elRef = useRef<HTMLDivElement>(null);
   const tool = useRef<string | null>(null);
-
+  const { replaceText, insertNext } = useEditorCommand(editor);
   const hasAiResult = aiResult !== '';
 
   useClickOutside(elRef, () => {
@@ -125,28 +126,14 @@ export const AiMenu = ({ editor }: Props) => {
   const handleReplace = () => {
     const { selection } = editor.state;
     const { from, to } = selection;
-    editor
-      .chain()
-      .deleteRange({ from, to })
-      .insertContentAt(from, aiResult)
-      .setTextSelection({ from, to: aiResult.length + from })
-      .run();
+    replaceText(from, to, aiResult);
     updateCopilotMenu(false);
   };
+
   const handleInsert = () => {
     const { selection } = editor.state;
     const { to } = selection;
-    editor
-      .chain()
-      .blur()
-      .insertContentAt(to, ` ${aiResult}`, {
-        parseOptions: { preserveWhitespace: 'full' },
-      })
-      .setTextSelection({
-        from: to,
-        to: ` ${aiResult}`.length + to,
-      })
-      .run();
+    insertNext(to, aiResult);
     updateCopilotMenu(false);
   };
 

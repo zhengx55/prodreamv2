@@ -433,16 +433,16 @@ export async function copilot(params: {
     );
     if (!res.ok || !res.body) throw new Error('Opps something went wrong');
     return res.body;
-    } catch (error) {
+  } catch (error) {
     throw new Error(error as string);
   }
 }
 
-export async function synonym(params: { word: string }) {
+export async function synonym(params: { word: string }): Promise<string[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `http://127.0.0.1:8080/api/v1/editor/synonyms/${params.word}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/tool/synonyms/${params.word}`,
       {
         method: 'GET',
         headers: {
