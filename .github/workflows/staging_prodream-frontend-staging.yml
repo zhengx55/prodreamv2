@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy container app to Azure Web App - prodream-frontend-production
+name: Build and deploy container app to Azure Web App - prodream-frontend-staging
 
 on:
   push:
     branches:
-      - main
+      - staging
   workflow_dispatch:
 
 jobs:
@@ -23,8 +23,8 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://applifyai.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_a671860e310742fc955373b431f2affe }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_2cb1f9599f2f4d73998ba6ca6d303fa6 }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_77dce1efdebf4c92a4c46ef3b745b65a }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_18814e591dd74360ab5bcba62c940ebe }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
@@ -45,7 +45,7 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'prodream-frontend-production'
+        app-name: 'prodream-frontend-staging'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_18c0066e94ee4efe988d9a6e08d3f03e }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_37d5842689b24a96b541a5b452272dcb }}
         images: 'applifyai.azurecr.io/prodream-next:${{ github.sha }}'

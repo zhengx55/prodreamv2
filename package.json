@@ -78,7 +78,7 @@
     "react-resizable-panels": "^0.0.55",
     "react-type-animation": "^3.2.0",
     "server-only": "^0.0.1",
-    "sharp": "^0.33.1",
+    "sharp": "^0.33.2",
     "sonner": "^1.2.4",
     "swiper": "^11.0.5",
     "tailwind-merge": "^2.0.0",
@@ -125,9 +125,6 @@
       "eslint --fix",
       "prettier --write"
     ]
-  },
-  "engines": {
-    "node": "=18.17.1"
   },
   "peerDependencies": {
     "@tiptap-pro/extension-drag-handle": "^2.5.1",
