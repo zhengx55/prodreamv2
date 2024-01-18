@@ -123,9 +123,6 @@
       "prettier --write"
     ]
   },
-  "engines": {
-    "node": ">=18.17.0"
-  },
   "peerDependencies": {
     "@tiptap-pro/extension-drag-handle": "^2.5.1",
     "@tiptap-pro/extension-drag-handle-react": "^2.5.1"
