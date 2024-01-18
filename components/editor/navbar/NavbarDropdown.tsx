@@ -1,6 +1,6 @@
 import {
   DropdownMenuContent,
-  DropdownMenuItem
+  DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { FileOutput, Settings, Shuffle } from 'lucide-react';
 
