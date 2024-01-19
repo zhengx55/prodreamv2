@@ -11,8 +11,8 @@ export const signUpSchema = z.object({
     .min(6, { message: 'Password must be at least 6 characters' })
     .max(50, { message: 'Password cannot exceed 50 characters' }),
   email: z.string().email({ message: 'Invalid email address' }),
-  first_name: z.string().first_name({ message: 'Invalid firstName' }),
-  last_name: z.string().last_name({ message: 'Invalid lastName' }),
+  first_name: z.string().firstname({ message: 'Invalid firstName' }),
+  last_name: z.string().lastname({ message: 'Invalid lastName' }),
 });
 
 export const resetSchema = z
