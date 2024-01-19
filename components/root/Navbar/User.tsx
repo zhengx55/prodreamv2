@@ -6,7 +6,7 @@ type Props = { name: string; email: string; imgSrc: string };
 
 const User = ({ name, email, imgSrc }: Props) => {
   return (
-    <div className='flex max-w-56 cursor-pointer items-center gap-x-2'>
+    <div className='flex max-w-56 cursor-pointer items-center gap-x-3.5'>
       <Avatar>
         <AvatarImage
           className='rounded-full border border-primary-200 bg-primary-50 object-contain'

@@ -28,8 +28,8 @@ const EvaluationHistory = () => {
   }, [searchParam.get('search')]);
 
   return (
-    <main className='relative flex h-[calc(100%_-var(--top-nav-bar-height))] w-full flex-col items-center overflow-y-auto'>
-      <Spacer y='24' />
+    <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
+      <Spacer y='75' />
       <SearchBar />
       <Spacer y='48' />
       <List

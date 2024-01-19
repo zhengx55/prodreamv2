@@ -12,7 +12,7 @@ export const initialUsage: IUsage = {
 export const SidebarLinks = [
   {
     id: 'sidebar-01',
-    title: 'Home',
+    title: 'AI Editor',
     image: '/polish.svg',
     active_image: '/polish_active.svg',
     link: '/writtingpal/polish',
