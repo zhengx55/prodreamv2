@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
+import Image from 'next/image';
 import * as z from 'zod';
 
 import GoogleSignin from '@/components/auth/GoogleSignin';
@@ -58,12 +59,29 @@ export default function Page() {
   }
 
   return (
-    <section className='flex-center flex-1'>
+    <section className='overflow-hidden w-full flex-center flex-1'>
+      <div className='w-1/2 bg-[#fff]'>
+        <Image
+          src='/auth/login_icon.png'
+          width={960}
+          height={1129}
+          alt='logo'
+          className='h-auto w-full'
+          priority
+        />
+      </div>
       <Panel>
-        <h1 className='h3-bold self-center'>Welcome Back!</h1>
-        <p className='small-regular self-center text-shadow-100'>
+        <h1 className='text-[48px] font-[600] self-start'>Welcome Back!</h1>
+        <p className='text-[24px] font-[400] text-[#525252] self-start text-shadow-100 mb-[100px]'>
           Ready to continue crafting your unique story?
         </p>
+        <GoogleSignin/>
+        <div className='flex-center relative my-10'>
+          <Separator orientation='horizontal' className='bg-shadow-border' />
+          <p className='small-regular absolute bg-white px-2 text-shadow-100'>
+            Or log in with
+          </p>
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -73,16 +91,16 @@ export default function Page() {
               control={form.control}
               name='username'
               render={({ field }) => (
-                <FormItem className='mt-10'>
-                  <FormLabel className='text-black-400' htmlFor='username'>
-                    Username
+                <FormItem className='mt-0'>
+                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='username'>
+                    Email Address
                   </FormLabel>
                   <FormControl>
                     <Input
                       autoComplete='email'
                       id='username'
                       placeholder=''
-                      className='rounded-2xl border-none bg-shadow-50'
+                      className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                       {...field}
                     />
                   </FormControl>
@@ -95,20 +113,20 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-black-400' htmlFor='password'>
+                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='password'>
                     Password
                   </FormLabel>
                   {!hidePassword ? (
                     <EyeOff
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
+                      className='absolute right-2 top-12 cursor-pointer'
                     />
                   ) : (
                     <Eye
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
+                      className='absolute right-2 top-12 cursor-pointer'
                     />
                   )}
 
@@ -118,7 +136,7 @@ export default function Page() {
                       id='password'
                       type={hidePassword ? 'password' : 'text'}
                       placeholder=''
-                      className='rounded-2xl border-none bg-shadow-50'
+                      className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                       {...field}
                     />
                   </FormControl>
@@ -132,20 +150,15 @@ export default function Page() {
             >
               Forgot Password?
             </Link>
-            <Button className='w-full rounded-full' type='submit'>
+            <Button className='w-full rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3]' type='submit'>
               Sign in
             </Button>
           </form>
         </Form>
-        <div className='flex-center relative my-10'>
-          <Separator orientation='horizontal' className='bg-shadow-border' />
-          <p className='small-regular absolute bg-white px-2 text-shadow-100'>
-            Or Sign in with
-          </p>
-        </div>
-        <GoogleSignin />
+        
+        
         <p className='small-regular mt-8 self-center text-black-200'>
-          Don&apos;t have an account?&nbsp;
+          Already a member??&nbsp;
           <Link href={'/signup'} prefetch className='text-primary-200'>
             Sign up
           </Link>
