@@ -102,9 +102,9 @@ export interface LoginData {
 
 export interface ISigunUpRequest {
   email: string;
-  first_name: string;
+  first_name?: string;
   from?: string;
-  last_name: string;
+  last_name?: string;
   password: string;
   referral?: string;
 }
