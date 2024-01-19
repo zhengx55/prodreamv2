@@ -89,6 +89,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@builder.io/partytown": "^0.8.2",
     "@tanstack/eslint-plugin-query": "^5.0.5",
     "@types/js-cookie": "^3.0.6",
     "@types/negotiator": "^0.6.2",

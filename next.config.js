@@ -18,6 +18,9 @@ const nextConfig = {
       { hostname: 'lh3.googleusercontent.com', protocol: 'https' },
     ],
   },
+  experimental: {
+    nextScriptWorkers: true,
+  },
   reactStrictMode: false,
   output: 'standalone',
   compress: true,

@@ -5,13 +5,13 @@ const GoogleAnalytics = () => (
   <>
     <Script
       async
-      strategy='afterInteractive'
+      strategy='worker'
       src={`https://www.googletagmanager.com/gtag/js? 
       id=${gtag.GA_TRACKING_ID}`}
     ></Script>
     <Script
       id='google-analytics'
-      strategy='afterInteractive'
+      strategy='worker'
       dangerouslySetInnerHTML={{
         __html: `
           window.dataLayer = window.dataLayer || [];
