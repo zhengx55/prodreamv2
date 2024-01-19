@@ -1,32 +1,44 @@
 'use client';
 import { SidebarLinks } from '@/constant';
+import { userLogOut } from '@/query/api';
+import { useUserInfo } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import {
   AnimatePresence,
   LazyMotion,
-  SVGMotionProps,
   Variants,
   domAnimation,
   m,
 } from 'framer-motion';
+import { LogOut, MailOpen, User2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { memo, useEffect, useState } from 'react';
-import CommunityCard from './CommunityCard';
-import { AnimatedLogo, AnimatedxsLogo } from './SvgComponents';
-
-const Path = (
-  props: React.JSX.IntrinsicAttributes &
-    SVGMotionProps<SVGPathElement> &
-    React.RefAttributes<SVGPathElement>
-) => <m.path fill='#9C2CF3' strokeLinecap='round' {...props} />;
+import { memo, useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '../ui/dropdown-menu';
+import Spacer from './Spacer';
+import { AnimatedLogo, GiftIcon, HelpIcon, LayoutRight } from './SvgComponents';
+import User from './User';
 
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const [_cookies, _setCookie, removeCookie] = useCookies(['token']);
   const [topValue, setTopValue] = useState<number | undefined>();
   const [expandSidebar, setExpandSidebar] = useState(true);
-
+  const user = useUserInfo((state) => state.user);
+  const { mutateAsync: logOut } = useMutation({
+    mutationFn: () => userLogOut(),
+    onSuccess: () => {
+      removeCookie('token', { path: '/' });
+      router.replace('/login');
+    },
+  });
   const toggleSidebar = () => {
     setExpandSidebar(!expandSidebar);
   };
@@ -51,7 +63,7 @@ const Sidebar = () => {
   }, [pathname]);
 
   const sidebarVariants: Variants = {
-    open: { width: '180px' },
+    open: { width: '300px' },
     closed: { width: '70px' },
   };
 
@@ -71,66 +83,58 @@ const Sidebar = () => {
       },
     },
   };
-
+  const userAvatar = user.linked_google
+    ? user.avatar
+    : `${process.env.NEXT_PUBLIC_API_STATIC_URL}${user.avatar}`;
   return (
-    // <MaxChatProvider>
     <LazyMotion features={domAnimation}>
       <m.aside
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         initial={false}
         animate={expandSidebar ? 'open' : 'closed'}
         variants={sidebarVariants}
-        className='relative hidden shrink-0 flex-col border-r border-r-shadow-border bg-white sm:flex sm:px-2 sm:py-5'
+        className='relative flex shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'
       >
-        <Link passHref href={'/'}>
-          <AnimatedLogo show={expandSidebar} />
-          <AnimatedxsLogo show={!expandSidebar} />
-        </Link>
-
-        <m.span
-          onClick={toggleSidebar}
-          whileHover={{
-            scale: 1.1,
-          }}
-          className='flex-center absolute -right-5 top-2 z-50 h-10 w-10 cursor-pointer rounded-full border border-shadow-border bg-white'
-        >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
+        {expandSidebar ? (
+          <div className='flex-between'>
+            <Link passHref href={'/'}>
+              <AnimatedLogo show={expandSidebar} />
+            </Link>
+            <LayoutRight className='cursor-pointer' onClick={() => {}} />
+          </div>
+        ) : null}
+        <Spacer y='50' />
+        <DropdownMenu>
+          <User name={user.first_name} email={user.email} imgSrc={userAvatar} />
+          <DropdownMenuContent
+            align='start'
+            className='w-60 rounded-lg bg-white shadow-lg'
           >
-            <Path
-              d='M 2 9.423 L 20 9.423'
-              animate={expandSidebar ? 'open' : 'closed'}
-              variants={{
-                closed: { opacity: 1 },
-                open: { opacity: 0 },
-              }}
-              transition={{ duration: 0.1 }}
-            />
-
-            <Path
-              animate={expandSidebar ? 'open' : 'closed'}
-              variants={{
-                closed: {
-                  d: 'M10.061 19.061L17.121 12L10.061 4.939L7.939 7.061L12.879 12L7.939 16.939L10.061 19.061Z',
-                },
-                open: {
-                  d: 'M13.939 4.93896L6.879 12L13.939 19.061L16.061 16.939L11.121 12L16.061 7.06096L13.939 4.93896Z',
-                },
-              }}
-            />
-          </svg>
-        </m.span>
-        {/* <ChatModal expandSidebar={expandSidebar} /> */}
-
-        <ul className='relative mt-8 flex flex-col gap-5'>
+            <Link href={'/profile/setting'} passHref>
+              <DropdownMenuItem className='cursor-pointer gap-x-2.5 rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
+                <User2 size={20} />
+                <span className='text-md font-[500]'>View Profile</span>{' '}
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
+              <MailOpen size={20} />
+              <span className='text-md font-[500]'>Notification</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => await logOut()}
+              className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'
+            >
+              <LogOut size={20} />
+              <span className='text-md font-[500]'>Log Out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Spacer y='24' />
+        <ul className='relative flex flex-col gap-5'>
           {topValue !== undefined ? (
             <span
               style={{ top: topValue }}
-              className={`absolute z-30 h-12 w-full rounded-md bg-nav-selected opacity-50 transition-all duration-300 ease-in-out`}
+              className={`absolute z-30 h-12 w-full rounded-md bg-doc-secondary transition-all duration-300 ease-in-out`}
             />
           ) : null}
           {SidebarLinks.map((item, index) => {
@@ -139,7 +143,7 @@ const Sidebar = () => {
               <li
                 key={item.id}
                 onClick={() => handleNavigation(item.link, index)}
-                className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-4 text-slate-200 hover:text-slate-300`}
+                className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-4`}
               >
                 <Image
                   src={isActive ? item.active_image : item.image}
@@ -152,13 +156,13 @@ const Sidebar = () => {
                 <AnimatePresence>
                   {expandSidebar && (
                     <m.span
-                      initial='hidden'
+                      initial='show'
                       animate='show'
                       exit='hidden'
                       variants={sidebarTitleVariants}
                       className={`${
-                        isActive ? 'text-primary-200' : 'text-shadow-100'
-                      } whitespace-nowrap text-[14px]`}
+                        isActive ? 'text-doc-primary' : 'text-doc-shadow'
+                      } base-semibold`}
                     >
                       {item.title}
                     </m.span>
@@ -168,10 +172,19 @@ const Sidebar = () => {
             );
           })}
         </ul>
-        {expandSidebar && <CommunityCard />}
+        <div className='mt-auto flex flex-col gap-y-6'>
+          <div className='flex gap-x-2'>
+            <GiftIcon />
+            <p className='text-md font-[500] text-doc-shadow'>Refer And Earn</p>
+          </div>
+          <div className='flex gap-x-2'>
+            <HelpIcon />
+            <p className='text-md font-[500] text-doc-shadow'>Help</p>
+          </div>
+        </div>
+        <Spacer y='20' />
       </m.aside>
     </LazyMotion>
-    // </MaxChatProvider>
   );
 };
 

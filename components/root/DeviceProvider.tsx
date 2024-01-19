@@ -2,7 +2,6 @@
 import useWindowResize from 'beautiful-react-hooks/useWindowResize';
 import { useParams, usePathname } from 'next/navigation';
 import { ReactNode, useState } from 'react';
-import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 // const TutorialSheet = dynamic(() => import('@/components/tutorial'));
 
@@ -24,7 +23,6 @@ const DeviceProvider = ({ children }: { children: ReactNode }) => {
     <>
       {!isEssayDetail && <Sidebar />}
       <div className='relative hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
-        {!isEssayDetail && <Navbar />}
         {/* <TutorialSheet /> */}
         {children}
       </div>
