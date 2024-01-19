@@ -40,7 +40,7 @@ const Question = () => {
             className='sm:w-2/3 p-[10px] sm:py-[29px] sm:px-[35px] sm:rounded-[36px] rounded-[8px] bg-[#F5F6F9]'
           >
             {datalist.map((item,index)=>(
-              <div className='sm:mt-[20px] mt-[13px] bg-[#fff] sm:rounded-[24px] rounded-[8px] w-full px-[17px] py-[12px] sm:p-[36px]  cursor-pointer' onClick={()=>{setSelected(index)}}>
+              <div className='sm:mt-[20px] mt-[13px] bg-[#fff] sm:rounded-[24px] rounded-[8px] w-full px-[17px] py-[12px] sm:p-[36px]  cursor-pointer' key={index} onClick={()=>{setSelected(index)}}>
                 <div className='flex justify-between'>
                   <div>
                     <p className={`${selected === index ? 'sm:text-[20px] text-[14px] text-primary-200' :'sm:text-[20px] text-[14px] text-[#3B3A40]'}`}>{item.title}</p>
