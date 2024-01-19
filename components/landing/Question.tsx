@@ -23,9 +23,6 @@ const Question = () => {
           className='flex-col flex justify-evenly gap-y-4 w-full sm:flex-row sm:gap-y-0'
         >
           <m.div
-            variants={
-              fadeIn('right', 'tween', 0.2, 1)
-            }
             className='flex w-full flex-col gap-y-2 sm:w-1/3'
           >
             <h1 className='font-baskerville text-[28px] font-[400] text-center sm:text-[50px] sm:text-left'>Frequently Asked <br/> <span className="before:block before:absolute sm:before:top-[36px] before:top-[22px] before:-inset-1 before:-skew-y-0 before:h-[40%] before:bg-[#D2DFFF] relative inline-block before:z-[-1]">Question&apos;s</span></h1>
@@ -34,9 +31,6 @@ const Question = () => {
             </p>
           </m.div>
           <m.div
-            variants={
-              fadeIn('left', 'tween', 0.2, 1)
-            }
             className='sm:w-2/3 p-[10px] sm:py-[29px] sm:px-[35px] sm:rounded-[36px] rounded-[8px] bg-[#F5F6F9]'
           >
             {datalist.map((item,index)=>(
