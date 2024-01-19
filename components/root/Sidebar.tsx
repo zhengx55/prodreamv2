@@ -21,9 +21,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '../ui/dropdown-menu';
-import User from './Navbar/User';
 import Spacer from './Spacer';
 import { AnimatedLogo, GiftIcon, HelpIcon, LayoutRight } from './SvgComponents';
+import User from './User';
 
 const Sidebar = () => {
   const pathname = usePathname();
