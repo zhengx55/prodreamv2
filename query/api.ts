@@ -259,7 +259,7 @@ export async function googleLogin(loginParam: {
 
 export async function userLogin(loginParam: {
   username?: string;
-  password: string;
+  password?: string;
 }): Promise<LoginData> {
   try {
     const formData = new FormData();
