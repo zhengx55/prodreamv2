@@ -36,10 +36,10 @@ export default function Page() {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
+      first_name: '',
+      last_name: '',
       password: '',
       email: '',
-      firstname: '',
-      lastname: '',
     },
   });
   const { mutateAsync: handleSignup, isPending: isSignupPending } = useMutation(
@@ -48,8 +48,8 @@ export default function Page() {
       onSuccess: async (_, variables, _contex) => {
         toast.success('Successfully Signup');
         const login_data = await userLogin({
-          firstname: variables.firstname,
-          lastname: variables.lastname,
+          first_name: variables.first_name,
+          last_name: variables.last_name,
           username: variables.email,
           password: variables.password,
         });
@@ -66,8 +66,8 @@ export default function Page() {
   );
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     await handleSignup({
-      firstname: values.firstname,
-      lastname: values.lastname,
+      first_name: values.first_name,
+      last_name: values.last_name,
       email: values.email,
       password: values.password,
     });
@@ -105,16 +105,16 @@ export default function Page() {
             <div className='flex flex-between'>
               <FormField
                 control={form.control}
-                name='firstname'
+                name='first_name'
                 render={({ field }) => (
                   <FormItem className='relative'>
-                    <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='firstname'>
+                    <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='first_name'>
                       First Name
                     </FormLabel>
                     <FormControl>
                       <Input
-                        autoComplete='firstname'
-                        id='firstname'
+                        autoComplete='first_name'
+                        id='first_name'
                         placeholder=''
                         className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                         {...field}
@@ -126,16 +126,16 @@ export default function Page() {
               />
               <FormField
                 control={form.control}
-                name='lastname'
+                name='last_name'
                 render={({ field }) => (
                   <FormItem className='relative'>
-                    <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='lastname'>
+                    <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='last_name'>
                       Last Name
                     </FormLabel>
                     <FormControl>
                       <Input
-                        autoComplete='lastname'
-                        id='lastname'
+                        autoComplete='last_name'
+                        id='last_name'
                         placeholder=''
                         className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                         {...field}
