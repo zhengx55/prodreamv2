@@ -66,7 +66,13 @@ export const AutoCompleteMenuList = React.forwardRef(
       async (groupIndex: number, commandIndex: number) => {
         const command = props.items[groupIndex].commands[commandIndex];
         const { selection } = props.editor.state;
-        const original_paragraph = selection.$head.parent.textContent;
+        let original_paragraph = selection.$head.parent.textContent;
+        if (original_paragraph.trim() === '/') {
+          original_paragraph = selection.$head.doc.textBetween(
+            0,
+            selection.$head.before()
+          );
+        }
         props.command(command);
         await handleCopilot({
           tool: command.apiEndpoint!,

@@ -63,7 +63,10 @@ export const AiMenu = ({ editor }: Props) => {
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
-        if (done) break;
+        if (done) {
+          setHoverItem(0);
+          break;
+        }
         handleStreamData(value);
       }
     },
@@ -169,7 +172,11 @@ export const AiMenu = ({ editor }: Props) => {
         {!generating ? (
           hasAiResult ? (
             <div className='flex min-h-12 w-full items-center rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
-              <Typed strings={[aiResult]} className='px-2' typeSpeed={5} />
+              <Typed
+                strings={[aiResult]}
+                className='small-regular px-2'
+                typeSpeed={5}
+              />
             </div>
           ) : (
             <div className='flex-between h-12 w-full gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
@@ -230,6 +237,13 @@ export const AiMenu = ({ editor }: Props) => {
                         hoverItem === idx ? 'bg-doc-secondary' : ''
                       } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
                       key={item.id}
+                      onClick={() => {
+                        !item.submenu &&
+                          handleCopilot({
+                            tool: item.lable,
+                            text: selectedText,
+                          });
+                      }}
                       onMouseEnter={() => setHoverItem(idx)}
                       onMouseLeave={() => setHoverItem(null)}
                     >
