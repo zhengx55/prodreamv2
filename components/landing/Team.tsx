@@ -54,7 +54,7 @@ const Team = () => {
           </h1>
           <Spacer y='20' />
           <p className='small-regular text-[#64626A] text-center sm:text-[32px] sm:text-center'>
-          ProDream's Ease-of-Use Features Assist You in<br className='hidden sm:block'/> Writing, Editing, and Citing.
+          ProDream&apos;s Ease-of-Use Features Assist You in<br className='hidden sm:block'/> Writing, Editing, and Citing.
           </p>
           <Spacer y='40' />
           <div className='relative flex w-full flex-col sm:rounded-[36px] rounded-[8px] sm:p-[67px] overflow-hidden w-[320px] sm:w-[1200px]'>
