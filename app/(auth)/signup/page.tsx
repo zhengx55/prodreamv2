@@ -48,8 +48,6 @@ export default function Page() {
       onSuccess: async (_, variables, _contex) => {
         toast.success('Successfully Signup');
         const login_data = await userLogin({
-          first_name: variables.first_name,
-          last_name: variables.last_name,
           username: variables.email,
           password: variables.password,
         });
