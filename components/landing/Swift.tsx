@@ -16,9 +16,6 @@ const Swift = () => {
           className='flex-col sm:flex-row flex items-center justify-evenly gap-y-4 sm:gap-y-0'
         >
           <m.div
-            variants={
-              fadeIn('right', 'tween', 0.2, 1)
-            }
             className='flex w-full flex-col gap-y-2 sm:w-1/2'
           >
             <h1 className='font-baskerville text-[28px] sm:text-[48px] font-[400] text-center sm:w-full sm:text-left'>Minutes <span className="before:block before:absolute before:top-[16px] sm:before:top-[36px] before:-inset-1 before:-skew-y-0 before:h-[40%] before:bg-[#CDCDFF] relative inline-block before:z-[-1]">to Perfection</span>: Swift and Flawless Editing!</h1>
@@ -26,9 +23,6 @@ const Swift = () => {
               Discover how our premier editing tools can transform your academic work into a masterpiece of clarity and precision.
             </p>
             <div
-              variants={
-                fadeIn('left', 'tween', 0.2, 1)
-              }
               className='block sm:hidden mt-[20px]'
             >
               <Image
@@ -60,9 +54,6 @@ const Swift = () => {
             </div>
           </m.div>
           <m.div
-            variants={
-              fadeIn('left', 'tween', 0.2, 1)
-            }
             className='hidden sm:block'
           >
             <Image

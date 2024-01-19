@@ -60,9 +60,6 @@ const ShowCase = () => {
           className='flex-col flex items-center justify-evenly gap-y-4 sm:flex-row sm:gap-y-0'
         >
           <m.div
-            variants={
-              fadeIn('right', 'tween', 0.2, 1)
-            }
             className='flex w-full items-center sm:items-start flex-col gap-y-2 sm:w-1/2'
           >
             <div>
@@ -89,9 +86,6 @@ const ShowCase = () => {
             </div>
           </m.div>
           <m.div
-            variants={
-              fadeIn('left', 'tween', 0.2, 1)
-            }
             className='flex w-full flex-col items-center sm:items-start sm:w-1/2'
           >
             <div>
