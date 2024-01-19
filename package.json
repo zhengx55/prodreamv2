@@ -82,6 +82,7 @@
     "tailwindcss-animate": "^1.0.7",
     "use-deep-compare-effect": "^1.8.1",
     "uuid": "^9.0.1",
+    "vaul": "^0.8.0",
     "y-prosemirror": "^1.2.2",
     "y-protocols": "^1.0.6",
     "yjs": "^13.6.10",

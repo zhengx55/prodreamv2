@@ -29,7 +29,7 @@ const GoogleSignin = () => {
   return (
     <button
       onClick={googleAuth}
-      className='flex-center w-64 cursor-pointer gap-x-2 self-center rounded-2xl border border-shadow-border py-2 transition-transform hover:-translate-y-1'
+      className='flex-center w-full cursor-pointer gap-x-2 self-center rounded-2xl border border-shadow-border py-2 transition-transform hover:-translate-y-1'
     >
       <Image
         src='/google.svg'
