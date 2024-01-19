@@ -105,7 +105,6 @@ export interface ISigunUpRequest {
   first_name?: string;
   from?: string;
   last_name?: string;
-  username: string;
   password: string;
   referral?: string;
 }
