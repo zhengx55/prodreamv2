@@ -1,3 +1,4 @@
+import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { memo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
@@ -6,21 +7,23 @@ type Props = { name: string; email: string; imgSrc: string };
 
 const User = ({ name, email, imgSrc }: Props) => {
   return (
-    <div className='flex max-w-56 cursor-pointer items-center gap-x-3.5'>
-      <Avatar>
-        <AvatarImage
-          className='rounded-full border border-primary-200 bg-primary-50 object-contain'
-          src={imgSrc}
-          referrerPolicy='no-referrer'
-          alt={name}
-        />
-        <AvatarFallback>{name}</AvatarFallback>
-      </Avatar>
-      <div className='flex flex-col'>
-        <h2 className='small-semibold text-black-100'>{name}</h2>
-        <p className='subtle-semibold text-shadow-100'>{email}</p>
+    <DropdownMenuTrigger asChild>
+      <div className='flex max-w-56 cursor-pointer items-center gap-x-3.5'>
+        <Avatar>
+          <AvatarImage
+            className='rounded-full border border-primary-200 bg-primary-50 object-contain'
+            src={imgSrc}
+            referrerPolicy='no-referrer'
+            alt={name}
+          />
+          <AvatarFallback>{name}</AvatarFallback>
+        </Avatar>
+        <div className='flex flex-col'>
+          <h2 className='small-semibold text-black-100'>{name}</h2>
+          <p className='subtle-semibold text-shadow-100'>{email}</p>
+        </div>
       </div>
-    </div>
+    </DropdownMenuTrigger>
   );
 };
 

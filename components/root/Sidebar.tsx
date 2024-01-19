@@ -1,6 +1,8 @@
 'use client';
 import { SidebarLinks } from '@/constant';
+import { userLogOut } from '@/query/api';
 import { useUserInfo } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import {
   AnimatePresence,
   LazyMotion,
@@ -8,21 +10,35 @@ import {
   domAnimation,
   m,
 } from 'framer-motion';
+import { LogOut, MailOpen, User2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { memo, useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '../ui/dropdown-menu';
 import User from './Navbar/User';
 import Spacer from './Spacer';
-import { AnimatedLogo, LayoutRight } from './SvgComponents';
+import { AnimatedLogo, GiftIcon, HelpIcon, LayoutRight } from './SvgComponents';
 
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const [_cookies, _setCookie, removeCookie] = useCookies(['token']);
   const [topValue, setTopValue] = useState<number | undefined>();
   const [expandSidebar, setExpandSidebar] = useState(true);
   const user = useUserInfo((state) => state.user);
-
+  const { mutateAsync: logOut } = useMutation({
+    mutationFn: () => userLogOut(),
+    onSuccess: () => {
+      removeCookie('token', { path: '/' });
+      router.replace('/login');
+    },
+  });
   const toggleSidebar = () => {
     setExpandSidebar(!expandSidebar);
   };
@@ -88,7 +104,31 @@ const Sidebar = () => {
           </div>
         ) : null}
         <Spacer y='50' />
-        <User name={user.first_name} email={user.email} imgSrc={userAvatar} />
+        <DropdownMenu>
+          <User name={user.first_name} email={user.email} imgSrc={userAvatar} />
+          <DropdownMenuContent
+            align='start'
+            className='w-60 rounded-lg bg-white shadow-lg'
+          >
+            <Link href={'/profile/setting'} passHref>
+              <DropdownMenuItem className='cursor-pointer gap-x-2.5 rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
+                <User2 size={20} />
+                <span className='text-md font-[500]'>View Profile</span>{' '}
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
+              <MailOpen size={20} />
+              <span className='text-md font-[500]'>Notification</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => await logOut()}
+              className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'
+            >
+              <LogOut size={20} />
+              <span className='text-md font-[500]'>Log Out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <Spacer y='24' />
         <ul className='relative flex flex-col gap-5'>
           {topValue !== undefined ? (
@@ -132,6 +172,17 @@ const Sidebar = () => {
             );
           })}
         </ul>
+        <div className='mt-auto flex flex-col gap-y-6'>
+          <div className='flex gap-x-2'>
+            <GiftIcon />
+            <p className='text-md font-[500] text-doc-shadow'>Refer And Earn</p>
+          </div>
+          <div className='flex gap-x-2'>
+            <HelpIcon />
+            <p className='text-md font-[500] text-doc-shadow'>Help</p>
+          </div>
+        </div>
+        <Spacer y='20' />
       </m.aside>
     </LazyMotion>
   );
