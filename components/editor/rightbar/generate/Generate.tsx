@@ -1,8 +1,5 @@
 import Loading from '@/components/root/CustomLoading';
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
-import Spacer from '@/components/root/Spacer';
-import { GenerateFill } from '@/components/root/SvgComponents';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -12,22 +9,16 @@ import { copilot } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
-import {
-  AlertTriangle,
-  ChevronLeft,
-  ChevronUp,
-  FileText,
-  Frown,
-  RotateCw,
-  Smile,
-} from 'lucide-react';
+import { ChevronLeft, ChevronUp, FileText } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { memo, useRef, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
-import { useEditorCommand } from '../hooks/useEditorCommand';
+import { useEditorCommand } from '../../hooks/useEditorCommand';
+import GenerateBtn from './GenerateBtn';
+import Result from './Result';
 
 const Warn = dynamic(() => import('./Warn'));
-const GenerateDropdown = dynamic(() => import('./dropdown/GenerateDropdown'));
+const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 const Typed = dynamic(() => import('react-typed'), { ssr: false });
 
 export const Generate = memo(() => {
@@ -83,28 +74,34 @@ export const Generate = memo(() => {
     setGeneratedResult((prev) => (prev += result));
   };
 
-  const handleGenerate = async () => {
+  const memoSetGeneratedTab = useCallback((value: string) => {
+    setGenerateTab(value);
+  }, []);
+
+  const handleGenerate = useCallback(async () => {
     const text = editor?.getText();
     const tool = copilot_option.current;
     await handleCopilot({ text: text!, tool: tool! });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor]);
 
-  const handleDismiss = () => {
+  const handleDismiss = useCallback(() => {
     setGeneratedResult('');
     setGenerateTab(-1);
-  };
+  }, []);
 
-  const handleInsert = () => {
+  const handleInsert = useCallback(() => {
     if (!editor) return;
     const { selection } = editor.state;
     const { from, to } = selection;
     insertAtPostion(from, to, generatedResult);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor, generatedResult]);
 
   return (
     <LazyMotionProvider>
       <AnimatePresence mode='wait' initial={false}>
-        {generateTab === -1 && (
+        {generateTab === -1 ? (
           <m.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -158,8 +155,7 @@ export const Generate = memo(() => {
               );
             })}
           </m.div>
-        )}
-        {generateTab !== -1 && (
+        ) : (
           <m.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -179,68 +175,14 @@ export const Generate = memo(() => {
             </div>
             <div className='flex flex-1 flex-col overflow-y-auto'>
               {!generatedResult && !isGenerating ? (
-                <div className='flex flex-col'>
-                  <Spacer y='30' />
-                  <Warn />
-                  <Button
-                    onClick={handleGenerate}
-                    className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1 '
-                  >
-                    <GenerateFill fill='#fff' size='20' />
-                    Generate
-                  </Button>
-                </div>
+                <GenerateBtn handleGenerate={handleGenerate} />
               ) : !isGenerating ? (
-                <div className='mt-4 flex w-full flex-col rounded-t border border-shadow-border pt-3'>
-                  <Typed
-                    strings={[generatedResult]}
-                    className='small-regular px-3 text-doc-font'
-                    typeSpeed={5}
-                  />
-                  <Spacer y='24' />
-                  <div className='flex-between px-4'>
-                    <RotateCw
-                      onClick={handleGenerate}
-                      size={20}
-                      className='cursor-pointer text-doc-font hover:opacity-50'
-                    />
-                    <div className='flex gap-x-2'>
-                      <Button
-                        variant={'outline'}
-                        className='h-max w-max rounded px-6 py-1'
-                        onClick={handleDismiss}
-                      >
-                        Dismiss
-                      </Button>
-                      <Button
-                        variant={'outline'}
-                        onClick={handleInsert}
-                        className='h-max w-max rounded border-doc-primary px-6 py-1 text-doc-primary'
-                      >
-                        Insert
-                      </Button>
-                    </div>
-                  </div>
-                  <Spacer y='12' />
-                  <div className='flex-between h-7 w-full rounded-b bg-border-50 px-2 py-1'>
-                    <div className='flex gap-x-2'>
-                      <AlertTriangle className='text-shadow' size={15} />
-                      <p className='subtle-regular text-shadow'>
-                        Al responses can be inaccurate or misleading.
-                      </p>
-                    </div>
-                    <div className='flex gap-x-2'>
-                      <Smile
-                        className='cursor-pointer text-shadow hover:opacity-50'
-                        size={15}
-                      />
-                      <Frown
-                        className='cursor-pointer text-shadow hover:opacity-50'
-                        size={15}
-                      />
-                    </div>
-                  </div>
-                </div>
+                <Result
+                  handleDismiss={handleDismiss}
+                  handleGenerate={handleGenerate}
+                  handleInsert={handleInsert}
+                  generatedResult={generatedResult}
+                />
               ) : (
                 <Loading />
               )}
