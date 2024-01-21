@@ -123,7 +123,7 @@ const Tiptap = ({
           {showCopilotMenu && <AiMenu editor={editor} />}
           {showCitiationMenu && <CitiationMenu editor={editor} />}
           <BubbleMenu editor={editor} />
-          <EditorContent className='flex-1 pb-[20vh]' editor={editor} />
+          <EditorContent className='flex-1 pb-[40vh]' editor={editor} />
           <BlockMenu editor={editor} />
         </div>
       </div>

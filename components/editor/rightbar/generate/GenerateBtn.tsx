@@ -12,7 +12,7 @@ const GenerateBtn = ({ handleGenerate }: Props) => {
       <Warn />
       <Button
         onClick={handleGenerate}
-        className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1 '
+        className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
       >
         <GenerateFill fill='#fff' size='20' />
         Generate

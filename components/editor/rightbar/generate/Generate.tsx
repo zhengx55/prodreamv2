@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { GenerateOptions } from '@/constant';
-import { copilot } from '@/query/api';
+import { copilot, outline } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
@@ -15,22 +15,45 @@ import { memo, useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 import GenerateBtn from './GenerateBtn';
+import OutlineBtn from './OutlineBtn';
 import Result from './Result';
 
-const Warn = dynamic(() => import('./Warn'));
+const OutlineTypes = ['argumentative', 'analytical', 'scientific'];
 const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
-const Typed = dynamic(() => import('react-typed'), { ssr: false });
 
 export const Generate = memo(() => {
   const [generateTab, setGenerateTab] = useState<number | string>(-1);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResult, setGeneratedResult] = useState('');
+  const [generatePause, setGeneratePause] = useState(false);
   const editor = useAIEditor((state) => state.editor_instance);
   const copilot_option = useRef<string | null>(null);
   const { insertAtPostion } = useEditorCommand(editor!);
-
+  const isOutline =
+    typeof generateTab !== 'number' && OutlineTypes.includes(generateTab);
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { tool: string; text: string }) => copilot(params),
+    onMutate: () => {
+      setIsGenerating(true);
+      if (generatedResult) setGeneratedResult('');
+    },
+    onSuccess: async (data: ReadableStream) => {
+      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      while (true && !generatePause) {
+        const { value, done } = await reader.read();
+        handleStreamData(value);
+        if (done) break;
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setIsGenerating(false);
+    },
+  });
+
+  const { mutateAsync: handleOutline } = useMutation({
+    mutationFn: (params: { essay_type: string; idea: string; area: string }) =>
+      outline(params),
     onMutate: () => {
       setIsGenerating(true);
       if (generatedResult) setGeneratedResult('');
@@ -40,19 +63,19 @@ export const Generate = memo(() => {
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
+        if (generatePause) break;
         handleStreamData(value);
       }
     },
-    onSettled: () => {
-      setIsGenerating(false);
-    },
     onError: (error) => {
       toast.error(error.message);
+      setIsGenerating(false);
     },
   });
 
   const handleStreamData = (value: string | undefined) => {
     if (!value) return;
+    isGenerating && setIsGenerating(false);
     const lines = value.split('\n');
     const dataLines = lines.filter((line) => line.startsWith('data:'));
     const eventData = dataLines.map((line) =>
@@ -85,15 +108,27 @@ export const Generate = memo(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
+  const handleGenerateOutline = useCallback(
+    async (idea: string, area: string) => {
+      await handleOutline({ essay_type: generateTab as string, idea, area });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [generateTab]
+  );
+
   const handleDismiss = useCallback(() => {
     setGeneratedResult('');
     setGenerateTab(-1);
   }, []);
 
-  const handleInsert = useCallback(() => {
+  const handleInsert = useCallback(async () => {
     if (!editor) return;
     const { selection } = editor.state;
     const { from, to } = selection;
+    if (isOutline) {
+      const parse = (await import('marked')).parse;
+      console.log(parse(generatedResult));
+    }
     insertAtPostion(from, to, generatedResult);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, generatedResult]);
@@ -130,7 +165,10 @@ export const Generate = memo(() => {
                         />
                       </div>
                     </DropdownMenuTrigger>
-                    <GenerateDropdown items={item.submenu} />
+                    <GenerateDropdown
+                      onClick={memoSetGeneratedTab}
+                      items={item.submenu}
+                    />
                   </DropdownMenu>
                 );
               return (
@@ -166,16 +204,23 @@ export const Generate = memo(() => {
             <div
               onClick={() => {
                 setGenerateTab(-1);
+                setGeneratePause(true);
                 setGeneratedResult('');
               }}
               className='flex cursor-pointer items-center gap-x-3 px-2 hover:underline'
             >
               <ChevronLeft size={20} className='text-doc-font' />
-              <p className='base-regular text-doc-font'>{generateTab}</p>
+              <p className='base-regular capitalize text-doc-font'>
+                {generateTab}
+              </p>
             </div>
             <div className='flex flex-1 flex-col overflow-y-auto'>
               {!generatedResult && !isGenerating ? (
-                <GenerateBtn handleGenerate={handleGenerate} />
+                isOutline ? (
+                  <OutlineBtn handleGenerate={handleGenerateOutline} />
+                ) : (
+                  <GenerateBtn handleGenerate={handleGenerate} />
+                )
               ) : !isGenerating ? (
                 <Result
                   handleDismiss={handleDismiss}

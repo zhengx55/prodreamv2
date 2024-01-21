@@ -59,3 +59,8 @@ export const resetName = z.object({
     .min(2, { message: 'Last name must be at least 2 characters' })
     .max(50, { message: 'Last name cannot exceed 50 characters' }),
 });
+
+export const generateOutlineSchema = z.object({
+  area: z.string().min(1, { message: 'Area must be at least 1 character' }),
+  idea: z.string().min(1, { message: 'Description must be at least 1 character' }),
+});

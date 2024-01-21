@@ -1,8 +1,8 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { AlertTriangle, Frown, RotateCw, Smile } from 'lucide-react';
-import { memo } from 'react';
-import Typed from 'react-typed';
+import { memo, useEffect, useRef, useState } from 'react';
 
 type Props = {
   generatedResult: string;
@@ -16,13 +16,29 @@ const Result = ({
   handleGenerate,
   handleInsert,
 }: Props) => {
+  const [currentText, setCurrentText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const timeout = useRef<NodeJS.Timeout>();
+
+  useUnmount(() => {
+    timeout.current && clearTimeout(timeout.current);
+  });
+
+  useEffect(() => {
+    if (currentIndex < generatedResult.length) {
+      timeout.current = setTimeout(() => {
+        setCurrentText((prevText) => prevText + generatedResult[currentIndex]);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+      }, 10);
+    }
+    return () => {
+      clearTimeout(timeout.current);
+    };
+  }, [currentIndex, generatedResult]);
+
   return (
     <div className='mt-4 flex w-full flex-col rounded-t border border-shadow-border pt-3'>
-      <Typed
-        strings={[generatedResult]}
-        className='small-regular px-3 text-doc-font'
-        typeSpeed={5}
-      />
+      <p className='small-regular px-3 text-doc-font'>{currentText}</p>
       <Spacer y='24' />
       <div className='flex-between px-4'>
         <RotateCw
