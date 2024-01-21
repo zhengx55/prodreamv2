@@ -32,7 +32,7 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
   return (
     <LazyMotion features={domAnimation}>
       <AnimatePresence mode='wait'>
-        {show && (
+        {show ? (
           <m.aside
             key={'doc-right-bar'}
             initial={{ width: 0 }}
@@ -123,8 +123,7 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
               {selected === 0 ? null : selected === 2 ? <Generate /> : null}
             </section>
           </m.aside>
-        )}
-        {!show && (
+        ) : (
           <m.span
             key={'doc-rightbar-trigger'}
             initial={{ opacity: 0 }}

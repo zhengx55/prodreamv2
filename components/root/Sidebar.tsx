@@ -22,7 +22,7 @@ import {
   DropdownMenuItem,
 } from '../ui/dropdown-menu';
 import Spacer from './Spacer';
-import { AnimatedLogo, GiftIcon, HelpIcon, LayoutRight } from './SvgComponents';
+import { AnimatedLogo, GiftIcon, HelpIcon } from './SvgComponents';
 import User from './User';
 
 const Sidebar = () => {
@@ -39,9 +39,6 @@ const Sidebar = () => {
       router.replace('/login');
     },
   });
-  const toggleSidebar = () => {
-    setExpandSidebar(!expandSidebar);
-  };
 
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
@@ -95,14 +92,12 @@ const Sidebar = () => {
         variants={sidebarVariants}
         className='relative flex shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'
       >
-        {expandSidebar ? (
-          <div className='flex-between'>
-            <Link passHref href={'/'}>
-              <AnimatedLogo show={expandSidebar} />
-            </Link>
-            <LayoutRight className='cursor-pointer' onClick={() => {}} />
-          </div>
-        ) : null}
+        <div className='flex-between'>
+          <Link passHref href={'/'}>
+            <AnimatedLogo show={expandSidebar} />
+          </Link>
+        </div>
+
         <Spacer y='50' />
         <DropdownMenu>
           <User name={user.first_name} email={user.email} imgSrc={userAvatar} />

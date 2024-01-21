@@ -47,6 +47,7 @@ export const AutoCompleteSlashCommand = Extension.create({
         pluginKey: new PluginKey(extensionName),
         allow: ({ state, range }) => {
           const $from = state.doc.resolve(range.from);
+          const isRootDepth = $from.depth === 1;
           const isParagraph = $from.parent.type.name === 'paragraph';
           const isSlashAtTheEnd =
             $from.parent.textContent.length > 1 &&
@@ -54,7 +55,7 @@ export const AutoCompleteSlashCommand = Extension.create({
               $from.parent.textContent.length - 1
             ) === '/';
 
-          return isParagraph && isSlashAtTheEnd;
+          return isParagraph && isSlashAtTheEnd && isRootDepth;
         },
         command: ({ editor, props }: { editor: Editor; props: any }) => {
           const { view, state } = editor;

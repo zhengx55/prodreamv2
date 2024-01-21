@@ -13,18 +13,7 @@ export const useAiOptions = () => {
         id: 'copilot-00',
         name: 'Continue Writing',
         icon: <Copilot_Continue />,
-        submenu: [
-          {
-            id: 'edit-tools-17',
-            lable: 'continue_write_sentence',
-            name: 'Write the next sentence',
-          },
-          {
-            id: 'edit-tools-18',
-            lable: 'continue_write_paragraph',
-            name: 'Write more content',
-          },
-        ],
+        lable: 'continue_write_sentence',
       },
       {
         id: 'copilot-01',
