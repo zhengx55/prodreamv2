@@ -79,33 +79,6 @@ export const useAiOptions = () => {
           },
         ],
       },
-      {
-        id: 'copilot-03',
-        name: 'Generate from essay',
-        icon: <Copilot_Generate_Essay />,
-        submenu: [
-          {
-            id: 'edit-tools-13',
-            lable: 'opposing_arguments',
-            name: 'Write Introduction',
-          },
-          {
-            id: 'edit-tools-14',
-            lable: 'more_depth',
-            name: 'Write Conclusion',
-          },
-          {
-            id: 'edit-tools-15',
-            lable: 'summarize',
-            name: 'Generate title',
-          },
-          {
-            id: 'edit-tools-16',
-            lable: 'summarize',
-            name: 'Generate Outline',
-          },
-        ],
-      },
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
