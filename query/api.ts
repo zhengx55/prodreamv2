@@ -491,6 +491,26 @@ export async function outline(params: {
   }
 }
 
+export async function createCitation(params: { citation_type: string }) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) throw new Error('Opps something went wrong');
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function plagiarismCheck(text: string) {
   try {
     const token = Cookies.get('token');
