@@ -84,20 +84,11 @@ export const AiMenu = ({ editor }: Props) => {
     const lines = value.split('\n');
     const dataLines = lines.filter((line) => line.startsWith('data:'));
     const eventData = dataLines.map((line) =>
-      line.slice('data:'.length).trimEnd()
+      JSON.parse(line.slice('data:'.length))
     );
     let result = '';
     eventData.forEach((word) => {
-      const leadingSpaces = word.match(/^\s*/);
-      const spacesLength = leadingSpaces ? leadingSpaces[0].length : 0;
-      if (spacesLength === 2) {
-        result += ` ${word.trim()}`;
-      } else {
-        if (/^\d/.test(word.trim())) {
-          result += ` ${word.trim()}`;
-        }
-        result += word.trim();
-      }
+      result += word;
     });
     setAiResult((prev) => (prev += result));
   };

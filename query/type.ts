@@ -397,3 +397,10 @@ export type IDocDetail = {
   create_time: number;
   update_time: number;
 };
+
+export type ICitationType =
+  | 'book_section'
+  | 'whole_book'
+  | 'Website'
+  | 'booke_special_section'
+  | 'journal';
