@@ -20,8 +20,8 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
   const form = useForm<z.infer<typeof generateOutlineSchema>>({
     resolver: zodResolver(generateOutlineSchema),
     defaultValues: {
-      idea: '',
-      area: '',
+      idea: 'computer',
+      area: 'history of computer',
     },
   });
 

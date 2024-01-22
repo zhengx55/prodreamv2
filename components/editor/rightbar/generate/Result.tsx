@@ -38,7 +38,9 @@ const Result = ({
 
   return (
     <div className='mt-4 flex w-full flex-col rounded-t border border-shadow-border pt-3'>
-      <p className='small-regular px-3 text-doc-font'>{currentText}</p>
+      <div className='small-regular whitespace-pre-wrap px-3 text-doc-font'>
+        {currentText}
+      </div>
       <Spacer y='24' />
       <div className='flex-between px-4'>
         <RotateCw

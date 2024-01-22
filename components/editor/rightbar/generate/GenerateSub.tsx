@@ -4,7 +4,9 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { m } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
+import { z } from 'zod';
+import { generateOutlineSchema } from '../../../../lib/validation';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 import GenerateBtn from './GenerateBtn';
 import OutlineBtn from './OutlineBtn';
@@ -20,6 +22,9 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
   const [generatedResult, setGeneratedResult] = useState('');
   const editor = useAIEditor((state) => state.editor_instance);
   const { insertAtPostion } = useEditorCommand(editor!);
+  const outLineInfo = useRef<z.infer<typeof generateOutlineSchema> | null>(
+    null
+  );
 
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { tool: string; text: string }) => copilot(params),
@@ -49,7 +54,8 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
       setIsGenerating(true);
       if (generatedResult) setGeneratedResult('');
     },
-    onSuccess: async (data: ReadableStream) => {
+    onSuccess: async (data: ReadableStream, variables) => {
+      outLineInfo.current = { idea: variables.idea, area: variables.area };
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
@@ -70,20 +76,11 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
     const lines = value.split('\n');
     const dataLines = lines.filter((line) => line.startsWith('data:'));
     const eventData = dataLines.map((line) =>
-      line.slice('data:'.length).trimEnd()
+      JSON.parse(line.slice('data:'.length))
     );
     let result = '';
     eventData.forEach((word) => {
-      const leadingSpaces = word.match(/^\s*/);
-      const spacesLength = leadingSpaces ? leadingSpaces[0].length : 0;
-      if (spacesLength === 2) {
-        result += ` ${word.trim()}`;
-      } else {
-        if (/^\d/.test(word.trim())) {
-          result += ` ${word.trim()}`;
-        }
-        result += word.trim();
-      }
+      result += word;
     });
     setGeneratedResult((prev) => (prev += result));
   };
@@ -114,11 +111,27 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
     const { from, to } = selection;
     if (isOutline) {
       const parse = (await import('marked')).parse;
-      console.log(parse(generatedResult));
+      const outline = await parse(generatedResult);
+      insertAtPostion(from, to, outline);
+      return;
     }
     insertAtPostion(from, to, generatedResult);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, generatedResult]);
+
+  const hanldeRegenerate = useCallback(async () => {
+    if (isOutline) {
+      if (!outLineInfo.current) return;
+      await handleGenerateOutline(
+        outLineInfo.current?.idea,
+        outLineInfo.current?.area
+      );
+    } else {
+      await handleGenerate();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOutline]);
+
   return (
     <m.div
       initial={{ opacity: 0, x: 50 }}
@@ -144,7 +157,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
         ) : !isGenerating ? (
           <Result
             handleDismiss={handleDismiss}
-            handleGenerate={handleGenerate}
+            handleGenerate={hanldeRegenerate}
             handleInsert={handleInsert}
             generatedResult={generatedResult}
           />
