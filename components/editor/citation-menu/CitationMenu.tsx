@@ -1,5 +1,6 @@
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
+import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
@@ -68,16 +69,16 @@ export const CitationMenu = memo(({ editor }: Props) => {
           {isPending ? (
             <Loading />
           ) : (
-            ciationResult?.map((item) => {
+            ciationResult?.map((item, index) => {
               return (
                 <div
                   key={item.article_title}
                   className='flex flex-col gap-y-3 bg-shadow-400 p-4'
                 >
                   <h1 className='base-semibold'>{item.article_title}</h1>
-                  <div className='base-regular flex items-center flex-wrap gap-x-2 text-doc-shadow'>
-                    {item.authors.map((author) => (
-                      <p key={author.first_name}>
+                  <div className='small-regular flex flex-wrap items-center gap-x-2 text-doc-shadow'>
+                    {item.authors.map((author, idx) => (
+                      <p key={`${index}-${idx}`}>
                         {author.first_name} {author.middle_name}
                         {author.last_name}
                       </p>
@@ -112,6 +113,13 @@ export const CitationMenu = memo(({ editor }: Props) => {
               );
             })
           )}
+          <div className='flex-center h-11 w-full gap-x-2'>
+            <p className='small-regular'>Not finding what you want?</p>
+            <p className='small-regular inline-flex cursor-pointer gap-x-1 text-doc-primary hover:underline'>
+              <Book />
+              Add custom citation
+            </p>
+          </div>
         </Surface>
       </div>
     </section>
