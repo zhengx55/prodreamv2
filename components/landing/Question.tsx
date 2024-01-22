@@ -27,7 +27,7 @@ const Question = () => {
           >
             <h1 className='font-baskerville text-[28px] font-[400] text-center sm:text-[50px] sm:text-left'>Frequently Asked <br/> <span className="before:block before:absolute sm:before:top-[36px] before:top-[22px] before:-inset-1 before:-skew-y-0 before:h-[40%] before:bg-[#D2DFFF] relative inline-block before:z-[-1]">Question&apos;s</span></h1>
             <p className='small-regular sm:text-[20px] text-[#64626A] text-center sm:text-left sm:w-[90%]'>
-              Haven’t found what you’re looking for?<br/>Try the <span className='text-primary-200'>centerhelp@prodream.edu</span>
+              Haven’t found what you’re looking for?<br/>Try the <span className='text-[#8551F3]'>centerhelp@prodream.edu</span>
             </p>
           </m.div>
           <m.div
@@ -37,7 +37,7 @@ const Question = () => {
               <div className='sm:mt-[20px] mt-[13px] bg-[#fff] sm:rounded-[24px] rounded-[8px] w-full px-[17px] py-[12px] sm:p-[36px]  cursor-pointer' key={index} onClick={()=>{setSelected(index)}}>
                 <div className='flex justify-between'>
                   <div>
-                    <p className={`${selected === index ? 'sm:text-[20px] text-[14px] text-primary-200' :'sm:text-[20px] text-[14px] text-[#3B3A40]'}`}>{item.title}</p>
+                    <p className={`${selected === index ? 'sm:text-[24px] font-[500] text-[14px] text-[#8551F3]' :'sm:text-[24px] font-[500] text-[14px] text-[#3B3A40]'}`}>{item.title}</p>
                     
                   </div>
                   <div>
@@ -49,7 +49,7 @@ const Question = () => {
                     </svg>}
                   </div>
                 </div>
-                {selected === index ? <p className='sm:text-[16px] text-[14px] text-[#64626A] mt-[20px]'>{item.desc}</p> : ''}
+                {selected === index ? <p className='sm:text-[20px] text-[14px] text-[#64626A] mt-[20px]'>{item.desc}</p> : ''}
               </div>
               
             ))}

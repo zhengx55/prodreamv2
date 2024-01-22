@@ -52,13 +52,13 @@ const Footer = () => {
               className='mt-3 flex items-center gap-x-4'
             >
               <input
-                className='w-full sm:rounded-[8px] rounded-[4px] border border-[#E5E5E5] bg-[#FAFAFA] px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-[#9C2CF3] md:w-[327px]'
+                className='w-full sm:rounded-[8px] rounded-[4px] border border-[#E5E5E5] bg-[#FAFAFA] px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-[#9C2CF3] md:w-[327px] sm:h-[46px]'
                 type='email'
                 id='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <Button type='submit' className={'submit-button'}>
+              <Button type='submit' className={'submit-button sm:h-[46px] bg-[#8551F3] hover:bg-[#8551F3]'}>
                 Submit
               </Button>
             </form>
@@ -72,7 +72,7 @@ const Footer = () => {
                 'https://applifyai.notion.site/applifyai/Applify-AI-Subscription-Agreement-eef0b3cfdab6496dbe0fa04a3c9a0d3e'
               }
               target='_blank'
-              className='sm:base-regular text-[12px] sm:text-[#525252] text-[#A3A3A3] hover:underline'
+              className='sm:base-regular text-[12px] text-[#A3A3A3] hover:underline'
             >
               Terms & Conditions
             </Link>
@@ -81,7 +81,7 @@ const Footer = () => {
                 'https://applifyai.notion.site/applifyai/Applify-AI-Privacy-Policy-e350e311e90c48608b4e85a8c7982e77'
               }
               target='_blank'
-              className='sm:base-regular text-[12px] sm:text-[#525252] text-[#A3A3A3] hover:underline'
+              className='sm:base-regular text-[12px] text-[#A3A3A3] hover:underline'
             >
               Privacy Policy
             </Link>
