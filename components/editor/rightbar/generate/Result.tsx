@@ -16,6 +16,7 @@ const Result = ({
   handleGenerate,
   handleInsert,
 }: Props) => {
+  const [isTyping, setIsTyping] = useState(true);
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeout = useRef<NodeJS.Timeout>();
@@ -30,6 +31,9 @@ const Result = ({
         setCurrentText((prevText) => prevText + generatedResult[currentIndex]);
         setCurrentIndex((prevIndex) => prevIndex + 1);
       }, 10);
+    } else {
+      timeout.current && clearTimeout(timeout.current);
+      setIsTyping(false);
     }
     return () => {
       clearTimeout(timeout.current);
@@ -42,48 +46,52 @@ const Result = ({
         {currentText}
       </div>
       <Spacer y='24' />
-      <div className='flex-between px-4'>
-        <RotateCw
-          onClick={handleGenerate}
-          size={20}
-          className='cursor-pointer text-doc-font hover:opacity-50'
-        />
-        <div className='flex gap-x-2'>
-          <Button
-            variant={'outline'}
-            className='h-max w-max rounded px-6 py-1'
-            onClick={handleDismiss}
-          >
-            Dismiss
-          </Button>
-          <Button
-            variant={'outline'}
-            onClick={handleInsert}
-            className='h-max w-max rounded border-doc-primary px-6 py-1 text-doc-primary'
-          >
-            Insert
-          </Button>
-        </div>
-      </div>
-      <Spacer y='12' />
-      <div className='flex-between h-7 w-full rounded-b bg-border-50 px-2 py-1'>
-        <div className='flex gap-x-2'>
-          <AlertTriangle className='text-shadow' size={15} />
-          <p className='subtle-regular text-shadow'>
-            Al responses can be inaccurate or misleading.
-          </p>
-        </div>
-        <div className='flex gap-x-2'>
-          <Smile
-            className='cursor-pointer text-shadow hover:opacity-50'
-            size={15}
-          />
-          <Frown
-            className='cursor-pointer text-shadow hover:opacity-50'
-            size={15}
-          />
-        </div>
-      </div>
+      {!isTyping && (
+        <>
+          <div className='flex-between px-4'>
+            <RotateCw
+              onClick={handleGenerate}
+              size={20}
+              className='cursor-pointer text-doc-font hover:opacity-50'
+            />
+            <div className='flex gap-x-2'>
+              <Button
+                variant={'outline'}
+                className='h-max w-max rounded px-6 py-1'
+                onClick={handleDismiss}
+              >
+                Dismiss
+              </Button>
+              <Button
+                variant={'outline'}
+                onClick={handleInsert}
+                className='h-max w-max rounded border-doc-primary px-6 py-1 text-doc-primary'
+              >
+                Insert
+              </Button>
+            </div>
+          </div>
+          <Spacer y='12' />
+          <div className='flex-between h-7 w-full rounded-b bg-border-50 px-2 py-1'>
+            <div className='flex gap-x-2'>
+              <AlertTriangle className='text-shadow' size={15} />
+              <p className='subtle-regular text-shadow'>
+                Al responses can be inaccurate or misleading.
+              </p>
+            </div>
+            <div className='flex gap-x-2'>
+              <Smile
+                className='cursor-pointer text-shadow hover:opacity-50'
+                size={15}
+              />
+              <Frown
+                className='cursor-pointer text-shadow hover:opacity-50'
+                size={15}
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
