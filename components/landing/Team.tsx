@@ -4,10 +4,10 @@ import Spacer from '../root/Spacer';
 
 const Team = () => {
   return (
-    <section className='relative flex w-full justify-center px-4 pt-20 sm:py-20 sm:px-0'>
+    <section className='relative flex w-full justify-center px-4 pt-20 sm:py-[200px] sm:px-0'>
       <div className='flex-center w-full flex-col sm:max-w-[1450px]'>
         <div className='flex w-full items-center flex-col px-10 sm:flex-col sm:justify-between'>
-          <p className='text-[#3B3A40] sm:text-[32px] text-[14px] text-center font-[400]'>Trusted by academic writers from top universities around the world</p>
+          <p className='text-[#3B3A40] sm:text-[28px] text-[14px] text-center font-[400]'>Trusted by academic writers from top universities around the world</p>
           <Spacer y='14' className='block sm:hidden' />
           <div className='flex sm:w-[80%] w-full items-center justify-between'>
             <Image
@@ -53,7 +53,7 @@ const Team = () => {
             <span className="before:block before:absolute sm:before:top-[56px] before:top-[22px] before:-inset-1 before:-skew-y-0 before:h-[40%] before:bg-[#F2C8FB] relative inline-block before:z-[-1]">Seamless Excellence</span> in<br/> Every Word, Every Paper.
           </h1>
           <Spacer y='20' />
-          <p className='small-regular text-[#64626A] text-center sm:text-[32px] sm:text-center'>
+          <p className='small-regular text-[#64626A] text-center sm:text-[28px] sm:text-center'>
           ProDream&apos;s Ease-of-Use Features Assist You in<br className='hidden sm:block'/> Writing, Editing, and Citing.
           </p>
           <Spacer y='40' />
@@ -73,7 +73,7 @@ const Team = () => {
             <Spacer y='40' />
             <h4 className='text-left text-[16px] font-[600] tracking-tighter sm:text-left sm:text-[36px]'>Get citation job done with just one click</h4>
             <Spacer y='20' />
-            <p className='small-regular text-left text-[#64626A] sm:text-[32px]'>
+            <p className='small-regular text-left text-[#64626A] sm:text-[28px]'>
             ProDream streamlines your citations with the latest research and your PDF uploads. Simply choose from MLA, IEEE, and APA styles.
             </p>
             <Spacer y='40' />

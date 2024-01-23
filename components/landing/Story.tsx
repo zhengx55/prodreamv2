@@ -9,9 +9,9 @@ const StorySwiper = dynamic(() => import('./StorySwiper'));
 
 const Story = () => {
   return (
-    <section className='relative flex w-full justify-center bg-shadow-400 sm:px-0'>
+    <section className='relative flex w-full justify-center bg-shadow-400 sm:px-0 sm:mt-[160px]'>
       <div className='flex-center w-full flex-col gap-y-3'>
-        <div className='relative flex w-full flex-col justify-between py-[22px] gap-y-4 overflow-hidden bg-primary-200 sm:w-full sm:py-12'>
+        <div className='relative flex w-full flex-col justify-between py-[22px] gap-y-4 overflow-hidden bg-[#8551F3] sm:w-full sm:py-12'>
           <Image
             alt='background'
             src='/landing/showcase/background.png'
