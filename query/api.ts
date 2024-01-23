@@ -764,10 +764,6 @@ export async function refreshUserSession(): Promise<LoginData> {
 }
 
 // ----------------------------------------------------------------
-// 打点
-// ----------------------------------------------------------------
-
-// ----------------------------------------------------------------
 // Doc
 // ----------------------------------------------------------------
 
@@ -780,13 +776,16 @@ export async function createDoc(text?: string, file?: File) {
   }
   try {
     const token = Cookies.get('token');
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}document`, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document`,
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await res.json();
     if (data.code !== 0) {
       throw new Error(data.msg as string);
@@ -805,7 +804,7 @@ export async function saveDoc(params: {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}document/${params.id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document/${params.id}`,
       {
         method: 'PUT',
         headers: {
@@ -832,7 +831,7 @@ export async function deleteDoc(doc_id: string) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}document/${doc_id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document/${doc_id}`,
       {
         method: 'DELETE',
         headers: {
@@ -859,8 +858,8 @@ export async function getDocs(
     const token = Cookies.get('token');
     const res = await fetch(
       `${
-        process.env.NEXT_PUBLIC_API_URL
-      }document?page=${page}&page_size=${pageSize}&keyword=${keyword ?? ''}`,
+        process.env.NEXT_PUBLIC_API_BASE_URL
+      }v1/editor/documents?page=${page}&page_size=${pageSize}${keyword ? `&keyword=${keyword}` : ''}`,
       {
         method: 'GET',
         headers: {
@@ -872,7 +871,10 @@ export async function getDocs(
     if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
-    return { hasMore: data.data.n_remaining_page > 0, list: data.data.docs };
+    return {
+      hasMore: data.data.remaining_pages > 0,
+      list: data.data.documents,
+    };
   } catch (error) {
     throw new Error(error as string);
   }
@@ -882,7 +884,7 @@ export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}document/${doc_id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document/${doc_id}`,
       {
         method: 'GET',
         headers: {
