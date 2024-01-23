@@ -1,19 +1,21 @@
 import { Button } from '@/components/ui/button';
 import {
-    DropdownMenu,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { useDebouncedState } from '@/hooks/useDebounceState';
+import useAiEditor from '@/zustand/store';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 const CitationDropdown = dynamic(() => import('./CitationDropdown'));
 
-type Props = { createCustom: () => void };
-
-const SearchBar = ({ createCustom }: Props) => {
+const SearchBar = () => {
   const [keyword, setKeyword] = useDebouncedState('', 1500);
+  const updateShowCreateCitation = useAiEditor(
+    (state) => state.updateShowCreateCitation
+  );
 
   return (
     <div className='flex-between h-12 w-full gap-x-3'>
@@ -42,7 +44,9 @@ const SearchBar = ({ createCustom }: Props) => {
       <Button
         className='h-full rounded border-shadow-border px-2'
         variant={'outline'}
-        onClick={createCustom}
+        onClick={() => {
+          updateShowCreateCitation(true);
+        }}
       >
         <Plus className='text-doc-shadow' />
       </Button>

@@ -29,3 +29,23 @@ export type SiteConfig = {
 };
 
 export type DocSortingMethods = 'lastOpenedTime' | 'title';
+
+export interface IWebsiteCitation {
+  access_date: {
+    day?: number | null;
+    month?: number | null;
+    year?: number | null;
+  };
+  annotation?: null | string;
+  article_title: string;
+  contributors?:
+    | {
+        first_name?: null | string;
+        last_name?: null | string;
+        middle_name?: null | string;
+      }[]
+    | null;
+  document_id: string;
+  publisher?: null | string;
+  website_title: string;
+}

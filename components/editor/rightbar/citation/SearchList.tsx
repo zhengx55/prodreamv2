@@ -10,8 +10,7 @@ import { useStatefulRef } from '@bedrock-layout/use-stateful-ref';
 import { ChevronsDown, ChevronsUp } from 'lucide-react';
 import SearchBar from './SearchBar';
 
-type Props = { createCustom: () => void };
-const SearchList = ({ createCustom }: Props) => {
+const SearchList = () => {
   const container = useStatefulRef(null);
 
   return (
@@ -20,7 +19,7 @@ const SearchList = ({ createCustom }: Props) => {
       className='relative flex flex-1 flex-col overflow-visible'
     >
       <Spacer y='10' />
-      <SearchBar createCustom={createCustom} />
+      <SearchBar />
       <Spacer y='10' />
       <div className='flex h-[calc(100%_-2.5rem)] w-full flex-col overflow-y-auto'></div>
       <div className='flex-center absolute bottom-0 h-10 w-full gap-x-2 border-t border-shadow-border bg-white'>
