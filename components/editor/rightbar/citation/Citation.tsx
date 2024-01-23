@@ -1,6 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
 import { memo, useCallback, useState } from 'react';
-import CustomCitation from '../../citation-menu/CustomCitation';
+import CustomCitation from './CustomCitation';
 import SearchList from './SearchList';
 
 type Props = {};
