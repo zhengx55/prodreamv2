@@ -1,15 +1,8 @@
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { useDebouncedState } from '@/hooks/useDebounceState';
 import useAiEditor from '@/zustand/store';
 import { Plus, Search } from 'lucide-react';
-import dynamic from 'next/dynamic';
-
-const CitationDropdown = dynamic(() => import('./CitationDropdown'));
 
 const SearchBar = () => {
   const [keyword, setKeyword] = useDebouncedState('', 1500);
@@ -20,18 +13,6 @@ const SearchBar = () => {
   return (
     <div className='flex-between h-12 w-full gap-x-3'>
       <div className='flex-between h-full w-full rounded border border-shadow-border px-2.5'>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant={'secondary'}
-              className='h-max rounded border-0 bg-doc-primary/20 text-doc-primary'
-            >
-              Website
-            </Button>
-          </DropdownMenuTrigger>
-          <CitationDropdown />
-        </DropdownMenu>
-
         <Input
           type='text'
           defaultValue={keyword}

@@ -1,15 +1,18 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
 import { IJournalCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 const JournalForm = () => {
-  const { register, handleSubmit, control } = useForm<IJournalCitation>();
+  const { register, handleSubmit, control, setValue, getValues } =
+    useForm<IJournalCitation>();
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
@@ -17,6 +20,10 @@ const JournalForm = () => {
     control,
     name: 'contributors',
   });
+
+  const memoSetMonth = useCallback((value: string) => {
+    setValue('publish_date.month', value);
+  }, []);
 
   const onSubmit = (data: IJournalCitation) => {
     console.log(data);
@@ -76,6 +83,7 @@ const JournalForm = () => {
                   {...register(`contributors.${index}.middle_name`)}
                 />
               </div>
+
               <div className='flex flex-col'>
                 <label htmlFor={`contributors.${index}.last_name`}>
                   Last Name
@@ -162,12 +170,9 @@ const JournalForm = () => {
           />
         </div>
         <div className='flex flex-col'>
-          <Input
-            id='publish_date.month'
-            placeholder='Month'
-            type='text'
-            className='focus-visible:ring-0'
-            {...register('publish_date.month')}
+          <MonthDropdown
+            setValue={memoSetMonth}
+            value={getValues('publish_date.month')!}
           />
         </div>
         <div className='flex flex-col'>

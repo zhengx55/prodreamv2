@@ -1,17 +1,20 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
 import { IWebsiteCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 type Props = {};
 
 const WebsiteForm = (props: Props) => {
-  const { register, handleSubmit, control } = useForm<IWebsiteCitation>();
+  const { register, handleSubmit, control, setValue, getValues } =
+    useForm<IWebsiteCitation>();
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
@@ -19,6 +22,10 @@ const WebsiteForm = (props: Props) => {
     control,
     name: 'contributors',
   });
+
+  const memoSetMonth = useCallback((value: string) => {
+    setValue('access_date.month', value);
+  }, []);
 
   const onSubmit = (data: IWebsiteCitation) => {
     console.log(data);
@@ -141,13 +148,11 @@ const WebsiteForm = (props: Props) => {
           />
         </div>
         <div className='flex flex-col'>
-          <Input
-            id='access_date.month'
-            placeholder='Month'
-            type='text'
-            className='focus-visible:ring-0'
-            {...register('access_date.month')}
+          <MonthDropdown
+            setValue={memoSetMonth}
+            value={getValues('access_date.month')!}
           />
+          ƒ
         </div>
         <div className='flex flex-col'>
           <Input

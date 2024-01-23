@@ -33,7 +33,7 @@ export type DocSortingMethods = 'lastOpenedTime' | 'title';
 export interface IWebsiteCitation {
   access_date: {
     day?: number | null;
-    month?: number | null;
+    month?: string | null;
     year?: number | null;
   };
   annotation?: null | string;
@@ -76,7 +76,92 @@ export interface IJournalCitation {
   page_info?: { end?: null | string; start?: null | string };
   publish_date?: {
     day?: number | null;
-    month?: number | null;
+    month?: string | null;
     year?: number | null;
   };
+}
+
+export interface IBookCitation {
+  advanced_info?: {
+    edition?: null | string;
+    series?: null | string;
+    total_vol?: null | string;
+    vol?: null | string;
+  };
+  annotation?: null | string;
+  book_title: null | string;
+  contributors?: {
+    first_name?: null | string;
+    last_name?: null | string;
+    middle_name?: null | string;
+    role?: null | string;
+    suffix?: null | string;
+  }[];
+  document_id: string;
+  publication_info?: {
+    city?: null | string;
+    publish_year?: number | null;
+    publisher?: null | string;
+    state?: null | string;
+  };
+}
+
+export interface IChapterCitation {
+  advanced_info?: {
+    edition?: null | string;
+    series?: null | string;
+    total_vol?: null | string;
+    vol?: null | string;
+  };
+  annotation?: null | string;
+  book_title: null | string;
+  contributors?: {
+    first_name?: null | string;
+    last_name?: null | string;
+    middle_name?: null | string;
+    role?: null | string;
+  }[];
+  document_id: string;
+  page_info?: { end?: number | null; start?: number | null };
+  publication_info?: {
+    city?: null | string;
+    publish_year?: number | null;
+    publisher?: null | string;
+    state?: null | string;
+  };
+  section_title?: null | string;
+}
+
+export interface IIntroductionCitation {
+  advanced_info?: {
+    edition?: null | string;
+    series?: null | string;
+    total_vol?: null | string;
+    vol?: null | string;
+  };
+  annotation?: null | string;
+  book_title: null | string;
+  contributors?: {
+    first_name?: null | string;
+    last_name?: null | string;
+    middle_name?: null | string;
+    /**
+     * author, editor, translator, compiler
+     */
+    role?: null | string;
+    suffix?: null | string;
+  }[];
+  document_id: string;
+  page_info?: { end?: number | null; start?: number | null };
+  publication_info?: {
+    city?: null | string;
+    publish_year?: number | null;
+    publisher?: null | string;
+    state?: null | string;
+  };
+  section_title?: null | string;
+  /**
+   * foreword, afterword, introduction, preface, acknowledgments, dedication, 默认introduction
+   */
+  special_section_type?: string;
 }
