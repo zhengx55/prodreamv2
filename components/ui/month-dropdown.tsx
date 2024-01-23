@@ -37,7 +37,7 @@ const MonthDropdown = ({
       value={value}
       onChange={handleMonthChange}
     >
-      <option hidden value='' disabled selected>
+      <option hidden value='' disabled>
         Month
       </option>
       {months.map((month) => (

@@ -152,7 +152,6 @@ const WebsiteForm = (props: Props) => {
             setValue={memoSetMonth}
             value={getValues('access_date.month')!}
           />
-          ƒ
         </div>
         <div className='flex flex-col'>
           <Input
