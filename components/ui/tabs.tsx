@@ -43,10 +43,7 @@ const TabsContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.Content
     ref={ref}
-    className={cn(
-      ' mt-2 overflow-y-auto',
-      className
-    )}
+    className={cn('overflow-y-auto', className)}
     {...props}
   />
 ));

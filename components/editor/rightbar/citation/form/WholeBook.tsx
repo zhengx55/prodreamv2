@@ -1,28 +1,26 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { IJournalCitation } from '@/types';
+import { IBookCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
-import { useCallback } from 'react';
+import { memo } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-const JournalForm = () => {
-  const { register, handleSubmit, control, setValue, getValues } =
-    useForm<IJournalCitation>({
-      defaultValues: {
-        contributors: [
-          {
-            first_name: '',
-            middle_name: '',
-            last_name: '',
-          },
-        ],
-      },
-    });
+const WholeBook = () => {
+  const { register, handleSubmit, control } = useForm<IBookCitation>({
+    defaultValues: {
+      contributors: [
+        {
+          first_name: '',
+          middle_name: '',
+          last_name: '',
+        },
+      ],
+    },
+  });
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
@@ -31,11 +29,7 @@ const JournalForm = () => {
     name: 'contributors',
   });
 
-  const memoSetMonth = useCallback((value: string) => {
-    setValue('publish_date.month', value);
-  }, []);
-
-  const onSubmit = (data: IJournalCitation) => {
+  const onSubmit = (data: IBookCitation) => {
     console.log(data);
   };
 
@@ -49,19 +43,10 @@ const JournalForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
-      <h1 className='base-semibold'>What I&apos;m citing</h1>
-      <Spacer y='16' />
-      <label htmlFor='article_title'>Article Title</label>
-      <Input
-        type='text'
-        id='article_title'
-        className='focus-visible:ring-0'
-        {...register('article_title')}
-      />
       <Spacer y='48' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
-        <div className='flex flex-col gap-y-2 '>
+        <div className='flex flex-col gap-y-2'>
           {fields.map((contributor, index) => (
             <m.div
               key={contributor.id}
@@ -80,6 +65,7 @@ const JournalForm = () => {
                   type='text'
                   className='focus-visible:ring-0'
                   {...register(`contributors.${index}.first_name`)}
+                  aria-label={`contributors.${index}.first_name`}
                 />
               </div>
               <div className='flex flex-col'>
@@ -91,9 +77,9 @@ const JournalForm = () => {
                   type='text'
                   className='focus-visible:ring-0'
                   {...register(`contributors.${index}.middle_name`)}
+                  aria-label={`contributors.${index}.middle_name`}
                 />
               </div>
-
               <div className='flex flex-col'>
                 <label htmlFor={`contributors.${index}.last_name`}>
                   Last Name
@@ -103,6 +89,7 @@ const JournalForm = () => {
                   type='text'
                   className='focus-visible:ring-0'
                   {...register(`contributors.${index}.last_name`)}
+                  aria-label={`contributors.${index}.last_name`}
                 />
               </div>
               <Button
@@ -127,111 +114,105 @@ const JournalForm = () => {
         <p className='text-doc-primary'> Add Contributor</p>
       </Button>
       <Spacer y='48' />
-      <h1 className='base-semibold'>Journal publication info</h1>
+      <h1 className='base-semibold'>In print publication info</h1>
       <Spacer y='16' />
-      <label htmlFor='journal_title'>Journal title</label>
+      <label htmlFor='Source title'>Source title</label>
       <Input
         type='text'
-        id='journal_title'
+        id='Source title'
         className='focus-visible:ring-0'
-        {...register('journal_title')}
+        {...register('book_title')}
+        aria-label='book_title'
       />
       <Spacer y='16' />
       <h2>Advanced info</h2>
+      <Spacer y='16' />
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
-            id='advanced_info.volum'
-            placeholder='Volume'
             className='focus-visible:ring-0'
-            {...register('advanced_info.volume')}
+            placeholder='Volume'
+            {...register('advanced_info.vol')}
+            aria-label='advanced_info.vol'
           />
         </div>
         <div className='flex flex-col'>
           <Input
-            id='advanced_info.issue'
-            placeholder='Issue'
             type='text'
             className='focus-visible:ring-0'
-            {...register('advanced_info.issue')}
+            placeholder='Total vols.'
+            {...register('advanced_info.total_vol')}
+            aria-label='advanced_info.total_vol'
           />
         </div>
         <div className='flex flex-col'>
           <Input
-            id='advanced_info.series'
-            type='Series'
-            placeholder='Year'
+            type='text'
+            placeholder='Edition'
+            className='focus-visible:ring-0'
+            {...register('advanced_info.edition')}
+            aria-label='advanced_info.edition'
+          />
+        </div>
+        <div className='flex flex-col'>
+          <Input
+            type='text'
+            placeholder='Series'
             className='focus-visible:ring-0'
             {...register('advanced_info.series')}
+            aria-label='advanced_info.series'
           />
         </div>
       </div>
       <Spacer y='16' />
-      <h2>Date published</h2>
+      <h2>Publication info</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
-            id='publish_date.day'
-            placeholder='Day'
+            placeholder='Publisher'
             className='focus-visible:ring-0'
-            {...register('publish_date.day')}
-          />
-        </div>
-        <div className='flex flex-col'>
-          <MonthDropdown
-            setValue={memoSetMonth}
-            value={getValues('publish_date.month')!}
+            {...register('publication_info.publisher')}
+            aria-label='publication_info.publisher'
           />
         </div>
         <div className='flex flex-col'>
           <Input
-            id='publish_date.year'
+            type='text'
+            placeholder='City'
+            className='focus-visible:ring-0'
+            {...register('publication_info.city')}
+            aria-label='publication_info.city'
+          />
+        </div>
+        <div className='flex flex-col'>
+          <Input
+            type='text'
+            placeholder='State'
+            className='focus-visible:ring-0'
+            {...register('publication_info.state')}
+            aria-label='publication_info.state'
+          />
+        </div>
+        <div className='flex flex-col'>
+          <Input
             type='text'
             placeholder='Year'
             className='focus-visible:ring-0'
-            {...register('publish_date.year')}
+            {...register('publication_info.publish_year')}
+            aria-label='publication_info.publish_year'
           />
         </div>
       </div>
-      <Spacer y='16' />
-      <h2>Pages</h2>
-      <div className='flex gap-x-2'>
-        <div className='flex flex-col'>
-          <Input
-            type='text'
-            id='page_info.start'
-            placeholder='Start'
-            className='focus-visible:ring-0'
-            {...register('page_info.start')}
-          />
-        </div>
-        <div className='flex flex-col'>
-          <Input
-            id='page_info.end'
-            placeholder='End'
-            type='text'
-            className='focus-visible:ring-0'
-            {...register('page_info.end')}
-          />
-        </div>
-      </div>
-      <Spacer y='16' />
-      <label htmlFor='doi'>DOI</label>
-      <Input
-        type='text'
-        id='doi'
-        className='focus-visible:ring-0'
-        {...register('doi')}
-      />
       <Spacer y='48' />
       <h1 className='base-semibold'>More options</h1>
       <Spacer y='16' />
-      <div className='flex w-full justify-end gap-x-2 border-t border-shadow-border py-2'>
+      <div className='flex w-full justify-end gap-x-2 border-t border-shadow-border py-3'>
         <Button
           className='rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}
+          role='button'
           type='button'
           onClick={() => {
             updateShowCreateCitation(false);
@@ -239,9 +220,11 @@ const JournalForm = () => {
         >
           Cancel
         </Button>
-        <Button className='rounded bg-doc-primary'>Save</Button>
+        <Button role='button' className='rounded bg-doc-primary'>
+          Save
+        </Button>
       </div>
     </form>
   );
 };
-export default JournalForm;
+export default memo(WholeBook);
