@@ -1,10 +1,12 @@
-import { Label } from '@/components/ui/label';
 
 type Props = {};
 const Website = (props: Props) => {
   return (
     <div className='flex flex-col '>
-      <Label>What I&apos;m citing</Label>
+      <h1 className='base-semibold'>What I&apos;m citing</h1>
+      <h1 className='base-semibold'>Contributors</h1>
+      <h1 className='base-semibold'>Online publication info</h1>
+      <h1 className='base-semibold'>More options</h1>
     </div>
   );
 };

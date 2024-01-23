@@ -62,5 +62,7 @@ export const resetName = z.object({
 
 export const generateOutlineSchema = z.object({
   area: z.string().min(1, { message: 'Area must be at least 1 character' }),
-  idea: z.string().min(1, { message: 'Description must be at least 1 character' }),
+  idea: z
+    .string()
+    .min(1, { message: 'Description must be at least 1 character' }),
 });
