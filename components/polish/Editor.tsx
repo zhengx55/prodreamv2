@@ -10,7 +10,7 @@ import { hasHtmlTags } from '@/lib/utils';
 import { saveDoc } from '@/query/api';
 import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
-import { Editor, EditorContent, useEditor } from '@tiptap/react';
+import { Editor, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useState } from 'react';
@@ -19,6 +19,7 @@ import { BlockMenu } from '../editor/blockmenu';
 import { BubbleMenu } from '../editor/bubble-menu';
 import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
+import Reference from './Reference';
 
 const Tiptap = ({
   essay_content,
@@ -104,8 +105,7 @@ const Tiptap = ({
         <TableOfContent editor={editor} />
         <div
           aria-label='editor-parent'
-          id='editor-parent'
-          className='relative flex w-full flex-col overflow-y-auto rounded-lg'
+          className='relative flex w-full flex-col overflow-y-auto rounded-lg pb-[30vh]'
         >
           <Spacer y='30' />
           <div className='flex h-12 w-full justify-center'>
@@ -123,8 +123,10 @@ const Tiptap = ({
           {showCopilotMenu && <AiMenu editor={editor} />}
           {showCitiationMenu && <CitationMenu editor={editor} />}
           <BubbleMenu editor={editor} />
-          <EditorContent className='flex-1 pb-[40vh]' editor={editor} />
+          {/* <EditorContent className='flex-1' editor={editor} /> */}
           <BlockMenu editor={editor} />
+          <Spacer y='20' />
+          <Reference />
         </div>
       </div>
       <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>

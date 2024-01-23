@@ -76,20 +76,15 @@ export async function googleLogin(loginParam: {
   access_token: string;
   from?: string;
   refferal?: string;
-}): Promise<LoginData> {
+}): Promise<{ access_token: string }> {
   try {
+    const formData = new FormData();
+    formData.append('google_access_token', loginParam.access_token);
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}login_google`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/login/google`,
       {
         method: 'POST',
-        body: JSON.stringify({
-          access_token: loginParam.access_token,
-          from: loginParam.from ?? '',
-          refferal: loginParam.refferal ?? '',
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        body: formData,
       }
     );
     const data = await res.json();
@@ -110,10 +105,13 @@ export async function userLogin(loginParam: {
     const formData = new FormData();
     formData.append('email', loginParam.username);
     formData.append('password', loginParam.password);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}login`, {
-      method: 'POST',
-      body: formData,
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/login`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
     const data = await res.json();
     if (data.data === null) {
       throw data.msg;
@@ -143,21 +141,6 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
     });
     const data = await res.json();
 
-    if (data.code !== 0) {
-      throw data.msg;
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function userLogOut() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}logout`, {
-      method: 'DELETE',
-    });
-    const data = await res.json();
     if (data.code !== 0) {
       throw data.msg;
     }
@@ -229,8 +212,6 @@ export async function verifyEmail(params: IVerifyEmail) {
 // ----------------------------------------------------------------
 // Referral
 // ----------------------------------------------------------------
-export async function getReferralLink() {}
-
 export async function getReferralCount() {
   try {
     const token = Cookies.get('token');
@@ -274,7 +255,7 @@ export async function copilot(params: {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'text/event-stream',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -293,7 +274,7 @@ export async function synonym(params: { word: string }): Promise<string[]> {
       {
         method: 'GET',
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -325,7 +306,7 @@ export async function outline(params: {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'text/event-stream',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -368,7 +349,7 @@ export async function searchCitation(
         signal,
         method: 'GET',
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -763,12 +744,15 @@ export async function profileResetAvatar(params: { file: File }) {
 export async function refreshUserSession(): Promise<LoginData> {
   try {
     const token = Cookies.get('token');
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}refresh`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/me`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await res.json();
     if (data.code !== 0) {
       throw new Error(data.msg as string);

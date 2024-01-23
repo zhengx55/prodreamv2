@@ -1,8 +1,6 @@
 'use client';
 import { SidebarLinks } from '@/constant';
-import { userLogOut } from '@/query/api';
 import { useUserInfo } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
 import {
   AnimatePresence,
   LazyMotion,
@@ -32,13 +30,11 @@ const Sidebar = () => {
   const [topValue, setTopValue] = useState<number | undefined>();
   const [expandSidebar, setExpandSidebar] = useState(true);
   const user = useUserInfo((state) => state.user);
-  const { mutateAsync: logOut } = useMutation({
-    mutationFn: () => userLogOut(),
-    onSuccess: () => {
-      removeCookie('token', { path: '/' });
-      router.replace('/login');
-    },
-  });
+
+  const logOut = () => {
+    removeCookie('token', { path: '/' });
+    router.replace('/login');
+  };
 
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
@@ -80,9 +76,7 @@ const Sidebar = () => {
       },
     },
   };
-  const userAvatar = user.linked_google
-    ? user.avatar
-    : `${process.env.NEXT_PUBLIC_API_STATIC_URL}${user.avatar}`;
+
   return (
     <LazyMotion features={domAnimation}>
       <m.aside
@@ -100,7 +94,11 @@ const Sidebar = () => {
 
         <Spacer y='50' />
         <DropdownMenu>
-          <User name={user.first_name} email={user.email} imgSrc={userAvatar} />
+          <User
+            name={user.first_name}
+            email={user.email}
+            imgSrc={user.avatar}
+          />
           <DropdownMenuContent
             align='start'
             className='w-60 rounded-lg bg-white shadow-lg'
@@ -116,7 +114,7 @@ const Sidebar = () => {
               <span className='text-md font-[500]'>Notification</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={async () => await logOut()}
+              onClick={logOut}
               className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'
             >
               <LogOut size={20} />

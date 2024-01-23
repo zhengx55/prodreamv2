@@ -2,9 +2,9 @@
 import Panel from '@/components/auth/Panel';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
-import Image from 'next/image';
 import * as z from 'zod';
 
 import GoogleSignin from '@/components/auth/GoogleSignin';
@@ -59,7 +59,7 @@ export default function Page() {
   }
 
   return (
-    <section className='overflow-hidden w-full flex-center flex-1'>
+    <section className='flex-center w-full flex-1 overflow-hidden'>
       <div className='w-1/2 bg-[#fff]'>
         <Image
           src='/auth/login_icon.png'
@@ -71,11 +71,11 @@ export default function Page() {
         />
       </div>
       <Panel>
-        <h1 className='text-[48px] font-[600] self-start'>Welcome Back!</h1>
-        <p className='text-[24px] font-[400] text-[#525252] self-start text-shadow-100 mb-[100px]'>
+        <h1 className='self-start text-[48px] font-[600]'>Welcome Back!</h1>
+        <p className='mb-[100px] self-start text-[24px] font-[400] text-[#525252] text-shadow-100'>
           Ready to continue crafting your unique story?
         </p>
-        <GoogleSignin/>
+        <GoogleSignin />
         <div className='flex-center relative my-10'>
           <Separator orientation='horizontal' className='bg-shadow-border' />
           <p className='small-regular absolute bg-white px-2 text-shadow-100'>
@@ -92,7 +92,10 @@ export default function Page() {
               name='username'
               render={({ field }) => (
                 <FormItem className='mt-0'>
-                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='username'>
+                  <FormLabel
+                    className='font-500 text-[26px] text-[#17161B]'
+                    htmlFor='username'
+                  >
                     Email Address
                   </FormLabel>
                   <FormControl>
@@ -113,7 +116,10 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='password'>
+                  <FormLabel
+                    className='font-500 text-[26px] text-[#17161B]'
+                    htmlFor='password'
+                  >
                     Password
                   </FormLabel>
                   {!hidePassword ? (
@@ -150,13 +156,15 @@ export default function Page() {
             >
               Forgot Password?
             </Link>
-            <Button className='w-full rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3]' type='submit'>
+            <Button
+              className='w-full rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3]'
+              type='submit'
+            >
               Sign in
             </Button>
           </form>
         </Form>
-        
-        
+
         <p className='small-regular mt-8 self-center text-black-200'>
           Already a member??&nbsp;
           <Link href={'/signup'} prefetch className='text-primary-200'>
