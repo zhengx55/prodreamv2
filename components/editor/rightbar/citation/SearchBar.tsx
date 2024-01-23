@@ -1,11 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useDebouncedState } from '@/hooks/useDebounceState';
 import useAiEditor from '@/zustand/store';
 import { Plus, Search } from 'lucide-react';
-
-const SearchBar = () => {
-  const [keyword, setKeyword] = useDebouncedState('', 1500);
+type Props = {
+  keyword: string;
+  setKeyword: (value: string) => void;
+};
+const SearchBar = ({ keyword, setKeyword }: Props) => {
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
@@ -15,6 +16,7 @@ const SearchBar = () => {
       <div className='flex-between h-full w-full rounded border border-shadow-border px-2.5'>
         <Input
           type='text'
+          id='search-citation'
           defaultValue={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder='Search online citation ...'
