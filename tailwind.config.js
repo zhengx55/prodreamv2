@@ -12,7 +12,6 @@ module.exports = {
     extend: {
       backgroundImage: {
         chat: 'linear-gradient(180deg, rgba(156, 44, 243, 0.20) 0%, rgba(58, 73, 249, 0.20) 100%)',
-        auth: "url('/auth.svg')",
         onboard: "url('/welcome/welcomebg.webp')",
         resume: "url('/resume_bg.webp')",
         referal: 'linear-gradient(to left, #E32CF3, #9C2CF3, #2C40F3, #2CABF3)',
