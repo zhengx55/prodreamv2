@@ -22,6 +22,7 @@ import { sendVerificationEmail, userReset, verifyEmail } from '@/query/api';
 import { useRouter } from 'next/navigation';
 import { IResetParams } from '@/query/type';
 import { toast } from 'sonner';
+import Image from 'next/image';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
@@ -105,9 +106,19 @@ export default function Page() {
   }
 
   return (
-    <section className='flex-center flex-1'>
+    <section className='overflow-hidden flex-center flex-1'>
+      <div className='w-1/2 bg-[#fff]'>
+        <Image
+          src='/auth/reset_bg.png'
+          width={960}
+          height={1129}
+          alt='logo'
+          className='h-auto w-full'
+          priority
+        />
+      </div>
       <Panel>
-        <h1 className='h3-bold self-center'>Reset Password</h1>
+        <h1 className='text-[48px] font-[600] self-start'>Reset Password</h1>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -117,8 +128,8 @@ export default function Page() {
               control={form.control}
               name='email'
               render={({ field }) => (
-                <FormItem className='mt-10'>
-                  <FormLabel className='text-black-400' htmlFor='email'>
+                <FormItem className='mt-20'>
+                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='email'>
                     Enter the Email Linked to Your Account
                   </FormLabel>
                   <FormControl>
@@ -127,7 +138,7 @@ export default function Page() {
                       id='email'
                       placeholder=''
                       type='email'
-                      className='rounded-2xl border-none bg-shadow-50'
+                      className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                       {...field}
                     />
                   </FormControl>
@@ -140,20 +151,20 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-black-400' htmlFor='password'>
+                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='password'>
                     Enter New Password
                   </FormLabel>
                   {!hidePassword ? (
                     <EyeOff
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
+                      className='absolute right-2 top-12 cursor-pointer'
                     />
                   ) : (
                     <Eye
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
+                      className='absolute right-2 top-12 cursor-pointer'
                     />
                   )}
 
@@ -163,7 +174,7 @@ export default function Page() {
                       id='password'
                       type={hidePassword ? 'password' : 'text'}
                       placeholder=''
-                      className='rounded-2xl border-none bg-shadow-50'
+                      className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                       {...field}
                     />
                   </FormControl>
@@ -177,20 +188,20 @@ export default function Page() {
               name='confirm'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-black-400' htmlFor='confirm'>
+                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='confirm'>
                     Re-enter New Password
                   </FormLabel>
                   {!hideConfirm ? (
                     <EyeOff
                       onClick={() => setHideConfirm((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
+                      className='absolute right-2 top-12 cursor-pointer'
                     />
                   ) : (
                     <Eye
                       onClick={() => setHideConfirm((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
+                      className='absolute right-2 top-12 cursor-pointer'
                     />
                   )}
 
@@ -200,7 +211,7 @@ export default function Page() {
                       id='confirm'
                       type={hideConfirm ? 'password' : 'text'}
                       placeholder=''
-                      className='rounded-2xl border-none bg-shadow-50'
+                      className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                       {...field}
                     />
                   </FormControl>
@@ -215,7 +226,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className='relative'>
                   <FormLabel
-                    className='text-black-400'
+                    className='text-[#17161B] text-[26px] font-500'
                     htmlFor='verification_code'
                   >
                     Verification
@@ -227,7 +238,7 @@ export default function Page() {
                         id='verification_code'
                         type='text'
                         placeholder=''
-                        className='rounded-2xl border-none bg-shadow-50'
+                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                         {...field}
                       />
                     </FormControl>
@@ -235,7 +246,7 @@ export default function Page() {
                       disabled={verifyWait}
                       onClick={handleSentVerificationEmail}
                       type='button'
-                      className='w-[150px] shrink-0 rounded-[20px]'
+                      className='w-[150px] shrink-0 rounded-[8px] border-[#8551F3] border-[2px] bg-[#fff] text-[#8551F3] hover:bg-[#8551F3] hover:text-[#fff]'
                     >
                       {verifyWait ? (
                         <>
@@ -252,7 +263,7 @@ export default function Page() {
                 </FormItem>
               )}
             />
-            <Button className='w-full rounded-full' type='submit'>
+            <Button className='w-full rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3]' type='submit'>
               Confirm Reset
             </Button>
           </form>

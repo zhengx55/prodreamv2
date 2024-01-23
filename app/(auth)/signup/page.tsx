@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import Image from 'next/image';
 
 import GoogleSignin from '@/components/auth/GoogleSignin';
 import {
@@ -35,6 +36,8 @@ export default function Page() {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
+      first_name: '',
+      last_name: '',
       password: '',
       email: '',
     },
@@ -61,29 +64,92 @@ export default function Page() {
   );
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     await handleSignup({
+      first_name: values.first_name,
+      last_name: values.last_name,
       email: values.email,
       password: values.password,
     });
   }
 
   return (
-    <section className='flex-center flex-1'>
+    <section className='overflow-hidden flex-center flex-1'>
+      <div className='w-1/2 bg-[#fff]'>
+        <Image
+          src='/auth/login_icon.png'
+          width={960}
+          height={1129}
+          alt='logo'
+          className='h-auto w-full'
+          priority
+        />
+      </div>
       <Panel>
-        <h1 className='h3-bold self-center'>Create Your Account</h1>
-        <p className='small-regular self-center text-center text-shadow-100'>
+        <h1 className='text-[48px] font-[600] self-start'>Create Your Account</h1>
+        <p className='text-[24px] font-[400] text-[#525252] self-start text-left text-shadow-100 mb-[60px]'>
           Unlock the potential of your personal statement with QuickApply!
         </p>
+        <GoogleSignin />
+        <div className='flex-center relative my-10'>
+          <Separator orientation='horizontal' className='bg-shadow-border' />
+          <p className='small-regular absolute bg-white px-2 text-shadow-100'>
+            Or Sign up with email
+          </p>
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className='flex flex-col gap-y-6'
           >
+            <div className='flex flex-between'>
+              <FormField
+                control={form.control}
+                name='first_name'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='first_name'>
+                      First Name
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        autoComplete='first_name'
+                        id='first_name'
+                        placeholder=''
+                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='last_name'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='last_name'>
+                      Last Name
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        autoComplete='last_name'
+                        id='last_name'
+                        placeholder=''
+                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name='email'
               render={({ field }) => (
-                <FormItem className='relative mt-10'>
-                  <FormLabel className='text-black-400' htmlFor='username'>
+                <FormItem className='relative'>
+                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='username'>
                     Email Address
                   </FormLabel>
                   <FormControl>
@@ -92,7 +158,7 @@ export default function Page() {
                       type='email'
                       id='username'
                       placeholder='e.g hey@writingpal.ai'
-                      className='rounded-2xl border-none bg-shadow-50'
+                      className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                       {...field}
                     />
                   </FormControl>
@@ -105,20 +171,20 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-black-400' htmlFor='password'>
+                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='password'>
                     Create a Password
                   </FormLabel>
                   {!hidePassword ? (
                     <EyeOff
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
+                      className='absolute right-2 top-12 cursor-pointer'
                     />
                   ) : (
                     <Eye
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
+                      className='absolute right-2 top-12 cursor-pointer'
                     />
                   )}
                   <FormControl>
@@ -127,7 +193,7 @@ export default function Page() {
                       id='password'
                       type={hidePassword ? 'password' : 'text'}
                       placeholder='Must be at least 8 characters'
-                      className='rounded-2xl border-none bg-shadow-50'
+                      className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                       {...field}
                     />
                   </FormControl>
@@ -148,7 +214,7 @@ export default function Page() {
             </p>
             <Button
               disabled={isSignupPending}
-              className='w-full gap-x-2 rounded-full'
+              className='w-full rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3]'
               type='submit'
             >
               {isSignupPending && (
@@ -158,15 +224,9 @@ export default function Page() {
             </Button>
           </form>
         </Form>
-        <div className='flex-center relative my-10'>
-          <Separator orientation='horizontal' className='bg-shadow-border' />
-          <p className='small-regular absolute bg-white px-2 text-shadow-100'>
-            Or Sign up with
-          </p>
-        </div>
-        <GoogleSignin />
+        
         <p className='small-regular mt-4 self-center text-black-200'>
-          Already have an account?&nbsp;
+          Already a member?&nbsp;
           <Link href={'/login'} className='text-primary-200'>
             Log in
           </Link>
