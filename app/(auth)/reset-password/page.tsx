@@ -107,7 +107,7 @@ export default function Page() {
 
   return (
     <section className='overflow-hidden flex-center flex-1'>
-      <div className='w-1/2 bg-[#fff]'>
+      <div className='hidden sm:block w-1/2 bg-[#fff]'>
         <Image
           src='/auth/reset_bg.png'
           width={960}
@@ -118,7 +118,7 @@ export default function Page() {
         />
       </div>
       <Panel>
-        <h1 className='text-[48px] font-[600] self-start'>Reset Password</h1>
+        <h1 className='sm:text-[48px] text-[28px] font-[600] self-start'>Reset Password</h1>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -129,7 +129,7 @@ export default function Page() {
               name='email'
               render={({ field }) => (
                 <FormItem className='mt-20'>
-                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='email'>
+                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='email'>
                     Enter the Email Linked to Your Account
                   </FormLabel>
                   <FormControl>
@@ -151,7 +151,7 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='password'>
+                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='password'>
                     Enter New Password
                   </FormLabel>
                   {!hidePassword ? (
@@ -188,7 +188,7 @@ export default function Page() {
               name='confirm'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='confirm'>
+                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='confirm'>
                     Re-enter New Password
                   </FormLabel>
                   {!hideConfirm ? (
@@ -226,7 +226,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className='relative'>
                   <FormLabel
-                    className='text-[#17161B] text-[26px] font-500'
+                    className='text-[#17161B] sm:text-[26px] text-[24px] font-500'
                     htmlFor='verification_code'
                   >
                     Verification

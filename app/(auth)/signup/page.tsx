@@ -73,7 +73,7 @@ export default function Page() {
 
   return (
     <section className='overflow-hidden flex-center flex-1'>
-      <div className='w-1/2 bg-[#fff]'>
+      <div className='hidden sm:block w-1/2 bg-[#fff]'>
         <Image
           src='/auth/login_icon.png'
           width={960}
@@ -84,8 +84,8 @@ export default function Page() {
         />
       </div>
       <Panel>
-        <h1 className='text-[48px] font-[600] self-start'>Create Your Account</h1>
-        <p className='text-[24px] font-[400] text-[#525252] self-start text-left mb-[60px]'>
+        <h1 className='sm:text-[48px] text-[28px] font-[600] self-start'>Create Your Account</h1>
+        <p className='sm:text-[24px] text-[20px] font-[400] text-[#525252] self-start text-left sm:mb-[60px] mb-[30px]'>
           Unlock the potential of your personal statement with QuickApply!
         </p>
         <GoogleSignin />
@@ -100,13 +100,13 @@ export default function Page() {
             onSubmit={form.handleSubmit(onSubmit)}
             className='flex flex-col gap-y-6'
           >
-            <div className='flex flex-between'>
+            <div className='flex flex-between gap-x-4'>
               <FormField
                 control={form.control}
                 name='first_name'
                 render={({ field }) => (
                   <FormItem className='relative'>
-                    <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='first_name'>
+                    <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='first_name'>
                       First Name
                     </FormLabel>
                     <FormControl>
@@ -127,7 +127,7 @@ export default function Page() {
                 name='last_name'
                 render={({ field }) => (
                   <FormItem className='relative'>
-                    <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='last_name'>
+                    <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='last_name'>
                       Last Name
                     </FormLabel>
                     <FormControl>
@@ -149,7 +149,7 @@ export default function Page() {
               name='email'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='username'>
+                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='username'>
                     Email Address
                   </FormLabel>
                   <FormControl>
@@ -171,7 +171,7 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-[#17161B] text-[26px] font-500' htmlFor='password'>
+                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='password'>
                     Create a Password
                   </FormLabel>
                   {!hidePassword ? (

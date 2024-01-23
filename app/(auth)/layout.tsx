@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation';
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   return (
-    <div className='scale-down 2xl:scale-initial relative flex h-full w-full flex-col overflow-x-auto'>
-      <div className='absolute left-[40px] top-[40px] flex w-[160px] h-[50px] md:mb-0 cursor-pointer' onClick={()=>{router.push('/')}}>
+    <div className='scale-down 2xl:scale-initial relative flex sm:h-full w-full flex-col overflow-x-auto overflow-y-auto'>
+      <div className='hidden sm:block absolute left-[40px] top-[40px] flex w-[160px] h-[50px] md:mb-0 cursor-pointer' onClick={()=>{router.push('/')}}>
         {/* <Image
           src='/logo/ProdreamWhite.png'
           width={150}
