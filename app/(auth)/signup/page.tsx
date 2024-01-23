@@ -2,9 +2,9 @@
 import Panel from '@/components/auth/Panel';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import Image from 'next/image';
 
 import GoogleSignin from '@/components/auth/GoogleSignin';
 import {
@@ -85,7 +85,7 @@ export default function Page() {
       </div>
       <Panel>
         <h1 className='text-[48px] font-[600] self-start'>Create Your Account</h1>
-        <p className='text-[24px] font-[400] text-[#525252] self-start text-left text-shadow-100 mb-[60px]'>
+        <p className='text-[24px] font-[400] text-[#525252] self-start text-left mb-[60px]'>
           Unlock the potential of your personal statement with QuickApply!
         </p>
         <GoogleSignin />

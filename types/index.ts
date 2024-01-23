@@ -49,3 +49,34 @@ export interface IWebsiteCitation {
   publisher?: null | string;
   website_title: string;
 }
+
+export interface IJournalCitation {
+  advanced_info?: {
+    issue?: null | string;
+    series?: null | string;
+    volume?: null | string;
+  };
+  annotation?: null | string;
+  article_title?: null | string;
+  contributors?:
+    | {
+        first_name?: null | string;
+        last_name?: null | string;
+        middle_name?: null | string;
+        /**
+         * author, editor, translator, compiler
+         */
+        role?: null | string;
+        suffix?: null | string;
+      }[]
+    | null;
+  document_id: string;
+  doi?: null | string;
+  journal_title?: null | string;
+  page_info?: { end?: null | string; start?: null | string };
+  publish_date?: {
+    day?: number | null;
+    month?: number | null;
+    year?: number | null;
+  };
+}
