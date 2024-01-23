@@ -3,6 +3,7 @@ import { Universitys } from '@/constant';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
+import Link from 'next/link';
 import { Button } from '../ui/button';
 
 const StorySwiper = dynamic(() => import('./StorySwiper'));
@@ -23,12 +24,14 @@ const Story = () => {
             <br /> Let&apos;s make your essay unforgettable!
           </h2>
           <Spacer y='14' />
-          <Button
-            className='self-center rounded-[8px] border border-white bg-transparent text-white z-[100]'
-            variant={'ghost'}
-          >
-            Start Writing Now
-          </Button>
+          <Link href={'/signup'} passHref className='self-center z-[100]'>
+            <Button
+              className='self-center rounded-[8px] border border-white bg-transparent text-white'
+              variant={'ghost'}
+            >
+              Start Writing Now
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
