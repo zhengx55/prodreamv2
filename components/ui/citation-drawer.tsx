@@ -22,33 +22,21 @@ const DrawerPortal = DrawerPrimitive.Portal;
 
 const DrawerClose = DrawerPrimitive.Close;
 
-const DrawerOverlay = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
->(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Overlay
-    ref={ref}
-    className={cn('bg-black/80 fixed inset-0 z-50', className)}
-    {...props}
-  />
-));
-DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
-
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay />
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
+    container: any;
+  }
+>(({ className, container, children, ...props }, ref) => (
+  <DrawerPortal container={container}>
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        'bg-background fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border',
+        'fixed ro bottom-0 z-50 flex h-auto flex-col rounded-t-[10px]',
         className
       )}
       {...props}
     >
-      <div className='bg-muted mx-auto mt-4 h-2 w-[100px] rounded-full' />
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>
@@ -105,15 +93,14 @@ const DrawerDescription = React.forwardRef<
 DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 
 export {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerPortal,
-  DrawerTitle,
-  DrawerTrigger
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerPortal,
+    DrawerTitle,
+    DrawerTrigger
 };
 

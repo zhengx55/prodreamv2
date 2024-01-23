@@ -1,6 +1,7 @@
 import { IUsage } from '@/types';
 import Cookies from 'js-cookie';
 import {
+  ICitation,
   IDocDetail,
   IEssayAssessData,
   IEssayAssessRequest,
@@ -12,7 +13,7 @@ import {
   ISigunUpRequest,
   IVerifyEmail,
   LoginData,
-  SupportDetailData
+  SupportDetailData,
 } from './type';
 
 // ----------------------------------------------------------------
@@ -273,7 +274,7 @@ export async function copilot(params: {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'text/event-stream',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1OTMxNDc0LCJpYXQiOjE3MDUzMjY2NzQsImp0aSI6ImJmNWMwNWY5LWJkZjYtNDU1NC1hYTk1LTMwNDM0ZDIyMWZjNCJ9.nuVLZtOTjKlGYixRc_0ETdy8lcINSaeKn6lRFArQGxc`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
         },
       }
     );
@@ -292,7 +293,7 @@ export async function synonym(params: { word: string }): Promise<string[]> {
       {
         method: 'GET',
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1OTMxNDc0LCJpYXQiOjE3MDUzMjY2NzQsImp0aSI6ImJmNWMwNWY5LWJkZjYtNDU1NC1hYTk1LTMwNDM0ZDIyMWZjNCJ9.nuVLZtOTjKlGYixRc_0ETdy8lcINSaeKn6lRFArQGxc`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
         },
       }
     );
@@ -324,7 +325,7 @@ export async function outline(params: {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'text/event-stream',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1OTMxNDc0LCJpYXQiOjE3MDUzMjY2NzQsImp0aSI6ImJmNWMwNWY5LWJkZjYtNDU1NC1hYTk1LTMwNDM0ZDIyMWZjNCJ9.nuVLZtOTjKlGYixRc_0ETdy8lcINSaeKn6lRFArQGxc`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
         },
       }
     );
@@ -349,6 +350,32 @@ export async function createCitation(params: { citation_type: string }) {
     );
     if (!res.ok) throw new Error('Opps something went wrong');
     const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function searchCitation(
+  searchTerm: string,
+  signal: AbortSignal
+): Promise<ICitation[]> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/search?query=${searchTerm}`,
+      {
+        signal,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
     return data.data;
   } catch (error) {
     throw new Error(error as string);
@@ -596,7 +623,6 @@ export async function uploadEssay(params: { file: File }) {
     throw new Error(error as string);
   }
 }
-
 
 // ----------------------------------------------------------------
 // 通知

@@ -404,3 +404,58 @@ export type ICitationType =
   | 'Website'
   | 'booke_special_section'
   | 'journal';
+
+export interface Response {
+  code: number;
+  data: Datum[];
+  msg: string;
+  [property: string]: any;
+}
+
+export interface ICitation {
+  abstract: string;
+  advanced_info: AdvancedInfo;
+  area: string[];
+  article_title: string;
+  authors: Author[];
+  citation_count: number;
+  doi: null;
+  influential_citation_count: number;
+  journal_title: null | string;
+  page_info: PageInfo;
+  pdf_url: null | string;
+  publish_date: PublishDate;
+  reference_count: number;
+}
+
+interface AdvancedInfo {
+  issue: null;
+  series: Series;
+  volume: null | string;
+}
+
+interface Series {
+  end: null;
+  start: null;
+}
+
+interface Author {
+  first_name: string;
+  last_name: string;
+  middle_name: null | string;
+  role: string;
+  suffix: null;
+}
+
+export interface PageInfo {
+  end: null | string;
+  start: null | string;
+  [property: string]: any;
+}
+
+export interface PublishDate {
+  day: number | null;
+  month: number | null;
+  year: number | null;
+  [property: string]: any;
+}

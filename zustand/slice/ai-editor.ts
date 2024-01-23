@@ -18,6 +18,7 @@ const initialState: AIEditorState = {
   showCustomCitiation: false,
   selectedText: '',
   citationStyle: 'APA',
+  showCreateCitation: false,
 };
 
 type AIEditorState = {
@@ -34,6 +35,7 @@ type AIEditorState = {
   selectedText: string;
   copilotRectX: null | number;
   citationStyle: string;
+  showCreateCitation: boolean;
 };
 
 type AIEditorAction = {
@@ -53,6 +55,9 @@ type AIEditorAction = {
   updateSelectedText: (result: AIEditorState['selectedText']) => void;
   updateCopilotRectX: (resutl: AIEditorState['copilotRectX']) => void;
   updateCitationStyle: (result: AIEditorState['citationStyle']) => void;
+  updateShowCreateCitation: (
+    result: AIEditorState['showCreateCitation']
+  ) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -108,5 +113,9 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateCitationStyle: (result) =>
     set(() => ({
       citationStyle: result,
+    })),
+  updateShowCreateCitation: (result) =>
+    set(() => ({
+      showCreateCitation: result,
     })),
 });

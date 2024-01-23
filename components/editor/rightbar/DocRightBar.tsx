@@ -18,6 +18,10 @@ const Generate = dynamic(() =>
   import('@/components/editor/rightbar').then((mod) => mod.Generate)
 );
 
+const Citation = dynamic(() =>
+  import('@/components/editor/rightbar').then((mod) => mod.Citation)
+);
+
 const OptionsVariants: Variants = {
   expanded: { width: '70%' },
   collasped: { width: '15%' },
@@ -37,14 +41,14 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
             key={'doc-right-bar'}
             initial={{ width: 0 }}
             animate={{
-              width: 400,
+              width: 500,
             }}
             exit={{
               width: 0,
             }}
             className='flex h-full shrink-0 flex-col border-l border-shadow-border'
           >
-            <section className='flex h-full flex-col px-3 py-4'>
+            <section className='flex h-full flex-col px-3 pt-4'>
               <PanelRightClose
                 size={20}
                 onClick={() => toggle(false)}
@@ -120,7 +124,11 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
                 </m.span>
               </div>
               <Spacer y='15' />
-              {selected === 0 ? null : selected === 2 ? <Generate /> : null}
+              {selected === 0 ? null : selected === 1 ? (
+                <Citation />
+              ) : selected === 2 ? (
+                <Generate />
+              ) : null}
             </section>
           </m.aside>
         ) : (

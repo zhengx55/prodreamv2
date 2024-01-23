@@ -1,6 +1,5 @@
 'use client';
 import BottomBar from '@/components/editor/bottombar';
-import { CitiationMenu } from '@/components/editor/citiation-menu';
 import { TableOfContent } from '@/components/editor/table-of-contents';
 import Spacer from '@/components/root/Spacer';
 import { Input } from '@/components/ui/input';
@@ -18,6 +17,7 @@ import { ChangeEvent, memo, useState } from 'react';
 import { AiMenu } from '../editor/ai-menu';
 import { BlockMenu } from '../editor/blockmenu';
 import { BubbleMenu } from '../editor/bubble-menu';
+import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
 
 const Tiptap = ({
@@ -121,7 +121,7 @@ const Tiptap = ({
           <Spacer y='20' />
           {showSynonymMenu && <SynonymMenu editor={editor} />}
           {showCopilotMenu && <AiMenu editor={editor} />}
-          {showCitiationMenu && <CitiationMenu editor={editor} />}
+          {showCitiationMenu && <CitationMenu editor={editor} />}
           <BubbleMenu editor={editor} />
           <EditorContent className='flex-1 pb-[40vh]' editor={editor} />
           <BlockMenu editor={editor} />
