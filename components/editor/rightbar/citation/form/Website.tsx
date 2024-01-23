@@ -14,7 +14,17 @@ type Props = {};
 
 const WebsiteForm = (props: Props) => {
   const { register, handleSubmit, control, setValue, getValues } =
-    useForm<IWebsiteCitation>();
+    useForm<IWebsiteCitation>({
+      defaultValues: {
+        contributors: [
+          {
+            first_name: '',
+            middle_name: '',
+            last_name: '',
+          },
+        ],
+      },
+    });
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
@@ -52,7 +62,7 @@ const WebsiteForm = (props: Props) => {
       />
       <Spacer y='48' />
       <h1 className='base-semibold'>Contributors</h1>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2'>
           {fields.map((contributor, index) => (
             <m.div

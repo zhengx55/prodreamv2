@@ -18,7 +18,7 @@ const BookForm = () => {
     'The whole book' | 'Chapter or section' | 'Preface of introduction'
   >('The whole book');
   return (
-    <div className='flex flex-1 flex-col'>
+    <div className='flex flex-1 flex-col overflow-y-auto'>
       <Spacer y='16' />
       <h1 className='base-semibold'>Book Type</h1>
       <Spacer y='16' />

@@ -160,8 +160,5 @@ export interface IIntroductionCitation {
     state?: null | string;
   };
   section_title?: null | string;
-  /**
-   * foreword, afterword, introduction, preface, acknowledgments, dedication, 默认introduction
-   */
   special_section_type?: string;
 }

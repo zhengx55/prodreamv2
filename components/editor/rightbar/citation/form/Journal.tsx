@@ -12,7 +12,17 @@ import { useFieldArray, useForm } from 'react-hook-form';
 
 const JournalForm = () => {
   const { register, handleSubmit, control, setValue, getValues } =
-    useForm<IJournalCitation>();
+    useForm<IJournalCitation>({
+      defaultValues: {
+        contributors: [
+          {
+            first_name: '',
+            middle_name: '',
+            last_name: '',
+          },
+        ],
+      },
+    });
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
@@ -50,7 +60,7 @@ const JournalForm = () => {
       />
       <Spacer y='48' />
       <h1 className='base-semibold'>Contributors</h1>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2 '>
           {fields.map((contributor, index) => (
             <m.div
