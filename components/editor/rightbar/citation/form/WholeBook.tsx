@@ -1,5 +1,7 @@
+import { memo } from "react";
+
 type Props = {};
 const WholeBook = (props: Props) => {
   return <div>WholeBook</div>;
 };
-export default WholeBook;
+export default memo(WholeBook);
