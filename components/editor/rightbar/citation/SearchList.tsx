@@ -5,7 +5,7 @@ import {
   DrawerClose,
   DrawerContent,
   DrawerTrigger,
-} from '@/components/ui/drawer';
+} from '@/components/ui/citation-drawer';
 import { useStatefulRef } from '@bedrock-layout/use-stateful-ref';
 import { ChevronsDown, ChevronsUp } from 'lucide-react';
 import SearchBar from './SearchBar';
