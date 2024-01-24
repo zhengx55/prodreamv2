@@ -32,12 +32,11 @@ export type SiteConfig = {
 
 export type DocSortingMethods = 'lastOpenedTime' | 'title';
 
-export type ICitationData =
-  | IWebsiteCitation
-  | IJournalCitation
-  | IBookCitation
-  | IChapterCitation
-  | IIntroductionCitation;
+export type ICitationData = IWebsiteCitation &
+  IJournalCitation &
+  IBookCitation &
+  IChapterCitation &
+  IIntroductionCitation;
 
 export interface IWebsiteCitation {
   access_date: {

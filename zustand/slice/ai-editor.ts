@@ -22,6 +22,8 @@ const initialState: AIEditorState = {
   showCreateCitation: false,
   inTextCitation: [],
   inDocCitation: [],
+  inTextCitationIds: [],
+  inDocCitationIds: [],
 };
 
 type AIEditorState = {
@@ -41,6 +43,8 @@ type AIEditorState = {
   showCreateCitation: boolean;
   inTextCitation: ICitationData[];
   inDocCitation: ICitationData[];
+  inTextCitationIds: string[];
+  inDocCitationIds: string[];
 };
 
 type AIEditorAction = {
@@ -67,6 +71,10 @@ type AIEditorAction = {
   updateInDocCitation: (result: AIEditorState['inDocCitation']) => void;
   appendInTextCitation: (result: ICitationData) => void;
   appendInDocCitation: (result: ICitationData) => void;
+  updateInTextCitationIds: (result: string[]) => void;
+  updateInDocCitationIds: (result: string[]) => void;
+  appendInTextCitationIds: (result: string) => void;
+  appendInDocCitationIds: (result: string) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -141,6 +149,22 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     })),
   appendInDocCitation: (result) =>
     set((state) => ({
-      inTextCitation: [...state.inDocCitation, result],
+      inDocCitation: [...state.inDocCitation, result],
+    })),
+  updateInTextCitationIds: (result) =>
+    set(() => ({
+      inTextCitationIds: result,
+    })),
+  updateInDocCitationIds: (result) =>
+    set(() => ({
+      inDocCitationIds: result,
+    })),
+  appendInTextCitationIds: (result) =>
+    set((state) => ({
+      inTextCitationIds: [...state.inTextCitationIds, result],
+    })),
+  appendInDocCitationIds: (result) =>
+    set((state) => ({
+      inDocCitationIds: [...state.inDocCitationIds, result],
     })),
 });

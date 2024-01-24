@@ -6,11 +6,14 @@ import {
   DrawerContent,
   DrawerTrigger,
 } from '@/components/ui/citation-drawer';
+import useAiEditor from '@/zustand/store';
 import { ChevronsDown, ChevronsUp } from 'lucide-react';
 import { MutableRefObject } from 'react';
+import { MineCitationCard } from './CitationCard';
 type Props = { container: MutableRefObject<any> };
 
 const Mine = ({ container }: Props) => {
+  const inDocCitation = useAiEditor((state) => state.inDocCitation);
   return (
     <Drawer modal={false}>
       <DrawerTrigger asChild>
@@ -29,10 +32,22 @@ const Mine = ({ container }: Props) => {
             <ChevronsDown size={18} className='text-white' />
           </span>
         </DrawerClose>
-
-        <div className='flex-center h-10 w-full gap-x-2 border-t border-shadow-border bg-white'>
-          <Book />
-          <p className='text-doc-primary'>My Citation</p>
+        <div className='flex-between h-10 w-full shrink-0 gap-x-2 border-t border-shadow-border bg-white'>
+          <div className='flex items-center gap-x-2'>
+            <Book />
+            <p className='text-doc-primary'>My Citation</p>
+          </div>
+        </div>
+        <div className='flex flex-1 flex-col overflow-y-auto pt-12'>
+          {inDocCitation.map((item, index) => {
+            return (
+              <MineCitationCard
+                index={index}
+                item={item as any}
+                key={`in-doc-citation-${index}`}
+              />
+            );
+          })}
         </div>
       </DrawerContent>
     </Drawer>

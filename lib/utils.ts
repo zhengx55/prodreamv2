@@ -129,17 +129,6 @@ export function formatTimestamphh(timestampString: string) {
   }
 }
 
-export function hasHtmlTags(htmlString: string) {
-  // 创建一个新的 DOMParser 实例
-  const parser = new DOMParser();
-
-  // 使用 DOMParser 将 HTML 字符串解析为 DOM 文档
-  const doc = parser.parseFromString(htmlString, 'text/html');
-
-  // 检查是否存在任何 HTML 元素
-  return doc.body.firstChild instanceof HTMLElement;
-}
-
 export function formatTimestamphh_number(timestamp: number) {
   const currentTime = new Date().getTime();
   const timeDifference = currentTime - timestamp * 1000;
@@ -258,3 +247,27 @@ export const getDiffSentencesPair = (item: IPolishResultAData) => {
   });
   return { relpace_string, original_string };
 };
+
+export function numberToMonth(number: number): string | null {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  if (number >= 1 && number <= 12) {
+    return months[number - 1];
+  } else {
+    // 不在有效范围内返回 null 或者其他默认值
+    return null;
+  }
+}

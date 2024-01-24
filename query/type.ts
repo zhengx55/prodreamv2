@@ -390,7 +390,7 @@ export type IDocDetail = {
   title: string;
   create_time: number;
   update_time: number;
-  in_text_citation: string[];
+  in_text_citations: string[];
   content: string;
   citation_candidates: string[];
 };
