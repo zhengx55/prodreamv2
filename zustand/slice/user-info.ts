@@ -12,17 +12,12 @@ export type UserStore = {
 };
 
 const initialState: LoginData = {
-  access_token: '',
   avatar: '',
+  create_time: 0,
   email: '',
   first_name: '',
-  group_id: 0,
-  is_verified: false,
   last_name: '',
-  linked_google: false,
-  no_password: false,
-  role: '',
-  traffic: '',
+  update_time: 0,
   user_id: '',
 };
 

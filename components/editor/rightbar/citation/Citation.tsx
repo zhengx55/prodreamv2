@@ -1,11 +1,11 @@
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { memo } from 'react';
-import CustomCitation from './CustomCitation';
 import SearchList from './SearchList';
 
-type Props = {};
-export const Citation = memo((props: Props) => {
+const CustomCitation = dynamic(() => import('./CustomCitation'));
+export const Citation = memo(() => {
   const showCreateCitation = useAiEditor((state) => state.showCreateCitation);
 
   return (

@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { contributorAnimation } from '@/constant';
+import { useCreateCitation } from '@/query/query';
 import { IIntroductionCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -46,6 +47,8 @@ const IntroductionForm = () => {
   const removeContributor = (index: number) => {
     remove(index);
   };
+
+  const { mutateAsync: handleCreate } = useCreateCitation();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>

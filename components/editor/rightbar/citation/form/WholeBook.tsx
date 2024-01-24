@@ -2,6 +2,7 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { contributorAnimation } from '@/constant';
+import { useCreateCitation } from '@/query/query';
 import { IBookCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -40,6 +41,8 @@ const WholeBook = () => {
   const removeContributor = (index: number) => {
     remove(index);
   };
+
+  const { mutateAsync: handleCreate } = useCreateCitation();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>

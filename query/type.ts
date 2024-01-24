@@ -390,12 +390,15 @@ export type IDocDetail = {
   title: string;
   create_time: number;
   update_time: number;
+  in_text_citations: string[];
+  content: string;
+  citation_candidates: string[];
 };
 
 export type ICitationType =
   | 'book_section'
   | 'whole_book'
-  | 'Website'
+  | 'website'
   | 'booke_special_section'
   | 'journal';
 

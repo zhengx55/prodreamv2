@@ -42,7 +42,7 @@ const Tiptap = ({
     setTitle(e.currentTarget.value);
   };
   const { mutateAsync: saveDocument } = useMutation({
-    mutationFn: (params: { id: string; text?: string; title?: string }) =>
+    mutationFn: (params: { id: string; content?: string; title?: string }) =>
       saveDoc(params),
     onSuccess: () => {
       toggleSaving(false);
@@ -58,7 +58,7 @@ const Tiptap = ({
 
   useUpdateEffect(() => {
     if (savingMode) {
-      saveDocument({ id, text: content });
+      saveDocument({ id, content: content });
     }
   }, [content, savingMode]);
 
@@ -74,25 +74,15 @@ const Tiptap = ({
     },
     injectCSS: false,
     autofocus: true,
-    // content: essay_content
-    //   ? hasHtmlTags(essay_content)
-    //     ? essay_content
-    //     : `${essay_content
-    //         .split(/\n\s*\n/)
-    //         .map((paragraph) => `<p>${paragraph}</p>`)
-    //         .join('')}`
-    //   : '',
-    content: '',
+    content: essay_content ?? '',
     onCreate: ({ editor }) => {
       setEditorInstance(editor as Editor);
       editor.commands.focus('end');
     },
     onUpdate: ({ editor }) => {
-      // if (editor.getHTML() === content) return;
-      // if (savingMode) {
-      //   toggleSaving(true);
-      //   setContent(editor.getHTML());
-      // }
+      if (editor.getHTML() === content) return;
+      toggleSaving(true);
+      setContent(editor.getHTML());
     },
     onDestroy: () => {
       reset();
@@ -105,6 +95,7 @@ const Tiptap = ({
         <TableOfContent editor={editor} />
         <div
           aria-label='editor-parent'
+          id='editor-parent'
           className='relative flex w-full flex-col overflow-y-auto rounded-lg pb-[30vh]'
         >
           <Spacer y='30' />

@@ -3,16 +3,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
+import { useCreateCitation } from '@/query/query';
 import { IWebsiteCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 type Props = {};
 
 const WebsiteForm = (props: Props) => {
+  const { id } = useParams();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IWebsiteCitation>({
       defaultValues: {
@@ -35,19 +38,29 @@ const WebsiteForm = (props: Props) => {
 
   const memoSetMonth = useCallback((value: string) => {
     setValue('access_date.month', value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = (data: IWebsiteCitation) => {
-    console.log(data);
+  const onSubmit = async (data: IWebsiteCitation) => {
+    await handleCreate({
+      document_id: id as string,
+      citation_type: 'website',
+      citation_data: data,
+    });
   };
 
   const appendContributor = () => {
-    append({});
+    append({
+      first_name: '',
+      last_name: '',
+      middle_name: '',
+    });
   };
 
   const removeContributor = (index: number) => {
     remove(index);
   };
+  const { mutateAsync: handleCreate } = useCreateCitation();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
@@ -146,6 +159,14 @@ const WebsiteForm = (props: Props) => {
         {...register('website_title')}
       />
       <Spacer y='16' />
+      <label htmlFor='url'>Website URL</label>
+      <Input
+        type='text'
+        id='url'
+        className='focus-visible:ring-0'
+        {...register('url')}
+      />
+      <Spacer y='16' />
       <h2>Date accessed</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
@@ -187,7 +208,9 @@ const WebsiteForm = (props: Props) => {
         >
           Cancel
         </Button>
-        <Button className='rounded bg-doc-primary'>Save</Button>
+        <Button type='submit' className='rounded bg-doc-primary'>
+          Save
+        </Button>
       </div>
     </form>
   );
