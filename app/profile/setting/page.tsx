@@ -55,9 +55,6 @@ export default function Page() {
     setEditName((prev) => !prev);
   }, []);
 
-  const userAvatar = userInfo.linked_google
-    ? userInfo.avatar
-    : `${process.env.NEXT_PUBLIC_API_STATIC_URL}${userInfo.avatar}`;
   return (
     <main className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col overflow-y-auto px-16 py-10'>
       <EditName isActive={IsEditName} toogleActive={toggleNameModal} />
@@ -78,7 +75,7 @@ export default function Page() {
               className='h-auto w-auto'
               width={70}
               height={70}
-              src={userAvatar}
+              src={userInfo.avatar}
             />
             <input
               ref={uploadRef}
