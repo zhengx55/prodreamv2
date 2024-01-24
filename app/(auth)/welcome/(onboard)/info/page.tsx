@@ -46,8 +46,9 @@ export default async function Page() {
           {datalist.map((item,index)=>(
             <Link
               href={'/welcome/features'}
+              key={item.name}
             >
-              <div className='w-[360px] h-[500px] rounded-[22px] border-[#D4D3D8] border-[2px] px-[20px] py-[36px] cursor-pointer' key={item.name}>
+              <div className='w-[360px] h-[500px] rounded-[22px] border-[#D4D3D8] border-[2px] px-[20px] py-[36px] cursor-pointer'>
                 <h5 className='text-[#3B3A40] text-[32px] font-[500] text-center'>{item.name}</h5>
                 <Spacer y='37' />
                 <Image
