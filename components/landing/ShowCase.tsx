@@ -70,7 +70,7 @@ const ShowCase = () => {
             <div className='py-1'>
               <h5 className='sm:h2-bold sm:text-[36px] text-[16px] font-[600] text-center'>Research Papers</h5>
               <p className='small-regular sm:text-[28px] text-[#64626A] text-center sm:w-full'>
-                Dive into diverse disciplines, from engineering to social sciences, with our AI's specialized research paper guidance.
+                Dive into diverse disciplines, from engineering to social sciences, with our AI&apos;s specialized research paper guidance.
               </p>
             </div>
             <Spacer y='68' />

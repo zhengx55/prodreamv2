@@ -6,7 +6,6 @@ import Spacer from '../root/Spacer';
 import { ChevronLeft } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
 
 const Options = ({
   firstname,
@@ -28,8 +27,9 @@ const Options = ({
             <Link
               href={'/writtingpal/polish'}
               className='w-full'
+              key={item.name}
             >
-              <div className='w-[500px] h-[500px] rounded-[22px] border-[#D4D3D8] border-[2px] px-[20px] py-[36px] cursor-pointer' key={item.name}>
+              <div className='w-[500px] h-[500px] rounded-[22px] border-[#D4D3D8] border-[2px] px-[20px] py-[36px] cursor-pointer'>
                 <h5 className='text-[#3B3A40] text-[32px] font-[500] text-center'>{item.name}</h5>
                 <Spacer y='37' />
                 <Image
