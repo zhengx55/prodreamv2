@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 const NavBar = () => {
-  const userInfo = useUserInfo((state) => state.user);
+  const userId = useUserInfo((state) => state.user).user_id;
   return (
     <section className='z-50 flex h-16 w-full justify-center py-3'>
       <nav className='flex-between w-full px-4 sm:max-w-[1450px] sm:px-0'>
@@ -25,12 +25,12 @@ const NavBar = () => {
           />
           <div className='flex'>
             <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
-              <Button onClick={()=>{btnClick('About Us',userInfo.user_id)}} className='text-[#3B3A40] hidden sm:block' variant={'ghost'}>
+              <Button onClick={()=>{btnClick('About Us',userId)}} className='text-[#3B3A40] hidden sm:block' variant={'ghost'}>
               About Us
               </Button>
             </Link>
             <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
-              <Button onClick={()=>{btnClick('Blogs',userInfo.user_id)}} className='text-[#3B3A40] hidden sm:block' variant={'ghost'}>
+              <Button onClick={()=>{btnClick('Blogs',userId)}} className='text-[#3B3A40] hidden sm:block' variant={'ghost'}>
                 Blogs
               </Button>
             </Link>
@@ -38,12 +38,12 @@ const NavBar = () => {
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={'/writtingpal/polish'} passHref>
-            <Button onClick={()=>{btnClick('Login',userInfo.user_id)}} variant={'ghost'} className='text-[#8551F3]'>
+            <Button onClick={()=>{btnClick('Login',userId)}} variant={'ghost'} className='text-[#8551F3]'>
               Log in
             </Button>
           </Link>
           <Link href={'/signup'} passHref>
-            <Button onClick={()=>{btnClick('Start Writing',userInfo.user_id)}} className='bg-[#8551F3] hover:bg-[#8551F3]'><strong>Start Writing!</strong>It&apos;s Free</Button>
+            <Button onClick={()=>{btnClick('Start Writing',userId)}} className='bg-[#8551F3] hover:bg-[#8551F3]'><strong>Start Writing!</strong>It&apos;s Free</Button>
           </Link>
         </div>
         <DropdownMenu>
@@ -62,13 +62,13 @@ const NavBar = () => {
             <div className="w-[100vw] bg-[#fff] py-6 pt-[45px]">
               <div className='items-center gap-y-4 flex flex-col'>
                 <Link href={'/writtingpal/polish'} passHref>
-                  <Button onClick={()=>{btnClick('mobileLogin',userInfo.user_id)}} variant={'ghost'} className='text-[#8551F3] border-[#8551F3] border-[2px] w-[340px]'>
+                  <Button onClick={()=>{btnClick('mobileLogin',userId)}} variant={'ghost'} className='text-[#8551F3] border-[#8551F3] border-[2px] w-[340px]'>
                     Log in
                   </Button>
                 </Link>
 
                 <Link href={'/signup'} passHref>
-                  <Button onClick={()=>{btnClick('mobileStartWriting',userInfo.user_id)}} className='w-[340px] bg-[#8551F3] hover:bg-[#8551F3]'><strong>Start Writing!</strong>It&apos;s Free</Button>
+                  <Button onClick={()=>{btnClick('mobileStartWriting',userId)}} className='w-[340px] bg-[#8551F3] hover:bg-[#8551F3]'><strong>Start Writing!</strong>It&apos;s Free</Button>
                 </Link>
               </div>
             </div>
