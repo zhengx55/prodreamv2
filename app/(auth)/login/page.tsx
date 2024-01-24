@@ -59,8 +59,8 @@ export default function Page() {
   }
 
   return (
-    <section className='overflow-hidden w-full flex-center flex-1'>
-      <div className='hidden sm:block w-1/2 bg-[#fff]'>
+    <section className='flex-center w-full flex-1 overflow-hidden'>
+      <div className='hidden w-1/2 bg-[#fff] sm:block'>
         <Image
           src='/auth/login_icon.png'
           width={960}
@@ -71,8 +71,10 @@ export default function Page() {
         />
       </div>
       <Panel>
-        <h1 className='sm:text-[48px] text-[28px] font-[600] self-start'>Welcome Back!</h1>
-        <p className='sm:text-[24px] text-[20px] font-[400] text-[#525252] self-start text-shadow-100 sm:mb-[100px] mb-[50px]'>
+        <h1 className='self-start text-[28px] font-[600] sm:text-[48px]'>
+          Welcome Back!
+        </h1>
+        <p className='mb-[50px] self-start text-[20px] font-[400] text-shadow-100 sm:mb-[100px] sm:text-[24px]'>
           Ready to continue crafting your unique story?
         </p>
         <GoogleSignin />
@@ -92,7 +94,10 @@ export default function Page() {
               name='username'
               render={({ field }) => (
                 <FormItem className='mt-0'>
-                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='username'>
+                  <FormLabel
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                    htmlFor='username'
+                  >
                     Email Address
                   </FormLabel>
                   <FormControl>
@@ -113,7 +118,10 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='password'>
+                  <FormLabel
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                    htmlFor='password'
+                  >
                     Password
                   </FormLabel>
                   {!hidePassword ? (

@@ -55,7 +55,7 @@ export default function Page() {
           path: '/',
           maxAge: 604800,
         });
-        router.push('/writtingpal/polish');
+        router.push('/welcome/info');
       },
       onError: (error) => {
         toast.error(error.message);
@@ -72,8 +72,8 @@ export default function Page() {
   }
 
   return (
-    <section className='overflow-hidden flex-center flex-1'>
-      <div className='hidden sm:block w-1/2 bg-[#fff]'>
+    <section className='flex-center flex-1 overflow-hidden'>
+      <div className='hidden w-1/2 bg-[#fff] sm:block'>
         <Image
           src='/auth/login_icon.png'
           width={960}
@@ -84,8 +84,10 @@ export default function Page() {
         />
       </div>
       <Panel>
-        <h1 className='sm:text-[48px] text-[28px] font-[600] self-start'>Create Your Account</h1>
-        <p className='sm:text-[24px] text-[20px] font-[400] text-[#525252] self-start text-left sm:mb-[60px] mb-[30px]'>
+        <h1 className='self-start text-[28px] font-[600] sm:text-[48px]'>
+          Create Your Account
+        </h1>
+        <p className='mb-[30px] self-start text-left text-[20px] font-[400] text-[#525252] sm:mb-[60px] sm:text-[24px]'>
           Unlock the potential of your personal statement with QuickApply!
         </p>
         <GoogleSignin />
@@ -100,13 +102,16 @@ export default function Page() {
             onSubmit={form.handleSubmit(onSubmit)}
             className='flex flex-col gap-y-6'
           >
-            <div className='flex flex-between gap-x-4'>
+            <div className='flex-between flex gap-x-4'>
               <FormField
                 control={form.control}
                 name='first_name'
                 render={({ field }) => (
                   <FormItem className='relative'>
-                    <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='first_name'>
+                    <FormLabel
+                      className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                      htmlFor='first_name'
+                    >
                       First Name
                     </FormLabel>
                     <FormControl>
@@ -127,7 +132,10 @@ export default function Page() {
                 name='last_name'
                 render={({ field }) => (
                   <FormItem className='relative'>
-                    <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='last_name'>
+                    <FormLabel
+                      className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                      htmlFor='last_name'
+                    >
                       Last Name
                     </FormLabel>
                     <FormControl>
@@ -149,7 +157,10 @@ export default function Page() {
               name='email'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='username'>
+                  <FormLabel
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                    htmlFor='username'
+                  >
                     Email Address
                   </FormLabel>
                   <FormControl>
@@ -171,7 +182,10 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='password'>
+                  <FormLabel
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                    htmlFor='password'
+                  >
                     Create a Password
                   </FormLabel>
                   {!hidePassword ? (
@@ -224,7 +238,7 @@ export default function Page() {
             </Button>
           </form>
         </Form>
-        
+
         <p className='small-regular mt-4 self-center text-black-200'>
           Already a member?&nbsp;
           <Link href={'/login'} className='text-primary-200'>

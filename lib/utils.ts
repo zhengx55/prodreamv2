@@ -1,6 +1,15 @@
 import { IPolishResultAData } from '@/query/type';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import posthog from 'posthog-js';
+
+export function btnClick(btnName: string, userId: string) {
+  posthog.capture(btnName, {
+    // button_id: buttonId, // Dynamic button ID
+    user_id: userId,
+    // ... other properties
+  });
+}
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
