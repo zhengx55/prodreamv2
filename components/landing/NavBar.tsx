@@ -2,15 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
 
 const NavBar = () => {
   return (
@@ -40,49 +35,42 @@ const NavBar = () => {
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={'/writtingpal/polish'} passHref>
-            <Button variant={'ghost'} className='text-primary-200'>
-              Login
+            <Button variant={'ghost'} className='text-[#8551F3]'>
+              Log in
             </Button>
           </Link>
           <Link href={'/signup'} passHref>
-            <Button><strong>Start Writing!</strong>It&apos;s Free</Button>
+            <Button className='bg-[#8551F3] hover:bg-[#8551F3]'><strong>Start Writing!</strong>It&apos;s Free</Button>
           </Link>
         </div>
-        <div className='sm:hidden items-center gap-x-8 sm:flex'>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-            <path d="M4 6.5H20M4 12.5H20M4 18.5H20" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        {/* <Drawer>
-        <DrawerTrigger asChild>
-        <div className='sm:hidden items-center gap-x-8 sm:flex'>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-            <path d="M4 6.5H20M4 12.5H20M4 18.5H20" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        </DrawerTrigger>
-        <DrawerContent
-          side='top'
-          position='top'
-          align='center'
-          sideOffset={2}
-          className='bg-white'
-        >
-          <div className="mx-auto w-full py-6 max-w-sm">
-            <div className='items-center gap-y-4 flex flex-col'>
-              <Link href={'/writtingpal/polish'} passHref>
-                <Button variant={'ghost'} className='text-primary-200 border-[#9C2CF3] border-[2px] w-[340px]'>
-                  Log in
-                </Button>
-              </Link>
-
-              <Link href={'/signup'} passHref>
-                <Button className='w-[340px]'><strong>Start Writing!</strong>It&apos;s Free</Button>
-              </Link>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className='sm:hidden items-center gap-x-8 sm:flex z-[999]'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                <path d="M4 6.5H20M4 12.5H20M4 18.5H20" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </div>
-          </div>
-        </DrawerContent>
-      </Drawer> */}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align='center'
+            sideOffset={0}
+            className='bg-[#000]/25 w-[100vw] h-[100vh] p-0 border-none'
+          >
+            <div className="w-[100vw] bg-[#fff] py-6 pt-[45px]">
+              <div className='items-center gap-y-4 flex flex-col'>
+                <Link href={'/writtingpal/polish'} passHref>
+                  <Button variant={'ghost'} className='text-[#8551F3] border-[#8551F3] border-[2px] w-[340px]'>
+                    Log in
+                  </Button>
+                </Link>
+
+                <Link href={'/signup'} passHref>
+                  <Button className='w-[340px] bg-[#8551F3] hover:bg-[#8551F3]'><strong>Start Writing!</strong>It&apos;s Free</Button>
+                </Link>
+              </div>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </nav>
     </section>
   );

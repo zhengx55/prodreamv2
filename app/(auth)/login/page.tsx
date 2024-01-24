@@ -59,8 +59,8 @@ export default function Page() {
   }
 
   return (
-    <section className='flex-center w-full flex-1 overflow-hidden'>
-      <div className='w-1/2 bg-[#fff]'>
+    <section className='overflow-hidden w-full flex-center flex-1'>
+      <div className='hidden sm:block w-1/2 bg-[#fff]'>
         <Image
           src='/auth/login_icon.png'
           width={960}
@@ -71,8 +71,8 @@ export default function Page() {
         />
       </div>
       <Panel>
-        <h1 className='self-start text-[48px] font-[600]'>Welcome Back!</h1>
-        <p className='mb-[100px] self-start text-[24px] font-[400] text-[#525252] text-shadow-100'>
+        <h1 className='sm:text-[48px] text-[28px] font-[600] self-start'>Welcome Back!</h1>
+        <p className='sm:text-[24px] text-[20px] font-[400] text-[#525252] self-start text-shadow-100 sm:mb-[100px] mb-[50px]'>
           Ready to continue crafting your unique story?
         </p>
         <GoogleSignin />
@@ -92,10 +92,7 @@ export default function Page() {
               name='username'
               render={({ field }) => (
                 <FormItem className='mt-0'>
-                  <FormLabel
-                    className='font-500 text-[26px] text-[#17161B]'
-                    htmlFor='username'
-                  >
+                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='username'>
                     Email Address
                   </FormLabel>
                   <FormControl>
@@ -116,10 +113,7 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel
-                    className='font-500 text-[26px] text-[#17161B]'
-                    htmlFor='password'
-                  >
+                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='password'>
                     Password
                   </FormLabel>
                   {!hidePassword ? (
