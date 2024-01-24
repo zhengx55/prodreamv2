@@ -3,10 +3,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import posthog from 'posthog-js';
 
-export function btnClick(btnName: string, userId) {
-  console.log(btnName)
-  console.log(userId)
-  console.log('2334')
+export function btnClick(btnName: string, userId: number) {
   posthog.capture(btnName, {
     // button_id: buttonId, // Dynamic button ID
     user_id: userId, 
