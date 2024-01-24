@@ -32,6 +32,13 @@ export type SiteConfig = {
 
 export type DocSortingMethods = 'lastOpenedTime' | 'title';
 
+export type ICitationData =
+  | IWebsiteCitation
+  | IJournalCitation
+  | IBookCitation
+  | IChapterCitation
+  | IIntroductionCitation;
+
 export interface IWebsiteCitation {
   access_date: {
     day?: number | null;
@@ -50,6 +57,7 @@ export interface IWebsiteCitation {
   document_id: string;
   publisher?: null | string;
   website_title: string;
+  url?: string;
 }
 
 export interface IJournalCitation {
@@ -165,7 +173,7 @@ export interface IIntroductionCitation {
   special_section_type?: string;
 }
 
-export type GetCitationDataType<T extends ICitationType> = T extends 'Website'
+export type GetCitationDataType<T extends ICitationType> = T extends 'website'
   ? IWebsiteCitation
   : T extends 'journal'
     ? IJournalCitation

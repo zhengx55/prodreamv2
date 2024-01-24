@@ -880,7 +880,7 @@ export async function createCitation(params: {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/${params.citation_type}`,
       {
         method: 'POST',
         body: JSON.stringify({
@@ -889,6 +889,7 @@ export async function createCitation(params: {
         }),
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -925,14 +926,11 @@ export async function getCitationDetail(params: {
   }
 }
 
-export async function getCitations(params: {
-  citation_type: ICitationType;
-  citation_ids: string[];
-}) {
+export async function getCitations(params: { citation_ids: string[] }) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}?citation_ids=${params.citation_ids.join(',')}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation?citation_ids=${params.citation_ids.join(',')}`,
       {
         method: 'GET',
         headers: {

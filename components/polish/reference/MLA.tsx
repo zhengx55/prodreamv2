@@ -1,10 +1,10 @@
 import { ICitationType } from '@/query/type';
 import {
-    IBookCitation,
-    IChapterCitation,
-    IIntroductionCitation,
-    IJournalCitation,
-    IWebsiteCitation,
+  IBookCitation,
+  IChapterCitation,
+  IIntroductionCitation,
+  IJournalCitation,
+  IWebsiteCitation,
 } from '@/types';
 import React from 'react';
 
@@ -173,7 +173,7 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
   };
 
   const generateMLAReference = () => {
-    if (citation.type === 'Website') {
+    if (citation.type === 'website') {
       return generateWebsiteReference(citation.data as IWebsiteCitation);
     } else if (citation.type === 'journal') {
       return generateJournalReference(citation.data as IJournalCitation);

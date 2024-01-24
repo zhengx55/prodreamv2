@@ -398,7 +398,7 @@ export type IDocDetail = {
 export type ICitationType =
   | 'book_section'
   | 'whole_book'
-  | 'Website'
+  | 'website'
   | 'booke_special_section'
   | 'journal';
 

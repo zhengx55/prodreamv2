@@ -3,11 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { createCitation } from '@/query/api';
-import { ICitationType } from '@/query/type';
-import { GetCitationDataType, IWebsiteCitation } from '@/types';
+import { useCreateCitation } from '@/query/query';
+import { IWebsiteCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -44,32 +42,25 @@ const WebsiteForm = (props: Props) => {
   }, []);
 
   const onSubmit = async (data: IWebsiteCitation) => {
-    await handleCreateCitation({
+    await handleCreate({
       document_id: id as string,
-      citation_type: 'Website',
+      citation_type: 'website',
       citation_data: data,
     });
   };
 
   const appendContributor = () => {
-    append({});
+    append({
+      first_name: '',
+      last_name: '',
+      middle_name: '',
+    });
   };
 
   const removeContributor = (index: number) => {
     remove(index);
   };
-
-  const { mutateAsync: handleCreateCitation } = useMutation({
-    mutationFn: (params: {
-      citation_type: ICitationType;
-      citation_data: GetCitationDataType<ICitationType>;
-      document_id: string;
-    }) => createCitation(params),
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: () => {},
-  });
+  const { mutateAsync: handleCreate } = useCreateCitation();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
@@ -166,6 +157,14 @@ const WebsiteForm = (props: Props) => {
         id='website_title'
         className='focus-visible:ring-0'
         {...register('website_title')}
+      />
+      <Spacer y='16' />
+      <label htmlFor='url'>Website URL</label>
+      <Input
+        type='text'
+        id='url'
+        className='focus-visible:ring-0'
+        {...register('url')}
       />
       <Spacer y='16' />
       <h2>Date accessed</h2>
