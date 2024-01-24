@@ -1,7 +1,4 @@
-import {
-  GetCitationDataType,
-  IUsage
-} from '@/types';
+import { GetCitationDataType, IUsage } from '@/types';
 import Cookies from 'js-cookie';
 import {
   ICitation,
@@ -104,7 +101,7 @@ export async function googleLogin(loginParam: {
 export async function userLogin(loginParam: {
   username: string;
   password: string;
-}): Promise<LoginData> {
+}): Promise<{ access_token: string }> {
   try {
     const formData = new FormData();
     formData.append('email', loginParam.username);
