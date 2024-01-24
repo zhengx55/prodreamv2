@@ -23,7 +23,7 @@ const initialState: LoginData = {
   no_password: false,
   role: '',
   traffic: '',
-  user_id: 0,
+  user_id: '',
 };
 
 const useUserStore: StateCreator<UserStore> = (set) => ({
