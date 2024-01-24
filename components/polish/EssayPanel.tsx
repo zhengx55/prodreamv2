@@ -45,7 +45,7 @@ const EssayPanel = ({
       ) : (
         <Tiptap
           essay_title={document_content ? document_content.title : ''}
-          essay_content={document_content ? document_content.text : ''}
+          essay_content=''
         />
       )}
       <DocRightBar show={showRightBar} toggle={memoToggleRightBar} />

@@ -1,3 +1,5 @@
+import { ICitationType } from '@/query/type';
+
 export interface IUsage {
   /**
    * 是否是以第一次使用ai editor
@@ -162,3 +164,15 @@ export interface IIntroductionCitation {
   section_title?: null | string;
   special_section_type?: string;
 }
+
+export type GetCitationDataType<T extends ICitationType> = T extends 'Website'
+  ? IWebsiteCitation
+  : T extends 'journal'
+    ? IJournalCitation
+    : T extends 'whole_book'
+      ? IBookCitation
+      : T extends 'book_special_section'
+        ? IIntroductionCitation
+        : T extends 'book_section'
+          ? IChapterCitation
+          : never;

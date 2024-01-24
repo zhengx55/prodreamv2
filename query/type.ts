@@ -86,18 +86,13 @@ export interface LoginResponse {
 }
 
 export interface LoginData {
-  access_token: string;
   avatar: string;
+  create_time: number;
   email: string;
   first_name: string;
-  group_id: number;
-  is_verified: boolean;
   last_name: string;
-  linked_google: boolean;
-  no_password: boolean;
-  role: string;
-  traffic: string;
-  user_id: number;
+  update_time: number;
+  user_id: string;
 }
 
 export interface ISigunUpRequest {
@@ -392,7 +387,6 @@ export interface Span {
 
 export type IDocDetail = {
   id: string;
-  text: string;
   title: string;
   create_time: number;
   update_time: number;

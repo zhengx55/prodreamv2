@@ -1,7 +1,8 @@
-import { IUsage } from '@/types';
+import { GetCitationDataType, IUsage } from '@/types';
 import Cookies from 'js-cookie';
 import {
   ICitation,
+  ICitationType,
   IDocDetail,
   IEssayAssessData,
   IEssayAssessRequest,
@@ -76,20 +77,15 @@ export async function googleLogin(loginParam: {
   access_token: string;
   from?: string;
   refferal?: string;
-}): Promise<LoginData> {
+}): Promise<{ access_token: string }> {
   try {
+    const formData = new FormData();
+    formData.append('google_access_token', loginParam.access_token);
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}login_google`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/login/google`,
       {
         method: 'POST',
-        body: JSON.stringify({
-          access_token: loginParam.access_token,
-          from: loginParam.from ?? '',
-          refferal: loginParam.refferal ?? '',
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        body: formData,
       }
     );
     const data = await res.json();
@@ -105,15 +101,18 @@ export async function googleLogin(loginParam: {
 export async function userLogin(loginParam: {
   username: string;
   password: string;
-}): Promise<LoginData> {
+}): Promise<{ access_token: string }> {
   try {
     const formData = new FormData();
     formData.append('email', loginParam.username);
     formData.append('password', loginParam.password);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}login`, {
-      method: 'POST',
-      body: formData,
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/login`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
     const data = await res.json();
     if (data.data === null) {
       throw data.msg;
@@ -143,21 +142,6 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
     });
     const data = await res.json();
 
-    if (data.code !== 0) {
-      throw data.msg;
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function userLogOut() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}logout`, {
-      method: 'DELETE',
-    });
-    const data = await res.json();
     if (data.code !== 0) {
       throw data.msg;
     }
@@ -229,8 +213,6 @@ export async function verifyEmail(params: IVerifyEmail) {
 // ----------------------------------------------------------------
 // Referral
 // ----------------------------------------------------------------
-export async function getReferralLink() {}
-
 export async function getReferralCount() {
   try {
     const token = Cookies.get('token');
@@ -274,7 +256,7 @@ export async function copilot(params: {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'text/event-stream',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -293,7 +275,7 @@ export async function synonym(params: { word: string }): Promise<string[]> {
       {
         method: 'GET',
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -325,58 +307,12 @@ export async function outline(params: {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'text/event-stream',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
     if (!res.ok || !res.body) throw new Error('Opps something went wrong');
     return res.body;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function createCitation(params: { citation_type: string }) {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok) throw new Error('Opps something went wrong');
-    const data = await res.json();
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function searchCitation(
-  searchTerm: string,
-  signal: AbortSignal
-): Promise<ICitation[]> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/search?query=${searchTerm}`,
-      {
-        signal,
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InVzZXJfaWQiOiJiYjk3NDgzZjZkNTI0MGYxOWFiMTA1OTNhMzYwYTAyOSJ9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NTUyMTE0LCJpYXQiOjE3MDU5NDczMTQsImp0aSI6IjJjYjk2ZmZlLWIxOTAtNGUyNC1hN2ZlLWM0NThkOWEzMmU4NiJ9.GDcC58Gg-_5-zSUsZbYbLlXc-cZhXg-jaco9ZsWN_xA`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw data.msg;
-    }
-    return data.data;
   } catch (error) {
     throw new Error(error as string);
   }
@@ -763,12 +699,15 @@ export async function profileResetAvatar(params: { file: File }) {
 export async function refreshUserSession(): Promise<LoginData> {
   try {
     const token = Cookies.get('token');
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}refresh`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/me`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await res.json();
     if (data.code !== 0) {
       throw new Error(data.msg as string);
@@ -778,10 +717,6 @@ export async function refreshUserSession(): Promise<LoginData> {
     throw new Error(error as string);
   }
 }
-
-// ----------------------------------------------------------------
-// 打点
-// ----------------------------------------------------------------
 
 // ----------------------------------------------------------------
 // Doc
@@ -796,13 +731,16 @@ export async function createDoc(text?: string, file?: File) {
   }
   try {
     const token = Cookies.get('token');
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}document`, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document`,
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await res.json();
     if (data.code !== 0) {
       throw new Error(data.msg as string);
@@ -821,7 +759,7 @@ export async function saveDoc(params: {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}document/${params.id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document/${params.id}`,
       {
         method: 'PUT',
         headers: {
@@ -848,7 +786,7 @@ export async function deleteDoc(doc_id: string) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}document/${doc_id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document/${doc_id}`,
       {
         method: 'DELETE',
         headers: {
@@ -875,8 +813,8 @@ export async function getDocs(
     const token = Cookies.get('token');
     const res = await fetch(
       `${
-        process.env.NEXT_PUBLIC_API_URL
-      }document?page=${page}&page_size=${pageSize}&keyword=${keyword ?? ''}`,
+        process.env.NEXT_PUBLIC_API_BASE_URL
+      }v1/editor/documents?page=${page}&page_size=${pageSize}${keyword ? `&keyword=${keyword}` : ''}`,
       {
         method: 'GET',
         headers: {
@@ -888,7 +826,10 @@ export async function getDocs(
     if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
-    return { hasMore: data.data.n_remaining_page > 0, list: data.data.docs };
+    return {
+      hasMore: data.data.remaining_pages > 0,
+      list: data.data.documents,
+    };
   } catch (error) {
     throw new Error(error as string);
   }
@@ -898,7 +839,7 @@ export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}document/${doc_id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document/${doc_id}`,
       {
         method: 'GET',
         headers: {
@@ -909,6 +850,107 @@ export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
     const data = await res.json();
     if (data.code !== 0) {
       throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+// ----------------------------------------------------------------
+// Citation
+// ----------------------------------------------------------------
+export async function createCitation(params: {
+  citation_type: ICitationType;
+  citation_data: GetCitationDataType<ICitationType>;
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(params.citation_data),
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) throw new Error('Opps something went wrong');
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function updateCitation() {}
+
+export async function getCitationDetail(params: {
+  citation_type: ICitationType;
+  citation_id: string;
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}/${params.citation_id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) throw new Error('Opps something went wrong');
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function getCitations(params: {
+  citation_type: ICitationType;
+  citation_ids: string[];
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}?citation_ids=${params.citation_ids.join(',')}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) throw new Error('Opps something went wrong');
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function searchCitation(
+  searchTerm: string,
+  signal: AbortSignal
+): Promise<ICitation[]> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/search?query=${searchTerm}`,
+      {
+        signal,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
     }
     return data.data;
   } catch (error) {

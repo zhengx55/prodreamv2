@@ -2,9 +2,9 @@
 import Panel from '@/components/auth/Panel';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
-import Image from 'next/image';
 import * as z from 'zod';
 
 import GoogleSignin from '@/components/auth/GoogleSignin';
@@ -75,7 +75,7 @@ export default function Page() {
         <p className='sm:text-[24px] text-[20px] font-[400] text-[#525252] self-start text-shadow-100 sm:mb-[100px] mb-[50px]'>
           Ready to continue crafting your unique story?
         </p>
-        <GoogleSignin/>
+        <GoogleSignin />
         <div className='flex-center relative my-10'>
           <Separator orientation='horizontal' className='bg-shadow-border' />
           <p className='small-regular absolute bg-white px-2 text-shadow-100'>
@@ -150,13 +150,15 @@ export default function Page() {
             >
               Forgot Password?
             </Link>
-            <Button className='w-full rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3]' type='submit'>
+            <Button
+              className='w-full rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3]'
+              type='submit'
+            >
               Sign in
             </Button>
           </form>
         </Form>
-        
-        
+
         <p className='small-regular mt-8 self-center text-black-200'>
           Already a member??&nbsp;
           <Link href={'/signup'} prefetch className='text-primary-200'>

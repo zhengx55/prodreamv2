@@ -14,10 +14,6 @@ const GlobalInfoProvider = ({ children }: { children: ReactNode }) => {
       try {
         const data = await refreshUserSession();
         updateUserInfo(data);
-        setCookie('token', data.access_token, {
-          path: '/',
-          maxAge: 604800,
-        });
       } catch (error) {
         redirect('/login');
       }

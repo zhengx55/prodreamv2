@@ -10,7 +10,7 @@ import { v4 } from 'uuid';
 const SearchBar = dynamic(() => import('./Search'));
 const List = dynamic(() => import('./List'));
 
-const EvaluationHistory = () => {
+const DocHistory = () => {
   const searchParam = useSearchParams();
   const {
     data,
@@ -20,7 +20,7 @@ const EvaluationHistory = () => {
     refetch: refetchHistory,
   } = useQuery({
     queryKey: ['document_history_list'],
-    queryFn: () => getDocs(1, 15, searchParam.get('search') ?? undefined),
+    queryFn: () => getDocs(0, 15, searchParam.get('search') ?? undefined),
   });
 
   useUpdateEffect(() => {
@@ -46,4 +46,4 @@ const EvaluationHistory = () => {
     </main>
   );
 };
-export default EvaluationHistory;
+export default DocHistory;

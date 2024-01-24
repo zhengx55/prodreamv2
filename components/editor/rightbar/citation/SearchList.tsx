@@ -1,12 +1,11 @@
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { Book } from '@/components/root/SvgComponents';
-import { Button } from '@/components/ui/button';
 import { useDebouncedState } from '@/hooks/useDebounceState';
 import { searchCitation } from '@/query/api';
 import { useStatefulRef } from '@bedrock-layout/use-stateful-ref';
 import { useQuery } from '@tanstack/react-query';
-import { Plus, ReplyAll } from 'lucide-react';
+import { SearchCitationCard } from './CitationCard';
 import Mine from './Mine';
 import SearchBar from './SearchBar';
 
@@ -42,38 +41,7 @@ const SearchList = () => {
         ) : (
           citationResult &&
           citationResult?.map((item) => (
-            <div
-              key={item.article_title}
-              className='group flex flex-col gap-y-2 px-2'
-            >
-              <h1
-                onClick={() => {
-                  if (item.pdf_url) window.open(item.pdf_url, '_blank');
-                }}
-                className='base-semibold cursor-pointer hover:text-doc-primary'
-              >
-                {item.article_title}
-              </h1>
-              <p className='small-regular line-clamp-3'>
-                {item.abstract ?? 'No content available'}
-              </p>
-              <div className='flex-between'>
-                <Button
-                  className='h-max w-[48%] rounded bg-doc-primary'
-                  role='button'
-                >
-                  <ReplyAll size={18} />
-                  Cite
-                </Button>
-                <Button
-                  className='h-max w-[48%] rounded border border-doc-primary text-doc-primary'
-                  variant={'ghost'}
-                  role='button'
-                >
-                  <Plus size={18} className='text-doc-primary' /> Add to mine
-                </Button>
-              </div>
-            </div>
+            <SearchCitationCard key={item.article_title} item={item} />
           ))
         )}
       </div>
