@@ -71,10 +71,10 @@ const Team = () => {
               />
             </section>
             <Spacer y='40' />
-            <h4 className='text-left text-[16px] font-[600] tracking-tighter sm:text-left sm:text-[36px]'>Get citation job done with just one click</h4>
+            <h4 className='text-left text-[16px] font-[600] tracking-tighter sm:text-left sm:text-[36px]'>Never get stuck writing an essay again</h4>
             <Spacer y='20' />
             <p className='small-regular text-left text-[#64626A] sm:text-[28px]'>
-            ProDream streamlines your citations with the latest research and your PDF uploads. Simply choose from MLA, IEEE, and APA styles.
+            ProDream unblocks your writing by integrating insights from your style and topic. Simply write, and it continues the scholarly piece for you.
             </p>
             <Spacer y='40' />
             <section className='relative flex flex-col sm:flex-row justify-between w-full overflow-hidden sm:w-full'>
