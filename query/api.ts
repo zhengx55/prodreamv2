@@ -1,7 +1,11 @@
-import { IUsage } from '@/types';
+import {
+  GetCitationDataType,
+  IUsage
+} from '@/types';
 import Cookies from 'js-cookie';
 import {
   ICitation,
+  ICitationType,
   IDocDetail,
   IEssayAssessData,
   IEssayAssessRequest,
@@ -312,52 +316,6 @@ export async function outline(params: {
     );
     if (!res.ok || !res.body) throw new Error('Opps something went wrong');
     return res.body;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function createCitation(params: { citation_type: string }) {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok) throw new Error('Opps something went wrong');
-    const data = await res.json();
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function searchCitation(
-  searchTerm: string,
-  signal: AbortSignal
-): Promise<ICitation[]> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/search?query=${searchTerm}`,
-      {
-        signal,
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw data.msg;
-    }
-    return data.data;
   } catch (error) {
     throw new Error(error as string);
   }
@@ -895,6 +853,107 @@ export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
     const data = await res.json();
     if (data.code !== 0) {
       throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+// ----------------------------------------------------------------
+// Citation
+// ----------------------------------------------------------------
+export async function createCitation(params: {
+  citation_type: ICitationType;
+  citation_data: GetCitationDataType<ICitationType>;
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(params.citation_data),
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) throw new Error('Opps something went wrong');
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function updateCitation() {}
+
+export async function getCitationDetail(params: {
+  citation_type: ICitationType;
+  citation_id: string;
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}/${params.citation_id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) throw new Error('Opps something went wrong');
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function getCitations(params: {
+  citation_type: ICitationType;
+  citation_ids: string[];
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}?citation_ids=${params.citation_ids.join(',')}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) throw new Error('Opps something went wrong');
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function searchCitation(
+  searchTerm: string,
+  signal: AbortSignal
+): Promise<ICitation[]> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/search?query=${searchTerm}`,
+      {
+        signal,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
     }
     return data.data;
   } catch (error) {

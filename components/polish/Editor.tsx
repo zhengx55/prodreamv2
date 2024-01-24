@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { useDebouncedState } from '@/hooks/useDebounceState';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
-import { hasHtmlTags } from '@/lib/utils';
 import { saveDoc } from '@/query/api';
 import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -19,6 +18,7 @@ import { BlockMenu } from '../editor/blockmenu';
 import { BubbleMenu } from '../editor/bubble-menu';
 import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
+import Reference from './Reference';
 
 const Tiptap = ({
   essay_content,
@@ -74,14 +74,15 @@ const Tiptap = ({
     },
     injectCSS: false,
     autofocus: true,
-    content: essay_content
-      ? hasHtmlTags(essay_content)
-        ? essay_content
-        : `${essay_content
-            .split(/\n\s*\n/)
-            .map((paragraph) => `<p>${paragraph}</p>`)
-            .join('')}`
-      : '',
+    // content: essay_content
+    //   ? hasHtmlTags(essay_content)
+    //     ? essay_content
+    //     : `${essay_content
+    //         .split(/\n\s*\n/)
+    //         .map((paragraph) => `<p>${paragraph}</p>`)
+    //         .join('')}`
+    //   : '',
+    content: '',
     onCreate: ({ editor }) => {
       setEditorInstance(editor as Editor);
       editor.commands.focus('end');
@@ -125,7 +126,7 @@ const Tiptap = ({
           <EditorContent className='flex-1' editor={editor} />
           <BlockMenu editor={editor} />
           <Spacer y='20' />
-          {/* <Reference /> */}
+          <Reference />
         </div>
       </div>
       <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>

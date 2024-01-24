@@ -1,6 +1,6 @@
 import {
-    DropdownMenuContent,
-    DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { useAIEditor } from '@/zustand/store';
 
@@ -21,15 +21,6 @@ const NavbarDropdown = () => {
         className='flex cursor-pointer justify-center text-shadow hover:bg-shadow-50'
       >
         APA
-      </DropdownMenuItem>
-      <DropdownMenuItem
-        onClick={(e) => {
-          e.stopPropagation();
-          setCitationStyle('IEEE');
-        }}
-        className='flex cursor-pointer justify-center text-shadow hover:bg-shadow-50'
-      >
-        IEEE
       </DropdownMenuItem>
       <DropdownMenuItem
         onClick={(e) => {

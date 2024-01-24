@@ -1,5 +1,5 @@
-import EvaluationHistory from '@/components/polish/history';
+import DocHistory from '@/components/polish/history';
 
 export default async function Page() {
-  return <EvaluationHistory />;
+  return <DocHistory />;
 }
