@@ -70,7 +70,7 @@ const ShowCase = () => {
             <div className='py-1'>
               <h5 className='sm:h2-bold sm:text-[36px] text-[16px] font-[600] text-center'>Research Papers</h5>
               <p className='small-regular sm:text-[28px] text-[#64626A] text-center sm:w-full'>
-                Your own customer success manager to help onboard large teams and create custom workflows.
+                Dive into diverse disciplines, from engineering to social sciences, with our AI's specialized research paper guidance.
               </p>
             </div>
             <Spacer y='68' />
@@ -82,7 +82,7 @@ const ShowCase = () => {
             <div className='py-1'>
               <h5 className='sm:h2-bold sm:text-[36px] text-[16px] font-[600] text-center'>Essays</h5>
               <p className='small-regular sm:text-[28px] text-[#64626A] text-center sm:w-full'>
-                Extra permission controls to prevent certain employees from sharing pages externally, disable guests and etc.
+                Elevate your essays: our AI pinpoints and perfects your thesis for impactful arguments
               </p>
             </div>
           </m.div>
@@ -97,7 +97,7 @@ const ShowCase = () => {
             <div className='py-1'>
               <h5 className='sm:h2-bold sm:text-[36px] text-[16px] font-[600] text-center'>Case Studies</h5>
               <p className='small-regular sm:text-[28px] text-[#64626A] text-center sm:w-full'>
-                We’ll work with you to create a custom contract and payment via PO/invoice.
+                Analytical clarity meets depth in your case studies, courtesy of our targeted AI insights
               </p>
             </div>
             <Spacer y='136' />
@@ -109,7 +109,7 @@ const ShowCase = () => {
             <div className='py-1'>
               <h5 className='sm:h2-bold sm:text-[36px] text-[16px] font-[600] text-center'>Literature Reviews</h5>
               <p className='small-regular sm:text-[28px] text-[#64626A] text-center sm:w-full'>
-                Access version history of any page indefinitely, not just only 30 days like other products.
+                Access over 200 million papers for your literature reviews, ensuring depth and diversity in your citations
               </p>
             </div>
           </m.div>

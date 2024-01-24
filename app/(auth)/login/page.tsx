@@ -72,7 +72,7 @@ export default function Page() {
       </div>
       <Panel>
         <h1 className='sm:text-[48px] text-[28px] font-[600] self-start'>Welcome Back!</h1>
-        <p className='sm:text-[24px] text-[20px] font-[400] text-[#525252] self-start text-shadow-100 sm:mb-[100px] mb-[50px]'>
+        <p className='sm:text-[24px] text-[20px] font-[400] self-start text-shadow-100 sm:mb-[100px] mb-[50px]'>
           Ready to continue crafting your unique story?
         </p>
         <GoogleSignin/>
