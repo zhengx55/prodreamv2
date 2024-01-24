@@ -9,7 +9,7 @@ import { copilot } from '@/query/api';
 import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
-import { AlertTriangle, ChevronRight, Frown, Smile } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import {
   ChangeEvent,
@@ -199,7 +199,7 @@ export const AiMenu = ({ editor }: Props) => {
             </p>
           </div>
         )}
-        <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
+        {/* <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
           <div className='flex gap-x-2'>
             <AlertTriangle className='text-shadow' size={15} />
             <p className='subtle-regular text-shadow'>
@@ -216,7 +216,7 @@ export const AiMenu = ({ editor }: Props) => {
               size={15}
             />
           </div>
-        </div>
+        </div> */}
         <Spacer y='5' />
         {generating ? null : (
           <Surface className='w-[256px] rounded px-1 py-2' withBorder>

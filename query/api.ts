@@ -732,7 +732,7 @@ export async function createDoc(text?: string, file?: File) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document`,
       {
         method: 'POST',
         body: formData,
@@ -754,22 +754,34 @@ export async function createDoc(text?: string, file?: File) {
 export async function saveDoc(params: {
   id: string;
   title?: string;
-  text?: string;
+  content?: string;
+  citation_candidate_ids?: string[];
+  citation_ids?: string[];
 }) {
   try {
+    let body: {
+      title?: string;
+      content?: string;
+      citation_candidate_ids?: string[];
+      citation_ids?: string[];
+    } = {};
+    if (params.content !== undefined) body.content = params.content;
+    if (params.title !== undefined) body.title = params.title;
+    if (params.citation_ids !== undefined)
+      body.citation_ids = params.citation_ids;
+    if (params.citation_candidate_ids !== undefined)
+      body.citation_candidate_ids = params.citation_candidate_ids;
+
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document/${params.id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document/${params.id}`,
       {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          text: params.text ?? null,
-          title: params.title ?? null,
-        }),
+        body: JSON.stringify(body),
       }
     );
     const data = await res.json();
@@ -786,7 +798,7 @@ export async function deleteDoc(doc_id: string) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document/${doc_id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document/${doc_id}`,
       {
         method: 'DELETE',
         headers: {
@@ -814,7 +826,7 @@ export async function getDocs(
     const res = await fetch(
       `${
         process.env.NEXT_PUBLIC_API_BASE_URL
-      }v1/editor/documents?page=${page}&page_size=${pageSize}${keyword ? `&keyword=${keyword}` : ''}`,
+      }v0/editor/documents?page=${page}&page_size=${pageSize}${keyword ? `&keyword=${keyword}` : ''}`,
       {
         method: 'GET',
         headers: {
@@ -839,7 +851,7 @@ export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/document/${doc_id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document/${doc_id}`,
       {
         method: 'GET',
         headers: {
@@ -863,6 +875,7 @@ export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
 export async function createCitation(params: {
   citation_type: ICitationType;
   citation_data: GetCitationDataType<ICitationType>;
+  document_id: string;
 }) {
   try {
     const token = Cookies.get('token');
@@ -870,7 +883,10 @@ export async function createCitation(params: {
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}`,
       {
         method: 'POST',
-        body: JSON.stringify(params.citation_data),
+        body: JSON.stringify({
+          document_id: params.document_id,
+          data: params.citation_data,
+        }),
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -934,12 +950,13 @@ export async function getCitations(params: {
 
 export async function searchCitation(
   searchTerm: string,
-  signal: AbortSignal
+  signal: AbortSignal,
+  need_summary?: 0 | 1
 ): Promise<ICitation[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/search?query=${searchTerm}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/search?query=${searchTerm}&need_summary=${need_summary ?? '1'}`,
       {
         signal,
         method: 'GET',

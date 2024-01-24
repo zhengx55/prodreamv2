@@ -3,16 +3,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { IWebsiteCitation } from '@/types';
+import { createCitation } from '@/query/api';
+import { ICitationType } from '@/query/type';
+import { GetCitationDataType, IWebsiteCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 type Props = {};
 
 const WebsiteForm = (props: Props) => {
+  const { id } = useParams();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IWebsiteCitation>({
       defaultValues: {
@@ -35,10 +40,15 @@ const WebsiteForm = (props: Props) => {
 
   const memoSetMonth = useCallback((value: string) => {
     setValue('access_date.month', value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = (data: IWebsiteCitation) => {
-    console.log(data);
+  const onSubmit = async (data: IWebsiteCitation) => {
+    await handleCreateCitation({
+      document_id: id as string,
+      citation_type: 'Website',
+      citation_data: data,
+    });
   };
 
   const appendContributor = () => {
@@ -48,6 +58,18 @@ const WebsiteForm = (props: Props) => {
   const removeContributor = (index: number) => {
     remove(index);
   };
+
+  const { mutateAsync: handleCreateCitation } = useMutation({
+    mutationFn: (params: {
+      citation_type: ICitationType;
+      citation_data: GetCitationDataType<ICitationType>;
+      document_id: string;
+    }) => createCitation(params),
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: () => {},
+  });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
@@ -187,7 +209,9 @@ const WebsiteForm = (props: Props) => {
         >
           Cancel
         </Button>
-        <Button className='rounded bg-doc-primary'>Save</Button>
+        <Button type='submit' className='rounded bg-doc-primary'>
+          Save
+        </Button>
       </div>
     </form>
   );

@@ -2,14 +2,13 @@ import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
 import { searchCitation } from '@/query/api';
 import useRootStore, { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
-import { ArrowUpRightFromSquare, Plus, Search } from 'lucide-react';
+import { ArrowUpRightFromSquare, Plus } from 'lucide-react';
 import { ChangeEvent, memo, useRef, useState } from 'react';
 
 type Props = { editor: Editor };
@@ -46,18 +45,6 @@ export const CitationMenu = memo(({ editor }: Props) => {
       className='absolute -left-20 flex w-full justify-center overflow-visible '
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>
-        <div className='flex-between h-11 w-[600px] gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
-          <Search className='text-primary-doc' size={20} />
-          <Input
-            type='text'
-            value={keyword}
-            autoFocus
-            onChange={handleKeywordChange}
-            id='citiation-search'
-            className='small-regular h-full border-none px-0 py-0 shadow-none focus-visible:right-0 focus-visible:ring-0'
-            placeholder='enter your text...'
-          />
-        </div>
         <Spacer y='5' />
         <Surface
           className='relative flex h-72 w-[600px] flex-col gap-y-2 overflow-y-auto !rounded py-2'

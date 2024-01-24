@@ -19,7 +19,7 @@ const SearchList = () => {
   } = useQuery({
     queryFn: ({ signal }) => {
       if (keyword) {
-        return searchCitation(keyword, signal);
+        return searchCitation(keyword, signal, 0);
       } else {
         return [];
       }

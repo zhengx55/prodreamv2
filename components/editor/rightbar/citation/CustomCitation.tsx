@@ -3,8 +3,7 @@ import Book from './form/Book';
 import Journal from './form/Journal';
 import Website from './form/Website';
 
-type Props = {};
-const CustomCitation = (props: Props) => {
+const CustomCitation = () => {
   return (
     <section className='relative flex h-full w-full flex-col overflow-hidden'>
       <Tabs defaultValue='Website' className='flex-1 overflow-y-auto'>
