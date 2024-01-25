@@ -12,7 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useParams } from 'next/navigation';
-import { ChangeEvent, memo, useState } from 'react';
+import { ChangeEvent, memo } from 'react';
 import { AiMenu } from '../editor/ai-menu';
 import { BlockMenu } from '../editor/blockmenu';
 import { BubbleMenu } from '../editor/bubble-menu';
@@ -32,23 +32,24 @@ const Tiptap = ({
   const showCopilotMenu = useAiEditor((state) => state.showCopilotMenu);
   const showCitiationMenu = useAiEditor((state) => state.showCitiationMenu);
   const showSynonymMenu = useAiEditor((state) => state.showSynonymMenu);
+  const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
+
   const [title, setTitle] = useDebouncedState(essay_title, 1500);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
-  const [saving, toggleSaving] = useState(false);
   const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
   const savingMode = useAiEditor((state) => state.savingMode);
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    toggleSaving(true);
+    toogleIsSaving(true);
     setTitle(e.currentTarget.value);
   };
   const { mutateAsync: saveDocument } = useMutation({
     mutationFn: (params: { id: string; content?: string; title?: string }) =>
       saveDoc(params),
-    onSuccess: () => {
-      toggleSaving(false);
+    onMutate: () => {
+      toogleIsSaving(true);
     },
-    onError: () => {
-      toggleSaving(false);
+    onSettled: () => {
+      toogleIsSaving(false);
     },
   });
 
@@ -80,8 +81,6 @@ const Tiptap = ({
       editor.commands.focus('end');
     },
     onUpdate: ({ editor }) => {
-      if (editor.getHTML() === content) return;
-      toggleSaving(true);
       setContent(editor.getHTML());
     },
     onDestroy: () => {
