@@ -10,6 +10,7 @@ const initialState: AIEditorState = {
   editor_instance: null,
   polishResult: [],
   isPolishing: false,
+  isSaving: false,
   isPlagiarismOpen: false,
   savingMode: true,
   showCopilotMenu: false,
@@ -30,6 +31,7 @@ const initialState: AIEditorState = {
 type AIEditorState = {
   polishResult: IPolishResultAData[];
   isPolishing: boolean;
+  isSaving: boolean;
   isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
   savingMode: boolean;
@@ -52,6 +54,7 @@ type AIEditorAction = {
   updatePolishResult: (polishResult: AIEditorState['polishResult']) => void;
   updateIsPolishing: (result: AIEditorState['isPolishing']) => void;
   updateIsPlagiarismOpen: (result: AIEditorState['isPlagiarismOpen']) => void;
+  toogleIsSaving: (result: AIEditorState['isSaving']) => void;
   clearPolishResult: () => void;
   setEditorInstance: (result: Editor) => void;
   reset: () => void;
@@ -105,6 +108,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updatePolishResult: (result) => set(() => ({ polishResult: result })),
   updateIsPolishing: (result) => set(() => ({ isPolishing: result })),
   updateIsPlagiarismOpen: (result) => set(() => ({ isPlagiarismOpen: result })),
+  toogleIsSaving: (result) => set(() => ({ isSaving: result })),
   reset: () => set(initialState),
   clearPolishResult: () =>
     set(() => ({

@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAIEditor } from '@/zustand/store';
-import { ChevronLeft, MoreHorizontal, ShieldCheck } from 'lucide-react';
+import { ChevronLeft, Loader, MoreHorizontal, ShieldCheck } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -17,6 +17,7 @@ const CitationDropdown = dynamic(() => import('./CitationDropdown'));
 
 const DocNavbar = ({ title }: Props) => {
   const citationStyle = useAIEditor((state) => state.citationStyle);
+  const isSaving = useAIEditor((state) => state.isSaving);
   return (
     <nav className='flex h-[var(--top-nav-bar-height)] w-full shrink-0 items-center justify-between border-b border-shadow-border px-5 py-3'>
       <div className='flex h-full items-center gap-x-4'>
@@ -26,7 +27,7 @@ const DocNavbar = ({ title }: Props) => {
           </span>
         </Link>
         <h1 className='h3-bold'>{title}</h1>
-        <Cloud />
+        {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
       </div>
       <div className='flex items-center gap-x-4'>
         <Tooltip tooltipContent='Plagiarism Check'>
@@ -37,7 +38,7 @@ const DocNavbar = ({ title }: Props) => {
         </Tooltip>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className='py-1 hover:bg-doc-secondary h-max rounded bg-doc-primary/20'>
+            <Button className='h-max rounded bg-doc-primary/20 py-1 hover:bg-doc-secondary'>
               <p className='small-regular text-doc-primary'>{citationStyle}</p>
             </Button>
           </DropdownMenuTrigger>
