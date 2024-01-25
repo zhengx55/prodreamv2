@@ -122,14 +122,23 @@ export const MineCitationCard = memo(
     const removeInDocCitationIds = useAIEditor(
       (state) => state.removeInDocCitationIds
     );
+    const appendInTextCitationIds = useAIEditor(
+      (state) => state.appendInTextCitationIds
+    );
     const { insertCitation } = useEditorCommand(editor!);
-    const handleCite = () => {
+    const handleCite = async () => {
       if (type === 'inText') {
         if (item.data.contributors && item.data.contributors[0].last_name) {
           insertCitation(item.data.contributors[0].last_name);
         }
       } else {
+        console.log(123);
         // 添加到intextCitation中 从doccitation中删除
+        await removeInDocCitationIds(item.data.id, item.data.document_id);
+        await appendInTextCitationIds(item, item.data.document_id);
+        if (item.data.contributors && item.data.contributors[0].last_name) {
+          insertCitation(item.data.contributors[0].last_name);
+        }
       }
     };
 
@@ -166,6 +175,7 @@ export const MineCitationCard = memo(
           <Button
             className='h-max w-[42%] rounded bg-doc-primary py-1'
             role='button'
+            onClick={handleCite}
           >
             <ReplyAll size={18} />
             Cite
@@ -174,7 +184,6 @@ export const MineCitationCard = memo(
             className='h-max w-[42%] rounded border border-doc-primary py-1 text-doc-primary'
             variant={'ghost'}
             role='button'
-            onClick={handleCite}
           >
             <Edit size={18} className='text-doc-primary' /> Edit
           </Button>
