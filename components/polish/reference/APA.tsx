@@ -32,13 +32,10 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
 
   const generateWebsiteReference = (citation: IWebsiteCitation) => {
     const { website_title, url, access_date, contributors } = citation;
-
     let reference = '';
-
     if (contributors && contributors.length > 0) {
       reference += `${formatAuthors(contributors)} `;
     }
-
     if (access_date) {
       reference += `(${access_date.year}, ${access_date.month} ${access_date.day}). `;
     }
