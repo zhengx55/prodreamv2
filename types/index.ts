@@ -1,5 +1,3 @@
-import { ICitationType } from '@/query/type';
-
 export interface IUsage {
   /**
    * 是否是以第一次使用ai editor
@@ -32,11 +30,18 @@ export type SiteConfig = {
 
 export type DocSortingMethods = 'lastOpenedTime' | 'title';
 
+export type ICitationType =
+  | 'BookSection'
+  | 'WholeBook'
+  | 'Website'
+  | 'BookSpecialSection'
+  | 'Journal';
+
 export type ICitationData = IWebsiteCitation &
   IJournalCitation &
   IBookCitation &
   IChapterCitation &
-  IIntroductionCitation;
+  IIntroductionCitation & { id: string };
 
 export interface IWebsiteCitation {
   access_date: {

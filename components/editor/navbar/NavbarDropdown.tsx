@@ -3,6 +3,7 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { FileOutput, Settings } from 'lucide-react';
+import { memo } from 'react';
 
 type Props = {};
 
@@ -31,8 +32,7 @@ const NavbarDropdown = ({}: Props) => {
       >
         <Settings size={16} /> Settings
       </DropdownMenuItem>
-  
     </DropdownMenuContent>
   );
 };
-export default NavbarDropdown;
+export default memo(NavbarDropdown);

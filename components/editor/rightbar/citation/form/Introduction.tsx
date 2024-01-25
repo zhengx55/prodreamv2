@@ -14,9 +14,12 @@ import { IIntroductionCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 const IntroductionForm = () => {
-  const { register, handleSubmit, control, setValue, getValues } =
+  const { id } = useParams();
+  const { mutateAsync: handleCreate } = useCreateCitation();
+  const { register, handleSubmit, control, setValue } =
     useForm<IIntroductionCitation>({
       defaultValues: {
         contributors: [
@@ -35,20 +38,19 @@ const IntroductionForm = () => {
     control,
     name: 'contributors',
   });
-
-  const onSubmit = (data: IIntroductionCitation) => {
-    console.log(data);
+  const onSubmit = async (data: IIntroductionCitation) => {
+    await handleCreate({
+      document_id: id as string,
+      citation_type: 'BookSpecialSection',
+      citation_data: data,
+    });
   };
-
   const appendContributor = () => {
     append({});
   };
-
   const removeContributor = (index: number) => {
     remove(index);
   };
-
-  const { mutateAsync: handleCreate } = useCreateCitation();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>

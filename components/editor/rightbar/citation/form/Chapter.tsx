@@ -7,20 +7,22 @@ import { IChapterCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 const ChapterForm = () => {
-  const { register, handleSubmit, control, setValue, getValues } =
-    useForm<IChapterCitation>({
-      defaultValues: {
-        contributors: [
-          {
-            first_name: '',
-            middle_name: '',
-            last_name: '',
-          },
-        ],
-      },
-    });
+  const { id } = useParams();
+  const { mutateAsync: handleCreate } = useCreateCitation();
+  const { register, handleSubmit, control } = useForm<IChapterCitation>({
+    defaultValues: {
+      contributors: [
+        {
+          first_name: '',
+          middle_name: '',
+          last_name: '',
+        },
+      ],
+    },
+  });
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
@@ -29,8 +31,12 @@ const ChapterForm = () => {
     name: 'contributors',
   });
 
-  const onSubmit = (data: IChapterCitation) => {
-    console.log(data);
+  const onSubmit = async (data: IChapterCitation) => {
+    await handleCreate({
+      document_id: id as string,
+      citation_type: 'BookSection',
+      citation_data: data,
+    });
   };
 
   const appendContributor = () => {
@@ -40,7 +46,6 @@ const ChapterForm = () => {
   const removeContributor = (index: number) => {
     remove(index);
   };
-  const { mutateAsync: handleCreate } = useCreateCitation();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>

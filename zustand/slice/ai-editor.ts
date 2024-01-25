@@ -1,5 +1,6 @@
+import { saveDoc } from '@/query/api';
 import { IPolishResultAData } from '@/query/type';
-import { ICitationData } from '@/types';
+import { ICitationData, ICitationType } from '@/types';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
@@ -18,7 +19,7 @@ const initialState: AIEditorState = {
   showSynonymMenu: false,
   showCustomCitiation: false,
   selectedText: '',
-  citationStyle: 'APA',
+  citationStyle: 'MLA',
   showCreateCitation: false,
   inTextCitation: [],
   inDocCitation: [],
@@ -41,8 +42,8 @@ type AIEditorState = {
   copilotRectX: null | number;
   citationStyle: string;
   showCreateCitation: boolean;
-  inTextCitation: ICitationData[];
-  inDocCitation: ICitationData[];
+  inTextCitation: { type: ICitationType; data: ICitationData }[];
+  inDocCitation: { type: ICitationType; data: ICitationData }[];
   inTextCitationIds: string[];
   inDocCitationIds: string[];
 };
@@ -69,12 +70,26 @@ type AIEditorAction = {
   ) => void;
   updateInTextCitation: (result: AIEditorState['inTextCitation']) => void;
   updateInDocCitation: (result: AIEditorState['inDocCitation']) => void;
-  appendInTextCitation: (result: ICitationData) => void;
-  appendInDocCitation: (result: ICitationData) => void;
+  appendInTextCitation: (result: {
+    type: ICitationType;
+    data: ICitationData;
+  }) => void;
+  appendInDocCitation: (result: {
+    type: ICitationType;
+    data: ICitationData;
+  }) => void;
   updateInTextCitationIds: (result: string[]) => void;
   updateInDocCitationIds: (result: string[]) => void;
   appendInTextCitationIds: (result: string) => void;
   appendInDocCitationIds: (result: string) => void;
+  removeInTextCitationIds: (
+    result: string,
+    document_id: string
+  ) => Promise<void>;
+  removeInDocCitationIds: (
+    result: string,
+    document_id: string
+  ) => Promise<void>;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -167,4 +182,34 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set((state) => ({
       inDocCitationIds: [...state.inDocCitationIds, result],
     })),
+  removeInTextCitationIds: async (result, document_id) => {
+    const data_after_remove = get().inTextCitationIds.filter(
+      (item) => item !== result
+    );
+    await saveDoc({
+      id: document_id,
+      citation_ids: data_after_remove,
+    });
+    set((state) => ({
+      inTextCitationIds: state.inDocCitationIds.filter((id) => id !== result),
+      inTextCitation: state.inTextCitation.filter(
+        (item) => item.data.id !== result
+      ),
+    }));
+  },
+  removeInDocCitationIds: async (result, document_id) => {
+    const data_after_remove = get().inDocCitationIds.filter(
+      (item) => item !== result
+    );
+    await saveDoc({
+      id: document_id,
+      citation_candidate_ids: data_after_remove,
+    });
+    set((state) => ({
+      inDocCitationIds: state.inDocCitationIds.filter((id) => id !== result),
+      inDocCitation: state.inDocCitation.filter(
+        (item) => item.data.id !== result
+      ),
+    }));
+  },
 });

@@ -16,9 +16,14 @@ const SearchList = () => {
   const container = useStatefulRef(null);
   const [keyword, setKeyword] = useDebouncedState('', 500);
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
+
   const removeFromResultList = useCallback((index: number) => {
-    setSearchResult((prev) => prev.splice(index, 1));
+    setSearchResult((prev) => [
+      ...prev.slice(0, index),
+      ...prev.slice(index + 1),
+    ]);
   }, []);
+
   const {
     data: citationResult,
     isPending,
@@ -52,7 +57,12 @@ const SearchList = () => {
         ) : (
           searchResult &&
           searchResult?.map((item, index) => (
-            <SearchCitationCard key={`citation-search${index}`} item={item} />
+            <SearchCitationCard
+              index={index}
+              remove={removeFromResultList}
+              key={`citation-search${index}`}
+              item={item}
+            />
           ))
         )}
       </div>

@@ -11,7 +11,6 @@ const GoogleSignin = () => {
   const [_cookies, setCookie] = useCookies(['token']);
   const router = useRouter();
   const googleAuth: () => void = useGoogleLogin({
-    flow: 'implicit',
     onSuccess: async (codeResponse) => {
       const { access_token } = codeResponse;
       const loginData = await googleLogin({ access_token });

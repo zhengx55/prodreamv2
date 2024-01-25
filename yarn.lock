@@ -922,7 +922,7 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-collaboration/-/extension-collaboration-2.1.16.tgz#466c0ab317f47c61157f3e193e9dd296da692bb8"
   integrity sha512-eq5v1THWqZi3Y2KnrN5w+iJKf86uoS9FH66JrPCX9WiR0gaySR1LQz8bcwGdwWXuxkQTMUbNLIoxaqzunwAGhg==
 
-"@tiptap/extension-color@^2.1.13":
+"@tiptap/extension-color@^2.1.16":
   version "2.1.16"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-color/-/extension-color-2.1.16.tgz#63441c9f7cd2d10ac324d43f6060939a69b71ccb"
   integrity sha512-DDqYG9pj5vz9hBtVZzWvKVLpOmjVIELlDGhDIeOQ3+xg0JZidKTzxp34AYBJPILtJU1rvadqFFOGxai4hFgT/A==
@@ -4695,6 +4695,7 @@ string-argv@0.3.2:
   integrity sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==

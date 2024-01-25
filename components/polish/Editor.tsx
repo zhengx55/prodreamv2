@@ -116,7 +116,7 @@ const Tiptap = ({
           <BubbleMenu editor={editor} />
           <EditorContent className='flex-1' editor={editor} />
           <BlockMenu editor={editor} />
-          <Spacer y='20' />
+          <Spacer y='40' />
           <Reference />
         </div>
       </div>

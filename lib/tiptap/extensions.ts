@@ -5,6 +5,7 @@ import Blockquote from '@tiptap/extension-blockquote';
 import Bold from '@tiptap/extension-bold';
 import BulletList from '@tiptap/extension-bullet-list';
 import CharacterCount from '@tiptap/extension-character-count';
+import { Color } from '@tiptap/extension-color';
 import Document from '@tiptap/extension-document';
 import DropCursor from '@tiptap/extension-dropcursor';
 import Focus from '@tiptap/extension-focus';
@@ -41,6 +42,7 @@ const ExtensionKit = () => [
   FontSize,
   Blockquote,
   TextStyle,
+  Color,
   History,
   Focus.configure({
     className: 'has-focus',

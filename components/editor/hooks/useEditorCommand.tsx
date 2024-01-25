@@ -86,7 +86,28 @@ export const useEditorCommand = (editor: Editor) => {
     [editor]
   );
 
+  const insertCitation = useCallback(
+    (content: string) => {
+      if (!editor) return null;
+      const { selection } = editor!.state;
+      const { anchor } = selection;
+
+      editor
+        ?.chain()
+        .insertContentAt(anchor, `(${content})`)
+        .setTextSelection({
+          from: anchor,
+          to: anchor + (content.length + 2),
+        })
+        .setColor('#8652DB')
+        .setTextSelection(0)
+        .run();
+    },
+    [editor]
+  );
+
   return {
+    insertCitation,
     insertNext,
     replaceText,
     highLightAtPosition,
