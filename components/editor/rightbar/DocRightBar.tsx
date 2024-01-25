@@ -1,7 +1,11 @@
 'use client';
 
 import Spacer from '@/components/root/Spacer';
-import { BookHalf, GenerateFill } from '@/components/root/SvgComponents';
+import {
+  BookHalf,
+  FileCheck,
+  GenerateFill,
+} from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import {
   AnimatePresence,
@@ -10,9 +14,10 @@ import {
   domAnimation,
   m,
 } from 'framer-motion';
-import { FileCheck, PanelRight, PanelRightClose } from 'lucide-react';
+import { PanelRight, PanelRightClose } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
+import { GrammarCheck } from './grammar/GrammarCheck';
 
 const Generate = dynamic(() =>
   import('@/components/editor/rightbar').then((mod) => mod.Generate)
@@ -67,11 +72,7 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
                       : 'border-2 border-doc-primary bg-transparent'
                   }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
                 >
-                  <FileCheck
-                    className={`${
-                      selected === 0 ? 'text-white' : 'text-doc-primary'
-                    }`}
-                  />
+                  <FileCheck color={selected === 0 ? 'white' : '#8652DB'} />
                   <AnimatePresence>
                     {selected === 0 && (
                       <m.p
@@ -124,7 +125,9 @@ export const DocRightBar = memo(({ show, toggle }: Props) => {
                 </m.span>
               </div>
               <Spacer y='15' />
-              {selected === 0 ? null : selected === 1 ? (
+              {selected === 0 ? (
+                <GrammarCheck />
+              ) : selected === 1 ? (
                 <Citation />
               ) : selected === 2 ? (
                 <Generate />

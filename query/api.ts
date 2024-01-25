@@ -3,9 +3,6 @@ import Cookies from 'js-cookie';
 import {
   ICitation,
   IDocDetail,
-  IEssayAssessData,
-  IEssayAssessRequest,
-  INotificationData,
   IPlagiarismData,
   IPolishParams,
   IPolishResultA,
@@ -13,7 +10,6 @@ import {
   ISigunUpRequest,
   IVerifyEmail,
   LoginData,
-  SupportDetailData,
 } from './type';
 
 // ----------------------------------------------------------------
@@ -375,17 +371,11 @@ export async function submitPolish(params: IPolishParams) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}essay_polish_submit`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/tool/grammar_typo`,
       {
         method: 'POST',
         body: JSON.stringify({
           text: params.text,
-          granularity: params.granularity,
-          tone: params.tone,
-          volume_control: params.volume_control,
-          volume_target: params.volume_target,
-          scenario: params.scenario,
-          instruction: params.instruction,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -421,36 +411,6 @@ export async function queryPolish(params: {
         },
       }
     );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function essayAssess(
-  params: IEssayAssessRequest
-): Promise<IEssayAssessData> {
-  try {
-    const body = JSON.stringify({
-      text: params.text,
-      language: params.language,
-      institution_id: params.institution_id,
-      prompt_id: params.prompt_id,
-      direct: params.direct,
-    });
-    const token = Cookies.get('token');
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}essay_assess`, {
-      method: 'POST',
-      body,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
     const data = await res.json();
     if (data.code !== 0) {
       throw new Error(data.msg as string);
@@ -514,29 +474,6 @@ export async function downloadReport(report_id: string) {
   }
 }
 
-export async function getInstitutionOptions(): Promise<SupportDetailData[]> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}essay_assess/support_detail`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data as string);
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
 export async function uploadEssay(params: { file: File }) {
   try {
     const formData = new FormData();
@@ -562,27 +499,6 @@ export async function uploadEssay(params: { file: File }) {
 // ----------------------------------------------------------------
 // 通知
 // ----------------------------------------------------------------
-
-export async function fetchNotice(): Promise<INotificationData> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}notice`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function checkNotice() {}
 
 // ----------------------------------------------------------------
 // Profile
