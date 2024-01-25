@@ -10,15 +10,15 @@ const Reference = (props: Props) => {
   const inTextCitation = useAiEditor((state) => state.inTextCitation);
   if (inTextCitation.length === 0) return null;
   return (
-    <div className='mx-auto flex w-[750px] select-none flex-col font-inter'>
+    <div className='mx-auto flex w-[750px] select-none flex-col'>
       <h3 className='text-xl font-[600]'>References</h3>
       <Spacer y='20' />
-      <ol className={` pl-8`}>
+      <ol className={`pl-8`}>
         {citation_type === 'MLA'
           ? inTextCitation.map((item, index) => (
               <li
                 key={`reference-${index}`}
-                className='my-4 text-left -indent-4 leading-[200%] first:mt-0'
+                className='my-4 text-left -indent-4 font-serif leading-[150%] first:mt-0'
               >
                 <MLAReference citation={item as any} />
               </li>
@@ -27,7 +27,7 @@ const Reference = (props: Props) => {
             ? inTextCitation.map((item, index) => (
                 <li
                   key={`reference-${index}`}
-                  className='my-4 text-left -indent-4 leading-[200%] first:mt-0'
+                  className='my-4 text-left -indent-4 font-serif leading-[150%] first:mt-0'
                 >
                   <APAReference citation={item as any} />
                 </li>

@@ -46,7 +46,11 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
         }
         return fullName;
       });
-      reference += `${contributorNames.join(' & ')}.`;
+      if (contributorNames.length >= 3) {
+        reference += `${contributorNames[0]} et al.`;
+      } else {
+        reference += `${contributorNames.join(' & ')}.`;
+      }
     }
     reference += ` "${article_title}." <em>${website_title}</em>, ${publisher},`;
     reference += ` ${access_date.day} ${access_date.month} ${access_date.year}`;
@@ -82,7 +86,11 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
         }
         return fullName;
       });
-      reference += `${contributorNames.join(' & ')}.`;
+      if (contributorNames.length >= 3) {
+        reference += `${contributorNames[0]} et al.`;
+      } else {
+        reference += `${contributorNames.join(' & ')}.`;
+      }
     }
     reference += ` "${article_title}." <em>${journal_title}</em>,`;
     if (advanced_info?.volume) reference += ` vol. ${advanced_info?.volume},`;
@@ -114,7 +122,11 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
         }
         return fullName;
       });
-      reference += `${contributorNames.join(' & ')}.`;
+      if (contributorNames.length >= 3) {
+        reference += `${contributorNames[0]} et al.`;
+      } else {
+        reference += `${contributorNames.join(' & ')}.`;
+      }
     }
     reference += ` <em>${book_title}</em>. ${advanced_info?.edition}nd ed., vol. ${advanced_info?.vol} ${advanced_info?.total_vol}, ${publication_info?.publisher}, ${publication_info?.publish_year}`;
     if (advanced_info?.edition) {
@@ -160,7 +172,11 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
         }
         return fullName;
       });
-      reference += `${contributorNames.join(' & ')}.`;
+      if (contributorNames.length >= 3) {
+        reference += `${contributorNames[0]} et al.`;
+      } else {
+        reference += `${contributorNames.join(' & ')}.`;
+      }
     }
     reference += ` "${section_title}." <em>${book_title}</em>.`;
     if (advanced_info?.edition) {
@@ -216,7 +232,11 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
 
         return fullName;
       });
-      reference += `${contributorNames.join(' & ')}.`;
+      if (contributorNames.length >= 3) {
+        reference += `${contributorNames[0]} et al.`;
+      } else {
+        reference += `${contributorNames.join(' & ')}.`;
+      }
     }
     reference += ` "${section_title}." <em>${book_title}</em>.`;
     if (advanced_info?.edition) {

@@ -21,40 +21,30 @@ interface IAPAReferenceProps {
 }
 
 const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
+  const formatAuthors = (contributors: any[]) => {
+    return contributors
+      .map((contributor) => {
+        const { last_name, first_name } = contributor;
+        return `${last_name}, ${first_name?.charAt(0)}.`;
+      })
+      .join(', ');
+  };
+
   const generateWebsiteReference = (citation: IWebsiteCitation) => {
-    const {
-      website_title,
-      publisher,
-      article_title,
-      access_date,
-      contributors,
-      url,
-    } = citation;
-    let reference = ``;
+    const { website_title, url, access_date, contributors } = citation;
+
+    let reference = '';
+
     if (contributors && contributors.length > 0) {
-      const contributorNames = contributors.map((contributor) => {
-        const { first_name, last_name, middle_name } = contributor;
-        let fullName = '';
-        if (last_name) {
-          fullName += last_name;
-        }
-        if (first_name) {
-          fullName += `, ${first_name.charAt(0)}.`;
-        }
-        if (middle_name) {
-          fullName += ` ${middle_name.charAt(0)}.`;
-        }
-        return fullName;
-      });
-      reference += `${contributorNames.join(', ')}.`;
+      reference += `${formatAuthors(contributors)} `;
     }
-    reference += ` (${access_date.year}, ${access_date.month} ${access_date.day}). ${article_title}. ${website_title}.`;
-    if (publisher) {
-      reference += ` ${publisher}.`;
+
+    if (access_date) {
+      reference += `(${access_date.year}, ${access_date.month} ${access_date.day}). `;
     }
-    if (url) {
-      reference += ` ${url}.`;
-    }
+
+    reference += `${website_title}. ${url}`;
+
     return reference;
   };
 
@@ -65,64 +55,52 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
       contributors,
       page_info,
       publish_date,
-      advanced_info,
       doi,
     } = citation;
+
     let reference = '';
+
     if (contributors && contributors.length > 0) {
-      const contributorNames = contributors.map((contributor) => {
-        const { first_name, last_name, middle_name } = contributor;
-        let fullName = '';
-        if (last_name) {
-          fullName += last_name;
-        }
-        if (first_name) {
-          fullName += `, ${first_name.charAt(0)}.`;
-        }
-        if (middle_name) {
-          fullName += ` ${middle_name.charAt(0)}.`;
-        }
-        return fullName;
-      });
-      reference += `${contributorNames.join(', ')}.`;
+      reference += `${formatAuthors(contributors)} `;
     }
-    reference += ` (${publish_date?.year}). ${article_title}. ${journal_title}`;
-    if (advanced_info?.volume) reference += `, ${advanced_info?.volume}`;
-    if (advanced_info?.issue) reference += `(${advanced_info?.issue})`;
-    if (page_info?.start && page_info?.end)
-      reference += `, ${page_info?.start}-${page_info?.end}`;
-    if (doi) reference += `, doi:${doi}`;
+
+    if (publish_date) {
+      reference += `(${publish_date.year}, ${publish_date.month} ${publish_date.day}). `;
+    }
+
+    reference += `${article_title}. ${journal_title}`;
+
+    if (page_info?.start && page_info?.end) {
+      reference += `, ${page_info.start}-${page_info.end}`;
+    }
+
+    if (doi) {
+      reference += `. https://doi.org/${doi}`;
+    }
+
     return reference;
   };
 
   const generateBookReference = (citation: IBookCitation) => {
     const { book_title, advanced_info, publication_info, contributors } =
       citation;
+
     let reference = '';
+
     if (contributors && contributors.length > 0) {
-      const contributorNames = contributors.map((contributor, idx) => {
-        const { first_name, last_name, middle_name } = contributor;
-        let fullName = '';
-        if (last_name) {
-          fullName += last_name;
-        }
-        if (first_name) {
-          fullName += `, ${first_name.charAt(0)}.`;
-        }
-        if (middle_name) {
-          fullName += ` ${middle_name.charAt(0)}.`;
-        }
-        return fullName;
-      });
-      reference += `${contributorNames.join(', ')}.`;
+      reference += `${formatAuthors(contributors)} `;
     }
-    reference += ` (${publication_info?.publish_year}). ${book_title}`;
+
+    reference += `(${publication_info?.publish_year}). ${book_title}`;
+
     if (advanced_info?.edition) {
-      reference += ` (${advanced_info.edition}nd ed.)`;
+      reference += ` (${advanced_info.edition}nd ed.).`;
     }
+
     if (publication_info?.publisher) {
       reference += ` ${publication_info.publisher}.`;
     }
+
     return reference;
   };
 
@@ -135,34 +113,35 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
       contributors,
       section_title,
     } = citation;
+
     let reference = '';
+
     if (contributors && contributors.length > 0) {
-      const contributorNames = contributors.map((contributor) => {
-        const { first_name, last_name, middle_name } = contributor;
-        let fullName = '';
-        if (last_name) {
-          fullName += last_name;
-        }
-        if (first_name) {
-          fullName += `, ${first_name.charAt(0)}.`;
-        }
-        if (middle_name) {
-          fullName += ` ${middle_name.charAt(0)}.`;
-        }
-        return fullName;
-      });
-      reference += `${contributorNames.join(', ')}.`;
+      reference += `${formatAuthors(contributors)} `;
     }
-    reference += ` (${publication_info?.publish_year}). ${section_title}. In ${book_title}`;
+
+    reference += `(${publication_info?.publish_year}). ${section_title}. In ${book_title}`;
+
     if (advanced_info?.edition) {
-      reference += ` (${advanced_info.edition}nd ed.)`;
+      reference += ` (${advanced_info.edition}nd ed.).`;
     }
+
     if (publication_info?.publisher) {
       reference += ` ${publication_info.publisher}.`;
     }
-    if (page_info?.start && page_info?.end) {
-      reference += ` (pp. ${page_info.start}-${page_info.end})`;
+
+    if (publication_info?.city) {
+      reference += ` ${publication_info.city}.`;
     }
+
+    if (publication_info?.state) {
+      reference += ` ${publication_info.state}.`;
+    }
+
+    if (page_info?.start && page_info.end) {
+      reference += ` pp. ${page_info.start}-${page_info.end}.`;
+    }
+
     return reference;
   };
 
@@ -175,34 +154,35 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
       publication_info,
       section_title,
     } = citation;
+
     let reference = '';
+
     if (contributors && contributors.length > 0) {
-      const contributorNames = contributors.map((contributor) => {
-        const { first_name, last_name, middle_name } = contributor;
-        let fullName = '';
-        if (last_name) {
-          fullName += last_name;
-        }
-        if (first_name) {
-          fullName += `, ${first_name.charAt(0)}.`;
-        }
-        if (middle_name) {
-          fullName += ` ${middle_name.charAt(0)}.`;
-        }
-        return fullName;
-      });
-      reference += `${contributorNames.join(', ')}.`;
+      reference += `${formatAuthors(contributors)} `;
     }
-    reference += ` (${publication_info?.publish_year}). ${section_title}. In ${book_title}`;
+
+    reference += `(${publication_info?.publish_year}). ${section_title}. In ${book_title}`;
+
     if (advanced_info?.edition) {
-      reference += ` (${advanced_info.edition}nd ed.)`;
+      reference += ` (${advanced_info.edition}nd ed.).`;
     }
+
     if (publication_info?.publisher) {
       reference += ` ${publication_info.publisher}.`;
     }
-    if (page_info?.start && page_info?.end) {
-      reference += ` (pp. ${page_info.start}-${page_info.end})`;
+
+    if (publication_info?.city) {
+      reference += ` ${publication_info.city}.`;
     }
+
+    if (publication_info?.state) {
+      reference += ` ${publication_info.state}.`;
+    }
+
+    if (page_info?.start && page_info.end) {
+      reference += ` pp. ${page_info.start}-${page_info.end}.`;
+    }
+
     return reference;
   };
 
@@ -220,6 +200,7 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
         citation.data as IIntroductionCitation
       );
     }
+    // Add similar conditions for other citation types as needed.
   };
 
   return (
