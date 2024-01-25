@@ -82,14 +82,14 @@ type AIEditorAction = {
       data: ICitationData;
     },
     document_id: string
-  ) => void;
+  ) => Promise<void>;
   appendInDocCitationIds: (
     result: {
       type: ICitationType;
       data: ICitationData;
     },
     document_id: string
-  ) => void;
+  ) => Promise<void>;
   removeInTextCitationIds: (
     result: string,
     document_id: string
