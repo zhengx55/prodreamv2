@@ -3,6 +3,7 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { useAIEditor } from '@/zustand/store';
+import { memo } from 'react';
 
 const NavbarDropdown = () => {
   const setCitationStyle = useAIEditor((state) => state.updateCitationStyle);
@@ -16,22 +17,22 @@ const NavbarDropdown = () => {
       <DropdownMenuItem
         onClick={(e) => {
           e.stopPropagation();
-          setCitationStyle('APA');
-        }}
-        className='flex cursor-pointer justify-center text-shadow hover:bg-shadow-50'
-      >
-        APA
-      </DropdownMenuItem>
-      <DropdownMenuItem
-        onClick={(e) => {
-          e.stopPropagation();
           setCitationStyle('MLA');
         }}
         className='flex cursor-pointer justify-center text-shadow hover:bg-shadow-50'
       >
         MLA
       </DropdownMenuItem>
+      <DropdownMenuItem
+        onClick={(e) => {
+          e.stopPropagation();
+          setCitationStyle('APA');
+        }}
+        className='flex cursor-pointer justify-center text-shadow hover:bg-shadow-50'
+      >
+        APA
+      </DropdownMenuItem>
     </DropdownMenuContent>
   );
 };
-export default NavbarDropdown;
+export default memo(NavbarDropdown);

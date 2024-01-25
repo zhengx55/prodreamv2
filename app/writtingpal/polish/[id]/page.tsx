@@ -1,7 +1,7 @@
 'use client';
 import DocNavbar from '@/components/editor/navbar';
+import { useCitationInfo } from '@/components/editor/rightbar/citation/hooks/useCitationInfo';
 import EssayPanel from '@/components/polish/EssayPanel';
-import { useCitationInfo } from '@/hooks/useCitationInfo';
 import { getDocDetail } from '@/query/api';
 import { useQuery } from '@tanstack/react-query';
 

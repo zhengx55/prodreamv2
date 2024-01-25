@@ -1,4 +1,3 @@
-// My _middleware.js file
 import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(req: NextRequest) {

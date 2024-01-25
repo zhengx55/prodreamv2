@@ -8,7 +8,7 @@ import {
 } from '@/types';
 import React from 'react';
 
-interface IMLAReferenceProps {
+interface IAPAReferenceProps {
   citation: {
     type: ICitationType;
     data:
@@ -20,7 +20,7 @@ interface IMLAReferenceProps {
   };
 }
 
-const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
+const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
   const generateWebsiteReference = (citation: IWebsiteCitation) => {
     const {
       website_title,
@@ -35,21 +35,23 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       const contributorNames = contributors.map((contributor) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
+        if (last_name) {
+          fullName += last_name;
+        }
         if (first_name) {
-          fullName += first_name;
+          fullName += `, ${first_name.charAt(0)}.`;
         }
         if (middle_name) {
-          fullName += ` ${middle_name}`;
-        }
-        if (last_name) {
-          fullName += ` ${last_name}`;
+          fullName += ` ${middle_name.charAt(0)}.`;
         }
         return fullName;
       });
-      reference += `${contributorNames.join(' & ')}.`;
+      reference += `${contributorNames.join(', ')}.`;
     }
-    reference += ` "${article_title}." <em>${website_title}</em>, ${publisher},`;
-    reference += ` ${access_date.day} ${access_date.month} ${access_date.year}`;
+    reference += ` (${access_date.year}, ${access_date.month} ${access_date.day}). ${article_title}. ${website_title}.`;
+    if (publisher) {
+      reference += ` ${publisher}.`;
+    }
     if (url) {
       reference += ` ${url}.`;
     }
@@ -71,27 +73,25 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       const contributorNames = contributors.map((contributor) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
+        if (last_name) {
+          fullName += last_name;
+        }
         if (first_name) {
-          fullName += first_name;
+          fullName += `, ${first_name.charAt(0)}.`;
         }
         if (middle_name) {
-          fullName += ` ${middle_name}`;
-        }
-        if (last_name) {
-          fullName += ` ${last_name}`;
+          fullName += ` ${middle_name.charAt(0)}.`;
         }
         return fullName;
       });
-      reference += `${contributorNames.join(' & ')}.`;
+      reference += `${contributorNames.join(', ')}.`;
     }
-    reference += ` "${article_title}." <em>${journal_title}</em>,`;
-    if (advanced_info?.volume) reference += ` vol. ${advanced_info?.volume},`;
-    if (advanced_info?.issue) reference += ` no. ${advanced_info?.issue},`;
-    if (publish_date?.day && publish_date.month && publish_date.year)
-      reference += ` ${publish_date?.day} ${publish_date?.month} ${publish_date?.year},`;
+    reference += ` (${publish_date?.year}). ${article_title}. ${journal_title}`;
+    if (advanced_info?.volume) reference += `, ${advanced_info?.volume}`;
+    if (advanced_info?.issue) reference += `(${advanced_info?.issue})`;
     if (page_info?.start && page_info?.end)
-      reference += ` pp. ${page_info?.start}-${page_info?.end},`;
-    if (doi) reference += ` https://doi.org/${doi}`;
+      reference += `, ${page_info?.start}-${page_info?.end}`;
+    if (doi) reference += `, doi:${doi}`;
     return reference;
   };
 
@@ -103,34 +103,25 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       const contributorNames = contributors.map((contributor, idx) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
+        if (last_name) {
+          fullName += last_name;
+        }
         if (first_name) {
-          fullName += first_name;
+          fullName += `, ${first_name.charAt(0)}.`;
         }
         if (middle_name) {
-          fullName += ` ${middle_name}`;
-        }
-        if (last_name) {
-          fullName += ` ${last_name}`;
+          fullName += ` ${middle_name.charAt(0)}.`;
         }
         return fullName;
       });
-      reference += `${contributorNames.join(' & ')}.`;
+      reference += `${contributorNames.join(', ')}.`;
     }
-    reference += ` <em>${book_title}</em>. ${advanced_info?.edition}nd ed., vol. ${advanced_info?.vol} ${advanced_info?.total_vol}, ${publication_info?.publisher}, ${publication_info?.publish_year}`;
+    reference += ` (${publication_info?.publish_year}). ${book_title}`;
     if (advanced_info?.edition) {
-      reference += ` ${advanced_info.edition}nd ed.,`;
-    }
-    if (advanced_info?.vol) {
-      reference += ` Vol. ${advanced_info.vol},`;
-    }
-    if (advanced_info?.total_vol) {
-      reference += ` ${advanced_info.total_vol},`;
+      reference += ` (${advanced_info.edition}nd ed.)`;
     }
     if (publication_info?.publisher) {
-      reference += ` ${publication_info.publisher},`;
-    }
-    if (publication_info?.publish_year) {
-      reference += ` ${publication_info.publish_year},`;
+      reference += ` ${publication_info.publisher}.`;
     }
     return reference;
   };
@@ -149,43 +140,28 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       const contributorNames = contributors.map((contributor) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
+        if (last_name) {
+          fullName += last_name;
+        }
         if (first_name) {
-          fullName += first_name;
+          fullName += `, ${first_name.charAt(0)}.`;
         }
         if (middle_name) {
-          fullName += ` ${middle_name}`;
-        }
-        if (last_name) {
-          fullName += ` ${last_name}`;
+          fullName += ` ${middle_name.charAt(0)}.`;
         }
         return fullName;
       });
-      reference += `${contributorNames.join(' & ')}.`;
+      reference += `${contributorNames.join(', ')}.`;
     }
-    reference += ` "${section_title}." <em>${book_title}</em>.`;
+    reference += ` (${publication_info?.publish_year}). ${section_title}. In ${book_title}`;
     if (advanced_info?.edition) {
-      reference += ` ${advanced_info.edition}nd ed.,`;
-    }
-    if (advanced_info?.vol) {
-      reference += ` Vol. ${advanced_info.vol},`;
-    }
-    if (advanced_info?.total_vol) {
-      reference += ` ${advanced_info.total_vol},`;
+      reference += ` (${advanced_info.edition}nd ed.)`;
     }
     if (publication_info?.publisher) {
-      reference += ` ${publication_info.publisher},`;
+      reference += ` ${publication_info.publisher}.`;
     }
-    if (publication_info?.city) {
-      reference += ` ${publication_info.city},`;
-    }
-    if (publication_info?.state) {
-      reference += ` ${publication_info.state},`;
-    }
-    if (page_info?.start && page_info.end) {
-      reference += ` ${page_info.start}-${page_info.end}.`;
-    }
-    if (advanced_info?.series) {
-      reference += ` ${advanced_info.series}.`;
+    if (page_info?.start && page_info?.end) {
+      reference += ` (pp. ${page_info.start}-${page_info.end})`;
     }
     return reference;
   };
@@ -204,48 +180,33 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       const contributorNames = contributors.map((contributor) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
+        if (last_name) {
+          fullName += last_name;
+        }
         if (first_name) {
-          fullName += first_name;
+          fullName += `, ${first_name.charAt(0)}.`;
         }
         if (middle_name) {
-          fullName += ` ${middle_name}`;
-        }
-        if (last_name) {
-          fullName += ` ${last_name}`;
+          fullName += ` ${middle_name.charAt(0)}.`;
         }
         return fullName;
       });
-      reference += `${contributorNames.join(' & ')}.`;
+      reference += `${contributorNames.join(', ')}.`;
     }
-    reference += ` "${section_title}." <em>${book_title}</em>.`;
+    reference += ` (${publication_info?.publish_year}). ${section_title}. In ${book_title}`;
     if (advanced_info?.edition) {
-      reference += ` ${advanced_info.edition}nd ed.,`;
-    }
-    if (advanced_info?.vol) {
-      reference += ` Vol. ${advanced_info.vol},`;
-    }
-    if (advanced_info?.total_vol) {
-      reference += ` ${advanced_info.total_vol},`;
+      reference += ` (${advanced_info.edition}nd ed.)`;
     }
     if (publication_info?.publisher) {
-      reference += ` ${publication_info.publisher},`;
+      reference += ` ${publication_info.publisher}.`;
     }
-    if (publication_info?.city) {
-      reference += ` ${publication_info.city},`;
-    }
-    if (publication_info?.state) {
-      reference += ` ${publication_info.state},`;
-    }
-    if (page_info?.start && page_info.end) {
-      reference += ` ${page_info.start}-${page_info.end}.`;
-    }
-    if (advanced_info?.series) {
-      reference += ` ${advanced_info.series}.`;
+    if (page_info?.start && page_info?.end) {
+      reference += ` (pp. ${page_info.start}-${page_info.end})`;
     }
     return reference;
   };
 
-  const generateMLAReference = () => {
+  const generateAPAReference = () => {
     if (citation.type === 'website') {
       return generateWebsiteReference(citation.data as IWebsiteCitation);
     } else if (citation.type === 'journal') {
@@ -262,8 +223,8 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
   };
 
   return (
-    <p dangerouslySetInnerHTML={{ __html: generateMLAReference() ?? '' }} />
+    <p dangerouslySetInnerHTML={{ __html: generateAPAReference() ?? '' }} />
   );
 };
 
-export default MLAReference;
+export default APAReference;

@@ -24,15 +24,50 @@ export const useCreateCitation = () => {
     }) => createCitation(params),
     onSuccess: async (data, variables) => {
       // 根据Id 获取citation信息
-      appendInDocCitation(variables.citation_data);
+      appendInDocCitation({
+        type: variables.citation_type,
+        data: variables.citation_data,
+      });
       // save citation ids
       // await saveDoc({
       //   id: variables.document_id,
       //   citation_candidate_ids: inDocCitationIds,
       // });
       appendInDocCitationIds(data);
+    },
+    onError: async (error) => {
       const toast = (await import('sonner')).toast;
-      toast.success('Citation List Inserted');
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useCiteToDoc = () => {
+  const appendInTextCitation = useAIEditor(
+    (state) => state.appendInTextCitation
+  );
+  const appendInTextCitationIds = useAIEditor(
+    (state) => state.appendInTextCitationIds
+  );
+  const inDocCitationIds = useAIEditor((state) => state.inDocCitationIds);
+  return useMutation({
+    mutationFn: (params: {
+      citation_type: ICitationType;
+      citation_data: any;
+      document_id: string;
+    }) => createCitation(params),
+    onSuccess: async (data, variables) => {
+      // 根据Id 获取citation信息
+      appendInTextCitation({
+        type: variables.citation_type,
+        data: variables.citation_data,
+      });
+      // save citation ids
+      // await saveDoc({
+      //   id: variables.document_id,
+      //   citation_candidate_ids: inDocCitationIds,
+      // });
+      appendInTextCitationIds(data);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

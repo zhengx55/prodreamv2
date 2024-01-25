@@ -38,7 +38,7 @@ const Mine = ({ container }: Props) => {
             <p className='text-doc-primary'>My Citation</p>
           </div>
         </div>
-        <div className='flex flex-1 flex-col overflow-y-auto pt-12'>
+        <div className='flex flex-1 flex-col overflow-y-auto pt-2'>
           {inDocCitation.map((item, index) => {
             return (
               <MineCitationCard

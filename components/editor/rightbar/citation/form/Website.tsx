@@ -47,6 +47,7 @@ const WebsiteForm = (props: Props) => {
       citation_type: 'website',
       citation_data: data,
     });
+    updateShowCreateCitation(false);
   };
 
   const appendContributor = () => {

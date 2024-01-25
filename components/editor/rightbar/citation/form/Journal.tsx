@@ -8,10 +8,13 @@ import { IJournalCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 const JournalForm = () => {
+  const { id } = useParams();
+  const { mutateAsync: handleCreate } = useCreateCitation();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IJournalCitation>({
       defaultValues: {
@@ -34,10 +37,15 @@ const JournalForm = () => {
 
   const memoSetMonth = useCallback((value: string) => {
     setValue('publish_date.month', value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = (data: IJournalCitation) => {
-    console.log(data);
+  const onSubmit = async (data: IJournalCitation) => {
+    await handleCreate({
+      document_id: id as string,
+      citation_type: 'journal',
+      citation_data: data,
+    });
   };
 
   const appendContributor = () => {
@@ -47,9 +55,6 @@ const JournalForm = () => {
   const removeContributor = (index: number) => {
     remove(index);
   };
-
-  const { mutateAsync: handleCreate } = useCreateCitation();
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
       <h1 className='base-semibold'>What I&apos;m citing</h1>

@@ -1,4 +1,4 @@
-import { IPolishResultAData } from '@/query/type';
+import { ICitationType, IPolishResultAData } from '@/query/type';
 import { ICitationData } from '@/types';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
@@ -41,8 +41,8 @@ type AIEditorState = {
   copilotRectX: null | number;
   citationStyle: string;
   showCreateCitation: boolean;
-  inTextCitation: ICitationData[];
-  inDocCitation: ICitationData[];
+  inTextCitation: { type: ICitationType; data: ICitationData }[];
+  inDocCitation: { type: ICitationType; data: ICitationData }[];
   inTextCitationIds: string[];
   inDocCitationIds: string[];
 };
@@ -69,8 +69,14 @@ type AIEditorAction = {
   ) => void;
   updateInTextCitation: (result: AIEditorState['inTextCitation']) => void;
   updateInDocCitation: (result: AIEditorState['inDocCitation']) => void;
-  appendInTextCitation: (result: ICitationData) => void;
-  appendInDocCitation: (result: ICitationData) => void;
+  appendInTextCitation: (result: {
+    type: ICitationType;
+    data: ICitationData;
+  }) => void;
+  appendInDocCitation: (result: {
+    type: ICitationType;
+    data: ICitationData;
+  }) => void;
   updateInTextCitationIds: (result: string[]) => void;
   updateInDocCitationIds: (result: string[]) => void;
   appendInTextCitationIds: (result: string) => void;

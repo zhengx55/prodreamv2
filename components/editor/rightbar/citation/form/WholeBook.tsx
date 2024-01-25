@@ -7,10 +7,13 @@ import { IBookCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { memo } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 const WholeBook = () => {
+  const { id } = useParams();
+  const { mutateAsync: handleCreate } = useCreateCitation();
   const { register, handleSubmit, control } = useForm<IBookCitation>({
     defaultValues: {
       contributors: [
@@ -30,8 +33,12 @@ const WholeBook = () => {
     name: 'contributors',
   });
 
-  const onSubmit = (data: IBookCitation) => {
-    console.log(data);
+  const onSubmit = async (data: IBookCitation) => {
+    await handleCreate({
+      document_id: id as string,
+      citation_type: 'whole_book',
+      citation_data: data,
+    });
   };
 
   const appendContributor = () => {
@@ -41,8 +48,6 @@ const WholeBook = () => {
   const removeContributor = (index: number) => {
     remove(index);
   };
-
-  const { mutateAsync: handleCreate } = useCreateCitation();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
