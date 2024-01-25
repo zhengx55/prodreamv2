@@ -19,7 +19,7 @@ const DocNavbar = ({ title }: Props) => {
   const citationStyle = useAIEditor((state) => state.citationStyle);
   const isSaving = useAIEditor((state) => state.isSaving);
   return (
-    <nav className='flex h-[var(--top-nav-bar-height)] w-full shrink-0 items-center justify-between border-b border-shadow-border px-5 py-3'>
+    <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-shadow-border px-5 py-3'>
       <div className='flex h-full items-center gap-x-4'>
         <Link passHref href={'/writtingpal/polish'}>
           <span className='flex-center h-10 w-10 cursor-pointer rounded-md bg-shadow-border hover:opacity-50'>

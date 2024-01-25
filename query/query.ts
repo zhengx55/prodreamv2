@@ -44,6 +44,9 @@ export const useCiteToDoc = () => {
   const appendInTextCitationIds = useAIEditor(
     (state) => state.appendInTextCitationIds
   );
+  const appendInDocCitationIds = useAIEditor(
+    (state) => state.appendInDocCitationIds
+  );
   return useMutation({
     mutationFn: (params: {
       citation_type: ICitationType;
@@ -53,6 +56,13 @@ export const useCiteToDoc = () => {
     onSuccess: async (data, variables) => {
       // 根据Id 获取citation信息
       appendInTextCitationIds(
+        {
+          type: variables.citation_type,
+          data: { ...variables.citation_data, id: data },
+        },
+        variables.document_id
+      );
+      appendInDocCitationIds(
         {
           type: variables.citation_type,
           data: { ...variables.citation_data, id: data },
