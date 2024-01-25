@@ -2,7 +2,7 @@ import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
 import { ICitationType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { createCitation, getReferralCount } from './api';
+import { createCitation, getReferralCount, saveDoc } from './api';
 
 export const useReferralsCount = () => {
   return useQuery({
@@ -30,10 +30,10 @@ export const useCreateCitation = () => {
         data: variables.citation_data,
       });
       // save citation ids
-      // await saveDoc({
-      //   id: variables.document_id,
-      //   citation_candidate_ids: inDocCitationIds,
-      // });
+      await saveDoc({
+        id: variables.document_id,
+        citation_candidate_ids: [...inDocCitationIds, data],
+      });
       appendInDocCitationIds(data);
     },
     onError: async (error) => {
@@ -52,7 +52,7 @@ export const useCiteToDoc = () => {
   const appendInTextCitationIds = useAIEditor(
     (state) => state.appendInTextCitationIds
   );
-  const inDocCitationIds = useAIEditor((state) => state.inDocCitationIds);
+  const inTextCitationIds = useAIEditor((state) => state.inTextCitationIds);
   return useMutation({
     mutationFn: (params: {
       citation_type: ICitationType;
@@ -66,13 +66,11 @@ export const useCiteToDoc = () => {
         data: variables.citation_data,
       });
       // save citation ids
-      // await saveDoc({
-      //   id: variables.document_id,
-      //   citation_candidate_ids: inDocCitationIds,
-      // });
+      await saveDoc({
+        id: variables.document_id,
+        citation_ids: [...inTextCitationIds, data],
+      });
       appendInTextCitationIds(data);
-      const { selection } = editor!.state;
-      const { anchor } = selection;
       if (
         variables.citation_data.contributors.length > 0 &&
         variables.citation_data.contributors[0].last_name

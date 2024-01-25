@@ -3,11 +3,12 @@ import { Button } from '@/components/ui/button';
 import { numberToMonth } from '@/lib/utils';
 import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
-import { ICitationData, IJournalCitation } from '@/types';
-import useAiEditor from '@/zustand/store';
-import { Edit, Plus, ReplyAll } from 'lucide-react';
+import { ICitationData, ICitationType, IJournalCitation } from '@/types';
+import { useAIEditor } from '@/zustand/store';
+import { Edit, Plus, ReplyAll, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
+import { useEditorCommand } from '../../hooks/useEditorCommand';
 
 export const SearchCitationCard = memo(
   ({
@@ -22,7 +23,6 @@ export const SearchCitationCard = memo(
     const { id } = useParams();
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
-    const editor = useAiEditor((state) => state.editor_instance);
     const handler = async (
       item: ICitation,
       index: number,
@@ -108,49 +108,82 @@ export const SearchCitationCard = memo(
 );
 
 export const MineCitationCard = memo(
-  ({ index, item }: { index: number; item: ICitationData }) => {
-    // 检查是否被cite过
+  ({
+    item,
+    type,
+  }: {
+    item: { type: ICitationType; data: ICitationData };
+    type: 'inText' | 'library';
+  }) => {
+    const editor = useAIEditor((state) => state.editor_instance);
+    const removeInTextCitationIds = useAIEditor(
+      (state) => state.removeInTextCitationIds
+    );
+    const removeInDocCitationIds = useAIEditor(
+      (state) => state.removeInDocCitationIds
+    );
+    const { insertCitation } = useEditorCommand(editor!);
+    const handleCite = () => {
+      if (type === 'inText') {
+        if (item.data.contributors && item.data.contributors[0].last_name) {
+          insertCitation(item.data.contributors[0].last_name);
+        }
+      } else {
+        // 添加到intextCitation中 从doccitation中删除
+      }
+    };
+
+    const handleDeleteCitation = async () => {
+      if (type === 'inText') {
+        await removeInTextCitationIds(item.data.id, item.data.document_id);
+      } else {
+        await removeInDocCitationIds(item.data.id, item.data.document_id);
+      }
+    };
+
     return (
-      <div className='mb-5 flex flex-col bg-doc-secondary p-2'>
+      <div className='mb-5 flex flex-col bg-doc-secondary p-2.5'>
         <h1 className='base-semibold'>
-          {item.article_title ? item.article_title : item.book_title}
+          {item.data.article_title
+            ? item.data.article_title
+            : item.data.book_title}
         </h1>
-        <Spacer y='5' />
+        <Spacer y='10' />
         <div className='flex flex-wrap items-center gap-x-2'>
-          {item.contributors && item.contributors?.length > 0 ? (
-            item.contributors.map((contributor, idx) => {
-              return (
-                <p
-                  className='samll-regular text-doc-shadow'
-                  key={`in-doc-citation-${index}-author-${idx}`}
-                >
-                  {idx === 0 && <span>Author: </span>}
-                  {contributor.first_name}
-                  {contributor.middle_name}
-                  {contributor.last_name}
-                </p>
-              );
-            })
+          {item.data.contributors && item.data.contributors?.length > 0 ? (
+            <p className='small-regular text-doc-shadow'>
+              <span>Author:&nbsp;</span>
+              {item.data.contributors[0].last_name},&nbsp;
+              {item.data.contributors[0].middle_name}
+              {item.data.contributors[0].first_name}
+            </p>
           ) : (
             <p className='samll-regular'>Missing authors</p>
           )}
         </div>
-        <Spacer y='5' />
-        <Spacer y='5' />
+        <Spacer y='10' />
         <div className='flex-between'>
           <Button
-            className='h-max w-[48%] rounded bg-doc-primary'
+            className='h-max w-[42%] rounded bg-doc-primary py-1'
             role='button'
           >
             <ReplyAll size={18} />
             Cite
           </Button>
           <Button
-            className='h-max w-[48%] rounded border border-doc-primary text-doc-primary'
+            className='h-max w-[42%] rounded border border-doc-primary py-1 text-doc-primary'
             variant={'ghost'}
             role='button'
+            onClick={handleCite}
           >
             <Edit size={18} className='text-doc-primary' /> Edit
+          </Button>
+          <Button
+            className='aspect-square h-max rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
+            variant={'ghost'}
+            onClick={handleDeleteCitation}
+          >
+            <Trash2 size={18} />
           </Button>
         </div>
       </div>

@@ -41,7 +41,7 @@ export type ICitationData = IWebsiteCitation &
   IJournalCitation &
   IBookCitation &
   IChapterCitation &
-  IIntroductionCitation;
+  IIntroductionCitation & { id: string };
 
 export interface IWebsiteCitation {
   access_date: {

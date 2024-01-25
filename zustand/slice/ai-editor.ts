@@ -1,3 +1,4 @@
+import { saveDoc } from '@/query/api';
 import { IPolishResultAData } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { Editor } from '@tiptap/react';
@@ -81,6 +82,14 @@ type AIEditorAction = {
   updateInDocCitationIds: (result: string[]) => void;
   appendInTextCitationIds: (result: string) => void;
   appendInDocCitationIds: (result: string) => void;
+  removeInTextCitationIds: (
+    result: string,
+    document_id: string
+  ) => Promise<void>;
+  removeInDocCitationIds: (
+    result: string,
+    document_id: string
+  ) => Promise<void>;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -173,4 +182,34 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set((state) => ({
       inDocCitationIds: [...state.inDocCitationIds, result],
     })),
+  removeInTextCitationIds: async (result, document_id) => {
+    const data_after_remove = get().inTextCitationIds.filter(
+      (item) => item !== result
+    );
+    await saveDoc({
+      id: document_id,
+      citation_ids: data_after_remove,
+    });
+    set((state) => ({
+      inTextCitationIds: state.inDocCitationIds.filter((id) => id !== result),
+      inTextCitation: state.inTextCitation.filter(
+        (item) => item.data.id !== result
+      ),
+    }));
+  },
+  removeInDocCitationIds: async (result, document_id) => {
+    const data_after_remove = get().inDocCitationIds.filter(
+      (item) => item !== result
+    );
+    await saveDoc({
+      id: document_id,
+      citation_candidate_ids: data_after_remove,
+    });
+    set((state) => ({
+      inDocCitationIds: state.inDocCitationIds.filter((id) => id !== result),
+      inDocCitation: state.inDocCitation.filter(
+        (item) => item.data.id !== result
+      ),
+    }));
+  },
 });

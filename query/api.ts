@@ -928,8 +928,12 @@ export async function getCitationDetail(params: {
 export async function getCitations(params: { citation_ids: string[] }) {
   try {
     const token = Cookies.get('token');
+    const queryString = params.citation_ids
+      .map((item) => `citation_ids=${encodeURIComponent(item)}`)
+      .join('&');
+
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/website?citation_ids=${params.citation_ids.join(',')}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation?${queryString}`,
       {
         method: 'GET',
         headers: {

@@ -1,19 +1,20 @@
 import Spacer from '@/components/root/Spacer';
 import { Book } from '@/components/root/SvgComponents';
+import { Button } from '@/components/ui/button';
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
   DrawerTrigger,
 } from '@/components/ui/citation-drawer';
-import useAiEditor from '@/zustand/store';
 import { ChevronsDown, ChevronsUp } from 'lucide-react';
-import { MutableRefObject } from 'react';
-import { MineCitationCard } from './CitationCard';
+import { MutableRefObject, useState } from 'react';
+import InTextList from './InTextList';
+import LibraryList from './LibraryList';
 type Props = { container: MutableRefObject<any> };
 
 const Mine = ({ container }: Props) => {
-  const inDocCitation = useAiEditor((state) => state.inDocCitation);
+  const [selected, setSelected] = useState(0);
   return (
     <Drawer modal={false}>
       <DrawerTrigger asChild>
@@ -37,18 +38,24 @@ const Mine = ({ container }: Props) => {
             <Book />
             <p className='text-doc-primary'>My Citation</p>
           </div>
+          <div className='flex items-center gap-x-2'>
+            <Button
+              onClick={() => setSelected(0)}
+              variant={'ghost'}
+              className={`${selected === 0 ? 'bg-doc-primary/20 text-doc-primary' : 'bg-doc-shadow/20 text-doc-shadow'} h-max rounded px-2 py-1`}
+            >
+              Library
+            </Button>
+            <Button
+              onClick={() => setSelected(1)}
+              variant={'ghost'}
+              className={`${selected === 1 ? 'bg-doc-primary/20 text-doc-primary' : 'bg-doc-shadow/20 text-doc-shadow'} h-max rounded px-2 py-1`}
+            >
+              In this doc
+            </Button>
+          </div>
         </div>
-        <div className='flex flex-1 flex-col overflow-y-auto pt-2'>
-          {inDocCitation.map((item, index) => {
-            return (
-              <MineCitationCard
-                index={index}
-                item={item as any}
-                key={`in-doc-citation-${index}`}
-              />
-            );
-          })}
-        </div>
+        {selected === 0 ? <LibraryList /> : <InTextList />}
       </DrawerContent>
     </Drawer>
   );
