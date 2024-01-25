@@ -41,7 +41,7 @@ const IntroductionForm = () => {
   const onSubmit = async (data: IIntroductionCitation) => {
     await handleCreate({
       document_id: id as string,
-      citation_type: 'booke_special_section',
+      citation_type: 'BookSpecialSection',
       citation_data: data,
     });
   };

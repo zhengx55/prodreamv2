@@ -36,7 +36,7 @@ const WholeBook = () => {
   const onSubmit = async (data: IBookCitation) => {
     await handleCreate({
       document_id: id as string,
-      citation_type: 'whole_book',
+      citation_type: 'WholeBook',
       citation_data: data,
     });
   };

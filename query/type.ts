@@ -395,13 +395,6 @@ export type IDocDetail = {
   citation_candidates: string[];
 };
 
-export type ICitationType =
-  | 'book_section'
-  | 'whole_book'
-  | 'website'
-  | 'booke_special_section'
-  | 'journal';
-
 export interface Response {
   code: number;
   data: Datum[];

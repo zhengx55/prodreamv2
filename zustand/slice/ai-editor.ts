@@ -1,5 +1,5 @@
-import { ICitationType, IPolishResultAData } from '@/query/type';
-import { ICitationData } from '@/types';
+import { IPolishResultAData } from '@/query/type';
+import { ICitationData, ICitationType } from '@/types';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
@@ -18,7 +18,7 @@ const initialState: AIEditorState = {
   showSynonymMenu: false,
   showCustomCitiation: false,
   selectedText: '',
-  citationStyle: 'APA',
+  citationStyle: 'MLA',
   showCreateCitation: false,
   inTextCitation: [],
   inDocCitation: [],

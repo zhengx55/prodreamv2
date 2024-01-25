@@ -44,7 +44,7 @@ const WebsiteForm = (props: Props) => {
   const onSubmit = async (data: IWebsiteCitation) => {
     await handleCreate({
       document_id: id as string,
-      citation_type: 'website',
+      citation_type: 'Website',
       citation_data: data,
     });
     updateShowCreateCitation(false);

@@ -34,7 +34,7 @@ const ChapterForm = () => {
   const onSubmit = async (data: IChapterCitation) => {
     await handleCreate({
       document_id: id as string,
-      citation_type: 'book_section',
+      citation_type: 'BookSection',
       citation_data: data,
     });
   };

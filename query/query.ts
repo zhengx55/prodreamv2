@@ -1,7 +1,8 @@
+import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
+import { ICitationType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { createCitation, getReferralCount } from './api';
-import { ICitationType } from './type';
 
 export const useReferralsCount = () => {
   return useQuery({
@@ -43,6 +44,8 @@ export const useCreateCitation = () => {
 };
 
 export const useCiteToDoc = () => {
+  const editor = useAIEditor((state) => state.editor_instance);
+  const { insertCitation } = useEditorCommand(editor!);
   const appendInTextCitation = useAIEditor(
     (state) => state.appendInTextCitation
   );
@@ -68,6 +71,14 @@ export const useCiteToDoc = () => {
       //   citation_candidate_ids: inDocCitationIds,
       // });
       appendInTextCitationIds(data);
+      const { selection } = editor!.state;
+      const { anchor } = selection;
+      if (
+        variables.citation_data.contributors.length > 0 &&
+        variables.citation_data.contributors[0].last_name
+      ) {
+        insertCitation(variables.citation_data.contributors[0].last_name);
+      }
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

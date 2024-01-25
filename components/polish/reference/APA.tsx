@@ -1,7 +1,7 @@
-import { ICitationType } from '@/query/type';
 import {
   IBookCitation,
   IChapterCitation,
+  ICitationType,
   IIntroductionCitation,
   IJournalCitation,
   IWebsiteCitation,
@@ -207,15 +207,15 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
   };
 
   const generateAPAReference = () => {
-    if (citation.type === 'website') {
+    if (citation.type === 'Website') {
       return generateWebsiteReference(citation.data as IWebsiteCitation);
-    } else if (citation.type === 'journal') {
+    } else if (citation.type === 'Journal') {
       return generateJournalReference(citation.data as IJournalCitation);
-    } else if (citation.type === 'whole_book') {
+    } else if (citation.type === 'WholeBook') {
       return generateBookReference(citation.data as IBookCitation);
-    } else if (citation.type === 'book_section') {
+    } else if (citation.type === 'BookSection') {
       return generateChapterReference(citation.data as IChapterCitation);
-    } else if (citation.type === 'booke_special_section') {
+    } else if (citation.type === 'BookSpecialSection') {
       return generateIntroductionReference(
         citation.data as IIntroductionCitation
       );

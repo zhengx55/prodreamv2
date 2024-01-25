@@ -1,8 +1,7 @@
-import { GetCitationDataType, IUsage } from '@/types';
+import { ICitationType, IUsage } from '@/types';
 import Cookies from 'js-cookie';
 import {
   ICitation,
-  ICitationType,
   IDocDetail,
   IEssayAssessData,
   IEssayAssessRequest,
@@ -874,7 +873,7 @@ export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
 // ----------------------------------------------------------------
 export async function createCitation(params: {
   citation_type: ICitationType;
-  citation_data: GetCitationDataType<ICitationType>;
+  citation_data: any;
   document_id: string;
 }) {
   try {

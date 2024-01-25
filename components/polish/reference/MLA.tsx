@@ -1,7 +1,7 @@
-import { ICitationType } from '@/query/type';
 import {
   IBookCitation,
   IChapterCitation,
+  ICitationType,
   IIntroductionCitation,
   IJournalCitation,
   IWebsiteCitation,
@@ -35,14 +35,14 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       const contributorNames = contributors.map((contributor) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
-        if (first_name) {
-          fullName += first_name;
+        if (last_name) {
+          fullName += `${last_name},`;
         }
         if (middle_name) {
           fullName += ` ${middle_name}`;
         }
-        if (last_name) {
-          fullName += ` ${last_name}`;
+        if (first_name) {
+          fullName += ` ${first_name}`;
         }
         return fullName;
       });
@@ -71,14 +71,14 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       const contributorNames = contributors.map((contributor) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
-        if (first_name) {
-          fullName += first_name;
+        if (last_name) {
+          fullName += `${last_name},`;
         }
         if (middle_name) {
           fullName += ` ${middle_name}`;
         }
-        if (last_name) {
-          fullName += ` ${last_name}`;
+        if (first_name) {
+          fullName += ` ${first_name}`;
         }
         return fullName;
       });
@@ -103,14 +103,14 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       const contributorNames = contributors.map((contributor, idx) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
-        if (first_name) {
-          fullName += first_name;
+        if (last_name) {
+          fullName += `${last_name},`;
         }
         if (middle_name) {
           fullName += ` ${middle_name}`;
         }
-        if (last_name) {
-          fullName += ` ${last_name}`;
+        if (first_name) {
+          fullName += ` ${first_name}`;
         }
         return fullName;
       });
@@ -149,14 +149,14 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       const contributorNames = contributors.map((contributor) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
-        if (first_name) {
-          fullName += first_name;
+        if (last_name) {
+          fullName += `${last_name},`;
         }
         if (middle_name) {
           fullName += ` ${middle_name}`;
         }
-        if (last_name) {
-          fullName += ` ${last_name}`;
+        if (first_name) {
+          fullName += ` ${first_name}`;
         }
         return fullName;
       });
@@ -204,15 +204,16 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       const contributorNames = contributors.map((contributor) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
-        if (first_name) {
-          fullName += first_name;
+        if (last_name) {
+          fullName += `${last_name},`;
         }
         if (middle_name) {
           fullName += ` ${middle_name}`;
         }
-        if (last_name) {
-          fullName += ` ${last_name}`;
+        if (first_name) {
+          fullName += ` ${first_name}`;
         }
+
         return fullName;
       });
       reference += `${contributorNames.join(' & ')}.`;
@@ -246,15 +247,15 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
   };
 
   const generateMLAReference = () => {
-    if (citation.type === 'website') {
+    if (citation.type === 'Website') {
       return generateWebsiteReference(citation.data as IWebsiteCitation);
-    } else if (citation.type === 'journal') {
+    } else if (citation.type === 'Journal') {
       return generateJournalReference(citation.data as IJournalCitation);
-    } else if (citation.type === 'whole_book') {
+    } else if (citation.type === 'WholeBook') {
       return generateBookReference(citation.data as IBookCitation);
-    } else if (citation.type === 'book_section') {
+    } else if (citation.type === 'BookSection') {
       return generateChapterReference(citation.data as IChapterCitation);
-    } else if (citation.type === 'booke_special_section') {
+    } else if (citation.type === 'BookSpecialSection') {
       return generateIntroductionReference(
         citation.data as IIntroductionCitation
       );

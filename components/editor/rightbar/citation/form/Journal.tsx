@@ -43,7 +43,7 @@ const JournalForm = () => {
   const onSubmit = async (data: IJournalCitation) => {
     await handleCreate({
       document_id: id as string,
-      citation_type: 'journal',
+      citation_type: 'Journal',
       citation_data: data,
     });
   };

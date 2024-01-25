@@ -4,6 +4,7 @@ import { numberToMonth } from '@/lib/utils';
 import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, IJournalCitation } from '@/types';
+import useAiEditor from '@/zustand/store';
 import { Edit, Plus, ReplyAll } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
@@ -21,6 +22,7 @@ export const SearchCitationCard = memo(
     const { id } = useParams();
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
+    const editor = useAiEditor((state) => state.editor_instance);
     const handler = async (
       item: ICitation,
       index: number,
@@ -54,17 +56,16 @@ export const SearchCitationCard = memo(
       if (action === 'collect') {
         await handleCollectCitation({
           citation_data: converted_data,
-          citation_type: 'journal',
+          citation_type: 'Journal',
           document_id: id as string,
         });
       } else {
         await handleCite({
           citation_data: converted_data,
-          citation_type: 'journal',
+          citation_type: 'Journal',
           document_id: id as string,
         });
       }
-
       remove(index);
     };
     return (
