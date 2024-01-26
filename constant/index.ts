@@ -65,51 +65,37 @@ export const GenerateOptions = [
   },
 ];
 
-export const TutTabs = [
+export const WelcomLanguageOptions = [
   {
-    id: 'tut-tabs01',
-    title: 'AI Editor',
-    image: '/tutorials/polish.png',
-    bg: '#FFFBD6',
+    name: 'English native speaker',
+    src: '/welcome/English.png',
+    label: 'english_native',
   },
   {
-    id: 'tut-tabs02',
-    title: 'Brainstorm',
-    image: '/tutorials/brainstorm.png',
-    bg: '#EBFFE4',
-  },
-  // {
-  //   id: 'tut-tabs03',
-  //   title: 'Resume',
-  //   image: '/tutorials/resume.png',
-  //   bg: '#EBF8FF',
-  // },
-  {
-    id: 'tut-tabs04',
-    title: 'Activity List',
-    image: '/tutorials/actList.png',
-    bg: '#F6DACE',
+    name: 'International Student',
+    src: '/welcome/International.png',
+    label: 'international',
   },
 ];
 
-export const WelcomOptions = [
+export const WelcomEducationOptions = [
   {
-    id: 'welcome-01',
-    title: 'Essay Review & Edit',
-    image: '/welcome/Review.png',
-    link: '/writtingpal/polish',
+    name: 'Undergrad & High Schoold',
+    desc: `Bachelor degree, Diplomas or highschool`,
+    src: '/welcome/HighSchool.png',
+    label: 'undergrad',
   },
   {
-    id: 'welcome-02',
-    title: 'Explore Essay Ideas & Drafting',
-    image: '/welcome/Ideas.png',
-    link: '/writtingpal/brainstorm',
+    name: 'Masters or MBA',
+    desc: `Graduate studying a Masters or MBAprogram`,
+    src: '/welcome/Master.png',
+    label: 'master_or_mba',
   },
   {
-    id: 'welcome-03',
-    title: 'Activity List',
-    image: '/welcome/ActivityList.png',
-    link: '/writtingpal/activityList',
+    name: 'PhD & Beyond',
+    desc: `Doctorate student or researcher`,
+    src: '/welcome/Phd.png',
+    label: 'phd_or_above',
   },
 ];
 

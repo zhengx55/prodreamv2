@@ -25,7 +25,7 @@ const Card = ({
           <FileIcon />
           <Spacer y='5' />
           <h1 className='small-semibold line-clamp-2 capitalize'>
-            {item.title === '' ? 'Untitled Document' : item.title}
+            {item.title === 'Untitled' ? 'My College Application' : item.title}
           </h1>
           <Spacer y='5' />
           <p

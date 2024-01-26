@@ -51,7 +51,7 @@ const Team = () => {
         </div>
         <Spacer y='40' />
         <div className='flex-center w-full flex-col rounded-xl px-6 py-10'>
-          <h1 className='w-full text-center font-baskerville text-[28px] font-[400] tracking-tighter sm:text-center leading-[32px] sm:leading-[58px] sm:text-[48px]'>
+          <h1 className='w-full text-center font-baskerville text-[28px] font-[400] leading-[32px] tracking-tighter sm:text-center sm:text-[48px] sm:leading-[58px]'>
             <span className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#F2C8FB] sm:before:top-[36px]'>
               Seamless Excellence
             </span>{' '}

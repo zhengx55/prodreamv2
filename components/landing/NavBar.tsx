@@ -1,13 +1,13 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from '../ui/button';
-import { btnClick } from '@/lib/utils';
-import { useUserInfo } from '@/zustand/store';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { btnClick } from '@/lib/utils';
+import { useUserInfo } from '@/zustand/store';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '../ui/button';
 
 const NavBar = () => {
   const userId = useUserInfo((state) => state.user).user_id;
@@ -24,17 +24,6 @@ const NavBar = () => {
             priority
           />
           <div className='flex'>
-            {/* <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
-              <Button
-                onClick={() => {
-                  btnClick('About Us', userId);
-                }}
-                className='hidden text-[#3B3A40] sm:block'
-                variant={'ghost'}
-              >
-                About Us
-              </Button>
-            </Link> */}
             <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
               <Button
                 onClick={() => {
@@ -73,7 +62,7 @@ const NavBar = () => {
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className='z-[999] items-center gap-x-8 sm:flex sm:hidden'>
+            <div className='z-[999] flex items-center gap-x-8 sm:hidden'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='24'
@@ -84,9 +73,9 @@ const NavBar = () => {
                 <path
                   d='M4 6.5H20M4 12.5H20M4 18.5H20'
                   stroke='#171717'
-                  stroke-width='2'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                 />
               </svg>
             </div>

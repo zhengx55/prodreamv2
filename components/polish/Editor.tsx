@@ -101,7 +101,9 @@ const Tiptap = ({
           <div className='flex h-12 w-full justify-center'>
             <Input
               placeholder={'Untitled Document'}
-              defaultValue={title}
+              defaultValue={
+                title === 'Untitled' ? 'My College Application' : title
+              }
               onChange={handleTitleChange}
               type='text'
               id='title'
