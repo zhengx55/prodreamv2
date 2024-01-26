@@ -3,12 +3,10 @@ import { fadeIn, staggerContainer, textVariant } from '@/constant/motion';
 import { m } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 
 const Hero = () => {
-  const [selected, setSelected] = useState(0);
   return (
     <m.section
       variants={staggerContainer()}
@@ -27,7 +25,7 @@ const Hero = () => {
           draggable='false'
           alt='gardient-bg'
           priority
-          className='absolute top-10 h-[90%] w-auto w-full'
+          className='absolute top-10 h-[90%] w-full'
           width={1400}
           height={900}
           sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
@@ -37,7 +35,7 @@ const Hero = () => {
 
       <m.div
         variants={textVariant(0)}
-        className='sm:flex-center sm:gap-y-100 flex h-full w-full flex-col gap-y-4 sm:max-w-[1200px] sm:flex-row sm:flex-col'
+        className='sm:flex-center sm:gap-y-100 flex h-full w-full flex-col gap-y-4 sm:max-w-[1200px] sm:flex-col'
       >
         <section className='flex w-full flex-col sm:w-[1200px] sm:pt-[60px]'>
           <h1 className='text-center font-baskerville text-[32px] font-[400] leading-[32px] tracking-tighter sm:text-center sm:text-[48px] sm:leading-[58px]'>
@@ -81,11 +79,9 @@ const Hero = () => {
         <section className='relative top-[50px] flex h-[196px] w-full flex-col overflow-hidden rounded-[8px] border-[2px] border-[#000] sm:top-10 sm:h-[610px] sm:w-[1070px] sm:rounded-[24px] sm:border-[12px]'>
           <Image
             draggable='false'
-            alt='gardient-bg'
+            alt='hero-showcase'
             priority
-            className='absolute h-full w-auto w-full'
-            width={1070}
-            height={900}
+            fill
             sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
             src='/landing/heros/hero-1.gif'
           />

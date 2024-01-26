@@ -476,7 +476,7 @@ export const Volume = (
       rx='8.60094'
       fill='#36383D'
       stroke='#202225'
-      stroke-width='1.51172'
+      strokeWidth='1.51172'
     />
     <path
       fillRule='evenodd'

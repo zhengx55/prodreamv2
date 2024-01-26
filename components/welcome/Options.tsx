@@ -1,11 +1,7 @@
 'use client';
-import { WelcomOptions } from '@/constant';
 import Image from 'next/image';
-import { useState } from 'react';
-import Spacer from '../root/Spacer';
-import { ChevronLeft } from 'lucide-react';
-import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
+import Spacer from '../root/Spacer';
 
 const Options = ({ type }: { type?: 'onboard' }) => {
   const datalist = [
