@@ -73,21 +73,11 @@ export default function Page() {
 
   return (
     <section className='flex-center flex-1 overflow-hidden'>
-      <div className='hidden w-1/2 bg-[#fff] sm:block'>
-        <Image
-          src='/auth/login_icon.png'
-          width={960}
-          height={1129}
-          alt='logo'
-          className='h-auto w-full'
-          priority
-        />
-      </div>
       <Panel>
-        <h1 className='self-start text-[28px] font-[600] sm:text-[48px]'>
+        <h1 className='self-start text-[28px] font-[600] sm:text-[42px]'>
           Create Your Account
         </h1>
-        <p className='mb-[30px] self-start text-left text-[20px] font-[400] text-[#525252] sm:mb-[60px] sm:text-[24px]'>
+        <p className='mb-[30px] self-start text-left text-[20px] font-[400] text-[#525252] sm:mb-[60px] sm:text-[18px]'>
           Unlock the potential of your personal statement with QuickApply!
         </p>
         <GoogleSignin />
@@ -109,7 +99,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormLabel
-                      className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                      className='font-500 text-[24px] text-[#17161B] sm:text-[20px]'
                       htmlFor='first_name'
                     >
                       First Name
@@ -133,7 +123,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormLabel
-                      className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                      className='font-500 text-[24px] text-[#17161B] sm:text-[20px]'
                       htmlFor='last_name'
                     >
                       Last Name
@@ -158,7 +148,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className='relative'>
                   <FormLabel
-                    className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[20px]'
                     htmlFor='username'
                   >
                     Email Address
@@ -183,7 +173,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className='relative'>
                   <FormLabel
-                    className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[20px]'
                     htmlFor='password'
                   >
                     Create a Password
@@ -192,13 +182,13 @@ export default function Page() {
                     <EyeOff
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-12 cursor-pointer'
+                      className='absolute right-2 top-10 cursor-pointer'
                     />
                   ) : (
                     <Eye
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-12 cursor-pointer'
+                      className='absolute right-2 top-10 cursor-pointer'
                     />
                   )}
                   <FormControl>
@@ -246,6 +236,16 @@ export default function Page() {
           </Link>
         </p>
       </Panel>
+      <div className='hidden w-1/2 bg-[#fff] sm:block'>
+        <Image
+          src='/auth/login_icon.png'
+          width={960}
+          height={1129}
+          alt='logo'
+          className='h-auto w-full'
+          priority
+        />
+      </div>
     </section>
   );
 }

@@ -37,14 +37,14 @@ const Hero = () => {
 
       <m.div
         variants={textVariant(0)}
-        className='sm:flex-center flex flex-col h-full w-full sm:flex-col gap-y-4 sm:max-w-[1450px] sm:flex-row sm:gap-y-100'
+        className='sm:flex-center flex flex-col h-full w-full sm:flex-col gap-y-4 sm:max-w-[1200px] sm:flex-row sm:gap-y-100'
       >
-        <section className='flex w-full flex-col sm:w-[1200px] sm:pt-[200px]'>
-          <h1 className='font-baskerville text-center text-[32px] font-[400] tracking-tighter sm:text-center sm:text-[72px]'>
-          <span className="before:block before:absolute before:top-[22px] sm:before:top-[56px] before:-inset-1 before:-skew-y-0 before:h-[30%] sm:before:h-[40%] before:bg-[#D2DFFF] relative inline-block before:z-[-1]">Transform </span> Your<br className='sm:hidden'/> Academic<br className='hidden sm:block'/> Writing<br className='sm:hidden'/> Journey
+        <section className='flex w-full flex-col sm:w-[1200px] sm:pt-[60px]'>
+          <h1 className='font-baskerville text-center text-[32px] font-[400] tracking-tighter sm:text-center leading-[32px] sm:leading-[58px] sm:text-[48px]'>
+          <span className="before:block before:absolute before:top-[18px] sm:before:top-[36px] before:-inset-1 before:-skew-y-0 before:h-[40%] sm:before:h-[40%] before:bg-[#D2DFFF] relative inline-block before:z-[-1]">Transform </span> Your<br className='sm:hidden'/> Academic<br className='hidden sm:block'/> Writing<br className='sm:hidden'/> Journey
           </h1>
           <Spacer y='20' />
-          <p className='small-regular text-[14px] text-[#64626A] text-center sm:text-[28px] sm:text-center'>
+          <p className='small-regular text-[14px] text-[#64626A] text-center sm:text-[18px] sm:text-center'>
           Craft Superior Essays and Research Papers with Cutting-Edge AI Assistance
           </p>
           <Spacer y='40' />

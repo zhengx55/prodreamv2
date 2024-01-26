@@ -5,6 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
+import CSPostHogProvider from '@/components/root/PostHogProvider';
 import './globals.css';
 
 const poppins = Poppins({
@@ -56,7 +57,7 @@ export default function RootLayout({
       className={`${poppins.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
-      {/* <CSPostHogProvider> */}
+      <CSPostHogProvider>
       <body>
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
@@ -72,7 +73,7 @@ export default function RootLayout({
           </TanstackProvider>
         </GoogleOAuthProvider>
       </body>
-      {/* </CSPostHogProvider> */}
+      </CSPostHogProvider>
     </html>
   );
 }
