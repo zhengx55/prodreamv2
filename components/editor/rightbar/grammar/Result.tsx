@@ -83,7 +83,7 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
 
   const handleAccept = (index: number, item: IPolishResultAData) => {
     handleReplace(item, index);
-    // handleDismiss(index);
+    handleDismiss(index);
   };
 
   const handleAcceptAll = () => {
