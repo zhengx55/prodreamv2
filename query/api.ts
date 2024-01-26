@@ -605,7 +605,10 @@ export async function refreshUserSession(): Promise<LoginData> {
 // ----------------------------------------------------------------
 // Doc
 // ----------------------------------------------------------------
+export async function languageBg() {}
 
+export async function educationalBg() {}
+export async function useIntention() {}
 export async function createDoc(text?: string, file?: File) {
   const formData = new FormData();
   formData.append('text', text ?? ' ');
