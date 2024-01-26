@@ -126,7 +126,7 @@ export async function userLogin(loginParam: {
 export async function userSignUp(signUpParam: ISigunUpRequest) {
   try {
     let flag:boolean = false 
-    flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+    flag = ()=> navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
     const formdata = new FormData();
     formdata.append('first_name', signUpParam.first_name);
     formdata.append('last_name', signUpParam.last_name);
