@@ -12,6 +12,7 @@ export const useEditorCommand = (editor: Editor) => {
           to,
         })
         .setHighlight({ color: 'rgba(236, 120, 113, 0.2)' })
+        .setPolishUnderline()
         .setTextSelection(0)
         .run();
     },
@@ -25,7 +26,13 @@ export const useEditorCommand = (editor: Editor) => {
 
   const clearAllHightLight = useCallback(() => {
     if (!editor) return;
-    editor.chain().selectAll().unsetHighlight().setTextSelection(0).run();
+    editor
+      .chain()
+      .selectAll()
+      .unsetHighlight()
+      .unsetPolishUnderline()
+      .setTextSelection(0)
+      .run();
   }, [editor]);
 
   const insertAtPostion = useCallback(
@@ -106,6 +113,28 @@ export const useEditorCommand = (editor: Editor) => {
     [editor]
   );
 
+  const grammarCheckReplace = useCallback(
+    (content: string, from: number, to: number) => {
+      editor
+        .chain()
+        .setTextSelection({ from, to })
+        .unsetHighlight()
+        .unsetPolishUnderline()
+        .run();
+      editor
+        .chain()
+        .deleteRange({
+          from,
+          to,
+        })
+        .insertContentAt(from, `${content}`, {
+          parseOptions: { preserveWhitespace: 'full' },
+        })
+        .run();
+    },
+    [editor]
+  );
+
   return {
     insertCitation,
     insertNext,
@@ -113,6 +142,7 @@ export const useEditorCommand = (editor: Editor) => {
     highLightAtPosition,
     clearAllHightLight,
     clearAllUnderLine,
+    grammarCheckReplace,
     insertAtPostion,
   };
 };

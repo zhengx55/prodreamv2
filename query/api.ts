@@ -421,37 +421,6 @@ export async function queryPolish(params: {
   }
 }
 
-export async function feedBackReport(params: {
-  feedback: 0 | 1 | 2;
-  id: string;
-}) {
-  ///ai/report_feedback
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}report_feedback`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          feedback: params.feedback,
-          id: params.id,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok) {
-      throw new Error();
-    }
-    const data = await res.json();
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
 export async function downloadReport(report_id: string) {
   try {
     const token = Cookies.get('token');

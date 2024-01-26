@@ -1,7 +1,7 @@
 import { IPolishResultAData } from '@/query/type';
 import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
 import posthog from 'posthog-js';
+import { twMerge } from 'tailwind-merge';
 
 export function btnClick(btnName: string, userId: string) {
   posthog.capture(btnName, {
@@ -241,14 +241,22 @@ export const getDiffSentencesPair = (item: IPolishResultAData) => {
   let original_string = '';
   item.data.map((sentence) => {
     if (sentence.status === 0) {
-      original_string += ` ${sentence.sub_str}`;
-      relpace_string += sentence.sub_str;
+      original_string === ''
+        ? (original_string += `${sentence.sub_str}`)
+        : (original_string += ` ${sentence.sub_str}`);
+      relpace_string === ''
+        ? (relpace_string += `${sentence.sub_str}`)
+        : (relpace_string += ` ${sentence.sub_str}`);
     } else if ([1, 2, 3].includes(sentence.status)) {
       if (sentence.status !== 1) {
-        original_string += ` ${sentence.sub_str}`;
+        original_string === ''
+          ? (original_string += `${sentence.sub_str}`)
+          : (original_string += ` ${sentence.sub_str}`);
       }
       if (sentence.status !== 2) {
-        relpace_string += ` ${sentence.new_str} `;
+        relpace_string === ''
+          ? (relpace_string += `${sentence.new_str}`)
+          : (relpace_string += ` ${sentence.new_str}`);
       } else {
         relpace_string += ' ';
       }

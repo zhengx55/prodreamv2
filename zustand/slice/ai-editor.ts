@@ -1,5 +1,4 @@
 import { saveDoc } from '@/query/api';
-import { IPolishResultAData } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
@@ -8,8 +7,6 @@ export type AIEditiorStore = AIEditorState & AIEditorAction;
 
 const initialState: AIEditorState = {
   editor_instance: null,
-  polishResult: [],
-  isPolishing: false,
   isSaving: false,
   isPlagiarismOpen: false,
   savingMode: true,
@@ -29,8 +26,6 @@ const initialState: AIEditorState = {
 };
 
 type AIEditorState = {
-  polishResult: IPolishResultAData[];
-  isPolishing: boolean;
   isSaving: boolean;
   isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
@@ -51,11 +46,8 @@ type AIEditorState = {
 };
 
 type AIEditorAction = {
-  updatePolishResult: (polishResult: AIEditorState['polishResult']) => void;
-  updateIsPolishing: (result: AIEditorState['isPolishing']) => void;
   updateIsPlagiarismOpen: (result: AIEditorState['isPlagiarismOpen']) => void;
   toogleIsSaving: (result: AIEditorState['isSaving']) => void;
-  clearPolishResult: () => void;
   setEditorInstance: (result: Editor) => void;
   reset: () => void;
   activeSaving: () => void;
@@ -105,15 +97,10 @@ type AIEditorAction = {
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   ...initialState,
-  updatePolishResult: (result) => set(() => ({ polishResult: result })),
-  updateIsPolishing: (result) => set(() => ({ isPolishing: result })),
   updateIsPlagiarismOpen: (result) => set(() => ({ isPlagiarismOpen: result })),
   toogleIsSaving: (result) => set(() => ({ isSaving: result })),
   reset: () => set(initialState),
-  clearPolishResult: () =>
-    set(() => ({
-      polishResult: [],
-    })),
+
   setEditorInstance: (result) =>
     set(() => ({
       editor_instance: result,
