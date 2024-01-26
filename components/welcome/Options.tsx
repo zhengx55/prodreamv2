@@ -1,6 +1,6 @@
 'use client';
 import { WelcomEducationOptions, WelcomLanguageOptions } from '@/constant';
-import { setEduInfo, setLanguageInfo } from '@/query/api';
+import { createDoc, setEduInfo, setLanguageInfo } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -11,8 +11,9 @@ const Options = ({ type }: { type?: 'language' | 'education' }) => {
   const { mutateAsync: handleSetLanguage } = useMutation({
     mutationFn: (params: { language_background: string }) =>
       setLanguageInfo(params),
-    onSuccess: () => {
-      // router.push('/writtingpal/polish');
+    onSuccess: async () => {
+      const data = await createDoc();
+      router.push(`/writtingpal/polish/${data}`);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

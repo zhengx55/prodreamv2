@@ -1,8 +1,7 @@
 'use client';
 import { SidebarLinks } from '@/constant';
 import { useUserInfo } from '@/zustand/store';
-import { Variants } from 'framer-motion';
-import { LogOut, MailOpen, User2 } from 'lucide-react';
+import { LogOut, User2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -48,10 +47,10 @@ const Sidebar = () => {
     setTopValue(index * (48 + 20));
   }, [pathname]);
 
-  const sidebarVariants: Variants = {
-    open: { width: '300px' },
-    closed: { width: '70px' },
-  };
+  // const sidebarVariants: Variants = {
+  //   open: { width: '300px' },
+  //   closed: { width: '70px' },
+  // };
 
   return (
     <aside className='relative flex w-[300px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
@@ -71,10 +70,10 @@ const Sidebar = () => {
               <span className='text-md font-[500]'>View Profile</span>{' '}
             </DropdownMenuItem>
           </Link>
-          <DropdownMenuItem className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
+          {/* <DropdownMenuItem className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
             <MailOpen size={20} />
             <span className='text-md font-[500]'>Notification</span>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem
             onClick={logOut}
             className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'

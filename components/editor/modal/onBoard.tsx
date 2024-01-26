@@ -7,11 +7,11 @@ import { useState } from 'react';
 import Edit from './Edit';
 import Start from './Start';
 
-type Props = {};
-const OnBoard = (props: Props) => {
+type Props = { open: boolean; toogleOpen: (value: boolean) => void };
+const OnBoard = ({ open, toogleOpen }: Props) => {
   const [board, setBoard] = useState(0);
   return (
-    <Dialog open>
+    <Dialog open={open} onOpenChange={toogleOpen}>
       <DialogContent className='bg-white px-16 py-8 md:w-[1100px] md:rounded'>
         <LazyMotionProvider>
           <AnimatePresence mode='wait'>
