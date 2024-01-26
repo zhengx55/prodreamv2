@@ -75,7 +75,7 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
         command.grammarCheckReplace(
           relpace_string,
           start_position,
-          start_position + relpace_string.length
+          start_position + original_string.length
         );
       }
     });
@@ -83,7 +83,7 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
 
   const handleAccept = (index: number, item: IPolishResultAData) => {
     handleReplace(item, index);
-    handleDismiss(index);
+    // handleDismiss(index);
   };
 
   const handleAcceptAll = () => {

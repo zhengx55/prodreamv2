@@ -262,7 +262,6 @@ export const getDiffSentencesPair = (item: IPolishResultAData) => {
       }
     }
   });
-  relpace_string = relpace_string.trim();
   original_string = original_string.trim();
   return { relpace_string, original_string };
 };
