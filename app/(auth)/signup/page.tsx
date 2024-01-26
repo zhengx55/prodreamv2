@@ -26,7 +26,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { toast } from 'sonner';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
@@ -46,6 +45,7 @@ export default function Page() {
     {
       mutationFn: (param: ISigunUpRequest) => userSignUp(param),
       onSuccess: async (_, variables, _contex) => {
+        const toast = (await import('sonner')).toast;
         toast.success('Successfully Signup');
         const login_data = await userLogin({
           username: variables.email,
@@ -55,9 +55,10 @@ export default function Page() {
           path: '/',
           maxAge: 604800,
         });
-        router.push('/welcome/info');
+        router.push('/welcome/education');
       },
-      onError: (error) => {
+      onError: async (error) => {
+        const toast = (await import('sonner')).toast;
         toast.error(error.message);
       },
     }
