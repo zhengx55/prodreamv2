@@ -43,7 +43,7 @@ export const useAiOptions = () => {
           {
             id: 'edit-tools-05',
             lable: 'translate',
-            name: 'Translate',
+            name: 'Translate to english',
           },
           {
             id: 'edit-tools-06',
