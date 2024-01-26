@@ -117,12 +117,6 @@ export const useEditorCommand = (editor: Editor) => {
     (content: string, from: number, to: number) => {
       editor
         .chain()
-        .setTextSelection({ from, to })
-        .unsetHighlight()
-        .unsetPolishUnderline()
-        .run();
-      editor
-        .chain()
         .deleteRange({
           from,
           to,

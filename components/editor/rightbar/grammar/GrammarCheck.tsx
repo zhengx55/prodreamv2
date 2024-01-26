@@ -33,7 +33,6 @@ export const GrammarCheck = memo(() => {
           index === 0 ? (item.expand = true) : (item.expand = false)
         );
       }
-      console.log(data);
       setGrammarResults(data);
       deactivateSaving();
     },
