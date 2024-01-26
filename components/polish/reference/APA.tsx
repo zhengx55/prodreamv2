@@ -27,7 +27,7 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
         const { last_name, first_name } = contributor;
         return `${last_name}, ${first_name?.charAt(0)}.`;
       })
-      .join(', ');
+      .join('& ');
   };
 
   const generateWebsiteReference = (citation: IWebsiteCitation) => {
@@ -42,7 +42,9 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
 
     reference += `${website_title}. ${url}`;
 
-    return reference;
+    return !reference.trimEnd().endsWith('.')
+      ? reference.slice(0, -1) + '.'
+      : reference;
   };
 
   const generateJournalReference = (citation: IJournalCitation) => {
@@ -61,7 +63,7 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
       reference += `${formatAuthors(contributors)} `;
     }
 
-    if (publish_date) {
+    if (publish_date?.year) {
       reference += `(${publish_date.year}, ${publish_date.month} ${publish_date.day}). `;
     }
 
@@ -75,7 +77,9 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
       reference += `. https://doi.org/${doi}`;
     }
 
-    return reference;
+    return !reference.trimEnd().endsWith('.')
+      ? reference.slice(0, -1) + '.'
+      : reference;
   };
 
   const generateBookReference = (citation: IBookCitation) => {
@@ -98,7 +102,9 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
       reference += ` ${publication_info.publisher}.`;
     }
 
-    return reference;
+    return !reference.trimEnd().endsWith('.')
+      ? reference.slice(0, -1) + '.'
+      : reference;
   };
 
   const generateChapterReference = (citation: IChapterCitation) => {
@@ -139,7 +145,9 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
       reference += ` pp. ${page_info.start}-${page_info.end}.`;
     }
 
-    return reference;
+    return !reference.trimEnd().endsWith('.')
+      ? reference.slice(0, -1) + '.'
+      : reference;
   };
 
   const generateIntroductionReference = (citation: IIntroductionCitation) => {
@@ -180,7 +188,9 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
       reference += ` pp. ${page_info.start}-${page_info.end}.`;
     }
 
-    return reference;
+    return !reference.trimEnd().endsWith('.')
+      ? reference.slice(0, -1) + '.'
+      : reference;
   };
 
   const generateAPAReference = () => {

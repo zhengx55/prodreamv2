@@ -55,9 +55,9 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
     reference += ` "${article_title}." <em>${website_title}</em>, ${publisher},`;
     reference += ` ${access_date.day} ${access_date.month} ${access_date.year}`;
     if (url) {
-      reference += ` ${url}.`;
+      reference += ` ${url},`;
     }
-    return reference;
+    return reference.endsWith(',') ? reference.slice(0, -1) + '.' : reference;
   };
 
   const generateJournalReference = (citation: IJournalCitation) => {
@@ -99,8 +99,8 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
       reference += ` ${publish_date?.day} ${publish_date?.month} ${publish_date?.year},`;
     if (page_info?.start && page_info?.end)
       reference += ` pp. ${page_info?.start}-${page_info?.end},`;
-    if (doi) reference += ` https://doi.org/${doi}`;
-    return reference;
+    if (doi) reference += ` https://doi.org/${doi}.`;
+    return reference.endsWith(',') ? reference.slice(0, -1) + '.' : reference;
   };
 
   const generateBookReference = (citation: IBookCitation) => {
@@ -144,7 +144,7 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
     if (publication_info?.publish_year) {
       reference += ` ${publication_info.publish_year},`;
     }
-    return reference;
+    return reference.endsWith(',') ? reference.slice(0, -1) + '.' : reference;
   };
 
   const generateChapterReference = (citation: IChapterCitation) => {
@@ -203,7 +203,7 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
     if (advanced_info?.series) {
       reference += ` ${advanced_info.series}.`;
     }
-    return reference;
+    return reference.endsWith(',') ? reference.slice(0, -1) + '.' : reference;
   };
 
   const generateIntroductionReference = (citation: IIntroductionCitation) => {
@@ -263,7 +263,7 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
     if (advanced_info?.series) {
       reference += ` ${advanced_info.series}.`;
     }
-    return reference;
+    return reference.endsWith(',') ? reference.slice(0, -1) + '.' : reference;
   };
 
   const generateMLAReference = () => {

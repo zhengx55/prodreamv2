@@ -1,5 +1,5 @@
 'use client';
-import React, { FC, Fragment, ReactNode } from 'react';
+import { FC, Fragment, ReactNode } from 'react';
 
 interface Sentence {
   sub_str: string;
@@ -26,36 +26,23 @@ const SentenceFragment: FC<SentenceProps> = ({
   let content: ReactNode | null = null;
 
   if (isNoChange) {
-    className = 'text-black-400 ';
-    content = <span className={className}>{sentence.sub_str}</span>;
+    className = 'text-black-400';
+    content = <span className={className}>{`${sentence.sub_str} `}</span>;
   } else if (isAdd) {
-    className = 'text-primary-200 ' + baseClassName;
-    content = (
-      <>
-        {''}
-        <span className={className}> {sentence.new_str} </span>
-        {sentence.sub_str && (
-          <span className='text-black-400'>{sentence.sub_str}</span>
-        )}{' '}
-      </>
-    );
+    className = 'text-doc-primary' + baseClassName;
+    content = <span className={className}>{` ${sentence.new_str} `}</span>;
   } else if (isDelete) {
     className = 'text-red-500 line-through ' + baseClassName;
-    content = (
-      <>
-        {' '}
-        <span className={className}>{sentence.sub_str}</span>{' '}
-      </>
-    );
+    content = <span className={className}>{` ${sentence.sub_str} `}</span>;
   } else if (isModify) {
     className = 'text-red-500 line-through ' + baseClassName;
     content = (
       <>
         {' '}
-        <span className={className}>{sentence.sub_str}</span>{' '}
-        <span className='font-semibold text-primary-200'>
-          {sentence.new_str}
-        </span>{' '}
+        <span className={className}>{`${sentence.sub_str}`}</span>{' '}
+        <span className='font-semibold text-doc-primary'>
+          {` ${sentence.new_str} `}
+        </span>
       </>
     );
   }
