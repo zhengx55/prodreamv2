@@ -24,7 +24,7 @@ const NavBar = () => {
             priority
           />
           <div className='flex'>
-            <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
+            {/* <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
               <Button
                 onClick={() => {
                   btnClick('About Us', userId);
@@ -34,7 +34,7 @@ const NavBar = () => {
               >
                 About Us
               </Button>
-            </Link>
+            </Link> */}
             <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
               <Button
                 onClick={() => {

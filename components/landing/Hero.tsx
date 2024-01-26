@@ -61,7 +61,7 @@ const Hero = () => {
               className='h-max w-2/3 rounded-[8px] text-[#8551F3] border border-[#8551F3] sm:w-max sm:px-8 sm:py-3.5'
               variant={'ghost'}
             >
-              Join Community
+              <Link href={'https://discord.com/invite/h37uz8HYSH'} passHref target='_blank'>Join Community</Link>
             </Button>
           </div>
         </section>
