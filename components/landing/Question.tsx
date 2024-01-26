@@ -7,11 +7,11 @@ import { useState } from 'react';
 const Question = () => {
   const [selected, setSelected] = useState(0);
   const datalist = [
-    {title: 'How is the free Personal Plan different from the Personal Pro and Team Plans?', desc: `Upgrade to the Personal Pro Plan for unlimited guests, or the Team Plan if you collaborate with the same group of people automatically. You can also review and remove inactive guests in Settings & Members.`},
-    {title: 'What happens when I go over the guest limit on my Personal Plan?', desc: `Upgrade to the Personal Pro Plan for unlimited guests, or the Team Plan if you collaborate with the same group of people automatically. You can also review and remove inactive guests in Settings & Members.`},
-    {title: 'How do I try out the Team Plan for free?', desc: `Upgrade to the Personal Pro Plan for unlimited guests, or the Team Plan if you collaborate with the same group of people automatically. You can also review and remove inactive guests in Settings & Members.`},
-    {title: 'Can I use Notion for free?', desc: `Upgrade to the Personal Pro Plan for unlimited guests, or the Team Plan if you collaborate with the same group of people automatically. You can also review and remove inactive guests in Settings & Members.`},
-    {title: 'Do you offer student discounts?', desc: `Upgrade to the Personal Pro Plan for unlimited guests, or the Team Plan if you collaborate with the same group of people automatically. You can also review and remove inactive guests in Settings & Members.`},
+    {title: 'How secure is my data with ProDream?', desc: `We prioritize your privacy, safeguarding your data with top-tier encryption and the robust security of Microsoft Azure.`},
+    {title: 'Will my ProDream edited document be flagged as plagiarized?', desc: `Typically, ProDream edited documents are unlikely to be flagged as plagiarized at the document level, especially if the original content isn't copied. The likelihood of ProDream-generated text triggering plagiarism checks at the sentence level is low because it adheres to standard academic sentence structures. However, it's important to acknowledge that tools like Turnitin might identify certain sentences as resembling published literature due to the nature of ProDream's suggestions.`},
+    {title: 'Will my ProDream edited document be flagged by AI detectors?', desc: `Being flagged by AI detectors isn't necessarily negative. Authors use AI tools like ProDream to enhance writing. These detectors ensure content reliability. Understand their scoring and refine text using ProDream's output in your style. However, AI detectors are evolving; one misattributed the US Constitution to AI. They're useful but not always accurate.`},
+    {title: 'How much does ProDream cost?', desc: `ProDream is currently offered at no cost during our BETA phase, and your participation now could reward you with exclusive discounts for future services.`},
+    {title: 'How can I report an issue with ProDream?', desc: `We greatly value your feedback and are here to help resolve any issues you encounter with ProDream. Please don't hesitate to reach out to us at support@prodream.ai or join our Discord server for direct support and assistance.`},
   ]
   return (
     <section className='relative flex w-full justify-center px-4 sm:py-20 pb-[80px] sm:px-0'>
@@ -27,7 +27,7 @@ const Question = () => {
           >
             <h1 className='font-baskerville text-[28px] font-[400] text-center leading-[32px] sm:leading-[58px] sm:text-[48px] sm:text-left'>Frequently Asked <br/> <span className="before:block before:absolute sm:before:top-[36px] before:top-[22px] before:-inset-1 before:-skew-y-0 before:h-[40%] before:bg-[#D2DFFF] relative inline-block before:z-[-1]">Question&apos;s</span></h1>
             <p className='small-regular sm:text-[18px] text-[#64626A] text-center sm:text-left sm:w-full'>
-            Have questions or support <span className='text-[#8551F3]'>help@prodream.edu</span>
+            Have questions or need support? Shoot us an email at <span className='text-[#8551F3]'>support@prodream.ai</span>
             </p>
           </m.div>
           <m.div

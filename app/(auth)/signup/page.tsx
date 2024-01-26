@@ -238,7 +238,7 @@ export default function Page() {
       </Panel>
       <div className='hidden w-1/2 bg-[#fff] sm:block'>
         <Image
-          src='/auth/login_icon.png'
+          src='/auth/sign_pic.svg'
           width={960}
           height={1129}
           alt='logo'
