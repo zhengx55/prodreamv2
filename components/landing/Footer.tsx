@@ -30,7 +30,7 @@ const Footer = () => {
   };
   return (
     <footer className='relative flex w-full justify-center bg-[#000] px-4 py-5 sm:px-0 sm:py-20'>
-      <div className='flex w-full max-w-[1450px] flex-col'>
+      <div className='flex w-full max-w-[1200px] flex-col'>
         <section className='flex flex-col gap-y-4 md:flex-row md:justify-between md:gap-y-0'>
           <div className='flex flex-col gap-y-5'>
             <Image
@@ -52,7 +52,7 @@ const Footer = () => {
               className='mt-3 flex items-center gap-x-4'
             >
               <input
-                className='w-full sm:rounded-[8px] rounded-[4px] border border-[#E5E5E5] bg-[#FAFAFA] px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-[#9C2CF3] md:w-[327px] sm:h-[46px]'
+                className='w-full sm:rounded-[8px] rounded-[4px] border border-[#E5E5E5] bg-[#FAFAFA] px-4 py-2 sm:py-3 outline-none focus-visible:ring-2 focus-visible:ring-[#9C2CF3] md:w-[327px] sm:h-[46px]'
                 type='email'
                 id='email'
                 value={email}
@@ -65,7 +65,7 @@ const Footer = () => {
           </div>
         </section>
         <section className='mt-4 flex flex-row items-center sm:rounded-[40px] sm:bg-[#3B3A40] md:mt-8 md:flex-row md:justify-between md:px-5 md:py-4'>
-          <p className='sm:base-regular text-[12px] sm:text-[#A3A3A3] text-[#fff]'>© 2023 Applify AI Inc.</p>
+          <p className='sm:base-regular text-[12px] sm:text-[#A3A3A3] text-[#fff]'>© 2024 Applify AI Inc.</p>
           <div className='sm:mt-4 flex items-center sm:gap-x-10 gap-x-2 ml-[10px] md:mt-0'>
             <Link
               href={

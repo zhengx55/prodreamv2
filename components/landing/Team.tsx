@@ -4,10 +4,10 @@ import Spacer from '../root/Spacer';
 
 const Team = () => {
   return (
-    <section className='relative flex w-full justify-center px-4 pt-20 sm:px-0 sm:py-[200px]'>
-      <div className='flex-center w-full flex-col sm:max-w-[1450px]'>
+    <section className='relative flex w-full justify-center px-4 pt-20 sm:px-0 sm:py-[170px]'>
+      <div className='flex-center w-full flex-col sm:max-w-[1200px]'>
         <div className='flex w-full flex-col items-center px-10 sm:flex-col sm:justify-between'>
-          <p className='text-center text-[14px] font-[400] text-[#3B3A40] sm:text-[28px]'>
+          <p className='text-center text-[14px] font-[400] text-[#3B3A40] sm:text-[18px]'>
             Trusted by academic writers from top universities around the world
           </p>
           <Spacer y='14' className='block sm:hidden' />
@@ -51,38 +51,38 @@ const Team = () => {
         </div>
         <Spacer y='40' />
         <div className='flex-center w-full flex-col rounded-xl px-6 py-10'>
-          <h1 className='w-full text-center font-baskerville text-[28px] font-[400] tracking-tighter sm:text-center sm:text-[72px]'>
-            <span className='relative inline-block before:absolute before:-inset-1 before:top-[22px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#F2C8FB] sm:before:top-[56px]'>
+          <h1 className='w-full text-center font-baskerville text-[28px] font-[400] tracking-tighter sm:text-center leading-[32px] sm:leading-[58px] sm:text-[48px]'>
+            <span className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#F2C8FB] sm:before:top-[36px]'>
               Seamless Excellence
             </span>{' '}
             in
             <br /> Every Word, Every Paper.
           </h1>
-          <Spacer y='20' />
-          <p className='small-regular text-center text-[#64626A] sm:text-center sm:text-[28px]'>
+          <Spacer y='28' />
+          <p className='small-regular text-center text-[#64626A] sm:text-center sm:text-[18px]'>
             ProDream&apos;s Ease-of-Use Features Assist You in
             <br className='hidden sm:block' /> Writing, Editing, and Citing.
           </p>
           <Spacer y='40' />
-          <div className='relative flex w-[320px] w-full flex-col overflow-hidden rounded-[8px] sm:w-[1200px] sm:rounded-[36px] sm:p-[67px]'>
+          <div className='relative flex w-[320px] w-full flex-col overflow-hidden rounded-[8px] sm:w-[1200px] sm:rounded-[36px] sm:p-[10px]'>
             <section className='relative flex h-[216px] w-full flex-col overflow-hidden rounded-[8px] bg-[#fff] sm:h-[740px] sm:w-full sm:rounded-[24px]'>
               <Image
                 draggable='false'
                 alt='gardient-bg'
                 priority
-                className='absolute w-auto w-full rounded-[8px] bg-[#F5F6F9] p-[4px] sm:top-10 sm:rounded-[36px] sm:p-[40px]'
-                width={1070}
+                className='absolute w-auto w-full rounded-[8px] bg-[#F5F6F9] sm:top-10 sm:rounded-[36px]'
+                width={1200}
                 height={720}
                 sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
-                src='/landing/heros/hero-1.gif'
+                src='/landing/team/Group0.svg'
               />
             </section>
             <Spacer y='40' />
-            <h4 className='text-left text-[16px] font-[600] tracking-tighter sm:text-left sm:text-[36px]'>
+            <h4 className='text-left text-[16px] font-[600] tracking-tighter sm:text-left sm:text-[20px]'>
               Never get stuck writing an essay again
             </h4>
             <Spacer y='20' />
-            <p className='small-regular text-left text-[#64626A] sm:text-[28px]'>
+            <p className='small-regular text-left text-[#64626A] sm:text-[18px]'>
               ProDream unblocks your writing by integrating insights from your
               style and topic. Simply write, and it continues the scholarly
               piece for you.
@@ -94,18 +94,18 @@ const Team = () => {
                   draggable='false'
                   alt='gardient-bg'
                   priority
-                  className='w-auto w-full rounded-[8px] bg-[#F5F6F9] p-[6px] sm:rounded-[36px] sm:p-[25px]'
-                  width={605}
-                  height={336}
+                  className='w-auto w-full rounded-[8px] bg-[#F5F6F9] sm:rounded-[36px]'
+                  width={580}
+                  height={420}
                   sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
-                  src='/landing/heros/herobg.png'
+                  src='/landing/team/Group1.svg'
                 />
                 <Spacer y='20' />
-                <h4 className='text-left text-[16px] font-[500] tracking-tighter sm:text-left sm:text-[30px]'>
+                <h4 className='text-left text-[16px] font-[500] tracking-tighter sm:text-left sm:text-[20px]'>
                   Get citation job done with just one click
                 </h4>
                 <Spacer y='20' />
-                <p className='small-regular text-left text-[#64626A] sm:text-left sm:text-[28px]'>
+                <p className='small-regular text-left text-[#64626A] sm:text-left sm:text-[18px]'>
                   ProDream streamlines your citations with the latest research
                   and your PDF uploads. Simply choose from MLA, IEEE, and APA
                   styles.
@@ -116,18 +116,18 @@ const Team = () => {
                   draggable='false'
                   alt='gardient-bg'
                   priority
-                  className='w-auto w-full rounded-[8px] bg-[#F5F6F9] p-[6px] sm:rounded-[36px] sm:p-[25px]'
-                  width={605}
-                  height={336}
+                  className='w-auto w-full rounded-[8px] bg-[#F5F6F9] sm:rounded-[36px]'
+                  width={580}
+                  height={420}
                   sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
-                  src='/landing/heros/herobg.png'
+                  src='/landing/team/Group2.svg'
                 />
                 <Spacer y='20' />
-                <h4 className='text-left text-[16px] font-[500] tracking-tighter sm:text-left sm:text-[30px]'>
+                <h4 className='text-left text-[16px] font-[500] tracking-tighter sm:text-left sm:text-[20px]'>
                   Real-time AI academic expert support
                 </h4>
                 <Spacer y='20' />
-                <p className='small-regular text-left text-[#64626A] sm:text-left sm:text-[28px]'>
+                <p className='small-regular text-left text-[#64626A] sm:text-left sm:text-[18px]'>
                   Our tool offers extensive English language recommendations,
                   accurate detection of complex grammar errors, and checks for
                   structural and technical inconsistencies all in real-time

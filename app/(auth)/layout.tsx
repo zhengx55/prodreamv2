@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <div className='scale-down 2xl:scale-initial relative flex w-full flex-col overflow-x-auto overflow-y-auto sm:h-full'>
       <div
-        className='absolute left-[40px] top-[40px] flex hidden h-[50px] w-[160px] cursor-pointer sm:block md:mb-0'
+        className='absolute z-100 left-[40px] top-[40px] flex hidden h-[50px] w-[160px] cursor-pointer sm:block md:mb-0'
         onClick={() => {
           router.push('/');
         }}
@@ -19,7 +19,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           width={150}
           height={50}
           alt='logo'
-          className='absolute z-10 h-auto w-40 sm:w-36'
+          className='absolute z-100 h-auto w-40 sm:w-36 cursor-pointer'
           priority
         />
       </div>

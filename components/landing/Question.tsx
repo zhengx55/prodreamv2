@@ -15,7 +15,7 @@ const Question = () => {
   ]
   return (
     <section className='relative flex w-full justify-center px-4 sm:py-20 pb-[80px] sm:px-0'>
-      <div className='flex-center w-full flex-col gap-y-10 sm:max-w-[1410px]'>
+      <div className='flex-center w-full flex-col gap-y-10 sm:max-w-[1200px]'>
         <m.div
           initial='hidden'
           whileInView='show'
@@ -25,19 +25,19 @@ const Question = () => {
           <m.div
             className='flex w-full flex-col gap-y-2 sm:w-1/3'
           >
-            <h1 className='font-baskerville text-[28px] font-[400] text-center sm:text-[50px] sm:text-left'>Frequently Asked <br/> <span className="before:block before:absolute sm:before:top-[36px] before:top-[22px] before:-inset-1 before:-skew-y-0 before:h-[40%] before:bg-[#D2DFFF] relative inline-block before:z-[-1]">Question&apos;s</span></h1>
-            <p className='small-regular sm:text-[20px] text-[#64626A] text-center sm:text-left sm:w-[90%]'>
-              Haven’t found what you’re looking for?<br/>Try the <span className='text-[#8551F3]'>centerhelp@prodream.edu</span>
+            <h1 className='font-baskerville text-[28px] font-[400] text-center leading-[32px] sm:leading-[58px] sm:text-[48px] sm:text-left'>Frequently Asked <br/> <span className="before:block before:absolute sm:before:top-[36px] before:top-[22px] before:-inset-1 before:-skew-y-0 before:h-[40%] before:bg-[#D2DFFF] relative inline-block before:z-[-1]">Question&apos;s</span></h1>
+            <p className='small-regular sm:text-[18px] text-[#64626A] text-center sm:text-left sm:w-full'>
+            Have questions or support <span className='text-[#8551F3]'>help@prodream.edu</span>
             </p>
           </m.div>
           <m.div
-            className='sm:w-2/3 p-[10px] sm:py-[29px] sm:px-[35px] sm:rounded-[36px] rounded-[8px] bg-[#F5F6F9]'
+            className='sm:w-2/3 p-[10px] sm:p-[15px] sm:rounded-[36px] rounded-[8px] bg-[#F5F6F9]'
           >
             {datalist.map((item,index)=>(
-              <div className='sm:mt-[20px] mt-[13px] bg-[#fff] sm:rounded-[24px] rounded-[8px] w-full px-[17px] py-[12px] sm:p-[36px]  cursor-pointer' key={index} onClick={()=>{setSelected(index)}}>
+              <div className='sm:mb-[20px] sm:mt-0 mt-[13px] bg-[#fff] sm:rounded-[24px] rounded-[8px] w-full px-[17px] py-[12px] sm:p-[36px]  cursor-pointer' key={index} onClick={()=>{setSelected(index)}}>
                 <div className='flex justify-between'>
                   <div>
-                    <p className={`${selected === index ? 'sm:text-[24px] font-[500] text-[14px] text-[#8551F3]' :'sm:text-[24px] font-[500] text-[14px] text-[#3B3A40]'}`}>{item.title}</p>
+                    <p className={`${selected === index ? 'sm:text-[20px] font-[500] text-[14px] text-[#8551F3]' :'sm:text-[20px] font-[500] text-[14px] text-[#3B3A40]'}`}>{item.title}</p>
                     
                   </div>
                   <div>
@@ -49,7 +49,7 @@ const Question = () => {
                     </svg>}
                   </div>
                 </div>
-                {selected === index ? <p className='sm:text-[20px] text-[14px] text-[#64626A] mt-[20px]'>{item.desc}</p> : ''}
+                {selected === index ? <p className='sm:text-[18px] text-[14px] text-[#64626A] mt-[20px]'>{item.desc}</p> : ''}
               </div>
               
             ))}
