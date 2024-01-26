@@ -1,4 +1,4 @@
-import { ICitationType, IUsage } from '@/types';
+import { ICitationType } from '@/types';
 import Cookies from 'js-cookie';
 import {
   ICitation,
@@ -16,14 +16,17 @@ import {
 // Info
 // ----------------------------------------------------------------
 
-export async function getUserInfo(email: string): Promise<IUsage> {
+export async function setLanguageInfo(params: { language_background: string }) {
   try {
     const token = Cookies.get('token');
+    const formdata = new FormData();
+    formdata.append('language_background', params.language_background);
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/info?email=${email}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/language_background`,
       {
         headers: { Authorization: `Bearer ${token}` },
-        method: 'GET',
+        method: 'PUT',
+        body: formdata,
       }
     );
     const data = await res.json();
@@ -36,29 +39,24 @@ export async function getUserInfo(email: string): Promise<IUsage> {
   }
 }
 
-export async function updateUserInfo(
-  email: string,
-  params: IUsage
-): Promise<void> {
+export async function setEduInfo(params: { educational_background: string }) {
   try {
     const token = Cookies.get('token');
+    const formdata = new FormData();
+    formdata.append('educational_background', params.educational_background);
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/info?email=${email}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/educational_background`,
       {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          ...params,
-        }),
-        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'PUT',
+        body: formdata,
       }
     );
     const data = await res.json();
     if (data.code !== 0) {
       throw data.msg;
     }
+    return data.data;
   } catch (error) {
     throw new Error(error as string);
   }

@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 const AnimatedLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -13,7 +13,7 @@ const AnimatedLayout = ({ children }: { children: ReactNode }) => {
         stiffness: 260,
         damping: 20,
       }}
-      className='flex-center flex flex-1 bg-[#F6F4FF] pt-[153px]'
+      className='flex-center flex flex-1'
     >
       {children}
     </motion.section>

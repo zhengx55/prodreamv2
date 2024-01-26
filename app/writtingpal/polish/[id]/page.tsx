@@ -1,4 +1,5 @@
 'use client';
+import OnBoard from '@/components/editor/modal/onBoard';
 import DocNavbar from '@/components/editor/navbar';
 import { useCitationInfo } from '@/components/editor/rightbar/citation/hooks/useCitationInfo';
 import EssayPanel from '@/components/polish/EssayPanel';
@@ -18,6 +19,7 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <main className='relative flex h-full w-full flex-col justify-center'>
       <DocNavbar title={document_content ? document_content.title : ''} />
+      <OnBoard />
       <EssayPanel
         isFetching={isFetching}
         isError={isError}
