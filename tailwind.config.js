@@ -31,6 +31,9 @@ module.exports = {
         border: {
           50: '#EAEAEA',
         },
+        auth: {
+          primary: '#8551F3',
+        },
         primary: {
           50: '#F6F0FF',
           200: '#9C2CF3',

@@ -13,7 +13,7 @@ const Options = ({ type }: { type?: 'onboard' }) => {
       <h1 className='text-center text-[48px] font-[600] text-[#17161B]'>
         Welcome to ProDream
       </h1>
-      <p className='text-center text-[24px] font-[400] text-[#525252]'>
+      <p className='h3-semibold text-center font-[400] text-[#525252]'>
         Personalize your writing experience. Write faster and better than ever.
       </p>
       <div className='mt-[98px] flex w-full gap-x-[40px]'>

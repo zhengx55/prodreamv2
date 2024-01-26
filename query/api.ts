@@ -132,7 +132,7 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
     );
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/user/register`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/register`,
       {
         method: 'POST',
         body: formdata,
@@ -608,10 +608,6 @@ export async function refreshUserSession(): Promise<LoginData> {
 // ----------------------------------------------------------------
 // Doc
 // ----------------------------------------------------------------
-export async function languageBg() {}
-
-export async function educationalBg() {}
-export async function useIntention() {}
 export async function createDoc(text?: string, file?: File) {
   const formData = new FormData();
   formData.append('text', text ?? ' ');

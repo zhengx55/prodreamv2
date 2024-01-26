@@ -1,6 +1,4 @@
 import Spacer from '@/components/root/Spacer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -37,7 +35,7 @@ export default async function Page() {
         <h1 className='text-center text-[48px] font-[600] text-[#17161B]'>
           Welcome to ProDream
         </h1>
-        <p className='text-center text-[24px] font-[400] text-[#525252]'>
+        <p className='h3-semibold text-center font-[400] text-[#525252]'>
           Personalize your writing experience. Write faster and better than
           ever.
         </p>
@@ -58,7 +56,7 @@ export default async function Page() {
                   priority
                 />
                 <Spacer y='37' />
-                <p className='w-full text-center text-[24px] font-[300] text-[#525252]'>
+                <p className='h3-semibold w-full text-center font-[300] text-[#525252]'>
                   {item.desc}
                 </p>
               </div>

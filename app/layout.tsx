@@ -1,11 +1,10 @@
+import CSPostHogProvider from '@/components/root/PostHogProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
-import GoogleAnalytics from '@/google/GoogleAnalytics';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
-import CSPostHogProvider from '@/components/root/PostHogProvider';
 import './globals.css';
 
 const poppins = Poppins({
@@ -66,9 +65,9 @@ export default function RootLayout({
               <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1440px]'>
                 {children}
                 <Toaster richColors visibleToasts={1} />
-                {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+                {/* {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
                   <GoogleAnalytics />
-                ) : null}
+                ) : null} */}
               </main>
             </TanstackProvider>
           </GoogleOAuthProvider>

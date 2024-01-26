@@ -7,7 +7,7 @@ import { memo } from 'react';
 import { useCookies } from 'react-cookie';
 import { toast } from 'sonner';
 
-const GoogleSignin = () => {
+const GoogleSignin = ({ label }: { label: string }) => {
   const [_cookies, setCookie] = useCookies(['token']);
   const router = useRouter();
   const googleAuth: () => void = useGoogleLogin({
@@ -28,7 +28,7 @@ const GoogleSignin = () => {
   return (
     <button
       onClick={googleAuth}
-      className='flex-center w-full cursor-pointer gap-x-2 self-center rounded-2xl border border-shadow-border py-2 transition-transform hover:-translate-y-1'
+      className='flex-center w-full cursor-pointer gap-x-2 self-center rounded border border-shadow-border py-2 transition-transform hover:-translate-y-1'
     >
       <Image
         src='/google.svg'
@@ -38,7 +38,7 @@ const GoogleSignin = () => {
         priority
         className='h-auto w-auto'
       />
-      <h1 className='small-semibold text-black-200'>Google</h1>
+      <h1 className='title-semibold text-black-200'>{label}</h1>
     </button>
   );
 };
