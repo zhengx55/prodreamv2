@@ -13,7 +13,7 @@ const AnimatedLayout = ({ children }: { children: ReactNode }) => {
         stiffness: 260,
         damping: 20,
       }}
-      className='flex-center flex flex-1 bg-[#F6F4FF] px-[76px] pb-[70px] pt-[153px]'
+      className='flex-center flex flex-1 bg-[#F6F4FF] pt-[153px]'
     >
       {children}
     </motion.section>
