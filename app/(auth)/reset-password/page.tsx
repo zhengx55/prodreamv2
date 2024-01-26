@@ -106,19 +106,11 @@ export default function Page() {
   }
 
   return (
-    <section className='overflow-hidden flex-center flex-1'>
-      <div className='hidden sm:block w-1/2 bg-[#fff]'>
-        <Image
-          src='/auth/reset_bg.png'
-          width={960}
-          height={1129}
-          alt='logo'
-          className='h-auto w-full'
-          priority
-        />
-      </div>
+    <section className='flex-center flex-1 overflow-hidden'>
       <Panel>
-        <h1 className='sm:text-[48px] text-[28px] font-[600] self-start'>Reset Password</h1>
+        <h1 className='self-start text-[28px] font-[600] sm:text-[42px]'>
+          Reset Password
+        </h1>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -129,7 +121,10 @@ export default function Page() {
               name='email'
               render={({ field }) => (
                 <FormItem className='mt-20'>
-                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='email'>
+                  <FormLabel
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[20px]'
+                    htmlFor='email'
+                  >
                     Enter the Email Linked to Your Account
                   </FormLabel>
                   <FormControl>
@@ -151,20 +146,23 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='password'>
+                  <FormLabel
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[20px]'
+                    htmlFor='password'
+                  >
                     Enter New Password
                   </FormLabel>
                   {!hidePassword ? (
                     <EyeOff
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-12 cursor-pointer'
+                      className='absolute right-2 top-10 cursor-pointer'
                     />
                   ) : (
                     <Eye
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-12 cursor-pointer'
+                      className='absolute right-2 top-10 cursor-pointer'
                     />
                   )}
 
@@ -188,20 +186,23 @@ export default function Page() {
               name='confirm'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel className='text-[#17161B] sm:text-[26px] text-[24px] font-500' htmlFor='confirm'>
+                  <FormLabel
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[20px]'
+                    htmlFor='confirm'
+                  >
                     Re-enter New Password
                   </FormLabel>
                   {!hideConfirm ? (
                     <EyeOff
                       onClick={() => setHideConfirm((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-12 cursor-pointer'
+                      className='absolute right-2 top-10 cursor-pointer'
                     />
                   ) : (
                     <Eye
                       onClick={() => setHideConfirm((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-12 cursor-pointer'
+                      className='absolute right-2 top-10 cursor-pointer'
                     />
                   )}
 
@@ -226,7 +227,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className='relative'>
                   <FormLabel
-                    className='text-[#17161B] sm:text-[26px] text-[24px] font-500'
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[20px]'
                     htmlFor='verification_code'
                   >
                     Verification
@@ -246,7 +247,7 @@ export default function Page() {
                       disabled={verifyWait}
                       onClick={handleSentVerificationEmail}
                       type='button'
-                      className='w-[150px] shrink-0 rounded-[8px] border-[#8551F3] border-[2px] bg-[#fff] text-[#8551F3] hover:bg-[#8551F3] hover:text-[#fff]'
+                      className='w-[150px] shrink-0 rounded-[8px] border-[2px] border-[#8551F3] bg-[#fff] text-[#8551F3] hover:bg-[#8551F3] hover:text-[#fff]'
                     >
                       {verifyWait ? (
                         <>
@@ -263,7 +264,10 @@ export default function Page() {
                 </FormItem>
               )}
             />
-            <Button className='w-full rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3]' type='submit'>
+            <Button
+              className='w-full rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3]'
+              type='submit'
+            >
               Confirm Reset
             </Button>
           </form>
@@ -279,6 +283,16 @@ export default function Page() {
           </Link>
         </p>
       </Panel>
+      <div className='hidden w-1/2 bg-[#fff] sm:block'>
+        <Image
+          src='/auth/reset_bg.png'
+          width={960}
+          height={1129}
+          alt='logo'
+          className='h-auto w-full'
+          priority
+        />
+      </div>
     </section>
   );
 }

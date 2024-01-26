@@ -60,21 +60,11 @@ export default function Page() {
 
   return (
     <section className='flex-center w-full flex-1 overflow-hidden'>
-      <div className='hidden w-1/2 bg-[#fff] sm:block'>
-        <Image
-          src='/auth/login_icon.png'
-          width={960}
-          height={1129}
-          alt='logo'
-          className='h-auto w-full'
-          priority
-        />
-      </div>
       <Panel>
-        <h1 className='self-start text-[28px] font-[600] sm:text-[48px]'>
+        <h1 className='self-start text-[28px] font-[600] sm:text-[42px]'>
           Welcome Back!
         </h1>
-        <p className='mb-[50px] self-start text-[20px] font-[400] text-shadow-100 sm:mb-[100px] sm:text-[24px]'>
+        <p className='mb-[50px] self-start text-[20px] font-[400] text-shadow-100 sm:mb-[100px] sm:text-[18px]'>
           Ready to continue crafting your unique story?
         </p>
         <GoogleSignin />
@@ -95,7 +85,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className='mt-0'>
                   <FormLabel
-                    className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[20px]'
                     htmlFor='username'
                   >
                     Email Address
@@ -119,7 +109,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className='relative'>
                   <FormLabel
-                    className='font-500 text-[24px] text-[#17161B] sm:text-[26px]'
+                    className='font-500 text-[24px] text-[#17161B] sm:text-[20px]'
                     htmlFor='password'
                   >
                     Password
@@ -128,13 +118,13 @@ export default function Page() {
                     <EyeOff
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-12 cursor-pointer'
+                      className='absolute right-2 top-10 cursor-pointer'
                     />
                   ) : (
                     <Eye
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={22}
-                      className='absolute right-2 top-12 cursor-pointer'
+                      className='absolute right-2 top-10 cursor-pointer'
                     />
                   )}
 
@@ -174,6 +164,16 @@ export default function Page() {
           </Link>
         </p>
       </Panel>
+      <div className='hidden w-1/2 bg-[#fff] sm:block'>
+        <Image
+          src='/auth/login_icon.png'
+          width={960}
+          height={1129}
+          alt='logo'
+          className='h-auto w-full'
+          priority
+        />
+      </div>
     </section>
   );
 }

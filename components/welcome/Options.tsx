@@ -7,16 +7,10 @@ import { ChevronLeft } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 
-const Options = ({
-  firstname,
-  type,
-}: {
-  firstname: string;
-  type?: 'onboard';
-}) => {
+const Options = ({ type }: { type?: 'onboard' }) => {
   const datalist = [
-    { name: 'English native speaker', src: '/welcome/wel4.png' },
-    { name: 'International Student', src: '/welcome/wel5.png' },
+    { name: 'English native speaker', src: '/welcome/wel4.svg' },
+    { name: 'International Student', src: '/welcome/wel5.svg' },
   ];
   return (
     <div className='h-max w-full'>
@@ -29,7 +23,7 @@ const Options = ({
       <div className='mt-[98px] flex w-full gap-x-[40px]'>
         {datalist.map((item, index) => (
           <Link href={'/writtingpal/polish'} className='w-full' key={item.name}>
-            <div className='h-[500px] w-[500px] cursor-pointer rounded-[22px] border-[2px] border-[#D4D3D8] px-[20px] py-[36px]'>
+            <div className='flex h-[500px] w-[500px] cursor-pointer flex-col items-center rounded-[22px] border-[2px] border-[#D4D3D8] px-[20px] py-[36px] hover:bg-[#F8F9FC]'>
               <h5 className='text-center text-[32px] font-[500] text-[#3B3A40]'>
                 {item.name}
               </h5>
@@ -37,9 +31,9 @@ const Options = ({
               <Image
                 src={item.src}
                 alt='welcome'
-                width={460}
-                height={320}
-                className='h-auto w-[460px]'
+                width={334}
+                height={334}
+                className='h-auto w-[334px]'
                 priority
               />
             </div>

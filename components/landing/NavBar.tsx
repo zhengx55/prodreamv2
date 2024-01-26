@@ -13,7 +13,7 @@ const NavBar = () => {
   const userId = useUserInfo((state) => state.user).user_id;
   return (
     <section className='z-50 flex h-16 w-full justify-center py-3'>
-      <nav className='flex-between w-full px-4 sm:max-w-[1450px] sm:px-0'>
+      <nav className='flex-between w-full px-4 sm:max-w-[1200px] sm:px-0'>
         <div className='flex items-center gap-x-10'>
           <Image
             src='/logo/Prodream.png'
@@ -24,7 +24,7 @@ const NavBar = () => {
             priority
           />
           <div className='flex'>
-            <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
+            {/* <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
               <Button
                 onClick={() => {
                   btnClick('About Us', userId);
@@ -34,7 +34,7 @@ const NavBar = () => {
               >
                 About Us
               </Button>
-            </Link>
+            </Link> */}
             <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
               <Button
                 onClick={() => {

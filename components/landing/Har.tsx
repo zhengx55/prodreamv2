@@ -4,10 +4,10 @@ import Spacer from '../root/Spacer';
 
 const Team = () => {
   return (
-    <section className='relative flex w-full justify-center sm:py-20 sm:px-0'>
-      <div className='flex-center w-full flex-col bg-[#CDCDFF]/20 sm:h-[218px] h-[174px]'>
-        <div className='flex w-full flex-col px-10 sm:flex-row sm:justify-between'>
-          <h1 className='text-[16px] font-[500] sm:h3-semibold text-center sm:text-left'>
+    <section className='relative flex w-full justify-center sm:px-0 sm:py-20'>
+      <div className='flex-center h-[174px] w-full flex-col bg-[#CDCDFF]/20 sm:h-[218px]'>
+        <div className='flex w-full flex-col sm:max-w-[1200px] sm:flex-row sm:justify-between'>
+          <h1 className='text-center text-[16px] font-[500] sm:text-left sm:text-[20px]'>
             Incubated by Harvard Innovation Lab and{' '}
             <br className='hidden sm:block' /> Microsoft Founders Hub
           </h1>

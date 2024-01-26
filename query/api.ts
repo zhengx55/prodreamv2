@@ -131,10 +131,13 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
       signUpParam.referral ? signUpParam.referral : ''
     );
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}register`, {
-      method: 'POST',
-      body: formdata,
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/user/register`,
+      {
+        method: 'POST',
+        body: formdata,
+      }
+    );
     const data = await res.json();
 
     if (data.code !== 0) {
