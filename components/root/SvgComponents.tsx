@@ -1038,9 +1038,9 @@ export const UploadGard = () => (
         y2='21.9912'
         gradientUnits='userSpaceOnUse'
       >
-        <stop stop-color='#DC3DC1' />
-        <stop offset='0.510417' stop-color='#9C2CF3' />
-        <stop offset='1' stop-color='#7A4EF6' />
+        <stop stopColor='#DC3DC1' />
+        <stop offset='0.510417' stopColor='#9C2CF3' />
+        <stop offset='1' stopColor='#7A4EF6' />
       </linearGradient>
     </defs>
   </svg>
