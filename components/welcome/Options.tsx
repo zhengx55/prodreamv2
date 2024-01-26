@@ -8,10 +8,8 @@ import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 
 const Options = ({
-  firstname,
   type,
 }: {
-  firstname: string;
   type?: 'onboard';
 }) => {
   const datalist = [
