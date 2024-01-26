@@ -1,4 +1,5 @@
 'use client';
+import { UploadGard } from '@/components/root/SvgComponents';
 import {
   Dialog,
   DialogClose,
@@ -10,7 +11,7 @@ import {
 import clearCachesByServerAction from '@/lib/revalidate';
 import { createDoc } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
-import { Loader2, Upload, X } from 'lucide-react';
+import { Loader2, X } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { memo, useCallback } from 'react';
@@ -58,15 +59,9 @@ const FileUploadModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <span
-          className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg hover:opacity-50'
-          style={{
-            background:
-              'linear-gradient(132deg, #DC3DC1 1.6%, #9C2CF3 49.22%, #7A4EF6 91.53%)',
-          }}
-        >
-          <Upload className='text-white' size={20} />
-          <p className='base-semibold text-white'>Upload Essay</p>
+        <span className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg border border-shadow-border hover:opacity-50'>
+          <UploadGard />
+          <p className='base-semibold '>Upload Essay</p>
         </span>
       </DialogTrigger>
       <DialogContent

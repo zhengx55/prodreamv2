@@ -43,16 +43,20 @@ const SearchBar = () => {
   return (
     <div className='flex-between w-[1100px]'>
       <div className='flex w-full gap-x-4'>
-        <FileUploadModal />
         <button
           onClick={async () =>
             await createNew({ text: undefined, file: undefined })
           }
-          className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg border border-shadow-border bg-transparent hover:opacity-50'
+          style={{
+            background:
+              'linear-gradient(132deg, #DC3DC1 1.6%, #9C2CF3 49.22%, #7A4EF6 91.53%)',
+          }}
+          className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg hover:opacity-50'
         >
-          <Plus className='text-primary-200' size={20} />
-          <p className='base-semibold'>New Essay</p>
+          <Plus className='text-white' size={20} />
+          <p className='base-semibold text-white'>New Essay</p>
         </button>
+        <FileUploadModal />
       </div>
       <div className='relative flex h-14 w-2/5 shrink-0 items-center rounded-lg border border-shadow-border'>
         <div
