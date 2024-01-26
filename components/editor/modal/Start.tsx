@@ -1,11 +1,36 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Toggle } from '@/components/ui/toggle';
+import { outline } from '@/query/api';
+import { useMutation } from '@tanstack/react-query';
 import { m } from 'framer-motion';
 import Image from 'next/image';
+import { useState } from 'react';
 
-type Props = {};
-const Start = (props: Props) => {
+type Props = { handleClose: () => Promise<void> };
+const Start = ({ handleClose }: Props) => {
+  const [selection, setSelection] = useState(false);
+  const [idea, setIdea] = useState('');
+  const {} = useMutation({
+    mutationFn: () => outline({ idea, area: '', essay_type: 'argumentative' }),
+    onSuccess: () => {},
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
+  });
+  const handleStartWritting = async () => {
+    if (!selection) {
+      handleClose();
+      return;
+    }
+    const toast = (await import('sonner')).toast;
+    if (!idea) {
+      toast.error('Please fill in the idea');
+      return;
+    }
+  };
   return (
     <m.div
       initial={{ opacity: 0 }}
@@ -25,6 +50,7 @@ const Start = (props: Props) => {
         <Button
           className='h-max w-max rounded border border-doc-primary px-10 py-1 text-doc-primary'
           variant={'ghost'}
+          onClick={handleClose}
         >
           Skip
         </Button>
@@ -50,6 +76,8 @@ const Start = (props: Props) => {
           <Spacer y='10' />
           <Textarea
             id='idea'
+            value={idea}
+            onChange={(e) => setIdea(e.target.value)}
             className='small-regular'
             placeholder='Describe your research topic or essay prompt. Adding more information can greatly increase the quality of our generations :)'
           />
@@ -58,13 +86,29 @@ const Start = (props: Props) => {
             <p className='title-medium'>Generate outline</p>
             <Spacer y='10' />
             <div className='flex gap-x-2'>
-              <span className='cursor-pointer rounded bg-[#F6F7FA] px-5 py-1'>
+              <Toggle
+                pressed={selection}
+                onPressedChange={(pressed) => {
+                  pressed ? setSelection(true) : setSelection(false);
+                }}
+              >
                 YES
-              </span>
-              <span className='rounded bg-[#F6F7FA] px-5 py-1'>NO</span>
+              </Toggle>
+              <Toggle
+                pressed={!selection}
+                onPressedChange={(pressed) => {
+                  pressed ? setSelection(false) : setSelection(true);
+                }}
+              >
+                NO
+              </Toggle>
             </div>
           </div>
-          <Button className='mt-auto w-max rounded-md bg-doc-primary px-20'>
+          <Button
+            role='button'
+            onClick={handleStartWritting}
+            className='mt-auto w-max rounded-md bg-doc-primary px-20'
+          >
             Start Writting
           </Button>
         </div>

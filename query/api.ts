@@ -62,6 +62,27 @@ export async function setEduInfo(params: { educational_background: string }) {
   }
 }
 
+export async function updateUserInfo(params: Record<string, boolean>) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/educational_background`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'PUT',
+        body: JSON.stringify(params),
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 // ----------------------------------------------------------------
 // Authentication
 // ----------------------------------------------------------------

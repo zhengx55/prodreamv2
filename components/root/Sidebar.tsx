@@ -13,7 +13,7 @@ import {
   DropdownMenuItem,
 } from '../ui/dropdown-menu';
 import Spacer from './Spacer';
-import { AnimatedLogo, GiftIcon, HelpIcon } from './SvgComponents';
+import { AnimatedLogo } from './SvgComponents';
 import User from './User';
 
 const Sidebar = () => {
@@ -118,7 +118,7 @@ const Sidebar = () => {
           );
         })}
       </ul>
-      <div className='mt-auto flex flex-col gap-y-6'>
+      {/* <div className='mt-auto flex flex-col gap-y-6'>
         <div className='flex gap-x-2'>
           <GiftIcon />
           <p className='text-md font-[500] text-doc-shadow'>Refer And Earn</p>
@@ -127,7 +127,7 @@ const Sidebar = () => {
           <HelpIcon />
           <p className='text-md font-[500] text-doc-shadow'>Help</p>
         </div>
-      </div>
+      </div> */}
       <Spacer y='20' />
     </aside>
   );

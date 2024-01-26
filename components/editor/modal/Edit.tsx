@@ -4,8 +4,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { m } from 'framer-motion';
 import Image from 'next/image';
 
-type Props = {};
-const Edit = (props: Props) => {
+type Props = { handleClose: () => Promise<void> };
+const Edit = ({ handleClose }: Props) => {
   return (
     <m.div
       initial={{ opacity: 0 }}
@@ -25,6 +25,8 @@ const Edit = (props: Props) => {
         <Button
           className='h-max w-max rounded border border-doc-primary px-10 py-1 text-doc-primary'
           variant={'ghost'}
+          role='button'
+          onClick={handleClose}
         >
           Skip
         </Button>

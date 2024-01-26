@@ -20,8 +20,8 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
   const form = useForm<z.infer<typeof generateOutlineSchema>>({
     resolver: zodResolver(generateOutlineSchema),
     defaultValues: {
-      idea: 'computer',
-      area: 'history of computer',
+      idea: '',
+      area: '',
     },
   });
 
@@ -75,7 +75,7 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
                   <Textarea
                     id='idea'
                     placeholder='Describe your research briefly'
-                    className='rounded small-regular focus-visible:ring-0'
+                    className='small-regular rounded focus-visible:ring-0'
                     {...field}
                   />
                 </FormControl>

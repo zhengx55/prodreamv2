@@ -26,7 +26,9 @@ const DocNavbar = ({ title }: Props) => {
             <ChevronLeft />
           </span>
         </Link>
-        <h1 className='h3-bold'>{title}</h1>
+        <h1 className='h3-bold'>
+          {title === 'Untitled' ? 'My College Application' : title}
+        </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
       </div>
       <div className='flex items-center gap-x-4'>

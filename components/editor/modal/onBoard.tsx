@@ -1,6 +1,8 @@
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { updateUserInfo } from '@/query/api';
+import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -10,9 +12,26 @@ import Start from './Start';
 type Props = { open: boolean; toogleOpen: (value: boolean) => void };
 const OnBoard = ({ open, toogleOpen }: Props) => {
   const [board, setBoard] = useState(0);
+  const { mutateAsync: handleClose } = useMutation({
+    mutationFn: () =>
+      updateUserInfo({
+        document_dialog: true,
+      }),
+    onSuccess: () => {
+      toogleOpen(false);
+    },
+  });
+
+  const handleUpdateInfoAndClose = async () => {
+    toogleOpen(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={toogleOpen}>
-      <DialogContent className='bg-white px-16 py-8 md:w-[1100px] md:rounded'>
+      <DialogContent
+        onPointerDownOutside={(e) => e.preventDefault()}
+        className='bg-white px-16 py-8 md:w-[1100px] md:rounded'
+      >
         <LazyMotionProvider>
           <AnimatePresence mode='wait'>
             {board === 0 ? (
@@ -34,6 +53,7 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
                   <Button
                     className='h-max w-max rounded border border-doc-primary px-10 py-1 text-doc-primary'
                     variant={'ghost'}
+                    onClick={handleUpdateInfoAndClose}
                   >
                     Skip
                   </Button>
@@ -94,9 +114,9 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
                 </div>
               </m.div>
             ) : board === 1 ? (
-              <Start />
+              <Start handleClose={handleUpdateInfoAndClose} />
             ) : (
-              <Edit />
+              <Edit handleClose={handleUpdateInfoAndClose} />
             )}
           </AnimatePresence>
         </LazyMotionProvider>
