@@ -33,6 +33,8 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
   useCitationInfo(document_content);
   const [showOnboard, setShowOnboard] = useState(false);
   useMount(() => {
+    setShowOnboard(true);
+
     if (!user_info || !user_info.document_dialog) {
       setShowOnboard(true);
     }
@@ -45,7 +47,7 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
 
   return (
     <main className='relative flex h-full w-full flex-col justify-center'>
-      <DocNavbar title={document_content ? document_content.title : ''} />
+      <DocNavbar />
       <OnBoard open={showOnboard} toogleOpen={memoToggleOnBoard} />
       <div className='relative flex h-full w-full justify-center overflow-hidden'>
         {isFetching ? (
@@ -55,7 +57,6 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
           </div>
         ) : (
           <Tiptap
-            essay_title={document_content ? document_content.title : ''}
             essay_content={document_content ? document_content.content : ''}
           />
         )}

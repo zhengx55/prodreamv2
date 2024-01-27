@@ -6,6 +6,7 @@ import { StateCreator } from 'zustand';
 export type AIEditiorStore = AIEditorState & AIEditorAction;
 
 const initialState: AIEditorState = {
+  doc_title: '',
   rightbarOpen: false,
   righbarTab: 0,
   editor_instance: null,
@@ -28,6 +29,7 @@ const initialState: AIEditorState = {
 };
 
 type AIEditorState = {
+  doc_title: string;
   rightbarOpen: boolean;
   righbarTab: number;
   isSaving: boolean;
@@ -50,6 +52,7 @@ type AIEditorState = {
 };
 
 type AIEditorAction = {
+  updateTitle: (result: AIEditorState['doc_title']) => void;
   toggleRightbar: () => void;
   updateRightbarTab: (result: AIEditorState['righbarTab']) => void;
   updateIsPlagiarismOpen: (result: AIEditorState['isPlagiarismOpen']) => void;
@@ -103,6 +106,7 @@ type AIEditorAction = {
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   ...initialState,
+  updateTitle: (result) => set(() => ({ doc_title: result })),
   updateRightbarTab: (result) =>
     set((state) => {
       if (!state.rightbarOpen)

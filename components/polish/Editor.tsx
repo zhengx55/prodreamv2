@@ -2,7 +2,6 @@
 import BottomBar from '@/components/editor/bottombar';
 import { TableOfContent } from '@/components/editor/table-of-contents';
 import Spacer from '@/components/root/Spacer';
-import { Input } from '@/components/ui/input';
 import { useDebouncedState } from '@/hooks/useDebounceState';
 import useMount from '@/hooks/useMount';
 import ExtensionKit from '@/lib/tiptap/extensions';
@@ -14,39 +13,37 @@ import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo } from 'react';
+import { useDebounce } from 'use-debounce';
 import { AiMenu } from '../editor/ai-menu';
 import { BlockMenu } from '../editor/blockmenu';
 import { BubbleMenu } from '../editor/bubble-menu';
 import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
+import { Textarea } from '../ui/textarea';
 import Reference from './Reference';
 
-const Tiptap = ({
-  essay_content,
-  essay_title,
-}: {
-  essay_content: string;
-  essay_title: string;
-}) => {
+const Tiptap = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
   const reset = useAiEditor((state) => state.reset);
+  const doc_title = useAiEditor((state) => state.doc_title);
+  const updateTitle = useAiEditor((state) => state.updateTitle);
   const showCopilotMenu = useAiEditor((state) => state.showCopilotMenu);
   const showCitiationMenu = useAiEditor((state) => state.showCitiationMenu);
   const showSynonymMenu = useAiEditor((state) => state.showSynonymMenu);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
-  const [title, setTitle] = useDebouncedState(essay_title, 1500);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
   const savingMode = useAiEditor((state) => state.savingMode);
+  const [debounceTitle] = useDebounce(doc_title, 1500);
 
   useMount(() => {
     updateRightbarTab(0);
   });
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     toogleIsSaving(true);
-    setTitle(e.currentTarget.value);
+    updateTitle(e.currentTarget.value);
   };
   const { mutateAsync: saveDocument } = useMutation({
     mutationFn: (params: { id: string; content?: string; title?: string }) =>
@@ -60,8 +57,8 @@ const Tiptap = ({
   });
 
   useUpdateEffect(() => {
-    saveDocument({ id, title });
-  }, [title]);
+    saveDocument({ id, title: debounceTitle });
+  }, [debounceTitle]);
 
   useUpdateEffect(() => {
     if (savingMode) {
@@ -103,20 +100,20 @@ const Tiptap = ({
           id='editor-parent'
           className='relative flex w-full flex-col overflow-y-auto rounded-lg pb-[30vh]'
         >
-          <Spacer y='30' />
-          <div className='flex h-12 w-full justify-center'>
-            <Input
+          <Spacer y='20' />
+          <div className='flex w-full shrink-0 justify-center'>
+            <Textarea
               placeholder={'Untitled Document'}
-              defaultValue={
-                title === 'Untitled' ? 'My College Application' : title
+              value={
+                doc_title === 'Untitled' ? 'My College Application' : doc_title
               }
+              rows={2}
               onChange={handleTitleChange}
-              type='text'
               id='title'
-              className='h1-bold h-full w-[750px] border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
+              className='h-full w-[750px] overflow-hidden border-none p-0 font-inter text-3xl font-[700] capitalize shadow-none selection:bg-[#D4D7FF] focus-visible:ring-0'
             />
           </div>
-          <Spacer y='20' />
+          <Spacer y='30' />
           {showSynonymMenu && <SynonymMenu editor={editor} />}
           {showCopilotMenu && <AiMenu editor={editor} />}
           {showCitiationMenu && <CitationMenu editor={editor} />}

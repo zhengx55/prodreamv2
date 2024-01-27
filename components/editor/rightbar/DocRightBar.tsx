@@ -46,7 +46,7 @@ const DocRightBar = memo(() => {
             key={'doc-right-bar'}
             initial={{ width: 0 }}
             animate={{
-              width: 500,
+              width: 450,
             }}
             exit={{
               width: 0,

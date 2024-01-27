@@ -1,7 +1,9 @@
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { CiationDemoDoc } from '@/constant';
 import { updateUserInfo } from '@/query/api';
+import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
 import Image from 'next/image';
@@ -11,6 +13,8 @@ import Start from './Start';
 
 type Props = { open: boolean; toogleOpen: (value: boolean) => void };
 const OnBoard = ({ open, toogleOpen }: Props) => {
+  const editor = useAiEditor((state) => state.editor_instance);
+  const updateTitle = useAiEditor((state) => state.updateTitle);
   const [board, setBoard] = useState(0);
   const { mutateAsync: handleClose } = useMutation({
     mutationFn: () =>
@@ -23,6 +27,12 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
   });
 
   const handleUpdateInfoAndClose = async () => {
+    await handleClose();
+  };
+
+  const handleCreateCitation = async () => {
+    editor?.commands.insertContent(CiationDemoDoc);
+    updateTitle('Your First Essay | ProDream Tutorial');
     await handleClose();
   };
 
@@ -97,7 +107,10 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
                       />
                     </div>
                   </div>
-                  <div className='flex h-[380px] w-1/3 cursor-pointer flex-col items-center justify-evenly rounded-2xl border border-shadow-border py-4 hover:bg-[#F8F9FC]'>
+                  <div
+                    onClick={handleCreateCitation}
+                    className='flex h-[380px] w-1/3 cursor-pointer flex-col items-center justify-evenly rounded-2xl border border-shadow-border py-4 hover:bg-[#F8F9FC]'
+                  >
                     <p className='title-semibold text-doc-shadow'>
                       Create citation
                     </p>

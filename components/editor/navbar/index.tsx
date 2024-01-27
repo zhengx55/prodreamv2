@@ -14,14 +14,14 @@ import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { memo, useRef, useState } from 'react';
-type Props = { title: string };
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
 const CitationDropdown = dynamic(() => import('./CitationDropdown'));
 
-const DocNavbar = ({ title }: Props) => {
+const DocNavbar = () => {
   const citationStyle = useAIEditor((state) => state.citationStyle);
   const isSaving = useAIEditor((state) => state.isSaving);
+  const docTtile = useAIEditor((state) => state.doc_title);
   const [isGenerating, setIsGenerating] = useState(false);
   const editor = useAiEditor((state) => state.editor_instance);
   const timer = useRef<NodeJS.Timeout | null>(null);
@@ -68,8 +68,8 @@ const DocNavbar = ({ title }: Props) => {
             <ChevronLeft />
           </span>
         </Link>
-        <h1 className='h3-bold'>
-          {title === 'Untitled' ? 'My College Application' : title}
+        <h1 className='h3-bold capitalize'>
+          {docTtile === 'Untitled' ? 'My College Application' : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
       </div>
