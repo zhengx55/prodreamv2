@@ -1,18 +1,20 @@
 'use client';
+import { cn } from '@/lib/utils';
 import { ReactNode, memo } from 'react';
 import {
   TooltipContent,
-  Tooltip as UITooltip,
   TooltipProvider,
   TooltipTrigger,
+  Tooltip as UITooltip,
 } from '../ui/tooltip';
-import { cn } from '@/lib/utils';
 
 const Tooltip = ({
   children,
   tooltipContent,
   contentClassname,
+  side = 'bottom',
 }: {
+  side?: 'bottom' | 'top' | 'right' | 'left' | undefined;
   children: ReactNode;
   tooltipContent: string;
   contentClassname?: string;
@@ -21,7 +23,7 @@ const Tooltip = ({
     <TooltipProvider delayDuration={100}>
       <UITooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent side={side}>
           <p className={cn(contentClassname, 'text-regular text-white')}>
             {tooltipContent}
           </p>
