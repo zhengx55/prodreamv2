@@ -36,7 +36,6 @@ export const AutoCompleteMenuList = React.forwardRef(
       const dataLines = lines.filter(
         (line, index) =>
           line.startsWith('data:') &&
-          index > 1 &&
           lines.at(index - 1)?.startsWith('event: data')
       );
       const eventData = dataLines.map((line) =>
