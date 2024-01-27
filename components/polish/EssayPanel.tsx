@@ -15,7 +15,6 @@ import { Skeleton } from '../ui/skeleton';
 
 const OnBoard = dynamic(() => import('../editor/modal/onBoard'));
 const Tiptap = dynamic(() => import('./Editor'), {
-  ssr: false,
   loading: () => (
     <div className='flex flex-1 flex-col items-center'>
       <Spacer y='30' />

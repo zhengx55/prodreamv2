@@ -75,7 +75,7 @@ const SearchBar = () => {
           className='h-full w-full border-none pr-14 focus-visible:ring-0'
           name='search-essay'
           aria-label='Search'
-          placeholder='Search essay history ...'
+          placeholder='Search citation database'
         />
       </div>
     </div>

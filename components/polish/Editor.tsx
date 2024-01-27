@@ -4,6 +4,7 @@ import { TableOfContent } from '@/components/editor/table-of-contents';
 import Spacer from '@/components/root/Spacer';
 import { Input } from '@/components/ui/input';
 import { useDebouncedState } from '@/hooks/useDebounceState';
+import useMount from '@/hooks/useMount';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
@@ -33,11 +34,16 @@ const Tiptap = ({
   const showCitiationMenu = useAiEditor((state) => state.showCitiationMenu);
   const showSynonymMenu = useAiEditor((state) => state.showSynonymMenu);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
-
+  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const [title, setTitle] = useDebouncedState(essay_title, 1500);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
   const savingMode = useAiEditor((state) => state.savingMode);
+
+  useMount(() => {
+    updateRightbarTab(0);
+  });
+
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     toogleIsSaving(true);
     setTitle(e.currentTarget.value);

@@ -89,6 +89,7 @@ export const GrammarCheck = memo(() => {
               width={450}
               height={270}
               className='h-auto w-auto'
+              priority
             />
             <Button
               className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'

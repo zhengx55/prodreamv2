@@ -103,7 +103,12 @@ type AIEditorAction = {
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   ...initialState,
-  updateRightbarTab: (result) => set(() => ({ righbarTab: result })),
+  updateRightbarTab: (result) =>
+    set((state) => {
+      if (!state.rightbarOpen)
+        return { rightbarOpen: true, righbarTab: result };
+      return { righbarTab: result };
+    }),
   toggleRightbar: () => set((state) => ({ rightbarOpen: !state.rightbarOpen })),
   updateIsPlagiarismOpen: (result) => set(() => ({ isPlagiarismOpen: result })),
   toogleIsSaving: (result) => set(() => ({ isSaving: result })),
