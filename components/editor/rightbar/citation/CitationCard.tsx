@@ -40,9 +40,9 @@ export const SearchCitationCard = memo(
         publish_date,
       } = item;
       converted_data.publish_date = {
-        day: publish_date.day ?? null,
-        month: publish_date.month ? numberToMonth(publish_date.month) : null,
-        year: publish_date.year ?? null,
+        day: publish_date.day ?? '',
+        month: publish_date.month ? numberToMonth(publish_date.month) : '',
+        year: publish_date.year ?? '',
       };
       converted_data.contributors = authors;
       converted_data.page_info = page_info;
@@ -50,9 +50,9 @@ export const SearchCitationCard = memo(
       converted_data.article_title = article_title;
       converted_data.doi = doi;
       converted_data.advanced_info = {
-        issue: null,
-        volume: advanced_info.volume ?? null,
-        series: advanced_info.series.start ?? null,
+        issue: '',
+        volume: advanced_info.volume ?? '',
+        series: advanced_info.series ?? '',
       };
       if (action === 'collect') {
         await handleCollectCitation({
@@ -67,6 +67,7 @@ export const SearchCitationCard = memo(
           document_id: id as string,
         });
       }
+      remove(index);
     };
     return (
       <div

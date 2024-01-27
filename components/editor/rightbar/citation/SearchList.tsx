@@ -14,7 +14,7 @@ import SearchBar from './SearchBar';
 const Mine = dynamic(() => import('./Mine'));
 const SearchList = () => {
   const container = useStatefulRef(null);
-  const [keyword, setKeyword] = useDebouncedState('', 500);
+  const [keyword, setKeyword] = useDebouncedState('', 1500);
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
 
   const removeFromResultList = useCallback((index: number) => {

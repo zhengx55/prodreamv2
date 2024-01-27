@@ -144,7 +144,7 @@ export interface ICitation {
 
 interface AdvancedInfo {
   issue: null;
-  series: Series;
+  series: string | null;
   volume: null | string;
 }
 
