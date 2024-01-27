@@ -80,10 +80,12 @@ export const SearchCitationCard = memo(
           }}
           className='base-semibold cursor-pointer hover:text-doc-primary'
         >
-          {item.article_title}
+          {item.article_title}&nbsp;{`(${item.publish_date.year})`}
         </h1>
         <p className='small-regular line-clamp-3'>
-          {item.abstract ?? 'No content available'}
+          {item.authors && item.authors.length > 0
+            ? `${item.authors[0].last_name ?? ''} ${item.authors[0].middle_name ?? ''} ${item.authors[0].first_name ?? ''}`
+            : 'Missing authors'}
         </p>
         <div className='flex-between'>
           <Button
