@@ -1,11 +1,35 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { saveDoc } from '@/query/api';
+import { useMutation } from '@tanstack/react-query';
 import { m } from 'framer-motion';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { useRef } from 'react';
 
 type Props = { handleClose: () => Promise<void> };
 const Edit = ({ handleClose }: Props) => {
+  const { id } = useParams();
+  const introduction = useRef<HTMLTextAreaElement>(null);
+  const { mutateAsync: start } = useMutation({
+    mutationFn: (params: {
+      id: string;
+      use_intention: string;
+      brief_description: string;
+    }) => saveDoc(params),
+    onSuccess: async () => {
+      await handleClose();
+    },
+  });
+
+  const handleStart = async () => {
+    await start({
+      id: id as string,
+      use_intention: 'editing',
+      brief_description: introduction.current?.value ?? '',
+    });
+  };
   return (
     <m.div
       initial={{ opacity: 0 }}
@@ -49,11 +73,16 @@ const Edit = ({ handleClose }: Props) => {
           <Spacer y='10' />
           <Textarea
             id='idea'
+            ref={introduction}
             className='small-regular'
             placeholder='Describe your research briefly'
           />
 
-          <Button className='mt-auto w-max rounded-md bg-doc-primary px-20'>
+          <Button
+            role='button'
+            onClick={handleStart}
+            className='mt-auto w-max rounded-md bg-doc-primary px-20'
+          >
             Start Writting
           </Button>
         </div>

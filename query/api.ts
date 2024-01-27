@@ -66,9 +66,12 @@ export async function updateUserInfo(params: Record<string, boolean>) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/educational_background`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/auxiliary_info`,
       {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
         method: 'PUT',
         body: JSON.stringify(params),
       }
@@ -690,6 +693,8 @@ export async function saveDoc(params: {
   content?: string;
   citation_candidate_ids?: string[];
   citation_ids?: string[];
+  use_intention?: string;
+  brief_description?: string;
 }) {
   try {
     let body: {
@@ -697,6 +702,8 @@ export async function saveDoc(params: {
       content?: string;
       citation_candidate_ids?: string[];
       citation_ids?: string[];
+      use_intention?: string;
+      brief_description?: string;
     } = {};
     if (params.content !== undefined) body.content = params.content;
     if (params.title !== undefined) body.title = params.title;
@@ -704,6 +711,10 @@ export async function saveDoc(params: {
       body.citation_ids = params.citation_ids;
     if (params.citation_candidate_ids !== undefined)
       body.citation_candidate_ids = params.citation_candidate_ids;
+    if (params.use_intention !== undefined)
+      body.use_intention = params.use_intention;
+    if (params.brief_description !== undefined)
+      body.brief_description = params.brief_description;
 
     const token = Cookies.get('token');
     const res = await fetch(

@@ -1,44 +1,111 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Toggle } from '@/components/ui/toggle';
-import { outline } from '@/query/api';
+import { outline, saveDoc } from '@/query/api';
+import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
-import { m } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useRef, useState } from 'react';
 
 type Props = { handleClose: () => Promise<void> };
 const Start = ({ handleClose }: Props) => {
+  const editor = useAIEditor((state) => state.editor_instance);
+  const { id } = useParams();
   const [selection, setSelection] = useState(false);
-  const [idea, setIdea] = useState('');
-  const {} = useMutation({
-    mutationFn: () => outline({ idea, area: '', essay_type: 'argumentative' }),
-    onSuccess: () => {},
+  const [essayType, setEssayType] = useState(0);
+  const [isGenrating, setIsGenerating] = useState(false);
+  const ideaRef = useRef<HTMLTextAreaElement>(null);
+  const areaRef = useRef<HTMLInputElement>(null);
+  const { mutateAsync: handleStart } = useMutation({
+    mutationFn: (params: { idea: string; area: string; essay_type: string }) =>
+      outline(params),
+    onMutate: () => {
+      setIsGenerating(true);
+    },
+    onSuccess: async (data: ReadableStream) => {
+      await saveDoc({
+        id: id as string,
+        brief_description: ideaRef.current?.value,
+        use_intention: 'start_editing',
+      });
+      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      let result = '';
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        result += handleStreamData(value);
+      }
+      setIsGenerating(false);
+      await handleClose();
+      const parse = (await import('marked')).parse;
+      result = await parse(result);
+      editor?.chain().insertContent(result).run();
+    },
     onError: async (error) => {
+      setIsGenerating(false);
       const toast = (await import('sonner')).toast;
       toast.error(error.message);
     },
   });
+
+  const handleStreamData = (value: string | undefined) => {
+    let result = '';
+    if (!value) return;
+    const lines = value.split('\n');
+    const dataLines = lines.filter(
+      (line, index) =>
+        line.startsWith('data:') &&
+        lines.at(index - 1)?.startsWith('event: data')
+    );
+    const eventData = dataLines.map((line) =>
+      JSON.parse(line.slice('data:'.length))
+    );
+    eventData.forEach((word) => {
+      result += word;
+    });
+    return result;
+  };
+
   const handleStartWritting = async () => {
     if (!selection) {
-      handleClose();
+      await saveDoc({ id: id as string, use_intention: 'start_editing' });
+      await handleClose();
       return;
     }
-    const toast = (await import('sonner')).toast;
-    if (!idea) {
+    if (!ideaRef.current?.value) {
+      const toast = (await import('sonner')).toast;
       toast.error('Please fill in the idea');
       return;
     }
+    await handleStart({
+      idea: ideaRef.current?.value,
+      area: areaRef.current?.value as string,
+      essay_type:
+        essayType === 0
+          ? 'argumentative'
+          : essayType === 1
+            ? 'analytical'
+            : 'scientific',
+    });
   };
   return (
     <m.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className='flex flex-1 flex-col gap-y-16'
+      className='relative flex flex-1 flex-col gap-y-16'
       key={'board-writing'}
     >
+      {isGenrating && (
+        <div className='flex-center absolute inset-0 z-50 flex-1 bg-white/80 backdrop-blur-sm'>
+          <Loader2 className='animate-spin text-doc-primary' />
+        </div>
+      )}
       <div className='flex-between'>
         <h1 className='h2-semibold'>
           And one more thing...
@@ -76,8 +143,7 @@ const Start = ({ handleClose }: Props) => {
           <Spacer y='10' />
           <Textarea
             id='idea'
-            value={idea}
-            onChange={(e) => setIdea(e.target.value)}
+            ref={ideaRef}
             className='small-regular'
             placeholder='Describe your research topic or essay prompt. Adding more information can greatly increase the quality of our generations :)'
           />
@@ -104,6 +170,69 @@ const Start = ({ handleClose }: Props) => {
               </Toggle>
             </div>
           </div>
+          <AnimatePresence>
+            {selection && (
+              <m.div
+                initial={{
+                  y: -10,
+                  opacity: 0,
+                }}
+                animate={{
+                  y: 0,
+                  opacity: 1,
+                }}
+                exit={{
+                  y: -10,
+                  opacity: 0,
+                }}
+                className='flex flex-col'
+              >
+                <Spacer y='10' />
+                <h2 className='title-medium'>Field of study</h2>
+                <Spacer y='5' />
+                <Input
+                  type='text'
+                  id='area'
+                  placeholder='e.g. Natural History'
+                  className='small-regular'
+                  ref={areaRef}
+                />
+                <Spacer y='20' />
+
+                <div className='flex items-center gap-x-2'>
+                  <h2 className='title-medium'>Essay Type</h2>
+                  <Spacer y='10' />
+                  <div className='flex gap-x-2'>
+                    <Toggle
+                      pressed={essayType === 0}
+                      onPressedChange={(pressed) => {
+                        pressed && setEssayType(0);
+                      }}
+                    >
+                      Argumentative
+                    </Toggle>
+                    <Toggle
+                      pressed={essayType === 1}
+                      onPressedChange={(pressed) => {
+                        pressed && setEssayType(1);
+                      }}
+                    >
+                      Analytical
+                    </Toggle>
+                    <Toggle
+                      pressed={essayType === 2}
+                      onPressedChange={(pressed) => {
+                        pressed && setEssayType(2);
+                      }}
+                    >
+                      Scientific
+                    </Toggle>
+                  </div>
+                </div>
+              </m.div>
+            )}
+          </AnimatePresence>
+
           <Button
             role='button'
             onClick={handleStartWritting}

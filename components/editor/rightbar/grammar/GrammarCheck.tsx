@@ -50,7 +50,7 @@ export const GrammarCheck = memo(() => {
       toast.error('No text found!');
       return;
     }
-
+    editor?.chain().selectAll().unsetAllMarks().setTextSelection(0).run();
     await handleGrammarCheck({
       text: editor?.getText({
         blockSeparator: '\n\n',

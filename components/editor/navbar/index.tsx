@@ -1,5 +1,4 @@
 import { Cloud } from '@/components/root/SvgComponents';
-import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -81,21 +80,19 @@ const DocNavbar = ({ title }: Props) => {
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
       </div>
       <div className='flex items-center gap-x-4'>
-        <Tooltip tooltipContent='Plagiarism Check'>
-          <Button
-            role='button'
-            disabled={isGenerating}
-            onClick={handlePlagiarismCheck}
-            className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
-          >
-            {isGenerating ? (
-              <Loader2 className='animate-spin text-doc-primary' size={18} />
-            ) : (
-              <ShieldCheck size={18} className='text-doc-primary' />
-            )}
-            <p className='small-regular text-doc-primary'>Plaglarism Check</p>
-          </Button>
-        </Tooltip>
+        <Button
+          role='button'
+          disabled={isGenerating}
+          onClick={handlePlagiarismCheck}
+          className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
+        >
+          {isGenerating ? (
+            <Loader2 className='animate-spin text-doc-primary' size={18} />
+          ) : (
+            <ShieldCheck size={18} className='text-doc-primary' />
+          )}
+          <p className='small-regular text-doc-primary'>Plaglarism Check</p>
+        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='h-max rounded bg-doc-primary/20 py-1 hover:bg-doc-secondary'>
@@ -110,7 +107,7 @@ const DocNavbar = ({ title }: Props) => {
               <MoreHorizontal size={18} />
             </Button>
           </DropdownMenuTrigger>
-          <NavbarDropdown />
+          <NavbarDropdown title={title} />
         </DropdownMenu>
       </div>
     </nav>

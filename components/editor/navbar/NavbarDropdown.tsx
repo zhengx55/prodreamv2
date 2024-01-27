@@ -2,10 +2,13 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
+import useAiEditor from '@/zustand/store';
 import { FileOutput } from 'lucide-react';
 import { memo } from 'react';
 
-const NavbarDropdown = () => {
+const NavbarDropdown = ({ title }: { title: string }) => {
+  const editor = useAiEditor((state) => state.editor_instance);
+  const handleExportPdf = () => {};
   return (
     <DropdownMenuContent
       side='bottom'
@@ -16,6 +19,7 @@ const NavbarDropdown = () => {
       <DropdownMenuItem
         onClick={(e) => {
           e.stopPropagation();
+          handleExportPdf();
         }}
         className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
       >
