@@ -67,7 +67,6 @@ export const SearchCitationCard = memo(
           document_id: id as string,
         });
       }
-      remove(index);
     };
     return (
       <div
@@ -135,9 +134,7 @@ export const MineCitationCard = memo(
           insertCitation(item.data.contributors[0].last_name);
         }
       } else {
-        console.log(123);
         // 添加到intextCitation中 从doccitation中删除
-        await removeInDocCitationIds(item.data.id, item.data.document_id);
         await appendInTextCitationIds(item, item.data.document_id);
         if (item.data.contributors && item.data.contributors[0].last_name) {
           insertCitation(item.data.contributors[0].last_name);

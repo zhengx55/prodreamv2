@@ -79,7 +79,6 @@ const Tiptap = ({
     content: essay_content ?? '',
     onCreate: ({ editor }) => {
       setEditorInstance(editor as Editor);
-      editor.commands.focus('end');
     },
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
