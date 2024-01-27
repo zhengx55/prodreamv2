@@ -15,8 +15,9 @@ type Props = { container: MutableRefObject<any> };
 
 const Mine = ({ container }: Props) => {
   const [selected, setSelected] = useState(0);
+  const [show, setShow] = useState(true);
   return (
-    <Drawer modal={false}>
+    <Drawer open={show} onOpenChange={setShow} modal={false}>
       <DrawerTrigger asChild>
         <span className='flex-center absolute bottom-10 right-4 h-7 w-6 cursor-pointer rounded-t bg-doc-primary'>
           <ChevronsUp size={18} className='text-white' />
