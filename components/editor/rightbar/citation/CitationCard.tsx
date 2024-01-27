@@ -41,7 +41,7 @@ export const SearchCitationCard = memo(
       converted_data.publish_date = {
         day: publish_date.day ?? null,
         month: publish_date.month ? numberToMonth(publish_date.month) : null,
-        year: publish_date.day ?? null,
+        year: publish_date.year ?? null,
       };
       converted_data.contributors = authors;
       converted_data.page_info = page_info;

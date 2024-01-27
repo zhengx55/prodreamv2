@@ -6,13 +6,20 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAIEditor } from '@/zustand/store';
-import { ChevronLeft, Loader, MoreHorizontal, ShieldCheck } from 'lucide-react';
+import {
+  ChevronLeft,
+  Loader,
+  Loader2,
+  MoreHorizontal,
+  ShieldCheck,
+} from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
 import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { memo, useRef, useState } from 'react';
 type Props = { title: string };
 
@@ -33,13 +40,21 @@ const DocNavbar = ({ title }: Props) => {
     onSuccess: (data) => {
       timer.current = setInterval(async () => {
         const res = await plagiarismQuery(data);
+        if (res.status !== 'doing') {
+          setIsGenerating(false);
+          clearInterval(timer.current!);
+        }
         console.log('🚀 ~ timer.current=setInterval ~ res:', res);
-      }, 2000);
+      }, 5000);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
       toast.error(error.message);
     },
+  });
+
+  useUnmount(() => {
+    timer.current && clearInterval(timer.current);
   });
 
   const handlePlagiarismCheck = async () => {
@@ -69,10 +84,15 @@ const DocNavbar = ({ title }: Props) => {
         <Tooltip tooltipContent='Plagiarism Check'>
           <Button
             role='button'
+            disabled={isGenerating}
             onClick={handlePlagiarismCheck}
             className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
           >
-            <ShieldCheck size={18} className='text-doc-primary' />
+            {isGenerating ? (
+              <Loader2 className='animate-spin text-doc-primary' size={18} />
+            ) : (
+              <ShieldCheck size={18} className='text-doc-primary' />
+            )}
             <p className='small-regular text-doc-primary'>Plaglarism Check</p>
           </Button>
         </Tooltip>

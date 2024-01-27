@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
-import { copilot } from '@/query/api';
+import { ask, copilot } from '@/query/api';
 import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
@@ -79,6 +79,31 @@ export const AiMenu = ({ editor }: Props) => {
     },
   });
 
+  const { mutateAsync: handleAsk } = useMutation({
+    mutationFn: (params: { instruction: string; text: string }) => ask(params),
+    onMutate: () => {
+      setGenerating(true);
+    },
+    onSuccess: async (data: ReadableStream) => {
+      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          setHoverItem(0);
+          break;
+        }
+        handleStreamData(value);
+      }
+    },
+    onSettled: () => {
+      setGenerating(false);
+    },
+
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const handleStreamData = (value: string | undefined) => {
     if (!value) return;
     const lines = value.split('\n');
@@ -105,6 +130,7 @@ export const AiMenu = ({ editor }: Props) => {
 
   const handleCustomPrompt = async () => {
     if (!prompt.trim()) return toast.error('please enter a custom prompt');
+    await handleAsk({ instruction: prompt, text: selectedText });
   };
 
   const handleKeyEnter = (e: KeyboardEvent<HTMLInputElement>) => {
