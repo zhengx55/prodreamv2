@@ -23,6 +23,7 @@ export const SearchCitationCard = memo(
     const { id } = useParams();
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
+
     const handler = async (
       item: ICitation,
       index: number,

@@ -4,11 +4,16 @@ import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
+import { numberToMonth } from '@/lib/utils';
 import { searchCitation } from '@/query/api';
+import { useCiteToDoc } from '@/query/query';
+import { ICitation } from '@/query/type';
+import { IJournalCitation } from '@/types';
 import useRootStore, { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { ArrowUpRightFromSquare, Plus } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { memo, useRef } from 'react';
 
 type Props = { editor: Editor };
@@ -18,11 +23,47 @@ export const CitationMenu = memo(({ editor }: Props) => {
   const selectedText = useAIEditor((state) => state.selectedText);
   const updateCitationMenu = useRootStore((state) => state.updateCitationMenu);
   const elRef = useRef<HTMLDivElement>(null);
+  const { id } = useParams();
 
   const { data: ciationResult, isPending } = useQuery({
     queryFn: ({ signal }) => searchCitation(selectedText, signal),
     queryKey: ['search-citation', selectedText],
   });
+  const { mutateAsync: handleCite } = useCiteToDoc();
+
+  const handler = async (item: ICitation) => {
+    const converted_data = {} as IJournalCitation;
+    const {
+      advanced_info,
+      article_title,
+      authors,
+      doi,
+      journal_title,
+      page_info,
+      publish_date,
+    } = item;
+    converted_data.publish_date = {
+      day: publish_date.day ?? null,
+      month: publish_date.month ? numberToMonth(publish_date.month) : null,
+      year: publish_date.year ?? null,
+    };
+    converted_data.contributors = authors;
+    converted_data.page_info = page_info;
+    converted_data.journal_title = journal_title;
+    converted_data.article_title = article_title;
+    converted_data.doi = doi;
+    converted_data.advanced_info = {
+      issue: null,
+      volume: advanced_info.volume ?? null,
+      series: advanced_info.series.start ?? null,
+    };
+
+    await handleCite({
+      citation_data: converted_data,
+      citation_type: 'Journal',
+      document_id: id as string,
+    });
+  };
 
   useClickOutside(elRef, () => {
     updateCitationMenu(false);
@@ -69,11 +110,16 @@ export const CitationMenu = memo(({ editor }: Props) => {
                     </p>
                   </div>
                   <div className='flex gap-x-2'>
-                    <Button className='rounded bg-doc-primary'>
+                    <Button
+                      onClick={() => handler(item)}
+                      role='button'
+                      className='rounded bg-doc-primary'
+                    >
                       <Plus size={20} />
                       Add citation
                     </Button>
                     <Button
+                      role='button'
                       className='rounded border-doc-primary text-doc-primary'
                       variant={'secondary'}
                       onClick={() => {
