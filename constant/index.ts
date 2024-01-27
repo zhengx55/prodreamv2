@@ -92,7 +92,7 @@ export const WelcomEducationOptions = [
     label: 'master_or_mba',
   },
   {
-    name: 'PhD & Beyond',
+    name: 'PhD & Researcher',
     desc: `Doctoral candidates, academic researchers, post-doctoral fellows`,
     src: '/welcome/Phd.png',
     label: 'phd_or_above',
