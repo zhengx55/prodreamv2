@@ -101,10 +101,10 @@ export const useEditorCommand = (editor: Editor) => {
 
       editor
         ?.chain()
-        .insertContentAt(anchor, `(${content})`)
+        .insertContentAt(anchor, ` (${content}) `)
         .setTextSelection({
           from: anchor,
-          to: anchor + (content.length + 2),
+          to: anchor + (content.length + 4),
         })
         .setColor('#8652DB')
         .setTextSelection(0)

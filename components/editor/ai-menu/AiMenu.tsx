@@ -81,7 +81,6 @@ export const AiMenu = ({ editor }: Props) => {
 
   const handleStreamData = (value: string | undefined) => {
     if (!value) return;
-    console.log(value);
     const lines = value.split('\n');
     const dataLines = lines.filter(
       (line, index) =>
