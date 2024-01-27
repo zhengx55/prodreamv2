@@ -105,7 +105,9 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
             <Textarea
               placeholder={'Untitled Document'}
               value={
-                doc_title === 'Untitled' ? 'My College Application' : doc_title
+                doc_title === 'Untitled' || !doc_title
+                  ? 'Untitled Document'
+                  : doc_title
               }
               rows={2}
               onChange={handleTitleChange}
