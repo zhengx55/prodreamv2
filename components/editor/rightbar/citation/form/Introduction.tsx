@@ -53,7 +53,7 @@ const IntroductionForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
+    <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
       <h1 className='base-semibold'>What I&apos;m citing</h1>
       <Spacer y='16' />
       <label htmlFor='section_title'>Introduction title</label>
@@ -281,9 +281,7 @@ const IntroductionForm = () => {
         </div>
       </div>
       <Spacer y='48' />
-      <h1 className='base-semibold'>More options</h1>
-      <Spacer y='16' />
-      <div className='flex w-full justify-end gap-x-2 border-t border-shadow-border py-2'>
+      <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-3'>
         <Button
           className='rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}

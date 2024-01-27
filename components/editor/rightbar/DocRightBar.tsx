@@ -33,7 +33,7 @@ const OptionsVariants: Variants = {
   collasped: { width: '15%' },
 };
 
-export const DocRightBar = memo(() => {
+const DocRightBar = memo(() => {
   const rightbarOpen = useAiEditor((state) => state.rightbarOpen);
   const toggleRightbar = useAiEditor((state) => state.toggleRightbar);
   const righbarTab = useAiEditor((state) => state.righbarTab);
@@ -161,3 +161,4 @@ export const DocRightBar = memo(() => {
 });
 
 DocRightBar.displayName = 'DocRightBar';
+export default DocRightBar;
