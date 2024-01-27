@@ -5,13 +5,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAIEditor } from '@/zustand/store';
-import {
-  ChevronLeft,
-  Loader,
-  Loader2,
-  MoreHorizontal,
-  ShieldCheck,
-} from 'lucide-react';
+import { ChevronLeft, Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
@@ -80,7 +74,7 @@ const DocNavbar = ({ title }: Props) => {
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
       </div>
       <div className='flex items-center gap-x-4'>
-        <Button
+        {/* <Button
           role='button'
           disabled={isGenerating}
           onClick={handlePlagiarismCheck}
@@ -92,7 +86,7 @@ const DocNavbar = ({ title }: Props) => {
             <ShieldCheck size={18} className='text-doc-primary' />
           )}
           <p className='small-regular text-doc-primary'>Plaglarism Check</p>
-        </Button>
+        </Button> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='h-max rounded bg-doc-primary/20 py-1 hover:bg-doc-secondary'>
@@ -101,14 +95,14 @@ const DocNavbar = ({ title }: Props) => {
           </DropdownMenuTrigger>
           <CitationDropdown />
         </DropdownMenu>
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
               <MoreHorizontal size={18} />
             </Button>
           </DropdownMenuTrigger>
           <NavbarDropdown title={title} />
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
     </nav>
   );
