@@ -34,7 +34,6 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
     queryFn: () => getDocDetail(id),
   });
   useCitationInfo(document_content);
-  const [showRightBar, setShowRightBar] = useState(false);
   const [showOnboard, setShowOnboard] = useState(false);
   useMount(() => {
     if (!user_info || !user_info.document_dialog) {
@@ -43,9 +42,6 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
   });
   const memoToggleOnBoard = useCallback((value: boolean) => {
     setShowOnboard(value);
-  }, []);
-  const memoToggleRightBar = useCallback((value: boolean) => {
-    setShowRightBar(value);
   }, []);
 
   if (isError) return null;
@@ -66,7 +62,7 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
             essay_content={document_content ? document_content.content : ''}
           />
         )}
-        <DocRightBar show={showRightBar} toggle={memoToggleRightBar} />
+        <DocRightBar />
       </div>
     </main>
   );

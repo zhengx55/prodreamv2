@@ -6,6 +6,8 @@ import { StateCreator } from 'zustand';
 export type AIEditiorStore = AIEditorState & AIEditorAction;
 
 const initialState: AIEditorState = {
+  rightbarOpen: false,
+  righbarTab: 0,
   editor_instance: null,
   isSaving: false,
   isPlagiarismOpen: false,
@@ -26,6 +28,8 @@ const initialState: AIEditorState = {
 };
 
 type AIEditorState = {
+  rightbarOpen: boolean;
+  righbarTab: number;
   isSaving: boolean;
   isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
@@ -46,6 +50,8 @@ type AIEditorState = {
 };
 
 type AIEditorAction = {
+  toggleRightbar: () => void;
+  updateRightbarTab: (result: AIEditorState['righbarTab']) => void;
   updateIsPlagiarismOpen: (result: AIEditorState['isPlagiarismOpen']) => void;
   toogleIsSaving: (result: AIEditorState['isSaving']) => void;
   setEditorInstance: (result: Editor) => void;
@@ -97,6 +103,8 @@ type AIEditorAction = {
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   ...initialState,
+  updateRightbarTab: (result) => set(() => ({ righbarTab: result })),
+  toggleRightbar: () => set((state) => ({ rightbarOpen: !state.rightbarOpen })),
   updateIsPlagiarismOpen: (result) => set(() => ({ isPlagiarismOpen: result })),
   toogleIsSaving: (result) => set(() => ({ isSaving: result })),
   reset: () => set(initialState),

@@ -19,11 +19,7 @@ export const CitationMenu = memo(({ editor }: Props) => {
   const updateCitationMenu = useRootStore((state) => state.updateCitationMenu);
   const elRef = useRef<HTMLDivElement>(null);
 
-  const {
-    data: ciationResult,
-    isPending,
-    isError,
-  } = useQuery({
+  const { data: ciationResult, isPending } = useQuery({
     queryFn: ({ signal }) => searchCitation(selectedText, signal),
     queryKey: ['search-citation', selectedText],
   });

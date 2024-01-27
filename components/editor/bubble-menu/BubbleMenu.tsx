@@ -99,7 +99,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
                   return node.getBoundingClientRect();
                 }
               }
-
               menuXOffside.current = posToDOMRect(editor.view, from, to).left;
               const el_srcoll_top =
                 editor.view.dom.parentElement?.parentElement?.scrollTop;
@@ -156,7 +155,12 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           </MemoButton>
         ) : (
           <MemoButton
-            onClick={() => {
+            onClick={async () => {
+              if (selectedLength >= 160) {
+                const toast = (await import('sonner')).toast;
+                toast.warning('Citation is limited to 160 words');
+                return;
+              }
               updateCitationMenu(true);
               updateCopilotRect(menuYOffside.current);
               setOpen(false);
