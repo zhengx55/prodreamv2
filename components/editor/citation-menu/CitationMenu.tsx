@@ -43,9 +43,9 @@ export const CitationMenu = memo(({ editor }: Props) => {
       publish_date,
     } = item;
     converted_data.publish_date = {
-      day: publish_date.day ?? null,
-      month: publish_date.month ? numberToMonth(publish_date.month) : null,
-      year: publish_date.year ?? null,
+      day: publish_date.day ?? '',
+      month: publish_date.month ? numberToMonth(publish_date.month) : '',
+      year: publish_date.year ?? '',
     };
     converted_data.contributors = authors;
     converted_data.page_info = page_info;
@@ -53,9 +53,9 @@ export const CitationMenu = memo(({ editor }: Props) => {
     converted_data.article_title = article_title;
     converted_data.doi = doi;
     converted_data.advanced_info = {
-      issue: null,
-      volume: advanced_info.volume ?? null,
-      series: advanced_info.series.start ?? null,
+      issue: '',
+      volume: advanced_info.volume ?? '',
+      series: advanced_info.series ?? '',
     };
 
     await handleCite({
@@ -69,7 +69,7 @@ export const CitationMenu = memo(({ editor }: Props) => {
     updateCitationMenu(false);
   });
 
-  if (!copilotRect) return null;
+  if (!copilotRect) return '';
   return (
     <section
       style={{ top: `${copilotRect - 54}px` }}
@@ -101,7 +101,7 @@ export const CitationMenu = memo(({ editor }: Props) => {
                         {author.last_name}
                       </p>
                     ))}
-                    <p className='italic'>{item.area ? item.area[0] : null}</p>
+                    <p className='italic'>{item.area ? item.area[0] : ''}</p>
                     <p>{item.publish_date.year ?? ''}</p>
                   </div>
                   <div className='flex flex-col gap-y-2 rounded border border-shadow-border p-3'>

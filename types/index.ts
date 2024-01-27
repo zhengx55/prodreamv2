@@ -89,9 +89,9 @@ export interface IJournalCitation {
   journal_title?: null | string;
   page_info?: { end?: null | string; start?: null | string };
   publish_date?: {
-    day?: number | null;
+    day?: number | string;
     month?: string | null;
-    year?: number | null;
+    year?: number | string;
   };
 }
 

@@ -168,15 +168,20 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
       inDocCitationIds: id_array,
     })),
   appendInTextCitationIds: async (result, document_id) => {
-    const data_after_append = [...get().inTextCitationIds, result.data.id];
-    await saveDoc({
-      id: document_id,
-      citation_ids: data_after_append,
-    });
-    set((state) => ({
-      inTextCitationIds: data_after_append,
-      inTextCitation: [...state.inTextCitation, result],
-    }));
+    const found = get().inTextCitationIds.find(
+      (item) => item === result.data.id
+    );
+    if (!found) {
+      const data_after_append = [...get().inTextCitationIds, result.data.id];
+      await saveDoc({
+        id: document_id,
+        citation_ids: data_after_append,
+      });
+      set((state) => ({
+        inTextCitationIds: data_after_append,
+        inTextCitation: [...state.inTextCitation, result],
+      }));
+    }
   },
   appendInDocCitationIds: async (result, document_id) => {
     const data_after_append = [...get().inDocCitationIds, result.data.id];
@@ -198,7 +203,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
       citation_ids: data_after_remove,
     });
     set((state) => ({
-      inTextCitationIds: state.inDocCitationIds.filter((id) => id !== result),
+      inTextCitationIds: state.inTextCitationIds.filter((id) => id !== result),
       inTextCitation: state.inTextCitation.filter(
         (item) => item.data.id !== result
       ),
