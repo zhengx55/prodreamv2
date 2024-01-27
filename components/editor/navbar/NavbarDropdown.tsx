@@ -5,9 +5,7 @@ import {
 import { FileOutput } from 'lucide-react';
 import { memo } from 'react';
 
-type Props = {};
-
-const NavbarDropdown = ({}: Props) => {
+const NavbarDropdown = () => {
   return (
     <DropdownMenuContent
       side='bottom'

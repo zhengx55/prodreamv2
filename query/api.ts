@@ -339,7 +339,7 @@ export async function plagiarismCheck(text: string) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}plagiarism_check/submit`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/plagiarism_check`,
       {
         method: 'POST',
         body: JSON.stringify({
@@ -367,14 +367,10 @@ export async function plagiarismQuery(
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}plagiarism_check/query`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/plagiarism_check/${scan_id}`,
       {
-        method: 'POST',
-        body: JSON.stringify({
-          scan_id,
-        }),
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }
