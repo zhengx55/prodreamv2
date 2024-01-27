@@ -26,7 +26,7 @@ const Mine = ({ container }: Props) => {
       <DrawerContent
         onInteractOutside={(e) => e.preventDefault()}
         container={container.current}
-        className='flex h-[calc(100%_-(169px))] w-[calc(500px_-24px)] flex-col rounded-none border-none bg-white'
+        className='flex h-[calc(100%_-(169px))] w-[calc(500px_-24px)] flex-col rounded-none border-none bg-white outline-none'
       >
         <Spacer y='28' />
         <DrawerClose asChild>
