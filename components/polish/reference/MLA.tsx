@@ -36,7 +36,7 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
         if (last_name) {
-          fullName += `${last_name},`;
+          fullName += `${last_name}`;
         }
         if (middle_name) {
           fullName += ` ${middle_name}`;
@@ -76,7 +76,7 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
         if (last_name) {
-          fullName += `${last_name},`;
+          fullName += `${last_name}`;
         }
         if (middle_name) {
           fullName += ` ${middle_name}`;
@@ -95,8 +95,9 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
     reference += ` "${article_title}." <em>${journal_title}</em>,`;
     if (advanced_info?.volume) reference += ` vol. ${advanced_info?.volume},`;
     if (advanced_info?.issue) reference += ` no. ${advanced_info?.issue},`;
-    if (publish_date?.day && publish_date.month && publish_date.year)
-      reference += ` ${publish_date?.day} ${publish_date?.month} ${publish_date?.year},`;
+    if (publish_date?.day) reference += ` ${publish_date?.day}`;
+    if (publish_date?.month) reference += ` ${publish_date?.month}`;
+    if (publish_date?.year) reference += ` ${publish_date?.year},`;
     if (page_info?.start && page_info?.end)
       reference += ` pp. ${page_info?.start}-${page_info?.end},`;
     if (doi) reference += ` https://doi.org/${doi}.`;
@@ -112,7 +113,7 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
         if (last_name) {
-          fullName += `${last_name},`;
+          fullName += `${last_name}`;
         }
         if (middle_name) {
           fullName += ` ${middle_name}`;
@@ -162,7 +163,7 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
         if (last_name) {
-          fullName += `${last_name},`;
+          fullName += `${last_name}`;
         }
         if (middle_name) {
           fullName += ` ${middle_name}`;
@@ -221,7 +222,7 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
         const { first_name, last_name, middle_name } = contributor;
         let fullName = '';
         if (last_name) {
-          fullName += `${last_name},`;
+          fullName += `${last_name}`;
         }
         if (middle_name) {
           fullName += ` ${middle_name}`;

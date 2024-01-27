@@ -284,6 +284,34 @@ export async function copilot(params: {
   }
 }
 
+export async function ask(params: {
+  instruction: string;
+  text: string;
+}): Promise<ReadableStream> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/tool/chat`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          text: params.text,
+          instruction: params.instruction,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'text/event-stream',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
+    return res.body;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function synonym(params: { word: string }): Promise<string[]> {
   try {
     const token = Cookies.get('token');
