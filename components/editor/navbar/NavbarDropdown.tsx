@@ -2,7 +2,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import { FileOutput, Settings } from 'lucide-react';
+import { FileOutput } from 'lucide-react';
 import { memo } from 'react';
 
 type Props = {};
@@ -24,14 +24,14 @@ const NavbarDropdown = ({}: Props) => {
         <FileOutput size={16} />
         Export
       </DropdownMenuItem>
-      <DropdownMenuItem
+      {/* <DropdownMenuItem
         onClick={(e) => {
           e.stopPropagation();
         }}
         className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
       >
         <Settings size={16} /> Settings
-      </DropdownMenuItem>
+      </DropdownMenuItem> */}
     </DropdownMenuContent>
   );
 };

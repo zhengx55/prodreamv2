@@ -152,7 +152,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
           isOutline ? (
             <OutlineBtn handleGenerate={handleGenerateOutline} />
           ) : (
-            <GenerateBtn handleGenerate={handleGenerate} />
+            <GenerateBtn type={generateTab} handleGenerate={handleGenerate} />
           )
         ) : !isGenerating ? (
           <Result
