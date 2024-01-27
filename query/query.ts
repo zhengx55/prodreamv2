@@ -38,7 +38,7 @@ export const useCreateCitation = () => {
   });
 };
 
-export const useCiteToDoc = () => {
+export const useCiteToDoc = (flag?: boolean) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const { insertCitation } = useEditorCommand(editor!);
   const appendInTextCitationIds = useAIEditor(
@@ -71,7 +71,8 @@ export const useCiteToDoc = () => {
       );
       if (
         variables.citation_data.contributors.length > 0 &&
-        variables.citation_data.contributors[0].last_name
+        variables.citation_data.contributors[0].last_name &&
+        !flag
       ) {
         insertCitation(variables.citation_data.contributors[0].last_name);
       }

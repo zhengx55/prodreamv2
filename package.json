@@ -84,6 +84,7 @@
     "swiper": "^11.0.5",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
+    "use-debounce": "^10.0.0",
     "use-deep-compare-effect": "^1.8.1",
     "uuid": "^9.0.1",
     "vaul": "^0.8.0",

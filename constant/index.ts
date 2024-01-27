@@ -315,264 +315,923 @@ export const Storys = [
   },
 ];
 
-// !!----------------------------------------------------------------
-// !! DEMO USE ONLY
-// !!----------------------------------------------------------------
+export const CiationDemoDoc = {
+  type: 'doc',
+  content: [
+    {
+      type: 'heading',
+      attrs: {
+        id: '20df1b0a-9163-452a-903b-82402df5d1d8',
+        'data-toc-id': '20df1b0a-9163-452a-903b-82402df5d1d8',
+        textAlign: 'left',
+        level: 1,
+      },
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'This is a sample essay to help you get started',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'Hey, academic writer! Ready to transform your writing journey? Follow this tutorial to get started!',
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        id: '96ed3619-7f40-4609-99b0-1fc0add18c1f',
+        'data-toc-id': '96ed3619-7f40-4609-99b0-1fc0add18c1f',
+        textAlign: 'left',
+        level: 1,
+      },
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'AI Copilot ',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
+      },
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+            {
+              type: 'highlight',
+              attrs: {
+                color: 'rgb(100, 37, 208, 0.3)',
+              },
+            },
+            {
+              type: 'textStyle',
+              attrs: {
+                fontSize: '',
+                color: 'rgb(100, 37, 208)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: 'Highlight ',
+        },
+        {
+          type: 'text',
+          text: 'any text to call out ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+            {
+              type: 'highlight',
+              attrs: {
+                color: 'rgb(100, 37, 208, 0.3)',
+              },
+            },
+            {
+              type: 'textStyle',
+              attrs: {
+                fontSize: '',
+                color: 'rgb(100, 37, 208)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: 'AI Copilot',
+        },
+        {
+          type: 'text',
+          text: ', which gives you access to our collection of writing tools that will help you craft your academic writings.',
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        id: 'b468e53a-b4b5-4a37-ac4b-102c64bd2cce',
+        'data-toc-id': 'b468e53a-b4b5-4a37-ac4b-102c64bd2cce',
+        textAlign: 'left',
+        level: 3,
+      },
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'Edit Tools & Generate from Selection',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
+      },
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'Try it yourself! ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+            {
+              type: 'highlight',
+              attrs: {
+                color: 'rgb(100, 37, 208, 0.3)',
+              },
+            },
+            {
+              type: 'textStyle',
+              attrs: {
+                fontSize: '',
+                color: 'rgb(100, 37, 208)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: 'Highlight ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'the text below, click ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+            {
+              type: 'highlight',
+              attrs: {
+                color: 'rgb(100, 37, 208, 0.3)',
+              },
+            },
+            {
+              type: 'textStyle',
+              attrs: {
+                fontSize: '',
+                color: 'rgb(100, 37, 208)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: 'AI Copilot',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: ' and try any edit tools 😊',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'The increasingly warmer climate engendered conditions in which humidity levels increased and frozen lands began thawing out, thus allowing for the possibility of the cultivation of plants.',
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        id: '1cc6ef4a-58d7-4c5b-bdbe-ba65334fd12e',
+        'data-toc-id': '1cc6ef4a-58d7-4c5b-bdbe-ba65334fd12e',
+        textAlign: 'left',
+        level: 1,
+      },
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'Citations',
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        id: '6f87ccee-42fd-400c-a5ce-60bfb841375c',
+        'data-toc-id': '6f87ccee-42fd-400c-a5ce-60bfb841375c',
+        textAlign: 'left',
+        level: 2,
+      },
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'Create Citations',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'Our citation feature supports citation creation and management of different research habits!',
+        },
+      ],
+    },
+    {
+      type: 'orderedList',
+      attrs: {
+        start: 1,
+      },
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  marks: [
+                    {
+                      type: 'bold',
+                    },
+                    {
+                      type: 'highlight',
+                      attrs: {
+                        color: 'rgb(100, 37, 208, 0.3)',
+                      },
+                    },
+                    {
+                      type: 'textStyle',
+                      attrs: {
+                        fontSize: '',
+                        color: 'rgb(100, 37, 208)',
+                        polish_underline: {
+                          color: '',
+                          offset: '',
+                        },
+                      },
+                    },
+                  ],
+                  text: 'Highlight',
+                },
+                {
+                  type: 'text',
+                  text: ' content and click ',
+                },
+                {
+                  type: 'text',
+                  marks: [
+                    {
+                      type: 'bold',
+                    },
+                    {
+                      type: 'highlight',
+                      attrs: {
+                        color: 'rgb(100, 37, 208, 0.3)',
+                      },
+                    },
+                    {
+                      type: 'textStyle',
+                      attrs: {
+                        fontSize: '',
+                        color: 'rgb(100, 37, 208)',
+                        polish_underline: {
+                          color: '',
+                          offset: '',
+                        },
+                      },
+                    },
+                  ],
+                  text: 'Citation',
+                },
+                {
+                  type: 'text',
+                  text: ' to find citations supporting your argument',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: "ProDream's smart algorithm will find the best matching academic articles related to your argument",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Use the ',
+                },
+                {
+                  type: 'text',
+                  marks: [
+                    {
+                      type: 'bold',
+                    },
+                    {
+                      type: 'highlight',
+                      attrs: {
+                        color: 'rgb(100, 37, 208, 0.3)',
+                      },
+                    },
+                    {
+                      type: 'textStyle',
+                      attrs: {
+                        fontSize: '',
+                        color: 'rgb(100, 37, 208)',
+                        polish_underline: {
+                          color: '',
+                          offset: '',
+                        },
+                      },
+                    },
+                  ],
+                  text: 'Search Citation Base',
+                },
+                {
+                  type: 'text',
+                  text: ' on the right to look up articles and book titles, just like in a library. Our database is up to date and has over 200M+ articles included.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'If you already have citations, click ',
+                },
+                {
+                  type: 'text',
+                  marks: [
+                    {
+                      type: 'bold',
+                    },
+                    {
+                      type: 'highlight',
+                      attrs: {
+                        color: 'rgb(100, 37, 208, 0.3)',
+                      },
+                    },
+                    {
+                      type: 'textStyle',
+                      attrs: {
+                        fontSize: '',
+                        color: 'rgb(100, 37, 208)',
+                        polish_underline: {
+                          color: '',
+                          offset: '',
+                        },
+                      },
+                    },
+                  ],
+                  text: '+',
+                },
+                {
+                  type: 'text',
+                  text: 'to add customized citations (we currently support websites, articles and books)',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        id: '433348b2-91f4-4d6f-bf4c-aebc7c61c7db',
+        'data-toc-id': '433348b2-91f4-4d6f-bf4c-aebc7c61c7db',
+        textAlign: 'left',
+        level: 2,
+      },
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'In-text Citations',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'After identifying an article, you could directly cite the article to your essay by clicking ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+            {
+              type: 'highlight',
+              attrs: {
+                color: 'rgb(100, 37, 208, 0.3)',
+              },
+            },
+            {
+              type: 'textStyle',
+              attrs: {
+                fontSize: '',
+                color: 'rgb(100, 37, 208)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: 'Cite',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: '.',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'ProDream will create an in-text citation of that article to where your mouse is located in the article and automatically add that article to the reference list at the end.',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'If you find the article interesting but are not sure if you want to cite the article, click ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+            {
+              type: 'highlight',
+              attrs: {
+                color: 'rgb(100, 37, 208, 0.3)',
+              },
+            },
+            {
+              type: 'textStyle',
 
-export const ChatIntroductionCard = [
-  {
-    id: 'chat-introduction-1',
-    title: 'Discover yourself',
-    description:
-      "Delve into your story to uncover what truly drives you. By recognizing these values, you'll better navigate your major and school choices.",
-  },
-  {
-    id: 'chat-introduction-2',
-    title: 'Know what and how',
-    description:
-      'Learn what schools seek and how to craft standout essays with tutorials and examples. Analyze top essays to elevate your own.',
-  },
-  {
-    id: 'chat-introduction-3',
-    title: 'Being guided step by step',
-    description:
-      'Being guided step-by-step, much like a human teacher, to delve deep and uncover the core of your college essay narrative',
-  },
-];
-
-export const moduleMenu = [
-  { id: 'module-00', title: 'Overview' },
-  { id: 'module-01', title: 'Motivation' },
-  { id: 'module-02', title: 'Academic achievements' },
-  { id: 'module-03', title: 'Previous Experience' },
-  { id: 'module-04', title: 'Career Goal' },
-  { id: 'module-05', title: 'Why School' },
-];
-
-export const moduleInfo = [
-  {
-    id: 'info1',
-    value: [
-      {
-        id: 'info1-sub-1',
-        title: 'AI-Powered Brainstorming',
-        info: "We'll have several sections and will brainstorm with you in each section through dialogue with AI. At the end of each section, we'll provide a summary and reflection. After completing all the sections, you can choose to generate an essay based on your experience, for reference only.",
+              attrs: {
+                fontSize: '',
+                color: 'rgb(100, 37, 208)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: 'Add to library ',
+        },
+        {
+          type: 'text',
+          text: 'to add the article to the citation library that you could access cite in your essay later.',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
       },
-      {
-        id: 'info1-sub-2',
-        title: 'Designing Your Blueprint',
-        info: "For graduate school personal statements, schools want to know who you are, which program you're applying to, and why. Therefore, we'll brainstorm with you focusing on motivations, academic achievements, previous experiences, program fit, and future career goals. This will likely mirror your essay's structure as well.",
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'Try it yourself! ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+            {
+              type: 'highlight',
+              attrs: {
+                color: 'rgb(100, 37, 208, 0.3)',
+              },
+            },
+            {
+              type: 'textStyle',
+              attrs: {
+                fontSize: '',
+                color: 'rgb(100, 37, 208)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: 'Highlight',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: ' the text below, click ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+            {
+              type: 'highlight',
+              attrs: {
+                color: 'rgb(100, 37, 208, 0.3)',
+              },
+            },
+            {
+              type: 'textStyle',
+              attrs: {
+                fontSize: '',
+                color: 'rgb(100, 37, 208)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: 'Citation',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: ' and cite any article you like.',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
       },
-      {
-        id: 'info1-sub-3',
-        title: 'Read All',
-        info: 'Please take your time to read all the provided information, so you can fully understand how to craft an effective graduate school essay.',
+      content: [
+        {
+          type: 'text',
+          text: 'Large language models will transform the future of medical education ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'textStyle',
+              attrs: {
+                fontSize: '',
+                color: 'rgb(36, 91, 219)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: '(Alaa)',
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        id: '66abe70b-c46d-4383-bde0-bdd0cb44a7e0',
+        'data-toc-id': '66abe70b-c46d-4383-bde0-bdd0cb44a7e0',
+        textAlign: 'left',
+        level: 2,
       },
-    ],
-  },
-  {
-    id: 'info2',
-    value: [
-      {
-        id: 'info2-sub-1',
-        title: 'Genuine Interest',
-        info: "Clearly convey your genuine passion for the field or subject you're pursuing. It's essential to show that your interest isn't superficial but has depth, backed by experiences or persistent curiosity.",
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'Managing Citations',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        class: null,
+        textAlign: 'left',
       },
-      {
-        id: 'info2-sub-2',
-        title: 'Personal Connection',
-        info: 'Share a personal story or experience that led to your decision to pursue this particular path. This creates a personal connection and can make your motivation more relatable and compelling.',
-      },
-      {
-        id: 'info2-sub-3',
-        title: 'Future Goals',
-        info: "Outline how this path aligns with your long-term goals. Demonstrating that you've thought about how this degree or position fits into your broader life plan can underscore the depth of your motivation.",
-      },
-    ],
-  },
-  {
-    id: 'info3',
-    value: [
-      {
-        id: 'info3-sub-1',
-        title: 'Achievements and Outcomes',
-        info: 'Detail specific accomplishments in your academic research, such as published papers, research projects, or any awards related to your field of study. These showcase your expertise and results in the domain.',
-      },
-      {
-        id: 'info3-sub-2',
-        title: 'Depth and Challenges',
-        info: "Describe academic challenges you've encountered and how you overcame them. This can reflect your problem-solving skills, critical thinking, and resilience when faced with adversity.",
-      },
-      {
-        id: 'info3-sub-3',
-        title: 'Collaboration and Mentorship',
-        info: "If you've collaborated with other scholars or have been mentored by a professor on a particular project, discuss these experiences. This demonstrates your ability to work in teams, engage in academic discussions, and learn and grow from others.",
-      },
-    ],
-  },
-  {
-    id: 'info4',
-    value: [
-      {
-        id: 'info4-sub-1',
-        title: 'Role and Contribution',
-        info: 'Specify the roles you held and the responsibilities you undertook. Highlight any significant contributions or changes you made during your tenure, demonstrating your impact and ability to add value.',
-      },
-      {
-        id: 'info4-sub-2',
-        title: 'Skills and Learnings',
-        info: 'Discuss the skills you acquired and how they make you a better candidate for your desired program. Relate the learnings from these experiences to how they can be applied to future academic and professional pursuits.',
-      },
-      {
-        id: 'info4-sub-3',
-        title: 'Professional Growth and Development',
-        info: 'Reflect on challenges you faced, how you addressed them, and what you learned in the process. Emphasize moments of growth, leadership opportunities, and any feedback or mentorship that helped shape your professional journey.',
-      },
-    ],
-  },
-  {
-    id: 'info6',
-    value: [
-      {
-        id: 'info6-sub-1',
-        title: 'Specificity',
-        info: 'Clearly define your short-term and long-term career objectives. Instead of vague aspirations, mention specific roles, industries, or areas of interest you aim to explore or contribute to.',
-      },
-      {
-        id: 'info6-sub-2',
-        title: 'Feasibility',
-        info: "Ensure your goals are realistic and attainable given your past experiences and the prospective education or training from the institution to which you're applying. This showcases that you've thoughtfully considered your path.",
-      },
-      {
-        id: 'info6-sub-3',
-        title: 'Alignment with Program',
-        info: "Demonstrate how the program's offerings, be it courses, faculty, or resources, will bridge the gap between your current skill set and the requirements of your desired career path. This shows that your career goals aren't just aspirations but are backed by a strategic plan.",
-      },
-    ],
-  },
-  {
-    id: 'info5',
-    value: [
-      {
-        id: 'info4-sub-1',
-        title: 'How the Program Supports These Goals',
-        info: "Highlight how the program you're applying to is a critical stepping stone in reaching these career objectives. Detail specific offerings of the program, such as specialized courses, internships, or networking opportunities, that will equip you with the skills and knowledge necessary to achieve your goals.",
-      },
-      {
-        id: 'info4-sub-2',
-        title: 'Specific faculty interest',
-        info: 'Showcase your thorough research by mentioning specific faculty members whose work you admire or wish to collaborate with, as well as other specific research initiatives or resources that attracted you.',
-      },
-      {
-        id: 'info4-sub-3',
-        title: 'Campus Culture and Community',
-        info: "Reflect on the school's culture, values, and community, explaining how they align with your own beliefs and personality. Whether through campus visits, interactions with current students, or participation in school events, convey a genuine desire to both contribute to and benefit from the school's community.",
-      },
-    ],
-  },
-];
-
-export const ChatQuestionIdMap: Record<string, string> = {
-  a6fe251ae1eb4c499283bac90d862fd5: 'Reasons for applying',
-  b38def168cc94840a92f1249bd595244: 'Academic achievement',
-  fe96cfa951c346b091c3d1681ad65957: 'Previous Experience',
-  e1c32f5cfbfe45e6a84805a4b35aad8d: 'Reasons for Choosing this Program',
-  aaef5245621e46e5bc0d285d2a464897: 'Career Goal',
+      content: [
+        {
+          type: 'text',
+          text: 'In ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'highlight',
+              attrs: {
+                color: 'rgb(100, 37, 208, 0.3)',
+              },
+            },
+            {
+              type: 'textStyle',
+              attrs: {
+                fontSize: '',
+                color: 'rgb(100, 37, 208)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: 'Citation',
+        },
+        {
+          type: 'text',
+          text: ', click the ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'highlight',
+              attrs: {
+                color: 'rgb(100, 37, 208, 0.3)',
+              },
+            },
+            {
+              type: 'textStyle',
+              attrs: {
+                fontSize: '',
+                color: 'rgb(100, 37, 208)',
+                polish_underline: {
+                  color: '',
+                  offset: '',
+                },
+              },
+            },
+          ],
+          text: 'arrow',
+        },
+        {
+          type: 'text',
+          text: ' in the lower right corner to find your citations in this document and articles stored in your library.',
+        },
+      ],
+    },
+  ],
 };
 
-export const messageOptions = [
-  {
-    id: 'chat-message-options-1',
-    title: 'Internship/Work',
-    icon: '/messages/briefcase.svg',
-    theme: 'rgba(144, 104, 208, 0.2)',
+export const CitationSample = {
+  publish_date: {
+    day: '',
+    month: '',
+    year: 2023,
   },
-  {
-    id: 'chat-message-options-2',
-    title: 'Extracurricular',
-    icon: '/messages/extracurricular.svg',
-    theme: 'rgba(230, 138, 29, 0.2)',
+  contributors: [
+    {
+      first_name: 'Alaa',
+      middle_name: 'A.',
+      last_name: 'Abd-Alrazaq',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Rawan',
+      middle_name: null,
+      last_name: 'AlSaad',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Dari',
+      middle_name: null,
+      last_name: 'AlHuwail',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Arfan',
+      middle_name: null,
+      last_name: 'Ahmed',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'P.',
+      middle_name: null,
+      last_name: 'Healy',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Syed',
+      middle_name: null,
+      last_name: 'Latifi',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Sarah',
+      middle_name: null,
+      last_name: 'Aziz',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Rafat',
+      middle_name: null,
+      last_name: 'Damseh',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Sadam',
+      middle_name: 'Alabed',
+      last_name: 'Alrazak',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Javaid',
+      middle_name: null,
+      last_name: 'Sheikh',
+      suffix: null,
+      role: 'author',
+    },
+  ],
+  page_info: {
+    start: null,
+    end: null,
   },
-  {
-    id: 'chat-message-options-3',
-    title: 'Competition',
-    icon: '/messages/trophy.svg',
-    theme: 'rgba(82, 186, 105, 0.2)',
+  journal_title: 'JMIR Medical Education',
+  article_title:
+    'Large Language Models in Medical Education: Opportunities, Challenges, and Future Directions',
+  doi: '10.2196/48291',
+  advanced_info: {
+    issue: '',
+    volume: '9',
+    series: '',
   },
-  {
-    id: 'chat-message-options-4',
-    title: 'Volunteer',
-    icon: '/messages/people.svg',
-    theme: 'rgba(255, 177, 177, 0.2)',
-  },
-  {
-    id: 'chat-message-options-5',
-    title: 'Research',
-    icon: '/messages/research.svg',
-    theme: 'rgba(254, 202, 255, 0.2)',
-  },
-  {
-    id: 'chat-message-options-6',
-    title: 'Others',
-    icon: '/messages/others.svg',
-    theme: 'rgba(0, 132, 255, 0.2)',
-  },
-];
-
-export const moduleExample: Record<string, string> = {
-  '1': " At the age of six, the mesmerizing experience of traveling on a train from a small town to the vibrant heart of New York City might have sparked an individual's passion. The allure of the train's movement and the adventure it represented could have been the catalyst, with pages of sketches highlighting this newfound love. Such an early enchantment may very well serve as the foundation for a lifelong commitment to mechanical engineering.",
-  '2': "I completed my Bachelor's of Science degree in Physics at MIT, achieving an impressive GPA of 3.8. One of the standout moments during my studies was excelling in 'Quantum Mechanics 101,' where I received an 'A' grade.",
-  '3': 'During my time as an intern at BioTech Corp, I was tasked with the analysis of genetic sequences. Despite the weight of the responsibility, I streamlined the methodology, leading to a noteworthy 20% efficiency increase.',
-  '5': 'After engaging with XYZ University alumni, I was drawn to the tight-knit community and the emphasis on interdisciplinary learning, which aligns with my own beliefs.',
-  '4': 'I aim to become a Machine Learning Specialist, dedicated to developing algorithms that detect early signs of diseases through medical imaging.',
 };
-
-export const moduleNotes: Record<string, string> = {
-  '1': "Crafting an outstanding personal statement for graduate school is pivotal, focusing on the 'why' - your motivation for applying. It's essential to convey your passion, often rooted in personal experiences. For instance, a childhood fascination with mechanical engineering might stem from a memorable train ride, sparking an enduring interest in how things move. Alternatively, a recent experience, such as being captivated by ancient recipes during a history field trip, can ignite a deep curiosity in a subject like the history of food. These moments, whether from childhood or more recent times, are vital in explaining your drive to pursue advanced studies. They form the foundation of a personal statement that genuinely reflects your aspirations and motivations for graduate study.",
-  '2': 'Moving on to the second part of the essay, you want to demenstrate your skills by discussing your academic experience such as your undergraduate major and school, research project, competitions, scholarship award etc. In short, this is the section where you should highlight your educational achievements. You can begin by providing an overview of your educational history, including the institution where you obtained your degree and your major. If your GPA is 3.5 or higher, especially in a relevant field, you can mention your GPA or ranking of the class. Additionally, you could highlight any relevant courses you have completed. If you have engaged in research activities or collaborated with faculty members on projects, be sure to underscore these valuable experiences.',
-  '3': 'Highlight impactful experiences in your personal statement. For instance, discuss successful contributions during an internship, skill development in workshops (e.g., mastering R programming), and overcoming challenges (e.g., project setback resolution). Emphasize dedication, adaptability, and problem-solving abilities, showcasing your potential for future success.',
-  '5': "Express a thoughtful choice of program by highlighting its alignment with your aspirations, such as the Advanced Neural Studies course at XYZ University. Emphasize faculty influence, citing Professor Johnson's cognitive neuroscience research as a source of excitement. Additionally, underscore the appeal of campus culture, like the tight-knit community and emphasis on interdisciplinary learning, discovered through interactions with alumni.",
-  '4': 'Craft a specific career goal, avoiding generic statements like "working in tech." For instance, aspire to be a Machine Learning Specialist focused on medical imaging. Highlight lacking skills and how the program addresses them. Portray your career goal as a guiding lighthouse, intertwining past, present, and future. A precise, realistic, and congruent goal will resonate profoundly with the admissions committee, culminating in a compelling personal statement.',
-};
-
-// ----------------------------------------------------------------
-// Brainstorm Tut Info
-// ----------------------------------------------------------------
-
-export const BrianstormAutoFill = [
-  {
-    id: 'a66e53e6bb1f4391909b93378170e63c',
-    info: [
-      {
-        question_id: 'a8dd3b68cac3470db9d28362f5c29916',
-        content:
-          '• Passionate about computer programming\n• Active member and leader in coding clubs and hackathons\n• Developed several mobile apps addressing social issues',
-      },
-      {
-        question_id: 'd0310db639924bf9a7761e290286f627',
-        content:
-          'I first discovered my love for programming in a middle school computer science class. The ability to translate complex problems into logical, solvable code captivated me. I was particularly drawn to the creative aspect of coding - the endless possibilities of creating something impactful from scratch using just a computer.',
-      },
-      {
-        question_id: 'b4ce7db2387d45d8b4d6a4e3b0aa6461',
-        content:
-          '• Learning advanced coding languages on my own\n• Balancing coding projects with academic responsibilities\n• Overcoming initial failures in app development and learning from mistakes',
-      },
-      {
-        question_id: 'b463c647095843fe9d350cd19b7431ac',
-        content:
-          'A defining moment in my coding journey was when I won my first hackathon in sophomore year. The challenge was to develop an app to assist the visually impaired with navigation. The success of this project not only boosted my confidence but also cemented my commitment to using my coding skills for social good.',
-      },
-      {
-        question_id: 'ae1652bc02ca4e8ab7ef574a6a923dc8',
-        content:
-          '• Enhanced problem-solving and logical thinking skills\n• Fosters a sense of perseverance and resilience\n• Encourages a perspective of viewing challenges as opportunities for innovation',
-      },
-      {
-        question_id: 'ef31976a2861434392100df611472c38',
-        content:
-          '• Plan to major in Computer Science with a focus on AI\n• Aspire to develop more apps that address educational disparities\n• Hope to intern at tech companies to gain real-world experience',
-      },
-    ],
-  },
-];
