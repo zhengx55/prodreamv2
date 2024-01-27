@@ -21,7 +21,7 @@ const Tooltip = ({
 }) => {
   return (
     <TooltipProvider delayDuration={100}>
-      <UITooltip>
+      <UITooltip open={true}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent side={side}>
           <p className={cn(contentClassname, 'text-regular text-white')}>
