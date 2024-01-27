@@ -8,7 +8,7 @@ export default async function Page() {
     const cookieStore = cookies();
     const cookie = cookieStore.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/referral_link`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/referral_link`,
       {
         headers: {
           Authorization: `Bearer ${cookie?.value}`,
