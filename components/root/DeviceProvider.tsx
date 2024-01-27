@@ -24,25 +24,24 @@ const DeviceProvider = ({ children }: { children: ReactNode }) => {
     return null;
   }
   return (
-    <>
+    <main className='relative hidden flex-1 sm:flex'>
+      <Tooltip side='right' tooltipContent='submit feedback'>
+        <Link
+          passHref
+          href={'https://tally.so/r/3NovEO'}
+          className='absolute bottom-[10%] left-2 z-50'
+          target='_blank'
+        >
+          <Button className='rounded-xl bg-doc-secondary p-2.5' role='link'>
+            <Feedback />
+          </Button>
+        </Link>
+      </Tooltip>
       {!isEssayDetail && <Sidebar />}
-      <div className='relative hidden h-full w-full flex-col overflow-x-auto sm:flex sm:overflow-y-hidden'>
-        <Tooltip side='right' tooltipContent='feedback'>
-          <Link
-            passHref
-            href={'https://tally.so/r/3NovEO'}
-            className='absolute bottom-[20%] left-2 z-50'
-            target='_blank'
-          >
-            <Button className='rounded-xl bg-doc-secondary p-2.5' role='link'>
-              <Feedback />
-            </Button>
-          </Link>
-        </Tooltip>
-        {/* <TutorialSheet /> */}
+      <div className='relative flex h-full w-full flex-col overflow-x-auto overflow-y-hidden'>
         {children}
       </div>
-    </>
+    </main>
   );
 };
 export default DeviceProvider;
