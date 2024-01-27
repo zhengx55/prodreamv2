@@ -9,6 +9,8 @@ export const useCitationInfo = (document_content: IDocDetail | undefined) => {
     (state) => state.updateInTextCitation
   );
   const updateInDocCitation = useAIEditor((state) => state.updateInDocCitation);
+  const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
 
   useEffect(() => {
     async function fetchInText(id_array: string[]) {
@@ -32,6 +34,8 @@ export const useCitationInfo = (document_content: IDocDetail | undefined) => {
     if (document_content) {
       const { in_text_citations, citation_candidates } = document_content;
       if (in_text_citations.length > 0) {
+        updateRightbarTab(1);
+        toggleRightbar();
         fetchInText(document_content.in_text_citations);
       }
       if (citation_candidates.length > 0) {
