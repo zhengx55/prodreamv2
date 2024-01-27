@@ -500,9 +500,9 @@ export async function profileResetEmail(params: {
     formData.append('password', params.password);
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}reset_email`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/email`,
       {
-        method: 'PATCH',
+        method: 'PUT',
         body: formData,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -529,9 +529,9 @@ export async function profileResetPasswords(params: {
     formData.append('old_password', params.old_password);
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}reset_pass`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/password`,
       {
-        method: 'PATCH',
+        method: 'PUT',
         body: formData,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -554,10 +554,14 @@ export async function profileResetName(params: {
 }) {
   try {
     const token = Cookies.get('token');
+    const formData = new FormData();
+    formData.append('first_name', params.first_name);
+    formData.append('last_name', params.last_name);
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/name?last_name=${params.last_name}&first_name=${params.first_name}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/name`,
       {
-        method: 'PATCH',
+        method: 'PUT',
+        body: formData,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -576,10 +580,10 @@ export async function profileResetName(params: {
 export async function profileResetAvatar(params: { file: File }) {
   try {
     const formData = new FormData();
-    formData.append('file', params.file);
+    formData.append('avatar', params.file);
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/avatar`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/avatar`,
       {
         method: 'POST',
         body: formData,
