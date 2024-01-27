@@ -17,12 +17,12 @@ export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
       setData({ ...editor.extensionStorage.tableOfContent });
     };
     handler({ editor });
+    editor.on('create', () => handler({ editor }));
     editor.on('update', () => handler({ editor }));
-    editor.on('selectionUpdate', () => handler({ editor }));
 
     return () => {
       editor.off('update', () => handler({ editor }));
-      editor.off('selectionUpdate', () => handler({ editor }));
+      editor.off('create', () => handler({ editor }));
     };
   }, [editor]);
   return (

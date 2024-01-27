@@ -27,8 +27,8 @@ const ListView = ({
             <span className='flex items-center gap-x-1.5'>
               <FileIcon />
               <p className='small-regular capitalize'>
-                {item.title === 'Untitled'
-                  ? 'My College Application'
+                {item.title === 'Untitled' || !item.title
+                  ? 'Untitled Document'
                   : item.title}
               </p>
             </span>

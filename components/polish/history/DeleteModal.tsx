@@ -45,8 +45,11 @@ const DeleteModal = ({
         <div className='flex flex-col gap-y-2'>
           <h1 className='h3-bold'>Move to trash?</h1>
           <p className='title-regular text-shadow-100'>
-            Are you sure you want to delete &quot;My College Application Essay
-            (title)&quot;? Note: This action cannot be undone.
+            Are you sure you want to delete &quot;
+            {currentItem?.title !== 'Untitled'
+              ? currentItem?.title
+              : 'Untitled Document'}
+            &quot;? Note: This action cannot be undone.
           </p>
           <Spacer y='20' />
           <div className='flex items-center justify-end gap-x-2'>

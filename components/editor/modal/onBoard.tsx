@@ -93,7 +93,6 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
                         src='/welcome/Start.png'
                         sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
                         fill
-                        priority
                       />
                     </div>
                   </div>
@@ -111,7 +110,6 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
                         alt='start'
                         src='/welcome/Edit.png'
                         fill
-                        priority
                         sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
                       />
                     </div>
@@ -128,7 +126,6 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
                         alt='start'
                         src='/welcome/Citation.png'
                         fill
-                        priority
                         sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
                       />
                     </div>

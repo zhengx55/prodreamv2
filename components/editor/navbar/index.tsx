@@ -69,7 +69,7 @@ const DocNavbar = () => {
           </span>
         </Link>
         <h1 className='h3-bold capitalize'>
-          {docTtile === 'Untitled' ? 'My College Application' : docTtile}
+          {docTtile === 'Untitled' ? 'Untitled Document' : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
       </div>
