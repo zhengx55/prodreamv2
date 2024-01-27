@@ -25,7 +25,7 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
     return contributors
       .map((contributor) => {
         const { last_name, first_name } = contributor;
-        return `${last_name}, ${first_name?.charAt(0)}.`;
+        return `${last_name}${first_name ? `, ${first_name?.charAt(0)}` : ''}.`;
       })
       .join('& ');
   };

@@ -67,7 +67,7 @@ const Hero = () => {
               variant={'ghost'}
             >
               <Link
-                href={'https://discord.com/invite/h37uz8HYSH'}
+                href={'https://discord.gg/xXSFXv5kPd'}
                 passHref
                 target='_blank'
               >

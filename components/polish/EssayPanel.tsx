@@ -15,7 +15,6 @@ import { Skeleton } from '../ui/skeleton';
 
 const OnBoard = dynamic(() => import('../editor/modal/onBoard'));
 const Tiptap = dynamic(() => import('./Editor'), {
-  ssr: false,
   loading: () => (
     <div className='flex flex-1 flex-col items-center'>
       <Spacer y='30' />
@@ -63,7 +62,7 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
         </Link>
       </Tooltip>
       <DocNavbar title={document_content ? document_content.title : ''} />
-      {/* <OnBoard open={showOnboard} toogleOpen={memoToggleOnBoard} /> */}
+      <OnBoard open={showOnboard} toogleOpen={memoToggleOnBoard} />
       <div className='relative flex h-full w-full justify-center overflow-hidden'>
         {isFetching ? (
           <div className='flex flex-1 flex-col items-center'>

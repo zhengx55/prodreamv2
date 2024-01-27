@@ -69,12 +69,12 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
                   className='small-regular text-black-400'
                   htmlFor='idea'
                 >
-                  Brief description of study
+                  Brief description of what you are writing
                 </FormLabel>
                 <FormControl>
                   <Textarea
                     id='idea'
-                    placeholder='Describe your research briefly'
+                    placeholder='Describe your research topic or essay prompt. Adding more information can greatly increase the quality of our generations :)'
                     className='small-regular rounded focus-visible:ring-0'
                     {...field}
                   />

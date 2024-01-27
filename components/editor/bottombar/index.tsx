@@ -14,12 +14,10 @@ const MemoContentTypePicker = memo(ContentTypePicker);
 const BottomBar = ({ editor }: { editor: Editor }) => {
   const commands = useTextmenuCommands(editor);
   const blockOptions = useTextmenuContentTypes(editor);
-  const toggleRightbar = useAiEditor((state) => state.toggleRightbar);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
 
   const showCitation = () => {
     updateRightbarTab(1);
-    toggleRightbar();
   };
 
   return (

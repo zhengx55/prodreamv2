@@ -102,7 +102,7 @@ export const SearchCitationCard = memo(
             role='button'
             onClick={() => handler(item as any, index, 'collect')}
           >
-            <Plus size={18} className='text-doc-primary' /> Add to mine
+            <Plus size={18} className='text-doc-primary' /> Add to library
           </Button>
         </div>
       </div>

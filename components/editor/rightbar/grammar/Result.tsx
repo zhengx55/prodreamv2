@@ -32,8 +32,6 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
     editor.state.doc.descendants((node, pos) => {
       if (node.isText) {
         const node_pos = node.textContent.indexOf(corrsponding_segement);
-        console.log('🚀 ~ editor.state.doc.descendants ~ node_pos:', node_pos);
-
         if (node_pos !== -1) {
           const start_position = node_pos + pos;
           current_suggestion.data.forEach((suggestion) => {
