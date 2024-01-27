@@ -74,7 +74,12 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
     if (!value) return;
     isGenerating && setIsGenerating(false);
     const lines = value.split('\n');
-    const dataLines = lines.filter((line) => line.startsWith('data:'));
+    const dataLines = lines.filter(
+      (line, index) =>
+        line.startsWith('data:') &&
+        index > 1 &&
+        lines.at(index - 1)?.startsWith('event: data')
+    );
     const eventData = dataLines.map((line) =>
       JSON.parse(line.slice('data:'.length))
     );
