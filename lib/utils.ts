@@ -1,4 +1,5 @@
-import { IPolishResultAData } from '@/query/type';
+import { ICitation, IPolishResultAData } from '@/query/type';
+import { IJournalCitation } from '@/types';
 import { clsx, type ClassValue } from 'clsx';
 import posthog from 'posthog-js';
 import { twMerge } from 'tailwind-merge';
@@ -288,4 +289,32 @@ export function numberToMonth(number: number): string | null {
     // 不在有效范围内返回 null 或者其他默认值
     return null;
   }
+}
+
+export function ConvertCitationData(item: ICitation) {
+  const converted_data = {} as IJournalCitation;
+  const {
+    advanced_info,
+    article_title,
+    authors,
+    doi,
+    journal_title,
+    page_info,
+    publish_date,
+  } = item;
+  converted_data.publish_date = {
+    day: publish_date.day ?? '',
+    month: publish_date.month ? numberToMonth(publish_date.month) : '',
+    year: publish_date.year ?? '',
+  };
+  converted_data.contributors = authors;
+  converted_data.page_info = page_info;
+  converted_data.journal_title = journal_title;
+  converted_data.article_title = article_title;
+  converted_data.doi = doi;
+  converted_data.advanced_info = {
+    issue: '',
+    volume: advanced_info.volume ?? '',
+    series: advanced_info.series ?? '',
+  };
 }

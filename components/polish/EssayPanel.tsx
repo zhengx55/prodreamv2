@@ -33,8 +33,6 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
   useCitationInfo(document_content);
   const [showOnboard, setShowOnboard] = useState(false);
   useMount(() => {
-    setShowOnboard(true);
-
     if (!user_info || !user_info.document_dialog) {
       setShowOnboard(true);
     }

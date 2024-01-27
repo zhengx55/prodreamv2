@@ -1142,3 +1142,96 @@ export const CiationDemoDoc = {
     },
   ],
 };
+
+export const CitationSample = {
+  publish_date: {
+    day: '',
+    month: '',
+    year: 2023,
+  },
+  contributors: [
+    {
+      first_name: 'Alaa',
+      middle_name: 'A.',
+      last_name: 'Abd-Alrazaq',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Rawan',
+      middle_name: null,
+      last_name: 'AlSaad',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Dari',
+      middle_name: null,
+      last_name: 'AlHuwail',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Arfan',
+      middle_name: null,
+      last_name: 'Ahmed',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'P.',
+      middle_name: null,
+      last_name: 'Healy',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Syed',
+      middle_name: null,
+      last_name: 'Latifi',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Sarah',
+      middle_name: null,
+      last_name: 'Aziz',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Rafat',
+      middle_name: null,
+      last_name: 'Damseh',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Sadam',
+      middle_name: 'Alabed',
+      last_name: 'Alrazak',
+      suffix: null,
+      role: 'author',
+    },
+    {
+      first_name: 'Javaid',
+      middle_name: null,
+      last_name: 'Sheikh',
+      suffix: null,
+      role: 'author',
+    },
+  ],
+  page_info: {
+    start: null,
+    end: null,
+  },
+  journal_title: 'JMIR Medical Education',
+  article_title:
+    'Large Language Models in Medical Education: Opportunities, Challenges, and Future Directions',
+  doi: '10.2196/48291',
+  advanced_info: {
+    issue: '',
+    volume: '9',
+    series: '',
+  },
+};
