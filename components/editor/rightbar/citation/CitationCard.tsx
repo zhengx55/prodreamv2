@@ -5,7 +5,7 @@ import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType, IJournalCitation } from '@/types';
 import { useAIEditor } from '@/zustand/store';
-import { Edit, Plus, ReplyAll, Trash2 } from 'lucide-react';
+import { Plus, ReplyAll, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
@@ -180,13 +180,13 @@ export const MineCitationCard = memo(
             <ReplyAll size={18} />
             Cite
           </Button>
-          <Button
+          {/* <Button
             className='h-max w-[42%] rounded border border-doc-primary py-1 text-doc-primary'
             variant={'ghost'}
             role='button'
           >
             <Edit size={18} className='text-doc-primary' /> Edit
-          </Button>
+          </Button> */}
           <Button
             className='aspect-square h-max rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
             variant={'ghost'}

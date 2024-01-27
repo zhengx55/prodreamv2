@@ -20,9 +20,7 @@ const Tiptap = dynamic(() => import('./Editor'), {
   ),
 });
 
-const DocRightBar = dynamic(() =>
-  import('../editor/rightbar').then((mod) => mod.DocRightBar)
-);
+const DocRightBar = dynamic(() => import('../editor/rightbar/DocRightBar'));
 
 const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
   const {
@@ -34,7 +32,6 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
     queryFn: () => getDocDetail(id),
   });
   useCitationInfo(document_content);
-  const [showRightBar, setShowRightBar] = useState(false);
   const [showOnboard, setShowOnboard] = useState(false);
   useMount(() => {
     if (!user_info || !user_info.document_dialog) {
@@ -44,16 +41,13 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
   const memoToggleOnBoard = useCallback((value: boolean) => {
     setShowOnboard(value);
   }, []);
-  const memoToggleRightBar = useCallback((value: boolean) => {
-    setShowRightBar(value);
-  }, []);
 
   if (isError) return null;
 
   return (
     <main className='relative flex h-full w-full flex-col justify-center'>
       <DocNavbar title={document_content ? document_content.title : ''} />
-      <OnBoard open={showOnboard} toogleOpen={memoToggleOnBoard} />
+      {/* <OnBoard open={showOnboard} toogleOpen={memoToggleOnBoard} /> */}
       <div className='relative flex h-full w-full justify-center overflow-hidden'>
         {isFetching ? (
           <div className='flex flex-1 flex-col items-center'>
@@ -66,7 +60,7 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
             essay_content={document_content ? document_content.content : ''}
           />
         )}
-        <DocRightBar show={showRightBar} toggle={memoToggleRightBar} />
+        <DocRightBar />
       </div>
     </main>
   );

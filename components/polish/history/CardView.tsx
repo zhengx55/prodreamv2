@@ -16,7 +16,6 @@ const CardView = ({
   toggleDeleteModal,
   toggleMoveModal,
 }: Props) => {
-  console.log(list);
   return (
     <ul role='list' className='grid w-[1100px] grid-flow-row grid-cols-5 gap-4'>
       {list.map((item) => (

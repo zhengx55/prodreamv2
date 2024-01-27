@@ -81,19 +81,19 @@ export const WelcomLanguageOptions = [
 export const WelcomEducationOptions = [
   {
     name: 'Undergrad & High Schoold',
-    desc: `Bachelor degree, Diplomas or highschool`,
+    desc: `High school students and bachelor's degree candidates`,
     src: '/welcome/HighSchool.png',
     label: 'undergrad',
   },
   {
     name: 'Masters or MBA',
-    desc: `Graduate studying a Masters or MBAprogram`,
+    desc: `Postgraduate and MBA students,  advanced certification professionals`,
     src: '/welcome/Master.png',
     label: 'master_or_mba',
   },
   {
     name: 'PhD & Beyond',
-    desc: `Doctorate student or researcher`,
+    desc: `Doctoral candidates, academic researchers, post-doctoral fellows`,
     src: '/welcome/Phd.png',
     label: 'phd_or_above',
   },

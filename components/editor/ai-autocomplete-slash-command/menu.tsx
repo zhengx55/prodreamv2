@@ -33,7 +33,12 @@ export const AutoCompleteMenuList = React.forwardRef(
     const handleStreamData = (value: string | undefined) => {
       if (!value) return;
       const lines = value.split('\n');
-      const dataLines = lines.filter((line) => line.startsWith('data:'));
+      const dataLines = lines.filter(
+        (line, index) =>
+          line.startsWith('data:') &&
+          index > 1 &&
+          lines.at(index - 1)?.startsWith('event: data')
+      );
       const eventData = dataLines.map((line) =>
         JSON.parse(line.slice('data:'.length))
       );

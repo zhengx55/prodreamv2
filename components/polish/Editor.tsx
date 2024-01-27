@@ -70,6 +70,7 @@ const Tiptap = ({
         autocomplete: 'off',
         autocorrect: 'on',
         autocapitalize: 'off',
+
         class: 'min-h-full whitespace-pre-wrap',
       },
     },
@@ -115,7 +116,11 @@ const Tiptap = ({
           {showCopilotMenu && <AiMenu editor={editor} />}
           {showCitiationMenu && <CitationMenu editor={editor} />}
           <BubbleMenu editor={editor} />
-          <EditorContent className='flex-1' editor={editor} />
+          <EditorContent
+            className='flex-1'
+            spellCheck={false}
+            editor={editor}
+          />
           <BlockMenu editor={editor} />
           <Spacer y='40' />
           <Reference />

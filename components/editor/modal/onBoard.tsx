@@ -2,6 +2,7 @@ import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { updateUserInfo } from '@/query/api';
+import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
 import Image from 'next/image';
@@ -12,6 +13,7 @@ import Start from './Start';
 type Props = { open: boolean; toogleOpen: (value: boolean) => void };
 const OnBoard = ({ open, toogleOpen }: Props) => {
   const [board, setBoard] = useState(0);
+  const editor = useAiEditor((state) => state.editor_instance);
   const { mutateAsync: handleClose } = useMutation({
     mutationFn: () =>
       updateUserInfo({
@@ -23,6 +25,7 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
   });
 
   const handleUpdateInfoAndClose = async () => {
+    // await handleClose();
     toogleOpen(false);
   };
 

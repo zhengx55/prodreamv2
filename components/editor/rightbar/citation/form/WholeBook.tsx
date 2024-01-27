@@ -50,7 +50,7 @@ const WholeBook = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
+    <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
       <Spacer y='48' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
@@ -213,10 +213,8 @@ const WholeBook = () => {
           />
         </div>
       </div>
-      <Spacer y='48' />
-      <h1 className='base-semibold'>More options</h1>
-      <Spacer y='16' />
-      <div className='flex w-full justify-end gap-x-2 border-t border-shadow-border py-3'>
+      <Spacer y='120' />
+      <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-3'>
         <Button
           className='rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}

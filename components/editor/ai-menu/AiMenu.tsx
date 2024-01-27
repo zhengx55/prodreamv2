@@ -82,7 +82,12 @@ export const AiMenu = ({ editor }: Props) => {
   const handleStreamData = (value: string | undefined) => {
     if (!value) return;
     const lines = value.split('\n');
-    const dataLines = lines.filter((line) => line.startsWith('data:'));
+    const dataLines = lines.filter(
+      (line, index) =>
+        line.startsWith('data:') &&
+        index > 1 &&
+        lines.at(index - 1)?.startsWith('event: data')
+    );
     const eventData = dataLines.map((line) =>
       JSON.parse(line.slice('data:'.length))
     );
@@ -249,7 +254,7 @@ export const AiMenu = ({ editor }: Props) => {
                       {item.submenu ? <ChevronRight size={18} /> : null}
                       {item.submenu && hoverItem === idx && (
                         <Surface
-                          style={{ top: `${idx * 27 + 80}px` }}
+                          style={{ top: `${idx * 27 + 70}px` }}
                           withBorder
                           data-state={hoverItem === idx ? 'open' : 'closed'}
                           className='absolute left-[250px] rounded px-1 py-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
