@@ -26,7 +26,7 @@ export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
     };
   }, [editor]);
   return (
-    <aside className='absolute left-0 z-10 h-full w-40 shrink-0 overflow-hidden'>
+    <aside className=' h-full w-40 shrink-0 overflow-hidden'>
       <div className='h-full w-full overflow-y-auto px-3 pb-6 pt-12'>
         {data?.content && data.content.length > 0 ? (
           <div className='flex flex-col gap-1'>
