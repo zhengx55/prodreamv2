@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { resetSchema } from '@/lib/validation';
-import { sendVerificationEmail, userReset, verifyEmail } from '@/query/api';
+import { sendVerificationEmail, userReset } from '@/query/api';
 import { IResetParams } from '@/query/type';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -66,7 +66,9 @@ export default function Page() {
       toast.success('Successfully Reset Password');
       router.replace('/login');
     },
-    onError: (error) => {},
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
 
   const { mutateAsync: handleSendVerification } = useMutation({
@@ -92,15 +94,10 @@ export default function Page() {
 
   async function onSubmit(values: z.infer<typeof resetSchema>) {
     try {
-      await verifyEmail({
-        email: values.email,
-        type: '1',
-        code: values.verification_code,
-      });
       await handleReset({
         email: values.email,
         password: values.password,
-        confirm: values.confirm,
+        verification_code: values.verification_code,
       });
     } catch (error) {}
   }

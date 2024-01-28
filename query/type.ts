@@ -26,7 +26,7 @@ export interface ISigunUpRequest {
 export interface IResetParams {
   email: string;
   password: string;
-  confirm: string;
+  verification_code: string;
 }
 
 export interface IVerifyEmail {

@@ -175,12 +175,15 @@ export async function userReset(params: IResetParams) {
   try {
     const formData = new FormData();
     formData.append('email', params.email);
-    formData.append('new_password1', params.password);
-    formData.append('new_password2', params.confirm);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}set_pass`, {
-      method: 'PATCH',
-      body: formData,
-    });
+    formData.append('password', params.password);
+    formData.append('verification_code', params.verification_code);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/password/forget`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
     const data = await res.json();
     if (data.code !== 0) {
       throw data.msg;
@@ -196,7 +199,7 @@ export async function sendVerificationEmail(params: { email: string }) {
     const formData = new FormData();
     formData.append('email', params.email);
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}verification_code`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/password/forget/verification_code`,
       {
         method: 'POST',
         body: formData,
@@ -229,33 +232,6 @@ export async function verifyEmail(params: IVerifyEmail) {
     throw new Error(error as string);
   }
 }
-
-// ----------------------------------------------------------------
-// Referral
-// ----------------------------------------------------------------
-export async function getReferralCount() {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/referral_count`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const count_data = await res.json();
-    return count_data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function uploadPaper() {}
-
-export async function redeem() {}
-
-export async function checkRedeemStatus() {}
 
 // ----------------------------------------------------------------
 // Essay Polish

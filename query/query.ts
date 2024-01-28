@@ -1,15 +1,8 @@
 import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
 import { ICitationType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { createCitation, getReferralCount } from './api';
-
-export const useReferralsCount = () => {
-  return useQuery({
-    queryKey: ['referrals_count'],
-    queryFn: () => getReferralCount(),
-  });
-};
+import { useMutation } from '@tanstack/react-query';
+import { createCitation } from './api';
 
 export const useCreateCitation = () => {
   const appendInDocCitationIds = useAIEditor(
