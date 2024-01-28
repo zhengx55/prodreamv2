@@ -2,6 +2,7 @@ import { handleUpdateUserInfo } from '@/actions/action';
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { getDocs } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
 import Image from 'next/image';
@@ -29,8 +30,14 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
   };
 
   const handleCreateCitation = async () => {
-    router.replace(`/writtingpal/polish/65b120c49d8b5ef292b7e61c`);
-    await handleClose();
+    const doc_list = await getDocs(0, 10);
+    const sample_doc = doc_list.list.find(
+      (item) => item.in_text_citations.length > 0
+    );
+    if (sample_doc) {
+      await handleClose();
+      router.replace(`/writtingpal/polish/${sample_doc.id}`);
+    }
   };
 
   return (
