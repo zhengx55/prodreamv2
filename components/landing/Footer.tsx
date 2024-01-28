@@ -12,21 +12,21 @@ const Footer = () => {
       toast.error('Please enter a valid email');
       return;
     }
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/newsletter_subscribe`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          email,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    if (response.ok) {
-      toast.success('You have successfully subscribed!!!');
-    }
+    // const response = await fetch(
+    //   `${process.env.NEXT_PUBLIC_API_URL}/newsletter_subscribe`,
+    //   {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //       email,
+    //     }),
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   }
+    // );
+    // if (response.ok) {
+    //   toast.success('You have successfully subscribed!!!');
+    // }
   };
   return (
     <footer className='relative flex w-full justify-center bg-[#000] px-4 py-5 sm:px-0 sm:py-20'>
