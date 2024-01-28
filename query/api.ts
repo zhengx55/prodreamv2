@@ -556,7 +556,7 @@ export async function profileResetPasswords(params: {
 }) {
   try {
     const formData = new FormData();
-    formData.append('new_password', params.new_password);
+    formData.append('password', params.new_password);
     formData.append('old_password', params.old_password);
     const token = Cookies.get('token');
     const res = await fetch(
@@ -616,7 +616,7 @@ export async function profileResetAvatar(params: { file: File }) {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/avatar`,
       {
-        method: 'POST',
+        method: 'PUT',
         body: formData,
         headers: {
           Authorization: `Bearer ${token}`,
