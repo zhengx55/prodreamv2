@@ -46,8 +46,6 @@ export default function Page() {
     };
   }, []);
 
-  // Rest of the code...
-
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
