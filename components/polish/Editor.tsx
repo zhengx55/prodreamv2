@@ -112,7 +112,7 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
               rows={2}
               onChange={handleTitleChange}
               id='title'
-              className='h-full w-[750px] overflow-hidden border-none p-0 font-inter text-3xl font-[700] capitalize shadow-none selection:bg-[#D4D7FF] focus-visible:ring-0'
+              className='h-full w-[700px] overflow-hidden border-none p-0 font-inter text-3xl font-[700] capitalize shadow-none selection:bg-[#D4D7FF] focus-visible:ring-0'
             />
           </div>
           <Spacer y='30' />

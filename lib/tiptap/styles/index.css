@@ -2,7 +2,7 @@
     @apply outline-0 z-0 font-inter;
 
     &>* {
-        @apply mx-auto max-w-[750px];
+        @apply mx-auto max-w-[700px];
     }
 }
 

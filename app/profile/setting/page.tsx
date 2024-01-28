@@ -125,7 +125,7 @@ export default function Page() {
         </Button>
       </div>
       <Separator orientation='horizontal' className='mt-7 bg-shadow-border' />
-      <div className='mt-7 flex h-[140px] w-[750px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
+      <div className='mt-7 flex h-[140px] w-[700px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
         <div className='flex gap-x-6'>
           <Secure />
           <h1 className='title-semibold'>Secure Your Account</h1>

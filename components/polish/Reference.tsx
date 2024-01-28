@@ -35,7 +35,7 @@ const Reference = (props: Props) => {
   }, [inTextCitation]);
   if (inTextCitation.length === 0) return null;
   return (
-    <div className='mx-auto flex w-[750px] select-none flex-col'>
+    <div className='mx-auto flex w-[700px] select-none flex-col'>
       <h3 className='text-xl font-[600]'>References</h3>
       <Spacer y='20' />
       <ol className={`pl-8`}>

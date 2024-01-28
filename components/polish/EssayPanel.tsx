@@ -14,7 +14,7 @@ const Tiptap = dynamic(() => import('./Editor'), {
   loading: () => (
     <div className='flex flex-1 flex-col items-center'>
       <Spacer y='30' />
-      <Skeleton className='h-10 w-[750px] rounded-lg' />
+      <Skeleton className='h-10 w-[700px] rounded-lg' />
     </div>
   ),
 });
@@ -51,7 +51,7 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
         {isFetching ? (
           <div className='flex flex-1 flex-col items-center'>
             <Spacer y='30' />
-            <Skeleton className='h-10 w-[750px] rounded-lg' />
+            <Skeleton className='h-10 w-[700px] rounded-lg' />
           </div>
         ) : (
           <Tiptap
