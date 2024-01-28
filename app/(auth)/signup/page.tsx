@@ -31,6 +31,7 @@ export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
+  const isMobileDevice = window.matchMedia('(max-width: 768px)').matches;
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -69,6 +70,7 @@ export default function Page() {
       last_name: values.last_name,
       email: values.email,
       password: values.password,
+      is_mobile: isMobileDevice,
     });
   }
 
