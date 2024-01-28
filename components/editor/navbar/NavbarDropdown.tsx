@@ -1,12 +1,14 @@
 import {
   DropdownMenuContent,
-  DropdownMenuItem
+  DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import { FileOutput, Settings, Shuffle } from 'lucide-react';
+import useAiEditor from '@/zustand/store';
+import { FileOutput } from 'lucide-react';
+import { memo } from 'react';
 
-type Props = {};
-
-const NavbarDropdown = ({}: Props) => {
+const NavbarDropdown = ({ title }: { title: string }) => {
+  const editor = useAiEditor((state) => state.editor_instance);
+  const handleExportPdf = () => {};
   return (
     <DropdownMenuContent
       side='bottom'
@@ -17,29 +19,22 @@ const NavbarDropdown = ({}: Props) => {
       <DropdownMenuItem
         onClick={(e) => {
           e.stopPropagation();
+          handleExportPdf();
         }}
         className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
       >
         <FileOutput size={16} />
         Export
       </DropdownMenuItem>
-      <DropdownMenuItem
+      {/* <DropdownMenuItem
         onClick={(e) => {
           e.stopPropagation();
         }}
         className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
       >
         <Settings size={16} /> Settings
-      </DropdownMenuItem>
-      <DropdownMenuItem
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
-      >
-        <Shuffle size={16} /> Citation Style
-      </DropdownMenuItem>
+      </DropdownMenuItem> */}
     </DropdownMenuContent>
   );
 };
-export default NavbarDropdown;
+export default memo(NavbarDropdown);

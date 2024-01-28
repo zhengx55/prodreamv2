@@ -30,6 +30,11 @@
     @apply text-[36px] font-[700] leading-[140%];
   }
 
+  .h2-semibold {
+    @apply text-[30px] font-[500] leading-[140%];
+
+  }
+
   .h2-bold {
     @apply text-[30px] font-[600] leading-[140%];
   }
@@ -111,7 +116,7 @@
   }
 
   .subtle-regular {
-    @apply text-[12px] font-[400] leading-[140%];
+    @apply text-[12px] font-[500] leading-[140%];
   }
 
   .tiny-medium {

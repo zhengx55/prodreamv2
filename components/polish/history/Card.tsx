@@ -25,13 +25,15 @@ const Card = ({
           <FileIcon />
           <Spacer y='5' />
           <h1 className='small-semibold line-clamp-2 capitalize'>
-            {item.title === '' ? 'Untitled Document' : item.title}
+            {item.title === 'Untitled' || !item.title
+              ? 'Untitled Document'
+              : item.title}
           </h1>
           <Spacer y='5' />
           <p
             className='subtle-regular line-clamp-4 text-shadow'
-            dangerouslySetInnerHTML={{ __html: item.text }}
-          ></p>
+            dangerouslySetInnerHTML={{ __html: item.content }}
+          />
         </div>
         <div className='flex h-1/5 w-full flex-col justify-between rounded-b-lg px-2 py-2'>
           <div className='flex-between'>

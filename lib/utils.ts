@@ -1,6 +1,16 @@
-import { IPolishResultAData } from '@/query/type';
+import { ICitation, IPolishResultAData } from '@/query/type';
+import { IJournalCitation } from '@/types';
 import { clsx, type ClassValue } from 'clsx';
+import posthog from 'posthog-js';
 import { twMerge } from 'tailwind-merge';
+
+export function btnClick(btnName: string, userId: string) {
+  posthog.capture(btnName, {
+    // button_id: buttonId, // Dynamic button ID
+    user_id: userId,
+    // ... other properties
+  });
+}
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -129,17 +139,6 @@ export function formatTimestamphh(timestampString: string) {
   }
 }
 
-export function hasHtmlTags(htmlString: string) {
-  // 创建一个新的 DOMParser 实例
-  const parser = new DOMParser();
-
-  // 使用 DOMParser 将 HTML 字符串解析为 DOM 文档
-  const doc = parser.parseFromString(htmlString, 'text/html');
-
-  // 检查是否存在任何 HTML 元素
-  return doc.body.firstChild instanceof HTMLElement;
-}
-
 export function formatTimestamphh_number(timestamp: number) {
   const currentTime = new Date().getTime();
   const timeDifference = currentTime - timestamp * 1000;
@@ -243,18 +242,79 @@ export const getDiffSentencesPair = (item: IPolishResultAData) => {
   let original_string = '';
   item.data.map((sentence) => {
     if (sentence.status === 0) {
-      original_string += ` ${sentence.sub_str}`;
-      relpace_string += sentence.sub_str;
+      original_string === ''
+        ? (original_string += `${sentence.sub_str}`)
+        : (original_string += ` ${sentence.sub_str}`);
+      relpace_string === ''
+        ? (relpace_string += `${sentence.sub_str}`)
+        : (relpace_string += ` ${sentence.sub_str}`);
     } else if ([1, 2, 3].includes(sentence.status)) {
       if (sentence.status !== 1) {
-        original_string += ` ${sentence.sub_str}`;
+        original_string === ''
+          ? (original_string += `${sentence.sub_str}`)
+          : (original_string += ` ${sentence.sub_str}`);
       }
       if (sentence.status !== 2) {
-        relpace_string += ` ${sentence.new_str} `;
+        relpace_string === ''
+          ? (relpace_string += `${sentence.new_str}`)
+          : (relpace_string += ` ${sentence.new_str}`);
       } else {
         relpace_string += ' ';
       }
     }
   });
+  original_string = original_string.trim();
   return { relpace_string, original_string };
 };
+
+export function numberToMonth(number: number): string | null {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  if (number >= 1 && number <= 12) {
+    return months[number - 1];
+  } else {
+    // 不在有效范围内返回 null 或者其他默认值
+    return null;
+  }
+}
+
+export function ConvertCitationData(item: ICitation) {
+  const converted_data = {} as IJournalCitation;
+  const {
+    advanced_info,
+    article_title,
+    authors,
+    doi,
+    journal_title,
+    page_info,
+    publish_date,
+  } = item;
+  converted_data.publish_date = {
+    day: publish_date.day ?? '',
+    month: publish_date.month ? numberToMonth(publish_date.month) : '',
+    year: publish_date.year ?? '',
+  };
+  converted_data.contributors = authors;
+  converted_data.page_info = page_info;
+  converted_data.journal_title = journal_title;
+  converted_data.article_title = article_title;
+  converted_data.doi = doi;
+  converted_data.advanced_info = {
+    issue: '',
+    volume: advanced_info.volume ?? '',
+    series: advanced_info.series ?? '',
+  };
+}

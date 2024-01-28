@@ -1,4 +1,5 @@
 export * from './DocRightBar';
-export * from './Generate';
-export * from './GrammarCheck';
+export * from './citation/Citation';
+export * from './generate/Generate';
+export * from './grammar/GrammarCheck';
 

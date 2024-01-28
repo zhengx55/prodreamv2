@@ -18,6 +18,10 @@
             content: " Press 'Space' + '/' for Continue Writing";
         }
 
+        >ul>li>p.has-focus.ai-autocomplete::after {
+            content: " Press 'Space' + '/' for Continue Writing";
+        }
+
         >[data-type='columns']>[data-type='column']>p.is-empty.has-focus::before {
             content: 'Type  /  to browse options';
         }

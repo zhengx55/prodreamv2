@@ -1,9 +1,6 @@
 'use client';
-import * as z from 'zod';
 import Panel from '@/components/auth/Panel';
 import { Button } from '@/components/ui/button';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormControl,
@@ -14,14 +11,18 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { resetSchema } from '@/lib/validation';
-import Link from 'next/link';
-import { Eye, EyeOff } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { sendVerificationEmail, userReset, verifyEmail } from '@/query/api';
-import { useRouter } from 'next/navigation';
+import { sendVerificationEmail, userReset } from '@/query/api';
 import { IResetParams } from '@/query/type';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { Eye, EyeOff } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import * as z from 'zod';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
@@ -65,7 +66,9 @@ export default function Page() {
       toast.success('Successfully Reset Password');
       router.replace('/login');
     },
-    onError: (error) => {},
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
 
   const { mutateAsync: handleSendVerification } = useMutation({
@@ -91,183 +94,200 @@ export default function Page() {
 
   async function onSubmit(values: z.infer<typeof resetSchema>) {
     try {
-      await verifyEmail({
-        email: values.email,
-        type: '1',
-        code: values.verification_code,
-      });
       await handleReset({
         email: values.email,
         password: values.password,
-        confirm: values.confirm,
+        verification_code: values.verification_code,
       });
     } catch (error) {}
   }
 
   return (
-    <section className='flex-center flex-1'>
+    <>
       <Panel>
-        <h1 className='h3-bold self-center'>Reset Password</h1>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className='flex flex-col gap-y-6'
-          >
-            <FormField
-              control={form.control}
-              name='email'
-              render={({ field }) => (
-                <FormItem className='mt-10'>
-                  <FormLabel className='text-black-400' htmlFor='email'>
-                    Enter the Email Linked to Your Account
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      autoComplete='email'
-                      id='email'
-                      placeholder=''
-                      type='email'
-                      className='rounded-2xl border-none bg-shadow-50'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className='text-xs text-red-400' />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel className='text-black-400' htmlFor='password'>
-                    Enter New Password
-                  </FormLabel>
-                  {!hidePassword ? (
-                    <EyeOff
-                      onClick={() => setHidePassword((prev) => !prev)}
-                      size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
-                    />
-                  ) : (
-                    <Eye
-                      onClick={() => setHidePassword((prev) => !prev)}
-                      size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
-                    />
-                  )}
-
-                  <FormControl>
-                    <Input
-                      autoComplete='current-password'
-                      id='password'
-                      type={hidePassword ? 'password' : 'text'}
-                      placeholder=''
-                      className='rounded-2xl border-none bg-shadow-50'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className='text-xs text-red-400' />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='confirm'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel className='text-black-400' htmlFor='confirm'>
-                    Re-enter New Password
-                  </FormLabel>
-                  {!hideConfirm ? (
-                    <EyeOff
-                      onClick={() => setHideConfirm((prev) => !prev)}
-                      size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
-                    />
-                  ) : (
-                    <Eye
-                      onClick={() => setHideConfirm((prev) => !prev)}
-                      size={22}
-                      className='absolute right-2 top-8 cursor-pointer'
-                    />
-                  )}
-
-                  <FormControl>
-                    <Input
-                      autoComplete='current-password'
-                      id='confirm'
-                      type={hideConfirm ? 'password' : 'text'}
-                      placeholder=''
-                      className='rounded-2xl border-none bg-shadow-50'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className='text-xs text-red-400' />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='verification_code'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel
-                    className='text-black-400'
-                    htmlFor='verification_code'
-                  >
-                    Verification
-                  </FormLabel>
-                  <div className='flex gap-x-2'>
+        <div className='flex w-full flex-col sm:w-[580px]'>
+          <h1 className='self-center text-[28px] font-[500] sm:text-[42px]'>
+            Reset Password
+          </h1>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className='flex flex-col gap-y-6'
+            >
+              <FormField
+                control={form.control}
+                name='email'
+                render={({ field }) => (
+                  <FormItem className='mt-20'>
+                    <FormLabel
+                      className='title-semibold sm:title-semibold text-[#17161B]'
+                      htmlFor='email'
+                    >
+                      Enter the Email Linked to Your Account
+                    </FormLabel>
                     <FormControl>
                       <Input
-                        autoComplete='current-password'
-                        id='verification_code'
-                        type='text'
+                        autoComplete='email'
+                        id='email'
                         placeholder=''
-                        className='rounded-2xl border-none bg-shadow-50'
+                        type='email'
+                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
                         {...field}
                       />
                     </FormControl>
-                    <Button
-                      disabled={verifyWait}
-                      onClick={handleSentVerificationEmail}
-                      type='button'
-                      className='w-[150px] shrink-0 rounded-[20px]'
+                    <FormMessage className='text-xs text-red-400' />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='password'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel
+                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      htmlFor='password'
                     >
-                      {verifyWait ? (
-                        <>
-                          Resend in&nbsp;
-                          {countdown}
-                        </>
-                      ) : (
-                        'Send Verification'
-                      )}
-                    </Button>
-                  </div>
+                      Enter New Password
+                    </FormLabel>
+                    {!hidePassword ? (
+                      <EyeOff
+                        onClick={() => setHidePassword((prev) => !prev)}
+                        size={22}
+                        className='absolute right-2 top-10 cursor-pointer'
+                      />
+                    ) : (
+                      <Eye
+                        onClick={() => setHidePassword((prev) => !prev)}
+                        size={22}
+                        className='absolute right-2 top-10 cursor-pointer'
+                      />
+                    )}
 
-                  <FormMessage className='text-xs text-red-400' />
-                </FormItem>
-              )}
-            />
-            <Button className='w-full rounded-full' type='submit'>
-              Confirm Reset
-            </Button>
-          </form>
-        </Form>
-        <p className='small-regular mt-8 self-center text-black-200'>
-          Switch to&nbsp;
-          <Link href={'/login'} className='text-primary-200'>
-            Log in
-          </Link>
-          &nbsp;or&nbsp;
-          <Link href={'/signup'} className='text-primary-200'>
-            Sign up
-          </Link>
-        </p>
+                    <FormControl>
+                      <Input
+                        autoComplete='current-password'
+                        id='password'
+                        type={hidePassword ? 'password' : 'text'}
+                        placeholder=''
+                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className='text-xs text-red-400' />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='confirm'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel
+                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      htmlFor='confirm'
+                    >
+                      Re-enter New Password
+                    </FormLabel>
+                    {!hideConfirm ? (
+                      <EyeOff
+                        onClick={() => setHideConfirm((prev) => !prev)}
+                        size={22}
+                        className='absolute right-2 top-10 cursor-pointer'
+                      />
+                    ) : (
+                      <Eye
+                        onClick={() => setHideConfirm((prev) => !prev)}
+                        size={22}
+                        className='absolute right-2 top-10 cursor-pointer'
+                      />
+                    )}
+
+                    <FormControl>
+                      <Input
+                        autoComplete='current-password'
+                        id='confirm'
+                        type={hideConfirm ? 'password' : 'text'}
+                        placeholder=''
+                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className='text-xs text-red-400' />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='verification_code'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel
+                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      htmlFor='verification_code'
+                    >
+                      Verification
+                    </FormLabel>
+                    <div className='flex gap-x-2'>
+                      <FormControl>
+                        <Input
+                          autoComplete='current-password'
+                          id='verification_code'
+                          type='text'
+                          placeholder=''
+                          className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                          {...field}
+                        />
+                      </FormControl>
+                      <Button
+                        disabled={verifyWait}
+                        onClick={handleSentVerificationEmail}
+                        type='button'
+                        className='w-[150px] shrink-0 rounded-[8px] border-[2px] border-[#8551F3] bg-[#fff] text-[#8551F3] hover:bg-[#8551F3] hover:text-[#fff]'
+                      >
+                        {verifyWait ? (
+                          <>
+                            Resend in&nbsp;
+                            {countdown}
+                          </>
+                        ) : (
+                          'Send Verification'
+                        )}
+                      </Button>
+                    </div>
+
+                    <FormMessage className='text-xs text-red-400' />
+                  </FormItem>
+                )}
+              />
+              <Button className='w-full rounded bg-auth-primary' type='submit'>
+                Confirm Reset
+              </Button>
+            </form>
+          </Form>
+          <p className='small-regular mt-8 self-center text-black-200'>
+            Switch to&nbsp;
+            <Link href={'/login'} className='text-auth-primary'>
+              Log in
+            </Link>
+            &nbsp;or&nbsp;
+            <Link href={'/signup'} className='text-auth-primary'>
+              Sign up
+            </Link>
+          </p>
+        </div>
       </Panel>
-    </section>
+      <div className='relative hidden h-full w-1/2 bg-white sm:flex'>
+        <Image
+          src='/auth/auth.png'
+          alt='logo'
+          fill
+          priority
+          sizes='(max-width: 600px) 100vw, 50vw'
+        />
+      </div>
+    </>
   );
 }

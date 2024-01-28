@@ -15,11 +15,11 @@ const EditPassword = dynamic(() => import('@/components/profile/EditPassword'));
 
 export default function Page() {
   const userInfo = useUserInfo((state) => state.user);
+  const setUserAvatar = useUserInfo((state) => state.setUserAvatar);
   const uploadRef = useRef<HTMLInputElement>(null);
   const [IsEditEmail, setEditEmail] = useState(false);
   const [IsEditPassword, setEditPassword] = useState(false);
   const [IsEditName, setEditName] = useState(false);
-
   const toogleEmailModal = useCallback(() => {
     setEditEmail((prev) => !prev);
   }, []);
@@ -27,8 +27,9 @@ export default function Page() {
   const { mutateAsync: upLoadAvatar } = useMutation({
     mutationFn: (params: { file: File }) => profileResetAvatar(params),
     onSuccess: async () => {
-      toast.success('Email has been reset successfully!');
       const data = await refreshUserSession();
+      setUserAvatar(data.avatar);
+      toast.success('avatar has been reset successfully!');
     },
 
     onError: (error) => {
@@ -55,9 +56,6 @@ export default function Page() {
     setEditName((prev) => !prev);
   }, []);
 
-  const userAvatar = userInfo.linked_google
-    ? userInfo.avatar
-    : `${process.env.NEXT_PUBLIC_API_STATIC_URL}${userInfo.avatar}`;
   return (
     <main className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col overflow-y-auto px-16 py-10'>
       <EditName isActive={IsEditName} toogleActive={toggleNameModal} />
@@ -77,8 +75,13 @@ export default function Page() {
               alt={userInfo.last_name}
               className='h-auto w-auto'
               width={70}
+              placeholder='empty'
               height={70}
-              src={userAvatar}
+              src={
+                userInfo.avatar
+                  ? userInfo.avatar
+                  : 'https://quickapply.blob.core.windows.net/avatar/default.jpg'
+              }
             />
             <input
               ref={uploadRef}
@@ -128,7 +131,7 @@ export default function Page() {
         </Button>
       </div>
       <Separator orientation='horizontal' className='mt-7 bg-shadow-border' />
-      <div className='mt-7 flex h-[140px] w-[750px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
+      <div className='mt-7 flex h-[140px] w-[700px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
         <div className='flex gap-x-6'>
           <Secure />
           <h1 className='title-semibold'>Secure Your Account</h1>

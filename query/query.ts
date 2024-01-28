@@ -1,112 +1,78 @@
-import { AnswerRequestParam } from '@/types';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import {
-  OptimizeAnswer,
-  fetchChatGuideQas,
-  fetchChatHistory,
-  fetchFinalAs,
-  fetchSessionHistory,
-  getBrainstormDetails,
-  getPreDefinedOptions,
-  getReferralCount,
-  refreshUserSession,
-  sendChatMessage,
-} from './api';
+import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
+import { ICitationType } from '@/types';
+import { useAIEditor } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
+import { createCitation } from './api';
 
-// ============================================================
-// BRAINSOTRM QUERIES
-// ============================================================
-export const useBrainStormDetail = (template_id: string) => {
-  return useQuery({
-    queryKey: ['brainstormdetail', template_id],
-    enabled: !!template_id,
-    queryFn: () => getBrainstormDetails(template_id),
-  });
-};
-
-export const useAnswerOptimize = () => {
+export const useCreateCitation = () => {
+  const appendInDocCitationIds = useAIEditor(
+    (state) => state.appendInDocCitationIds
+  );
   return useMutation({
-    mutationFn: ({
-      question_id,
-      answer,
-      type,
-    }: {
-      question_id: string;
-      answer: string;
-      type: 0 | 1;
-    }) => OptimizeAnswer(question_id, answer, type),
+    mutationFn: (params: {
+      citation_type: ICitationType;
+      citation_data: any;
+      document_id: string;
+    }) => createCitation(params),
+    onSuccess: async (data, variables) => {
+      // 根据Id 获取citation信息
+      appendInDocCitationIds(
+        {
+          type: variables.citation_type,
+          data: { ...variables.citation_data, id: data },
+        },
+        variables.document_id
+      );
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
   });
 };
 
-// ----------------------------------------------------------------
-// Chat
-// ----------------------------------------------------------------
-export const useChatGuideQas = (template_id: string) => {
-  return useQuery({
-    queryKey: ['get_chat_guide', template_id],
-    queryFn: () => fetchChatGuideQas(template_id),
-    enabled: !!template_id,
-  });
-};
-
-export const useSendChat = () => {
+export const useCiteToDoc = (flag?: boolean) => {
+  const editor = useAIEditor((state) => state.editor_instance);
+  const { insertCitation } = useEditorCommand(editor!);
+  const appendInTextCitationIds = useAIEditor(
+    (state) => state.appendInTextCitationIds
+  );
+  const appendInDocCitationIds = useAIEditor(
+    (state) => state.appendInDocCitationIds
+  );
   return useMutation({
-    mutationFn: (params: AnswerRequestParam) => sendChatMessage(params),
-  });
-};
-
-export const useGetFinalAnswer = () => {
-  return useMutation({
-    mutationFn: (session_id: string) => fetchFinalAs(session_id),
-  });
-};
-
-// ----------------------------------------------------------------
-// Chat With Max
-// ----------------------------------------------------------------
-export const useGetChatHistory = () => {
-  return useQuery({
-    queryKey: ['chat_history'],
-    queryFn: fetchChatHistory,
-  });
-};
-
-export const useGetSessionHistory = (session_id: string) => {
-  return useQuery({
-    queryKey: ['current_session_history', session_id],
-    enabled: !!session_id,
-    queryFn: () => fetchSessionHistory(session_id),
-  });
-};
-
-// ----------------------------------------------------------------
-// Refresh
-// ----------------------------------------------------------------
-
-export const useRefreshSession = () => {
-  return useQuery({
-    queryKey: ['refresh_session'],
-    queryFn: () => refreshUserSession(),
-  });
-};
-
-// ----------------------------------------------------------------
-// AI Editors
-// ----------------------------------------------------------------
-
-export const usePreDefinedOptions = () => {
-  return useQuery({
-    queryKey: ['fetch_predefined_options'],
-    queryFn: () => getPreDefinedOptions(),
-  });
-};
-
-// ----------------------------------------------------------------
-// Referals
-// ----------------------------------------------------------------
-export const useReferralsCount = () => {
-  return useQuery({
-    queryKey: ['referrals_count'],
-    queryFn: () => getReferralCount(),
+    mutationFn: (params: {
+      citation_type: ICitationType;
+      citation_data: any;
+      document_id: string;
+    }) => createCitation(params),
+    onSuccess: async (data, variables) => {
+      // 根据Id 获取citation信息
+      appendInTextCitationIds(
+        {
+          type: variables.citation_type,
+          data: { ...variables.citation_data, id: data },
+        },
+        variables.document_id
+      );
+      appendInDocCitationIds(
+        {
+          type: variables.citation_type,
+          data: { ...variables.citation_data, id: data },
+        },
+        variables.document_id
+      );
+      if (
+        variables.citation_data.contributors.length > 0 &&
+        variables.citation_data.contributors[0].last_name &&
+        !flag
+      ) {
+        insertCitation(variables.citation_data.contributors[0].last_name);
+      }
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
   });
 };

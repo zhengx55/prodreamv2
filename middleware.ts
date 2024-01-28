@@ -1,4 +1,3 @@
-// My _middleware.js file
 import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(req: NextRequest) {
@@ -11,17 +10,10 @@ export const config = {
   matcher: [
     {
       source: '/writtingpal/:path*',
-      missing: [
-        { type: 'header', key: 'next-router-prefetch' },
-        { type: 'header', key: 'purpose', value: 'prefetch' },
-      ],
     },
     {
       source: '/profile/:path*',
-      missing: [
-        { type: 'header', key: 'next-router-prefetch' },
-        { type: 'header', key: 'purpose', value: 'prefetch' },
-      ],
     },
+    { source: '/welcome/:path*' },
   ],
 };

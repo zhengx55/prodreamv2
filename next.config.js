@@ -16,7 +16,11 @@ const nextConfig = {
         hostname: 'quickapply.app',
       },
       { hostname: 'lh3.googleusercontent.com', protocol: 'https' },
+      { hostname: 'quickapply.blob.core.windows.net', protocol: 'https' },
     ],
+  },
+  experimental: {
+    nextScriptWorkers: true,
   },
   reactStrictMode: false,
   output: 'standalone',

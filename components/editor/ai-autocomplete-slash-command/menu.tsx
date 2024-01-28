@@ -33,22 +33,17 @@ export const AutoCompleteMenuList = React.forwardRef(
     const handleStreamData = (value: string | undefined) => {
       if (!value) return;
       const lines = value.split('\n');
-      const dataLines = lines.filter((line) => line.startsWith('data:'));
+      const dataLines = lines.filter(
+        (line, index) =>
+          line.startsWith('data:') &&
+          lines.at(index - 1)?.startsWith('event: data')
+      );
       const eventData = dataLines.map((line) =>
-        line.slice('data:'.length).trimEnd()
+        JSON.parse(line.slice('data:'.length))
       );
       let result = '';
       eventData.forEach((word) => {
-        const leadingSpaces = word.match(/^\s*/);
-        const spacesLength = leadingSpaces ? leadingSpaces[0].length : 0;
-        if (spacesLength === 2) {
-          result += ` ${word.trim()}`;
-        } else {
-          if (/^\d/.test(word.trim())) {
-            result += ` ${word.trim()}`;
-          }
-          result += word.trim();
-        }
+        result += word;
       });
       props.editor.commands.insertContent(result, {
         parseOptions: {
@@ -66,7 +61,13 @@ export const AutoCompleteMenuList = React.forwardRef(
       async (groupIndex: number, commandIndex: number) => {
         const command = props.items[groupIndex].commands[commandIndex];
         const { selection } = props.editor.state;
-        const original_paragraph = selection.$head.parent.textContent;
+        let original_paragraph = selection.$head.parent.textContent;
+        if (original_paragraph.trim() === '/') {
+          original_paragraph = selection.$head.doc.textBetween(
+            0,
+            selection.$head.before()
+          );
+        }
         props.command(command);
         await handleCopilot({
           tool: command.apiEndpoint!,

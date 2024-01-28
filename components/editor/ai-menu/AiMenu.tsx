@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
-import { copilot } from '@/query/api';
+import { ask, copilot } from '@/query/api';
 import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
-import { AlertTriangle, ChevronRight, Frown, Smile } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import {
   ChangeEvent,
@@ -63,7 +63,35 @@ export const AiMenu = ({ editor }: Props) => {
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
-        if (done) break;
+        if (done) {
+          setHoverItem(0);
+          break;
+        }
+        handleStreamData(value);
+      }
+    },
+    onSettled: () => {
+      setGenerating(false);
+    },
+
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { mutateAsync: handleAsk } = useMutation({
+    mutationFn: (params: { instruction: string; text: string }) => ask(params),
+    onMutate: () => {
+      setGenerating(true);
+    },
+    onSuccess: async (data: ReadableStream) => {
+      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          setHoverItem(0);
+          break;
+        }
         handleStreamData(value);
       }
     },
@@ -79,22 +107,17 @@ export const AiMenu = ({ editor }: Props) => {
   const handleStreamData = (value: string | undefined) => {
     if (!value) return;
     const lines = value.split('\n');
-    const dataLines = lines.filter((line) => line.startsWith('data:'));
+    const dataLines = lines.filter(
+      (line, index) =>
+        line.startsWith('data:') &&
+        lines.at(index - 1)?.startsWith('event: data')
+    );
     const eventData = dataLines.map((line) =>
-      line.slice('data:'.length).trimEnd()
+      JSON.parse(line.slice('data:'.length))
     );
     let result = '';
     eventData.forEach((word) => {
-      const leadingSpaces = word.match(/^\s*/);
-      const spacesLength = leadingSpaces ? leadingSpaces[0].length : 0;
-      if (spacesLength === 2) {
-        result += ` ${word.trim()}`;
-      } else {
-        if (/^\d/.test(word.trim())) {
-          result += ` ${word.trim()}`;
-        }
-        result += word.trim();
-      }
+      result += word;
     });
     setAiResult((prev) => (prev += result));
   };
@@ -106,6 +129,7 @@ export const AiMenu = ({ editor }: Props) => {
 
   const handleCustomPrompt = async () => {
     if (!prompt.trim()) return toast.error('please enter a custom prompt');
+    await handleAsk({ instruction: prompt, text: selectedText });
   };
 
   const handleKeyEnter = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -169,7 +193,11 @@ export const AiMenu = ({ editor }: Props) => {
         {!generating ? (
           hasAiResult ? (
             <div className='flex min-h-12 w-full items-center rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
-              <Typed strings={[aiResult]} className='px-2' typeSpeed={5} />
+              <Typed
+                strings={[aiResult]}
+                className='small-regular px-2'
+                typeSpeed={5}
+              />
             </div>
           ) : (
             <div className='flex-between h-12 w-full gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
@@ -201,7 +229,7 @@ export const AiMenu = ({ editor }: Props) => {
             </p>
           </div>
         )}
-        <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
+        {/* <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
           <div className='flex gap-x-2'>
             <AlertTriangle className='text-shadow' size={15} />
             <p className='subtle-regular text-shadow'>
@@ -218,7 +246,7 @@ export const AiMenu = ({ editor }: Props) => {
               size={15}
             />
           </div>
-        </div>
+        </div> */}
         <Spacer y='5' />
         {generating ? null : (
           <Surface className='w-[256px] rounded px-1 py-2' withBorder>
@@ -230,6 +258,13 @@ export const AiMenu = ({ editor }: Props) => {
                         hoverItem === idx ? 'bg-doc-secondary' : ''
                       } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
                       key={item.id}
+                      onClick={() => {
+                        !item.submenu &&
+                          handleCopilot({
+                            tool: item.lable,
+                            text: selectedText,
+                          });
+                      }}
                       onMouseEnter={() => setHoverItem(idx)}
                       onMouseLeave={() => setHoverItem(null)}
                     >
@@ -244,7 +279,7 @@ export const AiMenu = ({ editor }: Props) => {
                       {item.submenu ? <ChevronRight size={18} /> : null}
                       {item.submenu && hoverItem === idx && (
                         <Surface
-                          style={{ top: `${idx * 27 + 80}px` }}
+                          style={{ top: `${idx * 27 + 70}px` }}
                           withBorder
                           data-state={hoverItem === idx ? 'open' : 'closed'}
                           className='absolute left-[250px] rounded px-1 py-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'

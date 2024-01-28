@@ -1,55 +1,83 @@
 'use client';
-import { IDocDetail } from '@/query/type';
+import DocNavbar from '@/components/editor/navbar';
+import useMount from '@/hooks/useMount';
+import { getDocDetail } from '@/query/api';
+import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { memo, useCallback, useState } from 'react';
+import { useCitationInfo } from '../editor/rightbar/citation/hooks/useCitationInfo';
 import Spacer from '../root/Spacer';
+import { Feedback } from '../root/SvgComponents';
+import Tooltip from '../root/Tooltip';
+import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 
+const OnBoard = dynamic(() => import('../editor/modal/onBoard'));
 const Tiptap = dynamic(() => import('./Editor'), {
-  ssr: false,
   loading: () => (
     <div className='flex flex-1 flex-col items-center'>
       <Spacer y='30' />
-      <Skeleton className='h-10 w-[750px] rounded-lg' />
+      <Skeleton className='h-10 w-[700px] rounded-lg' />
     </div>
   ),
 });
 
-const DocRightBar = dynamic(() =>
-  import('../editor/rightbar').then((mod) => mod.DocRightBar)
-);
+const DocRightBar = dynamic(() => import('../editor/rightbar/DocRightBar'));
 
-const EssayPanel = ({
-  isFetching,
-  isError,
-  document_content,
-}: {
-  isFetching: boolean;
-  isError: boolean;
-  document_content: IDocDetail | undefined;
-}) => {
-  const [showRightBar, setShowRightBar] = useState(false);
-  const memoToggleRightBar = useCallback((value: boolean) => {
-    setShowRightBar(value);
+const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
+  const {
+    data: document_content,
+    isFetching,
+    isError,
+  } = useQuery({
+    queryKey: ['document_item', id],
+    queryFn: () => getDocDetail(id),
+  });
+  useCitationInfo(document_content);
+  const [showOnboard, setShowOnboard] = useState(false);
+  useMount(() => {
+    // setShowOnboard(true);
+    if (!user_info || !user_info.document_dialog) {
+      setShowOnboard(true);
+    }
+  });
+  const memoToggleOnBoard = useCallback((value: boolean) => {
+    setShowOnboard(value);
   }, []);
 
   if (isError) return null;
 
   return (
-    <div className='relative flex h-full w-full justify-center overflow-hidden'>
-      {isFetching ? (
-        <div className='flex flex-1 flex-col items-center'>
-          <Spacer y='30' />
-          <Skeleton className='h-10 w-[750px] rounded-lg' />
-        </div>
-      ) : (
-        <Tiptap
-          essay_title={document_content ? document_content.title : ''}
-          essay_content={document_content ? document_content.text : ''}
-        />
-      )}
-      <DocRightBar show={showRightBar} toggle={memoToggleRightBar} />
-    </div>
+    <main className='relative flex h-full w-full flex-col justify-center'>
+      <DocNavbar />
+      <Tooltip defaultOpen side='right' tooltipContent='submit feedback'>
+        <Link
+          passHref
+          href={'https://tally.so/r/3NovEO'}
+          className='absolute bottom-[10%] left-2 z-50'
+          target='_blank'
+        >
+          <Button className='rounded-xl bg-doc-secondary p-2.5' role='link'>
+            <Feedback />
+          </Button>
+        </Link>
+      </Tooltip>
+      <OnBoard open={showOnboard} toogleOpen={memoToggleOnBoard} />
+      <div className='relative flex h-full w-full justify-center overflow-hidden'>
+        {isFetching ? (
+          <div className='flex flex-1 flex-col items-center'>
+            <Spacer y='30' />
+            <Skeleton className='h-10 w-[700px] rounded-lg' />
+          </div>
+        ) : (
+          <Tiptap
+            essay_content={document_content ? document_content.content : ''}
+          />
+        )}
+        <DocRightBar />
+      </div>
+    </main>
   );
 };
 

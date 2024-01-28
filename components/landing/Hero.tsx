@@ -3,12 +3,10 @@ import { fadeIn, staggerContainer, textVariant } from '@/constant/motion';
 import { m } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 
 const Hero = () => {
-  const [selected, setSelected] = useState(0);
   return (
     <m.section
       variants={staggerContainer()}
@@ -17,135 +15,75 @@ const Hero = () => {
       viewport={{
         once: true,
       }}
-      className='relative mt-4 flex w-full justify-center px-4 sm:mt-0 sm:min-h-[calc(100vh_-64px)] sm:px-0'
+      className='relative mt-4 flex w-full justify-center px-4 sm:mt-0 sm:px-0'
     >
       <m.div
         variants={fadeIn('left', 'tween', 0, 0.5)}
-        className='absolute hidden h-full w-full sm:block'
+        className='absolute h-full w-full sm:block'
       >
         <Image
           draggable='false'
           alt='gardient-bg'
           priority
-          className='absolute -right-[200px] top-10 h-full w-auto'
+          className='absolute top-10 h-[90%] w-full'
           width={1400}
           height={900}
-          sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
-          src='/landing/heros/herobg.png'
+          src='/landing/heros/Mask_group.png'
         />
       </m.div>
 
       <m.div
         variants={textVariant(0)}
-        className='sm:flex-center flex h-full w-full flex-col gap-y-4 sm:max-w-[1450px] sm:flex-row sm:gap-y-0'
+        className='sm:flex-center sm:gap-y-100 flex h-full w-full flex-col gap-y-4 sm:max-w-[1200px] sm:flex-col'
       >
-        <section className='flex w-full flex-col sm:w-1/2'>
-          <h1 className='text-center text-[28px] font-[700] leading-[130%] tracking-tighter sm:text-left sm:text-[50px]'>
-            Elevate your personal
-            <br /> statement with{' '}
-            <span className='text-primary-200'>
-              admission-
-              <br className='hidden sm:block' />
-              grade
+        <section className='flex w-full flex-col sm:w-[1200px] sm:pt-[60px]'>
+          <h1 className='text-center font-baskerville text-[32px] font-[400] leading-[32px] tracking-tighter sm:text-center sm:text-[48px] sm:leading-[58px]'>
+            <span className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
+              Transform{' '}
             </span>{' '}
-            feedbacks
+            Your
+            <br className='sm:hidden' /> Academic
+            <br className='hidden sm:block' /> Writing
+            <br className='sm:hidden' /> Journey
           </h1>
           <Spacer y='20' />
-          <p className='small-regular text-center sm:text-left'>
-            Backed by 400+ admission counselors.
+          <p className='small-regular text-center text-[14px] text-[#64626A] sm:text-center sm:text-[18px]'>
+            Craft Superior Essays and Research Papers with Cutting-Edge AI
+            Assistance
           </p>
           <Spacer y='40' />
-          <div className='relative flex w-full flex-col items-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-2 sm:gap-y-0'>
-            <Image
-              draggable='false'
-              alt='Signup'
-              src='/landing/heros/Signup.png'
-              width={28}
-              height={28}
-              className='absolute -top-2 left-8 h-7 w-7 sm:-left-4 sm:-top-4'
-            />
+          <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-2 sm:gap-y-0'>
             <Button
               asChild
-              className='h-max w-2/3 rounded-[40px] sm:w-max sm:px-8 sm:py-3.5'
+              className='h-max w-2/3 rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3] sm:w-max sm:px-8 sm:py-3.5'
             >
               <Link href={'/signup'}>
-                <strong>Sign Up Now!</strong>It&apos;s Free
+                <strong>Start Writing!</strong>It&apos;s Free
               </Link>
             </Button>
             <Button
-              className='h-max w-2/3 rounded-[40px] border border-black-400 sm:w-max sm:px-8 sm:py-3.5'
+              className='h-max w-2/3 rounded-[8px] border border-[#8551F3] text-[#8551F3] sm:w-max sm:px-8 sm:py-3.5'
               variant={'ghost'}
             >
-              <Image
-                draggable='false'
-                src='/google.svg'
-                alt='google'
-                width={23}
-                height={23}
-                priority
-                className='h-auto w-auto'
-              />
-              Sign up with Google
+              <Link
+                href={'https://discord.gg/xXSFXv5kPd'}
+                passHref
+                target='_blank'
+              >
+                Join Community
+              </Link>
             </Button>
           </div>
         </section>
-        <section className='relative flex w-full flex-col sm:w-1/2'>
-          <div className='z-10 flex h-10 w-full items-center gap-x-2.5 self-center rounded-lg border border-shadow-border bg-white p-1 sm:h-14 sm:w-[450px]'>
-            <span
-              onClick={() => setSelected(0)}
-              className={`${
-                selected === 0
-                  ? 'bg-primary-50 text-primary-200'
-                  : 'bg-transparent'
-              } flex-center small-medium sm:base-medium h-full w-1/2 cursor-pointer gap-x-2 rounded-lg`}
-            >
-              <span
-                className={`${
-                  selected === 0 ? 'bg-white' : 'bg-nav-selected'
-                } px-2 py-1`}
-              >
-                1
-              </span>
-              Get Your Report
-            </span>
-            <span
-              onClick={() => setSelected(1)}
-              className={`${
-                selected === 1
-                  ? 'bg-primary-50 text-primary-200'
-                  : 'bg-transparent'
-              } flex-center small-medium sm:base-medium h-full w-1/2 cursor-pointer gap-x-2 rounded-lg`}
-            >
-              <span
-                className={`${
-                  selected === 1 ? 'bg-white' : 'bg-nav-selected'
-                } px-2 py-1`}
-              >
-                2
-              </span>
-              Refine Your Essay
-            </span>
-          </div>
-          <Spacer y='24' />
-          {selected === 0 ? (
-            <Image
-              alt='herodemo-1'
-              src='/landing/heros/hero-1.gif'
-              className='z-10 h-auto w-full'
-              width={800}
-              height={500}
-              priority
-            />
-          ) : (
-            <Image
-              alt='herodemo-2'
-              src='/landing/heros/hero-2.gif'
-              className='h-auto w-full'
-              width={800}
-              height={500}
-              priority
-            />
-          )}
+        <section className='relative top-[50px] flex h-[196px] w-full flex-col overflow-hidden rounded-[8px] sm:top-10 sm:h-[610px] sm:w-[1070px]'>
+          <Image
+            draggable='false'
+            alt='hero-showcase'
+            priority
+            fill
+            sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 100vw'
+            src='/landing/heros/Banner.png'
+          />
         </section>
       </m.div>
     </m.section>

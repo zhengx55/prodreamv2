@@ -1,64 +1,68 @@
 'use client';
 import BottomBar from '@/components/editor/bottombar';
-import { CitiationMenu } from '@/components/editor/citiation-menu';
 import { TableOfContent } from '@/components/editor/table-of-contents';
 import Spacer from '@/components/root/Spacer';
-import { Input } from '@/components/ui/input';
 import { useDebouncedState } from '@/hooks/useDebounceState';
+import useMount from '@/hooks/useMount';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
-import { hasHtmlTags } from '@/lib/utils';
 import { saveDoc } from '@/query/api';
 import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useParams } from 'next/navigation';
-import { ChangeEvent, memo, useState } from 'react';
+import { ChangeEvent, memo } from 'react';
+import { useDebounce } from 'use-debounce';
 import { AiMenu } from '../editor/ai-menu';
 import { BlockMenu } from '../editor/blockmenu';
 import { BubbleMenu } from '../editor/bubble-menu';
+import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
+import { Textarea } from '../ui/textarea';
+import Reference from './Reference';
 
-const Tiptap = ({
-  essay_content,
-  essay_title,
-}: {
-  essay_content: string;
-  essay_title: string;
-}) => {
+const Tiptap = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
   const reset = useAiEditor((state) => state.reset);
+  const doc_title = useAiEditor((state) => state.doc_title);
+  const updateTitle = useAiEditor((state) => state.updateTitle);
   const showCopilotMenu = useAiEditor((state) => state.showCopilotMenu);
   const showCitiationMenu = useAiEditor((state) => state.showCitiationMenu);
   const showSynonymMenu = useAiEditor((state) => state.showSynonymMenu);
-  const [title, setTitle] = useDebouncedState(essay_title, 1500);
+  const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
+  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
-  const [saving, toggleSaving] = useState(false);
   const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
   const savingMode = useAiEditor((state) => state.savingMode);
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    toggleSaving(true);
-    setTitle(e.currentTarget.value);
+  const [debounceTitle] = useDebounce(doc_title, 1500);
+
+  useMount(() => {
+    updateRightbarTab(0);
+  });
+
+  const handleTitleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    toogleIsSaving(true);
+    updateTitle(e.currentTarget.value);
   };
   const { mutateAsync: saveDocument } = useMutation({
-    mutationFn: (params: { id: string; text?: string; title?: string }) =>
+    mutationFn: (params: { id: string; content?: string; title?: string }) =>
       saveDoc(params),
-    onSuccess: () => {
-      toggleSaving(false);
+    onMutate: () => {
+      toogleIsSaving(true);
     },
-    onError: () => {
-      toggleSaving(false);
+    onSettled: () => {
+      toogleIsSaving(false);
     },
   });
 
   useUpdateEffect(() => {
-    saveDocument({ id, title });
-  }, [title]);
+    saveDocument({ id, title: debounceTitle });
+  }, [debounceTitle]);
 
   useUpdateEffect(() => {
     if (savingMode) {
-      saveDocument({ id, text: content });
+      saveDocument({ id, content: content });
     }
   }, [content, savingMode]);
 
@@ -69,29 +73,18 @@ const Tiptap = ({
         autocomplete: 'off',
         autocorrect: 'on',
         autocapitalize: 'off',
+
         class: 'min-h-full whitespace-pre-wrap',
       },
     },
     injectCSS: false,
     autofocus: true,
-    content: essay_content
-      ? hasHtmlTags(essay_content)
-        ? essay_content
-        : `${essay_content
-            .split(/\n\s*\n/)
-            .map((paragraph) => `<p>${paragraph}</p>`)
-            .join('')}`
-      : '',
+    content: essay_content ?? '',
     onCreate: ({ editor }) => {
       setEditorInstance(editor as Editor);
-      editor.commands.focus('end');
     },
     onUpdate: ({ editor }) => {
-      // if (editor.getHTML() === content) return;
-      // if (savingMode) {
-      //   toggleSaving(true);
-      //   setContent(editor.getHTML());
-      // }
+      setContent(editor.getHTML());
     },
     onDestroy: () => {
       reset();
@@ -105,26 +98,36 @@ const Tiptap = ({
         <div
           aria-label='editor-parent'
           id='editor-parent'
-          className='relative flex w-full flex-col overflow-y-auto rounded-lg'
+          className='relative flex w-full flex-col overflow-y-auto rounded-lg pb-[30vh]'
         >
-          <Spacer y='30' />
-          <div className='flex h-12 w-full justify-center'>
-            <Input
+          <Spacer y='20' />
+          <div className='flex w-full shrink-0 justify-center'>
+            <Textarea
               placeholder={'Untitled Document'}
-              defaultValue={title}
+              value={
+                doc_title === 'Untitled' || !doc_title
+                  ? 'Untitled Document'
+                  : doc_title
+              }
+              rows={2}
               onChange={handleTitleChange}
-              type='text'
               id='title'
-              className='h1-bold h-full w-[750px] border-none p-0 font-inter capitalize shadow-none focus-visible:ring-0'
+              className='h-full w-[700px] overflow-hidden border-none p-0 font-inter text-3xl font-[700] capitalize shadow-none selection:bg-[#D4D7FF] focus-visible:ring-0'
             />
           </div>
-          <Spacer y='20' />
+          <Spacer y='30' />
           {showSynonymMenu && <SynonymMenu editor={editor} />}
           {showCopilotMenu && <AiMenu editor={editor} />}
-          {showCitiationMenu && <CitiationMenu editor={editor} />}
+          {showCitiationMenu && <CitationMenu editor={editor} />}
           <BubbleMenu editor={editor} />
-          <EditorContent className='flex-1' editor={editor} />
+          <EditorContent
+            className='flex-1'
+            spellCheck={false}
+            editor={editor}
+          />
           <BlockMenu editor={editor} />
+          <Spacer y='40' />
+          <Reference />
         </div>
       </div>
       <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>

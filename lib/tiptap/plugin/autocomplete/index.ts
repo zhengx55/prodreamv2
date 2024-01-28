@@ -27,7 +27,8 @@ export const AutoComplete = Extension.create<AutoCompleteOptions>({
             if (!active) return null;
             doc.descendants((node, pos) => {
               if (
-                node.type.name === 'paragraph' &&
+                (node.type.name === 'paragraph' ||
+                  node.type.name === 'listItem') &&
                 node.textContent.trim().length > 0
               ) {
                 const isEmpty = !node.isLeaf && !node.childCount;

@@ -1,9 +1,9 @@
 'use client';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 const Panel = ({ children }: { children: ReactNode }) => {
   return (
-    <div className='z-10 flex w-[90%] flex-col rounded-[32px] bg-white p-5 md:w-[450px] md:p-7'>
+    <div className='relative flex h-full w-full flex-col rounded-[0] bg-white px-[36px] py-[36px] md:w-1/2 md:items-center md:justify-center'>
       {children}
     </div>
   );

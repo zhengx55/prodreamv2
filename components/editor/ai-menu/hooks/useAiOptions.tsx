@@ -1,8 +1,11 @@
 import {
   Copilot_Continue,
+  Copilot_Discard,
   Copilot_Edit,
   Copilot_Generate,
-  Copilot_Generate_Essay,
+  Copilot_Insert,
+  Copilot_Replace,
+  Copilot_Try,
 } from '@/components/root/SvgComponents';
 import { useMemo } from 'react';
 
@@ -13,18 +16,7 @@ export const useAiOptions = () => {
         id: 'copilot-00',
         name: 'Continue Writing',
         icon: <Copilot_Continue />,
-        submenu: [
-          {
-            id: 'edit-tools-17',
-            lable: 'continue_write_sentence',
-            name: 'Write the next sentence',
-          },
-          {
-            id: 'edit-tools-18',
-            lable: 'continue_write_paragraph',
-            name: 'Write more content',
-          },
-        ],
+        lable: 'continue_write_sentence',
       },
       {
         id: 'copilot-01',
@@ -54,7 +46,7 @@ export const useAiOptions = () => {
           {
             id: 'edit-tools-05',
             lable: 'translate',
-            name: 'Translate',
+            name: 'Translate to english',
           },
           {
             id: 'edit-tools-06',
@@ -90,33 +82,6 @@ export const useAiOptions = () => {
           },
         ],
       },
-      {
-        id: 'copilot-03',
-        name: 'Generate from essay',
-        icon: <Copilot_Generate_Essay />,
-        submenu: [
-          {
-            id: 'edit-tools-13',
-            lable: 'opposing_arguments',
-            name: 'Write Introduction',
-          },
-          {
-            id: 'edit-tools-14',
-            lable: 'more_depth',
-            name: 'Write Conclusion',
-          },
-          {
-            id: 'edit-tools-15',
-            lable: 'summarize',
-            name: 'Generate title',
-          },
-          {
-            id: 'edit-tools-16',
-            lable: 'summarize',
-            name: 'Generate Outline',
-          },
-        ],
-      },
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -126,22 +91,22 @@ export const useAiOptions = () => {
       {
         id: 'copilot-operation-01',
         name: 'Replace selection',
-        icon: <Copilot_Edit />,
+        icon: <Copilot_Replace />,
       },
       {
         id: 'copilot-operation-02',
         name: 'Insert below',
-        icon: <Copilot_Generate />,
+        icon: <Copilot_Insert />,
       },
       {
         id: 'copilot-operation-03',
         name: 'Try again',
-        icon: <Copilot_Continue />,
+        icon: <Copilot_Try />,
       },
       {
         id: 'copilot-operation-04',
         name: 'Discard',
-        icon: <Copilot_Generate_Essay />,
+        icon: <Copilot_Discard />,
       },
     ];
   }, []);

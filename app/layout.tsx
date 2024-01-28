@@ -1,9 +1,7 @@
 import CSPostHogProvider from '@/components/root/PostHogProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
-import GoogleAnalytics from '@/google/GoogleAnalytics';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
@@ -43,14 +41,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.name,
     description: siteConfig.description,
-    // images: [`${siteConfig.url}/og.jpg`],
     creator: '@applify-ai',
   },
 };
-
-// export async function generateStaticParams() {
-//   return i18n.locales.map((locale) => ({ lang: locale }));
-// }
 
 export default function RootLayout({
   children,
@@ -69,15 +62,12 @@ export default function RootLayout({
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
           >
             <TanstackProvider>
-              <main className='flex h-screen w-screen overflow-auto sm:min-h-[900px] sm:min-w-[1500px]'>
+              <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
                 {children}
                 <Toaster richColors visibleToasts={1} />
-                {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+                {/* {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
                   <GoogleAnalytics />
-                ) : null}
-                {process.env.NODE_ENV === 'production' ? (
-                  <SpeedInsights />
-                ) : null}
+                ) : null} */}
               </main>
             </TanstackProvider>
           </GoogleOAuthProvider>

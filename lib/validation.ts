@@ -11,6 +11,14 @@ export const signUpSchema = z.object({
     .min(6, { message: 'Password must be at least 6 characters' })
     .max(50, { message: 'Password cannot exceed 50 characters' }),
   email: z.string().email({ message: 'Invalid email address' }),
+  first_name: z
+    .string()
+    .min(2, { message: 'First name must be at least 2 characters' })
+    .max(50, { message: 'First name cannot exceed 50 characters' }),
+  last_name: z
+    .string()
+    .min(2, { message: 'Last name must be at least 2 characters' })
+    .max(50, { message: 'Last name cannot exceed 50 characters' }),
 });
 
 export const resetSchema = z
@@ -24,8 +32,8 @@ export const resetSchema = z
       .string()
       .min(6, { message: 'Password must be at least 6 characters' })
       .max(50, { message: 'Password cannot exceed 50 characters' }),
-    verification_code: z.string().refine((data) => /^\d{6}$/.test(data), {
-      message: 'Verification code must be a 6-digit number',
+    verification_code: z.string().min(6).max(6, {
+      message: 'Verification code must be a 6-digit',
     }),
   })
   .refine((data) => data.password === data.confirm, {
@@ -58,4 +66,11 @@ export const resetName = z.object({
     .string()
     .min(2, { message: 'Last name must be at least 2 characters' })
     .max(50, { message: 'Last name cannot exceed 50 characters' }),
+});
+
+export const generateOutlineSchema = z.object({
+  area: z.string().min(1, { message: 'Area must be at least 1 character' }),
+  idea: z
+    .string()
+    .min(1, { message: 'Description must be at least 1 character' }),
 });
