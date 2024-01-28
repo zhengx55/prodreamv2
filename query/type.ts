@@ -17,10 +17,10 @@ export interface LoginData {
 export interface ISigunUpRequest {
   email: string;
   first_name: string;
-  from?: string;
+  referral?: string;
   last_name: string;
   password: string;
-  referral?: string;
+  is_mobile?: boolean;
 }
 
 export interface IResetParams {

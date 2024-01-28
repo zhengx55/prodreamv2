@@ -146,7 +146,7 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
     formdata.append('last_name', signUpParam.last_name);
     formdata.append('email', signUpParam.email);
     formdata.append('password', signUpParam.password);
-    formdata.append('from', signUpParam.from ? signUpParam.from : '');
+    formdata.append('is_mobile', signUpParam.is_mobile ? '1' : '0');
     formdata.append(
       'referral',
       signUpParam.referral ? signUpParam.referral : ''
