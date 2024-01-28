@@ -18,7 +18,20 @@ const GoogleSignin = ({ label }: { label: string }) => {
         path: '/',
         maxAge: 604800,
       });
-      router.push('/writtingpal/polish');
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/auxiliary_info`,
+        {
+          headers: {
+            Authorization: `Bearer ${loginData.access_token}`,
+          },
+        }
+      );
+      const data = (await res.json()).data;
+      if (data && data.document_dialog) {
+        router.push('/writtingpal/polish');
+      } else {
+        router.push('/welcome/education');
+      }
       toast.success('Successfully Login');
     },
     onError: (errorResponse) => {
