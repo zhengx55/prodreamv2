@@ -2,15 +2,7 @@ import { siteConfig } from '@/config/siteConfig';
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [
-    '/login',
-    '/signup',
-    '/writtingpal/polish',
-    '/writtingpal/brainstorm',
-    '/writtingpal/resume',
-    '/writtingpal/activityList',
-    '/writtingpal/activityList/history',
-  ].map((route) => ({
+  const routes = ['/writtingpal/polish'].map((route) => ({
     url: `${siteConfig.url}${route}`,
     lastModified: new Date().toISOString(),
     priority: 0.8,
