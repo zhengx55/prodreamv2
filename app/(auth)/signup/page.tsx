@@ -24,14 +24,29 @@ import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
-  const isMobileDevice = window.matchMedia('(max-width: 768px)').matches;
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileDevice(window.matchMedia('(max-width: 768px)').matches);
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Rest of the code...
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
