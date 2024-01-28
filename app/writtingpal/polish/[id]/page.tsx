@@ -14,6 +14,5 @@ export default async function Page({ params }: { params: { id: string } }) {
     }
   );
   const data = (await res.json()).data;
-  console.log(data);
   return <EssayPanel user_info={data} id={params.id} />;
 }
