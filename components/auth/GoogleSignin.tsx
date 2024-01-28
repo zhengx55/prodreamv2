@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 const GoogleSignin = ({ label }: { label: string }) => {
   const [_cookies, setCookie] = useCookies(['token']);
   const router = useRouter();
-  const googleAuth: () => void = useGoogleLogin({
+  const googleAuth = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       const { access_token } = codeResponse;
       const loginData = await googleLogin({ access_token });
@@ -38,9 +38,12 @@ const GoogleSignin = ({ label }: { label: string }) => {
       toast.error(errorResponse.error);
     },
   });
+  const login = () => {
+    googleAuth();
+  };
   return (
     <button
-      onClick={googleAuth}
+      onClick={login}
       className='flex-center w-full cursor-pointer gap-x-2 self-center rounded border border-shadow-border py-2 transition-transform hover:-translate-y-1'
     >
       <Image

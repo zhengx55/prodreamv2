@@ -1,38 +1,31 @@
 'use client';
-import { m } from 'framer-motion';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
-
+const datalist = [
+  {
+    desc: `"Simply the best! This tool is a game-changer for refining academic drafts. What's even more impressive is its support for multiple languages, including Mandarin. It makes my writing process so easy!"`,
+    src: '/landing/showcase/Oval.png',
+    name: 'Yuqing Wang',
+    from: 'China',
+  },
+  {
+    desc: `"I've tried a few AI tools, and ProDream is hands down the best. It helps with tenses, paraphrasing, and organizes my paragraphs for better language. Using ProDream makes me feel confident about my paper.”`,
+    src: '/landing/showcase/Oval2.png',
+    name: 'Aarav S. Gupta',
+    from: 'PhD Student ',
+  },
+  {
+    desc: `“ProDream is my go-to writing tool now. It helps me polish my sentences to fit academic style, sorts out the confusing parts, and has certainly contributed to boosting my grades. Writing papers just got a whole lot easier with ProDream!”`,
+    src: '/landing/showcase/Oval3.png',
+    name: 'Elijah Thompson',
+    from: 'College Senior',
+  },
+];
 const ShowCase = () => {
-  const datalist = [
-    {
-      desc: `"Simply the best! This tool is a game-changer for refining academic drafts. What's even more impressive is its support for multiple languages, including Mandarin. It makes my writing process so easy!"`,
-      src: '/landing/showcase/Oval.png',
-      name: 'Yuqing Wang',
-      from: 'China',
-    },
-    {
-      desc: `"I've tried a few AI tools, and ProDream is hands down the best. It helps with tenses, paraphrasing, and organizes my paragraphs for better language. Using ProDream makes me feel confident about my paper.”`,
-      src: '/landing/showcase/Oval2.png',
-      name: 'Aarav S. Gupta',
-      from: 'PhD Student ',
-    },
-    {
-      desc: `“ProDream is my go-to writing tool now. It helps me polish my sentences to fit academic style, sorts out the confusing parts, and has certainly contributed to boosting my grades. Writing papers just got a whole lot easier with ProDream!”`,
-      src: '/landing/showcase/Oval3.png',
-      name: 'Elijah Thompson',
-      from: 'College Senior',
-    },
-  ];
   return (
     <section className='relative flex w-full justify-center px-4 py-20 sm:px-0'>
       <div className='flex-center w-full flex-col gap-y-10 sm:max-w-[1200px]'>
-        <m.div
-          initial='hidden'
-          whileInView='show'
-          viewport={{ once: true, amount: 0.25 }}
-          className='flex flex-col items-center justify-evenly gap-y-4 sm:gap-y-0'
-        >
+        <div className='flex flex-col items-center justify-evenly gap-y-4 sm:gap-y-0'>
           <div className='flex w-full flex-col sm:flex-row sm:justify-center'>
             <svg
               className='hidden sm:block'
@@ -80,9 +73,9 @@ const ShowCase = () => {
                 </p>
                 <div className='mt-[30px] flex'>
                   <Image
-                    alt={''}
+                    alt={'showcase'}
                     src={item.src}
-                    className='h-auto w-[42px] rounded-[100px] object-contain'
+                    className='h-auto w-auto rounded-[100px]'
                     width={42}
                     height={42}
                   />
@@ -98,7 +91,7 @@ const ShowCase = () => {
               </div>
             ))}
           </div>
-        </m.div>
+        </div>
         <div className='sm:mb-[80px] sm:pt-[200px]'>
           <h1 className='text-center font-baskerville text-[28px] font-[400] leading-[32px] sm:text-center sm:text-[48px] sm:leading-[58px]'>
             Every Writing Scenario,
@@ -115,13 +108,8 @@ const ShowCase = () => {
             essays, with excellence in every word.
           </p>
         </div>
-        <m.div
-          initial='hidden'
-          whileInView='show'
-          viewport={{ once: true, amount: 0.25 }}
-          className='flex flex-col items-center justify-evenly gap-y-4 sm:flex-row sm:gap-x-[68px] sm:gap-y-0'
-        >
-          <m.div className='flex w-full flex-col items-center gap-y-2 sm:h-[368px] sm:w-1/2'>
+        <div className='flex flex-col items-center justify-evenly gap-y-4 sm:flex-row sm:gap-x-[68px] sm:gap-y-0'>
+          <div className='flex w-full flex-col items-center gap-y-2 sm:h-[368px] sm:w-1/2'>
             <div>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -171,8 +159,8 @@ const ShowCase = () => {
                 for impactful arguments
               </p>
             </div>
-          </m.div>
-          <m.div className='flex w-full flex-col items-center gap-y-2 sm:h-[368px] sm:w-1/2'>
+          </div>
+          <div className='flex w-full flex-col items-center gap-y-2 sm:h-[368px] sm:w-1/2'>
             <div>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -220,8 +208,8 @@ const ShowCase = () => {
                 ensuring depth and diversity in your citations
               </p>
             </div>
-          </m.div>
-        </m.div>
+          </div>
+        </div>
       </div>
     </section>
   );

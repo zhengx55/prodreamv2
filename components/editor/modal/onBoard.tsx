@@ -1,7 +1,9 @@
+'use client';
 import { handleUpdateUserInfo } from '@/actions/action';
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import useMount from '@/hooks/useMount';
 import { getDocs } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
@@ -11,8 +13,15 @@ import { useState } from 'react';
 import Edit from './Edit';
 import Start from './Start';
 
-type Props = { open: boolean; toogleOpen: (value: boolean) => void };
-const OnBoard = ({ open, toogleOpen }: Props) => {
+const OnBoard = ({ user_info }: { user_info: any }) => {
+  const [showOnboard, setShowOnboard] = useState(false);
+  useMount(() => {
+    // setShowOnboard(true);
+    if (!user_info || !user_info.document_dialog) {
+      setShowOnboard(true);
+    }
+  });
+
   const { id } = useParams();
   const [board, setBoard] = useState(0);
   const router = useRouter();
@@ -21,7 +30,7 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
       await handleUpdateUserInfo({ document_dialog: true }, id as string);
     },
     onSuccess: () => {
-      toogleOpen(false);
+      setShowOnboard(false);
     },
   });
 
@@ -41,7 +50,7 @@ const OnBoard = ({ open, toogleOpen }: Props) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={toogleOpen}>
+    <Dialog open={showOnboard} onOpenChange={setShowOnboard}>
       <DialogContent
         onPointerDownOutside={(e) => e.preventDefault()}
         className='bg-white px-16 py-8 md:w-[1100px] md:rounded'

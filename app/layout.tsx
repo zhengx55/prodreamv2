@@ -65,9 +65,6 @@ export default function RootLayout({
               <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
                 {children}
                 <Toaster richColors visibleToasts={1} />
-                {/* {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
-                  <GoogleAnalytics />
-                ) : null} */}
               </main>
             </TanstackProvider>
           </GoogleOAuthProvider>
