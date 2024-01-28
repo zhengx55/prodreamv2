@@ -23,7 +23,7 @@ const NavBar = () => {
             className='h-auto w-40 sm:w-36'
             priority
           />
-          <div className='flex'>
+          {/* <div className='flex'>
             <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
               <Button
                 onClick={() => {
@@ -35,7 +35,7 @@ const NavBar = () => {
                 Blogs
               </Button>
             </Link>
-          </div>
+          </div> */}
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={'/writtingpal/polish'} passHref>
