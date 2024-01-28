@@ -107,13 +107,13 @@ export const ProfileSidebarLinks = [
     image: '/profile.svg',
     active_image: '/profile_active.svg',
   },
-  {
-    id: 'sidebar-02',
-    title: 'Referrals',
-    link: '/profile/referrals',
-    image: '/referrals.svg',
-    active_image: '/referrals_active.svg',
-  },
+  // {
+  //   id: 'sidebar-02',
+  //   title: 'Referrals',
+  //   link: '/profile/referrals',
+  //   image: '/referrals.svg',
+  //   active_image: '/referrals_active.svg',
+  // },
 ];
 
 export const EvaluationsTitle = [
