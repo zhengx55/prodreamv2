@@ -5,7 +5,6 @@ import {
   IDocDetail,
   IPlagiarismData,
   IPolishParams,
-  IPolishResultA,
   IResetParams,
   ISigunUpRequest,
   IVerifyEmail,
@@ -411,78 +410,6 @@ export async function submitPolish(params: IPolishParams) {
     const data = await res.json();
     if (data.code !== 0) {
       throw new Error(data.msg as string);
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function queryPolish(params: {
-  task_id: string;
-}): Promise<IPolishResultA> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}essay_polish_query`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          task_id: params.task_id,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function downloadReport(report_id: string) {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}report_pdf/${report_id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/pdf',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok) {
-      throw new Error('Failed to Download PDF report');
-    }
-    return res;
-  } catch (error) {
-    throw new Error('Failed to Download PDF report');
-  }
-}
-
-export async function uploadEssay(params: { file: File }) {
-  try {
-    const formData = new FormData();
-    formData.append('file', params.file);
-    const token = Cookies.get('token');
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}file2text`, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw data.msg;
     }
     return data.data;
   } catch (error) {

@@ -28,10 +28,10 @@ COPY . .
 # This will do the trick, use the corresponding env file for each environment.
 ARG BRANCH_NAME
 COPY .env.development .env.development
-COPY .env.pre .env.pre
+COPY .env.test .env.test
 COPY .env.production .env.production
 RUN if [ "$BRANCH_NAME" = "test" ]; then cp .env.development .env.production; fi
-RUN if [ "$BRANCH_NAME" = "staging" ]; then cp .env.pre .env.production; fi
+RUN if [ "$BRANCH_NAME" = "staging" ]; then cp .env.test .env.production; fi
 
 RUN yarn build
 
