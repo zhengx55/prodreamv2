@@ -13,7 +13,7 @@ import {
   DropdownMenuItem,
 } from '../ui/dropdown-menu';
 import Spacer from './Spacer';
-import { AnimatedLogo } from './SvgComponents';
+import { AnimatedLogo, Feedback } from './SvgComponents';
 import User from './User';
 
 const Sidebar = () => {
@@ -118,16 +118,23 @@ const Sidebar = () => {
           );
         })}
       </ul>
-      {/* <div className='mt-auto flex flex-col gap-y-6'>
-        <div className='flex gap-x-2'>
+      <div className='mt-auto flex flex-col gap-y-6'>
+        {/* <div className='flex gap-x-2'>
           <GiftIcon />
           <p className='text-md font-[500] text-doc-shadow'>Refer And Earn</p>
-        </div>
-        <div className='flex gap-x-2'>
-          <HelpIcon />
-          <p className='text-md font-[500] text-doc-shadow'>Help</p>
-        </div>
-      </div> */}
+        </div> */}
+        <Link passHref href={'https://tally.so/r/3NovEO'} target='_blank'>
+          <div
+            role='link'
+            className='flex cursor-pointer gap-x-2 rounded-xl bg-doc-secondary p-2'
+          >
+            <Feedback />
+            <p className='text-md font-[500] text-doc-shadow'>
+              Submit feedback
+            </p>
+          </div>
+        </Link>
+      </div>
       <Spacer y='20' />
     </aside>
   );

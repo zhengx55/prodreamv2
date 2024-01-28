@@ -28,7 +28,6 @@ const Hero = () => {
           className='absolute top-10 h-[90%] w-full'
           width={1400}
           height={900}
-          sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
           src='/landing/heros/Mask_group.png'
         />
       </m.div>
@@ -76,14 +75,14 @@ const Hero = () => {
             </Button>
           </div>
         </section>
-        <section className='relative top-[50px] flex h-[196px] w-full flex-col overflow-hidden rounded-[8px] border-[2px] border-[#000] sm:top-10 sm:h-[610px] sm:w-[1070px] sm:rounded-[24px] sm:border-[12px]'>
+        <section className='relative top-[50px] flex h-[196px] w-full flex-col overflow-hidden rounded-[8px] sm:top-10 sm:h-[610px] sm:w-[1070px]'>
           <Image
             draggable='false'
             alt='hero-showcase'
             priority
             fill
-            sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
-            src='/landing/heros/hero-1.gif'
+            sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 100vw'
+            src='/landing/heros/Banner.png'
           />
         </section>
       </m.div>

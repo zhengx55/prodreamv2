@@ -1,4 +1,5 @@
 'use client';
+import { BookMarks } from '@/components/root/SvgComponents';
 import { cn } from '@/lib/utils';
 import { TableOfContentStorage } from '@tiptap-pro/extension-table-of-content';
 import { Editor } from '@tiptap/react';
@@ -43,6 +44,14 @@ export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
                 {item.textContent}
               </a>
             ))}
+            <p
+              className={cn(
+                'small-semibold inline-flex w-full items-center gap-x-1 truncate rounded  bg-opacity-10 text-neutral-500 transition-all hover:bg-opacity-5 hover:text-neutral-800'
+              )}
+            >
+              <BookMarks />
+              Reference
+            </p>
           </div>
         ) : null}
       </div>

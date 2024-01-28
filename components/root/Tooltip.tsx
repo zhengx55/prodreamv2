@@ -12,16 +12,18 @@ const Tooltip = ({
   children,
   tooltipContent,
   contentClassname,
+  defaultOpen,
   side = 'bottom',
 }: {
   side?: 'bottom' | 'top' | 'right' | 'left' | undefined;
   children: ReactNode;
+  defaultOpen?: boolean;
   tooltipContent: string;
   contentClassname?: string;
 }) => {
   return (
     <TooltipProvider delayDuration={100}>
-      <UITooltip open={true}>
+      <UITooltip open={defaultOpen}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent side={side}>
           <p className={cn(contentClassname, 'text-regular text-white')}>
