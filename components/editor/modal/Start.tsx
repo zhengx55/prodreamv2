@@ -16,8 +16,8 @@ type Props = { handleClose: () => Promise<void> };
 const Start = ({ handleClose }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const { id } = useParams();
-  const [selection, setSelection] = useState(false);
-  const [essayType, setEssayType] = useState(0);
+  const [selection, setSelection] = useState<number | null>(null);
+  const [essayType, setEssayType] = useState<number | null>(null);
   const [isGenrating, setIsGenerating] = useState(false);
   const ideaRef = useRef<HTMLTextAreaElement>(null);
   const areaRef = useRef<HTMLInputElement>(null);
@@ -153,17 +153,17 @@ const Start = ({ handleClose }: Props) => {
             <Spacer y='10' />
             <div className='flex gap-x-2'>
               <Toggle
-                pressed={selection}
+                pressed={selection === 0}
                 onPressedChange={(pressed) => {
-                  pressed ? setSelection(true) : setSelection(false);
+                  pressed ? setSelection(0) : setSelection(null);
                 }}
               >
                 YES
               </Toggle>
               <Toggle
-                pressed={!selection}
+                pressed={selection === 1}
                 onPressedChange={(pressed) => {
-                  pressed ? setSelection(false) : setSelection(true);
+                  pressed ? setSelection(1) : setSelection(null);
                 }}
               >
                 NO
@@ -171,7 +171,7 @@ const Start = ({ handleClose }: Props) => {
             </div>
           </div>
           <AnimatePresence>
-            {selection && (
+            {selection === 0 && (
               <m.div
                 initial={{
                   y: -10,
@@ -206,7 +206,7 @@ const Start = ({ handleClose }: Props) => {
                     <Toggle
                       pressed={essayType === 0}
                       onPressedChange={(pressed) => {
-                        pressed && setEssayType(0);
+                        pressed ? setEssayType(0) : setEssayType(null);
                       }}
                     >
                       Argumentative
@@ -214,7 +214,7 @@ const Start = ({ handleClose }: Props) => {
                     <Toggle
                       pressed={essayType === 1}
                       onPressedChange={(pressed) => {
-                        pressed && setEssayType(1);
+                        pressed ? setEssayType(1) : setEssayType(null);
                       }}
                     >
                       Analytical
@@ -222,7 +222,7 @@ const Start = ({ handleClose }: Props) => {
                     <Toggle
                       pressed={essayType === 2}
                       onPressedChange={(pressed) => {
-                        pressed && setEssayType(2);
+                        pressed ? setEssayType(2) : setEssayType(null);
                       }}
                     >
                       Scientific
