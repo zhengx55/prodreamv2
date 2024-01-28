@@ -21,7 +21,7 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
   };
 
   return (
-    <Toolbar.Wrapper className='w-[750px] justify-between gap-x-3 !rounded-none border-none'>
+    <Toolbar.Wrapper className='w-[700px] justify-between gap-x-3 !rounded-none border-none'>
       <MemoButton className='text-doc-primary'>
         <Copilot />
         AI Copilot
