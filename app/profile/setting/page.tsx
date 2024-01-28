@@ -15,11 +15,11 @@ const EditPassword = dynamic(() => import('@/components/profile/EditPassword'));
 
 export default function Page() {
   const userInfo = useUserInfo((state) => state.user);
+  const setUserAvatar = useUserInfo((state) => state.setUserAvatar);
   const uploadRef = useRef<HTMLInputElement>(null);
   const [IsEditEmail, setEditEmail] = useState(false);
   const [IsEditPassword, setEditPassword] = useState(false);
   const [IsEditName, setEditName] = useState(false);
-
   const toogleEmailModal = useCallback(() => {
     setEditEmail((prev) => !prev);
   }, []);
@@ -27,8 +27,9 @@ export default function Page() {
   const { mutateAsync: upLoadAvatar } = useMutation({
     mutationFn: (params: { file: File }) => profileResetAvatar(params),
     onSuccess: async () => {
-      toast.success('Email has been reset successfully!');
       const data = await refreshUserSession();
+      setUserAvatar(data.avatar);
+      toast.success('avatar has been reset successfully!');
     },
 
     onError: (error) => {
@@ -74,8 +75,13 @@ export default function Page() {
               alt={userInfo.last_name}
               className='h-auto w-auto'
               width={70}
+              placeholder='empty'
               height={70}
-              src={userInfo.avatar}
+              src={
+                userInfo.avatar
+                  ? userInfo.avatar
+                  : 'https://quickapply.blob.core.windows.net/avatar/default.jpg'
+              }
             />
             <input
               ref={uploadRef}
