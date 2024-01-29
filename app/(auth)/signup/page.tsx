@@ -32,7 +32,6 @@ export default function Page() {
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobileDevice(window.matchMedia('(max-width: 768px)').matches);

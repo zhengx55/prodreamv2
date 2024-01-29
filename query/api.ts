@@ -60,6 +60,27 @@ export async function setEduInfo(params: { educational_background: string }) {
     throw new Error(error as string);
   }
 }
+export async function getUserInfo() {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/auxiliary_info`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function updateUserInfo(params: Record<string, boolean>) {
   try {
