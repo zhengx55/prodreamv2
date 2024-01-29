@@ -72,7 +72,7 @@ const Start = ({ handleClose }: Props) => {
   };
 
   const handleStartWritting = async () => {
-    if (!selection) {
+    if (selection === null) {
       await saveDoc({ id: id as string, use_intention: 'start_editing' });
       await handleClose();
       return;
