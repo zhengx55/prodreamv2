@@ -21,15 +21,12 @@ import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
 import { Textarea } from '../ui/textarea';
 
-const BlockMenu = dynamic(
-  () => import('../editor/blockmenu/BlockMenu').then((mod) => mod.BlockMenu),
-  { ssr: false }
-);
-
 const Reference = dynamic(() => import('./Reference'));
 
 const Tiptap = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
+  const savingMode = useAiEditor((state) => state.savingMode);
+  const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
   const reset = useAiEditor((state) => state.reset);
   const doc_title = useAiEditor((state) => state.doc_title);
   const updateTitle = useAiEditor((state) => state.updateTitle);
@@ -39,8 +36,6 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
-  const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
-  const savingMode = useAiEditor((state) => state.savingMode);
   const [debounceTitle] = useDebounce(doc_title, 1500);
 
   useMount(() => {
@@ -128,7 +123,6 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
             spellCheck={false}
             editor={editor}
           />
-          <BlockMenu editor={editor} />
           <Spacer y='40' />
           <Reference />
         </div>

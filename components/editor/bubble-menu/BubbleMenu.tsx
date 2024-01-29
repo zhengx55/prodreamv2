@@ -65,57 +65,50 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
 
   useLayoutEffect(() => {
     const handler = () => {
-      if (editor.view.dragging && editor.view.dragging.move) {
-        return;
-      }
+      const { view } = editor;
       if (editor.view.state.selection.empty) {
         setOpen(false);
-        if (timer.current) clearTimeout(timer.current);
       } else {
-        timer.current = setTimeout(() => {
-          const { doc, selection } = editor.state;
-          const { ranges } = selection;
-          const from = Math.min(...ranges.map((range) => range.$from.pos));
-          const to = Math.max(...ranges.map((range) => range.$to.pos));
-          const text = doc.textBetween(from, to);
-          const words = text.match(/\b\w+\b/g);
-          if (words && words.length === 1) {
-            setIsWord(true);
-          } else {
-            setIsWord(false);
-          }
-          setSelectedLength(words ? words.length : 0);
-          updateSelectedText(text);
-          refs.setReference({
-            getBoundingClientRect() {
-              if (isNodeSelection(editor.state.selection)) {
-                const node = editor.view.nodeDOM(from) as HTMLElement;
-                if (node) {
-                  menuXOffside.current = node.getBoundingClientRect().left;
-                  const el_srcoll_top =
-                    editor.view.dom.parentElement?.parentElement?.scrollTop;
-                  menuYOffside.current =
-                    node.getBoundingClientRect().bottom + (el_srcoll_top ?? 0);
-                  return node.getBoundingClientRect();
-                }
+        const { doc, selection } = editor.state;
+        const { ranges } = selection;
+        const from = Math.min(...ranges.map((range) => range.$from.pos));
+        const to = Math.max(...ranges.map((range) => range.$to.pos));
+        const text = doc.textBetween(from, to);
+        const words = text.match(/\b\w+\b/g);
+        if (words && words.length === 1) {
+          setIsWord(true);
+        } else {
+          setIsWord(false);
+        }
+        setSelectedLength(words ? words.length : 0);
+        updateSelectedText(text);
+        refs.setReference({
+          getBoundingClientRect() {
+            if (isNodeSelection(editor.state.selection)) {
+              const node = editor.view.nodeDOM(from) as HTMLElement;
+              if (node) {
+                menuXOffside.current = node.getBoundingClientRect().left;
+                const el_srcoll_top =
+                  editor.view.dom.parentElement?.parentElement?.scrollTop;
+                menuYOffside.current =
+                  node.getBoundingClientRect().bottom + (el_srcoll_top ?? 0);
+                return node.getBoundingClientRect();
               }
-              menuXOffside.current = posToDOMRect(editor.view, from, to).left;
-              const el_srcoll_top =
-                editor.view.dom.parentElement?.parentElement?.scrollTop;
-              menuYOffside.current =
-                posToDOMRect(editor.view, from, to).bottom +
-                (el_srcoll_top ?? 0);
-              return posToDOMRect(editor.view, from, to);
-            },
-          });
-          setOpen(true);
-        }, 200);
+            }
+            menuXOffside.current = posToDOMRect(editor.view, from, to).left;
+            const el_srcoll_top =
+              editor.view.dom.parentElement?.parentElement?.scrollTop;
+            menuYOffside.current =
+              posToDOMRect(editor.view, from, to).bottom + (el_srcoll_top ?? 0);
+            return posToDOMRect(editor.view, from, to);
+          },
+        });
+        setOpen(true);
       }
     };
     editor.on('selectionUpdate', handler);
     return () => {
       editor.off('selectionUpdate', handler);
-      timer.current && clearTimeout(timer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, refs]);
