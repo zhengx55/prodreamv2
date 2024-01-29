@@ -59,7 +59,7 @@ const EssayPanel = ({ id }: { id: string }) => {
           </Button>
         </Link>
       </Tooltip>
-      {isSuccess && !user_first_time.document_dialog && <OnBoard />}
+      {isSuccess && !user_first_time?.document_dialog && <OnBoard />}
       <div className='relative flex h-full w-full justify-center overflow-hidden'>
         {isFetching ? (
           <div className='flex flex-1 flex-col items-center'>
