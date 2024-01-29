@@ -184,7 +184,7 @@ export const AiMenu = ({ editor }: Props) => {
   return (
     <section
       style={{ top: `${copilotRect - 54}px` }}
-      className='absolute -left-20 flex w-full justify-center overflow-visible '
+      className='absolute -left-12 flex w-full justify-center overflow-visible '
     >
       <div
         ref={elRef}

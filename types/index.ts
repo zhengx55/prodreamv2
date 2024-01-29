@@ -1,15 +1,9 @@
-export interface IUsage {
-  /**
-   * 是否是以第一次使用ai editor
-   * 以此类推
-   */
-  first_editior: boolean;
-  first_brainstorm: boolean;
-  first_resume: boolean;
-  first_activity_list: boolean;
-  first_activity_list_upload: boolean;
-  first_activity_list_generate: boolean;
-  first_activity_list_edit: boolean;
+declare namespace NodeJS {
+  export interface ProcessEnv {
+    NEXT_PUBLIC_API_BASE_URL: string;
+    NEXT_PUBLIC_GOOGLE_CLIENT_ID: string;
+    NEXT_PUBLIC_POSTHOG_HOST: string;
+  }
 }
 
 export type InputProps = {

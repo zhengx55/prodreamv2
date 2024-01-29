@@ -112,7 +112,7 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
               className='h-full w-[700px] overflow-hidden border-none p-0 font-inter text-3xl font-[700] capitalize shadow-none selection:bg-[#D4D7FF] focus-visible:ring-0'
             />
           </div>
-          <Spacer y='30' />
+          <Spacer y='20' />
           {showSynonymMenu && <SynonymMenu editor={editor} />}
           {showCopilotMenu && <AiMenu editor={editor} />}
           {showCitiationMenu && <CitationMenu editor={editor} />}

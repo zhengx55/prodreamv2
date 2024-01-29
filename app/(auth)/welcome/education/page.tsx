@@ -1,15 +1,5 @@
-import Options from '@/components/welcome/Options';
 import dynamic from 'next/dynamic';
-
-const AnimatedLayout = dynamic(
-  () => import('@/components/welcome/AnimatedLayout'),
-  { ssr: false }
-);
-
+const Options = dynamic(() => import('@/components/welcome/Options'));
 export default async function Page() {
-  return (
-    <AnimatedLayout>
-      <Options type='education' />
-    </AnimatedLayout>
-  );
+  return <Options type='education' />;
 }
