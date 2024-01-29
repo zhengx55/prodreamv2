@@ -1,11 +1,10 @@
 'use client';
 import DocNavbar from '@/components/editor/navbar';
-import useMount from '@/hooks/useMount';
 import { getDocDetail } from '@/query/api';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { memo, useCallback, useState } from 'react';
+import { memo } from 'react';
 import { useCitationInfo } from '../editor/rightbar/citation/hooks/useCitationInfo';
 import Spacer from '../root/Spacer';
 import { Feedback } from '../root/SvgComponents';
@@ -35,16 +34,6 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
     queryFn: () => getDocDetail(id),
   });
   useCitationInfo(document_content);
-  const [showOnboard, setShowOnboard] = useState(false);
-  useMount(() => {
-    // setShowOnboard(true);
-    if (!user_info || !user_info.document_dialog) {
-      setShowOnboard(true);
-    }
-  });
-  const memoToggleOnBoard = useCallback((value: boolean) => {
-    setShowOnboard(value);
-  }, []);
 
   if (isError) return null;
 
@@ -63,7 +52,7 @@ const EssayPanel = ({ id, user_info }: { id: string; user_info: any }) => {
           </Button>
         </Link>
       </Tooltip>
-      <OnBoard open={showOnboard} toogleOpen={memoToggleOnBoard} />
+      <OnBoard user_info={user_info} />
       <div className='relative flex h-full w-full justify-center overflow-hidden'>
         {isFetching ? (
           <div className='flex flex-1 flex-col items-center'>

@@ -104,12 +104,9 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
           <div className='flex w-full shrink-0 justify-center'>
             <Textarea
               placeholder={'Untitled Document'}
-              value={
-                doc_title === 'Untitled' || !doc_title
-                  ? 'Untitled Document'
-                  : doc_title
-              }
+              value={doc_title}
               rows={2}
+              spellCheck={false}
               onChange={handleTitleChange}
               id='title'
               className='h-full w-[700px] overflow-hidden border-none p-0 font-inter text-3xl font-[700] capitalize shadow-none selection:bg-[#D4D7FF] focus-visible:ring-0'

@@ -2,33 +2,14 @@ import { create, useStore } from 'zustand';
 import { AIEditiorStore, useAIEditorStore } from './slice/ai-editor';
 import useUserStore, { UserStore } from './slice/user-info';
 
-const useRootStore = create<
-  AIEditiorStore &
-    // BrainstormStore &
-    // ActivityListStore &
-    // UsageStore &
-    UserStore
-  // ResumeStore
->((...a) => ({
+const useRootStore = create<AIEditiorStore & UserStore>((...a) => ({
   ...useAIEditorStore(...a),
-  // ...useBrainStorm(...a),
-  // ...useActListStore(...a),
-  // ...useUsageStore(...a),
   ...useUserStore(...a),
-  // ...useResumeStore(...a),
 }));
 
 export function useAIEditor<T>(selector?: (state: AIEditiorStore) => T) {
   return useStore(useRootStore, selector!);
 }
-
-// export function useResume<T>(selector?: (state: ResumeStore) => T) {
-//   return useStore(useRootStore, selector!);
-// }
-
-// export function useUsage<T>(selector?: (state: UsageStore) => T) {
-//   return useStore(useRootStore, selector!);
-// }
 
 export function useUserInfo<T>(selector?: (state: UserStore) => T) {
   return useStore(useRootStore, selector!);
