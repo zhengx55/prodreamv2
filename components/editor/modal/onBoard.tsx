@@ -16,7 +16,6 @@ import Start from './Start';
 const OnBoard = ({ user_info }: { user_info: any }) => {
   const [showOnboard, setShowOnboard] = useState(false);
   useMount(() => {
-    // setShowOnboard(true);
     if (!user_info || !user_info.document_dialog) {
       setShowOnboard(true);
     }
