@@ -1,32 +1,24 @@
 'use client';
-import { handleUpdateUserInfo } from '@/actions/action';
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import useMount from '@/hooks/useMount';
-import { getDocs } from '@/query/api';
+import { getDocs, updateUserInfo } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
 import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Edit from './Edit';
 import Start from './Start';
 
-const OnBoard = ({ user_info }: { user_info: any }) => {
-  const [showOnboard, setShowOnboard] = useState(false);
-  useMount(() => {
-    if (!user_info || !user_info.document_dialog) {
-      setShowOnboard(true);
-    }
-  });
-
-  const { id } = useParams();
+const OnBoard = () => {
+  console.log(1);
+  const [showOnboard, setShowOnboard] = useState(true);
   const [board, setBoard] = useState(0);
   const router = useRouter();
   const { mutateAsync: handleClose } = useMutation({
     mutationFn: async () => {
-      await handleUpdateUserInfo({ document_dialog: true }, id as string);
+      await updateUserInfo({ document_dialog: true });
     },
     onSuccess: () => {
       setShowOnboard(false);
@@ -96,6 +88,7 @@ const OnBoard = ({ user_info }: { user_info: any }) => {
                         src='/welcome/Start.png'
                         sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
                         fill
+                        priority
                       />
                     </div>
                   </div>
@@ -114,6 +107,7 @@ const OnBoard = ({ user_info }: { user_info: any }) => {
                         src='/welcome/Edit.png'
                         fill
                         sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
+                        priority
                       />
                     </div>
                   </div>
@@ -130,6 +124,7 @@ const OnBoard = ({ user_info }: { user_info: any }) => {
                         src='/welcome/Citation.png'
                         fill
                         sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
+                        priority
                       />
                     </div>
                   </div>
