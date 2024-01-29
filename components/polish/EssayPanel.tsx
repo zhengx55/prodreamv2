@@ -12,7 +12,9 @@ import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 
-const OnBoard = dynamic(() => import('../editor/modal/onBoard'));
+const OnBoard = dynamic(() => import('../editor/modal/onBoard'), {
+  ssr: false,
+});
 const Tiptap = dynamic(() => import('./Editor'), {
   ssr: false,
   loading: () => (

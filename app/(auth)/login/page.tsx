@@ -47,6 +47,7 @@ export default function Page() {
       setCookie('token', data.access_token, {
         path: '/',
         maxAge: 604800,
+        secure: true,
       });
       router.push('/writtingpal/polish');
     },
