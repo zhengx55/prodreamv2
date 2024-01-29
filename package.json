@@ -37,8 +37,6 @@
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-query": "^5.4.3",
     "@tippyjs/react": "^4.2.6",
-    "@tiptap-pro/extension-drag-handle": "^2.6.0",
-    "@tiptap-pro/extension-drag-handle-react": "^2.6.0",
     "@tiptap-pro/extension-node-range": "^2.6.0",
     "@tiptap-pro/extension-table-of-content": "^2.4.1",
     "@tiptap/extension-character-count": "^2.1.13",
@@ -88,9 +86,6 @@
     "use-deep-compare-effect": "^1.8.1",
     "uuid": "^9.0.1",
     "vaul": "^0.8.0",
-    "y-prosemirror": "^1.2.2",
-    "y-protocols": "^1.0.6",
-    "yjs": "^13.6.10",
     "zod": "^3.22.4",
     "zustand": "^4.4.7"
   },

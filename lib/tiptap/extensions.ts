@@ -23,6 +23,7 @@ import Text from '@tiptap/extension-text';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import { AutoComplete } from './plugin/autocomplete';
+import DragAndDrop from './plugin/drag';
 import { PolishUnderline } from './plugin/polish-underline';
 import Selection from './plugin/selection';
 import { AutoCompleteSlashCommand, SlashCommand } from './plugin/slashcommand';
@@ -44,6 +45,7 @@ const ExtensionKit = () => [
   TextStyle,
   Color,
   History,
+  DragAndDrop,
   Focus.configure({
     className: 'has-focus',
     mode: 'all',
