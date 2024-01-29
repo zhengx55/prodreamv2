@@ -25,11 +25,13 @@ import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function Page() {
   const [_cookies, setCookie] = useCookies(['token']);
+  const posthog = usePostHog();
   const [hidePassword, setHidePassword] = useState(true);
   const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -44,9 +46,13 @@ export default function Page() {
       userLogin(param),
     onSuccess: async (data) => {
       toast.success('Successfully Login');
+      const user_id = JSON.parse(atob(data.access_token.split('.')[1])).subject
+        .user_id;
+      posthog.identify(user_id);
       setCookie('token', data.access_token, {
         path: '/',
         maxAge: 604800,
+        secure: true,
       });
       router.push('/writtingpal/polish');
     },

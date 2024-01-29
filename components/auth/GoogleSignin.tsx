@@ -3,26 +3,31 @@ import { googleLogin } from '@/query/api';
 import { useGoogleLogin } from '@react-oauth/google';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import { memo } from 'react';
 import { useCookies } from 'react-cookie';
 import { toast } from 'sonner';
 
 const GoogleSignin = ({ label }: { label: string }) => {
+  const posthog = usePostHog();
   const [_cookies, setCookie] = useCookies(['token']);
   const router = useRouter();
   const googleAuth = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       const { access_token } = codeResponse;
-      const loginData = await googleLogin({ access_token });
-      setCookie('token', loginData.access_token, {
+      const login_data = await googleLogin({ access_token });
+      setCookie('token', login_data.access_token, {
         path: '/',
         maxAge: 604800,
       });
+      const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
+        .subject.user_id;
+      posthog.identify(user_id);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/auxiliary_info`,
         {
           headers: {
-            Authorization: `Bearer ${loginData.access_token}`,
+            Authorization: `Bearer ${login_data.access_token}`,
           },
         }
       );

@@ -9,9 +9,16 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
-const EditEmail = dynamic(() => import('@/components/profile/EditEmail'));
-const EditName = dynamic(() => import('@/components/profile/EditName'));
-const EditPassword = dynamic(() => import('@/components/profile/EditPassword'));
+const EditEmail = dynamic(() => import('@/components/profile/EditEmail'), {
+  ssr: false,
+});
+const EditName = dynamic(() => import('@/components/profile/EditName'), {
+  ssr: false,
+});
+const EditPassword = dynamic(
+  () => import('@/components/profile/EditPassword'),
+  { ssr: false }
+);
 
 export default function Page() {
   const userInfo = useUserInfo((state) => state.user);

@@ -11,16 +11,22 @@ import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
+import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo } from 'react';
 import { useDebounce } from 'use-debounce';
 import { AiMenu } from '../editor/ai-menu';
-import { BlockMenu } from '../editor/blockmenu';
 import { BubbleMenu } from '../editor/bubble-menu';
 import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
 import { Textarea } from '../ui/textarea';
-import Reference from './Reference';
+
+const BlockMenu = dynamic(
+  () => import('../editor/blockmenu/BlockMenu').then((mod) => mod.BlockMenu),
+  { ssr: false }
+);
+
+const Reference = dynamic(() => import('./Reference'));
 
 const Tiptap = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();

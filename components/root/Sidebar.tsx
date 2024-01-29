@@ -1,32 +1,23 @@
 'use client';
 import { SidebarLinks } from '@/constant';
 import { useUserInfo } from '@/zustand/store';
-import { LogOut, User2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { memo, useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from '../ui/dropdown-menu';
+import { DropdownMenu } from '../ui/dropdown-menu';
 import Spacer from './Spacer';
 import { AnimatedLogo, Feedback } from './SvgComponents';
 import User from './User';
 
+const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
+
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const [_cookies, _setCookie, removeCookie] = useCookies(['token']);
   const [topValue, setTopValue] = useState<number | undefined>();
   const user = useUserInfo((state) => state.user);
-
-  const logOut = () => {
-    removeCookie('token', { path: '/' });
-    router.replace('/login');
-  };
 
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
@@ -60,28 +51,7 @@ const Sidebar = () => {
       <Spacer y='50' />
       <DropdownMenu>
         <User name={user.first_name} email={user.email} imgSrc={user.avatar} />
-        <DropdownMenuContent
-          align='start'
-          className='w-60 rounded-lg bg-white shadow-lg'
-        >
-          <Link href={'/profile/setting'} passHref>
-            <DropdownMenuItem className='cursor-pointer gap-x-2.5 rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
-              <User2 size={20} />
-              <span className='text-md font-[500]'>View Profile</span>{' '}
-            </DropdownMenuItem>
-          </Link>
-          {/* <DropdownMenuItem className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
-            <MailOpen size={20} />
-            <span className='text-md font-[500]'>Notification</span>
-          </DropdownMenuItem> */}
-          <DropdownMenuItem
-            onClick={logOut}
-            className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'
-          >
-            <LogOut size={20} />
-            <span className='text-md font-[500]'>Log Out</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
+        <UserInfoDropdown />
       </DropdownMenu>
       <Spacer y='24' />
       <ul className='relative flex flex-col gap-5'>
