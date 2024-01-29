@@ -24,7 +24,6 @@ const Tiptap = dynamic(() => import('./Editor'), {
     </div>
   ),
 });
-
 const DocRightBar = dynamic(() => import('../editor/rightbar/DocRightBar'));
 
 const EssayPanel = ({ id }: { id: string }) => {

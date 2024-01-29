@@ -20,10 +20,12 @@ import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 const SignUpForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
+  const posthog = usePostHog();
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
@@ -59,6 +61,9 @@ const SignUpForm = () => {
           username: variables.email,
           password: variables.password,
         });
+        const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
+          .subject.user_id;
+        posthog.identify(user_id);
         setCookie('token', login_data.access_token, {
           path: '/',
           maxAge: 604800,
