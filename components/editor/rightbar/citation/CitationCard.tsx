@@ -116,11 +116,13 @@ export const MineCitationCard = memo(
         );
       } else {
         await appendInTextCitationIds(item, item.data.document_id);
-        if (item.data.contributors && item.data.contributors[0].last_name) {
+        insertCitation(
           item.data.id,
-            item.data.contributors[0].last_name,
-            item.data.publish_date?.year as string;
-        }
+          item.data.contributors[0].last_name ?? '',
+          item.data.publish_date?.year as string,
+          item.data.article_title ?? '',
+          item.data.abstract
+        );
       }
     };
 

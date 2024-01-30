@@ -21,12 +21,18 @@ const IntextContent = ({ node }: Props) => {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <p className='!m-0 text-doc-primary'>({node.attrs.publish_year})</p>
+        <DropdownMenuTrigger asChild>
+          {citation_style === 'MLA' ? (
+            <p className='!m-0 text-doc-primary'>({node.attrs.publish_year})</p>
+          ) : (
+            <p className='!m-0 text-doc-primary'>
+              ({node.attrs.author},{node.attrs.publish_year})
+            </p>
+          )}
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align='start'
-          className='flex h-[174px] w-[420px] flex-col gap-y-2 rounded border border-shadow-border bg-white p-4'
+          className='flex w-[420px] flex-col gap-y-2 rounded border border-shadow-border bg-white p-4'
         >
           <h1 className='base-semibold'>
             {node.attrs.article_title}&nbsp;

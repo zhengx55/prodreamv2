@@ -1,7 +1,6 @@
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { Book } from '@/components/root/SvgComponents';
-import { useDebouncedState } from '@/hooks/useDebounceState';
 import { searchCitation } from '@/query/api';
 import { ICitation } from '@/query/type';
 import { useStatefulRef } from '@bedrock-layout/use-stateful-ref';
@@ -14,7 +13,7 @@ import SearchBar from './SearchBar';
 const Mine = dynamic(() => import('./Mine'));
 const SearchList = () => {
   const container = useStatefulRef(null);
-  const [keyword, setKeyword] = useDebouncedState('', 1500);
+  const [keyword, setKeyword] = useState('');
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
 
   const removeFromResultList = useCallback((index: number) => {

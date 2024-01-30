@@ -16,10 +16,12 @@ const InTextCitaion = ({
     };
   };
 }) => {
-  console.log(node);
-
   return (
-    <NodeViewWrapper as='span' className='inline-block'>
+    <NodeViewWrapper
+      data-id={node.attrs.citation_id}
+      as='span'
+      className='inline-block'
+    >
       <LazyMotionProvider>
         <NodeViewContent as='span' className='relative cursor-pointer'>
           <IntextContent node={node} />
