@@ -41,8 +41,7 @@ const Footer = () => {
               className='h-auto w-36'
             />
             <p className='body-regular text-[#fff]'>
-              Revolutionizing college advising,
-              <br /> one click at a time
+              Shape your academic future:<br/> masterful writing from application to graduation.
             </p>
           </div>
           <div className='flex flex-col'>
