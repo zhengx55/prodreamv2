@@ -45,10 +45,7 @@ export const SearchCitationCard = memo(
       remove(index);
     };
     return (
-      <div
-        key={item.article_title}
-        className='group flex flex-col gap-y-2 px-2'
-      >
+      <div key={item.article_title} className='group flex flex-col px-2'>
         <h1
           onClick={() => {
             if (item.pdf_url) window.open(item.pdf_url, '_blank');
@@ -57,15 +54,20 @@ export const SearchCitationCard = memo(
         >
           {item.article_title}&nbsp;{`(${item.publish_date.year})`}
         </h1>
+        <Spacer y='10' />
         <p className='subtle-regular text-doc-shadow'>
-          author:&nbsp;
-          {item.authors && item.authors.length > 0
-            ? `${item.authors[0].last_name ?? ''} ${item.authors[0].middle_name ?? ''} ${item.authors[0].first_name ?? ''}`
-            : 'Missing authors'}
+          Authors:&nbsp; {item.authors[0].last_name ?? ''}&nbsp;
+          {item.authors[0].middle_name ?? ''}
+          {item.authors[0].first_name ?? ''}
         </p>
+        <Spacer y='10' />
+        {item.abstract && (
+          <p className='small-regular line-clamp-4'>{item.abstract}</p>
+        )}
+        <Spacer y='15' />
         <div className='flex-between'>
           <Button
-            className='h-max w-[48%] rounded bg-doc-primary'
+            className='h-[30px] w-[48%] rounded bg-doc-primary'
             role='button'
             onClick={() => handler(item as any, index, 'cite')}
           >
@@ -73,7 +75,7 @@ export const SearchCitationCard = memo(
             Cite
           </Button>
           <Button
-            className='h-max w-[48%] rounded border border-doc-primary text-doc-primary'
+            className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
             variant={'ghost'}
             role='button'
             onClick={() => handler(item as any, index, 'collect')}
@@ -165,13 +167,6 @@ export const MineCitationCard = memo(
             <ReplyAll size={18} />
             Cite
           </Button>
-          {/* <Button
-            className='h-max w-[42%] rounded border border-doc-primary py-1 text-doc-primary'
-            variant={'ghost'}
-            role='button'
-          >
-            <Edit size={18} className='text-doc-primary' /> Edit
-          </Button> */}
           <Button
             className='aspect-square h-max rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
             variant={'ghost'}

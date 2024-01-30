@@ -18,7 +18,7 @@ const SearchList = () => {
     (state) => state.updateShowCreateCitation
   );
   const container = useStatefulRef(null);
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState('key');
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
   const removeFromResultList = useCallback((index: number) => {
     setSearchResult((prev) => [
