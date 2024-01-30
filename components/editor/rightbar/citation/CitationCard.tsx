@@ -139,7 +139,7 @@ export const MineCitationCard = memo(
 
     return (
       <div className='mb-5 flex flex-col bg-doc-secondary p-2.5'>
-        <h1 className='base-semibold line-clamp-2'>
+        <h1 className='base-medium line-clamp-2'>
           {item.data.article_title
             ? item.data.article_title
             : item.data.book_title}
@@ -158,9 +158,9 @@ export const MineCitationCard = memo(
           )}
         </div>
         <Spacer y='10' />
-        <div className='flex-between'>
+        <div className='flex-between gap-x-2'>
           <Button
-            className='h-max w-[42%] rounded bg-doc-primary py-1'
+            className='h-8 w-full rounded bg-doc-primary py-1'
             role='button'
             onClick={handleCite}
           >
@@ -168,7 +168,7 @@ export const MineCitationCard = memo(
             Cite
           </Button>
           <Button
-            className='aspect-square h-max rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
+            className='aspect-square h-8 rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
             variant={'ghost'}
             onClick={handleDeleteCitation}
           >

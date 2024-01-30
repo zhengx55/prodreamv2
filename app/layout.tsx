@@ -1,4 +1,5 @@
 import CSPostHogProvider from '@/components/root/PostHogProvider';
+import PostHogPageView from '@/components/root/PostHug';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -58,6 +59,7 @@ export default function RootLayout({
     >
       <CSPostHogProvider>
         <body>
+          <PostHogPageView />
           <GoogleOAuthProvider
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
           >

@@ -1,11 +1,9 @@
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
-import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { searchCitation } from '@/query/api';
 import { ICitation } from '@/query/type';
 import useAiEditor from '@/zustand/store';
-import { useStatefulRef } from '@bedrock-layout/use-stateful-ref';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
@@ -13,12 +11,13 @@ import { SearchCitationCard } from './CitationCard';
 import SearchBar from './SearchBar';
 
 const Mine = dynamic(() => import('./Mine'));
+
 const SearchList = () => {
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
-  const container = useStatefulRef(null);
   const [keyword, setKeyword] = useState('key');
+  const [showMine, setShowMine] = useState(false);
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
   const removeFromResultList = useCallback((index: number) => {
     setSearchResult((prev) => [
@@ -47,12 +46,9 @@ const SearchList = () => {
     if (citationResult) setSearchResult(citationResult);
   }, [citationResult]);
   return (
-    <section
-      ref={container}
-      className='relative flex flex-1 flex-col overflow-visible overflow-y-auto'
-    >
+    <section className='relative flex flex-1 flex-col overflow-visible overflow-y-auto'>
       <Spacer y='10' />
-      <SearchBar keyword={keyword} setKeyword={setKeyword} />
+      <SearchBar setKeyword={setKeyword} />
       <Button
         className='w-max px-2 text-doc-primary'
         variant={'link'}
@@ -78,13 +74,7 @@ const SearchList = () => {
           ))
         )}
       </div>
-      <div className='flex-between absolute bottom-0 h-10 w-full gap-x-2 border-t border-shadow-border bg-white'>
-        <div className='flex items-center gap-x-2'>
-          <Book />
-          <p className='text-doc-primary'>My Citation</p>
-        </div>
-      </div>
-      <Mine container={container} />
+      <Mine />
     </section>
   );
 };

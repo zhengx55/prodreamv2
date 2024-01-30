@@ -16,7 +16,6 @@ const OnBoard = dynamic(() => import('../editor/modal/onBoard'), {
   ssr: false,
 });
 const Tiptap = dynamic(() => import('./Editor'), {
-  ssr: false,
   loading: () => (
     <div className='flex flex-1 flex-col items-center'>
       <Spacer y='30' />
