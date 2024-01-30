@@ -164,7 +164,7 @@ export default function Page() {
           </Form>
           <Spacer y='20' />
           <p className='small-regular self-center text-black-200'>
-            Already a member?&nbsp;
+            Don&apos;t have an account?&nbsp;
             <Link
               href={'/signup'}
               prefetch
