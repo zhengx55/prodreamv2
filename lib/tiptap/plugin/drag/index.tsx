@@ -26,9 +26,7 @@ function nodeDOMAtCoords(coords: { x: number; y: number }) {
     .find(
       (elem: Element) =>
         elem.parentElement?.matches?.('.ProseMirror') &&
-        elem.matches(
-          ['li', 'p:not(:first-child)', 'h1, h2, h3'].join(', ')
-        )
+        elem.matches(['li', 'p', 'pre', 'blockquote', 'h1, h2, h3'].join(', '))
     );
 }
 
@@ -44,17 +42,23 @@ function nodePosAtDOM(node: Element, view: EditorView) {
 function DragHandle(options: DragHandleOptions) {
   function handleDragStart(event: DragEvent, view: EditorView) {
     view.focus();
+
     if (!event.dataTransfer) return;
+
     const node = nodeDOMAtCoords({
       x: event.clientX + 50 + options.dragHandleWidth,
       y: event.clientY,
     });
+
     if (!(node instanceof Element)) return;
+
     const nodePos = nodePosAtDOM(node, view);
     if (nodePos == null || nodePos < 0) return;
-    // view.dispatch(
-    //   view.state.tr.setSelection(NodeSelection.create(view.state.doc, nodePos))
-    // );
+
+    view.dispatch(
+      view.state.tr.setSelection(NodeSelection.create(view.state.doc, nodePos))
+    );
+
     const slice = view.state.selection.content();
     const { dom, text } = __serializeForClipboard(view, slice);
     event.dataTransfer.clearData();
@@ -62,13 +66,14 @@ function DragHandle(options: DragHandleOptions) {
     event.dataTransfer.setData('text/plain', text);
     event.dataTransfer.effectAllowed = 'copyMove';
     event.dataTransfer.setDragImage(node, 0, 0);
-
-    view.dragging = { slice, move: true };
+    view.dragging = { slice, move: event.ctrlKey };
   }
 
   function handleClick(event: MouseEvent, view: EditorView) {
     view.focus();
+
     view.dom.classList.remove('dragging');
+
     const node = nodeDOMAtCoords({
       x: event.clientX + 50 + options.dragHandleWidth,
       y: event.clientY,
