@@ -48,8 +48,7 @@ const Hero = () => {
           </h1>
           <Spacer y='20' />
           <p className='small-regular text-center text-[14px] text-[#64626A] sm:text-center sm:text-[18px]'>
-            Craft Superior Essays and Research Papers with Cutting-Edge AI
-            Assistance
+           Experience the future of academic writing with ProDream - the one-stop solution that enhances <br/> writing efficiency and elevates paper quality
           </p>
           <Spacer y='40' />
           <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-2 sm:gap-y-0'>
