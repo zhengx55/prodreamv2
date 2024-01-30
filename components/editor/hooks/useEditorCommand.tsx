@@ -94,31 +94,44 @@ export const useEditorCommand = (editor: Editor) => {
   );
 
   const insertCitation = useCallback(
-    (content: string) => {
+    (
+      citation_id: string,
+      author: string,
+      publish_year: string,
+      article_title: string,
+      abstract: string
+    ) => {
       if (!editor) return null;
       const { selection } = editor!.state;
       const { anchor, from, to } = selection;
       if (from === to) {
         editor
           ?.chain()
-          .insertContentAt(anchor, ` (${content}) `)
-          .setTextSelection({
-            from: anchor,
-            to: anchor + (content.length + 4),
+          .insertContentAt(anchor, {
+            type: 'IntextCitation',
+            attrs: {
+              citation_id,
+              author,
+              publish_year,
+              article_title,
+              abstract,
+            },
           })
-          .setColor('#8652DB')
-          .setTextSelection(0)
           .run();
       } else {
         editor
           ?.chain()
-          .insertContentAt(to, ` (${content}) `)
-          .setTextSelection({
-            from: to,
-            to: to + (content.length + 4),
+          .insertContentAt(to, {
+            type: 'IntextCitation',
+            attrs: {
+              citation_id,
+              author,
+              publish_year,
+              article_title,
+              abstract,
+            },
           })
-          .setColor('#8652DB')
-          .setTextSelection(0)
+
           .run();
       }
     },

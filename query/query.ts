@@ -62,13 +62,13 @@ export const useCiteToDoc = (flag?: boolean) => {
         },
         variables.document_id
       );
-      if (
-        variables.citation_data.contributors.length > 0 &&
-        variables.citation_data.contributors[0].last_name &&
-        !flag
-      ) {
-        insertCitation(variables.citation_data.contributors[0].last_name);
-      }
+      insertCitation(
+        data,
+        variables.citation_data.contributors[0]?.last_name,
+        variables.citation_data.publish_date?.year,
+        variables.citation_data.article_title,
+        variables.citation_data.abstract
+      );
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

@@ -301,20 +301,33 @@ export function ConvertCitationData(item: ICitation) {
     journal_title,
     page_info,
     publish_date,
+    abstract,
+    pdf_url,
   } = item;
   converted_data.publish_date = {
     day: publish_date.day ?? '',
     month: publish_date.month ? numberToMonth(publish_date.month) : '',
     year: publish_date.year ?? '',
   };
-  converted_data.contributors = authors;
-  converted_data.page_info = page_info;
-  converted_data.journal_title = journal_title;
-  converted_data.article_title = article_title;
-  converted_data.doi = doi;
+  converted_data.contributors = authors ?? [
+    {
+      first_name: '',
+      last_name: '',
+      middle_name: '',
+      role: '',
+      suffix: '',
+    },
+  ];
+  converted_data.page_info = page_info ?? '';
+  converted_data.journal_title = journal_title ?? '';
+  converted_data.article_title = article_title ?? '';
+  converted_data.abstract = abstract ?? '';
+  converted_data.pdf_url = pdf_url ?? '';
+  converted_data.doi = doi ?? '';
   converted_data.advanced_info = {
-    issue: '',
+    issue: advanced_info.issue ?? '',
     volume: advanced_info.volume ?? '',
     series: advanced_info.series ?? '',
   };
+  return converted_data;
 }
