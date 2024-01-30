@@ -16,7 +16,7 @@ type Props = { container: MutableRefObject<any> };
 
 const Mine = ({ container }: Props) => {
   const [selected, setSelected] = useState(0);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   return (
     <Drawer open={show} onOpenChange={setShow} modal={false}>
       <DrawerTrigger asChild>

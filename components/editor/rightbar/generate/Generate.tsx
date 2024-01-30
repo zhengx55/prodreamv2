@@ -12,10 +12,9 @@ import GenerateSub from './GenerateSub';
 
 const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 
-export const Generate = memo(() => {
+export const Generate = () => {
   const [generateTab, setGenerateTab] = useState<number | string>(-1);
   const copilot_option = useRef<string | null>(null);
-
   const memoSetGeneratedTab = useCallback((value: string) => {
     setGenerateTab(value);
   }, []);
@@ -94,6 +93,6 @@ export const Generate = memo(() => {
       </AnimatePresence>
     </LazyMotionProvider>
   );
-});
+};
 
-Generate.displayName = 'Generate';
+export default memo(Generate);

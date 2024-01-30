@@ -20,12 +20,12 @@ import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import { GrammarCheck } from './grammar/GrammarCheck';
 
-const Generate = dynamic(() =>
-  import('@/components/editor/rightbar').then((mod) => mod.Generate)
+const Generate = dynamic(
+  () => import('@/components/editor/rightbar/generate/Generate')
 );
 
-const Citation = dynamic(() =>
-  import('@/components/editor/rightbar').then((mod) => mod.Citation)
+const Citation = dynamic(
+  () => import('@/components/editor/rightbar/citation/Citation')
 );
 
 const OptionsVariants: Variants = {
@@ -33,7 +33,7 @@ const OptionsVariants: Variants = {
   collasped: { width: '15%' },
 };
 
-const DocRightBar = memo(() => {
+const DocRightBar = () => {
   const rightbarOpen = useAiEditor((state) => state.rightbarOpen);
   const toggleRightbar = useAiEditor((state) => state.toggleRightbar);
   const righbarTab = useAiEditor((state) => state.righbarTab);
@@ -85,7 +85,7 @@ const DocRightBar = memo(() => {
                           scale: 1,
                           transition: { duration: 0.5 },
                         }}
-                        className='title-semibold text-white'
+                        className='base-semibold text-white'
                       >
                         Grammar Check
                       </m.p>
@@ -105,7 +105,7 @@ const DocRightBar = memo(() => {
                 >
                   <BookHalf fill={righbarTab !== 1 ? '#8652DB' : '#FFFFFF'} />
                   {righbarTab === 1 && (
-                    <p className='title-semibold text-white'>Citation</p>
+                    <p className='base-semibold text-white'>Citation</p>
                   )}
                 </m.span>
                 <m.span
@@ -123,7 +123,7 @@ const DocRightBar = memo(() => {
                     fill={righbarTab !== 2 ? '#8652DB' : '#FFFFFF'}
                   />
                   {righbarTab === 2 && (
-                    <p className='title-semibold text-white'>Generate</p>
+                    <p className='base-semibold text-white'>Generate</p>
                   )}
                 </m.span>
               </div>
@@ -158,7 +158,6 @@ const DocRightBar = memo(() => {
       </AnimatePresence>
     </LazyMotion>
   );
-});
+};
 
-DocRightBar.displayName = 'DocRightBar';
-export default DocRightBar;
+export default memo(DocRightBar);

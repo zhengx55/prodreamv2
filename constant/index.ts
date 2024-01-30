@@ -71,7 +71,7 @@ export const WelcomLanguageOptions = [
 
 export const WelcomEducationOptions = [
   {
-    name: 'Undergrad & High Schoold',
+    name: 'Undergrad & High School',
     desc: `High school students and bachelor's degree candidates`,
     src: '/welcome/HighSchool.png',
     label: 'undergrad',
