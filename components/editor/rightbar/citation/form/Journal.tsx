@@ -23,6 +23,8 @@ const JournalForm = () => {
             first_name: '',
             middle_name: '',
             last_name: '',
+            role: null,
+            suffix: null,
           },
         ],
       },
@@ -49,7 +51,13 @@ const JournalForm = () => {
   };
 
   const appendContributor = () => {
-    append({});
+    append({
+      first_name: '',
+      middle_name: '',
+      last_name: '',
+      role: null,
+      suffix: null,
+    });
   };
 
   const removeContributor = (index: number) => {

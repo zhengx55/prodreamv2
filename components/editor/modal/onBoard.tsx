@@ -12,7 +12,6 @@ import Edit from './Edit';
 import Start from './Start';
 
 const OnBoard = () => {
-  console.log(1);
   const [showOnboard, setShowOnboard] = useState(true);
   const [board, setBoard] = useState(0);
   const router = useRouter();

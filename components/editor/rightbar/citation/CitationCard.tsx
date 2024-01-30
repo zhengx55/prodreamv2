@@ -1,9 +1,9 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { numberToMonth } from '@/lib/utils';
+import { ConvertCitationData } from '@/lib/utils';
 import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
-import { ICitationData, ICitationType, IJournalCitation } from '@/types';
+import { ICitationData, ICitationType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { Plus, ReplyAll, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -23,37 +23,12 @@ export const SearchCitationCard = memo(
     const { id } = useParams();
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
-
     const handler = async (
       item: ICitation,
       index: number,
       action: 'cite' | 'collect'
     ) => {
-      const converted_data = {} as IJournalCitation;
-      const {
-        advanced_info,
-        article_title,
-        authors,
-        doi,
-        journal_title,
-        page_info,
-        publish_date,
-      } = item;
-      converted_data.publish_date = {
-        day: publish_date.day ?? '',
-        month: publish_date.month ? numberToMonth(publish_date.month) : '',
-        year: publish_date.year ?? '',
-      };
-      converted_data.contributors = authors;
-      converted_data.page_info = page_info;
-      converted_data.journal_title = journal_title;
-      converted_data.article_title = article_title;
-      converted_data.doi = doi;
-      converted_data.advanced_info = {
-        issue: '',
-        volume: advanced_info.volume ?? '',
-        series: advanced_info.series ?? '',
-      };
+      const converted_data = ConvertCitationData(item);
       if (action === 'collect') {
         await handleCollectCitation({
           citation_data: converted_data,
@@ -78,11 +53,11 @@ export const SearchCitationCard = memo(
           onClick={() => {
             if (item.pdf_url) window.open(item.pdf_url, '_blank');
           }}
-          className='base-semibold cursor-pointer hover:text-doc-primary'
+          className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'
         >
           {item.article_title}&nbsp;{`(${item.publish_date.year})`}
         </h1>
-        <p className='small-regular line-clamp-3'>
+        <p className='small-regular'>
           {item.authors && item.authors.length > 0
             ? `${item.authors[0].last_name ?? ''} ${item.authors[0].middle_name ?? ''} ${item.authors[0].first_name ?? ''}`
             : 'Missing authors'}
@@ -129,16 +104,22 @@ export const MineCitationCard = memo(
       (state) => state.appendInTextCitationIds
     );
     const { insertCitation } = useEditorCommand(editor!);
+
     const handleCite = async () => {
       if (type === 'inText') {
-        if (item.data.contributors && item.data.contributors[0].last_name) {
-          insertCitation(item.data.contributors[0].last_name);
-        }
+        insertCitation(
+          item.data.id,
+          item.data.contributors[0].last_name ?? '',
+          item.data.publish_date?.year as string,
+          item.data.article_title ?? '',
+          item.data.abstract
+        );
       } else {
-        // 添加到intextCitation中 从doccitation中删除
         await appendInTextCitationIds(item, item.data.document_id);
         if (item.data.contributors && item.data.contributors[0].last_name) {
-          insertCitation(item.data.contributors[0].last_name);
+          item.data.id,
+            item.data.contributors[0].last_name,
+            item.data.publish_date?.year as string;
         }
       }
     };
@@ -153,7 +134,7 @@ export const MineCitationCard = memo(
 
     return (
       <div className='mb-5 flex flex-col bg-doc-secondary p-2.5'>
-        <h1 className='base-semibold'>
+        <h1 className='base-semibold line-clamp-2'>
           {item.data.article_title
             ? item.data.article_title
             : item.data.book_title}

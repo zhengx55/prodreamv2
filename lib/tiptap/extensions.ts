@@ -24,12 +24,12 @@ import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import { AutoComplete } from './plugin/autocomplete';
 import DragAndDrop from './plugin/drag';
+import IntextCitation from './plugin/intext-citation';
 import { PolishUnderline } from './plugin/polish-underline';
 import Selection from './plugin/selection';
 import { AutoCompleteSlashCommand, SlashCommand } from './plugin/slashcommand';
 import { TrailingNode } from './plugin/trailing-node';
 import { Underline } from './plugin/underline';
-
 const ExtensionKit = () => [
   CharacterCount,
   HardBreak,
@@ -46,6 +46,7 @@ const ExtensionKit = () => [
   Color,
   History,
   DragAndDrop,
+  IntextCitation,
   Focus.configure({
     className: 'has-focus',
     mode: 'all',
