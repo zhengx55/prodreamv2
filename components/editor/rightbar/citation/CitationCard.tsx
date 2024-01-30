@@ -57,7 +57,8 @@ export const SearchCitationCard = memo(
         >
           {item.article_title}&nbsp;{`(${item.publish_date.year})`}
         </h1>
-        <p className='small-regular'>
+        <p className='subtle-regular text-doc-shadow'>
+          author:&nbsp;
           {item.authors && item.authors.length > 0
             ? `${item.authors[0].last_name ?? ''} ${item.authors[0].middle_name ?? ''} ${item.authors[0].first_name ?? ''}`
             : 'Missing authors'}

@@ -3,7 +3,6 @@ import BottomBar from '@/components/editor/bottombar';
 import { TableOfContent } from '@/components/editor/table-of-contents';
 import Spacer from '@/components/root/Spacer';
 import { useDebouncedState } from '@/hooks/useDebounceState';
-import useMount from '@/hooks/useMount';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
@@ -38,9 +37,9 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const [debounceTitle] = useDebounce(doc_title, 1500);
 
-  useMount(() => {
-    updateRightbarTab(0);
-  });
+  // useMount(() => {
+  //   updateRightbarTab(0);
+  // });
 
   const handleTitleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     toogleIsSaving(true);

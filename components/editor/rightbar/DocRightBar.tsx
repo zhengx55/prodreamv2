@@ -20,12 +20,12 @@ import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import { GrammarCheck } from './grammar/GrammarCheck';
 
-const Generate = dynamic(() =>
-  import('@/components/editor/rightbar').then((mod) => mod.Generate)
+const Generate = dynamic(
+  () => import('@/components/editor/rightbar/generate/Generate')
 );
 
-const Citation = dynamic(() =>
-  import('@/components/editor/rightbar').then((mod) => mod.Citation)
+const Citation = dynamic(
+  () => import('@/components/editor/rightbar/citation/Citation')
 );
 
 const OptionsVariants: Variants = {
@@ -33,7 +33,7 @@ const OptionsVariants: Variants = {
   collasped: { width: '15%' },
 };
 
-const DocRightBar = memo(() => {
+const DocRightBar = () => {
   const rightbarOpen = useAiEditor((state) => state.rightbarOpen);
   const toggleRightbar = useAiEditor((state) => state.toggleRightbar);
   const righbarTab = useAiEditor((state) => state.righbarTab);
@@ -158,7 +158,6 @@ const DocRightBar = memo(() => {
       </AnimatePresence>
     </LazyMotion>
   );
-});
+};
 
-DocRightBar.displayName = 'DocRightBar';
-export default DocRightBar;
+export default memo(DocRightBar);

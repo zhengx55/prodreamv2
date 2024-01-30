@@ -37,18 +37,14 @@ export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
                 href={`#${item.id}`}
                 style={{ marginLeft: `${1 * item.level - 1}rem` }}
                 className={cn(
-                  'hover:bg-black small-semibold block w-full truncate rounded  bg-opacity-10 text-neutral-500 transition-all hover:bg-opacity-5 hover:text-neutral-800',
+                  'hover:bg-black subtle-semibold block w-full truncate rounded  bg-opacity-10 text-neutral-500 transition-all hover:bg-opacity-5 hover:text-neutral-800',
                   item.isActive && 'bg-neutral-100 text-neutral-800 '
                 )}
               >
                 {item.textContent}
               </a>
             ))}
-            <p
-              className={cn(
-                'small-semibold inline-flex w-full items-center gap-x-1 truncate rounded  bg-opacity-10 text-neutral-500 transition-all hover:bg-opacity-5 hover:text-neutral-800'
-              )}
-            >
+            <p className='subtle-semibold inline-flex w-full items-center gap-x-1 truncate  rounded bg-opacity-10 text-neutral-500 transition-all hover:bg-opacity-5 hover:text-neutral-800'>
               <BookMarks />
               Reference
             </p>

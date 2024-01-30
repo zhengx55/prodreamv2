@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import useAiEditor from '@/zustand/store';
 import { Search } from 'lucide-react';
 import { useRef } from 'react';
 type Props = {
@@ -9,9 +8,6 @@ type Props = {
 };
 const SearchBar = ({ keyword, setKeyword }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
-  const updateShowCreateCitation = useAiEditor(
-    (state) => state.updateShowCreateCitation
-  );
 
   return (
     <div className='flex-between h-12 w-full rounded border border-shadow-border px-1.5'>
@@ -29,15 +25,6 @@ const SearchBar = ({ keyword, setKeyword }: Props) => {
         <Search className='text-white' size={20} />
       </Button>
     </div>
-    // {/* <Button
-    //   className='h-full rounded border-shadow-border px-2'
-    //   variant={'outline'}
-    //   onClick={() => {
-    //     updateShowCreateCitation(true);
-    //   }}
-    // >
-    //   <Plus className='text-doc-shadow' />
-    // </Button> */}
   );
 };
 export default SearchBar;

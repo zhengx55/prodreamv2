@@ -1,8 +1,10 @@
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { Book } from '@/components/root/SvgComponents';
+import { Button } from '@/components/ui/button';
 import { searchCitation } from '@/query/api';
 import { ICitation } from '@/query/type';
+import useAiEditor from '@/zustand/store';
 import { useStatefulRef } from '@bedrock-layout/use-stateful-ref';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
@@ -12,10 +14,12 @@ import SearchBar from './SearchBar';
 
 const Mine = dynamic(() => import('./Mine'));
 const SearchList = () => {
+  const updateShowCreateCitation = useAiEditor(
+    (state) => state.updateShowCreateCitation
+  );
   const container = useStatefulRef(null);
   const [keyword, setKeyword] = useState('');
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
-
   const removeFromResultList = useCallback((index: number) => {
     setSearchResult((prev) => [
       ...prev.slice(0, index),
@@ -49,6 +53,15 @@ const SearchList = () => {
     >
       <Spacer y='10' />
       <SearchBar keyword={keyword} setKeyword={setKeyword} />
+      <Button
+        className='w-max px-2 text-doc-primary'
+        variant={'link'}
+        onClick={() => {
+          updateShowCreateCitation(true);
+        }}
+      >
+        Or add customzied citaitons
+      </Button>
       <Spacer y='10' />
       <div className='flex h-[calc(100%_-115px)] w-full flex-col gap-y-8 overflow-y-auto'>
         {isError ? null : isPending ? (
