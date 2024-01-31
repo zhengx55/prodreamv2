@@ -7,11 +7,11 @@ import { Button } from '../ui/button';
 
 const StorySwiper = dynamic(() => import('./StorySwiper'));
 
-const Story = () => {
+const BottomBanner = () => {
   return (
     <section className='relative flex w-full justify-center bg-shadow-400 sm:mt-[160px] sm:px-0'>
-      <div className='flex-center w-full flex-col gap-y-3'>
-        <div className='relative flex w-full flex-col justify-between gap-y-4 overflow-hidden bg-doc-primary py-[22px] sm:w-full sm:py-12'>
+      <div className='flex-center w-full flex-col gap-y-3 sm:w-[1200px]'>
+        <div className='relative flex w-full flex-col gap-y-4 overflow-hidden rounded-[32px] bg-doc-primary py-[22px] sm:py-12'>
           <Image
             alt='background'
             src='/landing/showcase/background.png'
@@ -20,7 +20,10 @@ const Story = () => {
           />
           <h2 className='sm:h2-bold text-center text-[22px] font-[600] text-white'>
             You&apos;ve come this far.
-            <br /> Let&apos;s make your essay unforgettable!
+            <br />
+            <span className=' font-baskerville'>
+              Let&apos;s make your essay unforgettable!
+            </span>
           </h2>
           <Spacer y='14' />
           <Link href={'/signup'} passHref className='z-[100] self-center'>
@@ -36,4 +39,4 @@ const Story = () => {
     </section>
   );
 };
-export default Story;
+export default BottomBanner;

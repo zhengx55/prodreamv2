@@ -5,7 +5,7 @@ import Hero from '@/components/landing/Hero';
 import Introduction from '@/components/landing/Introduction';
 import NavBar from '@/components/landing/NavBar';
 import Question from '@/components/landing/Question';
-import Story from '@/components/landing/Story';
+import BottomBanner from '@/components/landing/BottomBanner';
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
         <Introduction />
         {/* <ShowCase /> */}
         <Question />
-        <Story />
+        <BottomBanner />
         <Footer />
       </main>
     </LazyMotionProvider>
