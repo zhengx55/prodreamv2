@@ -1,6 +1,6 @@
 'use client';
 import { Toolbar } from '@/components/editor/Toolbar';
-import { BookHalf, Copilot } from '@/components/root/SvgComponents';
+import { BookHalf } from '@/components/root/SvgComponents';
 import useAiEditor from '@/zustand/store';
 import { Editor } from '@tiptap/react';
 import { CornerDownLeft, CornerDownRight } from 'lucide-react';
@@ -15,18 +15,11 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
   const commands = useTextmenuCommands(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
-
   const showCitation = () => {
     updateRightbarTab(1);
   };
-
   return (
-    <Toolbar.Wrapper className='w-[700px] justify-between gap-x-3 !rounded-none border-none'>
-      <MemoButton className='text-doc-primary'>
-        <Copilot />
-        AI Copilot
-      </MemoButton>
-      <Toolbar.Divider />
+    <Toolbar.Wrapper className='w-[650px] justify-between gap-x-3 !rounded-none border-none pl-10'>
       <MemoButton onClick={showCitation} className='text-doc-primary'>
         <BookHalf size={18} />
         Citation
