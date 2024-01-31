@@ -1,11 +1,8 @@
 'use client';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
-
-const StorySwiper = dynamic(() => import('./StorySwiper'));
 
 const BottomBanner = () => {
   return (
