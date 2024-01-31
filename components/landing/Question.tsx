@@ -28,18 +28,18 @@ const Question = () => {
   return (
     <section className='relative flex w-full justify-center px-4 pb-[80px] sm:px-0 sm:py-20'>
       <div className='flex-between w-full sm:max-w-[1200px]'>
-        <div className='flex w-full flex-col gap-x-4 sm:flex-row sm:gap-y-0'>
+        <div className='flex w-full flex-col gap-x-4 gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
           <div className='flex w-full flex-col gap-y-2 sm:w-[40%]'>
-            <h1 className='text-center font-baskerville text-[28px] font-[400] leading-[32px] sm:text-left sm:text-[48px] sm:leading-[58px]'>
+            <h1 className='text-center font-baskerville text-[28px] font-[400] leading-snug sm:text-left sm:text-[40px]'>
               Frequently Asked <br />
               Question&apos;s
             </h1>
-            <p className='small-regular text-center text-[#64626A] sm:w-full sm:text-left sm:text-[18px]'>
+            <p className='text-center leading-relaxed text-[#64626A] sm:w-full sm:text-left sm:text-[18px]'>
               Have questions or need support? Shoot us an email at{' '}
               <span className='text-doc-primary'>support@prodream.ai</span>
             </p>
           </div>
-          <div className='rounded-xl bg-[#F5F6F9] p-[10px] sm:w-[60%] sm:rounded-[36px] sm:p-[15px]'>
+          <div className='rounded-xl bg-[#F5F6F9] p-[10px] sm:w-[55%] sm:rounded-[36px] sm:p-[15px]'>
             {datalist.map((item, index) => (
               <div
                 className='mt-[13px] w-full cursor-pointer rounded-xl bg-[#fff] px-[17px] py-[12px] sm:mb-[20px] sm:mt-0 sm:rounded-[24px] sm:p-6'

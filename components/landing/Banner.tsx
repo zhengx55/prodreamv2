@@ -5,6 +5,12 @@ const Banner = () => {
   return (
     <section className='relative flex w-full justify-center sm:px-0 sm:py-20'>
       <div className='flex-center w-full flex-col sm:max-w-[1200px]'>
+        <p className='base-regular text-center'>
+          Trusted by academic writers from top universities around the world
+        </p>
+        <Spacer y='20' />
+
+        <Spacer y='20' />
         <div className='flex flex-col gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
           <div className='relative w-full rounded-2xl bg-doc-primary p-7 sm:w-[47%]'>
             <h2 className='title-regular text-white'>
