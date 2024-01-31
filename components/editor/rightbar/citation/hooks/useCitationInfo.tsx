@@ -20,6 +20,7 @@ export const useCitationInfo = (document_content: IDocDetail | undefined) => {
         const { type, ...data } = item;
         parsed.push({ type, data });
       });
+      console.log(parsed);
       updateInTextCitation(parsed, id_array);
     }
     async function fetchInDoc(id_array: string[]) {

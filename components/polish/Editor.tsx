@@ -74,8 +74,7 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
         autocomplete: 'off',
         autocorrect: 'on',
         autocapitalize: 'off',
-
-        class: 'min-h-full whitespace-pre-wrap',
+        class: 'min-h-full outline-none whitespace-pre-wrap',
       },
     },
     injectCSS: false,

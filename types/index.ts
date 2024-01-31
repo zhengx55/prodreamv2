@@ -57,9 +57,13 @@ export interface IWebsiteCitation {
   publisher: null | string;
   website_title: string;
   url: string;
+  reference_count: number;
+  area: string[];
 }
 
 export interface IJournalCitation {
+  reference_count: number;
+  area: string[];
   pdf_url: string;
   abstract: string;
   advanced_info: {
@@ -93,6 +97,8 @@ export interface IJournalCitation {
 }
 
 export interface IBookCitation {
+  reference_count: number;
+  area: string[];
   abstract: string;
   advanced_info: {
     edition?: null | string;
@@ -119,6 +125,8 @@ export interface IBookCitation {
 }
 
 export interface IChapterCitation {
+  reference_count: number;
+  area: string[];
   abstract: string;
   advanced_info: {
     edition?: null | string;
@@ -146,28 +154,27 @@ export interface IChapterCitation {
 }
 
 export interface IIntroductionCitation {
+  reference_count: number;
+  area: string[];
   abstract: string;
-  advanced_info?: {
+  advanced_info: {
     edition?: null | string;
     series?: null | string;
     total_vol?: null | string;
     vol?: null | string;
   };
-  annotation?: null | string;
+  annotation: null | string;
   book_title: null | string;
-  contributors?: {
+  contributors: {
     first_name?: null | string;
     last_name?: null | string;
     middle_name?: null | string;
-    /**
-     * author, editor, translator, compiler
-     */
     role?: null | string;
     suffix?: null | string;
   }[];
   document_id: string;
-  page_info?: { end?: number | null; start?: number | null };
-  publication_info?: {
+  page_info: { end?: number | null; start?: number | null };
+  publication_info: {
     city?: null | string;
     publish_year?: number | null;
     publisher?: null | string;

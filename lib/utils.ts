@@ -303,7 +303,10 @@ export function ConvertCitationData(item: ICitation) {
     publish_date,
     abstract,
     pdf_url,
+    reference_count,
+    area,
   } = item;
+  console.log('🚀 ~ ConvertCitationData ~ item:', item);
   converted_data.publish_date = {
     day: publish_date.day ?? '',
     month: publish_date.month ? numberToMonth(publish_date.month) : '',
@@ -318,6 +321,8 @@ export function ConvertCitationData(item: ICitation) {
       suffix: '',
     },
   ];
+  converted_data.reference_count = reference_count ?? 0;
+  converted_data.area = area ?? [];
   converted_data.page_info = page_info ?? '';
   converted_data.journal_title = journal_title ?? '';
   converted_data.article_title = article_title ?? '';
