@@ -13,18 +13,6 @@ export default Node.create({
       citation_id: {
         default: '',
       },
-      author: {
-        default: '',
-      },
-      publish_year: {
-        default: '',
-      },
-      article_title: {
-        default: '',
-      },
-      abstract: {
-        default: '',
-      },
     };
   },
   parseHTML() {
