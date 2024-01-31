@@ -1,4 +1,3 @@
-import { TeamMembers } from '@/constant';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
 
