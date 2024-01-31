@@ -44,7 +44,7 @@ const DocRightBar = memo(() => {
         {rightbarOpen ? (
           <m.aside
             key={'doc-right-bar'}
-            initial={{ width: 400 }}
+            initial={{ width: 0 }}
             animate={{
               width: 400,
             }}
