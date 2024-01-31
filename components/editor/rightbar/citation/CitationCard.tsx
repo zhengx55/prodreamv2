@@ -15,6 +15,10 @@ const CitationPreview = dynamic(() => import('./CitationPreview'), {
   ssr: false,
 });
 
+const MineCitationPreview = dynamic(() => import('./MineCitationPreview'), {
+  ssr: false,
+});
+
 export const SearchCitationCard = memo(
   ({
     item,
@@ -25,7 +29,6 @@ export const SearchCitationCard = memo(
     index: number;
     remove: (index: number) => void;
   }) => {
-    console.log('🚀 ~ item:', item);
     const { id } = useParams();
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
@@ -134,9 +137,21 @@ export const MineCitationCard = memo(
     return (
       <div className='mb-5 flex flex-col gap-y-2.5 p-2.5'>
         <h1 className='small-medium line-clamp-2'>
-          {item.data.article_title
-            ? item.data.article_title
-            : item.data.book_title}
+          {/* <Dialog>
+            <DialogTrigger asChild>
+              <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+                {item.data.article_title
+                  ? item.data.article_title
+                  : item.data.book_title}{' '}
+              </h1>
+            </DialogTrigger>
+            <MineCitationPreview item={item.data} />
+          </Dialog> */}
+          <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+            {item.data.article_title
+              ? item.data.article_title
+              : item.data.book_title}{' '}
+          </h1>
         </h1>
         {item.data.contributors.length > 0 && (
           <p className='subtle-regular text-doc-shadow'>

@@ -35,7 +35,12 @@ export type ICitationData = IWebsiteCitation &
   IJournalCitation &
   IBookCitation &
   IChapterCitation &
-  IIntroductionCitation & { id: string };
+  IIntroductionCitation & {
+    id: string;
+    tldr: string;
+    publisher: string;
+    citation_count: number;
+  };
 
 export interface IWebsiteCitation {
   abstract: string;
