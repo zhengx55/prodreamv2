@@ -1,12 +1,16 @@
 import CSPostHogProvider from '@/components/root/PostHogProvider';
-import PostHogPageView from '@/components/root/PostHug';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { Inter, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
+
+const PostHogPageView = dynamic(() => import('@/components/root/PostHug'), {
+  ssr: false,
+});
 
 const poppins = Poppins({
   subsets: ['latin'],
