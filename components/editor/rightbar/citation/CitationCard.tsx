@@ -1,5 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { ConvertCitationData } from '@/lib/utils';
 import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
@@ -46,14 +47,15 @@ export const SearchCitationCard = memo(
     };
     return (
       <div key={item.article_title} className='group flex flex-col px-2'>
-        <h1
-          onClick={() => {
-            if (item.pdf_url) window.open(item.pdf_url, '_blank');
-          }}
-          className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'
-        >
-          {item.article_title}&nbsp;{`(${item.publish_date.year})`}
-        </h1>
+        <Dialog>
+          <DialogTrigger asChild>
+            <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+              {item.article_title}&nbsp;{`(${item.publish_date.year})`}
+            </h1>
+          </DialogTrigger>
+          <DialogContent className='bg-white sm:rounded md:w-[800px]'></DialogContent>
+        </Dialog>
+
         <Spacer y='10' />
         <p className='subtle-regular text-doc-shadow'>
           Authors:&nbsp; {item.authors[0].last_name ?? ''}&nbsp;
