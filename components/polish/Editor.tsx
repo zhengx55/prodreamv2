@@ -3,7 +3,6 @@ import BottomBar from '@/components/editor/bottombar';
 import { TableOfContent } from '@/components/editor/table-of-contents';
 import Spacer from '@/components/root/Spacer';
 import { useDebouncedState } from '@/hooks/useDebounceState';
-import useMount from '@/hooks/useMount';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
@@ -13,7 +12,7 @@ import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
-import { ChangeEvent, memo } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import { AiMenu } from '../editor/ai-menu';
 import { BubbleMenu } from '../editor/bubble-menu';
@@ -25,6 +24,7 @@ const Reference = dynamic(() => import('./Reference'));
 
 const Tiptap = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
+  const [showBottomBar, setShowBottomBar] = useState(true);
   const savingMode = useAiEditor((state) => state.savingMode);
   const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
   const reset = useAiEditor((state) => state.reset);
@@ -34,13 +34,8 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
   const showCitiationMenu = useAiEditor((state) => state.showCitiationMenu);
   const showSynonymMenu = useAiEditor((state) => state.showSynonymMenu);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
-  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
   const [debounceTitle] = useDebounce(doc_title, 1500);
-
-  useMount(() => {
-    updateRightbarTab(0);
-  });
 
   const handleTitleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     toogleIsSaving(true);
@@ -83,6 +78,10 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
     content: essay_content ?? '',
     onCreate: ({ editor }) => {
       setEditorInstance(editor as Editor);
+    },
+    onSelectionUpdate: ({ editor }) => {
+      const { from, to } = editor.state.selection;
+      from !== to ? setShowBottomBar(false) : setShowBottomBar(true);
     },
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
@@ -127,9 +126,11 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
           <Reference />
         </div>
       </div>
-      <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>
-        <BottomBar editor={editor} />
-      </div>
+      {showBottomBar && (
+        <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>
+          <BottomBar editor={editor} />
+        </div>
+      )}
     </section>
   );
 };
