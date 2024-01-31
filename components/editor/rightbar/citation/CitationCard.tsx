@@ -1,15 +1,19 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { ConvertCitationData } from '@/lib/utils';
 import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { Plus, ReplyAll, Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
+const CitationPreview = dynamic(() => import('./CitationPreview'), {
+  ssr: false,
+});
 
 export const SearchCitationCard = memo(
   ({
@@ -21,6 +25,7 @@ export const SearchCitationCard = memo(
     index: number;
     remove: (index: number) => void;
   }) => {
+    console.log('🚀 ~ item:', item);
     const { id } = useParams();
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
@@ -53,9 +58,8 @@ export const SearchCitationCard = memo(
               {item.article_title}&nbsp;{`(${item.publish_date.year})`}
             </h1>
           </DialogTrigger>
-          <DialogContent className='bg-white sm:rounded md:w-[800px]'></DialogContent>
+          <CitationPreview item={item} />
         </Dialog>
-
         <Spacer y='10' />
         <p className='subtle-regular text-doc-shadow'>
           Authors:&nbsp; {item.authors[0].last_name ?? ''}&nbsp;

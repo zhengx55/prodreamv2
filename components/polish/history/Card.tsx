@@ -20,7 +20,7 @@ const Card = ({
   item,
 }: Props) => {
   const previewContent = useMemo(async () => {
-    return item.content.replace(/<[^>]+>/g, '').slice(0, 100);
+    return item.content.replace(/<[^>]+>/g, '').slice(0, 200);
   }, [item.content]);
 
   return (
