@@ -143,51 +143,88 @@ export const ProfileDropdownLinks = [
 // ----------------------------------------------------------------
 // LANDING PAGE
 // ----------------------------------------------------------------
-
-export const ShowCases = [
+export const HeroInfo = [
   {
-    id: 'show-cases-01',
-    title: 'Essay evaluation',
-    description:
-      'This means that you can download and use any of the templates in the UI Market Web library, as many times as you want. This can be a great way to save time and money on design costs.',
-    image: '/landing/showcase/Evaluate.png',
+    id: 'hero-01',
+    icon: '/landing/heros/outline.svg',
+    title: 'Outlining',
+    text: 'Our feature creates detailed outlines with relevant sources, ',
   },
   {
-    id: 'show-cases-02',
-    title: 'Essay polishing',
-    description:
-      'The All-Access Pass also includes access to premium features, such as the ability to export your designs in high resolution, the ability to add custom fonts and colors, and the ability to collaborate with other designers.',
-    image: '/landing/showcase/Polish.png',
+    id: 'hero-02',
+    icon: '/landing/heros/editing.svg',
+    title: 'Editing',
+    text: 'Our feature creates detailed outlines with relevant sources, ',
   },
   {
-    id: 'show-cases-03',
-    title: 'Time saving',
-    description:
-      'All-Access Pass holders also get priority support from the UI Market Web team. This means that you can get help with any problems you have with your designs quickly and easily.',
-    image: '/landing/showcase/Team.png',
+    id: 'hero-03',
+    icon: '/landing/heros/citation.svg',
+    title: 'Citation',
+    text: 'Our feature creates detailed outlines with relevant sources, ',
+  },
+  {
+    id: 'hero-04',
+    icon: '/landing/heros/proofread.svg',
+    title: 'Proofread',
+    text: 'Our feature creates detailed outlines with relevant sources, ',
   },
 ];
 
-export const Universitys = [
+export const AboutInfo = [
   {
-    id: 'university-01',
-    alt: 'university',
-    image: '/landing/university/uclalogo.png',
+    id: 'about-01',
+    title: "Spent hours on outlining and still don't know how to begin?",
+    image: '/landing/about/about1.png',
+    description:
+      "Our feature creates detailed outlines with relevant sources, tailored to your professor's requirements",
   },
   {
-    id: 'university-02',
-    alt: 'university',
-    image: '/landing/university/nyu.png',
+    id: 'about-02',
+    title: 'Stuck in the middle of writing, with no idea what to write next?',
+    image: '/landing/about/about2.png',
+    description:
+      "Our Co-Pilot's 'Continue Writing' feature will craft the next most suitable sentences for you, igniting your ideas and creativity.",
   },
   {
-    id: 'university-03',
-    alt: 'university',
-    image: '/landing/university/berkeley.png',
+    id: 'about-03',
+    title: 'Bothered for hours with citations and formatting?',
+    image: '/landing/about/about3.png',
+    description:
+      "Our 'Auto Cite' feature automatically researches relevant sources and adds both in-text citations and reference citations in the correct format for any citation style.",
+  },
+];
+
+export const IntroductionInfo = [
+  {
+    id: 'intro-01',
+    title: "Exclusive 'Knowledge Base': Empowering You to Earn Top Grades",
+    description:
+      "We don't just do the work for you. Our exclusive knowledge base, enriched by academic experts, enables ProDream to offer step-by-step guidance, ensuring the highest academic quality for every feature.",
+    image: '/landing/introduction/showcase1.png',
   },
   {
-    id: 'university-04',
-    alt: 'university',
-    image: '/landing/university/ucla.png',
+    id: 'intro-02',
+    title:
+      '200 million up-to-date scholarly sources: Ensuring the novelty of your research',
+    description:
+      'Our database of over 200 million scholarly publications can provide you with the best references to confidently back up your paper.',
+    image: '/landing/introduction/showcase2.png',
+  },
+  {
+    id: 'intro-03',
+    title:
+      'Plagiarism Check: To safeguard you from the risk of academic dishonesty',
+    description:
+      'Plagiarism Check feature, with paraphrasing tools, ensures that you can submit your paper free from plagiarism concerns',
+    image: '/landing/introduction/showcase3.png',
+  },
+  {
+    id: 'intro-04',
+    title:
+      "Multilingual Support: Removing non-native speakers' writing barriers",
+    description:
+      'Feel more at ease writing in your native language? With "mutilingual support , you can write in your mother tongue, and it will automatically adapt your text to the nuances of English, ensuring style and requirement compliance',
+    image: '/landing/introduction/showcase4.png',
   },
 ];
 

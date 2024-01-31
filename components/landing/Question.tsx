@@ -36,7 +36,7 @@ const Question = () => {
             </h1>
             <p className='small-regular text-center text-[#64626A] sm:w-full sm:text-left sm:text-[18px]'>
               Have questions or need support? Shoot us an email at{' '}
-              <span className='text-[#8551F3]'>support@prodream.ai</span>
+              <span className='text-doc-primary'>support@prodream.ai</span>
             </p>
           </div>
           <div className='rounded-xl bg-[#F5F6F9] p-[10px] sm:w-[60%] sm:rounded-[36px] sm:p-[15px]'>
@@ -51,7 +51,7 @@ const Question = () => {
                 <div className='flex justify-between'>
                   <div>
                     <p
-                      className={`${selected === index ? 'text-[14px] font-[500] text-[#8551F3] sm:text-[20px]' : 'text-[14px] font-[500] text-[#3B3A40] sm:text-[20px]'}`}
+                      className={`${selected === index ? 'text-[14px] font-[500] text-doc-primary sm:text-[20px]' : 'text-[14px] font-[500] text-[#3B3A40] sm:text-[20px]'}`}
                     >
                       {item.title}
                     </p>

@@ -1,5 +1,6 @@
 'use client';
-import { fadeIn, staggerContainer, textVariant } from '@/constant/motion';
+import { HeroInfo } from '@/constant';
+import { staggerContainer, textVariant } from '@/constant/motion';
 import { m } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,7 +18,7 @@ const Hero = () => {
       }}
       className='relative mt-4 flex w-full justify-center px-4 sm:mt-0 sm:px-0'
     >
-      <m.div
+      {/* <m.div
         variants={fadeIn('left', 'tween', 0, 0.5)}
         className='absolute h-full w-full sm:block'
       >
@@ -30,7 +31,7 @@ const Hero = () => {
           height={900}
           src='/landing/heros/Mask_group.png'
         />
-      </m.div>
+      </m.div> */}
 
       <m.div
         variants={textVariant(0)}
@@ -57,7 +58,7 @@ const Hero = () => {
             <Link passHref href={'/signup'}>
               <Button
                 role='button'
-                className='h-max w-2/3 rounded-lg bg-[#8551F3] sm:w-max sm:px-8 sm:py-2.5'
+                className='h-max w-2/3 rounded-lg bg-doc-primary sm:w-max sm:px-8 sm:py-2.5'
               >
                 <strong>Start Writing!</strong>It&apos;s Free
               </Button>
@@ -69,7 +70,7 @@ const Hero = () => {
               target='_blank'
             >
               <Button
-                className='h-max w-2/3 rounded-lg border border-[#8551F3] text-[#8551F3] sm:w-max sm:px-8 sm:py-2.5'
+                className='h-max w-2/3 rounded-lg border border-doc-primary text-doc-primary sm:w-max sm:px-8 sm:py-2.5'
                 variant={'ghost'}
                 role='button'
               >
@@ -78,7 +79,29 @@ const Hero = () => {
             </Link>
           </div>
         </section>
-
+        <Spacer y='90' />
+        <div className='flex w-full flex-col sm:flex-row sm:justify-between  sm:gap-x-4'>
+          {HeroInfo.map((item) => {
+            return (
+              <span
+                className='flex flex-col gap-y-2 rounded-2xl bg-[#F8F9FC] p-5 sm:w-1/4'
+                key={item.id}
+              >
+                <Image
+                  alt={item.title}
+                  width={28}
+                  height={28}
+                  src={item.icon}
+                  priority
+                />
+                <h2 className='h3-regular'>{item.title}</h2>
+                <p className='text-regular leading-relaxed text-shadow-100'>
+                  {item.text}
+                </p>
+              </span>
+            );
+          })}
+        </div>
         <section className='relative top-[50px] flex h-[196px] w-full flex-col overflow-hidden rounded-xl sm:top-10 sm:h-[610px] sm:w-[1070px]'>
           <Image
             draggable='false'

@@ -61,7 +61,7 @@ const Footer = () => {
               <Button
                 type='submit'
                 className={
-                  'submit-button bg-[#8551F3] hover:bg-[#8551F3] sm:h-[46px]'
+                  'submit-button bg-doc-primary hover:bg-doc-primary sm:h-[46px]'
                 }
               >
                 Submit

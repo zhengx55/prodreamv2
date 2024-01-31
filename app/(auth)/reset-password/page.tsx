@@ -245,7 +245,7 @@ export default function Page() {
                         disabled={verifyWait}
                         onClick={handleSentVerificationEmail}
                         type='button'
-                        className='w-[150px] shrink-0 rounded-xl border-[2px] border-[#8551F3] bg-[#fff] text-[#8551F3] hover:bg-[#8551F3] hover:text-[#fff]'
+                        className='w-[150px] shrink-0 rounded-xl border-[2px] border-doc-primary bg-[#fff] text-doc-primary hover:bg-doc-primary hover:text-[#fff]'
                       >
                         {verifyWait ? (
                           <>

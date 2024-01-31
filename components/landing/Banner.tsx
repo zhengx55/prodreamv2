@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
 
-const Team = () => {
+const Banner = () => {
   return (
     <section className='relative flex w-full justify-center sm:px-0 sm:py-20'>
-      <div className='flex-center h-[174px] w-full flex-col bg-[#CDCDFF]/20 sm:h-[218px]'>
+      <div className='flex-center h-[174px] w-full flex-col rounded-2xl bg-[#CDCDFF]/20 p-8 sm:h-[130px] sm:w-[1200px]'>
         <div className='flex w-full flex-col sm:max-w-[1200px] sm:flex-row sm:justify-between'>
           <h1 className='text-center text-[16px] font-[500] sm:text-left sm:text-[20px]'>
             Incubated by Harvard Innovation Lab and{' '}
@@ -32,4 +32,4 @@ const Team = () => {
     </section>
   );
 };
-export default Team;
+export default Banner;

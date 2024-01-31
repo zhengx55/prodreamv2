@@ -11,7 +11,7 @@ const Story = () => {
   return (
     <section className='relative flex w-full justify-center bg-shadow-400 sm:mt-[160px] sm:px-0'>
       <div className='flex-center w-full flex-col gap-y-3'>
-        <div className='relative flex w-full flex-col justify-between gap-y-4 overflow-hidden bg-[#8551F3] py-[22px] sm:w-full sm:py-12'>
+        <div className='relative flex w-full flex-col justify-between gap-y-4 overflow-hidden bg-doc-primary py-[22px] sm:w-full sm:py-12'>
           <Image
             alt='background'
             src='/landing/showcase/background.png'
