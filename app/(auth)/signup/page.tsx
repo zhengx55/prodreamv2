@@ -16,7 +16,7 @@ export default function Page() {
             Create Your Account
           </h1>
           <p className='title-semibold mb-[30px] self-start text-left font-[400] text-[#525252] sm:mb-[60px] sm:text-[18px]'>
-            Unlock the potential of your personal statement with Prodream!
+            Unlock the potential of your paper with ProDream!
           </p>
           <GoogleSignin label='Sign up with Google' />
           <div className='flex-center relative my-10'>
