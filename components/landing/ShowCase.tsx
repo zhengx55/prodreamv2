@@ -21,6 +21,7 @@ const datalist = [
     from: 'College Senior',
   },
 ];
+
 const ShowCase = () => {
   return (
     <section className='relative flex w-full justify-center px-4 py-20 sm:px-0'>
@@ -57,12 +58,12 @@ const ShowCase = () => {
                 fill='#9C2CF3'
               />
             </svg>
-            <h1 className='ml-4 text-left font-baskerville text-[28px] font-[400] tracking-tighter sm:text-left sm:text-[48px]'>
+            <h1 className='ml-4 text-left  text-[28px] font-[400] tracking-tighter sm:text-left sm:text-[48px]'>
               Loved by students of all majors and
               <br className='hidden sm:block' /> backgrounds
             </h1>
           </div>
-          <div className='mt-[20px] flex w-full flex-col rounded-[8px] bg-[#F5F6F9] px-[4px] py-[8px] sm:mt-[60px] sm:flex-row sm:rounded-[36px] sm:px-[24px] sm:py-[48px]'>
+          <div className='mt-[20px] flex w-full flex-col rounded-xl bg-[#F5F6F9] px-[4px] py-[8px] sm:mt-[60px] sm:flex-row sm:rounded-[36px] sm:px-[24px] sm:py-[48px]'>
             {datalist.map((item, index) => (
               <div
                 className={`${index < 2 ? 'border-b border-[#D1D0D6] sm:border-b-0 sm:border-r' : ''} mb-[20px] w-full p-[35px] sm:mb-0 sm:flex sm:w-1/3 sm:flex-col sm:justify-between sm:px-[26px]`}
@@ -93,7 +94,7 @@ const ShowCase = () => {
           </div>
         </div>
         <div className='sm:mb-[80px] sm:pt-[200px]'>
-          <h1 className='text-center font-baskerville text-[28px] font-[400] leading-[32px] sm:text-center sm:text-[48px] sm:leading-[58px]'>
+          <h1 className='text-center  text-[28px] font-[400] leading-[32px] sm:text-center sm:text-[48px] sm:leading-[58px]'>
             Every Writing Scenario,
             <br />{' '}
             <span className='relative inline-block before:absolute before:-inset-1 before:top-[16px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#F2C8FB] sm:before:top-[26px]'>

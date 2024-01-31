@@ -4,7 +4,7 @@ import { TanstackProvider } from '@/context/TanstackProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { Inter, Poppins } from 'next/font/google';
+import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
 
@@ -25,6 +25,14 @@ const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
   variable: '--inter-font',
+  preload: true,
+});
+
+const liber = Libre_Baskerville({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  display: 'swap',
+  variable: '--liber-font',
   preload: true,
 });
 
@@ -58,7 +66,7 @@ export default function RootLayout({
   return (
     <html
       lang='en'
-      className={`${poppins.variable} ${inter.variable}`}
+      className={`${poppins.variable} ${inter.variable} ${liber.variable}`}
       suppressHydrationWarning
     >
       <CSPostHogProvider>

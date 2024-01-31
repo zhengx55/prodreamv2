@@ -104,7 +104,7 @@ export default function Page() {
                         autoComplete='email'
                         id='username'
                         placeholder=''
-                        className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
+                        className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
                         {...field}
                       />
                     </FormControl>
@@ -143,7 +143,7 @@ export default function Page() {
                         id='password'
                         type={hidePassword ? 'password' : 'text'}
                         placeholder=''
-                        className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
+                        className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
                         {...field}
                       />
                     </FormControl>

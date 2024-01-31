@@ -45,7 +45,7 @@ const NavBar = () => {
                 btnClick('Login', userId);
               }}
               variant={'ghost'}
-              className='text-[#8551F3]'
+              className='text-doc-primary'
             >
               Log in
             </Button>
@@ -55,7 +55,7 @@ const NavBar = () => {
               onClick={() => {
                 btnClick('Start Writing', userId);
               }}
-              className='bg-[#8551F3] hover:bg-[#8551F3]'
+              className='bg-doc-primary hover:bg-doc-primary'
             >
               <strong>Start Writing!</strong>It&apos;s Free
             </Button>
@@ -94,7 +94,7 @@ const NavBar = () => {
                       btnClick('mobileLogin', userId);
                     }}
                     variant={'ghost'}
-                    className='w-[340px] border-[2px] border-[#8551F3] text-[#8551F3]'
+                    className='w-[340px] border-[2px] border-doc-primary text-doc-primary'
                   >
                     Log in
                   </Button>
@@ -105,7 +105,7 @@ const NavBar = () => {
                     onClick={() => {
                       btnClick('mobileStartWriting', userId);
                     }}
-                    className='w-[340px] bg-[#8551F3] hover:bg-[#8551F3]'
+                    className='w-[340px] bg-doc-primary hover:bg-doc-primary'
                   >
                     <strong>Start Writing!</strong>It&apos;s Free
                   </Button>

@@ -1,5 +1,6 @@
 'use client';
-import { fadeIn, staggerContainer, textVariant } from '@/constant/motion';
+import { HeroInfo } from '@/constant';
+import { staggerContainer, textVariant } from '@/constant/motion';
 import { m } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,7 +18,7 @@ const Hero = () => {
       }}
       className='relative mt-4 flex w-full justify-center px-4 sm:mt-0 sm:px-0'
     >
-      <m.div
+      {/* <m.div
         variants={fadeIn('left', 'tween', 0, 0.5)}
         className='absolute h-full w-full sm:block'
       >
@@ -30,51 +31,78 @@ const Hero = () => {
           height={900}
           src='/landing/heros/Mask_group.png'
         />
-      </m.div>
+      </m.div> */}
 
       <m.div
         variants={textVariant(0)}
         className='sm:flex-center sm:gap-y-100 flex h-full w-full flex-col gap-y-4 sm:max-w-[1200px] sm:flex-col'
       >
         <section className='flex w-full flex-col sm:w-[1200px] sm:pt-[60px]'>
-          <h1 className='text-center font-baskerville text-[32px] font-[400] leading-[32px] tracking-tighter sm:text-center sm:text-[48px] sm:leading-[58px]'>
+          <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
             <span className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-              Transform{' '}
+              Transform
             </span>{' '}
             Your
             <br className='sm:hidden' /> Academic
             <br className='hidden sm:block' /> Writing
-            <br className='sm:hidden' /> Journey
+            <br className='sm:hidden' /> journey
           </h1>
           <Spacer y='20' />
           <p className='small-regular text-center text-[14px] text-[#64626A] sm:text-center sm:text-[18px]'>
-           Experience the future of academic writing with ProDream - the one-stop solution that enhances <br/> writing efficiency and elevates paper quality
+            Experience the future of academic writing with ProDream - the
+            one-stop <br /> solution that enhances writing efficiency and
+            elevates paper quality
           </p>
           <Spacer y='40' />
-          <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-2 sm:gap-y-0'>
-            <Button
-              asChild
-              className='h-max w-2/3 rounded-[8px] bg-[#8551F3] hover:bg-[#8551F3] sm:w-max sm:px-8 sm:py-3.5'
-            >
-              <Link href={'/signup'}>
+          <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
+            <Link passHref href={'/signup'}>
+              <Button
+                role='button'
+                className='h-max w-2/3 rounded-lg bg-doc-primary sm:w-max sm:px-8 sm:py-2.5'
+              >
                 <strong>Start Writing!</strong>It&apos;s Free
-              </Link>
-            </Button>
-            <Button
-              className='h-max w-2/3 rounded-[8px] border border-[#8551F3] text-[#8551F3] sm:w-max sm:px-8 sm:py-3.5'
-              variant={'ghost'}
+              </Button>
+            </Link>
+
+            <Link
+              href={'https://discord.gg/xXSFXv5kPd'}
+              passHref
+              target='_blank'
             >
-              <Link
-                href={'https://discord.gg/xXSFXv5kPd'}
-                passHref
-                target='_blank'
+              <Button
+                className='h-max w-2/3 rounded-lg border border-doc-primary text-doc-primary sm:w-max sm:px-8 sm:py-2.5'
+                variant={'ghost'}
+                role='button'
               >
                 Join Community
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
         </section>
-        <section className='relative top-[50px] flex h-[196px] w-full flex-col overflow-hidden rounded-[8px] sm:top-10 sm:h-[610px] sm:w-[1070px]'>
+        <Spacer y='90' />
+        <div className='flex w-full flex-col sm:flex-row sm:justify-between  sm:gap-x-4'>
+          {HeroInfo.map((item) => {
+            return (
+              <span
+                className='flex flex-col gap-y-2 rounded-2xl bg-[#F8F9FC] p-5 sm:w-1/4'
+                key={item.id}
+              >
+                <Image
+                  alt={item.title}
+                  width={28}
+                  height={28}
+                  src={item.icon}
+                  priority
+                />
+                <h2 className='h3-regular'>{item.title}</h2>
+                <p className='text-regular leading-relaxed text-shadow-100'>
+                  {item.text}
+                </p>
+              </span>
+            );
+          })}
+        </div>
+        <section className='relative top-[50px] flex h-[196px] w-full flex-col overflow-hidden rounded-xl sm:top-10 sm:h-[610px] sm:w-[1070px]'>
           <Image
             draggable='false'
             alt='hero-showcase'
