@@ -84,6 +84,7 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
       setEditorInstance(editor as Editor);
     },
     onUpdate: ({ editor }) => {
+      console.log(editor.getJSON());
       setContent(editor.getHTML());
     },
     onDestroy: () => {

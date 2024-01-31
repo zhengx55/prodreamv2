@@ -56,10 +56,6 @@ module.exports = {
           50: '#FBF7FF',
           100: '#F7F9FC',
         },
-        blue: {
-          50: '#F9FBFF',
-          100: '#CEDEFE',
-        },
         doc: {
           primary: '#8652DB',
           secondary: '#F1F2FA',

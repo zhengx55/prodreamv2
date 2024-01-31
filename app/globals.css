@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    @apply box-border p-0 m-0 scroll-smooth scrollbar-track-transparent scrollbar-thumb-slate-200;
+    @apply box-border p-0 m-0 scroll-smooth appearance-none scrollbar-track-transparent scrollbar-thumb-slate-200;
   }
 
   body {

@@ -1,15 +1,23 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { ConvertCitationData } from '@/lib/utils';
 import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { Plus, ReplyAll, Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
+const CitationPreview = dynamic(() => import('./CitationPreview'), {
+  ssr: false,
+});
+
+const MineCitationPreview = dynamic(() => import('./MineCitationPreview'), {
+  ssr: false,
+});
 
 export const SearchCitationCard = memo(
   ({
@@ -53,9 +61,8 @@ export const SearchCitationCard = memo(
               {item.article_title}&nbsp;{`(${item.publish_date.year})`}
             </h1>
           </DialogTrigger>
-          <DialogContent className='bg-white sm:rounded md:w-[800px]'></DialogContent>
+          <CitationPreview item={item} />
         </Dialog>
-
         <Spacer y='10' />
         <p className='subtle-regular text-doc-shadow'>
           Authors:&nbsp; {item.authors[0].last_name ?? ''}&nbsp;
@@ -130,9 +137,21 @@ export const MineCitationCard = memo(
     return (
       <div className='mb-5 flex flex-col gap-y-2.5 p-2.5'>
         <h1 className='small-medium line-clamp-2'>
-          {item.data.article_title
-            ? item.data.article_title
-            : item.data.book_title}
+          {/* <Dialog>
+            <DialogTrigger asChild>
+              <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+                {item.data.article_title
+                  ? item.data.article_title
+                  : item.data.book_title}{' '}
+              </h1>
+            </DialogTrigger>
+            <MineCitationPreview item={item.data} />
+          </Dialog> */}
+          <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+            {item.data.article_title
+              ? item.data.article_title
+              : item.data.book_title}{' '}
+          </h1>
         </h1>
         {item.data.contributors.length > 0 && (
           <p className='subtle-regular text-doc-shadow'>

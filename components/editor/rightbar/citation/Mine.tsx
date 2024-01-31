@@ -11,7 +11,7 @@ const LibraryList = dynamic(() => import('./LibraryList'));
 
 const Mine = () => {
   const [showMine, setShowMine] = useState(false);
-  const [type, setType] = useState(0);
+  const [type, setType] = useState<number | null>(null);
 
   return (
     <m.div
@@ -27,24 +27,34 @@ const Mine = () => {
       <div className='flex-between items-center py-1.5'>
         <div className='flex items-center gap-x-2'>
           <Book />
-          <p className='small-regular text-doc-primary'>My Citation</p>
+          <p className='small-regular text-doc-primary'>My Libary</p>
         </div>
         <div className='flex items-center gap-x-2'>
           <Toggle
             pressed={type === 0}
             onPressedChange={(pressed) => {
-              if (pressed) setType(0);
+              if (pressed) {
+                setShowMine(true);
+                setType(0);
+              } else {
+                setType(null);
+              }
             }}
-            className='small-regular data-[state=on]:bg-doc-primary/20'
+            className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
           >
             All
           </Toggle>
           <Toggle
             pressed={type === 1}
             onPressedChange={(pressed) => {
-              if (pressed) setType(1);
+              if (pressed) {
+                setShowMine(true);
+                setType(1);
+              } else {
+                setType(null);
+              }
             }}
-            className='small-regular data-[state=on]:bg-doc-primary/20'
+            className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
           >
             In this doc
           </Toggle>
