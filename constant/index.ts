@@ -228,6 +228,44 @@ export const IntroductionInfo = [
   },
 ];
 
+export const Universitys = [
+  {
+    id: 'university-01',
+    title: 'berkeley',
+    image: '/landing/university/berkeley.png',
+  },
+  {
+    id: 'university-02',
+    title: 'Cambridge',
+    image: '/landing/university/Cambridge.png',
+  },
+  {
+    id: 'university-03',
+    title: 'Harvard',
+    image: '/landing/university/Harvard.png',
+  },
+  {
+    id: 'university-04',
+    title: 'Stanford',
+    image: '/landing/university/Stanford.png',
+  },
+  {
+    id: 'university-05',
+    title: 'Princeton',
+    image: '/landing/university/Princeton.png',
+  },
+  {
+    id: 'university-06',
+    title: 'Penn',
+    image: '/landing/university/Penn.png',
+  },
+  {
+    id: 'university-07',
+    title: 'Nus',
+    image: '/landing/university/Nus.png',
+  },
+];
+
 export const Storys = [
   {
     image: '/landing/stories/story1.png',
