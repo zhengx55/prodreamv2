@@ -41,7 +41,8 @@ const Footer = () => {
               className='h-auto w-36'
             />
             <p className='body-regular text-[#fff]'>
-              Shape your academic future:<br/> masterful writing from application to graduation.
+              Shape your academic future:
+              <br /> masterful writing from application to graduation.
             </p>
           </div>
           <div className='flex flex-col'>
@@ -51,7 +52,7 @@ const Footer = () => {
               className='mt-3 flex items-center gap-x-4'
             >
               <input
-                className='w-full rounded-[4px] border border-[#E5E5E5] bg-[#FAFAFA] px-4 py-2 outline-none focus-visible:ring-2 focus-visible:ring-[#9C2CF3] sm:h-[46px] sm:rounded-[8px] sm:py-3 md:w-[327px]'
+                className='w-full rounded-[4px] border border-[#E5E5E5] bg-[#FAFAFA] px-4 py-2 outline-none focus-visible:ring-2 focus-visible:ring-[#9C2CF3] sm:h-[46px] sm:rounded-xl sm:py-3 md:w-[327px]'
                 type='email'
                 id='email'
                 value={email}

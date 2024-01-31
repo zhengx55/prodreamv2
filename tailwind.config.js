@@ -17,7 +17,7 @@ module.exports = {
       fontFamily: {
         poppins: ['var(--poppins-font)'],
         inter: ['var(--inter-font)'],
-        baskerville: ['Libre Baskerville', 'serif'],
+        baskerville: ['var(--liber-font)'],
       },
       fontSize: {
         regular: '14px',

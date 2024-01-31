@@ -1,4 +1,3 @@
-import { TeamMembers } from '@/constant';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
 
@@ -51,7 +50,7 @@ const Team = () => {
         </div>
         <Spacer y='40' />
         <div className='flex-center w-full flex-col rounded-xl px-6 py-10'>
-          <h1 className='w-full text-center font-baskerville text-[28px] font-[400] leading-[32px] tracking-tighter sm:text-center sm:text-[48px] sm:leading-[58px]'>
+          <h1 className='w-full text-center  text-[28px] font-[400] leading-[32px] tracking-tighter sm:text-center sm:text-[48px] sm:leading-[58px]'>
             <span className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#F2C8FB] sm:before:top-[36px]'>
               Seamless Excellence
             </span>{' '}
@@ -64,13 +63,13 @@ const Team = () => {
             <br className='hidden sm:block' /> Writing, Editing, and Citing.
           </p>
           <Spacer y='40' />
-          <div className='relative flex w-[320px] w-full flex-col overflow-hidden rounded-[8px] sm:w-[1200px] sm:rounded-[36px] sm:p-[10px]'>
-            <section className='relative flex h-[216px] w-full flex-col overflow-hidden rounded-[8px] bg-[#fff] sm:h-[740px] sm:w-full sm:rounded-[24px]'>
+          <div className='relative flex w-[320px] w-full flex-col overflow-hidden rounded-xl sm:w-[1200px] sm:rounded-[36px] sm:p-[10px]'>
+            <section className='relative flex h-[216px] w-full flex-col overflow-hidden rounded-xl bg-[#fff] sm:h-[740px] sm:w-full sm:rounded-[24px]'>
               <Image
                 draggable='false'
                 alt='gardient-bg'
                 priority
-                className='absolute w-auto w-full rounded-[8px] bg-[#F5F6F9] sm:top-10 sm:rounded-[36px]'
+                className='absolute w-auto w-full rounded-xl bg-[#F5F6F9] sm:top-10 sm:rounded-[36px]'
                 width={1200}
                 height={720}
                 sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
@@ -94,7 +93,7 @@ const Team = () => {
                   draggable='false'
                   alt='gardient-bg'
                   priority
-                  className='w-auto w-full rounded-[8px] bg-[#F5F6F9] sm:rounded-[36px]'
+                  className='w-auto w-full rounded-xl bg-[#F5F6F9] sm:rounded-[36px]'
                   width={580}
                   height={420}
                   sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
@@ -116,7 +115,7 @@ const Team = () => {
                   draggable='false'
                   alt='gardient-bg'
                   priority
-                  className='w-auto w-full rounded-[8px] bg-[#F5F6F9] sm:rounded-[36px]'
+                  className='w-auto w-full rounded-xl bg-[#F5F6F9] sm:rounded-[36px]'
                   width={580}
                   height={420}
                   sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'

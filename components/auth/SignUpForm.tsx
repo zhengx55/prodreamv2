@@ -109,7 +109,7 @@ const SignUpForm = () => {
                     autoComplete='first_name'
                     id='first_name'
                     placeholder=''
-                    className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
+                    className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
                     {...field}
                   />
                 </FormControl>
@@ -133,7 +133,7 @@ const SignUpForm = () => {
                     autoComplete='last_name'
                     id='last_name'
                     placeholder=''
-                    className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
+                    className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
                     {...field}
                   />
                 </FormControl>
@@ -159,7 +159,7 @@ const SignUpForm = () => {
                   type='email'
                   id='username'
                   placeholder='e.g hey@writingpal.ai'
-                  className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
+                  className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
                   {...field}
                 />
               </FormControl>
@@ -197,7 +197,7 @@ const SignUpForm = () => {
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
                   placeholder='Must be at least 8 characters'
-                  className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
+                  className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
                   {...field}
                 />
               </FormControl>

@@ -131,7 +131,7 @@ export default function Page() {
                         id='email'
                         placeholder=''
                         type='email'
-                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        className='rounded-xl border-[2px] border-[#D4D3D8] bg-[#fff]'
                         {...field}
                       />
                     </FormControl>
@@ -170,7 +170,7 @@ export default function Page() {
                         id='password'
                         type={hidePassword ? 'password' : 'text'}
                         placeholder=''
-                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        className='rounded-xl border-[2px] border-[#D4D3D8] bg-[#fff]'
                         {...field}
                       />
                     </FormControl>
@@ -210,7 +210,7 @@ export default function Page() {
                         id='confirm'
                         type={hideConfirm ? 'password' : 'text'}
                         placeholder=''
-                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        className='rounded-xl border-[2px] border-[#D4D3D8] bg-[#fff]'
                         {...field}
                       />
                     </FormControl>
@@ -237,7 +237,7 @@ export default function Page() {
                           id='verification_code'
                           type='text'
                           placeholder=''
-                          className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                          className='rounded-xl border-[2px] border-[#D4D3D8] bg-[#fff]'
                           {...field}
                         />
                       </FormControl>
@@ -245,7 +245,7 @@ export default function Page() {
                         disabled={verifyWait}
                         onClick={handleSentVerificationEmail}
                         type='button'
-                        className='w-[150px] shrink-0 rounded-[8px] border-[2px] border-[#8551F3] bg-[#fff] text-[#8551F3] hover:bg-[#8551F3] hover:text-[#fff]'
+                        className='w-[150px] shrink-0 rounded-xl border-[2px] border-[#8551F3] bg-[#fff] text-[#8551F3] hover:bg-[#8551F3] hover:text-[#fff]'
                       >
                         {verifyWait ? (
                           <>

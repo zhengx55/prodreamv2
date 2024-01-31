@@ -1,8 +1,7 @@
 'use client';
-import { fadeIn } from '@/constant/motion';
 import { m } from 'framer-motion';
-import { useState } from 'react';
 import Image from 'next/image';
+import { useState } from 'react';
 
 const Swift = () => {
   const [selected, setSelected] = useState(1);
@@ -16,7 +15,7 @@ const Swift = () => {
           className='flex flex-col items-center justify-evenly gap-y-4 sm:flex-row sm:gap-x-[60px] sm:gap-y-0'
         >
           <m.div className='flex w-full flex-col gap-y-2 sm:w-1/2'>
-            <h1 className='text-center font-baskerville text-[28px] font-[400] leading-[32px] sm:w-full sm:text-left sm:text-[48px] sm:leading-[58px]'>
+            <h1 className='text-center  text-[28px] font-[400] leading-[32px] sm:w-full sm:text-left sm:text-[48px] sm:leading-[58px]'>
               Minutes to <br className='hidden sm:block' />
               <span className='relative inline-block before:absolute before:-inset-1 before:top-[16px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#CDCDFF] sm:before:top-[36px]'>
                 {' '}
@@ -38,7 +37,7 @@ const Swift = () => {
                       ? '/landing/showcase/Group5.svg'
                       : '/landing/showcase/Group6.svg'
                 }
-                className='h-auto w-[600px] rounded-[8px] bg-[#F5F6F9] object-contain'
+                className='h-auto w-[600px] rounded-xl bg-[#F5F6F9] object-contain'
                 width={600}
                 height={720}
               />
@@ -97,7 +96,7 @@ const Swift = () => {
                     ? '/landing/showcase/Group5.svg'
                     : '/landing/showcase/Group6.svg'
               }
-              className='h-[600px] w-full rounded-[8px] object-contain'
+              className='h-[600px] w-full rounded-xl object-contain'
               width={600}
               height={720}
             />

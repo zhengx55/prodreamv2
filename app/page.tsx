@@ -3,7 +3,6 @@ import Har from '@/components/landing/Har';
 import Hero from '@/components/landing/Hero';
 import NavBar from '@/components/landing/NavBar';
 import Question from '@/components/landing/Question';
-import ShowCase from '@/components/landing/ShowCase';
 import Story from '@/components/landing/Story';
 import Swift from '@/components/landing/Swift';
 import Team from '@/components/landing/Team';
@@ -18,7 +17,7 @@ export default function Home() {
         <Team />
         <Swift />
         <Har />
-        <ShowCase />
+        {/* <ShowCase /> */}
         <Question />
         <Story />
         <Footer />

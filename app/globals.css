@@ -144,10 +144,6 @@
     @apply flex justify-start items-center;
   }
 
-  .brainstorm-card {
-    @apply rounded-[8px] border border-shadow-border bg-white
-  }
-
   .form-input-group {
     @apply flex flex-col items-start gap-y-2
   }
