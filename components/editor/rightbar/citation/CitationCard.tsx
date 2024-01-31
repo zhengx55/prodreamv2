@@ -110,22 +110,10 @@ export const MineCitationCard = memo(
 
     const handleCite = async () => {
       if (type === 'inText') {
-        insertCitation(
-          item.data.id,
-          item.data.contributors[0].last_name ?? '',
-          item.data.publish_date?.year as string,
-          item.data.article_title ?? '',
-          item.data.abstract
-        );
+        insertCitation(item.data.id);
       } else {
         await appendInTextCitationIds(item, item.data.document_id);
-        insertCitation(
-          item.data.id,
-          item.data.contributors[0].last_name ?? '',
-          item.data.publish_date?.year as string,
-          item.data.article_title ?? '',
-          item.data.abstract
-        );
+        insertCitation(item.data.id);
       }
     };
 
@@ -138,29 +126,28 @@ export const MineCitationCard = memo(
     };
 
     return (
-      <div className='mb-5 flex flex-col bg-doc-secondary p-2.5'>
-        <h1 className='base-semibold line-clamp-2'>
+      <div className='mb-5 flex flex-col gap-y-2.5 p-2.5'>
+        <h1 className='small-medium line-clamp-2'>
           {item.data.article_title
             ? item.data.article_title
             : item.data.book_title}
         </h1>
-        <Spacer y='10' />
-        <div className='flex flex-wrap items-center gap-x-2'>
-          {item.data.contributors && item.data.contributors?.length > 0 ? (
-            <p className='small-regular text-doc-shadow'>
-              <span>Author:&nbsp;</span>
-              {item.data.contributors[0].last_name},&nbsp;
-              {item.data.contributors[0].middle_name}
-              {item.data.contributors[0].first_name}
-            </p>
-          ) : (
-            <p className='samll-regular'>Missing authors</p>
-          )}
-        </div>
-        <Spacer y='10' />
-        <div className='flex-between'>
+        {item.data.contributors.length > 0 && (
+          <p className='subtle-regular text-doc-shadow'>
+            <span>Authors:&nbsp;</span>
+            {item.data.contributors[0].last_name},&nbsp;
+            {item.data.contributors[0].middle_name}
+            {item.data.contributors[0].first_name}
+          </p>
+        )}
+        {item.data.abstract && (
+          <p className='subtle-regular line-clamp-4 text-doc-shadow'>
+            {item.data.abstract}
+          </p>
+        )}
+        <div className='flex-between gap-x-4'>
           <Button
-            className='h-max w-[42%] rounded bg-doc-primary py-1'
+            className='h-8 w-full rounded bg-doc-primary py-1'
             role='button'
             onClick={handleCite}
           >
@@ -168,7 +155,7 @@ export const MineCitationCard = memo(
             Cite
           </Button>
           <Button
-            className='aspect-square h-max rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
+            className='aspect-square h-8 rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
             variant={'ghost'}
             onClick={handleDeleteCitation}
           >

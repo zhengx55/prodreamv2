@@ -3,10 +3,9 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { useRef } from 'react';
 type Props = {
-  keyword: string;
   setKeyword: (value: string) => void;
 };
-const SearchBar = ({ keyword, setKeyword }: Props) => {
+const SearchBar = ({ setKeyword }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
 
   return (

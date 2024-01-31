@@ -94,13 +94,7 @@ export const useEditorCommand = (editor: Editor) => {
   );
 
   const insertCitation = useCallback(
-    (
-      citation_id: string,
-      author: string,
-      publish_year: string,
-      article_title: string,
-      abstract: string
-    ) => {
+    (citation_id: string) => {
       if (!editor) return null;
       const { selection } = editor!.state;
       const { anchor, from, to } = selection;
@@ -111,10 +105,6 @@ export const useEditorCommand = (editor: Editor) => {
             type: 'IntextCitation',
             attrs: {
               citation_id,
-              author,
-              publish_year,
-              article_title,
-              abstract,
             },
           })
           .run();
@@ -125,10 +115,6 @@ export const useEditorCommand = (editor: Editor) => {
             type: 'IntextCitation',
             attrs: {
               citation_id,
-              author,
-              publish_year,
-              article_title,
-              abstract,
             },
           })
 

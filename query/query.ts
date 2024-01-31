@@ -62,13 +62,7 @@ export const useCiteToDoc = (flag?: boolean) => {
         },
         variables.document_id
       );
-      insertCitation(
-        data,
-        variables.citation_data.contributors[0]?.last_name,
-        variables.citation_data.publish_date?.year,
-        variables.citation_data.article_title,
-        variables.citation_data.abstract
-      );
+      insertCitation(data);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
