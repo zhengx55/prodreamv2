@@ -59,7 +59,9 @@ const GoogleSignin = ({ label }: { label: string }) => {
         priority
         className='h-auto w-auto'
       />
-      <h1 className='title-semibold text-black-200'>{label}</h1>
+      <h1 className='small-semibold 2xl:base-semibold text-black-200'>
+        {label}
+      </h1>
     </button>
   );
 };

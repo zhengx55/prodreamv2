@@ -56,7 +56,7 @@ const Options = ({ type }: { type?: 'language' | 'education' }) => {
       >
         {type === 'language' ? (
           <>
-            <h1 className='text-center text-[42px] font-[500] text-[#17161B]'>
+            <h1 className='text-center text-[42px] font-[500] '>
               Welcome to ProDream
             </h1>
             <Spacer y='20' />
@@ -90,7 +90,7 @@ const Options = ({ type }: { type?: 'language' | 'education' }) => {
           </>
         ) : (
           <>
-            <h1 className='text-center text-[42px] font-[500] text-[#17161B]'>
+            <h1 className='text-center text-[42px] font-[500] '>
               Welcome to ProDream
             </h1>
             <Spacer y='20' />

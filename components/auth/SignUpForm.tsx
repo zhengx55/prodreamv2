@@ -99,7 +99,7 @@ const SignUpForm = () => {
             render={({ field }) => (
               <FormItem className='relative w-1/2'>
                 <FormLabel
-                  className='sm:title-semibold title-semibold '
+                  className='base-semibold 2xl:title-semibold'
                   htmlFor='first_name'
                 >
                   First Name
@@ -123,7 +123,7 @@ const SignUpForm = () => {
             render={({ field }) => (
               <FormItem className='relative w-1/2'>
                 <FormLabel
-                  className='sm:title-semibold title-semibold '
+                  className='base-semibold 2xl:title-semibold'
                   htmlFor='last_name'
                 >
                   Last Name
@@ -148,7 +148,7 @@ const SignUpForm = () => {
           render={({ field }) => (
             <FormItem className='relative'>
               <FormLabel
-                className=' sm:title-semibold title-semibold '
+                className='base-semibold 2xl:title-semibold'
                 htmlFor='username'
               >
                 Email Address
@@ -173,7 +173,7 @@ const SignUpForm = () => {
           render={({ field }) => (
             <FormItem className='relative'>
               <FormLabel
-                className=' sm:title-semibold title-semibold '
+                className='base-semibold 2xl:title-semibold'
                 htmlFor='password'
               >
                 Password
@@ -181,14 +181,14 @@ const SignUpForm = () => {
               {!hidePassword ? (
                 <EyeOff
                   onClick={() => setHidePassword((prev) => !prev)}
-                  size={22}
-                  className='absolute right-2 top-10 cursor-pointer'
+                  size={20}
+                  className='absolute right-2 top-9 cursor-pointer'
                 />
               ) : (
                 <Eye
                   onClick={() => setHidePassword((prev) => !prev)}
-                  size={22}
-                  className='absolute right-2 top-10 cursor-pointer'
+                  size={20}
+                  className='absolute right-2 top-9 cursor-pointer'
                 />
               )}
               <FormControl>

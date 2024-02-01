@@ -1,5 +1,6 @@
 import GoogleSignin from '@/components/auth/GoogleSignin';
 import Panel from '@/components/auth/Panel';
+import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -11,13 +12,15 @@ export default function Page() {
   return (
     <>
       <Panel>
-        <div className='flex max-w-[600px] flex-col'>
-          <h1 className='self-center text-[28px] font-[500] sm:text-[42px]'>
+        <div className='flex w-full flex-col sm:w-[600px]'>
+          <h1 className='self-center text-[24px] font-[500] sm:text-[28px] 2xl:text-[42px]'>
             Create Your Account
           </h1>
-          <p className='title-semibold mb-[30px] self-start text-left font-[400] text-[#525252] sm:mb-[60px] sm:text-[18px]'>
+          <p className='base-semibold 2xl:title-semibold text-center font-[400] text-shadow-100'>
             Unlock the potential of your personal statement with Prodream!
           </p>
+          <Spacer y='100' className='hidden 2xl:block' />
+          <Spacer y='40' className='blocl 2xl:block' />
           <GoogleSignin label='Sign up with Google' />
           <div className='flex-center relative my-10'>
             <Separator orientation='horizontal' className='bg-shadow-border' />
