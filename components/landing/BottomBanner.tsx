@@ -6,9 +6,9 @@ import { Button } from '../ui/button';
 
 const BottomBanner = () => {
   return (
-    <section className='relative flex w-full justify-center bg-shadow-400 sm:mt-[160px] sm:px-0'>
-      <div className='flex-center w-full flex-col gap-y-3 sm:w-[1200px]'>
-        <div className='relative flex w-full flex-col gap-y-4 overflow-hidden rounded-[32px] bg-doc-primary py-[22px] sm:py-12'>
+    <section className='relative flex w-full justify-center bg-shadow-400 py-10 sm:py-20'>
+      <div className='flex-center w-full flex-col gap-y-3 px-5 sm:w-[1200px] sm:px-0'>
+        <div className='relative flex w-full flex-col gap-y-4 overflow-hidden rounded-3xl bg-doc-primary py-[22px] sm:rounded-[32px] sm:py-12'>
           <Image
             alt='background'
             src='/landing/showcase/background.png'

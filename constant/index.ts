@@ -228,25 +228,64 @@ export const IntroductionInfo = [
   },
 ];
 
-export const Storys = [
+export const Universitys = [
   {
-    image: '/landing/stories/story1.png',
-    alt: 'story',
-    id: 'story-slider-item-01',
+    id: 'university-01',
+    title: 'berkeley',
+    image: '/landing/university/berkeley.png',
   },
   {
-    image: '/landing/stories/story2.png',
-    alt: 'story',
-    id: 'story-slider-item-02',
+    id: 'university-02',
+    title: 'Cambridge',
+    image: '/landing/university/Cambridge.png',
   },
   {
-    image: '/landing/stories/story3.png',
-    alt: 'story',
-    id: 'story-slider-item-03',
+    id: 'university-03',
+    title: 'Harvard',
+    image: '/landing/university/Harvard.png',
   },
   {
-    image: '/landing/stories/story4.png',
-    alt: 'story',
-    id: 'story-slider-item-04',
+    id: 'university-04',
+    title: 'Stanford',
+    image: '/landing/university/Stanford.png',
+  },
+  {
+    id: 'university-05',
+    title: 'Princeton',
+    image: '/landing/university/Princeton.png',
+  },
+  {
+    id: 'university-06',
+    title: 'Penn',
+    image: '/landing/university/Penn.png',
+  },
+  {
+    id: 'university-07',
+    title: 'Nus',
+    image: '/landing/university/Nus.png',
+  },
+];
+
+export const CommentsInfo = [
+  {
+    id: 'comment-01',
+    text: "Simply the best! This tool is a game-changer for refining academic drafts. What's even more impressive is its support for multiple languages, including Mandarin. It makes my writing process so easy!",
+    image: '/landing/comments/Oval.png',
+    name: 'Yuqing Wang',
+    role: 'China',
+  },
+  {
+    id: 'comment-02',
+    text: "I've tried a few AI tools, and ProDream is hands down the best. It helps with tenses, paraphrasing, and organizes my paragraphs for better language. Using ProDream makes me feel confident about my paper.",
+    image: '/landing/comments/Oval2.png',
+    name: 'Aarav S. Gupta',
+    role: 'PhD Student',
+  },
+  {
+    id: 'comment-03',
+    text: 'ProDream is my go-to writing tool now. It helps me polish my sentences to fit academic style, sorts out the confusing parts, and has certainly contributed to boosting my grades. Writing papers just got a whole lot easier with ProDream!',
+    image: '/landing/comments/Oval3.png',
+    name: 'Elijah Thompson',
+    role: 'College Senior',
   },
 ];

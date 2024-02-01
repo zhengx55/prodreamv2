@@ -1,16 +1,51 @@
+'use client';
+import { Universitys } from '@/constant';
+import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
+import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
 
 const Banner = () => {
   return (
-    <section className='relative flex w-full justify-center sm:px-0 sm:py-20'>
-      <div className='flex-center w-full flex-col sm:max-w-[1200px]'>
-        <p className='base-regular text-center'>
-          Trusted by academic writers from top universities around the world
-        </p>
-        <Spacer y='20' />
-
-        <Spacer y='20' />
+    <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
+      <Spacer y='20' />
+      <p className='base-regular text-center'>
+        Trusted by academic writers from top universities around the world
+      </p>
+      <Spacer y='20' />
+      <div className='flex-center w-full'>
+        <Carousel
+          plugins={[
+            Autoplay({
+              delay: 2000,
+            }),
+          ]}
+          opts={{
+            align: 'start',
+            loop: true,
+          }}
+          className='w-full'
+        >
+          <CarouselContent className=' gap-x-4'>
+            {Universitys.map((university) => (
+              <CarouselItem
+                className='relative h-28 basis-[30%] overflow-hidden sm:h-20 sm:w-64 sm:basis-[15%]'
+                key={university.id}
+              >
+                <Image
+                  src={university.image}
+                  sizes='(max-width: 768px) 50vw, 100vw'
+                  alt={university.title}
+                  fill
+                  className='object-contain grayscale'
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
+      <Spacer y='20' />
+      <div className='flex-center w-full flex-col px-4 sm:max-w-[1200px] sm:px-0'>
         <div className='flex flex-col gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
           <div className='relative w-full rounded-2xl bg-doc-primary p-7 sm:w-[47%]'>
             <h2 className='title-regular text-white'>
@@ -31,7 +66,7 @@ const Banner = () => {
               />
             </svg>
             <Spacer y='20' />
-            <p className='text-regular leading-8 text-white'>
+            <p className='text-regular leading-6 text-white'>
               Our team, consisting of experts from Harvard and Stanford, has
               brought decades of experience to helping over 100,000 students
               achieve academic success
@@ -52,9 +87,9 @@ const Banner = () => {
                 fill='white'
               />
             </svg>
-            <h2 className='text-regular  text-white'>Insights from Experts</h2>
+            <h2 className='title-regular text-white'>Insights from Experts</h2>
             <Spacer y='20' />
-            <p className='small-regular leading-8 text-white'>
+            <p className='text-regular leading-6 text-white'>
               Our AI, enriched with decades of academic expertise, is at your
               service to craft papers that achieve top grades
             </p>
