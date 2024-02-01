@@ -13,7 +13,7 @@ const Banner = () => {
         Trusted by academic writers from top universities around the world
       </p>
       <Spacer y='20' />
-      <div className='flex-center w-full sm:max-w-[1200px]'>
+      <div className='flex-center w-full'>
         <Carousel
           plugins={[
             Autoplay({
