@@ -105,7 +105,6 @@ export const MineCitationCard = memo(
     item: { type: ICitationType; data: ICitationData };
     type: 'inText' | 'library';
   }) => {
-    console.log(item);
     const editor = useAIEditor((state) => state.editor_instance);
     const removeInTextCitationIds = useAIEditor(
       (state) => state.removeInTextCitationIds
@@ -122,7 +121,7 @@ export const MineCitationCard = memo(
       if (type === 'inText') {
         insertCitation(item.data.id);
       } else {
-        await appendInTextCitationIds(item, item.data.document_id);
+        await appendInTextCitationIds(item);
         insertCitation(item.data.id);
       }
     };
