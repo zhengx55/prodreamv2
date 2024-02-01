@@ -1,5 +1,6 @@
 'use client';
 import Panel from '@/components/auth/Panel';
+import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -153,17 +154,16 @@ export default function Page() {
                     {!hidePassword ? (
                       <EyeOff
                         onClick={() => setHidePassword((prev) => !prev)}
-                        size={22}
-                        className='absolute right-2 top-9 cursor-pointer'
+                        size={20}
+                        className='absolute right-2 top-10 cursor-pointer'
                       />
                     ) : (
                       <Eye
                         onClick={() => setHidePassword((prev) => !prev)}
-                        size={22}
-                        className='absolute right-2 top-9 cursor-pointer'
+                        size={20}
+                        className='absolute right-2 top-10 cursor-pointer'
                       />
                     )}
-
                     <FormControl>
                       <Input
                         autoComplete='current-password'
@@ -178,7 +178,6 @@ export default function Page() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name='confirm'
@@ -193,17 +192,16 @@ export default function Page() {
                     {!hideConfirm ? (
                       <EyeOff
                         onClick={() => setHideConfirm((prev) => !prev)}
-                        size={22}
-                        className='absolute right-2 top-9 cursor-pointer'
+                        size={20}
+                        className='absolute right-2 top-10 cursor-pointer'
                       />
                     ) : (
                       <Eye
                         onClick={() => setHideConfirm((prev) => !prev)}
-                        size={22}
-                        className='absolute right-2 top-9 cursor-pointer'
+                        size={20}
+                        className='absolute right-2 top-10 cursor-pointer'
                       />
                     )}
-
                     <FormControl>
                       <Input
                         autoComplete='current-password'
@@ -218,7 +216,6 @@ export default function Page() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name='verification_code'
@@ -243,9 +240,10 @@ export default function Page() {
                       </FormControl>
                       <Button
                         disabled={verifyWait}
+                        variant={'ghost'}
                         onClick={handleSentVerificationEmail}
                         type='button'
-                        className='w-[150px] shrink-0 rounded-xl border-[2px] border-doc-primary bg-[#fff] text-doc-primary hover:bg-doc-primary hover:text-[#fff]'
+                        className='h-12 w-[150px] shrink-0 rounded-md border border-doc-primary text-doc-primary'
                       >
                         {verifyWait ? (
                           <>
@@ -257,7 +255,6 @@ export default function Page() {
                         )}
                       </Button>
                     </div>
-
                     <FormMessage className='text-xs text-red-400' />
                   </FormItem>
                 )}
@@ -279,13 +276,19 @@ export default function Page() {
           </p>
         </div>
       </Panel>
-      <div className='relative hidden h-full w-1/2 bg-white sm:flex'>
+      <div className='relative hidden h-full w-1/2 bg-[#FAF9FF] sm:flex sm:flex-col sm:items-center sm:pt-20'>
+        <h1 className='font-baskerville font-[400] sm:text-[40px] 2xl:text-[48px]'>
+          Transform your academic <br />
+          writing journey
+        </h1>
+        <Spacer y='80' />
         <Image
           src='/auth/auth.png'
           alt='logo'
-          fill
           priority
-          sizes='(max-width: 600px) 100vw, 50vw'
+          width={800}
+          height={200}
+          className='h-auto w-[75%]'
         />
       </div>
     </>

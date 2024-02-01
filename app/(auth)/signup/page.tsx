@@ -28,12 +28,19 @@ export default function Page() {
           </p>
         </div>
       </Panel>
-      <div className='relative hidden h-full w-1/2 bg-white sm:flex'>
+      <div className='relative hidden h-full w-1/2 bg-[#FAF9FF] sm:flex sm:flex-col sm:items-center sm:pt-20'>
+        <h1 className='font-baskerville font-[400] sm:text-[40px] 2xl:text-[48px]'>
+          Transform your academic <br />
+          writing journey
+        </h1>
+        <Spacer y='80' />
         <Image
           src='/auth/auth.png'
           alt='logo'
-          fill
-          sizes='(max-width: 600px) 100vw, 50vw'
+          priority
+          width={800}
+          height={200}
+          className='h-auto w-[75%]'
         />
       </div>
     </>
