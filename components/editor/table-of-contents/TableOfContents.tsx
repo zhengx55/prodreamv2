@@ -10,7 +10,7 @@ export type TableOfContentsProps = {
   onItemClick?: () => void;
 };
 
-export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
+const TableOfContents = ({ editor }: TableOfContentsProps) => {
   const [data, setData] = useState<TableOfContentStorage | null>(null);
 
   useEffect(() => {
@@ -53,5 +53,5 @@ export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
       </div>
     </aside>
   );
-});
-TableOfContent.displayName = 'TableOfContents';
+};
+export default memo(TableOfContents);

@@ -44,7 +44,7 @@ const DocRightBar = () => {
         {rightbarOpen ? (
           <m.aside
             key={'doc-right-bar'}
-            initial={{ width: 400 }}
+            initial={false}
             animate={{
               width: 400,
             }}

@@ -38,9 +38,7 @@ const EssayPanel = ({ id }: { id: string }) => {
     queryKey: ['user_first_time'],
     queryFn: () => getUserInfo(),
   });
-
   useCitationInfo(document_content);
-
   if (isError) return null;
 
   return (
