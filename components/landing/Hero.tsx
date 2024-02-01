@@ -40,8 +40,8 @@ const Hero = () => {
           alt='gardient-bg'
           priority
           className='absolute top-10 h-[80%] w-full'
-          width={900}
-          height={800}
+          width={10}
+          height={10}
           src='/landing/heros/Mask_group.png'
         />
       </m.div>
