@@ -11,7 +11,7 @@ const BottomBanner = () => {
         <div className='relative flex w-full flex-col gap-y-4 overflow-hidden rounded-3xl bg-doc-primary py-[22px] sm:rounded-[32px] sm:py-12'>
           <Image
             alt='background'
-            src='/landing/showcase/background.png'
+            src='/landing/banner/Background.png'
             fill
             sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
           />

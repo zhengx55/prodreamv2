@@ -183,6 +183,7 @@ export default function Page() {
           fill
           priority
           sizes='(max-width: 600px) 100vw, 50vw'
+          className='object-contain'
         />
       </div>
     </>
