@@ -47,19 +47,7 @@ export const useCiteToDoc = (flag?: boolean) => {
       document_id: string;
     }) => createCitation(params),
     onSuccess: async (data, variables) => {
-      // 根据Id 获取citation信息
-      appendInTextCitationIds(
-        {
-          type: variables.citation_type,
-          data: {
-            ...variables.citation_data,
-            id: data,
-            document_id: variables.document_id,
-          },
-        },
-        variables.document_id
-      );
-      appendInDocCitationIds(
+      await appendInTextCitationIds(
         {
           type: variables.citation_type,
           data: {

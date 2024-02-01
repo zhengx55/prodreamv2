@@ -177,20 +177,26 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
       inDocCitationIds: id_array,
     })),
   appendInTextCitationIds: async (result, document_id) => {
-    const found = get().inTextCitationIds.find(
-      (item) => item === result.data.id
-    );
-    if (!found) {
-      const data_after_append = [...get().inTextCitationIds, result.data.id];
-      await saveDoc({
-        id: document_id,
-        citation_ids: data_after_append,
-      });
-      set((state) => ({
-        inTextCitationIds: data_after_append,
-        inTextCitation: [...state.inTextCitation, result],
-      }));
-    }
+    try {
+      const found = get().inTextCitationIds.find(
+        (item) => item === result.data.id
+      );
+      if (!found) {
+        const data_after_append = [...get().inTextCitationIds, result.data.id];
+        const libary_after_append = [...get().inDocCitationIds, result.data.id];
+        await saveDoc({
+          id: document_id,
+          citation_ids: data_after_append,
+          citation_candidate_ids: libary_after_append,
+        });
+        set((state) => ({
+          inTextCitationIds: data_after_append,
+          inDocCitationIds: libary_after_append,
+          inDocCitation: [...state.inDocCitation, result],
+          inTextCitation: [...state.inTextCitation, result],
+        }));
+      }
+    } catch (error: any) {}
   },
   appendInDocCitationIds: async (result, document_id) => {
     const data_after_append = [...get().inDocCitationIds, result.data.id];

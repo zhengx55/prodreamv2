@@ -5,6 +5,7 @@ import { memo } from 'react';
 const IntextContent = dynamic(() => import('./IntextContent'));
 const InTextCitaion = ({
   node,
+  deleteNode,
 }: {
   node: {
     attrs: {
@@ -15,6 +16,7 @@ const InTextCitaion = ({
       abstract: string;
     };
   };
+  deleteNode: () => void;
 }) => {
   return (
     <NodeViewWrapper
@@ -24,7 +26,7 @@ const InTextCitaion = ({
     >
       <LazyMotionProvider>
         <NodeViewContent as='span' className='relative cursor-pointer'>
-          <IntextContent node={node} />
+          <IntextContent node={node} deleteHandler={deleteNode} />
         </NodeViewContent>
       </LazyMotionProvider>
     </NodeViewWrapper>

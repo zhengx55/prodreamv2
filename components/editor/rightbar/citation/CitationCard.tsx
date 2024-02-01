@@ -45,8 +45,6 @@ export const SearchCitationCard = memo(
           document_id: id as string,
         });
       } else {
-        // 通过标题判断是否已经存在了 如果存在则不添加
-
         await handleCite({
           citation_data: converted_data,
           citation_type: 'Journal',

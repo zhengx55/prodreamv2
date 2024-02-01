@@ -15,8 +15,9 @@ type Props = {
       citation_id: string;
     };
   };
+  deleteHandler: () => void;
 };
-const IntextContent = ({ node }: Props) => {
+const IntextContent = ({ node, deleteHandler }: Props) => {
   const citation_style = useAIEditor((state) => state.citationStyle);
   const intextCitations = useAIEditor((state) => state.inTextCitation);
   const current_citation = useMemo(() => {
@@ -25,7 +26,9 @@ const IntextContent = ({ node }: Props) => {
     );
     return foundCitation ? foundCitation.data : null;
   }, [intextCitations, node.attrs.citation_id]);
-  const handleDeleteCitation = () => {};
+  const handleDeleteCitation = () => {
+    deleteHandler();
+  };
   const handleEditCitation = () => {};
 
   return (
@@ -78,7 +81,7 @@ const IntextContent = ({ node }: Props) => {
             <Button
               className='aspect-square h-8 rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
               variant={'ghost'}
-              // onClick={handleDeleteCitation}
+              onClick={handleDeleteCitation}
             >
               <Trash2 size={18} />
             </Button>
