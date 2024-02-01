@@ -266,25 +266,26 @@ export const Universitys = [
   },
 ];
 
-export const Storys = [
+export const CommentsInfo = [
   {
-    image: '/landing/stories/story1.png',
-    alt: 'story',
-    id: 'story-slider-item-01',
+    id: 'comment-01',
+    text: "Simply the best! This tool is a game-changer for refining academic drafts. What's even more impressive is its support for multiple languages, including Mandarin. It makes my writing process so easy!",
+    image: '/landing/comments/Oval.png',
+    name: 'Yuqing Wang',
+    role: 'China',
   },
   {
-    image: '/landing/stories/story2.png',
-    alt: 'story',
-    id: 'story-slider-item-02',
+    id: 'comment-02',
+    text: "I've tried a few AI tools, and ProDream is hands down the best. It helps with tenses, paraphrasing, and organizes my paragraphs for better language. Using ProDream makes me feel confident about my paper.",
+    image: '/landing/comments/Oval2.png',
+    name: 'Aarav S. Gupta',
+    role: 'PhD Student',
   },
   {
-    image: '/landing/stories/story3.png',
-    alt: 'story',
-    id: 'story-slider-item-03',
-  },
-  {
-    image: '/landing/stories/story4.png',
-    alt: 'story',
-    id: 'story-slider-item-04',
+    id: 'comment-03',
+    text: 'ProDream is my go-to writing tool now. It helps me polish my sentences to fit academic style, sorts out the confusing parts, and has certainly contributed to boosting my grades. Writing papers just got a whole lot easier with ProDream!',
+    image: '/landing/comments/Oval3.png',
+    name: 'Elijah Thompson',
+    role: 'College Senior',
   },
 ];

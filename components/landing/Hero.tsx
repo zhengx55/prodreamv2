@@ -86,6 +86,7 @@ const Hero = () => {
             loop: true,
             align: 'start',
           }}
+          className='block sm:hidden'
         >
           <CarouselContent className='ml-0'>
             {HeroInfo.map((item) => {
