@@ -1,10 +1,11 @@
 'use client';
-import { HeroInfo } from '@/constant';
+import { HeroInfo, HeroMainInfo } from '@/constant';
 import { staggerContainer, textVariant } from '@/constant/motion';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 const HeroCarousel = dynamic(
@@ -14,13 +15,8 @@ const HeroCarousel = dynamic(
   }
 );
 
-const HeroShowCaseCarousel = dynamic(
-  () => import('./LandingCarousel').then((mod) => mod.HeroShowCaseCarousel),
-  {
-    ssr: false,
-  }
-);
 const Hero = () => {
+  const [selected, setSelected] = useState(0);
   return (
     <m.section
       variants={staggerContainer()}
@@ -29,11 +25,11 @@ const Hero = () => {
       viewport={{
         once: true,
       }}
-      className='relative mt-4 flex w-full justify-center px-4 sm:mt-0 sm:px-0'
+      className='relative flex w-full justify-center px-4 sm:mt-0 sm:px-0'
     >
       <m.div
-        variants={textVariant(0.2)}
-        className='absolute hidden h-full w-full sm:block'
+        variants={textVariant(0.3)}
+        className='absolute -z-10 hidden h-full w-full sm:block'
       >
         <Image
           draggable='false'
@@ -88,11 +84,12 @@ const Hero = () => {
         <Spacer y='20' className='block sm:hidden' />
         <HeroCarousel />
         <div className='hidden w-full justify-between gap-x-4 sm:flex'>
-          {HeroInfo.map((item) => {
+          {HeroInfo.map((item, index) => {
             return (
               <span
-                className='flex flex-col gap-y-2 rounded-2xl bg-[#F8F9FC] p-5 sm:w-1/4'
+                className={`${selected === index ? 'border border-doc-primary/20 ' : 'bg-doc-primary/5'} flex cursor-pointer flex-col gap-y-2 rounded-[20px] p-5 sm:w-1/4`}
                 key={item.id}
+                onClick={() => setSelected(index)}
               >
                 <Image
                   alt={item.title}
@@ -101,8 +98,8 @@ const Hero = () => {
                   src={item.icon}
                   priority
                 />
-                <h2 className='h3-regular'>{item.title}</h2>
-                <p className='text-regular leading-relaxed text-shadow-100'>
+                <h2 className='title-regular 2xl:h3-regular'>{item.title}</h2>
+                <p className='text-[12px] leading-relaxed text-shadow-100 2xl:text-regular'>
                   {item.text}
                 </p>
               </span>
@@ -110,7 +107,16 @@ const Hero = () => {
           })}
         </div>
         <Spacer y='40' />
-        <HeroShowCaseCarousel />
+        <div className='relative h-[270px] w-full overflow-hidden sm:h-[800px]'>
+          <Image
+            alt={'prodream.ai'}
+            src={HeroMainInfo[selected].image}
+            fill
+            priority
+            sizes='(max-width: 768px) 50vw, 100vw'
+          />
+        </div>
+        {/* <HeroShowCaseCarousel /> */}
       </m.div>
     </m.section>
   );

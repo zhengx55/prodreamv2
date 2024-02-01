@@ -18,7 +18,7 @@ export interface ISigunUpRequest {
   email: string;
   first_name: string;
   referral?: string;
-  last_name: string;
+  last_name?: string;
   password: string;
   is_mobile?: boolean;
 }
