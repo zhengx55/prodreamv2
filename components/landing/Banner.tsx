@@ -103,17 +103,17 @@ const Banner = () => {
               <br className='hidden sm:block' /> Microsoft Founders Hub
             </h1>
             <Spacer y='14' className='block sm:hidden' />
-            <div className='flex items-center justify-center gap-x-2 sm:justify-start'>
+            <div className='flex items-center justify-center gap-x-4 sm:justify-start'>
               <Image
                 alt='Harvard'
-                src='/landing/team/Harvard.png'
+                src='/landing/banner/Harvard.png'
                 width={200}
                 height={60}
                 className='h-auto w-40'
               />
               <Image
                 alt='Founders Hub'
-                src='/landing/team/FHubs.png'
+                src='/landing/banner/Microsorf.png'
                 width={200}
                 height={60}
                 className='h-auto w-40'
