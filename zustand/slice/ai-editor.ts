@@ -190,7 +190,12 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
       }));
     }
   },
+
   appendInDocCitationIds: async (result) => {
+    const found = get().inDocCitationIds.find(
+      (item) => item === result.data.id
+    );
+    if (found) return;
     const data_after_append = [...get().inDocCitationIds, result.data.id];
     await saveDoc({
       id: result.data.document_id,
@@ -201,6 +206,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
       inDocCitation: [...state.inDocCitation, result],
     }));
   },
+
   removeInTextCitationIds: async (result, document_id) => {
     const data_after_remove = get().inTextCitationIds.filter(
       (item) => item !== result
