@@ -106,7 +106,7 @@ export default function Page() {
     <>
       <Panel>
         <div className='flex w-full flex-col sm:w-[580px]'>
-          <h1 className='self-center text-[28px] font-[500] sm:text-[42px]'>
+          <h1 className='text-[24px] font-[500] sm:text-[28px] 2xl:text-[42px]'>
             Reset Password
           </h1>
           <Form {...form}>
@@ -131,7 +131,7 @@ export default function Page() {
                         id='email'
                         placeholder=''
                         type='email'
-                        className='rounded-xl border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        className='h-12 rounded-md border'
                         {...field}
                       />
                     </FormControl>
@@ -170,7 +170,7 @@ export default function Page() {
                         id='password'
                         type={hidePassword ? 'password' : 'text'}
                         placeholder=''
-                        className='rounded-xl border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        className='h-12 rounded-md border'
                         {...field}
                       />
                     </FormControl>
@@ -210,7 +210,7 @@ export default function Page() {
                         id='confirm'
                         type={hideConfirm ? 'password' : 'text'}
                         placeholder=''
-                        className='rounded-xl border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        className='h-12 rounded-md border'
                         {...field}
                       />
                     </FormControl>
@@ -237,7 +237,7 @@ export default function Page() {
                           id='verification_code'
                           type='text'
                           placeholder=''
-                          className='rounded-xl border-[2px] border-[#D4D3D8] bg-[#fff]'
+                          className='h-12 rounded-md border'
                           {...field}
                         />
                       </FormControl>

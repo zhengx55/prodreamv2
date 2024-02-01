@@ -69,14 +69,14 @@ export default function Page() {
     <>
       <Panel>
         <div className='flex w-full flex-col sm:w-[600px]'>
-          <h1 className='self-center text-[24px] font-[500] sm:text-[28px] 2xl:text-[42px]'>
+          <h1 className='text-[24px] font-[500] sm:text-[28px] 2xl:text-[42px]'>
             Welcome Back!
           </h1>
-          <p className='base-semibold 2xl:title-semibold self-center text-center font-[400] text-shadow-100 sm:text-left'>
+          <p className='base-medium 2xl:title-medium font-[400] text-shadow-100'>
             Ready to continue crafting your unique story?
           </p>
           <Spacer y='100' className='hidden 2xl:block' />
-          <Spacer y='40' className='blocl 2xl:block' />
+          <Spacer y='40' className='block 2xl:hidden' />
           <GoogleSignin label='Sign in with Google' />
           <div className='flex-center relative my-10'>
             <Separator orientation='horizontal' className='bg-shadow-border' />
@@ -105,7 +105,7 @@ export default function Page() {
                         autoComplete='email'
                         id='username'
                         placeholder=''
-                        className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
+                        className='h-12 rounded-md border'
                         {...field}
                       />
                     </FormControl>
@@ -144,7 +144,7 @@ export default function Page() {
                         id='password'
                         type={hidePassword ? 'password' : 'text'}
                         placeholder=''
-                        className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
+                        className='h-12 rounded-md border'
                         {...field}
                       />
                     </FormControl>

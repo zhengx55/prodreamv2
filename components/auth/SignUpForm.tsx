@@ -46,7 +46,6 @@ const SignUpForm = () => {
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       first_name: '',
-      last_name: '',
       password: '',
       email: '',
     },
@@ -80,7 +79,6 @@ const SignUpForm = () => {
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     await handleSignup({
       first_name: values.first_name,
-      last_name: values.last_name,
       email: values.email,
       password: values.password,
       is_mobile: isMobileDevice,
@@ -92,56 +90,31 @@ const SignUpForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className='flex flex-col gap-y-6'
       >
-        <div className='flex-between flex gap-x-4'>
-          <FormField
-            control={form.control}
-            name='first_name'
-            render={({ field }) => (
-              <FormItem className='relative w-1/2'>
-                <FormLabel
-                  className='base-semibold 2xl:title-semibold'
-                  htmlFor='first_name'
-                >
-                  First Name
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete='first_name'
-                    id='first_name'
-                    placeholder=''
-                    className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='last_name'
-            render={({ field }) => (
-              <FormItem className='relative w-1/2'>
-                <FormLabel
-                  className='base-semibold 2xl:title-semibold'
-                  htmlFor='last_name'
-                >
-                  Last Name
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete='last_name'
-                    id='last_name'
-                    placeholder=''
-                    className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name='first_name'
+          render={({ field }) => (
+            <FormItem className='relative'>
+              <FormLabel
+                className='base-semibold 2xl:title-semibold'
+                htmlFor='first_name'
+              >
+                Name
+              </FormLabel>
+              <FormControl>
+                <Input
+                  autoComplete='first_name'
+                  id='first_name'
+                  placeholder=''
+                  className='h-12 rounded-md border'
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name='email'
@@ -159,7 +132,7 @@ const SignUpForm = () => {
                   type='email'
                   id='username'
                   placeholder='e.g hey@writingpal.ai'
-                  className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
+                  className='h-12 rounded-md border'
                   {...field}
                 />
               </FormControl>
@@ -197,7 +170,7 @@ const SignUpForm = () => {
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
                   placeholder='Must be at least 8 characters'
-                  className='rounded-xl border border-[#D4D3D8] bg-[#fff]'
+                  className='h-12 rounded-md border'
                   {...field}
                 />
               </FormControl>

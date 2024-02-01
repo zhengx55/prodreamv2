@@ -164,14 +164,10 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
   try {
     const formdata = new FormData();
     formdata.append('first_name', signUpParam.first_name);
-    formdata.append('last_name', signUpParam.last_name);
+    // formdata.append('last_name', 'xyz');
     formdata.append('email', signUpParam.email);
     formdata.append('password', signUpParam.password);
     formdata.append('is_mobile', signUpParam.is_mobile ? '1' : '0');
-    formdata.append(
-      'referral',
-      signUpParam.referral ? signUpParam.referral : ''
-    );
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/register`,
