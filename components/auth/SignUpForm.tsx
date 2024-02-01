@@ -33,10 +33,8 @@ const SignUpForm = () => {
     const handleResize = () => {
       setIsMobileDevice(window.matchMedia('(max-width: 768px)').matches);
     };
-
     handleResize(); // Initial check
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
