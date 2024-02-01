@@ -37,9 +37,6 @@ export type ICitationData = IWebsiteCitation &
   IChapterCitation &
   IIntroductionCitation & {
     id: string;
-    tldr: string;
-    publisher: string;
-    citation_count: number;
   };
 
 export interface IWebsiteCitation {
@@ -76,6 +73,9 @@ export interface IJournalCitation {
     series?: null | string;
     volume?: null | string;
   };
+  tldr: string;
+  publisher: string;
+  citation_count: number;
   annotation: null | string;
   article_title: null | string;
   contributors:

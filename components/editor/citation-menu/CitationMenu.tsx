@@ -4,11 +4,10 @@ import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
-import { numberToMonth } from '@/lib/utils';
+import { ConvertCitationData } from '@/lib/utils';
 import { searchCitation } from '@/query/api';
 import { useCiteToDoc } from '@/query/query';
 import { ICitation } from '@/query/type';
-import { IJournalCitation } from '@/types';
 import useRootStore, { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
@@ -32,32 +31,7 @@ export const CitationMenu = memo(({ editor }: Props) => {
   const { mutateAsync: handleCite } = useCiteToDoc();
 
   const handler = async (item: ICitation) => {
-    const converted_data = {} as IJournalCitation;
-    const {
-      advanced_info,
-      article_title,
-      authors,
-      doi,
-      journal_title,
-      page_info,
-      publish_date,
-    } = item;
-    converted_data.publish_date = {
-      day: publish_date.day ?? '',
-      month: publish_date.month ? numberToMonth(publish_date.month) : '',
-      year: publish_date.year ?? '',
-    };
-    converted_data.contributors = authors;
-    converted_data.page_info = page_info;
-    converted_data.journal_title = journal_title;
-    converted_data.article_title = article_title;
-    converted_data.doi = doi;
-    converted_data.advanced_info = {
-      issue: '',
-      volume: advanced_info.volume ?? '',
-      series: advanced_info.series ?? '',
-    };
-
+    const converted_data = ConvertCitationData(item);
     await handleCite({
       citation_data: converted_data,
       citation_type: 'Journal',

@@ -1,6 +1,5 @@
 'use client';
 import BottomBar from '@/components/editor/bottombar';
-import { TableOfContent } from '@/components/editor/table-of-contents';
 import Spacer from '@/components/root/Spacer';
 import { useDebouncedState } from '@/hooks/useDebounceState';
 import ExtensionKit from '@/lib/tiptap/extensions';
@@ -18,6 +17,7 @@ import { AiMenu } from '../editor/ai-menu';
 import { BubbleMenu } from '../editor/bubble-menu';
 import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
+import TableOfContents from '../editor/table-of-contents/TableOfContents';
 import { Textarea } from '../ui/textarea';
 
 const Reference = dynamic(() => import('./Reference'));
@@ -83,7 +83,7 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
       from !== to ? setShowBottomBar(false) : setShowBottomBar(true);
     },
     onUpdate: ({ editor }) => {
-      console.log(editor.getJSON());
+      // console.log(editor.getJSON());
       setContent(editor.getHTML());
     },
     onDestroy: () => {
@@ -94,7 +94,7 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
   return (
     <section className='flex h-full w-full flex-col'>
       <div className='relative flex h-[calc(100%_-40px)] w-full'>
-        <TableOfContent editor={editor} />
+        <TableOfContents editor={editor} />
         <div
           aria-label='editor-parent'
           id='editor-parent'

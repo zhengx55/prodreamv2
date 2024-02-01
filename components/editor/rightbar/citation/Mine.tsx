@@ -17,7 +17,7 @@ const Mine = () => {
     <m.div
       initial={false}
       variants={{
-        show: { height: '85%' },
+        show: { height: '80%' },
         hide: { height: '40px' },
       }}
       transition={{ delay: 0.2 }}

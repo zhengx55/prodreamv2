@@ -121,13 +121,25 @@ export const MineCitationCard = memo(
       if (type === 'inText') {
         insertCitation(item.data.id);
       } else {
-        await appendInTextCitationIds(item, item.data.document_id);
+        await appendInTextCitationIds(item);
         insertCitation(item.data.id);
       }
     };
 
     const handleDeleteCitation = async () => {
       if (type === 'inText') {
+        let counter = 0;
+        editor?.state.doc.descendants((node, pos) => {
+          if (node.type.name === 'IntextCitation') {
+            if (node.attrs.citation_id === item.data.id) {
+              editor.commands.deleteRange({
+                from: pos - counter,
+                to: pos + node.nodeSize - counter,
+              });
+              counter += node.nodeSize;
+            }
+          }
+        });
         await removeInTextCitationIds(item.data.id, item.data.document_id);
       } else {
         await removeInDocCitationIds(item.data.id, item.data.document_id);
@@ -136,8 +148,7 @@ export const MineCitationCard = memo(
 
     return (
       <div className='mb-5 flex flex-col gap-y-2.5 p-2.5'>
-        <h1 className='small-medium line-clamp-2'>
-          {/* <Dialog>
+        {/* <Dialog>
             <DialogTrigger asChild>
               <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
                 {item.data.article_title
@@ -147,11 +158,10 @@ export const MineCitationCard = memo(
             </DialogTrigger>
             <MineCitationPreview item={item.data} />
           </Dialog> */}
-          <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
-            {item.data.article_title
-              ? item.data.article_title
-              : item.data.book_title}{' '}
-          </h1>
+        <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+          {item.data.article_title
+            ? item.data.article_title
+            : item.data.book_title}{' '}
         </h1>
         {item.data.contributors.length > 0 && (
           <p className='subtle-regular text-doc-shadow'>
