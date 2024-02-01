@@ -20,7 +20,7 @@ const Hero = () => {
       className='relative mt-4 flex w-full justify-center px-4 sm:mt-0 sm:px-0'
     >
       {/* <m.div
-        variants={fadeIn('left', 'tween', 0, 0.5)}
+       
         className='absolute h-full w-full sm:block'
       >
         <Image

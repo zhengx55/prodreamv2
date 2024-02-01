@@ -68,14 +68,15 @@ export default function Page() {
   return (
     <>
       <Panel>
-        <div className='flex w-[600px] flex-col'>
-          <h1 className='self-center text-[28px] font-[500] sm:text-[42px]'>
+        <div className='flex w-full flex-col sm:w-[600px]'>
+          <h1 className='self-center text-[24px] font-[500] sm:text-[28px] 2xl:text-[42px]'>
             Welcome Back!
           </h1>
-          <p className='title-semibold self-center font-[400] text-shadow-100 sm:mb-[100px] sm:text-[18px]'>
+          <p className='base-semibold 2xl:title-semibold self-center text-center font-[400] text-shadow-100 sm:text-left'>
             Ready to continue crafting your unique story?
           </p>
-
+          <Spacer y='100' className='hidden 2xl:block' />
+          <Spacer y='40' className='blocl 2xl:block' />
           <GoogleSignin label='Sign in with Google' />
           <div className='flex-center relative my-10'>
             <Separator orientation='horizontal' className='bg-shadow-border' />
@@ -94,7 +95,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='mt-0'>
                     <FormLabel
-                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='username'
                     >
                       Email Address
@@ -118,7 +119,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormLabel
-                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='password'
                     >
                       Password
@@ -183,7 +184,6 @@ export default function Page() {
           fill
           priority
           sizes='(max-width: 600px) 100vw, 50vw'
-          className='object-contain'
         />
       </div>
     </>

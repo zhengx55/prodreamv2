@@ -120,7 +120,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='mt-20'>
                     <FormLabel
-                      className='title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='email'
                     >
                       Enter the Email Linked to Your Account
@@ -145,7 +145,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormLabel
-                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='password'
                     >
                       Enter New Password
@@ -154,13 +154,13 @@ export default function Page() {
                       <EyeOff
                         onClick={() => setHidePassword((prev) => !prev)}
                         size={22}
-                        className='absolute right-2 top-10 cursor-pointer'
+                        className='absolute right-2 top-9 cursor-pointer'
                       />
                     ) : (
                       <Eye
                         onClick={() => setHidePassword((prev) => !prev)}
                         size={22}
-                        className='absolute right-2 top-10 cursor-pointer'
+                        className='absolute right-2 top-9 cursor-pointer'
                       />
                     )}
 
@@ -185,7 +185,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormLabel
-                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='confirm'
                     >
                       Re-enter New Password
@@ -194,13 +194,13 @@ export default function Page() {
                       <EyeOff
                         onClick={() => setHideConfirm((prev) => !prev)}
                         size={22}
-                        className='absolute right-2 top-10 cursor-pointer'
+                        className='absolute right-2 top-9 cursor-pointer'
                       />
                     ) : (
                       <Eye
                         onClick={() => setHideConfirm((prev) => !prev)}
                         size={22}
-                        className='absolute right-2 top-10 cursor-pointer'
+                        className='absolute right-2 top-9 cursor-pointer'
                       />
                     )}
 
@@ -225,7 +225,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormLabel
-                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='verification_code'
                     >
                       Verification
