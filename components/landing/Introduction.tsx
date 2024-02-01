@@ -38,6 +38,7 @@ const Introduction = () => {
                     <Image
                       src={item.image}
                       alt={item.title}
+                      className='object-contain'
                       fill
                       sizes='(max-width: 768px) 50vw, 100vw'
                     />
@@ -66,6 +67,7 @@ const Introduction = () => {
                       src={item.image}
                       alt={item.title}
                       fill
+                      className='object-contain'
                       sizes='(max-width: 768px) 50vw, 100vw'
                     />
                   </div>
