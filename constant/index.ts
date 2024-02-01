@@ -228,6 +228,13 @@ export const IntroductionInfo = [
   },
 ];
 
+export const HeroMainInfo = [
+  { id: 'hero-main-01', image: '/landing/heros/Hero.png' },
+  { id: 'hero-main-02', image: '/landing/heros/Hero2.png' },
+  { id: 'hero-main-03', image: '/landing/heros/Hero3.png' },
+  { id: 'hero-main-04', image: '/landing/heros/Hero4.png' },
+];
+
 export const Universitys = [
   {
     id: 'university-01',

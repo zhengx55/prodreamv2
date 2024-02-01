@@ -1,10 +1,13 @@
 'use client';
-import { Universitys } from '@/constant';
-import Autoplay from 'embla-carousel-autoplay';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
-import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
-
+const UniversityCarousel = dynamic(
+  () => import('./LandingCarousel').then((mod) => mod.UniversityCarousel),
+  {
+    ssr: false,
+  }
+);
 const Banner = () => {
   return (
     <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
@@ -14,35 +17,7 @@ const Banner = () => {
       </p>
       <Spacer y='20' />
       <div className='flex-center w-full'>
-        <Carousel
-          plugins={[
-            Autoplay({
-              delay: 2000,
-            }),
-          ]}
-          opts={{
-            align: 'start',
-            loop: true,
-          }}
-          className='w-full'
-        >
-          <CarouselContent className=' gap-x-4'>
-            {Universitys.map((university) => (
-              <CarouselItem
-                className='relative h-28 basis-[30%] overflow-hidden sm:h-20 sm:w-64 sm:basis-[15%]'
-                key={university.id}
-              >
-                <Image
-                  src={university.image}
-                  sizes='(max-width: 768px) 50vw, 100vw'
-                  alt={university.title}
-                  fill
-                  className='object-contain grayscale'
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+        <UniversityCarousel />
       </div>
       <Spacer y='20' />
       <div className='flex-center w-full flex-col px-4 sm:max-w-[1200px] sm:px-0'>
