@@ -306,7 +306,6 @@ export function ConvertCitationData(item: ICitation) {
     reference_count,
     area,
   } = item;
-  console.log('🚀 ~ ConvertCitationData ~ item:', item);
   converted_data.publish_date = {
     day: publish_date.day ?? '',
     month: publish_date.month ? numberToMonth(publish_date.month) : '',

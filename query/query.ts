@@ -51,14 +51,22 @@ export const useCiteToDoc = (flag?: boolean) => {
       appendInTextCitationIds(
         {
           type: variables.citation_type,
-          data: { ...variables.citation_data, id: data },
+          data: {
+            ...variables.citation_data,
+            id: data,
+            document_id: variables.document_id,
+          },
         },
         variables.document_id
       );
       appendInDocCitationIds(
         {
           type: variables.citation_type,
-          data: { ...variables.citation_data, id: data },
+          data: {
+            ...variables.citation_data,
+            id: data,
+            document_id: variables.document_id,
+          },
         },
         variables.document_id
       );

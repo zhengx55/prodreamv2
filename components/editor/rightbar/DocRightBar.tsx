@@ -40,14 +40,11 @@ const DocRightBar = () => {
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   return (
     <LazyMotion features={domAnimation}>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {rightbarOpen ? (
           <m.aside
             key={'doc-right-bar'}
-            // initial={{
-            //   width: 0,
-            // }}
-            initial={false}
+            initial={{ width: 0 }}
             animate={{
               width: 400,
             }}

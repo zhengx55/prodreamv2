@@ -83,7 +83,7 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
       from !== to ? setShowBottomBar(false) : setShowBottomBar(true);
     },
     onUpdate: ({ editor }) => {
-      console.log(editor.getJSON());
+      // console.log(editor.getJSON());
       setContent(editor.getHTML());
     },
     onDestroy: () => {

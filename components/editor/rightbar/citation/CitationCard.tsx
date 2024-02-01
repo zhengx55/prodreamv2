@@ -45,6 +45,8 @@ export const SearchCitationCard = memo(
           document_id: id as string,
         });
       } else {
+        // 通过标题判断是否已经存在了 如果存在则不添加
+
         await handleCite({
           citation_data: converted_data,
           citation_type: 'Journal',
@@ -105,6 +107,7 @@ export const MineCitationCard = memo(
     item: { type: ICitationType; data: ICitationData };
     type: 'inText' | 'library';
   }) => {
+    console.log(item);
     const editor = useAIEditor((state) => state.editor_instance);
     const removeInTextCitationIds = useAIEditor(
       (state) => state.removeInTextCitationIds
@@ -136,8 +139,7 @@ export const MineCitationCard = memo(
 
     return (
       <div className='mb-5 flex flex-col gap-y-2.5 p-2.5'>
-        <h1 className='small-medium line-clamp-2'>
-          {/* <Dialog>
+        {/* <Dialog>
             <DialogTrigger asChild>
               <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
                 {item.data.article_title
@@ -147,11 +149,10 @@ export const MineCitationCard = memo(
             </DialogTrigger>
             <MineCitationPreview item={item.data} />
           </Dialog> */}
-          <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
-            {item.data.article_title
-              ? item.data.article_title
-              : item.data.book_title}{' '}
-          </h1>
+        <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+          {item.data.article_title
+            ? item.data.article_title
+            : item.data.book_title}{' '}
         </h1>
         {item.data.contributors.length > 0 && (
           <p className='subtle-regular text-doc-shadow'>
