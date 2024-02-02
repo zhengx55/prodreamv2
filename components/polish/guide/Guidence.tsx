@@ -3,21 +3,20 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { sample_outline } from '@/constant';
-import { outline, saveDoc } from '@/query/api';
+import { outline } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { parse } from 'marked';
 import { useParams } from 'next/navigation';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
   const [check, setCheck] = useState(-1);
   const ideaRef = useRef<HTMLTextAreaElement>(null);
   const [isGenrating, setIsGenerating] = useState(false);
   const { id } = useParams();
-  const resultSize = useRef<number>(0);
   const resultString = useRef<string>('');
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -41,18 +40,11 @@ const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
     onSuccess: async (data: ReadableStream) => {
       setIsGenerating(false);
       close();
-      await saveDoc({
-        id: id as string,
-        brief_description: ideaRef.current?.value,
-        // brief_description: 'history',
-        use_intention: 'start_editing',
-      });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
-      resultSize.current = editor.state.doc.firstChild?.nodeSize ?? 1;
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-        handleStreamData(value, resultSize);
+        handleStreamData(value);
       }
     },
     onError: async (error) => {
@@ -62,10 +54,7 @@ const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
     },
   });
 
-  const handleStreamData = async (
-    value: string | undefined,
-    size: MutableRefObject<number>
-  ) => {
+  const handleStreamData = async (value: string | undefined) => {
     if (!value) return;
     const lines = value.split('\n');
     const dataLines = lines.filter(
@@ -96,7 +85,6 @@ const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
             },
           }
         );
-        size.current += resultString.current.length;
         resultString.current = '';
       }
     });
