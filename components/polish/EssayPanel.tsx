@@ -11,6 +11,7 @@ import { Feedback } from '../root/SvgComponents';
 import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
+import Guidence from './guide/Guidence';
 
 const Tiptap = dynamic(() => import('./Editor'), {
   loading: () => (
@@ -50,7 +51,8 @@ const EssayPanel = ({ id }: { id: string }) => {
           </Button>
         </Link>
       </Tooltip>
-      <div className='relative flex h-full w-full justify-center overflow-hidden'>
+      <Guidence />
+      <div className='relative flex w-full justify-center overflow-hidden'>
         {isFetching ? (
           <div className='flex flex-1 flex-col items-center'>
             <Spacer y='30' />

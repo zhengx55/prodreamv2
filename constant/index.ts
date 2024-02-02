@@ -296,3 +296,29 @@ export const CommentsInfo = [
     role: 'College Senior',
   },
 ];
+
+//----------------------------------------------------------------
+// Prompt Info
+//----------------------------------------------------------------
+export const CitationPrompts = [
+  {
+    id: 'citation-prompt-01',
+    title: 'Search for academic articles here',
+    text: 'Search our database for academic papers & books and create auto-citations with one click.',
+  },
+  {
+    id: 'citation-prompt-02',
+    title: 'Add in-text Citations',
+    text: 'Click “Cite” to add an in-text citation of this article.It will automatically be added in the Reference list and your Library.',
+  },
+  {
+    id: 'citation-prompt-03',
+    title: 'Save articles to your library',
+    text: "Find this article interesting but not sure if you want to cite it yet? Add it to your Library for easy referencing when you're ready.",
+  },
+  {
+    id: 'citation-prompt-04',
+    title: 'Find saved articles here',
+    text: "Access all your saved articles in 'My Library' and view citations used in this essay with a simple click on ”In this doc”. ",
+  },
+];
