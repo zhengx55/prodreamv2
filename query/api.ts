@@ -447,7 +447,7 @@ export async function profileResetEmail(params: {
 }) {
   try {
     const formData = new FormData();
-    formData.append('new_email', params.new_email);
+    formData.append('email', params.new_email);
     formData.append('password', params.password);
     const token = Cookies.get('token');
     const res = await fetch(

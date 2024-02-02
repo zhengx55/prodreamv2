@@ -66,7 +66,7 @@ const SignUpForm = () => {
           maxAge: 604800,
           secure: true,
         });
-        router.push('/welcome/education');
+        router.push('/writtingpal/polish');
       },
       onError: async (error) => {
         const toast = (await import('sonner')).toast;
