@@ -322,3 +322,430 @@ export const CitationPrompts = [
     text: "Access all your saved articles in 'My Library' and view citations used in this essay with a simple click on ”In this doc”. ",
   },
 ];
+
+export const sample_outline = {
+  type: 'doc',
+  content: [
+    {
+      type: 'title',
+      attrs: {
+        level: 1,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'My First Essay',
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        textAlign: 'left',
+        level: 2,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'Introduction',
+        },
+      ],
+    },
+    {
+      type: 'bulletList',
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Start with a brief overview of East Asian culture and its diversity. Discuss the importance of religion in shaping the culture and society of East Asia.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Explain why this topic is important. Discuss how the interplay of culture and religion have guided social norms, ethics, and overall way of life in East Asia.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Present the thesis statement. For instance, the thesis could be "Religion has played a pivotal role in shaping East Asian culture, influencing everything from art and architecture to societal norms and laws."',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        textAlign: 'left',
+        level: 2,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'Body',
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        textAlign: 'left',
+        level: 4,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'The Influence of Buddhism',
+        },
+      ],
+    },
+    {
+      type: 'bulletList',
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Start by introducing Buddhism and its origins. Explain how it spread to East Asia and its significance.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: "Present evidence of Buddhism's influence on East Asian culture. This may include its impact on art, literature, philosophy, and societal norms.",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: "Explain how this evidence supports your thesis statement. For example, discuss how Buddhism's teachings on compassion, non-violence, and meditation have sculpted the peaceful and contemplative aspects of East Asian cultures.",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        textAlign: 'left',
+        level: 4,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'The Impact of Confucianism',
+        },
+      ],
+    },
+    {
+      type: 'bulletList',
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Introduce Confucianism, its origins, and its central teachings.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Discuss the influence of Confucianism on East Asian societies, particularly on education, social hierarchy, and governmental structure.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Connect this evidence back to your thesis. For instance, examine how Confucian principles of respect for authority, filial piety, and humaneness form the bedrock of societal interactions in many East Asian cultures.',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        textAlign: 'left',
+        level: 4,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'The Role of Shinto and Taoism',
+        },
+      ],
+    },
+    {
+      type: 'bulletList',
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Introduce Shinto and Taoism, their origins, and main beliefs.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Discuss how these religions have shaped cultural practices, traditions, and beliefs in East Asia, particularly in Japan and China respectively.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: "Tie this evidence back to your thesis. For instance, explain how Shinto's emphasis on nature and spirits is reflected in Japanese art and architecture, or how Taoism's focus on harmony and balance has influenced Chinese philosophy and aesthetics.",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        textAlign: 'left',
+        level: 2,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'Conclusion',
+        },
+      ],
+    },
+    {
+      type: 'bulletList',
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Summarize the main points made in the body of the essay, reiterating the influence of Buddhism, Confucianism, and Shinto/Taoism on East Asian culture.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Restate the thesis in light of the evidence and arguments presented.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Discuss the importance of understanding the role of religion in East Asian culture, especially for those seeking to engage with these societies.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Suggest areas for further research, such as a deeper analysis of the influence of these religions on specific aspects of East Asian culture, or the study of other religions and their impact on East Asia.',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+export const sample_title = {
+  type: 'doc',
+  content: [
+    {
+      type: 'title',
+      attrs: {
+        level: 1,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'My First Essay',
+        },
+      ],
+    },
+  ],
+};

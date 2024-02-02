@@ -8,6 +8,11 @@
     }
 
     &.ProseMirror-focused {
+        >p.has-focus.is-empty:nth-child(2)::before {
+            content: 'Start writing or paste your essay draft here';
+            color: #D8D8D8;
+            font-weight: 600;
+        }
 
         >p.has-focus.is-empty::before {
             content: 'Type  /  to browse options';
