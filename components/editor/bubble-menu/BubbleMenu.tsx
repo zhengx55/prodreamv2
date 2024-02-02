@@ -40,7 +40,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const commands = useTextmenuCommands(editor);
-  const timer = useRef<NodeJS.Timeout | null>(null);
   const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
   const updateCopilotRect = useAiEditor((state) => state.updateCopilotRect);
   const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
@@ -65,8 +64,18 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
 
   useLayoutEffect(() => {
     const handler = () => {
+      const { from, empty } = editor.state.selection;
       const { view } = editor;
-      if (editor.view.state.selection.empty) {
+      const current_node = view.domAtPos(from || 0);
+      const isTitle =
+        (current_node.node.hasChildNodes() &&
+          current_node.node.nodeName === 'H1') ||
+        current_node.node.parentNode?.nodeName === 'H1';
+      if (isTitle) {
+        setOpen(false);
+        return;
+      }
+      if (empty) {
         setOpen(false);
       } else {
         const { doc, selection } = editor.state;

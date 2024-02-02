@@ -26,7 +26,7 @@ function nodeDOMAtCoords(coords: { x: number; y: number }) {
     .find(
       (elem: Element) =>
         elem.parentElement?.matches?.('.ProseMirror') &&
-        elem.matches(['li', 'p', 'pre', 'blockquote', 'h1, h2, h3'].join(', '))
+        elem.matches(['li', 'p', 'pre', 'blockquote', 'h2, h3, h4'].join(', '))
     );
 }
 

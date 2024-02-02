@@ -68,7 +68,7 @@ const DocNavbar = () => {
             <ChevronLeft />
           </span>
         </Link>
-        <h1 className='title-semibold capitalize'>
+        <h1 className='base-semibold'>
           {docTtile === 'Untitled' ? 'Untitled Document' : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}

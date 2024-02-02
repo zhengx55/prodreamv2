@@ -11,14 +11,13 @@ import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
-import { ChangeEvent, memo, useState } from 'react';
-import { useDebounce } from 'use-debounce';
+import { memo, useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 import { AiMenu } from '../editor/ai-menu';
 import { BubbleMenu } from '../editor/bubble-menu';
 import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
 import TableOfContents from '../editor/table-of-contents/TableOfContents';
-import { Textarea } from '../ui/textarea';
 
 const Reference = dynamic(() => import('./Reference'));
 
@@ -35,12 +34,12 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
   const showSynonymMenu = useAiEditor((state) => state.showSynonymMenu);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
   const [content, setContent] = useDebouncedState(essay_content, 1500);
-  const [debounceTitle] = useDebounce(doc_title, 1500);
+  const debouncedUpdatesTitle = useDebouncedCallback(async (title: string) => {
+    if (title === doc_title) return;
+    updateTitle(title);
+    await saveDocument({ id, title: title });
+  }, 1500);
 
-  const handleTitleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    toogleIsSaving(true);
-    updateTitle(e.currentTarget.value);
-  };
   const { mutateAsync: saveDocument } = useMutation({
     mutationFn: (params: { id: string; content?: string; title?: string }) =>
       saveDoc(params),
@@ -51,10 +50,6 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
       toogleIsSaving(false);
     },
   });
-
-  useUpdateEffect(() => {
-    saveDocument({ id, title: debounceTitle });
-  }, [debounceTitle]);
 
   useUpdateEffect(() => {
     if (savingMode) {
@@ -83,8 +78,10 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
       from !== to ? setShowBottomBar(false) : setShowBottomBar(true);
     },
     onUpdate: ({ editor }) => {
-      // console.log(editor.getJSON());
-      setContent(editor.getHTML());
+      const title = editor.getJSON().content?.at(0)?.content?.at(0)?.text;
+      const html = editor.getHTML();
+      debouncedUpdatesTitle(title ?? '');
+      setContent(html);
     },
     onDestroy: () => {
       reset();
@@ -100,18 +97,6 @@ const Tiptap = ({ essay_content }: { essay_content: string }) => {
           id='editor-parent'
           className='relative flex w-full flex-col overflow-y-auto rounded-lg pb-[30vh]'
         >
-          <Spacer y='20' />
-          <div className='flex w-full shrink-0 justify-center'>
-            <Textarea
-              placeholder={'Untitled Document'}
-              value={doc_title}
-              rows={2}
-              spellCheck={false}
-              onChange={handleTitleChange}
-              id='title'
-              className='h-full w-[700px] overflow-hidden border-none p-0 font-inter text-3xl font-[700] capitalize shadow-none selection:bg-[#D4D7FF] focus-visible:ring-0'
-            />
-          </div>
           <Spacer y='20' />
           {showSynonymMenu && <SynonymMenu editor={editor} />}
           {showCopilotMenu && <AiMenu editor={editor} />}
