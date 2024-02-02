@@ -69,7 +69,8 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       const current_node = view.domAtPos(from || 0);
       const isTitle =
         (current_node.node.hasChildNodes() &&
-          current_node.node.nodeName === 'H1') ||
+          (current_node.node.nodeName === 'H1' ||
+            current_node.node.nodeName === 'DIV')) ||
         current_node.node.parentNode?.nodeName === 'H1';
       if (isTitle) {
         setOpen(false);

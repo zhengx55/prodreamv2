@@ -13,9 +13,9 @@ const CitationPreview = ({ item }: Props) => {
       <div className='flex-between w-1/2 flex-col'>
         <div className='flex flex-col gap-y-4'>
           <h1 className='h3-semibold'>{item.article_title}</h1>
-          <div className='flex items-center gap-x-2'>
-            {item.area?.length &&
-              item.area.map((keyword, idx) => (
+          {item.area?.length > 0 && (
+            <div className='flex items-center gap-x-2'>
+              {item.area.map((keyword, idx) => (
                 <span
                   className='subtle-regular rounded bg-doc-primary/10 p-1.5 text-doc-primary'
                   key={`keyword-${idx}`}
@@ -23,9 +23,9 @@ const CitationPreview = ({ item }: Props) => {
                   {keyword}
                 </span>
               ))}
-          </div>
-
-          {item.authors.length && (
+            </div>
+          )}
+          {item.authors?.length > 0 && (
             <p className='subtle-regular text-shadow-100'>
               Authors:{' '}
               {item.authors.map((author, idx) => {
@@ -90,10 +90,18 @@ const CitationPreview = ({ item }: Props) => {
         </div>
       </div>
       <div className='flex w-1/2 flex-col gap-y-2 overflow-y-auto'>
-        <h2 className='title-regular text-doc-font'>Summary</h2>
-        <p className='text-[14px] leading-relaxed'>{item.tldr}</p>
-        <h2 className='title-regular text-doc-font'>Abstract</h2>
-        <p className='text-[14px] leading-relaxed'>{item.abstract}</p>
+        {item.tldr && (
+          <>
+            <h2 className='title-regular text-doc-font'>Summary</h2>
+            <p className='text-[14px] leading-relaxed'>{item.tldr}</p>
+          </>
+        )}
+        {item.abstract && (
+          <>
+            <h2 className='title-regular text-doc-font'>Abstract</h2>
+            <p className='text-[14px] leading-relaxed'>{item.abstract}</p>
+          </>
+        )}
       </div>
     </DialogContent>
   );

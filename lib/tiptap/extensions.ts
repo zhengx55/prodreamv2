@@ -26,7 +26,6 @@ import { textblockTypeInputRule } from '@tiptap/react';
 import { AutoComplete } from './plugin/autocomplete';
 import DragAndDrop from './plugin/drag';
 import IntextCitation from './plugin/intext-citation';
-import { PolishUnderline } from './plugin/polish-underline';
 import Selection from './plugin/selection';
 import { AutoCompleteSlashCommand, SlashCommand } from './plugin/slashcommand';
 import Title from './plugin/title';
@@ -97,7 +96,7 @@ const ExtensionKit = () => [
     multicolor: true,
   }),
   Underline,
-  PolishUnderline,
+  // PolishUnderline,
   AutoComplete,
   // TrailingNode,
   AutoCompleteSlashCommand,

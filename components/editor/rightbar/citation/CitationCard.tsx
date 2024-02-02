@@ -58,17 +58,20 @@ export const SearchCitationCard = memo(
         <Dialog>
           <DialogTrigger asChild>
             <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
-              {item.article_title}&nbsp;{`(${item.publish_date.year})`}
+              {item.article_title}&nbsp;{' '}
+              {item.publish_date.year ? `(${item.publish_date.year})` : null}
             </h1>
           </DialogTrigger>
           <CitationPreview item={item} />
         </Dialog>
         <Spacer y='10' />
-        <p className='subtle-regular text-doc-shadow'>
-          Authors:&nbsp; {item.authors[0].last_name ?? ''}&nbsp;
-          {item.authors[0].middle_name ?? ''}
-          {item.authors[0].first_name ?? ''}
-        </p>
+        {item.authors.length > 0 && (
+          <p className='subtle-regular text-doc-shadow'>
+            Authors:&nbsp; {item.authors[0].last_name ?? ''}&nbsp;
+            {item.authors[0].middle_name ?? ''}
+            {item.authors[0].first_name ?? ''}
+          </p>
+        )}
         <Spacer y='10' />
         {item.abstract && (
           <p className='small-regular line-clamp-4'>{item.abstract}</p>

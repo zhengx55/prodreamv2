@@ -16,6 +16,7 @@ import { BubbleMenu } from '../editor/bubble-menu';
 import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
 import TableOfContents from '../editor/table-of-contents/TableOfContents';
+import Guidence from './guide/Guidence';
 
 const Reference = dynamic(() => import('./Reference'));
 
@@ -88,6 +89,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     <section className='flex w-full flex-col'>
       <div className='relative flex h-[calc(100%_-40px)] w-full'>
         <TableOfContents editor={editor} />
+        <Guidence editor={editor} />
         <div
           aria-label='editor-parent'
           id='editor-parent'
