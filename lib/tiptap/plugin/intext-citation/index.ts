@@ -8,6 +8,7 @@ export default Node.create({
   content: 'inline*',
   group: 'inline',
   atom: true,
+  selectable: false,
   addAttributes() {
     return {
       citation_id: {

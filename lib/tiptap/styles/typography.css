@@ -30,7 +30,10 @@
         @apply font-bold first:mt-0 last:mb-0;
     }
 
-    h1,
+    h1 {
+        @apply mb-7
+    }
+
     h2,
     h3,
     h4 {
