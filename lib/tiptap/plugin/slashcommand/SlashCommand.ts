@@ -134,9 +134,7 @@ export const SlashCommand = Extension.create({
                 props,
                 editor: props.editor,
               });
-
               const { view } = props.editor;
-
               const editorNode = view.dom as HTMLElement;
               editor_parent = document.getElementById('editor-parent');
               editor_parent!.classList.replace(

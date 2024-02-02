@@ -8,8 +8,12 @@
     }
 
     &.ProseMirror-focused {
+        >p.has-focus.is-empty:nth-child(2)::before {
+            content: 'Start writing or paste your essay draft here';
+            color: #D8D8D8;
+            font-weight: 600;
+        }
 
-        /* Slashmenu Placeholder */
         >p.has-focus.is-empty::before {
             content: 'Type  /  to browse options';
         }
@@ -21,24 +25,10 @@
         >ul>li>p.has-focus.ai-autocomplete::after {
             content: " Press 'Space' + '/' for Continue Writing";
         }
-
-        >[data-type='columns']>[data-type='column']>p.is-empty.has-focus::before {
-            content: 'Type  /  to browse options';
-        }
     }
 
-    /* Default Placeholder */
-    &>.is-editor-empty::before {
-        content: 'Click here to start writing …';
-    }
-
-    /* Blockquote Placeholder */
-    blockquote .is-empty:not(.is-editor-empty):first-child:last-child::before {
-        content: 'Enter a quote';
-    }
-
-    blockquote+figcaption.is-empty:not(.is-editor-empty)::before {
-        content: 'Author';
+    >h1.is-empty::before {
+        content: 'Untitled';
     }
 
     [data-placeholder][data-suggestion]::before,

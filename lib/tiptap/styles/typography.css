@@ -1,6 +1,6 @@
 .ProseMirror {
     p {
-        @apply leading-relaxed my-2 first:mt-0 last:mb-0;
+        @apply leading-relaxed;
     }
 
     &>p {
@@ -8,35 +8,36 @@
     }
 
     h1 {
-        @apply text-3xl;
+        @apply text-4xl;
     }
 
     h2 {
-        @apply text-2xl;
+        @apply text-3xl;
     }
 
     h3 {
+        @apply text-2xl;
+    }
+
+    h4 {
         @apply text-xl;
     }
 
     h1,
     h2,
-    h3 {
+    h3,
+    h4 {
         @apply font-bold first:mt-0 last:mb-0;
     }
 
-    h1,
+    h1 {
+        @apply mb-7
+    }
+
     h2,
-    h3 {
+    h3,
+    h4 {
         @apply my-3;
-    }
-
-    mark {
-        @apply bg-red-500 rounded-sm decoration-clone text-inherit py-1 px-0 dark:bg-red-400;
-    }
-
-    & img {
-        @apply h-auto w-full max-w-full;
     }
 
     [data-type='horizontalRule'] {

@@ -11,9 +11,9 @@ export const GROUPS: Group[] = [
         label: 'Heading 1',
         iconName: <Heading1 size={16} />,
         description: 'High priority section title',
-        aliases: ['h1'],
+        aliases: ['h2'],
         action: (editor) => {
-          editor.chain().focus().setHeading({ level: 1 }).run();
+          editor.chain().focus().setHeading({ level: 2 }).run();
         },
       },
       {
@@ -21,9 +21,9 @@ export const GROUPS: Group[] = [
         label: 'Heading 2',
         iconName: <Heading2 size={16} />,
         description: 'Medium priority section title',
-        aliases: ['h2'],
+        aliases: ['h3'],
         action: (editor) => {
-          editor.chain().focus().setHeading({ level: 2 }).run();
+          editor.chain().focus().setHeading({ level: 3 }).run();
         },
       },
       {
@@ -31,9 +31,9 @@ export const GROUPS: Group[] = [
         label: 'Heading 3',
         iconName: <Heading3 size={16} />,
         description: 'Low priority section title',
-        aliases: ['h3'],
+        aliases: ['h4'],
         action: (editor) => {
-          editor.chain().focus().setHeading({ level: 3 }).run();
+          editor.chain().focus().setHeading({ level: 4 }).run();
         },
       },
       {

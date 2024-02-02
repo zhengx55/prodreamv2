@@ -19,7 +19,7 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
     updateRightbarTab(1);
   };
   return (
-    <Toolbar.Wrapper className='w-[650px] justify-between gap-x-3 !rounded-none border-none pl-10'>
+    <Toolbar.Wrapper className='w-max justify-between gap-x-3 !rounded-none border-none'>
       <MemoButton onClick={showCitation} className='text-doc-primary'>
         <BookHalf size={18} />
         Citation

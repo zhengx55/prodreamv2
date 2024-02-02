@@ -14,17 +14,21 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { signUpSchema } from '@/lib/validation';
-import { userLogin, userSignUp } from '@/query/api';
+import { createDoc, userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
+import useLocalStorage from 'beautiful-react-hooks/useLocalStorage';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+
 const SignUpForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
+  const [_guidenceStatus, setGuidenceStatus] =
+    useLocalStorage('guidence-status');
   const posthog = usePostHog();
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
@@ -52,21 +56,32 @@ const SignUpForm = () => {
     {
       mutationFn: (param: ISigunUpRequest) => userSignUp(param),
       onSuccess: async (_, variables, _contex) => {
-        const toast = (await import('sonner')).toast;
-        toast.success('Successfully Signup');
-        const login_data = await userLogin({
-          username: variables.email,
-          password: variables.password,
-        });
-        const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
-          .subject.user_id;
-        posthog.identify(user_id);
-        setCookie('token', login_data.access_token, {
-          path: '/',
-          maxAge: 604800,
-          secure: true,
-        });
-        router.push('/welcome/education');
+        try {
+          const toast = (await import('sonner')).toast;
+          toast.success('Successfully Signup');
+          const login_data = await userLogin({
+            username: variables.email,
+            password: variables.password,
+          });
+          const user_id = JSON.parse(
+            atob(login_data.access_token.split('.')[1])
+          ).subject.user_id;
+          posthog.identify(user_id);
+          setCookie('token', login_data.access_token, {
+            path: '/',
+            maxAge: 604800,
+            secure: true,
+          });
+          const new_doc_id = await createDoc();
+          setGuidenceStatus({
+            [user_id]: {
+              show_guidence: true,
+            },
+          });
+          router.push(`/writtingpal/polish/${new_doc_id}`);
+        } catch (error) {
+          router.push('/writtingpal/polish');
+        }
       },
       onError: async (error) => {
         const toast = (await import('sonner')).toast;

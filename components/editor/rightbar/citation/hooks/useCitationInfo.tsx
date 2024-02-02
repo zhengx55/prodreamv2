@@ -36,7 +36,7 @@ export const useCitationInfo = (document_content: IDocDetail | undefined) => {
         document_content;
       updateTitle(title);
       if (in_text_citations.length > 0) {
-        updateRightbarTab(1);
+        // updateRightbarTab(1);
         fetchInText(document_content.in_text_citations);
       }
       if (citation_candidates.length > 0) {

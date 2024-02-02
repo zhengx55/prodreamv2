@@ -6,6 +6,10 @@ declare namespace NodeJS {
   }
 }
 
+export type IGuidence = {
+  show_guidence: boolean;
+};
+
 export type InputProps = {
   value: string;
   disable: boolean;
