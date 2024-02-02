@@ -24,7 +24,7 @@ const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
     if ([0, 2].includes(check)) {
       setTimeout(() => {
         close();
-      }, 500);
+      }, 200);
     }
     return () => {
       timer && clearTimeout(timer);
@@ -116,7 +116,7 @@ const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
   };
 
   const handleClickSample = () => {
-    editor.commands.insertContent(sample_outline);
+    editor.commands.setContent(sample_outline, true);
     close();
   };
 
