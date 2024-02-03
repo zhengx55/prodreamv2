@@ -8,6 +8,7 @@ import { AiMenu } from '../editor/ai-menu';
 import { BubbleMenu } from '../editor/bubble-menu';
 import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
+import Task from './guide/Task';
 
 const Reference = dynamic(() => import('./Reference'));
 type Props = { editor: EditorType };
@@ -22,6 +23,8 @@ const EditorBlock = ({ editor }: Props) => {
       id='editor-parent'
       className='relative flex w-full flex-col overflow-y-auto rounded-lg pb-[30vh]'
     >
+      <Spacer y='20' />
+      <Task />
       <Spacer y='20' />
       {showSynonymMenu && <SynonymMenu editor={editor} />}
       {showCopilotMenu && <AiMenu editor={editor} />}

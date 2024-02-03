@@ -42,7 +42,7 @@ const ExtensionKit = () => [
   BulletList,
   Text,
   Document.extend({
-    content: 'title block*',
+    content: 'title block+',
   }),
   Title,
   Paragraph,
