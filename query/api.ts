@@ -164,7 +164,6 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
   try {
     const formdata = new FormData();
     formdata.append('first_name', signUpParam.first_name);
-    formdata.append('last_name', 'zzz');
     formdata.append('email', signUpParam.email);
     formdata.append('password', signUpParam.password);
     formdata.append('is_mobile', signUpParam.is_mobile ? '1' : '0');
