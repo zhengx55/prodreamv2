@@ -9,14 +9,11 @@ import useAiEditor, { useUserInfo } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor as EditorType, useEditor } from '@tiptap/react';
 import useLocalStorage from 'beautiful-react-hooks/useLocalStorage';
-import { AnimatePresence } from 'framer-motion';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import TableOfContents from '../editor/table-of-contents/TableOfContents';
-import LazyMotionProvider from '../root/LazyMotionProvider';
-import EditorContent from './EditorContent';
-import Guidence from './guide/Guidence';
+import EditorBlock from './EditorContent';
 
 const Editor = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
@@ -109,14 +106,14 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     <section className='flex w-full flex-col'>
       <div className='relative flex h-[calc(100%_-40px)] w-full'>
         <TableOfContents editor={editor} />
-        <LazyMotionProvider>
+        {/* <LazyMotionProvider>
           <AnimatePresence initial={false}>
-            {showGuidence && (
+            {!showGuidence && (
               <Guidence editor={editor} close={memoHideGuidence} />
             )}
           </AnimatePresence>
-        </LazyMotionProvider>
-        <EditorContent editor={editor} />
+        </LazyMotionProvider> */}
+        <EditorBlock editor={editor} />
       </div>
       {showBottomBar && (
         <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>

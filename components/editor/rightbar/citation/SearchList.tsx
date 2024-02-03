@@ -16,7 +16,7 @@ const SearchList = () => {
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
-  const [keyword, setKeyword] = useState('key');
+  const [keyword, setKeyword] = useState('');
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
   const removeFromResultList = useCallback((index: number) => {
     setSearchResult((prev) => [
@@ -24,7 +24,6 @@ const SearchList = () => {
       ...prev.slice(index + 1),
     ]);
   }, []);
-
   const {
     data: citationResult,
     isPending,
@@ -40,7 +39,6 @@ const SearchList = () => {
     },
     queryKey: ['search-citation', keyword],
   });
-
   useEffect(() => {
     if (citationResult) setSearchResult(citationResult);
   }, [citationResult]);

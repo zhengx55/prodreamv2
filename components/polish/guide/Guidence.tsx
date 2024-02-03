@@ -9,14 +9,12 @@ import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { parse } from 'marked';
-import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
   const [check, setCheck] = useState(-1);
   const ideaRef = useRef<HTMLTextAreaElement>(null);
   const [isGenrating, setIsGenerating] = useState(false);
-  const { id } = useParams();
   const resultString = useRef<string>('');
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;

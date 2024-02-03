@@ -6,14 +6,38 @@ import {
 } from '@/components/ui/accordion';
 import { Checkbox } from '@/components/ui/checkbox';
 import { startup_task, task_gif } from '@/constant';
+import useAiEditor, { useUserTask } from '@/zustand/store';
+import type { Editor } from '@tiptap/react';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { toast } from 'sonner';
 
-const Task = () => {
-  const [selectedTask, setSelectedTask] = useState(0);
+type Props = { editor: Editor };
+
+const Task = ({ editor }: Props) => {
+  const task_step = useUserTask((state) => state.task_step);
+  const updateTaskStep = useUserTask((state) => state.updateTaskStep);
+  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
+
+  const selectHandler = (index: number) => {
+    if (index === 0 || index === 1) {
+      const title = editor.getJSON().content?.at(0)?.content?.at(0)?.text;
+      const content = editor.getText();
+      if (content.trim() === title?.trim()) {
+        toast.info('please write some content and try again');
+      }
+    }
+    if (index === 2) {
+      updateRightbarTab(2);
+    }
+    if (index === 3) {
+      updateRightbarTab(1);
+    }
+    updateTaskStep(index);
+  };
+
   return (
-    <Accordion defaultChecked type='single' collapsible>
+    <Accordion defaultValue='item-1' type='single' collapsible>
       <AccordionItem className='mx-auto w-[700px] rounded-md' value='item-1'>
         <AccordionTrigger className='flex-between bg-doc-primary px-5 data-[state=closed]:rounded-lg data-[state=open]:rounded-t-lg'>
           <p className='base-semibold text-white'>
@@ -40,18 +64,18 @@ const Task = () => {
             {startup_task.map((task, index) => {
               return (
                 <li
-                  onClick={() => setSelectedTask(index)}
+                  onClick={() => selectHandler(index)}
                   key={index}
-                  id={task.label}
-                  className={`flex-center group z-10 flex w-max cursor-pointer gap-x-2.5 rounded-full px-3 py-1.5 hover:bg-[#ECEDFF] ${selectedTask === index ? 'bg-[#ECEDFF]' : 'bg-white'}`}
+                  className={`flex-center group z-10 flex w-max cursor-pointer gap-x-2.5 rounded-full px-3 py-1.5 hover:bg-[#ECEDFF] ${task_step === index ? 'bg-[#ECEDFF]' : 'bg-white'}`}
                 >
                   <Checkbox
                     disabled
+                    id={task.label}
                     className='h-4 w-4 rounded-full border-doc-primary'
                   />
                   <label
                     htmlFor={task.label}
-                    className={`${selectedTask === index ? 'text-doc-primary' : ''} subtle-regular group-hover:cursor-pointer`}
+                    className={`${task_step === index ? 'text-doc-primary' : ''} subtle-regular group-hover:cursor-pointer`}
                   >
                     {task.label}
                   </label>
@@ -62,7 +86,7 @@ const Task = () => {
           <div className='relative h-full w-1/2 overflow-hidden rounded-lg'>
             <Image
               alt='task-showcase'
-              src={task_gif[selectedTask].src}
+              src={task_gif[task_step === -1 ? 0 : task_step].src}
               fill
               className='z-0'
               sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'

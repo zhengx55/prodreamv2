@@ -1,16 +1,22 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { CitationTooltip } from '@/constant/enum';
 import { ConvertCitationData } from '@/lib/utils';
 import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
-import { useAIEditor } from '@/zustand/store';
+import { useAIEditor, useUserTask } from '@/zustand/store';
 import { Plus, ReplyAll, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
+
+const Tiplayout = dynamic(
+  () => import('@/components/polish/guide/tips/Tiplayout')
+);
+
 const CitationPreview = dynamic(() => import('./CitationPreview'), {
   ssr: false,
 });
@@ -30,6 +36,8 @@ export const SearchCitationCard = memo(
     remove: (index: number) => void;
   }) => {
     const { id } = useParams();
+    const citation_tooltip_step = useUserTask((state) => state.citation_step);
+    const updateCitationStep = useUserTask((state) => state.updateCitationStep);
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
     const handler = async (
@@ -78,22 +86,69 @@ export const SearchCitationCard = memo(
         )}
         <Spacer y='15' />
         <div className='flex-between'>
-          <Button
-            className='h-[30px] w-[48%] rounded bg-doc-primary'
-            role='button'
-            onClick={() => handler(item as any, index, 'cite')}
-          >
-            <ReplyAll size={18} />
-            Cite
-          </Button>
-          <Button
-            className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
-            variant={'ghost'}
-            role='button'
-            onClick={() => handler(item as any, index, 'collect')}
-          >
-            <Plus size={18} className='text-doc-primary' /> Add to library
-          </Button>
+          {citation_tooltip_step === 2 && index === 0 ? (
+            <Tiplayout
+              title={CitationTooltip.STEP2_TITLE}
+              content={CitationTooltip.STEP2_TEXT}
+              step={citation_tooltip_step}
+              side='left'
+              totalSteps={4}
+              buttonLabel='next'
+              onClickCallback={() => {
+                updateCitationStep();
+              }}
+            >
+              <Button
+                className='h-[30px] w-[48%] rounded bg-doc-primary'
+                role='button'
+                onClick={() => handler(item as any, index, 'cite')}
+              >
+                <ReplyAll size={18} />
+                Cite
+              </Button>
+            </Tiplayout>
+          ) : (
+            <Button
+              className='h-[30px] w-[48%] rounded bg-doc-primary'
+              role='button'
+              onClick={() => handler(item as any, index, 'cite')}
+            >
+              <ReplyAll size={18} />
+              Cite
+            </Button>
+          )}
+
+          {citation_tooltip_step === 3 && index === 0 ? (
+            <Tiplayout
+              title={CitationTooltip.STEP3_TITLE}
+              content={CitationTooltip.STEP3_TEXT}
+              step={citation_tooltip_step}
+              side='top'
+              totalSteps={4}
+              buttonLabel='next'
+              onClickCallback={() => {
+                updateCitationStep();
+              }}
+            >
+              <Button
+                className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
+                variant={'ghost'}
+                role='button'
+                onClick={() => handler(item as any, index, 'collect')}
+              >
+                <Plus size={18} className='text-doc-primary' /> Add to library
+              </Button>
+            </Tiplayout>
+          ) : (
+            <Button
+              className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
+              variant={'ghost'}
+              role='button'
+              onClick={() => handler(item as any, index, 'collect')}
+            >
+              <Plus size={18} className='text-doc-primary' /> Add to library
+            </Button>
+          )}
         </div>
       </div>
     );
