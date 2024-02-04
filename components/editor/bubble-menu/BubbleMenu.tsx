@@ -133,7 +133,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       <Toolbar.Wrapper className='border-shadow-borde relative border shadow-lg'>
         <MemoButton
           id='copilot-button'
-          onClick={() => {
+          onClick={async () => {
             updateCopilotMenu(true);
             updateCopilotRect(menuYOffside.current);
             setOpen(false);

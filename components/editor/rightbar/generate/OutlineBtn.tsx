@@ -12,11 +12,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { generateOutlineSchema } from '@/lib/validation';
+import { useUserTask } from '@/zustand/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 type Props = { handleGenerate: (idea: string, area: string) => Promise<void> };
 const OutlineBtn = ({ handleGenerate }: Props) => {
+  const updateCompletion = useUserTask((state) => state.updateCompletion);
   const form = useForm<z.infer<typeof generateOutlineSchema>>({
     resolver: zodResolver(generateOutlineSchema),
     defaultValues: {
@@ -24,8 +26,8 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
       area: '',
     },
   });
-
   const onSubmit = async (values: z.infer<typeof generateOutlineSchema>) => {
+    await updateCompletion('generate_tool');
     await handleGenerate(values.idea, values.area);
   };
   return (

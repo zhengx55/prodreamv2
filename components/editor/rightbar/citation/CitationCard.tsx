@@ -38,13 +38,16 @@ export const SearchCitationCard = memo(
     const { id } = useParams();
     const citation_tooltip_step = useUserTask((state) => state.citation_step);
     const updateCitationStep = useUserTask((state) => state.updateCitationStep);
+    const updateCompletion = useUserTask((state) => state.updateCompletion);
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
+
     const handler = async (
       item: ICitation,
       index: number,
       action: 'cite' | 'collect'
     ) => {
+      updateCompletion('citation');
       const converted_data = ConvertCitationData(item);
       if (action === 'collect') {
         await handleCollectCitation({

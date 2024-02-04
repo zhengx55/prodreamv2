@@ -18,6 +18,10 @@ type Props = { editor: Editor };
 
 const Task = ({ editor }: Props) => {
   const [step, setStep] = useState(0);
+  const citation_check = useUserTask((state) => state.citation);
+  const copilot_check = useUserTask((state) => state.ai_copilot);
+  const continue_writing_check = useUserTask((state) => state.continue_writing);
+  const generate_tool_check = useUserTask((state) => state.generate_tool);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
@@ -108,6 +112,15 @@ const Task = ({ editor }: Props) => {
                 >
                   <Checkbox
                     disabled
+                    checked={
+                      index === 0
+                        ? copilot_check
+                        : index === 1
+                          ? continue_writing_check
+                          : index === 2
+                            ? generate_tool_check
+                            : citation_check
+                    }
                     id={task.label}
                     className='h-4 w-4 rounded-full border-doc-primary'
                   />

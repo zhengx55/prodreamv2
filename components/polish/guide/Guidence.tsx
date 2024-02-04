@@ -19,7 +19,7 @@ const Guidence = ({ editor }: { editor: Editor }) => {
   const resultString = useRef<string>('');
   const updateShowGuidence = useUserTask((state) => state.updateShowGuidence);
   const close = async () => {
-    await updateShowGuidence();
+    await updateShowGuidence(false);
   };
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
