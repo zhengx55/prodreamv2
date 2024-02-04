@@ -71,6 +71,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     onUpdate: ({ editor }) => {
       const title = editor.getJSON().content?.at(0)?.content?.at(0)?.text;
       const html = editor.getHTML();
+      console.log(editor.getJSON());
       debouncedUpdatesTitle(title ?? '');
       debouncedUpdateText(html);
     },
