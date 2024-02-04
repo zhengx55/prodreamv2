@@ -223,7 +223,17 @@ const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
                 &nbsp;to check out a sample outline.
               </p>
             </m.div>
-          ) : null}
+          ) : (
+            <m.p
+              key={'terms-3'}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className='text-[28px] font-semibold leading-normal'
+            >
+              Welcome to ProDream!
+            </m.p>
+          )}
         </AnimatePresence>
       </div>
     </m.div>

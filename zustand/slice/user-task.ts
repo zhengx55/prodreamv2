@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 
 const initialState: UserTaskState = {
   task_step: -1,
-  citation_step: 1,
+  citation_step: 0,
   continue_writing: false,
   generate_tool: false,
   ai_copilot: false,
@@ -24,12 +24,14 @@ type UserTaskAction = {
   updateCompletion: (
     result: 'continue_writing' | 'generate_tool' | 'ai_copilot' | 'citation'
   ) => void;
+  reset: () => void;
 };
 
 export type UserTaskStore = UserTaskState & UserTaskAction;
 
 export const useUserTaskStore: StateCreator<UserTaskStore> = (set, get) => ({
   ...initialState,
+  reset: () => set(initialState),
   updateTaskStep: (result) => set({ task_step: result }),
   updateCitationStep: () =>
     set((state) => ({

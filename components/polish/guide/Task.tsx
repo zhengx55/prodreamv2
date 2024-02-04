@@ -4,20 +4,46 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { startup_task, task_gif } from '@/constant';
 import useAiEditor, { useUserTask } from '@/zustand/store';
-import type { Editor } from '@tiptap/react';
+import { type Editor } from '@tiptap/react';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = { editor: Editor };
 
 const Task = ({ editor }: Props) => {
-  const task_step = useUserTask((state) => state.task_step);
-  const updateTaskStep = useUserTask((state) => state.updateTaskStep);
+  const [step, setStep] = useState(0);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
+  const updateTaskStep = useUserTask((state) => state.updateTaskStep);
+  const updateCitationStep = useUserTask((state) => state.updateCitationStep);
+  const findFistParagraph = () => {
+    let first_paragraph = {
+      hasContent: false,
+      pos: 0,
+      content: '',
+      size: 0,
+    };
+    editor.state.doc.descendants((node, pos) => {
+      if (
+        node.type.name === 'paragraph' &&
+        node.textContent.trim() !== '' &&
+        first_paragraph.hasContent === false
+      ) {
+        first_paragraph = {
+          pos,
+          hasContent: true,
+          content: node.textContent,
+          size: node.nodeSize,
+        };
+      }
+    });
+    return first_paragraph;
+  };
 
   const selectHandler = (index: number) => {
     if (index === 0 || index === 1) {
@@ -25,15 +51,27 @@ const Task = ({ editor }: Props) => {
       const content = editor.getText();
       if (content.trim() === title?.trim()) {
         toast.info('please write some content and try again');
+      } else {
+        if (index === 0) {
+          const first_paragraph = findFistParagraph();
+          if (first_paragraph.hasContent) {
+            editor.commands.setNodeSelection(first_paragraph.pos);
+            updateTaskStep(0);
+          } else {
+            updateTaskStep(1);
+          }
+        }
       }
     }
     if (index === 2) {
       updateRightbarTab(2);
+      updateTaskStep(2);
     }
     if (index === 3) {
       updateRightbarTab(1);
+      updateTaskStep(3);
+      updateCitationStep();
     }
-    updateTaskStep(index);
   };
 
   return (
@@ -64,9 +102,9 @@ const Task = ({ editor }: Props) => {
             {startup_task.map((task, index) => {
               return (
                 <li
-                  onClick={() => selectHandler(index)}
+                  onClick={() => setStep(index)}
                   key={index}
-                  className={`flex-center group z-10 flex w-max cursor-pointer gap-x-2.5 rounded-full px-3 py-1.5 hover:bg-[#ECEDFF] ${task_step === index ? 'bg-[#ECEDFF]' : 'bg-white'}`}
+                  className={`flex-center group z-10 flex w-max cursor-pointer gap-x-2.5 rounded-full px-3 py-1.5 hover:bg-[#ECEDFF] ${step === index ? 'bg-[#ECEDFF]' : 'bg-white'}`}
                 >
                   <Checkbox
                     disabled
@@ -75,7 +113,7 @@ const Task = ({ editor }: Props) => {
                   />
                   <label
                     htmlFor={task.label}
-                    className={`${task_step === index ? 'text-doc-primary' : ''} subtle-regular group-hover:cursor-pointer`}
+                    className={`${step === index ? 'text-doc-primary' : ''} subtle-regular group-hover:cursor-pointer`}
                   >
                     {task.label}
                   </label>
@@ -84,10 +122,18 @@ const Task = ({ editor }: Props) => {
             })}
           </ul>
           <div className='relative h-full w-1/2 overflow-hidden rounded-lg'>
+            <Button
+              variant={'ghost'}
+              className='absolute bottom-2 left-2 z-10 h-max w-max border border-doc-primary p-1 text-doc-primary'
+              onClick={() => selectHandler(step)}
+            >
+              Show me
+            </Button>
             <Image
               alt='task-showcase'
-              src={task_gif[task_step === -1 ? 0 : task_step].src}
+              src={task_gif[step === -1 ? 0 : step].src}
               fill
+              priority
               className='z-0'
               sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
             />

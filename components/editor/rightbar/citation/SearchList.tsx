@@ -18,6 +18,11 @@ const SearchList = () => {
   );
   const [keyword, setKeyword] = useState('');
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
+
+  const memopSetSearchResult = useCallback(
+    (value: ICitation[]) => setSearchResult(value),
+    []
+  );
   const removeFromResultList = useCallback((index: number) => {
     setSearchResult((prev) => [
       ...prev.slice(0, index),
@@ -45,7 +50,7 @@ const SearchList = () => {
   return (
     <section className='relative flex flex-1 flex-col overflow-visible overflow-y-auto'>
       <Spacer y='10' />
-      <SearchBar setKeyword={setKeyword} />
+      <SearchBar setResult={memopSetSearchResult} setKeyword={setKeyword} />
       <Button
         className='w-max px-2 text-doc-primary'
         variant={'link'}
