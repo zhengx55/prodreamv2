@@ -4,6 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { sample_outline } from '@/constant';
 import { outline } from '@/query/api';
+import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
@@ -11,11 +12,15 @@ import { Loader2 } from 'lucide-react';
 import { parse } from 'marked';
 import { useEffect, useRef, useState } from 'react';
 
-const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
+const Guidence = ({ editor }: { editor: Editor }) => {
   const [check, setCheck] = useState(-1);
   const ideaRef = useRef<HTMLTextAreaElement>(null);
   const [isGenrating, setIsGenerating] = useState(false);
   const resultString = useRef<string>('');
+  const updateShowGuidence = useUserTask((state) => state.updateShowGuidence);
+  const close = async () => {
+    await updateShowGuidence();
+  };
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
     if ([0, 2].includes(check)) {
@@ -112,7 +117,7 @@ const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1.5, delay: 0.5 }}
-      className='absolute z-10 h-full w-full bg-white font-inter'
+      className='absolute z-20 h-full w-full bg-white font-inter'
     >
       <div className='mx-auto flex w-[700px] flex-col'>
         <Spacer y='24' />
@@ -223,7 +228,7 @@ const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
                 &nbsp;to check out a sample outline.
               </p>
             </m.div>
-          ) : (
+          ) : check === 2 ? (
             <m.p
               key={'terms-3'}
               initial={{ opacity: 0, y: 10 }}
@@ -233,7 +238,7 @@ const Guidence = ({ editor, close }: { editor: Editor; close: () => void }) => {
             >
               Welcome to ProDream!
             </m.p>
-          )}
+          ) : null}
         </AnimatePresence>
       </div>
     </m.div>
