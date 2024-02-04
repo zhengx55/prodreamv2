@@ -33,7 +33,7 @@ const EssayPanel = ({ id }: { id: string }) => {
     queryKey: ['document_item', id],
     queryFn: () => getDocDetail(id),
   });
-  const { isUserInfoFetching } = useUserTrack();
+  const { isFetching: isTrackFetching } = useUserTrack();
   useCitationInfo(document_content);
   if (isError) return <p>opps something went wrong!</p>;
 
@@ -53,7 +53,7 @@ const EssayPanel = ({ id }: { id: string }) => {
         </Link>
       </Tooltip>
       <div className='relative flex h-full w-full justify-center overflow-hidden'>
-        {isFetching || isUserInfoFetching ? (
+        {isFetching || isTrackFetching ? (
           <div className='flex flex-1 flex-col items-center'>
             <Spacer y='20' />
             <Skeleton className='h-10 w-[700px] rounded-lg' />

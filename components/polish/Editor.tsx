@@ -25,7 +25,6 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const updateTitle = useAiEditor((state) => state.updateTitle);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
   const showGuidence = useUserTask((state) => state.shouldShowGuidence);
-  const resetTask = useUserTask((state) => state.resetTask);
   const debouncedUpdatesTitle = useDebouncedCallback(async (title: string) => {
     if (title === doc_title) return;
     updateTitle(title);
@@ -75,7 +74,6 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     },
     onDestroy: () => {
       reset();
-      resetTask();
     },
   });
 

@@ -24,7 +24,6 @@ const Task = ({ editor }: Props) => {
   const citation_check = useUserTask((state) => state.citation);
   const copilot_check = useUserTask((state) => state.ai_copilot);
   const continue_writing_check = useUserTask((state) => state.continue_writing);
-  console.log('🚀 ~ Task ~ continue_writing_check:', continue_writing_check);
   const generate_tool_check = useUserTask((state) => state.generate_tool);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);

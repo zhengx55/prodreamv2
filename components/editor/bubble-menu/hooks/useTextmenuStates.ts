@@ -9,8 +9,6 @@ export const useTextmenuStates = (editor: Editor) => {
       if (!view) {
         return false;
       }
-      console.log(view.state);
-      const { from, to } = editor.state.selection;
       return isTextSelected({ editor }) && !view.dragging?.move;
     },
     [editor]

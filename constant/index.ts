@@ -148,25 +148,25 @@ export const HeroInfo = [
     id: 'hero-01',
     icon: '/landing/heros/outline.svg',
     title: 'Outlining',
-    text: 'Our feature creates detailed outlines with relevant sources, ',
+    text: 'Streamline your essay process, no more scattered ideas.',
   },
   {
     id: 'hero-02',
     icon: '/landing/heros/editing.svg',
     title: 'Editing',
-    text: 'Our feature creates detailed outlines with relevant sources, ',
+    text: 'Write with precision, clarity, and organization.',
   },
   {
     id: 'hero-03',
     icon: '/landing/heros/citation.svg',
     title: 'Citation',
-    text: 'Our feature creates detailed outlines with relevant sources, ',
+    text: 'Unparalleled academic knowledge base boosts research efficiency.',
   },
   {
     id: 'hero-04',
     icon: '/landing/heros/proofread.svg',
     title: 'Proofread',
-    text: 'Our feature creates detailed outlines with relevant sources, ',
+    text: 'Perfect your writing: detect plagiarism and refine content.',
   },
 ];
 
