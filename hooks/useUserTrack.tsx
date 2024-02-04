@@ -17,14 +17,14 @@ export const useUserTrack = () => {
   useEffect(() => {
     if (isSuccess) {
       if (!user_track) {
-        updateShowGuidence();
-        updateShowTask();
+        updateShowGuidence(true);
+        updateShowTask(true);
       } else {
         if (!user_track.guidence) {
-          updateShowGuidence();
+          updateShowGuidence(true);
         }
         if (!user_track.task) {
-          updateShowTask();
+          updateShowTask(true);
         }
       }
     }

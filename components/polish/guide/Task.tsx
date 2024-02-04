@@ -7,20 +7,27 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { startup_task, task_gif } from '@/constant';
+import { copilot } from '@/query/api';
 import useAiEditor, { useUserTask } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = { editor: Editor };
 
 const Task = ({ editor }: Props) => {
   const [step, setStep] = useState(0);
+  const citation_check = useUserTask((state) => state.citation);
+  const copilot_check = useUserTask((state) => state.ai_copilot);
+  const continue_writing_check = useUserTask((state) => state.continue_writing);
+  const generate_tool_check = useUserTask((state) => state.generate_tool);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
+  const insertPos = useRef<number>(0);
   const findFistParagraph = () => {
     let first_paragraph = {
       hasContent: false,
@@ -45,22 +52,70 @@ const Task = ({ editor }: Props) => {
     return first_paragraph;
   };
 
-  const selectHandler = (index: number) => {
+  const { mutateAsync: handleCopilot } = useMutation({
+    mutationFn: (params: { text: string; pos: number }) =>
+      copilot({ tool: 'continue_write_sentence', text: params.text }),
+    onSuccess: async (data: ReadableStream, variables) => {
+      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      insertPos.current = variables.pos - 1;
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        handleStreamData(value);
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleStreamData = (value: string | undefined) => {
+    if (!value) return;
+    const lines = value.split('\n');
+    const dataLines = lines.filter(
+      (line, index) =>
+        line.startsWith('data:') &&
+        lines.at(index - 1)?.startsWith('event: data')
+    );
+    const eventData = dataLines.map((line) =>
+      JSON.parse(line.slice('data:'.length))
+    );
+    let result = '';
+    eventData.forEach((word) => {
+      result += word;
+    });
+    if (!result.startsWith(' ')) result = ` ${result}`;
+    editor
+      .chain()
+      .insertContentAt(insertPos.current, result)
+      .setTextSelection({
+        from: insertPos.current,
+        to: result.length + insertPos.current,
+      })
+      .setColor('rgb(134 82 219)')
+      .setTextSelection(0)
+      .run();
+    insertPos.current += result.length;
+  };
+
+  const selectHandler = async (index: number) => {
     if (index === 0 || index === 1) {
       const title = editor.getJSON().content?.at(0)?.content?.at(0)?.text;
       const content = editor.getText();
       if (content.trim() === title?.trim()) {
         toast.info('please write some content and try again');
+        return;
+      }
+      const first_paragraph = findFistParagraph();
+      if (index === 0) {
+        editor.commands.setNodeSelection(first_paragraph.pos);
+        updateTaskStep(0);
       } else {
-        if (index === 0) {
-          const first_paragraph = findFistParagraph();
-          if (first_paragraph.hasContent) {
-            editor.commands.setNodeSelection(first_paragraph.pos);
-            updateTaskStep(0);
-          } else {
-            updateTaskStep(1);
-          }
-        }
+        await handleCopilot({
+          text: first_paragraph.content,
+          pos: first_paragraph.pos + first_paragraph.size,
+        });
+        updateTaskStep(1);
       }
     }
     if (index === 2) {
@@ -108,6 +163,15 @@ const Task = ({ editor }: Props) => {
                 >
                   <Checkbox
                     disabled
+                    checked={
+                      index === 0
+                        ? copilot_check
+                        : index === 1
+                          ? continue_writing_check
+                          : index === 2
+                            ? generate_tool_check
+                            : citation_check
+                    }
                     id={task.label}
                     className='h-4 w-4 rounded-full border-doc-primary'
                   />
@@ -143,4 +207,4 @@ const Task = ({ editor }: Props) => {
     </Accordion>
   );
 };
-export default Task;
+export default memo(Task);

@@ -1,5 +1,3 @@
-'use client';
-
 import Spacer from '@/components/root/Spacer';
 import {
   BookHalf,

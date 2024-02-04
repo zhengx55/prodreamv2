@@ -19,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { loginSchema } from '@/lib/validation';
-import { createDoc, userLogin } from '@/query/api';
+import { userLogin } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
@@ -54,9 +54,7 @@ export default function Page() {
         maxAge: 604800,
         secure: true,
       });
-      const new_doc_id = await createDoc();
-      router.push(`/writtingpal/polish/${new_doc_id}`);
-      // router.push('/writtingpal/polish');
+      router.push('/writtingpal/polish');
     },
     onError: (error) => {
       toast.error(error.message);

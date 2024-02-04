@@ -1,3 +1,6 @@
+'use client';
+import { UploadGard } from '@/components/root/SvgComponents';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useDebouncedState } from '@/hooks/useDebounceState';
 import { createDoc } from '@/query/api';
@@ -56,7 +59,15 @@ const SearchBar = () => {
           <Plus className='text-white' size={20} />
           <p className='base-semibold text-white'>New Essay</p>
         </button>
-        <FileUploadModal />
+        <Dialog>
+          <DialogTrigger asChild>
+            <span className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg border border-shadow-border hover:opacity-50'>
+              <UploadGard />
+              <p className='base-semibold '>Upload Essay</p>
+            </span>
+          </DialogTrigger>
+          <FileUploadModal />
+        </Dialog>
       </div>
       <div className='relative flex h-14 w-2/5 shrink-0 items-center rounded-lg border border-shadow-border'>
         <div

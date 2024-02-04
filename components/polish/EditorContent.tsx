@@ -2,12 +2,14 @@ import Spacer from '@/components/root/Spacer';
 import '@/lib/tiptap/styles/index.css';
 import useAiEditor, { useUserTask } from '@/zustand/store';
 import { EditorContent, Editor as EditorType } from '@tiptap/react';
+import { AnimatePresence, m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import { AiMenu } from '../editor/ai-menu';
 import { BubbleMenu } from '../editor/bubble-menu';
 import { CitationMenu } from '../editor/citation-menu';
 import { SynonymMenu } from '../editor/synonym-menu';
+import LazyMotionProvider from '../root/LazyMotionProvider';
 
 const Task = dynamic(() => import('./guide/Task'));
 const Reference = dynamic(() => import('./Reference'));
@@ -25,12 +27,21 @@ const EditorBlock = ({ editor }: Props) => {
       className='relative flex w-full flex-col overflow-y-auto rounded-lg pb-[30vh]'
     >
       <Spacer y='20' />
-      {shouldShowTasks && (
-        <>
-          <Task editor={editor} />
-          <Spacer y='20' />
-        </>
-      )}
+      <LazyMotionProvider>
+        <AnimatePresence>
+          {shouldShowTasks && (
+            <m.div
+              initial={{ y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              className='flex flex-col'
+            >
+              <Task editor={editor} />
+              <Spacer y='20' />
+            </m.div>
+          )}
+        </AnimatePresence>
+      </LazyMotionProvider>
       {showSynonymMenu && <SynonymMenu editor={editor} />}
       {showCopilotMenu && <AiMenu editor={editor} />}
       {showCitiationMenu && <CitationMenu editor={editor} />}
