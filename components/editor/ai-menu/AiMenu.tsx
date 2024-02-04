@@ -29,6 +29,8 @@ export const AiMenu = ({ editor }: Props) => {
   const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
   const selectedText = useAiEditor((state) => state.selectedText);
   const { options, operations } = useAiOptions();
+  const updateCompletion = useUserTask((state) => state.updateCompletion);
+  const ai_copilot_task = useUserTask((state) => state.ai_copilot);
   const [hoverItem, setHoverItem] = useState<number | null>(null);
   const [generating, setGenerating] = useState(false);
   const [aiResult, setAiResult] = useState('');
@@ -37,7 +39,6 @@ export const AiMenu = ({ editor }: Props) => {
   const elRef = useRef<HTMLDivElement>(null);
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
-  const updateCompletion = useUserTask((state) => state.updateCompletion);
   const hasAiResult = aiResult !== '';
 
   useClickOutside(elRef, () => {
@@ -163,11 +164,14 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleOperation = async (idx: number) => {
-    await updateCompletion('ai_copilot', true);
-    await updateUserInfo({
-      field: 'ai_copilot_task',
-      data: true,
-    });
+    if (!ai_copilot_task) {
+      await updateCompletion('ai_copilot', true);
+      await updateUserInfo({
+        field: 'ai_copilot_task',
+        data: true,
+      });
+    }
+
     switch (idx) {
       case 0:
         handleReplace();
