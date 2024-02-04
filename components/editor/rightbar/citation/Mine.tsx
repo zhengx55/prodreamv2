@@ -16,7 +16,7 @@ const Mine = () => {
   const [showMine, setShowMine] = useState(false);
   const [type, setType] = useState<number | null>(null);
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
-  const updateCitationStep = useUserTask((state) => state.updateCitationStep);
+  const resetCitationStep = useUserTask((state) => state.resetCitationStep);
   return (
     <m.div
       initial={false}
@@ -57,7 +57,7 @@ const Mine = () => {
               totalSteps={4}
               buttonLabel='done'
               onClickCallback={() => {
-                updateCitationStep();
+                resetCitationStep();
               }}
             >
               <Toggle

@@ -18,10 +18,13 @@ export const useUserTrack = () => {
   useEffect(() => {
     async function getUserTrack() {
       if (!user_track) {
+        console.log('no user track');
         updateShowGuidence(true);
         updateShowTask(true);
       } else {
-        if (!user_track.guidence) updateShowGuidence(true);
+        if (!user_track.guidence) {
+          updateShowGuidence(true);
+        }
         if (!user_track.tasks) updateShowTask(true);
         if (user_track.continue_writing_task)
           await updateCompletion('continue_writing', true);
