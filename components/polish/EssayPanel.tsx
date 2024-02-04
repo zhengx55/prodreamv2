@@ -34,9 +34,7 @@ const EssayPanel = ({ id }: { id: string }) => {
     queryFn: () => getDocDetail(id),
   });
   const { isUserInfoFetching } = useUserTrack();
-
   useCitationInfo(document_content);
-
   if (isError) return <p>opps something went wrong!</p>;
 
   return (

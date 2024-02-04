@@ -22,7 +22,7 @@ export const useUserTrack = () => {
         updateShowTask(true);
       } else {
         if (!user_track.guidence) updateShowGuidence(true);
-        if (!user_track.task) updateShowTask(true);
+        if (!user_track.tasks) updateShowTask(true);
         if (user_track.continue_writing_task)
           updateCompletion('continue_writing', true);
         if (user_track.ai_copilot_task) updateCompletion('ai_copilot', true);

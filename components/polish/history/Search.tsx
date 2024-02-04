@@ -1,21 +1,21 @@
 'use client';
 import { UploadGard } from '@/components/root/SvgComponents';
+import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useDebouncedState } from '@/hooks/useDebounceState';
 import { createDoc } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, memo, useEffect, useState } from 'react';
+import { ChangeEvent, memo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 
-const SearchBar = () => {
+const SearchBar = ({ setKeyword }: { setKeyword: (value: string) => void }) => {
   const [isTyping, setIsTyping] = useState(false);
-  const [keyword, setKeyword] = useDebouncedState('', 750);
   const router = useRouter();
+  const ref = useRef<HTMLInputElement>(null);
   const { mutateAsync: createNew } = useMutation({
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
@@ -27,17 +27,9 @@ const SearchBar = () => {
     },
   });
 
-  useEffect(() => {
-    if (keyword) {
-      router.push(`/writtingpal/polish?search=${keyword}`);
-    } else {
-      router.push(`/writtingpal/polish`);
-    }
-  }, [keyword, router]);
-
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
     if (!e.target.value.trim()) {
+      setKeyword('');
       setIsTyping(false);
     } else {
       setIsTyping(true);
@@ -68,17 +60,19 @@ const SearchBar = () => {
         </Dialog>
       </div>
       <div className='relative flex h-14 w-2/5 shrink-0 items-center rounded-lg border border-shadow-border'>
-        <div
+        <Button
+          disabled={!isTyping}
+          onClick={() => ref.current && setKeyword(ref.current.value)}
           className={`${
             isTyping
               ? 'bg-primary-200 text-white'
               : 'bg-shadow-border text-shadow'
-          } flex-center absolute right-2 h-10 w-10 rounded-xl `}
+          } flex-center absolute right-2 h-10 w-10 rounded-lg p-1 `}
         >
           <Search size={22} />
-        </div>
+        </Button>
         <Input
-          defaultValue={keyword}
+          ref={ref}
           onChange={handleKeywordChange}
           type='text'
           className='h-full w-full border-none pr-14 focus-visible:ring-0'

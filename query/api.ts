@@ -582,8 +582,8 @@ export async function refreshUserSession(): Promise<LoginData> {
 // ----------------------------------------------------------------
 export async function createDoc(text?: string, title?: string, file?: File) {
   const formData = new FormData();
-  if (text) formData.append('content', text);
-  if (title) formData.append('title', title);
+  formData.append('content', text ?? '');
+  formData.append('title', title ?? '');
   if (file) {
     formData.append('file', file);
   }
@@ -596,6 +596,7 @@ export async function createDoc(text?: string, title?: string, file?: File) {
         body: formData,
         headers: {
           Authorization: `Bearer ${token}`,
+          contentType: 'multipart/form-data',
         },
       }
     );
@@ -692,7 +693,7 @@ export async function getDocs(
     const res = await fetch(
       `${
         process.env.NEXT_PUBLIC_API_BASE_URL
-      }v0/editor/documents?page=${page}&page_size=${pageSize}${keyword ? `&keyword=${keyword}` : ''}`,
+      }v0/editor/documents?page=${page}&page_size=${pageSize}${keyword ? `&query=${keyword}` : ''}`,
       {
         method: 'GET',
         headers: {

@@ -9,7 +9,6 @@ export const useCitationInfo = (document_content: IDocDetail | undefined) => {
     (state) => state.updateInTextCitation
   );
   const updateInDocCitation = useAIEditor((state) => state.updateInDocCitation);
-  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const updateTitle = useAIEditor((state) => state.updateTitle);
 
   useEffect(() => {
