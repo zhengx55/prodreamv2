@@ -40,6 +40,7 @@ export const SearchCitationCard = memo(
     const citation_tooltip_step = useUserTask((state) => state.citation_step);
     const updateCitationStep = useUserTask((state) => state.updateCitationStep);
     const updateCompletion = useUserTask((state) => state.updateCompletion);
+    const citation_check = useUserTask((state) => state.citation);
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
 
@@ -48,11 +49,13 @@ export const SearchCitationCard = memo(
       index: number,
       action: 'cite' | 'collect'
     ) => {
-      await updateCompletion('citation', true);
-      await updateUserInfo({
-        field: 'citation_task',
-        data: true,
-      });
+      if (!citation_check) {
+        await updateCompletion('citation', true);
+        await updateUserInfo({
+          field: 'citation_task',
+          data: true,
+        });
+      }
       const converted_data = ConvertCitationData(item);
       if (action === 'collect') {
         await handleCollectCitation({

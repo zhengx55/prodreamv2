@@ -122,8 +122,10 @@ const Task = ({ editor }: Props) => {
     if (index === 2) {
       updateRightbarTab(2);
       updateTaskStep(2);
-      await updateCompletion('generate_tool', true);
-      await updateUserInfo({ field: 'generate_tool_task', data: true });
+      if (!generate_tool_check) {
+        await updateCompletion('generate_tool', true);
+        await updateUserInfo({ field: 'generate_tool_task', data: true });
+      }
     }
     if (index === 3) {
       updateRightbarTab(1);

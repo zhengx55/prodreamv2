@@ -14,14 +14,20 @@ export const AutoCompleteMenuList = React.forwardRef(
     const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
     const [selectedCommandIndex, setSelectedCommandIndex] = useState(0);
     const updateCompletion = useUserTask((state) => state.updateCompletion);
+    const continue_writing_check = useUserTask(
+      (state) => state.continue_writing
+    );
     const { mutateAsync: handleCopilot } = useMutation({
       mutationFn: (params: { tool: string; text: string }) => copilot(params),
       onSuccess: async (data: ReadableStream) => {
-        await updateCompletion('continue_writing', true);
-        await updateUserInfo({
-          field: 'continue_writing_task',
-          data: true,
-        });
+        if (!continue_writing_check) {
+          await updateCompletion('continue_writing', true);
+          await updateUserInfo({
+            field: 'continue_writing_task',
+            data: true,
+          });
+        }
+
         const reader = data.pipeThrough(new TextDecoderStream()).getReader();
         while (true) {
           const { value, done } = await reader.read();
