@@ -55,7 +55,7 @@ const Mine = () => {
               step={citation_tooltip_step}
               side='top'
               totalSteps={4}
-              buttonLabel='next'
+              buttonLabel='done'
               onClickCallback={() => {
                 updateCitationStep();
               }}
