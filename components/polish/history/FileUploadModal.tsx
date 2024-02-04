@@ -4,7 +4,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import clearCachesByServerAction from '@/lib/revalidate';
 import { createDoc } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { Loader2, X } from 'lucide-react';
@@ -21,7 +20,6 @@ const FileUploadModal = () => {
     mutationFn: (params: { file?: File }) =>
       createDoc(undefined, undefined, params.file),
     onSuccess: (data) => {
-      clearCachesByServerAction('/writtingpal/polish');
       router.push(`/writtingpal/polish/${data}`);
     },
     onError: (error) => {
