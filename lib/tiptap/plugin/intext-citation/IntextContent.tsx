@@ -7,7 +7,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAIEditor } from '@/zustand/store';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { Trash2 } from 'lucide-react';
 import { useMemo } from 'react';
 type Props = {
@@ -31,9 +30,9 @@ const IntextContent = ({ node, deleteHandler }: Props) => {
     deleteHandler();
   };
 
-  useUnmount(() => {
-    console.log(2323);
-  });
+  // useUnmount(() => {
+  //   console.log(2323);
+  // });
   const handleEditCitation = () => {};
 
   return (

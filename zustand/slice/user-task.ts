@@ -33,6 +33,7 @@ type UserTaskAction = {
   updateShowTask: (result: boolean) => void;
   updateShowGuidence: (result: boolean) => void;
   resetCitationStep: () => void;
+  resetTask: () => void;
 };
 
 export type UserTaskStore = UserTaskState & UserTaskAction;
@@ -43,6 +44,9 @@ export const useUserTaskStore: StateCreator<UserTaskStore> = (set, get) => ({
     set(() => ({
       shouldShowGuidence: result,
     }));
+  },
+  resetTask: () => {
+    set(() => ({ ...initialState }));
   },
   updateShowTask: (result) => {
     set(() => ({

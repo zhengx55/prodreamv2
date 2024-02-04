@@ -18,11 +18,11 @@ export const useUserTrack = () => {
   useEffect(() => {
     async function getUserTrack() {
       if (!user_track) {
-        console.log('no user track');
         updateShowGuidence(true);
         updateShowTask(true);
       } else {
         if (!user_track.guidence) {
+          console.log(user_track);
           updateShowGuidence(true);
         }
         if (!user_track.tasks) updateShowTask(true);

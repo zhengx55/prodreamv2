@@ -7,7 +7,7 @@ export enum CitationTooltip {
   STEP3_TEXT = "Find this article interesting but not sure if you want to cite it yet? Add it to your Library for easy referencing when you're ready.",
   STEP4_TITLE = 'Find saved articles here',
   STEP4_TEXT = "Access all your saved articles in 'My Library' and view citations used in this essay with a simple click on ”In this doc”.",
-  KEY_WORD = 'Climate change',
+  KEY_WORD = 'Machine learning',
 }
 
 export enum OutlineTooltip {

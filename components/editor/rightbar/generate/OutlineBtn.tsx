@@ -12,7 +12,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { generateOutlineSchema } from '@/lib/validation';
-import { updateUserInfo } from '@/query/api';
 import { useUserTask } from '@/zustand/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -28,8 +27,6 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
     },
   });
   const onSubmit = async (values: z.infer<typeof generateOutlineSchema>) => {
-    await updateCompletion('generate_tool', true);
-    await updateUserInfo({ field: 'generate_tool_task', data: true });
     await handleGenerate(values.idea, values.area);
   };
   return (
