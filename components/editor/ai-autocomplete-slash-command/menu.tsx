@@ -1,7 +1,7 @@
 import { DropdownButton } from '@/components/ui/dropdown-button';
 import { Surface } from '@/components/ui/surface';
 import { Command, MenuListProps } from '@/lib/tiptap/type';
-import { copilot } from '@/query/api';
+import { copilot, updateUserInfo } from '@/query/api';
 import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -17,7 +17,11 @@ export const AutoCompleteMenuList = React.forwardRef(
     const { mutateAsync: handleCopilot } = useMutation({
       mutationFn: (params: { tool: string; text: string }) => copilot(params),
       onSuccess: async (data: ReadableStream) => {
-        await updateCompletion('continue_writing');
+        await updateCompletion('continue_writing', true);
+        await updateUserInfo({
+          field: 'continue_writing_task',
+          data: true,
+        });
         const reader = data.pipeThrough(new TextDecoderStream()).getReader();
         while (true) {
           const { value, done } = await reader.read();

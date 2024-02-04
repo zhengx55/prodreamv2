@@ -18,8 +18,8 @@ const FileUploadModal = () => {
   const router = useRouter();
 
   const { mutateAsync: createNew, isPending: isUploading } = useMutation({
-    mutationFn: (params: { text?: string; file?: File }) =>
-      createDoc(params.text, params.file),
+    mutationFn: (params: { file?: File }) =>
+      createDoc(undefined, undefined, params.file),
     onSuccess: (data) => {
       clearCachesByServerAction('/writtingpal/polish');
       router.push(`/writtingpal/polish/${data}`);

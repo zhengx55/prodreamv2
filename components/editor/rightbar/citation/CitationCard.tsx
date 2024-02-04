@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CitationTooltip } from '@/constant/enum';
 import { ConvertCitationData } from '@/lib/utils';
+import { updateUserInfo } from '@/query/api';
 import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
@@ -47,7 +48,11 @@ export const SearchCitationCard = memo(
       index: number,
       action: 'cite' | 'collect'
     ) => {
-      updateCompletion('citation');
+      await updateCompletion('citation', true);
+      await updateUserInfo({
+        field: 'citation_task',
+        data: true,
+      });
       const converted_data = ConvertCitationData(item);
       if (action === 'collect') {
         await handleCollectCitation({

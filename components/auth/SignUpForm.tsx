@@ -13,11 +13,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { SampleEssay } from '@/constant/enum';
 import { signUpSchema } from '@/lib/validation';
 import { createDoc, userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
-import useLocalStorage from 'beautiful-react-hooks/useLocalStorage';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -27,8 +27,6 @@ import { useCookies } from 'react-cookie';
 
 const SignUpForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
-  const [_guidenceStatus, setGuidenceStatus] =
-    useLocalStorage('guidence-status');
   const posthog = usePostHog();
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
@@ -72,12 +70,11 @@ const SignUpForm = () => {
             maxAge: 604800,
             secure: true,
           });
-          const new_doc_id = await createDoc();
-          setGuidenceStatus({
-            [user_id]: {
-              show_guidence: true,
-            },
-          });
+          const new_doc_id = await createDoc(
+            SampleEssay.TEXT,
+            SampleEssay.TITLE
+          );
+
           router.push(`/writtingpal/polish/${new_doc_id}`);
         } catch (error) {
           router.push('/writtingpal/polish');

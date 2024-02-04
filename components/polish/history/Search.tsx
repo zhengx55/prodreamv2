@@ -17,8 +17,8 @@ const SearchBar = () => {
   const [keyword, setKeyword] = useDebouncedState('', 750);
   const router = useRouter();
   const { mutateAsync: createNew } = useMutation({
-    mutationFn: (params: { text?: string; file?: File }) =>
-      createDoc(params.text, params.file),
+    mutationFn: (params: { text?: string; title?: string; file?: File }) =>
+      createDoc(params.text, params.title, params.file),
     onSuccess: (data) => {
       router.push(`/writtingpal/polish/${data}`);
     },
@@ -47,9 +47,7 @@ const SearchBar = () => {
     <div className='flex-between w-[1100px]'>
       <div className='flex w-full gap-x-4'>
         <button
-          onClick={async () =>
-            await createNew({ text: undefined, file: undefined })
-          }
+          onClick={async () => await createNew({})}
           style={{
             background:
               'linear-gradient(132deg, #DC3DC1 1.6%, #9C2CF3 49.22%, #7A4EF6 91.53%)',
