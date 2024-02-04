@@ -21,7 +21,6 @@ import { Separator } from '@/components/ui/separator';
 import { loginSchema } from '@/lib/validation';
 import { createDoc, userLogin } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
-import useLocalStorage from 'beautiful-react-hooks/useLocalStorage';
 import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -34,8 +33,6 @@ export default function Page() {
   const [_cookies, setCookie] = useCookies(['token']);
   const posthog = usePostHog();
   const [hidePassword, setHidePassword] = useState(true);
-  const [_guidenceStatus, setGuidenceStatus] =
-    useLocalStorage('guidence-status');
   const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -58,11 +55,6 @@ export default function Page() {
         secure: true,
       });
       const new_doc_id = await createDoc();
-      setGuidenceStatus({
-        [user_id]: {
-          show_guidence: true,
-        },
-      });
       router.push(`/writtingpal/polish/${new_doc_id}`);
       // router.push('/writtingpal/polish');
     },

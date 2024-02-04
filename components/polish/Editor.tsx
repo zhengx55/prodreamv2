@@ -1,21 +1,18 @@
 'use client';
 import BottomBar from '@/components/editor/bottombar';
-import { sample_title } from '@/constant';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
-import { IGuidence } from '@/types';
-import useAiEditor, { useUserInfo } from '@/zustand/store';
+import useAiEditor, { useUserInfo, useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor as EditorType, useEditor } from '@tiptap/react';
-import useLocalStorage from 'beautiful-react-hooks/useLocalStorage';
 import { AnimatePresence } from 'framer-motion';
 import { useParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import TableOfContents from '../editor/table-of-contents/TableOfContents';
 import LazyMotionProvider from '../root/LazyMotionProvider';
-import EditorContent from './EditorContent';
+import EditorBlock from './EditorContent';
 import Guidence from './guide/Guidence';
 
 const Editor = ({ essay_content }: { essay_content: string }) => {
@@ -28,19 +25,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const doc_title = useAiEditor((state) => state.doc_title);
   const updateTitle = useAiEditor((state) => state.updateTitle);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
-  const [guidenceStatus, setGuidenceStatus] =
-    useLocalStorage<Record<string, IGuidence>>('guidence-status');
-  const [showGuidence, setShowGuidence] = useState(false);
-
-  const memoHideGuidence = useCallback(() => {
-    setShowGuidence(false);
-    // setGuidenceStatus({
-    //   [user_id]: {
-    //     show_guidence: false,
-    //   },
-    // });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user_id]);
+  const showGuidence = useUserTask((state) => state.shouldShowGuidence);
 
   const debouncedUpdatesTitle = useDebouncedCallback(async (title: string) => {
     if (title === doc_title) return;
@@ -94,16 +79,6 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     },
   });
 
-  useEffect(() => {
-    if (!guidenceStatus) return;
-    if (!editor) return;
-    editor.commands.setContent(sample_title, true);
-    if (guidenceStatus[user_id].show_guidence) {
-      setShowGuidence(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, guidenceStatus, user_id]);
-
   if (!editor) return null;
   return (
     <section className='flex w-full flex-col'>
@@ -111,12 +86,10 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
         <TableOfContents editor={editor} />
         <LazyMotionProvider>
           <AnimatePresence initial={false}>
-            {showGuidence && (
-              <Guidence editor={editor} close={memoHideGuidence} />
-            )}
+            {showGuidence && <Guidence editor={editor} />}
           </AnimatePresence>
         </LazyMotionProvider>
-        <EditorContent editor={editor} />
+        <EditorBlock editor={editor} />
       </div>
       {showBottomBar && (
         <div className='flex-center h-10 shrink-0 border-t border-shadow-border px-0'>

@@ -763,3 +763,45 @@ export const task_gif = [
   { id: 'gif-03', src: '/task/task3.gif' },
   { id: 'gif-04', src: '/task/task4.gif' },
 ];
+
+export const sample_search_citation = [
+  {
+    article_title: 'Climate Change 2021 – The Physical Science Basis',
+    journal_title: '',
+    abstract:
+      'The Working Group I contribution to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change (IPCC) provides a comprehensive assessment of the physical science basis of climate change. It considers in situ and remote observations; paleoclimate information; understanding of climate drivers and physical, chemical, and biological processes and feedbacks; global and regional climate modelling; advances in methods of analyses; and insights from climate services. It assesses the current state of the climate; human influence on climate in all regions; future climate change including sea level rise; global warming effects including extremes; climate information for risk assessment and regional adaptation; limiting climate change by reaching net zero carbon dioxide emissions and reducing other greenhouse gas emissions; and benefits for air quality. The report serves policymakers, decision makers, stakeholders, and all interested parties with the latest policy-relevant information on climate change. Available as Open Access on Cambridge Core.',
+    authors: [
+      {
+        first_name: 'Intergovernmental',
+        middle_name: 'Panel on Climate',
+        last_name: 'Change',
+        suffix: null,
+        role: 'author',
+      },
+    ],
+    publish_date: {
+      year: 2023,
+      month: null,
+      day: null,
+    },
+    page_info: {
+      start: null,
+      end: null,
+    },
+    doi: '10.1017/9781009157896',
+    advanced_info: {
+      volume: null,
+      issue: null,
+      series: null,
+    },
+    area: null,
+    reference_count: 0,
+    citation_count: 6277,
+    influential_citation_count: 450,
+    pdf_url:
+      'https://www.cambridge.org/core/services/aop-cambridge-core/content/view/84D59430721AC15204CEAFA4F3902A42/stamped-9781009157889pre1_i-ii.pdf/frontmatter.pdf',
+    tldr: null,
+    publisher:
+      'https://www.semanticscholar.org/paper/c0a737a5f1bcc70c368991c9daec41056894337e',
+  },
+];
