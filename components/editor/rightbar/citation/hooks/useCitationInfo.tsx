@@ -9,7 +9,6 @@ export const useCitationInfo = (document_content: IDocDetail | undefined) => {
     (state) => state.updateInTextCitation
   );
   const updateInDocCitation = useAIEditor((state) => state.updateInDocCitation);
-  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const updateTitle = useAIEditor((state) => state.updateTitle);
 
   useEffect(() => {
@@ -36,7 +35,7 @@ export const useCitationInfo = (document_content: IDocDetail | undefined) => {
         document_content;
       updateTitle(title);
       if (in_text_citations.length > 0) {
-        updateRightbarTab(1);
+        // updateRightbarTab(1);
         fetchInText(document_content.in_text_citations);
       }
       if (citation_candidates.length > 0) {

@@ -26,7 +26,7 @@ function nodeDOMAtCoords(coords: { x: number; y: number }) {
     .find(
       (elem: Element) =>
         elem.parentElement?.matches?.('.ProseMirror') &&
-        elem.matches(['li', 'p', 'pre', 'blockquote', 'h1, h2, h3'].join(', '))
+        elem.matches(['li', 'p', 'h2, h3, h4'].join(', '))
     );
 }
 
@@ -71,9 +71,7 @@ function DragHandle(options: DragHandleOptions) {
 
   function handleClick(event: MouseEvent, view: EditorView) {
     view.focus();
-
     view.dom.classList.remove('dragging');
-
     const node = nodeDOMAtCoords({
       x: event.clientX + 50 + options.dragHandleWidth,
       y: event.clientY,
@@ -133,23 +131,18 @@ function DragHandle(options: DragHandleOptions) {
           if (!view.editable) {
             return;
           }
-
           const node = nodeDOMAtCoords({
             x: event.clientX + 50 + options.dragHandleWidth,
             y: event.clientY,
           });
-
           if (!(node instanceof Element) || node.matches('ul, ol')) {
             hideDragHandle();
             return;
           }
-
           const compStyle = window.getComputedStyle(node);
           const lineHeight = parseInt(compStyle.lineHeight, 10);
           const paddingTop = parseInt(compStyle.paddingTop, 10);
-
           const rect = absoluteRect(node);
-
           rect.top += (lineHeight - 24) / 2;
           rect.top += paddingTop;
           // Li markers
@@ -159,7 +152,6 @@ function DragHandle(options: DragHandleOptions) {
           rect.width = options.dragHandleWidth;
 
           if (!dragHandleElement) return;
-
           dragHandleElement.style.left = `${rect.left - rect.width}px`;
           dragHandleElement.style.top = `${rect.top}px`;
           showDragHandle();
@@ -170,7 +162,6 @@ function DragHandle(options: DragHandleOptions) {
         mousewheel: () => {
           hideDragHandle();
         },
-        // dragging class is used for CSS
         dragstart: (view) => {
           view.dom.classList.add('dragging');
         },

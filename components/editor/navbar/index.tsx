@@ -4,15 +4,13 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAIEditor } from '@/zustand/store';
+import { plagiarismCheck, plagiarismQuery } from '@/query/api';
+import useAiEditor, { useAIEditor } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { ChevronLeft, Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-
-import { plagiarismCheck, plagiarismQuery } from '@/query/api';
-import useAiEditor from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { memo, useRef, useState } from 'react';
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
@@ -68,7 +66,7 @@ const DocNavbar = () => {
             <ChevronLeft />
           </span>
         </Link>
-        <h1 className='title-semibold capitalize'>
+        <h1 className='base-semibold'>
           {docTtile === 'Untitled' ? 'Untitled Document' : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}

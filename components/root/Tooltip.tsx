@@ -1,5 +1,6 @@
 'use client';
 import { cn } from '@/lib/utils';
+import { TooltipArrow } from '@radix-ui/react-tooltip';
 import { ReactNode, memo } from 'react';
 import {
   TooltipContent,
@@ -26,6 +27,7 @@ const Tooltip = ({
       <UITooltip open={defaultOpen}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent side={side}>
+          <TooltipArrow />
           <p className={cn(contentClassname, 'text-regular text-white')}>
             {tooltipContent}
           </p>

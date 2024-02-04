@@ -18,7 +18,7 @@ export interface ISigunUpRequest {
   email: string;
   first_name: string;
   referral?: string;
-  last_name: string;
+  last_name?: string;
   password: string;
   is_mobile?: boolean;
 }
@@ -134,6 +134,8 @@ export interface ICitation {
   authors: Author[];
   citation_count: number;
   doi: null;
+  publisher: string;
+  tldr: string;
   influential_citation_count: number;
   journal_title: null | string;
   page_info: PageInfo;

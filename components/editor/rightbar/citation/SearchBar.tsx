@@ -1,39 +1,67 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import useAiEditor from '@/zustand/store';
-import { Plus, Search } from 'lucide-react';
-type Props = {
-  keyword: string;
-  setKeyword: (value: string) => void;
-};
-const SearchBar = ({ keyword, setKeyword }: Props) => {
-  const updateShowCreateCitation = useAiEditor(
-    (state) => state.updateShowCreateCitation
-  );
+import { sample_search_citation } from '@/constant';
+import { CitationTooltip } from '@/constant/enum';
+import { ICitation } from '@/query/type';
+import { useUserTask } from '@/zustand/store';
+import { Search } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { memo, useState } from 'react';
 
+const Tiplayout = dynamic(
+  () => import('@/components/polish/guide/tips/Tiplayout')
+);
+
+type Props = {
+  setKeyword: (value: string) => void;
+  setResult: (value: ICitation[]) => void;
+};
+const SearchBar = ({ setKeyword, setResult }: Props) => {
+  const citation_tooltip_step = useUserTask((state) => state.citation_step);
+  const updateCitationStep = useUserTask((state) => state.updateCitationStep);
+  const [searchTerm, setSearchTerm] = useState('');
   return (
-    <div className='flex-between h-12 w-full gap-x-3'>
-      <div className='flex-between h-full w-full rounded border border-shadow-border px-2.5'>
+    <div className='flex-between h-12 w-full rounded border border-shadow-border px-1.5'>
+      {citation_tooltip_step === 1 ? (
+        <Tiplayout
+          title={CitationTooltip.STEP1_TITLE}
+          content={CitationTooltip.STEP1_TEXT}
+          step={citation_tooltip_step}
+          side='left'
+          totalSteps={4}
+          buttonLabel='next'
+          onClickCallback={() => {
+            updateCitationStep();
+            setSearchTerm(CitationTooltip.KEY_WORD);
+            setResult(sample_search_citation as any);
+          }}
+        >
+          <Input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.currentTarget.value)}
+            type='text'
+            id='search-citation'
+            placeholder='Search publications ...'
+            className='rounded border-none px-2 shadow-none outline-none focus-visible:ring-0'
+          />
+        </Tiplayout>
+      ) : (
         <Input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.currentTarget.value)}
           type='text'
           id='search-citation'
-          defaultValue={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          placeholder='Search online citation ...'
-          className='rounded border-none px-2 focus-visible:ring-0'
+          placeholder='Search publications ...'
+          className='rounded border-none px-2 shadow-none outline-none focus-visible:ring-0'
         />
-        <Search className='text-doc-shadow' />
-      </div>
+      )}
       <Button
-        className='h-full rounded border-shadow-border px-2'
-        variant={'outline'}
-        onClick={() => {
-          updateShowCreateCitation(true);
-        }}
+        onClick={() => searchTerm && setKeyword(searchTerm)}
+        className='h-max w-max rounded bg-doc-primary p-1.5'
       >
-        <Plus className='text-doc-shadow' />
+        <Search className='text-white' size={20} />
       </Button>
     </div>
   );
 };
-export default SearchBar;
+export default memo(SearchBar);

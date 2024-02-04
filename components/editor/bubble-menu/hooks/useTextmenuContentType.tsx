@@ -39,11 +39,11 @@ export const useTextmenuContentTypes = (editor: Editor) => {
             .chain()
             .focus()
             .liftListItem('listItem')
-            .setHeading({ level: 1 })
+            .setHeading({ level: 2 })
             .run(),
         id: 'heading1',
-        disabled: () => !editor.can().setHeading({ level: 1 }),
-        isActive: () => editor.isActive('heading', { level: 1 }),
+        disabled: () => !editor.can().setHeading({ level: 2 }),
+        isActive: () => editor.isActive('heading', { level: 2 }),
         label: 'Heading 1',
         type: 'option',
       },
@@ -54,11 +54,11 @@ export const useTextmenuContentTypes = (editor: Editor) => {
             .chain()
             .focus()
             .liftListItem('listItem')
-            .setHeading({ level: 2 })
+            .setHeading({ level: 3 })
             .run(),
         id: 'heading2',
-        disabled: () => !editor.can().setHeading({ level: 2 }),
-        isActive: () => editor.isActive('heading', { level: 2 }),
+        disabled: () => !editor.can().setHeading({ level: 3 }),
+        isActive: () => editor.isActive('heading', { level: 3 }),
         label: 'Heading 2',
         type: 'option',
       },
@@ -69,11 +69,11 @@ export const useTextmenuContentTypes = (editor: Editor) => {
             .chain()
             .focus()
             .liftListItem('listItem')
-            .setHeading({ level: 3 })
+            .setHeading({ level: 4 })
             .run(),
         id: 'heading3',
-        disabled: () => !editor.can().setHeading({ level: 3 }),
-        isActive: () => editor.isActive('heading', { level: 3 }),
+        disabled: () => !editor.can().setHeading({ level: 4 }),
+        isActive: () => editor.isActive('heading', { level: 4 }),
         label: 'Heading 3',
         type: 'option',
       },

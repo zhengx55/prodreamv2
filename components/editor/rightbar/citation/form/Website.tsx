@@ -28,6 +28,7 @@ const WebsiteForm = (props: Props) => {
         ],
       },
     });
+
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
@@ -197,9 +198,9 @@ const WebsiteForm = (props: Props) => {
         </div>
       </div>
       <Spacer y='120' />
-      <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-3'>
+      <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-1.5'>
         <Button
-          className='rounded border border-doc-primary text-doc-primary'
+          className='h-max rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}
           type='button'
           onClick={() => {

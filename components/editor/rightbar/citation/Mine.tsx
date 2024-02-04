@@ -1,71 +1,112 @@
-import Spacer from '@/components/root/Spacer';
+import Tiplayout from '@/components/polish/guide/tips/Tiplayout';
 import { Book } from '@/components/root/SvgComponents';
-import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerTrigger,
-} from '@/components/ui/citation-drawer';
-import { ChevronsDown, ChevronsUp } from 'lucide-react';
-import { MutableRefObject, useState } from 'react';
-import InTextList from './InTextList';
-import LibraryList from './LibraryList';
-type Props = { container: MutableRefObject<any> };
+import { Toggle } from '@/components/ui/toggle';
+import { CitationTooltip } from '@/constant/enum';
+import { useUserTask } from '@/zustand/store';
+import { AnimatePresence, m } from 'framer-motion';
+import { ChevronUp } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { memo, useState } from 'react';
 
-const Mine = ({ container }: Props) => {
-  const [selected, setSelected] = useState(0);
-  const [show, setShow] = useState(true);
+const InTextList = dynamic(() => import('./InTextList'));
+const LibraryList = dynamic(() => import('./LibraryList'));
+
+const Mine = () => {
+  const [showMine, setShowMine] = useState(false);
+  const [type, setType] = useState<number | null>(null);
+  const citation_tooltip_step = useUserTask((state) => state.citation_step);
+  const resetCitationStep = useUserTask((state) => state.resetCitationStep);
   return (
-    <Drawer open={show} onOpenChange={setShow} modal={false}>
-      <DrawerTrigger asChild>
-        <span className='flex-center absolute bottom-10 right-4 h-7 w-6 cursor-pointer rounded-t bg-doc-primary'>
-          <ChevronsUp size={18} className='text-white' />
-        </span>
-      </DrawerTrigger>
-      <DrawerContent
-        onInteractOutside={(e) => e.preventDefault()}
-        container={container.current}
-        className='flex h-[calc(100%_-(169px))] w-[calc(400px-24px)] flex-col rounded-none border-none bg-white outline-none'
-      >
-        <Spacer y='28' />
-        <DrawerClose asChild>
-          <span className='flex-center absolute -top-0 right-4 h-7 w-6 cursor-pointer rounded-t bg-doc-primary'>
-            <ChevronsDown size={18} className='text-white' />
-          </span>
-        </DrawerClose>
-        <div className='flex-between h-10 w-full shrink-0 gap-x-2 border-t border-shadow-border bg-white'>
-          <div className='flex items-center gap-x-2'>
-            <Book />
-            <p className='text-doc-primary'>My Citation</p>
-          </div>
-          <div className='flex items-center gap-x-2'>
-            <Tooltip tooltipContent='Bookmarked article, cited or not, for quick reference'>
-              <Button
-                onClick={() => setSelected(0)}
-                variant={'ghost'}
-                role='tab'
-                className={`${selected === 0 ? 'bg-doc-primary/20 text-doc-primary' : 'bg-doc-shadow/20 text-doc-shadow'} h-max rounded px-2 py-1`}
-              >
-                Library
-              </Button>
-            </Tooltip>
-            <Tooltip tooltipContent='Articles cited in this doc'>
-              <Button
-                role='tab'
-                onClick={() => setSelected(1)}
-                variant={'ghost'}
-                className={`${selected === 1 ? 'bg-doc-primary/20 text-doc-primary' : 'bg-doc-shadow/20 text-doc-shadow'} h-max rounded px-2 py-1`}
+    <m.div
+      initial={false}
+      variants={{
+        show: { height: '80%' },
+        hide: { height: '40px' },
+      }}
+      transition={{ delay: 0.2 }}
+      animate={showMine ? 'show' : 'hide'}
+      className='absolute bottom-0 flex w-full flex-col gap-x-2 border-t border-shadow-border bg-white'
+    >
+      <div className='flex-between items-center py-1.5'>
+        <div className='flex items-center gap-x-2'>
+          <Book />
+          <p className='small-regular text-doc-primary'>My Libary</p>
+        </div>
+        <div className='flex items-center gap-x-2'>
+          <Toggle
+            pressed={type === 0}
+            onPressedChange={(pressed) => {
+              if (pressed) {
+                setShowMine(true);
+                setType(0);
+              } else {
+                setType(null);
+              }
+            }}
+            className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
+          >
+            All
+          </Toggle>
+          {citation_tooltip_step === 4 ? (
+            <Tiplayout
+              title={CitationTooltip.STEP4_TITLE}
+              content={CitationTooltip.STEP4_TEXT}
+              step={citation_tooltip_step}
+              side='top'
+              totalSteps={4}
+              buttonLabel='done'
+              onClickCallback={() => {
+                resetCitationStep();
+              }}
+            >
+              <Toggle
+                pressed={type === 1}
+                onPressedChange={(pressed) => {
+                  if (pressed) {
+                    setShowMine(true);
+                    setType(1);
+                  } else {
+                    setType(null);
+                  }
+                }}
+                className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
               >
                 In this doc
-              </Button>
-            </Tooltip>
-          </div>
+              </Toggle>
+            </Tiplayout>
+          ) : (
+            <Toggle
+              pressed={type === 1}
+              onPressedChange={(pressed) => {
+                if (pressed) {
+                  setShowMine(true);
+                  setType(1);
+                } else {
+                  setType(null);
+                }
+              }}
+              className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
+            >
+              In this doc
+            </Toggle>
+          )}
+
+          <Button
+            onClick={() => setShowMine((prev) => !prev)}
+            className='h-max w-max rounded bg-doc-primary px-2 py-1'
+          >
+            <ChevronUp
+              className={`${showMine && 'rotate-180 transition-transform'}`}
+              size={18}
+            />
+          </Button>
         </div>
-        {selected === 0 ? <LibraryList /> : <InTextList />}
-      </DrawerContent>
-    </Drawer>
+      </div>
+      <AnimatePresence>
+        {showMine && (type === 0 ? <LibraryList /> : <InTextList />)}
+      </AnimatePresence>
+    </m.div>
   );
 };
-export default Mine;
+export default memo(Mine);

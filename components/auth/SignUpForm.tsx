@@ -13,8 +13,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { SampleEssay } from '@/constant/enum';
 import { signUpSchema } from '@/lib/validation';
-import { userLogin, userSignUp } from '@/query/api';
+import { createDoc, userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
@@ -23,6 +24,7 @@ import { useRouter } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+
 const SignUpForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const posthog = usePostHog();
@@ -33,10 +35,8 @@ const SignUpForm = () => {
     const handleResize = () => {
       setIsMobileDevice(window.matchMedia('(max-width: 768px)').matches);
     };
-
     handleResize(); // Initial check
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -46,7 +46,6 @@ const SignUpForm = () => {
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       first_name: '',
-      last_name: '',
       password: '',
       email: '',
     },
@@ -55,21 +54,31 @@ const SignUpForm = () => {
     {
       mutationFn: (param: ISigunUpRequest) => userSignUp(param),
       onSuccess: async (_, variables, _contex) => {
-        const toast = (await import('sonner')).toast;
-        toast.success('Successfully Signup');
-        const login_data = await userLogin({
-          username: variables.email,
-          password: variables.password,
-        });
-        const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
-          .subject.user_id;
-        posthog.identify(user_id);
-        setCookie('token', login_data.access_token, {
-          path: '/',
-          maxAge: 604800,
-          secure: true,
-        });
-        router.push('/welcome/education');
+        try {
+          const toast = (await import('sonner')).toast;
+          toast.success('Successfully Signup');
+          const login_data = await userLogin({
+            username: variables.email,
+            password: variables.password,
+          });
+          const user_id = JSON.parse(
+            atob(login_data.access_token.split('.')[1])
+          ).subject.user_id;
+          posthog.identify(user_id);
+          setCookie('token', login_data.access_token, {
+            path: '/',
+            maxAge: 604800,
+            secure: true,
+          });
+          const new_doc_id = await createDoc(
+            SampleEssay.TEXT,
+            SampleEssay.TITLE
+          );
+
+          router.push(`/writtingpal/polish/${new_doc_id}`);
+        } catch (error) {
+          router.push('/writtingpal/polish');
+        }
       },
       onError: async (error) => {
         const toast = (await import('sonner')).toast;
@@ -80,7 +89,6 @@ const SignUpForm = () => {
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     await handleSignup({
       first_name: values.first_name,
-      last_name: values.last_name,
       email: values.email,
       password: values.password,
       is_mobile: isMobileDevice,
@@ -92,63 +100,38 @@ const SignUpForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className='flex flex-col gap-y-6'
       >
-        <div className='flex-between flex gap-x-4'>
-          <FormField
-            control={form.control}
-            name='first_name'
-            render={({ field }) => (
-              <FormItem className='relative w-1/2'>
-                <FormLabel
-                  className='sm:title-semibold title-semibold '
-                  htmlFor='first_name'
-                >
-                  First Name
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete='first_name'
-                    id='first_name'
-                    placeholder=''
-                    className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='last_name'
-            render={({ field }) => (
-              <FormItem className='relative w-1/2'>
-                <FormLabel
-                  className='sm:title-semibold title-semibold '
-                  htmlFor='last_name'
-                >
-                  Last Name
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete='last_name'
-                    id='last_name'
-                    placeholder=''
-                    className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name='first_name'
+          render={({ field }) => (
+            <FormItem className='relative'>
+              <FormLabel
+                className='base-semibold 2xl:title-semibold'
+                htmlFor='first_name'
+              >
+                Name
+              </FormLabel>
+              <FormControl>
+                <Input
+                  autoComplete='first_name'
+                  id='first_name'
+                  placeholder=''
+                  className='h-12 rounded-md border'
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name='email'
           render={({ field }) => (
             <FormItem className='relative'>
               <FormLabel
-                className=' sm:title-semibold title-semibold '
+                className='base-semibold 2xl:title-semibold'
                 htmlFor='username'
               >
                 Email Address
@@ -159,7 +142,7 @@ const SignUpForm = () => {
                   type='email'
                   id='username'
                   placeholder='e.g hey@writingpal.ai'
-                  className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
+                  className='h-12 rounded-md border'
                   {...field}
                 />
               </FormControl>
@@ -173,7 +156,7 @@ const SignUpForm = () => {
           render={({ field }) => (
             <FormItem className='relative'>
               <FormLabel
-                className=' sm:title-semibold title-semibold '
+                className='base-semibold 2xl:title-semibold'
                 htmlFor='password'
               >
                 Password
@@ -181,14 +164,14 @@ const SignUpForm = () => {
               {!hidePassword ? (
                 <EyeOff
                   onClick={() => setHidePassword((prev) => !prev)}
-                  size={22}
-                  className='absolute right-2 top-10 cursor-pointer'
+                  size={20}
+                  className='absolute right-2 top-9 cursor-pointer'
                 />
               ) : (
                 <Eye
                   onClick={() => setHidePassword((prev) => !prev)}
-                  size={22}
-                  className='absolute right-2 top-10 cursor-pointer'
+                  size={20}
+                  className='absolute right-2 top-9 cursor-pointer'
                 />
               )}
               <FormControl>
@@ -197,7 +180,7 @@ const SignUpForm = () => {
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
                   placeholder='Must be at least 8 characters'
-                  className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
+                  className='h-12 rounded-md border'
                   {...field}
                 />
               </FormControl>

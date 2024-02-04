@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    @apply box-border p-0 m-0 scroll-smooth scrollbar-track-transparent scrollbar-thumb-slate-200;
+    @apply box-border p-0 m-0 scroll-smooth appearance-none scrollbar-track-transparent scrollbar-thumb-slate-200;
   }
 
   body {
@@ -142,10 +142,6 @@
 
   .flex-start {
     @apply flex justify-start items-center;
-  }
-
-  .brainstorm-card {
-    @apply rounded-[8px] border border-shadow-border bg-white
   }
 
   .form-input-group {

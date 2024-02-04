@@ -68,14 +68,15 @@ export default function Page() {
   return (
     <>
       <Panel>
-        <div className='flex w-[600px] flex-col'>
-          <h1 className='self-center text-[28px] font-[500] sm:text-[42px]'>
+        <div className='flex w-full flex-col sm:w-[600px]'>
+          <h1 className='text-[24px] font-[500] sm:text-[28px] 2xl:text-[42px]'>
             Welcome Back!
           </h1>
-          <p className='title-semibold self-center font-[400] text-shadow-100 sm:mb-[100px] sm:text-[18px]'>
+          <p className='base-medium 2xl:title-medium font-[400] text-shadow-100'>
             Ready to continue crafting your unique story?
           </p>
-
+          <Spacer y='100' className='hidden 2xl:block' />
+          <Spacer y='40' className='block 2xl:hidden' />
           <GoogleSignin label='Sign in with Google' />
           <div className='flex-center relative my-10'>
             <Separator orientation='horizontal' className='bg-shadow-border' />
@@ -94,7 +95,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='mt-0'>
                     <FormLabel
-                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='username'
                     >
                       Email Address
@@ -104,7 +105,7 @@ export default function Page() {
                         autoComplete='email'
                         id='username'
                         placeholder=''
-                        className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
+                        className='h-12 rounded-md border'
                         {...field}
                       />
                     </FormControl>
@@ -118,7 +119,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormLabel
-                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='password'
                     >
                       Password
@@ -143,7 +144,7 @@ export default function Page() {
                         id='password'
                         type={hidePassword ? 'password' : 'text'}
                         placeholder=''
-                        className='rounded-[8px] border border-[#D4D3D8] bg-[#fff]'
+                        className='h-12 rounded-md border'
                         {...field}
                       />
                     </FormControl>
@@ -176,13 +177,19 @@ export default function Page() {
         </div>
       </Panel>
 
-      <div className='relative hidden h-full w-1/2 bg-white sm:flex'>
+      <div className='relative hidden h-full w-1/2 bg-[#FAF9FF] sm:flex sm:flex-col sm:items-center sm:pt-20'>
+        <h1 className='font-baskerville font-[400] sm:text-[40px] 2xl:text-[48px]'>
+          Transform your academic <br />
+          writing journey
+        </h1>
+        <Spacer y='80' />
         <Image
           src='/auth/auth.png'
           alt='logo'
-          fill
           priority
-          sizes='(max-width: 600px) 100vw, 50vw'
+          width={800}
+          height={200}
+          className='h-auto w-[75%]'
         />
       </div>
     </>

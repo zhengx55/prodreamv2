@@ -18,7 +18,7 @@ import {
 import { memo, useLayoutEffect, useRef, useState } from 'react';
 
 import { BookHalf, Copilot, Synonym } from '@/components/root/SvgComponents';
-import useAiEditor from '@/zustand/store';
+import useAiEditor, { useUserTask } from '@/zustand/store';
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
@@ -40,13 +40,14 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const commands = useTextmenuCommands(editor);
-  const timer = useRef<NodeJS.Timeout | null>(null);
   const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
   const updateCopilotRect = useAiEditor((state) => state.updateCopilotRect);
   const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
   const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
   const updateSelectedText = useAiEditor((state) => state.updateSelectedText);
   const updateCopilotRectX = useAiEditor((state) => state.updateCopilotRectX);
+  const task_step = useUserTask((state) => state.task_step);
+  const updateTaskStep = useUserTask((state) => state.updateTaskStep);
 
   const { x, y, strategy, refs } = useFloating({
     open: open,
@@ -65,8 +66,17 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
 
   useLayoutEffect(() => {
     const handler = () => {
+      const { from, empty } = editor.state.selection;
       const { view } = editor;
-      if (editor.view.state.selection.empty) {
+      const current_node = view.domAtPos(from || 0);
+      const isTitle =
+        current_node.node.nodeName === 'H1' ||
+        current_node.node.parentNode?.nodeName === 'H1';
+      if (isTitle) {
+        setOpen(false);
+        return;
+      }
+      if (empty) {
         setOpen(false);
       } else {
         const { doc, selection } = editor.state;
@@ -120,15 +130,20 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
       className='z-[9999]'
     >
-      <Toolbar.Wrapper className='border-shadow-borde border shadow-lg'>
+      <Toolbar.Wrapper className='border-shadow-borde relative border shadow-lg'>
         <MemoButton
-          onClick={() => {
+          id='copilot-button'
+          onClick={async () => {
             updateCopilotMenu(true);
             updateCopilotRect(menuYOffside.current);
             setOpen(false);
+            updateTaskStep(-1);
           }}
           className='text-doc-primary'
         >
+          {task_step === 0 && (
+            <span className='absolute h-7 w-7 animate-ping rounded-full bg-doc-primary/50' />
+          )}
           <Copilot />
           AI Copilot
         </MemoButton>

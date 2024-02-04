@@ -22,13 +22,16 @@ import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
+import { textblockTypeInputRule } from '@tiptap/react';
 import { AutoComplete } from './plugin/autocomplete';
 import DragAndDrop from './plugin/drag';
-import { PolishUnderline } from './plugin/polish-underline';
+import IntextCitation from './plugin/intext-citation';
 import Selection from './plugin/selection';
 import { AutoCompleteSlashCommand, SlashCommand } from './plugin/slashcommand';
-import { TrailingNode } from './plugin/trailing-node';
+import Title from './plugin/title';
 import { Underline } from './plugin/underline';
+
+const adjustLevel = (level: number) => (level == 1 ? 2 : level);
 
 const ExtensionKit = () => [
   CharacterCount,
@@ -38,7 +41,10 @@ const ExtensionKit = () => [
   OrderedList,
   BulletList,
   Text,
-  Document,
+  Document.extend({
+    content: 'title block+',
+  }),
+  Title,
   Paragraph,
   FontSize,
   Blockquote,
@@ -46,6 +52,7 @@ const ExtensionKit = () => [
   Color,
   History,
   DragAndDrop,
+  IntextCitation,
   Focus.configure({
     className: 'has-focus',
     mode: 'all',
@@ -55,7 +62,25 @@ const ExtensionKit = () => [
     showOnlyCurrent: false,
     placeholder: () => '',
   }),
-  Heading.configure({ levels: [1, 2, 3] }),
+  Heading.extend({
+    parseHTML() {
+      return this.options.levels.map((level) => ({
+        tag: `h${level}`,
+        attrs: { level: adjustLevel(level) },
+      }));
+    },
+    addInputRules() {
+      return this.options.levels.map((level) => {
+        return textblockTypeInputRule({
+          find: new RegExp(`^(#{1,${level}})\\s$`),
+          type: this.type,
+          getAttributes: {
+            level: adjustLevel(level),
+          },
+        });
+      });
+    },
+  }).configure({ levels: [2, 3, 4] }),
   Strike,
   TableOfContent,
   Italic,
@@ -71,9 +96,9 @@ const ExtensionKit = () => [
     multicolor: true,
   }),
   Underline,
-  PolishUnderline,
+  // PolishUnderline,
   AutoComplete,
-  TrailingNode,
+  // TrailingNode,
   AutoCompleteSlashCommand,
   Selection,
   DropCursor.configure({

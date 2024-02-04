@@ -1,14 +1,30 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { numberToMonth } from '@/lib/utils';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { CitationTooltip } from '@/constant/enum';
+import { ConvertCitationData } from '@/lib/utils';
+import { updateUserInfo } from '@/query/api';
 import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
-import { ICitationData, ICitationType, IJournalCitation } from '@/types';
-import { useAIEditor } from '@/zustand/store';
+import { ICitationData, ICitationType } from '@/types';
+import { useAIEditor, useUserTask } from '@/zustand/store';
 import { Plus, ReplyAll, Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
+
+const Tiplayout = dynamic(
+  () => import('@/components/polish/guide/tips/Tiplayout')
+);
+
+const CitationPreview = dynamic(() => import('./CitationPreview'), {
+  ssr: false,
+});
+
+const MineCitationPreview = dynamic(() => import('./MineCitationPreview'), {
+  ssr: false,
+});
 
 export const SearchCitationCard = memo(
   ({
@@ -21,6 +37,9 @@ export const SearchCitationCard = memo(
     remove: (index: number) => void;
   }) => {
     const { id } = useParams();
+    const citation_tooltip_step = useUserTask((state) => state.citation_step);
+    const updateCitationStep = useUserTask((state) => state.updateCitationStep);
+    const updateCompletion = useUserTask((state) => state.updateCompletion);
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
 
@@ -29,31 +48,12 @@ export const SearchCitationCard = memo(
       index: number,
       action: 'cite' | 'collect'
     ) => {
-      const converted_data = {} as IJournalCitation;
-      const {
-        advanced_info,
-        article_title,
-        authors,
-        doi,
-        journal_title,
-        page_info,
-        publish_date,
-      } = item;
-      converted_data.publish_date = {
-        day: publish_date.day ?? '',
-        month: publish_date.month ? numberToMonth(publish_date.month) : '',
-        year: publish_date.year ?? '',
-      };
-      converted_data.contributors = authors;
-      converted_data.page_info = page_info;
-      converted_data.journal_title = journal_title;
-      converted_data.article_title = article_title;
-      converted_data.doi = doi;
-      converted_data.advanced_info = {
-        issue: '',
-        volume: advanced_info.volume ?? '',
-        series: advanced_info.series ?? '',
-      };
+      await updateCompletion('citation', true);
+      await updateUserInfo({
+        field: 'citation_task',
+        data: true,
+      });
+      const converted_data = ConvertCitationData(item);
       if (action === 'collect') {
         await handleCollectCitation({
           citation_data: converted_data,
@@ -70,40 +70,93 @@ export const SearchCitationCard = memo(
       remove(index);
     };
     return (
-      <div
-        key={item.article_title}
-        className='group flex flex-col gap-y-2 px-2'
-      >
-        <h1
-          onClick={() => {
-            if (item.pdf_url) window.open(item.pdf_url, '_blank');
-          }}
-          className='base-semibold cursor-pointer hover:text-doc-primary'
-        >
-          {item.article_title}&nbsp;{`(${item.publish_date.year})`}
-        </h1>
-        <p className='small-regular line-clamp-3'>
-          {item.authors && item.authors.length > 0
-            ? `${item.authors[0].last_name ?? ''} ${item.authors[0].middle_name ?? ''} ${item.authors[0].first_name ?? ''}`
-            : 'Missing authors'}
-        </p>
+      <div key={item.article_title} className='group flex flex-col px-2'>
+        <Dialog>
+          <DialogTrigger asChild>
+            <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+              {item.article_title}&nbsp;{' '}
+              {item.publish_date.year ? `(${item.publish_date.year})` : null}
+            </h1>
+          </DialogTrigger>
+          <CitationPreview item={item} />
+        </Dialog>
+        <Spacer y='10' />
+        {item.authors.length > 0 && (
+          <p className='subtle-regular text-doc-shadow'>
+            Authors:&nbsp; {item.authors[0].last_name ?? ''}&nbsp;
+            {item.authors[0].middle_name ?? ''}
+            {item.authors[0].first_name ?? ''}
+          </p>
+        )}
+        <Spacer y='10' />
+        {item.abstract && (
+          <p className='small-regular line-clamp-4'>{item.abstract}</p>
+        )}
+        <Spacer y='15' />
         <div className='flex-between'>
-          <Button
-            className='h-max w-[48%] rounded bg-doc-primary'
-            role='button'
-            onClick={() => handler(item as any, index, 'cite')}
-          >
-            <ReplyAll size={18} />
-            Cite
-          </Button>
-          <Button
-            className='h-max w-[48%] rounded border border-doc-primary text-doc-primary'
-            variant={'ghost'}
-            role='button'
-            onClick={() => handler(item as any, index, 'collect')}
-          >
-            <Plus size={18} className='text-doc-primary' /> Add to library
-          </Button>
+          {citation_tooltip_step === 2 && index === 0 ? (
+            <Tiplayout
+              title={CitationTooltip.STEP2_TITLE}
+              content={CitationTooltip.STEP2_TEXT}
+              step={citation_tooltip_step}
+              side='left'
+              totalSteps={4}
+              buttonLabel='next'
+              onClickCallback={() => {
+                updateCitationStep();
+              }}
+            >
+              <Button
+                className='h-[30px] w-[48%] rounded bg-doc-primary'
+                role='button'
+                onClick={() => handler(item as any, index, 'cite')}
+              >
+                <ReplyAll size={18} />
+                Cite
+              </Button>
+            </Tiplayout>
+          ) : (
+            <Button
+              className='h-[30px] w-[48%] rounded bg-doc-primary'
+              role='button'
+              onClick={() => handler(item as any, index, 'cite')}
+            >
+              <ReplyAll size={18} />
+              Cite
+            </Button>
+          )}
+
+          {citation_tooltip_step === 3 && index === 0 ? (
+            <Tiplayout
+              title={CitationTooltip.STEP3_TITLE}
+              content={CitationTooltip.STEP3_TEXT}
+              step={citation_tooltip_step}
+              side='top'
+              totalSteps={4}
+              buttonLabel='next'
+              onClickCallback={() => {
+                updateCitationStep();
+              }}
+            >
+              <Button
+                className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
+                variant={'ghost'}
+                role='button'
+                onClick={() => handler(item as any, index, 'collect')}
+              >
+                <Plus size={18} className='text-doc-primary' /> Add to library
+              </Button>
+            </Tiplayout>
+          ) : (
+            <Button
+              className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
+              variant={'ghost'}
+              role='button'
+              onClick={() => handler(item as any, index, 'collect')}
+            >
+              <Plus size={18} className='text-doc-primary' /> Add to library
+            </Button>
+          )}
         </div>
       </div>
     );
@@ -129,22 +182,30 @@ export const MineCitationCard = memo(
       (state) => state.appendInTextCitationIds
     );
     const { insertCitation } = useEditorCommand(editor!);
+
     const handleCite = async () => {
       if (type === 'inText') {
-        if (item.data.contributors && item.data.contributors[0].last_name) {
-          insertCitation(item.data.contributors[0].last_name);
-        }
+        insertCitation(item.data.id);
       } else {
-        // 添加到intextCitation中 从doccitation中删除
-        await appendInTextCitationIds(item, item.data.document_id);
-        if (item.data.contributors && item.data.contributors[0].last_name) {
-          insertCitation(item.data.contributors[0].last_name);
-        }
+        await appendInTextCitationIds(item);
+        insertCitation(item.data.id);
       }
     };
 
     const handleDeleteCitation = async () => {
       if (type === 'inText') {
+        let counter = 0;
+        editor?.state.doc.descendants((node, pos) => {
+          if (node.type.name === 'IntextCitation') {
+            if (node.attrs.citation_id === item.data.id) {
+              editor.commands.deleteRange({
+                from: pos - counter,
+                to: pos + node.nodeSize - counter,
+              });
+              counter += node.nodeSize;
+            }
+          }
+        });
         await removeInTextCitationIds(item.data.id, item.data.document_id);
       } else {
         await removeInDocCitationIds(item.data.id, item.data.document_id);
@@ -152,44 +213,46 @@ export const MineCitationCard = memo(
     };
 
     return (
-      <div className='mb-5 flex flex-col bg-doc-secondary p-2.5'>
-        <h1 className='base-semibold'>
+      <div className='mb-5 flex flex-col gap-y-2.5 p-2.5'>
+        {/* <Dialog>
+            <DialogTrigger asChild>
+              <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+                {item.data.article_title
+                  ? item.data.article_title
+                  : item.data.book_title}{' '}
+              </h1>
+            </DialogTrigger>
+            <MineCitationPreview item={item.data} />
+          </Dialog> */}
+        <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
           {item.data.article_title
             ? item.data.article_title
-            : item.data.book_title}
+            : item.data.book_title}{' '}
         </h1>
-        <Spacer y='10' />
-        <div className='flex flex-wrap items-center gap-x-2'>
-          {item.data.contributors && item.data.contributors?.length > 0 ? (
-            <p className='small-regular text-doc-shadow'>
-              <span>Author:&nbsp;</span>
-              {item.data.contributors[0].last_name},&nbsp;
-              {item.data.contributors[0].middle_name}
-              {item.data.contributors[0].first_name}
-            </p>
-          ) : (
-            <p className='samll-regular'>Missing authors</p>
-          )}
-        </div>
-        <Spacer y='10' />
-        <div className='flex-between'>
+        {item.data.contributors.length > 0 && (
+          <p className='subtle-regular text-doc-shadow'>
+            <span>Authors:&nbsp;</span>
+            {item.data.contributors[0].last_name},&nbsp;
+            {item.data.contributors[0].middle_name}
+            {item.data.contributors[0].first_name}
+          </p>
+        )}
+        {item.data.abstract && (
+          <p className='subtle-regular line-clamp-4 text-doc-shadow'>
+            {item.data.abstract}
+          </p>
+        )}
+        <div className='flex-between gap-x-4'>
           <Button
-            className='h-max w-[42%] rounded bg-doc-primary py-1'
+            className='h-8 w-full rounded bg-doc-primary py-1'
             role='button'
             onClick={handleCite}
           >
             <ReplyAll size={18} />
             Cite
           </Button>
-          {/* <Button
-            className='h-max w-[42%] rounded border border-doc-primary py-1 text-doc-primary'
-            variant={'ghost'}
-            role='button'
-          >
-            <Edit size={18} className='text-doc-primary' /> Edit
-          </Button> */}
           <Button
-            className='aspect-square h-max rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
+            className='aspect-square h-8 rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
             variant={'ghost'}
             onClick={handleDeleteCitation}
           >

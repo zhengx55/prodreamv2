@@ -10,14 +10,10 @@ module.exports = {
   safelist: ['ProseMirror'],
   theme: {
     extend: {
-      backgroundImage: {
-        chat: 'linear-gradient(180deg, rgba(156, 44, 243, 0.20) 0%, rgba(58, 73, 249, 0.20) 100%)',
-        referal: 'linear-gradient(to left, #E32CF3, #9C2CF3, #2C40F3, #2CABF3)',
-      },
       fontFamily: {
         poppins: ['var(--poppins-font)'],
         inter: ['var(--inter-font)'],
-        baskerville: ['Libre Baskerville', 'serif'],
+        baskerville: ['var(--liber-font)'],
       },
       fontSize: {
         regular: '14px',
@@ -59,10 +55,6 @@ module.exports = {
         hover: {
           50: '#FBF7FF',
           100: '#F7F9FC',
-        },
-        blue: {
-          50: '#F9FBFF',
-          100: '#CEDEFE',
         },
         doc: {
           primary: '#8652DB',

@@ -8,7 +8,7 @@ import { DocSortingMethods } from '@/types';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { LayoutGrid, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import CardView from './CardView';
 
@@ -172,4 +172,4 @@ const List = ({ history_list, hasMorePage, isLoading }: Props) => {
     </>
   );
 };
-export default memo(List);
+export default List;

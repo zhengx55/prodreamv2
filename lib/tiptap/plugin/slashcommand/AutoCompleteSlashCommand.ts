@@ -24,7 +24,6 @@ export const AutoCompleteSlashCommand = Extension.create({
       trigger: 'manual',
       placement: 'bottom-start',
       maxWidth: '16rem',
-      offset: [14, 5],
       popperOptions: {
         strategy: 'fixed',
         modifiers: [
@@ -42,8 +41,8 @@ export const AutoCompleteSlashCommand = Extension.create({
       Suggestion({
         editor: this.editor,
         char: '/',
-        allowSpaces: false,
         startOfLine: false,
+        allowedPrefixes: null,
         pluginKey: new PluginKey(extensionName),
         allow: ({ state, range }) => {
           const $from = state.doc.resolve(range.from);

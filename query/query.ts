@@ -15,14 +15,14 @@ export const useCreateCitation = () => {
       document_id: string;
     }) => createCitation(params),
     onSuccess: async (data, variables) => {
-      // 根据Id 获取citation信息
-      appendInDocCitationIds(
-        {
-          type: variables.citation_type,
-          data: { ...variables.citation_data, id: data },
+      await appendInDocCitationIds({
+        type: variables.citation_type,
+        data: {
+          ...variables.citation_data,
+          id: data,
+          document_id: variables.document_id,
         },
-        variables.document_id
-      );
+      });
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
@@ -37,9 +37,6 @@ export const useCiteToDoc = (flag?: boolean) => {
   const appendInTextCitationIds = useAIEditor(
     (state) => state.appendInTextCitationIds
   );
-  const appendInDocCitationIds = useAIEditor(
-    (state) => state.appendInDocCitationIds
-  );
   return useMutation({
     mutationFn: (params: {
       citation_type: ICitationType;
@@ -47,28 +44,15 @@ export const useCiteToDoc = (flag?: boolean) => {
       document_id: string;
     }) => createCitation(params),
     onSuccess: async (data, variables) => {
-      // 根据Id 获取citation信息
-      appendInTextCitationIds(
-        {
-          type: variables.citation_type,
-          data: { ...variables.citation_data, id: data },
+      await appendInTextCitationIds({
+        type: variables.citation_type,
+        data: {
+          ...variables.citation_data,
+          id: data,
+          document_id: variables.document_id,
         },
-        variables.document_id
-      );
-      appendInDocCitationIds(
-        {
-          type: variables.citation_type,
-          data: { ...variables.citation_data, id: data },
-        },
-        variables.document_id
-      );
-      if (
-        variables.citation_data.contributors.length > 0 &&
-        variables.citation_data.contributors[0].last_name &&
-        !flag
-      ) {
-        insertCitation(variables.citation_data.contributors[0].last_name);
-      }
+      });
+      insertCitation(data);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

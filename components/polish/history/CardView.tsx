@@ -1,7 +1,6 @@
 'use client';
 
 import { IDocDetail } from '@/query/type';
-import { memo } from 'react';
 import Card from './Card';
 
 type Props = {
@@ -30,4 +29,4 @@ const CardView = ({
     </ul>
   );
 };
-export default memo(CardView);
+export default CardView;

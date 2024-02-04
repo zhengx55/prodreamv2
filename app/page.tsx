@@ -1,12 +1,12 @@
+import About from '@/components/landing/About';
+import Banner from '@/components/landing/Banner';
+import BottomBanner from '@/components/landing/BottomBanner';
+import Comments from '@/components/landing/Comments';
 import Footer from '@/components/landing/Footer';
-import Har from '@/components/landing/Har';
 import Hero from '@/components/landing/Hero';
+import Introduction from '@/components/landing/Introduction';
 import NavBar from '@/components/landing/NavBar';
 import Question from '@/components/landing/Question';
-import ShowCase from '@/components/landing/ShowCase';
-import Story from '@/components/landing/Story';
-import Swift from '@/components/landing/Swift';
-import Team from '@/components/landing/Team';
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 
 export default function Home() {
@@ -15,12 +15,13 @@ export default function Home() {
       <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>
         <NavBar />
         <Hero />
-        <Team />
-        <Swift />
-        <Har />
-        <ShowCase />
+        <Banner />
+        <About />
+        <Introduction />
+        <Comments />
+        {/* <ShowCase /> */}
         <Question />
-        <Story />
+        <BottomBanner />
         <Footer />
       </main>
     </LazyMotionProvider>

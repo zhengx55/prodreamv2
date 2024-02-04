@@ -1,6 +1,7 @@
 'use client';
 import DocNavbar from '@/components/editor/navbar';
-import { getDocDetail, getUserInfo } from '@/query/api';
+import { useUserTrack } from '@/hooks/useUserTrack';
+import { getDocDetail } from '@/query/api';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -12,14 +13,11 @@ import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 
-const OnBoard = dynamic(() => import('../editor/modal/onBoard'), {
-  ssr: false,
-});
 const Tiptap = dynamic(() => import('./Editor'), {
   ssr: false,
   loading: () => (
     <div className='flex flex-1 flex-col items-center'>
-      <Spacer y='30' />
+      <Spacer y='20' />
       <Skeleton className='h-10 w-[700px] rounded-lg' />
     </div>
   ),
@@ -35,17 +33,12 @@ const EssayPanel = ({ id }: { id: string }) => {
     queryKey: ['document_item', id],
     queryFn: () => getDocDetail(id),
   });
-  const { data: user_first_time, isSuccess } = useQuery({
-    queryKey: ['user_first_time'],
-    queryFn: () => getUserInfo(),
-  });
-
+  const { isFetching: isTrackFetching } = useUserTrack();
   useCitationInfo(document_content);
-
-  if (isError) return null;
+  if (isError) return <p>opps something went wrong!</p>;
 
   return (
-    <main className='relative flex h-full w-full flex-col justify-center'>
+    <main className='relative flex h-full w-full flex-col'>
       <DocNavbar />
       <Tooltip defaultOpen side='right' tooltipContent='submit feedback'>
         <Link
@@ -59,11 +52,10 @@ const EssayPanel = ({ id }: { id: string }) => {
           </Button>
         </Link>
       </Tooltip>
-      {isSuccess && !user_first_time?.document_dialog && <OnBoard />}
       <div className='relative flex h-full w-full justify-center overflow-hidden'>
-        {isFetching ? (
+        {isFetching || isTrackFetching ? (
           <div className='flex flex-1 flex-col items-center'>
-            <Spacer y='30' />
+            <Spacer y='20' />
             <Skeleton className='h-10 w-[700px] rounded-lg' />
           </div>
         ) : (

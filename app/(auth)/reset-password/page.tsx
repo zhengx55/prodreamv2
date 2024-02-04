@@ -1,5 +1,6 @@
 'use client';
 import Panel from '@/components/auth/Panel';
+import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -106,7 +107,7 @@ export default function Page() {
     <>
       <Panel>
         <div className='flex w-full flex-col sm:w-[580px]'>
-          <h1 className='self-center text-[28px] font-[500] sm:text-[42px]'>
+          <h1 className='text-[24px] font-[500] sm:text-[28px] 2xl:text-[42px]'>
             Reset Password
           </h1>
           <Form {...form}>
@@ -120,7 +121,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='mt-20'>
                     <FormLabel
-                      className='title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='email'
                     >
                       Enter the Email Linked to Your Account
@@ -131,7 +132,7 @@ export default function Page() {
                         id='email'
                         placeholder=''
                         type='email'
-                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        className='h-12 rounded-md border'
                         {...field}
                       />
                     </FormControl>
@@ -145,7 +146,7 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormLabel
-                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='password'
                     >
                       Enter New Password
@@ -153,24 +154,23 @@ export default function Page() {
                     {!hidePassword ? (
                       <EyeOff
                         onClick={() => setHidePassword((prev) => !prev)}
-                        size={22}
+                        size={20}
                         className='absolute right-2 top-10 cursor-pointer'
                       />
                     ) : (
                       <Eye
                         onClick={() => setHidePassword((prev) => !prev)}
-                        size={22}
+                        size={20}
                         className='absolute right-2 top-10 cursor-pointer'
                       />
                     )}
-
                     <FormControl>
                       <Input
                         autoComplete='current-password'
                         id='password'
                         type={hidePassword ? 'password' : 'text'}
                         placeholder=''
-                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        className='h-12 rounded-md border'
                         {...field}
                       />
                     </FormControl>
@@ -178,14 +178,13 @@ export default function Page() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name='confirm'
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormLabel
-                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='confirm'
                     >
                       Re-enter New Password
@@ -193,24 +192,23 @@ export default function Page() {
                     {!hideConfirm ? (
                       <EyeOff
                         onClick={() => setHideConfirm((prev) => !prev)}
-                        size={22}
+                        size={20}
                         className='absolute right-2 top-10 cursor-pointer'
                       />
                     ) : (
                       <Eye
                         onClick={() => setHideConfirm((prev) => !prev)}
-                        size={22}
+                        size={20}
                         className='absolute right-2 top-10 cursor-pointer'
                       />
                     )}
-
                     <FormControl>
                       <Input
                         autoComplete='current-password'
                         id='confirm'
                         type={hideConfirm ? 'password' : 'text'}
                         placeholder=''
-                        className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                        className='h-12 rounded-md border'
                         {...field}
                       />
                     </FormControl>
@@ -218,14 +216,13 @@ export default function Page() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name='verification_code'
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormLabel
-                      className=' title-semibold sm:title-semibold text-[#17161B]'
+                      className='base-semibold 2xl:title-semibold'
                       htmlFor='verification_code'
                     >
                       Verification
@@ -237,15 +234,16 @@ export default function Page() {
                           id='verification_code'
                           type='text'
                           placeholder=''
-                          className='rounded-[8px] border-[2px] border-[#D4D3D8] bg-[#fff]'
+                          className='h-12 rounded-md border'
                           {...field}
                         />
                       </FormControl>
                       <Button
                         disabled={verifyWait}
+                        variant={'ghost'}
                         onClick={handleSentVerificationEmail}
                         type='button'
-                        className='w-[150px] shrink-0 rounded-[8px] border-[2px] border-[#8551F3] bg-[#fff] text-[#8551F3] hover:bg-[#8551F3] hover:text-[#fff]'
+                        className='h-12 w-[150px] shrink-0 rounded-md border border-doc-primary text-doc-primary'
                       >
                         {verifyWait ? (
                           <>
@@ -257,7 +255,6 @@ export default function Page() {
                         )}
                       </Button>
                     </div>
-
                     <FormMessage className='text-xs text-red-400' />
                   </FormItem>
                 )}
@@ -279,13 +276,19 @@ export default function Page() {
           </p>
         </div>
       </Panel>
-      <div className='relative hidden h-full w-1/2 bg-white sm:flex'>
+      <div className='relative hidden h-full w-1/2 bg-[#FAF9FF] sm:flex sm:flex-col sm:items-center sm:pt-20'>
+        <h1 className='font-baskerville font-[400] sm:text-[40px] 2xl:text-[48px]'>
+          Transform your academic <br />
+          writing journey
+        </h1>
+        <Spacer y='80' />
         <Image
           src='/auth/auth.png'
           alt='logo'
-          fill
           priority
-          sizes='(max-width: 600px) 100vw, 50vw'
+          width={800}
+          height={200}
+          className='h-auto w-[75%]'
         />
       </div>
     </>

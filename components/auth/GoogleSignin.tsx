@@ -23,21 +23,7 @@ const GoogleSignin = ({ label }: { label: string }) => {
       const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
         .subject.user_id;
       posthog.identify(user_id);
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/auxiliary_info`,
-        {
-          headers: {
-            Authorization: `Bearer ${login_data.access_token}`,
-          },
-        }
-      );
-      const data = (await res.json()).data;
-      if (data && data.document_dialog) {
-        router.push('/writtingpal/polish');
-      } else {
-        router.push('/welcome/education');
-      }
-      toast.success('Successfully Login');
+      router.push('/writtingpal/polish');
     },
     onError: (errorResponse) => {
       toast.error(errorResponse.error);
@@ -59,7 +45,9 @@ const GoogleSignin = ({ label }: { label: string }) => {
         priority
         className='h-auto w-auto'
       />
-      <h1 className='title-semibold text-black-200'>{label}</h1>
+      <h1 className='small-semibold 2xl:base-semibold text-black-200'>
+        {label}
+      </h1>
     </button>
   );
 };

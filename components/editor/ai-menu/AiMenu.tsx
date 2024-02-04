@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
-import { ask, copilot } from '@/query/api';
-import useAiEditor from '@/zustand/store';
+import { ask, copilot, updateUserInfo } from '@/query/api';
+import useAiEditor, { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { ChevronRight } from 'lucide-react';
@@ -37,6 +37,7 @@ export const AiMenu = ({ editor }: Props) => {
   const elRef = useRef<HTMLDivElement>(null);
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
+  const updateCompletion = useUserTask((state) => state.updateCompletion);
   const hasAiResult = aiResult !== '';
 
   useClickOutside(elRef, () => {
@@ -161,7 +162,12 @@ export const AiMenu = ({ editor }: Props) => {
     updateCopilotMenu(false);
   };
 
-  const handleOperation = (idx: number) => {
+  const handleOperation = async (idx: number) => {
+    await updateCompletion('ai_copilot', true);
+    await updateUserInfo({
+      field: 'ai_copilot_task',
+      data: true,
+    });
     switch (idx) {
       case 0:
         handleReplace();

@@ -6,6 +6,10 @@ declare namespace NodeJS {
   }
 }
 
+export type IGuidence = {
+  show_guidence: boolean;
+};
+
 export type InputProps = {
   value: string;
   disable: boolean;
@@ -35,17 +39,20 @@ export type ICitationData = IWebsiteCitation &
   IJournalCitation &
   IBookCitation &
   IChapterCitation &
-  IIntroductionCitation & { id: string };
+  IIntroductionCitation & {
+    id: string;
+  };
 
 export interface IWebsiteCitation {
+  abstract: string;
   access_date: {
-    day?: number | null;
-    month?: string | null;
-    year?: number | null;
+    day: number | null;
+    month: string | null;
+    year: number | null;
   };
-  annotation?: null | string;
+  annotation: null | string;
   article_title: string;
-  contributors?:
+  contributors:
     | {
         first_name?: null | string;
         last_name?: null | string;
@@ -53,52 +60,64 @@ export interface IWebsiteCitation {
       }[]
     | null;
   document_id: string;
-  publisher?: null | string;
+  publisher: null | string;
   website_title: string;
-  url?: string;
+  url: string;
+  reference_count: number;
+  area: string[];
 }
 
 export interface IJournalCitation {
-  advanced_info?: {
+  reference_count: number;
+  area: string[];
+  pdf_url: string;
+  abstract: string;
+  advanced_info: {
     issue?: null | string;
     series?: null | string;
     volume?: null | string;
   };
-  annotation?: null | string;
-  article_title?: null | string;
-  contributors?:
+  tldr: string;
+  publisher: string;
+  citation_count: number;
+  annotation: null | string;
+  article_title: null | string;
+  contributors:
     | {
-        first_name?: null | string;
-        last_name?: null | string;
-        middle_name?: null | string;
+        first_name: null | string;
+        last_name: null | string;
+        middle_name: null | string;
         /**
          * author, editor, translator, compiler
          */
-        role?: null | string;
-        suffix?: null | string;
+        role: null | string;
+        suffix: null | string;
       }[]
     | null;
   document_id: string;
-  doi?: null | string;
+  doi: null | string;
   journal_title?: null | string;
-  page_info?: { end?: null | string; start?: null | string };
+  page_info: { end?: null | string; start?: null | string };
   publish_date?: {
-    day?: number | string;
-    month?: string | null;
-    year?: number | string;
+    day: number | string;
+    month: string | null;
+    year: number | string;
   };
 }
 
 export interface IBookCitation {
-  advanced_info?: {
+  reference_count: number;
+  area: string[];
+  abstract: string;
+  advanced_info: {
     edition?: null | string;
     series?: null | string;
     total_vol?: null | string;
     vol?: null | string;
   };
-  annotation?: null | string;
+  annotation: null | string;
   book_title: null | string;
-  contributors?: {
+  contributors: {
     first_name?: null | string;
     last_name?: null | string;
     middle_name?: null | string;
@@ -106,7 +125,7 @@ export interface IBookCitation {
     suffix?: null | string;
   }[];
   document_id: string;
-  publication_info?: {
+  publication_info: {
     city?: null | string;
     publish_year?: number | null;
     publisher?: null | string;
@@ -115,23 +134,26 @@ export interface IBookCitation {
 }
 
 export interface IChapterCitation {
-  advanced_info?: {
+  reference_count: number;
+  area: string[];
+  abstract: string;
+  advanced_info: {
     edition?: null | string;
     series?: null | string;
     total_vol?: null | string;
     vol?: null | string;
   };
-  annotation?: null | string;
+  annotation: null | string;
   book_title: null | string;
-  contributors?: {
+  contributors: {
     first_name?: null | string;
     last_name?: null | string;
     middle_name?: null | string;
     role?: null | string;
   }[];
   document_id: string;
-  page_info?: { end?: number | null; start?: number | null };
-  publication_info?: {
+  page_info: { end?: number | null; start?: number | null };
+  publication_info: {
     city?: null | string;
     publish_year?: number | null;
     publisher?: null | string;
@@ -141,27 +163,27 @@ export interface IChapterCitation {
 }
 
 export interface IIntroductionCitation {
-  advanced_info?: {
+  reference_count: number;
+  area: string[];
+  abstract: string;
+  advanced_info: {
     edition?: null | string;
     series?: null | string;
     total_vol?: null | string;
     vol?: null | string;
   };
-  annotation?: null | string;
+  annotation: null | string;
   book_title: null | string;
-  contributors?: {
+  contributors: {
     first_name?: null | string;
     last_name?: null | string;
     middle_name?: null | string;
-    /**
-     * author, editor, translator, compiler
-     */
     role?: null | string;
     suffix?: null | string;
   }[];
   document_id: string;
-  page_info?: { end?: number | null; start?: number | null };
-  publication_info?: {
+  page_info: { end?: number | null; start?: number | null };
+  publication_info: {
     city?: null | string;
     publish_year?: number | null;
     publisher?: null | string;

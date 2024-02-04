@@ -10,7 +10,7 @@ export type TableOfContentsProps = {
   onItemClick?: () => void;
 };
 
-export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
+const TableOfContents = ({ editor }: TableOfContentsProps) => {
   const [data, setData] = useState<TableOfContentStorage | null>(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
     };
   }, [editor]);
   return (
-    <aside className=' h-full w-40 shrink-0 overflow-hidden'>
+    <aside className='z-20 h-full w-40 shrink-0 overflow-hidden'>
       <div className='h-full w-full overflow-y-auto px-3 pb-6 pt-12'>
         {data?.content && data.content.length > 0 ? (
           <div className='flex flex-col gap-1'>
@@ -37,18 +37,14 @@ export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
                 href={`#${item.id}`}
                 style={{ marginLeft: `${1 * item.level - 1}rem` }}
                 className={cn(
-                  'hover:bg-black small-semibold block w-full truncate rounded  bg-opacity-10 text-neutral-500 transition-all hover:bg-opacity-5 hover:text-neutral-800',
+                  'hover:bg-black subtle-semibold block w-full truncate rounded  bg-opacity-10 text-neutral-500 transition-all hover:bg-opacity-5 hover:text-neutral-800',
                   item.isActive && 'bg-neutral-100 text-neutral-800 '
                 )}
               >
                 {item.textContent}
               </a>
             ))}
-            <p
-              className={cn(
-                'small-semibold inline-flex w-full items-center gap-x-1 truncate rounded  bg-opacity-10 text-neutral-500 transition-all hover:bg-opacity-5 hover:text-neutral-800'
-              )}
-            >
+            <p className='subtle-semibold inline-flex w-full items-center gap-x-1 truncate  rounded bg-opacity-10 text-neutral-500 transition-all hover:bg-opacity-5 hover:text-neutral-800'>
               <BookMarks />
               Reference
             </p>
@@ -57,5 +53,5 @@ export const TableOfContent = memo(({ editor }: TableOfContentsProps) => {
       </div>
     </aside>
   );
-});
-TableOfContent.displayName = 'TableOfContents';
+};
+export default memo(TableOfContents);

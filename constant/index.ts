@@ -1,5 +1,3 @@
-import { Variants } from 'framer-motion';
-
 export const SidebarLinks = [
   {
     id: 'sidebar-01',
@@ -124,14 +122,6 @@ export const PresetInstructions: { [key: string]: string } = {
   '5': 'Make it professional',
 };
 
-export const PresetIcons: { [key: string]: string } = {
-  '1': '/ai_editors/Fix.svg',
-  '2': '/ai_editors/Fluent.svg',
-  '3': '/ai_editors/Improve.svg',
-  '4': '/ai_editors/Passionate.svg',
-  '5': '/ai_editors/Professional.svg',
-};
-
 export const ProfileDropdownLinks = [
   {
     id: 'profile-01',
@@ -150,466 +140,219 @@ export const ProfileDropdownLinks = [
   },
 ];
 
-export const ResumeProcedure = [
-  { title: 'Input your experiences and description' },
-  { title: 'Convert your experience into resume-ready bullet points' },
-  { title: 'Apply final edits for polished results' },
-  { title: 'Download your resume as a PDF' },
-];
-
-export const FormHeightVariant: Variants = {
-  expanded: { height: 'auto' },
-  collapse: { height: '80px' },
-};
-
-export const activity_list_loading_prompt = [
-  'Celebrate every step you complete, from finishing an essay draft to submitting a form – each one is a victory on the path to your future.',
-  "Set personal goals and reward yourself when you meet them, whether it's finishing an application section or acing a standardized test.",
-  "Remember, every application is a story about you, and you're the best author of your own narrative – tell it with passion and confidence.",
-  'You got this! Each step you take is building towards a bright and exciting future.',
-  'Take breaks to recharge; your best work comes when you are well-rested and relaxed.',
-  "Keep things in perspective – you're more than this process, and there are many paths to a fulfilling future.",
-  "Do you know each school has thier own admission preference? Don't forget to include them in your application or ask Max for suggestions! ",
-  "Use action verbs to make your activity list standout! Not sure about how to grab admission officers' attention? Try our activity list!",
-];
-
-export const release_data = [
-  {
-    id: 'release_data_01',
-    img: '/Release-1.png',
-    title: '✨ Introducing: Activity List Optimizer!',
-    description:
-      'Struggling with character limits on your college apps? Our new feature helps you distill your achievements using impactful words that showcase your skills. Make every character count and elevate your application with ease. Try it now!',
-  },
-  {
-    id: 'release_data_02',
-    img: '/Release-2.png',
-    title: 'Your dream is now professionally supported 🎓',
-    description:
-      "Exciting news, we met a fortune teller who said changing our name could help our users get into their dream schools. So, we switched from 'QuickApply' to 'ProDream'! Just kidding – we chose 'ProDream' because it better fits our mission of building a Co-Pilot to achieve your dreams.Same dedication, fresh vibe – welcome to the ProDream family! Let's make our college dreams a reality together!",
-  },
-];
-
 // ----------------------------------------------------------------
 // LANDING PAGE
 // ----------------------------------------------------------------
-export const TeamMembers = [
+export const HeroInfo = [
   {
-    id: 'teams-01',
-    name: 'Max Tang',
-    role: 'CEO',
-    image: '/landing/team/Max.png',
-    background: '#CFBDFF',
-    education: 'Harvard School of Education',
-    description:
-      "As the founder of ProDream Education since 2019, I've guided over a hundred community college students to top universities. I earned my Bachelor's in History from UCLA and a Master's in Education from Harvard, focusing on assisting underrepresented students in college admissions.",
+    id: 'hero-01',
+    icon: '/landing/heros/outline.svg',
+    title: 'Outlining',
+    text: 'Streamline your essay process, no more scattered ideas.',
   },
   {
-    id: 'teams-02',
-    name: 'Yun Fan',
-    role: 'CMO',
-    image: '/landing/team/Yun.png',
-    background: '#FFB686',
-    education: 'Harvard School of Education, MBA',
-    description:
-      "As a co-founder of Applify AI and the entrepreneur behind Super Link Inc., I bring extensive college consulting experience. I've supported over 10,000 students, holding a Bachelor's degree from DePaul University and a Master's in Education from Harvard.",
+    id: 'hero-02',
+    icon: '/landing/heros/editing.svg',
+    title: 'Editing',
+    text: 'Write with precision, clarity, and organization.',
   },
   {
-    id: 'teams-03',
-    name: 'Kevinn',
-    role: 'CTO',
-    image: '/landing/team/Kevin.png',
-    background: '#92E3F5',
-    education: 'Harvard PhD, Computer Science ',
-    description:
-      "As a full-stack engineer and Ph.D. candidate in Computational Physics at Harvard, my expertise spans large language models, finetuning, and human-computer interaction. I've been recognized with awards like the Harvard Purcell Fellowship and the Guo Moruo Scholarship, serving as a reviewer for IEEE CHI, IEEE PacificVis, and ICML.",
+    id: 'hero-03',
+    icon: '/landing/heros/citation.svg',
+    title: 'Citation',
+    text: 'Unparalleled academic knowledge base boosts research efficiency.',
   },
   {
-    id: 'teams-04',
-    name: 'Jessie',
-    role: 'CPO',
-    image: '/landing/team/Jessie.png',
-    background: '#D7FFBF',
-    education: 'Stanford Class of 2022, MS&E and Economics',
-    description:
-      'As an recent alum, I know how stressful college application process can be! My goal is to create a product where students get accessible and affordable support that they truly need.',
+    id: 'hero-04',
+    icon: '/landing/heros/proofread.svg',
+    title: 'Proofread',
+    text: 'Perfect your writing: detect plagiarism and refine content.',
   },
 ];
 
-export const ShowCases = [
+export const AboutInfo = [
   {
-    id: 'show-cases-01',
-    title: 'Essay evaluation',
+    id: 'about-01',
+    title: "Spent hours on outlining and still don't know how to begin?",
+    image: '/landing/about/about1.png',
     description:
-      'This means that you can download and use any of the templates in the UI Market Web library, as many times as you want. This can be a great way to save time and money on design costs.',
-    image: '/landing/showcase/Evaluate.png',
+      "Our feature creates detailed outlines with relevant sources, tailored to your professor's requirements",
   },
   {
-    id: 'show-cases-02',
-    title: 'Essay polishing',
+    id: 'about-02',
+    title: 'Stuck in the middle of writing, with no idea what to write next?',
+    image: '/landing/about/about2.png',
     description:
-      'The All-Access Pass also includes access to premium features, such as the ability to export your designs in high resolution, the ability to add custom fonts and colors, and the ability to collaborate with other designers.',
-    image: '/landing/showcase/Polish.png',
+      "Our Co-Pilot's 'Continue Writing' feature will craft the next most suitable sentences for you, igniting your ideas and creativity.",
   },
   {
-    id: 'show-cases-03',
-    title: 'Time saving',
+    id: 'about-03',
+    title: 'Bothered for hours with citations and formatting?',
+    image: '/landing/about/about3.png',
     description:
-      'All-Access Pass holders also get priority support from the UI Market Web team. This means that you can get help with any problems you have with your designs quickly and easily.',
-    image: '/landing/showcase/Team.png',
+      "Our 'Auto Cite' feature automatically researches relevant sources and adds both in-text citations and reference citations in the correct format for any citation style.",
   },
+];
+
+export const IntroductionInfo = [
+  {
+    id: 'intro-01',
+    title: "Exclusive 'Knowledge Base': Empowering You to Earn Top Grades",
+    description:
+      "We don't just do the work for you. Our exclusive knowledge base, enriched by academic experts, enables ProDream to offer step-by-step guidance, ensuring the highest academic quality for every feature.",
+    image: '/landing/introduction/showcase1.png',
+  },
+  {
+    id: 'intro-02',
+    title:
+      '200 million up-to-date scholarly sources: Ensuring the novelty of your research',
+    description:
+      'Our database of over 200 million scholarly publications can provide you with the best references to confidently back up your paper.',
+    image: '/landing/introduction/showcase2.png',
+  },
+  {
+    id: 'intro-03',
+    title:
+      'Plagiarism Check: To safeguard you from the risk of academic dishonesty',
+    description:
+      'Plagiarism Check feature, with paraphrasing tools, ensures that you can submit your paper free from plagiarism concerns',
+    image: '/landing/introduction/showcase3.png',
+  },
+  {
+    id: 'intro-04',
+    title:
+      "Multilingual Support: Removing non-native speakers' writing barriers",
+    description:
+      'Feel more at ease writing in your native language? With "mutilingual support , you can write in your mother tongue, and it will automatically adapt your text to the nuances of English, ensuring style and requirement compliance',
+    image: '/landing/introduction/showcase4.png',
+  },
+];
+
+export const HeroMainInfo = [
+  { id: 'hero-main-01', image: '/landing/heros/Hero.png' },
+  { id: 'hero-main-02', image: '/landing/heros/Hero2.png' },
+  { id: 'hero-main-03', image: '/landing/heros/Hero3.png' },
+  { id: 'hero-main-04', image: '/landing/heros/Hero4.png' },
 ];
 
 export const Universitys = [
   {
     id: 'university-01',
-    alt: 'university',
-    image: '/landing/university/uclalogo.png',
-  },
-  {
-    id: 'university-02',
-    alt: 'university',
-    image: '/landing/university/nyu.png',
-  },
-  {
-    id: 'university-03',
-    alt: 'university',
+    title: 'berkeley',
     image: '/landing/university/berkeley.png',
   },
   {
+    id: 'university-02',
+    title: 'Cambridge',
+    image: '/landing/university/Cambridge.png',
+  },
+  {
+    id: 'university-03',
+    title: 'Harvard',
+    image: '/landing/university/Harvard.png',
+  },
+  {
     id: 'university-04',
-    alt: 'university',
-    image: '/landing/university/ucla.png',
+    title: 'Stanford',
+    image: '/landing/university/Stanford.png',
+  },
+  {
+    id: 'university-05',
+    title: 'Princeton',
+    image: '/landing/university/Princeton.png',
+  },
+  {
+    id: 'university-06',
+    title: 'Penn',
+    image: '/landing/university/Penn.png',
+  },
+  {
+    id: 'university-07',
+    title: 'Nus',
+    image: '/landing/university/Nus.png',
   },
 ];
 
-export const Storys = [
+export const CommentsInfo = [
   {
-    image: '/landing/stories/story1.png',
-    alt: 'story',
-    id: 'story-slider-item-01',
+    id: 'comment-01',
+    text: "Simply the best! This tool is a game-changer for refining academic drafts. What's even more impressive is its support for multiple languages, including Mandarin. It makes my writing process so easy!",
+    image: '/landing/comments/Oval.png',
+    name: 'Yuqing Wang',
+    role: 'China',
   },
   {
-    image: '/landing/stories/story2.png',
-    alt: 'story',
-    id: 'story-slider-item-02',
+    id: 'comment-02',
+    text: "I've tried a few AI tools, and ProDream is hands down the best. It helps with tenses, paraphrasing, and organizes my paragraphs for better language. Using ProDream makes me feel confident about my paper.",
+    image: '/landing/comments/Oval2.png',
+    name: 'Aarav S. Gupta',
+    role: 'PhD Student',
   },
   {
-    image: '/landing/stories/story3.png',
-    alt: 'story',
-    id: 'story-slider-item-03',
-  },
-  {
-    image: '/landing/stories/story4.png',
-    alt: 'story',
-    id: 'story-slider-item-04',
+    id: 'comment-03',
+    text: 'ProDream is my go-to writing tool now. It helps me polish my sentences to fit academic style, sorts out the confusing parts, and has certainly contributed to boosting my grades. Writing papers just got a whole lot easier with ProDream!',
+    image: '/landing/comments/Oval3.png',
+    name: 'Elijah Thompson',
+    role: 'College Senior',
   },
 ];
 
-export const CiationDemoDoc = {
+//----------------------------------------------------------------
+// Prompt Info
+//----------------------------------------------------------------
+export const CitationPrompts = [
+  {
+    id: 'citation-prompt-01',
+    title: 'Search for academic articles here',
+    text: 'Search our database for academic papers & books and create auto-citations with one click.',
+  },
+  {
+    id: 'citation-prompt-02',
+    title: 'Add in-text Citations',
+    text: 'Click “Cite” to add an in-text citation of this article.It will automatically be added in the Reference list and your Library.',
+  },
+  {
+    id: 'citation-prompt-03',
+    title: 'Save articles to your library',
+    text: "Find this article interesting but not sure if you want to cite it yet? Add it to your Library for easy referencing when you're ready.",
+  },
+  {
+    id: 'citation-prompt-04',
+    title: 'Find saved articles here',
+    text: "Access all your saved articles in 'My Library' and view citations used in this essay with a simple click on ”In this doc”. ",
+  },
+];
+
+export const sample_outline = {
   type: 'doc',
   content: [
     {
-      type: 'heading',
+      type: 'title',
       attrs: {
-        id: '20df1b0a-9163-452a-903b-82402df5d1d8',
-        'data-toc-id': '20df1b0a-9163-452a-903b-82402df5d1d8',
-        textAlign: 'left',
         level: 1,
       },
       content: [
         {
           type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: 'This is a sample essay to help you get started',
-        },
-      ],
-    },
-    {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          text: 'Hey, academic writer! Ready to transform your writing journey? Follow this tutorial to get started!',
+          text: 'My First Essay',
         },
       ],
     },
     {
       type: 'heading',
       attrs: {
-        id: '96ed3619-7f40-4609-99b0-1fc0add18c1f',
-        'data-toc-id': '96ed3619-7f40-4609-99b0-1fc0add18c1f',
-        textAlign: 'left',
-        level: 1,
-      },
-      content: [
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: 'AI Copilot ',
-        },
-      ],
-    },
-    {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-            {
-              type: 'highlight',
-              attrs: {
-                color: 'rgb(100, 37, 208, 0.3)',
-              },
-            },
-            {
-              type: 'textStyle',
-              attrs: {
-                fontSize: '',
-                color: 'rgb(100, 37, 208)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
-                },
-              },
-            },
-          ],
-          text: 'Highlight ',
-        },
-        {
-          type: 'text',
-          text: 'any text to call out ',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-            {
-              type: 'highlight',
-              attrs: {
-                color: 'rgb(100, 37, 208, 0.3)',
-              },
-            },
-            {
-              type: 'textStyle',
-              attrs: {
-                fontSize: '',
-                color: 'rgb(100, 37, 208)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
-                },
-              },
-            },
-          ],
-          text: 'AI Copilot',
-        },
-        {
-          type: 'text',
-          text: ', which gives you access to our collection of writing tools that will help you craft your academic writings.',
-        },
-      ],
-    },
-    {
-      type: 'heading',
-      attrs: {
-        id: 'b468e53a-b4b5-4a37-ac4b-102c64bd2cce',
-        'data-toc-id': 'b468e53a-b4b5-4a37-ac4b-102c64bd2cce',
-        textAlign: 'left',
-        level: 3,
-      },
-      content: [
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: 'Edit Tools & Generate from Selection',
-        },
-      ],
-    },
-    {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: 'Try it yourself! ',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-            {
-              type: 'highlight',
-              attrs: {
-                color: 'rgb(100, 37, 208, 0.3)',
-              },
-            },
-            {
-              type: 'textStyle',
-              attrs: {
-                fontSize: '',
-                color: 'rgb(100, 37, 208)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
-                },
-              },
-            },
-          ],
-          text: 'Highlight ',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: 'the text below, click ',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-            {
-              type: 'highlight',
-              attrs: {
-                color: 'rgb(100, 37, 208, 0.3)',
-              },
-            },
-            {
-              type: 'textStyle',
-              attrs: {
-                fontSize: '',
-                color: 'rgb(100, 37, 208)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
-                },
-              },
-            },
-          ],
-          text: 'AI Copilot',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: ' and try any edit tools 😊',
-        },
-      ],
-    },
-    {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          text: 'The increasingly warmer climate engendered conditions in which humidity levels increased and frozen lands began thawing out, thus allowing for the possibility of the cultivation of plants.',
-        },
-      ],
-    },
-    {
-      type: 'heading',
-      attrs: {
-        id: '1cc6ef4a-58d7-4c5b-bdbe-ba65334fd12e',
-        'data-toc-id': '1cc6ef4a-58d7-4c5b-bdbe-ba65334fd12e',
-        textAlign: 'left',
-        level: 1,
-      },
-      content: [
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: 'Citations',
-        },
-      ],
-    },
-    {
-      type: 'heading',
-      attrs: {
-        id: '6f87ccee-42fd-400c-a5ce-60bfb841375c',
-        'data-toc-id': '6f87ccee-42fd-400c-a5ce-60bfb841375c',
         textAlign: 'left',
         level: 2,
       },
       content: [
         {
           type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: 'Create Citations',
+          text: 'Introduction',
         },
       ],
     },
     {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          text: 'Our citation feature supports citation creation and management of different research habits!',
-        },
-      ],
-    },
-    {
-      type: 'orderedList',
-      attrs: {
-        start: 1,
-      },
+      type: 'bulletList',
       content: [
         {
           type: 'listItem',
@@ -623,63 +366,7 @@ export const CiationDemoDoc = {
               content: [
                 {
                   type: 'text',
-                  marks: [
-                    {
-                      type: 'bold',
-                    },
-                    {
-                      type: 'highlight',
-                      attrs: {
-                        color: 'rgb(100, 37, 208, 0.3)',
-                      },
-                    },
-                    {
-                      type: 'textStyle',
-                      attrs: {
-                        fontSize: '',
-                        color: 'rgb(100, 37, 208)',
-                        polish_underline: {
-                          color: '',
-                          offset: '',
-                        },
-                      },
-                    },
-                  ],
-                  text: 'Highlight',
-                },
-                {
-                  type: 'text',
-                  text: ' content and click ',
-                },
-                {
-                  type: 'text',
-                  marks: [
-                    {
-                      type: 'bold',
-                    },
-                    {
-                      type: 'highlight',
-                      attrs: {
-                        color: 'rgb(100, 37, 208, 0.3)',
-                      },
-                    },
-                    {
-                      type: 'textStyle',
-                      attrs: {
-                        fontSize: '',
-                        color: 'rgb(100, 37, 208)',
-                        polish_underline: {
-                          color: '',
-                          offset: '',
-                        },
-                      },
-                    },
-                  ],
-                  text: 'Citation',
-                },
-                {
-                  type: 'text',
-                  text: ' to find citations supporting your argument',
+                  text: 'Start with a brief overview of East Asian culture and its diversity. Discuss the importance of religion in shaping the culture and society of East Asia.',
                 },
               ],
             },
@@ -697,7 +384,7 @@ export const CiationDemoDoc = {
               content: [
                 {
                   type: 'text',
-                  text: "ProDream's smart algorithm will find the best matching academic articles related to your argument",
+                  text: 'Explain why this topic is important. Discuss how the interplay of culture and religion have guided social norms, ethics, and overall way of life in East Asia.',
                 },
               ],
             },
@@ -715,85 +402,7 @@ export const CiationDemoDoc = {
               content: [
                 {
                   type: 'text',
-                  text: 'Use the ',
-                },
-                {
-                  type: 'text',
-                  marks: [
-                    {
-                      type: 'bold',
-                    },
-                    {
-                      type: 'highlight',
-                      attrs: {
-                        color: 'rgb(100, 37, 208, 0.3)',
-                      },
-                    },
-                    {
-                      type: 'textStyle',
-                      attrs: {
-                        fontSize: '',
-                        color: 'rgb(100, 37, 208)',
-                        polish_underline: {
-                          color: '',
-                          offset: '',
-                        },
-                      },
-                    },
-                  ],
-                  text: 'Search Citation Base',
-                },
-                {
-                  type: 'text',
-                  text: ' on the right to look up articles and book titles, just like in a library. Our database is up to date and has over 200M+ articles included.',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: 'listItem',
-          content: [
-            {
-              type: 'paragraph',
-              attrs: {
-                class: null,
-                textAlign: 'left',
-              },
-              content: [
-                {
-                  type: 'text',
-                  text: 'If you already have citations, click ',
-                },
-                {
-                  type: 'text',
-                  marks: [
-                    {
-                      type: 'bold',
-                    },
-                    {
-                      type: 'highlight',
-                      attrs: {
-                        color: 'rgb(100, 37, 208, 0.3)',
-                      },
-                    },
-                    {
-                      type: 'textStyle',
-                      attrs: {
-                        fontSize: '',
-                        color: 'rgb(100, 37, 208)',
-                        polish_underline: {
-                          color: '',
-                          offset: '',
-                        },
-                      },
-                    },
-                  ],
-                  text: '+',
-                },
-                {
-                  type: 'text',
-                  text: 'to add customized citations (we currently support websites, articles and books)',
+                  text: 'Present the thesis statement. For instance, the thesis could be "Religion has played a pivotal role in shaping East Asian culture, influencing everything from art and architecture to societal norms and laws."',
                 },
               ],
             },
@@ -804,425 +413,409 @@ export const CiationDemoDoc = {
     {
       type: 'heading',
       attrs: {
-        id: '433348b2-91f4-4d6f-bf4c-aebc7c61c7db',
-        'data-toc-id': '433348b2-91f4-4d6f-bf4c-aebc7c61c7db',
         textAlign: 'left',
         level: 2,
       },
       content: [
         {
           type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: 'In-text Citations',
-        },
-      ],
-    },
-    {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          text: 'After identifying an article, you could directly cite the article to your essay by clicking ',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-            {
-              type: 'highlight',
-              attrs: {
-                color: 'rgb(100, 37, 208, 0.3)',
-              },
-            },
-            {
-              type: 'textStyle',
-              attrs: {
-                fontSize: '',
-                color: 'rgb(100, 37, 208)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
-                },
-              },
-            },
-          ],
-          text: 'Cite',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: '.',
-        },
-      ],
-    },
-    {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          text: 'ProDream will create an in-text citation of that article to where your mouse is located in the article and automatically add that article to the reference list at the end.',
-        },
-      ],
-    },
-    {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          text: 'If you find the article interesting but are not sure if you want to cite the article, click ',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-            {
-              type: 'highlight',
-              attrs: {
-                color: 'rgb(100, 37, 208, 0.3)',
-              },
-            },
-            {
-              type: 'textStyle',
-
-              attrs: {
-                fontSize: '',
-                color: 'rgb(100, 37, 208)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
-                },
-              },
-            },
-          ],
-          text: 'Add to library ',
-        },
-        {
-          type: 'text',
-          text: 'to add the article to the citation library that you could access cite in your essay later.',
-        },
-      ],
-    },
-    {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: 'Try it yourself! ',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-            {
-              type: 'highlight',
-              attrs: {
-                color: 'rgb(100, 37, 208, 0.3)',
-              },
-            },
-            {
-              type: 'textStyle',
-              attrs: {
-                fontSize: '',
-                color: 'rgb(100, 37, 208)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
-                },
-              },
-            },
-          ],
-          text: 'Highlight',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: ' the text below, click ',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-            {
-              type: 'highlight',
-              attrs: {
-                color: 'rgb(100, 37, 208, 0.3)',
-              },
-            },
-            {
-              type: 'textStyle',
-              attrs: {
-                fontSize: '',
-                color: 'rgb(100, 37, 208)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
-                },
-              },
-            },
-          ],
-          text: 'Citation',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: ' and cite any article you like.',
-        },
-      ],
-    },
-    {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          text: 'Large language models will transform the future of medical education ',
-        },
-        {
-          type: 'text',
-          marks: [
-            {
-              type: 'textStyle',
-              attrs: {
-                fontSize: '',
-                color: 'rgb(36, 91, 219)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
-                },
-              },
-            },
-          ],
-          text: '(Alaa)',
+          text: 'Body',
         },
       ],
     },
     {
       type: 'heading',
       attrs: {
-        id: '66abe70b-c46d-4383-bde0-bdd0cb44a7e0',
-        'data-toc-id': '66abe70b-c46d-4383-bde0-bdd0cb44a7e0',
+        textAlign: 'left',
+        level: 4,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'The Influence of Buddhism',
+        },
+      ],
+    },
+    {
+      type: 'bulletList',
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Start by introducing Buddhism and its origins. Explain how it spread to East Asia and its significance.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: "Present evidence of Buddhism's influence on East Asian culture. This may include its impact on art, literature, philosophy, and societal norms.",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: "Explain how this evidence supports your thesis statement. For example, discuss how Buddhism's teachings on compassion, non-violence, and meditation have sculpted the peaceful and contemplative aspects of East Asian cultures.",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        textAlign: 'left',
+        level: 4,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'The Impact of Confucianism',
+        },
+      ],
+    },
+    {
+      type: 'bulletList',
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Introduce Confucianism, its origins, and its central teachings.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Discuss the influence of Confucianism on East Asian societies, particularly on education, social hierarchy, and governmental structure.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Connect this evidence back to your thesis. For instance, examine how Confucian principles of respect for authority, filial piety, and humaneness form the bedrock of societal interactions in many East Asian cultures.',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
+        textAlign: 'left',
+        level: 4,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'The Role of Shinto and Taoism',
+        },
+      ],
+    },
+    {
+      type: 'bulletList',
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Introduce Shinto and Taoism, their origins, and main beliefs.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Discuss how these religions have shaped cultural practices, traditions, and beliefs in East Asia, particularly in Japan and China respectively.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: "Tie this evidence back to your thesis. For instance, explain how Shinto's emphasis on nature and spirits is reflected in Japanese art and architecture, or how Taoism's focus on harmony and balance has influenced Chinese philosophy and aesthetics.",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'heading',
+      attrs: {
         textAlign: 'left',
         level: 2,
       },
       content: [
         {
           type: 'text',
-          marks: [
-            {
-              type: 'bold',
-            },
-          ],
-          text: 'Managing Citations',
+          text: 'Conclusion',
         },
       ],
     },
     {
-      type: 'paragraph',
-      attrs: {
-        class: null,
-        textAlign: 'left',
-      },
+      type: 'bulletList',
       content: [
         {
-          type: 'text',
-          text: 'In ',
-        },
-        {
-          type: 'text',
-          marks: [
+          type: 'listItem',
+          content: [
             {
-              type: 'highlight',
+              type: 'paragraph',
               attrs: {
-                color: 'rgb(100, 37, 208, 0.3)',
+                class: null,
+                textAlign: 'left',
               },
-            },
-            {
-              type: 'textStyle',
-              attrs: {
-                fontSize: '',
-                color: 'rgb(100, 37, 208)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Summarize the main points made in the body of the essay, reiterating the influence of Buddhism, Confucianism, and Shinto/Taoism on East Asian culture.',
                 },
-              },
+              ],
             },
           ],
-          text: 'Citation',
         },
         {
-          type: 'text',
-          text: ', click the ',
-        },
-        {
-          type: 'text',
-          marks: [
+          type: 'listItem',
+          content: [
             {
-              type: 'highlight',
+              type: 'paragraph',
               attrs: {
-                color: 'rgb(100, 37, 208, 0.3)',
+                class: null,
+                textAlign: 'left',
               },
-            },
-            {
-              type: 'textStyle',
-              attrs: {
-                fontSize: '',
-                color: 'rgb(100, 37, 208)',
-                polish_underline: {
-                  color: '',
-                  offset: '',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Restate the thesis in light of the evidence and arguments presented.',
                 },
-              },
+              ],
             },
           ],
-          text: 'arrow',
         },
         {
-          type: 'text',
-          text: ' in the lower right corner to find your citations in this document and articles stored in your library.',
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Discuss the importance of understanding the role of religion in East Asian culture, especially for those seeking to engage with these societies.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: {
+                class: null,
+                textAlign: 'left',
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: 'Suggest areas for further research, such as a deeper analysis of the influence of these religions on specific aspects of East Asian culture, or the study of other religions and their impact on East Asia.',
+                },
+              ],
+            },
+          ],
         },
       ],
     },
   ],
 };
 
-export const CitationSample = {
-  publish_date: {
-    day: '',
-    month: '',
-    year: 2023,
-  },
-  contributors: [
+export const sample_title = {
+  type: 'doc',
+  content: [
     {
-      first_name: 'Alaa',
-      middle_name: 'A.',
-      last_name: 'Abd-Alrazaq',
-      suffix: null,
-      role: 'author',
-    },
-    {
-      first_name: 'Rawan',
-      middle_name: null,
-      last_name: 'AlSaad',
-      suffix: null,
-      role: 'author',
-    },
-    {
-      first_name: 'Dari',
-      middle_name: null,
-      last_name: 'AlHuwail',
-      suffix: null,
-      role: 'author',
-    },
-    {
-      first_name: 'Arfan',
-      middle_name: null,
-      last_name: 'Ahmed',
-      suffix: null,
-      role: 'author',
-    },
-    {
-      first_name: 'P.',
-      middle_name: null,
-      last_name: 'Healy',
-      suffix: null,
-      role: 'author',
-    },
-    {
-      first_name: 'Syed',
-      middle_name: null,
-      last_name: 'Latifi',
-      suffix: null,
-      role: 'author',
-    },
-    {
-      first_name: 'Sarah',
-      middle_name: null,
-      last_name: 'Aziz',
-      suffix: null,
-      role: 'author',
-    },
-    {
-      first_name: 'Rafat',
-      middle_name: null,
-      last_name: 'Damseh',
-      suffix: null,
-      role: 'author',
-    },
-    {
-      first_name: 'Sadam',
-      middle_name: 'Alabed',
-      last_name: 'Alrazak',
-      suffix: null,
-      role: 'author',
-    },
-    {
-      first_name: 'Javaid',
-      middle_name: null,
-      last_name: 'Sheikh',
-      suffix: null,
-      role: 'author',
+      type: 'title',
+      attrs: {
+        level: 1,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'My First Essay',
+        },
+      ],
     },
   ],
-  page_info: {
-    start: null,
-    end: null,
-  },
-  journal_title: 'JMIR Medical Education',
-  article_title:
-    'Large Language Models in Medical Education: Opportunities, Challenges, and Future Directions',
-  doi: '10.2196/48291',
-  advanced_info: {
-    issue: '',
-    volume: '9',
-    series: '',
-  },
 };
+
+export const startup_task = [
+  { id: 'task-01', label: 'Try AI Copilot' },
+  { id: 'task-02', label: 'Try continue writing' },
+  { id: 'task-03', label: 'Check out generate tools' },
+  { id: 'task-04', label: 'Add one citation' },
+];
+
+export const task_gif = [
+  { id: 'gif-01', src: '/task/task1.gif' },
+  { id: 'gif-02', src: '/task/task2.gif' },
+  { id: 'gif-03', src: '/task/task3.gif' },
+  { id: 'gif-04', src: '/task/task4.gif' },
+];
+
+export const sample_search_citation = [
+  {
+    article_title:
+      'Fashion-MNIST: a Novel Image Dataset for Benchmarking Machine Learning Algorithms',
+    journal_title: 'ArXiv',
+    abstract:
+      'We present Fashion-MNIST, a new dataset comprising of 28x28 grayscale images of 70,000 fashion products from 10 categories, with 7,000 images per category. The training set has 60,000 images and the test set has 10,000 images. Fashion-MNIST is intended to serve as a direct drop-in replacement for the original MNIST dataset for benchmarking machine learning algorithms, as it shares the same image size, data format and the structure of training and testing splits. The dataset is freely available at this https URL',
+    authors: [
+      {
+        first_name: 'Han',
+        middle_name: null,
+        last_name: 'Xiao',
+        suffix: null,
+        role: 'author',
+      },
+      {
+        first_name: 'Kashif',
+        middle_name: null,
+        last_name: 'Rasul',
+        suffix: null,
+        role: 'author',
+      },
+      {
+        first_name: 'Roland',
+        middle_name: null,
+        last_name: 'Vollgraf',
+        suffix: null,
+        role: 'author',
+      },
+    ],
+    publish_date: {
+      year: 2017,
+      month: null,
+      day: null,
+    },
+    page_info: {
+      start: null,
+      end: null,
+    },
+    doi: null,
+    advanced_info: {
+      volume: 'abs/1708.07747',
+      issue: null,
+      series: null,
+    },
+    area: ['Computer Science', 'Mathematics'],
+    reference_count: 6,
+    citation_count: 6613,
+    influential_citation_count: 1704,
+    pdf_url: null,
+    tldr: 'Fashion-MNIST is intended to serve as a direct drop-in replacement for the original MNIST dataset for benchmarking machine learning algorithms, as it shares the same image size, data format and the structure of training and testing splits.',
+    publisher:
+      'https://www.semanticscholar.org/paper/f9c602cc436a9ea2f9e7db48c77d924e09ce3c32',
+  },
+];

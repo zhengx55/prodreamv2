@@ -82,7 +82,7 @@ export async function getUserInfo() {
   }
 }
 
-export async function updateUserInfo(params: Record<string, boolean>) {
+export async function updateUserInfo(params: { field: string; data: any }) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -92,8 +92,11 @@ export async function updateUserInfo(params: Record<string, boolean>) {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        method: 'PUT',
-        body: JSON.stringify(params),
+        method: 'PATCH',
+        body: JSON.stringify({
+          field: params.field,
+          data: params.data,
+        }),
       }
     );
     const data = await res.json();
@@ -164,14 +167,9 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
   try {
     const formdata = new FormData();
     formdata.append('first_name', signUpParam.first_name);
-    formdata.append('last_name', signUpParam.last_name);
     formdata.append('email', signUpParam.email);
     formdata.append('password', signUpParam.password);
     formdata.append('is_mobile', signUpParam.is_mobile ? '1' : '0');
-    formdata.append(
-      'referral',
-      signUpParam.referral ? signUpParam.referral : ''
-    );
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/register`,
@@ -451,7 +449,7 @@ export async function profileResetEmail(params: {
 }) {
   try {
     const formData = new FormData();
-    formData.append('new_email', params.new_email);
+    formData.append('email', params.new_email);
     formData.append('password', params.password);
     const token = Cookies.get('token');
     const res = await fetch(
@@ -582,12 +580,12 @@ export async function refreshUserSession(): Promise<LoginData> {
 // ----------------------------------------------------------------
 // Doc
 // ----------------------------------------------------------------
-export async function createDoc(text?: string, file?: File) {
+export async function createDoc(text?: string, title?: string, file?: File) {
   const formData = new FormData();
-  formData.append('text', text ?? ' ');
+  formData.append('content', text ?? '');
+  formData.append('title', title ?? '');
   if (file) {
     formData.append('file', file);
-    formData.delete('text');
   }
   try {
     const token = Cookies.get('token');
@@ -598,6 +596,7 @@ export async function createDoc(text?: string, file?: File) {
         body: formData,
         headers: {
           Authorization: `Bearer ${token}`,
+          contentType: 'multipart/form-data',
         },
       }
     );
@@ -694,7 +693,7 @@ export async function getDocs(
     const res = await fetch(
       `${
         process.env.NEXT_PUBLIC_API_BASE_URL
-      }v0/editor/documents?page=${page}&page_size=${pageSize}${keyword ? `&keyword=${keyword}` : ''}`,
+      }v0/editor/documents?page=${page}&page_size=${pageSize}${keyword ? `&query=${keyword}` : ''}`,
       {
         method: 'GET',
         headers: {
