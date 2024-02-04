@@ -27,7 +27,8 @@ type UserTaskAction = {
   updateTaskStep: (result: number) => void;
   updateCitationStep: () => void;
   updateCompletion: (
-    result: 'continue_writing' | 'generate_tool' | 'ai_copilot' | 'citation'
+    result: 'continue_writing' | 'generate_tool' | 'ai_copilot' | 'citation',
+    status: boolean
   ) => Promise<void>;
   updateShowTask: (result: boolean) => Promise<void>;
   updateShowGuidence: (result: boolean) => Promise<void>;
@@ -40,7 +41,8 @@ export const useUserTaskStore: StateCreator<UserTaskStore> = (set, get) => ({
   updateShowGuidence: async (result) => {
     if (result === false)
       await updateUserInfo({
-        guidence: true,
+        field: 'guidence',
+        data: true,
       });
     set((state) => ({
       shouldShowGuidence: result,
@@ -49,10 +51,10 @@ export const useUserTaskStore: StateCreator<UserTaskStore> = (set, get) => ({
   updateShowTask: async (result) => {
     if (result === false)
       await updateUserInfo({
-        task: true,
+        field: 'tasks',
+        data: true,
       });
-
-    set((state) => ({
+    set(() => ({
       shouldShowTasks: result,
     }));
   },
@@ -62,46 +64,62 @@ export const useUserTaskStore: StateCreator<UserTaskStore> = (set, get) => ({
       citation_step: state.citation_step + 1,
     })),
 
-  updateCompletion: async (result) => {
+  updateCompletion: async (result, status) => {
     const { citation, generate_tool, continue_writing, ai_copilot } = get();
     if (result === 'ai_copilot') {
       if (!ai_copilot && generate_tool && continue_writing && citation) {
+        await updateUserInfo({
+          field: 'tasks',
+          data: true,
+        });
         set(() => ({
           shouldShowTasks: false,
         }));
       } else {
         set(() => ({
-          [result]: true,
+          [result]: status,
         }));
       }
     } else if (result === 'citation') {
       if (ai_copilot && generate_tool && continue_writing && !citation) {
+        await updateUserInfo({
+          field: 'tasks',
+          data: true,
+        });
         set(() => ({
           shouldShowTasks: false,
         }));
       } else {
         set(() => ({
-          [result]: true,
+          [result]: status,
         }));
       }
     } else if (result === 'generate_tool') {
       if (ai_copilot && !generate_tool && continue_writing && citation) {
+        await updateUserInfo({
+          field: 'tasks',
+          data: true,
+        });
         set(() => ({
           shouldShowTasks: false,
         }));
       } else {
         set(() => ({
-          [result]: true,
+          [result]: status,
         }));
       }
     } else {
       if (ai_copilot && generate_tool && !continue_writing && citation) {
+        await updateUserInfo({
+          field: 'tasks',
+          data: true,
+        });
         set(() => ({
           shouldShowTasks: false,
         }));
       } else {
         set(() => ({
-          [result]: true,
+          [result]: status,
         }));
       }
     }

@@ -19,3 +19,8 @@ export enum ContinueTooltip {
   TITLE = 'Your thoughts, flawlessly extended 🤝',
   TEXT = 'Effortlessly overcome writer’s block with “Continue Writing” feature that extends your writing, maintaining your unique style and thought process.',
 }
+
+export enum SampleEssay {
+  TITLE = 'My First Essay',
+  TEXT = '<h1>MY First Essay</h1>',
+}

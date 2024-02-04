@@ -3,7 +3,7 @@ import Spacer from '@/components/root/Spacer';
 import dynamic from 'next/dynamic';
 const Search = dynamic(() => import('@/components/polish/history/Search'));
 
-export default async function Page() {
+export default function Page() {
   return (
     <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
       <Spacer y='75' />

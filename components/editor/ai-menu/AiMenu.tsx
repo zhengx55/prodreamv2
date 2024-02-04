@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
-import { ask, copilot } from '@/query/api';
+import { ask, copilot, updateUserInfo } from '@/query/api';
 import useAiEditor, { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
@@ -163,7 +163,11 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleOperation = async (idx: number) => {
-    await updateCompletion('ai_copilot');
+    await updateCompletion('ai_copilot', true);
+    await updateUserInfo({
+      field: 'ai_copilot_task',
+      data: true,
+    });
     switch (idx) {
       case 0:
         handleReplace();

@@ -82,7 +82,7 @@ export async function getUserInfo() {
   }
 }
 
-export async function updateUserInfo(params: Record<string, boolean>) {
+export async function updateUserInfo(params: { field: string; data: any }) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -92,8 +92,11 @@ export async function updateUserInfo(params: Record<string, boolean>) {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        method: 'PUT',
-        body: JSON.stringify(params),
+        method: 'PATCH',
+        body: JSON.stringify({
+          field: params.field,
+          data: params.data,
+        }),
       }
     );
     const data = await res.json();
@@ -577,12 +580,12 @@ export async function refreshUserSession(): Promise<LoginData> {
 // ----------------------------------------------------------------
 // Doc
 // ----------------------------------------------------------------
-export async function createDoc(text?: string, file?: File) {
+export async function createDoc(text?: string, title?: string, file?: File) {
   const formData = new FormData();
-  formData.append('text', text ?? ' ');
+  if (text) formData.append('content', text);
+  if (title) formData.append('title', title);
   if (file) {
     formData.append('file', file);
-    formData.delete('text');
   }
   try {
     const token = Cookies.get('token');
