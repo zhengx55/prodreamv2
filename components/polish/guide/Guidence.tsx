@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { sample_outline } from '@/constant';
-import { outline } from '@/query/api';
+import { outline, updateUserInfo } from '@/query/api';
 import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
@@ -19,7 +19,11 @@ const Guidence = ({ editor }: { editor: Editor }) => {
   const resultString = useRef<string>('');
   const updateShowGuidence = useUserTask((state) => state.updateShowGuidence);
   const close = async () => {
-    await updateShowGuidence(false);
+    updateShowGuidence(false);
+    await updateUserInfo({
+      field: 'guidence',
+      data: true,
+    });
   };
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;

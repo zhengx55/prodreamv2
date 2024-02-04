@@ -16,7 +16,7 @@ export const useUserTrack = () => {
     queryFn: () => getUserInfo(),
   });
   useEffect(() => {
-    if (isSuccess) {
+    async function getUserTrack() {
       if (!user_track) {
         updateShowGuidence(true);
         updateShowTask(true);
@@ -24,12 +24,16 @@ export const useUserTrack = () => {
         if (!user_track.guidence) updateShowGuidence(true);
         if (!user_track.tasks) updateShowTask(true);
         if (user_track.continue_writing_task)
-          updateCompletion('continue_writing', true);
-        if (user_track.ai_copilot_task) updateCompletion('ai_copilot', true);
+          await updateCompletion('continue_writing', true);
+        if (user_track.ai_copilot_task)
+          await updateCompletion('ai_copilot', true);
         if (user_track.generate_tool_task)
-          updateCompletion('generate_tool', true);
-        if (user_track.citation_task) updateCompletion('citation', true);
+          await updateCompletion('generate_tool', true);
+        if (user_track.citation_task) await updateCompletion('citation', true);
       }
+    }
+    if (isSuccess) {
+      getUserTrack();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
