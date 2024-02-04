@@ -39,21 +39,11 @@ export type UserTaskStore = UserTaskState & UserTaskAction;
 export const useUserTaskStore: StateCreator<UserTaskStore> = (set, get) => ({
   ...initialState,
   updateShowGuidence: (result) => {
-    // if (result === false)
-    //   await updateUserInfo({
-    //     field: 'guidence',
-    //     data: true,
-    //   });
     set(() => ({
       shouldShowGuidence: result,
     }));
   },
   updateShowTask: (result) => {
-    // if (result === false)
-    //   await updateUserInfo({
-    //     field: 'tasks',
-    //     data: true,
-    //   });
     set(() => ({
       shouldShowTasks: result,
     }));
