@@ -95,6 +95,7 @@ const Task = ({ editor }: Props) => {
       })
       .setColor('rgb(134 82 219)')
       .setTextSelection(0)
+      .unsetColor()
       .run();
     insertPos.current += result.length;
   };
