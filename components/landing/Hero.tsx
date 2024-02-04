@@ -5,7 +5,7 @@ import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 const HeroCarousel = dynamic(
@@ -17,6 +17,9 @@ const HeroCarousel = dynamic(
 
 const Hero = () => {
   const [selected, setSelected] = useState(0);
+  const memoSetSelected = useCallback((index: number) => {
+    setSelected(index);
+  }, []);
   return (
     <m.section
       variants={staggerContainer()}
@@ -82,7 +85,7 @@ const Hero = () => {
         </div>
         <Spacer y='90' className='hidden sm:block' />
         <Spacer y='20' className='block sm:hidden' />
-        <HeroCarousel />
+        <HeroCarousel clickCallback={memoSetSelected} />
         <div className='hidden w-full justify-between gap-x-4 sm:flex'>
           {HeroInfo.map((item, index) => {
             return (

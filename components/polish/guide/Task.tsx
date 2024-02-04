@@ -8,7 +8,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { startup_task, task_gif } from '@/constant';
-import { copilot } from '@/query/api';
+import { copilot, updateUserInfo } from '@/query/api';
 import useAiEditor, { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
@@ -28,6 +28,8 @@ const Task = ({ editor }: Props) => {
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
+  const updateCompletion = useUserTask((state) => state.updateCompletion);
+
   const insertPos = useRef<number>(0);
   const findFistParagraph = () => {
     let first_paragraph = {
@@ -120,6 +122,8 @@ const Task = ({ editor }: Props) => {
     if (index === 2) {
       updateRightbarTab(2);
       updateTaskStep(2);
+      await updateCompletion('generate_tool', true);
+      await updateUserInfo({ field: 'generate_tool_task', data: true });
     }
     if (index === 3) {
       updateRightbarTab(1);

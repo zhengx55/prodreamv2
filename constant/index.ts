@@ -148,25 +148,25 @@ export const HeroInfo = [
     id: 'hero-01',
     icon: '/landing/heros/outline.svg',
     title: 'Outlining',
-    text: 'Our feature creates detailed outlines with relevant sources, ',
+    text: 'Streamline your essay process, no more scattered ideas.',
   },
   {
     id: 'hero-02',
     icon: '/landing/heros/editing.svg',
     title: 'Editing',
-    text: 'Our feature creates detailed outlines with relevant sources, ',
+    text: 'Write with precision, clarity, and organization.',
   },
   {
     id: 'hero-03',
     icon: '/landing/heros/citation.svg',
     title: 'Citation',
-    text: 'Our feature creates detailed outlines with relevant sources, ',
+    text: 'Unparalleled academic knowledge base boosts research efficiency.',
   },
   {
     id: 'hero-04',
     icon: '/landing/heros/proofread.svg',
     title: 'Proofread',
-    text: 'Our feature creates detailed outlines with relevant sources, ',
+    text: 'Perfect your writing: detect plagiarism and refine content.',
   },
 ];
 
@@ -766,21 +766,36 @@ export const task_gif = [
 
 export const sample_search_citation = [
   {
-    article_title: 'Climate Change 2021 – The Physical Science Basis',
-    journal_title: '',
+    article_title:
+      'Fashion-MNIST: a Novel Image Dataset for Benchmarking Machine Learning Algorithms',
+    journal_title: 'ArXiv',
     abstract:
-      'The Working Group I contribution to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change (IPCC) provides a comprehensive assessment of the physical science basis of climate change. It considers in situ and remote observations; paleoclimate information; understanding of climate drivers and physical, chemical, and biological processes and feedbacks; global and regional climate modelling; advances in methods of analyses; and insights from climate services. It assesses the current state of the climate; human influence on climate in all regions; future climate change including sea level rise; global warming effects including extremes; climate information for risk assessment and regional adaptation; limiting climate change by reaching net zero carbon dioxide emissions and reducing other greenhouse gas emissions; and benefits for air quality. The report serves policymakers, decision makers, stakeholders, and all interested parties with the latest policy-relevant information on climate change. Available as Open Access on Cambridge Core.',
+      'We present Fashion-MNIST, a new dataset comprising of 28x28 grayscale images of 70,000 fashion products from 10 categories, with 7,000 images per category. The training set has 60,000 images and the test set has 10,000 images. Fashion-MNIST is intended to serve as a direct drop-in replacement for the original MNIST dataset for benchmarking machine learning algorithms, as it shares the same image size, data format and the structure of training and testing splits. The dataset is freely available at this https URL',
     authors: [
       {
-        first_name: 'Intergovernmental',
-        middle_name: 'Panel on Climate',
-        last_name: 'Change',
+        first_name: 'Han',
+        middle_name: null,
+        last_name: 'Xiao',
+        suffix: null,
+        role: 'author',
+      },
+      {
+        first_name: 'Kashif',
+        middle_name: null,
+        last_name: 'Rasul',
+        suffix: null,
+        role: 'author',
+      },
+      {
+        first_name: 'Roland',
+        middle_name: null,
+        last_name: 'Vollgraf',
         suffix: null,
         role: 'author',
       },
     ],
     publish_date: {
-      year: 2023,
+      year: 2017,
       month: null,
       day: null,
     },
@@ -788,20 +803,19 @@ export const sample_search_citation = [
       start: null,
       end: null,
     },
-    doi: '10.1017/9781009157896',
+    doi: null,
     advanced_info: {
-      volume: null,
+      volume: 'abs/1708.07747',
       issue: null,
       series: null,
     },
-    area: null,
-    reference_count: 0,
-    citation_count: 6277,
-    influential_citation_count: 450,
-    pdf_url:
-      'https://www.cambridge.org/core/services/aop-cambridge-core/content/view/84D59430721AC15204CEAFA4F3902A42/stamped-9781009157889pre1_i-ii.pdf/frontmatter.pdf',
-    tldr: null,
+    area: ['Computer Science', 'Mathematics'],
+    reference_count: 6,
+    citation_count: 6613,
+    influential_citation_count: 1704,
+    pdf_url: null,
+    tldr: 'Fashion-MNIST is intended to serve as a direct drop-in replacement for the original MNIST dataset for benchmarking machine learning algorithms, as it shares the same image size, data format and the structure of training and testing splits.',
     publisher:
-      'https://www.semanticscholar.org/paper/c0a737a5f1bcc70c368991c9daec41056894337e',
+      'https://www.semanticscholar.org/paper/f9c602cc436a9ea2f9e7db48c77d924e09ce3c32',
   },
 ];

@@ -71,7 +71,12 @@ const HeroShowCaseCarousel = () => {
     </Carousel>
   );
 };
-const HeroCarousel = () => {
+
+const HeroCarousel = ({
+  clickCallback,
+}: {
+  clickCallback: (index: number) => void;
+}) => {
   return (
     <Carousel
       opts={{
@@ -81,11 +86,12 @@ const HeroCarousel = () => {
       className='block sm:hidden'
     >
       <CarouselContent className='ml-0'>
-        {HeroInfo.map((item) => {
+        {HeroInfo.map((item, index) => {
           return (
             <CarouselItem
               className='flex flex-col gap-y-2 rounded-2xl bg-[#F8F9FC] p-5'
               key={item.id}
+              onClick={() => clickCallback(index)}
             >
               <Image
                 alt={item.title}
