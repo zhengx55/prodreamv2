@@ -30,30 +30,30 @@ type UserTaskAction = {
     result: 'continue_writing' | 'generate_tool' | 'ai_copilot' | 'citation',
     status: boolean
   ) => Promise<void>;
-  updateShowTask: (result: boolean) => Promise<void>;
-  updateShowGuidence: (result: boolean) => Promise<void>;
+  updateShowTask: (result: boolean) => void;
+  updateShowGuidence: (result: boolean) => void;
 };
 
 export type UserTaskStore = UserTaskState & UserTaskAction;
 
 export const useUserTaskStore: StateCreator<UserTaskStore> = (set, get) => ({
   ...initialState,
-  updateShowGuidence: async (result) => {
-    if (result === false)
-      await updateUserInfo({
-        field: 'guidence',
-        data: true,
-      });
-    set((state) => ({
+  updateShowGuidence: (result) => {
+    // if (result === false)
+    //   await updateUserInfo({
+    //     field: 'guidence',
+    //     data: true,
+    //   });
+    set(() => ({
       shouldShowGuidence: result,
     }));
   },
-  updateShowTask: async (result) => {
-    if (result === false)
-      await updateUserInfo({
-        field: 'tasks',
-        data: true,
-      });
+  updateShowTask: (result) => {
+    // if (result === false)
+    //   await updateUserInfo({
+    //     field: 'tasks',
+    //     data: true,
+    //   });
     set(() => ({
       shouldShowTasks: result,
     }));
