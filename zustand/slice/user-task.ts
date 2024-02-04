@@ -32,6 +32,7 @@ type UserTaskAction = {
   ) => Promise<void>;
   updateShowTask: (result: boolean) => void;
   updateShowGuidence: (result: boolean) => void;
+  resetCitationStep: () => void;
 };
 
 export type UserTaskStore = UserTaskState & UserTaskAction;
@@ -52,6 +53,10 @@ export const useUserTaskStore: StateCreator<UserTaskStore> = (set, get) => ({
   updateCitationStep: () =>
     set((state) => ({
       citation_step: state.citation_step + 1,
+    })),
+  resetCitationStep: () =>
+    set(() => ({
+      citation_step: 0,
     })),
 
   updateCompletion: async (result, status) => {
