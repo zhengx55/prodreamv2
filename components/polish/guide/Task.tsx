@@ -62,7 +62,7 @@ const Task = ({ editor }: Props) => {
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-        handleStreamData(value);
+        handleStreamData(value, variables.pos);
       }
     },
     onError: (error) => {
@@ -70,7 +70,7 @@ const Task = ({ editor }: Props) => {
     },
   });
 
-  const handleStreamData = (value: string | undefined) => {
+  const handleStreamData = (value: string | undefined, start: number) => {
     if (!value) return;
     const lines = value.split('\n');
     const dataLines = lines.filter(
@@ -90,12 +90,9 @@ const Task = ({ editor }: Props) => {
       .chain()
       .insertContentAt(insertPos.current, result)
       .setTextSelection({
-        from: insertPos.current,
+        from: start,
         to: result.length + insertPos.current,
       })
-      .setColor('rgb(134 82 219)')
-      .setTextSelection(0)
-      .unsetColor()
       .run();
     insertPos.current += result.length;
   };

@@ -68,7 +68,7 @@ const Tiplayout = ({
                 <span />
               )}
               <Button
-                className='h-max w-max rounded bg-doc-primary py-1'
+                className='h-max w-max rounded bg-doc-primary py-1 capitalize'
                 role='button'
                 onClick={buttonHandler}
               >
