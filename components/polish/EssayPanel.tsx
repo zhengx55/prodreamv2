@@ -1,6 +1,5 @@
 'use client';
 import DocNavbar from '@/components/editor/navbar';
-import { useUserTrack } from '@/hooks/useUserTrack';
 import { getDocDetail } from '@/query/api';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
@@ -34,7 +33,6 @@ const EssayPanel = ({ id }: { id: string }) => {
     queryKey: ['document_item', id],
     queryFn: () => getDocDetail(id),
   });
-  const { isFetching: isTrackFetching } = useUserTrack();
   useCitationInfo(document_content);
   if (isError) return <p>opps something went wrong!</p>;
 
@@ -55,7 +53,7 @@ const EssayPanel = ({ id }: { id: string }) => {
           </Link>
         </Tooltip>
         <div className='relative flex h-full w-full justify-center overflow-hidden'>
-          {isFetching || isTrackFetching ? (
+          {isFetching ? (
             <div className='flex flex-1 flex-col items-center'>
               <Spacer y='20' />
               <Skeleton className='h-10 w-[700px] rounded-lg' />

@@ -8,7 +8,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { startup_task, task_gif } from '@/constant';
-import { copilot, updateUserInfo } from '@/query/api';
+import { copilot } from '@/query/api';
+import { useMutateTrackInfo } from '@/query/query';
+import { UserTrackData } from '@/query/type';
 import useAiEditor, { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
@@ -17,19 +19,15 @@ import Image from 'next/image';
 import { memo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-type Props = { editor: Editor };
+type Props = { editor: Editor; track: UserTrackData };
 
-const Task = ({ editor }: Props) => {
+const Task = ({ editor, track }: Props) => {
   const [step, setStep] = useState(0);
-  const citation_check = useUserTask((state) => state.citation);
-  const copilot_check = useUserTask((state) => state.ai_copilot);
-  const continue_writing_check = useUserTask((state) => state.continue_writing);
-  const generate_tool_check = useUserTask((state) => state.generate_tool);
+
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
-  const updateCompletion = useUserTask((state) => state.updateCompletion);
-
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const insertPos = useRef<number>(0);
   const findFistParagraph = () => {
     let first_paragraph = {
@@ -122,9 +120,11 @@ const Task = ({ editor }: Props) => {
     if (index === 2) {
       updateRightbarTab(2);
       updateTaskStep(2);
-      if (!generate_tool_check) {
-        await updateCompletion('generate_tool', true);
-        await updateUserInfo({ field: 'generate_tool_task', data: true });
+      if (!track?.generate_tool_task) {
+        await updateTrack({
+          field: 'generate_tool_task',
+          data: true,
+        });
       }
     }
     if (index === 3) {
@@ -171,12 +171,12 @@ const Task = ({ editor }: Props) => {
                       disabled
                       checked={
                         index === 0
-                          ? copilot_check
+                          ? !!track?.ai_copilot_task
                           : index === 1
-                            ? continue_writing_check
+                            ? !!track?.continue_writing_task
                             : index === 2
-                              ? generate_tool_check
-                              : citation_check
+                              ? !!track?.generate_tool_task
+                              : !!track?.citation_task
                       }
                       id={task.label}
                       className='h-4 w-4 rounded-full border-doc-primary'

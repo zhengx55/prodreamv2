@@ -3,7 +3,8 @@ import BottomBar from '@/components/editor/bottombar';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
-import useAiEditor, { useUserTask } from '@/zustand/store';
+import { useUserTrackInfo } from '@/query/query';
+import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor as EditorType, useEditor } from '@tiptap/react';
 import { AnimatePresence } from 'framer-motion';
@@ -22,7 +23,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const doc_title = useAiEditor((state) => state.doc_title);
   const updateTitle = useAiEditor((state) => state.updateTitle);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
-  const showGuidence = useUserTask((state) => state.shouldShowGuidence);
+  const { data: userTrack, isPending } = useUserTrackInfo();
   const debouncedUpdateText = useDebouncedCallback(
     async (title: string, text: string) => {
       if (title === doc_title) {
@@ -88,9 +89,11 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     <section className='flex w-full flex-col'>
       <div className='relative flex h-[calc(100%_-40px)] w-full'>
         <TableOfContents editor={editor} />
-        <AnimatePresence initial={false}>
-          {showGuidence && <Guidence editor={editor} />}
-        </AnimatePresence>
+        {!isPending && (
+          <AnimatePresence initial={false}>
+            {!userTrack?.guidence && <Guidence editor={editor} />}
+          </AnimatePresence>
+        )}
         <EditorBlock editor={editor} />
       </div>
       {showBottomBar && (

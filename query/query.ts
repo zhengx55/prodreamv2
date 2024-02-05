@@ -1,8 +1,30 @@
 import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
 import { DocSortingMethods, ICitationType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { createCitation, getDocs } from './api';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createCitation, getDocs, getUserInfo, updateUserInfo } from './api';
+import { UserTrackData } from './type';
+
+export const useUserTrackInfo = () => {
+  return useQuery({
+    queryKey: ['user_track_info'],
+    queryFn: () => getUserInfo(),
+    staleTime: 1000 * 60 * 60 * 24,
+  });
+};
+
+export const useMutateTrackInfo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (params: { field: keyof UserTrackData; data: any }) =>
+      updateUserInfo(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['user_track_info'],
+      });
+    },
+  });
+};
 
 export const useDocumentList = (
   searchTerm: string,
