@@ -183,4 +183,5 @@ export type UserTrackData = {
   generate_tool_task?: string;
   citation_task?: string;
   tasks?: string;
+  citation_empty_check?: string;
 };

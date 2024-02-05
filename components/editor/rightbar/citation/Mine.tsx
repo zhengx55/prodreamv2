@@ -3,11 +3,14 @@ import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Toggle } from '@/components/ui/toggle';
 import { CitationTooltip } from '@/constant/enum';
-import { useUserTask } from '@/zustand/store';
+import { useUserTrackInfo } from '@/query/query';
+import useAiEditor, { useUserTask } from '@/zustand/store';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { AnimatePresence, m } from 'framer-motion';
 import { ChevronUp } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
+import Empty from './Empty';
 
 const InTextList = dynamic(() => import('./InTextList'));
 const LibraryList = dynamic(() => import('./LibraryList'));
@@ -16,13 +19,29 @@ const Mine = () => {
   const [showMine, setShowMine] = useState(false);
   const [type, setType] = useState<number | null>(null);
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
+  const IndocCitationIds = useAiEditor((state) => state.inDocCitationIds);
+  const InTextCitationIds = useAiEditor((state) => state.inTextCitationIds);
   const resetCitationStep = useUserTask((state) => state.resetCitationStep);
+  const { data: track, isPending } = useUserTrackInfo();
+  useUpdateEffect(() => {
+    if (!showMine) setType(null);
+    if (showMine && !type) setType(0);
+  }, [showMine]);
+
+  if (isPending) return null;
   return (
     <m.div
       initial={false}
       variants={{
         show: { height: '80%' },
-        hide: { height: '40px' },
+        hide: {
+          height:
+            !track?.citation_empty_check &&
+            IndocCitationIds.length === 0 &&
+            InTextCitationIds.length === 0
+              ? '40%'
+              : '40px',
+        },
       }}
       transition={{ delay: 0.2 }}
       animate={showMine ? 'show' : 'hide'}
@@ -103,6 +122,9 @@ const Mine = () => {
           </Button>
         </div>
       </div>
+      <Empty
+        show={IndocCitationIds.length === 0 && InTextCitationIds.length === 0}
+      />
       <AnimatePresence>
         {showMine && (type === 0 ? <LibraryList /> : <InTextList />)}
       </AnimatePresence>
