@@ -137,7 +137,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
             updateCopilotMenu(true);
             updateCopilotRect(menuYOffside.current);
             setOpen(false);
-            updateTaskStep(-1);
+            task_step === 0 && updateTaskStep(-1);
           }}
           className='text-doc-primary'
         >

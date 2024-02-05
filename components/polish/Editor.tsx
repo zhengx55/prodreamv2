@@ -18,7 +18,6 @@ import Guidence from './guide/Guidence';
 const Editor = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
   const [showBottomBar, setShowBottomBar] = useState(true);
-  const savingMode = useAiEditor((state) => state.savingMode);
   const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
   const reset = useAiEditor((state) => state.reset);
   const doc_title = useAiEditor((state) => state.doc_title);
