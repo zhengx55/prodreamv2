@@ -1,4 +1,3 @@
-'use client';
 import Spacer from '@/components/root/Spacer';
 import { FileIcon } from '@/components/root/SvgComponents';
 import { formatTimestamphh_number } from '@/lib/utils';
@@ -9,16 +8,8 @@ import HistoryDropDown from './HistoryDropDown';
 
 type Props = {
   item: IDocDetail;
-  toggleDeleteModal: (value: boolean) => void;
-  setCurrentItem: (value: IDocDetail) => void;
-  toggleMoveModal: (value: boolean) => void;
 };
-const Card = ({
-  setCurrentItem,
-  toggleDeleteModal,
-  toggleMoveModal,
-  item,
-}: Props) => {
+const Card = ({ item }: Props) => {
   const previewContent = useMemo(async () => {
     return item.content
       .replace(/<h1[^>]*>.*?<\/h1>/, '')
@@ -47,12 +38,7 @@ const Card = ({
             <p className='subtle-regular text-shadow'>
               Opened {formatTimestamphh_number(item.update_time)}
             </p>
-            <HistoryDropDown
-              toggleMoveModal={toggleMoveModal}
-              toggleDeleteModal={toggleDeleteModal}
-              setCurrentItem={setCurrentItem}
-              item={item}
-            />
+            <HistoryDropDown item={item} />
           </div>
         </div>
       </li>

@@ -1,10 +1,9 @@
-'use client';
 import { UploadGard } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { createDoc } from '@/query/api';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
@@ -16,11 +15,15 @@ const SearchBar = ({ setKeyword }: { setKeyword: (value: string) => void }) => {
   const [isTyping, setIsTyping] = useState(false);
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
   const { mutateAsync: createNew } = useMutation({
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
     onSuccess: (data) => {
       router.push(`/writtingpal/polish/${data}`);
+      queryClient.invalidateQueries({
+        queryKey: ['document_history_list'],
+      });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -35,6 +38,11 @@ const SearchBar = ({ setKeyword }: { setKeyword: (value: string) => void }) => {
       setIsTyping(true);
     }
   };
+
+  const handleSearch = () => {
+    queryClient.refetchQueries({});
+  };
+
   return (
     <div className='flex-between w-[1100px]'>
       <div className='flex w-full gap-x-4'>

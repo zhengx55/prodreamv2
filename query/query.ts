@@ -1,8 +1,28 @@
 import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
-import { ICitationType } from '@/types';
+import { DocSortingMethods, ICitationType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
-import { createCitation } from './api';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { createCitation, getDocs } from './api';
+
+export const useDocumentList = (
+  searchTerm: string,
+  sortingMethod: DocSortingMethods
+) => {
+  return useQuery({
+    queryKey: ['document_history_list', searchTerm],
+    queryFn: () => getDocs(0, 15, searchTerm ?? undefined),
+    select: (data) =>
+      sortingMethod === 'title'
+        ? {
+            ...data,
+            list: data.list.sort((a, b) => a.title.localeCompare(b.title)),
+          }
+        : {
+            ...data,
+            list: data.list.sort((a, b) => b.update_time - a.update_time),
+          },
+  });
+};
 
 export const useCreateCitation = () => {
   const appendInDocCitationIds = useAIEditor(
