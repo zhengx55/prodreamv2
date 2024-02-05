@@ -23,6 +23,16 @@ const Mine = () => {
   const InTextCitationIds = useAiEditor((state) => state.inTextCitationIds);
   const resetCitationStep = useUserTask((state) => state.resetCitationStep);
   const { data: track, isPending } = useUserTrackInfo();
+
+  const onPressHandler = (pressed: boolean, index: number) => {
+    if (pressed) {
+      setShowMine(true);
+      setType(index);
+    } else {
+      setType(null);
+    }
+  };
+
   useUpdateEffect(() => {
     if (!showMine) setType(null);
     if (showMine && !type) setType(0);
@@ -55,14 +65,7 @@ const Mine = () => {
         <div className='flex items-center gap-x-2'>
           <Toggle
             pressed={type === 0}
-            onPressedChange={(pressed) => {
-              if (pressed) {
-                setShowMine(true);
-                setType(0);
-              } else {
-                setType(null);
-              }
-            }}
+            onPressedChange={(pressed: boolean) => onPressHandler(pressed, 0)}
             className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
           >
             All
@@ -81,14 +84,9 @@ const Mine = () => {
             >
               <Toggle
                 pressed={type === 1}
-                onPressedChange={(pressed) => {
-                  if (pressed) {
-                    setShowMine(true);
-                    setType(1);
-                  } else {
-                    setType(null);
-                  }
-                }}
+                onPressedChange={(pressed: boolean) =>
+                  onPressHandler(pressed, 1)
+                }
                 className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
               >
                 In this doc
@@ -97,20 +95,12 @@ const Mine = () => {
           ) : (
             <Toggle
               pressed={type === 1}
-              onPressedChange={(pressed) => {
-                if (pressed) {
-                  setShowMine(true);
-                  setType(1);
-                } else {
-                  setType(null);
-                }
-              }}
+              onPressedChange={(pressed: boolean) => onPressHandler(pressed, 1)}
               className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
             >
               In this doc
             </Toggle>
           )}
-
           <Button
             onClick={() => setShowMine((prev) => !prev)}
             className='h-max w-max rounded bg-doc-primary px-2 py-1'
@@ -123,7 +113,11 @@ const Mine = () => {
         </div>
       </div>
       <Empty
-        show={IndocCitationIds.length === 0 && InTextCitationIds.length === 0}
+        show={
+          !track?.citation_empty_check &&
+          IndocCitationIds.length === 0 &&
+          InTextCitationIds.length === 0
+        }
       />
       <AnimatePresence>
         {showMine && (type === 0 ? <LibraryList /> : <InTextList />)}

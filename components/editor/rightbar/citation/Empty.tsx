@@ -1,15 +1,14 @@
 import { Button } from '@/components/ui/button';
-import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
+import { useMutateTrackInfo } from '@/query/query';
 import { AnimatePresence, m } from 'framer-motion';
 import Image from 'next/image';
 
-const Empty = (show: { show: boolean }) => {
+const Empty = ({ show }: { show: boolean }) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const { data: track, isPending } = useUserTrackInfo();
-  if (isPending) return null;
+
   return (
     <AnimatePresence>
-      {!track?.citation_empty_check && show && (
+      {show && (
         <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
