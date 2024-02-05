@@ -9,6 +9,7 @@ import {
   ISigunUpRequest,
   IVerifyEmail,
   LoginData,
+  UserTrackData,
 } from './type';
 
 // ----------------------------------------------------------------
@@ -60,7 +61,7 @@ export async function setEduInfo(params: { educational_background: string }) {
     throw new Error(error as string);
   }
 }
-export async function getUserInfo() {
+export async function getUserInfo(): Promise<UserTrackData> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -82,7 +83,10 @@ export async function getUserInfo() {
   }
 }
 
-export async function updateUserInfo(params: { field: string; data: any }) {
+export async function updateUserInfo(params: {
+  field: keyof UserTrackData;
+  data: any;
+}) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(

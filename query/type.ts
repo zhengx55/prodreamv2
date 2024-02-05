@@ -175,3 +175,12 @@ export interface PublishDate {
   year: number | null;
   [property: string]: any;
 }
+
+export type UserTrackData = {
+  guidence?: string;
+  continue_writing_task?: string;
+  ai_copilot_task?: string;
+  generate_tool_task?: string;
+  citation_task?: string;
+  tasks?: string;
+};

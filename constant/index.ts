@@ -122,24 +122,6 @@ export const PresetInstructions: { [key: string]: string } = {
   '5': 'Make it professional',
 };
 
-export const ProfileDropdownLinks = [
-  {
-    id: 'profile-01',
-    title: 'Refer Friends',
-    image: '/referrals_dark.svg',
-  },
-  {
-    id: 'profile-02',
-    title: 'View blogs',
-    image: '/document.svg',
-  },
-  {
-    id: 'profile-03',
-    title: 'Log out',
-    image: '/logout.svg',
-  },
-];
-
 // ----------------------------------------------------------------
 // LANDING PAGE
 // ----------------------------------------------------------------

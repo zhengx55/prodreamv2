@@ -1,26 +1,32 @@
-'use client';
 import { UploadGard } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { createDoc } from '@/query/api';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, memo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 
-const SearchBar = ({ setKeyword }: { setKeyword: (value: string) => void }) => {
+const SearchBar = () => {
   const [isTyping, setIsTyping] = useState(false);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
   const { mutateAsync: createNew } = useMutation({
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
     onSuccess: (data) => {
       router.push(`/writtingpal/polish/${data}`);
+      queryClient.invalidateQueries({
+        queryKey: ['document_history_list'],
+      });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -28,13 +34,26 @@ const SearchBar = ({ setKeyword }: { setKeyword: (value: string) => void }) => {
   });
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const params = new URLSearchParams(searchParams);
     if (!e.target.value.trim()) {
-      setKeyword('');
       setIsTyping(false);
+      params.delete('query');
+      replace(`${pathname}?${params.toString()}`);
     } else {
       setIsTyping(true);
     }
   };
+
+  const handleSearch = () => {
+    if (ref.current) {
+      const params = new URLSearchParams(searchParams);
+      if (ref.current.value) {
+        params.set('query', ref.current.value);
+      }
+      replace(`${pathname}?${params.toString()}`);
+    }
+  };
+
   return (
     <div className='flex-between w-[1100px]'>
       <div className='flex w-full gap-x-4'>
@@ -62,7 +81,7 @@ const SearchBar = ({ setKeyword }: { setKeyword: (value: string) => void }) => {
       <div className='relative flex h-14 w-2/5 shrink-0 items-center rounded-lg border border-shadow-border'>
         <Button
           disabled={!isTyping}
-          onClick={() => ref.current && setKeyword(ref.current.value)}
+          onClick={handleSearch}
           className={`${
             isTyping
               ? 'bg-primary-200 text-white'

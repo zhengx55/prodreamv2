@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { sample_outline } from '@/constant';
-import { outline, updateUserInfo } from '@/query/api';
-import { useUserTask } from '@/zustand/store';
+import { outline } from '@/query/api';
+import { useMutateTrackInfo } from '@/query/query';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
@@ -17,10 +17,9 @@ const Guidence = ({ editor }: { editor: Editor }) => {
   const ideaRef = useRef<HTMLTextAreaElement>(null);
   const [isGenrating, setIsGenerating] = useState(false);
   const resultString = useRef<string>('');
-  const updateShowGuidence = useUserTask((state) => state.updateShowGuidence);
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const close = async () => {
-    updateShowGuidence(false);
-    await updateUserInfo({
+    await updateTrack({
       field: 'guidence',
       data: true,
     });

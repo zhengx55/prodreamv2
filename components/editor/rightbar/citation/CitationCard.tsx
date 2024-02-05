@@ -3,8 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CitationTooltip } from '@/constant/enum';
 import { ConvertCitationData } from '@/lib/utils';
-import { updateUserInfo } from '@/query/api';
-import { useCiteToDoc, useCreateCitation } from '@/query/query';
+import {
+  useCiteToDoc,
+  useCreateCitation,
+  useMutateTrackInfo,
+  useUserTrackInfo,
+} from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { useAIEditor, useUserTask } from '@/zustand/store';
@@ -39,8 +43,8 @@ export const SearchCitationCard = memo(
     const { id } = useParams();
     const citation_tooltip_step = useUserTask((state) => state.citation_step);
     const updateCitationStep = useUserTask((state) => state.updateCitationStep);
-    const updateCompletion = useUserTask((state) => state.updateCompletion);
-    const citation_check = useUserTask((state) => state.citation);
+    const { mutateAsync: updateTrack } = useMutateTrackInfo();
+    const { data: track } = useUserTrackInfo();
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
 
@@ -49,9 +53,8 @@ export const SearchCitationCard = memo(
       index: number,
       action: 'cite' | 'collect'
     ) => {
-      if (!citation_check) {
-        await updateCompletion('citation', true);
-        await updateUserInfo({
+      if (!track?.citation_task) {
+        await updateTrack({
           field: 'citation_task',
           data: true,
         });

@@ -1,32 +1,17 @@
-'use client';
-
 import { IDocDetail } from '@/query/type';
+import { memo } from 'react';
 import Card from './Card';
 
 type Props = {
   list: IDocDetail[];
-  setCurrentItem: (value: IDocDetail) => void;
-  toggleDeleteModal: (value: boolean) => void;
-  toggleMoveModal: (value: boolean) => void;
 };
-const CardView = ({
-  list,
-  setCurrentItem,
-  toggleDeleteModal,
-  toggleMoveModal,
-}: Props) => {
+const CardView = ({ list }: Props) => {
   return (
     <ul role='list' className='grid w-[1100px] grid-flow-row grid-cols-5 gap-4'>
       {list.map((item) => (
-        <Card
-          toggleDeleteModal={toggleDeleteModal}
-          item={item}
-          toggleMoveModal={toggleMoveModal}
-          key={item.id}
-          setCurrentItem={setCurrentItem}
-        />
+        <Card item={item} key={item.id} />
       ))}
     </ul>
   );
 };
-export default CardView;
+export default memo(CardView);

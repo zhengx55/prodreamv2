@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
-import { ask, copilot, updateUserInfo } from '@/query/api';
-import useAiEditor, { useUserTask } from '@/zustand/store';
+import { ask, copilot } from '@/query/api';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
+import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { ChevronRight } from 'lucide-react';
@@ -29,8 +30,8 @@ export const AiMenu = ({ editor }: Props) => {
   const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
   const selectedText = useAiEditor((state) => state.selectedText);
   const { options, operations } = useAiOptions();
-  const updateCompletion = useUserTask((state) => state.updateCompletion);
-  const ai_copilot_task = useUserTask((state) => state.ai_copilot);
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const { data: track } = useUserTrackInfo();
   const [hoverItem, setHoverItem] = useState<number | null>(null);
   const [generating, setGenerating] = useState(false);
   const [aiResult, setAiResult] = useState('');
@@ -164,9 +165,8 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleOperation = async (idx: number) => {
-    if (!ai_copilot_task) {
-      await updateCompletion('ai_copilot', true);
-      await updateUserInfo({
+    if (!track?.ai_copilot_task) {
+      await updateTrack({
         field: 'ai_copilot_task',
         data: true,
       });

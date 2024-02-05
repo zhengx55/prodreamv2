@@ -1,40 +1,38 @@
-'use client';
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
 import { getDocs } from '@/query/api';
+import { useDocumentList } from '@/query/query';
 import { IDocDetail } from '@/query/type';
 import { DocSortingMethods } from '@/types';
-import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { LayoutGrid, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import CardView from './CardView';
 
+const CardView = dynamic(() => import('./CardView'));
 const ListView = dynamic(() => import('./ListView'));
-const DeleteModal = dynamic(() => import('./DeleteModal'));
-const MoveModal = dynamic(() => import('./MoveModal'));
 const FilterDropdown = dynamic(() => import('./FilterDropDown'));
 
-type Props = {
-  history_list: IDocDetail[];
-  hasMorePage: boolean;
-  isLoading: boolean;
-};
-
-const List = ({ history_list, hasMorePage, isLoading }: Props) => {
+const DocumentList = () => {
   const { ref, inView } = useInView();
+  const searchParams = useSearchParams();
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
-  const [list, setList] = useState<IDocDetail[]>(history_list);
+  const [list, setList] = useState<IDocDetail[]>([]);
   const [page, setPage] = useState(1);
-  const [morePage, setMorePage] = useState(hasMorePage);
+  const [morePage, setMorePage] = useState(false);
   const [loadingMore, toogleLoadingMore] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showMoveModal, setshowMoveModal] = useState(false);
   const [sortingMethod, setSortingMethod] =
     useState<DocSortingMethods>('lastOpenedTime');
-  const [currentItem, setCurrentItem] = useState<IDocDetail>();
+  const { data, isPending, isError } = useDocumentList(
+    searchParams.get('query') as string,
+    sortingMethod
+  );
+
+  useEffect(() => {
+    setList(data?.list || []);
+  }, [data]);
 
   const loadMoreDocs = async () => {
     if (!morePage) return;
@@ -57,22 +55,6 @@ const List = ({ history_list, hasMorePage, isLoading }: Props) => {
     }
   };
 
-  useUpdateEffect(() => {
-    if (sortingMethod === 'title') {
-      setList((prev) => [
-        ...(prev?.length
-          ? prev.sort((a, b) => a.title.localeCompare(b.title))
-          : []),
-      ]);
-    } else {
-      setList((prev) => [
-        ...(prev?.length
-          ? prev.sort((a, b) => a.update_time - b.update_time)
-          : []),
-      ]);
-    }
-  }, [sortingMethod]);
-
   useEffect(() => {
     if (inView) {
       loadMoreDocs();
@@ -80,39 +62,13 @@ const List = ({ history_list, hasMorePage, isLoading }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView, morePage]);
 
-  const toggleDeleteModal = useCallback((value: boolean) => {
-    setShowDeleteModal(value);
-  }, []);
-
-  const toggleMoveModal = useCallback((value: boolean) => {
-    setshowMoveModal(value);
-  }, []);
-
-  const memoSetCurrentItem = useCallback((value: IDocDetail) => {
-    setCurrentItem(value);
-  }, []);
-
   const memoSetSortingMethod = useCallback((value: DocSortingMethods) => {
     setSortingMethod(value);
   }, []);
 
-  const deleteListItem = useCallback((id: string) => {
-    setList((prev) => prev.filter((item) => item.id !== id));
-  }, []);
-
+  if (isError) return null;
   return (
     <>
-      <MoveModal
-        isActive={showMoveModal}
-        toogleActive={toggleMoveModal}
-        currentItem={currentItem!}
-      />
-      <DeleteModal
-        isActive={showDeleteModal}
-        toogleActive={setShowDeleteModal}
-        currentItem={currentItem!}
-        deleteListItem={deleteListItem}
-      />
       <div className='flex-between w-[1100px]'>
         <h1 className='title-semibold'>My documents</h1>
         <div className='flex-between w-1/3'>
@@ -145,24 +101,13 @@ const List = ({ history_list, hasMorePage, isLoading }: Props) => {
         </div>
       </div>
       <Spacer y='24' />
-      {isLoading ? (
+      {isPending ? (
         <Loading />
       ) : viewType === 'grid' ? (
-        <CardView
-          list={list}
-          toggleDeleteModal={toggleDeleteModal}
-          toggleMoveModal={toggleMoveModal}
-          setCurrentItem={memoSetCurrentItem}
-        />
+        <CardView list={list} />
       ) : (
-        <ListView
-          list={list}
-          toggleDeleteModal={toggleDeleteModal}
-          toggleMoveModal={toggleMoveModal}
-          setCurrentItem={memoSetCurrentItem}
-        />
+        <ListView list={list} />
       )}
-
       <Spacer y='10' />
       <div className='flex-center h-10 w-full' ref={ref}>
         {loadingMore ? (
@@ -172,4 +117,4 @@ const List = ({ history_list, hasMorePage, isLoading }: Props) => {
     </>
   );
 };
-export default List;
+export default DocumentList;
