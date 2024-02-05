@@ -1,4 +1,3 @@
-import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -31,61 +30,35 @@ export const Generate = () => {
   }, []);
 
   return (
-    <LazyMotionProvider>
-      <AnimatePresence mode='wait' initial={false}>
-        {generateTab === -1 ? (
-          <m.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            key='generate-panel'
-            className='flex w-full flex-col overflow-hidden'
-          >
-            {GenerateOptions.map((item, index) => {
-              if (item.submenu)
-                return (
-                  <DropdownMenu key={item.id}>
-                    {task_step === 2 ? (
-                      <>
-                        <Tiplayout
-                          title={OutlineTooltip.TITLE}
-                          content={OutlineTooltip.TEXT}
-                          side='left'
-                          buttonLabel='Got it!'
-                        >
-                          <DropdownMenuTrigger>
-                            <div className='flex-between group cursor-pointer bg-doc-secondary px-2.5 py-3'>
-                              <div className='flex items-center gap-x-3'>
-                                <FileText
-                                  className='text-doc-primary'
-                                  size={20}
-                                />
-                                <p className='base-regular text-doc-primary'>
-                                  {item.title}
-                                </p>
-                              </div>
-                              <ChevronUp
-                                className='text-doc-font transition-transform group-hover:text-doc-primary group-data-[state=open]:rotate-180'
-                                size={20}
-                              />
-                            </div>
-                          </DropdownMenuTrigger>
-                        </Tiplayout>
-                        <GenerateDropdown
-                          onClick={memoSetGeneratedTab}
-                          items={item.submenu}
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <DropdownMenuTrigger asChild>
-                          <div className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'>
+    <AnimatePresence mode='wait' initial={false}>
+      {generateTab === -1 ? (
+        <m.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          key='generate-panel'
+          className='flex w-full flex-col overflow-hidden'
+        >
+          {GenerateOptions.map((item, index) => {
+            if (item.submenu)
+              return (
+                <DropdownMenu key={item.id}>
+                  {task_step === 2 ? (
+                    <>
+                      <Tiplayout
+                        title={OutlineTooltip.TITLE}
+                        content={OutlineTooltip.TEXT}
+                        side='left'
+                        buttonLabel='Got it!'
+                      >
+                        <DropdownMenuTrigger>
+                          <div className='flex-between group cursor-pointer bg-doc-secondary px-2.5 py-3'>
                             <div className='flex items-center gap-x-3'>
                               <FileText
-                                className='text-doc-font group-hover:text-doc-primary'
+                                className='text-doc-primary'
                                 size={20}
                               />
-                              <p className='base-regular text-doc-font group-hover:text-doc-primary'>
+                              <p className='base-regular text-doc-primary'>
                                 {item.title}
                               </p>
                             </div>
@@ -95,45 +68,69 @@ export const Generate = () => {
                             />
                           </div>
                         </DropdownMenuTrigger>
-                        <GenerateDropdown
-                          onClick={memoSetGeneratedTab}
-                          items={item.submenu}
-                        />
-                      </>
-                    )}
-                  </DropdownMenu>
-                );
-              return (
-                <div
-                  key={item.id}
-                  onClick={() => {
-                    copilot_option.current = item.label!;
-                    setGenerateTab(item.title);
-                  }}
-                  className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'
-                >
-                  <div className='flex items-center gap-x-3'>
-                    <FileText
-                      className='text-doc-font group-hover:text-doc-primary'
-                      size={20}
-                    />
-                    <p className='base-regular text-doc-font group-hover:text-doc-primary'>
-                      {item.title}
-                    </p>
-                  </div>
-                </div>
+                      </Tiplayout>
+                      <GenerateDropdown
+                        onClick={memoSetGeneratedTab}
+                        items={item.submenu}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <DropdownMenuTrigger asChild>
+                        <div className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'>
+                          <div className='flex items-center gap-x-3'>
+                            <FileText
+                              className='text-doc-font group-hover:text-doc-primary'
+                              size={20}
+                            />
+                            <p className='base-regular text-doc-font group-hover:text-doc-primary'>
+                              {item.title}
+                            </p>
+                          </div>
+                          <ChevronUp
+                            className='text-doc-font transition-transform group-hover:text-doc-primary group-data-[state=open]:rotate-180'
+                            size={20}
+                          />
+                        </div>
+                      </DropdownMenuTrigger>
+                      <GenerateDropdown
+                        onClick={memoSetGeneratedTab}
+                        items={item.submenu}
+                      />
+                    </>
+                  )}
+                </DropdownMenu>
               );
-            })}
-          </m.div>
-        ) : (
-          <GenerateSub
-            generateTab={generateTab as string}
-            label={copilot_option.current}
-            goBack={goBack}
-          />
-        )}
-      </AnimatePresence>
-    </LazyMotionProvider>
+            return (
+              <div
+                key={item.id}
+                onClick={() => {
+                  copilot_option.current = item.label!;
+                  setGenerateTab(item.title);
+                }}
+                className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'
+              >
+                <div className='flex items-center gap-x-3'>
+                  <FileText
+                    className='text-doc-font group-hover:text-doc-primary'
+                    size={20}
+                  />
+                  <p className='base-regular text-doc-font group-hover:text-doc-primary'>
+                    {item.title}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </m.div>
+      ) : (
+        <GenerateSub
+          generateTab={generateTab as string}
+          label={copilot_option.current}
+          goBack={goBack}
+        />
+      )}
+    </AnimatePresence>
   );
 };
 

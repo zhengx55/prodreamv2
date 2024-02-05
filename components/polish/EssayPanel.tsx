@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
 import { useCitationInfo } from '../editor/rightbar/citation/hooks/useCitationInfo';
+import LazyMotionProvider from '../root/LazyMotionProvider';
 import Spacer from '../root/Spacer';
 import { Feedback } from '../root/SvgComponents';
 import Tooltip from '../root/Tooltip';
@@ -38,34 +39,36 @@ const EssayPanel = ({ id }: { id: string }) => {
   if (isError) return <p>opps something went wrong!</p>;
 
   return (
-    <main className='relative flex h-full w-full flex-col'>
-      <DocNavbar />
-      <Tooltip defaultOpen side='right' tooltipContent='submit feedback'>
-        <Link
-          passHref
-          href={'https://tally.so/r/3NovEO'}
-          className='absolute bottom-[10%] left-2 z-50'
-          target='_blank'
-        >
-          <Button className='rounded-xl bg-doc-secondary p-2.5' role='link'>
-            <Feedback />
-          </Button>
-        </Link>
-      </Tooltip>
-      <div className='relative flex h-full w-full justify-center overflow-hidden'>
-        {isFetching || isTrackFetching ? (
-          <div className='flex flex-1 flex-col items-center'>
-            <Spacer y='20' />
-            <Skeleton className='h-10 w-[700px] rounded-lg' />
-          </div>
-        ) : (
-          <Tiptap
-            essay_content={document_content ? document_content.content : ''}
-          />
-        )}
-        <DocRightBar />
-      </div>
-    </main>
+    <LazyMotionProvider>
+      <main className='relative flex h-full w-full flex-col'>
+        <DocNavbar />
+        <Tooltip defaultOpen side='right' tooltipContent='submit feedback'>
+          <Link
+            passHref
+            href={'https://tally.so/r/3NovEO'}
+            className='absolute bottom-[10%] left-2 z-50'
+            target='_blank'
+          >
+            <Button className='rounded-xl bg-doc-secondary p-2.5' role='link'>
+              <Feedback />
+            </Button>
+          </Link>
+        </Tooltip>
+        <div className='relative flex h-full w-full justify-center overflow-hidden'>
+          {isFetching || isTrackFetching ? (
+            <div className='flex flex-1 flex-col items-center'>
+              <Spacer y='20' />
+              <Skeleton className='h-10 w-[700px] rounded-lg' />
+            </div>
+          ) : (
+            <Tiptap
+              essay_content={document_content ? document_content.content : ''}
+            />
+          )}
+          <DocRightBar />
+        </div>
+      </main>
+    </LazyMotionProvider>
   );
 };
 

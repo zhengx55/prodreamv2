@@ -11,7 +11,6 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import TableOfContents from '../editor/table-of-contents/TableOfContents';
-import LazyMotionProvider from '../root/LazyMotionProvider';
 import EditorBlock from './EditorContent';
 import Guidence from './guide/Guidence';
 
@@ -89,11 +88,9 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     <section className='flex w-full flex-col'>
       <div className='relative flex h-[calc(100%_-40px)] w-full'>
         <TableOfContents editor={editor} />
-        <LazyMotionProvider>
-          <AnimatePresence initial={false}>
-            {showGuidence && <Guidence editor={editor} />}
-          </AnimatePresence>
-        </LazyMotionProvider>
+        <AnimatePresence initial={false}>
+          {showGuidence && <Guidence editor={editor} />}
+        </AnimatePresence>
         <EditorBlock editor={editor} />
       </div>
       {showBottomBar && (
