@@ -5,7 +5,6 @@ import { getDocs } from '@/query/api';
 import { useDocumentList } from '@/query/query';
 import { IDocDetail } from '@/query/type';
 import { DocSortingMethods } from '@/types';
-import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { LayoutGrid, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
@@ -29,7 +28,7 @@ const DocumentList = ({ searchTerm }: { searchTerm: string }) => {
     sortingMethod
   );
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     setList(data?.list || []);
   }, [data]);
 

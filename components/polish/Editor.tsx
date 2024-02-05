@@ -25,15 +25,24 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const updateTitle = useAiEditor((state) => state.updateTitle);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
   const showGuidence = useUserTask((state) => state.shouldShowGuidence);
-  const debouncedUpdatesTitle = useDebouncedCallback(async (title: string) => {
-    if (title === doc_title) return;
-    updateTitle(title);
-    await saveDocument({ id, title: title });
-  }, 1500);
-
-  const debouncedUpdateText = useDebouncedCallback(async (text: string) => {
-    await saveDocument({ id, content: text });
-  }, 1500);
+  const debouncedUpdateText = useDebouncedCallback(
+    async (title: string, text: string) => {
+      if (title === doc_title) {
+        await saveDocument({
+          id,
+          content: text,
+        });
+      } else {
+        updateTitle(title);
+        await saveDocument({
+          id,
+          content: text,
+          title: title,
+        });
+      }
+    },
+    1500
+  );
 
   const { mutateAsync: saveDocument } = useMutation({
     mutationFn: (params: { id: string; content?: string; title?: string }) =>
@@ -69,8 +78,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     onUpdate: ({ editor }) => {
       const title = editor.getJSON().content?.at(0)?.content?.at(0)?.text;
       const html = editor.getHTML();
-      debouncedUpdatesTitle(title ?? '');
-      debouncedUpdateText(html);
+      debouncedUpdateText(title ?? '', html);
     },
     onDestroy: () => {
       reset();

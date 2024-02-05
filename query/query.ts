@@ -11,6 +11,7 @@ export const useDocumentList = (
   return useQuery({
     queryKey: ['document_history_list', searchTerm],
     queryFn: () => getDocs(0, 15, searchTerm ?? undefined),
+    refetchOnMount: true,
     select: (data) =>
       sortingMethod === 'title'
         ? {
