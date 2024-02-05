@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { LogOut, User2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -10,7 +11,9 @@ const UserInfoDropdown = () => {
   const [_cookies, _setCookie, removeCookie] = useCookies(['token']);
   const router = useRouter();
   const posthog = usePostHog();
+  const queryClient = useQueryClient();
   const logOut = () => {
+    queryClient.removeQueries();
     posthog.reset();
     removeCookie('token', { path: '/' });
     router.replace('/login');
