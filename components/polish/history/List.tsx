@@ -7,6 +7,7 @@ import { IDocDetail } from '@/query/type';
 import { DocSortingMethods } from '@/types';
 import { LayoutGrid, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
@@ -14,8 +15,9 @@ const CardView = dynamic(() => import('./CardView'));
 const ListView = dynamic(() => import('./ListView'));
 const FilterDropdown = dynamic(() => import('./FilterDropDown'));
 
-const DocumentList = ({ searchTerm }: { searchTerm: string }) => {
+const DocumentList = () => {
   const { ref, inView } = useInView();
+  const searchParams = useSearchParams();
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const [list, setList] = useState<IDocDetail[]>([]);
   const [page, setPage] = useState(1);
@@ -24,7 +26,7 @@ const DocumentList = ({ searchTerm }: { searchTerm: string }) => {
   const [sortingMethod, setSortingMethod] =
     useState<DocSortingMethods>('lastOpenedTime');
   const { data, isPending, isError } = useDocumentList(
-    searchTerm,
+    searchParams.get('query') as string,
     sortingMethod
   );
 

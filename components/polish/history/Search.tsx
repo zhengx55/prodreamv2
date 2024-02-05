@@ -6,13 +6,16 @@ import { createDoc } from '@/query/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, memo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 
-const SearchBar = ({ setKeyword }: { setKeyword: (value: string) => void }) => {
+const SearchBar = () => {
   const [isTyping, setIsTyping] = useState(false);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
@@ -31,16 +34,24 @@ const SearchBar = ({ setKeyword }: { setKeyword: (value: string) => void }) => {
   });
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const params = new URLSearchParams(searchParams);
     if (!e.target.value.trim()) {
-      setKeyword('');
       setIsTyping(false);
+      params.delete('query');
+      replace(`${pathname}?${params.toString()}`);
     } else {
       setIsTyping(true);
     }
   };
 
   const handleSearch = () => {
-    queryClient.refetchQueries({});
+    if (ref.current) {
+      const params = new URLSearchParams(searchParams);
+      if (ref.current.value) {
+        params.set('query', ref.current.value);
+      }
+      replace(`${pathname}?${params.toString()}`);
+    }
   };
 
   return (
@@ -70,7 +81,7 @@ const SearchBar = ({ setKeyword }: { setKeyword: (value: string) => void }) => {
       <div className='relative flex h-14 w-2/5 shrink-0 items-center rounded-lg border border-shadow-border'>
         <Button
           disabled={!isTyping}
-          onClick={() => ref.current && setKeyword(ref.current.value)}
+          onClick={handleSearch}
           className={`${
             isTyping
               ? 'bg-primary-200 text-white'
