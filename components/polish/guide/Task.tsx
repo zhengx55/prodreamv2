@@ -119,13 +119,10 @@ const Task = ({ editor, track }: Props) => {
     }
     if (index === 2) {
       updateRightbarTab(2);
-      updateTaskStep(2);
-      if (!track?.generate_tool_task) {
-        await updateTrack({
-          field: 'generate_tool_task',
-          data: true,
-        });
-      }
+      await updateTrack({
+        field: 'generate_tool_task',
+        data: true,
+      });
     }
     if (index === 3) {
       updateRightbarTab(1);
@@ -138,13 +135,13 @@ const Task = ({ editor, track }: Props) => {
     <>
       <Accordion defaultValue='item-1' type='single' collapsible>
         <AccordionItem className='mx-auto w-[700px] rounded-md' value='item-1'>
-          <AccordionTrigger className='flex-between bg-doc-primary px-5 data-[state=closed]:rounded-lg data-[state=open]:rounded-t-lg'>
+          <AccordionTrigger className='flex-between bg-doc-primary px-5 py-2 data-[state=closed]:rounded-lg data-[state=open]:rounded-t-lg'>
             <p className='base-semibold text-white'>
               Explore our powerful features!
             </p>
-            <ChevronDown className='h-8 w-12 shrink-0 rounded bg-white text-doc-primary transition-transform duration-200' />
+            <ChevronDown className='h-6 w-max shrink-0 rounded bg-white px-2 text-doc-primary transition-transform duration-200' />
           </AccordionTrigger>
-          <AccordionContent className='relative flex h-[200px] rounded-b-lg bg-doc-primary px-5'>
+          <AccordionContent className='relative flex h-[180px] rounded-b-lg bg-doc-primary px-5 py-2'>
             <Image
               alt='task'
               src='/task/Task.png'
@@ -193,8 +190,7 @@ const Task = ({ editor, track }: Props) => {
             </ul>
             <div className='relative h-full w-1/2 overflow-hidden rounded-lg'>
               <Button
-                variant={'ghost'}
-                className='absolute bottom-2 left-2 z-10 h-max w-max border border-doc-primary p-1 text-doc-primary'
+                className='absolute bottom-2 left-2 z-10 h-max w-max bg-doc-primary p-1.5'
                 onClick={() => selectHandler(step)}
               >
                 Show me

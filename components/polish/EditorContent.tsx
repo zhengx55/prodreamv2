@@ -31,7 +31,7 @@ const EditorBlock = ({ editor }: Props) => {
     <div
       aria-label='editor-parent'
       id='editor-parent'
-      className='relative flex w-full flex-col overflow-y-auto rounded-lg pb-[30vh]'
+      className='relative flex w-full flex-col overflow-y-auto rounded-lg pb-[40vh] sm:pb-[30vh]'
     >
       <Spacer y='20' />
       {!isPending && !isError

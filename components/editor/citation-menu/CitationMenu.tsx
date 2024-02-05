@@ -4,6 +4,7 @@ import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
+import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { ConvertCitationData } from '@/lib/utils';
 import { searchCitation } from '@/query/api';
 import { useCiteToDoc } from '@/query/query';
@@ -23,6 +24,7 @@ export const CitationMenu = memo(({ editor }: Props) => {
   const updateCitationMenu = useRootStore((state) => state.updateCitationMenu);
   const elRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
+  const ref = useScrollIntoView();
 
   const { data: ciationResult, isPending } = useQuery({
     queryFn: ({ signal }) => searchCitation(selectedText, signal),
@@ -46,6 +48,7 @@ export const CitationMenu = memo(({ editor }: Props) => {
   if (!copilotRect) return '';
   return (
     <section
+      ref={ref}
       style={{ top: `${copilotRect - 54}px` }}
       className='absolute -left-12 flex w-full justify-center overflow-visible '
     >

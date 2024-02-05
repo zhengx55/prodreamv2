@@ -19,7 +19,7 @@ const Empty = ({ show }: { show: boolean }) => {
             alt='citation'
             src='/Citation.png'
             width={300}
-            height={300}
+            height={200}
             className='h-auto w-3/5'
           />
           <p className='small-regular text-center text-doc-font'>

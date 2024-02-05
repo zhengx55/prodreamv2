@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
+import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { ask, copilot } from '@/query/api';
 import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
 import useAiEditor from '@/zustand/store';
@@ -41,6 +42,8 @@ export const AiMenu = ({ editor }: Props) => {
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
   const hasAiResult = aiResult !== '';
+
+  const ref = useScrollIntoView();
 
   useClickOutside(elRef, () => {
     updateCopilotMenu(false);
@@ -127,11 +130,23 @@ export const AiMenu = ({ editor }: Props) => {
 
   const handleEditTools = async (tool: string) => {
     if (!selectedText) return;
+    if (!track?.ai_copilot_task) {
+      await updateTrack({
+        field: 'ai_copilot_task',
+        data: true,
+      });
+    }
     await handleCopilot({ tool, text: selectedText });
   };
 
   const handleCustomPrompt = async () => {
     if (!prompt.trim()) return toast.error('please enter a custom prompt');
+    if (!track?.ai_copilot_task) {
+      await updateTrack({
+        field: 'ai_copilot_task',
+        data: true,
+      });
+    }
     await handleAsk({ instruction: prompt, text: selectedText });
   };
 
@@ -164,14 +179,7 @@ export const AiMenu = ({ editor }: Props) => {
     updateCopilotMenu(false);
   };
 
-  const handleOperation = async (idx: number) => {
-    if (!track?.ai_copilot_task) {
-      await updateTrack({
-        field: 'ai_copilot_task',
-        data: true,
-      });
-    }
-
+  const handleOperation = (idx: number) => {
     switch (idx) {
       case 0:
         handleReplace();
@@ -193,6 +201,7 @@ export const AiMenu = ({ editor }: Props) => {
   if (!copilotRect) return null;
   return (
     <section
+      ref={ref}
       style={{ top: `${copilotRect - 54}px` }}
       className='absolute -left-12 flex w-full justify-center overflow-visible '
     >

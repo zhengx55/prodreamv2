@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { SearchCitationCard } from './CitationCard';
 import SearchBar from './SearchBar';
 
-const Mine = dynamic(() => import('./Mine'));
+const Mine = dynamic(() => import('./Mine'), { ssr: false });
 
 const SearchList = () => {
   const updateShowCreateCitation = useAiEditor(
