@@ -28,6 +28,7 @@ import DragAndDrop from './plugin/drag';
 import IntextCitation from './plugin/intext-citation';
 import Selection from './plugin/selection';
 import { AutoCompleteSlashCommand, SlashCommand } from './plugin/slashcommand';
+import AutoCompleteCNSlashCommand from './plugin/slashcommand/AutoCompleteCnSlashCommand';
 import Title from './plugin/title';
 import { Underline } from './plugin/underline';
 
@@ -100,6 +101,7 @@ const ExtensionKit = () => [
   AutoComplete,
   // TrailingNode,
   AutoCompleteSlashCommand,
+  AutoCompleteCNSlashCommand,
   Selection,
   DropCursor.configure({
     width: 2,
