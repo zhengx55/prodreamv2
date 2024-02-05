@@ -80,23 +80,7 @@ export const AutoCompleteCNSlashCommand = Extension.create({
             }),
           }));
 
-          const withoutEmptyGroups = withFilteredCommands.filter((group) => {
-            if (group.commands.length > 0) {
-              return true;
-            }
-
-            return false;
-          });
-
-          const withEnabledSettings = withoutEmptyGroups.map((group) => ({
-            ...group,
-            commands: group.commands.map((command) => ({
-              ...command,
-              isEnabled: true,
-            })),
-          }));
-
-          return withEnabledSettings;
+          return withFilteredCommands;
         },
         render: () => {
           let component: any;
@@ -158,21 +142,15 @@ export const AutoCompleteCNSlashCommand = Extension.create({
 
             onUpdate(props: SuggestionProps) {
               component.updateProps(props);
-
               const { view } = props.editor;
-
               const getReferenceClientRect = () => {
                 if (!props.clientRect) {
                   return props.editor.storage[extensionName].rect;
                 }
-
                 const rect = props.clientRect();
-
                 if (!rect) {
                   return props.editor.storage[extensionName].rect;
                 }
-
-                // Account for when the editor is bound inside a container that doesn't go all the way to the edge of the screen
                 return new DOMRect(rect.x, rect.y, rect.width, rect.height);
               };
 

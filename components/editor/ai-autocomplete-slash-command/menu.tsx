@@ -62,7 +62,6 @@ export const AutoCompleteMenuList = React.forwardRef(
     };
 
     useEffect(() => {
-      setSelectedGroupIndex(0);
       setSelectedCommandIndex(-1);
     }, [props.items]);
 
@@ -140,23 +139,13 @@ export const AutoCompleteMenuList = React.forwardRef(
           ) {
             return false;
           }
-
           selectItem(selectedGroupIndex, selectedCommandIndex);
-
           return true;
         }
 
         return false;
       },
     }));
-
-    useEffect(() => {
-      if (activeItem.current && scrollContainer.current) {
-        const offsetTop = activeItem.current.offsetTop;
-        const offsetHeight = activeItem.current.offsetHeight;
-        scrollContainer.current.scrollTop = offsetTop - offsetHeight;
-      }
-    }, [selectedCommandIndex, selectedGroupIndex]);
 
     const createCommandClickHandler = useCallback(
       (groupIndex: number, commandIndex: number) => {

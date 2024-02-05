@@ -79,24 +79,7 @@ export const AutoCompleteSlashCommand = Extension.create({
               return labelNormalized.includes(queryNormalized);
             }),
           }));
-
-          const withoutEmptyGroups = withFilteredCommands.filter((group) => {
-            if (group.commands.length > 0) {
-              return true;
-            }
-
-            return false;
-          });
-
-          const withEnabledSettings = withoutEmptyGroups.map((group) => ({
-            ...group,
-            commands: group.commands.map((command) => ({
-              ...command,
-              isEnabled: true,
-            })),
-          }));
-
-          return withEnabledSettings;
+          return withFilteredCommands;
         },
         render: () => {
           let component: any;
@@ -183,8 +166,6 @@ export const AutoCompleteSlashCommand = Extension.create({
               };
 
               view.dom.parentElement?.addEventListener('scroll', scrollHandler);
-
-              // eslint-disable-next-line no-param-reassign
               props.editor.storage[extensionName].rect = props.clientRect
                 ? getReferenceClientRect()
                 : {
