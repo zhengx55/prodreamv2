@@ -17,7 +17,18 @@ const TableOfContents = dynamic(
   () => import('../editor/table-of-contents/TableOfContents')
 );
 const Guidence = dynamic(() => import('./guide/Guidence'));
-const FloatingTip = dynamic(() => import('./guide/tips/FloatingTip'));
+const OutlineTip = dynamic(
+  () => import('./guide/tips/FloatingTip').then((mod) => mod.OutlineTip),
+  {
+    ssr: false,
+  }
+);
+const ContinueTip = dynamic(
+  () => import('./guide/tips/FloatingTip').then((mod) => mod.ContinueTip),
+  {
+    ssr: false,
+  }
+);
 const EditorBlock = dynamic(() => import('./EditorContent'));
 
 const Editor = ({ essay_content }: { essay_content: string }) => {
@@ -30,8 +41,13 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
   const { data: userTrack, isPending } = useUserTrackInfo();
   const outline_step = useUserTask((state) => state.outline_step);
+  const continue_step = useUserTask((state) => state.continue_step);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
 
+  const showGuidance =
+    !Boolean(userTrack?.guidence) && outline_step === 0 && continue_step === 0;
+  const showOutlineTip = Boolean(userTrack?.guidence) && outline_step === 1;
+  const showContinueTip = Boolean(userTrack?.guidence) && continue_step === 1;
   const debouncedUpdateText = useDebouncedCallback(
     async (title: string, text: string) => {
       if (title === doc_title) {
@@ -96,22 +112,13 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   return (
     <section className='relative flex w-full flex-col'>
       <div className='relative flex h-full w-full'>
-        <button
-          onClick={async () =>
-            await updateTrack({ field: 'guidence', data: '' })
-          }
-        >
-          test
-        </button>
         <TableOfContents editor={editor} />
-
-        <AnimatePresence>
-          {!userTrack?.guidence && <Guidence editor={editor} />}
+        <AnimatePresence mode='wait'>
+          {showGuidance && <Guidence editor={editor} />}
+          {showOutlineTip && <OutlineTip editor={editor} />}
+          {showContinueTip && <ContinueTip editor={editor} />}
         </AnimatePresence>
 
-        <AnimatePresence>
-          {outline_step === 1 && <FloatingTip editor={editor} />}
-        </AnimatePresence>
         <EditorBlock editor={editor} />
       </div>
       {showBottomBar && (

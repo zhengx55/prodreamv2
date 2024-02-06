@@ -8,6 +8,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { startup_task, task_gif } from '@/constant';
+import { findFirstParagraph } from '@/lib/tiptap/utils';
 import { copilot } from '@/query/api';
 import { useMutateTrackInfo } from '@/query/query';
 import { UserTrackData } from '@/query/type';
@@ -30,29 +31,6 @@ const Task = ({ editor, track }: Props) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const insertPos = useRef<number>(0);
-  const findFistParagraph = () => {
-    let first_paragraph = {
-      hasContent: false,
-      pos: 0,
-      content: '',
-      size: 0,
-    };
-    editor.state.doc.descendants((node, pos) => {
-      if (
-        node.type.name === 'paragraph' &&
-        node.textContent.trim() !== '' &&
-        first_paragraph.hasContent === false
-      ) {
-        first_paragraph = {
-          pos,
-          hasContent: true,
-          content: node.textContent,
-          size: node.nodeSize,
-        };
-      }
-    });
-    return first_paragraph;
-  };
 
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { text: string; pos: number }) =>
@@ -110,7 +88,7 @@ const Task = ({ editor, track }: Props) => {
         toast.info('please write some content and try again');
         return;
       }
-      const first_paragraph = findFistParagraph();
+      const first_paragraph = findFirstParagraph(editor);
       if (index === 0) {
         editor.commands.setNodeSelection(first_paragraph.pos);
         updateTaskStep(0);

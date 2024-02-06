@@ -305,6 +305,33 @@ export const CitationPrompts = [
   },
 ];
 
+export const sample_continue = {
+  type: 'doc',
+  content: [
+    {
+      type: 'title',
+      attrs: {
+        level: 1,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'My First Essay',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'Academic writing encompasses a variety of styles, each serving a distinct purpose in the realm of scholarship and research. These styles include argumentative essays, which present a well-reasoned case on a debatable issue, and analytical papers, which dissect and interpret complex topics or texts.',
+        },
+      ],
+    },
+  ],
+};
+
 export const sample_outline = {
   type: 'doc',
   content: [

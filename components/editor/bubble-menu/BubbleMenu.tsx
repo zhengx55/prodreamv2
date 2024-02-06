@@ -110,7 +110,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
               editor.view.dom.parentElement?.parentElement?.scrollTop;
             menuYOffside.current =
               posToDOMRect(editor.view, from, to).bottom + (el_srcoll_top ?? 0);
-            console.log(posToDOMRect(editor.view, from, to));
             return posToDOMRect(editor.view, from, to);
           },
         });
