@@ -18,7 +18,7 @@ import { memo, useRef } from 'react';
 
 type Props = { editor: Editor };
 
-export const CitationMenu = memo(({ editor }: Props) => {
+const CitationMenu = ({ editor }: Props) => {
   const copilotRect = useRootStore((state) => state.copilotRect);
   const selectedText = useAIEditor((state) => state.selectedText);
   const updateCitationMenu = useRootStore((state) => state.updateCitationMenu);
@@ -123,6 +123,6 @@ export const CitationMenu = memo(({ editor }: Props) => {
       </div>
     </section>
   );
-});
+};
 
-CitationMenu.displayName = 'CitationMenu';
+export default memo(CitationMenu);

@@ -5,6 +5,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
+import { useUserTrackInfo } from '@/query/query';
 import useAiEditor, { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
@@ -22,6 +23,7 @@ const DocNavbar = () => {
   const docTtile = useAIEditor((state) => state.doc_title);
   const [isGenerating, setIsGenerating] = useState(false);
   const editor = useAiEditor((state) => state.editor_instance);
+  const { data: track, isPending } = useUserTrackInfo();
   const timer = useRef<NodeJS.Timeout | null>(null);
   const { mutateAsync: plagiarism } = useMutation({
     mutationFn: (params: string) => plagiarismCheck(params),
@@ -57,17 +59,23 @@ const DocNavbar = () => {
     }
     await plagiarism(editor?.getText());
   };
-
+  if (isPending) return null;
   return (
     <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-shadow-border px-5 py-3'>
       <div className='flex h-full items-center gap-x-4'>
-        <Link passHref href={'/writtingpal/polish'}>
-          <span className='flex-center h-10 w-10 cursor-pointer rounded-md bg-shadow-border hover:opacity-50'>
-            <ChevronLeft />
-          </span>
-        </Link>
+        {track?.guidence && (
+          <Link passHref href={'/writtingpal/polish'}>
+            <span className='flex-center h-10 w-10 cursor-pointer rounded-md bg-shadow-border hover:opacity-50'>
+              <ChevronLeft />
+            </span>
+          </Link>
+        )}
         <h1 className='base-semibold'>
-          {docTtile === 'Untitled' ? 'Untitled Document' : docTtile}
+          {!track?.guidence
+            ? 'Welcome To Prodream'
+            : docTtile === 'Untitled'
+              ? 'Untitled Document'
+              : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
       </div>

@@ -190,12 +190,24 @@ const SignUpForm = () => {
         />
 
         <p className='small-regular cursor-pointer self-start text-black-400'>
-          By Continuing, you agree to
-          <Link href={'/'} className='text-auth-primary'>
-            &nbsp;Applify AI&apos;s Term of Service
+          By Continuing, you agree to&nbsp;Applify AI&apos;s&nbsp;
+          <Link
+            target='_blank'
+            href={
+              'https://applifyai.notion.site/Applify-AI-Subscription-Agreement-eef0b3cfdab6496dbe0fa04a3c9a0d3e?pvs=4'
+            }
+            className='text-auth-primary'
+          >
+            Term of Service
           </Link>
           &nbsp; and
-          <Link href={'/'} className='text-auth-primary'>
+          <Link
+            target='_blank'
+            href={
+              'https://applifyai.notion.site/Applify-AI-Privacy-Policy-e350e311e90c48608b4e85a8c7982e77'
+            }
+            className='text-auth-primary'
+          >
             &nbsp;Privacy Policy
           </Link>
         </p>

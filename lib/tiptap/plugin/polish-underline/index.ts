@@ -1,103 +1,49 @@
-import { Extension } from '@tiptap/core';
+import '@tiptap/extension-text-style';
+import { Mark, mergeAttributes } from '@tiptap/react';
 
-export type PolishUnderlineOptions = {
-  types: string[];
+export type UnderLineOptions = {
+  HTMLAttributes: Record<string, any>;
 };
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    polish_underline: {
-      /**
-       * Set text polish_underline
-       */
-      setPolishUnderline: () => ReturnType;
-      /**
-       * Unset text polish_underline
-       */
-      unsetPolishUnderline: () => ReturnType;
+    GrammarUnderline: {
+      setGrammarUnderline: () => ReturnType;
+      unsetGrammarUnderline: () => ReturnType;
     };
   }
 }
 
-export const PolishUnderline = Extension.create<PolishUnderlineOptions>({
-  name: 'polish_underline',
+export const GrammarUnderline = Mark.create<UnderLineOptions>({
+  name: 'GrammarUnderline',
 
   addOptions() {
     return {
-      types: ['textStyle'],
+      HTMLAttributes: {
+        class: 'underline-offset-4 decoration-red-400 decoration-2',
+      },
     };
   },
 
-  addGlobalAttributes() {
+  renderHTML({ HTMLAttributes }) {
     return [
-      {
-        types: this.options.types,
-        attributes: {
-          polish_underline: {
-            default: {
-              color: null,
-              offset: null,
-            },
-            parseHTML: (element) => ({
-              color: element.style.textDecorationColor,
-              offset: element.style.textDecorationThickness,
-            }),
-            renderHTML: (attributes) => {
-              if (
-                !attributes.polish_underline ||
-                (!attributes.polish_underline.color &&
-                  !attributes.polish_underline.offset)
-              ) {
-                return {};
-              }
-
-              const style = [];
-              style.push(`text-decoration: underline`);
-              style.push(`text-underline-offset: 5px`);
-
-              if (attributes.polish_underline.color) {
-                style.push(
-                  `text-decoration-color: ${attributes.polish_underline.color}`
-                );
-              }
-
-              if (attributes.polish_underline.offset) {
-                style.push(
-                  `text-decoration-thickness: ${attributes.polish_underline.offset}`
-                );
-              }
-
-              return {
-                style: style.join('; '),
-              };
-            },
-          },
-        },
-      },
+      'u',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      0,
     ];
   },
 
   addCommands() {
     return {
-      setPolishUnderline:
+      setGrammarUnderline:
         () =>
-        ({ chain }) => {
-          const markAttributes = {
-            polish_underline: {
-              color: 'red',
-              offset: '2px',
-            },
-          };
-
-          return chain().setMark('textStyle', markAttributes).run();
+        ({ commands }) => {
+          return commands.setMark(this.name);
         },
-      unsetPolishUnderline:
+      unsetGrammarUnderline:
         () =>
-        ({ chain }) => {
-          return chain()
-            .setMark('textStyle', { polish_underline: null })
-            .removeEmptyTextStyle()
-            .run();
+        ({ commands }) => {
+          return commands.unsetMark(this.name);
         },
     };
   },

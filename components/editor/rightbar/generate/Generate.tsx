@@ -4,6 +4,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { GenerateOptions } from '@/constant';
 import { OutlineTooltip } from '@/constant/enum';
+import { useMutateTrackInfo } from '@/query/query';
 import { useUserTask } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { ChevronUp, FileText } from 'lucide-react';
@@ -19,11 +20,13 @@ const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 
 export const Generate = () => {
   const [generateTab, setGenerateTab] = useState<number | string>(-1);
-  const task_step = useUserTask((state) => state.task_step);
+  const outline_step = useUserTask((state) => state.outline_step);
   const copilot_option = useRef<string | null>(null);
   const memoSetGeneratedTab = useCallback((value: string) => {
     setGenerateTab(value);
   }, []);
+  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
 
   const goBack = useCallback(() => {
     setGenerateTab(-1);
@@ -39,17 +42,24 @@ export const Generate = () => {
           key='generate-panel'
           className='flex w-full flex-col overflow-hidden'
         >
-          {GenerateOptions.map((item, index) => {
+          {GenerateOptions.map((item) => {
             if (item.submenu)
               return (
                 <DropdownMenu key={item.id}>
-                  {task_step === 2 ? (
+                  {outline_step === 2 ? (
                     <>
                       <Tiplayout
                         title={OutlineTooltip.TITLE}
                         content={OutlineTooltip.TEXT}
                         side='left'
                         buttonLabel='Got it!'
+                        onClickCallback={async () => {
+                          updateOutlineStep(0);
+                          await updateTrack({
+                            field: 'outline_tip_task',
+                            data: true,
+                          });
+                        }}
                       >
                         <DropdownMenuTrigger>
                           <div className='flex-between group cursor-pointer bg-doc-secondary px-2.5 py-3'>

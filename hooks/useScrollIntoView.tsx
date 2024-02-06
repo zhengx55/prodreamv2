@@ -5,7 +5,7 @@ const useScrollIntoView = () => {
 
   useEffect(() => {
     if (ref.current) {
-      ref.current.scrollIntoView({ behavior: 'smooth' });
+      ref.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }
   }, []);
 
