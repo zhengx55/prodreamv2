@@ -2,6 +2,7 @@ import GoogleSignin from '@/components/auth/GoogleSignin';
 import Panel from '@/components/auth/Panel';
 import SignUpForm from '@/components/auth/SignUpForm';
 import Spacer from '@/components/root/Spacer';
+import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import Link from 'next/link';
 export default function Page() {
@@ -18,7 +19,14 @@ export default function Page() {
           <Spacer y='60' className='hidden 2xl:block' />
           <Spacer y='40' className='block 2xl:hidden' />
           <GoogleSignin label='Sign up with Google' />
-          <Spacer y='25' />
+          <Spacer y='40' />
+          <div className='flex-center relative'>
+            <Separator orientation='horizontal' className='bg-shadow-border' />
+            <p className='small-regular absolute bg-white px-2 text-shadow-100'>
+              Or sign up with
+            </p>
+          </div>
+          <Spacer y='35' />
           <SignUpForm />
           <p className='small-regular mt-4 self-center text-black-200'>
             Already a member?&nbsp;

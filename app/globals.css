@@ -182,11 +182,8 @@
 
 
 :root {
-  --top-nav-bar-height: 4rem;
-  --resume-padding: 1.5rem;
-  --resume-control-bar-height: 3.5rem;
-  --chatpanel-padding: 11.5rem;
-  --chathistory-width: 10rem;
+  --top-nav-bar-height: 3.5rem;
+
 }
 
 

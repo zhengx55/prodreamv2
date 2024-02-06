@@ -1,5 +1,5 @@
 import { isTextSelection } from '@tiptap/core';
-import { Editor } from '@tiptap/react';
+import type { Editor } from '@tiptap/react';
 
 export const isTextSelected = ({ editor }: { editor: Editor }) => {
   const {
@@ -17,4 +17,28 @@ export const isTextSelected = ({ editor }: { editor: Editor }) => {
   }
 
   return true;
+};
+
+export const findFirstParagraph = (editor: Editor) => {
+  let first_paragraph = {
+    hasContent: false,
+    pos: 0,
+    content: '',
+    size: 0,
+  };
+  editor.state.doc.descendants((node, pos) => {
+    if (
+      node.type.name === 'paragraph' &&
+      node.textContent.trim() !== '' &&
+      first_paragraph.hasContent === false
+    ) {
+      first_paragraph = {
+        pos,
+        hasContent: true,
+        content: node.textContent,
+        size: node.nodeSize,
+      };
+    }
+  });
+  return first_paragraph;
 };

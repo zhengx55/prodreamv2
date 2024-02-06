@@ -5,7 +5,9 @@ import { Toggle } from '@/components/ui/toggle';
 import { CitationTooltip } from '@/constant/enum';
 import { useUserTrackInfo } from '@/query/query';
 import useAiEditor, { useUserTask } from '@/zustand/store';
+import useThrottledCallback from 'beautiful-react-hooks/useThrottledCallback';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
+import useWindowResize from 'beautiful-react-hooks/useWindowResize';
 import { AnimatePresence, m } from 'framer-motion';
 import { ChevronUp } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -17,6 +19,14 @@ const LibraryList = dynamic(() => import('./LibraryList'));
 
 const Mine = () => {
   const [showMine, setShowMine] = useState(false);
+  const onWindowResize = useWindowResize();
+  const [height, setHeight] = useState(window.innerHeight);
+
+  onWindowResize(
+    useThrottledCallback(() => {
+      setHeight(window.innerHeight);
+    })
+  );
   const [type, setType] = useState<number | null>(null);
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
   const IndocCitationIds = useAiEditor((state) => state.inDocCitationIds);
@@ -49,7 +59,9 @@ const Mine = () => {
             !track?.citation_empty_check &&
             IndocCitationIds.length === 0 &&
             InTextCitationIds.length === 0
-              ? '40%'
+              ? height >= 800
+                ? '40%'
+                : '60%'
               : '40px',
         },
       }}

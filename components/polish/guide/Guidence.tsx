@@ -2,9 +2,10 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
-import { sample_outline } from '@/constant';
+import { sample_continue, sample_outline } from '@/constant';
 import { outline } from '@/query/api';
 import { useMutateTrackInfo } from '@/query/query';
+import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
@@ -15,21 +16,30 @@ import { useEffect, useRef, useState } from 'react';
 const Guidence = ({ editor }: { editor: Editor }) => {
   const [check, setCheck] = useState(-1);
   const ideaRef = useRef<HTMLTextAreaElement>(null);
-  const [isGenrating, setIsGenerating] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const resultString = useRef<string>('');
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
+  const updateContinueStep = useUserTask((state) => state.updateContinueStep);
+
   const close = async () => {
     await updateTrack({
       field: 'guidence',
       data: true,
     });
   };
+
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
-    if ([0, 2].includes(check)) {
-      setTimeout(() => {
+    if (check === 0) {
+      timer = setTimeout(() => {
         close();
-      }, 200);
+        updateContinueStep(1);
+      }, 500);
+    } else if (check === 2) {
+      timer = setTimeout(() => {
+        close();
+      }, 500);
     }
     return () => {
       timer && clearTimeout(timer);
@@ -52,6 +62,7 @@ const Guidence = ({ editor }: { editor: Editor }) => {
         if (done) break;
         handleStreamData(value);
       }
+      updateOutlineStep(1);
     },
     onError: async (error) => {
       setIsGenerating(false);
@@ -78,7 +89,7 @@ const Guidence = ({ editor }: { editor: Editor }) => {
       }
       return parsed;
     });
-    eventData.forEach((word: string, index) => {
+    eventData.forEach((word: string) => {
       resultString.current += word;
       if (word.includes('\n\n')) {
         const parse_result = parse(resultString.current, { async: false });
@@ -109,17 +120,24 @@ const Guidence = ({ editor }: { editor: Editor }) => {
     }
   };
 
+  const handleDraft = () => {
+    setCheck(0);
+    editor.commands.setContent(sample_continue, true);
+  };
+
   const handleClickSample = () => {
-    editor.commands.setContent(sample_outline, true);
     close();
+    editor.commands.setContent(sample_outline, true);
+    updateOutlineStep(1);
   };
 
   return (
     <m.div
-      initial={false}
+      initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.5, delay: 0.5 }}
+      key='guidance'
+      transition={{ duration: 1, type: 'spring', stiffness: 100, damping: 20 }}
       className='absolute z-20 h-full w-full bg-white font-inter'
     >
       <div className='mx-auto flex w-[700px] flex-col'>
@@ -132,9 +150,7 @@ const Guidence = ({ editor }: { editor: Editor }) => {
           <li className='inline-flex items-center gap-x-2'>
             <Checkbox
               checked={check === 0}
-              onCheckedChange={() => {
-                setCheck(0);
-              }}
+              onCheckedChange={handleDraft}
               id='terms1'
             />
             <label
@@ -211,11 +227,11 @@ const Guidence = ({ editor }: { editor: Editor }) => {
               <Button
                 role='button'
                 onClick={handleGenerate}
-                disabled={isGenrating}
+                disabled={isGenerating}
                 className='w-max rounded bg-doc-primary'
               >
                 Generate
-                {isGenrating && (
+                {isGenerating && (
                   <Loader2 size={18} className='animate-spin text-white' />
                 )}
               </Button>

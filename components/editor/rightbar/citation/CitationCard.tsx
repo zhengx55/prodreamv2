@@ -31,15 +31,7 @@ const MineCitationPreview = dynamic(() => import('./MineCitationPreview'), {
 });
 
 export const SearchCitationCard = memo(
-  ({
-    item,
-    remove,
-    index,
-  }: {
-    item: ICitation;
-    index: number;
-    remove: (index: number) => void;
-  }) => {
+  ({ item, index }: { item: ICitation; index: number }) => {
     const { id } = useParams();
     const citation_tooltip_step = useUserTask((state) => state.citation_step);
     const updateCitationStep = useUserTask((state) => state.updateCitationStep);
@@ -48,11 +40,7 @@ export const SearchCitationCard = memo(
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
 
-    const handler = async (
-      item: ICitation,
-      index: number,
-      action: 'cite' | 'collect'
-    ) => {
+    const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
         await updateTrack({
           field: 'citation_task',
@@ -73,7 +61,6 @@ export const SearchCitationCard = memo(
           document_id: id as string,
         });
       }
-      remove(index);
     };
     return (
       <div key={item.article_title} className='group flex flex-col px-2'>
@@ -115,7 +102,7 @@ export const SearchCitationCard = memo(
               <Button
                 className='h-[30px] w-[48%] rounded bg-doc-primary'
                 role='button'
-                onClick={() => handler(item as any, index, 'cite')}
+                onClick={() => handler(item as any, 'cite')}
               >
                 <ReplyAll size={18} />
                 Cite
@@ -125,7 +112,7 @@ export const SearchCitationCard = memo(
             <Button
               className='h-[30px] w-[48%] rounded bg-doc-primary'
               role='button'
-              onClick={() => handler(item as any, index, 'cite')}
+              onClick={() => handler(item as any, 'cite')}
             >
               <ReplyAll size={18} />
               Cite
@@ -148,7 +135,7 @@ export const SearchCitationCard = memo(
                 className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
                 variant={'ghost'}
                 role='button'
-                onClick={() => handler(item as any, index, 'collect')}
+                onClick={() => handler(item as any, 'collect')}
               >
                 <Plus size={18} className='text-doc-primary' /> Add to library
               </Button>
@@ -158,7 +145,7 @@ export const SearchCitationCard = memo(
               className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
               variant={'ghost'}
               role='button'
-              onClick={() => handler(item as any, index, 'collect')}
+              onClick={() => handler(item as any, 'collect')}
             >
               <Plus size={18} className='text-doc-primary' /> Add to library
             </Button>

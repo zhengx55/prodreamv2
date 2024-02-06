@@ -13,7 +13,7 @@ import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 
-const Tiptap = dynamic(() => import('./Editor'), {
+const Editor = dynamic(() => import('./Editor'), {
   ssr: false,
   loading: () => (
     <div className='flex flex-1 flex-col items-center'>
@@ -34,6 +34,7 @@ const EssayPanel = ({ id }: { id: string }) => {
     queryFn: () => getDocDetail(id),
   });
   useCitationInfo(document_content);
+
   if (isError) return <p>opps something went wrong!</p>;
 
   return (
@@ -59,7 +60,7 @@ const EssayPanel = ({ id }: { id: string }) => {
               <Skeleton className='h-10 w-[700px] rounded-lg' />
             </div>
           ) : (
-            <Tiptap
+            <Editor
               essay_content={document_content ? document_content.content : ''}
             />
           )}
