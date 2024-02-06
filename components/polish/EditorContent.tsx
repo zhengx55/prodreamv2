@@ -23,12 +23,17 @@ const EditorBlock = ({ editor }: Props) => {
   const { data: userTrack, isPending, isError } = useUserTrackInfo();
   const isClose = Boolean(userTrack?.tasks);
   const isOutlineFinished = Boolean(userTrack?.outline_tip_task);
+  const isContinueFinished = Boolean(userTrack?.continue_tip_task);
   const isComplete =
     userTrack?.ai_copilot_task &&
     userTrack?.continue_writing_task &&
     userTrack?.citation_task &&
     userTrack?.generate_tool_task;
+  const showTaskPanel =
+    (isOutlineFinished || isContinueFinished) && !isComplete;
 
+  const showCompletePanel = !isClose && isComplete;
+  if (isPending || isError) return null;
   return (
     <div
       aria-label='editor-parent'
@@ -37,12 +42,10 @@ const EditorBlock = ({ editor }: Props) => {
     >
       <Spacer y='20' />
       <AnimatePresence>
-        {!isPending && !isError ? (
-          !isOutlineFinished ? null : !isComplete ? (
-            <Task editor={editor} track={userTrack} />
-          ) : isClose ? null : (
-            <Finish />
-          )
+        {showTaskPanel ? (
+          <Task editor={editor} track={userTrack} />
+        ) : showCompletePanel ? (
+          <Finish />
         ) : null}
       </AnimatePresence>
       {showSynonymMenu && <SynonymMenu editor={editor} />}

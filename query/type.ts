@@ -185,4 +185,5 @@ export type UserTrackData = {
   tasks?: string;
   citation_empty_check?: string;
   outline_tip_task?: string;
+  continue_tip_task?: string;
 };

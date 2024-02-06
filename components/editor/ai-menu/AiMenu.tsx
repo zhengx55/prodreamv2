@@ -278,11 +278,7 @@ export const AiMenu = ({ editor }: Props) => {
                       } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
                       key={item.id}
                       onClick={() => {
-                        !item.submenu &&
-                          handleCopilot({
-                            tool: item.lable,
-                            text: selectedText,
-                          });
+                        !item.submenu && handleEditTools(item.lable);
                       }}
                       onMouseEnter={() => setHoverItem(idx)}
                       onMouseLeave={() => setHoverItem(null)}
