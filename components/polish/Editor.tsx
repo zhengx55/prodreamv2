@@ -1,4 +1,3 @@
-'use client';
 import BottomBar from '@/components/editor/bottombar';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
