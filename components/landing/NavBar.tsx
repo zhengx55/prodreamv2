@@ -36,7 +36,7 @@ const NavBar = () => {
           </div> */}
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
-          <Link href={'/writtingpal/polish'} passHref>
+          <Link href={'/login'} passHref>
             <Button variant={'ghost'} className='text-doc-primary'>
               Log in
             </Button>
@@ -74,7 +74,7 @@ const NavBar = () => {
           >
             <div className='w-[100vw] bg-[#fff] py-6 pt-[45px]'>
               <div className='flex flex-col items-center gap-y-4'>
-                <Link href={'/writtingpal/polish'} passHref>
+                <Link href={'/login'} passHref>
                   <Button
                     variant={'ghost'}
                     className='w-[340px] border-[2px] border-doc-primary text-doc-primary'

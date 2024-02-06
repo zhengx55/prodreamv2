@@ -39,7 +39,6 @@ export const SearchCitationCard = memo(
     const { data: track } = useUserTrackInfo();
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
-
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
         await updateTrack({

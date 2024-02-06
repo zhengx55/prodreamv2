@@ -64,7 +64,7 @@ const DocNavbar = () => {
     <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-shadow-border px-5 py-3'>
       <div className='flex h-full items-center gap-x-4'>
         {track?.guidence && (
-          <Link passHref href={'/writtingpal/polish'}>
+          <Link passHref href={'/editor'}>
             <span className='flex-center h-10 w-10 cursor-pointer rounded-md bg-shadow-border hover:opacity-50'>
               <ChevronLeft />
             </span>

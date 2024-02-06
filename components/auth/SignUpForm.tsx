@@ -75,9 +75,9 @@ const SignUpForm = () => {
             SampleEssay.TITLE
           );
 
-          router.push(`/writtingpal/polish/${new_doc_id}`);
+          router.push(`/editor/${new_doc_id}`);
         } catch (error) {
-          router.push('/writtingpal/polish');
+          router.push('/editor');
         }
       },
       onError: async (error) => {
