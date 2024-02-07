@@ -130,13 +130,13 @@ export const HeroInfo = [
     id: 'hero-01',
     icon: '/landing/heros/outline.svg',
     title: 'Outlining',
-    text: 'Streamline your essay process, no more scattered ideas.',
+    text: 'Create a detailed outline tailored to your requirements with guidance.',
   },
   {
     id: 'hero-02',
     icon: '/landing/heros/editing.svg',
-    title: 'Editing',
-    text: 'Write with precision, clarity, and organization.',
+    title: 'Drafting',
+    text: 'Increase writing speed and enhance clarity, cohesion, grammar, and style',
   },
   {
     id: 'hero-03',
@@ -147,7 +147,7 @@ export const HeroInfo = [
   {
     id: 'hero-04',
     icon: '/landing/heros/proofread.svg',
-    title: 'Proofread',
+    title: 'Final Touches',
     text: 'Perfect your writing: detect plagiarism and refine content.',
   },
 ];
