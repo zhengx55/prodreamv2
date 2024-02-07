@@ -73,7 +73,7 @@ const Mine = () => {
       <div className='flex-between items-center py-1.5'>
         <div className='flex items-center gap-x-2'>
           <Book />
-          <p className='small-regular text-doc-primary'>My Libary</p>
+          <p className='small-regular text-doc-primary'>My Library</p>
         </div>
         <div className='flex items-center gap-x-2'>
           <Toggle
