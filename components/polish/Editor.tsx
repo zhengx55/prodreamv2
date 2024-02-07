@@ -2,7 +2,7 @@ import BottomBar from '@/components/editor/bottombar';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
-import { useUserTrackInfo } from '@/query/query';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
 import useAiEditor, { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor as EditorType, useEditor } from '@tiptap/react';
@@ -41,6 +41,8 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const { data: userTrack, isPending } = useUserTrackInfo();
   const outline_step = useUserTask((state) => state.outline_step);
   const continue_step = useUserTask((state) => state.continue_step);
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
+
   const showGuidance =
     !Boolean(userTrack?.guidence) && outline_step === 0 && continue_step === 0;
   const showOutlineTip = Boolean(userTrack?.guidence) && outline_step === 1;
@@ -110,12 +112,18 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     <section className='relative flex w-full flex-col'>
       <div className='relative flex h-full w-full'>
         <TableOfContents editor={editor} />
+        <button
+          onClick={async () => {
+            await updateTrack({ field: 'guidence', data: '' });
+          }}
+        >
+          test
+        </button>
         <AnimatePresence mode='wait'>
           {showGuidance && <Guidence editor={editor} />}
           {showOutlineTip && <OutlineTip editor={editor} />}
           {showContinueTip && <ContinueTip editor={editor} />}
         </AnimatePresence>
-
         <EditorBlock editor={editor} />
       </div>
       {showBottomBar && (

@@ -41,6 +41,7 @@ const Hero = () => {
           className='absolute top-10 h-[80%] w-full'
           width={10}
           height={10}
+          loading='eager'
           src='/landing/heros/Mask_group.png'
         />
       </m.div>
@@ -99,6 +100,7 @@ const Hero = () => {
                   width={28}
                   height={28}
                   src={item.icon}
+                  loading='eager'
                   priority
                 />
                 <h2 className='title-regular 2xl:h3-regular'>{item.title}</h2>
@@ -115,6 +117,7 @@ const Hero = () => {
             alt={'prodream.ai'}
             src={HeroMainInfo[selected].image}
             fill
+            loading='eager'
             priority
             sizes='(max-width: 768px) 50vw, 100vw'
           />

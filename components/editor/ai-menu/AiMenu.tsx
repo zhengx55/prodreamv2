@@ -13,6 +13,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { usePostHog } from 'posthog-js/react';
 import {
   ChangeEvent,
   KeyboardEvent,
@@ -30,6 +31,7 @@ export const AiMenu = ({ editor }: Props) => {
   const copilotRect = useAiEditor((state) => state.copilotRect);
   const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
   const selectedText = useAiEditor((state) => state.selectedText);
+  const promptRef = useRef<HTMLInputElement>(null);
   const { options, operations } = useAiOptions();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: track } = useUserTrackInfo();
@@ -37,12 +39,11 @@ export const AiMenu = ({ editor }: Props) => {
   const [generating, setGenerating] = useState(false);
   const [aiResult, setAiResult] = useState('');
   const [istTyping, setIsTyping] = useState(false);
-  const [prompt, setPrompt] = useState('');
   const elRef = useRef<HTMLDivElement>(null);
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
   const hasAiResult = aiResult !== '';
-
+  const posthog = usePostHog();
   const ref = useScrollIntoView();
 
   useClickOutside(elRef, () => {
@@ -51,7 +52,6 @@ export const AiMenu = ({ editor }: Props) => {
 
   const handlePromptChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setPrompt(value);
     if (value.trim() !== '') {
       setIsTyping(true);
     } else {
@@ -135,19 +135,25 @@ export const AiMenu = ({ editor }: Props) => {
         field: 'ai_copilot_task',
         data: true,
       });
+      posthog.capture('ai_copilot_task_completed');
     }
     await handleCopilot({ tool, text: selectedText });
   };
 
   const handleCustomPrompt = async () => {
-    if (!prompt.trim()) return toast.error('please enter a custom prompt');
+    if (promptRef.current && !promptRef.current.value.trim())
+      return toast.error('please enter a custom prompt');
     if (!track?.ai_copilot_task) {
       await updateTrack({
         field: 'ai_copilot_task',
         data: true,
       });
+      posthog.capture('ai_copilot_task_completed');
     }
-    await handleAsk({ instruction: prompt, text: selectedText });
+    await handleAsk({
+      instruction: promptRef.current?.value!,
+      text: selectedText,
+    });
   };
 
   const handleKeyEnter = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -223,10 +229,10 @@ export const AiMenu = ({ editor }: Props) => {
               <Copilot size='24' />
               <Input
                 type='text'
-                value={prompt}
+                ref={promptRef}
                 autoFocus
-                onKeyDown={handleKeyEnter}
                 onChange={handlePromptChange}
+                onKeyDown={handleKeyEnter}
                 id='ai-prompt'
                 className='small-regular h-8 border-none px-0 py-0 shadow-none focus-visible:right-0 focus-visible:ring-0'
                 placeholder='Ask Al to edit or generate...'

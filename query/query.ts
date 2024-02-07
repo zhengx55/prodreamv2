@@ -4,7 +4,6 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createCitation, getDocs, getUserInfo, updateUserInfo } from './api';
 import { UserTrackData } from './type';
-
 export const useUserTrackInfo = () => {
   return useQuery({
     queryKey: ['user_track_info'],

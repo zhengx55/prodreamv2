@@ -125,7 +125,7 @@ const Task = ({ editor, track }: Props) => {
       <Accordion defaultValue='item-1' type='single' collapsible>
         <AccordionItem className='mx-auto w-[700px] rounded-md' value='item-1'>
           <AccordionTrigger className='flex-between bg-doc-primary px-5 py-2 data-[state=closed]:rounded-lg data-[state=open]:rounded-t-lg'>
-            <p className='base-semibold text-white'>
+            <p className='base-semibold text-left text-white'>
               Welcome to ProDream!
               <br /> Follow this guide to start your journey!
             </p>

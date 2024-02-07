@@ -23,7 +23,6 @@ const Guidence = ({ editor }: { editor: Editor }) => {
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const posthog = usePostHog();
-
   const close = async () => {
     await updateTrack({
       field: 'guidence',
@@ -35,10 +34,12 @@ const Guidence = ({ editor }: { editor: Editor }) => {
     let timer: NodeJS.Timeout | null = null;
     if (check === 0) {
       timer = setTimeout(() => {
+        posthog.capture('start with draft');
         close();
         updateContinueStep(1);
       }, 500);
     } else if (check === 2) {
+      posthog.capture('just exploring');
       timer = setTimeout(() => {
         close();
       }, 500);
@@ -58,13 +59,29 @@ const Guidence = ({ editor }: { editor: Editor }) => {
     onSuccess: async (data: ReadableStream) => {
       setIsGenerating(false);
       close();
+      posthog.capture('start with generated outlie');
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
-        if (done) break;
+        if (done) {
+          break;
+        }
         handleStreamData(value);
       }
-      updateOutlineStep(1);
+      if (resultString.current !== '') {
+        const parse_result = parse(resultString.current, { async: false });
+        editor.commands.insertContentAt(
+          editor.state.doc.content?.size ?? 2,
+          parse_result,
+          {
+            parseOptions: {
+              preserveWhitespace: true,
+            },
+          }
+        );
+        resultString.current = '';
+        updateOutlineStep(1);
+      }
     },
     onError: async (error) => {
       setIsGenerating(false);
@@ -131,6 +148,7 @@ const Guidence = ({ editor }: { editor: Editor }) => {
     close();
     editor.commands.setContent(sample_outline, true);
     updateOutlineStep(1);
+    posthog.capture('start with sample outlie');
   };
 
   return (
@@ -153,10 +171,10 @@ const Guidence = ({ editor }: { editor: Editor }) => {
             <Checkbox
               checked={check === 0}
               onCheckedChange={handleDraft}
-              id='terms1'
+              id='have-draft'
             />
             <label
-              htmlFor='terms1'
+              htmlFor='have-draft'
               className={`text-sm font-medium leading-none ${check === 0 ? 'text-doc-primary' : 'text-doc-font'}`}
             >
               Yes, I have a draft already.
@@ -168,10 +186,10 @@ const Guidence = ({ editor }: { editor: Editor }) => {
               onCheckedChange={() => {
                 setCheck(1);
               }}
-              id='terms2'
+              id='start-outline'
             />
             <label
-              htmlFor='terms2'
+              htmlFor='start-outline'
               className={`text-sm font-medium leading-none ${check === 1 ? 'text-doc-primary' : 'text-doc-font'}`}
             >
               No, I am starting from scratch.
@@ -183,10 +201,10 @@ const Guidence = ({ editor }: { editor: Editor }) => {
               onCheckedChange={() => {
                 setCheck(2);
               }}
-              id='terms3'
+              id='just-exploring'
             />
             <label
-              htmlFor='terms3'
+              htmlFor='just-exploring'
               className={`text-sm font-medium leading-none ${check === 2 ? 'text-doc-primary' : 'text-doc-font'}`}
             >
               Neither, I&apos;m just exploring
@@ -231,6 +249,7 @@ const Guidence = ({ editor }: { editor: Editor }) => {
                 onClick={handleGenerate}
                 disabled={isGenerating}
                 className='w-max rounded bg-doc-primary'
+                id='guidence-generate'
               >
                 Generate
                 {isGenerating && (

@@ -31,7 +31,6 @@ const EditorBlock = ({ editor }: Props) => {
     userTrack?.generate_tool_task;
   const showTaskPanel =
     (isOutlineFinished || isContinueFinished) && !isComplete;
-
   const showCompletePanel = !isClose && isComplete;
   if (isPending || isError) return null;
   return (
