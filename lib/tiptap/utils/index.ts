@@ -42,3 +42,12 @@ export const findFirstParagraph = (editor: Editor) => {
   });
   return first_paragraph;
 };
+
+export const getSelectedText = (editor: Editor) => {
+  const { selection, doc } = editor.state;
+  const { ranges } = selection;
+  const from = Math.min(...ranges.map((range) => range.$from.pos));
+  const to = Math.max(...ranges.map((range) => range.$to.pos));
+  const selectedText = doc.textBetween(from, to);
+  return selectedText;
+};

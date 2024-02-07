@@ -44,7 +44,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const updateCopilotRect = useAiEditor((state) => state.updateCopilotRect);
   const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
   const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
-  const updateSelectedText = useAiEditor((state) => state.updateSelectedText);
   const updateCopilotRectX = useAiEditor((state) => state.updateCopilotRectX);
   const task_step = useUserTask((state) => state.task_step);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
@@ -90,7 +89,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           setIsWord(false);
         }
         setSelectedLength(words ? words.length : 0);
-        updateSelectedText(text);
         refs.setReference({
           getBoundingClientRect() {
             if (isNodeSelection(selection)) {
@@ -174,7 +172,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
             }}
             className='text-doc-primary'
           >
-            <BookHalf size={18} />
+            <BookHalf size={'18'} />
             Citation
           </MemoButton>
         )}

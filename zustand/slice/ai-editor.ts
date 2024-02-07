@@ -19,7 +19,6 @@ const initialState: AIEditorState = {
   copilotRectX: null,
   showSynonymMenu: false,
   showCustomCitiation: false,
-  selectedText: '',
   citationStyle: 'MLA',
   showCreateCitation: false,
   inTextCitation: [],
@@ -41,7 +40,6 @@ type AIEditorState = {
   copilotRect: null | number;
   showSynonymMenu: boolean;
   showCustomCitiation: boolean;
-  selectedText: string;
   copilotRectX: null | number;
   citationStyle: string;
   showCreateCitation: boolean;
@@ -66,7 +64,6 @@ type AIEditorAction = {
   updateCitationMenu: (result: AIEditorState['showCitiationMenu']) => void;
   updateSynonymMenu: (result: AIEditorState['showSynonymMenu']) => void;
   updateCustomCitiation: (result: AIEditorState['showCustomCitiation']) => void;
-  updateSelectedText: (result: AIEditorState['selectedText']) => void;
   updateCopilotRectX: (resutl: AIEditorState['copilotRectX']) => void;
   updateCitationStyle: (result: AIEditorState['citationStyle']) => void;
   updateShowCreateCitation: (
@@ -143,10 +140,6 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateCustomCitiation: (result) =>
     set(() => ({
       showCustomCitiation: result,
-    })),
-  updateSelectedText: (result) =>
-    set(() => ({
-      selectedText: result,
     })),
   updateCopilotRectX: (result) =>
     set(() => ({

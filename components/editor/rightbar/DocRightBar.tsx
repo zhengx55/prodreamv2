@@ -60,11 +60,11 @@ const DocRightBar = () => {
                 animate={righbarTab === 0 ? 'expanded' : 'collasped'}
                 className={`${
                   righbarTab === 0
-                    ? 'bg-doc-primary'
+                    ? 'bg-doc-primary/10'
                     : 'border-2 border-doc-primary bg-transparent'
                 }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
               >
-                <FileCheck color={righbarTab === 0 ? 'white' : '#8652DB'} />
+                <FileCheck size='18' />
                 <AnimatePresence>
                   {righbarTab === 0 && (
                     <m.p
@@ -76,7 +76,7 @@ const DocRightBar = () => {
                         scale: 1,
                         transition: { duration: 0.5 },
                       }}
-                      className='base-semibold text-white'
+                      className='small-semibold text-doc-primary'
                     >
                       Grammar Check
                     </m.p>
@@ -90,13 +90,13 @@ const DocRightBar = () => {
                 animate={righbarTab === 1 ? 'expanded' : 'collasped'}
                 className={`${
                   righbarTab === 1
-                    ? 'bg-doc-primary'
+                    ? 'bg-doc-primary/10'
                     : 'border-2 border-doc-primary bg-transparent'
                 }  flex-center h-11 cursor-pointer gap-x-2 rounded `}
               >
-                <BookHalf fill={righbarTab !== 1 ? '#8652DB' : '#FFFFFF'} />
+                <BookHalf size={'18'} />
                 {righbarTab === 1 && (
-                  <p className='base-semibold text-white'>Citation</p>
+                  <p className='small-semibold text-doc-primary'>Citation</p>
                 )}
               </m.span>
               <m.span
@@ -106,13 +106,13 @@ const DocRightBar = () => {
                 animate={righbarTab === 2 ? 'expanded' : 'collasped'}
                 className={`${
                   righbarTab === 2
-                    ? 'bg-doc-primary'
+                    ? 'bg-doc-primary/10'
                     : 'border-2 border-doc-primary bg-transparent'
                 }  flex-center h-11 cursor-pointer gap-x-2 rounded `}
               >
-                <GenerateFill fill={righbarTab !== 2 ? '#8652DB' : '#FFFFFF'} />
+                <GenerateFill size='18' />
                 {righbarTab === 2 && (
-                  <p className='base-semibold text-white'>Generate</p>
+                  <p className='small-semibold text-doc-primary'>Generate</p>
                 )}
               </m.span>
             </div>

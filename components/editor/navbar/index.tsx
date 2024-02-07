@@ -1,4 +1,4 @@
-import { Cloud } from '@/components/root/SvgComponents';
+import { Cloud, Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -9,7 +9,7 @@ import { useUserTrackInfo } from '@/query/query';
 import useAiEditor, { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
-import { ChevronLeft, Loader } from 'lucide-react';
+import { ChevronLeft, Loader, Loader2, ShieldCheck } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo, useRef, useState } from 'react';
@@ -65,7 +65,7 @@ const DocNavbar = () => {
       <div className='flex h-full items-center gap-x-4'>
         {track?.guidence && (
           <Link passHref href={'/editor'}>
-            <span className='flex-center h-10 w-10 cursor-pointer rounded-md bg-shadow-border hover:opacity-50'>
+            <span className='flex-center h-10 w-10 cursor-pointer rounded-md hover:bg-shadow-border hover:opacity-50'>
               <ChevronLeft />
             </span>
           </Link>
@@ -78,9 +78,18 @@ const DocNavbar = () => {
               : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className='h-max rounded bg-doc-primary/20 py-1 hover:bg-doc-secondary'>
+              <p className='small-regular text-doc-primary'>{citationStyle}</p>
+            </Button>
+          </DropdownMenuTrigger>
+          <CitationDropdown />
+        </DropdownMenu>
       </div>
+
       <div className='flex items-center gap-x-4'>
-        {/* <Button
+        <Button
           role='button'
           disabled={isGenerating}
           onClick={handlePlagiarismCheck}
@@ -92,15 +101,14 @@ const DocNavbar = () => {
             <ShieldCheck size={18} className='text-doc-primary' />
           )}
           <p className='small-regular text-doc-primary'>Plaglarism Check</p>
-        </Button> */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className='h-max rounded bg-doc-primary/20 py-1 hover:bg-doc-secondary'>
-              <p className='small-regular text-doc-primary'>{citationStyle}</p>
-            </Button>
-          </DropdownMenuTrigger>
-          <CitationDropdown />
-        </DropdownMenu>
+        </Button>
+
+        <Button
+          role='button'
+          className='h-max rounded bg-doc-primary px-2 py-1 hover:bg-doc-secondary hover:text-doc-primary'
+        >
+          <Diamond /> Upgrade
+        </Button>
         {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
