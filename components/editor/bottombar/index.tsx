@@ -1,4 +1,4 @@
-import { Toolbar } from '@/components/editor/Toolbar';
+import { Toolbar } from '@/components/editor/ui/Toolbar';
 import { BookHalf } from '@/components/root/SvgComponents';
 import useAiEditor from '@/zustand/store';
 import { Editor } from '@tiptap/react';

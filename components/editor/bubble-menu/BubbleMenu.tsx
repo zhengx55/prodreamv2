@@ -1,4 +1,4 @@
-import { Toolbar } from '@/components/editor/Toolbar';
+import { Toolbar } from '@/components/editor/ui/Toolbar';
 import { autoUpdate, flip, offset, useFloating } from '@floating-ui/react-dom';
 import * as Popover from '@radix-ui/react-popover';
 import { Editor, isNodeSelection, posToDOMRect } from '@tiptap/react';
