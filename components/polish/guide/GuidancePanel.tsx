@@ -14,7 +14,7 @@ import { parse } from 'marked';
 import { usePostHog } from 'posthog-js/react';
 import { useEffect, useRef, useState } from 'react';
 
-const Guidence = ({ editor }: { editor: Editor }) => {
+const Guidance = ({ editor }: { editor: Editor }) => {
   const [check, setCheck] = useState(-1);
   const ideaRef = useRef<HTMLTextAreaElement>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -284,4 +284,4 @@ const Guidence = ({ editor }: { editor: Editor }) => {
     </m.div>
   );
 };
-export default Guidence;
+export default Guidance;
