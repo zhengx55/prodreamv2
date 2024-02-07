@@ -1,6 +1,7 @@
 import { AboutInfo } from '@/constant';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
+import CaptureProvider from './CaptureProvider';
 
 const About = () => {
   return (
@@ -13,12 +14,14 @@ const About = () => {
           </span>
         </h2>
         <Spacer y='10' />
-        <p className='subtle-regular sm:base-regular text-center text-shadow-100'>
-          Writing a good paper is time consuming, but every student has tons of
-          work to get through. Some
-          <br className='hidden sm:block' /> accept frustration. Others choose
-          ProDream that speeds up their writing process
-        </p>
+        <CaptureProvider event='ScreenIII'>
+          <p className='subtle-regular sm:base-regular text-center text-shadow-100'>
+            Writing a good paper is time consuming, but every student has tons
+            of work to get through. Some
+            <br className='hidden sm:block' /> accept frustration. Others choose
+            ProDream that speeds up their writing process
+          </p>
+        </CaptureProvider>
         <Spacer y='40' />
         <div className='flex flex-col gap-y-9'>
           {AboutInfo.map((item, index) => {
