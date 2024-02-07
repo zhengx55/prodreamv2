@@ -15,6 +15,7 @@ import { useAIEditor, useUserTask } from '@/zustand/store';
 import { Plus, ReplyAll, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import { memo } from 'react';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 
@@ -33,6 +34,7 @@ const MineCitationPreview = dynamic(() => import('./MineCitationPreview'), {
 export const SearchCitationCard = memo(
   ({ item, index }: { item: ICitation; index: number }) => {
     const { id } = useParams();
+    const posthog = usePostHog();
     const citation_tooltip_step = useUserTask((state) => state.citation_step);
     const updateCitationStep = useUserTask((state) => state.updateCitationStep);
     const { mutateAsync: updateTrack } = useMutateTrackInfo();
@@ -45,6 +47,7 @@ export const SearchCitationCard = memo(
           field: 'citation_task',
           data: true,
         });
+        posthog.capture('citation_task_completed');
       }
       const converted_data = ConvertCitationData(item);
       if (action === 'collect') {

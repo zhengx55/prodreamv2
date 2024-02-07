@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ContinueTooltip, OutlineTooltipMain } from '@/constant/enum';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
 import { copilot } from '@/query/api';
+import { useMutateTrackInfo } from '@/query/query';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { posToDOMRect, type Editor } from '@tiptap/react';
@@ -14,6 +15,7 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
   const [top, setTop] = useState(0);
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+
   useEffect(() => {
     if (!editor) return;
     let first_paragraph_pos: number = 0;
@@ -33,7 +35,9 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
       first_paragraph_pos,
       first_paragraph_to
     );
-    setTop(coordinate.top);
+    const el_srcoll_top =
+      editor.view.dom.parentElement?.parentElement?.scrollTop;
+    setTop(coordinate.top + (el_srcoll_top ?? 0));
     setLeft(coordinate.left - 360);
   }, [editor]);
   return (
@@ -81,6 +85,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
   const [left, setLeft] = useState<number | undefined>();
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const insertPos = useRef<number>(0);
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
 
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { text: string; pos: number; start: number }) =>
@@ -90,16 +95,20 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
       insertPos.current = variables.pos - 1;
       while (true) {
         const { value, done } = await reader.read();
-        if (done) break;
+        if (done) {
+          const coordinate = posToDOMRect(
+            editor.view,
+            variables.start,
+            insertPos.current
+          );
+          const el_srcoll_top =
+            editor.view.dom.parentElement?.parentElement?.scrollTop;
+          setTop(coordinate.top + (el_srcoll_top ?? 0));
+          setLeft(coordinate.left - 360);
+          break;
+        }
         handleStreamData(value, variables.pos);
       }
-      const coordinate = posToDOMRect(
-        editor.view,
-        variables.start,
-        insertPos.current
-      );
-      setTop(coordinate.top);
-      setLeft(coordinate.left - 360);
     },
   });
 
@@ -160,8 +169,12 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
       <Spacer y='15' />
       <div className='flex justify-end'>
         <Button
-          onClick={() => {
+          onClick={async () => {
             updateContinueStep(0);
+            await updateTrack({
+              field: 'continue_tip_task',
+              data: true,
+            });
           }}
           className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'
           role='button'

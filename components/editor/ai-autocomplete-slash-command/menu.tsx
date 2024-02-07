@@ -4,6 +4,7 @@ import { Command, MenuListProps } from '@/lib/tiptap/type';
 import { copilot } from '@/query/api';
 import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
 import { useMutation } from '@tanstack/react-query';
+import { usePostHog } from 'posthog-js/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -13,6 +14,7 @@ export const AutoCompleteMenuList = React.forwardRef(
     const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
     const [selectedCommandIndex, setSelectedCommandIndex] = useState(0);
     const { mutateAsync: updateTrack } = useMutateTrackInfo();
+    const posthog = usePostHog();
     const { data: track } = useUserTrackInfo();
     const { mutateAsync: handleCopilot } = useMutation({
       mutationFn: (params: { tool: string; text: string }) => copilot(params),
@@ -22,6 +24,7 @@ export const AutoCompleteMenuList = React.forwardRef(
             field: 'continue_writing_task',
             data: true,
           });
+          posthog.capture('continue_writing_task_completed');
         }
         const reader = data.pipeThrough(new TextDecoderStream()).getReader();
         while (true) {

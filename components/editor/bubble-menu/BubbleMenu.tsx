@@ -66,7 +66,8 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
 
   useLayoutEffect(() => {
     const handler = () => {
-      const { from, empty } = editor.state.selection;
+      const { doc, selection } = editor.state;
+      const { from, empty, ranges } = selection;
       const { view } = editor;
       const current_node = view.domAtPos(from || 0);
       const isTitle =
@@ -79,8 +80,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       if (empty) {
         setOpen(false);
       } else {
-        const { doc, selection } = editor.state;
-        const { ranges } = selection;
         const from = Math.min(...ranges.map((range) => range.$from.pos));
         const to = Math.max(...ranges.map((range) => range.$to.pos));
         const text = doc.textBetween(from, to);
@@ -94,23 +93,23 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
         updateSelectedText(text);
         refs.setReference({
           getBoundingClientRect() {
-            if (isNodeSelection(editor.state.selection)) {
-              const node = editor.view.nodeDOM(from) as HTMLElement;
+            if (isNodeSelection(selection)) {
+              const node = view.nodeDOM(from) as HTMLElement;
               if (node) {
                 menuXOffside.current = node.getBoundingClientRect().left;
                 const el_srcoll_top =
-                  editor.view.dom.parentElement?.parentElement?.scrollTop;
+                  view.dom.parentElement?.parentElement?.scrollTop;
                 menuYOffside.current =
                   node.getBoundingClientRect().bottom + (el_srcoll_top ?? 0);
                 return node.getBoundingClientRect();
               }
             }
-            menuXOffside.current = posToDOMRect(editor.view, from, to).left;
+            menuXOffside.current = posToDOMRect(view, from, to).left;
             const el_srcoll_top =
-              editor.view.dom.parentElement?.parentElement?.scrollTop;
+              view.dom.parentElement?.parentElement?.scrollTop;
             menuYOffside.current =
-              posToDOMRect(editor.view, from, to).bottom + (el_srcoll_top ?? 0);
-            return posToDOMRect(editor.view, from, to);
+              posToDOMRect(view, from, to).bottom + (el_srcoll_top ?? 0);
+            return posToDOMRect(view, from, to);
           },
         });
         setOpen(true);
