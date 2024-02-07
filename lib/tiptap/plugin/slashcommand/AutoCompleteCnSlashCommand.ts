@@ -11,11 +11,11 @@ import Suggestion, {
 } from '@tiptap/suggestion';
 import tippy from 'tippy.js';
 
-const extensionName = 'AutoCompleteSlashCommand';
+const extensionName = 'AutoCompleteCNSlashCommand';
 
 let popup: any;
 
-export const AutoCompleteSlashCommand = Extension.create({
+export const AutoCompleteCNSlashCommand = Extension.create({
   name: extensionName,
   priority: 300,
   onCreate() {
@@ -40,7 +40,7 @@ export const AutoCompleteSlashCommand = Extension.create({
     return [
       Suggestion({
         editor: this.editor,
-        char: '/',
+        char: '、',
         startOfLine: false,
         allowedPrefixes: null,
         pluginKey: new PluginKey(extensionName),
@@ -51,7 +51,7 @@ export const AutoCompleteSlashCommand = Extension.create({
             $from.parent.textContent.length > 1 &&
             $from.parent.textContent?.charAt(
               $from.parent.textContent.length - 1
-            ) === '/';
+            ) === '、';
 
           return isParagraph && isSlashAtTheEnd;
         },
@@ -62,7 +62,7 @@ export const AutoCompleteSlashCommand = Extension.create({
           const from = $head?.nodeBefore
             ? end -
               ($head.nodeBefore.text?.substring(
-                $head.nodeBefore.text?.indexOf('/')
+                $head.nodeBefore.text?.indexOf('、')
               ).length ?? 0)
             : $from.start();
           const tr = state.tr.deleteRange(from, end);
@@ -79,6 +79,7 @@ export const AutoCompleteSlashCommand = Extension.create({
               return labelNormalized.includes(queryNormalized);
             }),
           }));
+
           return withFilteredCommands;
         },
         render: () => {
@@ -141,21 +142,15 @@ export const AutoCompleteSlashCommand = Extension.create({
 
             onUpdate(props: SuggestionProps) {
               component.updateProps(props);
-
               const { view } = props.editor;
-
               const getReferenceClientRect = () => {
                 if (!props.clientRect) {
                   return props.editor.storage[extensionName].rect;
                 }
-
                 const rect = props.clientRect();
-
                 if (!rect) {
                   return props.editor.storage[extensionName].rect;
                 }
-
-                // Account for when the editor is bound inside a container that doesn't go all the way to the edge of the screen
                 return new DOMRect(rect.x, rect.y, rect.width, rect.height);
               };
 
@@ -166,6 +161,8 @@ export const AutoCompleteSlashCommand = Extension.create({
               };
 
               view.dom.parentElement?.addEventListener('scroll', scrollHandler);
+
+              // eslint-disable-next-line no-param-reassign
               props.editor.storage[extensionName].rect = props.clientRect
                 ? getReferenceClientRect()
                 : {
@@ -229,4 +226,4 @@ export const AutoCompleteSlashCommand = Extension.create({
   },
 });
 
-export default AutoCompleteSlashCommand;
+export default AutoCompleteCNSlashCommand;

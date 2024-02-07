@@ -2,6 +2,7 @@ import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { Synonym } from '@/components/root/SvgComponents';
 import useClickOutside from '@/hooks/useClickOutside';
+import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { synonym } from '@/query/api';
 import useAiEditor from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
@@ -31,6 +32,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
   useClickOutside(elRef, () => {
     updateSynonymMenu(false);
   });
+  const ref = useScrollIntoView();
 
   const handleReplace = (word: string) => {
     const { selection } = editor.state;
@@ -42,6 +44,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
   if (!copilotRect || !copilotRectX) return null;
   return (
     <section
+      ref={ref}
       style={{ top: `${copilotRect - 54}px`, left: `${copilotRectX}px` }}
       className='w-[450px absolute flex justify-center overflow-visible '
     >

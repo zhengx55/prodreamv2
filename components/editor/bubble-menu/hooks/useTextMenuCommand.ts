@@ -22,7 +22,7 @@ export const useTextmenuCommands = (editor: Editor) => {
     [editor]
   );
   const onUnderline = useCallback(
-    () => editor.chain().focus().toggleUnderline().run(),
+    () => editor.chain().focus().setGrammarUnderline().run(),
     [editor]
   );
 

@@ -4,7 +4,7 @@ export const SidebarLinks = [
     title: 'AI Editor',
     image: '/polish.svg',
     active_image: '/polish_active.svg',
-    link: '/writtingpal/polish',
+    link: '/editor',
   },
   // {
   //   id: 'sidebar-02',
@@ -122,24 +122,6 @@ export const PresetInstructions: { [key: string]: string } = {
   '5': 'Make it professional',
 };
 
-export const ProfileDropdownLinks = [
-  {
-    id: 'profile-01',
-    title: 'Refer Friends',
-    image: '/referrals_dark.svg',
-  },
-  {
-    id: 'profile-02',
-    title: 'View blogs',
-    image: '/document.svg',
-  },
-  {
-    id: 'profile-03',
-    title: 'Log out',
-    image: '/logout.svg',
-  },
-];
-
 // ----------------------------------------------------------------
 // LANDING PAGE
 // ----------------------------------------------------------------
@@ -148,13 +130,13 @@ export const HeroInfo = [
     id: 'hero-01',
     icon: '/landing/heros/outline.svg',
     title: 'Outlining',
-    text: 'Streamline your essay process, no more scattered ideas.',
+    text: 'Create a detailed outline tailored to your requirements with guidance.',
   },
   {
     id: 'hero-02',
     icon: '/landing/heros/editing.svg',
-    title: 'Editing',
-    text: 'Write with precision, clarity, and organization.',
+    title: 'Drafting',
+    text: 'Increase writing speed and enhance clarity, cohesion, grammar, and style',
   },
   {
     id: 'hero-03',
@@ -165,7 +147,7 @@ export const HeroInfo = [
   {
     id: 'hero-04',
     icon: '/landing/heros/proofread.svg',
-    title: 'Proofread',
+    title: 'Final Touches',
     text: 'Perfect your writing: detect plagiarism and refine content.',
   },
 ];
@@ -322,6 +304,33 @@ export const CitationPrompts = [
     text: "Access all your saved articles in 'My Library' and view citations used in this essay with a simple click on ”In this doc”. ",
   },
 ];
+
+export const sample_continue = {
+  type: 'doc',
+  content: [
+    {
+      type: 'title',
+      attrs: {
+        level: 1,
+      },
+      content: [
+        {
+          type: 'text',
+          text: 'My First Essay',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'Academic writing encompasses a variety of styles, each serving a distinct purpose in the realm of scholarship and research. These styles include argumentative essays, which present a well-reasoned case on a debatable issue, and analytical papers, which dissect and interpret complex topics or texts.',
+        },
+      ],
+    },
+  ],
+};
 
 export const sample_outline = {
   type: 'doc',

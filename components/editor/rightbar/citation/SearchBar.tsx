@@ -49,6 +49,9 @@ const SearchBar = ({ setKeyword, setResult }: Props) => {
         <Input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.currentTarget.value)}
+          onKeyDown={(e) =>
+            e.key === 'Enter' && searchTerm.trim() && setKeyword(searchTerm)
+          }
           type='text'
           id='search-citation'
           placeholder='Search publications ...'

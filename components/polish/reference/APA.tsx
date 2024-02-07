@@ -37,7 +37,15 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
       reference += `${formatAuthors(contributors)} `;
     }
     if (access_date) {
-      reference += `(${access_date.year}, ${access_date.month} ${access_date.day}). `;
+      if (access_date.month && access_date.day) {
+        reference += `(${access_date.year}, ${access_date.month} ${access_date.day}) `;
+      } else if (access_date.month) {
+        reference += `(${access_date.year}, ${access_date.month}) `;
+      } else if (access_date.day) {
+        reference += `(${access_date.year}, ${access_date.day}) `;
+      } else {
+        reference += `(${access_date.year}). `;
+      }
     }
 
     reference += `${website_title}. ${url}`;

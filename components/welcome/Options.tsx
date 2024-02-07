@@ -14,7 +14,7 @@ const Options = ({ type }: { type?: 'language' | 'education' }) => {
       setLanguageInfo(params),
     onSuccess: async () => {
       const data = await createDoc();
-      router.push(`/writtingpal/polish/${data}`);
+      router.push(`/editor/${data}`);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

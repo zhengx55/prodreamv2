@@ -23,7 +23,7 @@ const GoogleSignin = ({ label }: { label: string }) => {
       const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
         .subject.user_id;
       posthog.identify(user_id);
-      router.push('/writtingpal/polish');
+      router.push('/editor');
     },
     onError: (errorResponse) => {
       toast.error(errorResponse.error);

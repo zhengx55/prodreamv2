@@ -3,14 +3,19 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CitationTooltip } from '@/constant/enum';
 import { ConvertCitationData } from '@/lib/utils';
-import { updateUserInfo } from '@/query/api';
-import { useCiteToDoc, useCreateCitation } from '@/query/query';
+import {
+  useCiteToDoc,
+  useCreateCitation,
+  useMutateTrackInfo,
+  useUserTrackInfo,
+} from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import { Plus, ReplyAll, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import { memo } from 'react';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 
@@ -27,34 +32,22 @@ const MineCitationPreview = dynamic(() => import('./MineCitationPreview'), {
 });
 
 export const SearchCitationCard = memo(
-  ({
-    item,
-    remove,
-    index,
-  }: {
-    item: ICitation;
-    index: number;
-    remove: (index: number) => void;
-  }) => {
+  ({ item, index }: { item: ICitation; index: number }) => {
     const { id } = useParams();
+    const posthog = usePostHog();
     const citation_tooltip_step = useUserTask((state) => state.citation_step);
     const updateCitationStep = useUserTask((state) => state.updateCitationStep);
-    const updateCompletion = useUserTask((state) => state.updateCompletion);
-    const citation_check = useUserTask((state) => state.citation);
+    const { mutateAsync: updateTrack } = useMutateTrackInfo();
+    const { data: track } = useUserTrackInfo();
     const { mutateAsync: handleCollectCitation } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
-
-    const handler = async (
-      item: ICitation,
-      index: number,
-      action: 'cite' | 'collect'
-    ) => {
-      if (!citation_check) {
-        await updateCompletion('citation', true);
-        await updateUserInfo({
+    const handler = async (item: ICitation, action: 'cite' | 'collect') => {
+      if (!track?.citation_task) {
+        await updateTrack({
           field: 'citation_task',
           data: true,
         });
+        posthog.capture('citation_task_completed');
       }
       const converted_data = ConvertCitationData(item);
       if (action === 'collect') {
@@ -70,7 +63,6 @@ export const SearchCitationCard = memo(
           document_id: id as string,
         });
       }
-      remove(index);
     };
     return (
       <div key={item.article_title} className='group flex flex-col px-2'>
@@ -112,7 +104,7 @@ export const SearchCitationCard = memo(
               <Button
                 className='h-[30px] w-[48%] rounded bg-doc-primary'
                 role='button'
-                onClick={() => handler(item as any, index, 'cite')}
+                onClick={() => handler(item as any, 'cite')}
               >
                 <ReplyAll size={18} />
                 Cite
@@ -122,7 +114,7 @@ export const SearchCitationCard = memo(
             <Button
               className='h-[30px] w-[48%] rounded bg-doc-primary'
               role='button'
-              onClick={() => handler(item as any, index, 'cite')}
+              onClick={() => handler(item as any, 'cite')}
             >
               <ReplyAll size={18} />
               Cite
@@ -145,7 +137,7 @@ export const SearchCitationCard = memo(
                 className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
                 variant={'ghost'}
                 role='button'
-                onClick={() => handler(item as any, index, 'collect')}
+                onClick={() => handler(item as any, 'collect')}
               >
                 <Plus size={18} className='text-doc-primary' /> Add to library
               </Button>
@@ -155,7 +147,7 @@ export const SearchCitationCard = memo(
               className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
               variant={'ghost'}
               role='button'
-              onClick={() => handler(item as any, index, 'collect')}
+              onClick={() => handler(item as any, 'collect')}
             >
               <Plus size={18} className='text-doc-primary' /> Add to library
             </Button>

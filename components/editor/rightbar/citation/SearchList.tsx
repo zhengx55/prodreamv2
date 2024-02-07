@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { SearchCitationCard } from './CitationCard';
 import SearchBar from './SearchBar';
 
-const Mine = dynamic(() => import('./Mine'));
+const Mine = dynamic(() => import('./Mine'), { ssr: false });
 
 const SearchList = () => {
   const updateShowCreateCitation = useAiEditor(
@@ -23,12 +23,6 @@ const SearchList = () => {
     (value: ICitation[]) => setSearchResult(value),
     []
   );
-  const removeFromResultList = useCallback((index: number) => {
-    setSearchResult((prev) => [
-      ...prev.slice(0, index),
-      ...prev.slice(index + 1),
-    ]);
-  }, []);
   const {
     data: citationResult,
     isPending,
@@ -43,7 +37,9 @@ const SearchList = () => {
       }
     },
     queryKey: ['search-citation', keyword],
+    staleTime: 600000,
   });
+
   useEffect(() => {
     if (citationResult) setSearchResult(citationResult);
   }, [citationResult]);
@@ -69,7 +65,6 @@ const SearchList = () => {
           searchResult?.map((item, index) => (
             <SearchCitationCard
               index={index}
-              remove={removeFromResultList}
               key={`citation-search${index}`}
               item={item}
             />

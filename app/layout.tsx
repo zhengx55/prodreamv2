@@ -71,12 +71,12 @@ export default function RootLayout({
     >
       <CSPostHogProvider>
         <body>
-          <PostHogPageView />
           <GoogleOAuthProvider
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
           >
             <TanstackProvider>
               <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
+                <PostHogPageView />
                 {children}
                 <Toaster richColors visibleToasts={1} />
               </main>

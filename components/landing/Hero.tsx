@@ -41,6 +41,7 @@ const Hero = () => {
           className='absolute top-10 h-[80%] w-full'
           width={10}
           height={10}
+          loading='eager'
           src='/landing/heros/Mask_group.png'
         />
       </m.div>
@@ -58,10 +59,12 @@ const Hero = () => {
           <br className='sm:hidden' /> journey
         </h1>
         <Spacer y='20' />
-        <p className='small-regular text-center text-[14px] text-[#64626A] sm:text-center sm:text-[18px]'>
-          Experience the future of academic writing with ProDream - the one-stop{' '}
-          <br className='hidden sm:block' /> solution that enhances writing
-          efficiency and elevates paper quality
+        <p className='text-center text-[14px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
+          Experience the future of academic writing with ProDream - the{' '}
+          <span className='text-doc-primary'>one-stop solution</span>
+          <br className='hidden sm:block' /> that enhances writing&nbsp;
+          <span className='text-doc-primary'>efficiency</span> and elevates
+          paper <span className='text-doc-primary'>quality</span>
         </p>
         <Spacer y='40' />
         <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
@@ -99,6 +102,7 @@ const Hero = () => {
                   width={28}
                   height={28}
                   src={item.icon}
+                  loading='eager'
                   priority
                 />
                 <h2 className='title-regular 2xl:h3-regular'>{item.title}</h2>
@@ -115,6 +119,7 @@ const Hero = () => {
             alt={'prodream.ai'}
             src={HeroMainInfo[selected].image}
             fill
+            loading='eager'
             priority
             sizes='(max-width: 768px) 50vw, 100vw'
           />

@@ -1,4 +1,3 @@
-'use client';
 import Spacer from '@/components/root/Spacer';
 import { FileIcon } from '@/components/root/SvgComponents';
 import { formatTimestamphh_number } from '@/lib/utils';
@@ -9,16 +8,8 @@ import HistoryDropDown from './HistoryDropDown';
 
 type Props = {
   item: IDocDetail;
-  toggleDeleteModal: (value: boolean) => void;
-  setCurrentItem: (value: IDocDetail) => void;
-  toggleMoveModal: (value: boolean) => void;
 };
-const Card = ({
-  setCurrentItem,
-  toggleDeleteModal,
-  toggleMoveModal,
-  item,
-}: Props) => {
+const Card = ({ item }: Props) => {
   const previewContent = useMemo(async () => {
     return item.content
       .replace(/<h1[^>]*>.*?<\/h1>/, '')
@@ -27,7 +18,7 @@ const Card = ({
   }, [item.content]);
 
   return (
-    <Link passHref href={`/writtingpal/polish/${item.id}`}>
+    <Link passHref href={`/editor/${item.id}`}>
       <li className='flex h-[200px] w-full shrink-0 cursor-pointer flex-col overflow-hidden rounded-lg border border-shadow-border hover:shadow-lg hover:brightness-95'>
         <div className='h-4/5 w-full overflow-hidden rounded-t-lg bg-nav-selected px-3 py-2.5'>
           <FileIcon />
@@ -47,12 +38,7 @@ const Card = ({
             <p className='subtle-regular text-shadow'>
               Opened {formatTimestamphh_number(item.update_time)}
             </p>
-            <HistoryDropDown
-              toggleMoveModal={toggleMoveModal}
-              toggleDeleteModal={toggleDeleteModal}
-              setCurrentItem={setCurrentItem}
-              item={item}
-            />
+            <HistoryDropDown item={item} />
           </div>
         </div>
       </li>

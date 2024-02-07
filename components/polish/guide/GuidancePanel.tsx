@@ -2,35 +2,47 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
-import { sample_outline } from '@/constant';
-import { outline, updateUserInfo } from '@/query/api';
+import { sample_continue, sample_outline } from '@/constant';
+import { outline } from '@/query/api';
+import { useMutateTrackInfo } from '@/query/query';
 import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { parse } from 'marked';
+import { usePostHog } from 'posthog-js/react';
 import { useEffect, useRef, useState } from 'react';
 
-const Guidence = ({ editor }: { editor: Editor }) => {
+const Guidance = ({ editor }: { editor: Editor }) => {
   const [check, setCheck] = useState(-1);
   const ideaRef = useRef<HTMLTextAreaElement>(null);
-  const [isGenrating, setIsGenerating] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const resultString = useRef<string>('');
-  const updateShowGuidence = useUserTask((state) => state.updateShowGuidence);
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
+  const updateContinueStep = useUserTask((state) => state.updateContinueStep);
+  const posthog = usePostHog();
   const close = async () => {
-    updateShowGuidence(false);
-    await updateUserInfo({
+    await updateTrack({
       field: 'guidence',
       data: true,
     });
   };
+
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
-    if ([0, 2].includes(check)) {
-      setTimeout(() => {
+    if (check === 0) {
+      timer = setTimeout(() => {
+        posthog.capture('start with draft');
         close();
-      }, 200);
+        updateContinueStep(1);
+      }, 500);
+    } else if (check === 2) {
+      posthog.capture('just exploring');
+      timer = setTimeout(() => {
+        close();
+      }, 500);
     }
     return () => {
       timer && clearTimeout(timer);
@@ -47,11 +59,28 @@ const Guidence = ({ editor }: { editor: Editor }) => {
     onSuccess: async (data: ReadableStream) => {
       setIsGenerating(false);
       close();
+      posthog.capture('start with generated outlie');
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
-        if (done) break;
+        if (done) {
+          break;
+        }
         handleStreamData(value);
+      }
+      if (resultString.current !== '') {
+        const parse_result = parse(resultString.current, { async: false });
+        editor.commands.insertContentAt(
+          editor.state.doc.content?.size ?? 2,
+          parse_result,
+          {
+            parseOptions: {
+              preserveWhitespace: true,
+            },
+          }
+        );
+        resultString.current = '';
+        updateOutlineStep(1);
       }
     },
     onError: async (error) => {
@@ -79,7 +108,7 @@ const Guidence = ({ editor }: { editor: Editor }) => {
       }
       return parsed;
     });
-    eventData.forEach((word: string, index) => {
+    eventData.forEach((word: string) => {
       resultString.current += word;
       if (word.includes('\n\n')) {
         const parse_result = parse(resultString.current, { async: false });
@@ -110,17 +139,25 @@ const Guidence = ({ editor }: { editor: Editor }) => {
     }
   };
 
+  const handleDraft = () => {
+    setCheck(0);
+    editor.commands.setContent(sample_continue, true);
+  };
+
   const handleClickSample = () => {
-    editor.commands.setContent(sample_outline, true);
     close();
+    editor.commands.setContent(sample_outline, true);
+    updateOutlineStep(1);
+    posthog.capture('start with sample outlie');
   };
 
   return (
     <m.div
-      initial={false}
+      initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.5, delay: 0.5 }}
+      key='guidance'
+      transition={{ duration: 1, type: 'spring', stiffness: 100, damping: 20 }}
       className='absolute z-20 h-full w-full bg-white font-inter'
     >
       <div className='mx-auto flex w-[700px] flex-col'>
@@ -133,13 +170,11 @@ const Guidence = ({ editor }: { editor: Editor }) => {
           <li className='inline-flex items-center gap-x-2'>
             <Checkbox
               checked={check === 0}
-              onCheckedChange={() => {
-                setCheck(0);
-              }}
-              id='terms1'
+              onCheckedChange={handleDraft}
+              id='have-draft'
             />
             <label
-              htmlFor='terms1'
+              htmlFor='have-draft'
               className={`text-sm font-medium leading-none ${check === 0 ? 'text-doc-primary' : 'text-doc-font'}`}
             >
               Yes, I have a draft already.
@@ -151,10 +186,10 @@ const Guidence = ({ editor }: { editor: Editor }) => {
               onCheckedChange={() => {
                 setCheck(1);
               }}
-              id='terms2'
+              id='start-outline'
             />
             <label
-              htmlFor='terms2'
+              htmlFor='start-outline'
               className={`text-sm font-medium leading-none ${check === 1 ? 'text-doc-primary' : 'text-doc-font'}`}
             >
               No, I am starting from scratch.
@@ -166,10 +201,10 @@ const Guidence = ({ editor }: { editor: Editor }) => {
               onCheckedChange={() => {
                 setCheck(2);
               }}
-              id='terms3'
+              id='just-exploring'
             />
             <label
-              htmlFor='terms3'
+              htmlFor='just-exploring'
               className={`text-sm font-medium leading-none ${check === 2 ? 'text-doc-primary' : 'text-doc-font'}`}
             >
               Neither, I&apos;m just exploring
@@ -212,11 +247,12 @@ const Guidence = ({ editor }: { editor: Editor }) => {
               <Button
                 role='button'
                 onClick={handleGenerate}
-                disabled={isGenrating}
+                disabled={isGenerating}
                 className='w-max rounded bg-doc-primary'
+                id='guidence-generate'
               >
                 Generate
-                {isGenrating && (
+                {isGenerating && (
                   <Loader2 size={18} className='animate-spin text-white' />
                 )}
               </Button>
@@ -248,4 +284,4 @@ const Guidence = ({ editor }: { editor: Editor }) => {
     </m.div>
   );
 };
-export default Guidence;
+export default Guidance;

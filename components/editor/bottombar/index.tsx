@@ -1,4 +1,3 @@
-'use client';
 import { Toolbar } from '@/components/editor/Toolbar';
 import { BookHalf } from '@/components/root/SvgComponents';
 import useAiEditor from '@/zustand/store';

@@ -5,12 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
-import { ask, copilot, updateUserInfo } from '@/query/api';
-import useAiEditor, { useUserTask } from '@/zustand/store';
+import useScrollIntoView from '@/hooks/useScrollIntoView';
+import { ask, copilot } from '@/query/api';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
+import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { usePostHog } from 'posthog-js/react';
 import {
   ChangeEvent,
   KeyboardEvent,
@@ -28,18 +31,20 @@ export const AiMenu = ({ editor }: Props) => {
   const copilotRect = useAiEditor((state) => state.copilotRect);
   const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
   const selectedText = useAiEditor((state) => state.selectedText);
+  const promptRef = useRef<HTMLInputElement>(null);
   const { options, operations } = useAiOptions();
-  const updateCompletion = useUserTask((state) => state.updateCompletion);
-  const ai_copilot_task = useUserTask((state) => state.ai_copilot);
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const { data: track } = useUserTrackInfo();
   const [hoverItem, setHoverItem] = useState<number | null>(null);
   const [generating, setGenerating] = useState(false);
   const [aiResult, setAiResult] = useState('');
   const [istTyping, setIsTyping] = useState(false);
-  const [prompt, setPrompt] = useState('');
   const elRef = useRef<HTMLDivElement>(null);
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
   const hasAiResult = aiResult !== '';
+  const posthog = usePostHog();
+  const ref = useScrollIntoView();
 
   useClickOutside(elRef, () => {
     updateCopilotMenu(false);
@@ -47,7 +52,6 @@ export const AiMenu = ({ editor }: Props) => {
 
   const handlePromptChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setPrompt(value);
     if (value.trim() !== '') {
       setIsTyping(true);
     } else {
@@ -126,12 +130,30 @@ export const AiMenu = ({ editor }: Props) => {
 
   const handleEditTools = async (tool: string) => {
     if (!selectedText) return;
+    if (!track?.ai_copilot_task) {
+      await updateTrack({
+        field: 'ai_copilot_task',
+        data: true,
+      });
+      posthog.capture('ai_copilot_task_completed');
+    }
     await handleCopilot({ tool, text: selectedText });
   };
 
   const handleCustomPrompt = async () => {
-    if (!prompt.trim()) return toast.error('please enter a custom prompt');
-    await handleAsk({ instruction: prompt, text: selectedText });
+    if (promptRef.current && !promptRef.current.value.trim())
+      return toast.error('please enter a custom prompt');
+    if (!track?.ai_copilot_task) {
+      await updateTrack({
+        field: 'ai_copilot_task',
+        data: true,
+      });
+      posthog.capture('ai_copilot_task_completed');
+    }
+    await handleAsk({
+      instruction: promptRef.current?.value!,
+      text: selectedText,
+    });
   };
 
   const handleKeyEnter = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -163,15 +185,7 @@ export const AiMenu = ({ editor }: Props) => {
     updateCopilotMenu(false);
   };
 
-  const handleOperation = async (idx: number) => {
-    if (!ai_copilot_task) {
-      await updateCompletion('ai_copilot', true);
-      await updateUserInfo({
-        field: 'ai_copilot_task',
-        data: true,
-      });
-    }
-
+  const handleOperation = (idx: number) => {
     switch (idx) {
       case 0:
         handleReplace();
@@ -193,6 +207,7 @@ export const AiMenu = ({ editor }: Props) => {
   if (!copilotRect) return null;
   return (
     <section
+      ref={ref}
       style={{ top: `${copilotRect - 54}px` }}
       className='absolute -left-12 flex w-full justify-center overflow-visible '
     >
@@ -214,10 +229,10 @@ export const AiMenu = ({ editor }: Props) => {
               <Copilot size='24' />
               <Input
                 type='text'
-                value={prompt}
+                ref={promptRef}
                 autoFocus
-                onKeyDown={handleKeyEnter}
                 onChange={handlePromptChange}
+                onKeyDown={handleKeyEnter}
                 id='ai-prompt'
                 className='small-regular h-8 border-none px-0 py-0 shadow-none focus-visible:right-0 focus-visible:ring-0'
                 placeholder='Ask Al to edit or generate...'
@@ -269,11 +284,7 @@ export const AiMenu = ({ editor }: Props) => {
                       } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
                       key={item.id}
                       onClick={() => {
-                        !item.submenu &&
-                          handleCopilot({
-                            tool: item.lable,
-                            text: selectedText,
-                          });
+                        !item.submenu && handleEditTools(item.lable);
                       }}
                       onMouseEnter={() => setHoverItem(idx)}
                       onMouseLeave={() => setHoverItem(null)}
