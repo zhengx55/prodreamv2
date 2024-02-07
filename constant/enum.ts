@@ -29,5 +29,5 @@ export enum OutlineTooltipMain {
 
 export enum SampleEssay {
   TITLE = 'My First Essay',
-  TEXT = '<h1>MY First Essay</h1>',
+  TEXT = '<h1>My First Essay</h1>',
 }
