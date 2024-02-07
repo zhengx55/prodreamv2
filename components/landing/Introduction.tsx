@@ -1,7 +1,8 @@
 import { IntroductionInfo } from '@/constant';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
-
+const CaptureProvider = dynamic(() => import('./CaptureProvider'));
 const Introduction = () => {
   return (
     <section className='relative flex w-full justify-center px-4 py-10 sm:px-0 sm:py-20'>
@@ -14,9 +15,11 @@ const Introduction = () => {
           </span>
         </h2>
         <Spacer y='10' />
-        <p className='small-regular sm:base-regular text-center text-shadow-100'>
-          Faster Writing Doesn&apos;t Mean Lower Quality
-        </p>
+        <CaptureProvider event='ScreenIV'>
+          <p className='small-regular sm:base-regular text-center text-shadow-100'>
+            Faster Writing Doesn&apos;t Mean Lower Quality
+          </p>
+        </CaptureProvider>
         <Spacer y='40' />
         <div className='flex flex-col gap-y-6 sm:flex-row sm:gap-x-8 sm:gap-y-0'>
           <div className='flex w-full flex-col gap-y-8 sm:w-1/2'>

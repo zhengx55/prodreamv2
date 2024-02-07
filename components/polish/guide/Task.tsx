@@ -18,6 +18,7 @@ import { type Editor } from '@tiptap/react';
 import { m } from 'framer-motion';
 import { ChevronDown, Loader2 } from 'lucide-react';
 import Image from 'next/image';
+import { usePostHog } from 'posthog-js/react';
 import { memo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -31,7 +32,7 @@ const Task = ({ editor, track }: Props) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const insertPos = useRef<number>(0);
-
+  const posthog = usePostHog();
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { text: string; pos: number }) =>
       copilot({ tool: 'continue_write_sentence', text: params.text }),
@@ -106,6 +107,7 @@ const Task = ({ editor, track }: Props) => {
         field: 'generate_tool_task',
         data: true,
       });
+      posthog.capture('generate_tool_task_completed');
     }
     if (index === 3) {
       updateRightbarTab(1);

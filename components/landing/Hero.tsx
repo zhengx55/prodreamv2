@@ -1,6 +1,7 @@
 'use client';
 import { HeroInfo, HeroMainInfo } from '@/constant';
 import { staggerContainer, textVariant } from '@/constant/motion';
+import useInviewCapture from '@/hooks/useInViewCapture';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -8,6 +9,7 @@ import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
+
 const HeroCarousel = dynamic(
   () => import('./LandingCarousel').then((mod) => mod.HeroCarousel),
   {
@@ -17,11 +19,13 @@ const HeroCarousel = dynamic(
 
 const Hero = () => {
   const [selected, setSelected] = useState(0);
+  const { ref } = useInviewCapture('ScreenI');
   const memoSetSelected = useCallback((index: number) => {
     setSelected(index);
   }, []);
   return (
     <m.section
+      ref={ref}
       variants={staggerContainer()}
       initial='hidden'
       whileInView='show'
@@ -124,7 +128,6 @@ const Hero = () => {
             sizes='(max-width: 768px) 50vw, 100vw'
           />
         </div>
-        {/* <HeroShowCaseCarousel /> */}
       </m.div>
     </m.section>
   );
