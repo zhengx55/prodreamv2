@@ -4,7 +4,7 @@ export const SidebarLinks = [
     title: 'AI Editor',
     image: '/polish.svg',
     active_image: '/polish_active.svg',
-    link: '/writtingpal/polish',
+    link: '/editor',
   },
   // {
   //   id: 'sidebar-02',

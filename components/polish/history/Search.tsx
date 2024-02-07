@@ -23,7 +23,7 @@ const SearchBar = () => {
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
     onSuccess: (data) => {
-      router.push(`/writtingpal/polish/${data}`);
+      router.push(`/editor/${data}`);
       queryClient.invalidateQueries({
         queryKey: ['document_history_list'],
       });

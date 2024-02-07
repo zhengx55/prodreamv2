@@ -20,7 +20,7 @@ const FileUploadModal = () => {
     mutationFn: (params: { file?: File }) =>
       createDoc(undefined, undefined, params.file),
     onSuccess: (data) => {
-      router.push(`/writtingpal/polish/${data}`);
+      router.push(`/editor/${data}`);
     },
     onError: (error) => {
       toast.error(error.message);

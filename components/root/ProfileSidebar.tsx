@@ -1,9 +1,9 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
 import { ProfileSidebarLinks } from '@/constant';
 import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 
 const ProfileSidebar = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const ProfileSidebar = () => {
       <ul className='relative mt-2 flex flex-col gap-5'>
         <Link
           className='base-regular flex items-center gap-x-1 pl-2 text-black-200'
-          href={'/writtingpal/polish'}
+          href={'/editor'}
         >
           <ChevronLeft />
           Back

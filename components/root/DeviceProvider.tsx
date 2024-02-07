@@ -12,7 +12,7 @@ const DeviceProvider = ({ children }: { children: ReactNode }) => {
   const path = usePathname();
   const param = useParams();
   const isEssayDetail =
-    Object.keys(param).length > 0 && path.includes('writtingpal/polish');
+    Object.keys(param).length > 0 && path.includes('/editor');
   const [width, setWidth] = useState(window.innerWidth);
   const onWindowResize = useWindowResize();
   onWindowResize(() => {

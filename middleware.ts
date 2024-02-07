@@ -9,11 +9,10 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     {
-      source: '/writtingpal/:path*',
+      source: '/editor/:path*',
     },
     {
       source: '/profile/:path*',
     },
-    { source: '/welcome/:path*' },
   ],
 };
