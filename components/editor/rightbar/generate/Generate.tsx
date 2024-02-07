@@ -9,7 +9,6 @@ import { useUserTask } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { ChevronUp, FileText } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { usePostHog } from 'posthog-js/react';
 import { memo, useCallback, useRef, useState } from 'react';
 import GenerateSub from './GenerateSub';
 
@@ -22,7 +21,6 @@ const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 export const Generate = () => {
   const [generateTab, setGenerateTab] = useState<number | string>(-1);
   const outline_step = useUserTask((state) => state.outline_step);
-  const posthog = usePostHog();
   const copilot_option = useRef<string | null>(null);
   const memoSetGeneratedTab = useCallback((value: string) => {
     setGenerateTab(value);
@@ -61,7 +59,6 @@ export const Generate = () => {
                             field: 'outline_tip_task',
                             data: true,
                           });
-                          posthog.capture('generate_tool_task_completed');
                         }}
                       >
                         <DropdownMenuTrigger>

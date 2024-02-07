@@ -21,19 +21,14 @@ const NavBar = () => {
             className='h-auto w-40 sm:w-36'
             priority
           />
-          {/* <div className='flex'>
-            <Link href={'https://quickapply.app/blog'} passHref target='_blank'>
-              <Button
-                onClick={() => {
-                  btnClick('Blogs', userId);
-                }}
-                className='hidden text-[#3B3A40] sm:block'
-                variant={'ghost'}
-              >
-                Blogs
-              </Button>
-            </Link>
-          </div> */}
+          <Link href={'https://www.prodream.ai/blog'} passHref target='_blank'>
+            <Button
+              className='hidden text-[#3B3A40] sm:block'
+              variant={'ghost'}
+            >
+              Blogs
+            </Button>
+          </Link>
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={'/login'} passHref>

@@ -198,8 +198,12 @@ const Guidance = ({ editor }: { editor: Editor }) => {
           <li className='inline-flex items-center gap-x-2'>
             <Checkbox
               checked={check === 2}
-              onCheckedChange={() => {
+              onCheckedChange={async () => {
                 setCheck(2);
+                await updateTrack({
+                  field: 'outline_tip_task',
+                  data: true,
+                });
               }}
               id='just-exploring'
             />

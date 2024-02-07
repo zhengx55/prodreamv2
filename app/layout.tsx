@@ -1,6 +1,7 @@
 import CSPostHogProvider from '@/components/root/PostHogProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
+import Hotjar from '@/htojar/Hotjar';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
@@ -69,6 +70,7 @@ export default function RootLayout({
       className={`${poppins.variable} ${inter.variable} ${liber.variable}`}
       suppressHydrationWarning
     >
+      <Hotjar />
       <CSPostHogProvider>
         <body>
           <GoogleOAuthProvider

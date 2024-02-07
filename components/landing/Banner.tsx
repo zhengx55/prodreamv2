@@ -2,6 +2,7 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
+import CaptureProvider from './CaptureProvider';
 const UniversityCarousel = dynamic(
   () => import('./LandingCarousel').then((mod) => mod.UniversityCarousel),
   {
@@ -12,9 +13,12 @@ const Banner = () => {
   return (
     <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
       <Spacer y='20' />
-      <p className='base-regular text-center'>
-        Trusted by academic writers from top universities around the world
-      </p>
+      <CaptureProvider event='ScreenII'>
+        <p className='base-regular text-center'>
+          Trusted by academic writers from top universities around the world
+        </p>
+      </CaptureProvider>
+
       <Spacer y='20' />
       <div className='flex-center w-full'>
         <UniversityCarousel />
