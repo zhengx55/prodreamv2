@@ -1,4 +1,4 @@
-import Tiplayout from '@/components/polish/guide/tips/Tiplayout';
+import Tiplayout from '@/components/editor/guide/tips/Tiplayout';
 import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Toggle } from '@/components/ui/toggle';

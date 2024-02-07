@@ -20,7 +20,7 @@ import { memo } from 'react';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 
 const Tiplayout = dynamic(
-  () => import('@/components/polish/guide/tips/Tiplayout')
+  () => import('@/components/editor/guide/tips/Tiplayout')
 );
 
 const CitationPreview = dynamic(() => import('./CitationPreview'), {

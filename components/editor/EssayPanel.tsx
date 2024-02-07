@@ -5,13 +5,13 @@ import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
-import { useCitationInfo } from '../editor/rightbar/citation/hooks/useCitationInfo';
 import LazyMotionProvider from '../root/LazyMotionProvider';
 import Spacer from '../root/Spacer';
 import { Feedback } from '../root/SvgComponents';
 import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
+import { useCitationInfo } from './rightbar/citation/hooks/useCitationInfo';
 
 const Editor = dynamic(() => import('./Editor'), {
   ssr: false,
@@ -22,7 +22,7 @@ const Editor = dynamic(() => import('./Editor'), {
     </div>
   ),
 });
-const DocRightBar = dynamic(() => import('../editor/rightbar/DocRightBar'));
+const DocRightBar = dynamic(() => import('./rightbar/DocRightBar'));
 
 const EssayPanel = ({ id }: { id: string }) => {
   const {

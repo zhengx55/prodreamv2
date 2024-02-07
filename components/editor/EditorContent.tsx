@@ -6,10 +6,10 @@ import { EditorContent, Editor as EditorType } from '@tiptap/react';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
-import { AiMenu } from '../editor/ai-menu';
-import { BubbleMenu } from '../editor/bubble-menu';
-import CitationMenu from '../editor/citation-menu/CitationMenu';
-import { SynonymMenu } from '../editor/synonym-menu';
+import { AiMenu } from './ai-menu';
+import { BubbleMenu } from './bubble-menu';
+import CitationMenu from './citation-menu/CitationMenu';
+import { SynonymMenu } from './synonym-menu';
 
 const Task = dynamic(() => import('./guide/Task'));
 const Finish = dynamic(() => import('./guide/Task').then((mod) => mod.Finish));
