@@ -11,6 +11,7 @@ import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { parse } from 'marked';
+import { usePostHog } from 'posthog-js/react';
 import { useEffect, useRef, useState } from 'react';
 
 const Guidence = ({ editor }: { editor: Editor }) => {
@@ -21,6 +22,7 @@ const Guidence = ({ editor }: { editor: Editor }) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
+  const posthog = usePostHog();
 
   const close = async () => {
     await updateTrack({
