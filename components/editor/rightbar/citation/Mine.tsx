@@ -57,6 +57,7 @@ const Mine = () => {
         hide: {
           height:
             !track?.citation_empty_check &&
+            citation_tooltip_step === 0 &&
             IndocCitationIds.length === 0 &&
             InTextCitationIds.length === 0
               ? height >= 800
@@ -126,6 +127,7 @@ const Mine = () => {
       </div>
       <Empty
         show={
+          citation_tooltip_step === 0 &&
           !track?.citation_empty_check &&
           IndocCitationIds.length === 0 &&
           InTextCitationIds.length === 0
