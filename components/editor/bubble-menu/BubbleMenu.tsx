@@ -104,7 +104,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
     };
     const NodeSelectHandler = () => {
       const { view } = editor;
-      const { selection } = editor.state;
+      const { selection, doc } = editor.state;
       const { empty, ranges } = selection;
       if (empty) {
         setOpen(false);
@@ -113,6 +113,9 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       if (isNodeSelection(selection)) {
         const from = Math.min(...ranges.map((range) => range.$from.pos));
         const to = Math.max(...ranges.map((range) => range.$to.pos));
+        const text = doc.textBetween(from, to);
+        const words = text.match(/\b\w+\b/g);
+        setSelectedLength(words ? words.length : 0);
         refs.setReference({
           getBoundingClientRect() {
             const node = view.nodeDOM(from) as HTMLElement;
