@@ -64,7 +64,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   });
 
   useLayoutEffect(() => {
-    const handler = () => {
+    const MouseUphandler = () => {
       const { doc, selection } = editor.state;
       const { from, empty, ranges } = selection;
       if (empty) {
@@ -91,16 +91,38 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
         setSelectedLength(words ? words.length : 0);
         refs.setReference({
           getBoundingClientRect() {
-            if (isNodeSelection(selection)) {
-              const node = view.nodeDOM(from) as HTMLElement;
-              if (node) {
-                menuXOffside.current = node.getBoundingClientRect().left;
-                const el_srcoll_top =
-                  view.dom.parentElement?.parentElement?.scrollTop;
-                menuYOffside.current =
-                  node.getBoundingClientRect().bottom + (el_srcoll_top ?? 0);
-                return node.getBoundingClientRect();
-              }
+            menuXOffside.current = posToDOMRect(view, from, to).left;
+            const el_srcoll_top =
+              view.dom.parentElement?.parentElement?.scrollTop;
+            menuYOffside.current =
+              posToDOMRect(view, from, to).bottom + (el_srcoll_top ?? 0);
+            return posToDOMRect(view, from, to);
+          },
+        });
+        setOpen(true);
+      }
+    };
+    const NodeSelectHandler = () => {
+      const { view } = editor;
+      const { selection } = editor.state;
+      const { empty, ranges } = selection;
+      if (empty) {
+        setOpen(false);
+        return;
+      }
+      if (isNodeSelection(selection)) {
+        const from = Math.min(...ranges.map((range) => range.$from.pos));
+        const to = Math.max(...ranges.map((range) => range.$to.pos));
+        refs.setReference({
+          getBoundingClientRect() {
+            const node = view.nodeDOM(from) as HTMLElement;
+            if (node) {
+              menuXOffside.current = node.getBoundingClientRect().left;
+              const el_srcoll_top =
+                view.dom.parentElement?.parentElement?.scrollTop;
+              menuYOffside.current =
+                node.getBoundingClientRect().bottom + (el_srcoll_top ?? 0);
+              return node.getBoundingClientRect();
             }
             menuXOffside.current = posToDOMRect(view, from, to).left;
             const el_srcoll_top =
@@ -113,17 +135,11 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
         setOpen(true);
       }
     };
-    editor.on('selectionUpdate', () => {
-      const { empty } = editor.state.selection;
-      if (empty) setOpen(false);
-    });
-    document.addEventListener('mouseup', handler);
+    editor.on('selectionUpdate', NodeSelectHandler);
+    document.addEventListener('mouseup', MouseUphandler);
     return () => {
-      editor.off('selectionUpdate', () => {
-        const { empty } = editor.state.selection;
-        if (empty) setOpen(false);
-      });
-      document.removeEventListener('mouseup', handler);
+      editor.off('selectionUpdate', NodeSelectHandler);
+      document.removeEventListener('mouseup', MouseUphandler);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, refs]);
