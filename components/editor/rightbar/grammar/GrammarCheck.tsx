@@ -54,7 +54,6 @@ export const GrammarCheck = memo(() => {
     }
     editor?.chain().selectAll().unsetAllMarks().setTextSelection(0).run();
     const block_content = editor?.getJSON();
-    console.log('🚀 ~ handleCheck ~ block_content:', block_content);
     const params = {
       block: block_content?.content || [], // Ensure block is not undefined
     };

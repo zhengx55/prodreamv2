@@ -82,7 +82,7 @@ module.exports = {
         toggle: '0px 2px 4px 0px rgba(0, 0, 0, 0.15)',
         tooltip: '0px 0px 4px 0px rgba(156, 44, 243, 0.25)',
         textarea: '0px 8px 24px 6px rgba(0, 0, 0, 0.12)',
-        price: 'rgba(0, 0, 0, 0.35) 0px 5px 15px;',
+        price: '0px 5px 15px rgba(0, 0, 0, 0.35)',
       },
       keyframes: {
         ping: {
