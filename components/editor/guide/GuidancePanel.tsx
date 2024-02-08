@@ -100,10 +100,9 @@ const Guidance = ({ editor }: { editor: Editor }) => {
     );
     const eventData = dataLines.map((line) => {
       let parsed: string = JSON.parse(line.slice('data:'.length));
-      if (parsed.includes('#')) {
+      if (/^([^#]*#){1}[^#]*$/.test(parsed)) {
         parsed = parsed.replaceAll('#', '##');
-      }
-      if (parsed.includes('##')) {
+      } else if (/^[^#]*##([^#]|$)/.test(parsed)) {
         parsed = parsed.replaceAll('##', '###');
       }
       return parsed;
