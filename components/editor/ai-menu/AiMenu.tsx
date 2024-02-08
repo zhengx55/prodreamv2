@@ -130,6 +130,10 @@ export const AiMenu = ({ editor }: Props) => {
 
   const handleEditTools = async (tool: string) => {
     const selectedText = getSelectedText(editor);
+    const words = selectedText.match(/\b\w+\b/g);
+    if ((words?.length ?? 0) > 160) {
+      return toast.warning('Selected text should not exceed 160 words');
+    }
     if (!track?.ai_copilot_task) {
       await updateTrack({
         field: 'ai_copilot_task',
@@ -142,6 +146,10 @@ export const AiMenu = ({ editor }: Props) => {
 
   const handleCustomPrompt = async () => {
     const selectedText = getSelectedText(editor);
+    const words = selectedText.match(/\b\w+\b/g);
+    if ((words?.length ?? 0) > 160) {
+      return toast.warning('Selected text should not exceed 160 words');
+    }
     if (promptRef.current && !promptRef.current.value.trim())
       return toast.error('please enter a custom prompt');
     if (!track?.ai_copilot_task) {
