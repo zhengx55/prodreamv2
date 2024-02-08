@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
 import { useUserTrackInfo } from '@/query/query';
-import useAiEditor, { useAIEditor } from '@/zustand/store';
+import useAiEditor, { useAIEditor, useCitation } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { ChevronLeft, Loader, Loader2, ShieldCheck } from 'lucide-react';
@@ -18,7 +18,7 @@ const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
 const CitationDropdown = dynamic(() => import('./CitationDropdown'));
 
 const DocNavbar = () => {
-  const citationStyle = useAIEditor((state) => state.citationStyle);
+  const citationStyle = useCitation((state) => state.citationStyle);
   const editor = useAiEditor((state) => state.editor_instance);
   const isSaving = useAIEditor((state) => state.isSaving);
   const togglePlagiarism = useAIEditor((state) => state.togglePlagiarism);

@@ -11,7 +11,7 @@ import {
 } from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
-import { useAIEditor, useUserTask } from '@/zustand/store';
+import { useAIEditor, useCitation, useUserTask } from '@/zustand/store';
 import { Plus, ReplyAll, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
@@ -167,13 +167,13 @@ export const MineCitationCard = memo(
     type: 'inText' | 'library';
   }) => {
     const editor = useAIEditor((state) => state.editor_instance);
-    const removeInTextCitationIds = useAIEditor(
+    const removeInTextCitationIds = useCitation(
       (state) => state.removeInTextCitationIds
     );
-    const removeInDocCitationIds = useAIEditor(
+    const removeInDocCitationIds = useCitation(
       (state) => state.removeInDocCitationIds
     );
-    const appendInTextCitationIds = useAIEditor(
+    const appendInTextCitationIds = useCitation(
       (state) => state.appendInTextCitationIds
     );
     const { insertCitation } = useEditorCommand(editor!);

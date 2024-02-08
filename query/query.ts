@@ -1,6 +1,6 @@
 import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
 import { DocSortingMethods, ICitationType } from '@/types';
-import { useAIEditor } from '@/zustand/store';
+import { useAIEditor, useCitation } from '@/zustand/store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createCitation,
@@ -61,7 +61,7 @@ export const useDocumentList = (
 };
 
 export const useCreateCitation = () => {
-  const appendInDocCitationIds = useAIEditor(
+  const appendInDocCitationIds = useCitation(
     (state) => state.appendInDocCitationIds
   );
   return useMutation({
@@ -90,7 +90,7 @@ export const useCreateCitation = () => {
 export const useCiteToDoc = (flag?: boolean) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const { insertCitation } = useEditorCommand(editor!);
-  const appendInTextCitationIds = useAIEditor(
+  const appendInTextCitationIds = useCitation(
     (state) => state.appendInTextCitationIds
   );
   return useMutation({

@@ -1,14 +1,14 @@
 import { getCitations } from '@/query/api';
 import { IDocDetail } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
-import { useAIEditor } from '@/zustand/store';
+import { useAIEditor, useCitation } from '@/zustand/store';
 import { useEffect } from 'react';
 
 export const useCitationInfo = (document_content: IDocDetail | undefined) => {
-  const updateInTextCitation = useAIEditor(
+  const updateInTextCitation = useCitation(
     (state) => state.updateInTextCitation
   );
-  const updateInDocCitation = useAIEditor((state) => state.updateInDocCitation);
+  const updateInDocCitation = useCitation((state) => state.updateInDocCitation);
   const updateTitle = useAIEditor((state) => state.updateTitle);
 
   useEffect(() => {
