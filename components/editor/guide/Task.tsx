@@ -83,13 +83,10 @@ const Task = ({ editor, track }: Props) => {
 
   const selectHandler = async (index: number) => {
     if (index === 0 || index === 1) {
-      const title = editor.getJSON().content?.at(0)?.content?.at(0)?.text;
-      const content = editor.getText();
-      if (content.trim() === title?.trim()) {
-        toast.info('please write some content and try again');
-        return;
-      }
       const first_paragraph = findFirstParagraph(editor);
+      if (!first_paragraph.hasContent)
+        return toast.warning('please write some content and try again');
+
       if (index === 0) {
         editor.commands.setNodeSelection(first_paragraph.pos);
         updateTaskStep(0);
