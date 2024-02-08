@@ -79,15 +79,22 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
         line.startsWith('data:') &&
         lines.at(index - 1)?.startsWith('event: data')
     );
-    const eventData = dataLines.map((line) =>
-      JSON.parse(line.slice('data:'.length))
-    );
+    const eventData = dataLines.map((line) => {
+      let parsed: string = JSON.parse(line.slice('data:'.length));
+      if (/^([^#]*#){1}[^#]*$/.test(parsed)) {
+        parsed = parsed.replaceAll('#', '##');
+      } else if (/^[^#]*##([^#]|$)/.test(parsed)) {
+        parsed = parsed.replaceAll('##', '###');
+      }
+      return parsed;
+    });
     let result = '';
     eventData.forEach((word) => {
       result += word;
     });
     setGeneratedResult((prev) => (prev += result));
   };
+
   const handleGenerate = useCallback(async () => {
     const text = editor?.getText();
     const tool = label;
