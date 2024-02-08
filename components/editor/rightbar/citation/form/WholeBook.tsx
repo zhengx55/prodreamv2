@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { contributorAnimation } from '@/constant';
 import { useCreateCitation } from '@/query/query';
 import { IBookCitation } from '@/types';
-import useAiEditor from '@/zustand/store';
+import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -25,7 +25,7 @@ const WholeBook = () => {
       ],
     },
   });
-  const updateShowCreateCitation = useAiEditor(
+  const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
   const { fields, append, remove } = useFieldArray({

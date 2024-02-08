@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Toggle } from '@/components/ui/toggle';
 import { CitationTooltip } from '@/constant/enum';
 import { useUserTrackInfo } from '@/query/query';
-import useAiEditor, { useUserTask } from '@/zustand/store';
+import { useCitation, useUserTask } from '@/zustand/store';
 import useThrottledCallback from 'beautiful-react-hooks/useThrottledCallback';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import useWindowResize from 'beautiful-react-hooks/useWindowResize';
@@ -29,8 +29,8 @@ const Mine = () => {
   );
   const [type, setType] = useState<number | null>(null);
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
-  const IndocCitationIds = useAiEditor((state) => state.inDocCitationIds);
-  const InTextCitationIds = useAiEditor((state) => state.inTextCitationIds);
+  const IndocCitationIds = useCitation((state) => state.inDocCitationIds);
+  const InTextCitationIds = useCitation((state) => state.inTextCitationIds);
   const resetCitationStep = useUserTask((state) => state.resetCitationStep);
   const { data: track, isPending } = useUserTrackInfo();
 

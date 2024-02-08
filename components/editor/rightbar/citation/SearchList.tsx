@@ -3,7 +3,7 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { searchCitation } from '@/query/api';
 import { ICitation } from '@/query/type';
-import useAiEditor from '@/zustand/store';
+import { useCitation } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ import SearchBar from './SearchBar';
 const Mine = dynamic(() => import('./Mine'), { ssr: false });
 
 const SearchList = () => {
-  const updateShowCreateCitation = useAiEditor(
+  const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
   const [keyword, setKeyword] = useState('');
