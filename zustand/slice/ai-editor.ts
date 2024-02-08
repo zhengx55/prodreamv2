@@ -1,4 +1,5 @@
 import { saveDoc } from '@/query/api';
+import { IPlagiarismData } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
@@ -12,6 +13,8 @@ const initialState: AIEditorState = {
   editor_instance: null,
   isSaving: false,
   isPlagiarismOpen: false,
+  plagiarismReCheck: false,
+  plagiarismResult: null,
   savingMode: true,
   showCopilotMenu: false,
   showCitiationMenu: false,
@@ -32,6 +35,8 @@ type AIEditorState = {
   rightbarOpen: boolean;
   righbarTab: number;
   isSaving: boolean;
+  plagiarismReCheck: boolean;
+  plagiarismResult: null | Omit<IPlagiarismData, 'status'>;
   isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
   savingMode: boolean;
@@ -53,12 +58,14 @@ type AIEditorAction = {
   updateTitle: (result: AIEditorState['doc_title']) => void;
   toggleRightbar: () => void;
   updateRightbarTab: (result: AIEditorState['righbarTab']) => void;
-  updateIsPlagiarismOpen: (result: AIEditorState['isPlagiarismOpen']) => void;
+  togglePlagiarism: () => void;
+  updatePlagiarismRecheck: (result: AIEditorState['plagiarismReCheck']) => void;
   toogleIsSaving: (result: AIEditorState['isSaving']) => void;
   setEditorInstance: (result: Editor) => void;
   reset: () => void;
   activeSaving: () => void;
   deactivateSaving: () => void;
+  updatePlagiarismResult: (result: AIEditorState['plagiarismResult']) => void;
   updateCopilotMenu: (result: AIEditorState['showCopilotMenu']) => void;
   updateCopilotRect: (result: AIEditiorStore['copilotRect']) => void;
   updateCitationMenu: (result: AIEditorState['showCitiationMenu']) => void;
@@ -97,6 +104,10 @@ type AIEditorAction = {
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   ...initialState,
+  updatePlagiarismResult: (result) =>
+    set(() => ({
+      plagiarismResult: result,
+    })),
   updateTitle: (result) => set(() => ({ doc_title: result })),
   updateRightbarTab: (result) =>
     set((state) => {
@@ -105,7 +116,16 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
       return { righbarTab: result };
     }),
   toggleRightbar: () => set((state) => ({ rightbarOpen: !state.rightbarOpen })),
-  updateIsPlagiarismOpen: (result) => set(() => ({ isPlagiarismOpen: result })),
+  updatePlagiarismRecheck: (result) =>
+    set(() => ({ plagiarismReCheck: result })),
+  togglePlagiarism: () =>
+    set((state) =>
+      state.isPlagiarismOpen
+        ? state.rightbarOpen
+          ? { rightbarOpen: false, isPlagiarismOpen: !state.isPlagiarismOpen }
+          : { isPlagiarismOpen: !state.isPlagiarismOpen }
+        : { isPlagiarismOpen: !state.isPlagiarismOpen }
+    ),
   toogleIsSaving: (result) => set(() => ({ isSaving: result })),
   reset: () => set(initialState),
 

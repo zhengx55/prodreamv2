@@ -11,6 +11,7 @@ import { PanelRight, PanelRightClose } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import { GrammarCheck } from './grammar/GrammarCheck';
+import Report from './plagiarism/Report';
 
 const Generate = dynamic(
   () => import('@/components/editor/rightbar/generate/Generate')
@@ -27,11 +28,12 @@ const OptionsVariants: Variants = {
 
 const DocRightBar = () => {
   const rightbarOpen = useAiEditor((state) => state.rightbarOpen);
+  const isPlagiarismOpen = useAiEditor((state) => state.isPlagiarismOpen);
   const toggleRightbar = useAiEditor((state) => state.toggleRightbar);
   const righbarTab = useAiEditor((state) => state.righbarTab);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   return (
-    <AnimatePresence>
+    <AnimatePresence mode='wait'>
       {rightbarOpen ? (
         <m.aside
           key={'doc-right-bar'}
@@ -126,7 +128,7 @@ const DocRightBar = () => {
             ) : null}
           </section>
         </m.aside>
-      ) : (
+      ) : !isPlagiarismOpen ? (
         <m.span
           key={'doc-rightbar-trigger'}
           initial={{ opacity: 0 }}
@@ -143,6 +145,8 @@ const DocRightBar = () => {
             <PanelRight size={20} className='text-shadow' />
           </Button>
         </m.span>
+      ) : (
+        <Report />
       )}
     </AnimatePresence>
   );
