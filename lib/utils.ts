@@ -1,4 +1,4 @@
-import { ICitation, IPolishResultAData } from '@/query/type';
+import { ICitation } from '@/query/type';
 import { IJournalCitation } from '@/types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -200,63 +200,6 @@ export function removeHtmlTags(input: string): string {
   let resultwithBR = input.replace(/<\/?span[^>]*>/g, '');
   return resultwithBR.replace(/<br\s*\/?>/gi, '\n');
 }
-
-export const getSubStrPos = (current_suggestion: IPolishResultAData) => {
-  let corrsponding_segement = '';
-  current_suggestion?.data.forEach((suggestion, suggenstion_idx) => {
-    if ([2, 3].includes(suggestion.status)) {
-      if (
-        suggenstion_idx < current_suggestion.data.length - 1 &&
-        [2, 3].includes(current_suggestion.data.at(suggenstion_idx + 1)!.status)
-      ) {
-        corrsponding_segement += ` ${suggestion.sub_str}`;
-      } else {
-        corrsponding_segement += ` ${suggestion.sub_str} `;
-      }
-    } else if (
-      suggestion.status === 1 &&
-      suggenstion_idx < current_suggestion.data.length - 1 &&
-      ![1, 2, 3].includes(
-        current_suggestion.data.at(suggenstion_idx + 1)!.status
-      )
-    ) {
-      corrsponding_segement += ' ';
-    } else {
-      corrsponding_segement += suggestion.sub_str;
-    }
-  });
-  return corrsponding_segement;
-};
-
-export const getDiffSentencesPair = (item: IPolishResultAData) => {
-  let relpace_string = '';
-  let original_string = '';
-  item.data.map((sentence) => {
-    if (sentence.status === 0) {
-      original_string === ''
-        ? (original_string += `${sentence.sub_str}`)
-        : (original_string += ` ${sentence.sub_str}`);
-      relpace_string === ''
-        ? (relpace_string += `${sentence.sub_str}`)
-        : (relpace_string += ` ${sentence.sub_str}`);
-    } else if ([1, 2, 3].includes(sentence.status)) {
-      if (sentence.status !== 1) {
-        original_string === ''
-          ? (original_string += `${sentence.sub_str}`)
-          : (original_string += ` ${sentence.sub_str}`);
-      }
-      if (sentence.status !== 2) {
-        relpace_string === ''
-          ? (relpace_string += `${sentence.new_str}`)
-          : (relpace_string += ` ${sentence.new_str}`);
-      } else {
-        relpace_string += ' ';
-      }
-    }
-  });
-  original_string = original_string.trim();
-  return { relpace_string, original_string };
-};
 
 export function numberToMonth(number: number): string | null {
   const months = [

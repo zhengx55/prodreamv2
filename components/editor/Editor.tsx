@@ -81,6 +81,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
       debouncedUpdateText(title ?? '', html);
     },
     onDestroy: () => {
+      console.log('destroy');
       reset();
     },
   });

@@ -418,11 +418,11 @@ export async function submitPolish(params: IPolishParams) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/tool/grammar_typo`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/tool/grammar_typo/block`,
       {
         method: 'POST',
         body: JSON.stringify({
-          text: params.text,
+          blocks: params.block,
         }),
         headers: {
           'Content-Type': 'application/json',

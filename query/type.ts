@@ -1,3 +1,5 @@
+import type { JSONContent } from '@tiptap/react';
+
 export interface LoginResponse {
   code: number;
   data: LoginData;
@@ -36,7 +38,7 @@ export interface IVerifyEmail {
 }
 
 export interface IPolishParams {
-  text: string;
+  block: JSONContent[];
 }
 
 export interface IPolishQueryData {
@@ -51,22 +53,9 @@ export interface IPolishResultA {
 }
 
 export interface IPolishResultAData {
-  end: number;
-  data: {
-    sub_str: string;
-    new_str: string;
-    /**
-     * 0 - 无变化
-     * 1 - 增
-     * 2 - 删
-     * 3 - 改
-     *
-     */
-    status: 0 | 1 | 2 | 3;
-  }[];
-  start: number;
-  expand?: boolean;
-  hide?: boolean;
+  index: number[];
+  diff: { sub_str: string; new_str: string; status: number }[];
+  expand: boolean;
 }
 
 export interface IPolishQueryResult {

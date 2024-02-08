@@ -1,11 +1,8 @@
-import SentenceFragment from '@/components/editor/rightbar/grammar/SentenceFragment';
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { getDiffSentencesPair } from '@/lib/utils';
 import { IPolishResultAData } from '@/query/type';
 import useAiEditor from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
-import escapeStringRegExp from 'escape-string-regexp';
 import { m } from 'framer-motion';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 
@@ -29,54 +26,55 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
     corrsponding_segement: string
   ) => {
     if (!editor) return;
-    editor.state.doc.descendants((node, pos) => {
-      if (node.isText) {
-        const node_pos = node.textContent.indexOf(corrsponding_segement);
-        if (node_pos !== -1) {
-          const start_position = node_pos + pos;
-          current_suggestion.data.forEach((suggestion) => {
-            if ([2, 3].includes(suggestion.status)) {
-              let substring_regex: RegExp;
-              if (/[^\w\s]+/g.test(suggestion.sub_str)) {
-                substring_regex = new RegExp(
-                  escapeStringRegExp(suggestion.sub_str),
-                  'g'
-                );
-              } else {
-                substring_regex = new RegExp(
-                  `\\b${suggestion.sub_str}\\b`,
-                  'g'
-                );
-              }
-              const position = corrsponding_segement!.search(substring_regex);
-              if (position === -1) return;
-              command.highLightAtPosition(
-                position + start_position,
-                position + start_position + suggestion.sub_str.length
-              );
-            }
-          });
-        }
-      }
-    });
+
+    // editor.state.doc.descendants((node, pos) => {
+    //   if (node.isText) {
+    //     const node_pos = node.textContent.indexOf(corrsponding_segement);
+    //     if (node_pos !== -1) {
+    //       const start_position = node_pos + pos;
+    //       current_suggestion.data.forEach((suggestion) => {
+    //         if ([2, 3].includes(suggestion.status)) {
+    //           let substring_regex: RegExp;
+    //           if (/[^\w\s]+/g.test(suggestion.sub_str)) {
+    //             substring_regex = new RegExp(
+    //               escapeStringRegExp(suggestion.sub_str),
+    //               'g'
+    //             );
+    //           } else {
+    //             substring_regex = new RegExp(
+    //               `\\b${suggestion.sub_str}\\b`,
+    //               'g'
+    //             );
+    //           }
+    //           const position = corrsponding_segement!.search(substring_regex);
+    //           if (position === -1) return;
+    //           command.highLightAtPosition(
+    //             position + start_position,
+    //             position + start_position + suggestion.sub_str.length
+    //           );
+    //         }
+    //       });
+    //     }
+    //   }
+    // });
   };
 
   const handleReplace = (item: IPolishResultAData, index: number) => {
     if (!editor) return;
-    const { relpace_string, original_string } = getDiffSentencesPair(item);
-    command.clearAllHightLight();
-    editor.state.doc.descendants((node, pos) => {
-      if (node.isText) {
-        const node_pos = node.textContent.indexOf(original_string);
-        if (node_pos === -1) return;
-        const start_position = node_pos + pos;
-        command.grammarCheckReplace(
-          relpace_string,
-          start_position,
-          start_position + original_string.length
-        );
-      }
-    });
+    // const { relpace_string, original_string } = getDiffSentencesPair(item);
+    // command.clearAllHightLight();
+    // editor.state.doc.descendants((node, pos) => {
+    //   if (node.isText) {
+    //     const node_pos = node.textContent.indexOf(original_string);
+    //     if (node_pos === -1) return;
+    //     const start_position = node_pos + pos;
+    //     command.grammarCheckReplace(
+    //       relpace_string,
+    //       start_position,
+    //       start_position + original_string.length
+    //     );
+    //   }
+    // });
   };
 
   const handleAccept = (index: number, item: IPolishResultAData) => {
@@ -98,19 +96,19 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
   const handleActvie = (index: number) => {
     command.clearAllHightLight();
     const current_suggestion = grammarResults.at(index);
-    const { original_string } = getDiffSentencesPair(current_suggestion!);
-    hightLightSentence(current_suggestion!, original_string);
-    updateGrammarResult(
-      grammarResults.map((el, postion) => {
-        if (postion === index) {
-          if (el.expand) return el;
-          return { ...el, expand: true };
-        } else {
-          if (el.expand) return { ...el, expand: false };
-          return el;
-        }
-      })
-    );
+    // const { original_string } = getDiffSentencesPair(current_suggestion!);
+    // hightLightSentence(current_suggestion!, original_string);
+    // updateGrammarResult(
+    //   grammarResults.map((el, postion) => {
+    //     if (postion === index) {
+    //       if (el.expand) return el;
+    //       return { ...el, expand: true };
+    //     } else {
+    //       if (el.expand) return { ...el, expand: false };
+    //       return el;
+    //     }
+    //   })
+    // );
   };
 
   return (
@@ -142,7 +140,7 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
           </Button>
         </div>
       </div>
-      {grammarResults.map((item, index) => {
+      {/* {grammarResults.map((item, index) => {
         if (item.data.every((item) => item.status === 0)) {
           return null;
         }
@@ -208,7 +206,7 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
             </div>
           </m.div>
         );
-      })}
+      })} */}
       <Spacer y='20' />
     </m.div>
   );

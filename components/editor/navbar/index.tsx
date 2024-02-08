@@ -4,6 +4,7 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Skeleton } from '@/components/ui/skeleton';
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
 import { useUserTrackInfo } from '@/query/query';
 import useAiEditor, { useAIEditor, useCitation } from '@/zustand/store';
@@ -80,7 +81,13 @@ const DocNavbar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [plagiarismReCheck]);
 
-  if (isPending) return null;
+  if (isPending)
+    return (
+      <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-shadow-border px-5 py-3'>
+        <Skeleton className='h-5 w-24 rounded' />
+        <Skeleton className='h-5 w-24 rounded' />
+      </nav>
+    );
   return (
     <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-shadow-border px-5 py-3'>
       <div className='flex h-full items-center gap-x-4'>

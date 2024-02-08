@@ -67,16 +67,16 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
     const handler = () => {
       const { doc, selection } = editor.state;
       const { from, empty, ranges } = selection;
+      if (empty) {
+        setOpen(false);
+        return;
+      }
       const { view } = editor;
       const current_node = view.domAtPos(from || 0);
       const isTitle =
         current_node.node.nodeName === 'H1' ||
         current_node.node.parentNode?.nodeName === 'H1';
       if (isTitle) {
-        setOpen(false);
-        return;
-      }
-      if (empty) {
         setOpen(false);
       } else {
         const from = Math.min(...ranges.map((range) => range.$from.pos));
@@ -113,9 +113,17 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
         setOpen(true);
       }
     };
-    editor.on('selectionUpdate', handler);
+    editor.on('selectionUpdate', () => {
+      const { empty } = editor.state.selection;
+      if (empty) setOpen(false);
+    });
+    document.addEventListener('mouseup', handler);
     return () => {
-      editor.off('selectionUpdate', handler);
+      editor.off('selectionUpdate', () => {
+        const { empty } = editor.state.selection;
+        if (empty) setOpen(false);
+      });
+      document.removeEventListener('mouseup', handler);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, refs]);
