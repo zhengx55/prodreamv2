@@ -1,4 +1,4 @@
-import { Toolbar } from '@/components/editor/Toolbar';
+import { Toolbar } from '@/components/editor/ui/Toolbar';
 import { autoUpdate, flip, offset, useFloating } from '@floating-ui/react-dom';
 import * as Popover from '@radix-ui/react-popover';
 import { Editor, isNodeSelection, posToDOMRect } from '@tiptap/react';
@@ -44,7 +44,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const updateCopilotRect = useAiEditor((state) => state.updateCopilotRect);
   const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
   const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
-  const updateSelectedText = useAiEditor((state) => state.updateSelectedText);
   const updateCopilotRectX = useAiEditor((state) => state.updateCopilotRectX);
   const task_step = useUserTask((state) => state.task_step);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
@@ -65,19 +64,19 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   });
 
   useLayoutEffect(() => {
-    const handler = () => {
+    const MouseUphandler = () => {
       const { doc, selection } = editor.state;
       const { from, empty, ranges } = selection;
+      if (empty) {
+        setOpen(false);
+        return;
+      }
       const { view } = editor;
       const current_node = view.domAtPos(from || 0);
       const isTitle =
         current_node.node.nodeName === 'H1' ||
         current_node.node.parentNode?.nodeName === 'H1';
       if (isTitle) {
-        setOpen(false);
-        return;
-      }
-      if (empty) {
         setOpen(false);
       } else {
         const from = Math.min(...ranges.map((range) => range.$from.pos));
@@ -90,19 +89,40 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           setIsWord(false);
         }
         setSelectedLength(words ? words.length : 0);
-        updateSelectedText(text);
         refs.setReference({
           getBoundingClientRect() {
-            if (isNodeSelection(selection)) {
-              const node = view.nodeDOM(from) as HTMLElement;
-              if (node) {
-                menuXOffside.current = node.getBoundingClientRect().left;
-                const el_srcoll_top =
-                  view.dom.parentElement?.parentElement?.scrollTop;
-                menuYOffside.current =
-                  node.getBoundingClientRect().bottom + (el_srcoll_top ?? 0);
-                return node.getBoundingClientRect();
-              }
+            menuXOffside.current = posToDOMRect(view, from, to).left;
+            const el_srcoll_top =
+              view.dom.parentElement?.parentElement?.scrollTop;
+            menuYOffside.current =
+              posToDOMRect(view, from, to).bottom + (el_srcoll_top ?? 0);
+            return posToDOMRect(view, from, to);
+          },
+        });
+        setOpen(true);
+      }
+    };
+    const NodeSelectHandler = () => {
+      const { view } = editor;
+      const { selection } = editor.state;
+      const { empty, ranges } = selection;
+      if (empty) {
+        setOpen(false);
+        return;
+      }
+      if (isNodeSelection(selection)) {
+        const from = Math.min(...ranges.map((range) => range.$from.pos));
+        const to = Math.max(...ranges.map((range) => range.$to.pos));
+        refs.setReference({
+          getBoundingClientRect() {
+            const node = view.nodeDOM(from) as HTMLElement;
+            if (node) {
+              menuXOffside.current = node.getBoundingClientRect().left;
+              const el_srcoll_top =
+                view.dom.parentElement?.parentElement?.scrollTop;
+              menuYOffside.current =
+                node.getBoundingClientRect().bottom + (el_srcoll_top ?? 0);
+              return node.getBoundingClientRect();
             }
             menuXOffside.current = posToDOMRect(view, from, to).left;
             const el_srcoll_top =
@@ -115,9 +135,11 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
         setOpen(true);
       }
     };
-    editor.on('selectionUpdate', handler);
+    editor.on('selectionUpdate', NodeSelectHandler);
+    document.addEventListener('mouseup', MouseUphandler);
     return () => {
-      editor.off('selectionUpdate', handler);
+      editor.off('selectionUpdate', NodeSelectHandler);
+      document.removeEventListener('mouseup', MouseUphandler);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, refs]);
@@ -174,7 +196,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
             }}
             className='text-doc-primary'
           >
-            <BookHalf size={18} />
+            <BookHalf size={'18'} />
             Citation
           </MemoButton>
         )}

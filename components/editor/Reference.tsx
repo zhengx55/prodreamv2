@@ -1,13 +1,12 @@
-import useAiEditor from '@/zustand/store';
+import { useCitation } from '@/zustand/store';
 import { memo, useMemo } from 'react';
 import Spacer from '../root/Spacer';
 import APAReference from './reference/APA';
 import MLAReference from './reference/MLA';
 
-type Props = {};
-const Reference = (props: Props) => {
-  const citation_type = useAiEditor((state) => state.citationStyle);
-  const inTextCitation = useAiEditor((state) => state.inTextCitation);
+const Reference = () => {
+  const citation_type = useCitation((state) => state.citationStyle);
+  const inTextCitation = useCitation((state) => state.inTextCitation);
   const sort_array = useMemo(() => {
     return inTextCitation.sort((a, b) => {
       const lastNameA = (

@@ -1,4 +1,4 @@
-import { Toolbar } from '@/components/editor/Toolbar';
+import { Toolbar } from '@/components/editor/ui/Toolbar';
 import { BookHalf } from '@/components/root/SvgComponents';
 import useAiEditor from '@/zustand/store';
 import { Editor } from '@tiptap/react';
@@ -20,7 +20,7 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
   return (
     <Toolbar.Wrapper className='w-max justify-between gap-x-3 !rounded-none border-none'>
       <MemoButton onClick={showCitation} className='text-doc-primary'>
-        <BookHalf size={18} />
+        <BookHalf size={'18'} />
         Citation
       </MemoButton>
       <Toolbar.Divider />

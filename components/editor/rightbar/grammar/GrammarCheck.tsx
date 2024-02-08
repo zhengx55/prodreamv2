@@ -3,6 +3,7 @@ import { submitPolish } from '@/query/api';
 import { IPolishResultAData } from '@/query/type';
 import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
+import type { JSONContent } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -23,11 +24,12 @@ export const GrammarCheck = memo(() => {
     setGrammarResults(value);
   }, []);
   const { mutateAsync: handleGrammarCheck } = useMutation({
-    mutationFn: (params: { text: string }) => submitPolish(params),
+    mutationFn: (params: { block: JSONContent[] }) => submitPolish(params),
     onMutate: () => {
       setIsChecking(true);
     },
     onSuccess: (data: IPolishResultAData[]) => {
+      console.log(data);
       if (data.length > 0) {
         data.map((item, index) =>
           index === 0 ? (item.expand = true) : (item.expand = false)
@@ -51,11 +53,12 @@ export const GrammarCheck = memo(() => {
       return;
     }
     editor?.chain().selectAll().unsetAllMarks().setTextSelection(0).run();
-    await handleGrammarCheck({
-      text: editor?.getText({
-        blockSeparator: '\n\n',
-      })!,
-    });
+    const block_content = editor?.getJSON();
+    console.log('🚀 ~ handleCheck ~ block_content:', block_content);
+    const params = {
+      block: block_content?.content || [], // Ensure block is not undefined
+    };
+    await handleGrammarCheck(params);
   };
   return (
     <div className='flex w-full flex-1 overflow-hidden'>

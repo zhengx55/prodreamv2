@@ -12,7 +12,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import Procedure from './guide/Procedure';
 
 const TableOfContents = dynamic(
-  () => import('../editor/table-of-contents/TableOfContents')
+  () => import('./table-of-contents/TableOfContents')
 );
 const EditorBlock = dynamic(() => import('./EditorContent'));
 
@@ -81,6 +81,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
       debouncedUpdateText(title ?? '', html);
     },
     onDestroy: () => {
+      console.log('destroy');
       reset();
     },
   });

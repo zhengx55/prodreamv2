@@ -1,9 +1,9 @@
-import useAiEditor from '@/zustand/store';
+import { useCitation } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { MineCitationCard } from './CitationCard';
 
 const InTextList = () => {
-  const inTextCitation = useAiEditor((state) => state.inTextCitation);
+  const inTextCitation = useCitation((state) => state.inTextCitation);
   return (
     <m.div
       key={'mine-intext'}

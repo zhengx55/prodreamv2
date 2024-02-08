@@ -5,7 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAIEditor } from '@/zustand/store';
+import { useCitation } from '@/zustand/store';
 import { Trash2 } from 'lucide-react';
 import { useMemo } from 'react';
 type Props = {
@@ -17,8 +17,8 @@ type Props = {
   deleteHandler: () => void;
 };
 const IntextContent = ({ node, deleteHandler }: Props) => {
-  const citation_style = useAIEditor((state) => state.citationStyle);
-  const intextCitations = useAIEditor((state) => state.inTextCitation);
+  const citation_style = useCitation((state) => state.citationStyle);
+  const intextCitations = useCitation((state) => state.inTextCitation);
   const current_citation = useMemo(() => {
     const foundCitation = intextCitations.find(
       (item) => item.data.id === node.attrs.citation_id

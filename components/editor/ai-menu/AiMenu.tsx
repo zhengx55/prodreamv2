@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
+import { getSelectedText } from '@/lib/tiptap/utils';
 import { ask, copilot } from '@/query/api';
 import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
 import useAiEditor from '@/zustand/store';
@@ -30,7 +31,6 @@ type Props = { editor: Editor };
 export const AiMenu = ({ editor }: Props) => {
   const copilotRect = useAiEditor((state) => state.copilotRect);
   const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
-  const selectedText = useAiEditor((state) => state.selectedText);
   const promptRef = useRef<HTMLInputElement>(null);
   const { options, operations } = useAiOptions();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
@@ -129,7 +129,7 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleEditTools = async (tool: string) => {
-    if (!selectedText) return;
+    const selectedText = getSelectedText(editor);
     if (!track?.ai_copilot_task) {
       await updateTrack({
         field: 'ai_copilot_task',
@@ -141,6 +141,7 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleCustomPrompt = async () => {
+    const selectedText = getSelectedText(editor);
     if (promptRef.current && !promptRef.current.value.trim())
       return toast.error('please enter a custom prompt');
     if (!track?.ai_copilot_task) {
@@ -167,7 +168,8 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleRegenerate = async () => {
-    if (!selectedText || !tool.current) return;
+    const selectedText = getSelectedText(editor);
+    if (!tool.current) return;
     await handleCopilot({ tool: tool.current, text: selectedText });
   };
 

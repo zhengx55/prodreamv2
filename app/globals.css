@@ -32,7 +32,6 @@
 
   .h2-semibold {
     @apply text-[30px] font-[500] leading-[140%];
-
   }
 
   .h2-bold {
@@ -160,24 +159,11 @@
     @apply flex-center small-regular border-b cursor-pointer mt-2 py-2
   }
 
-  [contenteditable=true]:empty:before {
-    content: attr(placeholder);
-    pointer-events: none;
-    display: block;
-    color: gray;
-  }
 
   .common-container {
     @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14;
   }
 
-  .chat-mode {
-    @apply flex hover:opacity-50 cursor-pointer flex-col items-center justify-center rounded-[10px] md:h-[20rem] gap-y-4 md:w-[25rem] px-12
-  }
-
-  .resume_list_options {
-    @apply flex cursor-pointer hover:opacity-40 items-center gap-x-2 small-regular
-  }
 }
 
 

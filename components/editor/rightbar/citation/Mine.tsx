@@ -1,10 +1,10 @@
-import Tiplayout from '@/components/polish/guide/tips/Tiplayout';
+import Tiplayout from '@/components/editor/guide/tips/Tiplayout';
 import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Toggle } from '@/components/ui/toggle';
 import { CitationTooltip } from '@/constant/enum';
 import { useUserTrackInfo } from '@/query/query';
-import useAiEditor, { useUserTask } from '@/zustand/store';
+import { useCitation, useUserTask } from '@/zustand/store';
 import useThrottledCallback from 'beautiful-react-hooks/useThrottledCallback';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import useWindowResize from 'beautiful-react-hooks/useWindowResize';
@@ -29,8 +29,8 @@ const Mine = () => {
   );
   const [type, setType] = useState<number | null>(null);
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
-  const IndocCitationIds = useAiEditor((state) => state.inDocCitationIds);
-  const InTextCitationIds = useAiEditor((state) => state.inTextCitationIds);
+  const IndocCitationIds = useCitation((state) => state.inDocCitationIds);
+  const InTextCitationIds = useCitation((state) => state.inTextCitationIds);
   const resetCitationStep = useUserTask((state) => state.resetCitationStep);
   const { data: track, isPending } = useUserTrackInfo();
 
@@ -73,7 +73,7 @@ const Mine = () => {
       <div className='flex-between items-center py-1.5'>
         <div className='flex items-center gap-x-2'>
           <Book />
-          <p className='small-regular text-doc-primary'>My Libary</p>
+          <p className='small-regular text-doc-primary'>My Library</p>
         </div>
         <div className='flex items-center gap-x-2'>
           <Toggle

@@ -71,8 +71,16 @@ const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
       reference += `${formatAuthors(contributors)} `;
     }
 
-    if (publish_date?.year) {
-      reference += `(${publish_date.year}, ${publish_date.month} ${publish_date.day}). `;
+    if (publish_date) {
+      if (publish_date.month && publish_date.day) {
+        reference += `(${publish_date.year}, ${publish_date.month} ${publish_date.day}) `;
+      } else if (publish_date.month) {
+        reference += `(${publish_date.year}, ${publish_date.month}) `;
+      } else if (publish_date.day) {
+        reference += `(${publish_date.year}, ${publish_date.day}) `;
+      } else {
+        reference += `(${publish_date.year}). `;
+      }
     }
 
     reference += `${article_title}. ${journal_title}`;

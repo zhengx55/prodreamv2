@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
 
 const Tiplayout = dynamic(
-  () => import('@/components/polish/guide/tips/Tiplayout')
+  () => import('@/components/editor/guide/tips/Tiplayout')
 );
 
 type Props = {

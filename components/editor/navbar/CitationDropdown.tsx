@@ -2,11 +2,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import { useAIEditor } from '@/zustand/store';
+import { useCitation } from '@/zustand/store';
 import { memo } from 'react';
 
 const NavbarDropdown = () => {
-  const setCitationStyle = useAIEditor((state) => state.updateCitationStyle);
+  const setCitationStyle = useCitation((state) => state.updateCitationStyle);
   return (
     <DropdownMenuContent
       side='bottom'

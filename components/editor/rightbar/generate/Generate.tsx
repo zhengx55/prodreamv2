@@ -13,7 +13,7 @@ import { memo, useCallback, useRef, useState } from 'react';
 import GenerateSub from './GenerateSub';
 
 const Tiplayout = dynamic(
-  () => import('@/components/polish/guide/tips/Tiplayout')
+  () => import('@/components/editor/guide/tips/Tiplayout')
 );
 
 const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));

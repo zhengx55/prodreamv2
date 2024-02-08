@@ -1,4 +1,4 @@
-import DocHistory from '@/components/polish/history';
+import DocHistory from '@/components/editor/history';
 import Spacer from '@/components/root/Spacer';
 
 export default function Page() {
