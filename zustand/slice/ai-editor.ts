@@ -13,7 +13,6 @@ const initialState: AIEditorState = {
   isPlagiarismOpen: false,
   plagiarismReCheck: false,
   plagiarismResult: null,
-  savingMode: true,
   showCopilotMenu: false,
   showCitiationMenu: false,
   copilotRect: null,
@@ -30,7 +29,6 @@ type AIEditorState = {
   plagiarismResult: null | Omit<IPlagiarismData, 'status'>;
   isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
-  savingMode: boolean;
   showCopilotMenu: boolean;
   showCitiationMenu: boolean;
   copilotRect: null | number;
@@ -47,8 +45,6 @@ type AIEditorAction = {
   toogleIsSaving: (result: AIEditorState['isSaving']) => void;
   setEditorInstance: (result: Editor) => void;
   reset: () => void;
-  activeSaving: () => void;
-  deactivateSaving: () => void;
   updatePlagiarismResult: (result: AIEditorState['plagiarismResult']) => void;
   updateCopilotMenu: (result: AIEditorState['showCopilotMenu']) => void;
   updateCopilotRect: (result: AIEditiorStore['copilotRect']) => void;
@@ -88,14 +84,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set(() => ({
       editor_instance: result,
     })),
-  activeSaving: () =>
-    set(() => ({
-      savingMode: true,
-    })),
-  deactivateSaving: () =>
-    set(() => ({
-      savingMode: false,
-    })),
+
   updateCopilotMenu: (result) =>
     set(() => ({
       showCopilotMenu: result,

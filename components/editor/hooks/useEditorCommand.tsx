@@ -12,17 +12,12 @@ export const useEditorCommand = (editor: Editor) => {
           to,
         })
         .setHighlight({ color: 'rgba(236, 120, 113, 0.2)' })
-        .setUnderline()
+        .setGrammarUnderline()
         .setTextSelection(0)
         .run();
     },
     [editor]
   );
-
-  const clearAllUnderLine = useCallback(() => {
-    if (!editor) return;
-    editor.chain().selectAll().unsetUnderline().setTextSelection(0).run();
-  }, [editor]);
 
   const clearAllHightLight = useCallback(() => {
     if (!editor) return;
@@ -30,7 +25,7 @@ export const useEditorCommand = (editor: Editor) => {
       .chain()
       .selectAll()
       .unsetHighlight()
-      .unsetUnderline()
+      .unsetGrammarUnderline()
       .setTextSelection(0)
       .run();
   }, [editor]);
@@ -146,7 +141,6 @@ export const useEditorCommand = (editor: Editor) => {
     replaceText,
     highLightAtPosition,
     clearAllHightLight,
-    clearAllUnderLine,
     grammarCheckReplace,
     insertAtPostion,
   };

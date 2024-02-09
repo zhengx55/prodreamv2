@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+
 import Procedure from './guide/Procedure';
 
 const TableOfContents = dynamic(
@@ -27,18 +28,30 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
 
   const debouncedUpdateText = useDebouncedCallback(
     async (title: string, text: string) => {
-      if (title === doc_title) {
-        await saveDocument({
-          id,
-          content: text,
-        });
+      const stripHtml = (await import('string-strip-html')).stripHtml;
+      if (stripHtml(essay_content).result === stripHtml(text).result) {
+        if (title === doc_title) {
+          return;
+        } else {
+          await saveDocument({
+            id,
+            title: title,
+          });
+        }
       } else {
-        updateTitle(title);
-        await saveDocument({
-          id,
-          content: text,
-          title: title,
-        });
+        if (title === doc_title) {
+          await saveDocument({
+            id,
+            content: text,
+          });
+        } else {
+          updateTitle(title);
+          await saveDocument({
+            id,
+            content: text,
+            title: title,
+          });
+        }
       }
     },
     1500

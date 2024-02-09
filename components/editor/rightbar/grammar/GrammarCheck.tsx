@@ -15,7 +15,6 @@ const Result = dynamic(() => import('./Result'));
 export const GrammarCheck = memo(() => {
   const [isChecking, setIsChecking] = useState(false);
   const editor = useAiEditor((state) => state.editor_instance);
-  const deactivateSaving = useAiEditor((state) => state.deactivateSaving);
   const [grammarResults, setGrammarResults] = useState<IPolishResultAData[]>(
     []
   );
@@ -29,14 +28,12 @@ export const GrammarCheck = memo(() => {
       setIsChecking(true);
     },
     onSuccess: (data: IPolishResultAData[]) => {
-      console.log(data);
       if (data.length > 0) {
         data.map((item, index) =>
           index === 0 ? (item.expand = true) : (item.expand = false)
         );
       }
       setGrammarResults(data);
-      deactivateSaving();
     },
     onSettled: () => {
       setIsChecking(false);
@@ -55,7 +52,7 @@ export const GrammarCheck = memo(() => {
     editor?.chain().selectAll().unsetAllMarks().setTextSelection(0).run();
     const block_content = editor?.getJSON();
     const params = {
-      block: block_content?.content || [], // Ensure block is not undefined
+      block: block_content?.content?.slice(1) || [], // Ensure block is not undefined
     };
     await handleGrammarCheck(params);
   };

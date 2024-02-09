@@ -1,6 +1,7 @@
 import { ICitation } from '@/query/type';
 import { IJournalCitation } from '@/types';
 import { clsx, type ClassValue } from 'clsx';
+import escapeStringRegExp from 'escape-string-regexp';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -268,4 +269,14 @@ export function ConvertCitationData(item: ICitation) {
     series: advanced_info.series ?? '',
   };
   return converted_data;
+}
+
+export function createRegex(str: string) {
+  let substring_regex: RegExp;
+  if (/[^\w\s]+/g.test(str)) {
+    substring_regex = new RegExp(escapeStringRegExp(str), 'i');
+  } else {
+    substring_regex = new RegExp(`\\b${str}\\b`, 'g');
+  }
+  return substring_regex;
 }
