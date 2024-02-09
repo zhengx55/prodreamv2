@@ -2,7 +2,6 @@
 import Panel from '@/components/auth/Panel';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -19,21 +18,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { loginSchema } from '@/lib/validation';
-import { userLogin } from '@/query/api';
-import { useMutation } from '@tanstack/react-query';
+import { useUserLogin } from '@/query/query';
 import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { usePostHog } from 'posthog-js/react';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 export default function Page() {
-  const [_cookies, setCookie] = useCookies(['token']);
-  const posthog = usePostHog();
   const [hidePassword, setHidePassword] = useState(true);
-  const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -41,25 +33,7 @@ export default function Page() {
       password: '',
     },
   });
-  const { mutateAsync: handleLogin } = useMutation({
-    mutationFn: (param: { username: string; password: string }) =>
-      userLogin(param),
-    onSuccess: async (data) => {
-      toast.success('Successfully Login');
-      const user_id = JSON.parse(atob(data.access_token.split('.')[1])).subject
-        .user_id;
-      posthog.identify(user_id);
-      setCookie('token', data.access_token, {
-        path: '/',
-        maxAge: 604800,
-        secure: true,
-      });
-      router.push('/editor');
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  const { mutateAsync: handleLogin } = useUserLogin();
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     await handleLogin(values);

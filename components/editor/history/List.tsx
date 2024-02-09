@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import MembershipBar from './MembershipBar';
 
 const CardView = dynamic(() => import('./CardView'));
 const ListView = dynamic(() => import('./ListView'));
@@ -114,6 +115,8 @@ const DocumentList = () => {
           <Loader2 className='animate-spin text-primary-200' />
         ) : null}
       </div>
+      <Spacer y='10' />
+      <MembershipBar />
     </>
   );
 };

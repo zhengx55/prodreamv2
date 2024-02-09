@@ -21,7 +21,6 @@ import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -45,12 +44,14 @@ const EditEmailModal = ({ isActive, toogleActive }: Props) => {
   const { mutateAsync: resetEmailAction } = useMutation({
     mutationFn: (params: { new_email: string; password: string }) =>
       profileResetEmail(params),
-    onSuccess: () => {
+    onSuccess: async () => {
+      const toast = (await import('sonner')).toast;
       toogleActive();
       toast.success('Email has been reset successfully!');
       updateUserEmail(form.getValues().email);
     },
-    onError: (error) => {
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
       toast.error(error.message);
     },
   });

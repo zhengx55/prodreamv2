@@ -6,7 +6,6 @@ export default function Page() {
     <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
       <Spacer y='75' />
       <DocHistory />
-      <Spacer y='14' />
     </main>
   );
 }

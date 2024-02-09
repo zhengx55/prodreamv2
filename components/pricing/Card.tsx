@@ -1,3 +1,5 @@
+import { useMutationMembershio } from '@/query/query';
+import { usePathname } from 'next/navigation';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 
@@ -15,6 +17,15 @@ type Props = {
 };
 
 const Card = ({ info, current, purchase_type }: Props) => {
+  const path = usePathname();
+  const { mutateAsync: purchase } = useMutationMembershio();
+  const handlePurchase = async () => {
+    const url = window.origin + path;
+    await purchase({
+      product_id: purchase_type === 'annualy' ? 'year' : 'month',
+      url,
+    });
+  };
   return (
     <div className='flex h-[460px] w-[360px] flex-col rounded-lg bg-white px-5 py-4 shadow-price hover:border-doc-primary'>
       <div className='flex h-1/4 flex-col gap-y-1.5'>
@@ -39,6 +50,8 @@ const Card = ({ info, current, purchase_type }: Props) => {
           dangerouslySetInnerHTML={{ __html: info.price_text }}
         />
         <Button
+          onClick={handlePurchase}
+          role='button'
           disabled={current}
           className={`h-max rounded disabled:opacity-100 ${current ? 'border border-shadow-border bg-white text-shadow-border' : 'bg-doc-primary'}`}
         >

@@ -22,7 +22,6 @@ const Sidebar = () => {
   const [topValue, setTopValue] = useState<number | undefined>();
   const { isPending: memberShipPending, data: memberShip } =
     useMembershipInfo();
-  console.log('🚀 ~ Sidebar ~ memberShip:', memberShip);
   const user = useUserInfo((state) => state.user);
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
@@ -102,7 +101,7 @@ const Sidebar = () => {
         </Link>
         {memberShipPending ? (
           <Skeleton className='h-10 w-full rounded-lg' />
-        ) : memberShip?.subscription === 'free_trail' ? (
+        ) : memberShip?.subscription === 'basic' ? (
           <Link href={'/pricing'} passHref>
             <Button className='w-full rounded-lg bg-doc-primary'>
               <Diamond size='22' />
@@ -111,7 +110,6 @@ const Sidebar = () => {
           </Link>
         ) : null}
       </div>
-      <Spacer y='20' />
     </aside>
   );
 };

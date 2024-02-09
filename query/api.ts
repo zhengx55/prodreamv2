@@ -46,6 +46,7 @@ export async function purchaseMembership(params: {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/${params.product_id}/order`,
       {
+        method: 'POST',
         body: formData,
         headers: { Authorization: `Bearer ${token}` },
       }
