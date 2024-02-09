@@ -1,3 +1,4 @@
+'use client';
 import { UploadGard } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';

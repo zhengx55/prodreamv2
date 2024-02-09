@@ -11,8 +11,8 @@ import { ask, copilot } from '@/query/api';
 import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
 import useAiEditor from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
-import { Editor } from '@tiptap/react';
-import { ChevronRight } from 'lucide-react';
+import type { Editor } from '@tiptap/react';
+import { AlertTriangle, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { usePostHog } from 'posthog-js/react';
 import {
@@ -22,9 +22,11 @@ import {
   useRef,
   useState,
 } from 'react';
-import { toast } from 'sonner';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 import { useAiOptions } from './hooks/useAiOptions';
+const PaymentModal = dynamic(() => import('@/components/pricing/Modal'), {
+  ssr: false,
+});
 const Typed = dynamic(() => import('react-typed'), { ssr: false });
 
 type Props = { editor: Editor };
@@ -80,7 +82,8 @@ export const AiMenu = ({ editor }: Props) => {
       setGenerating(false);
     },
 
-    onError: (error) => {
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
       toast.error(error.message);
     },
   });
@@ -105,7 +108,8 @@ export const AiMenu = ({ editor }: Props) => {
       setGenerating(false);
     },
 
-    onError: (error) => {
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
       toast.error(error.message);
     },
   });
@@ -129,6 +133,7 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleEditTools = async (tool: string) => {
+    const toast = (await import('sonner')).toast;
     const selectedText = getSelectedText(editor);
     const words = selectedText.match(/\b\w+\b/g);
     if ((words?.length ?? 0) > 160) {
@@ -145,6 +150,7 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleCustomPrompt = async () => {
+    const toast = (await import('sonner')).toast;
     const selectedText = getSelectedText(editor);
     const words = selectedText.match(/\b\w+\b/g);
     if ((words?.length ?? 0) > 160) {
@@ -264,14 +270,19 @@ export const AiMenu = ({ editor }: Props) => {
             </p>
           </div>
         )}
-        {/* <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
+        <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
           <div className='flex gap-x-2'>
             <AlertTriangle className='text-shadow' size={15} />
             <p className='subtle-regular text-shadow'>
-              Al responses can be inaccurate or misleading.
+              20/20 weekly AI prompts used;&nbsp;
+              <PaymentModal>
+                <span className='cursor-pointer text-doc-primary'>
+                  Go unlimited
+                </span>
+              </PaymentModal>
             </p>
           </div>
-          <div className='flex gap-x-2'>
+          {/* <div className='flex gap-x-2'>
             <Smile
               className='cursor-pointer text-shadow hover:opacity-50'
               size={15}
@@ -280,8 +291,8 @@ export const AiMenu = ({ editor }: Props) => {
               className='cursor-pointer text-shadow hover:opacity-50'
               size={15}
             />
-          </div>
-        </div> */}
+          </div> */}
+        </div>
         <Spacer y='5' />
         {generating ? null : (
           <Surface className='w-[256px] rounded px-1 py-2' withBorder>

@@ -1,3 +1,4 @@
+'use client';
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
@@ -26,6 +27,7 @@ const DocumentList = () => {
   const [loadingMore, toogleLoadingMore] = useState(false);
   const [sortingMethod, setSortingMethod] =
     useState<DocSortingMethods>('lastOpenedTime');
+
   const { data, isPending, isError } = useDocumentList(
     searchParams.get('query') as string,
     sortingMethod
@@ -66,7 +68,6 @@ const DocumentList = () => {
   const memoSetSortingMethod = useCallback((value: DocSortingMethods) => {
     setSortingMethod(value);
   }, []);
-
   if (isError) return null;
   return (
     <>
@@ -116,7 +117,7 @@ const DocumentList = () => {
         ) : null}
       </div>
       <Spacer y='10' />
-      <MembershipBar />
+      <MembershipBar document_count={data?.list.length || 0} />
     </>
   );
 };

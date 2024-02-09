@@ -51,8 +51,8 @@ export const SynonymMenu = memo(({ editor }: Props) => {
   return (
     <section
       ref={ref}
-      style={{ top: `${copilotRect - 54}px`, left: `${copilotRectX}px` }}
-      className='w-[450px absolute flex justify-center overflow-visible '
+      style={{ top: `${copilotRect - 44}px`, left: `${copilotRectX - 450}px` }}
+      className='absolute flex w-[450px] justify-center'
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>
         <div className='flex h-60 w-full flex-col gap-x-2 rounded-t border border-shadow-border bg-white p-4 shadow-lg'>
