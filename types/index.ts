@@ -204,3 +204,16 @@ export type GetCitationDataType<T extends ICitationType> = T extends 'website'
         : T extends 'book_section'
           ? IChapterCitation
           : never;
+
+export type ISubscription = {
+  subscription: string;
+  expire_time: number;
+  free_times_detail: FreeTimesDetail;
+};
+
+type FreeTimesDetail = {
+  Copilot: number | null;
+  Generate: number | null;
+  Grammar: number | null;
+  Document: number | null;
+};

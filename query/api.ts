@@ -1,4 +1,4 @@
-import { ICitationType } from '@/types';
+import { ICitationType, ISubscription } from '@/types';
 import Cookies from 'js-cookie';
 import {
   ICitation,
@@ -15,6 +15,50 @@ import {
 // ----------------------------------------------------------------
 // Info
 // ----------------------------------------------------------------
+
+export async function getUserMemberShip(): Promise<ISubscription> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/balance`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function purchaseMembership(params: {
+  product_id: string;
+  url: string;
+}) {
+  try {
+    const formData = new FormData();
+    formData.append('redirect_url', params.url);
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/${params.product_id}/order`,
+      {
+        body: formData,
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function setLanguageInfo(params: { language_background: string }) {
   try {

@@ -10,9 +10,11 @@ type Props = {
     price_text: string;
     features: string[];
   };
+  current: boolean;
+  purchase_type?: 'monthly' | 'annualy';
 };
 
-const Card = ({ info }: Props) => {
+const Card = ({ info, current, purchase_type }: Props) => {
   return (
     <div className='flex h-[460px] w-[360px] flex-col rounded-lg bg-white px-5 py-4 shadow-price hover:border-doc-primary'>
       <div className='flex h-1/4 flex-col gap-y-1.5'>
@@ -36,9 +38,13 @@ const Card = ({ info }: Props) => {
           className='small-regular text-doc-font'
           dangerouslySetInnerHTML={{ __html: info.price_text }}
         />
-        <Button className='h-max rounded bg-doc-primary'>Current Plan</Button>
+        <Button
+          disabled={current}
+          className={`h-max rounded disabled:opacity-100 ${current ? 'border border-shadow-border bg-white text-shadow-border' : 'bg-doc-primary'}`}
+        >
+          {current ? 'Current Plan' : 'Upgrade Now'}
+        </Button>
       </div>
-
       <ul className='mt-auto flex flex-col gap-y-1.5'>
         {info.features.map((feature, idx) => {
           return (

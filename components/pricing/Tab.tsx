@@ -1,11 +1,15 @@
 'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PricingBasic, PricingUnlimited } from '@/constant';
+import { ISubscription } from '@/types';
 import Spacer from '../root/Spacer';
 import Card from './Card';
 
-type Props = {};
-const Tab = (props: Props) => {
+type Props = { membership: ISubscription };
+const Tab = ({ membership }: Props) => {
+  const isBasic =
+    membership.subscription === 'free_trail' ||
+    membership.subscription === 'basic';
   return (
     <Tabs
       defaultValue='Annually'
@@ -28,14 +32,22 @@ const Tab = (props: Props) => {
       <Spacer y='35' />
       <TabsContent value='Annually'>
         <div className='flex w-full justify-center gap-x-10 py-4'>
-          <Card info={PricingBasic} />
-          <Card info={PricingUnlimited} />
+          <Card current={isBasic} info={PricingBasic} />
+          <Card
+            current={!isBasic}
+            purchase_type='monthly'
+            info={PricingUnlimited}
+          />
         </div>
       </TabsContent>
       <TabsContent value='Monthly'>
         <div className='flex w-full justify-center gap-x-10 py-4'>
-          <Card info={PricingBasic} />
-          <Card info={PricingUnlimited} />
+          <Card current={isBasic} info={PricingBasic} />
+          <Card
+            current={!isBasic}
+            purchase_type='annualy'
+            info={PricingUnlimited}
+          />
         </div>
       </TabsContent>
     </Tabs>

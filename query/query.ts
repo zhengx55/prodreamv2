@@ -7,9 +7,18 @@ import {
   getDocDetail,
   getDocs,
   getUserInfo,
+  getUserMemberShip,
   updateUserInfo,
 } from './api';
 import { UserTrackData } from './type';
+
+export const useMembershipInfo = () => {
+  return useQuery({
+    queryKey: ['membership'],
+    queryFn: () => getUserMemberShip(),
+    staleTime: 1000 * 60 * 60 * 24,
+  });
+};
 
 export const useDocumentDetail = (id: string) => {
   return useQuery({
