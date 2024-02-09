@@ -9,10 +9,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary-200 text-white hover:-translate-y-0.5',
+        default: 'bg-doc-primary text-white hover:-translate-y-0.5',
         secondary: 'bg-transparent hover:-translate-y-0.5',
         outline: 'border border-shadow-border bg-white hover:-translate-y-0.5',
-        ghost: 'gap-x-2 bg-white hover:-translate-y-0.5',
+        ghost: 'gap-x-2 bg-white text-doc-primary hover:-translate-y-0.5',
         white:
           'bg-white gap-x-2 base-regular justify-start shadow-button rounded-[10px] hover:-translate-y-0.5 hover:text-primary-200',
         link: 'text-normal underline-offset-4 hover:underline hover:-translate-y-0.5',

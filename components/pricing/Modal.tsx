@@ -1,5 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PricingBasic, PricingUnlimited } from '@/constant';
+import {
+  PricingAnnualyUnlimited,
+  PricingBasic,
+  PricingUnlimited,
+} from '@/constant';
 import { useMembershipInfo } from '@/query/query';
 import { X } from 'lucide-react';
 import { ReactNode, memo } from 'react';
@@ -64,8 +68,8 @@ const MembershipModal = ({ children }: Props) => {
                 <Card current={isBasic} info={PricingBasic} />
                 <Card
                   current={!isBasic}
-                  purchase_type='monthly'
-                  info={PricingUnlimited}
+                  purchase_type='annualy'
+                  info={PricingAnnualyUnlimited}
                 />
               </div>
             </TabsContent>
@@ -74,7 +78,7 @@ const MembershipModal = ({ children }: Props) => {
                 <Card current={isBasic} info={PricingBasic} />
                 <Card
                   current={!isBasic}
-                  purchase_type='annualy'
+                  purchase_type='monthly'
                   info={PricingUnlimited}
                 />
               </div>

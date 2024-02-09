@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -19,18 +20,17 @@ import { useUserInfo } from '@/zustand/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, X } from 'lucide-react';
-import { memo, useState } from 'react';
+import { ReactNode, memo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
 type Props = {
-  isActive: boolean;
-  toogleActive: () => void;
+  children: ReactNode;
 };
 
-const EditEmailModal = ({ isActive, toogleActive }: Props) => {
+const EditEmailModal = ({ children }: Props) => {
   const [hidePassword, setHidePassword] = useState(true);
   const updateUserEmail = useUserInfo((state) => state.setUserEmail);
   const form = useForm<z.infer<typeof resetEmail>>({
@@ -46,7 +46,6 @@ const EditEmailModal = ({ isActive, toogleActive }: Props) => {
       profileResetEmail(params),
     onSuccess: async () => {
       const toast = (await import('sonner')).toast;
-      toogleActive();
       toast.success('Email has been reset successfully!');
       updateUserEmail(form.getValues().email);
     },
@@ -64,7 +63,8 @@ const EditEmailModal = ({ isActive, toogleActive }: Props) => {
   }
 
   return (
-    <Dialog open={isActive} onOpenChange={toogleActive}>
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         onPointerDownOutside={(e) => {
           e.preventDefault();
@@ -140,7 +140,9 @@ const EditEmailModal = ({ isActive, toogleActive }: Props) => {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type='submit'>Save</Button>
+              <DialogClose asChild>
+                <Button type='submit'>Save</Button>
+              </DialogClose>
             </div>
           </form>
         </Form>

@@ -1,20 +1,15 @@
 'use client';
+import AvatarChange from '@/components/profile/AvatarChange';
+import Spacer from '@/components/root/Spacer';
 import { Secure } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { profileResetAvatar, refreshUserSession } from '@/query/api';
 import { useUserInfo } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import { ChangeEvent, useCallback, useRef, useState } from 'react';
-import { toast } from 'sonner';
 const EditEmail = dynamic(() => import('@/components/profile/EditEmail'), {
   ssr: false,
 });
-const EditName = dynamic(() => import('@/components/profile/EditName'), {
-  ssr: false,
-});
+
 const EditPassword = dynamic(
   () => import('@/components/profile/EditPassword'),
   { ssr: false }
@@ -22,123 +17,35 @@ const EditPassword = dynamic(
 
 export default function Page() {
   const userInfo = useUserInfo((state) => state.user);
-  const setUserAvatar = useUserInfo((state) => state.setUserAvatar);
-  const uploadRef = useRef<HTMLInputElement>(null);
-  const [IsEditEmail, setEditEmail] = useState(false);
-  const [IsEditPassword, setEditPassword] = useState(false);
-  const [IsEditName, setEditName] = useState(false);
-  const toogleEmailModal = useCallback(() => {
-    setEditEmail((prev) => !prev);
-  }, []);
-
-  const { mutateAsync: upLoadAvatar } = useMutation({
-    mutationFn: (params: { file: File }) => profileResetAvatar(params),
-    onSuccess: async () => {
-      const data = await refreshUserSession();
-      setUserAvatar(data.avatar);
-      toast.success('avatar has been reset successfully!');
-    },
-
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file && file.size > 200 * 1024) {
-      toast.error('File is larger than 200KB');
-      return;
-    }
-    if (file) {
-      await upLoadAvatar({ file });
-    }
-  };
-
-  const togglePassModal = useCallback(() => {
-    setEditPassword((prev) => !prev);
-  }, []);
-
-  const toggleNameModal = useCallback(() => {
-    setEditName((prev) => !prev);
-  }, []);
-
   return (
-    <main className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col overflow-y-auto px-16 py-10'>
-      <EditName isActive={IsEditName} toogleActive={toggleNameModal} />
-      <EditEmail isActive={IsEditEmail} toogleActive={toogleEmailModal} />
-      <EditPassword isActive={IsEditPassword} toogleActive={togglePassModal} />
-      <h1 className='h2-bold'>Profile</h1>
-      <Separator orientation='horizontal' className='mt-7 bg-shadow-border' />
-      <div className='mt-7 flex items-center gap-x-4'>
-        <div className='flex w-max flex-col items-center gap-y-2'>
-          <div
-            onClick={() => {
-              uploadRef.current?.click();
-            }}
-            className='flex-center relative h-[70px] w-[70px] cursor-pointer overflow-hidden rounded-full bg-[rgba(152,34,245,.25)] hover:opacity-50'
-          >
-            <Image
-              alt={userInfo.last_name}
-              className='h-auto w-auto'
-              width={70}
-              placeholder='empty'
-              height={70}
-              src={
-                userInfo.avatar
-                  ? userInfo.avatar
-                  : 'https://quickapply.blob.core.windows.net/avatar/default.jpg'
-              }
-            />
-            <input
-              ref={uploadRef}
-              type='file'
-              accept='image/*'
-              onChange={handleFileChange}
-              className='hidden'
-            />
-          </div>
-          <p className='subtle-regular text-shadow-100'>Edit</p>
-        </div>
-        <div className='flex flex-col'>
-          <h2 className='title-semibold pl-4'>
-            {userInfo.first_name} {userInfo.last_name}
-          </h2>
-          <Button
-            onClick={toggleNameModal}
-            className='text-primary-200 '
-            variant={'ghost'}
-          >
-            Change name
-          </Button>
-        </div>
-      </div>
-      <h2 className='title-semibold mt-12'>Email Address</h2>
+    <main className='flex h-[calc(100vh_-var(--top-nav-bar-height))] w-full flex-col overflow-y-auto px-10 py-5'>
+      <h1 className='title-medium'>My Profile</h1>
+      <Spacer y='20' />
+      <Separator orientation='horizontal' className='bg-shadow-border' />
+      <Spacer y='40' />
+      <AvatarChange />
+      <Spacer y='32' />
+      <h2 className='title-semibold'>Email Address</h2>
       <div className='flex items-center gap-x-4'>
         <h2 className='base-regular text-shadow-100'>{userInfo.email}</h2>
-        <Button
-          onClick={toogleEmailModal}
-          className='text-primary-200 '
-          variant={'ghost'}
-        >
-          Change email
-        </Button>
+        <EditEmail>
+          <Button variant={'ghost'}>Change email</Button>
+        </EditEmail>
       </div>
-      <h2 className='title-semibold mt-12'>Password</h2>
+      <Spacer y='32' />
+      <h2 className='title-semibold'>Password</h2>
       <div className='flex items-center gap-x-4'>
         <h2 className='base-regular text-shadow-100'>
           ***********************
         </h2>
-        <Button
-          className='text-primary-200'
-          onClick={togglePassModal}
-          variant={'ghost'}
-        >
-          Change password
-        </Button>
+        <EditPassword>
+          <Button variant={'ghost'}>Change password</Button>
+        </EditPassword>
       </div>
-      <Separator orientation='horizontal' className='mt-7 bg-shadow-border' />
-      <div className='mt-7 flex h-[140px] w-[700px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
+      <Spacer y='32' />
+      <Separator orientation='horizontal' className=' bg-shadow-border' />
+      <Spacer y='40' />
+      <div className='flex h-[140px] w-[700px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
         <div className='flex gap-x-6'>
           <Secure />
           <h1 className='title-semibold'>Secure Your Account</h1>

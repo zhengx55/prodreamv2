@@ -31,7 +31,7 @@ export const useMutationMembershio = () => {
     mutationFn: (params: { product_id: string; url: string }) =>
       purchaseMembership(params),
     onSuccess: (data) => {
-      router.replace(data);
+      router.push(data);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

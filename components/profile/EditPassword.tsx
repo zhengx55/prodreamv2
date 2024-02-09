@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -18,18 +19,17 @@ import { profileResetPasswords } from '@/query/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, X } from 'lucide-react';
-import { memo, useState } from 'react';
+import { ReactNode, memo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
 type Props = {
-  isActive: boolean;
-  toogleActive: () => void;
+  children: ReactNode;
 };
 
-const EditPassModal = ({ isActive, toogleActive }: Props) => {
+const EditPassModal = ({ children }: Props) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [hideNewPassword, setHideNewPassword] = useState(true);
 
@@ -46,7 +46,6 @@ const EditPassModal = ({ isActive, toogleActive }: Props) => {
       profileResetPasswords(params),
     onSuccess: async () => {
       const toast = (await import('sonner')).toast;
-      toogleActive();
       toast.success('Password has been reset successfully!');
     },
     onError: async (error) => {
@@ -62,7 +61,8 @@ const EditPassModal = ({ isActive, toogleActive }: Props) => {
     });
   }
   return (
-    <Dialog open={isActive} onOpenChange={toogleActive}>
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         onPointerDownOutside={(e) => {
           e.preventDefault();
@@ -150,7 +150,9 @@ const EditPassModal = ({ isActive, toogleActive }: Props) => {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type='submit'>Save</Button>
+              <DialogClose asChild>
+                <Button type='submit'>Save</Button>
+              </DialogClose>
             </div>
           </form>
         </Form>

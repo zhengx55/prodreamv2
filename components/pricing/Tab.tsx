@@ -1,6 +1,10 @@
 'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PricingBasic, PricingUnlimited } from '@/constant';
+import {
+  PricingAnnualyUnlimited,
+  PricingBasic,
+  PricingUnlimited,
+} from '@/constant';
 import { ISubscription } from '@/types';
 import Spacer from '../root/Spacer';
 import Card from './Card';
@@ -35,8 +39,8 @@ const Tab = ({ membership }: Props) => {
           <Card current={isBasic} info={PricingBasic} />
           <Card
             current={!isBasic}
-            purchase_type='monthly'
-            info={PricingUnlimited}
+            purchase_type='annualy'
+            info={PricingAnnualyUnlimited}
           />
         </div>
       </TabsContent>
@@ -45,7 +49,7 @@ const Tab = ({ membership }: Props) => {
           <Card current={isBasic} info={PricingBasic} />
           <Card
             current={!isBasic}
-            purchase_type='annualy'
+            purchase_type='monthly'
             info={PricingUnlimited}
           />
         </div>
