@@ -206,7 +206,7 @@ export type GetCitationDataType<T extends ICitationType> = T extends 'website'
           : never;
 
 export type ISubscription = {
-  subscription: string;
+  subscription: 'basic' | 'unlimited' | 'free_trail';
   expire_time: number;
   free_times_detail: FreeTimesDetail;
 };

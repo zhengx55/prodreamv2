@@ -22,6 +22,7 @@ const Sidebar = () => {
   const [topValue, setTopValue] = useState<number | undefined>();
   const { isPending: memberShipPending, data: memberShip } =
     useMembershipInfo();
+  console.log(memberShip);
   const user = useUserInfo((state) => state.user);
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
