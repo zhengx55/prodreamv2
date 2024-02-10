@@ -16,7 +16,9 @@ const TableOfContents = dynamic(
   () => import('./table-of-contents/TableOfContents')
 );
 const EditorBlock = dynamic(() => import('./EditorContent'));
-
+const PaymentModal = dynamic(() => import('@/components/pricing/Modal'), {
+  ssr: false,
+});
 const Editor = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
   const [showBottomBar, setShowBottomBar] = useState(true);
@@ -105,6 +107,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
         <TableOfContents editor={editor} />
         <Procedure editor={editor} />
         <EditorBlock editor={editor} />
+        <PaymentModal />
       </div>
       {showBottomBar && (
         <div className='flex-center absolute bottom-0 h-10 w-full shrink-0 border-t border-shadow-border bg-white px-0'>

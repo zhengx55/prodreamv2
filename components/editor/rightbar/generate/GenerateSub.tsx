@@ -1,7 +1,7 @@
 import Loading from '@/components/root/CustomLoading';
 import { copilot, outline } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { m } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { memo, useCallback, useRef, useState } from 'react';
@@ -25,7 +25,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
   const outLineInfo = useRef<z.infer<typeof generateOutlineSchema> | null>(
     null
   );
-
+  const queryClient = useQueryClient();
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { tool: string; text: string }) => copilot(params),
     onMutate: () => {
@@ -33,6 +33,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
       if (generatedResult) setGeneratedResult('');
     },
     onSuccess: async (data: ReadableStream) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
@@ -55,6 +56,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
       if (generatedResult) setGeneratedResult('');
     },
     onSuccess: async (data: ReadableStream, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
       outLineInfo.current = { idea: variables.idea, area: variables.area };
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {

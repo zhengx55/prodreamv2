@@ -5,27 +5,27 @@ import {
   PricingUnlimited,
 } from '@/constant';
 import { useMembershipInfo } from '@/query/query';
+import useAiEditor from '@/zustand/store';
 import { X } from 'lucide-react';
-import { ReactNode, memo } from 'react';
+import { memo } from 'react';
 import Spacer from '../root/Spacer';
+import { Diamond } from '../root/SvgComponents';
 import { Button } from '../ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTrigger,
-} from '../ui/dialog';
+import { Dialog, DialogClose, DialogContent } from '../ui/dialog';
 import Card from './Card';
 
-type Props = { children: ReactNode };
-const MembershipModal = ({ children }: Props) => {
+const MembershipModal = () => {
   const { data } = useMembershipInfo();
+  const open = useAiEditor((state) => state.paymentModalOpen);
+  const setOpen = useAiEditor((state) => state.updatePaymentModal);
   const isBasic =
     data?.subscription === 'free_trail' || data?.subscription === 'basic';
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className='px-8 py-4 md:w-[900px] md:gap-y-0 md:rounded-lg'>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent
+        onPointerDownOutside={(e) => e.preventDefault()}
+        className='z-50 border-none px-8 py-4 md:w-[900px] md:gap-y-0 md:rounded-lg'
+      >
         <div className='relative flex w-full flex-col'>
           <DialogClose asChild>
             <Button
@@ -35,11 +35,10 @@ const MembershipModal = ({ children }: Props) => {
               <X size={18} className='text-shadow-border' />
             </Button>
           </DialogClose>
-
           <h1 className='text-center text-[40px] font-medium'>
             Plans & Pricing
           </h1>
-          <Spacer y='10' />
+          <Spacer y='5' />
           <p className='base-regular text-center text-doc-font'>
             Select the perfect plan to enhance your academic writing journey
           </p>
@@ -84,6 +83,14 @@ const MembershipModal = ({ children }: Props) => {
               </div>
             </TabsContent>
           </Tabs>
+        </div>
+        <Spacer y='20' />
+        <div className='absolute bottom-0 flex h-10 w-full items-center gap-x-2 rounded-b-lg bg-black-200 px-5'>
+          <Diamond />
+          <p className='subtle-regular text-white'>
+            Upgrade to Unlimited to unleash the full potential of your academic
+            writing
+          </p>
         </div>
       </DialogContent>
     </Dialog>

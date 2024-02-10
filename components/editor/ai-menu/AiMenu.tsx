@@ -8,9 +8,13 @@ import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import { ask, copilot } from '@/query/api';
-import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
+import {
+  useMembershipInfo,
+  useMutateTrackInfo,
+  useUserTrackInfo,
+} from '@/query/query';
 import useAiEditor from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Editor } from '@tiptap/react';
 import { AlertTriangle, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -24,19 +28,20 @@ import {
 } from 'react';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 import { useAiOptions } from './hooks/useAiOptions';
-const PaymentModal = dynamic(() => import('@/components/pricing/Modal'), {
-  ssr: false,
-});
+
 const Typed = dynamic(() => import('react-typed'), { ssr: false });
 
 type Props = { editor: Editor };
 export const AiMenu = ({ editor }: Props) => {
-  const copilotRect = useAiEditor((state) => state.copilotRect);
-  const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
-  const promptRef = useRef<HTMLInputElement>(null);
   const { options, operations } = useAiOptions();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: track } = useUserTrackInfo();
+  const { data: usage } = useMembershipInfo();
+  const copilotRect = useAiEditor((state) => state.copilotRect);
+  const queryClient = useQueryClient();
+  const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
+  const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
+  const promptRef = useRef<HTMLInputElement>(null);
   const [hoverItem, setHoverItem] = useState<number | null>(null);
   const [generating, setGenerating] = useState(false);
   const [aiResult, setAiResult] = useState('');
@@ -44,10 +49,10 @@ export const AiMenu = ({ editor }: Props) => {
   const elRef = useRef<HTMLDivElement>(null);
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
-  const hasAiResult = aiResult !== '';
   const posthog = usePostHog();
   const ref = useScrollIntoView();
 
+  const hasAiResult = aiResult !== '';
   useClickOutside(elRef, () => {
     updateCopilotMenu(false);
   });
@@ -67,6 +72,7 @@ export const AiMenu = ({ editor }: Props) => {
       setGenerating(true);
     },
     onSuccess: async (data: ReadableStream, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
       tool.current = variables.tool;
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
@@ -94,6 +100,7 @@ export const AiMenu = ({ editor }: Props) => {
       setGenerating(true);
     },
     onSuccess: async (data: ReadableStream) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
@@ -225,7 +232,7 @@ export const AiMenu = ({ editor }: Props) => {
     <section
       ref={ref}
       style={{ top: `${copilotRect - 54}px` }}
-      className='absolute -left-12 flex w-full justify-center overflow-visible '
+      className='absolute -left-12 z-20 flex w-full justify-center overflow-visible '
     >
       <div
         ref={elRef}
@@ -271,27 +278,23 @@ export const AiMenu = ({ editor }: Props) => {
           </div>
         )}
         <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
-          <div className='flex gap-x-2'>
+          <div className='flex items-center gap-x-2'>
             <AlertTriangle className='text-shadow' size={15} />
             <p className='subtle-regular text-shadow'>
-              20/20 weekly AI prompts used;&nbsp;
-              <PaymentModal>
-                <span className='cursor-pointer text-doc-primary'>
-                  Go unlimited
-                </span>
-              </PaymentModal>
+              {usage?.free_times_detail.Copilot}/20 weekly AI prompts
+              used;&nbsp;
+              <Button
+                onClick={() => {
+                  updatePaymentModal(true);
+                }}
+                role='button'
+                variant={'ghost'}
+                className='subtle-regular h-max w-max cursor-pointer bg-transparent p-0 text-doc-primary'
+              >
+                Go unlimited
+              </Button>
             </p>
           </div>
-          {/* <div className='flex gap-x-2'>
-            <Smile
-              className='cursor-pointer text-shadow hover:opacity-50'
-              size={15}
-            />
-            <Frown
-              className='cursor-pointer text-shadow hover:opacity-50'
-              size={15}
-            />
-          </div> */}
         </div>
         <Spacer y='5' />
         {generating ? null : (

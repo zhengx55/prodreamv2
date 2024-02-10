@@ -18,6 +18,7 @@ const initialState: AIEditorState = {
   copilotRect: null,
   copilotRectX: null,
   showSynonymMenu: false,
+  paymentModalOpen: false,
 };
 
 type AIEditorState = {
@@ -34,6 +35,7 @@ type AIEditorState = {
   copilotRect: null | number;
   showSynonymMenu: boolean;
   copilotRectX: null | number;
+  paymentModalOpen: boolean;
 };
 
 type AIEditorAction = {
@@ -51,6 +53,7 @@ type AIEditorAction = {
   updateCitationMenu: (result: AIEditorState['showCitiationMenu']) => void;
   updateSynonymMenu: (result: AIEditorState['showSynonymMenu']) => void;
   updateCopilotRectX: (resutl: AIEditorState['copilotRectX']) => void;
+  updatePaymentModal: (result: AIEditorState['paymentModalOpen']) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -60,6 +63,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
       plagiarismResult: result,
     })),
   updateTitle: (result) => set(() => ({ doc_title: result })),
+  updatePaymentModal: (result) => set(() => ({ paymentModalOpen: result })),
   updateRightbarTab: (result) =>
     set((state) => {
       if (!state.rightbarOpen)

@@ -5,81 +5,29 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { plagiarismCheck, plagiarismQuery } from '@/query/api';
 import { useUserTrackInfo } from '@/query/query';
-import useAiEditor, { useAIEditor, useCitation } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
+import { useAIEditor, useCitation } from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
-import { ChevronLeft, Loader, Loader2, ShieldCheck } from 'lucide-react';
+import { ChevronLeft, Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useRef } from 'react';
+import Plagiarism from './Plagiarism';
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
 const CitationDropdown = dynamic(() => import('./CitationDropdown'));
 
 const DocNavbar = () => {
   const citationStyle = useCitation((state) => state.citationStyle);
-  const editor = useAiEditor((state) => state.editor_instance);
   const isSaving = useAIEditor((state) => state.isSaving);
-  const togglePlagiarism = useAIEditor((state) => state.togglePlagiarism);
-  const updatePlagiarismResult = useAIEditor(
-    (state) => state.updatePlagiarismResult
-  );
-  const plagiarismReCheck = useAIEditor((state) => state.plagiarismReCheck);
-  const updatePlagiarismRecheck = useAIEditor(
-    (state) => state.updatePlagiarismRecheck
-  );
-  const plagiarismResult = useAIEditor((state) => state.plagiarismResult);
+  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const docTtile = useAIEditor((state) => state.doc_title);
-  const [isGenerating, setIsGenerating] = useState(false);
   const { data: track, isPending } = useUserTrackInfo();
   const timer = useRef<NodeJS.Timeout | null>(null);
-
-  const { mutateAsync: plagiarism } = useMutation({
-    mutationFn: (params: string) => plagiarismCheck(params),
-    onMutate: () => {
-      setIsGenerating(true);
-      updatePlagiarismRecheck(false);
-    },
-    onSuccess: (data) => {
-      timer.current = setInterval(async () => {
-        const res = await plagiarismQuery(data);
-        if (res.status === 'done') {
-          setIsGenerating(false);
-          updatePlagiarismResult({ scores: res.scores, spans: res.spans });
-          togglePlagiarism();
-          clearInterval(timer.current!);
-        }
-      }, 5000);
-    },
-    onError: async (error) => {
-      const toast = (await import('sonner')).toast;
-      toast.error(error.message);
-    },
-  });
 
   useUnmount(() => {
     timer.current && clearInterval(timer.current);
   });
-
-  const handlePlagiarismCheck = async () => {
-    if (!editor) return;
-    if (!editor.getText()) {
-      const toast = (await import('sonner')).toast;
-      toast.error('Please write something to check plagiarism');
-      return;
-    }
-    await plagiarism(editor?.getText());
-  };
-
-  useEffect(() => {
-    if (plagiarismReCheck) {
-      handlePlagiarismCheck();
-      updatePlagiarismResult(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [plagiarismReCheck]);
 
   if (isPending)
     return (
@@ -117,33 +65,10 @@ const DocNavbar = () => {
       </div>
 
       <div className='flex items-center gap-x-4'>
-        {Boolean(plagiarismResult) ? (
-          <Button
-            role='button'
-            onClick={() => togglePlagiarism()}
-            className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
-          >
-            <ShieldCheck size={18} className='text-doc-primary' />
-            <p className='small-regular text-doc-primary'>Plaglarism Report</p>
-          </Button>
-        ) : (
-          <Button
-            role='button'
-            disabled={isGenerating}
-            onClick={handlePlagiarismCheck}
-            className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
-          >
-            {isGenerating ? (
-              <Loader2 className='animate-spin text-doc-primary' size={18} />
-            ) : (
-              <ShieldCheck size={18} className='text-doc-primary' />
-            )}
-            <p className='small-regular text-doc-primary'>Plaglarism Check</p>
-          </Button>
-        )}
-
+        <Plagiarism />
         <Button
           role='button'
+          onClick={() => updatePaymentModal(true)}
           className='h-max rounded bg-doc-primary px-2 py-1 hover:bg-doc-secondary hover:text-doc-primary'
         >
           <Diamond /> Upgrade
