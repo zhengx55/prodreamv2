@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
+import UnsubscribeModal from './UnsubscribeModal';
 
 type Props = { membership: ISubscription };
 const Membership = ({ membership }: Props) => {
@@ -34,9 +35,11 @@ const Membership = ({ membership }: Props) => {
             <p className='text-doc-font'>
               You are on the <strong>Unlimited Monthly Plan</strong>
             </p>
-            <Button role='dialog' variant={'ghost'}>
-              Unsubscribe
-            </Button>
+            <UnsubscribeModal>
+              <Button role='dialog' variant={'ghost'}>
+                Unsubscribe
+              </Button>
+            </UnsubscribeModal>
           </div>
           <p className='text-doc-font'>Start date: | Next billing date:</p>
           <Spacer y='10' />

@@ -65,21 +65,24 @@ const NavBar = () => {
           <DropdownMenuContent
             align='center'
             sideOffset={0}
-            className='h-[100vh] w-[100vw] border-none bg-[#000]/25 p-0'
+            className='h-[100vh] w-[100vw] border-none bg-black-400/25 p-0'
           >
-            <div className='w-[100vw] bg-[#fff] py-6 pt-[45px]'>
+            <div className='w-[100vw] bg-white py-6 pt-[45px]'>
               <div className='flex flex-col items-center gap-y-4'>
                 <Link href={'/login'} passHref>
                   <Button
                     variant={'ghost'}
+                    role='link'
                     className='w-[340px] border-[2px] border-doc-primary text-doc-primary'
                   >
                     Log in
                   </Button>
                 </Link>
-
                 <Link href={'/signup'} passHref>
-                  <Button className='w-[340px] bg-doc-primary hover:bg-doc-primary'>
+                  <Button
+                    role='link'
+                    className='w-[340px] bg-doc-primary hover:bg-doc-primary'
+                  >
                     <strong>Start Writing!</strong>It&apos;s Free
                   </Button>
                 </Link>

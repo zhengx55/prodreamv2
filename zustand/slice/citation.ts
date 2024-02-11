@@ -6,25 +6,35 @@ const initialState: CitationState = {
   showCustomCitiation: false,
   citationStyle: 'MLA',
   showCreateCitation: false,
+  showEditCitation: true,
   inTextCitation: [],
   inDocCitation: [],
   inTextCitationIds: [],
   inDocCitationIds: [],
+  inLineCitations: [],
 };
 
 type CitationState = {
   citationStyle: string;
   showCreateCitation: boolean;
+  showEditCitation: boolean;
   inTextCitation: { type: ICitationType; data: ICitationData }[];
   inDocCitation: { type: ICitationType; data: ICitationData }[];
   inTextCitationIds: string[];
   inDocCitationIds: string[];
   showCustomCitiation: boolean;
+  inLineCitations: { inline_id: string; data: ICitationData }[];
 };
 
 type CitationAction = {
   updateCitationStyle: (result: CitationState['citationStyle']) => void;
+  appendInlineCitation: (result: {
+    inline_id: string;
+    data: ICitationData;
+  }) => void;
+  removeInlineCitation: (result: string) => void;
   updateCustomCitiation: (result: CitationState['showCustomCitiation']) => void;
+  updateShowEditCitation: (result: CitationState['showEditCitation']) => void;
   updateShowCreateCitation: (
     result: CitationState['showCreateCitation']
   ) => void;
@@ -58,6 +68,30 @@ export type CitationStore = CitationAction & CitationState;
 
 export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
   ...initialState,
+  appendInlineCitation: (result) => {
+    set((state) => ({
+      inLineCitations: [...state.inLineCitations, result],
+    }));
+  },
+  removeInlineCitation: (result) => {
+    set((state) => ({
+      inLineCitations: state.inLineCitations.filter(
+        (item) => item.inline_id !== result
+      ),
+    }));
+  },
+  updateShowEditCitation: (result) => {
+    if (result) {
+      set((state) => ({
+        showEditCitation: result,
+        showCreateCitation: state.showCreateCitation && false,
+      }));
+    } else {
+      set({
+        showEditCitation: result,
+      });
+    }
+  },
 
   updateCustomCitiation: (result) =>
     set(() => ({
@@ -67,10 +101,18 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
     set(() => ({
       citationStyle: result,
     })),
-  updateShowCreateCitation: (result) =>
-    set(() => ({
-      showCreateCitation: result,
-    })),
+  updateShowCreateCitation: (result) => {
+    if (result) {
+      set((state) => ({
+        showCreateCitation: result,
+        showEditCitation: state.showEditCitation && false,
+      }));
+    } else {
+      set({
+        showCreateCitation: result,
+      });
+    }
+  },
   updateInTextCitation: (result, id_array) =>
     set(() => ({
       inTextCitation: result,

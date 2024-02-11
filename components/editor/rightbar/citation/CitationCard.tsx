@@ -17,6 +17,7 @@ import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
 import { memo } from 'react';
+import { v4 } from 'uuid';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 
 const Tiplayout = dynamic(
@@ -180,10 +181,10 @@ export const MineCitationCard = memo(
 
     const handleCite = async () => {
       if (type === 'inText') {
-        insertCitation(item.data.id);
+        insertCitation(v4());
       } else {
         await appendInTextCitationIds(item);
-        insertCitation(item.data.id);
+        insertCitation(v4());
       }
     };
 

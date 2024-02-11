@@ -1,12 +1,13 @@
 'use client';
+import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { useCitation } from '@/zustand/store';
-import { Book, Trash2 } from 'lucide-react';
+import useAiEditor, { useCitation } from '@/zustand/store';
+import { Trash2 } from 'lucide-react';
 import { useMemo } from 'react';
 type Props = {
   node: {
@@ -18,21 +19,25 @@ type Props = {
 };
 const IntextContent = ({ node, deleteHandler }: Props) => {
   const citation_style = useCitation((state) => state.citationStyle);
-  const intextCitations = useCitation((state) => state.inTextCitation);
+  const inLineCitations = useCitation((state) => state.inLineCitations);
+  const updateShowEditCitation = useCitation(
+    (state) => state.updateShowEditCitation
+  );
+  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const current_citation = useMemo(() => {
-    const foundCitation = intextCitations.find(
-      (item) => item.data.id === node.attrs.citation_id
+    const foundCitation = inLineCitations.find(
+      (item) => item.inline_id === node.attrs.citation_id
     );
     return foundCitation ? foundCitation.data : null;
-  }, [intextCitations, node.attrs.citation_id]);
+  }, [inLineCitations, node.attrs.citation_id]);
   const handleDeleteCitation = () => {
     deleteHandler();
   };
 
-  // useUnmount(() => {
-  //   console.log(2323);
-  // });
-  const handleEditCitation = () => {};
+  const handleEditCitation = () => {
+    updateRightbarTab(1);
+    updateShowEditCitation(true);
+  };
 
   return (
     <Popover>
@@ -73,6 +78,8 @@ const IntextContent = ({ node, deleteHandler }: Props) => {
         </p>
         <div className='flex-between gap-x-4'>
           <Button
+            role='button'
+            onClick={handleEditCitation}
             className='h-8 w-full rounded border border-doc-primary py-1 text-doc-primary'
             variant={'ghost'}
           >
