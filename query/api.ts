@@ -61,6 +61,28 @@ export async function purchaseMembership(params: {
   }
 }
 
+export async function unSubscripeMembership(params: {
+  subscription_id: string;
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/${params.subscription_id}/order`,
+      {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function setLanguageInfo(params: { language_background: string }) {
   try {
     const token = Cookies.get('token');

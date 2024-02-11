@@ -13,6 +13,7 @@ import {
   getUserInfo,
   getUserMemberShip,
   purchaseMembership,
+  unSubscripeMembership,
   updateUserInfo,
   userLogin,
 } from './api';
@@ -33,6 +34,23 @@ export const useMutationMembershio = () => {
       purchaseMembership(params),
     onSuccess: (data) => {
       router.push(data);
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useUnsubscribe = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (params: { subscription_id: string }) =>
+      unSubscripeMembership(params),
+    onSuccess: async (data) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
+      const toast = (await import('sonner')).toast;
+      toast.success('Successfully Unsubscribed');
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

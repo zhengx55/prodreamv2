@@ -217,3 +217,16 @@ type FreeTimesDetail = {
   Grammar: number | null;
   Document: number | null;
 };
+
+export type ISubsciptionHistory = {
+  id: number;
+  user_id: string;
+  product_id: string;
+  price: number;
+  start_date: number;
+  end_date: number;
+  finished: boolean;
+  subscription_id: string;
+  mode: string;
+  canceled: boolean;
+};

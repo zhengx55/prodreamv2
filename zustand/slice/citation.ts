@@ -12,6 +12,7 @@ const initialState: CitationState = {
   inTextCitationIds: [],
   inDocCitationIds: [],
   inLineCitations: [],
+  currentInlineCitation: '',
 };
 
 type CitationState = {
@@ -24,6 +25,7 @@ type CitationState = {
   inDocCitationIds: string[];
   showCustomCitiation: boolean;
   inLineCitations: { inline_id: string; data: ICitationData }[];
+  currentInlineCitation: string;
 };
 
 type CitationAction = {
@@ -32,6 +34,7 @@ type CitationAction = {
     inline_id: string;
     data: ICitationData;
   }) => void;
+  updateCurrentInLine: (result: string) => void;
   removeInlineCitation: (result: string) => void;
   updateCustomCitiation: (result: CitationState['showCustomCitiation']) => void;
   updateShowEditCitation: (result: CitationState['showEditCitation']) => void;
@@ -71,6 +74,11 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
   appendInlineCitation: (result) => {
     set((state) => ({
       inLineCitations: [...state.inLineCitations, result],
+    }));
+  },
+  updateCurrentInLine: (result) => {
+    set(() => ({
+      currentInlineCitation: result,
     }));
   },
   removeInlineCitation: (result) => {

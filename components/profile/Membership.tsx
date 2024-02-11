@@ -1,4 +1,5 @@
 'use client';
+import { formatTimestampToDateString } from '@/lib/utils';
 import { ISubscription } from '@/types';
 import Link from 'next/link';
 import Spacer from '../root/Spacer';
@@ -36,12 +37,15 @@ const Membership = ({ membership }: Props) => {
               You are on the <strong>Unlimited Monthly Plan</strong>
             </p>
             <UnsubscribeModal>
-              <Button role='dialog' variant={'ghost'}>
+              <Button role='dialog' variant={'ghost'} className='p-0'>
                 Unsubscribe
               </Button>
             </UnsubscribeModal>
           </div>
-          <p className='text-doc-font'>Start date: | Next billing date:</p>
+          <p className='text-doc-font'>
+            Next billing date:{' '}
+            {formatTimestampToDateString(membership.expire_time, false)}
+          </p>
           <Spacer y='10' />
           <div className='flex w-max flex-col rounded-t-lg bg-[#FCFBFF]'>
             <div className='flex items-start gap-x-2 px-4 py-6'>
@@ -56,9 +60,11 @@ const Membership = ({ membership }: Props) => {
                 </Link>
               </p>
             </div>
-            <Button role='button' className='base-regular rounded-lg'>
-              Manage subscription
-            </Button>
+            <Link passHref href={'/profile/subscription'}>
+              <Button role='button' className='base-regular rounded-lg'>
+                Manage subscription
+              </Button>
+            </Link>
           </div>
         </>
       )}
