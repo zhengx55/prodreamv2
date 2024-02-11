@@ -45,12 +45,7 @@ const Reference = () => {
   }, [inTextCitation]);
   const copyHtml = async () => {
     const htmlNode = referenceListRef.current;
-    const textarea = document.createElement('textarea');
-    textarea.value = htmlNode?.innerText ?? '';
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
+    navigator.clipboard.writeText(htmlNode?.innerText ?? '');
     const { toast } = await import('sonner');
     toast.success('Copied to clipboard');
   };
