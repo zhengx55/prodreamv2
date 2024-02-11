@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { useCitation } from '@/zustand/store';
-import { Trash2 } from 'lucide-react';
+import { Book, Trash2 } from 'lucide-react';
 import { useMemo } from 'react';
 type Props = {
   node: {
@@ -72,12 +72,12 @@ const IntextContent = ({ node, deleteHandler }: Props) => {
           {current_citation?.abstract}
         </p>
         <div className='flex-between gap-x-4'>
-          {/* <Button
+          <Button
             className='h-8 w-full rounded border border-doc-primary py-1 text-doc-primary'
             variant={'ghost'}
           >
             <Book /> Edit
-          </Button> */}
+          </Button>
           <Button
             className='aspect-square h-8 rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
             variant={'ghost'}

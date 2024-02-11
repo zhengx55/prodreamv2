@@ -1,5 +1,5 @@
 import { useCitation } from '@/zustand/store';
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useRef } from 'react';
 import Spacer from '../root/Spacer';
 import { Copy } from '../root/SvgComponents';
 import { Button } from '../ui/button';
@@ -16,6 +16,7 @@ import MLAReference from './reference/MLA';
 const Reference = () => {
   const citation_type = useCitation((state) => state.citationStyle);
   const inTextCitation = useCitation((state) => state.inTextCitation);
+  const referenceListRef = useRef<HTMLOListElement>(null);
   const updateCitationStyle = useCitation((state) => state.updateCitationStyle);
   const sort_array = useMemo(() => {
     return inTextCitation.sort((a, b) => {
@@ -42,14 +43,28 @@ const Reference = () => {
       return 0;
     });
   }, [inTextCitation]);
-
+  const copyHtml = async () => {
+    const htmlNode = referenceListRef.current;
+    const textarea = document.createElement('textarea');
+    textarea.value = htmlNode?.innerText ?? '';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    const { toast } = await import('sonner');
+    toast.success('Copied to clipboard');
+  };
   if (inTextCitation.length === 0) return null;
   return (
     <div className='mx-auto flex w-[700px] select-none flex-col'>
       <div className='flex-between'>
         <h3 className='text-xl font-[600]'>References</h3>
         <div className='flex gap-x-2'>
-          <Button role='button' className='h-max px-2.5 py-1'>
+          <Button
+            role='button'
+            onClick={copyHtml}
+            className='h-max px-2.5 py-1'
+          >
             <Copy size='18' color='white' />
           </Button>
           <Select onValueChange={(value) => updateCitationStyle(value)}>
@@ -64,7 +79,7 @@ const Reference = () => {
         </div>
       </div>
       <Spacer y='20' />
-      <ol className={`pl-8`}>
+      <ol className={`pl-8`} ref={referenceListRef}>
         {citation_type === 'MLA'
           ? sort_array.map((item, index) => (
               <li

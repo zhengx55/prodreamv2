@@ -31,9 +31,13 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     async (title: string, text: string) => {
       const sanitize = (await import('sanitize-html')).default;
       const clean_text = sanitize(text, {
-        allowedTags: sanitize.defaults.allowedTags.filter(
-          (item) => item !== 'u' && item !== 'mark'
-        ),
+        allowedTags: [
+          ...sanitize.defaults.allowedTags.filter(
+            (item) => item !== 'mark' && item !== 'span'
+          ),
+          'intext-citation',
+        ],
+        allowedAttributes: { 'intext-citation': ['citation_id'] },
       });
       if (title === doc_title) {
         await saveDocument({
