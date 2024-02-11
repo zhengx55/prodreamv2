@@ -1,4 +1,5 @@
-import { useCitation } from '@/zustand/store';
+import { useMembershipInfo } from '@/query/query';
+import useAiEditor, { useCitation } from '@/zustand/store';
 import { memo, useMemo, useRef } from 'react';
 import Spacer from '../root/Spacer';
 import { Copy } from '../root/SvgComponents';
@@ -16,6 +17,8 @@ import MLAReference from './reference/MLA';
 const Reference = () => {
   const citation_type = useCitation((state) => state.citationStyle);
   const inTextCitation = useCitation((state) => state.inTextCitation);
+  const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
+  const { data: usage } = useMembershipInfo();
   const referenceListRef = useRef<HTMLOListElement>(null);
   const updateCitationStyle = useCitation((state) => state.updateCitationStyle);
   const sort_array = useMemo(() => {
@@ -54,16 +57,30 @@ const Reference = () => {
     <div className='mx-auto flex w-[700px] select-none flex-col'>
       <div className='flex-between'>
         <h3 className='text-xl font-[600]'>References</h3>
-        <div className='flex gap-x-2'>
-          <Button
-            role='button'
-            onClick={copyHtml}
-            className='h-max px-2.5 py-1'
-          >
-            <Copy size='18' color='white' />
-          </Button>
+        <div className='flex gap-x-4'>
+          {usage?.subscription === 'basic' ? (
+            <p className='subtle-regular inline-flex items-center gap-x-2 text-doc-font'>
+              Upgrade to unlimted to export citations
+              <Button
+                role='button'
+                variant={'ghost'}
+                className='subtle-regular h-max px-0 py-0'
+                onClick={() => updatePaymentModal(true)}
+              >
+                Go unlimited
+              </Button>
+            </p>
+          ) : (
+            <Button
+              role='button'
+              onClick={copyHtml}
+              className='h-max px-2.5 py-1'
+            >
+              <Copy size='18' color='white' />
+            </Button>
+          )}
           <Select onValueChange={(value) => updateCitationStyle(value)}>
-            <SelectTrigger className='h-max gap-x-2 rounded border-doc-primary px-2 py-0.5 text-doc-primary'>
+            <SelectTrigger className='h-max w-20 gap-x-2 rounded border-doc-primary px-2 py-0.5 text-doc-primary'>
               <SelectValue placeholder='MLA' />
             </SelectTrigger>
             <SelectContent className='bg-white'>
