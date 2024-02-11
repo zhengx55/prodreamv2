@@ -23,6 +23,7 @@ import {
   ChangeEvent,
   KeyboardEvent,
   cloneElement,
+  memo,
   useRef,
   useState,
 } from 'react';
@@ -32,7 +33,7 @@ import { useAiOptions } from './hooks/useAiOptions';
 const Typed = dynamic(() => import('react-typed'), { ssr: false });
 
 type Props = { editor: Editor };
-export const AiMenu = ({ editor }: Props) => {
+const AiMenu = ({ editor }: Props) => {
   const { options, operations } = useAiOptions();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: track } = useUserTrackInfo();
@@ -277,25 +278,27 @@ export const AiMenu = ({ editor }: Props) => {
             </p>
           </div>
         )}
-        <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
-          <div className='flex items-center gap-x-2'>
-            <AlertTriangle className='text-shadow' size={15} />
-            <p className='subtle-regular text-shadow'>
-              {usage?.free_times_detail.Copilot}/20 weekly AI prompts
-              used;&nbsp;
-              <Button
-                onClick={() => {
-                  updatePaymentModal(true);
-                }}
-                role='button'
-                variant={'ghost'}
-                className='subtle-regular h-max w-max cursor-pointer bg-transparent p-0 text-doc-primary'
-              >
-                Go unlimited
-              </Button>
-            </p>
+        {usage?.subscription === 'basic' && (
+          <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
+            <div className='flex items-center gap-x-2'>
+              <AlertTriangle className='text-shadow' size={15} />
+              <p className='subtle-regular text-shadow'>
+                {usage?.free_times_detail.Copilot}/20 weekly AI prompts
+                used;&nbsp;
+                <Button
+                  onClick={() => {
+                    updatePaymentModal(true);
+                  }}
+                  role='button'
+                  variant={'ghost'}
+                  className='subtle-regular h-max w-max cursor-pointer bg-transparent p-0 text-doc-primary'
+                >
+                  Go unlimited
+                </Button>
+              </p>
+            </div>
           </div>
-        </div>
+        )}
         <Spacer y='5' />
         {generating ? null : (
           <Surface className='w-[256px] rounded px-1 py-2' withBorder>
@@ -373,3 +376,5 @@ export const AiMenu = ({ editor }: Props) => {
     </section>
   );
 };
+
+export default memo(AiMenu);

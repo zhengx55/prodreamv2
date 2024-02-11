@@ -27,33 +27,26 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const doc_title = useAiEditor((state) => state.doc_title);
   const updateTitle = useAiEditor((state) => state.updateTitle);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
-
   const debouncedUpdateText = useDebouncedCallback(
     async (title: string, text: string) => {
-      const stripHtml = (await import('string-strip-html')).stripHtml;
-      if (stripHtml(essay_content).result === stripHtml(text).result) {
-        if (title === doc_title) {
-          return;
-        } else {
-          await saveDocument({
-            id,
-            title: title,
-          });
-        }
+      const sanitize = (await import('sanitize-html')).default;
+      const clean_text = sanitize(text, {
+        allowedTags: sanitize.defaults.allowedTags.filter(
+          (item) => item !== 'u' && item !== 'mark'
+        ),
+      });
+      if (title === doc_title) {
+        await saveDocument({
+          id,
+          content: clean_text,
+        });
       } else {
-        if (title === doc_title) {
-          await saveDocument({
-            id,
-            content: text,
-          });
-        } else {
-          updateTitle(title);
-          await saveDocument({
-            id,
-            content: text,
-            title: title,
-          });
-        }
+        updateTitle(title);
+        await saveDocument({
+          id,
+          content: clean_text,
+          title: title,
+        });
       }
     },
     1500
@@ -103,7 +96,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   if (!editor) return null;
   return (
     <section className='relative flex w-full flex-col'>
-      <div className='relative flex h-full w-full'>
+      <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
         <Procedure editor={editor} />
         <EditorBlock editor={editor} />

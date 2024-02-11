@@ -10,7 +10,7 @@ import { ConvertCitationData } from '@/lib/utils';
 import { searchCitation } from '@/query/api';
 import { useCiteToDoc } from '@/query/query';
 import { ICitation } from '@/query/type';
-import useRootStore from '@/zustand/store';
+import useAiEditor from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { ArrowUpRightFromSquare, Plus } from 'lucide-react';
@@ -20,8 +20,13 @@ import { memo, useEffect, useRef, useState } from 'react';
 type Props = { editor: Editor };
 
 const CitationMenu = ({ editor }: Props) => {
-  const copilotRect = useRootStore((state) => state.copilotRect);
-  const updateCitationMenu = useRootStore((state) => state.updateCitationMenu);
+  const copilotRect = useAiEditor((state) => state.copilotRect);
+  const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
+  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
+  const updateShowCreateCitation = useAiEditor(
+    (state) => state.updateShowCreateCitation
+  );
+
   const elRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
   const ref = useScrollIntoView();
@@ -52,7 +57,7 @@ const CitationMenu = ({ editor }: Props) => {
     updateCitationMenu(false);
   });
 
-  if (!copilotRect) return '';
+  if (!copilotRect) return null;
   return (
     <section
       ref={ref}
@@ -103,7 +108,8 @@ const CitationMenu = ({ editor }: Props) => {
                       Add citation
                     </Button>
                     <Button
-                      role='button'
+                      disabled={!Boolean(item.pdf_url)}
+                      role='link'
                       className='rounded border-doc-primary text-doc-primary'
                       variant={'secondary'}
                       onClick={() => {
@@ -121,10 +127,18 @@ const CitationMenu = ({ editor }: Props) => {
           )}
           <div className='flex-center h-11 w-full gap-x-2'>
             <p className='small-regular'>Not finding what you want?</p>
-            <p className='small-regular inline-flex cursor-pointer gap-x-1 text-doc-primary hover:underline'>
+            <Button
+              role='button'
+              onClick={() => {
+                updateRightbarTab(1);
+                updateShowCreateCitation(true);
+              }}
+              variant={'ghost'}
+              className='small-regular gap-x-1 px-0 text-doc-primary hover:underline'
+            >
               <Book />
               Add custom citation
-            </p>
+            </Button>
           </div>
         </Surface>
       </div>

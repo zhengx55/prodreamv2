@@ -5,13 +5,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useUserTrackInfo } from '@/query/query';
+import { useMembershipInfo, useUserTrackInfo } from '@/query/query';
 import { useAIEditor, useCitation } from '@/zustand/store';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { ChevronLeft, Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { memo, useRef } from 'react';
+import { memo } from 'react';
 import Plagiarism from './Plagiarism';
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
@@ -23,13 +22,9 @@ const DocNavbar = () => {
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const docTtile = useAIEditor((state) => state.doc_title);
   const { data: track, isPending } = useUserTrackInfo();
-  const timer = useRef<NodeJS.Timeout | null>(null);
+  const { data: usage, isPending: isUsagePending } = useMembershipInfo();
 
-  useUnmount(() => {
-    timer.current && clearInterval(timer.current);
-  });
-
-  if (isPending)
+  if (isPending || isUsagePending)
     return (
       <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-shadow-border px-5 py-3'>
         <Skeleton className='h-5 w-24 rounded' />
@@ -46,7 +41,7 @@ const DocNavbar = () => {
             </span>
           </Link>
         )}
-        <h1 className='base-semibold'>
+        <h1 className='base-semibold line-clamp-1 max-w-xl'>
           {!track?.guidence
             ? 'Welcome To Prodream'
             : docTtile === 'Untitled'
@@ -66,13 +61,15 @@ const DocNavbar = () => {
 
       <div className='flex items-center gap-x-4'>
         <Plagiarism />
-        <Button
-          role='button'
-          onClick={() => updatePaymentModal(true)}
-          className='h-max rounded bg-doc-primary px-2 py-1 hover:bg-doc-secondary hover:text-doc-primary'
-        >
-          <Diamond /> Upgrade
-        </Button>
+        {usage?.subscription === 'basic' ? (
+          <Button
+            role='button'
+            onClick={() => updatePaymentModal(true)}
+            className='h-max rounded bg-doc-primary px-2 py-1 hover:bg-doc-secondary hover:text-doc-primary'
+          >
+            <Diamond /> Upgrade
+          </Button>
+        ) : null}
         {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>

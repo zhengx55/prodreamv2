@@ -31,7 +31,7 @@ export type TextMenuProps = {
   editor: Editor;
 };
 
-export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
+const BubbleMenu = ({ editor }: TextMenuProps) => {
   const [open, setOpen] = useState(false);
   const menuYOffside = useRef<number | null>(null);
   const menuXOffside = useRef<number | null>(null);
@@ -317,6 +317,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       </Toolbar.Wrapper>
     </div>
   );
-});
+};
 
-BubbleMenu.displayName = 'BubbleMenu';
+export default memo(BubbleMenu);

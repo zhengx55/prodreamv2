@@ -54,7 +54,7 @@ const MembershipBar = ({ document_count }: Props) => {
                 })}
             </div>
             <p className='small-medium text-doc-font'>
-              Max 2/3 historical documents; upgrade to&nbsp;
+              Max {document_count}/3 historical documents; upgrade to&nbsp;
               <Link href={'/pricing'} className='text-doc-primary'>
                 Unlimited
               </Link>

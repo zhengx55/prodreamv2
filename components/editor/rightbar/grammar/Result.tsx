@@ -71,6 +71,7 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
       .selectParentNode()
       .insertContent(new_string)
       .run();
+    handleDismiss(index);
   };
 
   const handleAcceptAll = () => {

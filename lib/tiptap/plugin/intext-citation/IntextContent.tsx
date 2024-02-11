@@ -1,10 +1,10 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { useCitation } from '@/zustand/store';
 import { Trash2 } from 'lucide-react';
 import { useMemo } from 'react';
@@ -35,8 +35,8 @@ const IntextContent = ({ node, deleteHandler }: Props) => {
   const handleEditCitation = () => {};
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <Popover>
+      <PopoverTrigger asChild>
         {citation_style === 'APA' ? (
           <p className='!m-0 text-doc-primary'>
             ({current_citation?.publish_date?.year})
@@ -47,8 +47,8 @@ const IntextContent = ({ node, deleteHandler }: Props) => {
             {current_citation?.publish_date?.year})
           </p>
         )}
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
+      </PopoverTrigger>
+      <PopoverContent
         align='start'
         className='flex w-[420px] flex-col gap-y-2 rounded border border-shadow-border bg-white p-3'
       >
@@ -86,8 +86,8 @@ const IntextContent = ({ node, deleteHandler }: Props) => {
             <Trash2 size={18} />
           </Button>
         </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </PopoverContent>
+    </Popover>
   );
 };
 export default IntextContent;
