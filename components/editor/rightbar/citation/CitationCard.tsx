@@ -39,7 +39,7 @@ export const SearchCitationCard = memo(
     const updateCitationStep = useUserTask((state) => state.updateCitationStep);
     const { mutateAsync: updateTrack } = useMutateTrackInfo();
     const { data: track } = useUserTrackInfo();
-    const { mutateAsync: handleCollectCitation } = useCreateCitation();
+    const { mutateAsync: handleCollect } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
@@ -51,7 +51,7 @@ export const SearchCitationCard = memo(
       }
       const converted_data = ConvertCitationData(item);
       if (action === 'collect') {
-        await handleCollectCitation({
+        await handleCollect({
           citation_data: converted_data,
           citation_type: 'Journal',
           document_id: id as string,

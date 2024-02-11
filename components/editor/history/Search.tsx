@@ -1,14 +1,15 @@
+'use client';
 import { UploadGard } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { createDoc } from '@/query/api';
+import { useMembershipInfo } from '@/query/query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, memo, useRef, useState } from 'react';
-import { toast } from 'sonner';
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 
 const SearchBar = () => {
@@ -19,16 +20,21 @@ const SearchBar = () => {
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+  const { data: usage } = useMembershipInfo();
   const { mutateAsync: createNew } = useMutation({
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
     onSuccess: (data) => {
       router.push(`/editor/${data}`);
       queryClient.invalidateQueries({
+        queryKey: ['membership'],
+      });
+      queryClient.invalidateQueries({
         queryKey: ['document_history_list'],
       });
     },
-    onError: (error) => {
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
       toast.error(error.message);
     },
   });
@@ -54,11 +60,21 @@ const SearchBar = () => {
     }
   };
 
+  const handleCreateScrath = async () => {
+    if (usage?.free_times_detail.Document === 0) {
+      const toast = (await import('sonner')).toast;
+      toast.error('You have reached the limit of creating new documents');
+      return;
+    }
+    await createNew({});
+  };
+
   return (
     <div className='flex-between w-[1100px]'>
       <div className='flex w-full gap-x-4'>
         <button
-          onClick={async () => await createNew({})}
+          role='button'
+          onClick={handleCreateScrath}
           style={{
             background:
               'linear-gradient(132deg, #DC3DC1 1.6%, #9C2CF3 49.22%, #7A4EF6 91.53%)',

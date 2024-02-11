@@ -6,8 +6,8 @@ import { EditorContent, Editor as EditorType } from '@tiptap/react';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
-import { AiMenu } from './ai-menu';
-import { BubbleMenu } from './bubble-menu';
+import AiMenu from './ai-menu/AiMenu';
+import BubbleMenu from './bubble-menu/BubbleMenu';
 import CitationMenu from './citation-menu/CitationMenu';
 import { SynonymMenu } from './synonym-menu';
 
@@ -37,7 +37,7 @@ const EditorBlock = ({ editor }: Props) => {
     <div
       aria-label='editor-parent'
       id='editor-parent'
-      className='relative flex w-full flex-col overflow-visible overflow-y-auto rounded-lg pb-[40vh] sm:pb-[30vh]'
+      className='relative flex w-full flex-col overflow-y-auto rounded-lg pb-[40vh] sm:pb-[30vh]'
     >
       <Spacer y='20' />
       <AnimatePresence>

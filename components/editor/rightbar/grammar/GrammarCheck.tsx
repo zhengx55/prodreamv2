@@ -49,7 +49,7 @@ export const GrammarCheck = memo(() => {
       toast.error('No text found!');
       return;
     }
-    editor?.chain().selectAll().unsetAllMarks().setTextSelection(0).run();
+    // editor?.chain().selectAll().unsetAllMarks().setTextSelection(0).run();
     const block_content = editor?.getJSON();
     const params = {
       block: block_content?.content?.slice(1) || [], // Ensure block is not undefined

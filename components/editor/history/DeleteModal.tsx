@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { DialogClose, DialogContent } from '@/components/ui/dialog';
 import { deleteDoc } from '@/query/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
 
 type Props = {
   id: string;
@@ -15,13 +14,18 @@ const DeleteModal = ({ id, title }: Props) => {
   const queryClient = useQueryClient();
   const { mutateAsync: deleteDocument } = useMutation({
     mutationFn: (doc_id: string) => deleteDoc(doc_id),
-    onSuccess: () => {
+    onSuccess: async () => {
+      const { toast } = await import('sonner');
       toast.success('Document deleted successfully');
       queryClient.invalidateQueries({
         queryKey: ['document_history_list'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['membership'],
+      });
     },
-    onError: (error) => {
+    onError: async (error) => {
+      const { toast } = await import('sonner');
       toast.error(error.message);
     },
   });

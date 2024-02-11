@@ -1,14 +1,17 @@
 'use client';
 import { SidebarLinks } from '@/constant';
+import { useMembershipInfo } from '@/query/query';
 import { useUserInfo } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { memo, useEffect, useState } from 'react';
+import { Button } from '../ui/button';
 import { DropdownMenu } from '../ui/dropdown-menu';
+import { Skeleton } from '../ui/skeleton';
 import Spacer from './Spacer';
-import { AnimatedLogo, Feedback } from './SvgComponents';
+import { AnimatedLogo, Diamond, Feedback } from './SvgComponents';
 import User from './User';
 
 const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
@@ -17,8 +20,10 @@ const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [topValue, setTopValue] = useState<number | undefined>();
+  const { isPending: memberShipPending, data: memberShip } =
+    useMembershipInfo();
+  console.log(memberShip);
   const user = useUserInfo((state) => state.user);
-
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
     const newTopValue = index * (48 + 20);
@@ -37,11 +42,6 @@ const Sidebar = () => {
     }
     setTopValue(index * (48 + 20));
   }, [pathname]);
-
-  // const sidebarVariants: Variants = {
-  //   open: { width: '300px' },
-  //   closed: { width: '70px' },
-  // };
 
   return (
     <aside className='relative flex w-[250px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
@@ -89,10 +89,6 @@ const Sidebar = () => {
         })}
       </ul>
       <div className='mt-auto flex flex-col gap-y-6'>
-        {/* <div className='flex gap-x-2'>
-          <GiftIcon />
-          <p className='text-md font-[500] text-doc-shadow'>Refer And Earn</p>
-        </div> */}
         <Link passHref href={'https://tally.so/r/3NovEO'} target='_blank'>
           <div
             role='link'
@@ -104,8 +100,17 @@ const Sidebar = () => {
             </p>
           </div>
         </Link>
+        {memberShipPending ? (
+          <Skeleton className='h-10 w-full rounded-lg' />
+        ) : memberShip?.subscription === 'basic' ? (
+          <Link href={'/pricing'} passHref>
+            <Button className='w-full rounded-lg bg-doc-primary'>
+              <Diamond size='22' />
+              <p className='base-semibold'>Upgrade</p>
+            </Button>
+          </Link>
+        ) : null}
       </div>
-      <Spacer y='20' />
     </aside>
   );
 };

@@ -16,7 +16,9 @@ const TableOfContents = dynamic(
   () => import('./table-of-contents/TableOfContents')
 );
 const EditorBlock = dynamic(() => import('./EditorContent'));
-
+const PaymentModal = dynamic(() => import('@/components/pricing/Modal'), {
+  ssr: false,
+});
 const Editor = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
   const [showBottomBar, setShowBottomBar] = useState(true);
@@ -25,33 +27,30 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const doc_title = useAiEditor((state) => state.doc_title);
   const updateTitle = useAiEditor((state) => state.updateTitle);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
-
   const debouncedUpdateText = useDebouncedCallback(
     async (title: string, text: string) => {
-      const stripHtml = (await import('string-strip-html')).stripHtml;
-      if (stripHtml(essay_content).result === stripHtml(text).result) {
-        if (title === doc_title) {
-          return;
-        } else {
-          await saveDocument({
-            id,
-            title: title,
-          });
-        }
+      const sanitize = (await import('sanitize-html')).default;
+      const clean_text = sanitize(text, {
+        allowedTags: [
+          ...sanitize.defaults.allowedTags.filter(
+            (item) => item !== 'mark' && item !== 'span'
+          ),
+          'intext-citation',
+        ],
+        allowedAttributes: { 'intext-citation': ['citation_id'] },
+      });
+      if (title === doc_title) {
+        await saveDocument({
+          id,
+          content: clean_text,
+        });
       } else {
-        if (title === doc_title) {
-          await saveDocument({
-            id,
-            content: text,
-          });
-        } else {
-          updateTitle(title);
-          await saveDocument({
-            id,
-            content: text,
-            title: title,
-          });
-        }
+        updateTitle(title);
+        await saveDocument({
+          id,
+          content: clean_text,
+          title: title,
+        });
       }
     },
     1500
@@ -101,10 +100,11 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   if (!editor) return null;
   return (
     <section className='relative flex w-full flex-col'>
-      <div className='relative flex h-full w-full'>
+      <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
         <Procedure editor={editor} />
         <EditorBlock editor={editor} />
+        <PaymentModal />
       </div>
       {showBottomBar && (
         <div className='flex-center absolute bottom-0 h-10 w-full shrink-0 border-t border-shadow-border bg-white px-0'>

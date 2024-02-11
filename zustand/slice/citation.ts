@@ -137,12 +137,20 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
     const data_after_remove = get().inDocCitationIds.filter(
       (item) => item !== result
     );
+    const intext_after_remove = get().inTextCitationIds.filter(
+      (item) => item !== result
+    );
     await saveDoc({
       id: document_id,
       citation_candidate_ids: data_after_remove,
+      citation_ids: intext_after_remove,
     });
     set((state) => ({
       inDocCitationIds: state.inDocCitationIds.filter((id) => id !== result),
+      inTextCitationIds: state.inTextCitationIds.filter((id) => id !== result),
+      inTextCitation: state.inTextCitation.filter(
+        (item) => item.data.id !== result
+      ),
       inDocCitation: state.inDocCitation.filter(
         (item) => item.data.id !== result
       ),

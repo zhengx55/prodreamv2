@@ -31,7 +31,7 @@ export type TextMenuProps = {
   editor: Editor;
 };
 
-export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
+const BubbleMenu = ({ editor }: TextMenuProps) => {
   const [open, setOpen] = useState(false);
   const menuYOffside = useRef<number | null>(null);
   const menuXOffside = useRef<number | null>(null);
@@ -47,6 +47,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const updateCopilotRectX = useAiEditor((state) => state.updateCopilotRectX);
   const task_step = useUserTask((state) => state.task_step);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
+  const prevSelection = useRef<{ from: number; to: number } | null>(null);
 
   const { x, y, strategy, refs } = useFloating({
     open: open,
@@ -66,8 +67,16 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   useLayoutEffect(() => {
     const MouseUphandler = () => {
       const { doc, selection } = editor.state;
-      const { from, empty, ranges } = selection;
+      const { from, empty, ranges, to } = selection;
+      if (
+        prevSelection.current &&
+        prevSelection.current.from === from &&
+        prevSelection.current.to === to
+      ) {
+        return;
+      }
       if (empty) {
+        prevSelection.current = null;
         setOpen(false);
         return;
       }
@@ -77,6 +86,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
         current_node.node.nodeName === 'H1' ||
         current_node.node.parentNode?.nodeName === 'H1';
       if (isTitle) {
+        prevSelection.current = null;
         setOpen(false);
       } else {
         const from = Math.min(...ranges.map((range) => range.$from.pos));
@@ -100,6 +110,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           },
         });
         setOpen(true);
+        prevSelection.current = { from, to };
       }
     };
     const NodeSelectHandler = () => {
@@ -107,6 +118,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       const { selection, doc } = editor.state;
       const { empty, ranges } = selection;
       if (empty) {
+        prevSelection.current = null;
         setOpen(false);
         return;
       }
@@ -136,6 +148,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           },
         });
         setOpen(true);
+        prevSelection.current = { from, to };
       }
     };
     editor.on('selectionUpdate', NodeSelectHandler);
@@ -152,7 +165,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
     <div
       ref={refs.setFloating}
       style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-      className='z-[9999]'
+      className='z-[99]'
     >
       <Toolbar.Wrapper className='border-shadow-borde relative border shadow-lg'>
         <MemoButton
@@ -304,6 +317,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       </Toolbar.Wrapper>
     </div>
   );
-});
+};
 
-BubbleMenu.displayName = 'BubbleMenu';
+export default memo(BubbleMenu);

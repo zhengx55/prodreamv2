@@ -1,3 +1,4 @@
+'use client';
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
@@ -10,6 +11,7 @@ import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import MembershipBar from './MembershipBar';
 
 const CardView = dynamic(() => import('./CardView'));
 const ListView = dynamic(() => import('./ListView'));
@@ -25,6 +27,7 @@ const DocumentList = () => {
   const [loadingMore, toogleLoadingMore] = useState(false);
   const [sortingMethod, setSortingMethod] =
     useState<DocSortingMethods>('lastOpenedTime');
+
   const { data, isPending, isError } = useDocumentList(
     searchParams.get('query') as string,
     sortingMethod
@@ -65,7 +68,6 @@ const DocumentList = () => {
   const memoSetSortingMethod = useCallback((value: DocSortingMethods) => {
     setSortingMethod(value);
   }, []);
-
   if (isError) return null;
   return (
     <>
@@ -114,6 +116,8 @@ const DocumentList = () => {
           <Loader2 className='animate-spin text-primary-200' />
         ) : null}
       </div>
+      <Spacer y='10' />
+      <MembershipBar document_count={data?.list.length || 0} />
     </>
   );
 };

@@ -2,14 +2,43 @@ import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
 import { DocSortingMethods, ICitationType } from '@/types';
 import { useAIEditor, useCitation } from '@/zustand/store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
+import { useCookies } from 'react-cookie';
 import {
   createCitation,
   getDocDetail,
   getDocs,
   getUserInfo,
+  getUserMemberShip,
+  purchaseMembership,
   updateUserInfo,
+  userLogin,
 } from './api';
 import { UserTrackData } from './type';
+
+export const useMembershipInfo = () => {
+  return useQuery({
+    queryKey: ['membership'],
+    queryFn: () => getUserMemberShip(),
+    staleTime: 1000 * 60 * 60 * 24,
+  });
+};
+
+export const useMutationMembershio = () => {
+  const router = useRouter();
+  return useMutation({
+    mutationFn: (params: { product_id: string; url: string }) =>
+      purchaseMembership(params),
+    onSuccess: (data) => {
+      router.push(data);
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
+  });
+};
 
 export const useDocumentDetail = (id: string) => {
   return useQuery({
@@ -109,6 +138,33 @@ export const useCiteToDoc = (flag?: boolean) => {
         },
       });
       insertCitation(data);
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useUserLogin = () => {
+  const posthog = usePostHog();
+  const router = useRouter();
+  const [_cookies, setCookie] = useCookies(['token']);
+  return useMutation({
+    mutationFn: (param: { username: string; password: string }) =>
+      userLogin(param),
+    onSuccess: async (data) => {
+      const toast = (await import('sonner')).toast;
+      toast.success('Successfully Login');
+      const user_id = JSON.parse(atob(data.access_token.split('.')[1])).subject
+        .user_id;
+      posthog.identify(user_id);
+      setCookie('token', data.access_token, {
+        path: '/',
+        maxAge: 604800,
+        secure: true,
+      });
+      router.push('/editor');
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

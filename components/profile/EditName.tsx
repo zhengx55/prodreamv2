@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -19,7 +20,7 @@ import { useUserInfo } from '@/zustand/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { X } from 'lucide-react';
-import { memo } from 'react';
+import { ReactNode, memo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -27,11 +28,10 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
 type Props = {
-  isActive: boolean;
-  toogleActive: () => void;
+  children: ReactNode;
 };
 
-const EditNameModal = ({ isActive, toogleActive }: Props) => {
+const EditNameModal = ({ children }: Props) => {
   const updateUserFirstName = useUserInfo((state) => state.setUserFirstName);
   const updateUserLastName = useUserInfo((state) => state.setUserLastName);
   const form = useForm<z.infer<typeof resetName>>({
@@ -46,7 +46,6 @@ const EditNameModal = ({ isActive, toogleActive }: Props) => {
     mutationFn: (params: { first_name: string; last_name: string }) =>
       profileResetName(params),
     onSuccess: () => {
-      toogleActive();
       toast.success('Name has been reset successfully!');
       updateUserFirstName(form.getValues().firstname);
       updateUserLastName(form.getValues().lastname);
@@ -63,7 +62,8 @@ const EditNameModal = ({ isActive, toogleActive }: Props) => {
     });
   }
   return (
-    <Dialog open={isActive} onOpenChange={toogleActive}>
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         onPointerDownOutside={(e) => {
           e.preventDefault();
@@ -122,11 +122,15 @@ const EditNameModal = ({ isActive, toogleActive }: Props) => {
             />
             <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
               <DialogClose asChild>
-                <Button variant={'ghost'} className=' text-primary-200'>
+                <Button variant={'ghost'} className='text-doc-primary'>
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type='submit'>Save</Button>
+              <DialogClose asChild>
+                <Button className='bg-doc-primary' type='submit'>
+                  Save
+                </Button>
+              </DialogClose>
             </div>
           </form>
         </Form>
