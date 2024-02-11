@@ -35,7 +35,7 @@ const QA = () => {
     >
       {datalist.map((item, index) => (
         <div
-          className='mt-[13px] w-full cursor-pointer rounded-xl bg-[#fff] px-[17px] py-[12px] sm:mb-[20px] sm:mt-0 sm:rounded-[24px] sm:p-6'
+          className='mt-[13px] w-full cursor-pointer rounded-xl bg-white px-[17px] py-[12px] sm:mb-[20px] sm:mt-0 sm:rounded-[24px] sm:p-6'
           key={index}
           onClick={() => {
             setSelected(index);

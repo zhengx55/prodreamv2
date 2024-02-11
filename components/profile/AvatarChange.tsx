@@ -70,12 +70,14 @@ const AvatarChange = () => {
         </div>
         <p className='subtle-regular text-shadow-100'>Edit</p>
       </div>
-      <div className='flex flex-col'>
-        <h2 className='title-semibold pl-4'>
+      <div className='flex flex-col gap-y-2 pl-4'>
+        <h2 className='title-semibold'>
           {userInfo.first_name} {userInfo.last_name}
         </h2>
         <EditName>
-          <Button variant={'ghost'}>Change name</Button>
+          <Button variant={'ghost'} role='button' className='h-max p-0'>
+            Change name
+          </Button>
         </EditName>
       </div>
     </div>

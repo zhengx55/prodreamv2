@@ -171,7 +171,7 @@ export function addRandomToDuplicates(array: string[]) {
   return newArray;
 }
 
-export function formatTimestampToDateString(timestamp: number) {
+export function formatTimestampToDateString(timestamp: number, times = true) {
   const date = new Date(timestamp * 1000);
   const monthNames = [
     'Jan.',
@@ -193,8 +193,19 @@ export function formatTimestampToDateString(timestamp: number) {
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
+  if (times) {
+    return `${month} ${day}, ${year} ${hours}:${minutes}:${seconds}`;
+  } else return `${month} ${day}, ${year}`;
+}
 
-  return `${month} ${day}, ${year} ${hours}:${minutes}:${seconds}`;
+export function format_table_time(timestamp: number) {
+  const date = new Date(timestamp * 1000);
+
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${month}-${day}-${year}`;
 }
 
 export function removeHtmlTags(input: string): string {

@@ -44,7 +44,7 @@ const Sidebar = () => {
   }, [pathname]);
 
   return (
-    <aside className='relative flex w-[250px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
+    <aside className='relative flex w-[270px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
       <Link passHref href={'/'}>
         <AnimatedLogo show />
       </Link>
