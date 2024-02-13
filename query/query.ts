@@ -5,7 +5,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
 import { useCookies } from 'react-cookie';
-import { v4 } from 'uuid';
 import {
   createCitation,
   getDocDetail,
@@ -141,9 +140,6 @@ export const useCiteToDoc = () => {
   const appendInTextCitationIds = useCitation(
     (state) => state.appendInTextCitationIds
   );
-  const appendInlineCitation = useCitation(
-    (state) => state.appendInlineCitation
-  );
   return useMutation({
     mutationFn: (params: {
       citation_type: ICitationType;
@@ -159,12 +155,8 @@ export const useCiteToDoc = () => {
           document_id: variables.document_id,
         },
       });
-      const inline_id = v4();
-      appendInlineCitation({
-        inline_id: inline_id,
-        data: { ...variables.citation_data },
-      });
-      insertCitation(inline_id);
+
+      insertCitation(data);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

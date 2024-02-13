@@ -1,18 +1,18 @@
 import { saveDoc } from '@/query/api';
 import { ICitationData, ICitationType } from '@/types';
+import { NodeViewProps } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
 const initialState: CitationState = {
   showCustomCitiation: false,
   citationStyle: 'MLA',
   showCreateCitation: false,
-  showEditCitation: true,
+  showEditCitation: false,
   inTextCitation: [],
   inDocCitation: [],
   inTextCitationIds: [],
   inDocCitationIds: [],
-  inLineCitations: [],
-  currentInlineCitation: '',
+  currentInline: null,
 };
 
 type CitationState = {
@@ -24,19 +24,13 @@ type CitationState = {
   inTextCitationIds: string[];
   inDocCitationIds: string[];
   showCustomCitiation: boolean;
-  inLineCitations: { inline_id: string; data: ICitationData }[];
-  currentInlineCitation: string;
+  currentInline: NodeViewProps | null;
 };
 
 type CitationAction = {
   updateCitationStyle: (result: CitationState['citationStyle']) => void;
-  appendInlineCitation: (result: {
-    inline_id: string;
-    data: ICitationData;
-  }) => void;
-  updateCurrentInLine: (result: string) => void;
-  removeInlineCitation: (result: string) => void;
   updateCustomCitiation: (result: CitationState['showCustomCitiation']) => void;
+  updateCurrentInline: (result: CitationState['currentInline']) => void;
   updateShowEditCitation: (result: CitationState['showEditCitation']) => void;
   updateShowCreateCitation: (
     result: CitationState['showCreateCitation']
@@ -71,21 +65,9 @@ export type CitationStore = CitationAction & CitationState;
 
 export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
   ...initialState,
-  appendInlineCitation: (result) => {
-    set((state) => ({
-      inLineCitations: [...state.inLineCitations, result],
-    }));
-  },
-  updateCurrentInLine: (result) => {
+  updateCurrentInline: (result) => {
     set(() => ({
-      currentInlineCitation: result,
-    }));
-  },
-  removeInlineCitation: (result) => {
-    set((state) => ({
-      inLineCitations: state.inLineCitations.filter(
-        (item) => item.inline_id !== result
-      ),
+      currentInline: result,
     }));
   },
   updateShowEditCitation: (result) => {
@@ -100,7 +82,6 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
       });
     }
   },
-
   updateCustomCitiation: (result) =>
     set(() => ({
       showCustomCitiation: result,

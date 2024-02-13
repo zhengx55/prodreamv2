@@ -37,7 +37,9 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
           ),
           'intext-citation',
         ],
-        allowedAttributes: { 'intext-citation': ['citation_id'] },
+        allowedAttributes: {
+          'intext-citation': ['citation_id', 'show_page', 'page_number'],
+        },
       });
       if (title === doc_title) {
         await saveDocument({
