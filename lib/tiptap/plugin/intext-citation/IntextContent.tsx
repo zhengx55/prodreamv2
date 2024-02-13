@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import useAiEditor, { useCitation } from '@/zustand/store';
+import { PopoverClose } from '@radix-ui/react-popover';
 import type { NodeViewProps } from '@tiptap/react';
 import { Trash2 } from 'lucide-react';
 import { useMemo } from 'react';
@@ -75,14 +76,17 @@ const IntextContent = (props: NodeViewProps) => {
           {current_citation?.abstract}
         </p>
         <div className='flex-between gap-x-4'>
-          <Button
-            role='button'
-            onClick={handleEditCitation}
-            className='h-8 w-full rounded border border-doc-primary py-1 text-doc-primary'
-            variant={'ghost'}
-          >
-            <Book /> Edit
-          </Button>
+          <PopoverClose asChild>
+            <Button
+              role='button'
+              onClick={handleEditCitation}
+              className='h-8 w-full rounded border border-doc-primary py-1 text-doc-primary'
+              variant={'ghost'}
+            >
+              <Book /> Edit
+            </Button>
+          </PopoverClose>
+
           <Button
             className='aspect-square h-8 rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
             variant={'ghost'}
