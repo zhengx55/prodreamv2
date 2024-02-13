@@ -7,36 +7,31 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import useAiEditor, { useCitation } from '@/zustand/store';
+import type { NodeViewProps } from '@tiptap/react';
 import { Trash2 } from 'lucide-react';
 import { useMemo } from 'react';
-type Props = {
-  node: {
-    attrs: {
-      citation_id: string;
-    };
-  };
-  deleteHandler: () => void;
-};
-const IntextContent = ({ node, deleteHandler }: Props) => {
+
+const IntextContent = (props: NodeViewProps) => {
   const citation_style = useCitation((state) => state.citationStyle);
-  const inLineCitations = useCitation((state) => state.inLineCitations);
+  const updateCurrentInline = useCitation((state) => state.updateCurrentInline);
+  const inTextCitation = useCitation((state) => state.inTextCitation);
   const updateShowEditCitation = useCitation(
     (state) => state.updateShowEditCitation
   );
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const current_citation = useMemo(() => {
-    const foundCitation = inLineCitations.find(
-      (item) => item.inline_id === node.attrs.citation_id
+    const foundCitation = inTextCitation.find(
+      (item) => item.data.id === props.node.attrs.citation_id
     );
     return foundCitation ? foundCitation.data : null;
-  }, [inLineCitations, node.attrs.citation_id]);
+  }, [inTextCitation, props.node.attrs.citation_id]);
   const handleDeleteCitation = () => {
-    deleteHandler();
+    props.deleteNode();
   };
-
   const handleEditCitation = () => {
     updateRightbarTab(1);
     updateShowEditCitation(true);
+    updateCurrentInline(props);
   };
 
   return (
@@ -48,8 +43,11 @@ const IntextContent = ({ node, deleteHandler }: Props) => {
           </p>
         ) : (
           <p className='!m-0 text-doc-primary'>
-            ({current_citation?.contributors[0].last_name},
-            {current_citation?.publish_date?.year})
+            ({current_citation?.contributors[0].last_name}
+            {props.node.attrs.show_page &&
+              props.node.attrs.page_number &&
+              `, ${props.node.attrs.page_number}`}
+            )
           </p>
         )}
       </PopoverTrigger>
@@ -65,7 +63,7 @@ const IntextContent = ({ node, deleteHandler }: Props) => {
           <p className='subtle-regular text-doc-font'>
             Authors:&nbsp;
             {current_citation.contributors.map((contributor, index) => (
-              <span key={`${node.attrs.citation_id}-${index}`}>
+              <span key={`${props.node.attrs.citation_id}-${index}`}>
                 {contributor.last_name} {contributor.first_name}
                 {index !== current_citation.contributors.length - 1 && ','}
                 &nbsp;

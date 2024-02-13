@@ -14,6 +14,12 @@ export default Node.create({
       citation_id: {
         default: '',
       },
+      show_page: {
+        default: false,
+      },
+      page_number: {
+        default: '',
+      },
     };
   },
   parseHTML() {
