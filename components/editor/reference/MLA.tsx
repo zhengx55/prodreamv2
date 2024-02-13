@@ -46,14 +46,15 @@ const MLAReference: React.FC<IMLAReferenceProps> = ({ citation }) => {
         }
         return fullName;
       });
-      if (contributorNames.length >= 3) {
-        reference += `${contributorNames[0]} et al.`;
-      } else {
-        reference += `${contributorNames.join(' & ')}.`;
-      }
+      reference +=
+        contributorNames.length >= 3
+          ? `${contributorNames[0]} et al.`
+          : contributorNames.join(' & ');
     }
     reference += ` "${article_title}." <em>${website_title}</em>, ${publisher},`;
-    reference += ` ${access_date.day} ${access_date.month} ${access_date.year}`;
+    if (access_date?.day) reference += ` ${access_date.day}`;
+    if (access_date?.month) reference += ` ${access_date.month}`;
+    if (access_date?.year) reference += ` ${access_date.year}`;
     if (url) {
       reference += ` ${url},`;
     }

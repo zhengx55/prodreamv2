@@ -39,6 +39,7 @@ const WholeBook = () => {
       citation_type: 'WholeBook',
       citation_data: data,
     });
+    updateShowCreateCitation(false);
   };
 
   const appendContributor = () => {
@@ -51,7 +52,7 @@ const WholeBook = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
-      <Spacer y='48' />
+      <Spacer y='30' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2'>
@@ -121,7 +122,7 @@ const WholeBook = () => {
         <PlusCircle className='fill-doc-primary text-white' size={22} />
         <p className='text-doc-primary'> Add Contributor</p>
       </Button>
-      <Spacer y='48' />
+      <Spacer y='30' />
       <h1 className='base-semibold'>In print publication info</h1>
       <Spacer y='16' />
       <label htmlFor='Source title'>Source title</label>
@@ -226,7 +227,7 @@ const WholeBook = () => {
         >
           Cancel
         </Button>
-        <Button role='button' className='rounded bg-doc-primary'>
+        <Button type='submit' role='button' className='rounded bg-doc-primary'>
           Save
         </Button>
       </div>

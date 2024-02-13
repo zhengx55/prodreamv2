@@ -47,6 +47,7 @@ const BookForm = () => {
           </SelectItem>
         </SelectContent>
       </Select>
+      <Spacer y='16' />
       {bookType === 'The whole book' ? (
         <WholeBook />
       ) : bookType === 'Chapter or section' ? (

@@ -42,11 +42,14 @@ const EditIntext = () => {
     }
     updateShowEditCitation(false);
   };
+
+  const title =
+    current_citation?.article_title || current_citation?.book_title || '';
   return (
     <>
       <TabsContent value='in-text'>
         <div className='flex flex-col rounded border border-shadow-border p-4'>
-          <h1 className='font-medium'>{current_citation?.article_title} </h1>
+          <h1 className='font-medium'>{title}</h1>
           <Spacer y='10' />
           <ul className='flex flex-col gap-y-3'>
             <li className='inline-flex items-center gap-x-2'>

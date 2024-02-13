@@ -44,6 +44,7 @@ const IntroductionForm = () => {
       citation_type: 'BookSpecialSection',
       citation_data: data,
     });
+    updateShowCreateCitation(false);
   };
   const appendContributor = () => {
     append({});
@@ -102,7 +103,7 @@ const IntroductionForm = () => {
           </SelectItem>
         </SelectContent>
       </Select>
-      <Spacer y='48' />
+      <Spacer y='30' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2 '>
@@ -173,7 +174,7 @@ const IntroductionForm = () => {
         <PlusCircle className='fill-doc-primary text-white' size={22} />
         <p className='text-doc-primary'> Add Contributor</p>
       </Button>
-      <Spacer y='48' />
+      <Spacer y='30' />
       <h1 className='base-semibold'>In print publication info</h1>
       <Spacer y='16' />
       <label htmlFor='journal_title'>Source title</label>
@@ -280,7 +281,7 @@ const IntroductionForm = () => {
           />
         </div>
       </div>
-      <Spacer y='48' />
+      <Spacer y='30' />
       <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-1.5'>
         <Button
           className='h-max rounded border border-doc-primary text-doc-primary'
@@ -292,7 +293,9 @@ const IntroductionForm = () => {
         >
           Cancel
         </Button>
-        <Button className='rounded bg-doc-primary'>Save</Button>
+        <Button role='form' type='submit' className='rounded bg-doc-primary'>
+          Save
+        </Button>
       </div>
     </form>
   );

@@ -37,6 +37,7 @@ const ChapterForm = () => {
       citation_type: 'BookSection',
       citation_data: data,
     });
+    updateShowCreateCitation(false);
   };
 
   const appendContributor = () => {
@@ -59,7 +60,7 @@ const ChapterForm = () => {
         {...register('section_title')}
         aria-label='section_title'
       />
-      <Spacer y='48' />
+      <Spacer y='30' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2 '>
@@ -130,7 +131,7 @@ const ChapterForm = () => {
         <PlusCircle className='fill-doc-primary text-white' size={22} />
         <p className='text-doc-primary'> Add Contributor</p>
       </Button>
-      <Spacer y='48' />
+      <Spacer y='30' />
       <h1 className='base-semibold'>In print publication info</h1>
       <Spacer y='16' />
       <label htmlFor='journal_title'>Source title</label>
@@ -238,7 +239,6 @@ const ChapterForm = () => {
         </div>
       </div>
       <Spacer y='120' />
-
       <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-1.5'>
         <Button
           className='h-max rounded border border-doc-primary text-doc-primary'
@@ -250,7 +250,9 @@ const ChapterForm = () => {
         >
           Cancel
         </Button>
-        <Button className='rounded bg-doc-primary'>Save</Button>
+        <Button type='submit' className='rounded bg-doc-primary'>
+          Save
+        </Button>
       </div>
     </form>
   );

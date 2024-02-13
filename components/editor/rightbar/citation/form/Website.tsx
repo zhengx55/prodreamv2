@@ -76,7 +76,7 @@ const WebsiteForm = (props: Props) => {
         className='focus-visible:ring-0'
         {...register('article_title')}
       />
-      <Spacer y='48' />
+      <Spacer y='30' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2'>
@@ -143,7 +143,7 @@ const WebsiteForm = (props: Props) => {
         <PlusCircle className='fill-doc-primary text-white' size={22} />
         <p className='text-doc-primary'> Add Contributor</p>
       </Button>
-      <Spacer y='48' />
+      <Spacer y='30' />
       <h1 className='base-semibold'>Online publication info</h1>
       <Spacer y='16' />
       <label htmlFor='publisher'>Publisher</label>
