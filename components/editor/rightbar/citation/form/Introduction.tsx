@@ -22,11 +22,14 @@ const IntroductionForm = () => {
   const { register, handleSubmit, control, setValue } =
     useForm<IIntroductionCitation>({
       defaultValues: {
+        special_section_type: 'introduction',
         contributors: [
           {
             first_name: '',
             middle_name: '',
             last_name: '',
+            role: 'author',
+            suffix: '',
           },
         ],
       },
@@ -281,7 +284,7 @@ const IntroductionForm = () => {
           />
         </div>
       </div>
-      <Spacer y='30' />
+      <Spacer y='120' />
       <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-1.5'>
         <Button
           className='h-max rounded border border-doc-primary text-doc-primary'

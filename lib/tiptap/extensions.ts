@@ -100,7 +100,6 @@ const ExtensionKit = () => [
   Underline,
   AutoComplete,
   GrammarUnderline,
-  // TrailingNode,
   AutoCompleteSlashCommand,
   AutoCompleteCNSlashCommand,
   Selection,

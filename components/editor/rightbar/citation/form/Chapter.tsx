@@ -19,6 +19,7 @@ const ChapterForm = () => {
           first_name: '',
           middle_name: '',
           last_name: '',
+          role: 'author',
         },
       ],
     },
@@ -52,7 +53,7 @@ const ChapterForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
       <h1 className='base-semibold'>What I&apos;m citing</h1>
       <Spacer y='16' />
-      <label htmlFor='section_title'>Chapter/section title</label>
+      <label htmlFor='section_title'>Chapter/Section title</label>
       <Input
         type='text'
         id='section_title'

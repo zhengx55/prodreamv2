@@ -23,8 +23,8 @@ const JournalForm = () => {
             first_name: '',
             middle_name: '',
             last_name: '',
-            role: null,
-            suffix: null,
+            role: 'author',
+            suffix: '',
           },
         ],
       },
@@ -48,6 +48,7 @@ const JournalForm = () => {
       citation_type: 'Journal',
       citation_data: data,
     });
+    updateShowCreateCitation(false);
   };
 
   const appendContributor = () => {
@@ -55,8 +56,8 @@ const JournalForm = () => {
       first_name: '',
       middle_name: '',
       last_name: '',
-      role: null,
-      suffix: null,
+      role: '',
+      suffix: '',
     });
   };
 

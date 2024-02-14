@@ -21,6 +21,8 @@ const WholeBook = () => {
           first_name: '',
           middle_name: '',
           last_name: '',
+          role: 'author',
+          suffix: '',
         },
       ],
     },
@@ -43,7 +45,13 @@ const WholeBook = () => {
   };
 
   const appendContributor = () => {
-    append({});
+    append({
+      first_name: '',
+      middle_name: '',
+      last_name: '',
+      role: 'author',
+      suffix: '',
+    });
   };
 
   const removeContributor = (index: number) => {

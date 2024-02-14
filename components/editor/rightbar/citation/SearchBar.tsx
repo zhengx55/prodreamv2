@@ -18,6 +18,7 @@ type Props = {
 };
 const SearchBar = ({ setKeyword, setResult }: Props) => {
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
+  console.log('🚀 ~ SearchBar ~ citation_tooltip_step:', citation_tooltip_step);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
   const [searchTerm, setSearchTerm] = useState('');
   return (
