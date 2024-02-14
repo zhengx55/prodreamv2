@@ -268,7 +268,7 @@ export function ConvertCitationData(item: ICitation) {
   ];
   converted_data.reference_count = reference_count ?? 0;
   converted_data.area = area ?? [];
-  converted_data.page_info = page_info ?? '';
+  converted_data.page_info = page_info ?? { start: '', end: '' };
   converted_data.journal_title = journal_title ?? '';
   converted_data.article_title = article_title ?? '';
   converted_data.abstract = abstract ?? '';

@@ -147,22 +147,20 @@ interface Series {
 interface Author {
   first_name: string;
   last_name: string;
-  middle_name: null | string;
+  middle_name: string;
   role: string;
-  suffix: null;
+  suffix: string;
 }
 
 export interface PageInfo {
-  end: null | string;
-  start: null | string;
-  [property: string]: any;
+  end: string;
+  start: string;
 }
 
 export interface PublishDate {
   day: number | null;
   month: number | null;
   year: number | null;
-  [property: string]: any;
 }
 
 export type UserTrackData = {

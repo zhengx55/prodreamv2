@@ -1,8 +1,18 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useCitation } from '@/zustand/store';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { memo } from 'react';
 import EditIntext from './EditIntext';
 
 const Edit = () => {
+  const updateShowEditCitation = useCitation(
+    (state) => state.updateShowEditCitation
+  );
+  const updateCurrentInline = useCitation((state) => state.updateCurrentInline);
+  useUnmount(() => {
+    updateShowEditCitation(false);
+    updateCurrentInline(null);
+  });
   return (
     <div className='relative flex h-full w-full flex-col'>
       <Tabs

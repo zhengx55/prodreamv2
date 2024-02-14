@@ -8,7 +8,7 @@ export default function Page() {
     <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
       <Spacer y='75' />
       <Search />
-      <Spacer y='48' />
+      <Spacer y='30' />
       <DocumentList />
     </main>
   );

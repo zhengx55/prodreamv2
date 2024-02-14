@@ -34,7 +34,8 @@ const IntextContent = (props: NodeViewProps) => {
     updateShowEditCitation(true);
     updateCurrentInline(props);
   };
-
+  const title =
+    current_citation?.article_title || current_citation?.book_title || '';
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -56,7 +57,7 @@ const IntextContent = (props: NodeViewProps) => {
         align='start'
         className='flex w-[420px] flex-col gap-y-2 rounded border border-shadow-border bg-white p-3'
       >
-        <h1 className='base-medium'>{current_citation?.article_title}&nbsp;</h1>
+        <h1 className='base-medium'>{title}&nbsp;</h1>
         <p className='subtle-regular text-doc-font'>
           Year: {current_citation?.publish_date?.year}
         </p>
