@@ -206,6 +206,8 @@ export type ISubscription = {
   subscription: 'basic' | 'unlimited' | 'free_trail';
   expire_time: number;
   free_times_detail: FreeTimesDetail;
+  subscription_id: string;
+  subscription_type: string;
 };
 
 type FreeTimesDetail = {

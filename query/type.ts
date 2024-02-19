@@ -40,58 +40,23 @@ export interface IVerifyEmail {
 export interface IPolishParams {
   block: JSONContent[];
 }
-
-export interface IPolishQueryData {
-  result: IPolishQueryResult[];
-  status: string;
-}
-
-export interface IPolishResultA {
-  // 分段或分句的数据格式响应
-  result: IPolishResultAData[] | string;
-  status: string;
-}
-
-export interface IPolishResultAData {
+export interface IGrammarResult {
   index: number[];
-  diff: { sub_str: string; new_str: string; status: number }[];
-  expand: boolean;
+  diff: {
+    expand: boolean;
+    data: IDiffObject[];
+  }[];
 }
 
-export interface IPolishQueryResult {
-  end: number;
-  new_sentence: NewSentence[];
-  original_sentence: NewSentence[];
-  start: number;
-}
+export type IGrammarResponse = {
+  index: number[];
+  diff: IDiffObject[][];
+};
 
-export interface NewSentence {
-  is_identical: boolean;
+export interface IDiffObject {
   sub_str: string;
-}
-
-export interface IEssayAssessData {
-  detail: Detail[];
-  head: string;
-  id: string;
-  score: string;
-}
-
-/**
- * 该数组按Introduction、Language、Authenticity and Creativity、Fit、Organization and Flow、Grammar
- * 顺序排列
- */
-export interface Detail {
-  comment: Comment;
-  level: string;
-  score: number | number;
-  title: string;
-}
-
-export interface Comment {
-  evaluation: string;
-  example: string;
-  suggestion: string;
+  new_str: string;
+  status: number;
 }
 
 export interface IPlagiarismData {
@@ -174,3 +139,395 @@ export type UserTrackData = {
   outline_tip_task?: string;
   continue_tip_task?: string;
 };
+
+const test = [
+  {
+    index: [0, 0],
+    diff: [
+      [
+        {
+          sub_str: 'In America, the right to bear arms ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'delivered ',
+          new_str: 'has created ',
+          status: 3,
+        },
+        {
+          sub_str: 'a phenomenon called the ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: '“gun culture”. ',
+          new_str: '"gun culture. ',
+          status: 3,
+        },
+        {
+          sub_str: 'The title was founded by ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'historian, ',
+          new_str: 'historian ',
+          status: 3,
+        },
+        {
+          sub_str: 'Richard ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'Hofstadter ',
+          new_str: 'Hofstadter, ',
+          status: 3,
+        },
+        {
+          sub_str: 'in which he describes ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'America’s ',
+          new_str: "America's ",
+          status: 3,
+        },
+        {
+          sub_str: 'heritage and affection for weapons.',
+          new_str: '',
+          status: 0,
+        },
+      ],
+      [
+        {
+          sub_str:
+            'Gun culture has not only become an inseparable part of American democracy but',
+          new_str: '',
+          status: 0,
+        },
+        {
+          sub_str: ' ',
+          new_str: 'is ',
+          status: 1,
+        },
+        {
+          sub_str: 'also considered ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'to be ',
+          new_str: ' ',
+          status: 2,
+        },
+        {
+          sub_str:
+            'equivalent to independence and freedom, which are important values for ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'the ',
+          new_str: ' ',
+          status: 2,
+        },
+        {
+          sub_str: 'society in America.',
+          new_str: '',
+          status: 0,
+        },
+      ],
+      [
+        {
+          sub_str:
+            'Although this so-called gun culture plays an important role in',
+          new_str: '',
+          status: 0,
+        },
+        {
+          sub_str: 'today’s ',
+          new_str: "today's ",
+          status: 3,
+        },
+        {
+          sub_str: 'politics, schools in the country ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'has ',
+          new_str: 'have ',
+          status: 3,
+        },
+        {
+          sub_str: 'become perilous places in the 20th century.',
+          new_str: '',
+          status: 0,
+        },
+      ],
+      [
+        {
+          sub_str: 'Mass shootings have been taking place all over',
+          new_str: '',
+          status: 0,
+        },
+        {
+          sub_str: 'America ',
+          new_str: 'America, ',
+          status: 3,
+        },
+        {
+          sub_str: 'and these incidents are leading to one or more deaths. ',
+          new_str: ' ',
+          status: 0,
+        },
+      ],
+    ],
+  },
+  {
+    index: [1, 0],
+    diff: [
+      [
+        {
+          sub_str: 'Many of ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'us ',
+          new_str: 'us, ',
+          status: 3,
+        },
+        {
+          sub_str: 'as ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'individuals ',
+          new_str: 'individuals, ',
+          status: 3,
+        },
+        {
+          sub_str: 'when we think of school shootings, our minds ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'would ',
+          new_str: ' ',
+          status: 2,
+        },
+        {
+          sub_str: 'immediately go back to the Columbine ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'high school ',
+          new_str: 'High School ',
+          status: 3,
+        },
+        {
+          sub_str: 'shooting.',
+          new_str: '',
+          status: 0,
+        },
+      ],
+      [
+        {
+          sub_str: 'According to',
+          new_str: '',
+          status: 0,
+        },
+        {
+          sub_str: ' ',
+          new_str: 'the ',
+          status: 1,
+        },
+        {
+          sub_str: 'encyclopaedia, ',
+          new_str: 'encyclopedia, ',
+          status: 3,
+        },
+        {
+          sub_str:
+            'the occurrence was one of the deadliest mass shootings in United States history. 13 people were killed and more than 20 were wounded until the Parkland shooting ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'occurred ',
+          new_str: 'occurred, ',
+          status: 3,
+        },
+        {
+          sub_str:
+            'and is now known to be the deadliest high school shooting in which 17 people were killed.',
+          new_str: '',
+          status: 0,
+        },
+      ],
+      [
+        {
+          sub_str: 'In the article published by The Atlantic',
+          new_str: '',
+          status: 0,
+        },
+        {
+          sub_str: 'on ',
+          new_str: 'in ',
+          status: 3,
+        },
+        {
+          sub_str: '2017, ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: ' ',
+          new_str: 'titled ',
+          status: 1,
+        },
+        {
+          sub_str: '“The ',
+          new_str: '"The ',
+          status: 3,
+        },
+        {
+          sub_str: 'Righteous Anger of the Parkland Shooting’s Teen ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'Survivors” ',
+          new_str: 'Survivors" and ',
+          status: 3,
+        },
+        {
+          sub_str:
+            'written by Robinson Meyer, we see how juveniles in today’s society are becoming more knowledgeable ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'of ',
+          new_str: 'about ',
+          status: 3,
+        },
+        {
+          sub_str: 'the real issues in ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: ' ',
+          new_str: 'the ',
+          status: 1,
+        },
+        {
+          sub_str: 'USA and ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'explores ',
+          new_str: 'exploring ',
+          status: 3,
+        },
+        {
+          sub_str: 'political activism in response to gun control issues. ',
+          new_str: ' ',
+          status: 0,
+        },
+      ],
+    ],
+  },
+  {
+    index: [2, 0],
+    diff: [
+      [
+        {
+          sub_str:
+            'Robinson Meyer is the writer of the article "The Righteous Anger of the Parkland Shooting\'s Teen Survivors," who is a part of the staff at the American ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'magazine ',
+          new_str: 'magazine, ',
+          status: 3,
+        },
+        {
+          sub_str: 'However, the text is also available online,',
+          new_str: '',
+          status: 0,
+        },
+        {
+          sub_str: ' ',
+          new_str: 'making ',
+          status: 1,
+        },
+        {
+          sub_str: 'which makes ',
+          new_str: ' ',
+          status: 2,
+        },
+        {
+          sub_str: 'it accessible ',
+          new_str: ' ',
+          status: 0,
+        },
+        {
+          sub_str: 'for ',
+          new_str: 'to ',
+          status: 3,
+        },
+        {
+          sub_str: 'all international English-speaking readers.',
+          new_str: '',
+          status: 0,
+        },
+      ],
+      [
+        {
+          sub_str:
+            'Still, Meyer follows the typical structure of a modern feature',
+          new_str: '',
+          status: 0,
+        },
+        {
+          sub_str: 'article ',
+          new_str: 'article, ',
+          status: 3,
+        },
+        {
+          sub_str:
+            "in which he analyzes survivors' reactions to the school shooting.",
+          new_str: '',
+          status: 0,
+        },
+      ],
+      [
+        {
+          sub_str: 'This will be discussed',
+          new_str: '',
+          status: 0,
+        },
+        {
+          sub_str: 'later ',
+          new_str: 'later. ',
+          status: 3,
+        },
+        {
+          sub_str: 'on. ',
+          new_str: ' ',
+          status: 2,
+        },
+      ],
+    ],
+  },
+];
