@@ -30,7 +30,7 @@ const SentenceFragment: FC<SentenceProps> = ({
     content = <span className={className}>{sentence.sub_str}</span>;
   } else if (isAdd) {
     className = 'text-doc-primary ' + baseClassName;
-    content = <span className={className}>{sentence.new_str}</span>;
+    content = <span className={className}> {sentence.new_str}</span>;
   } else if (isDelete) {
     className = 'text-red-500 line-through ' + baseClassName;
     content = <span className={className}>{sentence.sub_str}</span>;

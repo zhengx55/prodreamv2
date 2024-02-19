@@ -14,5 +14,6 @@ export const config = {
     {
       source: '/profile/:path*',
     },
+    { source: '/pricing/:path*' },
   ],
 };

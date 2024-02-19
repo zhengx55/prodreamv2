@@ -62,7 +62,7 @@ const MembershipBar = ({ document_count }: Props) => {
             </p>
           </div>
         )
-      ) : (
+      ) : data.subscription_type === 'monthly' ? (
         <div className='flex items-center gap-x-4'>
           <p className='text-[18px] font-medium text-doc-font'>
             You are on the <strong>Unlimited Monthly Pack</strong>
@@ -73,7 +73,7 @@ const MembershipBar = ({ document_count }: Props) => {
             </Button>
           </Link>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

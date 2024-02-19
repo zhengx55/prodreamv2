@@ -7,7 +7,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMembershipInfo, useUserTrackInfo } from '@/query/query';
 import { useAIEditor, useCitation } from '@/zustand/store';
-import { ChevronLeft, Loader } from 'lucide-react';
+import { ChevronLeft, Loader, MoreHorizontal } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -70,14 +70,14 @@ const DocNavbar = () => {
             <Diamond /> Upgrade
           </Button>
         ) : null}
-        {/* <DropdownMenu>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
               <MoreHorizontal size={18} />
             </Button>
           </DropdownMenuTrigger>
-          <NavbarDropdown title={title} />
-        </DropdownMenu> */}
+          <NavbarDropdown />
+        </DropdownMenu>
       </div>
     </nav>
   );

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { submitPolish } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
-import { IPolishResultAData } from '@/query/type';
+import { IGrammarResponse, IGrammarResult } from '@/query/type';
 import useAiEditor from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { JSONContent } from '@tiptap/react';
@@ -17,12 +17,10 @@ export const GrammarCheck = memo(() => {
   const [isChecking, setIsChecking] = useState(false);
   const editor = useAiEditor((state) => state.editor_instance);
   const { data: usage } = useMembershipInfo();
+  const [grammarResults, setGrammarResults] = useState<IGrammarResult[]>([]);
   const queryClient = useQueryClient();
-  const [grammarResults, setGrammarResults] = useState<IPolishResultAData[]>(
-    []
-  );
   const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
-  const memoUpdateResult = useCallback((value: IPolishResultAData[]) => {
+  const memoUpdateResult = useCallback((value: IGrammarResult[]) => {
     setGrammarResults(value);
   }, []);
   const { mutateAsync: handleGrammarCheck } = useMutation({
@@ -30,15 +28,29 @@ export const GrammarCheck = memo(() => {
     onMutate: () => {
       setIsChecking(true);
     },
-    onSuccess: (data: IPolishResultAData[]) => {
+    onSuccess: (data: IGrammarResponse[]) => {
       queryClient.invalidateQueries({ queryKey: ['membership'] });
-
-      if (data.length > 0) {
-        data.map((item, index) =>
-          index === 0 ? (item.expand = true) : (item.expand = false)
-        );
-      }
-      setGrammarResults(data);
+      let grammar_result: IGrammarResult[] = [];
+      grammar_result = data.map((item) => {
+        const diff = item.diff.map((diffArray) => {
+          const data = diffArray.map((diffObject) => {
+            return {
+              sub_str: diffObject.sub_str,
+              new_str: diffObject.new_str,
+              status: diffObject.status,
+            };
+          });
+          return {
+            expand: false,
+            data: data,
+          };
+        });
+        return {
+          index: item.index,
+          diff: diff,
+        };
+      });
+      setGrammarResults(grammar_result);
     },
     onSettled: () => {
       setIsChecking(false);

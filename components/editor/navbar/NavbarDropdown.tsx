@@ -1,3 +1,4 @@
+'use client';
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -6,9 +7,10 @@ import useAiEditor from '@/zustand/store';
 import { FileOutput } from 'lucide-react';
 import { memo } from 'react';
 
-const NavbarDropdown = ({ title }: { title: string }) => {
+const NavbarDropdown = () => {
+  const doc_title = useAiEditor((state) => state.doc_title);
   const editor = useAiEditor((state) => state.editor_instance);
-  const handleExportPdf = () => {};
+  const handleExportPdf = async () => {};
   return (
     <DropdownMenuContent
       side='bottom'
@@ -26,14 +28,6 @@ const NavbarDropdown = ({ title }: { title: string }) => {
         <FileOutput size={16} />
         Export
       </DropdownMenuItem>
-      {/* <DropdownMenuItem
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
-      >
-        <Settings size={16} /> Settings
-      </DropdownMenuItem> */}
     </DropdownMenuContent>
   );
 };
