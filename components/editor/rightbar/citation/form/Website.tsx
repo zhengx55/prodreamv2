@@ -12,9 +12,7 @@ import { useParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-type Props = {};
-
-const WebsiteForm = (props: Props) => {
+const WebsiteForm = () => {
   const { id } = useParams();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IWebsiteCitation>({
