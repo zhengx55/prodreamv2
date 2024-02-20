@@ -55,8 +55,8 @@ const General = () => {
             animate={righbarTab === 0 ? 'expanded' : 'collasped'}
             className={`${
               righbarTab === 0
-                ? 'bg-doc-primary/10'
-                : 'border-2 border-doc-primary bg-transparent'
+                ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
+                : 'border border-shadow-border bg-transparent'
             }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
           >
             <FileCheck size='18' />
@@ -85,8 +85,8 @@ const General = () => {
             animate={righbarTab === 1 ? 'expanded' : 'collasped'}
             className={`${
               righbarTab === 1
-                ? 'bg-doc-primary/10'
-                : 'border-2 border-doc-primary bg-transparent'
+                ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
+                : 'border border-shadow-border bg-transparent'
             }  flex-center h-11 cursor-pointer gap-x-2 rounded `}
           >
             <BookHalf size={'18'} />
@@ -101,8 +101,8 @@ const General = () => {
             animate={righbarTab === 2 ? 'expanded' : 'collasped'}
             className={`${
               righbarTab === 2
-                ? 'bg-doc-primary/10'
-                : 'border-2 border-doc-primary bg-transparent'
+                ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
+                : 'border border-shadow-border bg-transparent'
             }  flex-center h-11 cursor-pointer gap-x-2 rounded `}
           >
             <GenerateFill size='18' />

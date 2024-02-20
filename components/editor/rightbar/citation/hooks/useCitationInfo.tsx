@@ -37,9 +37,13 @@ export const useCitationInfo = (document_content: IDocDetail | undefined) => {
       if (in_text_citations.length > 0) {
         // updateRightbarTab(1);
         fetchInText(document_content.in_text_citations);
+      } else {
+        updateInTextCitation([], []);
       }
       if (citation_candidates.length > 0) {
         fetchInDoc(document_content.citation_candidates);
+      } else {
+        updateInDocCitation([], []);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
