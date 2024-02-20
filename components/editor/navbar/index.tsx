@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMembershipInfo, useUserTrackInfo } from '@/query/query';
-import { useAIEditor, useCitation } from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { ChevronLeft, Loader, MoreHorizontal } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -14,10 +14,8 @@ import { memo } from 'react';
 import Plagiarism from './Plagiarism';
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
-const CitationDropdown = dynamic(() => import('./CitationDropdown'));
 
 const DocNavbar = () => {
-  const citationStyle = useCitation((state) => state.citationStyle);
   const isSaving = useAIEditor((state) => state.isSaving);
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const docTtile = useAIEditor((state) => state.doc_title);
@@ -49,16 +47,7 @@ const DocNavbar = () => {
               : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className='h-max rounded bg-doc-primary/20 py-1 hover:bg-doc-secondary'>
-              <p className='small-regular text-doc-primary'>{citationStyle}</p>
-            </Button>
-          </DropdownMenuTrigger>
-          <CitationDropdown />
-        </DropdownMenu>
       </div>
-
       <div className='flex items-center gap-x-4'>
         <Plagiarism />
         {usage?.subscription === 'basic' ? (
