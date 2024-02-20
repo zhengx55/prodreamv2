@@ -136,8 +136,10 @@ function DragHandle(options: DragHandleOptions) {
       dragHandleElement.addEventListener('mouseleave', () => {
         hideTooltip();
       });
+      hideTooltip();
       hideDragHandle();
       view?.dom?.parentElement?.appendChild(dragHandleElement);
+      view.dom.parentElement?.appendChild(toolTipElement);
       return {
         destroy: () => {
           dragHandleElement?.removeEventListener('dragstart', (e) => {

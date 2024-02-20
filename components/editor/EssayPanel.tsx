@@ -7,7 +7,6 @@ import { memo } from 'react';
 import LazyMotionProvider from '../root/LazyMotionProvider';
 import Spacer from '../root/Spacer';
 import { Feedback } from '../root/SvgComponents';
-import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 import { useCitationInfo } from './rightbar/citation/hooks/useCitationInfo';
@@ -31,18 +30,19 @@ const EssayPanel = ({ id }: { id: string }) => {
     <LazyMotionProvider>
       <main className='relative flex h-full w-full flex-col'>
         <DocNavbar />
-        <Tooltip defaultOpen side='right' tooltipContent='submit feedback'>
-          <Link
-            passHref
-            href={'https://tally.so/r/3NovEO'}
-            className='absolute bottom-[10%] left-2 z-50'
-            target='_blank'
+        <Link
+          passHref
+          href={'https://tally.so/r/3NovEO'}
+          className='absolute bottom-[10%] left-2 z-50'
+          target='_blank'
+        >
+          <Button
+            className='rounded-lg border border-doc-secondary bg-transparent p-3 text-doc-font hover:bg-doc-secondary'
+            role='link'
           >
-            <Button className='rounded-xl bg-doc-secondary p-2.5' role='link'>
-              <Feedback />
-            </Button>
-          </Link>
-        </Tooltip>
+            <Feedback /> Submit Feedback
+          </Button>
+        </Link>
         <div className='relative flex h-full w-full justify-center overflow-hidden'>
           {isFetching ? (
             <div className='flex flex-1 flex-col items-center'>

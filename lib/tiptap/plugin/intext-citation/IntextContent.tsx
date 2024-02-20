@@ -41,14 +41,18 @@ const IntextContent = (props: NodeViewProps) => {
       <PopoverTrigger asChild>
         {citation_style === 'APA' ? (
           <p className='!m-0 text-doc-primary'>
-            ({current_citation?.publish_date?.year})
+            (
+            <APAAuthors contributors={current_citation?.contributors ?? []} />
+            &nbsp;
+            {current_citation?.publish_date?.year})
           </p>
         ) : (
           <p className='!m-0 text-doc-primary'>
-            ({current_citation?.contributors[0].last_name}
+            (
+            <MLAAuhors contributors={current_citation?.contributors ?? []} />
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
-              `, ${props.node.attrs.page_number}`}
+              ` ${props.node.attrs.page_number}`}
             )
           </p>
         )}
@@ -87,7 +91,6 @@ const IntextContent = (props: NodeViewProps) => {
               <Book /> Edit
             </Button>
           </PopoverClose>
-
           <Button
             className='aspect-square h-8 rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
             variant={'ghost'}
@@ -99,5 +102,48 @@ const IntextContent = (props: NodeViewProps) => {
       </PopoverContent>
     </Popover>
   );
+};
+
+const APAAuthors = ({
+  contributors,
+}: {
+  contributors: {
+    first_name?: string;
+    last_name?: string;
+    middle_name?: string;
+    role?: string;
+    suffix?: string;
+  }[];
+}) => {
+  return contributors.length === 2 ? (
+    <span>
+      {contributors[0].last_name},&nbsp;{contributors[1].last_name},
+    </span>
+  ) : contributors.length === 1 ? (
+    <span>{contributors[0].last_name},</span>
+  ) : contributors.length > 2 ? (
+    <span>{contributors[0].last_name} et al.,</span>
+  ) : null;
+};
+const MLAAuhors = ({
+  contributors,
+}: {
+  contributors: {
+    first_name?: string;
+    last_name?: string;
+    middle_name?: string;
+    role?: string;
+    suffix?: string;
+  }[];
+}) => {
+  return contributors.length === 2 ? (
+    <span>
+      {contributors[0].last_name}&nbsp;and&nbsp;{contributors[1].last_name}
+    </span>
+  ) : contributors.length === 1 ? (
+    contributors[0].last_name
+  ) : contributors.length > 2 ? (
+    contributors[0].last_name + ' et al.'
+  ) : null;
 };
 export default IntextContent;

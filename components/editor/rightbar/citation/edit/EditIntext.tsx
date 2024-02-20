@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { TabsContent } from '@/components/ui/tabs';
 import { useCitation } from '@/zustand/store';
 import { useMemo, useRef, useState } from 'react';
-import { v4 } from 'uuid';
 
 const EditIntext = () => {
   const updateShowEditCitation = useCitation(
@@ -42,69 +41,83 @@ const EditIntext = () => {
     }
     updateShowEditCitation(false);
   };
+  const contributors = current_citation?.contributors;
+  const contributorsLength = contributors?.length;
+
+  const renderContributors = () => {
+    if (!contributors) return <span>No authors founded</span>;
+    if (contributorsLength === 2) {
+      return (
+        <span>
+          {contributors[0]?.last_name}&nbsp;,&nbsp;{contributors[1]?.last_name},
+        </span>
+      );
+    } else if (contributorsLength === 1) {
+      return <span>{contributors[0]?.last_name},</span>;
+    } else if (contributorsLength && contributorsLength > 2) {
+      return <span>{contributors[0]?.last_name} et al.,</span>;
+    } else {
+      return null;
+    }
+  };
 
   const title =
     current_citation?.article_title || current_citation?.book_title || '';
   return (
-    <>
-      <TabsContent value='in-text'>
-        <div className='flex flex-col rounded border border-shadow-border p-4'>
-          <h1 className='font-medium'>{title}</h1>
-          <Spacer y='10' />
-          <ul className='flex flex-col gap-y-3'>
-            <li className='inline-flex items-center gap-x-2'>
-              <Checkbox
-                checked
-                disabled
-                className='h-4 w-4 rounded-full border-doc-primary'
-                id='year'
-              />
-              <label className='subtle-regular text-doc-font' htmlFor='year'>
-                Year:
-              </label>
-              <span className='subtle-regular flex-center rounded bg-doc-primary/20 px-2 py-0.5 text-doc-primary'>
-                {current_citation?.publish_date?.year}
-              </span>
-            </li>
-            <li className='inline-flex items-center gap-x-2'>
-              <Checkbox
-                checked
-                disabled
-                className='h-4 w-4 rounded-full border-doc-primary'
-                id='autors'
-              />
-              <label className='subtle-regular text-doc-font' htmlFor='autors'>
-                Authors:
-              </label>
-              <span
-                key={v4()}
-                className='subtle-regular flex-center rounded bg-doc-primary/20 px-2 py-0.5 text-doc-primary'
-              >
-                {`${current_citation?.contributors[0]?.last_name ?? ''}, ${current_citation?.contributors[0]?.middle_name ?? ''}, ${current_citation?.contributors[0]?.first_name ?? ''}`}
-              </span>
-            </li>
-            <li className='inline-flex items-center gap-x-2'>
-              <Checkbox
-                checked={pageCheck}
-                onCheckedChange={(e: boolean) => setPageCheck(e)}
-                className='h-4 w-4 rounded-full border-doc-primary'
-                id='pages'
-              />
-              <label className='subtle-regular text-doc-font' htmlFor='pages'>
-                Page number:
-              </label>
-              <Input
-                ref={pageRef}
-                defaultValue={currentInline?.node.attrs.page_number}
-                className='subtle-regular h-max w-40 rounded bg-doc-primary/20 px-2 py-1 text-doc-primary placeholder:text-doc-primary'
-                placeholder='(e.g. 35 or 35-37)'
-                type='text'
-                id='pages'
-              />
-            </li>
-          </ul>
-        </div>
-      </TabsContent>
+    <TabsContent value='in-text'>
+      <div className='flex flex-col rounded border border-shadow-border p-4'>
+        <h1 className='font-medium'>{title}</h1>
+        <Spacer y='10' />
+        <ul className='flex flex-col gap-y-3'>
+          <li className='inline-flex items-center gap-x-2'>
+            <Checkbox
+              checked
+              disabled
+              className='h-4 w-4 rounded-full border-doc-primary'
+              id='year'
+            />
+            <label className='subtle-regular text-doc-font' htmlFor='year'>
+              Year:
+            </label>
+            <span className='subtle-regular flex-center rounded bg-doc-primary/20 px-2 py-0.5 text-doc-primary'>
+              {current_citation?.publish_date?.year}
+            </span>
+          </li>
+          <li className='inline-flex items-center gap-x-2'>
+            <Checkbox
+              checked
+              disabled
+              className='h-4 w-4 rounded-full border-doc-primary'
+              id='autors'
+            />
+            <label className='subtle-regular text-doc-font' htmlFor='autors'>
+              Authors:
+            </label>
+            <span className='subtle-regular flex-center rounded bg-doc-primary/20 px-2 py-0.5 text-doc-primary'>
+              {renderContributors()}
+            </span>
+          </li>
+          <li className='inline-flex items-center gap-x-2'>
+            <Checkbox
+              checked={pageCheck}
+              onCheckedChange={(e: boolean) => setPageCheck(e)}
+              className='h-4 w-4 rounded-full border-doc-primary'
+              id='pages'
+            />
+            <label className='subtle-regular text-doc-font' htmlFor='pages'>
+              Page number:
+            </label>
+            <Input
+              ref={pageRef}
+              defaultValue={currentInline?.node.attrs.page_number}
+              className='subtle-regular h-max w-40 rounded bg-doc-primary/20 px-2 py-1 text-doc-primary placeholder:text-doc-primary'
+              placeholder='(e.g. 35 or 35-37)'
+              type='text'
+              id='pages'
+            />
+          </li>
+        </ul>
+      </div>
       <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-1.5'>
         <Button
           className='h-max rounded border border-doc-primary text-doc-primary'
@@ -125,7 +138,7 @@ const EditIntext = () => {
           Save
         </Button>
       </div>
-    </>
+    </TabsContent>
   );
 };
 export default EditIntext;

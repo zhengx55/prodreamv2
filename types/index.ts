@@ -52,13 +52,11 @@ export interface IWebsiteCitation {
   };
   annotation: string;
   article_title: string;
-  contributors:
-    | {
-        first_name?: string;
-        last_name?: string;
-        middle_name?: string;
-      }[]
-    | null;
+  contributors: {
+    first_name?: string;
+    last_name?: string;
+    middle_name?: string;
+  }[];
   document_id: string;
   publisher: string;
   website_title: string;
@@ -82,15 +80,13 @@ export interface IJournalCitation {
   citation_count: number;
   annotation: string;
   article_title: string;
-  contributors:
-    | {
-        first_name: string;
-        last_name: string;
-        middle_name: string;
-        role: string;
-        suffix: string;
-      }[]
-    | null;
+  contributors: {
+    first_name: string;
+    last_name: string;
+    middle_name: string;
+    role: string;
+    suffix: string;
+  }[];
   document_id: string;
   doi: string;
   journal_title?: string;

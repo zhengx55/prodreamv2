@@ -28,9 +28,9 @@ const TableOfContents = ({ editor }: TableOfContentsProps) => {
   }, [editor]);
   return (
     <aside className='h-full w-40 shrink-0 overflow-hidden'>
-      <div className='z-0 h-full w-full overflow-y-auto px-3 pb-6 pt-12'>
+      <div className='z-0 h-full w-full overflow-y-auto px-2 pt-12'>
         {data?.content && data.content.length > 0 ? (
-          <div className='flex flex-col gap-1'>
+          <div className='flex flex-col gap-2'>
             {data.content.map((item) => (
               <a
                 key={item.id}

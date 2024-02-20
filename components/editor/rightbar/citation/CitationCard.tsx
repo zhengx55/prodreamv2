@@ -76,11 +76,19 @@ export const SearchCitationCard = memo(
           <CitationPreview item={item} />
         </Dialog>
         <Spacer y='10' />
-        {item.authors.length > 0 && (
-          <p className='subtle-regular text-doc-shadow'>
-            Authors:&nbsp; {item.authors[0].last_name ?? ''}&nbsp;
-            {item.authors[0].middle_name ?? ''}
-            {item.authors[0].first_name ?? ''}
+        {item.authors?.length > 0 && (
+          <p className='subtle-regular line-clamp-2 text-shadow-100'>
+            Authors:{' '}
+            {item.authors.map((author, idx) => {
+              return (
+                <span key={`author-${idx}`}>
+                  {author.last_name ?? ''}&nbsp;
+                  {author.middle_name ?? ''}
+                  {author.first_name ?? ''}
+                  {idx !== item.authors.length - 1 && ', '}
+                </span>
+              );
+            })}
           </p>
         )}
         <Spacer y='10' />
@@ -224,12 +232,19 @@ export const MineCitationCard = memo(
             ? item.data.article_title
             : item.data.book_title}{' '}
         </h1>
-        {item.data.contributors.length > 0 && (
-          <p className='subtle-regular text-doc-shadow'>
-            <span>Authors:&nbsp;</span>
-            {item.data.contributors[0].last_name},&nbsp;
-            {item.data.contributors[0].middle_name}
-            {item.data.contributors[0].first_name}
+        {item.data.contributors?.length > 0 && (
+          <p className='subtle-regular line-clamp-2 text-shadow-100'>
+            Authors:{' '}
+            {item.data.contributors.map((author, idx) => {
+              return (
+                <span key={`author-${idx}`}>
+                  {author.last_name ?? ''}&nbsp;
+                  {author.middle_name ?? ''}
+                  {author.first_name ?? ''}
+                  {idx !== item.data.contributors.length - 1 && ', '}
+                </span>
+              );
+            })}
           </p>
         )}
         {item.data.abstract && (

@@ -1,7 +1,8 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCitation } from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { memo } from 'react';
+import EditCitation from './EditCitation';
 import EditIntext from './EditIntext';
 
 const Edit = () => {
@@ -34,7 +35,7 @@ const Edit = () => {
           </TabsTrigger>
         </TabsList>
         <EditIntext />
-        <TabsContent value='citation'></TabsContent>
+        <EditCitation />
       </Tabs>
     </div>
   );
