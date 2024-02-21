@@ -4,6 +4,7 @@ import {
   FileCheck,
   GenerateFill,
 } from '@/components/root/SvgComponents';
+import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
@@ -25,7 +26,7 @@ const OptionsVariants: Variants = {
 };
 const General = () => {
   const toggleRightbar = useAiEditor((state) => state.toggleRightbar);
-  const righbarTab = useAiEditor((state) => state.righbarTab);
+  const rightbarTab = useAiEditor((state) => state.rightbarTab);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   return (
     <m.aside
@@ -48,75 +49,83 @@ const General = () => {
         />
         <Spacer y='15' />
         <div className='flex-between w-full gap-x-2.5'>
-          <m.span
-            onClick={() => updateRightbarTab(0)}
-            initial={false}
-            variants={OptionsVariants}
-            animate={righbarTab === 0 ? 'expanded' : 'collasped'}
-            className={`${
-              righbarTab === 0
-                ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                : 'border border-shadow-border bg-transparent'
-            }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
-          >
-            <FileCheck size='18' />
-            <AnimatePresence>
-              {righbarTab === 0 && (
-                <m.p
-                  key={'rightbar-grammar-check'}
-                  initial={{ opacity: 0, scale: 0 }}
-                  exit={{ opacity: 0, scale: 0 }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    transition: { duration: 0.5 },
-                  }}
-                  className='small-semibold text-doc-primary'
-                >
-                  Grammar Check
-                </m.p>
+          <Tooltip tooltipContent='Grammar Check'>
+            <m.span
+              onClick={() => updateRightbarTab(0)}
+              initial={false}
+              variants={OptionsVariants}
+              animate={rightbarTab === 0 ? 'expanded' : 'collasped'}
+              className={`${
+                rightbarTab === 0
+                  ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
+                  : 'border border-shadow-border bg-transparent'
+              }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
+            >
+              <FileCheck size='18' />
+              <AnimatePresence>
+                {rightbarTab === 0 && (
+                  <m.p
+                    key={'rightbar-grammar-check'}
+                    initial={{ opacity: 0, scale: 0 }}
+                    exit={{ opacity: 0, scale: 0 }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      transition: { duration: 0.5 },
+                    }}
+                    className='small-semibold text-doc-primary'
+                  >
+                    Grammar Check
+                  </m.p>
+                )}
+              </AnimatePresence>
+            </m.span>
+          </Tooltip>
+
+          <Tooltip tooltipContent='Citation'>
+            <m.span
+              onClick={() => updateRightbarTab(1)}
+              initial={false}
+              variants={OptionsVariants}
+              animate={rightbarTab === 1 ? 'expanded' : 'collasped'}
+              className={`${
+                rightbarTab === 1
+                  ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
+                  : 'border border-shadow-border bg-transparent'
+              }  flex-center h-11 cursor-pointer gap-x-2 rounded `}
+            >
+              <BookHalf size={'18'} />
+              {rightbarTab === 1 && (
+                <p className='small-semibold text-doc-primary'>Citation</p>
               )}
-            </AnimatePresence>
-          </m.span>
-          <m.span
-            onClick={() => updateRightbarTab(1)}
-            initial={false}
-            variants={OptionsVariants}
-            animate={righbarTab === 1 ? 'expanded' : 'collasped'}
-            className={`${
-              righbarTab === 1
-                ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                : 'border border-shadow-border bg-transparent'
-            }  flex-center h-11 cursor-pointer gap-x-2 rounded `}
-          >
-            <BookHalf size={'18'} />
-            {righbarTab === 1 && (
-              <p className='small-semibold text-doc-primary'>Citation</p>
-            )}
-          </m.span>
-          <m.span
-            onClick={() => updateRightbarTab(2)}
-            initial={false}
-            variants={OptionsVariants}
-            animate={righbarTab === 2 ? 'expanded' : 'collasped'}
-            className={`${
-              righbarTab === 2
-                ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                : 'border border-shadow-border bg-transparent'
-            }  flex-center h-11 cursor-pointer gap-x-2 rounded `}
-          >
-            <GenerateFill size='18' />
-            {righbarTab === 2 && (
-              <p className='small-semibold text-doc-primary'>Generate</p>
-            )}
-          </m.span>
+            </m.span>
+          </Tooltip>
+
+          <Tooltip tooltipContent='Generate'>
+            <m.span
+              onClick={() => updateRightbarTab(2)}
+              initial={false}
+              variants={OptionsVariants}
+              animate={rightbarTab === 2 ? 'expanded' : 'collasped'}
+              className={`${
+                rightbarTab === 2
+                  ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
+                  : 'border border-shadow-border bg-transparent'
+              }  flex-center h-11 cursor-pointer gap-x-2 rounded`}
+            >
+              <GenerateFill size='18' />
+              {rightbarTab === 2 && (
+                <p className='small-semibold text-doc-primary'>Generate</p>
+              )}
+            </m.span>
+          </Tooltip>
         </div>
         <Spacer y='15' />
-        {righbarTab === 0 ? (
+        {rightbarTab === 0 ? (
           <GrammarCheck />
-        ) : righbarTab === 1 ? (
+        ) : rightbarTab === 1 ? (
           <Citation />
-        ) : righbarTab === 2 ? (
+        ) : rightbarTab === 2 ? (
           <Generate />
         ) : null}
       </section>
@@ -145,5 +154,6 @@ const Trigger = () => {
     </m.span>
   );
 };
+
 General.Trigger = Trigger;
 export default General;

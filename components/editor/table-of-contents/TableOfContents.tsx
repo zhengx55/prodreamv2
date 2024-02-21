@@ -1,9 +1,11 @@
 'use client';
+import Spacer from '@/components/root/Spacer';
 import {
   BookMarks,
   TableHide,
   TableShow,
 } from '@/components/root/SvgComponents';
+import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { TableOfContentStorage } from '@tiptap-pro/extension-table-of-content';
@@ -42,14 +44,17 @@ const TableOfContents = ({ editor }: TableOfContentsProps) => {
           key={'table-of-content'}
           className='h-full w-40 shrink-0 overflow-hidden'
         >
-          <Button
-            variant={'ghost'}
-            role='button'
-            className='pl-5 pt-4'
-            onClick={() => setShowTable(false)}
-          >
-            <TableHide />
-          </Button>
+          <Spacer y='15' />
+          <Tooltip tooltipContent='Hide' side='right'>
+            <Button
+              variant={'ghost'}
+              role='button'
+              className='py-0 pl-3 pr-0 hover:transform-none'
+              onClick={() => setShowTable(false)}
+            >
+              <TableHide />
+            </Button>
+          </Tooltip>
           <div className='z-0 h-full w-full overflow-y-auto pl-5'>
             {data?.content && data.content.length > 0 ? (
               <div className='flex flex-col gap-2'>
@@ -82,14 +87,17 @@ const TableOfContents = ({ editor }: TableOfContentsProps) => {
           key={'trigger'}
           className='h-full w-40 shrink-0 overflow-hidden'
         >
-          <Button
-            variant={'ghost'}
-            role='button'
-            className='px-1 pt-4'
-            onClick={() => setShowTable(true)}
-          >
-            <TableShow />
-          </Button>
+          <Spacer y='15' />
+          <Tooltip side='right' tooltipContent='Expand'>
+            <Button
+              variant={'ghost'}
+              role='button'
+              className='pl-3 pr-0 hover:transform-none'
+              onClick={() => setShowTable(true)}
+            >
+              <TableShow />
+            </Button>
+          </Tooltip>
         </m.aside>
       )}
     </AnimatePresence>

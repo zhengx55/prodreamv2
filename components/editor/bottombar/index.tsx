@@ -10,6 +10,7 @@ import { CornerDownLeft, CornerDownRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import { useTextmenuCommands } from '../bubble-menu/hooks/useTextMenuCommand';
+import CountDropdown from './CountDropdown';
 const MemoButton = memo(Toolbar.Button);
 const CitationDropdown = dynamic(() => import('./CitationDropdown'));
 
@@ -57,12 +58,7 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
         <CornerDownRight size={18} />
       </MemoButton>
       <Toolbar.Divider />
-      <span className='flex h-full items-center px-2'>
-        <p className='small-regular text-shadow'>
-          {editor.storage.characterCount.words()}
-          &nbsp;Words
-        </p>
-      </span>
+      <CountDropdown editor={editor} />
     </Toolbar.Wrapper>
   );
 };

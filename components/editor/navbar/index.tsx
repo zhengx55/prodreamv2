@@ -1,13 +1,9 @@
 import { Cloud, Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMembershipInfo, useUserTrackInfo } from '@/query/query';
 import { useAIEditor } from '@/zustand/store';
-import { ChevronLeft, Loader, MoreHorizontal } from 'lucide-react';
+import { ChevronLeft, Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -59,14 +55,14 @@ const DocNavbar = () => {
             <Diamond /> Upgrade
           </Button>
         ) : null}
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='bg-transparent p-2 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
               <MoreHorizontal size={18} />
             </Button>
           </DropdownMenuTrigger>
           <NavbarDropdown />
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
     </nav>
   );
