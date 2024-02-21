@@ -36,7 +36,7 @@ const Tab = ({ membership }: Props) => {
       <Spacer y='35' />
       <TabsContent value='Annually'>
         <div className='flex w-full justify-center gap-x-10 py-4'>
-          <Card current={isBasic} info={PricingBasic} />
+          <Card current={isBasic} basic={true} info={PricingBasic} />
           <Card
             current={!isBasic}
             purchase_type='annualy'
@@ -46,7 +46,7 @@ const Tab = ({ membership }: Props) => {
       </TabsContent>
       <TabsContent value='Monthly'>
         <div className='flex w-full justify-center gap-x-10 py-4'>
-          <Card current={isBasic} info={PricingBasic} />
+          <Card current={isBasic} basic={true} info={PricingBasic} />
           <Card
             current={!isBasic}
             purchase_type='monthly'

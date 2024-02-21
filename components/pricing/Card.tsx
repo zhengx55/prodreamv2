@@ -13,10 +13,11 @@ type Props = {
     features: string[];
   };
   current: boolean;
+  basic?: boolean;
   purchase_type?: 'monthly' | 'annualy';
 };
 
-const Card = ({ info, current, purchase_type }: Props) => {
+const Card = ({ info, current, purchase_type, basic }: Props) => {
   const path = usePathname();
   const { mutateAsync: purchase } = useMutationMembershio();
   const handlePurchase = async () => {
@@ -52,10 +53,10 @@ const Card = ({ info, current, purchase_type }: Props) => {
         <Button
           onClick={handlePurchase}
           role='button'
-          disabled={current}
-          className={`h-max rounded disabled:opacity-100 ${current ? 'border border-shadow-border bg-white text-shadow-border' : 'bg-doc-primary'}`}
+          disabled={current || basic}
+          className={`h-max rounded disabled:opacity-100 ${current || basic ? 'border border-shadow-border bg-white text-shadow-border' : 'bg-doc-primary'}`}
         >
-          {current ? 'Current Plan' : 'Upgrade Now'}
+          {current || basic ? 'Current Plan' : 'Upgrade Now'}
         </Button>
       </div>
       <ul className='mt-auto flex flex-col gap-y-1.5'>

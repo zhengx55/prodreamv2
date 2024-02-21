@@ -25,13 +25,14 @@ const UnsubscribeModal = ({
   const { mutateAsync: unsubscribe } = useMutation({
     mutationFn: (params: { subscription_id: string }) =>
       unSubscripeMembership(params),
-    onSuccess: () => {
+    onSuccess: async () => {
       router.refresh();
+      const { toast } = await import('sonner');
+      toast.success('Successfully unsubscribed');
     },
   });
 
   const handleUnsubscribe = async () => {
-    console.log(subscription_id);
     if (!subscription_id) return;
     await unsubscribe({ subscription_id: subscription_id });
   };
@@ -50,16 +51,16 @@ const UnsubscribeModal = ({
           effortlessly.
         </DialogDescription>
         <DialogFooter>
-          {/* <DialogClose asChild> */}
-          <Button
-            role='button'
-            variant={'ghost'}
-            className='h-max border border-doc-primary py-1.5'
-            onClick={handleUnsubscribe}
-          >
-            Continue with Unsubscription
-          </Button>
-          {/* </DialogClose> */}
+          <DialogClose asChild>
+            <Button
+              role='button'
+              variant={'ghost'}
+              className='h-max border border-doc-primary py-1.5'
+              onClick={handleUnsubscribe}
+            >
+              Continue with Unsubscription
+            </Button>
+          </DialogClose>
           <DialogClose asChild>
             <Button role='button' className='h-max py-1.5'>
               Stay Subscribed
