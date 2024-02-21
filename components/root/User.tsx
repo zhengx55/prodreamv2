@@ -19,7 +19,7 @@ const User = ({ name, email, imgSrc }: Props) => {
           <AvatarFallback>{name}</AvatarFallback>
         </Avatar>
         <div className='flex flex-col'>
-          <h2 className='small-semibold text-black-100'>{name}</h2>
+          <h2 className='text-[18px] font-semibold'>{name}</h2>
           <p className='subtle-semibold text-shadow-100'>{email}</p>
         </div>
       </div>

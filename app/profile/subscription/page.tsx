@@ -42,7 +42,6 @@ async function getHistory(): Promise<ISubsciptionHistory[]> {
 export default async function Page() {
   const membership = await getMembership();
   const history = await getHistory();
-  console.log('🚀 ~ Page ~ history:', history);
   return (
     <main className='flex h-full w-full flex-col overflow-y-auto px-10 py-5'>
       <h1 className='title-medium'>Membership Details</h1>
@@ -50,11 +49,12 @@ export default async function Page() {
       <Separator orientation='horizontal' className='bg-shadow-border' />
       <Spacer y='40' />
       <h2 className='title-medium'>Current Plan</h2>
-      {membership.subscription === 'basic' ? (
+      {membership.subscription === 'basic' ||
+      membership.subscription === 'free_trail' ? (
         <div className='flex w-max flex-col'>
           <div className='flex items-center gap-x-4'>
             <p className='text-doc-font'>
-              You are on the <strong>Basic</strong>
+              You are on the <strong>Basic</strong> Plan
             </p>
             <Link passHref href={'/pricing'}>
               <Button role='dialog' className='px-0' variant={'ghost'}>
@@ -67,9 +67,16 @@ export default async function Page() {
         <>
           <div className='flex items-center gap-x-4'>
             <p className='text-doc-font'>
-              You are on the <strong>Unlimited Monthly Plan</strong>
+              You are on the{' '}
+              <strong>
+                Unlimited{' '}
+                {membership.subscription_type === 'year'
+                  ? 'Annualy'
+                  : 'Monthly'}{' '}
+                Plan
+              </strong>
             </p>
-            <UnsubscribeModal>
+            <UnsubscribeModal subscription_id={membership.subscription_id}>
               <Button role='dialog' variant={'ghost'} className='p-0'>
                 Unsubscribe
               </Button>
@@ -80,20 +87,22 @@ export default async function Page() {
             {formatTimestampToDateString(membership.expire_time, false)}
           </p>
           <Spacer y='10' />
-          <div className='flex w-max flex-col rounded-t-lg bg-[#FCFBFF]'>
-            <div className='flex items-start gap-x-2 px-4 py-6'>
-              <span className='flex-center h-5 w-5 rounded-full bg-doc-primary text-white'>
-                !
-              </span>
-              <p className='small-regular text-doc-font'>
-                Save $10 every month by switching to the annual plan,
-                <br />{' '}
-                <Link href={'/pricing'} className='text-doc-primary'>
-                  Go annual now
-                </Link>
-              </p>
+          {membership.subscription_type !== 'year' && (
+            <div className='flex w-max flex-col rounded-lg bg-[#FCFBFF] px-4 py-6'>
+              <div className='flex items-start gap-x-2 '>
+                <span className='flex-center h-5 w-5 rounded-full bg-doc-primary text-white'>
+                  !
+                </span>
+                <p className='small-regular text-doc-font'>
+                  Save $10 every month by switching to the annual plan,
+                  <br />{' '}
+                  <Link href={'/pricing'} className='text-doc-primary'>
+                    Go annual now
+                  </Link>
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </>
       )}
       <Spacer y='32' />
