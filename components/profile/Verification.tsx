@@ -1,8 +1,11 @@
+'use client';
+import { useUserInfo } from '@/zustand/store';
 import { Secure } from '../root/SvgComponents';
 import { Button } from '../ui/button';
 
-type Props = {};
-const Verification = (props: Props) => {
+const Verification = () => {
+  const isGoogle = useUserInfo((state) => state.user.is_google);
+  if (isGoogle) return null;
   return (
     <div className='flex h-[140px] w-[700px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
       <div className='flex gap-x-6'>

@@ -19,6 +19,8 @@ const initialState: LoginData = {
   last_name: '',
   update_time: 0,
   user_id: '',
+  is_google: false,
+  is_verified: false,
 };
 
 const useUserStore: StateCreator<UserStore> = (set) => ({

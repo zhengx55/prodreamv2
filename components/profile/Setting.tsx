@@ -51,7 +51,7 @@ const Setting = () => {
         </EditPassword>
       </div>
       <Spacer y='32' />
-      <Separator orientation='horizontal' className=' bg-shadow-border' />
+      <Separator orientation='horizontal' className='bg-shadow-border' />
       <Spacer y='40' />
     </>
   );

@@ -14,6 +14,8 @@ export interface LoginData {
   last_name: string;
   update_time: number;
   user_id: string;
+  is_google: boolean;
+  is_verified: boolean;
 }
 
 export interface ISigunUpRequest {

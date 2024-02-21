@@ -46,14 +46,14 @@ const AvatarChange = () => {
           onClick={() => {
             uploadRef.current?.click();
           }}
-          className='flex-center relative h-[70px] w-[70px] cursor-pointer overflow-hidden rounded-full bg-[rgba(152,34,245,.25)] hover:opacity-50'
+          className='relative h-[70px] w-[70px] cursor-pointer overflow-hidden rounded-full hover:opacity-50'
         >
           <Image
             alt={userInfo.last_name}
             className='h-auto w-auto'
-            width={70}
+            fill
+            priority
             placeholder='empty'
-            height={70}
             src={
               userInfo.avatar
                 ? userInfo.avatar

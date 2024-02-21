@@ -11,7 +11,7 @@ const User = ({ name, email, imgSrc }: Props) => {
       <div className='flex max-w-56 cursor-pointer items-center gap-x-3.5'>
         <Avatar>
           <AvatarImage
-            className='rounded-full border border-primary-200 bg-primary-50 object-contain'
+            className='rounded-full bg-primary-50 object-contain'
             src={imgSrc}
             referrerPolicy='no-referrer'
             alt={name}
