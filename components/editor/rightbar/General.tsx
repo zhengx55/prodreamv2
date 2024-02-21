@@ -7,7 +7,7 @@ import {
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import useAiEditor from '@/zustand/store';
-import { AnimatePresence, Variants, m } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { PanelRight, PanelRightClose } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { GrammarCheck } from './grammar/GrammarCheck';
@@ -20,10 +20,6 @@ const Citation = dynamic(
   () => import('@/components/editor/rightbar/citation/Citation')
 );
 
-const OptionsVariants: Variants = {
-  expanded: { width: '70%' },
-  collasped: { width: '15%' },
-};
 const General = () => {
   const toggleRightbar = useAiEditor((state) => state.toggleRightbar);
   const rightbarTab = useAiEditor((state) => state.rightbarTab);
@@ -49,23 +45,22 @@ const General = () => {
         />
         <Spacer y='15' />
         <div className='flex-between w-full gap-x-2.5'>
-          <Tooltip tooltipContent='Grammar Check'>
+          <AnimatePresence>
             <m.span
               onClick={() => updateRightbarTab(0)}
               initial={false}
-              variants={OptionsVariants}
-              animate={rightbarTab === 0 ? 'expanded' : 'collasped'}
-              className={`${
+              animate={{ width: rightbarTab === 0 ? '70%' : '15%' }}
+              exit={{ width: rightbarTab === 0 ? '15%' : '70%' }}
+              className={`flex-center h-11 cursor-pointer ${
                 rightbarTab === 0
-                  ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                  : 'border border-shadow-border bg-transparent'
-              }  flex-center h-11 cursor-pointer gap-x-2 rounded-md `}
+                  ? 'rounded-md border border-[#E7E9FF] bg-[#E7E9FF]/50'
+                  : 'relative rounded-md border border-shadow-border bg-transparent'
+              }`}
             >
-              <FileCheck size='18' />
-              <AnimatePresence>
-                {rightbarTab === 0 && (
+              {rightbarTab === 0 ? (
+                <>
+                  <FileCheck size='18' />
                   <m.p
-                    key={'rightbar-grammar-check'}
                     initial={{ opacity: 0, scale: 0 }}
                     exit={{ opacity: 0, scale: 0 }}
                     animate={{
@@ -77,48 +72,68 @@ const General = () => {
                   >
                     Grammar Check
                   </m.p>
-                )}
-              </AnimatePresence>
+                </>
+              ) : (
+                <Tooltip tooltipContent='Grammar check'>
+                  <div className='flex-center absolute h-full w-full'>
+                    <FileCheck size='18' />
+                  </div>
+                </Tooltip>
+              )}
             </m.span>
-          </Tooltip>
-
-          <Tooltip tooltipContent='Citation'>
+          </AnimatePresence>
+          <AnimatePresence>
             <m.span
               onClick={() => updateRightbarTab(1)}
               initial={false}
-              variants={OptionsVariants}
-              animate={rightbarTab === 1 ? 'expanded' : 'collasped'}
-              className={`${
+              animate={{ width: rightbarTab === 1 ? '70%' : '15%' }}
+              exit={{ width: rightbarTab === 1 ? '15%' : '70%' }}
+              className={`flex-center h-11 cursor-pointer ${
                 rightbarTab === 1
-                  ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                  : 'border border-shadow-border bg-transparent'
-              }  flex-center h-11 cursor-pointer gap-x-2 rounded `}
+                  ? 'rounded border border-[#E7E9FF] bg-[#E7E9FF]/50'
+                  : 'relative rounded border border-shadow-border bg-transparent'
+              }`}
             >
-              <BookHalf size={'18'} />
-              {rightbarTab === 1 && (
-                <p className='small-semibold text-doc-primary'>Citation</p>
+              {rightbarTab === 1 ? (
+                <>
+                  <BookHalf size={'18'} />
+                  <p className='small-semibold text-doc-primary'>Citation</p>
+                </>
+              ) : (
+                <Tooltip tooltipContent='Citation'>
+                  <div className='flex-center absolute h-full w-full'>
+                    <BookHalf size={'18'} />
+                  </div>
+                </Tooltip>
               )}
             </m.span>
-          </Tooltip>
-
-          <Tooltip tooltipContent='Generate'>
+          </AnimatePresence>
+          <AnimatePresence>
             <m.span
               onClick={() => updateRightbarTab(2)}
               initial={false}
-              variants={OptionsVariants}
-              animate={rightbarTab === 2 ? 'expanded' : 'collasped'}
-              className={`${
+              animate={{ width: rightbarTab === 2 ? '70%' : '15%' }}
+              exit={{ width: rightbarTab === 2 ? '15%' : '70%' }}
+              className={`flex-center h-11 cursor-pointer ${
                 rightbarTab === 2
-                  ? 'border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                  : 'border border-shadow-border bg-transparent'
-              }  flex-center h-11 cursor-pointer gap-x-2 rounded`}
+                  ? 'rounded border border-[#E7E9FF] bg-[#E7E9FF]/50'
+                  : 'relative rounded border border-shadow-border bg-transparent'
+              }`}
             >
-              <GenerateFill size='18' />
-              {rightbarTab === 2 && (
-                <p className='small-semibold text-doc-primary'>Generate</p>
+              {rightbarTab === 2 ? (
+                <>
+                  <GenerateFill size='18' />
+                  <p className='small-semibold text-doc-primary'>Generate</p>
+                </>
+              ) : (
+                <Tooltip tooltipContent='Generate'>
+                  <div className='flex-center absolute h-full w-full'>
+                    <GenerateFill size='18' />
+                  </div>
+                </Tooltip>
               )}
             </m.span>
-          </Tooltip>
+          </AnimatePresence>
         </div>
         <Spacer y='15' />
         {rightbarTab === 0 ? (

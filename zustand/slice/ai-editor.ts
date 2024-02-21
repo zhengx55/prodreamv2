@@ -67,7 +67,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateRightbarTab: (result) =>
     set((state) => {
       if (!state.rightbarOpen)
-        return { rightbarOpen: true, righbarTab: result };
+        return { rightbarOpen: true, rightbarTab: result };
       return { rightbarTab: result };
     }),
   toggleRightbar: () => set((state) => ({ rightbarOpen: !state.rightbarOpen })),

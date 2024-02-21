@@ -1,18 +1,19 @@
 'use client';
 import { formatTimestampToDateString } from '@/lib/utils';
-import { ISubscription } from '@/types';
+import { useMembershipInfo } from '@/query/query';
 import Link from 'next/link';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
-type Props = { membership: ISubscription };
-const Membership = ({ membership }: Props) => {
+const Membership = () => {
+  const { data: membership, isPending, isError } = useMembershipInfo();
+  if (isPending || isError) return null;
   return (
     <>
       <h2 className='title-medium'>Membership</h2>
-      {membership.subscription ===
-      'free_trail' ? null : membership.subscription === 'basic' ? (
+      {membership.subscription === 'basic' ||
+      membership.subscription === 'free_trail' ? (
         <div className='flex w-max flex-col'>
           <div className='flex items-center gap-x-4'>
             <p className='text-doc-font'>

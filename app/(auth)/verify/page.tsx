@@ -1,7 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { resendEmail } from '@/query/api';
-import { useMutation } from '@tanstack/react-query';
+import { useRensendEmail } from '@/query/query';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -10,17 +9,7 @@ export default function Page({
 }: {
   searchParams: { status: string };
 }) {
-  const { mutateAsync: handleResend } = useMutation({
-    mutationFn: () => resendEmail(),
-    onSuccess: async () => {
-      const { toast } = await import('sonner');
-      toast.success('Email sent successfully');
-    },
-    onError: async () => {
-      const { toast } = await import('sonner');
-      toast.error('Email sent error, please try again later');
-    },
-  });
+  const { mutateAsync: handleResend } = useRensendEmail();
   async function resend() {
     await handleResend();
   }
