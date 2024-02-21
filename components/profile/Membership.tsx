@@ -12,6 +12,7 @@ const Membership = () => {
   return (
     <>
       <h2 className='title-medium'>Membership</h2>
+      <Spacer y='5' />
       {membership.subscription === 'basic' ||
       membership.subscription === 'free_trail' ? (
         <div className='flex w-max flex-col'>
@@ -25,6 +26,7 @@ const Membership = () => {
               </Button>
             </Link>
           </div>
+          <Spacer y='5' />
           <Link passHref href={'/profile/subscription'}>
             <Button role='button' className='base-regular rounded-lg'>
               Manage subscription
@@ -45,6 +47,7 @@ const Membership = () => {
               </strong>
             </p>
           </div>
+          <Spacer y='5' />
           <p className='text-doc-font'>
             Next billing date:{' '}
             {formatTimestampToDateString(membership.expire_time, false)}

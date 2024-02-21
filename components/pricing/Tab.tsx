@@ -14,6 +14,8 @@ const Tab = ({ membership }: Props) => {
   const isBasic =
     membership.subscription === 'free_trail' ||
     membership.subscription === 'basic';
+  const isMonthly = membership.subscription_type === 'month';
+  const isAnually = membership.subscription_type === 'year';
   return (
     <Tabs
       defaultValue='Annually'
@@ -38,7 +40,7 @@ const Tab = ({ membership }: Props) => {
         <div className='flex w-full justify-center gap-x-10 py-4'>
           <Card current={isBasic} basic={true} info={PricingBasic} />
           <Card
-            current={!isBasic}
+            current={isMonthly}
             purchase_type='annualy'
             info={PricingAnnualyUnlimited}
           />
@@ -48,7 +50,7 @@ const Tab = ({ membership }: Props) => {
         <div className='flex w-full justify-center gap-x-10 py-4'>
           <Card current={isBasic} basic={true} info={PricingBasic} />
           <Card
-            current={!isBasic}
+            current={isAnually}
             purchase_type='monthly'
             info={PricingUnlimited}
           />

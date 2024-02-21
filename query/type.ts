@@ -63,13 +63,8 @@ export interface IDiffObject {
 
 export interface IPlagiarismData {
   scores: number;
-  spans: Span[];
+  spans: number[][];
   status: string;
-}
-
-export interface Span {
-  span: number[];
-  urls: string[];
 }
 
 export type IDocDetail = {

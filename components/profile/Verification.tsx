@@ -9,7 +9,7 @@ const Verification = () => {
   const isVerified = useUserInfo((state) => state.user.is_verified);
   const { mutate: handleResend } = useRensendEmail();
 
-  if (isGoogle || !isVerified) return null;
+  if (isGoogle || isVerified) return null;
   return (
     <div className='flex h-[140px] w-[700px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
       <div className='flex gap-x-6'>

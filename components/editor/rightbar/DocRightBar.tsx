@@ -11,7 +11,7 @@ const DocRightBar = () => {
     <AnimatePresence mode='wait'>
       {rightbarOpen ? (
         <General />
-      ) : !isPlagiarismOpen ? (
+      ) : isPlagiarismOpen ? (
         <General.Trigger />
       ) : (
         <Report />
