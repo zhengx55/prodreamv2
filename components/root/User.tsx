@@ -11,7 +11,7 @@ const User = ({ name, email, imgSrc }: Props) => {
       <div className='flex max-w-56 cursor-pointer items-center gap-x-3.5'>
         <Avatar>
           <AvatarImage
-            className='rounded-full border border-primary-200 bg-primary-50 object-contain'
+            className='rounded-full bg-primary-50 object-contain'
             src={imgSrc}
             referrerPolicy='no-referrer'
             alt={name}
@@ -19,7 +19,7 @@ const User = ({ name, email, imgSrc }: Props) => {
           <AvatarFallback>{name}</AvatarFallback>
         </Avatar>
         <div className='flex flex-col'>
-          <h2 className='small-semibold text-black-100'>{name}</h2>
+          <h2 className='text-[18px] font-semibold'>{name}</h2>
           <p className='subtle-semibold text-shadow-100'>{email}</p>
         </div>
       </div>

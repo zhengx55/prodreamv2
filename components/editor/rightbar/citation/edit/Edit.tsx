@@ -1,7 +1,8 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCitation } from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { memo } from 'react';
+import EditCitation from './EditCitation';
 import EditIntext from './EditIntext';
 
 const Edit = () => {
@@ -15,10 +16,7 @@ const Edit = () => {
   });
   return (
     <div className='relative flex h-full w-full flex-col'>
-      <Tabs
-        defaultValue={'in-text'}
-        className='flex flex-1 flex-col justify-start gap-y-2'
-      >
+      <Tabs defaultValue={'in-text'} className='flex-1 overflow-y-auto'>
         <TabsList className='gap-x-2 self-start'>
           <TabsTrigger
             value='in-text'
@@ -34,7 +32,7 @@ const Edit = () => {
           </TabsTrigger>
         </TabsList>
         <EditIntext />
-        <TabsContent value='citation'></TabsContent>
+        <EditCitation />
       </Tabs>
     </div>
   );

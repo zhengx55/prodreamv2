@@ -1,3 +1,7 @@
+'use client';
+import { unSubscripeMembership } from '@/query/api';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 import { Button } from '../ui/button';
 import {
@@ -10,7 +14,29 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 
-const UnsubscribeModal = ({ children }: { children: ReactNode }) => {
+const UnsubscribeModal = ({
+  children,
+  subscription_id,
+}: {
+  children: ReactNode;
+  subscription_id: string;
+}) => {
+  const router = useRouter();
+  const { mutateAsync: unsubscribe } = useMutation({
+    mutationFn: (params: { subscription_id: string }) =>
+      unSubscripeMembership(params),
+    onSuccess: async () => {
+      router.refresh();
+      const { toast } = await import('sonner');
+      toast.success('Successfully unsubscribed');
+    },
+  });
+
+  const handleUnsubscribe = async () => {
+    if (!subscription_id) return;
+    await unsubscribe({ subscription_id: subscription_id });
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -30,6 +56,7 @@ const UnsubscribeModal = ({ children }: { children: ReactNode }) => {
               role='button'
               variant={'ghost'}
               className='h-max border border-doc-primary py-1.5'
+              onClick={handleUnsubscribe}
             >
               Continue with Unsubscription
             </Button>

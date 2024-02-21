@@ -19,7 +19,7 @@ const BookForm = () => {
   >('The whole book');
   return (
     <div className='flex flex-1 flex-col overflow-y-auto'>
-      <Spacer y='16' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>Book Type</h1>
       <Spacer y='16' />
       <Select onValueChange={setBookType as any} defaultValue='The whole book'>

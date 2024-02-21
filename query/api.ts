@@ -16,6 +16,25 @@ import {
 // Info
 // ----------------------------------------------------------------
 
+export async function resendEmail(): Promise<void> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/verification_email`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function getUserMemberShip(): Promise<ISubscription> {
   try {
     const token = Cookies.get('token');
@@ -67,7 +86,7 @@ export async function unSubscripeMembership(params: {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/${params.subscription_id}/order`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/orders/${params.subscription_id}`,
       {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },

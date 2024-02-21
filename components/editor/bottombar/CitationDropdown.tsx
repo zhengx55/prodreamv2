@@ -19,7 +19,7 @@ const NavbarDropdown = () => {
           e.stopPropagation();
           setCitationStyle('MLA');
         }}
-        className='flex cursor-pointer justify-center text-shadow hover:bg-shadow-50'
+        className='flex cursor-pointer justify-center text-shadow hover:bg-border-50'
       >
         MLA
       </DropdownMenuItem>
@@ -28,7 +28,7 @@ const NavbarDropdown = () => {
           e.stopPropagation();
           setCitationStyle('APA');
         }}
-        className='flex cursor-pointer justify-center text-shadow hover:bg-shadow-50'
+        className='flex cursor-pointer justify-center text-shadow hover:bg-border-50'
       >
         APA
       </DropdownMenuItem>

@@ -12,9 +12,7 @@ import { useParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-type Props = {};
-
-const WebsiteForm = (props: Props) => {
+const WebsiteForm = () => {
   const { id } = useParams();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IWebsiteCitation>({
@@ -69,14 +67,16 @@ const WebsiteForm = (props: Props) => {
       <Spacer y='20' />
       <h1 className='base-semibold'>What I&apos;m citing</h1>
       <Spacer y='16' />
-      <label htmlFor='article_title'>Article Title</label>
+      <label className='small-regular text-doc-font' htmlFor='article_title'>
+        Article Title
+      </label>
       <Input
         type='text'
         id='article_title'
         className='focus-visible:ring-0'
         {...register('article_title')}
       />
-      <Spacer y='30' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2'>
@@ -90,7 +90,10 @@ const WebsiteForm = (props: Props) => {
               variants={contributorAnimation}
             >
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.first_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.first_name`}
+                >
                   First Name
                 </label>
                 <Input
@@ -101,7 +104,10 @@ const WebsiteForm = (props: Props) => {
                 />
               </div>
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.middle_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.middle_name`}
+                >
                   MI/ Middle
                 </label>
                 <Input
@@ -112,7 +118,10 @@ const WebsiteForm = (props: Props) => {
                 />
               </div>
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.last_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.last_name`}
+                >
                   Last Name
                 </label>
                 <Input
@@ -143,10 +152,12 @@ const WebsiteForm = (props: Props) => {
         <PlusCircle className='fill-doc-primary text-white' size={22} />
         <p className='text-doc-primary'> Add Contributor</p>
       </Button>
-      <Spacer y='30' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>Online publication info</h1>
       <Spacer y='16' />
-      <label htmlFor='publisher'>Publisher</label>
+      <label className='small-regular text-doc-font' htmlFor='publisher'>
+        Publisher
+      </label>
       <Input
         type='text'
         id='publisher'
@@ -154,7 +165,9 @@ const WebsiteForm = (props: Props) => {
         {...register('publisher')}
       />
       <Spacer y='16' />
-      <label htmlFor='website_title'>Website Title</label>
+      <label className='small-regular text-doc-font' htmlFor='website_title'>
+        Website Title
+      </label>
       <Input
         type='text'
         id='website_title'
@@ -162,7 +175,9 @@ const WebsiteForm = (props: Props) => {
         {...register('website_title')}
       />
       <Spacer y='16' />
-      <label htmlFor='url'>Website URL</label>
+      <label className='small-regular text-doc-font' htmlFor='url'>
+        Website URL
+      </label>
       <Input
         type='text'
         id='url'
@@ -170,7 +185,7 @@ const WebsiteForm = (props: Props) => {
         {...register('url')}
       />
       <Spacer y='16' />
-      <h2>Date accessed</h2>
+      <h2 className='small-regular text-doc-font'>Date accessed</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input

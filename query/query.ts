@@ -12,6 +12,7 @@ import {
   getUserInfo,
   getUserMemberShip,
   purchaseMembership,
+  resendEmail,
   unSubscripeMembership,
   updateUserInfo,
   userLogin,
@@ -161,6 +162,20 @@ export const useCiteToDoc = () => {
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
       toast.error(error.message);
+    },
+  });
+};
+
+export const useRensendEmail = () => {
+  return useMutation({
+    mutationFn: () => resendEmail(),
+    onSuccess: async () => {
+      const { toast } = await import('sonner');
+      toast.success('Email sent successfully');
+    },
+    onError: async () => {
+      const { toast } = await import('sonner');
+      toast.error('Email sent error, please try again later');
     },
   });
 };

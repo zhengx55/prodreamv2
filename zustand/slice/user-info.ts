@@ -9,6 +9,7 @@ export type UserStore = {
   setUserFirstName: (firstName: string) => void;
   setUserLastName: (lastName: string) => void;
   resetUser: () => void;
+  updateUserVerification: () => void;
 };
 
 const initialState: LoginData = {
@@ -19,6 +20,8 @@ const initialState: LoginData = {
   last_name: '',
   update_time: 0,
   user_id: '',
+  is_google: false,
+  is_verified: false,
 };
 
 const useUserStore: StateCreator<UserStore> = (set) => ({
@@ -31,6 +34,8 @@ const useUserStore: StateCreator<UserStore> = (set) => ({
     set((state) => ({ user: { ...state.user, first_name: firstName } })),
   setUserLastName: (lastName) =>
     set((state) => ({ user: { ...state.user, last_name: lastName } })),
+  updateUserVerification: () =>
+    set((state) => ({ user: { ...state.user, is_verified: true } })),
   resetUser: () => set({ user: { ...initialState } }),
 });
 

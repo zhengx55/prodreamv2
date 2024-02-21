@@ -14,6 +14,8 @@ export interface LoginData {
   last_name: string;
   update_time: number;
   user_id: string;
+  is_google: boolean;
+  is_verified: boolean;
 }
 
 export interface ISigunUpRequest {
@@ -61,13 +63,8 @@ export interface IDiffObject {
 
 export interface IPlagiarismData {
   scores: number;
-  spans: Span[];
+  spans: number[][];
   status: string;
-}
-
-export interface Span {
-  span: number[];
-  urls: string[];
 }
 
 export type IDocDetail = {
