@@ -60,7 +60,7 @@ const WholeBook = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
-      <Spacer y='30' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2'>
@@ -74,7 +74,10 @@ const WholeBook = () => {
               variants={contributorAnimation}
             >
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.first_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.first_name`}
+                >
                   First Name
                 </label>
                 <Input
@@ -86,7 +89,10 @@ const WholeBook = () => {
                 />
               </div>
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.middle_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.middle_name`}
+                >
                   MI/ Middle
                 </label>
                 <Input
@@ -98,7 +104,10 @@ const WholeBook = () => {
                 />
               </div>
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.last_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.last_name`}
+                >
                   Last Name
                 </label>
                 <Input
@@ -130,10 +139,12 @@ const WholeBook = () => {
         <PlusCircle className='fill-doc-primary text-white' size={22} />
         <p className='text-doc-primary'> Add Contributor</p>
       </Button>
-      <Spacer y='30' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>In print publication info</h1>
       <Spacer y='16' />
-      <label htmlFor='Source title'>Source title</label>
+      <label className='small-regular text-doc-font' htmlFor='Source title'>
+        Source title
+      </label>
       <Input
         type='text'
         id='Source title'
@@ -142,8 +153,7 @@ const WholeBook = () => {
         aria-label='book_title'
       />
       <Spacer y='16' />
-      <h2>Advanced info</h2>
-      <Spacer y='16' />
+      <h2 className='small-regular text-doc-font'>Advanced info</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
@@ -183,7 +193,7 @@ const WholeBook = () => {
         </div>
       </div>
       <Spacer y='16' />
-      <h2>Publication info</h2>
+      <h2 className='small-regular text-doc-font'>Publication info</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input

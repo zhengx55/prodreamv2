@@ -1,8 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { TabsContent } from '@/components/ui/tabs';
 import { useCitation } from '@/zustand/store';
+import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
-import WebsiteForm from '../form/Website';
+
+const WebsiteForm = dynamic(() => import('../form/Website'));
+const JournalForm = dynamic(() => import('../form/Journal'));
+const ChapterForm = dynamic(() => import('../form/Chapter'));
+const WholeBook = dynamic(() => import('../form/WholeBook'));
+const IntroductionForm = dynamic(() => import('../form/Introduction'));
 
 const EditCitation = () => {
   const updateShowEditCitation = useCitation(
@@ -16,15 +22,25 @@ const EditCitation = () => {
     );
     return foundCitation ? foundCitation : null;
   }, [inTextCitation, currentInline]);
-  console.log(
-    '🚀 ~ constcurrent_citation=useMemo ~ current_citation:',
-    current_citation
-  );
   const handleSave = async () => {};
 
+  const renderForm = (data: any) => {
+    switch (current_citation?.type) {
+      case 'Website':
+        return <WebsiteForm />;
+      case 'Journal':
+        return <JournalForm data={data} />;
+      case 'BookSection':
+        return <ChapterForm />;
+      case 'WholeBook':
+        return <WholeBook />;
+      default:
+        return <IntroductionForm />;
+    }
+  };
   return (
-    <TabsContent value='citation'>
-      <WebsiteForm />
+    <TabsContent value='citation' className='h-full overflow-y-auto'>
+      {renderForm(current_citation?.data)}
       <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-1.5'>
         <Button
           className='h-max rounded border border-doc-primary text-doc-primary'

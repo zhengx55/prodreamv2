@@ -16,10 +16,7 @@ const Edit = () => {
   });
   return (
     <div className='relative flex h-full w-full flex-col'>
-      <Tabs
-        defaultValue={'in-text'}
-        className='flex flex-1 flex-col justify-start gap-y-2'
-      >
+      <Tabs defaultValue={'in-text'} className='flex-1 overflow-y-auto'>
         <TabsList className='gap-x-2 self-start'>
           <TabsTrigger
             value='in-text'

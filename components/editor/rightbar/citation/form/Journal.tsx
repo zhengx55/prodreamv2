@@ -12,22 +12,42 @@ import { useParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-const JournalForm = () => {
+const JournalForm = ({
+  type,
+  data,
+}: {
+  type?: string;
+  data?: IJournalCitation;
+}) => {
   const { id } = useParams();
   const { mutateAsync: handleCreate } = useCreateCitation();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IJournalCitation>({
-      defaultValues: {
-        contributors: [
-          {
-            first_name: '',
-            middle_name: '',
-            last_name: '',
-            role: 'author',
-            suffix: '',
+      defaultValues: !data
+        ? {
+            journal_title: '',
+            article_title: '',
+            advanced_info: { volume: '', series: '', issue: '' },
+            publish_date: { day: '', month: '', year: '' },
+            doi: '',
+            contributors: [
+              {
+                first_name: '',
+                middle_name: '',
+                last_name: '',
+                role: 'author',
+                suffix: '',
+              },
+            ],
+          }
+        : {
+            contributors: data.contributors,
+            journal_title: data.journal_title,
+            article_title: data.article_title,
+            advanced_info: data.advanced_info,
+            publish_date: data.publish_date,
+            doi: data.doi,
           },
-        ],
-      },
     });
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
@@ -69,14 +89,16 @@ const JournalForm = () => {
       <Spacer y='20' />
       <h1 className='base-semibold'>What I&apos;m citing</h1>
       <Spacer y='16' />
-      <label htmlFor='article_title'>Article Title</label>
+      <label className='small-regular text-doc-font' htmlFor='article_title'>
+        Article Title
+      </label>
       <Input
         type='text'
         id='article_title'
         className='focus-visible:ring-0'
         {...register('article_title')}
       />
-      <Spacer y='30' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2 '>
@@ -90,7 +112,10 @@ const JournalForm = () => {
               variants={contributorAnimation}
             >
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.first_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.first_name`}
+                >
                   First Name
                 </label>
                 <Input
@@ -101,7 +126,10 @@ const JournalForm = () => {
                 />
               </div>
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.middle_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.middle_name`}
+                >
                   MI/ Middle
                 </label>
                 <Input
@@ -113,7 +141,10 @@ const JournalForm = () => {
               </div>
 
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.last_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.last_name`}
+                >
                   Last Name
                 </label>
                 <Input
@@ -144,10 +175,12 @@ const JournalForm = () => {
         <PlusCircle className='fill-doc-primary text-white' size={22} />
         <p className='text-doc-primary'> Add Contributor</p>
       </Button>
-      <Spacer y='30' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>Journal publication info</h1>
       <Spacer y='16' />
-      <label htmlFor='journal_title'>Journal title</label>
+      <label className='small-regular text-doc-font' htmlFor='journal_title'>
+        Journal title
+      </label>
       <Input
         type='text'
         id='journal_title'
@@ -155,7 +188,7 @@ const JournalForm = () => {
         {...register('journal_title')}
       />
       <Spacer y='16' />
-      <h2>Advanced info</h2>
+      <h2 className='small-regular text-doc-font'>Advanced info</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
@@ -186,7 +219,7 @@ const JournalForm = () => {
         </div>
       </div>
       <Spacer y='16' />
-      <h2>Date published</h2>
+      <h2 className='small-regular text-doc-font'>Date published</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
@@ -214,7 +247,7 @@ const JournalForm = () => {
         </div>
       </div>
       <Spacer y='16' />
-      <h2>Pages</h2>
+      <h2 className='small-regular text-doc-font'>Pages</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
@@ -236,7 +269,9 @@ const JournalForm = () => {
         </div>
       </div>
       <Spacer y='16' />
-      <label htmlFor='doi'>DOI</label>
+      <label className='small-regular text-doc-font' htmlFor='doi'>
+        DOI
+      </label>
       <Input
         type='text'
         id='doi'
