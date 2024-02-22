@@ -2,43 +2,91 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation } from '@/query/query';
+import { useCreateCitation, useUpdateCitation } from '@/query/query';
 import { IChapterCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
-const ChapterForm = () => {
+const ChapterForm = ({
+  type,
+  data,
+}: {
+  type?: 'edit' | 'create';
+  data?: IChapterCitation;
+}) => {
   const { id } = useParams();
   const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleUpdate } = useUpdateCitation();
+
   const { register, handleSubmit, control } = useForm<IChapterCitation>({
-    defaultValues: {
-      contributors: [
-        {
-          first_name: '',
-          middle_name: '',
-          last_name: '',
-          role: 'author',
+    defaultValues: !data
+      ? {
+          book_title: '',
+          section_title: '',
+          contributors: [
+            {
+              first_name: '',
+              middle_name: '',
+              last_name: '',
+              role: 'author',
+            },
+          ],
+        }
+      : {
+          contributors: data.contributors,
+          section_title: data.section_title,
+          page_info: data.page_info,
+          advanced_info: data.advanced_info,
+          publication_info: data.publication_info,
+          book_title: data.book_title,
         },
-      ],
-    },
   });
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
+  );
+  const updateShowEditCitation = useAiEditor(
+    (state) => state.updateShowEditCitation
   );
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'contributors',
   });
 
-  const onSubmit = async (data: IChapterCitation) => {
-    await handleCreate({
-      document_id: id as string,
-      citation_type: 'BookSection',
-      citation_data: data,
-    });
-    updateShowCreateCitation(false);
+  const onSubmit = async (values: IChapterCitation) => {
+    if (type === 'edit') {
+      if (!data) return;
+      await handleUpdate({
+        citation_type: 'Journal',
+        data: {
+          ...data,
+          contributors: values.contributors,
+          section_title: values.section_title,
+          page_info: values.page_info,
+          advanced_info: values.advanced_info,
+          publication_info: values.publication_info,
+          book_title: values.book_title,
+        },
+        id: data.id,
+      });
+      updateShowEditCitation(false);
+    } else {
+      await handleCreate({
+        document_id: id as string,
+        citation_type: 'BookSection',
+        citation_data: values,
+      });
+      updateShowCreateCitation(false);
+    }
+  };
+
+  const handleCancel = () => {
+    if (type === 'edit') {
+      updateShowEditCitation(false);
+    } else {
+      updateShowCreateCitation(false);
+    }
   };
 
   const appendContributor = () => {
@@ -258,9 +306,7 @@ const ChapterForm = () => {
           className='h-max rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}
           type='button'
-          onClick={() => {
-            updateShowCreateCitation(false);
-          }}
+          onClick={handleCancel}
         >
           Cancel
         </Button>

@@ -39,16 +39,14 @@ export type ICitationData = IWebsiteCitation &
   IJournalCitation &
   IBookCitation &
   IChapterCitation &
-  IIntroductionCitation & {
-    id: string;
-  };
+  IIntroductionCitation;
 
 export interface IWebsiteCitation {
   abstract: string;
   access_date: {
-    day: number | null;
-    month: string | null;
-    year: number | null;
+    day: string;
+    month: string;
+    year: string;
   };
   annotation: string;
   article_title: string;
@@ -63,9 +61,11 @@ export interface IWebsiteCitation {
   url: string;
   reference_count: number;
   area: string[];
+  id: string;
 }
 
 export interface IJournalCitation {
+  id: string;
   reference_count: number;
   area: string[];
   pdf_url: string;
@@ -124,6 +124,7 @@ export interface IBookCitation {
     publisher?: string;
     state?: string;
   };
+  id: string;
 }
 
 export interface IChapterCitation {
@@ -153,6 +154,7 @@ export interface IChapterCitation {
     state?: string;
   };
   section_title?: string;
+  id: string;
 }
 
 export interface IIntroductionCitation {
@@ -184,19 +186,8 @@ export interface IIntroductionCitation {
   };
   section_title?: string;
   special_section_type?: string;
+  id: string;
 }
-
-export type GetCitationDataType<T extends ICitationType> = T extends 'website'
-  ? IWebsiteCitation
-  : T extends 'journal'
-    ? IJournalCitation
-    : T extends 'whole_book'
-      ? IBookCitation
-      : T extends 'book_special_section'
-        ? IIntroductionCitation
-        : T extends 'book_section'
-          ? IChapterCitation
-          : never;
 
 export type ISubscription = {
   subscription: 'basic' | 'unlimited' | 'free_trail';

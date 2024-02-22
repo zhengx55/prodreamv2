@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import { TabsContent } from '@/components/ui/tabs';
 import { useCitation } from '@/zustand/store';
 import dynamic from 'next/dynamic';
@@ -27,40 +26,20 @@ const EditCitation = () => {
   const renderForm = (data: any) => {
     switch (current_citation?.type) {
       case 'Website':
-        return <WebsiteForm />;
+        return <WebsiteForm data={data} type='edit' />;
       case 'Journal':
-        return <JournalForm data={data} />;
+        return <JournalForm data={data} type='edit' />;
       case 'BookSection':
-        return <ChapterForm />;
+        return <ChapterForm data={data} type='edit' />;
       case 'WholeBook':
-        return <WholeBook />;
+        return <WholeBook data={data} type='edit' />;
       default:
-        return <IntroductionForm />;
+        return <IntroductionForm data={data} type='edit' />;
     }
   };
   return (
-    <TabsContent value='citation' className='h-full overflow-y-auto'>
+    <TabsContent value='citation'>
       {renderForm(current_citation?.data)}
-      <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-1.5'>
-        <Button
-          className='h-max rounded border border-doc-primary text-doc-primary'
-          variant={'ghost'}
-          type='button'
-          onClick={() => {
-            updateShowEditCitation(false);
-          }}
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={handleSave}
-          type='button'
-          role='button'
-          className='h-max rounded'
-        >
-          Save
-        </Button>
-      </div>
     </TabsContent>
   );
 };

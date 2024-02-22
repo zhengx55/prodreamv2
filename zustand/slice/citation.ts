@@ -39,6 +39,10 @@ type CitationAction = {
     result: CitationState['inTextCitation'],
     id_array: string[]
   ) => void;
+  updateCitationItem: (result: {
+    type: ICitationType;
+    data: ICitationData;
+  }) => void;
   updateInDocCitation: (
     result: CitationState['inDocCitation'],
     id_array: string[]
@@ -68,6 +72,27 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
   updateCurrentInline: (result) => {
     set(() => ({
       currentInline: result,
+    }));
+  },
+  updateCitationItem: (result) => {
+    const item = get().inTextCitation.find(
+      (item) => item.data.id === result.data.id
+    );
+    set((state) => ({
+      inTextCitation: state.inTextCitation.map((item) => {
+        if (item.data.id === result.data.id) {
+          return { type: item.type, data: result.data };
+        } else {
+          return item;
+        }
+      }),
+      inDocCitation: state.inDocCitation.map((item) => {
+        if (item.data.id === result.data.id) {
+          return { type: item.type, data: result.data };
+        } else {
+          return item;
+        }
+      }),
     }));
   },
   updateShowEditCitation: (result) => {

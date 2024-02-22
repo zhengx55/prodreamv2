@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation } from '@/query/query';
+import { useCreateCitation, useUpdateCitation } from '@/query/query';
 import { IJournalCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -16,11 +16,12 @@ const JournalForm = ({
   type,
   data,
 }: {
-  type?: string;
+  type?: 'edit' | 'create';
   data?: IJournalCitation;
 }) => {
   const { id } = useParams();
   const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleUpdate } = useUpdateCitation();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IJournalCitation>({
       defaultValues: !data
@@ -52,23 +53,52 @@ const JournalForm = ({
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
   );
+  const updateShowEditCitation = useAiEditor(
+    (state) => state.updateShowEditCitation
+  );
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'contributors',
   });
+
+  const handleCancel = () => {
+    if (type === 'edit') {
+      updateShowEditCitation(false);
+    } else {
+      updateShowCreateCitation(false);
+    }
+  };
 
   const memoSetMonth = useCallback((value: string) => {
     setValue('publish_date.month', value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = async (data: IJournalCitation) => {
-    await handleCreate({
-      document_id: id as string,
-      citation_type: 'Journal',
-      citation_data: data,
-    });
-    updateShowCreateCitation(false);
+  const onSubmit = async (values: IJournalCitation) => {
+    if (type === 'create') {
+      await handleCreate({
+        document_id: id as string,
+        citation_type: 'Journal',
+        citation_data: values,
+      });
+      updateShowCreateCitation(false);
+    } else {
+      if (!data) return;
+      await handleUpdate({
+        citation_type: 'Journal',
+        data: {
+          ...data,
+          contributors: values.contributors,
+          journal_title: values.journal_title,
+          article_title: values.article_title,
+          advanced_info: values.advanced_info,
+          publish_date: values.publish_date,
+          doi: values.doi,
+        },
+        id: data.id,
+      });
+    }
   };
 
   const appendContributor = () => {
@@ -284,9 +314,7 @@ const JournalForm = ({
           className='h-max rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}
           type='button'
-          onClick={() => {
-            updateShowCreateCitation(false);
-          }}
+          onClick={handleCancel}
         >
           Cancel
         </Button>
