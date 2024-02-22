@@ -14,6 +14,7 @@ import {
   purchaseMembership,
   resendEmail,
   unSubscripeMembership,
+  updateCitation,
   updateUserInfo,
   userLogin,
 } from './api';
@@ -108,6 +109,29 @@ export const useDocumentList = (
   });
 };
 
+export const useUpdateCitation = () => {
+  const updateCitationItem = useCitation((state) => state.updateCitationItem);
+  return useMutation({
+    mutationFn: (params: {
+      citation_type: ICitationType;
+      id: string;
+      data: any;
+    }) => updateCitation(params),
+    onSuccess: async (_data, variables) => {
+      const toast = (await import('sonner')).toast;
+      toast.success('Citation Updated successfully');
+      updateCitationItem({
+        type: variables.citation_type,
+        data: variables.data,
+      });
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
+  });
+};
+
 export const useCreateCitation = () => {
   const appendInDocCitationIds = useCitation(
     (state) => state.appendInDocCitationIds
@@ -127,6 +151,8 @@ export const useCreateCitation = () => {
           document_id: variables.document_id,
         },
       });
+      const toast = (await import('sonner')).toast;
+      toast.success('Citation created successfully');
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

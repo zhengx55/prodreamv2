@@ -15,7 +15,7 @@ const Edit = () => {
     updateCurrentInline(null);
   });
   return (
-    <div className='relative flex h-full w-full flex-col'>
+    <div className='relative flex h-full w-full flex-col overflow-hidden'>
       <Tabs defaultValue={'in-text'} className='flex-1 overflow-y-auto'>
         <TabsList className='gap-x-2 self-start'>
           <TabsTrigger

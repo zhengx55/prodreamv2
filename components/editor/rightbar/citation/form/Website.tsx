@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation } from '@/query/query';
+import { useCreateCitation, useUpdateCitation } from '@/query/query';
 import { IWebsiteCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -12,23 +12,46 @@ import { useParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-const WebsiteForm = () => {
+const WebsiteForm = ({
+  type,
+  data,
+}: {
+  type?: 'edit' | 'create';
+  data?: IWebsiteCitation;
+}) => {
   const { id } = useParams();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IWebsiteCitation>({
-      defaultValues: {
-        contributors: [
-          {
-            first_name: '',
-            middle_name: '',
-            last_name: '',
+      defaultValues: !data
+        ? {
+            website_title: '',
+            article_title: '',
+            access_date: { day: '', month: '', year: '' },
+            publisher: '',
+            url: '',
+            contributors: [
+              {
+                first_name: '',
+                middle_name: '',
+                last_name: '',
+              },
+            ],
+          }
+        : {
+            contributors: data.contributors,
+            website_title: data.website_title,
+            article_title: data.article_title,
+            publisher: data.publisher,
+            access_date: data.access_date,
+            url: data.url,
           },
-        ],
-      },
     });
 
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
+  );
+  const updateShowEditCitation = useAiEditor(
+    (state) => state.updateShowEditCitation
   );
   const { fields, append, remove } = useFieldArray({
     control,
@@ -40,15 +63,38 @@ const WebsiteForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = async (data: IWebsiteCitation) => {
-    await handleCreate({
-      document_id: id as string,
-      citation_type: 'Website',
-      citation_data: data,
-    });
-    updateShowCreateCitation(false);
+  const onSubmit = async (values: IWebsiteCitation) => {
+    if (type === 'create') {
+      await handleCreate({
+        document_id: id as string,
+        citation_type: 'Website',
+        citation_data: values,
+      });
+      updateShowCreateCitation(false);
+    } else {
+      if (!data) return;
+      await handleUpdate({
+        citation_type: 'Journal',
+        data: {
+          ...data,
+          contributors: values.contributors,
+          website_title: values.website_title,
+          article_title: values.article_title,
+          publisher: values.publisher,
+          access_date: values.access_date,
+          url: values.url,
+        },
+        id: data.id,
+      });
+    }
   };
-
+  const handleCancel = () => {
+    if (type === 'edit') {
+      updateShowEditCitation(false);
+    } else {
+      updateShowCreateCitation(false);
+    }
+  };
   const appendContributor = () => {
     append({
       first_name: '',
@@ -61,6 +107,7 @@ const WebsiteForm = () => {
     remove(index);
   };
   const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleUpdate } = useUpdateCitation();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
@@ -218,9 +265,7 @@ const WebsiteForm = () => {
           className='h-max rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}
           type='button'
-          onClick={() => {
-            updateShowCreateCitation(false);
-          }}
+          onClick={handleCancel}
         >
           Cancel
         </Button>

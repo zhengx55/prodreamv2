@@ -2,7 +2,7 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation } from '@/query/query';
+import { useCreateCitation, useUpdateCitation } from '@/query/query';
 import { IBookCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -11,37 +11,73 @@ import { useParams } from 'next/navigation';
 import { memo } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-const WholeBook = () => {
+const WholeBook = ({
+  type,
+  data,
+}: {
+  type?: 'edit' | 'create';
+  data?: IBookCitation;
+}) => {
   const { id } = useParams();
   const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleUpdate } = useUpdateCitation();
+
   const { register, handleSubmit, control } = useForm<IBookCitation>({
-    defaultValues: {
-      contributors: [
-        {
-          first_name: '',
-          middle_name: '',
-          last_name: '',
-          role: 'author',
-          suffix: '',
+    defaultValues: !data
+      ? {
+          book_title: '',
+          contributors: [
+            {
+              first_name: '',
+              middle_name: '',
+              last_name: '',
+              role: 'author',
+            },
+          ],
+        }
+      : {
+          contributors: data.contributors,
+          advanced_info: data.advanced_info,
+          publication_info: data.publication_info,
+          book_title: data.book_title,
         },
-      ],
-    },
   });
   const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
+
+  const updateShowEditCitation = useCitation(
+    (state) => state.updateShowEditCitation
+  );
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'contributors',
   });
 
-  const onSubmit = async (data: IBookCitation) => {
-    await handleCreate({
-      document_id: id as string,
-      citation_type: 'WholeBook',
-      citation_data: data,
-    });
-    updateShowCreateCitation(false);
+  const onSubmit = async (values: IBookCitation) => {
+    if (type === 'edit') {
+      if (!data) return;
+      await handleUpdate({
+        citation_type: 'WholeBook',
+        data: {
+          ...data,
+          contributors: values.contributors,
+          advanced_info: values.advanced_info,
+          publication_info: values.publication_info,
+          book_title: values.book_title,
+        },
+        id: data.id,
+      });
+      updateShowEditCitation(false);
+    } else {
+      await handleCreate({
+        document_id: id as string,
+        citation_type: 'WholeBook',
+        citation_data: values,
+      });
+      updateShowCreateCitation(false);
+    }
   };
 
   const appendContributor = () => {
@@ -52,6 +88,14 @@ const WholeBook = () => {
       role: 'author',
       suffix: '',
     });
+  };
+
+  const handleCancel = () => {
+    if (type === 'edit') {
+      updateShowEditCitation(false);
+    } else {
+      updateShowCreateCitation(false);
+    }
   };
 
   const removeContributor = (index: number) => {
@@ -239,9 +283,7 @@ const WholeBook = () => {
           variant={'ghost'}
           role='button'
           type='button'
-          onClick={() => {
-            updateShowCreateCitation(false);
-          }}
+          onClick={handleCancel}
         >
           Cancel
         </Button>

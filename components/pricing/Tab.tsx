@@ -40,7 +40,7 @@ const Tab = ({ membership }: Props) => {
         <div className='flex w-full justify-center gap-x-10 py-4'>
           <Card current={isBasic} basic={true} info={PricingBasic} />
           <Card
-            current={isMonthly}
+            current={isAnually}
             purchase_type='annualy'
             info={PricingAnnualyUnlimited}
           />
@@ -50,7 +50,7 @@ const Tab = ({ membership }: Props) => {
         <div className='flex w-full justify-center gap-x-10 py-4'>
           <Card current={isBasic} basic={true} info={PricingBasic} />
           <Card
-            current={isAnually}
+            current={isMonthly}
             purchase_type='monthly'
             info={PricingUnlimited}
           />

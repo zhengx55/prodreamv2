@@ -9,46 +9,97 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation } from '@/query/query';
+import { useCreateCitation, useUpdateCitation } from '@/query/query';
 import { IIntroductionCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
-const IntroductionForm = () => {
+const IntroductionForm = ({
+  type,
+  data,
+}: {
+  type?: 'edit' | 'create';
+  data?: IIntroductionCitation;
+}) => {
   const { id } = useParams();
   const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleUpdate } = useUpdateCitation();
+
   const { register, handleSubmit, control, setValue } =
     useForm<IIntroductionCitation>({
-      defaultValues: {
-        special_section_type: 'introduction',
-        contributors: [
-          {
-            first_name: '',
-            middle_name: '',
-            last_name: '',
-            role: 'author',
-            suffix: '',
+      defaultValues: !data
+        ? {
+            special_section_type: 'introduction',
+            book_title: '',
+            section_title: '',
+            contributors: [
+              {
+                first_name: '',
+                middle_name: '',
+                last_name: '',
+                role: 'author',
+              },
+            ],
+          }
+        : {
+            contributors: data.contributors,
+            section_title: data.section_title,
+            page_info: data.page_info,
+            advanced_info: data.advanced_info,
+            publication_info: data.publication_info,
+            book_title: data.book_title,
+            special_section_type: data.special_section_type,
           },
-        ],
-      },
     });
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
+  );
+  const updateShowEditCitation = useAiEditor(
+    (state) => state.updateShowEditCitation
   );
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'contributors',
   });
-  const onSubmit = async (data: IIntroductionCitation) => {
-    await handleCreate({
-      document_id: id as string,
-      citation_type: 'BookSpecialSection',
-      citation_data: data,
-    });
-    updateShowCreateCitation(false);
+
+  const handleCancel = () => {
+    if (type === 'edit') {
+      updateShowEditCitation(false);
+    } else {
+      updateShowCreateCitation(false);
+    }
   };
+
+  const onSubmit = async (values: IIntroductionCitation) => {
+    if (type === 'edit') {
+      if (!data) return;
+      await handleUpdate({
+        citation_type: 'Journal',
+        data: {
+          ...data,
+          contributors: values.contributors,
+          section_title: values.section_title,
+          page_info: values.page_info,
+          advanced_info: values.advanced_info,
+          publication_info: values.publication_info,
+          book_title: values.book_title,
+          special_section_type: values.special_section_type,
+        },
+        id: data.id,
+      });
+      updateShowEditCitation(false);
+    } else {
+      await handleCreate({
+        document_id: id as string,
+        citation_type: 'BookSpecialSection',
+        citation_data: values,
+      });
+      updateShowCreateCitation(false);
+    }
+  };
+
   const appendContributor = () => {
     append({});
   };
@@ -303,9 +354,7 @@ const IntroductionForm = () => {
           className='h-max rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}
           type='button'
-          onClick={() => {
-            updateShowCreateCitation(false);
-          }}
+          onClick={handleCancel}
         >
           Cancel
         </Button>

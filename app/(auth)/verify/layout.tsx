@@ -9,7 +9,7 @@ export default function VerifyLayout({ children }: { children: ReactNode }) {
         width={140}
         height={40}
         priority
-        src='/logo/prodream.png'
+        src='/logo/Prodream.png'
         alt='logo'
       />
       {children}
