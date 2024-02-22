@@ -17,12 +17,14 @@ import { useEffect, useRef, useState } from 'react';
 const Guidance = ({ editor }: { editor: Editor }) => {
   const [check, setCheck] = useState(-1);
   const ideaRef = useRef<HTMLTextAreaElement>(null);
+  const draftRef = useRef<HTMLTextAreaElement>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const resultString = useRef<string>('');
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const posthog = usePostHog();
+
   const close = async () => {
     await updateTrack({
       field: 'guidence',
@@ -32,16 +34,10 @@ const Guidance = ({ editor }: { editor: Editor }) => {
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
-    if (check === 0) {
+
+    if (check === 2) {
       timer = setTimeout(() => {
-        posthog.capture('start with draft');
-        close();
-        updateContinueStep(1);
-      }, 500);
-    } else if (check === 2) {
-      posthog.capture('just exploring');
-      timer = setTimeout(() => {
-        close();
+        handleExplore();
       }, 500);
     }
     return () => {
@@ -138,16 +134,31 @@ const Guidance = ({ editor }: { editor: Editor }) => {
     }
   };
 
-  const handleDraft = () => {
-    setCheck(0);
-    editor.commands.setContent(sample_continue, true);
+  const handleDraft = async () => {
+    if (!draftRef.current?.value) {
+      const toast = (await import('sonner')).toast;
+      return toast.warning('Please enter a draft content');
+    }
+    editor.commands.insertContent(draftRef.current.value, {
+      updateSelection: true,
+    });
+    posthog.capture('start with draft');
+    updateContinueStep(1);
+    await close();
   };
 
-  const handleClickSample = () => {
-    close();
+  const handleExplore = async () => {
+    posthog.capture('just exploring');
+    editor.commands.setContent(sample_continue, true);
+    updateContinueStep(1);
+    await close();
+  };
+
+  const handleClickSample = async () => {
     editor.commands.setContent(sample_outline, true);
     updateOutlineStep(1);
     posthog.capture('start with sample outlie');
+    await close();
   };
 
   return (
@@ -169,7 +180,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
           <li className='inline-flex items-center gap-x-2'>
             <Checkbox
               checked={check === 0}
-              onCheckedChange={handleDraft}
+              onCheckedChange={() => setCheck(0)}
               id='have-draft'
             />
             <label
@@ -217,16 +228,31 @@ const Guidance = ({ editor }: { editor: Editor }) => {
         <Spacer y='32' />
         <AnimatePresence mode='wait'>
           {check === 0 ? (
-            <m.p
+            <m.div
               key={'terms-1'}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className='text-[28px] font-semibold leading-normal'
+              className='flex flex-col gap-y-4'
             >
-              Sounds good! please paste or upload your essay to the text editor
-              :)
-            </m.p>
+              <h2 className='text-[28px] font-semibold leading-normal'>
+                Sounds good! Please paste your essay below :)
+              </h2>
+              <Textarea
+                className='h-24 rounded shadow-lg'
+                name='outline-description'
+                ref={draftRef}
+                placeholder='E.g. Importance of religion in East Asian culture'
+              />
+              <Button
+                role='button'
+                onClick={handleDraft}
+                className='rounded'
+                id='guidence-generate'
+              >
+                Enter
+              </Button>
+            </m.div>
           ) : check === 1 ? (
             <m.div
               initial={{ opacity: 0, y: 10 }}

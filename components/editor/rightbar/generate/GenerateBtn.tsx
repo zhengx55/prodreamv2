@@ -1,11 +1,19 @@
 import Spacer from '@/components/root/Spacer';
 import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
+import { OutlineTooltipThrid } from '@/constant/enum';
+import { useMutateTrackInfo } from '@/query/query';
+import { useUserTask } from '@/zustand/store';
 import Image from 'next/image';
 import { memo } from 'react';
+import Tiplayout from '../../guide/tips/Tiplayout';
 
 type Props = { type: string; handleGenerate: () => Promise<void> };
 const GenerateBtn = ({ handleGenerate, type }: Props) => {
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
+  const outline_step = useUserTask((state) => state.outline_step);
+
   return (
     <div className='flex flex-col'>
       <Spacer y='30' />
@@ -27,13 +35,39 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
                 ? 'Click to generate a title for your essay'
                 : null}{' '}
         </p>
-        <Button
-          onClick={handleGenerate}
-          className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
-        >
-          <GenerateFill fill='#fff' size='20' />
-          Generate
-        </Button>
+        {outline_step === 3 ? (
+          <Tiplayout
+            title={OutlineTooltipThrid.TITLE}
+            content={OutlineTooltipThrid.TEXT}
+            side='left'
+            buttonLabel='Got it!'
+            step={3}
+            totalSteps={3}
+            onClickCallback={async () => {
+              updateOutlineStep(0);
+              await updateTrack({
+                field: 'outline_tip_task',
+                data: true,
+              });
+            }}
+          >
+            <Button
+              onClick={handleGenerate}
+              className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
+            >
+              <GenerateFill fill='#fff' size='20' />
+              Generate
+            </Button>
+          </Tiplayout>
+        ) : (
+          <Button
+            onClick={handleGenerate}
+            className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
+          >
+            <GenerateFill fill='#fff' size='20' />
+            Generate
+          </Button>
+        )}
       </div>
     </div>
   );
