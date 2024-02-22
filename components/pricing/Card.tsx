@@ -7,9 +7,9 @@ type Props = {
   info: {
     title: string;
     month_price: string;
-    recommended: boolean;
+    recommended?: boolean;
     text: string;
-    price_text: string;
+    price_text?: string;
     features: string[];
   };
   current: boolean;
@@ -46,10 +46,14 @@ const Card = ({ info, current, purchase_type, basic }: Props) => {
           ${info.month_price}
           <span className='small-regular'>/month</span>
         </h2>
-        <p
-          className='small-regular text-doc-font'
-          dangerouslySetInnerHTML={{ __html: info.price_text }}
-        />
+        {info.price_text ? (
+          <p
+            className='small-regular text-doc-font'
+            dangerouslySetInnerHTML={{ __html: info.price_text }}
+          />
+        ) : (
+          <Spacer y='20' />
+        )}
         <Button
           onClick={handlePurchase}
           role='button'
