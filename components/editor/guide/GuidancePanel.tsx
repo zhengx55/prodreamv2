@@ -168,7 +168,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
       exit={{ opacity: 0 }}
       key='guidance'
       transition={{ duration: 1, type: 'spring', stiffness: 100, damping: 20 }}
-      className='absolute z-20 h-full w-full bg-white font-inter'
+      className='absolute z-[9999] h-full w-full bg-white font-inter'
     >
       <div className='mx-auto flex w-[700px] flex-col'>
         <Spacer y='24' />
