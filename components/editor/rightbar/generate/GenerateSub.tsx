@@ -14,13 +14,15 @@ import Result from './Result';
 
 const OutlineTypes = ['argumentative', 'analytical', 'scientific'];
 
-type Props = { generateTab: string; goBack: () => void; label: string | null };
-const GenerateSub = ({ generateTab, goBack, label }: Props) => {
+type Props = { generateTab: string; label: string | null };
+const GenerateSub = ({ generateTab, label }: Props) => {
   const isOutline =
     typeof generateTab !== 'number' && OutlineTypes.includes(generateTab);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResult, setGeneratedResult] = useState('');
   const editor = useAIEditor((state) => state.editor_instance);
+  const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
+
   const { insertAtPostion } = useEditorCommand(editor!);
   const outLineInfo = useRef<z.infer<typeof generateOutlineSchema> | null>(
     null
@@ -114,7 +116,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
 
   const handleDismiss = useCallback(() => {
     setGeneratedResult('');
-    goBack();
+    setGenerateTab(-1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -154,7 +156,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
       key='generate-detail'
     >
       <div
-        onClick={goBack}
+        onClick={() => setGenerateTab(-1)}
         className='flex cursor-pointer items-center gap-x-2 hover:underline'
       >
         <ChevronLeft size={20} className='text-doc-font' />

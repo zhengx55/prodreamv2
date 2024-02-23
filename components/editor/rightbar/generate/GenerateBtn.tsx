@@ -12,7 +12,9 @@ type Props = { type: string; handleGenerate: () => Promise<void> };
 const GenerateBtn = ({ handleGenerate, type }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
+  const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
   const outline_step = useUserTask((state) => state.outline_step);
+  const generate_step = useUserTask((state) => state.generate_step);
 
   return (
     <div className='flex flex-col'>
@@ -21,6 +23,7 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
         <Image
           src='/Generate.png'
           alt='generate-img'
+          priority
           width={210}
           height={270}
           className='h-auto w-auto object-contain'
@@ -35,20 +38,28 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
                 ? 'Click to generate a title for your essay'
                 : null}{' '}
         </p>
-        {outline_step === 3 ? (
+        {outline_step === 3 || generate_step === 1 ? (
           <Tiplayout
             title={OutlineTooltipThrid.TITLE}
             content={OutlineTooltipThrid.TEXT}
             side='left'
             buttonLabel='Got it!'
-            step={3}
-            totalSteps={3}
+            step={generate_step === 1 ? undefined : 3}
+            totalSteps={generate_step === 1 ? undefined : 3}
             onClickCallback={async () => {
-              updateOutlineStep(0);
-              await updateTrack({
-                field: 'outline_tip_task',
-                data: true,
-              });
+              if (generate_step === 1) {
+                updateGenerateStep(0);
+                await updateTrack({
+                  field: 'generate_tool_task',
+                  data: true,
+                });
+              } else {
+                updateOutlineStep(0);
+                await updateTrack({
+                  field: 'outline_tip_task',
+                  data: true,
+                });
+              }
             }}
           >
             <Button

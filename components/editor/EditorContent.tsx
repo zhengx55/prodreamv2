@@ -39,7 +39,7 @@ const EditorBlock = ({ editor }: Props) => {
       <AnimatePresence>
         {showTaskPanel ? (
           <Task editor={editor} track={userTrack} />
-        ) : !showCompletePanel ? (
+        ) : showCompletePanel ? (
           <Finish />
         ) : null}
       </AnimatePresence>
