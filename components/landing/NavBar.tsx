@@ -47,9 +47,9 @@ const NavBar = () => {
               className='bg-white'
             >
               {locales.map((locale) => 
-               <Link href={`/${locale === 'en'?'':locale}`}>
+               <Link key={locale} href={`/${locale === 'en'?'':locale}`}>
                 <DropdownMenuItem
-                  key={locale}
+                  
                   hidden= {true}
                   className='text-center hover:bg-doc-primary'
                   onClick={(e) => {
