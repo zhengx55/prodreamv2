@@ -7,7 +7,7 @@ export type AIEditiorStore = AIEditorState & AIEditorAction;
 const initialState: AIEditorState = {
   doc_title: '',
   rightbarOpen: false,
-  righbarTab: 0,
+  rightbarTab: 0,
   editor_instance: null,
   isSaving: false,
   isPlagiarismOpen: false,
@@ -24,7 +24,7 @@ const initialState: AIEditorState = {
 type AIEditorState = {
   doc_title: string;
   rightbarOpen: boolean;
-  righbarTab: number;
+  rightbarTab: number;
   isSaving: boolean;
   plagiarismReCheck: boolean;
   plagiarismResult: null | Omit<IPlagiarismData, 'status'>;
@@ -41,7 +41,7 @@ type AIEditorState = {
 type AIEditorAction = {
   updateTitle: (result: AIEditorState['doc_title']) => void;
   toggleRightbar: () => void;
-  updateRightbarTab: (result: AIEditorState['righbarTab']) => void;
+  updateRightbarTab: (result: AIEditorState['rightbarTab']) => void;
   togglePlagiarism: () => void;
   updatePlagiarismRecheck: (result: AIEditorState['plagiarismReCheck']) => void;
   toogleIsSaving: (result: AIEditorState['isSaving']) => void;
@@ -54,6 +54,7 @@ type AIEditorAction = {
   updateSynonymMenu: (result: AIEditorState['showSynonymMenu']) => void;
   updateCopilotRectX: (resutl: AIEditorState['copilotRectX']) => void;
   updatePaymentModal: (result: AIEditorState['paymentModalOpen']) => void;
+  closeRightbar: () => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -62,13 +63,14 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set(() => ({
       plagiarismResult: result,
     })),
+  closeRightbar: () => set(() => ({ rightbarOpen: false })),
   updateTitle: (result) => set(() => ({ doc_title: result })),
   updatePaymentModal: (result) => set(() => ({ paymentModalOpen: result })),
   updateRightbarTab: (result) =>
     set((state) => {
       if (!state.rightbarOpen)
-        return { rightbarOpen: true, righbarTab: result };
-      return { righbarTab: result };
+        return { rightbarOpen: true, rightbarTab: result };
+      return { rightbarTab: result };
     }),
   toggleRightbar: () => set((state) => ({ rightbarOpen: !state.rightbarOpen })),
   updatePlagiarismRecheck: (result) =>

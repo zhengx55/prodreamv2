@@ -1,4 +1,4 @@
-import { ICitationType, ISubscription } from '@/types';
+import { ICitationData, ICitationType, ISubscription } from '@/types';
 import Cookies from 'js-cookie';
 import {
   ICitation,
@@ -15,6 +15,25 @@ import {
 // ----------------------------------------------------------------
 // Info
 // ----------------------------------------------------------------
+
+export async function resendEmail(): Promise<void> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/verification_email`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function getUserMemberShip(): Promise<ISubscription> {
   try {
@@ -67,7 +86,7 @@ export async function unSubscripeMembership(params: {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/${params.subscription_id}/order`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/orders/${params.subscription_id}`,
       {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
@@ -839,7 +858,31 @@ export async function createCitation(params: {
   }
 }
 
-export async function updateCitation() {}
+export async function updateCitation(params: {
+  citation_type: ICitationType;
+  id: string;
+  data: ICitationData;
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/${params.citation_type}/${params.id}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(params.data),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    if (!res.ok) throw new Error('Opps something went wrong');
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function getCitationDetail(params: {
   citation_type: ICitationType;

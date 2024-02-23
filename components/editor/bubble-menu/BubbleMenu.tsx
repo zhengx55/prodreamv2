@@ -8,8 +8,6 @@ import {
   AlignLeft,
   AlignRight,
   Bold,
-  CornerDownLeft,
-  CornerDownRight,
   Italic,
   MoreVertical,
   Strikethrough,
@@ -17,7 +15,13 @@ import {
 } from 'lucide-react';
 import { memo, useLayoutEffect, useRef, useState } from 'react';
 
-import { BookHalf, Copilot, Synonym } from '@/components/root/SvgComponents';
+import {
+  BookHalf,
+  Copilot,
+  Redo,
+  Synonym,
+  Undo,
+} from '@/components/root/SvgComponents';
 import useAiEditor, { useUserTask } from '@/zustand/store';
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
@@ -223,14 +227,14 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           tooltipShortcut={['Mod', 'Z']}
           onClick={commands.onUndo}
         >
-          <CornerDownLeft size={18} />
+          <Undo />
         </MemoButton>
         <MemoButton
           tooltip='Redo'
           tooltipShortcut={['Mod', 'Y']}
           onClick={commands.onRedo}
         >
-          <CornerDownRight size={18} />
+          <Redo />
         </MemoButton>
         <Toolbar.Divider />
         <MemoButton

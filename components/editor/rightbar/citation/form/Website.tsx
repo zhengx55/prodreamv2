@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation } from '@/query/query';
+import { useCreateCitation, useUpdateCitation } from '@/query/query';
 import { IWebsiteCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -12,25 +12,46 @@ import { useParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-type Props = {};
-
-const WebsiteForm = (props: Props) => {
+const WebsiteForm = ({
+  type,
+  data,
+}: {
+  type?: 'edit' | 'create';
+  data?: IWebsiteCitation;
+}) => {
   const { id } = useParams();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IWebsiteCitation>({
-      defaultValues: {
-        contributors: [
-          {
-            first_name: '',
-            middle_name: '',
-            last_name: '',
+      defaultValues: !data
+        ? {
+            website_title: '',
+            article_title: '',
+            access_date: { day: '', month: '', year: '' },
+            publisher: '',
+            url: '',
+            contributors: [
+              {
+                first_name: '',
+                middle_name: '',
+                last_name: '',
+              },
+            ],
+          }
+        : {
+            contributors: data.contributors,
+            website_title: data.website_title,
+            article_title: data.article_title,
+            publisher: data.publisher,
+            access_date: data.access_date,
+            url: data.url,
           },
-        ],
-      },
     });
 
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
+  );
+  const updateShowEditCitation = useAiEditor(
+    (state) => state.updateShowEditCitation
   );
   const { fields, append, remove } = useFieldArray({
     control,
@@ -42,15 +63,38 @@ const WebsiteForm = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = async (data: IWebsiteCitation) => {
-    await handleCreate({
-      document_id: id as string,
-      citation_type: 'Website',
-      citation_data: data,
-    });
-    updateShowCreateCitation(false);
+  const onSubmit = async (values: IWebsiteCitation) => {
+    if (type === 'create') {
+      await handleCreate({
+        document_id: id as string,
+        citation_type: 'Website',
+        citation_data: values,
+      });
+      updateShowCreateCitation(false);
+    } else {
+      if (!data) return;
+      await handleUpdate({
+        citation_type: 'Journal',
+        data: {
+          ...data,
+          contributors: values.contributors,
+          website_title: values.website_title,
+          article_title: values.article_title,
+          publisher: values.publisher,
+          access_date: values.access_date,
+          url: values.url,
+        },
+        id: data.id,
+      });
+    }
   };
-
+  const handleCancel = () => {
+    if (type === 'edit') {
+      updateShowEditCitation(false);
+    } else {
+      updateShowCreateCitation(false);
+    }
+  };
   const appendContributor = () => {
     append({
       first_name: '',
@@ -63,20 +107,23 @@ const WebsiteForm = (props: Props) => {
     remove(index);
   };
   const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleUpdate } = useUpdateCitation();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
       <Spacer y='20' />
       <h1 className='base-semibold'>What I&apos;m citing</h1>
       <Spacer y='16' />
-      <label htmlFor='article_title'>Article Title</label>
+      <label className='small-regular text-doc-font' htmlFor='article_title'>
+        Article Title
+      </label>
       <Input
         type='text'
         id='article_title'
         className='focus-visible:ring-0'
         {...register('article_title')}
       />
-      <Spacer y='30' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2'>
@@ -90,7 +137,10 @@ const WebsiteForm = (props: Props) => {
               variants={contributorAnimation}
             >
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.first_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.first_name`}
+                >
                   First Name
                 </label>
                 <Input
@@ -101,7 +151,10 @@ const WebsiteForm = (props: Props) => {
                 />
               </div>
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.middle_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.middle_name`}
+                >
                   MI/ Middle
                 </label>
                 <Input
@@ -112,7 +165,10 @@ const WebsiteForm = (props: Props) => {
                 />
               </div>
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.last_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.last_name`}
+                >
                   Last Name
                 </label>
                 <Input
@@ -143,10 +199,12 @@ const WebsiteForm = (props: Props) => {
         <PlusCircle className='fill-doc-primary text-white' size={22} />
         <p className='text-doc-primary'> Add Contributor</p>
       </Button>
-      <Spacer y='30' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>Online publication info</h1>
       <Spacer y='16' />
-      <label htmlFor='publisher'>Publisher</label>
+      <label className='small-regular text-doc-font' htmlFor='publisher'>
+        Publisher
+      </label>
       <Input
         type='text'
         id='publisher'
@@ -154,7 +212,9 @@ const WebsiteForm = (props: Props) => {
         {...register('publisher')}
       />
       <Spacer y='16' />
-      <label htmlFor='website_title'>Website Title</label>
+      <label className='small-regular text-doc-font' htmlFor='website_title'>
+        Website Title
+      </label>
       <Input
         type='text'
         id='website_title'
@@ -162,7 +222,9 @@ const WebsiteForm = (props: Props) => {
         {...register('website_title')}
       />
       <Spacer y='16' />
-      <label htmlFor='url'>Website URL</label>
+      <label className='small-regular text-doc-font' htmlFor='url'>
+        Website URL
+      </label>
       <Input
         type='text'
         id='url'
@@ -170,7 +232,7 @@ const WebsiteForm = (props: Props) => {
         {...register('url')}
       />
       <Spacer y='16' />
-      <h2>Date accessed</h2>
+      <h2 className='small-regular text-doc-font'>Date accessed</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
@@ -203,9 +265,7 @@ const WebsiteForm = (props: Props) => {
           className='h-max rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}
           type='button'
-          onClick={() => {
-            updateShowCreateCitation(false);
-          }}
+          onClick={handleCancel}
         >
           Cancel
         </Button>

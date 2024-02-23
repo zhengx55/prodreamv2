@@ -2,43 +2,91 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation } from '@/query/query';
+import { useCreateCitation, useUpdateCitation } from '@/query/query';
 import { IChapterCitation } from '@/types';
 import useAiEditor from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
-const ChapterForm = () => {
+const ChapterForm = ({
+  type,
+  data,
+}: {
+  type?: 'edit' | 'create';
+  data?: IChapterCitation;
+}) => {
   const { id } = useParams();
   const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleUpdate } = useUpdateCitation();
+
   const { register, handleSubmit, control } = useForm<IChapterCitation>({
-    defaultValues: {
-      contributors: [
-        {
-          first_name: '',
-          middle_name: '',
-          last_name: '',
-          role: 'author',
+    defaultValues: !data
+      ? {
+          book_title: '',
+          section_title: '',
+          contributors: [
+            {
+              first_name: '',
+              middle_name: '',
+              last_name: '',
+              role: 'author',
+            },
+          ],
+        }
+      : {
+          contributors: data.contributors,
+          section_title: data.section_title,
+          page_info: data.page_info,
+          advanced_info: data.advanced_info,
+          publication_info: data.publication_info,
+          book_title: data.book_title,
         },
-      ],
-    },
   });
   const updateShowCreateCitation = useAiEditor(
     (state) => state.updateShowCreateCitation
+  );
+  const updateShowEditCitation = useAiEditor(
+    (state) => state.updateShowEditCitation
   );
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'contributors',
   });
 
-  const onSubmit = async (data: IChapterCitation) => {
-    await handleCreate({
-      document_id: id as string,
-      citation_type: 'BookSection',
-      citation_data: data,
-    });
-    updateShowCreateCitation(false);
+  const onSubmit = async (values: IChapterCitation) => {
+    if (type === 'edit') {
+      if (!data) return;
+      await handleUpdate({
+        citation_type: 'Journal',
+        data: {
+          ...data,
+          contributors: values.contributors,
+          section_title: values.section_title,
+          page_info: values.page_info,
+          advanced_info: values.advanced_info,
+          publication_info: values.publication_info,
+          book_title: values.book_title,
+        },
+        id: data.id,
+      });
+      updateShowEditCitation(false);
+    } else {
+      await handleCreate({
+        document_id: id as string,
+        citation_type: 'BookSection',
+        citation_data: values,
+      });
+      updateShowCreateCitation(false);
+    }
+  };
+
+  const handleCancel = () => {
+    if (type === 'edit') {
+      updateShowEditCitation(false);
+    } else {
+      updateShowCreateCitation(false);
+    }
   };
 
   const appendContributor = () => {
@@ -53,7 +101,9 @@ const ChapterForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
       <h1 className='base-semibold'>What I&apos;m citing</h1>
       <Spacer y='16' />
-      <label htmlFor='section_title'>Chapter/Section title</label>
+      <label className='small-regular text-doc-font' htmlFor='section_title'>
+        Chapter/Section title
+      </label>
       <Input
         type='text'
         id='section_title'
@@ -61,7 +111,7 @@ const ChapterForm = () => {
         {...register('section_title')}
         aria-label='section_title'
       />
-      <Spacer y='30' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>Contributors</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2 '>
@@ -75,7 +125,10 @@ const ChapterForm = () => {
               variants={contributorAnimation}
             >
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.first_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.first_name`}
+                >
                   First Name
                 </label>
                 <Input
@@ -87,7 +140,10 @@ const ChapterForm = () => {
                 />
               </div>
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.middle_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.middle_name`}
+                >
                   MI/ Middle
                 </label>
                 <Input
@@ -100,7 +156,10 @@ const ChapterForm = () => {
               </div>
 
               <div className='flex flex-col'>
-                <label htmlFor={`contributors.${index}.last_name`}>
+                <label
+                  className='small-regular text-doc-font'
+                  htmlFor={`contributors.${index}.last_name`}
+                >
                   Last Name
                 </label>
                 <Input
@@ -132,10 +191,12 @@ const ChapterForm = () => {
         <PlusCircle className='fill-doc-primary text-white' size={22} />
         <p className='text-doc-primary'> Add Contributor</p>
       </Button>
-      <Spacer y='30' />
+      <Spacer y='20' />
       <h1 className='base-semibold'>In print publication info</h1>
       <Spacer y='16' />
-      <label htmlFor='journal_title'>Source title</label>
+      <label className='small-regular text-doc-font' htmlFor='journal_title'>
+        Source title
+      </label>
       <Input
         type='text'
         id='journal_title'
@@ -144,7 +205,7 @@ const ChapterForm = () => {
         aria-label='journal_title'
       />
       <Spacer y='16' />
-      <h2>Advanced info</h2>
+      <h2 className='small-regular text-doc-font'>Advanced info</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
@@ -178,7 +239,7 @@ const ChapterForm = () => {
         </div>
       </div>
       <Spacer y='16' />
-      <h2>Publication info</h2>
+      <h2 className='small-regular text-doc-font'>Publication info</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
@@ -218,7 +279,7 @@ const ChapterForm = () => {
         </div>
       </div>
       <Spacer y='16' />
-      <h2>Pages</h2>
+      <h2 className='small-regular text-doc-font'>Pages</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
@@ -245,9 +306,7 @@ const ChapterForm = () => {
           className='h-max rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}
           type='button'
-          onClick={() => {
-            updateShowCreateCitation(false);
-          }}
+          onClick={handleCancel}
         >
           Cancel
         </Button>

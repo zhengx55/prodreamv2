@@ -5,7 +5,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { GenerateOptions } from '@/constant';
 import { OutlineTooltip } from '@/constant/enum';
-import { useMembershipInfo, useMutateTrackInfo } from '@/query/query';
+import { useMembershipInfo } from '@/query/query';
 import useAiEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { ChevronUp, FileText } from 'lucide-react';
@@ -28,7 +28,6 @@ export const Generate = () => {
   }, []);
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
-  const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: usage } = useMembershipInfo();
   const goBack = useCallback(() => {
     setGenerateTab(-1);
@@ -55,13 +54,13 @@ export const Generate = () => {
                           title={OutlineTooltip.TITLE}
                           content={OutlineTooltip.TEXT}
                           side='left'
-                          buttonLabel='Got it!'
-                          onClickCallback={async () => {
-                            updateOutlineStep(0);
-                            await updateTrack({
-                              field: 'outline_tip_task',
-                              data: true,
-                            });
+                          buttonLabel='Next'
+                          step={2}
+                          totalSteps={3}
+                          onClickCallback={() => {
+                            updateOutlineStep(3);
+                            copilot_option.current = 'write_introduction';
+                            setGenerateTab('Write Introduction');
                           }}
                         >
                           <DropdownMenuTrigger>

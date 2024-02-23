@@ -21,14 +21,10 @@ const EditorBlock = ({ editor }: Props) => {
   const showCitiationMenu = useAiEditor((state) => state.showCitiationMenu);
   const showSynonymMenu = useAiEditor((state) => state.showSynonymMenu);
   const { data: userTrack, isPending, isError } = useUserTrackInfo();
-  const isClose = Boolean(userTrack?.tasks);
+  const isClose = Boolean(userTrack?.basic_task);
   const isOutlineFinished = Boolean(userTrack?.outline_tip_task);
   const isContinueFinished = Boolean(userTrack?.continue_tip_task);
-  const isComplete =
-    userTrack?.ai_copilot_task &&
-    userTrack?.continue_writing_task &&
-    userTrack?.citation_task &&
-    userTrack?.generate_tool_task;
+  const isComplete = userTrack?.highlight_task && userTrack?.grammar_task;
   const showTaskPanel =
     (isOutlineFinished || isContinueFinished) && !isComplete;
   const showCompletePanel = !isClose && isComplete;

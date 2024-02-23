@@ -86,8 +86,20 @@ function DragHandle(options: DragHandleOptions) {
       view.state.tr.setSelection(NodeSelection.create(view.state.doc, nodePos))
     );
   }
-
+  let toolTipElement: HTMLElement | null = null;
   let dragHandleElement: HTMLElement | null = null;
+
+  function showTooltip(e: MouseEvent) {
+    if (toolTipElement) {
+      toolTipElement.classList.remove('hidden');
+    }
+  }
+
+  function hideTooltip() {
+    if (toolTipElement) {
+      toolTipElement.classList.add('hidden');
+    }
+  }
 
   function hideDragHandle() {
     if (dragHandleElement) {
@@ -107,24 +119,49 @@ function DragHandle(options: DragHandleOptions) {
       dragHandleElement.draggable = true;
       dragHandleElement.dataset.dragHandle = '';
       dragHandleElement.classList.add('drag-handle');
+      toolTipElement = document.createElement('div');
+      toolTipElement.innerHTML =
+        '<p><span style="color: white;">Drag</span> to move<br/><span style="color: white;">Click</span> to open menu</p>';
+      toolTipElement.classList.add('tooltip');
+      document.body.appendChild(toolTipElement);
       dragHandleElement.addEventListener('dragstart', (e) => {
         handleDragStart(e, view);
       });
       dragHandleElement.addEventListener('click', (e) => {
         handleClick(e, view);
       });
-
+      dragHandleElement.addEventListener('mouseenter', (e) => {
+        showTooltip(e);
+      });
+      dragHandleElement.addEventListener('mouseleave', () => {
+        hideTooltip();
+      });
+      hideTooltip();
       hideDragHandle();
-
       view?.dom?.parentElement?.appendChild(dragHandleElement);
-
+      view.dom.parentElement?.appendChild(toolTipElement);
       return {
         destroy: () => {
+          dragHandleElement?.removeEventListener('dragstart', (e) => {
+            handleDragStart(e, view);
+          });
+          dragHandleElement?.removeEventListener('click', (e) => {
+            handleClick(e, view);
+          });
+          dragHandleElement?.removeEventListener('mouseenter', (e) => {
+            showTooltip(e);
+          });
+          dragHandleElement?.removeEventListener('mouseleave', () => {
+            hideTooltip();
+          });
           dragHandleElement?.remove?.();
           dragHandleElement = null;
+          toolTipElement?.remove?.();
+          toolTipElement = null;
         },
       };
     },
+
     props: {
       handleDOMEvents: {
         mousemove: (view, event) => {
@@ -151,9 +188,11 @@ function DragHandle(options: DragHandleOptions) {
           }
           rect.width = options.dragHandleWidth;
 
-          if (!dragHandleElement) return;
+          if (!dragHandleElement || !toolTipElement) return;
           dragHandleElement.style.left = `${rect.left - rect.width}px`;
           dragHandleElement.style.top = `${rect.top}px`;
+          toolTipElement.style.left = `${rect.left - rect.width - 130}px`;
+          toolTipElement.style.top = `${rect.top + 25}px`;
           showDragHandle();
         },
         keydown: () => {

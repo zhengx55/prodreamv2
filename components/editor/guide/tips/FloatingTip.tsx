@@ -1,6 +1,10 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { ContinueTooltip, OutlineTooltipMain } from '@/constant/enum';
+import {
+  ContinueTooltip,
+  ContinueTooltipSecond,
+  OutlineTooltipMain,
+} from '@/constant/enum';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
 import { copilot } from '@/query/api';
 import { useMutateTrackInfo } from '@/query/query';
@@ -21,15 +25,16 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
     let first_paragraph_pos: number = 0;
     let first_paragraph_to: number = 0;
     editor.state.doc.descendants((node, pos) => {
-      if (
-        node.type.name === 'paragraph' &&
-        node.textContent.trim() !== '' &&
-        !first_paragraph_pos
-      ) {
+      if (node.type.name === 'bulletList' && !first_paragraph_pos) {
         first_paragraph_pos = pos;
         first_paragraph_to = node.nodeSize + pos;
       }
     });
+    editor
+      .chain()
+      .focus()
+      .setTextSelection({ from: first_paragraph_pos, to: first_paragraph_to })
+      .run();
     const coordinate = posToDOMRect(
       editor.view,
       first_paragraph_pos,
@@ -64,16 +69,18 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
         </li>
       </ul>
       <Spacer y='15' />
-      <div className='flex justify-end'>
+      <div className='flex items-center justify-between'>
+        <p className='subtle-regular text-white'>1/3</p>
         <Button
           onClick={() => {
             updateOutlineStep(2);
             updateRightbarTab(2);
+            editor.chain().blur().setTextSelection(0).run();
           }}
           className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'
           role='button'
         >
-          Got it!
+          Next
         </Button>
       </div>
     </m.div>
@@ -83,6 +90,7 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
 export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
   const [top, setTop] = useState<number | undefined>();
   const [left, setLeft] = useState<number | undefined>();
+  const [step, setStep] = useState(0);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const insertPos = useRef<number>(0);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
@@ -153,7 +161,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
   if (!top || !left) return null;
-  return (
+  return step === 0 ? (
     <m.div
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 1, scale: 1, transition: { delay: 0.2 } }}
@@ -167,7 +175,46 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
       <Spacer y='5' />
       <p className='subtle-regular text-white'>{ContinueTooltip.TEXT}</p>
       <Spacer y='15' />
-      <div className='flex justify-end'>
+      <div className='flex items-center justify-between'>
+        <p className='subtle-regular text-white'>1/2</p>
+        <Button
+          onClick={() => {
+            editor.chain().blur().setTextSelection(0).run();
+            setStep(1);
+          }}
+          className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'
+          role='button'
+        >
+          Next
+        </Button>
+      </div>
+    </m.div>
+  ) : (
+    <m.div
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1, transition: { delay: 0.2 } }}
+      exit={{ opacity: 0, scale: 0 }}
+      key={'outline'}
+      style={{ top, left }}
+      className='absolute z-20 w-[320px] rounded-lg bg-black-100 p-3'
+    >
+      <span className='absolute -right-[8px] top-[calc(50%_-8px)] h-0 w-0 border-b-[8px] border-l-[8px] border-t-[8px] border-b-transparent border-l-black-100 border-t-transparent' />
+      <h1 className='small-semibold text-white'>
+        {ContinueTooltipSecond.TITLE}
+      </h1>
+      <Spacer y='5' />
+      <p className='text-[12px] leading-relaxed text-white'>
+        Set cursor at end of paragraph, then type{' '}
+        <span className='rounded bg-[#64626A] px-2 py-0.5 text-[10px]'>
+          space
+        </span>{' '}
+        +{' '}
+        <span className='rounded bg-[#64626A] px-2 py-0.5 text-[10px]'>/</span>{' '}
+        to call out continue writing
+      </p>
+      <Spacer y='15' />
+      <div className='flex items-center justify-between'>
+        <p className='subtle-regular text-white'>2/2</p>
         <Button
           onClick={async () => {
             updateContinueStep(0);

@@ -7,7 +7,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { TooltipArrow } from '@radix-ui/react-tooltip';
-import { X } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 
 type Props = {
@@ -50,11 +49,6 @@ const Tiplayout = ({
           <div className='flex flex-col'>
             <div className='flex-between'>
               <h1 className='small-semibold text-white'>{title}</h1>
-              <X
-                className='cursor-pointer text-[#A2A2A2]'
-                size={22}
-                onClick={() => setShow(false)}
-              />
             </div>
             <Spacer y='5' />
             <p className='subtle-regular text-white'>{content}</p>

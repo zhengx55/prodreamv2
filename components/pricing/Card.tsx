@@ -7,16 +7,17 @@ type Props = {
   info: {
     title: string;
     month_price: string;
-    recommended: boolean;
+    recommended?: boolean;
     text: string;
-    price_text: string;
+    price_text?: string;
     features: string[];
   };
   current: boolean;
+  basic?: boolean;
   purchase_type?: 'monthly' | 'annualy';
 };
 
-const Card = ({ info, current, purchase_type }: Props) => {
+const Card = ({ info, current, purchase_type, basic }: Props) => {
   const path = usePathname();
   const { mutateAsync: purchase } = useMutationMembershio();
   const handlePurchase = async () => {
@@ -45,17 +46,21 @@ const Card = ({ info, current, purchase_type }: Props) => {
           ${info.month_price}
           <span className='small-regular'>/month</span>
         </h2>
-        <p
-          className='small-regular text-doc-font'
-          dangerouslySetInnerHTML={{ __html: info.price_text }}
-        />
+        {info.price_text ? (
+          <p
+            className='small-regular text-doc-font'
+            dangerouslySetInnerHTML={{ __html: info.price_text }}
+          />
+        ) : (
+          <Spacer y='20' />
+        )}
         <Button
           onClick={handlePurchase}
           role='button'
-          disabled={current}
-          className={`h-max rounded disabled:opacity-100 ${current ? 'border border-shadow-border bg-white text-shadow-border' : 'bg-doc-primary'}`}
+          disabled={current || basic}
+          className={`h-max rounded disabled:opacity-100 ${current || basic ? 'border border-shadow-border bg-white text-shadow-border' : 'bg-doc-primary'}`}
         >
-          {current ? 'Current Plan' : 'Upgrade Now'}
+          {current || basic ? 'Current Plan' : 'Upgrade Now'}
         </Button>
       </div>
       <ul className='mt-auto flex flex-col gap-y-1.5'>

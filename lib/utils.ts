@@ -208,6 +208,20 @@ export function format_table_time(timestamp: number) {
   return `${month}-${day}-${year}`;
 }
 
+export function format_hour_diff(timestamp: number) {
+  var currentTimestamp = Date.now();
+  var givenTimestamp = timestamp * 1000;
+  var timeDifference = givenTimestamp - currentTimestamp;
+  var hourDifference = timeDifference / (1000 * 60 * 60);
+
+  if (hourDifference < 1) {
+    var minuteDifference = timeDifference / (1000 * 60);
+    return Math.ceil(minuteDifference) + ' minutes';
+  } else {
+    return Math.ceil(hourDifference) + ' hours';
+  }
+}
+
 export function removeHtmlTags(input: string): string {
   let resultwithBR = input.replace(/<\/?span[^>]*>/g, '');
   return resultwithBR.replace(/<br\s*\/?>/gi, '\n');
