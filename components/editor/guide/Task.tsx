@@ -162,11 +162,11 @@ export const Finish = memo(() => {
           height={100}
           className='absolute bottom-0 left-[calc(50%_-80px)] z-10 h-24 w-24'
         />
-        <h1 className='base-semibold text-white'>
+        <h1 className='base-semibold z-20 text-white'>
           You&apos;ve just discovered key ways to interact with our AI!
           <br />
-          Continue to the onboarding checklist to learn how to use our features,
-          designed for you.
+          Continue to the onboarding checklist to learn how to use
+          <br /> our features, designed for you.
         </h1>
         <Button
           onClick={async () => {
