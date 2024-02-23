@@ -377,7 +377,7 @@ const AiMenu = ({ editor }: Props) => {
                     <div
                       className={` ${
                         hoverItem === item.id ? 'bg-doc-secondary' : ''
-                      } group flex cursor-pointer items-center justify-between rounded py-1.5`}
+                      } group flex cursor-pointer items-center justify-between rounded px-2 py-1.5`}
                       key={item.id}
                       onMouseEnter={() => setHoverItem(item.id)}
                       onMouseLeave={() => setHoverItem(null)}
