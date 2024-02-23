@@ -76,7 +76,6 @@ const GenerateSub = ({ generateTab, label }: Props) => {
 
   const handleStreamData = (value: string | undefined) => {
     if (!value) return;
-    isGenerating && setIsGenerating(false);
     const lines = value.split('\n');
     const dataLines = lines.filter(
       (line, index) =>
@@ -97,11 +96,12 @@ const GenerateSub = ({ generateTab, label }: Props) => {
       result += word;
     });
     setGeneratedResult((prev) => (prev += result));
+    if (isGenerating && result.trim()) setIsGenerating(false);
   };
 
   const handleGenerate = useCallback(async () => {
     const text = editor?.getText();
-    const tool = label;
+    const tool = label ?? 'write_introduction';
     await handleCopilot({ text: text!, tool: tool! });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
