@@ -760,17 +760,15 @@ export const sample_title = {
 };
 
 export const startup_task = [
-  { id: 'task-01', label: 'Try AI Copilot' },
-  { id: 'task-02', label: 'Try continue writing' },
-  { id: 'task-03', label: 'Check out generate tools' },
-  { id: 'task-04', label: 'Add one citation' },
+  { id: 'task-01', label: 'Create first document' },
+  { id: 'task-02', label: 'Highlight any text' },
+  { id: 'task-03', label: 'Click “Check grammar”' },
 ];
 
 export const task_gif = [
   { id: 'gif-01', src: '/task/task1.gif' },
   { id: 'gif-02', src: '/task/task2.gif' },
   { id: 'gif-03', src: '/task/task3.gif' },
-  { id: 'gif-04', src: '/task/task4.gif' },
 ];
 
 export const sample_search_citation = [

@@ -1,6 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { submitPolish } from '@/query/api';
-import { useMembershipInfo } from '@/query/query';
+import {
+  useMembershipInfo,
+  useMutateTrackInfo,
+  useUserTrackInfo,
+} from '@/query/query';
 import { IGrammarResponse, IGrammarResult } from '@/query/type';
 import useAiEditor from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -16,6 +20,8 @@ const Result = dynamic(() => import('./Result'));
 export const GrammarCheck = memo(() => {
   const [isChecking, setIsChecking] = useState(false);
   const editor = useAiEditor((state) => state.editor_instance);
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const { data: userTrack } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
   const [grammarResults, setGrammarResults] = useState<IGrammarResult[]>([]);
   const queryClient = useQueryClient();
@@ -61,6 +67,12 @@ export const GrammarCheck = memo(() => {
     },
   });
   const handleCheck = async () => {
+    if (!userTrack?.grammar_task) {
+      await updateTrack({
+        field: 'grammar_task',
+        data: 'true',
+      });
+    }
     if (editor?.getText().trim() === '') {
       const toast = (await import('sonner')).toast;
       toast.error('No text found!');

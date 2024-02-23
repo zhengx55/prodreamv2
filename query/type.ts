@@ -135,6 +135,9 @@ export type UserTrackData = {
   citation_empty_check?: string;
   outline_tip_task?: string;
   continue_tip_task?: string;
+  highlight_task?: string;
+  grammar_task?: string;
+  basic_task?: string;
 };
 
 const test = [
