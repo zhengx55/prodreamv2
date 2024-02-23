@@ -28,7 +28,7 @@ const NavBar = () => {
             className='w-40 h-auto sm:w-36'
             priority
           />
-          <Button
+          {/* <Button
               className='hidden text-[#3B3A40] w-10 sm:block'
               variant={'ghost'}
             >
@@ -61,7 +61,7 @@ const NavBar = () => {
               </Link> )}
             </DropdownMenuContent>
           </DropdownMenu>
-          </Button>
+          </Button> */}
           <Link href={'https://www.prodream.ai/blog'} passHref target='_blank'>
             <Button
               className='hidden w-10 text-[#3B3A40] sm:block'
