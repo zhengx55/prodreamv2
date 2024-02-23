@@ -3,6 +3,7 @@ import Spacer from '@/components/root/Spacer';
 import { Copilot } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
@@ -21,12 +22,14 @@ import dynamic from 'next/dynamic';
 import { usePostHog } from 'posthog-js/react';
 import {
   ChangeEvent,
+  Fragment,
   KeyboardEvent,
   cloneElement,
   memo,
   useRef,
   useState,
 } from 'react';
+import { v4 } from 'uuid';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 import { useAiOptions } from './hooks/useAiOptions';
 
@@ -43,7 +46,7 @@ const AiMenu = ({ editor }: Props) => {
   const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
   const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
   const promptRef = useRef<HTMLInputElement>(null);
-  const [hoverItem, setHoverItem] = useState<number | null>(null);
+  const [hoverItem, setHoverItem] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
   const [aiResult, setAiResult] = useState('');
   const [istTyping, setIsTyping] = useState(false);
@@ -79,7 +82,7 @@ const AiMenu = ({ editor }: Props) => {
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
-          setHoverItem(0);
+          setHoverItem('copilot-operation-01');
           break;
         }
         handleStreamData(value);
@@ -106,7 +109,7 @@ const AiMenu = ({ editor }: Props) => {
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
-          setHoverItem(0);
+          setHoverItem('copilot-operation-01');
           break;
         }
         handleStreamData(value);
@@ -301,66 +304,87 @@ const AiMenu = ({ editor }: Props) => {
         )}
         <Spacer y='5' />
         {generating ? null : (
-          <Surface className='w-[256px] rounded px-1 py-2' withBorder>
+          <Surface className='w-[256px] rounded py-2' withBorder>
             {!hasAiResult
-              ? options.map((item, idx) => {
+              ? options.map((item, index) => {
                   return (
-                    <div
-                      className={` ${
-                        hoverItem === idx ? 'bg-doc-secondary' : ''
-                      } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
-                      key={item.id}
-                      onClick={() => {
-                        !item.submenu && handleEditTools(item.lable);
-                      }}
-                      onMouseEnter={() => setHoverItem(idx)}
-                      onMouseLeave={() => setHoverItem(null)}
-                    >
-                      <div className='flex items-center gap-x-2'>
-                        {hoverItem === idx
-                          ? cloneElement(item.icon, { color: '#774EBB' })
-                          : cloneElement(item.icon)}
-                        <p className='small-regular group-hover:text-doc-primary'>
-                          {item.name}
-                        </p>
-                      </div>
-                      {item.submenu ? <ChevronRight size={18} /> : null}
-                      {item.submenu && hoverItem === idx && (
-                        <Surface
-                          style={{ top: `${idx * 27 + 70}px` }}
-                          withBorder
-                          data-state={hoverItem === idx ? 'open' : 'closed'}
-                          className='absolute left-[250px] rounded px-1 py-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
-                        >
-                          {item.submenu.map((subitem) => (
-                            <div
-                              onClick={() => {
-                                handleEditTools(subitem.lable);
-                              }}
-                              className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-doc-secondary hover:text-doc-primary'
-                              key={subitem.id}
-                            >
-                              <p className='small-regular'>{subitem.name}</p>
-                            </div>
-                          ))}
-                        </Surface>
+                    <Fragment key={v4()}>
+                      {index !== 0 && (
+                        <>
+                          <Spacer y='5' />
+                          <Separator
+                            orientation='horizontal'
+                            className=' bg-shadow-border'
+                          />
+                          <Spacer y='5' />
+                        </>
                       )}
-                    </div>
+                      <Spacer y='5' />
+                      <h3 className='small-semibold px-2.5 text-doc-font'>
+                        {item.format}
+                      </h3>
+                      <Spacer y='5' />
+                      {item.options.map((option, option_idx) => {
+                        return (
+                          <div
+                            className={` ${
+                              hoverItem === option.id ? 'bg-border-50' : ''
+                            } group flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5`}
+                            key={option.id}
+                            onClick={() => {
+                              !option.submenu && handleEditTools(option.label);
+                            }}
+                            onMouseEnter={() => setHoverItem(option.id)}
+                            onMouseLeave={() => setHoverItem(null)}
+                          >
+                            <div className='flex items-center gap-x-2'>
+                              {cloneElement(option.icon)}
+                              <p className='small-regular'>{option.name}</p>
+                            </div>
+                            {option.submenu ? <ChevronRight size={18} /> : null}
+                            {option.submenu && hoverItem === option.id && (
+                              <Surface
+                                style={{ top: `${option_idx * 40 + 70}px` }}
+                                withBorder
+                                data-state={
+                                  hoverItem === option.id ? 'open' : 'closed'
+                                }
+                                className='absolute left-[250px] rounded px-1 py-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
+                              >
+                                {option.submenu.map((subitem) => (
+                                  <div
+                                    onClick={() => {
+                                      handleEditTools(subitem.label);
+                                    }}
+                                    className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-border-50'
+                                    key={subitem.id}
+                                  >
+                                    <p className='small-regular'>
+                                      {subitem.name}
+                                    </p>
+                                  </div>
+                                ))}
+                              </Surface>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </Fragment>
                   );
                 })
               : operations.map((item, idx) => {
                   return (
                     <div
                       className={` ${
-                        hoverItem === idx ? 'bg-doc-secondary' : ''
-                      } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
+                        hoverItem === item.id ? 'bg-doc-secondary' : ''
+                      } group flex cursor-pointer items-center justify-between rounded py-1.5`}
                       key={item.id}
-                      onMouseEnter={() => setHoverItem(idx)}
+                      onMouseEnter={() => setHoverItem(item.id)}
                       onMouseLeave={() => setHoverItem(null)}
                       onClick={() => handleOperation(idx)}
                     >
                       <div className='flex items-center gap-x-2'>
-                        {hoverItem === idx
+                        {hoverItem === item.id
                           ? cloneElement(item.icon, { color: '#774EBB' })
                           : cloneElement(item.icon)}
                         <p className='small-regular group-hover:text-doc-primary'>

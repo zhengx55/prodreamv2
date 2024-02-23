@@ -1,11 +1,18 @@
 import {
-  Copilot_Continue,
+  Academic,
   Copilot_Discard,
-  Copilot_Edit,
-  Copilot_Generate,
   Copilot_Insert,
   Copilot_Replace,
   Copilot_Try,
+  Depth,
+  Fluency,
+  Length,
+  MoreContent,
+  Opposing,
+  Paraphrase,
+  Simplify,
+  Summary,
+  Translate,
 } from '@/components/root/SvgComponents';
 import { useMemo } from 'react';
 
@@ -13,77 +20,87 @@ export const useAiOptions = () => {
   const options = useMemo(() => {
     return [
       {
-        id: 'copilot-00',
-        name: 'Continue Writing',
-        icon: <Copilot_Continue />,
-        lable: 'continue_write_sentence',
-      },
-      {
-        id: 'copilot-01',
-        name: 'Edit tools',
-        icon: <Copilot_Edit />,
-        submenu: [
+        format: 'Edit language',
+        options: [
           {
             id: 'edit-tools-01',
-            lable: 'paraphrase',
+            label: 'paraphrase',
             name: 'Paraphrase',
+            icon: <Paraphrase />,
           },
           {
             id: 'edit-tools-02',
-            lable: 'more_academic',
+            label: 'more_academic',
             name: 'Make academic',
+            icon: <Academic />,
           },
           {
             id: 'edit-tools-03',
-            lable: 'improve_fluency',
+            label: 'improve_fluency',
             name: 'Improve fluency',
+            icon: <Fluency />,
           },
           {
             id: 'edit-tools-04',
-            lable: 'simplify_language',
+            label: 'simplify_language',
             name: 'Simplify language',
+            icon: <Simplify />,
           },
           {
             id: 'edit-tools-05',
-            lable: 'translate',
+            label: 'translate',
             name: 'Translate to english',
+            icon: <Translate />,
           },
           {
             id: 'edit-tools-06',
-            lable: 'make_concise',
-            name: 'Shorten',
-          },
-          {
-            id: 'edit-tools-07',
-            lable: 'make_longer',
-            name: 'Make longer',
+            name: 'Edit length',
+            icon: <Length />,
+            submenu: [
+              {
+                id: 'edit-tools-06-01',
+                name: 'Shorten',
+                label: 'make_concise',
+              },
+              {
+                id: 'edit-tools-06-02',
+                name: 'Make longer',
+                label: 'make_longer',
+              },
+            ],
           },
         ],
       },
       {
-        id: 'copilot-02',
-        name: 'Generate from selection',
-        icon: <Copilot_Generate />,
-        submenu: [
+        format: 'Generate from selection',
+        options: [
           {
             id: 'edit-tools-08',
-            lable: 'opposing_arguments',
-            name: 'Write Opposing Argument',
+            label: 'opposing_arguments',
+            name: 'Write opposing argument',
+            icon: <Opposing />,
           },
           {
             id: 'edit-tools-09',
-            lable: 'more_depth',
+            label: 'more_depth',
             name: 'Write with more depth',
+            icon: <Depth />,
           },
           {
             id: 'edit-tools-10',
-            lable: 'summarize',
+            label: 'summarize',
             name: 'Generate summary',
+            icon: <Summary />,
+          },
+          {
+            id: 'edit-tools-11',
+            label: 'continue_write_sentence',
+            name: 'Write more content',
+            icon: <MoreContent />,
           },
         ],
       },
     ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const operations = useMemo(() => {
