@@ -83,8 +83,8 @@ const Task = ({ editor, track }: Props) => {
               <Spacer y='15' />
               {startup_task.map((task, index) => {
                 const taskComplete =
-                  index === 1 ||
-                  (index === 0 && track.highlight_task) ||
+                  index === 0 ||
+                  (index === 1 && track.highlight_task) ||
                   (index === 2 && track.grammar_task);
                 return (
                   <li

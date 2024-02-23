@@ -760,8 +760,8 @@ export const sample_title = {
 };
 
 export const startup_task = [
-  { id: 'task-02', label: 'Highlight any text' },
   { id: 'task-01', label: 'Create first document' },
+  { id: 'task-02', label: 'Highlight any text' },
   { id: 'task-03', label: 'Click "Start Grammar Check"' },
 ];
 
