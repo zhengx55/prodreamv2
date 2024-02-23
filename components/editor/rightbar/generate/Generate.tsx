@@ -59,6 +59,7 @@ export const Generate = () => {
                           totalSteps={3}
                           onClickCallback={() => {
                             updateOutlineStep(3);
+                            copilot_option.current = 'write_introduction';
                             setGenerateTab('Write Introduction');
                           }}
                         >

@@ -245,7 +245,7 @@ const AiMenu = ({ editor }: Props) => {
               <Typed
                 strings={[aiResult]}
                 className='small-regular px-2'
-                typeSpeed={5}
+                typeSpeed={2}
               />
             </div>
           ) : (

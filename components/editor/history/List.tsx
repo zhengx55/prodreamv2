@@ -117,7 +117,7 @@ const DocumentList = () => {
         ) : null}
       </div>
       <Spacer y='10' />
-      <MembershipBar document_count={data?.list.length || 0} />
+      <MembershipBar />
     </>
   );
 };

@@ -242,7 +242,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
                 className='h-24 rounded shadow-lg'
                 name='outline-description'
                 ref={draftRef}
-                placeholder='E.g. Importance of religion in East Asian culture'
+                placeholder='Paste your essay here'
               />
               <Button
                 role='button'

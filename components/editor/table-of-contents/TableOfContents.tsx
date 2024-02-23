@@ -34,6 +34,8 @@ const TableOfContents = ({ editor }: TableOfContentsProps) => {
       editor.off('create', () => handler({ editor }));
     };
   }, [editor]);
+  if (data?.content.length === 0 || !data?.content)
+    return <div className='h-full w-40 shrink-0' />;
   return (
     <AnimatePresence mode='wait'>
       {showTable ? (
@@ -56,27 +58,25 @@ const TableOfContents = ({ editor }: TableOfContentsProps) => {
             </Button>
           </Tooltip>
           <div className='z-0 h-full w-full overflow-y-auto pl-5'>
-            {data?.content && data.content.length > 0 ? (
-              <div className='flex flex-col gap-2'>
-                {data.content.map((item) => (
-                  <a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    style={{ marginLeft: `${1 * item.level - 1}rem` }}
-                    className={cn(
-                      'hover:bg-black subtle-semibold block w-full truncate rounded  bg-opacity-10 text-neutral-300 transition-all hover:bg-opacity-5 hover:text-neutral-800',
-                      item.isActive && 'bg-neutral-100 text-neutral-800'
-                    )}
-                  >
-                    {item.textContent}
-                  </a>
-                ))}
-                <p className='subtle-semibold inline-flex w-full items-center gap-x-1 truncate  rounded bg-opacity-10 text-neutral-300 transition-all hover:bg-opacity-5 hover:text-neutral-800'>
-                  <BookMarks />
-                  Reference
-                </p>
-              </div>
-            ) : null}
+            <div className='flex flex-col gap-2'>
+              {data.content.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  style={{ marginLeft: `${1 * item.level - 1}rem` }}
+                  className={cn(
+                    'hover:bg-black subtle-semibold block w-full truncate rounded  bg-opacity-10 text-neutral-300 transition-all hover:bg-opacity-5 hover:text-neutral-800',
+                    item.isActive && 'bg-neutral-100 text-neutral-800'
+                  )}
+                >
+                  {item.textContent}
+                </a>
+              ))}
+              <p className='subtle-semibold inline-flex w-full items-center gap-x-1 truncate  rounded bg-opacity-10 text-neutral-300 transition-all hover:bg-opacity-5 hover:text-neutral-800'>
+                <BookMarks />
+                Reference
+              </p>
+            </div>
           </div>
         </m.aside>
       ) : (
