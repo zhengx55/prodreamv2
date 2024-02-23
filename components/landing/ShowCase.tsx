@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
+import useLocalization from '@/hooks/useLocalization';
 const datalist = [
   {
     desc: `"Simply the best! This tool is a game-changer for refining academic drafts. What's even more impressive is its support for multiple languages, including Mandarin. It makes my writing process so easy!"`,
@@ -23,11 +24,12 @@ const datalist = [
 ];
 
 const ShowCase = () => {
+  const {t} = useLocalization()
   return (
-    <section className='relative flex w-full justify-center px-4 py-20 sm:px-0'>
+    <section className='relative flex justify-center w-full px-4 py-20 sm:px-0'>
       <div className='flex-center w-full flex-col gap-y-10 sm:max-w-[1200px]'>
         <div className='flex flex-col items-center justify-evenly gap-y-4 sm:gap-y-0'>
-          <div className='flex w-full flex-col sm:flex-row sm:justify-center'>
+          <div className='flex flex-col w-full sm:flex-row sm:justify-center'>
             <svg
               className='hidden sm:block'
               xmlns='http://www.w3.org/2000/svg'
@@ -67,10 +69,10 @@ const ShowCase = () => {
             {datalist.map((item, index) => (
               <div
                 className={`${index < 2 ? 'border-b border-[#D1D0D6] sm:border-b-0 sm:border-r' : ''} mb-[20px] w-full p-[35px] sm:mb-0 sm:flex sm:w-1/3 sm:flex-col sm:justify-between sm:px-[26px]`}
-                key={item.name}
+                key={t(`ShowCase_name_${index+1}`)}
               >
                 <p className='text-[14px] text-[#3B3A40] text-[400] sm:text-[18px]'>
-                  {item.desc}
+                  {t(`ShowCase_title_${index+1}`)}
                 </p>
                 <div className='mt-[30px] flex'>
                   <Image
@@ -82,10 +84,10 @@ const ShowCase = () => {
                   />
                   <div className='ml-[12px] sm:ml-[18px]'>
                     <h5 className='text-[16px] font-[700] text-[#3B3A40] sm:text-[18px]'>
-                      {item.name}
+                      {t(`ShowCase_name_${index+1}`)}
                     </h5>
                     <p className='text-[14px] text-[#8E8C95] text-[400]'>
-                      {item.from}
+                      {t(`ShowCase_form_${index+1}`)}
                     </p>
                   </div>
                 </div>

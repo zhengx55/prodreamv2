@@ -6,9 +6,10 @@ import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
+import useLocalization from '@/hooks/useLocalization';
 
 const HeroCarousel = dynamic(
   () => import('./LandingCarousel').then((mod) => mod.HeroCarousel),
@@ -23,6 +24,10 @@ const Hero = () => {
   const memoSetSelected = useCallback((index: number) => {
     setSelected(index);
   }, []);
+  
+
+  const { t } = useLocalization();
+
   return (
     <m.section
       ref={ref}
@@ -32,11 +37,11 @@ const Hero = () => {
       viewport={{
         once: true,
       }}
-      className='relative flex w-full justify-center px-4 sm:mt-0 sm:px-0'
+      className='relative flex justify-center w-full px-4 sm:mt-0 sm:px-0'
     >
       <m.div
         variants={textVariant(0.3)}
-        className='absolute -z-10 hidden h-full w-full sm:block'
+        className='absolute hidden w-full h-full -z-10 sm:block'
       >
         <Image
           draggable='false'
@@ -54,24 +59,24 @@ const Hero = () => {
         className='sm:flex-center flex h-full w-full flex-col py-10 sm:w-[1200px] sm:flex-col sm:py-20'
       >
         <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
-          <span className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-            Transform
+          <span className='font-custom relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
+          {t("transform")} 
           </span>{' '}
-          Your
-          <br className='sm:hidden' /> Academic
-          <br className='hidden sm:block' /> Writing
-          <br className='sm:hidden' /> journey
+          {t('your')}
+          <br className='sm:hidden' /> {t('academic')}
+          <br className='hidden sm:block' /> {t('writing')}
+          <br className='sm:hidden' /> {t('journey')}
         </h1>
         <Spacer y='20' />
         <p className='text-center text-[14px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-          Experience the future of academic writing with ProDream - the{' '}
-          <span className='text-doc-primary'>one-stop solution</span>
-          <br className='hidden sm:block' /> that enhances writing&nbsp;
-          <span className='text-doc-primary'>efficiency</span> and elevates
-          paper <span className='text-doc-primary'>quality</span>
+          {t('experience_the')}{' '}
+          <span className='text-doc-primary'>{t('one_stop')}</span>
+          <br className='hidden sm:block' /> {t('that_enhances_writing')}&nbsp;
+          <span className='text-doc-primary'>{t('efficiency')}</span> {t('and_elevates')}
+          {t('paper')} <span className='text-doc-primary'>{t('quality')}</span>
         </p>
         <Spacer y='40' />
-        <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
+        <div className='relative flex flex-col items-center justify-center w-full pl-2 gap-x-0 gap-y-4 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
           <Link passHref href={'/signup'}>
             <Button
               role='button'
@@ -93,7 +98,7 @@ const Hero = () => {
         <Spacer y='90' className='hidden sm:block' />
         <Spacer y='20' className='block sm:hidden' />
         <HeroCarousel clickCallback={memoSetSelected} />
-        <div className='hidden w-full justify-between gap-x-4 sm:flex'>
+        <div className='justify-between hidden w-full gap-x-4 sm:flex'>
           {HeroInfo.map((item, index) => {
             return (
               <span
@@ -109,9 +114,9 @@ const Hero = () => {
                   loading='eager'
                   priority
                 />
-                <h2 className='title-regular 2xl:h3-regular'>{item.title}</h2>
+                <h2 className='title-regular 2xl:h3-regular'>{t(`HeroInfo_title_${index+1}`)}</h2>
                 <p className='text-[12px] leading-relaxed text-shadow-100 2xl:text-regular'>
-                  {item.text}
+                  {t(`HeroInfo_text_${index+1}`)}
                 </p>
               </span>
             );

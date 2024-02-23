@@ -10,11 +10,12 @@ import Question from '@/components/landing/Question';
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 
 export default function Home() {
+
   return (
     <LazyMotionProvider>
-      <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>
+      <main className='relative flex flex-col w-full overflow-x-hidden touch-pan-y sm:overflow-x-auto'>
         <NavBar />
-        <Hero />
+        <Hero/>
         <Banner />
         <About />
         <Introduction />
@@ -27,3 +28,5 @@ export default function Home() {
     </LazyMotionProvider>
   );
 }
+
+

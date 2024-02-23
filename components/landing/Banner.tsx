@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
 import CaptureProvider from './CaptureProvider';
+import useLocalization from '@/hooks/useLocalization';
 const UniversityCarousel = dynamic(
   () => import('./LandingCarousel').then((mod) => mod.UniversityCarousel),
   {
@@ -10,25 +11,27 @@ const UniversityCarousel = dynamic(
   }
 );
 const Banner = () => {
+
+  const { t } = useLocalization();
   return (
-    <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
+    <section className='relative flex flex-col items-center justify-center w-full sm:px-0 sm:py-20'>
       <Spacer y='20' />
       <CaptureProvider event='ScreenII'>
-        <p className='base-regular text-center'>
-          Trusted by academic writers from top universities around the world
+        <p className='text-center base-regular'>
+         {t('BannerInfo_sub_title')}
         </p>
       </CaptureProvider>
 
       <Spacer y='20' />
-      <div className='flex-center w-full'>
+      <div className='w-full flex-center'>
         <UniversityCarousel />
       </div>
       <Spacer y='20' />
       <div className='flex-center w-full flex-col px-4 sm:max-w-[1200px] sm:px-0'>
         <div className='flex flex-col gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
           <div className='relative w-full rounded-2xl bg-doc-primary p-7 sm:w-[47%]'>
-            <h2 className='title-regular text-white'>
-              10+ Years of Experience
+            <h2 className='text-white title-regular'>
+             {t('BannerInfo_title_1')}  
             </h2>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -45,10 +48,8 @@ const Banner = () => {
               />
             </svg>
             <Spacer y='20' />
-            <p className='text-regular leading-6 text-white'>
-              Our team, consisting of experts from Harvard and Stanford, has
-              brought decades of experience to helping over 100,000 students
-              achieve academic success
+            <p className='leading-6 text-white text-regular'>
+              {t('BannerInfo_detail_1')}
             </p>
           </div>
           <div className='relative w-full rounded-2xl bg-blue-500 p-7 sm:w-[47%]'>
@@ -66,11 +67,10 @@ const Banner = () => {
                 fill='white'
               />
             </svg>
-            <h2 className='title-regular text-white'>Insights from Experts</h2>
+            <h2 className='text-white title-regular'>{t('BannerInfo_title_2')}</h2>
             <Spacer y='20' />
-            <p className='text-regular leading-6 text-white'>
-              Our AI, enriched with decades of academic expertise, is at your
-              service to craft papers that achieve top grades
+            <p className='leading-6 text-white text-regular'>
+             {t('BannerInfo_detail_2')}
             </p>
           </div>
         </div>
@@ -78,8 +78,8 @@ const Banner = () => {
         <div className='flex-center h-[174px] w-full flex-col rounded-2xl bg-doc-primary/10 p-8 sm:h-[130px]'>
           <div className='flex w-full flex-col sm:max-w-[1200px] sm:flex-row sm:justify-between'>
             <h1 className='text-center text-[16px] font-[500] sm:text-left sm:text-[18px]'>
-              Incubated by Harvard Innovation Lab and
-              <br className='hidden sm:block' /> Microsoft Founders Hub
+              {t('BannerInfo_footer')}
+              <br className='hidden sm:block' /> {t('BannerInfo_footer_form')}
             </h1>
             <Spacer y='14' className='block sm:hidden' />
             <div className='flex items-center justify-center gap-x-4 sm:justify-start'>
@@ -88,14 +88,14 @@ const Banner = () => {
                 src='/landing/banner/Harvard.png'
                 width={200}
                 height={60}
-                className='h-auto w-40'
+                className='w-40 h-auto'
               />
               <Image
                 alt='Founders Hub'
                 src='/landing/banner/Microsorf.png'
                 width={200}
                 height={60}
-                className='h-auto w-40'
+                className='w-40 h-auto'
               />
             </div>
           </div>
