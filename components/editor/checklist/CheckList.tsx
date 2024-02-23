@@ -127,7 +127,7 @@ const CheckList = () => {
                     htmlFor='citation-task'
                     className={`subtle-regular ${userTrack.citation_task ? 'text-neutral-400 line-through' : ''}`}
                   >
-                    Learn how to add citation
+                    Add one citation
                   </label>
                 </div>
                 {userTrack.citation_task ? null : (
