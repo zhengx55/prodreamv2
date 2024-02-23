@@ -117,6 +117,7 @@ const CheckList = () => {
       <m.div
         initial={false}
         variants={variants}
+        id='checklist-trigger'
         animate={show ? 'show' : 'hide'}
         className='flex-between rounded-lg bg-doc-primary p-2 text-white'
         onClick={() => setShow((prev) => !prev)}

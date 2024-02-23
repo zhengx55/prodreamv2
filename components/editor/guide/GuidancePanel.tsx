@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { sample_continue, sample_outline } from '@/constant';
 import { outline } from '@/query/api';
 import { useMutateTrackInfo } from '@/query/query';
-import { useUserTask } from '@/zustand/store';
+import useAiEditor, { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
@@ -16,13 +16,14 @@ import { useEffect, useRef, useState } from 'react';
 
 const Guidance = ({ editor }: { editor: Editor }) => {
   const [check, setCheck] = useState(-1);
-  const ideaRef = useRef<HTMLTextAreaElement>(null);
-  const draftRef = useRef<HTMLTextAreaElement>(null);
+  const ideaRef = useRef<HTMLTextAreaElement | null>(null);
+  const draftRef = useRef<HTMLTextAreaElement | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const resultString = useRef<string>('');
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
+  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const posthog = usePostHog();
 
   const close = async () => {
@@ -30,6 +31,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
       field: 'guidence',
       data: true,
     });
+    updateRightbarTab(0);
   };
 
   useEffect(() => {
@@ -155,10 +157,14 @@ const Guidance = ({ editor }: { editor: Editor }) => {
   };
 
   const handleClickSample = async () => {
+    if (!ideaRef.current) return;
+    posthog.capture('start with sample outline');
     editor.commands.setContent(sample_outline, true);
-    updateOutlineStep(1);
-    posthog.capture('start with sample outlie');
-    await close();
+    ideaRef.current.value = 'Importance of religion in East Asian culture';
+    setTimeout(async () => {
+      updateOutlineStep(1);
+      await close();
+    }, 1500);
   };
 
   return (
@@ -273,29 +279,29 @@ const Guidance = ({ editor }: { editor: Editor }) => {
                 ref={ideaRef}
                 placeholder='E.g. Importance of religion in East Asian culture'
               />
-              <Button
-                role='button'
-                onClick={handleGenerate}
-                disabled={isGenerating}
-                className='w-max rounded bg-doc-primary'
-                id='guidence-generate'
-              >
-                Generate
-                {isGenerating && (
-                  <Loader2 size={18} className='animate-spin text-white' />
-                )}
-              </Button>
-              <p className='base-semibold'>
-                It&apos;s totally fine if you don&apos;t have an essay topic in
-                mind!&nbsp;
-                <span
-                  onClick={handleClickSample}
-                  className='cursor-pointer text-doc-primary underline'
+              <div className='flex gap-x-2'>
+                <Button
+                  role='button'
+                  onClick={handleGenerate}
+                  disabled={isGenerating}
+                  className='w-max rounded bg-doc-primary'
+                  id='guidence-generate'
                 >
-                  Click here
-                </span>
-                &nbsp;to check out a sample outline.
-              </p>
+                  Generate
+                  {isGenerating && (
+                    <Loader2 size={18} className='animate-spin text-white' />
+                  )}
+                </Button>
+                <Button
+                  role='button'
+                  variant={'ghost'}
+                  className=''
+                  disabled={isGenerating}
+                  onClick={handleClickSample}
+                >
+                  Show me a sample outline
+                </Button>
+              </div>
             </m.div>
           ) : check === 2 ? (
             <m.p

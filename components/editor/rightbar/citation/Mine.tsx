@@ -3,7 +3,7 @@ import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Toggle } from '@/components/ui/toggle';
 import { CitationTooltip } from '@/constant/enum';
-import { useUserTrackInfo } from '@/query/query';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
 import { useCitation, useUserTask } from '@/zustand/store';
 import useThrottledCallback from 'beautiful-react-hooks/useThrottledCallback';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
@@ -33,6 +33,7 @@ const Mine = () => {
   const InTextCitationIds = useCitation((state) => state.inTextCitationIds);
   const resetCitationStep = useUserTask((state) => state.resetCitationStep);
   const { data: track, isPending } = useUserTrackInfo();
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
 
   const onPressHandler = (pressed: boolean, index: number) => {
     if (pressed) {
@@ -73,7 +74,15 @@ const Mine = () => {
       <div className='flex-between items-center py-1.5'>
         <div className='flex items-center gap-x-2'>
           <Book />
-          <p className='small-regular text-doc-primary'>My Library</p>
+          <p
+            className='small-regular cursor-pointer text-doc-primary'
+            onClick={() => {
+              setShowMine(true);
+              setType(0);
+            }}
+          >
+            My Library
+          </p>
         </div>
         <div className='flex items-center gap-x-2'>
           <Toggle
@@ -115,7 +124,14 @@ const Mine = () => {
             </Toggle>
           )}
           <Button
-            onClick={() => setShowMine((prev) => !prev)}
+            onClick={async () => {
+              setShowMine((prev) => !prev);
+              !track?.citation_empty_check &&
+                (await updateTrack({
+                  field: 'citation_empty_check',
+                  data: true,
+                }));
+            }}
             className='h-max w-max rounded bg-doc-primary px-2 py-1'
           >
             <ChevronUp
