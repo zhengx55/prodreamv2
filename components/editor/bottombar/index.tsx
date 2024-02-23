@@ -1,12 +1,11 @@
 import { Toolbar } from '@/components/editor/ui/Toolbar';
-import { BookHalf } from '@/components/root/SvgComponents';
+import { BookHalf, Redo, Undo } from '@/components/root/SvgComponents';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import useAiEditor, { useCitation } from '@/zustand/store';
 import { Editor } from '@tiptap/react';
-import { CornerDownLeft, CornerDownRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import { useTextmenuCommands } from '../bubble-menu/hooks/useTextMenuCommand';
@@ -47,7 +46,7 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
         tooltipShortcut={['Mod', 'Z']}
         onClick={commands.onUndo}
       >
-        <CornerDownLeft size={18} />
+        <Undo />
       </MemoButton>
       <MemoButton
         role='button'
@@ -55,7 +54,7 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
         tooltipShortcut={['Mod', 'Y']}
         onClick={commands.onRedo}
       >
-        <CornerDownRight size={18} />
+        <Redo />
       </MemoButton>
       <Toolbar.Divider />
       <CountDropdown editor={editor} />
