@@ -2,16 +2,15 @@ import Spacer from '@/components/root/Spacer';
 import { Feedback } from '@/components/root/SvgComponents';
 import { Checkbox } from '@/components/ui/checkbox';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
-import { copilot } from '@/query/api';
-import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
+import { useUserTrackInfo } from '@/query/query';
 import useAiEditor, { useAIEditor, useUserTask } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
 import { usePostHog } from 'posthog-js/react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import { useDebouncedCallback } from 'use-debounce';
 
 const variants: Variants = {
   hide: { width: 200, borderBottomLeftRadius: 8, borderBottomRightRadius: 8 },
@@ -20,96 +19,44 @@ const variants: Variants = {
 
 const CheckList = () => {
   const [show, setShow] = useState(false);
-  const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: userTrack, isPending, isError } = useUserTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const closeRightbar = useAiEditor((state) => state.closeRightbar);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
-  const insertPos = useRef<number>(0);
+  const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
+  const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const posthog = usePostHog();
-  const [isGenerating, setIsGenerating] = useState(false);
-
-  const { mutateAsync: handleCopilot } = useMutation({
-    mutationFn: (params: { text: string; pos: number }) =>
-      copilot({ tool: 'continue_write_sentence', text: params.text }),
-    onMutate: () => {
-      setIsGenerating(true);
-    },
-    onSuccess: async (data: ReadableStream, variables) => {
-      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
-      insertPos.current = variables.pos - 1;
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        handleStreamData(value, variables.pos);
-      }
-      setIsGenerating(false);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  const handleStreamData = (value: string | undefined, start: number) => {
-    if (!value) return;
-    const lines = value.split('\n');
-    const dataLines = lines.filter(
-      (line, index) =>
-        line.startsWith('data:') &&
-        lines.at(index - 1)?.startsWith('event: data')
-    );
-    const eventData = dataLines.map((line) =>
-      JSON.parse(line.slice('data:'.length))
-    );
-    let result = '';
-    eventData.forEach((word) => {
-      result += word;
-    });
-    if (!result.startsWith(' ')) result = ` ${result}`;
-    editor
-      ?.chain()
-      .insertContentAt(insertPos.current, result)
-      .setTextSelection({
-        from: start,
-        to: result.length + insertPos.current,
-      })
-      .run();
-    insertPos.current += result.length;
-  };
-
-  const selectHandler = async (index: number) => {
+  const setGenerateTab = useAiEditor((state) => state.updateGenerateTab);
+  const selectHandler = useDebouncedCallback(async (index: number) => {
+    console.log(1);
     if (index === 0 || index === 1) {
       const first_paragraph = findFirstParagraph(editor!);
       if (!first_paragraph.hasContent)
         return toast.warning('please write some content and try again');
-
       if (index === 0) {
         closeRightbar();
         editor?.commands.setNodeSelection(first_paragraph.pos);
         updateTaskStep(0);
       } else {
         closeRightbar();
-        await handleCopilot({
-          text: first_paragraph.content,
-          pos: first_paragraph.pos + first_paragraph.size,
-        });
+        const checkList = document.getElementById('checklist-trigger');
+        checkList?.click();
+        updateContinueStep(1);
       }
     }
     if (index === 2) {
       updateRightbarTab(2);
-      await updateTrack({
-        field: 'generate_tool_task',
-        data: true,
-      });
+      setGenerateTab('Write Introduction');
       posthog.capture('generate_tool_task_completed');
+      updateGenerateStep(1);
     }
     if (index === 3) {
       updateRightbarTab(1);
       updateCitationStep();
     }
-  };
+  }, 500);
 
   if (isPending || isError) return null;
   return (
@@ -117,6 +64,7 @@ const CheckList = () => {
       <m.div
         initial={false}
         variants={variants}
+        id='checklist-trigger'
         animate={show ? 'show' : 'hide'}
         className='flex-between rounded-lg bg-doc-primary p-2 text-white'
         onClick={() => setShow((prev) => !prev)}
@@ -241,9 +189,9 @@ const CheckList = () => {
                   <span
                     onClick={() => selectHandler(1)}
                     role='button'
-                    className={`${isGenerating ? 'pointer-events-none' : ''} subtle-regular cursor-pointer text-doc-primary`}
+                    className={`subtle-regular cursor-pointer text-doc-primary`}
                   >
-                    {isGenerating ? 'Generating...' : 'Show me'}
+                    {'Show me'}
                   </span>
                 )}
               </li>

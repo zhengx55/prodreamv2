@@ -83,14 +83,14 @@ const Task = ({ editor, track }: Props) => {
               <Spacer y='15' />
               {startup_task.map((task, index) => {
                 const taskComplete =
-                  index === 0 ||
-                  (index === 1 && track.highlight_task) ||
+                  index === 1 ||
+                  (index === 0 && track.highlight_task) ||
                   (index === 2 && track.grammar_task);
                 return (
                   <li
                     onClick={() => setStep(index)}
                     key={index}
-                    className={`flex-between ${taskComplete && 'border-green-600 bg-green-100'} group w-[80%] cursor-pointer gap-x-2.5 rounded-full border px-3 py-1.5 hover:border-doc-primary hover:text-doc-primary ${step === index ? 'border-doc-primary bg-[#E6CAFC] text-doc-primary' : 'border-transparent bg-white'}`}
+                    className={`flex-between ${taskComplete ? 'border-green-600 bg-green-100' : step === index ? 'border-doc-primary bg-[#E6CAFC] text-doc-primary' : 'border-transparent bg-white'} group w-[80%] cursor-pointer gap-x-2.5 rounded-full border px-3 py-1.5 hover:border-doc-primary hover:text-doc-primary`}
                   >
                     <label
                       htmlFor={task.label}
@@ -162,15 +162,17 @@ export const Finish = memo(() => {
           height={100}
           className='absolute bottom-0 left-[calc(50%_-80px)] z-10 h-24 w-24'
         />
-        <h1 className='base-semibold text-white'>
+        <h1 className='base-semibold z-20 text-white'>
           You&apos;ve just discovered key ways to interact with our AI!
           <br />
-          Continue to the onboarding checklist to learn how to use our features,
-          designed for you.
+          Continue to the onboarding checklist to learn how to use
+          <br /> our features, designed for you.
         </h1>
         <Button
           onClick={async () => {
             await updateTrack({ field: 'basic_task', data: true });
+            const checkList = document.getElementById('checklist-trigger');
+            checkList?.click();
           }}
           className='h-max w-max rounded border border-white px-4 py-1.5 text-white'
           variant={'secondary'}
