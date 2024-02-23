@@ -22,6 +22,7 @@ import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
+import Underline from '@tiptap/extension-underline';
 import { textblockTypeInputRule } from '@tiptap/react';
 import { AutoComplete } from './plugin/autocomplete';
 import DragAndDrop from './plugin/drag';
@@ -31,7 +32,6 @@ import Selection from './plugin/selection';
 import { AutoCompleteSlashCommand, SlashCommand } from './plugin/slashcommand';
 import AutoCompleteCNSlashCommand from './plugin/slashcommand/AutoCompleteCnSlashCommand';
 import Title from './plugin/title';
-import { Underline } from './plugin/underline';
 
 const adjustLevel = (level: number) => (level == 1 ? 2 : level);
 
@@ -100,7 +100,6 @@ const ExtensionKit = () => [
   Underline,
   AutoComplete,
   GrammarUnderline,
-  // TrailingNode,
   AutoCompleteSlashCommand,
   AutoCompleteCNSlashCommand,
   Selection,

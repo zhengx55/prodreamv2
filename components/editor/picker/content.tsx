@@ -1,4 +1,4 @@
-import { Toolbar } from '@/components/editor/Toolbar';
+import { Toolbar } from '@/components/editor/ui/Toolbar';
 import { DropdownButton } from '@/components/ui/dropdown-button';
 
 import { Surface } from '@/components/ui/surface';

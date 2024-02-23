@@ -5,15 +5,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
-import { Eye, EyeOff, X } from 'lucide-react';
-import { Button } from '../ui/button';
-import { memo, useState } from 'react';
-import { Input } from '../ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { resetPass } from '@/lib/validation';
-import { z } from 'zod';
 import {
   Form,
   FormControl,
@@ -21,16 +14,22 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { useMutation } from '@tanstack/react-query';
+import { resetPass } from '@/lib/validation';
 import { profileResetPasswords } from '@/query/api';
-import { toast } from 'sonner';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { Eye, EyeOff, X } from 'lucide-react';
+import { ReactNode, memo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 type Props = {
-  isActive: boolean;
-  toogleActive: () => void;
+  children: ReactNode;
 };
 
-const EditPassModal = ({ isActive, toogleActive }: Props) => {
+const EditPassModal = ({ children }: Props) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [hideNewPassword, setHideNewPassword] = useState(true);
 
@@ -45,11 +44,12 @@ const EditPassModal = ({ isActive, toogleActive }: Props) => {
   const { mutateAsync: resetPassAction } = useMutation({
     mutationFn: (params: { new_password: string; old_password: string }) =>
       profileResetPasswords(params),
-    onSuccess: () => {
-      toogleActive();
+    onSuccess: async () => {
+      const toast = (await import('sonner')).toast;
       toast.success('Password has been reset successfully!');
     },
-    onError: (error) => {
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
       toast.error(error.message);
     },
   });
@@ -61,7 +61,8 @@ const EditPassModal = ({ isActive, toogleActive }: Props) => {
     });
   }
   return (
-    <Dialog open={isActive} onOpenChange={toogleActive}>
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         onPointerDownOutside={(e) => {
           e.preventDefault();
@@ -149,7 +150,9 @@ const EditPassModal = ({ isActive, toogleActive }: Props) => {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type='submit'>Save</Button>
+              <DialogClose asChild>
+                <Button type='submit'>Save</Button>
+              </DialogClose>
             </div>
           </form>
         </Form>

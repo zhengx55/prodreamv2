@@ -1,15 +1,18 @@
-import useAiEditor from '@/zustand/store';
-import { AnimatePresence } from 'framer-motion';
+import { useCitation } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import SearchList from './SearchList';
 const CustomCitation = dynamic(() => import('./CustomCitation'));
+const EditCitation = dynamic(() => import('./edit/Edit'));
 const Citation = () => {
-  const showCreateCitation = useAiEditor((state) => state.showCreateCitation);
-  return (
-    <AnimatePresence>
-      {showCreateCitation ? <CustomCitation /> : <SearchList />}
-    </AnimatePresence>
+  const showCreateCitation = useCitation((state) => state.showCreateCitation);
+  const showEditCitation = useCitation((state) => state.showEditCitation);
+  return showCreateCitation ? (
+    <CustomCitation />
+  ) : showEditCitation ? (
+    <EditCitation />
+  ) : (
+    <SearchList />
   );
 };
 

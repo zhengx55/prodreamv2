@@ -4,6 +4,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 const withPlugins = require('next-compose-plugins');
 
+const { i18n } = require('./next-i18next.config');
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -32,7 +34,7 @@ const nextConfig = {
     config.resolve.alias.canvas = false;
     config.resolve.alias.encoding = false;
     return config;
-  },
+  }
 };
 
 module.exports = withPlugins([withBundleAnalyzer], nextConfig);

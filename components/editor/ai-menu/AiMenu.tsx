@@ -3,49 +3,60 @@ import Spacer from '@/components/root/Spacer';
 import { Copilot } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
+import { getSelectedText } from '@/lib/tiptap/utils';
 import { ask, copilot } from '@/query/api';
-import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
+import {
+  useMembershipInfo,
+  useMutateTrackInfo,
+  useUserTrackInfo,
+} from '@/query/query';
 import useAiEditor from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
-import { Editor } from '@tiptap/react';
-import { ChevronRight } from 'lucide-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { Editor } from '@tiptap/react';
+import { AlertTriangle, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { usePostHog } from 'posthog-js/react';
 import {
   ChangeEvent,
+  Fragment,
   KeyboardEvent,
   cloneElement,
+  memo,
   useRef,
   useState,
 } from 'react';
-import { toast } from 'sonner';
+import { v4 } from 'uuid';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 import { useAiOptions } from './hooks/useAiOptions';
+
 const Typed = dynamic(() => import('react-typed'), { ssr: false });
 
 type Props = { editor: Editor };
-export const AiMenu = ({ editor }: Props) => {
-  const copilotRect = useAiEditor((state) => state.copilotRect);
-  const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
-  const selectedText = useAiEditor((state) => state.selectedText);
-  const promptRef = useRef<HTMLInputElement>(null);
+const AiMenu = ({ editor }: Props) => {
   const { options, operations } = useAiOptions();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: track } = useUserTrackInfo();
-  const [hoverItem, setHoverItem] = useState<number | null>(null);
+  const { data: usage } = useMembershipInfo();
+  const copilotRect = useAiEditor((state) => state.copilotRect);
+  const queryClient = useQueryClient();
+  const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
+  const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
+  const promptRef = useRef<HTMLInputElement>(null);
+  const [hoverItem, setHoverItem] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
   const [aiResult, setAiResult] = useState('');
   const [istTyping, setIsTyping] = useState(false);
   const elRef = useRef<HTMLDivElement>(null);
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
-  const hasAiResult = aiResult !== '';
   const posthog = usePostHog();
   const ref = useScrollIntoView();
 
+  const hasAiResult = aiResult !== '';
   useClickOutside(elRef, () => {
     updateCopilotMenu(false);
   });
@@ -65,12 +76,13 @@ export const AiMenu = ({ editor }: Props) => {
       setGenerating(true);
     },
     onSuccess: async (data: ReadableStream, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
       tool.current = variables.tool;
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
-          setHoverItem(0);
+          setHoverItem('copilot-operation-01');
           break;
         }
         handleStreamData(value);
@@ -80,7 +92,8 @@ export const AiMenu = ({ editor }: Props) => {
       setGenerating(false);
     },
 
-    onError: (error) => {
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
       toast.error(error.message);
     },
   });
@@ -91,11 +104,12 @@ export const AiMenu = ({ editor }: Props) => {
       setGenerating(true);
     },
     onSuccess: async (data: ReadableStream) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
-          setHoverItem(0);
+          setHoverItem('copilot-operation-01');
           break;
         }
         handleStreamData(value);
@@ -105,7 +119,8 @@ export const AiMenu = ({ editor }: Props) => {
       setGenerating(false);
     },
 
-    onError: (error) => {
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
       toast.error(error.message);
     },
   });
@@ -129,7 +144,12 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleEditTools = async (tool: string) => {
-    if (!selectedText) return;
+    const toast = (await import('sonner')).toast;
+    const selectedText = getSelectedText(editor);
+    const words = selectedText.match(/\b\w+\b/g);
+    if ((words?.length ?? 0) > 160) {
+      return toast.warning('Selected text should not exceed 160 words');
+    }
     if (!track?.ai_copilot_task) {
       await updateTrack({
         field: 'ai_copilot_task',
@@ -141,6 +161,12 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleCustomPrompt = async () => {
+    const toast = (await import('sonner')).toast;
+    const selectedText = getSelectedText(editor);
+    const words = selectedText.match(/\b\w+\b/g);
+    if ((words?.length ?? 0) > 160) {
+      return toast.warning('Selected text should not exceed 160 words');
+    }
     if (promptRef.current && !promptRef.current.value.trim())
       return toast.error('please enter a custom prompt');
     if (!track?.ai_copilot_task) {
@@ -167,7 +193,8 @@ export const AiMenu = ({ editor }: Props) => {
   };
 
   const handleRegenerate = async () => {
-    if (!selectedText || !tool.current) return;
+    const selectedText = getSelectedText(editor);
+    if (!tool.current) return;
     await handleCopilot({ tool: tool.current, text: selectedText });
   };
 
@@ -209,7 +236,7 @@ export const AiMenu = ({ editor }: Props) => {
     <section
       ref={ref}
       style={{ top: `${copilotRect - 54}px` }}
-      className='absolute -left-12 flex w-full justify-center overflow-visible '
+      className='absolute -left-12 z-20 flex w-full justify-center overflow-visible '
     >
       <div
         ref={elRef}
@@ -221,7 +248,7 @@ export const AiMenu = ({ editor }: Props) => {
               <Typed
                 strings={[aiResult]}
                 className='small-regular px-2'
-                typeSpeed={5}
+                typeSpeed={2}
               />
             </div>
           ) : (
@@ -254,86 +281,110 @@ export const AiMenu = ({ editor }: Props) => {
             </p>
           </div>
         )}
-        {/* <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
-          <div className='flex gap-x-2'>
-            <AlertTriangle className='text-shadow' size={15} />
-            <p className='subtle-regular text-shadow'>
-              Al responses can be inaccurate or misleading.
-            </p>
+        {usage?.subscription === 'basic' && (
+          <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
+            <div className='flex items-center gap-x-2'>
+              <AlertTriangle className='text-shadow' size={15} />
+              <p className='subtle-regular text-shadow'>
+                {usage?.free_times_detail.Copilot}/20 weekly AI prompts
+                used;&nbsp;
+                <Button
+                  onClick={() => {
+                    updatePaymentModal(true);
+                  }}
+                  role='button'
+                  variant={'ghost'}
+                  className='subtle-regular h-max w-max cursor-pointer bg-transparent p-0 text-doc-primary'
+                >
+                  Go unlimited
+                </Button>
+              </p>
+            </div>
           </div>
-          <div className='flex gap-x-2'>
-            <Smile
-              className='cursor-pointer text-shadow hover:opacity-50'
-              size={15}
-            />
-            <Frown
-              className='cursor-pointer text-shadow hover:opacity-50'
-              size={15}
-            />
-          </div>
-        </div> */}
+        )}
         <Spacer y='5' />
         {generating ? null : (
-          <Surface className='w-[256px] rounded px-1 py-2' withBorder>
+          <Surface className='w-[256px] rounded py-2' withBorder>
             {!hasAiResult
-              ? options.map((item, idx) => {
+              ? options.map((item, index) => {
                   return (
-                    <div
-                      className={` ${
-                        hoverItem === idx ? 'bg-doc-secondary' : ''
-                      } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
-                      key={item.id}
-                      onClick={() => {
-                        !item.submenu && handleEditTools(item.lable);
-                      }}
-                      onMouseEnter={() => setHoverItem(idx)}
-                      onMouseLeave={() => setHoverItem(null)}
-                    >
-                      <div className='flex items-center gap-x-2'>
-                        {hoverItem === idx
-                          ? cloneElement(item.icon, { color: '#774EBB' })
-                          : cloneElement(item.icon)}
-                        <p className='small-regular group-hover:text-doc-primary'>
-                          {item.name}
-                        </p>
-                      </div>
-                      {item.submenu ? <ChevronRight size={18} /> : null}
-                      {item.submenu && hoverItem === idx && (
-                        <Surface
-                          style={{ top: `${idx * 27 + 70}px` }}
-                          withBorder
-                          data-state={hoverItem === idx ? 'open' : 'closed'}
-                          className='absolute left-[250px] rounded px-1 py-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
-                        >
-                          {item.submenu.map((subitem) => (
-                            <div
-                              onClick={() => {
-                                handleEditTools(subitem.lable);
-                              }}
-                              className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-doc-secondary hover:text-doc-primary'
-                              key={subitem.id}
-                            >
-                              <p className='small-regular'>{subitem.name}</p>
-                            </div>
-                          ))}
-                        </Surface>
+                    <Fragment key={v4()}>
+                      {index !== 0 && (
+                        <>
+                          <Spacer y='5' />
+                          <Separator
+                            orientation='horizontal'
+                            className=' bg-shadow-border'
+                          />
+                          <Spacer y='5' />
+                        </>
                       )}
-                    </div>
+                      <Spacer y='5' />
+                      <h3 className='small-semibold px-2.5 text-doc-font'>
+                        {item.format}
+                      </h3>
+                      <Spacer y='5' />
+                      {item.options.map((option, option_idx) => {
+                        return (
+                          <div
+                            className={` ${
+                              hoverItem === option.id ? 'bg-border-50' : ''
+                            } group flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5`}
+                            key={option.id}
+                            onClick={() => {
+                              !option.submenu && handleEditTools(option.label);
+                            }}
+                            onMouseEnter={() => setHoverItem(option.id)}
+                            onMouseLeave={() => setHoverItem(null)}
+                          >
+                            <div className='flex items-center gap-x-2'>
+                              {cloneElement(option.icon)}
+                              <p className='small-regular'>{option.name}</p>
+                            </div>
+                            {option.submenu ? <ChevronRight size={18} /> : null}
+                            {option.submenu && hoverItem === option.id && (
+                              <Surface
+                                style={{ top: `${option_idx * 40 + 70}px` }}
+                                withBorder
+                                data-state={
+                                  hoverItem === option.id ? 'open' : 'closed'
+                                }
+                                className='absolute left-[250px] rounded px-1 py-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
+                              >
+                                {option.submenu.map((subitem) => (
+                                  <div
+                                    onClick={() => {
+                                      handleEditTools(subitem.label);
+                                    }}
+                                    className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-border-50'
+                                    key={subitem.id}
+                                  >
+                                    <p className='small-regular'>
+                                      {subitem.name}
+                                    </p>
+                                  </div>
+                                ))}
+                              </Surface>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </Fragment>
                   );
                 })
               : operations.map((item, idx) => {
                   return (
                     <div
                       className={` ${
-                        hoverItem === idx ? 'bg-doc-secondary' : ''
-                      } group flex cursor-pointer items-center justify-between rounded px-2 py-1`}
+                        hoverItem === item.id ? 'bg-doc-secondary' : ''
+                      } group flex cursor-pointer items-center justify-between rounded px-2 py-1.5`}
                       key={item.id}
-                      onMouseEnter={() => setHoverItem(idx)}
+                      onMouseEnter={() => setHoverItem(item.id)}
                       onMouseLeave={() => setHoverItem(null)}
                       onClick={() => handleOperation(idx)}
                     >
                       <div className='flex items-center gap-x-2'>
-                        {hoverItem === idx
+                        {hoverItem === item.id
                           ? cloneElement(item.icon, { color: '#774EBB' })
                           : cloneElement(item.icon)}
                         <p className='small-regular group-hover:text-doc-primary'>
@@ -349,3 +400,5 @@ export const AiMenu = ({ editor }: Props) => {
     </section>
   );
 };
+
+export default memo(AiMenu);

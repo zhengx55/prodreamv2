@@ -16,15 +16,23 @@ export enum OutlineTooltip {
 }
 
 export enum ContinueTooltip {
-  TITLE = 'Your thoughts, flawlessly extended 🤝',
-  TEXT = "Effortlessly overcome writer's block with “Continue Writing” feature that extends your writing, maintaining your unique style and thought process.",
+  TITLE = 'Never get stuck again  🤝',
+  TEXT = 'Continue Writing” can extend your writing while maintaining your unique style',
+}
+export enum ContinueTooltipSecond {
+  TITLE = 'Continue writing shortcut',
 }
 
 export enum OutlineTooltipMain {
-  TITLE = 'Organized, practical, concise outline to help you get started ✨!',
-  LIST1 = 'Guidance on how to structure the paragraph.',
-  LIST2 = 'Actionable steps to start writing.',
-  LIST3 = 'Sample thesis statement to reference.',
+  TITLE = 'Detailed outline to help you get started ✨!',
+  LIST1 = 'Structure guidance',
+  LIST2 = 'Actionable steps',
+  LIST3 = 'Sample thesis statement ',
+}
+
+export enum OutlineTooltipThrid {
+  TITLE = 'Generate introduciton',
+  TEXT = 'One click to generate a tailored introduction',
 }
 
 export enum SampleEssay {

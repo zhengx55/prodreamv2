@@ -6,6 +6,15 @@
     }
 }
 
+.tooltip {
+    @apply fixed bg-black-400 rounded-lg flex-center z-30 p-2 opacity-100 text-shadow text-[14px] font-[500] leading-[140%] text-center;
+
+    &.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
 .drag-handle {
     position: fixed;
     opacity: 1;

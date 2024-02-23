@@ -1,9 +1,72 @@
 import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
 import { DocSortingMethods, ICitationType } from '@/types';
-import { useAIEditor } from '@/zustand/store';
+import { useAIEditor, useCitation } from '@/zustand/store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createCitation, getDocs, getUserInfo, updateUserInfo } from './api';
+import { useRouter } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
+import { useCookies } from 'react-cookie';
+import {
+  createCitation,
+  getDocDetail,
+  getDocs,
+  getUserInfo,
+  getUserMemberShip,
+  purchaseMembership,
+  resendEmail,
+  unSubscripeMembership,
+  updateCitation,
+  updateUserInfo,
+  userLogin,
+} from './api';
 import { UserTrackData } from './type';
+
+export const useMembershipInfo = () => {
+  return useQuery({
+    queryKey: ['membership'],
+    queryFn: () => getUserMemberShip(),
+    staleTime: 1000 * 60 * 60 * 24,
+  });
+};
+
+export const useMutationMembershio = () => {
+  const router = useRouter();
+  return useMutation({
+    mutationFn: (params: { product_id: string; url: string }) =>
+      purchaseMembership(params),
+    onSuccess: (data) => {
+      router.push(data);
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useUnsubscribe = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (params: { subscription_id: string }) =>
+      unSubscripeMembership(params),
+    onSuccess: async (data) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
+      const toast = (await import('sonner')).toast;
+      toast.success('Successfully Unsubscribed');
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useDocumentDetail = (id: string) => {
+  return useQuery({
+    queryKey: ['document_item', id],
+    queryFn: () => getDocDetail(id),
+  });
+};
+
 export const useUserTrackInfo = () => {
   return useQuery({
     queryKey: ['user_track_info'],
@@ -46,8 +109,31 @@ export const useDocumentList = (
   });
 };
 
+export const useUpdateCitation = () => {
+  const updateCitationItem = useCitation((state) => state.updateCitationItem);
+  return useMutation({
+    mutationFn: (params: {
+      citation_type: ICitationType;
+      id: string;
+      data: any;
+    }) => updateCitation(params),
+    onSuccess: async (_data, variables) => {
+      const toast = (await import('sonner')).toast;
+      toast.success('Citation Updated successfully');
+      updateCitationItem({
+        type: variables.citation_type,
+        data: variables.data,
+      });
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
+  });
+};
+
 export const useCreateCitation = () => {
-  const appendInDocCitationIds = useAIEditor(
+  const appendInDocCitationIds = useCitation(
     (state) => state.appendInDocCitationIds
   );
   return useMutation({
@@ -65,6 +151,8 @@ export const useCreateCitation = () => {
           document_id: variables.document_id,
         },
       });
+      const toast = (await import('sonner')).toast;
+      toast.success('Citation created successfully');
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
@@ -73,10 +161,10 @@ export const useCreateCitation = () => {
   });
 };
 
-export const useCiteToDoc = (flag?: boolean) => {
+export const useCiteToDoc = () => {
   const editor = useAIEditor((state) => state.editor_instance);
   const { insertCitation } = useEditorCommand(editor!);
-  const appendInTextCitationIds = useAIEditor(
+  const appendInTextCitationIds = useCitation(
     (state) => state.appendInTextCitationIds
   );
   return useMutation({
@@ -94,7 +182,49 @@ export const useCiteToDoc = (flag?: boolean) => {
           document_id: variables.document_id,
         },
       });
+
       insertCitation(data);
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useRensendEmail = () => {
+  return useMutation({
+    mutationFn: () => resendEmail(),
+    onSuccess: async () => {
+      const { toast } = await import('sonner');
+      toast.success('Email sent successfully');
+    },
+    onError: async () => {
+      const { toast } = await import('sonner');
+      toast.error('Email sent error, please try again later');
+    },
+  });
+};
+
+export const useUserLogin = () => {
+  const posthog = usePostHog();
+  const router = useRouter();
+  const [_cookies, setCookie] = useCookies(['token']);
+  return useMutation({
+    mutationFn: (param: { username: string; password: string }) =>
+      userLogin(param),
+    onSuccess: async (data) => {
+      const toast = (await import('sonner')).toast;
+      toast.success('Successfully Login');
+      const user_id = JSON.parse(atob(data.access_token.split('.')[1])).subject
+        .user_id;
+      posthog.identify(user_id);
+      setCookie('token', data.access_token, {
+        path: '/',
+        maxAge: 604800,
+        secure: true,
+      });
+      router.push('/editor');
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

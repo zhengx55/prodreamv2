@@ -1,4 +1,4 @@
-import { Toolbar } from '@/components/editor/Toolbar';
+import { Toolbar } from '@/components/editor/ui/Toolbar';
 import { autoUpdate, flip, offset, useFloating } from '@floating-ui/react-dom';
 import * as Popover from '@radix-ui/react-popover';
 import { Editor, isNodeSelection, posToDOMRect } from '@tiptap/react';
@@ -8,8 +8,6 @@ import {
   AlignLeft,
   AlignRight,
   Bold,
-  CornerDownLeft,
-  CornerDownRight,
   Italic,
   MoreVertical,
   Strikethrough,
@@ -17,7 +15,13 @@ import {
 } from 'lucide-react';
 import { memo, useLayoutEffect, useRef, useState } from 'react';
 
-import { BookHalf, Copilot, Synonym } from '@/components/root/SvgComponents';
+import {
+  BookHalf,
+  Copilot,
+  Redo,
+  Synonym,
+  Undo,
+} from '@/components/root/SvgComponents';
 import useAiEditor, { useUserTask } from '@/zustand/store';
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
@@ -31,7 +35,7 @@ export type TextMenuProps = {
   editor: Editor;
 };
 
-export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
+const BubbleMenu = ({ editor }: TextMenuProps) => {
   const [open, setOpen] = useState(false);
   const menuYOffside = useRef<number | null>(null);
   const menuXOffside = useRef<number | null>(null);
@@ -44,10 +48,10 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   const updateCopilotRect = useAiEditor((state) => state.updateCopilotRect);
   const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
   const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
-  const updateSelectedText = useAiEditor((state) => state.updateSelectedText);
   const updateCopilotRectX = useAiEditor((state) => state.updateCopilotRectX);
   const task_step = useUserTask((state) => state.task_step);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
+  const prevSelection = useRef<{ from: number; to: number } | null>(null);
 
   const { x, y, strategy, refs } = useFloating({
     open: open,
@@ -65,19 +69,28 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
   });
 
   useLayoutEffect(() => {
-    const handler = () => {
+    const MouseUphandler = () => {
       const { doc, selection } = editor.state;
-      const { from, empty, ranges } = selection;
+      const { from, empty, ranges, to } = selection;
+      if (
+        prevSelection.current &&
+        prevSelection.current.from === from &&
+        prevSelection.current.to === to
+      ) {
+        return;
+      }
+      if (empty) {
+        prevSelection.current = null;
+        setOpen(false);
+        return;
+      }
       const { view } = editor;
       const current_node = view.domAtPos(from || 0);
       const isTitle =
         current_node.node.nodeName === 'H1' ||
         current_node.node.parentNode?.nodeName === 'H1';
       if (isTitle) {
-        setOpen(false);
-        return;
-      }
-      if (empty) {
+        prevSelection.current = null;
         setOpen(false);
       } else {
         const from = Math.min(...ranges.map((range) => range.$from.pos));
@@ -90,19 +103,45 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           setIsWord(false);
         }
         setSelectedLength(words ? words.length : 0);
-        updateSelectedText(text);
         refs.setReference({
           getBoundingClientRect() {
-            if (isNodeSelection(selection)) {
-              const node = view.nodeDOM(from) as HTMLElement;
-              if (node) {
-                menuXOffside.current = node.getBoundingClientRect().left;
-                const el_srcoll_top =
-                  view.dom.parentElement?.parentElement?.scrollTop;
-                menuYOffside.current =
-                  node.getBoundingClientRect().bottom + (el_srcoll_top ?? 0);
-                return node.getBoundingClientRect();
-              }
+            menuXOffside.current = posToDOMRect(view, from, to).left;
+            const el_srcoll_top =
+              view.dom.parentElement?.parentElement?.scrollTop;
+            menuYOffside.current =
+              posToDOMRect(view, from, to).bottom + (el_srcoll_top ?? 0);
+            return posToDOMRect(view, from, to);
+          },
+        });
+        setOpen(true);
+        prevSelection.current = { from, to };
+      }
+    };
+    const NodeSelectHandler = () => {
+      const { view } = editor;
+      const { selection, doc } = editor.state;
+      const { empty, ranges } = selection;
+      if (empty) {
+        prevSelection.current = null;
+        setOpen(false);
+        return;
+      }
+      if (isNodeSelection(selection)) {
+        const from = Math.min(...ranges.map((range) => range.$from.pos));
+        const to = Math.max(...ranges.map((range) => range.$to.pos));
+        const text = doc.textBetween(from, to);
+        const words = text.match(/\b\w+\b/g);
+        setSelectedLength(words ? words.length : 0);
+        refs.setReference({
+          getBoundingClientRect() {
+            const node = view.nodeDOM(from) as HTMLElement;
+            if (node) {
+              menuXOffside.current = node.getBoundingClientRect().left;
+              const el_srcoll_top =
+                view.dom.parentElement?.parentElement?.scrollTop;
+              menuYOffside.current =
+                node.getBoundingClientRect().bottom + (el_srcoll_top ?? 0);
+              return node.getBoundingClientRect();
             }
             menuXOffside.current = posToDOMRect(view, from, to).left;
             const el_srcoll_top =
@@ -113,11 +152,14 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           },
         });
         setOpen(true);
+        prevSelection.current = { from, to };
       }
     };
-    editor.on('selectionUpdate', handler);
+    editor.on('selectionUpdate', NodeSelectHandler);
+    document.addEventListener('mouseup', MouseUphandler);
     return () => {
-      editor.off('selectionUpdate', handler);
+      editor.off('selectionUpdate', NodeSelectHandler);
+      document.removeEventListener('mouseup', MouseUphandler);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, refs]);
@@ -127,7 +169,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
     <div
       ref={refs.setFloating}
       style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-      className='z-[9999]'
+      className='z-[99]'
     >
       <Toolbar.Wrapper className='border-shadow-borde relative border shadow-lg'>
         <MemoButton
@@ -174,7 +216,7 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
             }}
             className='text-doc-primary'
           >
-            <BookHalf size={18} />
+            <BookHalf size={'18'} />
             Citation
           </MemoButton>
         )}
@@ -185,14 +227,14 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
           tooltipShortcut={['Mod', 'Z']}
           onClick={commands.onUndo}
         >
-          <CornerDownLeft size={18} />
+          <Undo />
         </MemoButton>
         <MemoButton
           tooltip='Redo'
           tooltipShortcut={['Mod', 'Y']}
           onClick={commands.onRedo}
         >
-          <CornerDownRight size={18} />
+          <Redo />
         </MemoButton>
         <Toolbar.Divider />
         <MemoButton
@@ -279,6 +321,6 @@ export const BubbleMenu = memo(({ editor }: TextMenuProps) => {
       </Toolbar.Wrapper>
     </div>
   );
-});
+};
 
-BubbleMenu.displayName = 'BubbleMenu';
+export default memo(BubbleMenu);

@@ -1,5 +1,5 @@
 import { isTextSelection } from '@tiptap/core';
-import type { Editor } from '@tiptap/react';
+import type { Editor, JSONContent } from '@tiptap/react';
 
 export const isTextSelected = ({ editor }: { editor: Editor }) => {
   const {
@@ -41,4 +41,45 @@ export const findFirstParagraph = (editor: Editor) => {
     }
   });
   return first_paragraph;
+};
+
+export const getSelectedText = (editor: Editor) => {
+  const { selection, doc } = editor.state;
+  const { ranges } = selection;
+  const from = Math.min(...ranges.map((range) => range.$from.pos));
+  const to = Math.max(...ranges.map((range) => range.$to.pos));
+  const selectedText = doc.textBetween(from, to);
+  return selectedText;
+};
+
+export const findParagpraph = (
+  indexes: number[],
+  contents: JSONContent[]
+): JSONContent | null => {
+  if (indexes.length === 0) {
+    return null;
+  }
+  const index = indexes[0];
+  const element = contents[index];
+  if (!element || typeof element !== 'object') {
+    return null;
+  }
+  if (indexes.length === 1) {
+    return element;
+  }
+  return findParagpraph(indexes.slice(1), element.content || []);
+};
+
+export const findNodePos = (editor: Editor, content: string) => {
+  let nodePos = 0;
+  let nodeSize = 0;
+  editor.state.doc.descendants((node, pos) => {
+    if (node.isText) {
+      if (node.textContent === content) {
+        nodePos = pos;
+        nodeSize = node.nodeSize;
+      }
+    }
+  });
+  return { nodePos, nodeSize };
 };

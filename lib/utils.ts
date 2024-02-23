@@ -1,6 +1,7 @@
-import { ICitation, IPolishResultAData } from '@/query/type';
+import { ICitation } from '@/query/type';
 import { IJournalCitation } from '@/types';
 import { clsx, type ClassValue } from 'clsx';
+import escapeStringRegExp from 'escape-string-regexp';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -170,7 +171,7 @@ export function addRandomToDuplicates(array: string[]) {
   return newArray;
 }
 
-export function formatTimestampToDateString(timestamp: number) {
+export function formatTimestampToDateString(timestamp: number, times = true) {
   const date = new Date(timestamp * 1000);
   const monthNames = [
     'Jan.',
@@ -192,71 +193,39 @@ export function formatTimestampToDateString(timestamp: number) {
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
+  if (times) {
+    return `${month} ${day}, ${year} ${hours}:${minutes}:${seconds}`;
+  } else return `${month} ${day}, ${year}`;
+}
 
-  return `${month} ${day}, ${year} ${hours}:${minutes}:${seconds}`;
+export function format_table_time(timestamp: number) {
+  const date = new Date(timestamp * 1000);
+
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${month}-${day}-${year}`;
+}
+
+export function format_hour_diff(timestamp: number) {
+  var currentTimestamp = Date.now();
+  var givenTimestamp = timestamp * 1000;
+  var timeDifference = givenTimestamp - currentTimestamp;
+  var hourDifference = timeDifference / (1000 * 60 * 60);
+
+  if (hourDifference < 1) {
+    var minuteDifference = timeDifference / (1000 * 60);
+    return Math.ceil(minuteDifference) + ' minutes';
+  } else {
+    return Math.ceil(hourDifference) + ' hours';
+  }
 }
 
 export function removeHtmlTags(input: string): string {
   let resultwithBR = input.replace(/<\/?span[^>]*>/g, '');
   return resultwithBR.replace(/<br\s*\/?>/gi, '\n');
 }
-
-export const getSubStrPos = (current_suggestion: IPolishResultAData) => {
-  let corrsponding_segement = '';
-  current_suggestion?.data.forEach((suggestion, suggenstion_idx) => {
-    if ([2, 3].includes(suggestion.status)) {
-      if (
-        suggenstion_idx < current_suggestion.data.length - 1 &&
-        [2, 3].includes(current_suggestion.data.at(suggenstion_idx + 1)!.status)
-      ) {
-        corrsponding_segement += ` ${suggestion.sub_str}`;
-      } else {
-        corrsponding_segement += ` ${suggestion.sub_str} `;
-      }
-    } else if (
-      suggestion.status === 1 &&
-      suggenstion_idx < current_suggestion.data.length - 1 &&
-      ![1, 2, 3].includes(
-        current_suggestion.data.at(suggenstion_idx + 1)!.status
-      )
-    ) {
-      corrsponding_segement += ' ';
-    } else {
-      corrsponding_segement += suggestion.sub_str;
-    }
-  });
-  return corrsponding_segement;
-};
-
-export const getDiffSentencesPair = (item: IPolishResultAData) => {
-  let relpace_string = '';
-  let original_string = '';
-  item.data.map((sentence) => {
-    if (sentence.status === 0) {
-      original_string === ''
-        ? (original_string += `${sentence.sub_str}`)
-        : (original_string += ` ${sentence.sub_str}`);
-      relpace_string === ''
-        ? (relpace_string += `${sentence.sub_str}`)
-        : (relpace_string += ` ${sentence.sub_str}`);
-    } else if ([1, 2, 3].includes(sentence.status)) {
-      if (sentence.status !== 1) {
-        original_string === ''
-          ? (original_string += `${sentence.sub_str}`)
-          : (original_string += ` ${sentence.sub_str}`);
-      }
-      if (sentence.status !== 2) {
-        relpace_string === ''
-          ? (relpace_string += `${sentence.new_str}`)
-          : (relpace_string += ` ${sentence.new_str}`);
-      } else {
-        relpace_string += ' ';
-      }
-    }
-  });
-  original_string = original_string.trim();
-  return { relpace_string, original_string };
-};
 
 export function numberToMonth(number: number): string | null {
   const months = [
@@ -313,7 +282,7 @@ export function ConvertCitationData(item: ICitation) {
   ];
   converted_data.reference_count = reference_count ?? 0;
   converted_data.area = area ?? [];
-  converted_data.page_info = page_info ?? '';
+  converted_data.page_info = page_info ?? { start: '', end: '' };
   converted_data.journal_title = journal_title ?? '';
   converted_data.article_title = article_title ?? '';
   converted_data.abstract = abstract ?? '';
@@ -325,4 +294,14 @@ export function ConvertCitationData(item: ICitation) {
     series: advanced_info.series ?? '',
   };
   return converted_data;
+}
+
+export function createRegex(str: string) {
+  let substring_regex: RegExp;
+  if (/[^\w\s]+/g.test(str)) {
+    substring_regex = new RegExp(escapeStringRegExp(str), 'i');
+  } else {
+    substring_regex = new RegExp(`\\b${str}\\b`, 'g');
+  }
+  return substring_regex;
 }

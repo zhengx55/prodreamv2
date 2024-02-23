@@ -20,14 +20,14 @@ export const GrammarUnderline = Mark.create<UnderLineOptions>({
   addOptions() {
     return {
       HTMLAttributes: {
-        class: 'underline-offset-4 decoration-red-400 decoration-2',
+        class: 'underline-offset-4 underline decoration-red-400 decoration-2',
       },
     };
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
-      'u',
+      'span',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
       0,
     ];

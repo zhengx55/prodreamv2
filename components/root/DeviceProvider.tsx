@@ -6,7 +6,6 @@ import { ReactNode, useState } from 'react';
 import NavBar from '../landing/NavBar';
 import Sidebar from './Sidebar';
 import Spacer from './Spacer';
-// const TutorialSheet = dynamic(() => import('@/components/tutorial'));
 
 const DeviceProvider = ({ children }: { children: ReactNode }) => {
   const path = usePathname();

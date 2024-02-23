@@ -1,5 +1,4 @@
 'use client';
-
 import useInviewCapture from '@/hooks/useInViewCapture';
 import { ReactNode } from 'react';
 

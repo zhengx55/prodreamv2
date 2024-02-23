@@ -121,15 +121,12 @@ export const AutoCompleteSlashCommand = Extension.create({
                 }
                 return new DOMRect(rect.x, yPos, rect.width, rect.height);
               };
-
               scrollHandler = () => {
                 popup?.[0].setProps({
                   getReferenceClientRect,
                 });
               };
-
               view.dom.parentElement?.addEventListener('scroll', scrollHandler);
-
               popup?.[0].setProps({
                 getReferenceClientRect,
                 appendTo: () => document.body,
@@ -141,44 +138,6 @@ export const AutoCompleteSlashCommand = Extension.create({
 
             onUpdate(props: SuggestionProps) {
               component.updateProps(props);
-
-              const { view } = props.editor;
-
-              const getReferenceClientRect = () => {
-                if (!props.clientRect) {
-                  return props.editor.storage[extensionName].rect;
-                }
-
-                const rect = props.clientRect();
-
-                if (!rect) {
-                  return props.editor.storage[extensionName].rect;
-                }
-
-                // Account for when the editor is bound inside a container that doesn't go all the way to the edge of the screen
-                return new DOMRect(rect.x, rect.y, rect.width, rect.height);
-              };
-
-              let scrollHandler = () => {
-                popup?.[0].setProps({
-                  getReferenceClientRect,
-                });
-              };
-
-              view.dom.parentElement?.addEventListener('scroll', scrollHandler);
-              props.editor.storage[extensionName].rect = props.clientRect
-                ? getReferenceClientRect()
-                : {
-                    width: 0,
-                    height: 0,
-                    left: 0,
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                  };
-              popup?.[0].setProps({
-                getReferenceClientRect,
-              });
             },
 
             onKeyDown(props: SuggestionKeyDownProps) {

@@ -1,7 +1,7 @@
 import Loading from '@/components/root/CustomLoading';
 import { copilot, outline } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { m } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { memo, useCallback, useRef, useState } from 'react';
@@ -14,18 +14,20 @@ import Result from './Result';
 
 const OutlineTypes = ['argumentative', 'analytical', 'scientific'];
 
-type Props = { generateTab: string; goBack: () => void; label: string | null };
-const GenerateSub = ({ generateTab, goBack, label }: Props) => {
+type Props = { generateTab: string; label: string | null };
+const GenerateSub = ({ generateTab, label }: Props) => {
   const isOutline =
     typeof generateTab !== 'number' && OutlineTypes.includes(generateTab);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResult, setGeneratedResult] = useState('');
   const editor = useAIEditor((state) => state.editor_instance);
+  const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
+
   const { insertAtPostion } = useEditorCommand(editor!);
   const outLineInfo = useRef<z.infer<typeof generateOutlineSchema> | null>(
     null
   );
-
+  const queryClient = useQueryClient();
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { tool: string; text: string }) => copilot(params),
     onMutate: () => {
@@ -33,6 +35,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
       if (generatedResult) setGeneratedResult('');
     },
     onSuccess: async (data: ReadableStream) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
@@ -55,6 +58,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
       if (generatedResult) setGeneratedResult('');
     },
     onSuccess: async (data: ReadableStream, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
       outLineInfo.current = { idea: variables.idea, area: variables.area };
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
@@ -72,25 +76,32 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
 
   const handleStreamData = (value: string | undefined) => {
     if (!value) return;
-    isGenerating && setIsGenerating(false);
     const lines = value.split('\n');
     const dataLines = lines.filter(
       (line, index) =>
         line.startsWith('data:') &&
         lines.at(index - 1)?.startsWith('event: data')
     );
-    const eventData = dataLines.map((line) =>
-      JSON.parse(line.slice('data:'.length))
-    );
+    const eventData = dataLines.map((line) => {
+      let parsed: string = JSON.parse(line.slice('data:'.length));
+      if (/^([^#]*#){1}[^#]*$/.test(parsed)) {
+        parsed = parsed.replaceAll('#', '##');
+      } else if (/^[^#]*##([^#]|$)/.test(parsed)) {
+        parsed = parsed.replaceAll('##', '###');
+      }
+      return parsed;
+    });
     let result = '';
     eventData.forEach((word) => {
       result += word;
     });
     setGeneratedResult((prev) => (prev += result));
+    if (isGenerating && result.trim()) setIsGenerating(false);
   };
+
   const handleGenerate = useCallback(async () => {
     const text = editor?.getText();
-    const tool = label;
+    const tool = label ?? 'write_introduction';
     await handleCopilot({ text: text!, tool: tool! });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
@@ -105,7 +116,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
 
   const handleDismiss = useCallback(() => {
     setGeneratedResult('');
-    goBack();
+    setGenerateTab(-1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -145,7 +156,7 @@ const GenerateSub = ({ generateTab, goBack, label }: Props) => {
       key='generate-detail'
     >
       <div
-        onClick={goBack}
+        onClick={() => setGenerateTab(-1)}
         className='flex cursor-pointer items-center gap-x-2 hover:underline'
       >
         <ChevronLeft size={20} className='text-doc-font' />

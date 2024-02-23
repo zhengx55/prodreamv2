@@ -760,17 +760,15 @@ export const sample_title = {
 };
 
 export const startup_task = [
-  { id: 'task-01', label: 'Try AI Copilot' },
-  { id: 'task-02', label: 'Try continue writing' },
-  { id: 'task-03', label: 'Check out generate tools' },
-  { id: 'task-04', label: 'Add one citation' },
+  { id: 'task-01', label: 'Create first document' },
+  { id: 'task-02', label: 'Highlight any text' },
+  { id: 'task-03', label: 'Click "Start Grammar Check"' },
 ];
 
 export const task_gif = [
   { id: 'gif-01', src: '/task/task1.gif' },
   { id: 'gif-02', src: '/task/task2.gif' },
   { id: 'gif-03', src: '/task/task3.gif' },
-  { id: 'gif-04', src: '/task/task4.gif' },
 ];
 
 export const sample_search_citation = [
@@ -826,5 +824,97 @@ export const sample_search_citation = [
     tldr: 'Fashion-MNIST is intended to serve as a direct drop-in replacement for the original MNIST dataset for benchmarking machine learning algorithms, as it shares the same image size, data format and the structure of training and testing splits.',
     publisher:
       'https://www.semanticscholar.org/paper/f9c602cc436a9ea2f9e7db48c77d924e09ce3c32',
+  },
+];
+
+export const PricingBasic = {
+  title: 'Basic',
+  month_price: '0.00',
+  recommended: false,
+  text: 'Access essential academic tools to foster your writing journey for free.',
+  price_text: 'Free of Charge',
+  features: [
+    'Up to 3 Documents',
+    '<strong>20</strong> Copilot prompt uses every 7 days',
+    '<strong>5</strong> Outline Generations every 7 days',
+    '<strong>100</strong> Grammar check sentences every 7 days',
+    '<strong>Unlimited</strong> Citation sources',
+    'Plagiarism Checker',
+  ],
+};
+
+export const PricingUnlimited = {
+  title: 'Unlimited',
+  month_price: '19.99',
+  text: 'Unlock comprehensive academic support with unlimited access to all features for advanced writing needs.',
+  features: [
+    '<strong>Unlimited</strong> Documents',
+    '<strong>Unlimited</strong> Copilot prompt uses',
+    '<strong>Unlimited</strong> Generations',
+    '<strong>Unlimited</strong> Grammar Check',
+    '<strong>Unlimited</strong> Citation sources',
+    'Plagiarism Checker & <strong>Rewriter</strong>',
+  ],
+};
+
+export const PricingAnnualyUnlimited = {
+  title: 'Unlimited',
+  month_price: '9.99',
+  recommended: true,
+  text: 'Unlock comprehensive academic support with unlimited access to all features for advanced writing needs.',
+  price_text:
+    'Save <span className="text-doc-primary">50%</span> on yearly plan',
+  features: [
+    '<strong>Unlimited</strong> Documents',
+    '<strong>Unlimited</strong> Copilot prompt uses',
+    '<strong>Unlimited</strong> Generations',
+    '<strong>Unlimited</strong> Grammar Check',
+    '<strong>Unlimited</strong> Citation sources',
+    'Plagiarism Checker & <strong>Rewriter</strong>',
+  ],
+};
+
+export const PlanData = [
+  {
+    id: 'row-data-01',
+    title: 'Document',
+    text: 'Get a taste of what Prodream can do for you.',
+    basic: '3 documents',
+    basic_status: true,
+  },
+  {
+    id: 'row-data-02',
+    title: 'Copilot',
+    text: 'Get a taste of what Prodream can do for you.',
+    basic: '20 times for 7 days',
+    basic_status: true,
+  },
+  {
+    id: 'row-data-03',
+    title: 'Generate',
+    text: 'Get a taste of what Prodream can do for you.',
+    basic: '5 times for 7 days',
+    basic_status: true,
+  },
+  {
+    id: 'row-data-04',
+    title: 'Grammar',
+    text: 'Get a taste of what Prodream can do for you.',
+    basic: '5 times for 7 days',
+    basic_status: true,
+  },
+  {
+    id: 'row-data-05',
+    title: 'Citation',
+    text: 'Get a taste of what Prodream can do for you.',
+    basic: 'Not copyable',
+    basic_status: false,
+  },
+  {
+    id: 'row-data-06',
+    title: 'Plagiarism check',
+    text: 'Get a taste of what Prodream can do for you.',
+    basic: 'Not modifiable',
+    basic_status: false,
   },
 ];

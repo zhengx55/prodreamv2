@@ -27,23 +27,22 @@ const SentenceFragment: FC<SentenceProps> = ({
 
   if (isNoChange) {
     className = 'text-black-400';
-    content = <span className={className}>{`${sentence.sub_str} `}</span>;
+    content = <span className={className}>{sentence.sub_str}</span>;
   } else if (isAdd) {
-    className = 'text-doc-primary ' + baseClassName;
-    content = <span className={className}>{` ${sentence.new_str} `}</span>;
+    className = 'text-doc-primary' + baseClassName;
+    content = <span className={className}> {sentence.new_str}</span>;
   } else if (isDelete) {
-    className = 'text-red-500 line-through ' + baseClassName;
-    content = <span className={className}>{` ${sentence.sub_str} `}</span>;
+    className = 'text-red-500 line-through' + baseClassName;
+    content = <span className={className}>{sentence.sub_str}</span>;
   } else if (isModify) {
-    className = 'text-red-500 line-through ' + baseClassName;
+    className = 'text-red-500 line-through' + baseClassName;
     content = (
-      <>
-        {' '}
-        <span className={className}>{`${sentence.sub_str}`}</span>{' '}
+      <Fragment>
+        <span className={className}>{sentence.sub_str}</span>
         <span className='font-semibold text-doc-primary'>
-          {` ${sentence.new_str} `}
+          {sentence.new_str}
         </span>
-      </>
+      </Fragment>
     );
   }
 

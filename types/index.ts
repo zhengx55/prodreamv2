@@ -39,65 +39,58 @@ export type ICitationData = IWebsiteCitation &
   IJournalCitation &
   IBookCitation &
   IChapterCitation &
-  IIntroductionCitation & {
-    id: string;
-  };
+  IIntroductionCitation;
 
 export interface IWebsiteCitation {
   abstract: string;
   access_date: {
-    day: number | null;
-    month: string | null;
-    year: number | null;
+    day: string;
+    month: string;
+    year: string;
   };
-  annotation: null | string;
+  annotation: string;
   article_title: string;
-  contributors:
-    | {
-        first_name?: null | string;
-        last_name?: null | string;
-        middle_name?: null | string;
-      }[]
-    | null;
+  contributors: {
+    first_name?: string;
+    last_name?: string;
+    middle_name?: string;
+  }[];
   document_id: string;
-  publisher: null | string;
+  publisher: string;
   website_title: string;
   url: string;
   reference_count: number;
   area: string[];
+  id: string;
 }
 
 export interface IJournalCitation {
+  id: string;
   reference_count: number;
   area: string[];
   pdf_url: string;
   abstract: string;
   advanced_info: {
-    issue?: null | string;
-    series?: null | string;
-    volume?: null | string;
+    issue?: string;
+    series?: string;
+    volume?: string;
   };
   tldr: string;
   publisher: string;
   citation_count: number;
-  annotation: null | string;
-  article_title: null | string;
-  contributors:
-    | {
-        first_name: null | string;
-        last_name: null | string;
-        middle_name: null | string;
-        /**
-         * author, editor, translator, compiler
-         */
-        role: null | string;
-        suffix: null | string;
-      }[]
-    | null;
+  annotation: string;
+  article_title: string;
+  contributors: {
+    first_name: string;
+    last_name: string;
+    middle_name: string;
+    role: string;
+    suffix: string;
+  }[];
   document_id: string;
-  doi: null | string;
-  journal_title?: null | string;
-  page_info: { end?: null | string; start?: null | string };
+  doi: string;
+  journal_title?: string;
+  page_info: { end?: string; start?: string };
   publish_date?: {
     day: number | string;
     month: string | null;
@@ -110,27 +103,28 @@ export interface IBookCitation {
   area: string[];
   abstract: string;
   advanced_info: {
-    edition?: null | string;
-    series?: null | string;
-    total_vol?: null | string;
-    vol?: null | string;
+    edition?: string;
+    series?: string;
+    total_vol?: string;
+    vol?: string;
   };
-  annotation: null | string;
-  book_title: null | string;
+  annotation: string;
+  book_title: string;
   contributors: {
-    first_name?: null | string;
-    last_name?: null | string;
-    middle_name?: null | string;
-    role?: null | string;
-    suffix?: null | string;
+    first_name?: string;
+    last_name?: string;
+    middle_name?: string;
+    role?: string;
+    suffix?: string;
   }[];
   document_id: string;
   publication_info: {
-    city?: null | string;
+    city?: string;
     publish_year?: number | null;
-    publisher?: null | string;
-    state?: null | string;
+    publisher?: string;
+    state?: string;
   };
+  id: string;
 }
 
 export interface IChapterCitation {
@@ -138,28 +132,29 @@ export interface IChapterCitation {
   area: string[];
   abstract: string;
   advanced_info: {
-    edition?: null | string;
-    series?: null | string;
-    total_vol?: null | string;
-    vol?: null | string;
+    edition?: string;
+    series?: string;
+    total_vol?: string;
+    vol?: string;
   };
-  annotation: null | string;
-  book_title: null | string;
+  annotation: string;
+  book_title: string;
   contributors: {
-    first_name?: null | string;
-    last_name?: null | string;
-    middle_name?: null | string;
-    role?: null | string;
+    first_name?: string;
+    last_name?: string;
+    middle_name?: string;
+    role?: string;
   }[];
   document_id: string;
   page_info: { end?: number | null; start?: number | null };
   publication_info: {
-    city?: null | string;
+    city?: string;
     publish_year?: number | null;
-    publisher?: null | string;
-    state?: null | string;
+    publisher?: string;
+    state?: string;
   };
-  section_title?: null | string;
+  section_title?: string;
+  id: string;
 }
 
 export interface IIntroductionCitation {
@@ -167,40 +162,57 @@ export interface IIntroductionCitation {
   area: string[];
   abstract: string;
   advanced_info: {
-    edition?: null | string;
-    series?: null | string;
-    total_vol?: null | string;
-    vol?: null | string;
+    edition?: string;
+    series?: string;
+    total_vol?: string;
+    vol?: string;
   };
-  annotation: null | string;
-  book_title: null | string;
+  annotation: string;
+  book_title: string;
   contributors: {
-    first_name?: null | string;
-    last_name?: null | string;
-    middle_name?: null | string;
-    role?: null | string;
-    suffix?: null | string;
+    first_name?: string;
+    last_name?: string;
+    middle_name?: string;
+    role?: string;
+    suffix?: string;
   }[];
   document_id: string;
   page_info: { end?: number | null; start?: number | null };
   publication_info: {
-    city?: null | string;
+    city?: string;
     publish_year?: number | null;
-    publisher?: null | string;
-    state?: null | string;
+    publisher?: string;
+    state?: string;
   };
-  section_title?: null | string;
+  section_title?: string;
   special_section_type?: string;
+  id: string;
 }
 
-export type GetCitationDataType<T extends ICitationType> = T extends 'website'
-  ? IWebsiteCitation
-  : T extends 'journal'
-    ? IJournalCitation
-    : T extends 'whole_book'
-      ? IBookCitation
-      : T extends 'book_special_section'
-        ? IIntroductionCitation
-        : T extends 'book_section'
-          ? IChapterCitation
-          : never;
+export type ISubscription = {
+  subscription: 'basic' | 'unlimited' | 'free_trail';
+  expire_time: number;
+  free_times_detail: FreeTimesDetail;
+  subscription_id: string;
+  subscription_type: string;
+};
+
+type FreeTimesDetail = {
+  Copilot: number | null;
+  Generate: number | null;
+  Grammar: number | null;
+  Document: number | null;
+};
+
+export type ISubsciptionHistory = {
+  id: number;
+  user_id: string;
+  product_id: string;
+  price: number;
+  start_date: number;
+  end_date: number;
+  finished: boolean;
+  subscription_id: string;
+  mode: string;
+  canceled: boolean;
+};

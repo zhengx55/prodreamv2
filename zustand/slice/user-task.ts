@@ -5,6 +5,7 @@ const initialState: UserTaskState = {
   citation_step: 0,
   outline_step: 0,
   continue_step: 0,
+  generate_step: 0,
 };
 
 type UserTaskState = {
@@ -12,6 +13,7 @@ type UserTaskState = {
   citation_step: number;
   outline_step: number;
   continue_step: number;
+  generate_step: number;
 };
 
 type UserTaskAction = {
@@ -20,12 +22,14 @@ type UserTaskAction = {
   resetCitationStep: () => void;
   updateOutlineStep: (result: number) => void;
   updateContinueStep: (result: number) => void;
+  updateGenerateStep: (result: number) => void;
 };
 
 export type UserTaskStore = UserTaskState & UserTaskAction;
 
 export const useUserTaskStore: StateCreator<UserTaskStore> = (set, get) => ({
   ...initialState,
+  updateGenerateStep: (result) => set({ generate_step: result }),
   updateTaskStep: (result) => set({ task_step: result }),
   updateCitationStep: () =>
     set((state) => ({

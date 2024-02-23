@@ -11,7 +11,7 @@ import {
 } from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
-import { useAIEditor, useUserTask } from '@/zustand/store';
+import { useAIEditor, useCitation, useUserTask } from '@/zustand/store';
 import { Plus, ReplyAll, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
@@ -20,7 +20,7 @@ import { memo } from 'react';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 
 const Tiplayout = dynamic(
-  () => import('@/components/polish/guide/tips/Tiplayout')
+  () => import('@/components/editor/guide/tips/Tiplayout')
 );
 
 const CitationPreview = dynamic(() => import('./CitationPreview'), {
@@ -39,7 +39,7 @@ export const SearchCitationCard = memo(
     const updateCitationStep = useUserTask((state) => state.updateCitationStep);
     const { mutateAsync: updateTrack } = useMutateTrackInfo();
     const { data: track } = useUserTrackInfo();
-    const { mutateAsync: handleCollectCitation } = useCreateCitation();
+    const { mutateAsync: handleCollect } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
@@ -51,7 +51,7 @@ export const SearchCitationCard = memo(
       }
       const converted_data = ConvertCitationData(item);
       if (action === 'collect') {
-        await handleCollectCitation({
+        await handleCollect({
           citation_data: converted_data,
           citation_type: 'Journal',
           document_id: id as string,
@@ -76,11 +76,19 @@ export const SearchCitationCard = memo(
           <CitationPreview item={item} />
         </Dialog>
         <Spacer y='10' />
-        {item.authors.length > 0 && (
-          <p className='subtle-regular text-doc-shadow'>
-            Authors:&nbsp; {item.authors[0].last_name ?? ''}&nbsp;
-            {item.authors[0].middle_name ?? ''}
-            {item.authors[0].first_name ?? ''}
+        {item.authors?.length > 0 && (
+          <p className='subtle-regular line-clamp-2 text-shadow-100'>
+            Authors:{' '}
+            {item.authors.map((author, idx) => {
+              return (
+                <span key={`author-${idx}`}>
+                  {author.last_name ?? ''}&nbsp;
+                  {author.middle_name ?? ''}
+                  {author.first_name ?? ''}
+                  {idx !== item.authors.length - 1 && ', '}
+                </span>
+              );
+            })}
           </p>
         )}
         <Spacer y='10' />
@@ -167,13 +175,13 @@ export const MineCitationCard = memo(
     type: 'inText' | 'library';
   }) => {
     const editor = useAIEditor((state) => state.editor_instance);
-    const removeInTextCitationIds = useAIEditor(
+    const removeInTextCitationIds = useCitation(
       (state) => state.removeInTextCitationIds
     );
-    const removeInDocCitationIds = useAIEditor(
+    const removeInDocCitationIds = useCitation(
       (state) => state.removeInDocCitationIds
     );
-    const appendInTextCitationIds = useAIEditor(
+    const appendInTextCitationIds = useCitation(
       (state) => state.appendInTextCitationIds
     );
     const { insertCitation } = useEditorCommand(editor!);
@@ -224,12 +232,19 @@ export const MineCitationCard = memo(
             ? item.data.article_title
             : item.data.book_title}{' '}
         </h1>
-        {item.data.contributors.length > 0 && (
-          <p className='subtle-regular text-doc-shadow'>
-            <span>Authors:&nbsp;</span>
-            {item.data.contributors[0].last_name},&nbsp;
-            {item.data.contributors[0].middle_name}
-            {item.data.contributors[0].first_name}
+        {item.data.contributors?.length > 0 && (
+          <p className='subtle-regular line-clamp-2 text-shadow-100'>
+            Authors:{' '}
+            {item.data.contributors.map((author, idx) => {
+              return (
+                <span key={`author-${idx}`}>
+                  {author.last_name ?? ''}&nbsp;
+                  {author.middle_name ?? ''}
+                  {author.first_name ?? ''}
+                  {idx !== item.data.contributors.length - 1 && ', '}
+                </span>
+              );
+            })}
           </p>
         )}
         {item.data.abstract && (

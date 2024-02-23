@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
 
 const Tiplayout = dynamic(
-  () => import('@/components/polish/guide/tips/Tiplayout')
+  () => import('@/components/editor/guide/tips/Tiplayout')
 );
 
 type Props = {
@@ -42,7 +42,7 @@ const SearchBar = ({ setKeyword, setResult }: Props) => {
             type='text'
             id='search-citation'
             placeholder='Search publications ...'
-            className='rounded border-none px-2 shadow-none outline-none focus-visible:ring-0'
+            className='px-2 border-none rounded shadow-none outline-none focus-visible:ring-0'
           />
         </Tiplayout>
       ) : (
@@ -55,7 +55,7 @@ const SearchBar = ({ setKeyword, setResult }: Props) => {
           type='text'
           id='search-citation'
           placeholder='Search publications ...'
-          className='rounded border-none px-2 shadow-none outline-none focus-visible:ring-0'
+          className='px-2 border-none rounded shadow-none outline-none focus-visible:ring-0'
         />
       )}
       <Button

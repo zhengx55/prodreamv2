@@ -1,4 +1,4 @@
-import { ICitationType } from '@/types';
+import { ICitationData, ICitationType, ISubscription } from '@/types';
 import Cookies from 'js-cookie';
 import {
   ICitation,
@@ -15,6 +15,92 @@ import {
 // ----------------------------------------------------------------
 // Info
 // ----------------------------------------------------------------
+
+export async function resendEmail(): Promise<void> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/verification_email`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function getUserMemberShip(): Promise<ISubscription> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/balance`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function purchaseMembership(params: {
+  product_id: string;
+  url: string;
+}) {
+  try {
+    const formData = new FormData();
+    formData.append('redirect_url', params.url);
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/${params.product_id}/order`,
+      {
+        method: 'POST',
+        body: formData,
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function unSubscripeMembership(params: {
+  subscription_id: string;
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/orders/${params.subscription_id}`,
+      {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function setLanguageInfo(params: { language_background: string }) {
   try {
@@ -418,11 +504,11 @@ export async function submitPolish(params: IPolishParams) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/tool/grammar_typo`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/tool/grammar_typo/block`,
       {
         method: 'POST',
         body: JSON.stringify({
-          text: params.text,
+          blocks: params.block,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -772,7 +858,31 @@ export async function createCitation(params: {
   }
 }
 
-export async function updateCitation() {}
+export async function updateCitation(params: {
+  citation_type: ICitationType;
+  id: string;
+  data: ICitationData;
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/${params.citation_type}/${params.id}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(params.data),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    if (!res.ok) throw new Error('Opps something went wrong');
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 
 export async function getCitationDetail(params: {
   citation_type: ICitationType;

@@ -1,8 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { submitPolish } from '@/query/api';
-import { IPolishResultAData } from '@/query/type';
+import {
+  useMembershipInfo,
+  useMutateTrackInfo,
+  useUserTrackInfo,
+} from '@/query/query';
+import { IGrammarResponse, IGrammarResult } from '@/query/type';
 import useAiEditor from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { JSONContent } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -14,27 +20,43 @@ const Result = dynamic(() => import('./Result'));
 export const GrammarCheck = memo(() => {
   const [isChecking, setIsChecking] = useState(false);
   const editor = useAiEditor((state) => state.editor_instance);
-  const deactivateSaving = useAiEditor((state) => state.deactivateSaving);
-  const [grammarResults, setGrammarResults] = useState<IPolishResultAData[]>(
-    []
-  );
-
-  const memoUpdateResult = useCallback((value: IPolishResultAData[]) => {
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const { data: userTrack } = useUserTrackInfo();
+  const { data: usage } = useMembershipInfo();
+  const [grammarResults, setGrammarResults] = useState<IGrammarResult[]>([]);
+  const queryClient = useQueryClient();
+  const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
+  const memoUpdateResult = useCallback((value: IGrammarResult[]) => {
     setGrammarResults(value);
   }, []);
   const { mutateAsync: handleGrammarCheck } = useMutation({
-    mutationFn: (params: { text: string }) => submitPolish(params),
+    mutationFn: (params: { block: JSONContent[] }) => submitPolish(params),
     onMutate: () => {
       setIsChecking(true);
     },
-    onSuccess: (data: IPolishResultAData[]) => {
-      if (data.length > 0) {
-        data.map((item, index) =>
-          index === 0 ? (item.expand = true) : (item.expand = false)
-        );
-      }
-      setGrammarResults(data);
-      deactivateSaving();
+    onSuccess: (data: IGrammarResponse[]) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
+      let grammar_result: IGrammarResult[] = [];
+      grammar_result = data.map((item) => {
+        const diff = item.diff.map((diffArray) => {
+          const data = diffArray.map((diffObject) => {
+            return {
+              sub_str: diffObject.sub_str,
+              new_str: diffObject.new_str,
+              status: diffObject.status,
+            };
+          });
+          return {
+            expand: false,
+            data: data,
+          };
+        });
+        return {
+          index: item.index,
+          diff: diff,
+        };
+      });
+      setGrammarResults(grammar_result);
     },
     onSettled: () => {
       setIsChecking(false);
@@ -45,20 +67,25 @@ export const GrammarCheck = memo(() => {
     },
   });
   const handleCheck = async () => {
+    if (!userTrack?.grammar_task) {
+      await updateTrack({
+        field: 'grammar_task',
+        data: 'true',
+      });
+    }
     if (editor?.getText().trim() === '') {
       const toast = (await import('sonner')).toast;
       toast.error('No text found!');
       return;
     }
-    editor?.chain().selectAll().unsetAllMarks().setTextSelection(0).run();
-    await handleGrammarCheck({
-      text: editor?.getText({
-        blockSeparator: '\n\n',
-      })!,
-    });
+    const block_content = editor?.getJSON();
+    const params = {
+      block: block_content?.content?.slice(1) || [], // Ensure block is not undefined
+    };
+    await handleGrammarCheck(params);
   };
   return (
-    <div className='flex w-full flex-1 overflow-hidden'>
+    <div className='flex w-full flex-1 flex-col overflow-hidden'>
       <AnimatePresence mode='wait'>
         {isChecking ? (
           <m.div
@@ -101,6 +128,35 @@ export const GrammarCheck = memo(() => {
           </m.div>
         )}
       </AnimatePresence>
+      {usage?.subscription === 'basic' ? (
+        <div className='mt-auto flex flex-col gap-y-0.5'>
+          <div className='relative h-2 w-full rounded-xl bg-border-50'>
+            {usage.free_times_detail.Generate === 0 ? (
+              <span className='absolute inset-0 rounded-xl bg-red-400' />
+            ) : (
+              <span
+                className='absolute inset-0 w-full rounded-xl bg-doc-primary'
+                style={{
+                  width: `${((100 - (usage?.free_times_detail.Grammar ?? 0)) / 100) * 100}%`,
+                }}
+              />
+            )}
+          </div>
+          <p className='small-regular w-max px-0 text-doc-font'>
+            {usage?.free_times_detail.Grammar}/100 weekly AI Prompts left;
+            <Button
+              role='dialog'
+              onClick={() => {
+                updatePaymentModal(true);
+              }}
+              variant={'ghost'}
+              className='px-2'
+            >
+              Go unlimited
+            </Button>
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 });
