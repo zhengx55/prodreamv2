@@ -10,9 +10,6 @@ const WholeBook = dynamic(() => import('../form/WholeBook'));
 const IntroductionForm = dynamic(() => import('../form/Introduction'));
 
 const EditCitation = () => {
-  const updateShowEditCitation = useCitation(
-    (state) => state.updateShowEditCitation
-  );
   const currentInline = useCitation((state) => state.currentInline);
   const inTextCitation = useCitation((state) => state.inTextCitation);
   const current_citation = useMemo(() => {
@@ -21,7 +18,6 @@ const EditCitation = () => {
     );
     return foundCitation ? foundCitation : null;
   }, [inTextCitation, currentInline]);
-  const handleSave = async () => {};
 
   const renderForm = (data: any) => {
     switch (current_citation?.type) {
