@@ -54,6 +54,7 @@ type AIEditorAction = {
   updateSynonymMenu: (result: AIEditorState['showSynonymMenu']) => void;
   updateCopilotRectX: (resutl: AIEditorState['copilotRectX']) => void;
   updatePaymentModal: (result: AIEditorState['paymentModalOpen']) => void;
+  closeRightbar: () => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -62,6 +63,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set(() => ({
       plagiarismResult: result,
     })),
+  closeRightbar: () => set(() => ({ rightbarOpen: false })),
   updateTitle: (result) => set(() => ({ doc_title: result })),
   updatePaymentModal: (result) => set(() => ({ paymentModalOpen: result })),
   updateRightbarTab: (result) =>

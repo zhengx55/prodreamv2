@@ -24,6 +24,7 @@ const CheckList = () => {
   const { data: userTrack, isPending, isError } = useUserTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
   const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
+  const closeRightbar = useAiEditor((state) => state.closeRightbar);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
   const insertPos = useRef<number>(0);
@@ -85,14 +86,15 @@ const CheckList = () => {
         return toast.warning('please write some content and try again');
 
       if (index === 0) {
+        closeRightbar();
         editor?.commands.setNodeSelection(first_paragraph.pos);
         updateTaskStep(0);
       } else {
+        closeRightbar();
         await handleCopilot({
           text: first_paragraph.content,
           pos: first_paragraph.pos + first_paragraph.size,
         });
-        updateTaskStep(1);
       }
     }
     if (index === 2) {
@@ -105,14 +107,13 @@ const CheckList = () => {
     }
     if (index === 3) {
       updateRightbarTab(1);
-      updateTaskStep(3);
       updateCitationStep();
     }
   };
 
   if (isPending || isError) return null;
   return (
-    <div className='absolute bottom-[10%] left-2 z-50 flex flex-col'>
+    <div className='absolute bottom-[5%] left-2 z-50 flex flex-col'>
       <m.div
         initial={false}
         variants={variants}
@@ -121,7 +122,7 @@ const CheckList = () => {
         onClick={() => setShow((prev) => !prev)}
       >
         <p className='small-medium'>Onboarding Checklist</p>{' '}
-        {show ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        {!show ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </m.div>
       <AnimatePresence initial={false} mode='wait'>
         {show && (
@@ -261,7 +262,7 @@ const CheckList = () => {
                     Generate an introduction
                   </label>
                 </div>
-                {!userTrack.generate_tool_task ? null : (
+                {userTrack.generate_tool_task ? null : (
                   <span
                     onClick={() => selectHandler(2)}
                     role='button'

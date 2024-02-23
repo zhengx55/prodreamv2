@@ -213,7 +213,13 @@ export function format_hour_diff(timestamp: number) {
   var givenTimestamp = timestamp * 1000;
   var timeDifference = givenTimestamp - currentTimestamp;
   var hourDifference = timeDifference / (1000 * 60 * 60);
-  return hourDifference.toFixed(2);
+
+  if (hourDifference < 1) {
+    var minuteDifference = timeDifference / (1000 * 60);
+    return Math.ceil(minuteDifference) + ' minutes';
+  } else {
+    return Math.ceil(hourDifference) + ' hours';
+  }
 }
 
 export function removeHtmlTags(input: string): string {

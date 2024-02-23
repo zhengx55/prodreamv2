@@ -5,8 +5,7 @@ import { useMembershipInfo } from '@/query/query';
 import Link from 'next/link';
 import { memo } from 'react';
 
-type Props = { document_count: number };
-const MembershipBar = ({ document_count }: Props) => {
+const MembershipBar = () => {
   const { data, isPending, isError } = useMembershipInfo();
   if (isPending || isError) return null;
   return (
@@ -16,8 +15,7 @@ const MembershipBar = ({ document_count }: Props) => {
       {data.subscription === 'free_trail' ? (
         <div className='flex items-center gap-x-4'>
           <p className='text-[18px] font-medium text-doc-font'>
-            Unlimited Free Trial ends in {format_hour_diff(data.expire_time)}{' '}
-            hours
+            Unlimited Free Trial ends in {format_hour_diff(data.expire_time)}
           </p>
           <Link href={'/pricing'} passHref>
             <Button role='button' className='h-max rounded bg-doc-primary px-4'>
