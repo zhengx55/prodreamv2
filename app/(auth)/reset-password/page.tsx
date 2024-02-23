@@ -24,12 +24,15 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
+import useLocalization from '@/hooks/useLocalization'
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
   const [verifyWait, setVerifyWait] = useState(false);
   const [countdown, setCountdown] = useState(60);
+
+  const { t } = useLocalization();
 
   useEffect(() => {
     let timer: string | number | NodeJS.Timeout | undefined;
@@ -132,7 +135,7 @@ export default function Page() {
                         id='email'
                         placeholder=''
                         type='email'
-                        className='h-12 rounded-md border'
+                        className='h-12 border rounded-md'
                         {...field}
                       />
                     </FormControl>
@@ -155,13 +158,13 @@ export default function Page() {
                       <EyeOff
                         onClick={() => setHidePassword((prev) => !prev)}
                         size={20}
-                        className='absolute right-2 top-10 cursor-pointer'
+                        className='absolute cursor-pointer right-2 top-10'
                       />
                     ) : (
                       <Eye
                         onClick={() => setHidePassword((prev) => !prev)}
                         size={20}
-                        className='absolute right-2 top-10 cursor-pointer'
+                        className='absolute cursor-pointer right-2 top-10'
                       />
                     )}
                     <FormControl>
@@ -170,7 +173,7 @@ export default function Page() {
                         id='password'
                         type={hidePassword ? 'password' : 'text'}
                         placeholder=''
-                        className='h-12 rounded-md border'
+                        className='h-12 border rounded-md'
                         {...field}
                       />
                     </FormControl>
@@ -193,13 +196,13 @@ export default function Page() {
                       <EyeOff
                         onClick={() => setHideConfirm((prev) => !prev)}
                         size={20}
-                        className='absolute right-2 top-10 cursor-pointer'
+                        className='absolute cursor-pointer right-2 top-10'
                       />
                     ) : (
                       <Eye
                         onClick={() => setHideConfirm((prev) => !prev)}
                         size={20}
-                        className='absolute right-2 top-10 cursor-pointer'
+                        className='absolute cursor-pointer right-2 top-10'
                       />
                     )}
                     <FormControl>
@@ -208,7 +211,7 @@ export default function Page() {
                         id='confirm'
                         type={hideConfirm ? 'password' : 'text'}
                         placeholder=''
-                        className='h-12 rounded-md border'
+                        className='h-12 border rounded-md'
                         {...field}
                       />
                     </FormControl>
@@ -234,7 +237,7 @@ export default function Page() {
                           id='verification_code'
                           type='text'
                           placeholder=''
-                          className='h-12 rounded-md border'
+                          className='h-12 border rounded-md'
                           {...field}
                         />
                       </FormControl>
@@ -264,7 +267,7 @@ export default function Page() {
               </Button>
             </form>
           </Form>
-          <p className='small-regular mt-8 self-center text-black-200'>
+          <p className='self-center mt-8 small-regular text-black-200'>
             Switch to&nbsp;
             <Link href={'/login'} className='text-auth-primary'>
               Log in

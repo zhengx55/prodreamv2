@@ -1,6 +1,7 @@
 'use client';
 
 import useInviewCapture from '@/hooks/useInViewCapture';
+import useLocalization from '@/hooks/useLocalization';
 import { useState } from 'react';
 
 const datalist = [
@@ -28,6 +29,9 @@ const datalist = [
 const QA = () => {
   const [selected, setSelected] = useState(0);
   const { ref } = useInviewCapture('ScreenVI');
+
+  const { t } = useLocalization()
+
   return (
     <div
       ref={ref}
@@ -46,7 +50,7 @@ const QA = () => {
               <p
                 className={`${selected === index ? 'text-[14px] font-[500] text-doc-primary sm:text-[20px]' : 'text-[14px] font-[500] text-[#3B3A40] sm:text-[20px]'}`}
               >
-                {item.title}
+                { t(`QuestionInfo_title_${index+1}`) }
               </p>
             </div>
             <div>
@@ -81,7 +85,7 @@ const QA = () => {
           </div>
           {selected === index ? (
             <p className='mt-[20px] text-[14px] text-[#64626A] sm:text-[18px]'>
-              {item.desc}
+               { t(`QuestionInfo_desc_${index+1}`) }
             </p>
           ) : (
             ''
