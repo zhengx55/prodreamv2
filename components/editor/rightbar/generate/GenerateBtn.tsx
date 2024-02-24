@@ -2,6 +2,7 @@ import Spacer from '@/components/root/Spacer';
 import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
+import { ButtonTrack } from '@/query/api';
 import { useMutateTrackInfo } from '@/query/query';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import Image from 'next/image';
@@ -59,6 +60,7 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
                   field: 'outline_tip_task',
                   data: true,
                 });
+                await ButtonTrack('outline_gotit');
                 updateRightbarTab(0);
               }
             }}

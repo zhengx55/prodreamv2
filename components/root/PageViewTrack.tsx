@@ -14,7 +14,6 @@ const PageViewTrack = () => {
     const callApi = async () => {
       const page_name = pathname.split('/').pop() || 'landing_page';
       const delay_param = delay ? (delay / 1000).toString() : '0';
-      console.log('🚀 ~ useEffect ~ delay:', delay);
 
       await PageTrack(page_name, delay_param);
 

@@ -6,7 +6,7 @@ import {
   OutlineTooltipMain,
 } from '@/constant/enum';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
-import { copilot } from '@/query/api';
+import { ButtonTrack, copilot } from '@/query/api';
 import { useMutateTrackInfo } from '@/query/query';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -223,6 +223,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
               field: 'continue_tip_task',
               data: true,
             });
+            await ButtonTrack('continue_gotit');
             updateRightbarTab(0);
           }}
           className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'

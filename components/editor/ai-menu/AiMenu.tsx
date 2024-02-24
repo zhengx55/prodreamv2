@@ -8,7 +8,7 @@ import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
-import { ask, copilot } from '@/query/api';
+import { ButtonTrack, ask, copilot } from '@/query/api';
 import {
   useMembershipInfo,
   useMutateTrackInfo,
@@ -19,7 +19,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Editor } from '@tiptap/react';
 import { AlertTriangle, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { usePostHog } from 'posthog-js/react';
 import {
   ChangeEvent,
   Fragment,
@@ -53,7 +52,6 @@ const AiMenu = ({ editor }: Props) => {
   const elRef = useRef<HTMLDivElement>(null);
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
-  const posthog = usePostHog();
   const ref = useScrollIntoView();
 
   const hasAiResult = aiResult !== '';
@@ -155,7 +153,7 @@ const AiMenu = ({ editor }: Props) => {
         field: 'ai_copilot_task',
         data: true,
       });
-      posthog.capture('ai_copilot_task_completed');
+      await ButtonTrack('ai_copilot_task_completed');
     }
     await handleCopilot({ tool, text: selectedText });
   };
@@ -174,7 +172,7 @@ const AiMenu = ({ editor }: Props) => {
         field: 'ai_copilot_task',
         data: true,
       });
-      posthog.capture('ai_copilot_task_completed');
+      await ButtonTrack('ai_copilot_task_completed');
     }
     await handleAsk({
       instruction: promptRef.current?.value!,

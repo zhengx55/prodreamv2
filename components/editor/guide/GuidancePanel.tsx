@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { sample_continue, sample_outline } from '@/constant';
-import { outline } from '@/query/api';
+import { ButtonTrack, outline } from '@/query/api';
 import { useMutateTrackInfo } from '@/query/query';
 import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -11,7 +11,6 @@ import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { parse } from 'marked';
-import { usePostHog } from 'posthog-js/react';
 import { useEffect, useRef, useState } from 'react';
 
 const Guidance = ({ editor }: { editor: Editor }) => {
@@ -23,7 +22,6 @@ const Guidance = ({ editor }: { editor: Editor }) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
-  const posthog = usePostHog();
 
   const close = async () => {
     await updateTrack({
@@ -55,7 +53,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
     onSuccess: async (data: ReadableStream) => {
       setIsGenerating(false);
       close();
-      posthog.capture('start with generated outlie');
+      await ButtonTrack('start with generated outlie');
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
@@ -142,13 +140,13 @@ const Guidance = ({ editor }: { editor: Editor }) => {
     editor.commands.insertContent(draftRef.current.value, {
       updateSelection: true,
     });
-    posthog.capture('start with draft');
+    await ButtonTrack('start with draft');
     updateContinueStep(1);
     await close();
   };
 
   const handleExplore = async () => {
-    posthog.capture('just exploring');
+    await ButtonTrack('just exploring');
     editor.commands.setContent(sample_continue, true);
     updateContinueStep(1);
     await close();
@@ -156,7 +154,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
 
   const handleClickSample = async () => {
     if (!ideaRef.current) return;
-    posthog.capture('start with sample outline');
+    await ButtonTrack('start with sample outline');
     editor.commands.setContent(sample_outline, true);
     ideaRef.current.value = 'Importance of religion in East Asian culture';
     setTimeout(async () => {
