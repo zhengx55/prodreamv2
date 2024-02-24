@@ -2,12 +2,12 @@ import Spacer from '@/components/root/Spacer';
 import { Feedback } from '@/components/root/SvgComponents';
 import { Checkbox } from '@/components/ui/checkbox';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
+import { ButtonTrack } from '@/query/api';
 import { useUserTrackInfo } from '@/query/query';
 import useAiEditor, { useAIEditor, useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
-import { usePostHog } from 'posthog-js/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
@@ -27,10 +27,8 @@ const CheckList = () => {
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
   const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
-  const posthog = usePostHog();
   const setGenerateTab = useAiEditor((state) => state.updateGenerateTab);
   const selectHandler = useDebouncedCallback(async (index: number) => {
-    console.log(1);
     if (index === 0 || index === 1) {
       const first_paragraph = findFirstParagraph(editor!);
       if (!first_paragraph.hasContent)
@@ -49,7 +47,7 @@ const CheckList = () => {
     if (index === 2) {
       updateRightbarTab(2);
       setGenerateTab('Write Introduction');
-      posthog.capture('generate_tool_task_completed');
+      await ButtonTrack('generate_tool_task_completed');
       updateGenerateStep(1);
     }
     if (index === 3) {
