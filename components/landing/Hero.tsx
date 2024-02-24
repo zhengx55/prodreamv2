@@ -57,7 +57,7 @@ const Hero = () => {
   useEffect(() => {
     
     // 只有在非手机设备上才启用自动切换
-    if (window.innerWidth > 768 && !isMouseOver) {
+    if (typeof window !== 'undefined' && window.innerWidth > 768 && !isMouseOver) {
       startAutoSwitch();
     }
   
@@ -158,7 +158,7 @@ const Hero = () => {
         <Spacer y='90' className='hidden sm:block' />
         <Spacer y='20' className='block sm:hidden' />
         {
-          window && window.innerWidth < 768 && <HeroCarousel clickCallback={memoSetSelected} /> 
+          typeof window !== 'undefined'  && window.innerWidth < 768 && <HeroCarousel clickCallback={memoSetSelected} /> 
         }
         <div className='justify-between hidden w-full gap-x-4 sm:flex'>
           {HeroInfo.map((item, index) => {
