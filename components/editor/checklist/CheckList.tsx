@@ -30,7 +30,6 @@ const CheckList = () => {
   const posthog = usePostHog();
   const setGenerateTab = useAiEditor((state) => state.updateGenerateTab);
   const selectHandler = useDebouncedCallback(async (index: number) => {
-    console.log(1);
     if (index === 0 || index === 1) {
       const first_paragraph = findFirstParagraph(editor!);
       if (!first_paragraph.hasContent)

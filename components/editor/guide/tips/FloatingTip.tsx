@@ -94,6 +94,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const insertPos = useRef<number>(0);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
 
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { text: string; pos: number; start: number }) =>
@@ -222,6 +223,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
               field: 'continue_tip_task',
               data: true,
             });
+            updateRightbarTab(0);
           }}
           className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'
           role='button'

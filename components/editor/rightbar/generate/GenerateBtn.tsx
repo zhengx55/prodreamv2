@@ -3,7 +3,7 @@ import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
 import { useMutateTrackInfo } from '@/query/query';
-import { useUserTask } from '@/zustand/store';
+import { useAIEditor, useUserTask } from '@/zustand/store';
 import Image from 'next/image';
 import { memo } from 'react';
 import Tiplayout from '../../guide/tips/Tiplayout';
@@ -15,7 +15,7 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
   const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
   const outline_step = useUserTask((state) => state.outline_step);
   const generate_step = useUserTask((state) => state.generate_step);
-
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   return (
     <div className='flex flex-col'>
       <Spacer y='30' />
@@ -59,6 +59,7 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
                   field: 'outline_tip_task',
                   data: true,
                 });
+                updateRightbarTab(0);
               }
             }}
           >

@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { sample_continue, sample_outline } from '@/constant';
 import { outline } from '@/query/api';
 import { useMutateTrackInfo } from '@/query/query';
-import useAiEditor, { useUserTask } from '@/zustand/store';
+import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
@@ -23,7 +23,6 @@ const Guidance = ({ editor }: { editor: Editor }) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
-  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
   const posthog = usePostHog();
 
   const close = async () => {
@@ -31,7 +30,6 @@ const Guidance = ({ editor }: { editor: Editor }) => {
       field: 'guidence',
       data: true,
     });
-    updateRightbarTab(0);
   };
 
   useEffect(() => {
