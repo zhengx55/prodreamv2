@@ -1,7 +1,7 @@
 import en from './en/common.json';
-import zh from './zh/common.json';
+import cn from './cn/common.json';
 
 export default {
   "en": en,
-  "zh": zh
+  "cn": cn
 };
