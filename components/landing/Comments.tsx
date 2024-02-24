@@ -13,17 +13,33 @@ const Comments = () => {
   return (
     <section className='relative flex flex-col items-center justify-center w-full px-4 py-10 sm:px-0 sm:py-20'>
       <CaptureProvider event='ScreenV'>
-        <h2 className='inline-flex font-baskerville text-[24px] leading-relaxed sm:text-[48px]'>
-          <Image
-            src='/landing/heros/Shape.svg'
-            alt='qutes'
-            width={50}
-            height={50}
-            className='h-8 w-8 self-start sm:h-[50px] sm:w-[50px]'
-          />
-         {t('ShowCaseInfo_theme_1')}
-          <br className='hidden sm:block' /> {getCurrentLanguage()==='en'?t('ShowCaseInfo_theme_2'):''}
-        </h2>
+        {
+          getCurrentLanguage() === 'en' ? 
+          <h2 className='inline-flex font-baskerville text-[24px] leading-relaxed sm:text-[48px]'>
+            <Image
+              src='/landing/heros/Shape.svg'
+              alt='qutes'
+              width={50}
+              height={50}
+              className='h-8 w-8 self-start sm:h-[50px] sm:w-[50px]'
+            />
+          {t('ShowCaseInfo_theme_1')}
+            <br className='hidden sm:block' /> {getCurrentLanguage()==='en'?t('ShowCaseInfo_theme_2'):''}
+          </h2>
+        :
+          <h2 className=' inline-flex font-custom text-[24px] leading-relaxed sm:text-[48px]'>
+            <Image
+              src='/landing/heros/Shape.svg'
+              alt='qutes'
+              width={50}
+              height={50}
+              className='h-8 w-8 self-start sm:h-[50px] sm:w-[50px] mr-10'
+            />
+          {t('ShowCaseInfo_theme_1')}
+            <br className='hidden sm:block' /> {getCurrentLanguage()==='en'?t('ShowCaseInfo_theme_2'):''}
+          </h2>
+        }
+        
       </CaptureProvider>
 
       <Spacer y='20' />
