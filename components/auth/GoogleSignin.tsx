@@ -20,6 +20,7 @@ const GoogleSignin = ({ label }: { label: string }) => {
         setCookie('token', login_data.access_token, {
           path: '/',
           maxAge: 604800,
+          secure: true,
         });
         const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
           .subject.user_id;
