@@ -961,11 +961,12 @@ export async function searchCitation(
 export async function PageTrack(event: string, time: string) {
   try {
     const token = Cookies.get('token');
-    let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}?duration=${time}`;
+    let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/?duration=${time}`;
     if (!token)
       url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/anonymous?duration=${time}`;
     await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
+      method: 'POST',
     });
   } catch (error) {
     console.error(error);
@@ -980,6 +981,7 @@ export async function ButtonTrack(event: string) {
       url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/click/${event}/anonymous`;
     await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
+      method: 'POST',
     });
   } catch (error) {
     console.error(error);
