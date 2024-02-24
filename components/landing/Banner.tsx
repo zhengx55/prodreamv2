@@ -12,7 +12,7 @@ const UniversityCarousel = dynamic(
 );
 const Banner = () => {
 
-  const { t } = useLocalization();
+  const { t, getCurrentLanguage } = useLocalization();
   return (
     <section className='relative flex flex-col items-center justify-center w-full sm:px-0 sm:py-20'>
       <Spacer y='20' />
@@ -23,13 +23,13 @@ const Banner = () => {
       </CaptureProvider>
 
       <Spacer y='20' />
-      <div className='w-full flex-center'>
+      <div className='w-full flex-center '>
         <UniversityCarousel />
       </div>
       <Spacer y='20' />
-      <div className='flex-center w-full flex-col px-4 sm:max-w-[1200px] sm:px-0'>
+      <div className='flex-center w-full flex-col px-4 sm:max-w-[1200px] sm:px-0 '>
         <div className='flex flex-col gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
-          <div className='relative w-full rounded-2xl bg-doc-primary p-7 sm:w-[47%]'>
+          <div className='relative w-full rounded-2xl bg-doc-primary p-7 sm:w-[47%] '>
             <h2 className='text-white title-regular'>
              {t('BannerInfo_title_1')}  
             </h2>
@@ -77,10 +77,18 @@ const Banner = () => {
         <Spacer y='30' />
         <div className='flex-center h-[174px] w-full flex-col rounded-2xl bg-doc-primary/10 p-8 sm:h-[130px]'>
           <div className='flex w-full flex-col sm:max-w-[1200px] sm:flex-row sm:justify-between'>
-            <h1 className='text-center text-[16px] font-[500] sm:text-left sm:text-[18px]'>
-              {t('BannerInfo_footer')}
-              <br className='hidden sm:block' /> {t('BannerInfo_footer_form')}
-            </h1>
+            {
+              getCurrentLanguage() === 'en'?
+              <h1 className='text-center text-[16px] font-[500] sm:text-left sm:text-[18px]'>
+                {t('BannerInfo_footer')}
+                <br className='hidden sm:block' /> {t('BannerInfo_footer_form')}
+              </h1>
+              :
+              <h1 className='text-center sm:text-left text-[16px] sm:text-[18px] font-[500] flex items-center justify-center sm:justify-start'>
+                {t('BannerInfo_footer')}{t('BannerInfo_footer_form')}
+              </h1>
+            }
+            
             <Spacer y='14' className='block sm:hidden' />
             <div className='flex items-center justify-center gap-x-4 sm:justify-start'>
               <Image
