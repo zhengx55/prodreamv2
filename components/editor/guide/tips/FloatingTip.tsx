@@ -15,35 +15,36 @@ import { m } from 'framer-motion';
 import { memo, useEffect, useRef, useState } from 'react';
 
 export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
-  const [left, setLeft] = useState(0);
-  const [top, setTop] = useState(0);
+  const [position, setPosition] = useState({ left: 0, top: 0 });
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
 
   useEffect(() => {
-    if (!editor) return;
-    let first_paragraph_pos: number = 0;
-    let first_paragraph_to: number = 0;
-    editor.state.doc.descendants((node, pos) => {
-      if (node.type.name === 'bulletList' && !first_paragraph_pos) {
-        first_paragraph_pos = pos;
-        first_paragraph_to = node.nodeSize + pos;
-      }
-    });
-    editor
-      .chain()
-      .focus()
-      .setTextSelection({ from: first_paragraph_pos, to: first_paragraph_to })
-      .run();
-    const coordinate = posToDOMRect(
-      editor.view,
-      first_paragraph_pos,
-      first_paragraph_to
-    );
-    const el_srcoll_top =
-      editor.view.dom.parentElement?.parentElement?.scrollTop;
-    setTop(coordinate.top + (el_srcoll_top ?? 0));
-    setLeft(coordinate.left - 360);
+    if (typeof window !== 'undefined') {
+      if (!editor) return;
+      let first_paragraph_pos: number = 0;
+      let first_paragraph_to: number = 0;
+      editor.state.doc.descendants((node, pos) => {
+        if (node.type.name === 'bulletList' && !first_paragraph_pos) {
+          first_paragraph_pos = pos;
+          first_paragraph_to = node.nodeSize + pos;
+        }
+      });
+      editor
+        .chain()
+        .focus()
+        .setTextSelection({ from: first_paragraph_pos, to: first_paragraph_to })
+        .run();
+      const coordinate = posToDOMRect(
+        editor.view,
+        first_paragraph_pos,
+        first_paragraph_to
+      );
+      setPosition({
+        left: coordinate.left - 340 + window.scrollX,
+        top: coordinate.top + window.screenY,
+      });
+    }
   }, [editor]);
   return (
     <m.div
@@ -51,7 +52,7 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0 }}
       key={'outline'}
-      style={{ top, left }}
+      style={{ top: position.top, left: position.left }}
       className='absolute z-20 w-[320px] rounded-lg bg-black-100 p-3'
     >
       <span className='absolute -right-[8px] top-[calc(50%_-8px)] h-0 w-0 border-b-[8px] border-l-[8px] border-t-[8px] border-b-transparent border-l-black-100 border-t-transparent' />
@@ -88,9 +89,67 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
 });
 
 export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
+  const [position, setPosition] = useState({ left: 0, top: 0 });
+
+  const updateContinueStep = useUserTask((state) => state.updateContinueStep);
+
+  useEffect(() => {
+    if (!editor) return;
+    if (typeof window !== 'undefined') {
+      let first_paragraph_pos: number = 0;
+      let first_paragraph_to: number = 0;
+      editor.state.doc.descendants((node, pos) => {
+        if (node.type.name === 'paragraph' && !first_paragraph_pos) {
+          first_paragraph_pos = pos;
+          first_paragraph_to = node.nodeSize + pos;
+        }
+      });
+      const coordinate = posToDOMRect(
+        editor.view,
+        first_paragraph_pos,
+        first_paragraph_to
+      );
+      setPosition({
+        left: coordinate.left - 340 + window.scrollX,
+        top: coordinate.top + window.screenY,
+      });
+    }
+  }, [editor]);
+
+  return (
+    <m.div
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1, transition: { delay: 0.2 } }}
+      exit={{ opacity: 0, scale: 0 }}
+      key={'outline'}
+      style={{ top: position.top, left: position.left }}
+      className='absolute z-20 w-[320px] rounded-lg bg-black-100 p-3'
+    >
+      <span className='absolute -right-[8px] top-[calc(50%_-8px)] h-0 w-0 border-b-[8px] border-l-[8px] border-t-[8px] border-b-transparent border-l-black-100 border-t-transparent' />
+      <h1 className='small-semibold text-white'>{ContinueTooltip.TITLE}</h1>
+      <Spacer y='5' />
+      <p className='subtle-regular text-white'>{ContinueTooltip.TEXT}</p>
+      <Spacer y='15' />
+      <div className='flex items-center justify-between'>
+        <p className='subtle-regular text-white'>1/2</p>
+        <Button
+          onClick={() => {
+            editor.chain().blur().setTextSelection(0).run();
+            updateContinueStep(2);
+          }}
+          className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'
+          role='button'
+        >
+          Next
+        </Button>
+      </div>
+    </m.div>
+  );
+});
+
+export const ContinuTipSecond = memo(({ editor }: { editor: Editor }) => {
   const [top, setTop] = useState<number | undefined>();
   const [left, setLeft] = useState<number | undefined>();
-  const [step, setStep] = useState(0);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const insertPos = useRef<number>(0);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
@@ -162,35 +221,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
   if (!top || !left) return null;
-  return step === 0 ? (
-    <m.div
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1, transition: { delay: 0.2 } }}
-      exit={{ opacity: 0, scale: 0 }}
-      key={'outline'}
-      style={{ top, left }}
-      className='absolute z-20 w-[320px] rounded-lg bg-black-100 p-3'
-    >
-      <span className='absolute -right-[8px] top-[calc(50%_-8px)] h-0 w-0 border-b-[8px] border-l-[8px] border-t-[8px] border-b-transparent border-l-black-100 border-t-transparent' />
-      <h1 className='small-semibold text-white'>{ContinueTooltip.TITLE}</h1>
-      <Spacer y='5' />
-      <p className='subtle-regular text-white'>{ContinueTooltip.TEXT}</p>
-      <Spacer y='15' />
-      <div className='flex items-center justify-between'>
-        <p className='subtle-regular text-white'>1/2</p>
-        <Button
-          onClick={() => {
-            editor.chain().blur().setTextSelection(0).run();
-            setStep(1);
-          }}
-          className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'
-          role='button'
-        >
-          Next
-        </Button>
-      </div>
-    </m.div>
-  ) : (
+  return (
     <m.div
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 1, scale: 1, transition: { delay: 0.2 } }}
@@ -238,3 +269,4 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
 
 OutlineTip.displayName = 'OutlineTip';
 ContinueTip.displayName = 'ContineTip';
+ContinuTipSecond.displayName = 'ContinuTipSecond';
