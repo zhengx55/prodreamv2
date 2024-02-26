@@ -1,14 +1,10 @@
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
-import { usePostHog } from 'posthog-js/react';
-import { useCookies } from 'react-cookie';
 import { useInView } from 'react-intersection-observer';
 
 export default function useInviewCapture(event: string) {
   const { ref, inView } = useInView({
     threshold: 0,
   });
-  const posthog = usePostHog();
-  const [cookies] = useCookies(['token']);
   useUpdateEffect(() => {
     async function anonymous() {
       try {
@@ -24,11 +20,7 @@ export default function useInviewCapture(event: string) {
     }
 
     if (inView) {
-      if (!cookies.token) {
-        anonymous();
-      } else {
-        posthog.capture(event);
-      }
+      anonymous();
     }
   }, [inView]);
   return { ref };
