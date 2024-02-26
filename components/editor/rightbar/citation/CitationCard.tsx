@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CitationTooltip } from '@/constant/enum';
 import { ConvertCitationData } from '@/lib/utils';
+import { ButtonTrack } from '@/query/api';
 import {
   useCiteToDoc,
   useCreateCitation,
@@ -47,7 +48,7 @@ export const SearchCitationCard = memo(
           field: 'citation_task',
           data: true,
         });
-        posthog.capture('citation_task_completed');
+        await ButtonTrack('citation_task_completed');
       }
       const converted_data = ConvertCitationData(item);
       if (action === 'collect') {

@@ -8,6 +8,7 @@ const initialState: AIEditorState = {
   doc_title: '',
   rightbarOpen: false,
   rightbarTab: 0,
+  generateTab: -1,
   editor_instance: null,
   isSaving: false,
   isPlagiarismOpen: false,
@@ -24,6 +25,7 @@ const initialState: AIEditorState = {
 type AIEditorState = {
   doc_title: string;
   rightbarOpen: boolean;
+  generateTab: number | string;
   rightbarTab: number;
   isSaving: boolean;
   plagiarismReCheck: boolean;
@@ -41,6 +43,7 @@ type AIEditorState = {
 type AIEditorAction = {
   updateTitle: (result: AIEditorState['doc_title']) => void;
   toggleRightbar: () => void;
+  updateGenerateTab: (result: AIEditorState['generateTab']) => void;
   updateRightbarTab: (result: AIEditorState['rightbarTab']) => void;
   togglePlagiarism: () => void;
   updatePlagiarismRecheck: (result: AIEditorState['plagiarismReCheck']) => void;
@@ -62,6 +65,10 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updatePlagiarismResult: (result) =>
     set(() => ({
       plagiarismResult: result,
+    })),
+  updateGenerateTab: (result) =>
+    set(() => ({
+      generateTab: result,
     })),
   closeRightbar: () => set(() => ({ rightbarOpen: false })),
   updateTitle: (result) => set(() => ({ doc_title: result })),

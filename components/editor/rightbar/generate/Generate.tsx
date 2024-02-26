@@ -10,7 +10,7 @@ import useAiEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { ChevronUp, FileText } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { memo, useCallback, useRef, useState } from 'react';
+import { memo, useRef } from 'react';
 import GenerateSub from './GenerateSub';
 
 const Tiplayout = dynamic(
@@ -20,18 +20,14 @@ const Tiplayout = dynamic(
 const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 
 export const Generate = () => {
-  const [generateTab, setGenerateTab] = useState<number | string>(-1);
+  const generateTab = useAiEditor((state) => state.generateTab);
+  const setGenerateTab = useAiEditor((state) => state.updateGenerateTab);
+
   const outline_step = useUserTask((state) => state.outline_step);
   const copilot_option = useRef<string | null>(null);
-  const memoSetGeneratedTab = useCallback((value: string) => {
-    setGenerateTab(value);
-  }, []);
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
   const { data: usage } = useMembershipInfo();
-  const goBack = useCallback(() => {
-    setGenerateTab(-1);
-  }, []);
 
   return (
     <>
@@ -81,10 +77,7 @@ export const Generate = () => {
                             </div>
                           </DropdownMenuTrigger>
                         </Tiplayout>
-                        <GenerateDropdown
-                          onClick={memoSetGeneratedTab}
-                          items={item.submenu}
-                        />
+                        <GenerateDropdown items={item.submenu} />
                       </>
                     ) : (
                       <>
@@ -105,10 +98,7 @@ export const Generate = () => {
                             />
                           </div>
                         </DropdownMenuTrigger>
-                        <GenerateDropdown
-                          onClick={memoSetGeneratedTab}
-                          items={item.submenu}
-                        />
+                        <GenerateDropdown items={item.submenu} />
                       </>
                     )}
                   </DropdownMenu>
@@ -116,6 +106,7 @@ export const Generate = () => {
               return (
                 <div
                   key={item.id}
+                  id={item.id}
                   onClick={() => {
                     copilot_option.current = item.label!;
                     setGenerateTab(item.title);
@@ -139,7 +130,6 @@ export const Generate = () => {
           <GenerateSub
             generateTab={generateTab as string}
             label={copilot_option.current}
-            goBack={goBack}
           />
         )}
       </AnimatePresence>

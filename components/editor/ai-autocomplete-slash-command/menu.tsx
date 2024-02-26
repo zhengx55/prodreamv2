@@ -2,9 +2,7 @@ import { DropdownButton } from '@/components/ui/dropdown-button';
 import { Surface } from '@/components/ui/surface';
 import { Command, MenuListProps } from '@/lib/tiptap/type';
 import { copilot } from '@/query/api';
-import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
 import { useMutation } from '@tanstack/react-query';
-import { usePostHog } from 'posthog-js/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -13,19 +11,9 @@ export const AutoCompleteMenuList = React.forwardRef(
     const scrollContainer = useRef<HTMLDivElement>(null);
     const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
     const [selectedCommandIndex, setSelectedCommandIndex] = useState(0);
-    const { mutateAsync: updateTrack } = useMutateTrackInfo();
-    const posthog = usePostHog();
-    const { data: track } = useUserTrackInfo();
     const { mutateAsync: handleCopilot } = useMutation({
       mutationFn: (params: { tool: string; text: string }) => copilot(params),
       onSuccess: async (data: ReadableStream) => {
-        if (!track?.continue_writing_task) {
-          await updateTrack({
-            field: 'continue_writing_task',
-            data: true,
-          });
-          posthog.capture('continue_writing_task_completed');
-        }
         const reader = data.pipeThrough(new TextDecoderStream()).getReader();
         while (true) {
           const { value, done } = await reader.read();
