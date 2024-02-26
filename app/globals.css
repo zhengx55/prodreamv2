@@ -4,11 +4,11 @@
 
 @layer base {
   * {
-    @apply box-border p-0 m-0 scroll-smooth appearance-none scrollbar-track-transparent scrollbar-thumb-slate-200;
+    @apply box-border p-0 m-0 appearance-none scroll-smooth scrollbar-track-transparent scrollbar-thumb-slate-200;
   }
 
   body {
-    @apply min-h-screen font-poppins select-text antialiased;
+    @apply min-h-screen antialiased select-text font-poppins;
     text-rendering: optimizeLegibility;
     font-synthesis-weight: none;
   }
@@ -124,7 +124,7 @@
 
   /* UTILITIES */
   .invert-white {
-    @apply invert brightness-0 transition;
+    @apply transition invert brightness-0;
   }
 
   .tab-default {
@@ -132,15 +132,15 @@
   }
 
   .flex-center {
-    @apply flex justify-center items-center;
+    @apply flex items-center justify-center;
   }
 
   .flex-between {
-    @apply flex justify-between items-center;
+    @apply flex items-center justify-between;
   }
 
   .flex-start {
-    @apply flex justify-start items-center;
+    @apply flex items-center justify-start;
   }
 
   .form-input-group {
@@ -152,7 +152,7 @@
   }
 
   .common-container {
-    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14;
+    @apply flex flex-col items-center flex-1 gap-10 px-5 py-10 overflow-scroll md:px-8 lg:p-14;
   }
 
 }
@@ -191,4 +191,9 @@
 .fading-dot {
   animation: fade 1.5s infinite;
   display: inline-block;
+}
+
+@font-face {
+  font-family: 'XiQuejuzhenti';
+  src: url('https://icode-lowcode.oss-cn-hangzhou.aliyuncs.com/font/XiQuejuzhenti.ttf');
 }

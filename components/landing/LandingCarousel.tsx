@@ -1,7 +1,8 @@
 import { HeroInfo, HeroMainInfo, Universitys } from '@/constant';
 import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
-import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
+import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
+import React from 'react';
 
 const UniversityCarousel = () => {
   return (
@@ -20,7 +21,7 @@ const UniversityCarousel = () => {
       <CarouselContent className='gap-x-4'>
         {Universitys.map((university) => (
           <CarouselItem
-            className='relative h-28 basis-[30%] overflow-hidden sm:h-20 sm:w-64 sm:basis-[15%]'
+            className='relative h-28 basis-[30%] overflow-hidden sm:h-20 sm:w-64 sm:basis-[15%] '
             key={university.id}
           >
             <Image
@@ -42,14 +43,14 @@ const HeroShowCaseCarousel = () => {
     <Carousel
       plugins={[
         Autoplay({
-          delay: 2000,
+          delay: 3000,
         }),
       ]}
       opts={{
         align: 'start',
         loop: true,
       }}
-      className='w-full'
+      className='w-full max-w-xs'
     >
       <CarouselContent className='m-0'>
         {HeroMainInfo.map((info, idx) => (
@@ -68,6 +69,7 @@ const HeroShowCaseCarousel = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
+      
     </Carousel>
   );
 };
@@ -77,21 +79,43 @@ const HeroCarousel = ({
 }: {
   clickCallback: (index: number) => void;
 }) => {
+
+  const [api, setApi] = React.useState<CarouselApi>()
+
+  api?.on("select",(value)=>{
+    clickCallback(value.selectedScrollSnap())
+  })
+
   return (
     <Carousel
       opts={{
         loop: true,
         align: 'start',
       }}
+      plugins={[
+        Autoplay({
+          delay: 3000,
+          stopOnInteraction:false,
+        }),
+        
+      ]}
+      setApi={setApi}
       className='block sm:hidden'
     >
-      <CarouselContent className='ml-0'>
+      <CarouselContent   className='ml-10 mr-10 overflow-visible'>
+        
         {HeroInfo.map((item, index) => {
+          
           return (
             <CarouselItem
-              className='flex flex-col gap-y-2 rounded-2xl bg-[#F8F9FC] p-5'
+              className='flex flex-col gap-y-2 ml-1 mr-1 rounded-2xl bg-[#F8F9FC] p-5'
               key={item.id}
-              onClick={() => clickCallback(index)}
+              onClick={() => {
+                clickCallback(index)
+                api?.scrollTo(index)
+                
+              } }
+              
             >
               <Image
                 alt={item.title}
@@ -106,6 +130,8 @@ const HeroCarousel = ({
           );
         })}
       </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
     </Carousel>
   );
 };

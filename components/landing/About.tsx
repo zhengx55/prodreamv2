@@ -8,16 +8,25 @@ import useLocalization from '@/hooks/useLocalization';
 
 const About = () => {
 
-  const { t }  = useLocalization();
+  const { t,getCurrentLanguage }  = useLocalization();
   return (
     <section className='relative flex justify-center w-full px-4 py-10 sm:px-0 sm:py-20'>
       <div className='flex-center w-full flex-col sm:max-w-[1200px]'>
-        <h2 className='font-baskerville text-[24px] leading-relaxed sm:text-[48px]'>
-          {t('AboutInfo_title')}{' '}
-          <span className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-            {t('AboutInfo_Faster')}
-          </span>
-        </h2>
+        {
+          getCurrentLanguage() === 'en'? 
+          <h2 className='font-baskerville text-[24px] leading-relaxed sm:text-[48px]'>
+            {t('AboutInfo_title')}{' '}
+            <span className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
+              {t('AboutInfo_Faster')}
+            </span>
+          </h2>
+          :
+          <h2 className='font-custom text-[24px] leading-relaxed sm:text-[48px]'>
+            {t('AboutInfo_title')}{' '} {t('AboutInfo_Faster')}
+            
+          </h2>
+        }
+        
         <Spacer y='10' />
         <CaptureProvider event='ScreenIII'>
           <p className='text-center subtle-regular sm:base-regular text-shadow-100'>

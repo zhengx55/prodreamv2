@@ -28,13 +28,11 @@ const NavBar = () => {
             className='w-40 h-auto sm:w-36'
             priority
           />
-          {/* <Button
+          <Button
               className='hidden text-[#3B3A40] w-10 sm:block'
               variant={'ghost'}
             >
-          <DropdownMenu 
-            
-          >
+          <DropdownMenu>
             <DropdownMenuTrigger className='w-10 ' asChild>
               <span  className='hidden   text-[#3B3A40] sm:block hover:bg-shadow-50'>
                 {_.toUpper(getCurrentLanguage())}
@@ -61,7 +59,7 @@ const NavBar = () => {
               </Link> )}
             </DropdownMenuContent>
           </DropdownMenu>
-          </Button> */}
+          </Button>
           <Link href={'https://www.prodream.ai/blog'} passHref target='_blank'>
             <Button
               className='hidden w-10 text-[#3B3A40] sm:block'
