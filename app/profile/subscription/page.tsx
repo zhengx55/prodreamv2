@@ -65,6 +65,7 @@ export default async function Page() {
         </div>
       ) : (
         <>
+          <Spacer y='5' />
           <div className='flex items-center gap-x-4'>
             <p className='text-doc-font'>
               You are on the{' '}
@@ -76,12 +77,15 @@ export default async function Page() {
                 Plan
               </strong>
             </p>
-            <UnsubscribeModal subscription_id={membership.subscription_id}>
-              <Button role='dialog' variant={'ghost'} className='p-0'>
-                Unsubscribe
-              </Button>
-            </UnsubscribeModal>
+            {membership.subscription_id && (
+              <UnsubscribeModal subscription_id={membership.subscription_id}>
+                <Button role='dialog' variant={'ghost'} className='p-0'>
+                  Unsubscribe
+                </Button>
+              </UnsubscribeModal>
+            )}
           </div>
+          <Spacer y='5' />
           <p className='text-doc-font'>
             Next billing date:{' '}
             {formatTimestampToDateString(membership.expire_time, false)}

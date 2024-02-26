@@ -1,5 +1,4 @@
 import { useMutationMembershio } from '@/query/query';
-import { usePathname } from 'next/navigation';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 
@@ -18,10 +17,9 @@ type Props = {
 };
 
 const Card = ({ info, current, purchase_type, basic }: Props) => {
-  const path = usePathname();
   const { mutateAsync: purchase } = useMutationMembershio();
   const handlePurchase = async () => {
-    const url = window.origin + path;
+    const url = window.origin + '/editor';
     await purchase({
       product_id: purchase_type === 'annualy' ? 'year' : 'month',
       url,
