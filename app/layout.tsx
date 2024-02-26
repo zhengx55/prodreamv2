@@ -1,3 +1,4 @@
+import PageViewTrack from '@/components/root/PageViewTrack';
 import CSPostHogProvider from '@/components/root/PostHogProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
@@ -78,7 +79,8 @@ export default function RootLayout({
           >
             <TanstackProvider>
               <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
-                <PostHogPageView />
+                <PageViewTrack />
+                {/* <PostHogPageView /> */}
                 {children}
                 <Toaster richColors visibleToasts={1} />
               </main>

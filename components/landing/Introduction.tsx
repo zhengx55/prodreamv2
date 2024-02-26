@@ -8,18 +8,26 @@ import useLocalization from '@/hooks/useLocalization';
 const CaptureProvider = dynamic(() => import('./CaptureProvider'));
 const Introduction = () => {
 
-  const { t } = useLocalization();
+  const { t,getCurrentLanguage } = useLocalization();
 
   return (
     <section className='relative flex justify-center w-full px-4 py-10 sm:px-0 sm:py-20'>
       <div className='flex-center w-full flex-col sm:max-w-[1200px]'>
-        <h2 className='text-center font-baskerville text-[24px] leading-relaxed sm:text-[48px]'>
-          {t('IntroductionInfo_theme_1')}
-          <br />{' '}
-          <span className='sm:before:h-[40% relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:h-[40%] before:-skew-y-0 before:bg-[#F2C8FB] sm:before:top-[36px]'>
-           {t('IntroductionInfo_theme_2')}
-          </span>
-        </h2>
+        {
+          getCurrentLanguage() === 'en'?
+          <h2 className='text-center font-baskerville text-[24px] leading-relaxed sm:text-[48px]'>
+            {t('IntroductionInfo_theme_1')}
+            <br />{' '}
+            <span className='sm:before:h-[40% relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:h-[40%] before:-skew-y-0 before:bg-[#F2C8FB] sm:before:top-[36px]'>
+            {t('IntroductionInfo_theme_2')}
+            </span>
+          </h2>
+        :
+          <h2 className='text-center font-custom  text-[24px] leading-relaxed sm:text-[48px]'>
+            {t('IntroductionInfo_theme_1')} {t('IntroductionInfo_theme_2')}
+          </h2>
+        }
+        
         <Spacer y='10' />
         <CaptureProvider event='ScreenIV'>
           <p className='text-center small-regular sm:base-regular text-shadow-100'>

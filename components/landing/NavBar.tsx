@@ -32,9 +32,7 @@ const NavBar = () => {
               className='hidden text-[#3B3A40] w-10 sm:block'
               variant={'ghost'}
             >
-          <DropdownMenu 
-            
-          >
+          <DropdownMenu>
             <DropdownMenuTrigger className='w-10 ' asChild>
               <span  className='hidden   text-[#3B3A40] sm:block hover:bg-shadow-50'>
                 {_.toUpper(getCurrentLanguage())}

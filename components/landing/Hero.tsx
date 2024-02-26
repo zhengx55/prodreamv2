@@ -6,7 +6,7 @@ import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import useLocalization from '@/hooks/useLocalization';
@@ -19,14 +19,54 @@ const HeroCarousel = dynamic(
 );
 
 const Hero = () => {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState<number>(0);
+
+  const [autoSwitchInterval, setAutoSwitchInterval] = useState<number | null>(null);
+  const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   const { ref } = useInviewCapture('ScreenI');
   const memoSetSelected = useCallback((index: number) => {
+   
     setSelected(index);
   }, []);
   
+  const { t,getCurrentLanguage } = useLocalization();
 
-  const { t } = useLocalization();
+  const handleMouseEnter = (index: number) => {
+    setSelected(index);
+    setIsMouseOver(true);
+    if (autoSwitchInterval) {
+      clearInterval(autoSwitchInterval);
+      setAutoSwitchInterval(null);
+    }
+  };
+
+  
+  const handleMouseLeave = () => {
+    setIsMouseOver(false);
+  };
+
+  const startAutoSwitch = useCallback(() => {
+    if (!autoSwitchInterval) {
+      const intervalId = setInterval(() => {
+        setSelected((prevSelected) => (prevSelected + 1) % HeroInfo.length);
+      }, 3000) as unknown as number ;
+      setAutoSwitchInterval(intervalId);
+    }
+  }, [autoSwitchInterval]);
+
+  useEffect(() => {
+    
+    // 只有在非手机设备上才启用自动切换
+    if (typeof window !== 'undefined' && window.innerWidth > 768 && !isMouseOver) {
+      startAutoSwitch();
+    }
+  
+    return () => {
+      if (autoSwitchInterval) {
+        clearInterval(autoSwitchInterval);
+      }
+    };
+  }, [isMouseOver, startAutoSwitch]);
 
   return (
     <m.section
@@ -58,23 +98,43 @@ const Hero = () => {
         variants={textVariant(0)}
         className='sm:flex-center flex h-full w-full flex-col py-10 sm:w-[1200px] sm:flex-col sm:py-20'
       >
-        <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
-          <span className='font-custom relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-          {t("transform")} 
-          </span>{' '}
-          {t('your')}
-          <br className='sm:hidden' /> {t('academic')}
-          <br className='hidden sm:block' /> {t('writing')}
-          <br className='sm:hidden' /> {t('journey')}
-        </h1>
+        {
+          getCurrentLanguage() === 'en'?
+          // 英文  
+          <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
+            <span  className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
+            {t("transform")} 
+            </span>{' '}
+            {t('your')}
+            <br className='sm:hidden' /> {t('academic')}
+            <br className='hidden sm:block' /> {t('writing')}
+            <br className='sm:hidden' /> {t('journey')}
+          </h1>
+          :
+          // 中文  
+          <h1 style={{fontFamily: "XiQuejuzhenti"}} className='text-center font-baskerville text-[32lpx] font-[400] leading-normal sm:text-center sm:text-[48px]'>
+            {t("transform")}<br/> {t('your')}{t('academic')}{t('writing')}{t('journey')}
+          </h1>
+        }
+       
         <Spacer y='20' />
-        <p className='text-center text-[14px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-          {t('experience_the')}{' '}
-          <span className='text-doc-primary'>{t('one_stop')}</span>
-          <br className='hidden sm:block' /> {t('that_enhances_writing')}&nbsp;
-          <span className='text-doc-primary'>{t('efficiency')}</span> {t('and_elevates')}
-          {t('paper')} <span className='text-doc-primary'>{t('quality')}</span>
-        </p>
+        {
+          // 英文
+           getCurrentLanguage() === 'en'? 
+           <p className='text-center text-[14px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
+            {t('experience_the')}{' '}
+            <span className='text-doc-primary'>{t('one_stop')}</span>
+            <br className='hidden sm:block' /> {t('that_enhances_writing')}&nbsp;
+            <span className='text-doc-primary'>{t('efficiency')}</span> {t('and_elevates')}
+            {t('paper')} <span className='text-doc-primary'>{t('quality')}</span>
+          </p>
+          :
+          // 中文
+          <p className='text-center text-[14px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
+            {t('experience_the')}{' '}<br/>{t('one_stop')}{t('that_enhances_writing')}{t('efficiency')}{t('and_elevates')}{t('quality')}{t('paper')}
+          </p>
+        }
+        
         <Spacer y='40' />
         <div className='relative flex flex-col items-center justify-center w-full pl-2 gap-x-0 gap-y-4 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
           <Link passHref href={'/signup'}>
@@ -82,7 +142,7 @@ const Hero = () => {
               role='button'
               className='h-max w-52 rounded-lg bg-doc-primary px-5 sm:w-max sm:px-8 sm:py-2.5'
             >
-              <strong>Start Writing!</strong>It&apos;s Free
+              <strong>{t('start_writing')}</strong>{t('It_s_free')}
             </Button>
           </Link>
           <Link href={'https://discord.gg/xXSFXv5kPd'} passHref target='_blank'>
@@ -91,20 +151,23 @@ const Hero = () => {
               variant={'ghost'}
               role='button'
             >
-              Join Community
+             {t('join_community')}
             </Button>
           </Link>
         </div>
         <Spacer y='90' className='hidden sm:block' />
         <Spacer y='20' className='block sm:hidden' />
-        <HeroCarousel clickCallback={memoSetSelected} />
+        {
+          typeof window !== 'undefined'  && window.innerWidth < 768 && <HeroCarousel clickCallback={memoSetSelected} /> 
+        }
         <div className='justify-between hidden w-full gap-x-4 sm:flex'>
           {HeroInfo.map((item, index) => {
             return (
               <span
                 className={`${selected === index ? 'border border-doc-primary/20 ' : 'bg-doc-primary/5'} flex cursor-pointer flex-col gap-y-2 rounded-[20px] p-5 sm:w-1/4`}
                 key={item.id}
-                onClick={() => setSelected(index)}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
               >
                 <Image
                   alt={item.title}
@@ -124,14 +187,25 @@ const Hero = () => {
         </div>
         <Spacer y='40' />
         <div className='relative h-[270px] w-full overflow-hidden sm:h-[800px]'>
-          <Image
-            alt={'prodream.ai'}
-            src={HeroMainInfo[selected].image}
-            fill
-            loading='eager'
-            priority
-            sizes='(max-width: 768px) 50vw, 100vw'
-          />
+        
+        {HeroMainInfo.map((item, index) => (
+          <div
+            key={index}
+            className={`absolute top-0 left-0 w-full h-full transition-opacity duration-500 ${
+              index === selected ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <Image
+              alt={'prodream.ai'}
+              src={item.image}
+              fill
+              loading='eager'
+              priority
+              sizes='(max-width: 768px) 50vw, 100vw'
+              className='object-cover w-full h-full'
+            />
+          </div>
+        ))}
         </div>
       </m.div>
     </m.section>
