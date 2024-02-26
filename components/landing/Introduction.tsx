@@ -40,16 +40,17 @@ const Introduction = () => {
             {IntroductionInfo.filter(
               (el, index) => index === 0 || index === 2
             ).map((item, idx) => {
+            
               return (
                 <div
                   className={`flex ${idx === 0 ? 'sm:h-[750px]' : 'sm:h-[630px]'} h-[440px] flex-col gap-y-4 rounded-xl bg-doc-primary/5 p-5 sm:gap-y-8 sm:p-10`}
                   key={item.id}
                 >
                   <h3 className='text-[20px] leading-snug sm:text-[24px]'>
-                    {t(`IntroductionInfo_title_${idx+1}`)}
+                    {t(`IntroductionInfo_title_${idx === 0?1:3}`)}
                   </h3>
                   <p className='text-regular leading-relaxed text-shadow-100 sm:text-[18px]'>
-                    {t(`IntroductionInfo_description_${idx+1}`)}
+                    {t(`IntroductionInfo_description_${idx === 0?1:3}`)}
                   </p>
                   <div className='relative w-full h-full overflow-hidden'>
                     <Image
@@ -68,21 +69,22 @@ const Introduction = () => {
             {IntroductionInfo.filter(
               (_el, index) => index === 1 || index === 3
             ).map((item, idx) => {
+            
               return (
                 <div
                   className={`flex ${idx === 1 ? 'sm:h-[750px]' : 'sm:h-[630px]'} h-[440px] flex-col gap-y-4 rounded-xl bg-doc-primary/5 p-5 sm:gap-y-8 sm:p-10`}
                   key={item.id}
                 >
                   <h3 className='text-[20px] leading-snug sm:text-[24px]'>
-                  {t(`IntroductionInfo_title_${idx+1}`)}
+                  {t(`IntroductionInfo_title_${idx === 0?2:4}`)}
                   </h3>
                   <p className='text-regular leading-relaxed text-shadow-100 sm:text-[18px]'>
-                  {t(`IntroductionInfo_description_${idx+1}`)}
+                  {t(`IntroductionInfo_description_${idx === 0?2:4}`)}
                   </p>
                   <div className='relative w-full h-full overflow-hidden'>
                     <Image
                       src={item.image}
-                      alt={t(`IntroductionInfo_title_${idx+1}`)}
+                      alt={t(`IntroductionInfo_title_${idx === 0?2:4}`)}
                       fill
                       className='object-contain'
                       sizes='(max-width: 768px) 50vw, 100vw'
