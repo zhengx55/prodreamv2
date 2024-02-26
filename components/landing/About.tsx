@@ -23,7 +23,6 @@ const About = () => {
           :
           <h2 className='font-custom text-[24px] leading-relaxed sm:text-[48px]'>
             {t('AboutInfo_title')}{' '} {t('AboutInfo_Faster')}
-            
           </h2>
         }
         
