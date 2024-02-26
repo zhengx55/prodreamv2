@@ -94,7 +94,7 @@ export const useAiOptions = () => {
           },
           {
             id: 'edit-tools-11',
-            label: 'continue_write_sentence',
+            label: 'continue_write_paragraph',
             name: 'Write more content',
             icon: <MoreContent />,
           },
