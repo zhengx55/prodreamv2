@@ -143,7 +143,7 @@ export const GrammarCheck = memo(() => {
             )}
           </div>
           <p className='small-regular w-max px-0 text-doc-font'>
-            {usage?.free_times_detail.Grammar}/100 weekly AI Prompts left;
+            {usage?.free_times_detail.Grammar}/100 weekly Grammar Checks left;
             <Button
               role='dialog'
               onClick={() => {
