@@ -90,9 +90,7 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
 
 export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
   const [position, setPosition] = useState({ left: 0, top: 0 });
-
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
-
   useEffect(() => {
     if (!editor) return;
     if (typeof window !== 'undefined') {
@@ -125,7 +123,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
       style={{ top: position.top, left: position.left }}
       className='absolute z-20 w-[320px] rounded-lg bg-black-100 p-3'
     >
-      <span className='absolute -right-[8px] top-[calc(50%_-8px)] h-0 w-0 border-b-[8px] border-l-[8px] border-t-[8px] border-b-transparent border-l-black-100 border-t-transparent' />
+      {/* <span className='absolute -right-[8px] top-[calc(50%_-8px)] h-0 w-0 border-b-[8px] border-l-[8px] border-t-[8px] border-b-transparent border-l-black-100 border-t-transparent' /> */}
       <h1 className='small-semibold text-white'>{ContinueTooltip.TITLE}</h1>
       <Spacer y='5' />
       <p className='subtle-regular text-white'>{ContinueTooltip.TEXT}</p>
@@ -230,7 +228,7 @@ export const ContinuTipSecond = memo(({ editor }: { editor: Editor }) => {
       style={{ top, left }}
       className='absolute z-20 w-[320px] rounded-lg bg-black-100 p-3'
     >
-      <span className='absolute -right-[8px] top-[calc(50%_-8px)] h-0 w-0 border-b-[8px] border-l-[8px] border-t-[8px] border-b-transparent border-l-black-100 border-t-transparent' />
+      {/* <span className='absolute -right-[8px] top-[calc(50%_-8px)] h-0 w-0 border-b-[8px] border-l-[8px] border-t-[8px] border-b-transparent border-l-black-100 border-t-transparent' /> */}
       <h1 className='small-semibold text-white'>
         {ContinueTooltipSecond.TITLE}
       </h1>
@@ -249,6 +247,7 @@ export const ContinuTipSecond = memo(({ editor }: { editor: Editor }) => {
         <p className='subtle-regular text-white'>2/2</p>
         <Button
           onClick={async () => {
+            editor.chain().blur().setTextSelection(0).run();
             updateContinueStep(0);
             await updateTrack({
               field: 'continue_tip_task',

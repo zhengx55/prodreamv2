@@ -13,6 +13,7 @@ const initialState: CitationState = {
   inTextCitationIds: [],
   inDocCitationIds: [],
   currentInline: null,
+  showMineCitation: false,
 };
 
 type CitationState = {
@@ -25,6 +26,7 @@ type CitationState = {
   inDocCitationIds: string[];
   showCustomCitiation: boolean;
   currentInline: NodeViewProps | null;
+  showMineCitation: boolean;
 };
 
 type CitationAction = {
@@ -32,6 +34,7 @@ type CitationAction = {
   updateCustomCitiation: (result: CitationState['showCustomCitiation']) => void;
   updateCurrentInline: (result: CitationState['currentInline']) => void;
   updateShowEditCitation: (result: CitationState['showEditCitation']) => void;
+  updateShowMineCitation: (result: CitationState['showMineCitation']) => void;
   updateShowCreateCitation: (
     result: CitationState['showCreateCitation']
   ) => void;
@@ -72,6 +75,11 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
   updateCurrentInline: (result) => {
     set(() => ({
       currentInline: result,
+    }));
+  },
+  updateShowMineCitation: (result) => {
+    set(() => ({
+      showMineCitation: result,
     }));
   },
   updateCitationItem: (result) => {
