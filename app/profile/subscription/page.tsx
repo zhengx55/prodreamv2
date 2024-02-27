@@ -65,29 +65,33 @@ export default async function Page() {
         </div>
       ) : (
         <>
+          <Spacer y='5' />
           <div className='flex items-center gap-x-4'>
             <p className='text-doc-font'>
-              You are on the{' '}
+              You are on the&nbsp;
               <strong>
-                Unlimited{' '}
+                Unlimited&nbsp;
                 {membership.subscription_type === 'year'
                   ? 'Annualy'
-                  : 'Monthly'}{' '}
-                Plan
+                  : 'Monthly'}
+                &nbsp; Plan
               </strong>
             </p>
-            <UnsubscribeModal subscription_id={membership.subscription_id}>
-              <Button role='dialog' variant={'ghost'} className='p-0'>
-                Unsubscribe
-              </Button>
-            </UnsubscribeModal>
+            {membership.subscription_id && (
+              <UnsubscribeModal subscription_id={membership.subscription_id}>
+                <Button role='dialog' variant={'ghost'} className='p-0'>
+                  Unsubscribe
+                </Button>
+              </UnsubscribeModal>
+            )}
           </div>
+          <Spacer y='5' />
           <p className='text-doc-font'>
-            Next billing date:{' '}
+            Next billing date:&nbsp;
             {formatTimestampToDateString(membership.expire_time, false)}
           </p>
           <Spacer y='10' />
-          {membership.subscription_type !== 'year' && (
+          {membership.subscription_type === 'month' && (
             <div className='flex w-max flex-col rounded-lg bg-[#FCFBFF] px-4 py-6'>
               <div className='flex items-start gap-x-2 '>
                 <span className='flex-center h-5 w-5 rounded-full bg-doc-primary text-white'>
@@ -95,7 +99,7 @@ export default async function Page() {
                 </span>
                 <p className='small-regular text-doc-font'>
                   Save $10 every month by switching to the annual plan,
-                  <br />{' '}
+                  <br />
                   <Link href={'/pricing'} className='text-doc-primary'>
                     Go annual now
                   </Link>

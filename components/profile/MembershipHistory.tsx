@@ -23,23 +23,28 @@ const MembershipHistory = ({ history }: Props) => {
           <p className='small-regular text-doc-font'>Membership status</p>
         </li>
         <Separator orientation='horizontal' className=' bg-shadow-border' />
-        {history.map((item) => (
-          <li key={item.id} className='small-regular grid grid-cols-5'>
-            <p>{item.mode}</p>
-            <p>{format_table_time(item.start_date)}</p>
-            <p>{format_table_time(item.end_date)}</p>
-            <p>${item.price / 100}</p>
-            <p>
-              {item.canceled ? (
-                'Canceled'
-              ) : item.finished ? (
-                'Expired'
-              ) : (
-                <span className=' text-green-400'>Active</span>
-              )}
-            </p>
-          </li>
-        ))}
+        {history.map((item) => {
+          const isActive =
+            item.end_date > Math.floor(Date.now() / 1000) &&
+            item.start_date < Math.floor(Date.now() / 1000);
+          return (
+            <li key={item.id} className='small-regular grid grid-cols-5'>
+              <p>{item.mode}</p>
+              <p>{format_table_time(item.start_date)}</p>
+              <p>{format_table_time(item.end_date)}</p>
+              <p>${item.price / 100}</p>
+              <p>
+                {item.canceled ? (
+                  'Canceled'
+                ) : isActive ? (
+                  <span className=' text-green-400'>Active</span>
+                ) : (
+                  'Expired'
+                )}
+              </p>
+            </li>
+          );
+        })}
       </ul>
     </>
   );

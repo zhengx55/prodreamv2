@@ -72,7 +72,7 @@ const Plagiarism = () => {
       className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
     >
       <ShieldCheck size={18} className='text-doc-primary' />
-      <p className='small-regular text-doc-primary'>Plaglarism Report</p>
+      <p className='small-regular text-doc-primary'>Plagiarism Report</p>
     </Button>
   ) : (
     <Button
@@ -86,7 +86,7 @@ const Plagiarism = () => {
       ) : (
         <ShieldCheck size={18} className='text-doc-primary' />
       )}
-      <p className='small-regular text-doc-primary'>Plaglarism Check</p>
+      <p className='small-regular text-doc-primary'>Plagiarism Check</p>
     </Button>
   );
 };

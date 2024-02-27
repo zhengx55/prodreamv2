@@ -32,11 +32,14 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
       </MemoButton>
       <Toolbar.Divider />
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <MemoButton role='button' className='font-medium'>
-            Citation Style: {citationStyle}
-          </MemoButton>
-        </DropdownMenuTrigger>
+        <div className='flex items-center'>
+          <p className='small-medium'>Citation Style:</p>
+          <DropdownMenuTrigger asChild>
+            <MemoButton role='button' className='mx-0 font-medium'>
+              {citationStyle}
+            </MemoButton>
+          </DropdownMenuTrigger>
+        </div>
         <CitationDropdown />
       </DropdownMenu>
       <Toolbar.Divider />
