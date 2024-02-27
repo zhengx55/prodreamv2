@@ -1,0 +1,33 @@
+import { Button } from '@/components/ui/button';
+import { useMembershipInfo } from '@/query/query';
+import { useAIEditor } from '@/zustand/store';
+import { AlertTriangle } from 'lucide-react';
+
+const RemainUsages = () => {
+  const { data: usage } = useMembershipInfo();
+  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
+  return (
+    <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
+      <div className='flex items-center gap-x-2'>
+        <AlertTriangle className='text-shadow' size={15} />
+        <p className='subtle-regular text-shadow'>
+          {usage?.free_times_detail.Copilot}/20 weekly AI prompts used;&nbsp;
+          <Button
+            onClick={() => {
+              updatePaymentModal(true);
+            }}
+            role='button'
+            variant={'ghost'}
+            className='subtle-regular h-max w-max cursor-pointer bg-transparent p-0 text-doc-primary'
+          >
+            Go unlimited
+          </Button>
+        </p>
+      </div>
+    </div>
+  );
+};
+export default RemainUsages;
+function useAiEditor(arg0: (state: any) => any) {
+  throw new Error('Function not implemented.');
+}
