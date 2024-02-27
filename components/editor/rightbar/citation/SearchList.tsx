@@ -16,6 +16,7 @@ const SearchList = () => {
   const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
+
   const [keyword, setKeyword] = useState('');
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
 
@@ -43,6 +44,7 @@ const SearchList = () => {
   useEffect(() => {
     if (citationResult) setSearchResult(citationResult);
   }, [citationResult]);
+
   return (
     <section className='relative flex flex-1 flex-col overflow-visible overflow-y-auto'>
       <Spacer y='10' />

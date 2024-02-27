@@ -18,7 +18,8 @@ const InTextList = dynamic(() => import('./InTextList'));
 const LibraryList = dynamic(() => import('./LibraryList'));
 
 const Mine = () => {
-  const [showMine, setShowMine] = useState(false);
+  const showMine = useCitation((state) => state.showMineCitation);
+  const setShowMine = useCitation((state) => state.updateShowMineCitation);
   const onWindowResize = useWindowResize();
   const [height, setHeight] = useState(window.innerHeight);
 
@@ -125,7 +126,7 @@ const Mine = () => {
           )}
           <Button
             onClick={async () => {
-              setShowMine((prev) => !prev);
+              setShowMine(!showMine);
               !track?.citation_empty_check &&
                 (await updateTrack({
                   field: 'citation_empty_check',
