@@ -22,7 +22,7 @@ import {
   Synonym,
   Undo,
 } from '@/components/root/SvgComponents';
-import useAiEditor, { useUserTask } from '@/zustand/store';
+import useAIEditor, { useUserTask } from '@/zustand/store';
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
@@ -44,11 +44,11 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const commands = useTextmenuCommands(editor);
-  const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
-  const updateCopilotRect = useAiEditor((state) => state.updateCopilotRect);
-  const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
-  const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
-  const updateCopilotRectX = useAiEditor((state) => state.updateCopilotRectX);
+  const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
+  const updateCopilotRect = useAIEditor((state) => state.updateCopilotRect);
+  const updateCitationMenu = useAIEditor((state) => state.updateCitationMenu);
+  const updateSynonymMenu = useAIEditor((state) => state.updateSynonymMenu);
+  const updateCopilotRectX = useAIEditor((state) => state.updateCopilotRectX);
   const task_step = useUserTask((state) => state.task_step);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   const prevSelection = useRef<{ from: number; to: number } | null>(null);

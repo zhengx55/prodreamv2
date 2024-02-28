@@ -2,7 +2,7 @@ import BottomBar from '@/components/editor/bottombar';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor as EditorType, useEditor } from '@tiptap/react';
 import dynamic from 'next/dynamic';
@@ -22,11 +22,11 @@ const PaymentModal = dynamic(() => import('@/components/pricing/Modal'), {
 const Editor = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
   const [showBottomBar, setShowBottomBar] = useState(true);
-  const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
-  const reset = useAiEditor((state) => state.reset);
-  const doc_title = useAiEditor((state) => state.doc_title);
-  const updateTitle = useAiEditor((state) => state.updateTitle);
-  const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
+  const setEditorInstance = useAIEditor((state) => state.setEditorInstance);
+  const reset = useAIEditor((state) => state.reset);
+  const doc_title = useAIEditor((state) => state.doc_title);
+  const updateTitle = useAIEditor((state) => state.updateTitle);
+  const toogleIsSaving = useAIEditor((state) => state.toogleIsSaving);
 
   const debouncedShowContinue = useDebouncedCallback((editor: EditorType) => {
     const { anchor } = editor.state.selection;
