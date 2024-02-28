@@ -1,24 +1,123 @@
+import Spacer from '@/components/root/Spacer';
 import { Continue } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { copilot } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 type Props = { editor: Editor };
 const Trigger = ({ editor }: Props) => {
   const showContinue = useAIEditor((state) => state.showContinue);
+  const updateContinueRes = useAIEditor((state) => state.updateContinueRes);
+  const [generating, setGenerating] = useState(false);
+  const queryClient = useQueryClient();
+  const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
+  const updateInsertPos = useAIEditor((state) => state.updateInsertPos);
+  const { mutateAsync: handleContinue } = useMutation({
+    mutationFn: (params: { tool: string; text: string }) => copilot(params),
+    onMutate: () => {
+      setGenerating(true);
+    },
+    onSuccess: async (data: ReadableStream) => {
+      queryClient.invalidateQueries({ queryKey: ['membership'] });
+      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      updateshowContinue(null);
+      setGenerating(false);
+      editor.commands.insertContent({
+        type: 'ContinueResult',
+      });
+      while (true) {
+        const { value, done } = await reader.read();
+        handleStreamData(value);
+        if (done) {
+          break;
+        }
+      }
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+      setGenerating(false);
+    },
+  });
+
+  const handleStreamData = (value: string | undefined) => {
+    const lines = value?.split('\n');
+    const dataLines = lines?.filter(
+      (line, index) =>
+        line.startsWith('data:') &&
+        lines.at(index - 1)?.startsWith('event: data')
+    );
+    const eventData = dataLines?.map((line) =>
+      JSON.parse(line.slice('data:'.length))
+    );
+    let result = '';
+    eventData?.forEach((word) => {
+      result += word;
+    });
+    updateContinueRes(result);
+  };
+
+  const handleContinueWritting = async () => {
+    const text_before = editor.state.selection.$head.parent.textContent;
+    const { anchor } = editor.state.selection;
+    updateInsertPos(anchor);
+    await handleContinue({
+      tool: 'continue_write_sentence',
+      text: text_before,
+    });
+  };
+
+  //   const handleKeydown = async (event: KeyboardEvent<HTMLButtonElement>) => {
+  //     if (event.code === 'i') {
+  //       await handleContinueWritting();
+  //       // 在这里执行你想要的操作
+  //     }
+  //   };
 
   return (
     <Button
       role='button'
+      //   onKeyDown={handleKeydown}
+      onClick={handleContinueWritting}
+      disabled={generating}
       style={{
         top: `${showContinue?.top}px`,
         left: `${showContinue?.left}px`,
       }}
       className='absolute z-50 h-6 w-6 cursor-pointer rounded bg-white px-0 shadow-[0px_2px_4px_0px_#DEE0EF]'
     >
-      <span className='rounded bg-doc-primary'>
-        <Continue />
-      </span>
+      {!generating ? (
+        <TooltipProvider>
+          <Tooltip delayDuration={100}>
+            <TooltipTrigger asChild>
+              <span className='rounded bg-doc-primary'>
+                <Continue />
+              </span>
+            </TooltipTrigger>
+            <TooltipContent className='py-2'>
+              <p>Continue Writing</p>
+              <Spacer y='5' />
+              <p className='text-[#939393]'>
+                cmd/ctrl + &quot;&gt;&quot; for shortcut
+              </p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : (
+        <span className='rounded bg-doc-primary'>
+          <Loader2 size={18} className='animate-spin text-white' />
+        </span>
+      )}
     </Button>
   );
 };
