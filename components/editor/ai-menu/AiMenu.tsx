@@ -33,7 +33,6 @@ const AiMenu = ({ editor }: Props) => {
   const copilotRect = useAIEditor((state) => state.copilotRect);
   const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
   const promptRef = useRef<HTMLInputElement>(null);
-
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
   const elRef = useScrollIntoView();

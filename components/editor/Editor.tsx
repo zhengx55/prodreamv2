@@ -4,12 +4,12 @@ import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
-import { Editor as EditorType, useEditor } from '@tiptap/react';
+import { Editor as EditorType, posToDOMRect, useEditor } from '@tiptap/react';
+import useWindowResize from 'beautiful-react-hooks/useWindowResize';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-
 import Procedure from './guide/Procedure';
 
 const TableOfContents = dynamic(
@@ -27,8 +27,16 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const doc_title = useAIEditor((state) => state.doc_title);
   const updateTitle = useAIEditor((state) => state.updateTitle);
   const toogleIsSaving = useAIEditor((state) => state.toogleIsSaving);
+  const disableContinue = useAIEditor((state) => state.disableContinue);
+  const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
+  const onWindowResize = useWindowResize();
+
+  onWindowResize(() => {
+    updateshowContinue(null);
+  });
 
   const debouncedShowContinue = useDebouncedCallback((editor: EditorType) => {
+    if (disableContinue) return;
     const { anchor } = editor.state.selection;
     const { doc } = editor.state;
     doc.descendants((node, pos) => {
@@ -37,9 +45,17 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
         Boolean(node.textContent.trim()) &&
         pos + node.nodeSize === anchor
       ) {
+        const coordinate = posToDOMRect(editor.view, anchor, anchor);
+        const parentElement = editor.view.dom.parentElement?.parentElement;
+        const scrollTop = parentElement?.scrollTop ?? 0;
+        updateshowContinue({
+          top: coordinate.top - 58 + scrollTop,
+          left: coordinate.left - 150 + window.scrollX,
+        });
       }
     });
-  }, 2000);
+  }, 1000);
+
   const debouncedUpdateText = useDebouncedCallback(
     async (title: string, text: string) => {
       const sanitize = (await import('sanitize-html')).default;
@@ -99,6 +115,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
       setEditorInstance(editor as EditorType);
     },
     onSelectionUpdate: ({ editor }) => {
+      updateshowContinue(null);
       const { from, to } = editor.state.selection;
       if (from !== to) {
         setShowBottomBar(false);

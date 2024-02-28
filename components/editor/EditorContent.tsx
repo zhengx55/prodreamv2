@@ -48,6 +48,7 @@ const EditorBlock = ({ editor }: Props) => {
       {showSynonymMenu && <SynonymMenu editor={editor} />}
       {showCopilotMenu && <AiMenu editor={editor} />}
       {showCitiationMenu && <CitationMenu editor={editor} />}
+      {showContinue && <Trigger editor={editor} />}
       <BubbleMenu editor={editor} />
       <EditorContent className='flex-1' spellCheck={false} editor={editor} />
       <Spacer y='40' />

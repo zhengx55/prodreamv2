@@ -28,12 +28,9 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
         handleStreamData(value);
       }
     },
-    onSettled: () => {
-      setGenerating(false);
-    },
-
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
+      setGenerating(false);
       toast.error(error.message);
     },
   });
@@ -55,12 +52,10 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
         handleStreamData(value);
       }
     },
-    onSettled: () => {
-      setGenerating(false);
-    },
 
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
+      setGenerating(false);
       toast.error(error.message);
     },
   });
@@ -80,6 +75,9 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
     eventData.forEach((word) => {
       result += word;
     });
+    if (result && generating) {
+      setGenerating(false);
+    }
     setAiResult((prev) =>
       prev.length === 0
         ? [result]

@@ -109,7 +109,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
       );
       setPosition({
         left: coordinate.left - 340 + window.scrollX,
-        top: coordinate.top + window.screenY,
+        top: coordinate.top,
       });
     }
   }, [editor]);

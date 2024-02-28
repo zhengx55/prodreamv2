@@ -20,7 +20,10 @@ const initialState: AIEditorState = {
   copilotRectX: null,
   showSynonymMenu: false,
   paymentModalOpen: false,
-  showContinue: false,
+  showContinue: null,
+  continueResult: '',
+  disableContinue: false,
+  continueInsertPos: null,
 };
 
 type AIEditorState = {
@@ -39,7 +42,10 @@ type AIEditorState = {
   showSynonymMenu: boolean;
   copilotRectX: null | number;
   paymentModalOpen: boolean;
-  showContinue: boolean;
+  showContinue: { top: number; left: number } | null;
+  continueResult: string;
+  disableContinue: boolean;
+  continueInsertPos: number | null;
 };
 
 type AIEditorAction = {
@@ -60,7 +66,10 @@ type AIEditorAction = {
   updateCopilotRectX: (resutl: AIEditorState['copilotRectX']) => void;
   updatePaymentModal: (result: AIEditorState['paymentModalOpen']) => void;
   closeRightbar: () => void;
-  UpdateshowContinue: (result: AIEditorState['showContinue']) => void;
+  updateshowContinue: (result: AIEditorState['showContinue']) => void;
+  updateContinueRes: (result: AIEditorState['continueResult']) => void;
+  clearContinueRes: () => void;
+  updateInsertPos: (result: number) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -121,8 +130,30 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set(() => ({
       copilotRectX: result,
     })),
-  UpdateshowContinue: (result) =>
+  updateshowContinue: (result) =>
     set(() => ({
       showContinue: result,
     })),
+  updateContinueRes: (result) => {
+    set((state) => {
+      if (!state.disableContinue)
+        return {
+          disableContinue: true,
+        };
+      return {
+        continueResult: state.continueResult + result,
+      };
+    });
+  },
+  clearContinueRes: () => {
+    set(() => ({
+      disableContinue: false,
+      continueResult: '',
+    }));
+  },
+  updateInsertPos: (result) => {
+    set(() => ({
+      continueInsertPos: result,
+    }));
+  },
 });

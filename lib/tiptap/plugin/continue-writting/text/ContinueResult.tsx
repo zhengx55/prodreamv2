@@ -1,15 +1,83 @@
+import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { useAIEditor } from '@/zustand/store';
 import { NodeViewContent, NodeViewProps, NodeViewWrapper } from '@tiptap/react';
-import { memo } from 'react';
-const ContinueButton = (
-  props: NodeViewProps & { node: { attrs: { citation_id: string } } }
-) => {
+import useUnmount from 'beautiful-react-hooks/useUnmount';
+import { CornerDownLeft } from 'lucide-react';
+import { memo, useEffect, useRef, useState } from 'react';
+const ContinueResult = (props: NodeViewProps) => {
+  const [showAccept, setShowAccept] = useState(false);
+  const generatedResult = useAIEditor((state) => state.continueResult);
+  const continueInsertPos = useAIEditor((state) => state.continueInsertPos);
+  const [currentText, setCurrentText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const timeout = useRef<NodeJS.Timeout>();
+
+  const handleAccept = () => {
+    props.editor
+      .chain()
+      .focus()
+      .insertContentAt(continueInsertPos ?? 0, ` ${generatedResult}`)
+      .run();
+    props.deleteNode();
+  };
+  useEffect(() => {
+    if (!generatedResult) return;
+    if (currentIndex < generatedResult.length) {
+      timeout.current = setTimeout(() => {
+        setCurrentText((prevText) => prevText + generatedResult[currentIndex]);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+      }, 20);
+    } else {
+      setShowAccept(true);
+      timeout.current && clearTimeout(timeout.current);
+    }
+    return () => {
+      clearTimeout(timeout.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex, generatedResult]);
+
+  const clearContinueRes = useAIEditor((state) => state.clearContinueRes);
+  useUnmount(() => {
+    clearContinueRes();
+  });
   return (
-    <NodeViewWrapper className='inline-block'>
+    <NodeViewWrapper as={'span'} className='relative'>
       <NodeViewContent
         as='span'
-        className='relative cursor-pointer'
-      ></NodeViewContent>
+        contentEditable={false}
+        className='pointer-events-none select-none text-doc-primary'
+      >
+        &nbsp;
+        {currentText}
+      </NodeViewContent>
+      {showAccept && (
+        <Button
+          role='button'
+          onClick={handleAccept}
+          className='absolute bottom-0 h-6 w-6 cursor-pointer rounded bg-white px-0 shadow-[0px_2px_4px_0px_#DEE0EF]'
+        >
+          <TooltipProvider>
+            <Tooltip delayDuration={100}>
+              <TooltipTrigger asChild>
+                <span className='rounded bg-doc-primary'>
+                  <CornerDownLeft className='text-white' size={18} />
+                </span>
+              </TooltipTrigger>
+              <TooltipContent className='py-2'>
+                <p>Accept</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </Button>
+      )}
     </NodeViewWrapper>
   );
 };
-export default memo(ContinueButton);
+export default memo(ContinueResult);

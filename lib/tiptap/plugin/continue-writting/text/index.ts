@@ -10,7 +10,11 @@ export default Node.create({
   atom: true,
   selectable: false,
   addAttributes() {
-    return {};
+    return {
+      reader: {
+        default: null,
+      },
+    };
   },
   parseHTML() {
     return [

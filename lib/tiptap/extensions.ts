@@ -23,7 +23,6 @@ import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { textblockTypeInputRule } from '@tiptap/react';
-import ContinueMenu from './plugin/continue-writting/menu';
 import ContinueText from './plugin/continue-writting/text';
 import DragAndDrop from './plugin/drag';
 import IntextCitation from './plugin/intext-citation';
@@ -54,7 +53,6 @@ const ExtensionKit = () => [
   History,
   DragAndDrop,
   IntextCitation,
-  ContinueMenu,
   ContinueText,
   Focus.configure({
     className: 'has-focus',
