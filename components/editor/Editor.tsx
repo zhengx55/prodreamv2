@@ -27,6 +27,19 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const doc_title = useAiEditor((state) => state.doc_title);
   const updateTitle = useAiEditor((state) => state.updateTitle);
   const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
+
+  const debouncedShowContinue = useDebouncedCallback((editor: EditorType) => {
+    const { anchor } = editor.state.selection;
+    const { doc } = editor.state;
+    doc.descendants((node, pos) => {
+      if (
+        node.isText &&
+        Boolean(node.textContent.trim()) &&
+        pos + node.nodeSize === anchor
+      ) {
+      }
+    });
+  }, 2000);
   const debouncedUpdateText = useDebouncedCallback(
     async (title: string, text: string) => {
       const sanitize = (await import('sanitize-html')).default;
@@ -87,7 +100,12 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     },
     onSelectionUpdate: ({ editor }) => {
       const { from, to } = editor.state.selection;
-      from !== to ? setShowBottomBar(false) : setShowBottomBar(true);
+      if (from !== to) {
+        setShowBottomBar(false);
+      } else {
+        setShowBottomBar(true);
+        debouncedShowContinue(editor as EditorType);
+      }
     },
     onUpdate: ({ editor }) => {
       const title = editor.getJSON().content?.at(0)?.content?.at(0)?.text;
