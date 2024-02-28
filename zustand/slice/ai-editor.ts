@@ -20,6 +20,7 @@ const initialState: AIEditorState = {
   copilotRectX: null,
   showSynonymMenu: false,
   paymentModalOpen: false,
+  showContinue: false,
 };
 
 type AIEditorState = {
@@ -38,6 +39,7 @@ type AIEditorState = {
   showSynonymMenu: boolean;
   copilotRectX: null | number;
   paymentModalOpen: boolean;
+  showContinue: boolean;
 };
 
 type AIEditorAction = {
@@ -58,6 +60,7 @@ type AIEditorAction = {
   updateCopilotRectX: (resutl: AIEditorState['copilotRectX']) => void;
   updatePaymentModal: (result: AIEditorState['paymentModalOpen']) => void;
   closeRightbar: () => void;
+  UpdateshowContinue: (result: AIEditorState['showContinue']) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -117,5 +120,9 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateCopilotRectX: (result) =>
     set(() => ({
       copilotRectX: result,
+    })),
+  UpdateshowContinue: (result) =>
+    set(() => ({
+      showContinue: result,
     })),
 });

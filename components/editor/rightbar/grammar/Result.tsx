@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { findNodePos, findParagpraph } from '@/lib/tiptap/utils';
 import { createRegex } from '@/lib/utils';
 import { IGrammarResult } from '@/query/type';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { m } from 'framer-motion';
 import { v4 } from 'uuid';
@@ -15,7 +15,7 @@ type Props = {
   updateGrammarResult: (value: IGrammarResult[]) => void;
 };
 const Result = ({ grammarResults, updateGrammarResult }: Props) => {
-  const editor = useAiEditor((state) => state.editor_instance);
+  const editor = useAIEditor((state) => state.editor_instance);
 
   const handleDismiss = (index: number, group_index: number) => {
     updateGrammarResult(

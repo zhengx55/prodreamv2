@@ -6,7 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import useAiEditor, { useCitation } from '@/zustand/store';
+import useAIEditor, { useCitation } from '@/zustand/store';
 import { PopoverClose } from '@radix-ui/react-popover';
 import type { NodeViewProps } from '@tiptap/react';
 import { Trash2 } from 'lucide-react';
@@ -19,7 +19,7 @@ const IntextContent = (props: NodeViewProps) => {
   const updateShowEditCitation = useCitation(
     (state) => state.updateShowEditCitation
   );
-  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const current_citation = useMemo(() => {
     const foundCitation = inTextCitation.find(
       (item) => item.data.id === props.node.attrs.citation_id

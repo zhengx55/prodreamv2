@@ -2,7 +2,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { memo } from 'react';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 };
 
 const GenerateDropdown = ({ items }: Props) => {
-  const setGenerateTab = useAiEditor((state) => state.updateGenerateTab);
+  const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
   return (
     <DropdownMenuContent hideWhenDetached className='w-[350px] rounded p-0'>
       {items.map((subItem) => (

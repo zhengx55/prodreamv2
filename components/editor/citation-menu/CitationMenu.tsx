@@ -10,7 +10,7 @@ import { ConvertCitationData } from '@/lib/utils';
 import { searchCitation } from '@/query/api';
 import { useCiteToDoc } from '@/query/query';
 import { ICitation } from '@/query/type';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor, useCitation } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { ArrowUpRightFromSquare, Plus } from 'lucide-react';
@@ -20,10 +20,10 @@ import { memo, useEffect, useRef, useState } from 'react';
 type Props = { editor: Editor };
 
 const CitationMenu = ({ editor }: Props) => {
-  const copilotRect = useAiEditor((state) => state.copilotRect);
-  const updateCitationMenu = useAiEditor((state) => state.updateCitationMenu);
-  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
-  const updateShowCreateCitation = useAiEditor(
+  const copilotRect = useAIEditor((state) => state.copilotRect);
+  const updateCitationMenu = useAIEditor((state) => state.updateCitationMenu);
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+  const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
 

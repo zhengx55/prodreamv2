@@ -3,13 +3,13 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { FileOutput } from 'lucide-react';
 import { memo } from 'react';
 
 const NavbarDropdown = () => {
-  const doc_title = useAiEditor((state) => state.doc_title);
-  const editor = useAiEditor((state) => state.editor_instance);
+  const doc_title = useAIEditor((state) => state.doc_title);
+  const editor = useAIEditor((state) => state.editor_instance);
   const handleExportPdf = async () => {};
   return (
     <DropdownMenuContent

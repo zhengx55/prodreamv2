@@ -6,7 +6,7 @@ import {
 } from '@/components/root/SvgComponents';
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PanelRight, PanelRightClose } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -21,9 +21,9 @@ const Citation = dynamic(
 );
 
 const General = () => {
-  const toggleRightbar = useAiEditor((state) => state.toggleRightbar);
-  const rightbarTab = useAiEditor((state) => state.rightbarTab);
-  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
+  const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
+  const rightbarTab = useAIEditor((state) => state.rightbarTab);
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   return (
     <m.aside
       key={'doc-right-bar'}
@@ -149,7 +149,7 @@ const General = () => {
 };
 
 const Trigger = () => {
-  const toggleRightbar = useAiEditor((state) => state.toggleRightbar);
+  const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
   return (
     <m.span
       key={'doc-rightbar-trigger'}

@@ -4,7 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
 import { ButtonTrack } from '@/query/api';
 import { useUserTrackInfo } from '@/query/query';
-import useAiEditor, { useAIEditor, useUserTask } from '@/zustand/store';
+import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
@@ -21,13 +21,13 @@ const CheckList = () => {
   const [show, setShow] = useState(false);
   const { data: userTrack, isPending, isError } = useUserTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
-  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
-  const closeRightbar = useAiEditor((state) => state.closeRightbar);
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+  const closeRightbar = useAIEditor((state) => state.closeRightbar);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
   const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
-  const setGenerateTab = useAiEditor((state) => state.updateGenerateTab);
+  const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
   const selectHandler = useDebouncedCallback(async (index: number) => {
     if (index === 0 || index === 1) {
       const first_paragraph = findFirstParagraph(editor!);

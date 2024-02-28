@@ -12,7 +12,7 @@ import {
   useMutateTrackInfo,
   useUserTrackInfo,
 } from '@/query/query';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Fragment, cloneElement, memo, useCallback, useRef } from 'react';
@@ -30,8 +30,8 @@ const AiMenu = ({ editor }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: track } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
-  const copilotRect = useAiEditor((state) => state.copilotRect);
-  const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
+  const copilotRect = useAIEditor((state) => state.copilotRect);
+  const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
   const promptRef = useRef<HTMLInputElement>(null);
 
   const tool = useRef<string | null>(null);

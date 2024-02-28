@@ -1,5 +1,5 @@
 import { useMembershipInfo } from '@/query/query';
-import useAiEditor, { useCitation } from '@/zustand/store';
+import useAIEditor, { useCitation } from '@/zustand/store';
 import { memo, useMemo, useRef } from 'react';
 import Spacer from '../root/Spacer';
 import { Copy } from '../root/SvgComponents';
@@ -17,7 +17,7 @@ import MLAReference from './reference/MLA';
 const Reference = () => {
   const citation_type = useCitation((state) => state.citationStyle);
   const inTextCitation = useCitation((state) => state.inTextCitation);
-  const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
+  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { data: usage } = useMembershipInfo();
   const referenceListRef = useRef<HTMLOListElement>(null);
   const updateCitationStyle = useCitation((state) => state.updateCitationStyle);
