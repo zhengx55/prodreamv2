@@ -9,6 +9,10 @@ import dynamic from 'next/dynamic';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
+import { cookies } from 'next/headers'
+import { generateId } from '@/lib/utils';
+import { PostHog } from 'posthog-node'
+
 
 const PostHogPageView = dynamic(() => import('@/components/root/PostHug'), {
   ssr: false,
@@ -60,11 +64,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  const bootstrapData = await getBootstrapData()
+
   return (
     <html
       lang='en'
@@ -72,7 +79,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <Hotjar />
-      <CSPostHogProvider>
+      <CSPostHogProvider  bootstrapData={bootstrapData ?? {
+        distinctID: '9a59338a-2994-452f-bc9b-0052a3f07a75',
+        featureFlags: {}
+      }}>
         <body>
           <GoogleOAuthProvider
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
@@ -90,4 +100,33 @@ export default function RootLayout({
       </CSPostHogProvider>
     </html>
   );
+}
+
+export async function getBootstrapData() {
+  let distinct_id = ''
+  const phProjectAPIKey = 'phc_hJ9Vfuzn4cByNbktugzjuJpHGkVYfXeQE494H5nla42'
+  const phCookieName = `ph_${phProjectAPIKey}_posthog`
+  debugger;
+  const cookieStore = cookies()
+  const phCookie = cookieStore.get(phCookieName)
+  debugger;
+  if (phCookie) {
+    const phCookieParsed = JSON.parse(phCookie.value);
+    distinct_id = phCookieParsed.distinct_id;
+  }
+  if (!distinct_id) {
+    distinct_id = generateId()
+  }
+
+
+  const client = new PostHog(
+    phProjectAPIKey,
+    { host: process.env.NEXT_PUBLIC_POSTHOG_HOST })
+  const flags = await client.getAllFlags(distinct_id)
+  const bootstrap = {
+    distinctID: distinct_id,
+    featureFlags: flags
+  }
+
+  return bootstrap
 }
