@@ -1,12 +1,12 @@
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { AnimatePresence } from 'framer-motion';
 import { memo } from 'react';
 import General from './General';
 import Report from './plagiarism/Report';
 
 const DocRightBar = () => {
-  const rightbarOpen = useAiEditor((state) => state.rightbarOpen);
-  const isPlagiarismOpen = useAiEditor((state) => state.isPlagiarismOpen);
+  const rightbarOpen = useAIEditor((state) => state.rightbarOpen);
+  const isPlagiarismOpen = useAIEditor((state) => state.isPlagiarismOpen);
   return (
     <AnimatePresence mode='wait'>
       {rightbarOpen ? (

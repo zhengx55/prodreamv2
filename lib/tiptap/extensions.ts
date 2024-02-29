@@ -1,4 +1,3 @@
-'use client';
 import FontSize from '@/lib/tiptap/plugin/fontsize';
 import TableOfContent from '@tiptap-pro/extension-table-of-content';
 import Blockquote from '@tiptap/extension-blockquote';
@@ -24,13 +23,12 @@ import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { textblockTypeInputRule } from '@tiptap/react';
-import { AutoComplete } from './plugin/autocomplete';
+import ContinueText from './plugin/continue-writting/text';
 import DragAndDrop from './plugin/drag';
 import IntextCitation from './plugin/intext-citation';
 import { GrammarUnderline } from './plugin/polish-underline';
 import Selection from './plugin/selection';
-import { AutoCompleteSlashCommand, SlashCommand } from './plugin/slashcommand';
-import AutoCompleteCNSlashCommand from './plugin/slashcommand/AutoCompleteCnSlashCommand';
+import { SlashCommand } from './plugin/slashcommand';
 import Title from './plugin/title';
 
 const adjustLevel = (level: number) => (level == 1 ? 2 : level);
@@ -55,6 +53,7 @@ const ExtensionKit = () => [
   History,
   DragAndDrop,
   IntextCitation,
+  ContinueText,
   Focus.configure({
     className: 'has-focus',
     mode: 'all',
@@ -98,10 +97,7 @@ const ExtensionKit = () => [
     multicolor: true,
   }),
   Underline,
-  AutoComplete,
   GrammarUnderline,
-  AutoCompleteSlashCommand,
-  AutoCompleteCNSlashCommand,
   Selection,
   DropCursor.configure({
     width: 2,

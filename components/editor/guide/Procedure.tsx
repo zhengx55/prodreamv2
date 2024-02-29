@@ -36,6 +36,8 @@ const Procedure = ({ editor }: Props) => {
   const showContinueTip = Boolean(userTrack?.guidence) && continue_step === 1;
   const showContinueSecondTip =
     Boolean(userTrack?.guidence) && continue_step === 2;
+
+  if (isPending) return null;
   return (
     <AnimatePresence mode='wait'>
       {showGuidance && <GuidancePanel editor={editor} />}

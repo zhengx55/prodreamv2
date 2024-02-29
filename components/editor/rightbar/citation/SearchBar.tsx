@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { sample_search_citation } from '@/constant';
 import { CitationTooltip } from '@/constant/enum';
 import { ICitation } from '@/query/type';
-import { useUserTask } from '@/zustand/store';
+import { useCitation, useUserTask } from '@/zustand/store';
 import { Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
@@ -18,6 +18,7 @@ type Props = {
 };
 const SearchBar = ({ setKeyword, setResult }: Props) => {
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
+  const setShowMine = useCitation((state) => state.updateShowMineCitation);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
   const [searchTerm, setSearchTerm] = useState('');
   return (
@@ -42,7 +43,7 @@ const SearchBar = ({ setKeyword, setResult }: Props) => {
             type='text'
             id='search-citation'
             placeholder='Search publications ...'
-            className='px-2 border-none rounded shadow-none outline-none focus-visible:ring-0'
+            className='rounded border-none px-2 shadow-none outline-none focus-visible:ring-0'
           />
         </Tiplayout>
       ) : (
@@ -55,11 +56,14 @@ const SearchBar = ({ setKeyword, setResult }: Props) => {
           type='text'
           id='search-citation'
           placeholder='Search publications ...'
-          className='px-2 border-none rounded shadow-none outline-none focus-visible:ring-0'
+          className='rounded border-none px-2 shadow-none outline-none focus-visible:ring-0'
         />
       )}
       <Button
-        onClick={() => searchTerm && setKeyword(searchTerm)}
+        onClick={() => {
+          if (searchTerm) setKeyword(searchTerm);
+          setShowMine(false);
+        }}
         className='h-max w-max rounded bg-doc-primary p-1.5'
       >
         <Search className='text-white' size={20} />

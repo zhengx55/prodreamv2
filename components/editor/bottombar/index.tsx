@@ -4,7 +4,7 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import useAiEditor, { useCitation } from '@/zustand/store';
+import useAIEditor, { useCitation } from '@/zustand/store';
 import { Editor } from '@tiptap/react';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
@@ -16,7 +16,7 @@ const CitationDropdown = dynamic(() => import('./CitationDropdown'));
 const BottomBar = ({ editor }: { editor: Editor }) => {
   const citationStyle = useCitation((state) => state.citationStyle);
   const commands = useTextmenuCommands(editor);
-  const updateRightbarTab = useAiEditor((state) => state.updateRightbarTab);
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const showCitation = () => {
     updateRightbarTab(1);
   };
@@ -32,11 +32,14 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
       </MemoButton>
       <Toolbar.Divider />
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <MemoButton role='button' className='font-medium'>
-            Citation Style: {citationStyle}
-          </MemoButton>
-        </DropdownMenuTrigger>
+        <div className='flex items-center'>
+          <p className='small-medium'>Citation Style:</p>
+          <DropdownMenuTrigger asChild>
+            <MemoButton role='button' className='mx-0 font-medium'>
+              {citationStyle}
+            </MemoButton>
+          </DropdownMenuTrigger>
+        </div>
         <CitationDropdown />
       </DropdownMenu>
       <Toolbar.Divider />

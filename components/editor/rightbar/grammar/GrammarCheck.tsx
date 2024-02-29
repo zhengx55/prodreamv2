@@ -6,7 +6,7 @@ import {
   useUserTrackInfo,
 } from '@/query/query';
 import { IGrammarResponse, IGrammarResult } from '@/query/type';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { JSONContent } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
@@ -19,13 +19,13 @@ const Result = dynamic(() => import('./Result'));
 
 export const GrammarCheck = memo(() => {
   const [isChecking, setIsChecking] = useState(false);
-  const editor = useAiEditor((state) => state.editor_instance);
+  const editor = useAIEditor((state) => state.editor_instance);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: userTrack } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
   const [grammarResults, setGrammarResults] = useState<IGrammarResult[]>([]);
   const queryClient = useQueryClient();
-  const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
+  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const memoUpdateResult = useCallback((value: IGrammarResult[]) => {
     setGrammarResults(value);
   }, []);
@@ -143,7 +143,7 @@ export const GrammarCheck = memo(() => {
             )}
           </div>
           <p className='small-regular w-max px-0 text-doc-font'>
-            {usage?.free_times_detail.Grammar}/100 weekly AI Prompts left;
+            {usage?.free_times_detail.Grammar}/100 weekly Grammar Checks left;
             <Button
               role='dialog'
               onClick={() => {

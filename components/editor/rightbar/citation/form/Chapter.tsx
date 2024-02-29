@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { contributorAnimation } from '@/constant';
 import { useCreateCitation, useUpdateCitation } from '@/query/query';
 import { IChapterCitation } from '@/types';
-import useAiEditor from '@/zustand/store';
+import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -43,10 +43,10 @@ const ChapterForm = ({
           book_title: data.book_title,
         },
   });
-  const updateShowCreateCitation = useAiEditor(
+  const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
-  const updateShowEditCitation = useAiEditor(
+  const updateShowEditCitation = useCitation(
     (state) => state.updateShowEditCitation
   );
   const { fields, append, remove } = useFieldArray({

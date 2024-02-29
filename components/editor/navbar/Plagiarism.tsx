@@ -1,13 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
-import useAiEditor, { useAIEditor } from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { Loader2, ShieldCheck } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
 
 const Plagiarism = () => {
-  const editor = useAiEditor((state) => state.editor_instance);
+  const editor = useAIEditor((state) => state.editor_instance);
   const togglePlagiarism = useAIEditor((state) => state.togglePlagiarism);
   const updatePlagiarismResult = useAIEditor(
     (state) => state.updatePlagiarismResult
@@ -72,7 +72,7 @@ const Plagiarism = () => {
       className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
     >
       <ShieldCheck size={18} className='text-doc-primary' />
-      <p className='small-regular text-doc-primary'>Plaglarism Report</p>
+      <p className='small-regular text-doc-primary'>Plagiarism Report</p>
     </Button>
   ) : (
     <Button
@@ -86,7 +86,7 @@ const Plagiarism = () => {
       ) : (
         <ShieldCheck size={18} className='text-doc-primary' />
       )}
-      <p className='small-regular text-doc-primary'>Plaglarism Check</p>
+      <p className='small-regular text-doc-primary'>Plagiarism Check</p>
     </Button>
   );
 };
