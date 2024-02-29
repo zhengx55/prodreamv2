@@ -5,7 +5,6 @@ import { saveDoc } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor as EditorType, posToDOMRect, useEditor } from '@tiptap/react';
-import useWindowResize from 'beautiful-react-hooks/useWindowResize';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
@@ -29,11 +28,6 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const toogleIsSaving = useAIEditor((state) => state.toogleIsSaving);
   const disableContinue = useAIEditor((state) => state.disableContinue);
   const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
-  const onWindowResize = useWindowResize();
-
-  onWindowResize(() => {
-    updateshowContinue(null);
-  });
 
   const debouncedShowContinue = useDebouncedCallback((editor: EditorType) => {
     if (disableContinue) return;
