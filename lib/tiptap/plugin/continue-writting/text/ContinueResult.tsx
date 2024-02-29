@@ -8,8 +8,16 @@ import {
 import { useAIEditor } from '@/zustand/store';
 import { NodeViewContent, NodeViewProps, NodeViewWrapper } from '@tiptap/react';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
+import { useAnimationFrame } from 'framer-motion';
 import { CornerDownLeft } from 'lucide-react';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 const ContinueResult = (props: NodeViewProps) => {
   const [showAccept, setShowAccept] = useState(false);
   const generatedResult = useAIEditor((state) => state.continueResult);
@@ -34,7 +42,7 @@ const ContinueResult = (props: NodeViewProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [continueInsertPos, generatedResult]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!generatedResult) {
       return;
     }
@@ -65,6 +73,12 @@ const ContinueResult = (props: NodeViewProps) => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleAccept]);
+
+  useAnimationFrame(() => {
+    if (!generatedResult) {
+      props.deleteNode();
+    }
+  });
 
   useUnmount(() => {
     clearContinueRes();

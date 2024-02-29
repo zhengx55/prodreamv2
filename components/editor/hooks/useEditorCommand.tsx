@@ -1,3 +1,4 @@
+import { findFirstParagraph } from '@/lib/tiptap/utils';
 import { Editor } from '@tiptap/react';
 import { useCallback } from 'react';
 
@@ -93,9 +94,22 @@ export const useEditorCommand = (editor: Editor) => {
       if (!editor) return null;
       const { selection } = editor!.state;
       const { anchor, from, to } = selection;
-      if (from === to) {
+      const { pos, size } = findFirstParagraph(editor);
+      if (anchor === 1) {
+        editor
+          .chain()
+          .focus()
+          .insertContentAt(pos + size - 1, {
+            type: 'IntextCitation',
+            attrs: {
+              citation_id,
+            },
+          })
+          .run();
+      } else if (from === to) {
         editor
           ?.chain()
+          .focus()
           .insertContentAt(anchor, {
             type: 'IntextCitation',
             attrs: {
@@ -106,6 +120,7 @@ export const useEditorCommand = (editor: Editor) => {
       } else {
         editor
           ?.chain()
+          .focus()
           .insertContentAt(to, {
             type: 'IntextCitation',
             attrs: {

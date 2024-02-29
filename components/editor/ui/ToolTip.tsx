@@ -78,7 +78,7 @@ export const Tooltip = ({
   if (enabled) {
     return (
       <Tippy
-        delay={500}
+        delay={100}
         offset={[0, 8]}
         touch={false}
         zIndex={99999}
