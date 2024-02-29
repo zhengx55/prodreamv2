@@ -72,9 +72,9 @@ const Hero = () => {
     if (flag && flag !== "undefined") {
       abTest(flag)
       if (flag === 'v2') {
-        setCurrentTitleNode(v3Title)
+        setCurrentTitleNode(<V2Title />)
       } else {
-        setCurrentTitleNode(v2Title)
+        setCurrentTitleNode(<V3Title/>)
       }
     }
   },[flag])
@@ -303,7 +303,7 @@ const Hero = () => {
 };
 
 
- const v2Title = () => {
+export const V2Title: React.FC = () => {
    const {t} = useLocalization();
   return (
     <>
@@ -328,7 +328,7 @@ const Hero = () => {
   )
  }
 
- const v3Title = () => {
+ export const V3Title: React.FC = () => {
   const {t} = useLocalization();
   return (
     <>
