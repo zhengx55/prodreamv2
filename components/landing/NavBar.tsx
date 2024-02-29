@@ -58,7 +58,7 @@ const NavBar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           </Button> */}
-          <Link href={'https://prodream.ai/blog'} passHref target='_blank'>
+          <Link href={'https://www.prodream.ai/blog'} passHref target='_blank'>
             <Button
               className='hidden w-10 text-[#3B3A40] sm:block'
               variant={'ghost'}
