@@ -9,7 +9,7 @@ import { useAIEditor } from '@/zustand/store';
 import { NodeViewContent, NodeViewProps, NodeViewWrapper } from '@tiptap/react';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { CornerDownLeft } from 'lucide-react';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 const ContinueResult = (props: NodeViewProps) => {
   const [showAccept, setShowAccept] = useState(false);
   const generatedResult = useAIEditor((state) => state.continueResult);
@@ -17,22 +17,32 @@ const ContinueResult = (props: NodeViewProps) => {
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeout = useRef<NodeJS.Timeout>();
+  const clearContinueRes = useAIEditor((state) => state.clearContinueRes);
 
-  const handleAccept = () => {
+  const removeNode = () => {
+    clearContinueRes();
+    props.deleteNode();
+  };
+
+  const handleAccept = useCallback(() => {
+    removeNode();
     props.editor
       .chain()
       .focus()
       .insertContentAt(continueInsertPos ?? 0, ` ${generatedResult}`)
       .run();
-    props.deleteNode();
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [continueInsertPos, generatedResult]);
+
   useEffect(() => {
-    if (!generatedResult) return;
+    if (!generatedResult) {
+      return;
+    }
     if (currentIndex < generatedResult.length) {
       timeout.current = setTimeout(() => {
         setCurrentText((prevText) => prevText + generatedResult[currentIndex]);
         setCurrentIndex((prevIndex) => prevIndex + 1);
-      }, 20);
+      }, 10);
     } else {
       setShowAccept(true);
       timeout.current && clearTimeout(timeout.current);
@@ -43,10 +53,23 @@ const ContinueResult = (props: NodeViewProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, generatedResult]);
 
-  const clearContinueRes = useAIEditor((state) => state.clearContinueRes);
+  useEffect(() => {
+    const handleKeyDown = async (event: KeyboardEvent) => {
+      event.preventDefault();
+      if (event.key === 'Tab') {
+        handleAccept();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleAccept]);
+
   useUnmount(() => {
     clearContinueRes();
   });
+
   return (
     <NodeViewWrapper as={'span'} className='relative'>
       <NodeViewContent
@@ -54,8 +77,7 @@ const ContinueResult = (props: NodeViewProps) => {
         contentEditable={false}
         className='pointer-events-none select-none text-doc-primary'
       >
-        &nbsp;
-        {currentText}
+        &nbsp;{currentText}
       </NodeViewContent>
       {showAccept && (
         <Button
