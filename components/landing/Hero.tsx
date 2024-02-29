@@ -6,10 +6,14 @@ import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SetStateAction, useCallback, useEffect, useState } from 'react';
+import { ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import useLocalization from '@/hooks/useLocalization';
+import { usePostABTest, usePostABTestByToken, usePostABTestPagePoint, usePostABTestPagePointByToken } from '@/query/query';
+import Cookies from 'js-cookie';
+import { usePostHog } from 'posthog-js/react';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 
 const HeroCarousel = dynamic(
   () => import('./LandingCarousel').then((mod) => mod.HeroCarousel),
@@ -19,17 +23,28 @@ const HeroCarousel = dynamic(
 );
 
 const Hero = () => {
+
   const [selected, setSelected] = useState<number>(0);
 
   const [autoSwitchInterval, setAutoSwitchInterval] = useState<number | null>(null);
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   const { ref } = useInviewCapture('ScreenI');
+  const { t,getCurrentLanguage } = useLocalization();
+  const [flag, setFlag] = useState('')
+
+  const posthog = usePostHog()
+  
+  const { mutateAsync: handleAbTestPoint } = usePostABTestPagePoint();
+  const { mutateAsync: handleAbTestByTokenPoint } = usePostABTestPagePointByToken();
+  const { mutateAsync: handleAbTest} = usePostABTest();
+  const { mutateAsync: handleAbTestByToken} = usePostABTestByToken();
+
+  const [currentTitleNode, setCurrentTitleNode] = useState<ReactNode>()
+
   const memoSetSelected = useCallback((index: number) => {
    
     setSelected(index);
   }, []);
-  
-  const { t,getCurrentLanguage } = useLocalization();
 
   const handleMouseEnter = (index: number) => {
     setSelected(index);
@@ -40,10 +55,29 @@ const Hero = () => {
     }
   };
 
-  
   const handleMouseLeave = () => {
     setIsMouseOver(false);
   };
+
+ 
+
+  useEffect(()=>{
+    if (posthog) {
+      console.log("ab-test:",posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '') )
+      setFlag(`${posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '') }`)
+    }
+  },[])
+
+  useUpdateEffect(()=>{
+    if (flag && flag !== "undefined") {
+      abTest(flag)
+      if (flag === 'v2') {
+        setCurrentTitleNode(v3Title)
+      } else {
+        setCurrentTitleNode(v2Title)
+      }
+    }
+  },[flag])
 
   const startAutoSwitch = useCallback(() => {
     if (!autoSwitchInterval) {
@@ -55,7 +89,7 @@ const Hero = () => {
   }, [autoSwitchInterval]);
 
   useEffect(() => {
-    
+
     // 只有在非手机设备上才启用自动切换
     if (typeof window !== 'undefined' && window.innerWidth > 768 && !isMouseOver) {
       startAutoSwitch();
@@ -67,6 +101,61 @@ const Hero = () => {
       }
     };
   }, [isMouseOver, startAutoSwitch]);
+
+  useEffect(() => {
+    const initialDelay = 2000; // 初始延迟 2 秒
+    const interval = 2000; // 间隔时间为 2 秒
+    const maxDelay = 16000; // 最大延迟 16 秒
+    let delay = initialDelay;
+    let param = 0;
+
+    const timer = setTimeout(() => {
+      abTestPoint(param);
+      param += 2; // 参数递增
+    }, initialDelay);
+
+    const intervalTimer = setInterval(() => {
+      if (delay >= maxDelay) {
+        clearInterval(intervalTimer);
+        return;
+      }
+      abTestPoint(param);
+      param *= 2; // 参数乘以 2
+      delay *= 2; // 延迟乘以 2
+    }, interval);
+
+    // 在组件卸载时清除定时器
+    return () => {
+      clearTimeout(timer);
+      clearInterval(intervalTimer);
+    };
+  }, []); // 仅在组件挂载时执行
+
+  async function abTestPoint(duration: number) {
+    const token = Cookies.get('token');
+    const pageName = "index"
+    if (token) {
+      await handleAbTestByTokenPoint({
+        page: pageName,
+        duration: duration
+      })
+    } else {
+      await handleAbTestPoint({
+        page: pageName,
+        duration: duration
+      })
+    }
+  }
+
+  async function abTest(flag: string) {
+    const token = Cookies.get('token');
+    if (token) {
+      await handleAbTest(flag);
+    } else {
+      await handleAbTestByToken(flag);
+    }
+  }
+
 
   return (
     <m.section
@@ -101,15 +190,16 @@ const Hero = () => {
         {
           getCurrentLanguage() === 'en'?
           // 英文  
-          <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
-            <span  className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-            {t("transform")} 
-            </span>{' '}
-            {t('your')}
-            <br className='sm:hidden' /> {t('academic')}
-            <br className='hidden sm:block' /> {t('writing')}
-            <br className='sm:hidden' /> {t('journey')}
-          </h1>
+          // <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
+          //   <span  className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
+          //   {t("transform")} 
+          //   </span>{' '}
+          //   {t('your')}
+          //   <br className='sm:hidden' /> {t('academic')}
+          //   <br className='hidden sm:block' /> {t('writing')}
+          //   <br className='sm:hidden' /> {t('journey')}
+          // </h1>
+          currentTitleNode
           :
           // 中文  
           <h1 style={{fontFamily: "XiQuejuzhenti"}} className='text-center font-baskerville text-[32lpx] font-[400] leading-normal sm:text-center sm:text-[48px]'>
@@ -117,7 +207,7 @@ const Hero = () => {
           </h1>
         }
        
-        <Spacer y='20' />
+        {/* <Spacer y='20' />
         {
           // 英文
            getCurrentLanguage() === 'en'? 
@@ -133,7 +223,7 @@ const Hero = () => {
           <p className='text-center text-[14px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
             {t('experience_the')}{' '}<br/>{t('one_stop')}{t('that_enhances_writing')}{t('efficiency')}{t('and_elevates')}{t('quality')}{t('paper')}
           </p>
-        }
+        } */}
         
         <Spacer y='40' />
         <div className='relative flex flex-col items-center justify-center w-full pl-2 gap-x-0 gap-y-4 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
@@ -211,4 +301,54 @@ const Hero = () => {
     </m.section>
   );
 };
+
+
+ const v2Title = () => {
+   const {t} = useLocalization();
+  return (
+    <>
+      <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
+        <span  className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
+        {t("save_you_hours")}
+        </span>{' '}{t('in')} 
+        <br className='sm:hidden' /><br/> {t('academic_research_and_writing')}
+      </h1>
+      <Spacer y='30' />
+      <p className='text-center text-[18px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
+        {t('pro_dreams')}{' '}
+        <span className='font-bold'>{t('one_stop_solution')}</span>{' '}
+        {t('helps_you_write')}{' '}
+        <span className='font-bold'>{t('better')}</span>{' '}
+        {t('and')}{' '}
+        <span className='font-bold'>{t('faster')}</span>{' '}
+        {t('with_confidence')}
+      </p>
+    </>
+    
+  )
+ }
+
+ const v3Title = () => {
+  const {t} = useLocalization();
+  return (
+    <>
+      <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
+        {t('looking_for_a_tool_meeting')}
+        <br/> <span  className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
+        {t("all_your_needs")}{' '}
+        </span>{' '}{t('in_academic_paper')}
+      </h1>
+      <Spacer y='30' />
+      <p className='text-center text-[18px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
+        {t('discover_the')}{' '}
+        <span className='font-bold'>{t('ultimate_solution')}</span>{' '}
+        {t('for_your_academic_paper_requirements_with_pro_dream')}{' '}
+      </p>
+    </>
+    
+  )
+ }
+
+
+
 export default Hero;
