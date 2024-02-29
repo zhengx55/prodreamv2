@@ -12,7 +12,7 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = { editor: Editor };
 const Trigger = ({ editor }: Props) => {
@@ -22,6 +22,19 @@ const Trigger = ({ editor }: Props) => {
   const queryClient = useQueryClient();
   const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
   const updateInsertPos = useAIEditor((state) => state.updateInsertPos);
+  useEffect(() => {
+    const handleKeyDown = async (event: KeyboardEvent) => {
+      event.preventDefault();
+      if ((event.metaKey || event.ctrlKey) && event.key === '/') {
+        await handleContinueWritting();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const { mutateAsync: handleContinue } = useMutation({
     mutationFn: (params: { tool: string; text: string }) => copilot(params),
     onMutate: () => {
@@ -77,13 +90,6 @@ const Trigger = ({ editor }: Props) => {
     });
   };
 
-  //   const handleKeydown = async (event: KeyboardEvent<HTMLButtonElement>) => {
-  //     if (event.code === 'i') {
-  //       await handleContinueWritting();
-  //       // 在这里执行你想要的操作
-  //     }
-  //   };
-
   return (
     <Button
       role='button'
@@ -108,7 +114,7 @@ const Trigger = ({ editor }: Props) => {
               <p>Continue Writing</p>
               <Spacer y='5' />
               <p className='text-[#939393]'>
-                cmd/ctrl + &quot;&gt;&quot; for shortcut
+                cmd/ctrl + &quot;/&quot; for shortcut
               </p>
             </TooltipContent>
           </Tooltip>
