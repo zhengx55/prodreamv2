@@ -3,21 +3,17 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-  DropdownMenuItem
 } from '@/components/ui/dropdown-menu';
+import useLocalization from '@/hooks/useLocalization';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import useLocalization from '@/hooks/useLocalization';
-import _ from 'lodash';
 
 const NavBar = () => {
-  
   const { t, getCurrentLanguage, locales } = useLocalization();
 
-
   return (
-    <section className='z-50 flex justify-center w-full h-16 py-3 bg-white'>
+    <section className='z-50 flex h-16 w-full justify-center bg-white py-3'>
       <nav className='flex-between w-full px-4 sm:max-w-[1200px] sm:px-0'>
         <div className='flex items-center gap-x-10'>
           <Image
@@ -25,7 +21,7 @@ const NavBar = () => {
             width={160}
             height={30}
             alt='logo'
-            className='w-40 h-auto sm:w-36'
+            className='h-auto w-40 sm:w-36'
             priority
           />
           {/* <Button
@@ -62,7 +58,7 @@ const NavBar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           </Button> */}
-          <Link href={'https://www.prodream.ai/blog'} passHref target='_blank'>
+          <Link href={'https://prodream.ai/blog'} passHref target='_blank'>
             <Button
               className='hidden w-10 text-[#3B3A40] sm:block'
               variant={'ghost'}
@@ -71,7 +67,7 @@ const NavBar = () => {
             </Button>
           </Link>
         </div>
-        <div className='items-center hidden gap-x-8 sm:flex'>
+        <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={'/login'} passHref>
             <Button variant={'ghost'} className='text-doc-primary'>
               {t('log_in')}
@@ -79,7 +75,8 @@ const NavBar = () => {
           </Link>
           <Link href={'/signup'} passHref>
             <Button className='bg-doc-primary hover:bg-doc-primary'>
-              <strong>{t('start_writing')}</strong>{t('It_s_free')}
+              <strong>{t('start_writing')}</strong>
+              {t('It_s_free')}
             </Button>
           </Link>
         </div>
@@ -124,7 +121,8 @@ const NavBar = () => {
                     role='link'
                     className='w-[340px] bg-doc-primary hover:bg-doc-primary'
                   >
-                    <strong>{t('start_writing')}</strong>{t('It_s_free')}
+                    <strong>{t('start_writing')}</strong>
+                    {t('It_s_free')}
                   </Button>
                 </Link>
               </div>
