@@ -114,6 +114,10 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     onCreate: ({ editor }) => {
       setEditorInstance(editor as EditorType);
     },
+    onBlur: ({ editor }) => {
+      updateshowContinue(null);
+      editor.commands.setTextSelection(0);
+    },
     onSelectionUpdate: ({ editor }) => {
       updateshowContinue(null);
       const { from, to } = editor.state.selection;
