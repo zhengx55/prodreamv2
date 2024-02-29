@@ -12,7 +12,7 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 type Props = { editor: Editor };
 const Trigger = ({ editor }: Props) => {
@@ -133,4 +133,4 @@ const Trigger = ({ editor }: Props) => {
     </Button>
   );
 };
-export default Trigger;
+export default memo(Trigger);
