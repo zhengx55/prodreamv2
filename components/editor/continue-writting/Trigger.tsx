@@ -21,11 +21,12 @@ const Trigger = ({ editor }: Props) => {
   const [generating, setGenerating] = useState(false);
   const queryClient = useQueryClient();
   const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
+
   const updateInsertPos = useAIEditor((state) => state.updateInsertPos);
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
-      event.preventDefault();
       if ((event.metaKey || event.ctrlKey) && event.key === '/') {
+        event.preventDefault();
         await handleContinueWritting();
       }
     };
@@ -35,6 +36,7 @@ const Trigger = ({ editor }: Props) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const { mutateAsync: handleContinue } = useMutation({
     mutationFn: (params: { tool: string; text: string }) => copilot(params),
     onMutate: () => {
@@ -93,7 +95,6 @@ const Trigger = ({ editor }: Props) => {
   return (
     <Button
       role='button'
-      //   onKeyDown={handleKeydown}
       onClick={handleContinueWritting}
       disabled={generating}
       style={{

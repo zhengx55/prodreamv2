@@ -1,3 +1,4 @@
+import { PageTrack } from '@/query/api';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useInView } from 'react-intersection-observer';
 
@@ -7,16 +8,7 @@ export default function useInviewCapture(event: string) {
   });
   useUpdateEffect(() => {
     async function anonymous() {
-      try {
-        await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/anonymous`,
-          {
-            method: 'POST',
-          }
-        );
-      } catch (error) {
-        console.error(error);
-      }
+      await PageTrack(event, '0');
     }
 
     if (inView) {
