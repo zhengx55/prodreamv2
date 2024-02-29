@@ -13,14 +13,19 @@ import { memo, useCallback, useEffect, useRef, useState } from 'react';
 const ContinueResult = (props: NodeViewProps) => {
   const [showAccept, setShowAccept] = useState(false);
   const generatedResult = useAIEditor((state) => state.continueResult);
-  console.log('🚀 ~ ContinueResult ~ generatedResult:', generatedResult);
   const continueInsertPos = useAIEditor((state) => state.continueInsertPos);
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeout = useRef<NodeJS.Timeout>();
+  const clearContinueRes = useAIEditor((state) => state.clearContinueRes);
+
+  const removeNode = () => {
+    clearContinueRes();
+    props.deleteNode();
+  };
 
   const handleAccept = useCallback(() => {
-    props.deleteNode();
+    removeNode();
     props.editor
       .chain()
       .focus()
@@ -30,7 +35,9 @@ const ContinueResult = (props: NodeViewProps) => {
   }, [continueInsertPos, generatedResult]);
 
   useEffect(() => {
-    if (!generatedResult) return;
+    if (!generatedResult) {
+      return;
+    }
     if (currentIndex < generatedResult.length) {
       timeout.current = setTimeout(() => {
         setCurrentText((prevText) => prevText + generatedResult[currentIndex]);
@@ -45,8 +52,6 @@ const ContinueResult = (props: NodeViewProps) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, generatedResult]);
-
-  const clearContinueRes = useAIEditor((state) => state.clearContinueRes);
 
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
@@ -64,6 +69,7 @@ const ContinueResult = (props: NodeViewProps) => {
   useUnmount(() => {
     clearContinueRes();
   });
+
   return (
     <NodeViewWrapper as={'span'} className='relative'>
       <NodeViewContent
@@ -71,8 +77,7 @@ const ContinueResult = (props: NodeViewProps) => {
         contentEditable={false}
         className='pointer-events-none select-none text-doc-primary'
       >
-        &nbsp;
-        {currentText}
+        &nbsp;{currentText}
       </NodeViewContent>
       {showAccept && (
         <Button

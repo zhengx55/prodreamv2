@@ -21,7 +21,6 @@ const Trigger = ({ editor }: Props) => {
   const [generating, setGenerating] = useState(false);
   const queryClient = useQueryClient();
   const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
-
   const updateInsertPos = useAIEditor((state) => state.updateInsertPos);
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
@@ -43,16 +42,39 @@ const Trigger = ({ editor }: Props) => {
       setGenerating(true);
     },
     onSuccess: async (data: ReadableStream) => {
+      let flag: boolean = false;
       queryClient.invalidateQueries({ queryKey: ['membership'] });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
-      updateshowContinue(null);
-      setGenerating(false);
-      editor.commands.insertContent({
-        type: 'ContinueResult',
-      });
       while (true) {
         const { value, done } = await reader.read();
-        handleStreamData(value);
+        const lines = value?.split('\n');
+        const dataLines = lines?.filter(
+          (line, index) =>
+            line.startsWith('data:') &&
+            lines.at(index - 1)?.startsWith('event: data')
+        );
+        let result = '';
+        const eventData: string[] | undefined = dataLines?.map((line) =>
+          JSON.parse(line.slice('data:'.length))
+        );
+
+        if (!flag && eventData?.at(0)?.trim() !== '') {
+          flag = true;
+          eventData?.forEach((word) => {
+            result += word;
+          });
+          updateContinueRes(result);
+          updateshowContinue(null);
+          setGenerating(false);
+          editor.commands.insertContent({
+            type: 'ContinueResult',
+          });
+        } else {
+          eventData?.forEach((word) => {
+            result += word;
+          });
+          updateContinueRes(result);
+        }
         if (done) {
           break;
         }
@@ -64,23 +86,6 @@ const Trigger = ({ editor }: Props) => {
       setGenerating(false);
     },
   });
-
-  const handleStreamData = (value: string | undefined) => {
-    const lines = value?.split('\n');
-    const dataLines = lines?.filter(
-      (line, index) =>
-        line.startsWith('data:') &&
-        lines.at(index - 1)?.startsWith('event: data')
-    );
-    const eventData = dataLines?.map((line) =>
-      JSON.parse(line.slice('data:'.length))
-    );
-    let result = '';
-    eventData?.forEach((word) => {
-      result += word;
-    });
-    updateContinueRes(result);
-  };
 
   const handleContinueWritting = async () => {
     const text_before = editor.state.selection.$head.parent.textContent;
