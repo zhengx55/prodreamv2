@@ -2,9 +2,11 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import useLocalization from '@/hooks/useLocalization';
+import _ from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '../ui/button';
@@ -25,38 +27,43 @@ const NavBar = () => {
             priority
           />
           <Button
-              className='hidden text-[#3B3A40] w-10 sm:block'
-              variant={'ghost'}
-            >
-          <DropdownMenu>
-            <DropdownMenuTrigger className='w-10 ' asChild>
-              <span  className='hidden   text-[#3B3A40] sm:block hover:bg-shadow-50'>
-                {_.toUpper(getCurrentLanguage())}
-              </span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              side='bottom'
-              align='center'
-              sideOffset={3}
-              className='bg-white'
-            >
-              {locales.map((locale,index) => 
-               <Link  key={locale ?? index} href={`/${locale === 'en'?'':locale}`}>
-                <DropdownMenuItem
-                 
-                  hidden= {true}
-                  className='text-center hover:bg-doc-primary'
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                <span className='block w-20 pl-4 text-cente'>{_.toUpper(locale)} </span>
-                </DropdownMenuItem> 
-              </Link> )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            className='hidden w-10 text-[#3B3A40] sm:block'
+            variant={'ghost'}
+          >
+            <DropdownMenu>
+              <DropdownMenuTrigger className='w-10 ' asChild>
+                <span className='hidden   text-[#3B3A40] hover:bg-shadow-50 sm:block'>
+                  {_.toUpper(getCurrentLanguage())}
+                </span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side='bottom'
+                align='center'
+                sideOffset={3}
+                className='bg-white'
+              >
+                {locales.map((locale: string | undefined, index: any) => (
+                  <Link
+                    key={locale ?? index}
+                    href={`/${locale === 'en' ? '' : locale}`}
+                  >
+                    <DropdownMenuItem
+                      hidden={true}
+                      className='text-center hover:bg-doc-primary'
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      <span className='text-cente block w-20 pl-4'>
+                        {_.toUpper(locale)}{' '}
+                      </span>
+                    </DropdownMenuItem>
+                  </Link>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </Button>
-          <Link href={'https://www.prodream.ai/blog'} passHref target='_blank'>
+          <Link href={'https://prodream.ai/blog'} passHref target='_blank'>
             <Button
               className='hidden w-10 text-[#3B3A40] sm:block'
               variant={'ghost'}
