@@ -66,9 +66,13 @@ const Trigger = ({ editor }: Props) => {
           updateContinueRes(result);
           updateshowContinue(null);
           setGenerating(false);
-          editor.commands.insertContent({
-            type: 'ContinueResult',
-          });
+          editor
+            .chain()
+            .focus()
+            .insertContent({
+              type: 'ContinueResult',
+            })
+            .run();
         } else {
           eventData?.forEach((word) => {
             result += word;

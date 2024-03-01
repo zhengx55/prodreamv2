@@ -41,9 +41,9 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     const { doc } = editor.state;
     doc.descendants((node, pos) => {
       if (
-        node.isText &&
+        node.type.name === 'paragraph' &&
         Boolean(node.textContent.trim()) &&
-        pos + node.nodeSize === anchor
+        pos + node.nodeSize - 1 === anchor
       ) {
         const coordinate = posToDOMRect(editor.view, anchor, anchor);
         const parentElement = editor.view.dom.parentElement?.parentElement;

@@ -37,6 +37,7 @@ export const useEditorCommand = (editor: Editor) => {
       if (from === to) {
         editor
           .chain()
+          .focus()
           .insertContentAt(from, value, {
             parseOptions: { preserveWhitespace: 'full' },
           })
@@ -45,6 +46,7 @@ export const useEditorCommand = (editor: Editor) => {
       } else {
         editor
           .chain()
+          .focus()
           .deleteRange({ from, to })
           .insertContentAt(from, value, {
             parseOptions: { preserveWhitespace: 'full' },
@@ -61,6 +63,7 @@ export const useEditorCommand = (editor: Editor) => {
       if (!editor) return;
       editor
         .chain()
+        .focus()
         .deleteRange({ from, to })
         .insertContentAt(from, value, {
           parseOptions: { preserveWhitespace: 'full' },
@@ -138,6 +141,7 @@ export const useEditorCommand = (editor: Editor) => {
     (content: string, from: number, to: number) => {
       editor
         .chain()
+        .focus()
         .deleteRange({
           from,
           to,
