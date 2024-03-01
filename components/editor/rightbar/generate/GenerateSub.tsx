@@ -1,7 +1,9 @@
 import Loading from '@/components/root/CustomLoading';
+import { H1_regex, H2_regex } from '@/constant';
 import { copilot, outline } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { m } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { memo, useCallback, useRef, useState } from 'react';
@@ -77,27 +79,39 @@ const GenerateSub = ({ generateTab, label }: Props) => {
   const handleStreamData = (value: string | undefined) => {
     if (!value) return;
     const lines = value.split('\n');
-    const dataLines = lines.filter(
-      (line, index) =>
-        line.startsWith('data:') &&
-        lines.at(index - 1)?.startsWith('event: data')
-    );
-    const eventData = dataLines.map((line) => {
-      let parsed: string = JSON.parse(line.slice('data:'.length));
-      if (/^([^#]*#){1}[^#]*$/.test(parsed)) {
-        parsed = parsed.replaceAll('#', '##');
-      } else if (/^[^#]*##([^#]|$)/.test(parsed)) {
-        parsed = parsed.replaceAll('##', '###');
+    let dataLines = [];
+    for (let i = 0; i < lines.length; i++) {
+      if (
+        lines[i].startsWith('data:') &&
+        lines[i - 1]?.startsWith('event: data')
+      ) {
+        dataLines.push(lines[i]);
       }
-      return parsed;
-    });
-    let result = '';
-    eventData.forEach((word) => {
-      result += word;
-    });
-    setGeneratedResult((prev) => (prev += result));
-    if (isGenerating && result.trim()) setIsGenerating(false);
+    }
+    let eventData: string[] = [];
+    if (OutlineTypes.includes(generateTab)) {
+      eventData = dataLines.map((line) => {
+        let parsed: string = JSON.parse(line.slice('data:'.length));
+        if (H1_regex.test(parsed)) {
+          parsed = parsed.replaceAll('#', '##');
+        } else if (H2_regex.test(parsed)) {
+          parsed = parsed.replaceAll('##', '###');
+        }
+        return parsed;
+      });
+    } else {
+      eventData = dataLines.map((line) => {
+        return JSON.parse(line.slice('data:'.length));
+      });
+    }
+
+    setGeneratedResult((prev) => (prev += eventData.join('')));
   };
+  useUpdateEffect(() => {
+    if (generatedResult) {
+      setIsGenerating(false);
+    }
+  }, [generatedResult]);
 
   const handleGenerate = useCallback(async () => {
     const text = editor?.getText();
