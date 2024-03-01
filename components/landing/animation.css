@@ -9,37 +9,27 @@
   position: relative;
   height: 55px; /* 调整为适合的高度 */
   width: 320px;
+  padding-right: 10px;
+  text-align: right;
 }
 
 .containerV2 {
   position: relative;
   height: 55px; /* 调整为适合的高度 */
-  width: 430px;
+  width: 420px;
   margin-left: 10;
+  padding-left: 10px;
+  text-align: left;
 }
-
 
 .text {
   position: absolute;
   top: 30;
-  text-align: right;
-  padding-right: 10px;
   left: 0;
   opacity: 0;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
 }
 
-.text2 {
-  position: absolute;
-  top: 30;
-  padding-left: 10px;
-  text-align: left;
-  left: 0;
-  opacity: 0;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
-}
+
 
 .slide-in-bottom {
 	-webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) reverse both;

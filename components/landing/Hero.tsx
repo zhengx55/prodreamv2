@@ -40,7 +40,7 @@ const Hero = () => {
   const { mutateAsync: handleAbTest} = usePostABTest();
   const { mutateAsync: handleAbTestByToken} = usePostABTestByToken();
 
-  const [currentTitleNode, setCurrentTitleNode] = useState<ReactNode>()
+  const [currentTitleNode, setCurrentTitleNode] = useState<ReactNode>( <V2Title/>)
 
   const memoSetSelected = useCallback((index: number) => {
    
@@ -199,7 +199,7 @@ const Hero = () => {
           //   <br className='hidden sm:block' /> {t('writing')}
           //   <br className='sm:hidden' /> {t('journey')}
           // </h1>
-          currentTitleNode ?? <V2Title />
+          currentTitleNode 
           :
           // 中文  
           <h1 style={{fontFamily: "XiQuejuzhenti"}} className='text-center font-baskerville text-[32lpx] font-[400] leading-normal sm:text-center sm:text-[48px]'>
@@ -310,7 +310,7 @@ export const V2Title: React.FC = () => {
       <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
         {"Say Goodbye to"}{' '}
         <span  className='relative inline-block before:absolute before:-inset-1 before:top-[28px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-         <TextAnimation texts={["Brain Fog","Plagiarism Risks","Grammer Issues","AI Concerns","Quality Worries"]} className='containerV2' textClass='text2'/>
+         <TextAnimation texts={["Brain Fog","Plagiarism Risks","Grammer Issues","AI Concerns","Quality Worries"]} classN='containerV2' />
         </span>
         <br className='sm:hidden' /><br/> {"in Academic Writing"}
        
@@ -337,7 +337,7 @@ export const V2Title: React.FC = () => {
       <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
         {"Generate a Strong Paper"}
         <br/> <span  className='relative inline-block before:absolute before:-inset-1 before:top-[38px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-          <TextAnimation texts={["Outline","Introduction","Summary","Conclusion","Citation List"]} className={"containerV3"} textClass='text'/>
+          <TextAnimation texts={["Outline","Introduction","Summary","Conclusion","Citation List"]} classN={"containerV3"} />
         </span>{' '}{` in Minutes!`}
        
       </h1>
@@ -352,9 +352,9 @@ export const V2Title: React.FC = () => {
   )
  }
 
- export const TextAnimation = (props: {texts: string[] , className: string, textClass: string} ) => {
+ export const TextAnimation = (props: {texts: string[] , classN: string, } ) => {
 
-  const {texts , className, textClass} = props;
+  const {texts , classN} = props;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleTextIndex, setVisibleTextIndex] = useState(0);
@@ -365,18 +365,18 @@ export const V2Title: React.FC = () => {
       setTimeout(() => {
         setCurrentIndex(prev => (prev === texts.length - 1 ? 0 : prev + 1)); // 切换当前文本索引
       }, 1500); // 在当前文本隐藏后1.5秒再次切换到下一个文本
-    }, 5000); // 5000毫秒切换一次
+    }, 3000); // 5000毫秒切换一次
 
     return () => clearInterval(interval);
   }, [texts]);
 
   return (
-    <span className={className ?? 'container'} style={{ display: 'inline-block' }}>
+    <span className={classN ?? 'container'} style={{ display: 'inline-block' }}>
       {texts.map((text, index) => (
         <span
           key={index}
-          className={`${textClass ?? 'text'} ${index === visibleTextIndex ? 'slide-in-top' : 'slide-in-bottom'}`}
-          style={{ zIndex: index === visibleTextIndex ? 1 : 0 , width:"100%",paddingRight:10 }}
+          className={`text ${index === visibleTextIndex ? 'slide-in-top' : 'slide-in-bottom'}`}
+          style={{ zIndex: index === visibleTextIndex ? 1 : 0 , width:"100%" }}
         >
           {text}
         </span>
