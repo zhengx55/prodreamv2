@@ -318,8 +318,8 @@ export const V2Title: React.FC = () => {
         <span  className='relative inline-block before:absolute before:-inset-1 before:top-[28px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
         <TypeWriterAnimation  texts={["Brain Fog","Plagiarism Risks","Grammar Issues","AI Concerns","Quality Worries"]} /> <span className="cursor"></span>
          {/* <TextAnimation texts={["Brain Fog","Plagiarism Risks","Grammer Issues","AI Concerns","Quality Worries"]} classN='containerV2' /> */}
-        </span>
-        <br className='sm:hidden' /><br/> {"in Academic Writing"}
+        </span><span className='sm:block'  >{'    '}</span>
+       <br className='sm:hidden'/> {"in Academic Writing"}
        
       </h1>
       <Spacer y='30' />
