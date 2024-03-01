@@ -14,6 +14,7 @@ import { usePostABTest, usePostABTestByToken, usePostABTestPagePoint, usePostABT
 import Cookies from 'js-cookie';
 import { usePostHog } from 'posthog-js/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
+import './animation.css';
 
 const HeroCarousel = dynamic(
   () => import('./LandingCarousel').then((mod) => mod.HeroCarousel),
@@ -59,11 +60,8 @@ const Hero = () => {
     setIsMouseOver(false);
   };
 
- 
-
   useEffect(()=>{
     if (posthog) {
-      console.log("ab-test:",posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '') )
       setFlag(`${posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '') }`)
     }
   },[])
@@ -134,6 +132,7 @@ const Hero = () => {
   async function abTestPoint(duration: number) {
     const token = Cookies.get('token');
     const pageName = "index"
+    
     if (token) {
       await handleAbTestByTokenPoint({
         page: pageName,
@@ -149,10 +148,11 @@ const Hero = () => {
 
   async function abTest(flag: string) {
     const token = Cookies.get('token');
+    
     if (token) {
-      await handleAbTest(flag);
-    } else {
       await handleAbTestByToken(flag);
+    } else {
+      await handleAbTest(flag);
     }
   }
 
@@ -199,7 +199,7 @@ const Hero = () => {
           //   <br className='hidden sm:block' /> {t('writing')}
           //   <br className='sm:hidden' /> {t('journey')}
           // </h1>
-          currentTitleNode
+          currentTitleNode ?? <V2Title />
           :
           // 中文  
           <h1 style={{fontFamily: "XiQuejuzhenti"}} className='text-center font-baskerville text-[32lpx] font-[400] leading-normal sm:text-center sm:text-[48px]'>
@@ -308,10 +308,12 @@ export const V2Title: React.FC = () => {
   return (
     <>
       <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
-        <span  className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-        {t("save_you_hours")}
-        </span>{' '}{t('in')} 
-        <br className='sm:hidden' /><br/> {t('academic_research_and_writing')}
+        {"Say Goodbye to"}{' '}
+        <span  className='relative inline-block before:absolute before:-inset-1 before:top-[28px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
+         <TextAnimation texts={["Brain Fog","Plagiarism Risks","Grammer Issues","AI Concerns","Quality Worries"]} className='containerV2' textClass='text2'/>
+        </span>
+        <br className='sm:hidden' /><br/> {"in Academic Writing"}
+       
       </h1>
       <Spacer y='30' />
       <p className='text-center text-[18px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
@@ -319,7 +321,7 @@ export const V2Title: React.FC = () => {
         <span className='font-bold'>{t('one_stop_solution')}</span>{' '}
         {t('helps_you_write')}{' '}
         <span className='font-bold'>{t('better')}</span>{' '}
-        {t('and')}{' '}
+        {t('and')}{' '} 
         <span className='font-bold'>{t('faster')}</span>{' '}
         {t('with_confidence')}
       </p>
@@ -333,14 +335,15 @@ export const V2Title: React.FC = () => {
   return (
     <>
       <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
-        {t('looking_for_a_tool_meeting')}
-        <br/> <span  className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-        {t("all_your_needs")}{' '}
-        </span>{' '}{t('in_academic_paper')}
+        {"Generate a Strong Paper"}
+        <br/> <span  className='relative inline-block before:absolute before:-inset-1 before:top-[38px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
+          <TextAnimation texts={["Outline","Introduction","Summary","Conclusion","Citation List"]} className={"containerV3"} textClass='text'/>
+        </span>{' '}{` in Minutes!`}
+       
       </h1>
       <Spacer y='30' />
       <p className='text-center text-[18px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-        {t('discover_the')}{' '}
+        {t('discover_the')}{' '} 
         <span className='font-bold'>{t('ultimate_solution')}</span>{' '}
         {t('for_your_academic_paper_requirements_with_pro_dream')}{' '}
       </p>
@@ -348,6 +351,39 @@ export const V2Title: React.FC = () => {
     
   )
  }
+
+ export const TextAnimation = (props: {texts: string[] , className: string, textClass: string} ) => {
+
+  const {texts , className, textClass} = props;
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleTextIndex, setVisibleTextIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisibleTextIndex(prev => (prev === texts.length - 1 ? 0 : prev + 1)); // 切换显示的文本索引
+      setTimeout(() => {
+        setCurrentIndex(prev => (prev === texts.length - 1 ? 0 : prev + 1)); // 切换当前文本索引
+      }, 1500); // 在当前文本隐藏后1.5秒再次切换到下一个文本
+    }, 5000); // 5000毫秒切换一次
+
+    return () => clearInterval(interval);
+  }, [texts]);
+
+  return (
+    <span className={className ?? 'container'} style={{ display: 'inline-block' }}>
+      {texts.map((text, index) => (
+        <span
+          key={index}
+          className={`${textClass ?? 'text'} ${index === visibleTextIndex ? 'slide-in-top' : 'slide-in-bottom'}`}
+          style={{ zIndex: index === visibleTextIndex ? 1 : 0 , width:"100%",paddingRight:10 }}
+        >
+          {text}
+        </span>
+      ))}
+    </span>
+  );
+};
 
 
 
