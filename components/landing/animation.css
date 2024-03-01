@@ -29,8 +29,6 @@
   opacity: 0;
 }
 
-
-
 .slide-in-bottom {
 	-webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) reverse both;
 	        animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) reverse both;
@@ -89,4 +87,19 @@
             transform: translateY(0);
     opacity: 1;
   }
+}
+
+@keyframes blink {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.3rem; /* 光标宽度 */
+  height: 2.5rem; /* 光标高度 */
+  font-size: 24px;
+  background-color: black; /* 光标颜色 */
+  animation: blink 1s infinite; /* 设置闪烁动画 */
 }
