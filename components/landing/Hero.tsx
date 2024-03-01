@@ -314,9 +314,9 @@ export const V2Title: React.FC = () => {
     <>
       <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
         {"Say Goodbye to"}{' '}
-      
+        <br className='sm:hidden' />
         <span  className='relative inline-block before:absolute before:-inset-1 before:top-[28px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-        <TypeWriterAnimation  texts={["Brain Fog","Plagiarism Risks","Grammer Issues","AI Concerns","Quality Worries"]} /> <span className="cursor"></span>
+        <TypeWriterAnimation  texts={["Brain Fog","Plagiarism Risks","Grammar Issues","AI Concerns","Quality Worries"]} /> <span className="cursor"></span>
          {/* <TextAnimation texts={["Brain Fog","Plagiarism Risks","Grammer Issues","AI Concerns","Quality Worries"]} classN='containerV2' /> */}
         </span>
         <br className='sm:hidden' /><br/> {"in Academic Writing"}
@@ -324,7 +324,7 @@ export const V2Title: React.FC = () => {
       </h1>
       <Spacer y='30' />
       <p className='text-center text-[18px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-        {t('pro_dreams')}{' '}
+        {`ProDream's`}{' '}
         <span className='font-bold'>{t('one_stop_solution')}</span>{' '}
         {t('helps_you_write')}{' '}
         <span className='font-bold'>{t('better')}</span>{' '}
@@ -345,9 +345,9 @@ export const V2Title: React.FC = () => {
          {"Generate a Strong Paper"}
         <br/> <span  className='relative inline-block before:absolute before:-inset-1 before:top-[38px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
 
-         <TypeWriterAnimation texts={["Outline","Introduction","Summary","Conclusion","Citation List"]}  />  <span className="cursor"></span>
+         <TypeWriterAnimation texts={["Outline","Introduction","Summary","Conclusion","Citation List"]}  />  <span className="cursor"></span>  
           {/* <TextAnimation texts={["Outline","Introduction","Summary","Conclusion","Citation List"]} classN={"containerV3"} /> */}
-        </span>{' '}{` in Minutes!`}
+        </span> <br className='sm:hidden' />{' '}{` in Minutes!`}
        
       </h1>
       <Spacer y='30' />
