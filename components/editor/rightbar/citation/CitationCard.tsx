@@ -27,10 +27,6 @@ const CitationPreview = dynamic(() => import('./CitationPreview'), {
   ssr: false,
 });
 
-const MineCitationPreview = dynamic(() => import('./MineCitationPreview'), {
-  ssr: false,
-});
-
 export const SearchCitationCard = memo(
   ({ item, index }: { item: ICitation; index: number }) => {
     const { id } = useParams();
