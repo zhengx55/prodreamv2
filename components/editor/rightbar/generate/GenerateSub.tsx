@@ -41,7 +41,6 @@ const GenerateSub = ({ generateTab, label }: Props) => {
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
-        console.log('🚀 ~ onSuccess: ~ value:', value);
         handleStreamData(value);
         if (done) break;
       }

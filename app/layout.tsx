@@ -3,13 +3,10 @@ import CSPostHogProvider from '@/components/root/PostHogProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import Hotjar from '@/htojar/Hotjar';
-import { generateId } from '@/lib/utils';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
-import { cookies } from 'next/headers';
-import { PostHog } from 'posthog-node';
 import { Toaster } from 'sonner';
 import './globals.css';
 
@@ -68,7 +65,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const bootstrapData = await getBootstrapData();
+  // const bootstrapData = await getBootstrapData();
   return (
     <html
       lang='en'
@@ -77,12 +74,12 @@ export default async function RootLayout({
     >
       <Hotjar />
       <CSPostHogProvider
-        bootstrapData={
-          bootstrapData ?? {
-            distinctID: '9a59338a-2994-452f-bc9b-0052a3f07a75',
-            featureFlags: {},
-          }
-        }
+      // bootstrapData={
+      //   bootstrapData ?? {
+      //     distinctID: '9a59338a-2994-452f-bc9b-0052a3f07a75',
+      //     featureFlags: {},
+      //   }
+      // }
       >
         <body>
           <GoogleOAuthProvider
@@ -103,30 +100,30 @@ export default async function RootLayout({
   );
 }
 
-export async function getBootstrapData() {
-  let distinct_id = '';
-  const phProjectAPIKey = 'phc_hJ9Vfuzn4cByNbktugzjuJpHGkVYfXeQE494H5nla42';
-  const phCookieName = `ph_${phProjectAPIKey}_posthog`;
-  debugger;
-  const cookieStore = cookies();
-  const phCookie = cookieStore.get(phCookieName);
-  debugger;
-  if (phCookie) {
-    const phCookieParsed = JSON.parse(phCookie.value);
-    distinct_id = phCookieParsed.distinct_id;
-  }
-  if (!distinct_id) {
-    distinct_id = generateId();
-  }
+// export async function getBootstrapData() {
+//   let distinct_id = '';
+//   const phProjectAPIKey = 'phc_hJ9Vfuzn4cByNbktugzjuJpHGkVYfXeQE494H5nla42';
+//   const phCookieName = `ph_${phProjectAPIKey}_posthog`;
+//   debugger;
+//   const cookieStore = cookies();
+//   const phCookie = cookieStore.get(phCookieName);
+//   debugger;
+//   if (phCookie) {
+//     const phCookieParsed = JSON.parse(phCookie.value);
+//     distinct_id = phCookieParsed.distinct_id;
+//   }
+//   if (!distinct_id) {
+//     distinct_id = generateId();
+//   }
 
-  const client = new PostHog(phProjectAPIKey, {
-    host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-  });
-  const flags = await client.getAllFlags(distinct_id);
-  const bootstrap = {
-    distinctID: distinct_id,
-    featureFlags: flags,
-  };
+//   const client = new PostHog(phProjectAPIKey, {
+//     host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+//   });
+//   const flags = await client.getAllFlags(distinct_id);
+//   const bootstrap = {
+//     distinctID: distinct_id,
+//     featureFlags: flags,
+//   };
 
-  return bootstrap;
-}
+//   return bootstrap;
+// }
