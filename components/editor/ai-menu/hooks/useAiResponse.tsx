@@ -71,21 +71,18 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
     const eventData = dataLines.map((line) =>
       JSON.parse(line.slice('data:'.length))
     );
-    let result = '';
-    eventData.forEach((word) => {
-      result += word;
-    });
-    if (result && generating) {
+
+    if (eventData.length) {
       setGenerating(false);
     }
     setAiResult((prev) =>
       prev.length === 0
-        ? [result]
+        ? [eventData.join('')]
         : prev.length - 1 < currentResult
-          ? [...prev, result]
+          ? [...prev, eventData.join('')]
           : prev.map((item, index) => {
               if (index === currentResult) {
-                return item + result;
+                return item + eventData.join('');
               }
               return item;
             })

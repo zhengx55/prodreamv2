@@ -30,7 +30,7 @@ const Result = ({
       timeout.current = setTimeout(() => {
         setCurrentText((prevText) => prevText + generatedResult[currentIndex]);
         setCurrentIndex((prevIndex) => prevIndex + 1);
-      }, 10);
+      }, 15);
     } else {
       timeout.current && clearTimeout(timeout.current);
       setIsTyping(false);

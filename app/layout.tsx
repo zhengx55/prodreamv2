@@ -3,16 +3,15 @@ import CSPostHogProvider from '@/components/root/PostHogProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import Hotjar from '@/htojar/Hotjar';
+import { generateId } from '@/lib/utils';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
+import { cookies } from 'next/headers';
+import { PostHog } from 'posthog-node';
 import { Toaster } from 'sonner';
 import './globals.css';
-import { cookies } from 'next/headers'
-import { generateId } from '@/lib/utils';
-import { PostHog } from 'posthog-node'
-
 
 const PostHogPageView = dynamic(() => import('@/components/root/PostHug'), {
   ssr: false,
@@ -69,9 +68,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-  const bootstrapData = await getBootstrapData()
-
+  const bootstrapData = await getBootstrapData();
   return (
     <html
       lang='en'
@@ -79,10 +76,14 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <Hotjar />
-      <CSPostHogProvider  bootstrapData={bootstrapData ?? {
-        distinctID: '9a59338a-2994-452f-bc9b-0052a3f07a75',
-        featureFlags: {}
-      }}>
+      <CSPostHogProvider
+        bootstrapData={
+          bootstrapData ?? {
+            distinctID: '9a59338a-2994-452f-bc9b-0052a3f07a75',
+            featureFlags: {},
+          }
+        }
+      >
         <body>
           <GoogleOAuthProvider
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
@@ -90,7 +91,7 @@ export default async function RootLayout({
             <TanstackProvider>
               <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
                 <PageViewTrack />
-                {/* <PostHogPageView /> */}
+                <PostHogPageView />
                 {children}
                 <Toaster richColors visibleToasts={1} />
               </main>
@@ -103,30 +104,29 @@ export default async function RootLayout({
 }
 
 export async function getBootstrapData() {
-  let distinct_id = ''
-  const phProjectAPIKey = 'phc_hJ9Vfuzn4cByNbktugzjuJpHGkVYfXeQE494H5nla42'
-  const phCookieName = `ph_${phProjectAPIKey}_posthog`
+  let distinct_id = '';
+  const phProjectAPIKey = 'phc_hJ9Vfuzn4cByNbktugzjuJpHGkVYfXeQE494H5nla42';
+  const phCookieName = `ph_${phProjectAPIKey}_posthog`;
   debugger;
-  const cookieStore = cookies()
-  const phCookie = cookieStore.get(phCookieName)
+  const cookieStore = cookies();
+  const phCookie = cookieStore.get(phCookieName);
   debugger;
   if (phCookie) {
     const phCookieParsed = JSON.parse(phCookie.value);
     distinct_id = phCookieParsed.distinct_id;
   }
   if (!distinct_id) {
-    distinct_id = generateId()
+    distinct_id = generateId();
   }
 
-
-  const client = new PostHog(
-    phProjectAPIKey,
-    { host: process.env.NEXT_PUBLIC_POSTHOG_HOST })
-  const flags = await client.getAllFlags(distinct_id)
+  const client = new PostHog(phProjectAPIKey, {
+    host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+  });
+  const flags = await client.getAllFlags(distinct_id);
   const bootstrap = {
     distinctID: distinct_id,
-    featureFlags: flags
-  }
+    featureFlags: flags,
+  };
 
-  return bootstrap
+  return bootstrap;
 }

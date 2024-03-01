@@ -40,6 +40,7 @@ export const useEditorCommand = (editor: Editor) => {
           .focus()
           .insertContentAt(from, value, {
             parseOptions: { preserveWhitespace: 'full' },
+            updateSelection: true,
           })
           .setTextSelection({ from, to: from + value.length })
           .run();
@@ -50,6 +51,7 @@ export const useEditorCommand = (editor: Editor) => {
           .deleteRange({ from, to })
           .insertContentAt(from, value, {
             parseOptions: { preserveWhitespace: 'full' },
+            updateSelection: true,
           })
           .setTextSelection({ from, to: from + value.length })
           .run();
@@ -67,6 +69,7 @@ export const useEditorCommand = (editor: Editor) => {
         .deleteRange({ from, to })
         .insertContentAt(from, value, {
           parseOptions: { preserveWhitespace: 'full' },
+          updateSelection: true,
         })
         .setTextSelection({ from, to: value.length + from })
         .run();
@@ -79,14 +82,16 @@ export const useEditorCommand = (editor: Editor) => {
       if (!editor) return;
       editor
         .chain()
-        .blur()
+        .focus()
         .insertContentAt(to, ` ${value}`, {
           parseOptions: { preserveWhitespace: 'full' },
+          updateSelection: true,
         })
         .setTextSelection({
           from: to,
           to: ` ${value}`.length + to,
         })
+
         .run();
     },
     [editor]

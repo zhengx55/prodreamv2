@@ -67,6 +67,9 @@ export const WelcomLanguageOptions = [
   },
 ];
 
+export const H1_regex = /^([^#]*#){1}[^#]*$/;
+export const H2_regex = /^[^#]*##([^#]|$)/;
+
 export const WelcomEducationOptions = [
   {
     name: 'Undergrad & High School',
