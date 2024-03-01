@@ -22,7 +22,7 @@ const EditorBlock = ({ editor }: Props) => {
   const showContinue = useAIEditor((state) => state.showContinue);
   const showCitiationMenu = useAIEditor((state) => state.showCitiationMenu);
   const showSynonymMenu = useAIEditor((state) => state.showSynonymMenu);
-  const { data: userTrack, isPending, isError } = useUserTrackInfo();
+  const { data: userTrack } = useUserTrackInfo();
   const isClose = Boolean(userTrack?.basic_task);
   const isOutlineFinished = Boolean(userTrack?.outline_tip_task);
   const isContinueFinished = Boolean(userTrack?.continue_tip_task);
@@ -31,7 +31,6 @@ const EditorBlock = ({ editor }: Props) => {
     (isOutlineFinished || isContinueFinished) && !isComplete;
   const showCompletePanel = !isClose && isComplete;
 
-  if (isPending || isError) return null;
   return (
     <div
       aria-label='editor-parent'
@@ -41,7 +40,7 @@ const EditorBlock = ({ editor }: Props) => {
       <Spacer y='20' />
       <AnimatePresence>
         {showTaskPanel ? (
-          <Task editor={editor} track={userTrack} />
+          <Task editor={editor} track={userTrack!} />
         ) : showCompletePanel ? (
           <Finish />
         ) : null}

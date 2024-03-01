@@ -6,7 +6,7 @@ import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 type Props = { editor: Editor };
 
-const GuidancePanel = dynamic(() => import('./GuidancePanel'));
+const GuidancePanel = dynamic(() => import('./GuidancePanel'), { ssr: false });
 const OutlineTip = dynamic(
   () => import('./tips/FloatingTip').then((mod) => mod.OutlineTip),
   {
@@ -26,7 +26,7 @@ const ContinuTipSecond = dynamic(
   }
 );
 const Procedure = ({ editor }: Props) => {
-  const { data: userTrack, isPending } = useUserTrackInfo();
+  const { data: userTrack } = useUserTrackInfo();
   const outline_step = useUserTask((state) => state.outline_step);
   const continue_step = useUserTask((state) => state.continue_step);
 
@@ -37,7 +37,6 @@ const Procedure = ({ editor }: Props) => {
   const showContinueSecondTip =
     Boolean(userTrack?.guidence) && continue_step === 2;
 
-  if (isPending) return null;
   return (
     <AnimatePresence mode='wait'>
       {showGuidance && <GuidancePanel editor={editor} />}
