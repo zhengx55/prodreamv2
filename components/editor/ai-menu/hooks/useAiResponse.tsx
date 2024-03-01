@@ -1,5 +1,6 @@
 import { ask, copilot } from '@/query/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { MutableRefObject, useCallback, useState } from 'react';
 
 const useAiResponse = (tool: MutableRefObject<string | null>) => {
@@ -72,9 +73,6 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
       JSON.parse(line.slice('data:'.length))
     );
 
-    if (eventData.length) {
-      setGenerating(false);
-    }
     setAiResult((prev) =>
       prev.length === 0
         ? [eventData.join('')]
@@ -88,6 +86,12 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
             })
     );
   };
+
+  useUpdateEffect(() => {
+    if (aiResult[currentResult]) {
+      setGenerating(false);
+    }
+  }, [aiResult, currentResult]);
 
   const toogleTyping = useCallback(() => {
     setShowTyping(false);
