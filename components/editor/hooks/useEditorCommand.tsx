@@ -1,3 +1,4 @@
+import { findFirstParagraph } from '@/lib/tiptap/utils';
 import { Editor } from '@tiptap/react';
 import { useCallback } from 'react';
 
@@ -36,17 +37,21 @@ export const useEditorCommand = (editor: Editor) => {
       if (from === to) {
         editor
           .chain()
+          .focus()
           .insertContentAt(from, value, {
             parseOptions: { preserveWhitespace: 'full' },
+            updateSelection: true,
           })
           .setTextSelection({ from, to: from + value.length })
           .run();
       } else {
         editor
           .chain()
+          .focus()
           .deleteRange({ from, to })
           .insertContentAt(from, value, {
             parseOptions: { preserveWhitespace: 'full' },
+            updateSelection: true,
           })
           .setTextSelection({ from, to: from + value.length })
           .run();
@@ -60,9 +65,11 @@ export const useEditorCommand = (editor: Editor) => {
       if (!editor) return;
       editor
         .chain()
+        .focus()
         .deleteRange({ from, to })
         .insertContentAt(from, value, {
           parseOptions: { preserveWhitespace: 'full' },
+          updateSelection: true,
         })
         .setTextSelection({ from, to: value.length + from })
         .run();
@@ -75,14 +82,16 @@ export const useEditorCommand = (editor: Editor) => {
       if (!editor) return;
       editor
         .chain()
-        .blur()
+        .focus()
         .insertContentAt(to, ` ${value}`, {
           parseOptions: { preserveWhitespace: 'full' },
+          updateSelection: true,
         })
         .setTextSelection({
           from: to,
           to: ` ${value}`.length + to,
         })
+
         .run();
     },
     [editor]
@@ -93,9 +102,22 @@ export const useEditorCommand = (editor: Editor) => {
       if (!editor) return null;
       const { selection } = editor!.state;
       const { anchor, from, to } = selection;
-      if (from === to) {
+      const { pos, size } = findFirstParagraph(editor);
+      if (anchor === 1) {
+        editor
+          .chain()
+          .focus()
+          .insertContentAt(pos + size - 1, {
+            type: 'IntextCitation',
+            attrs: {
+              citation_id,
+            },
+          })
+          .run();
+      } else if (from === to) {
         editor
           ?.chain()
+          .focus()
           .insertContentAt(anchor, {
             type: 'IntextCitation',
             attrs: {
@@ -106,6 +128,7 @@ export const useEditorCommand = (editor: Editor) => {
       } else {
         editor
           ?.chain()
+          .focus()
           .insertContentAt(to, {
             type: 'IntextCitation',
             attrs: {
@@ -123,6 +146,7 @@ export const useEditorCommand = (editor: Editor) => {
     (content: string, from: number, to: number) => {
       editor
         .chain()
+        .focus()
         .deleteRange({
           from,
           to,

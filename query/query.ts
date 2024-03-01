@@ -188,7 +188,6 @@ export const useCiteToDoc = () => {
           document_id: variables.document_id,
         },
       });
-
       insertCitation(data);
     },
     onError: async (error) => {

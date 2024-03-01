@@ -7,7 +7,7 @@ type Props = {
   speed?: number;
 };
 
-const StreamText = ({ generatedResult, toogleTyping, speed = 30 }: Props) => {
+const StreamText = ({ generatedResult, toogleTyping, speed = 10 }: Props) => {
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeout = useRef<NodeJS.Timeout>();

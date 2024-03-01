@@ -77,6 +77,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updatePlagiarismResult: (result) =>
     set(() => ({
       plagiarismResult: result,
+      showContinue: null,
     })),
   updateGenerateTab: (result) =>
     set(() => ({
@@ -88,10 +89,12 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateRightbarTab: (result) =>
     set((state) => {
       if (!state.rightbarOpen)
-        return { rightbarOpen: true, rightbarTab: result };
+        return { rightbarOpen: true, rightbarTab: result, showContinue: null };
       return { rightbarTab: result };
     }),
-  toggleRightbar: () => set((state) => ({ rightbarOpen: !state.rightbarOpen })),
+  toggleRightbar: () =>
+    set((state) => ({ showContinue: null, rightbarOpen: !state.rightbarOpen })),
+
   updatePlagiarismRecheck: (result) =>
     set(() => ({ plagiarismReCheck: result })),
   togglePlagiarism: () =>
