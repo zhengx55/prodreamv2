@@ -4726,6 +4726,11 @@ react-typed@^1.2.0:
     prop-types "^15.6.0"
     typed.js "^2.0.6"
 
+react-typewriter-hook@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmmirror.com/react-typewriter-hook/-/react-typewriter-hook-1.0.2.tgz#f98788541a400b13abe418b93742ff027739d57b"
+  integrity sha512-ICHmPaUfBMXz8EGtyNPhY0ftcHr/HC0bg3rQjoNp9kC4Dha+JK541MKdXphWgtnurftBCJ/f22kIjvbv8NYRgQ==
+
 react@latest:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
@@ -5120,6 +5125,7 @@ string-trim-spaces-only@^5.0.10:
   integrity sha512-MhmjE5jNqb1Ylo+BARPRlsdChGLrnPpAUWrT1VOxo9WhWwKVUU6CbZTfjwKaQPYTGS/wsX/4Zek88FM2rEb5iA==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
