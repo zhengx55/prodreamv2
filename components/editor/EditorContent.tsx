@@ -30,6 +30,7 @@ const EditorBlock = ({ editor }: Props) => {
   const showTaskPanel =
     (isOutlineFinished || isContinueFinished) && !isComplete;
   const showCompletePanel = !isClose && isComplete;
+
   if (isPending || isError) return null;
   return (
     <div
