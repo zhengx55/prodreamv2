@@ -42,7 +42,7 @@ const Hero = () => {
   const { mutateAsync: handleAbTest} = usePostABTest();
   const { mutateAsync: handleAbTestByToken} = usePostABTestByToken();
 
-  const [currentTitleNode, setCurrentTitleNode] = useState<ReactNode>( <V3Title/>)
+  const [currentTitleNode, setCurrentTitleNode] = useState<ReactNode>( <V2Title/>)
 
   const memoSetSelected = useCallback((index: number) => {
    
