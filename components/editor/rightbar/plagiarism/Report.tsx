@@ -3,7 +3,7 @@ import { Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { copilot } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
-import useAiEditor, { useAIEditor } from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { m } from 'framer-motion';
 import { AlertTriangle, Loader2, RefreshCcw, X } from 'lucide-react';
@@ -20,15 +20,15 @@ export type Sentence = {
 };
 
 const Report = () => {
-  const plagReport = useAiEditor((state) => state.plagiarismResult);
-  const updatePlagiarismRecheck = useAiEditor(
+  const plagReport = useAIEditor((state) => state.plagiarismResult);
+  const updatePlagiarismRecheck = useAIEditor(
     (state) => state.updatePlagiarismRecheck
   );
-  const editor = useAiEditor((state) => state.editor_instance);
+  const editor = useAIEditor((state) => state.editor_instance);
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const [sentences, setSentences] = useState<Sentence[]>([]);
   const { data: membership } = useMembershipInfo();
-  const togglePlagiarism = useAiEditor((state) => state.togglePlagiarism);
+  const togglePlagiarism = useAIEditor((state) => state.togglePlagiarism);
 
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { id: string; text: string }) =>

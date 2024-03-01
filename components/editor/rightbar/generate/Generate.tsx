@@ -6,7 +6,7 @@ import {
 import { GenerateOptions } from '@/constant';
 import { OutlineTooltip } from '@/constant/enum';
 import { useMembershipInfo } from '@/query/query';
-import useAiEditor, { useUserTask } from '@/zustand/store';
+import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { ChevronUp, FileText } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -20,13 +20,13 @@ const Tiplayout = dynamic(
 const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 
 export const Generate = () => {
-  const generateTab = useAiEditor((state) => state.generateTab);
-  const setGenerateTab = useAiEditor((state) => state.updateGenerateTab);
+  const generateTab = useAIEditor((state) => state.generateTab);
+  const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
 
   const outline_step = useUserTask((state) => state.outline_step);
   const copilot_option = useRef<string | null>(null);
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
-  const updatePaymentModal = useAiEditor((state) => state.updatePaymentModal);
+  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { data: usage } = useMembershipInfo();
 
   return (

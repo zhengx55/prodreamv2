@@ -5,7 +5,7 @@ import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import { synonym } from '@/query/api';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { Info } from 'lucide-react';
@@ -14,9 +14,9 @@ import { useEditorCommand } from '../hooks/useEditorCommand';
 
 type Props = { editor: Editor };
 export const SynonymMenu = memo(({ editor }: Props) => {
-  const updateSynonymMenu = useAiEditor((state) => state.updateSynonymMenu);
-  const copilotRect = useAiEditor((state) => state.copilotRect);
-  const copilotRectX = useAiEditor((state) => state.copilotRectX);
+  const updateSynonymMenu = useAIEditor((state) => state.updateSynonymMenu);
+  const copilotRect = useAIEditor((state) => state.copilotRect);
+  const copilotRectX = useAIEditor((state) => state.copilotRectX);
   const [text, setText] = useState('');
   useEffect(() => {
     const selectedText = getSelectedText(editor);

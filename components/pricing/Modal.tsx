@@ -5,7 +5,7 @@ import {
   PricingUnlimited,
 } from '@/constant';
 import { useMembershipInfo } from '@/query/query';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { X } from 'lucide-react';
 import { memo } from 'react';
 import Spacer from '../root/Spacer';
@@ -16,8 +16,8 @@ import Card from './Card';
 
 const MembershipModal = () => {
   const { data } = useMembershipInfo();
-  const open = useAiEditor((state) => state.paymentModalOpen);
-  const setOpen = useAiEditor((state) => state.updatePaymentModal);
+  const open = useAIEditor((state) => state.paymentModalOpen);
+  const setOpen = useAIEditor((state) => state.updatePaymentModal);
   const isBasic =
     data?.subscription === 'free_trail' || data?.subscription === 'basic';
   const isMonthly = data?.subscription_type === 'month';

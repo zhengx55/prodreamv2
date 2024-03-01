@@ -5,7 +5,7 @@ import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
 import { useCreateCitation, useUpdateCitation } from '@/query/query';
 import { IJournalCitation } from '@/types';
-import useAiEditor from '@/zustand/store';
+import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -50,10 +50,10 @@ const JournalForm = ({
             doi: data.doi,
           },
     });
-  const updateShowCreateCitation = useAiEditor(
+  const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
-  const updateShowEditCitation = useAiEditor(
+  const updateShowEditCitation = useCitation(
     (state) => state.updateShowEditCitation
   );
 

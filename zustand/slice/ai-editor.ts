@@ -20,6 +20,10 @@ const initialState: AIEditorState = {
   copilotRectX: null,
   showSynonymMenu: false,
   paymentModalOpen: false,
+  showContinue: null,
+  continueResult: '',
+  disableContinue: false,
+  continueInsertPos: null,
 };
 
 type AIEditorState = {
@@ -38,6 +42,10 @@ type AIEditorState = {
   showSynonymMenu: boolean;
   copilotRectX: null | number;
   paymentModalOpen: boolean;
+  showContinue: { top: number; left: number } | null;
+  continueResult: string;
+  disableContinue: boolean;
+  continueInsertPos: number | null;
 };
 
 type AIEditorAction = {
@@ -58,6 +66,10 @@ type AIEditorAction = {
   updateCopilotRectX: (resutl: AIEditorState['copilotRectX']) => void;
   updatePaymentModal: (result: AIEditorState['paymentModalOpen']) => void;
   closeRightbar: () => void;
+  updateshowContinue: (result: AIEditorState['showContinue']) => void;
+  updateContinueRes: (result: AIEditorState['continueResult']) => void;
+  clearContinueRes: () => void;
+  updateInsertPos: (result: number) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -65,6 +77,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updatePlagiarismResult: (result) =>
     set(() => ({
       plagiarismResult: result,
+      showContinue: null,
     })),
   updateGenerateTab: (result) =>
     set(() => ({
@@ -76,10 +89,12 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateRightbarTab: (result) =>
     set((state) => {
       if (!state.rightbarOpen)
-        return { rightbarOpen: true, rightbarTab: result };
+        return { rightbarOpen: true, rightbarTab: result, showContinue: null };
       return { rightbarTab: result };
     }),
-  toggleRightbar: () => set((state) => ({ rightbarOpen: !state.rightbarOpen })),
+  toggleRightbar: () =>
+    set((state) => ({ showContinue: null, rightbarOpen: !state.rightbarOpen })),
+
   updatePlagiarismRecheck: (result) =>
     set(() => ({ plagiarismReCheck: result })),
   togglePlagiarism: () =>
@@ -118,4 +133,30 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set(() => ({
       copilotRectX: result,
     })),
+  updateshowContinue: (result) =>
+    set(() => ({
+      showContinue: result,
+    })),
+  updateContinueRes: (result) => {
+    set((state) => {
+      if (!state.disableContinue)
+        return {
+          disableContinue: true,
+        };
+      return {
+        continueResult: state.continueResult + result,
+      };
+    });
+  },
+  clearContinueRes: () => {
+    set(() => ({
+      disableContinue: false,
+      continueResult: '',
+    }));
+  },
+  updateInsertPos: (result) => {
+    set(() => ({
+      continueInsertPos: result,
+    }));
+  },
 });

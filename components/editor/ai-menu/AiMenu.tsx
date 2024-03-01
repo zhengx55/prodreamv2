@@ -12,17 +12,18 @@ import {
   useMutateTrackInfo,
   useUserTrackInfo,
 } from '@/query/query';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { Fragment, cloneElement, memo, useCallback, useRef } from 'react';
 import { v4 } from 'uuid';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 import CustomPrompt from './CustomPrompt';
-import RemainUsages from './RemainUsages';
-import StreamText from './StreamText';
 import { useAiOptions } from './hooks/useAiOptions';
 import useAiResponse from './hooks/useAiResponse';
+const RemainUsages = dynamic(() => import('./RemainUsages'));
+const StreamText = dynamic(() => import('./StreamText'));
 
 type Props = { editor: Editor };
 const AiMenu = ({ editor }: Props) => {
@@ -30,10 +31,9 @@ const AiMenu = ({ editor }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: track } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
-  const copilotRect = useAiEditor((state) => state.copilotRect);
-  const updateCopilotMenu = useAiEditor((state) => state.updateCopilotMenu);
+  const copilotRect = useAIEditor((state) => state.copilotRect);
+  const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
   const promptRef = useRef<HTMLInputElement>(null);
-
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
   const elRef = useScrollIntoView();

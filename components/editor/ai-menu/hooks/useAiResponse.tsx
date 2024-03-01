@@ -1,5 +1,6 @@
 import { ask, copilot } from '@/query/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { MutableRefObject, useCallback, useState } from 'react';
 
 const useAiResponse = (tool: MutableRefObject<string | null>) => {
@@ -28,12 +29,9 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
         handleStreamData(value);
       }
     },
-    onSettled: () => {
-      setGenerating(false);
-    },
-
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
+      setGenerating(false);
       toast.error(error.message);
     },
   });
@@ -55,12 +53,10 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
         handleStreamData(value);
       }
     },
-    onSettled: () => {
-      setGenerating(false);
-    },
 
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
+      setGenerating(false);
       toast.error(error.message);
     },
   });
@@ -76,23 +72,26 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
     const eventData = dataLines.map((line) =>
       JSON.parse(line.slice('data:'.length))
     );
-    let result = '';
-    eventData.forEach((word) => {
-      result += word;
-    });
+
     setAiResult((prev) =>
       prev.length === 0
-        ? [result]
+        ? [eventData.join('')]
         : prev.length - 1 < currentResult
-          ? [...prev, result]
+          ? [...prev, eventData.join('')]
           : prev.map((item, index) => {
               if (index === currentResult) {
-                return item + result;
+                return item + eventData.join('');
               }
               return item;
             })
     );
   };
+
+  useUpdateEffect(() => {
+    if (aiResult[currentResult]) {
+      setGenerating(false);
+    }
+  }, [aiResult, currentResult]);
 
   const toogleTyping = useCallback(() => {
     setShowTyping(false);

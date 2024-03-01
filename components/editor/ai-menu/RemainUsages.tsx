@@ -28,6 +28,3 @@ const RemainUsages = () => {
   );
 };
 export default RemainUsages;
-function useAiEditor(arg0: (state: any) => any) {
-  throw new Error('Function not implemented.');
-}

@@ -2,14 +2,14 @@ import BottomBar from '@/components/editor/bottombar';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
-import useAiEditor from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
-import { Editor as EditorType, useEditor } from '@tiptap/react';
+import { Editor as EditorType, posToDOMRect, useEditor } from '@tiptap/react';
+import useWindowResize from 'beautiful-react-hooks/useWindowResize';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-
 import Procedure from './guide/Procedure';
 
 const TableOfContents = dynamic(
@@ -22,11 +22,40 @@ const PaymentModal = dynamic(() => import('@/components/pricing/Modal'), {
 const Editor = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
   const [showBottomBar, setShowBottomBar] = useState(true);
-  const setEditorInstance = useAiEditor((state) => state.setEditorInstance);
-  const reset = useAiEditor((state) => state.reset);
-  const doc_title = useAiEditor((state) => state.doc_title);
-  const updateTitle = useAiEditor((state) => state.updateTitle);
-  const toogleIsSaving = useAiEditor((state) => state.toogleIsSaving);
+  const setEditorInstance = useAIEditor((state) => state.setEditorInstance);
+  const reset = useAIEditor((state) => state.reset);
+  const doc_title = useAIEditor((state) => state.doc_title);
+  const updateTitle = useAIEditor((state) => state.updateTitle);
+  const toogleIsSaving = useAIEditor((state) => state.toogleIsSaving);
+  const disableContinue = useAIEditor((state) => state.disableContinue);
+  const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
+  const onWindowResize = useWindowResize();
+
+  onWindowResize(() => {
+    updateshowContinue(null);
+  });
+
+  const debouncedShowContinue = useDebouncedCallback((editor: EditorType) => {
+    if (disableContinue) return;
+    const { anchor } = editor.state.selection;
+    const { doc } = editor.state;
+    doc.descendants((node, pos) => {
+      if (
+        node.type.name === 'paragraph' &&
+        Boolean(node.textContent.trim()) &&
+        pos + node.nodeSize - 1 === anchor
+      ) {
+        const coordinate = posToDOMRect(editor.view, anchor, anchor);
+        const parentElement = editor.view.dom.parentElement?.parentElement;
+        const scrollTop = parentElement?.scrollTop ?? 0;
+        updateshowContinue({
+          top: coordinate.top - 58 + scrollTop,
+          left: coordinate.left - 150 + window.scrollX,
+        });
+      }
+    });
+  }, 1000);
+
   const debouncedUpdateText = useDebouncedCallback(
     async (title: string, text: string) => {
       const sanitize = (await import('sanitize-html')).default;
@@ -86,8 +115,14 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
       setEditorInstance(editor as EditorType);
     },
     onSelectionUpdate: ({ editor }) => {
+      updateshowContinue(null);
       const { from, to } = editor.state.selection;
-      from !== to ? setShowBottomBar(false) : setShowBottomBar(true);
+      if (from !== to) {
+        setShowBottomBar(false);
+      } else {
+        setShowBottomBar(true);
+        debouncedShowContinue(editor as EditorType);
+      }
     },
     onUpdate: ({ editor }) => {
       const title = editor.getJSON().content?.at(0)?.content?.at(0)?.text;
