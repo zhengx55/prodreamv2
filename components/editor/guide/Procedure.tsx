@@ -6,7 +6,8 @@ import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 type Props = { editor: Editor };
 
-const GuidancePanel = dynamic(() => import('./GuidancePanel'), { ssr: false });
+const GuidancePanel = dynamic(() => import('./GuidancePanel'));
+
 const OutlineTip = dynamic(
   () => import('./tips/FloatingTip').then((mod) => mod.OutlineTip),
   {
