@@ -40,16 +40,22 @@ const IntextContent = (props: NodeViewProps) => {
     <Popover>
       <PopoverTrigger asChild>
         {citation_style === 'APA' ? (
-          <p className='!m-0 text-doc-primary'>
+          <p className='!m-0 inline-flex gap-x-0.5 text-doc-primary'>
             (
-            <APAAuthors contributors={current_citation?.contributors ?? []} />
-            &nbsp;
-            {current_citation?.publish_date?.year})
+            {props.node.attrs.show_author && (
+              <APAAuthors contributors={current_citation?.contributors ?? []} />
+            )}
+            {props.node.attrs.show_year && (
+              <span>{current_citation?.publish_date?.year}</span>
+            )}
+            )
           </p>
         ) : (
           <p className='!m-0 text-doc-primary'>
             (
-            <MLAAuhors contributors={current_citation?.contributors ?? []} />
+            {props.node.attrs.show_author && (
+              <MLAAuhors contributors={current_citation?.contributors ?? []} />
+            )}
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
               ` ${props.node.attrs.page_number}`}
