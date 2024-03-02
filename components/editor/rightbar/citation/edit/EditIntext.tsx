@@ -14,6 +14,12 @@ const EditIntext = () => {
   const [pageCheck, setPageCheck] = useState(
     currentInline?.node.attrs.show_page
   );
+  const [yearCheck, setYearCheck] = useState(
+    currentInline?.node.attrs.show_year
+  );
+  const [authorCheck, setAuthorCeck] = useState(
+    currentInline?.node.attrs.show_author
+  );
   const pageRef = useRef<HTMLInputElement>(null);
   const inTextCitation = useCitation((state) => state.inTextCitation);
   const current_citation = useMemo(() => {
@@ -24,6 +30,14 @@ const EditIntext = () => {
   }, [inTextCitation, currentInline]);
 
   const handleSave = async () => {
+    currentInline?.updateAttributes({
+      show_author: authorCheck,
+    });
+
+    currentInline?.updateAttributes({
+      show_year: yearCheck,
+    });
+
     if (pageCheck) {
       if (!pageRef.current?.value) {
         const { toast } = await import('sonner');
@@ -71,22 +85,8 @@ const EditIntext = () => {
         <ul className='flex flex-col gap-y-3'>
           <li className='inline-flex items-center gap-x-2'>
             <Checkbox
-              checked
-              disabled
-              className='h-4 w-4 rounded-full border-doc-primary'
-              id='year'
-            />
-            <label className='subtle-regular text-doc-font' htmlFor='year'>
-              Year:
-            </label>
-            <span className='subtle-regular flex-center rounded bg-doc-primary/20 px-2 py-0.5 text-doc-primary'>
-              {current_citation?.publish_date?.year}
-            </span>
-          </li>
-          <li className='inline-flex items-center gap-x-2'>
-            <Checkbox
-              checked
-              disabled
+              checked={authorCheck}
+              onCheckedChange={(e: boolean) => setAuthorCeck(e)}
               className='h-4 w-4 rounded-full border-doc-primary'
               id='autors'
             />
@@ -97,6 +97,21 @@ const EditIntext = () => {
               {renderContributors()}
             </span>
           </li>
+          <li className='inline-flex items-center gap-x-2'>
+            <Checkbox
+              checked={yearCheck}
+              onCheckedChange={(e: boolean) => setYearCheck(e)}
+              className='h-4 w-4 rounded-full border-doc-primary'
+              id='year'
+            />
+            <label className='subtle-regular text-doc-font' htmlFor='year'>
+              Year:
+            </label>
+            <span className='subtle-regular flex-center rounded bg-doc-primary/20 px-2 py-0.5 text-doc-primary'>
+              {current_citation?.publish_date?.year}
+            </span>
+          </li>
+
           <li className='inline-flex items-center gap-x-2'>
             <Checkbox
               checked={pageCheck}
@@ -110,7 +125,7 @@ const EditIntext = () => {
             <Input
               ref={pageRef}
               defaultValue={currentInline?.node.attrs.page_number}
-              className='subtle-regular h-max w-40 rounded bg-doc-primary/20 px-2 py-1 text-doc-primary placeholder:text-doc-primary'
+              className={`${pageCheck ? 'bg-doc-primary/20 text-doc-primary' : 'bg-[#F1F2FA] text-doc-font line-through'} subtle-regular h-max w-40 rounded  px-2 py-1 placeholder:text-doc-font/20`}
               placeholder='(e.g. 35 or 35-37)'
               type='text'
               id='pages'

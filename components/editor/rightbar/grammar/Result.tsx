@@ -16,18 +16,20 @@ type Props = {
 };
 const Result = ({ grammarResults, updateGrammarResult }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
-
   const handleDismiss = (index: number, group_index: number) => {
+    const array = [...grammarResults];
     updateGrammarResult(
-      grammarResults.map((el, pos) => {
-        if (pos === group_index) {
-          return {
-            ...el,
-            diff: el.diff.filter((_el, _pos) => _pos !== index),
-          };
-        }
-        return el;
-      })
+      array
+        .map((el, pos) => {
+          if (pos === group_index) {
+            const filteredDiff = el.diff.filter((_el, _pos) => _pos !== index);
+            return filteredDiff.length > 0
+              ? { ...el, diff: filteredDiff }
+              : null;
+          }
+          return el;
+        })
+        .filter((el) => el !== null) as IGrammarResult[]
     );
   };
 
@@ -173,7 +175,6 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
       {grammarResults.map((group, group_index) => {
         return group.diff.map((item, index) => {
           if (!item.data.length) return null;
-          if (item.data.every((el) => el.status === 0)) return null;
           const isActive = item.expand;
           return (
             <m.div
