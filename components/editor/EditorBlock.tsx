@@ -18,10 +18,13 @@ const Trigger = dynamic(() => import('./continue-writting/Trigger'));
 type Props = { editor: EditorType };
 
 const EditorBlock = ({ editor }: Props) => {
-  const showCopilotMenu = useAIEditor((state) => state.showCopilotMenu);
-  const showContinue = useAIEditor((state) => state.showContinue);
-  const showCitiationMenu = useAIEditor((state) => state.showCitiationMenu);
-  const showSynonymMenu = useAIEditor((state) => state.showSynonymMenu);
+  const { showCopilotMenu, showContinue, showCitiationMenu, showSynonymMenu } =
+    useAIEditor((state) => ({
+      showCopilotMenu: state.showCopilotMenu,
+      showContinue: state.showContinue,
+      showCitiationMenu: state.showCitiationMenu,
+      showSynonymMenu: state.showSynonymMenu,
+    }));
   const { data: userTrack } = useUserTrackInfo();
   const isClose = Boolean(userTrack?.basic_task);
   const isOutlineFinished = Boolean(userTrack?.outline_tip_task);
