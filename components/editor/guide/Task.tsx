@@ -24,6 +24,7 @@ const Task = ({ editor, track }: Props) => {
   const [step, setStep] = useState(-1);
   const [progress, setProgress] = useState(33.33);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
+
   const debounceUpdateTask = useDebouncedCallback(async () => {
     await updateTrack({ field: 'highlight_task', data: true });
     const { toast } = await import('sonner');
@@ -31,6 +32,7 @@ const Task = ({ editor, track }: Props) => {
       'Congrats! Highlight is the #1 way to intereact with out AI! Then use "AI Copilot" prompts to edit or generate based on highlighted content ✨'
     );
   }, 500);
+
   useEffect(() => {
     if (!track.highlight_task) {
       editor.on('selectionUpdate', debounceUpdateTask);

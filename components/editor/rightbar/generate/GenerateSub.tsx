@@ -27,7 +27,7 @@ const GenerateSub = ({ generateTab, label }: Props) => {
   const isOutline =
     typeof generateTab !== 'number' && OutlineTypes.includes(generateTab);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedResult, setGeneratedResult] = useState('Lorem ipsum');
+  const [generatedResult, setGeneratedResult] = useState('');
   const editor = useAIEditor((state) => state.editor_instance);
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
 
