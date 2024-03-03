@@ -1,8 +1,8 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { AlertTriangle, Frown, RotateCw, Smile } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
+import { clearTimeout, setTimeout } from 'worker-timers';
 
 type Props = {
   generatedResult: string;
@@ -19,11 +19,7 @@ const Result = ({
   const [isTyping, setIsTyping] = useState(true);
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const timeout = useRef<NodeJS.Timeout>();
-
-  useUnmount(() => {
-    timeout.current && clearTimeout(timeout.current);
-  });
+  const timeout = useRef<number>();
 
   useEffect(() => {
     if (currentIndex < generatedResult.length) {
@@ -36,7 +32,10 @@ const Result = ({
       setIsTyping(false);
     }
     return () => {
-      clearTimeout(timeout.current);
+      if (timeout.current) {
+        clearTimeout(timeout.current as number);
+        timeout.current = undefined;
+      }
     };
   }, [currentIndex, generatedResult]);
 
