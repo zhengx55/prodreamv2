@@ -22,10 +22,16 @@ const CheckList = () => {
   const editor = useAIEditor((state) => state.editor_instance);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
-  const updateTaskStep = useUserTask((state) => state.updateTaskStep);
-  const updateCitationStep = useUserTask((state) => state.updateCitationStep);
-  const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
-  const updateContinueStep = useUserTask((state) => state.updateContinueStep);
+
+  const {
+    updateTaskStep,
+    updateCitationStep,
+    updateGenerateStep,
+    updateContinueStep,
+  } = useUserTask((state) => ({
+    ...state,
+  }));
+
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
 
@@ -113,111 +119,31 @@ const CheckList = () => {
             <h2 className='base-medium'>Getting around ☕️</h2>
             <Spacer y='16' />
             <ul className='flex flex-col gap-y-2.5'>
-              <li className='flex-between'>
-                <div className='flex items-center gap-x-2'>
-                  <Checkbox
-                    disabled
-                    checked={!!userTrack?.citation_task ?? false}
-                    id={'citation-task'}
-                    className='h-4 w-4 rounded-full border-black-400'
-                  />
-                  <label
-                    htmlFor='citation-task'
-                    className={`subtle-regular ${userTrack?.citation_task ? 'text-neutral-400 line-through' : ''}`}
-                  >
-                    Add one citation
-                  </label>
-                </div>
-                {userTrack?.citation_task ? null : (
-                  <span
-                    role='button'
-                    onClick={() => selectHandler(3)}
-                    className='subtle-regular cursor-pointer text-doc-primary'
-                  >
-                    Show me
-                  </span>
-                )}
-              </li>
-              <li className='flex-between'>
-                <div className='flex items-center gap-x-2'>
-                  <Checkbox
-                    disabled
-                    checked={!!userTrack?.ai_copilot_task}
-                    id={'copilot-task'}
-                    className='h-4 w-4 rounded-full border-black-400'
-                  />
-                  <label
-                    htmlFor='copilot-task'
-                    className={`subtle-regular ${userTrack?.ai_copilot_task ? 'text-neutral-400 line-through' : ''}`}
-                  >
-                    Try any AI editing tools
-                  </label>
-                </div>
-                {userTrack?.ai_copilot_task ? null : (
-                  <span
-                    role='button'
-                    onClick={() => selectHandler(0)}
-                    className='subtle-regular cursor-pointer text-doc-primary'
-                  >
-                    Show me
-                  </span>
-                )}
-              </li>
+              <TaskItem
+                taskCompleted={!!userTrack?.citation_task}
+                label='Add one citation'
+                onClickHandler={() => selectHandler(3)}
+              />
+              <TaskItem
+                taskCompleted={!!userTrack?.ai_copilot_task}
+                label='Try any AI editing tools'
+                onClickHandler={() => selectHandler(0)}
+              />
             </ul>
             <Spacer y='16' />
             <h2 className='base-medium'>Productivity boost 🚀</h2>
             <Spacer y='16' />
             <ul className='flex flex-col gap-y-2.5'>
-              <li className='flex-between'>
-                <div className='flex items-center gap-x-2'>
-                  <Checkbox
-                    disabled
-                    checked={!!userTrack?.continue_writing_task}
-                    id={'citation-task'}
-                    className='h-4 w-4 rounded-full border-black-400'
-                  />
-                  <label
-                    htmlFor='citation-task'
-                    className={`subtle-regular ${userTrack?.continue_writing_task ? 'text-neutral-400 line-through' : ''}`}
-                  >
-                    Write next sentence
-                  </label>
-                </div>
-                {userTrack?.continue_writing_task ? null : (
-                  <span
-                    onClick={() => selectHandler(1)}
-                    role='button'
-                    className={`subtle-regular cursor-pointer text-doc-primary`}
-                  >
-                    {'Show me'}
-                  </span>
-                )}
-              </li>
-              <li className='flex-between'>
-                <div className='flex items-center gap-x-2'>
-                  <Checkbox
-                    disabled
-                    checked={!!userTrack?.generate_tool_task}
-                    id={'generate-task'}
-                    className='h-4 w-4 rounded-full border-black-400'
-                  />
-                  <label
-                    htmlFor='generate-task'
-                    className={`subtle-regular ${userTrack?.generate_tool_task ? 'text-neutral-400 line-through' : ''}`}
-                  >
-                    Generate an introduction
-                  </label>
-                </div>
-                {userTrack?.generate_tool_task ? null : (
-                  <span
-                    onClick={() => selectHandler(2)}
-                    role='button'
-                    className='subtle-regular cursor-pointer text-doc-primary'
-                  >
-                    Show me
-                  </span>
-                )}
-              </li>
+              <TaskItem
+                taskCompleted={!!userTrack?.continue_writing_task}
+                label='Write next sentence'
+                onClickHandler={() => selectHandler(1)}
+              />
+              <TaskItem
+                taskCompleted={!!userTrack?.generate_tool_task}
+                label='Generate an introduction'
+                onClickHandler={() => selectHandler(2)}
+              />
             </ul>
             <Spacer y='16' />
             <Link
@@ -235,3 +161,37 @@ const CheckList = () => {
   );
 };
 export default memo(CheckList);
+
+const TaskItem = ({
+  taskCompleted,
+  label,
+  onClickHandler,
+}: {
+  taskCompleted: boolean;
+  label: string;
+  onClickHandler: () => void;
+}) => (
+  <li className='flex-between'>
+    <div className='flex items-center gap-x-2'>
+      <Checkbox
+        disabled
+        checked={taskCompleted}
+        className='h-4 w-4 rounded-full border-black-400'
+      />
+      <label
+        className={`subtle-regular ${taskCompleted ? 'text-neutral-400 line-through' : ''}`}
+      >
+        {label}
+      </label>
+    </div>
+    {!taskCompleted && (
+      <span
+        role='button'
+        onClick={onClickHandler}
+        className='subtle-regular cursor-pointer text-doc-primary'
+      >
+        Show me
+      </span>
+    )}
+  </li>
+);

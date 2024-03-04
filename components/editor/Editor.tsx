@@ -24,13 +24,17 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
   const { data: track, isPending } = useUserTrackInfo();
   const [showBottomBar, setShowBottomBar] = useState(true);
-  const setEditorInstance = useAIEditor((state) => state.setEditorInstance);
-  const reset = useAIEditor((state) => state.reset);
-  const doc_title = useAIEditor((state) => state.doc_title);
-  const updateTitle = useAIEditor((state) => state.updateTitle);
-  const toogleIsSaving = useAIEditor((state) => state.toogleIsSaving);
-  const disableContinue = useAIEditor((state) => state.disableContinue);
-  const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
+  const {
+    setEditorInstance,
+    reset,
+    doc_title,
+    updateTitle,
+    toogleIsSaving,
+    disableContinue,
+    updateshowContinue,
+  } = useAIEditor((state) => ({
+    ...state,
+  }));
   const onWindowResize = useWindowResize();
 
   onWindowResize(() => {
