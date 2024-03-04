@@ -16,7 +16,7 @@ import { usePostHog } from 'posthog-js/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import './animation.css';
 import useTypewriter from "react-typewriter-hook"
-import { useInterval } from 'ahooks'
+import { useFeatureFlagPayload } from 'posthog-js/react';
 
 const HeroCarousel = dynamic(
   () => import('./LandingCarousel').then((mod) => mod.HeroCarousel),
@@ -33,9 +33,7 @@ const Hero = () => {
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   const { ref } = useInviewCapture('ScreenI');
   const { t,getCurrentLanguage } = useLocalization();
-  const [flag, setFlag] = useState('')
-
-  const posthog = usePostHog()
+  const [isMobile, setIsMobile] = useState(false)
   
   const { mutateAsync: handleAbTestPoint } = usePostABTestPagePoint();
   const { mutateAsync: handleAbTestByTokenPoint } = usePostABTestPagePointByToken();
@@ -43,6 +41,8 @@ const Hero = () => {
   const { mutateAsync: handleAbTestByToken} = usePostABTestByToken();
 
   const [currentTitleNode, setCurrentTitleNode] = useState<ReactNode>( <V2Title/>)
+
+  const flag = `${useFeatureFlagPayload(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '') }`;
 
   const memoSetSelected = useCallback((index: number) => {
    
@@ -63,12 +63,13 @@ const Hero = () => {
   };
 
   useEffect(()=>{
-    if (posthog) {
-      setFlag(`${posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '') }`)
+    if ( typeof window !== 'undefined'  && window.innerWidth < 768) {
+      setIsMobile(true)
     }
   },[])
 
   useUpdateEffect(()=>{
+    console.log('flag::',flag);
     if (flag && flag !== "undefined") {
       abTest(flag)
       if (flag === 'v2') {
@@ -89,7 +90,6 @@ const Hero = () => {
   }, [autoSwitchInterval]);
 
   useEffect(() => {
-
     // 只有在非手机设备上才启用自动切换
     if (typeof window !== 'undefined' && window.innerWidth > 768 && !isMouseOver) {
       startAutoSwitch();
@@ -133,7 +133,7 @@ const Hero = () => {
 
   async function abTestPoint(duration: number) {
     const token = Cookies.get('token');
-    const pageName = "index"
+    const pageName = "Hero"
     
     if (token) {
       await handleAbTestByTokenPoint({
@@ -250,7 +250,7 @@ const Hero = () => {
         <Spacer y='90' className='hidden sm:block' />
         <Spacer y='20' className='block sm:hidden' />
         {
-          typeof window !== 'undefined'  && window.innerWidth < 768 && <HeroCarousel clickCallback={memoSetSelected} /> 
+          isMobile && <HeroCarousel clickCallback={memoSetSelected} /> 
         }
         <div className='justify-between hidden w-full gap-x-4 sm:flex'>
           {HeroInfo.map((item, index) => {
@@ -307,8 +307,6 @@ const Hero = () => {
 
 export const V2Title: React.FC = () => {
    const {t} = useLocalization();
-
-   
 
   return (
     <>
