@@ -2,6 +2,7 @@ import BottomBar from '@/components/editor/bottombar';
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
+import { useUserTrackInfo } from '@/query/query';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor as EditorType, posToDOMRect, useEditor } from '@tiptap/react';
@@ -15,12 +16,13 @@ import Procedure from './guide/Procedure';
 const TableOfContents = dynamic(
   () => import('./table-of-contents/TableOfContents')
 );
-const EditorBlock = dynamic(() => import('./EditorContent'));
+const EditorBlock = dynamic(() => import('./EditorBlock'));
 const PaymentModal = dynamic(() => import('@/components/pricing/Modal'), {
   ssr: false,
 });
 const Editor = ({ essay_content }: { essay_content: string }) => {
   const { id }: { id: string } = useParams();
+  const { data: track, isPending } = useUserTrackInfo();
   const [showBottomBar, setShowBottomBar] = useState(true);
   const setEditorInstance = useAIEditor((state) => state.setEditorInstance);
   const reset = useAIEditor((state) => state.reset);
@@ -134,13 +136,13 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     },
   });
 
-  if (!editor) return null;
+  if (!editor || isPending) return null;
   return (
     <section className='relative flex w-full flex-col'>
       <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
+        {Boolean(track?.guidence) && <EditorBlock editor={editor} />}
         <Procedure editor={editor} />
-        <EditorBlock editor={editor} />
         <PaymentModal />
       </div>
       {showBottomBar && (

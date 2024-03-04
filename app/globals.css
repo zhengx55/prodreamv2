@@ -195,5 +195,6 @@
 
 @font-face {
   font-family: 'XiQuejuzhenti';
-  src: url('https://icode-lowcode.oss-cn-hangzhou.aliyuncs.com/font/XiQuejuzhenti.ttf');
+  /* src: url('https://icode-lowcode.oss-cn-hangzhou.aliyuncs.com/font/XiQuejuzhenti.ttf'); */
+  src:url('./XiQuejuzhenti.ttf')
 }

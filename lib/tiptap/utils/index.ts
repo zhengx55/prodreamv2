@@ -15,8 +15,25 @@ export const isTextSelected = ({ editor }: { editor: Editor }) => {
   if (empty || isEmptyTextBlock || !editor.isEditable) {
     return false;
   }
-
   return true;
+};
+
+export const findTitle = (editor: Editor) => {
+  let title = {
+    pos: 0,
+    content: '',
+    size: 0,
+  };
+  editor.state.doc.descendants((node, pos) => {
+    if (node.type.name === 'title') {
+      title = {
+        pos,
+        content: node.textContent,
+        size: node.nodeSize,
+      };
+    }
+  });
+  return title;
 };
 
 export const findFirstParagraph = (editor: Editor) => {
@@ -41,6 +58,24 @@ export const findFirstParagraph = (editor: Editor) => {
     }
   });
   return first_paragraph;
+};
+
+export const findLastParagraph = (editor: Editor) => {
+  let last_paragraph = {
+    pos: 0,
+    content: '',
+    size: 0,
+  };
+  editor.state.doc.descendants((node, pos) => {
+    if (node.type.name === 'paragraph' && node.textContent.trim() !== '') {
+      last_paragraph = {
+        pos,
+        content: node.textContent,
+        size: node.nodeSize,
+      };
+    }
+  });
+  return last_paragraph;
 };
 
 export const getSelectedText = (editor: Editor) => {

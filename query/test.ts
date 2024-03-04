@@ -11,7 +11,7 @@ export async function postABTestByToken(variance: string) {
 
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/log/experiment/${process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/experiment/${process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -61,7 +61,7 @@ export async function postABTestPagePoint(params: {
 }) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/log/page/${params.page}/anonymous?duration=${params.duration}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${params.page}/anonymous?duration=${params.duration}`,
       {
         method: 'POST',
         headers: {
@@ -85,7 +85,7 @@ export async function postABTestPagePointByToken(params: {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/log/page/${params.page}/anonymous?duration=${params.duration}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${params.page}/anonymous?duration=${params.duration}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

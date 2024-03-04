@@ -17,6 +17,12 @@ export default Node.create({
       show_page: {
         default: false,
       },
+      show_year: {
+        default: true,
+      },
+      show_author: {
+        default: true,
+      },
       page_number: {
         default: '',
       },

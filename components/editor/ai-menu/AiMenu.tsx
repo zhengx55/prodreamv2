@@ -241,7 +241,7 @@ const AiMenu = ({ editor }: Props) => {
                             {option.submenu ? <ChevronRight size={18} /> : null}
                             {option.submenu && hoverItem === option.id && (
                               <Surface
-                                style={{ top: `${option_idx * 40 + 70}px` }}
+                                style={{ top: `${option_idx * 40 + 50}px` }}
                                 withBorder
                                 data-state={
                                   hoverItem === option.id ? 'open' : 'closed'

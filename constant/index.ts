@@ -42,7 +42,7 @@ export const GenerateOptions = [
     label: 'write_introduction',
   },
   { id: 'generation-02', title: 'Write Conclusion', label: 'write_conclusion' },
-  { id: 'generation-03', title: 'Generate title', label: 'generate_title' },
+  { id: 'generation-03', title: 'Generate Title', label: 'generate_title' },
   {
     id: 'generation-04',
     title: 'Generate Outline',

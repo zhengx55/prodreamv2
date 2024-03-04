@@ -6,6 +6,7 @@ import { IGrammarResult } from '@/query/type';
 import { useAIEditor } from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { m } from 'framer-motion';
+import { memo, useCallback } from 'react';
 import { v4 } from 'uuid';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 import SentenceFragment from './SentenceFragment';
@@ -16,18 +17,20 @@ type Props = {
 };
 const Result = ({ grammarResults, updateGrammarResult }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
-
   const handleDismiss = (index: number, group_index: number) => {
+    const array = [...grammarResults];
     updateGrammarResult(
-      grammarResults.map((el, pos) => {
-        if (pos === group_index) {
-          return {
-            ...el,
-            diff: el.diff.filter((_el, _pos) => _pos !== index),
-          };
-        }
-        return el;
-      })
+      array
+        .map((el, pos) => {
+          if (pos === group_index) {
+            const filteredDiff = el.diff.filter((_el, _pos) => _pos !== index);
+            return filteredDiff.length > 0
+              ? { ...el, diff: filteredDiff }
+              : null;
+          }
+          return el;
+        })
+        .filter((el) => el !== null) as IGrammarResult[]
     );
   };
 
@@ -72,51 +75,60 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
     });
   };
 
+  const processAccept = useCallback(
+    (item: IGrammarResult, index: number, group_index: number) => {
+      if (!editor) return;
+      command.clearAllHightLight();
+      const blocks = editor.getJSON().content?.slice(1) ?? [];
+      const new_string =
+        item.diff.at(index)?.data.reduce((acc, current) => {
+          if (current.status === 0) {
+            return acc + current.sub_str;
+          } else if (current.status === 3 || current.status === 1) {
+            return acc + current.new_str;
+          } else {
+            return acc;
+          }
+        }, '') ?? '';
+      let found = findParagpraph(item.index, blocks)?.text ?? '';
+      if (!found) return;
+      const original_sentence =
+        item.diff.at(index)?.data.reduce((acc, current) => {
+          if (current.status !== 1) {
+            return acc + current.sub_str;
+          } else {
+            return acc + '';
+          }
+        }, '') ?? '';
+      const sentence_position = found.indexOf(original_sentence.trimEnd());
+      const { nodePos } = findNodePos(editor, found);
+      const from = sentence_position + nodePos;
+      const to = from + original_sentence.length;
+      editor
+        .chain()
+        .focus()
+        .deleteRange({ from, to })
+        .insertContentAt(from, new_string)
+        .run();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [editor]
+  );
+
   const handleAccept = (
     item: IGrammarResult,
     index: number,
     group_index: number
   ) => {
     if (!editor) return;
-    command.clearAllHightLight();
-    const blocks = editor.getJSON().content?.slice(1) ?? [];
-    const new_string =
-      item.diff.at(index)?.data.reduce((acc, current) => {
-        if (current.status === 0) {
-          return acc + current.sub_str;
-        } else if (current.status === 3 || current.status === 1) {
-          return acc + current.new_str;
-        } else {
-          return acc;
-        }
-      }, '') ?? '';
-    let found = findParagpraph(item.index, blocks)?.text ?? '';
-    if (!found) return;
-    const original_sentence =
-      item.diff.at(index)?.data.reduce((acc, current) => {
-        if (current.status !== 1) {
-          return acc + current.sub_str;
-        } else {
-          return acc + '';
-        }
-      }, '') ?? '';
-    const sentence_position = found.indexOf(original_sentence.trimEnd());
-    const { nodePos } = findNodePos(editor, found);
-    const from = sentence_position + nodePos;
-    const to = from + original_sentence.length;
-    editor
-      .chain()
-      .focus()
-      .deleteRange({ from, to })
-      .insertContentAt(from, new_string)
-      .run();
+    processAccept(item, index, group_index);
     handleDismiss(index, group_index);
   };
 
   const handleAcceptAll = () => {
-    grammarResults.map((group, group_index) => {
-      group.diff.map((_item, index) => {
-        handleAccept(group, index, group_index);
+    grammarResults.forEach((group, group_index) => {
+      group.diff.forEach((_item, index) => {
+        processAccept(group, index, group_index);
       });
     });
     updateGrammarResult([]);
@@ -173,7 +185,6 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
       {grammarResults.map((group, group_index) => {
         return group.diff.map((item, index) => {
           if (!item.data.length) return null;
-          if (item.data.every((el) => el.status === 0)) return null;
           const isActive = item.expand;
           return (
             <m.div
@@ -244,4 +255,4 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
     </m.div>
   );
 };
-export default Result;
+export default memo(Result);
