@@ -6,7 +6,7 @@ import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import useLocalization from '@/hooks/useLocalization';
@@ -16,7 +16,7 @@ import { usePostHog } from 'posthog-js/react';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import './animation.css';
 import useTypewriter from "react-typewriter-hook"
-import { useFeatureFlagPayload } from 'posthog-js/react';
+
 
 const HeroCarousel = dynamic(
   () => import('./LandingCarousel').then((mod) => mod.HeroCarousel),
@@ -34,6 +34,10 @@ const Hero = () => {
   const { ref } = useInviewCapture('ScreenI');
   const { t,getCurrentLanguage } = useLocalization();
   const [isMobile, setIsMobile] = useState(false)
+
+  const [flag, setFlag] = useState('v2')
+
+  const posthog = usePostHog()
   
   const { mutateAsync: handleAbTestPoint } = usePostABTestPagePoint();
   const { mutateAsync: handleAbTestByTokenPoint } = usePostABTestPagePointByToken();
@@ -41,8 +45,6 @@ const Hero = () => {
   const { mutateAsync: handleAbTestByToken} = usePostABTestByToken();
 
   const [currentTitleNode, setCurrentTitleNode] = useState<ReactNode>( <V2Title/>)
-
-  const flag = `${useFeatureFlagPayload(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '') }`;
 
   const memoSetSelected = useCallback((index: number) => {
    
@@ -68,10 +70,17 @@ const Hero = () => {
     }
   },[])
 
-  useUpdateEffect(()=>{
-    console.log('flag::',flag);
-    if (flag && flag !== "undefined") {
+  useEffect(()=>{
+    console.log("posthog:", posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? ''))
+    if (posthog) {
+      setFlag(`${posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '') }`)
       abTest(flag)
+    }
+  },[])
+
+  useUpdateEffect(()=>{
+    console.log('flag',flag);
+    if (flag && flag !== "undefined") {
       if (flag === 'v2') {
         setCurrentTitleNode(<V2Title />)
       } else {

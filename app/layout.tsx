@@ -9,6 +9,9 @@ import dynamic from 'next/dynamic';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
+// import { cookies } from 'next/headers';
+// import { generateId } from '@/lib/utils';
+// import { PostHog } from 'posthog-node'
 
 const PostHogPageView = dynamic(() => import('@/components/root/PostHug'), {
   ssr: false,
@@ -74,11 +77,8 @@ export default async function RootLayout({
     >
       <Hotjar />
       <CSPostHogProvider
-      // bootstrapData={
-      //   bootstrapData ?? {
-      //     distinctID: '9a59338a-2994-452f-bc9b-0052a3f07a75',
-      //     featureFlags: {},
-      //   }
+      //  bootstrapData={
+      //   bootstrapData 
       // }
       >
         <body>
@@ -101,13 +101,11 @@ export default async function RootLayout({
 }
 
 // export async function getBootstrapData() {
-//   let distinct_id = '';
-//   const phProjectAPIKey = 'phc_hJ9Vfuzn4cByNbktugzjuJpHGkVYfXeQE494H5nla42';
-//   const phCookieName = `ph_${phProjectAPIKey}_posthog`;
-//   debugger;
-//   const cookieStore = cookies();
+//   let distinct_id = ''
+//   const phProjectAPIKey = 'phc_hJ9Vfuzn4cByNbktugzjuJpHGkVYfXeQE494H5nla42'
+//   const phCookieName = `ph_${phProjectAPIKey}_posthog`
+//   const cookieStore = cookies()
 //   const phCookie = cookieStore.get(phCookieName);
-//   debugger;
 //   if (phCookie) {
 //     const phCookieParsed = JSON.parse(phCookie.value);
 //     distinct_id = phCookieParsed.distinct_id;
@@ -116,10 +114,13 @@ export default async function RootLayout({
 //     distinct_id = generateId();
 //   }
 
-//   const client = new PostHog(phProjectAPIKey, {
+//   const client = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY ?? '', {
 //     host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 //   });
+
 //   const flags = await client.getAllFlags(distinct_id);
+//   console.log("flags:",flags)
+//   console.log("distinct_id:",distinct_id)
 //   const bootstrap = {
 //     distinctID: distinct_id,
 //     featureFlags: flags,
