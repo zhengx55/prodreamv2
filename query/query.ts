@@ -241,12 +241,9 @@ export const useUserLogin = () => {
 export const usePostABTest = () => {
   return useMutation({
     mutationFn: (variance?: string) => postABTest(variance ?? ''),
-    onSuccess: async (value) => {
-      console.log('ABTest:', value);
-    },
+    onSuccess: async (value) => {},
     onError: async (error) => {
       const { toast } = await import('sonner');
-      console.error('ABTest error:', error);
     },
   });
 };
@@ -254,12 +251,9 @@ export const usePostABTest = () => {
 export const usePostABTestByToken = () => {
   return useMutation({
     mutationFn: (variance?: string) => postABTestByToken(variance ?? ''),
-    onSuccess: async (value) => {
-      console.log('ABTest:', value);
-    },
+    onSuccess: async (value) => {},
     onError: async (error) => {
       const { toast } = await import('sonner');
-      console.error('ABTest error:', error);
     },
   });
 };
@@ -268,9 +262,7 @@ export const usePostABTestPagePoint = () => {
   return useMutation({
     mutationFn: (params: { page: string; duration?: number }) =>
       postABTestPagePoint(params),
-    onSuccess: async (value) => {
-      console.log('ABTest:', value);
-    },
+    onSuccess: async (value) => {},
     onError: async (error) => {
       const { toast } = await import('sonner');
       console.error('ABTest error:', error);
@@ -282,9 +274,7 @@ export const usePostABTestPagePointByToken = () => {
   return useMutation({
     mutationFn: (params: { page: string; duration?: number }) =>
       postABTestPagePointByToken(params),
-    onSuccess: async (value) => {
-      console.log('ABTest:', value);
-    },
+    onSuccess: async (value) => {},
     onError: async (error) => {
       const { toast } = await import('sonner');
       console.error('ABTest error:', error);
