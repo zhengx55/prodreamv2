@@ -23,6 +23,7 @@ const DocRightBar = dynamic(() => import('./rightbar/DocRightBar'));
 const EssayPanel = ({ id }: { id: string }) => {
   const { data: document_content, isFetching, isError } = useDocumentDetail(id);
   useCitationInfo(document_content);
+
   if (isError) return <p>opps something went wrong!</p>;
   return (
     <LazyMotionProvider>

@@ -1,5 +1,5 @@
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { useEffect, useRef, useState } from 'react';
+import { clearTimeout, setTimeout } from 'worker-timers';
 
 type Props = {
   generatedResult: string;
@@ -10,7 +10,7 @@ type Props = {
 const StreamText = ({ generatedResult, toogleTyping, speed = 10 }: Props) => {
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const timeout = useRef<NodeJS.Timeout>();
+  const timeout = useRef<number>();
 
   useEffect(() => {
     if (!generatedResult) return;
@@ -20,20 +20,19 @@ const StreamText = ({ generatedResult, toogleTyping, speed = 10 }: Props) => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
       }, speed);
     } else {
-      timeout.current && clearTimeout(timeout.current);
       if (toogleTyping) {
         toogleTyping();
       }
     }
     return () => {
-      clearTimeout(timeout.current);
+      if (timeout.current) {
+        clearTimeout(timeout.current as number);
+        timeout.current = undefined;
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex, generatedResult]);
+  }, [currentIndex, generatedResult, speed]);
 
-  useUnmount(() => {
-    timeout.current && clearTimeout(timeout.current);
-  });
   return currentText;
 };
 

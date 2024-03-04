@@ -1,5 +1,6 @@
 import Loading from '@/components/root/CustomLoading';
 import { H1_regex, H2_regex } from '@/constant';
+import { findLastParagraph, findTitle } from '@/lib/tiptap/utils';
 import { copilot, outline } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -15,6 +16,11 @@ import OutlineBtn from './OutlineBtn';
 import Result from './Result';
 
 const OutlineTypes = ['argumentative', 'analytical', 'scientific'];
+const GenerateTypes = [
+  'Write Introduction',
+  'Write Conclusion',
+  'Generate Title',
+];
 
 type Props = { generateTab: string; label: string | null };
 const GenerateSub = ({ generateTab, label }: Props) => {
@@ -25,7 +31,7 @@ const GenerateSub = ({ generateTab, label }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
 
-  const { insertAtPostion } = useEditorCommand(editor!);
+  const { insertGenerated, deleteRange } = useEditorCommand(editor!);
   const outLineInfo = useRef<z.infer<typeof generateOutlineSchema> | null>(
     null
   );
@@ -107,6 +113,7 @@ const GenerateSub = ({ generateTab, label }: Props) => {
 
     setGeneratedResult((prev) => (prev += eventData.join('')));
   };
+
   useUpdateEffect(() => {
     if (generatedResult) {
       setIsGenerating(false);
@@ -136,15 +143,27 @@ const GenerateSub = ({ generateTab, label }: Props) => {
 
   const handleInsert = useCallback(async () => {
     if (!editor) return;
-    const { selection } = editor.state;
-    const { from, to } = selection;
     if (isOutline) {
       const parse = (await import('marked')).parse;
+      const { pos, size } = findTitle(editor);
       const outline = await parse(generatedResult);
-      insertAtPostion(from, to, outline);
+      insertGenerated(pos + size, outline, 'start');
       return;
+    } else {
+      if (generateTab === GenerateTypes[0]) {
+        const { pos, size } = findTitle(editor);
+        insertGenerated(pos + size, generatedResult, 'start');
+        return;
+      } else if (generateTab === GenerateTypes[1]) {
+        const { pos, size } = findLastParagraph(editor);
+        insertGenerated(pos + size, generatedResult, 'end');
+        return;
+      } else {
+        const { size } = findTitle(editor);
+        deleteRange(1, size);
+        insertGenerated(1, generatedResult, 'start');
+      }
     }
-    insertAtPostion(from, to, generatedResult);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, generatedResult]);
 

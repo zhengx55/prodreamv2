@@ -19,7 +19,7 @@ const variants: Variants = {
 
 const CheckList = () => {
   const [show, setShow] = useState(false);
-  const { data: userTrack, isPending, isError } = useUserTrackInfo();
+  const { data: userTrack } = useUserTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
@@ -56,7 +56,6 @@ const CheckList = () => {
     }
   }, 500);
 
-  if (isPending || isError) return null;
   return (
     <div className='absolute bottom-[5%] left-2 z-50 flex flex-col'>
       <m.div
@@ -117,18 +116,18 @@ const CheckList = () => {
                 <div className='flex items-center gap-x-2'>
                   <Checkbox
                     disabled
-                    checked={!!userTrack.citation_task}
+                    checked={!!userTrack?.citation_task ?? false}
                     id={'citation-task'}
                     className='h-4 w-4 rounded-full border-black-400'
                   />
                   <label
                     htmlFor='citation-task'
-                    className={`subtle-regular ${userTrack.citation_task ? 'text-neutral-400 line-through' : ''}`}
+                    className={`subtle-regular ${userTrack?.citation_task ? 'text-neutral-400 line-through' : ''}`}
                   >
                     Add one citation
                   </label>
                 </div>
-                {userTrack.citation_task ? null : (
+                {userTrack?.citation_task ? null : (
                   <span
                     role='button'
                     onClick={() => selectHandler(3)}
@@ -142,18 +141,18 @@ const CheckList = () => {
                 <div className='flex items-center gap-x-2'>
                   <Checkbox
                     disabled
-                    checked={!!userTrack.ai_copilot_task}
+                    checked={!!userTrack?.ai_copilot_task}
                     id={'copilot-task'}
                     className='h-4 w-4 rounded-full border-black-400'
                   />
                   <label
                     htmlFor='copilot-task'
-                    className={`subtle-regular ${userTrack.ai_copilot_task ? 'text-neutral-400 line-through' : ''}`}
+                    className={`subtle-regular ${userTrack?.ai_copilot_task ? 'text-neutral-400 line-through' : ''}`}
                   >
                     Try any AI editing tools
                   </label>
                 </div>
-                {userTrack.ai_copilot_task ? null : (
+                {userTrack?.ai_copilot_task ? null : (
                   <span
                     role='button'
                     onClick={() => selectHandler(0)}
@@ -172,18 +171,18 @@ const CheckList = () => {
                 <div className='flex items-center gap-x-2'>
                   <Checkbox
                     disabled
-                    checked={!!userTrack.continue_writing_task}
+                    checked={!!userTrack?.continue_writing_task}
                     id={'citation-task'}
                     className='h-4 w-4 rounded-full border-black-400'
                   />
                   <label
                     htmlFor='citation-task'
-                    className={`subtle-regular ${userTrack.continue_writing_task ? 'text-neutral-400 line-through' : ''}`}
+                    className={`subtle-regular ${userTrack?.continue_writing_task ? 'text-neutral-400 line-through' : ''}`}
                   >
                     Write next sentence
                   </label>
                 </div>
-                {userTrack.continue_writing_task ? null : (
+                {userTrack?.continue_writing_task ? null : (
                   <span
                     onClick={() => selectHandler(1)}
                     role='button'
@@ -197,18 +196,18 @@ const CheckList = () => {
                 <div className='flex items-center gap-x-2'>
                   <Checkbox
                     disabled
-                    checked={!!userTrack.generate_tool_task}
+                    checked={!!userTrack?.generate_tool_task}
                     id={'generate-task'}
                     className='h-4 w-4 rounded-full border-black-400'
                   />
                   <label
                     htmlFor='generate-task'
-                    className={`subtle-regular ${userTrack.generate_tool_task ? 'text-neutral-400 line-through' : ''}`}
+                    className={`subtle-regular ${userTrack?.generate_tool_task ? 'text-neutral-400 line-through' : ''}`}
                   >
                     Generate an introduction
                   </label>
                 </div>
-                {userTrack.generate_tool_task ? null : (
+                {userTrack?.generate_tool_task ? null : (
                   <span
                     onClick={() => selectHandler(2)}
                     role='button'

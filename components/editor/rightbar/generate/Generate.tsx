@@ -22,7 +22,6 @@ const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 export const Generate = () => {
   const generateTab = useAIEditor((state) => state.generateTab);
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
-
   const outline_step = useUserTask((state) => state.outline_step);
   const copilot_option = useRef<string | null>(null);
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);

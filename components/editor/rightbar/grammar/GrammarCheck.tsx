@@ -29,31 +29,27 @@ export const GrammarCheck = memo(() => {
   const memoUpdateResult = useCallback((value: IGrammarResult[]) => {
     setGrammarResults(value);
   }, []);
+
   const { mutateAsync: handleGrammarCheck } = useMutation({
     mutationFn: (params: { block: JSONContent[] }) => submitPolish(params),
     onMutate: () => {
       setIsChecking(true);
     },
     onSuccess: (data: IGrammarResponse[]) => {
-      queryClient.invalidateQueries({ queryKey: ['membership'] });
+      if (usage?.subscription === 'basic')
+        queryClient.invalidateQueries({ queryKey: ['membership'] });
       let grammar_result: IGrammarResult[] = [];
       grammar_result = data.map((item) => {
-        const diff = item.diff.map((diffArray) => {
-          const data = diffArray.map((diffObject) => {
-            return {
-              sub_str: diffObject.sub_str,
-              new_str: diffObject.new_str,
-              status: diffObject.status,
-            };
-          });
-          return {
-            expand: false,
-            data: data,
-          };
-        });
         return {
           index: item.index,
-          diff: diff,
+          diff: item.diff
+            .map((diffSection) => ({
+              expand: false,
+              data: diffSection,
+            }))
+            .filter((diffSection) =>
+              diffSection.data.some((diffItem) => diffItem.status !== 0)
+            ),
         };
       });
       setGrammarResults(grammar_result);

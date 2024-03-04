@@ -94,19 +94,8 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
   useEffect(() => {
     if (!editor) return;
     if (typeof window !== 'undefined') {
-      let first_paragraph_pos: number = 0;
-      let first_paragraph_to: number = 0;
-      editor.state.doc.descendants((node, pos) => {
-        if (node.type.name === 'paragraph' && !first_paragraph_pos) {
-          first_paragraph_pos = pos;
-          first_paragraph_to = node.nodeSize + pos;
-        }
-      });
-      const coordinate = posToDOMRect(
-        editor.view,
-        first_paragraph_pos,
-        first_paragraph_to
-      );
+      const { pos, size } = findFirstParagraph(editor);
+      const coordinate = posToDOMRect(editor.view, pos, pos + size);
       setPosition({
         left: coordinate.left - 340 + window.scrollX,
         top: coordinate.top,

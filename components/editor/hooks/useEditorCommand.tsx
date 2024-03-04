@@ -1,8 +1,14 @@
 import { findFirstParagraph } from '@/lib/tiptap/utils';
-import { Editor } from '@tiptap/react';
+import type { Editor, FocusPosition } from '@tiptap/react';
 import { useCallback } from 'react';
 
 export const useEditorCommand = (editor: Editor) => {
+  const deleteRange = useCallback(
+    (from: number, to: number) => {
+      editor.chain().focus().deleteRange({ from, to }).run();
+    },
+    [editor]
+  );
   const highLightAtPosition = useCallback(
     (from: number, to: number) => {
       if (!editor) return;
@@ -30,6 +36,19 @@ export const useEditorCommand = (editor: Editor) => {
       .setTextSelection(0)
       .run();
   }, [editor]);
+
+  const insertGenerated = useCallback(
+    (pos: number, value: string, focus: FocusPosition) => {
+      editor
+        .chain()
+        .focus(focus)
+        .insertContentAt(pos, value, {
+          updateSelection: true,
+        })
+        .run();
+    },
+    [editor]
+  );
 
   const insertAtPostion = useCallback(
     (from: number, to: number, value: string) => {
@@ -89,7 +108,7 @@ export const useEditorCommand = (editor: Editor) => {
         })
         .setTextSelection({
           from: to,
-          to: ` ${value}`.length + to,
+          to: `${value}`.length + to,
         })
 
         .run();
@@ -160,6 +179,8 @@ export const useEditorCommand = (editor: Editor) => {
   );
 
   return {
+    deleteRange,
+    insertGenerated,
     insertCitation,
     insertNext,
     replaceText,
