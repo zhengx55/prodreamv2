@@ -6,8 +6,8 @@ import { Surface } from '@/components/ui/surface';
 import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
-import { ButtonTrack } from '@/query/api';
 import {
+  useButtonTrack,
   useMembershipInfo,
   useMutateTrackInfo,
   useUserTrackInfo,
@@ -22,6 +22,7 @@ import { useEditorCommand } from '../hooks/useEditorCommand';
 import CustomPrompt from './CustomPrompt';
 import { useAiOptions } from './hooks/useAiOptions';
 import useAiResponse from './hooks/useAiResponse';
+
 const RemainUsages = dynamic(() => import('./RemainUsages'));
 const StreamText = dynamic(() => import('./StreamText'));
 
@@ -37,7 +38,7 @@ const AiMenu = ({ editor }: Props) => {
   const tool = useRef<string | null>(null);
   const { replaceText, insertNext } = useEditorCommand(editor);
   const elRef = useScrollIntoView();
-
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
   const {
     hoverItem,
     setHoverItem,
@@ -68,7 +69,7 @@ const AiMenu = ({ editor }: Props) => {
         field: 'ai_copilot_task',
         data: true,
       });
-      await ButtonTrack('ai_copilot_task_completed');
+      await ButtonTrack({ event: 'ai_copilot_task_completed' });
     }
     await handleCopilot({ tool, text: selectedText });
   };

@@ -2,13 +2,12 @@ import Spacer from '@/components/root/Spacer';
 import { Feedback } from '@/components/root/SvgComponents';
 import { Checkbox } from '@/components/ui/checkbox';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
-import { ButtonTrack } from '@/query/api';
-import { useUserTrackInfo } from '@/query/query';
+import { useButtonTrack, useUserTrackInfo } from '@/query/query';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -28,6 +27,8 @@ const CheckList = () => {
   const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
+
   const selectHandler = useDebouncedCallback(async (index: number) => {
     if (index === 0 || index === 1) {
       const first_paragraph = findFirstParagraph(editor!);
@@ -47,7 +48,7 @@ const CheckList = () => {
     if (index === 2) {
       updateRightbarTab(2);
       setGenerateTab('Write Introduction');
-      await ButtonTrack('generate_tool_task_completed');
+      await ButtonTrack({ event: 'generate_tool_task_completed' });
       updateGenerateStep(1);
     }
     if (index === 3) {
@@ -233,4 +234,4 @@ const CheckList = () => {
     </div>
   );
 };
-export default CheckList;
+export default memo(CheckList);

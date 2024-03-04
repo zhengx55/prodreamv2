@@ -5,7 +5,7 @@ import {
   PricingBasic,
   PricingUnlimited,
 } from '@/constant';
-import { ButtonTrack } from '@/query/api';
+import { useButtonTrack } from '@/query/query';
 import { ISubscription } from '@/types';
 import Spacer from '../root/Spacer';
 import Card from './Card';
@@ -17,6 +17,8 @@ const Tab = ({ membership }: Props) => {
     membership.subscription === 'basic';
   const isMonthly = membership.subscription_type === 'month';
   const isAnually = membership.subscription_type === 'year';
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
+
   return (
     <Tabs
       defaultValue='Annually'
@@ -32,7 +34,7 @@ const Tab = ({ membership }: Props) => {
         <TabsTrigger
           value='Monthly'
           className='rounded-full px-9 text-white data-[state=active]:bg-white data-[state=active]:text-doc-primary'
-          onClick={async () => await ButtonTrack('Monthly_Plan')}
+          onClick={async () => await ButtonTrack({ event: 'Monthly_Plan' })}
         >
           Monthly
         </TabsTrigger>
