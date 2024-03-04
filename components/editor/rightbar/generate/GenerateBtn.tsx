@@ -2,8 +2,7 @@ import Spacer from '@/components/root/Spacer';
 import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
-import { ButtonTrack } from '@/query/api';
-import { useMutateTrackInfo } from '@/query/query';
+import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import Image from 'next/image';
 import { memo } from 'react';
@@ -17,6 +16,8 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
   const outline_step = useUserTask((state) => state.outline_step);
   const generate_step = useUserTask((state) => state.generate_step);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
+
   return (
     <div className='flex flex-col'>
       <Spacer y='30' />
@@ -60,7 +61,7 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
                   field: 'outline_tip_task',
                   data: true,
                 });
-                await ButtonTrack('outline_gotit');
+                await ButtonTrack({ event: 'outline_gotit' });
                 updateRightbarTab(0);
               }
             }}

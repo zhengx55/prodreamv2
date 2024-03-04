@@ -46,6 +46,7 @@ const Reference = () => {
       return 0;
     });
   }, [inTextCitation]);
+
   const copyHtml = async () => {
     const htmlNode = referenceListRef.current;
     navigator.clipboard.writeText(htmlNode?.innerText ?? '');

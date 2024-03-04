@@ -5,7 +5,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
 import { useCookies } from 'react-cookie';
+import { isMobile } from 'react-device-detect';
 import {
+  ButtonTrack,
   createCitation,
   getDocDetail,
   getDocs,
@@ -18,13 +20,13 @@ import {
   updateUserInfo,
   userLogin,
 } from './api';
-import { UserTrackData } from './type';
 import {
   postABTest,
   postABTestByToken,
   postABTestPagePoint,
   postABTestPagePointByToken,
 } from './test';
+import { UserTrackData } from './type';
 
 export const useMembershipInfo = () => {
   return useQuery({
@@ -279,5 +281,12 @@ export const usePostABTestPagePointByToken = () => {
       const { toast } = await import('sonner');
       console.error('ABTest error:', error);
     },
+  });
+};
+
+export const useButtonTrack = () => {
+  return useMutation({
+    mutationFn: ({ event }: { event: string }) =>
+      ButtonTrack(event, isMobile ? 1 : 0),
   });
 };

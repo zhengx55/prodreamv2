@@ -13,14 +13,13 @@ import { Button } from '../ui/button';
 
 const NavBar = () => {
   const { t, getCurrentLanguage, locales } = useLocalization();
-
   return (
     <section className='z-50 flex h-16 w-full justify-center bg-white py-3'>
       <nav className='flex-between w-full px-4 sm:max-w-[1200px] sm:px-0'>
         <div className='flex items-center gap-x-10'>
           <Image
             src='/logo/Prodream.png'
-            width={160}
+            width={140}
             height={30}
             alt='logo'
             className='h-auto w-40 sm:w-36'

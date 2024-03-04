@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { sample_continue, sample_outline } from '@/constant';
-import { ButtonTrack, outline } from '@/query/api';
-import { useMutateTrackInfo } from '@/query/query';
+import { outline } from '@/query/api';
+import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
 import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
@@ -22,6 +22,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   const close = async () => {
     await updateTrack({
@@ -53,7 +54,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
     onSuccess: async (data: ReadableStream) => {
       setIsGenerating(false);
       close();
-      await ButtonTrack('start with generated outlie');
+      await ButtonTrack({ event: 'start with generated outlie' });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
@@ -140,13 +141,13 @@ const Guidance = ({ editor }: { editor: Editor }) => {
     editor.commands.insertContent(draftRef.current.value, {
       updateSelection: true,
     });
-    await ButtonTrack('start with draft');
+    await ButtonTrack({ event: 'start with draft' });
     updateContinueStep(1);
     await close();
   };
 
   const handleExplore = async () => {
-    await ButtonTrack('just exploring');
+    await ButtonTrack({ event: 'just exploring' });
     editor.commands.setContent(sample_continue, true);
     updateContinueStep(1);
     await close();
@@ -154,7 +155,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
 
   const handleClickSample = async () => {
     if (!ideaRef.current) return;
-    await ButtonTrack('start with sample outline');
+    await ButtonTrack({ event: 'start with sample outline' });
     editor.commands.setContent(sample_outline, true);
     ideaRef.current.value = 'Importance of religion in East Asian culture';
     setTimeout(async () => {

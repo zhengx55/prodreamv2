@@ -6,8 +6,8 @@ import {
   OutlineTooltipMain,
 } from '@/constant/enum';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
-import { ButtonTrack, copilot } from '@/query/api';
-import { useMutateTrackInfo } from '@/query/query';
+import { copilot } from '@/query/api';
+import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { posToDOMRect, type Editor } from '@tiptap/react';
@@ -141,6 +141,7 @@ export const ContinuTipSecond = memo(({ editor }: { editor: Editor }) => {
   const insertPos = useRef<number>(0);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { text: string; pos: number; start: number }) =>
@@ -242,7 +243,7 @@ export const ContinuTipSecond = memo(({ editor }: { editor: Editor }) => {
               field: 'continue_tip_task',
               data: true,
             });
-            await ButtonTrack('continue_gotit');
+            await ButtonTrack({ event: 'continue_gotit' });
             updateRightbarTab(0);
           }}
           className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'

@@ -16,11 +16,9 @@ export const Selection = Extension.create({
             if (state.selection.empty) {
               return null;
             }
-
             if (editor.isFocused === true) {
               return null;
             }
-
             return DecorationSet.create(state.doc, [
               Decoration.inline(state.selection.from, state.selection.to, {
                 class: 'selection',

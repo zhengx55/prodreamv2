@@ -20,10 +20,7 @@ type Props = { editor: EditorType };
 const EditorBlock = ({ editor }: Props) => {
   const { showCopilotMenu, showContinue, showCitiationMenu, showSynonymMenu } =
     useAIEditor((state) => ({
-      showCopilotMenu: state.showCopilotMenu,
-      showContinue: state.showContinue,
-      showCitiationMenu: state.showCitiationMenu,
-      showSynonymMenu: state.showSynonymMenu,
+      ...state,
     }));
   const { data: userTrack } = useUserTrackInfo();
   const isClose = Boolean(userTrack?.basic_task);
