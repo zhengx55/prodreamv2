@@ -15,12 +15,12 @@ import APAReference from './reference/APA';
 import MLAReference from './reference/MLA';
 
 const Reference = () => {
-  const citation_type = useCitation((state) => state.citationStyle);
-  const inTextCitation = useCitation((state) => state.inTextCitation);
+  const { citationStyle, inTextCitation, updateCitationStyle } = useCitation(
+    (state) => ({ ...state })
+  );
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { data: usage } = useMembershipInfo();
   const referenceListRef = useRef<HTMLOListElement>(null);
-  const updateCitationStyle = useCitation((state) => state.updateCitationStyle);
   const sort_array = useMemo(() => {
     return inTextCitation.sort((a, b) => {
       const lastNameA = (
@@ -53,6 +53,7 @@ const Reference = () => {
     const { toast } = await import('sonner');
     toast.success('Copied to clipboard');
   };
+
   if (inTextCitation.length === 0) return null;
   return (
     <div className='mx-auto flex w-[700px] select-none flex-col'>
@@ -82,7 +83,7 @@ const Reference = () => {
           )}
           <Select onValueChange={(value) => updateCitationStyle(value)}>
             <SelectTrigger className='h-max w-20 gap-x-2 rounded border-doc-primary px-2 py-0.5 text-doc-primary'>
-              <SelectValue placeholder='MLA' />
+              <SelectValue placeholder={citationStyle} />
             </SelectTrigger>
             <SelectContent className='bg-white'>
               <SelectItem value='MLA'>MLA</SelectItem>
@@ -93,7 +94,7 @@ const Reference = () => {
       </div>
       <Spacer y='20' />
       <ol className={`pl-8`} ref={referenceListRef}>
-        {citation_type === 'MLA'
+        {citationStyle === 'MLA'
           ? sort_array.map((item, index) => (
               <li
                 key={`reference-${index}`}
@@ -102,7 +103,7 @@ const Reference = () => {
                 <MLAReference citation={item as any} />
               </li>
             ))
-          : citation_type === 'APA'
+          : citationStyle === 'APA'
             ? sort_array.map((item, index) => (
                 <li
                   key={`reference-${index}`}
