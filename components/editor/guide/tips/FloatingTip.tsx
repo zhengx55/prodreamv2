@@ -38,7 +38,7 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
       );
       setPosition({
         left: coordinate.left - 340 + window.scrollX,
-        top: coordinate.top + window.screenY,
+        top: coordinate.top,
       });
     }
   }, [editor]);
@@ -90,9 +90,10 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const insertPos = useRef<number>(0);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
-  const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
-  const updateContinueRes = useAIEditor((state) => state.updateContinueRes);
+  const { updateRightbarTab, updateshowContinue, updateContinueRes } =
+    useAIEditor((state) => ({
+      ...state,
+    }));
 
   const { mutateAsync: ButtonTrack } = useButtonTrack();
   const { mutateAsync: handleCopilot } = useMutation({
@@ -100,7 +101,6 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
       copilot({ tool: 'continue_write_sentence', text: params.text }),
     onSuccess: async (data: ReadableStream, variables) => {
       let flag: boolean = false;
-
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       insertPos.current = variables.pos - 1;
       while (true) {
@@ -111,30 +111,25 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
             line.startsWith('data:') &&
             lines.at(index - 1)?.startsWith('event: data')
         );
-        let result = '';
         const eventData: string[] | undefined = dataLines?.map((line) =>
           JSON.parse(line.slice('data:'.length))
         );
 
         if (!flag && eventData?.at(0)?.trim() !== '') {
           flag = true;
-          eventData?.forEach((word) => {
-            result += word;
-          });
-          updateContinueRes(result);
+          updateContinueRes(eventData?.join('') ?? '');
+          insertPos.current += (eventData?.join('') ?? '').length;
           updateshowContinue(null);
           editor
             .chain()
             .focus()
-            .insertContent({
+            .insertContentAt(variables.pos, {
               type: 'ContinueResult',
             })
             .run();
         } else {
-          eventData?.forEach((word) => {
-            result += word;
-          });
-          updateContinueRes(result);
+          updateContinueRes(eventData?.join('') ?? '');
+          insertPos.current += (eventData?.join('') ?? '').length;
           if (done) {
             const coordinate = posToDOMRect(
               editor.view,
@@ -143,8 +138,8 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
             );
             const el_srcoll_top =
               editor.view.dom.parentElement?.parentElement?.scrollTop;
-            setTop(coordinate.top + (el_srcoll_top ?? 0));
-            setLeft(coordinate.left - 360);
+            setTop(coordinate.top + 50 + (el_srcoll_top ?? 0));
+            setLeft(coordinate.left - 360 + window.scrollX);
             break;
           }
         }
@@ -157,7 +152,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
       const first_paragraph = findFirstParagraph(editor);
       await handleCopilot({
         text: first_paragraph.content,
-        pos: first_paragraph.pos + first_paragraph.size,
+        pos: first_paragraph.pos + first_paragraph.size - 1,
         start: first_paragraph.pos,
       });
     }

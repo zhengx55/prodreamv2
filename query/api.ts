@@ -975,13 +975,15 @@ export async function PageTrack(event: string, time: string, mobile?: number) {
 
 export async function ButtonTrack(event: string, mobile: number) {
   try {
+    let body = { mobile };
     const token = Cookies.get('token');
-    let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/click/${event}&mobile=${mobile ?? 0}`;
+    let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/click/${event}`;
     if (!token)
-      url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/click/${event}/anonymous&mobile=${mobile ?? 0}`;
+      url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/click/${event}/anonymous`;
     await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
       method: 'POST',
+      body: JSON.stringify(body),
     });
   } catch (error) {
     console.error(error);
