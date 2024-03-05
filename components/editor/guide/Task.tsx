@@ -11,6 +11,7 @@ import { Progress } from '@/components/ui/progress';
 import { startup_task, task_gif } from '@/constant';
 import { useMutateTrackInfo } from '@/query/query';
 import { UserTrackData } from '@/query/type';
+import { useAIEditor } from '@/zustand/store';
 import { type Editor } from '@tiptap/react';
 import { m } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
@@ -24,6 +25,7 @@ const Task = ({ editor, track }: Props) => {
   const [step, setStep] = useState(-1);
   const [progress, setProgress] = useState(33.33);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const grammarResults = useAIEditor((state) => state.grammarResults);
 
   const debounceUpdateTask = useDebouncedCallback(async () => {
     await updateTrack({ field: 'highlight_task', data: true });
@@ -34,14 +36,14 @@ const Task = ({ editor, track }: Props) => {
   }, 500);
 
   useEffect(() => {
-    if (!track.highlight_task) {
+    if (!track.highlight_task && grammarResults.length === 0) {
       editor.on('selectionUpdate', debounceUpdateTask);
     }
     return () => {
       editor.off('selectionUpdate', debounceUpdateTask);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, track.highlight_task]);
+  }, [editor, track.highlight_task, grammarResults.length]);
 
   useLayoutEffect(() => {
     setProgress(

@@ -13,10 +13,11 @@ import SentenceFragment from './SentenceFragment';
 
 type Props = {
   grammarResults: IGrammarResult[];
-  updateGrammarResult: (value: IGrammarResult[]) => void;
 };
-const Result = ({ grammarResults, updateGrammarResult }: Props) => {
+const Result = ({ grammarResults }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
+  const updateGrammarResult = useAIEditor((state) => state.updateGrammarResult);
+
   const handleDismiss = (index: number, group_index: number) => {
     const array = [...grammarResults];
     updateGrammarResult(

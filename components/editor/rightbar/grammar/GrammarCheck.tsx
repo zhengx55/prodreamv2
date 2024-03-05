@@ -13,7 +13,7 @@ import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { memo, useCallback, useState } from 'react';
+import { memo, useState } from 'react';
 
 const Result = dynamic(() => import('./Result'));
 
@@ -23,12 +23,10 @@ export const GrammarCheck = memo(() => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: userTrack } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
-  const [grammarResults, setGrammarResults] = useState<IGrammarResult[]>([]);
+  const grammarResults = useAIEditor((state) => state.grammarResults);
+  const updateGrammarResult = useAIEditor((state) => state.updateGrammarResult);
   const queryClient = useQueryClient();
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
-  const memoUpdateResult = useCallback((value: IGrammarResult[]) => {
-    setGrammarResults(value);
-  }, []);
 
   const { mutateAsync: handleGrammarCheck } = useMutation({
     mutationFn: (params: { block: JSONContent[] }) => submitPolish(params),
@@ -52,7 +50,7 @@ export const GrammarCheck = memo(() => {
             ),
         };
       });
-      setGrammarResults(grammar_result);
+      updateGrammarResult(grammar_result);
     },
     onSettled: () => {
       setIsChecking(false);
@@ -94,10 +92,7 @@ export const GrammarCheck = memo(() => {
             <Loader2 className='animate-spin text-doc-shadow' />
           </m.div>
         ) : grammarResults.length > 0 ? (
-          <Result
-            grammarResults={grammarResults}
-            updateGrammarResult={memoUpdateResult}
-          />
+          <Result grammarResults={grammarResults} />
         ) : (
           <m.div
             initial={{ opacity: 0, y: -20 }}
