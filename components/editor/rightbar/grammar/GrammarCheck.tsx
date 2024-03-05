@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { highLightGrammar } from '@/lib/tiptap/utils';
 import { submitPolish } from '@/query/api';
 import {
   useMembershipInfo,
@@ -50,7 +51,11 @@ export const GrammarCheck = memo(() => {
             ),
         };
       });
-      updateGrammarResult(grammar_result);
+      // 将第一个suggestion 展开并划线
+      const expand_head_array = [...grammar_result];
+      expand_head_array[0].diff[0].expand = true;
+      highLightGrammar(editor!, expand_head_array[0], 0);
+      updateGrammarResult(expand_head_array);
     },
     onSettled: () => {
       setIsChecking(false);
