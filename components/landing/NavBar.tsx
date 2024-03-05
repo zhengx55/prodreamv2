@@ -9,9 +9,13 @@ import useLocalization from '@/hooks/useLocalization';
 import _ from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCookies } from 'react-cookie';
 import { Button } from '../ui/button';
 
 const NavBar = () => {
+  const [cookies] = useCookies(['token']);
+  const router = useRouter();
   const { t, getCurrentLanguage, locales } = useLocalization();
   return (
     <section className='z-50 flex h-16 w-full justify-center bg-white py-3'>
@@ -31,7 +35,7 @@ const NavBar = () => {
           >
             <DropdownMenu>
               <DropdownMenuTrigger className='w-10 ' asChild>
-                <span className='hidden   text-[#3B3A40] hover:bg-shadow-50 sm:block'>
+                <span className='hidden text-[#3B3A40] hover:bg-shadow-50 sm:block'>
                   {_.toUpper(getCurrentLanguage())}
                 </span>
               </DropdownMenuTrigger>
@@ -64,6 +68,7 @@ const NavBar = () => {
           </Button>
           <Link href={'https://prodream.ai/blog'} passHref target='_blank'>
             <Button
+              role='link'
               className='hidden w-10 text-[#3B3A40] sm:block'
               variant={'ghost'}
             >
@@ -72,11 +77,16 @@ const NavBar = () => {
           </Link>
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
-          <Link href={'/login'} passHref>
-            <Button variant={'ghost'} className='text-doc-primary'>
-              {t('log_in')}
-            </Button>
-          </Link>
+          <Button
+            role='link'
+            onClick={() => {
+              cookies.token ? router.push('/editor') : router.push('/login');
+            }}
+            variant={'ghost'}
+            className='text-doc-primary'
+          >
+            {t('log_in')}
+          </Button>
           <Link href={'/signup'} passHref>
             <Button className='bg-doc-primary hover:bg-doc-primary'>
               <strong>{t('start_writing')}</strong>
