@@ -25,7 +25,7 @@ const Task = ({ editor, track }: Props) => {
   const [step, setStep] = useState(-1);
   const [progress, setProgress] = useState(33.33);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const grammarResults = useAIEditor((state) => state.grammarResults);
+  const showCopilotMenu = useAIEditor((state) => state.showCopilotMenu);
 
   const debounceUpdateTask = useDebouncedCallback(async () => {
     await updateTrack({ field: 'highlight_task', data: true });
@@ -36,14 +36,14 @@ const Task = ({ editor, track }: Props) => {
   }, 500);
 
   useEffect(() => {
-    if (!track.highlight_task && grammarResults.length === 0) {
+    if (!track.highlight_task && showCopilotMenu) {
       editor.on('selectionUpdate', debounceUpdateTask);
     }
     return () => {
       editor.off('selectionUpdate', debounceUpdateTask);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, track.highlight_task, grammarResults.length]);
+  }, [editor, track.highlight_task, showCopilotMenu]);
 
   useLayoutEffect(() => {
     setProgress(
