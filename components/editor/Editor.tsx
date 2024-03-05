@@ -43,7 +43,8 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
 
   const debouncedShowContinue = useDebouncedCallback((editor: EditorType) => {
     if (disableContinue) return;
-    const { anchor } = editor.state.selection;
+    const { anchor, from, to } = editor.state.selection;
+    if (from !== to) return;
     const { doc } = editor.state;
     doc.descendants((node, pos) => {
       if (
@@ -122,12 +123,12 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
     },
     onSelectionUpdate: ({ editor }) => {
       updateshowContinue(null);
+      debouncedShowContinue(editor as EditorType);
       const { from, to } = editor.state.selection;
       if (from !== to) {
         setShowBottomBar(false);
-      } else {
+      } else if (from === to) {
         setShowBottomBar(true);
-        debouncedShowContinue(editor as EditorType);
       }
     },
     onUpdate: ({ editor }) => {

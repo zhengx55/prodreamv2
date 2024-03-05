@@ -1,7 +1,10 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { findNodePos, findParagpraph } from '@/lib/tiptap/utils';
-import { createRegex } from '@/lib/utils';
+import {
+  findNodePos,
+  findParagpraph,
+  highLightGrammar,
+} from '@/lib/tiptap/utils';
 import { IGrammarResult } from '@/query/type';
 import { useAIEditor } from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
@@ -13,10 +16,11 @@ import SentenceFragment from './SentenceFragment';
 
 type Props = {
   grammarResults: IGrammarResult[];
-  updateGrammarResult: (value: IGrammarResult[]) => void;
 };
-const Result = ({ grammarResults, updateGrammarResult }: Props) => {
+const Result = ({ grammarResults }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
+  const updateGrammarResult = useAIEditor((state) => state.updateGrammarResult);
+
   const handleDismiss = (index: number, group_index: number) => {
     const array = [...grammarResults];
     updateGrammarResult(
@@ -35,45 +39,9 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
   };
 
   const command = useEditorCommand(editor!);
-
   useUnmount(() => {
     command.clearAllHightLight();
   });
-
-  const hightLightSentence = (
-    current_suggestion: IGrammarResult,
-    index: number
-  ) => {
-    if (!editor) return;
-    const blocks = editor.getJSON().content?.slice(1) ?? [];
-    let found = findParagpraph(current_suggestion.index, blocks)?.text ?? '';
-    if (!found) return;
-    const { nodePos } = findNodePos(editor, found);
-    const original_sentence =
-      current_suggestion.diff.at(index)?.data.reduce((acc, current) => {
-        if (current.status !== 1) {
-          return acc + current.sub_str;
-        } else {
-          return acc + '';
-        }
-      }, '') ?? '';
-    const sentence_position = found.indexOf(original_sentence.trimEnd());
-    if (sentence_position === undefined) return;
-    current_suggestion.diff.at(index)?.data.forEach((sentence) => {
-      if (sentence.status === 3 || sentence.status === 2) {
-        let substring_regex = createRegex(sentence.sub_str.trim());
-        const modification_postion = original_sentence.search(substring_regex);
-        const from = modification_postion + nodePos + sentence_position;
-        const to =
-          modification_postion +
-          nodePos +
-          sentence_position +
-          sentence.sub_str.length -
-          1;
-        command.highLightAtPosition(from, to);
-      }
-    });
-  };
 
   const processAccept = useCallback(
     (item: IGrammarResult, index: number, group_index: number) => {
@@ -134,14 +102,10 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
     updateGrammarResult([]);
   };
 
-  const handleDismissAll = () => {
-    updateGrammarResult([]);
-  };
-
   const handleActvie = (group_index: number, index: number) => {
     command.clearAllHightLight();
     const current_suggestion = grammarResults.at(group_index);
-    hightLightSentence(current_suggestion!, index);
+    highLightGrammar(editor!, current_suggestion!, index);
     updateGrammarResult(
       grammarResults.map((el, pos) => ({
         ...el,
@@ -174,7 +138,7 @@ const Result = ({ grammarResults, updateGrammarResult }: Props) => {
             Accept all
           </Button>
           <Button
-            onClick={handleDismissAll}
+            onClick={() => updateGrammarResult([])}
             variant={'ghost'}
             className='text-doc-shadow'
           >

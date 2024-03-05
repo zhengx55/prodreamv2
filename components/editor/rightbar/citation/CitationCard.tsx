@@ -40,6 +40,10 @@ export const SearchCitationCard = memo(
 
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
+        const { toast } = await import('sonner');
+        toast.info(
+          'In text citation will be append to the postion of your cursor!'
+        );
         await updateTrack({
           field: 'citation_task',
           data: true,
