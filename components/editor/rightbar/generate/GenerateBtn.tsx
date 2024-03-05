@@ -2,8 +2,7 @@ import Spacer from '@/components/root/Spacer';
 import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
-import { ButtonTrack } from '@/query/api';
-import { useMutateTrackInfo } from '@/query/query';
+import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import Image from 'next/image';
 import { memo } from 'react';
@@ -12,11 +11,11 @@ import Tiplayout from '../../guide/tips/Tiplayout';
 type Props = { type: string; handleGenerate: () => Promise<void> };
 const GenerateBtn = ({ handleGenerate, type }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
-  const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
-  const outline_step = useUserTask((state) => state.outline_step);
-  const generate_step = useUserTask((state) => state.generate_step);
+  const { updateOutlineStep, updateGenerateStep, outline_step, generate_step } =
+    useUserTask((state) => ({ ...state }));
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
+
   return (
     <div className='flex flex-col'>
       <Spacer y='30' />
@@ -54,13 +53,16 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
                   field: 'generate_tool_task',
                   data: true,
                 });
+                await ButtonTrack({
+                  event: 'Onboarding task: generate introduction',
+                });
               } else {
                 updateOutlineStep(0);
                 await updateTrack({
                   field: 'outline_tip_task',
                   data: true,
                 });
-                await ButtonTrack('outline_gotit');
+                await ButtonTrack({ event: 'outline_gotit' });
                 updateRightbarTab(0);
               }
             }}

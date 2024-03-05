@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CitationTooltip } from '@/constant/enum';
 import { ConvertCitationData } from '@/lib/utils';
-import { ButtonTrack } from '@/query/api';
 import {
+  useButtonTrack,
   useCiteToDoc,
   useCreateCitation,
   useMutateTrackInfo,
@@ -36,13 +36,19 @@ export const SearchCitationCard = memo(
     const { data: track } = useUserTrackInfo();
     const { mutateAsync: handleCollect } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
+    const { mutateAsync: ButtonTrack } = useButtonTrack();
+
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
+        const { toast } = await import('sonner');
+        toast.info(
+          'In text citation will be append to the postion of your cursor!'
+        );
         await updateTrack({
           field: 'citation_task',
           data: true,
         });
-        await ButtonTrack('citation_task_completed');
+        await ButtonTrack({ event: 'Onboarding task: add citation' });
       }
       const converted_data = ConvertCitationData(item);
       if (action === 'collect') {

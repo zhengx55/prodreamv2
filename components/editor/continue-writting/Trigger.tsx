@@ -8,6 +8,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { copilot } from '@/query/api';
+import { useMembershipInfo } from '@/query/query';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
@@ -22,6 +23,7 @@ const Trigger = ({ editor }: Props) => {
   const queryClient = useQueryClient();
   const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
   const updateInsertPos = useAIEditor((state) => state.updateInsertPos);
+  const { data: usage } = useMembershipInfo();
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === '/') {
@@ -43,7 +45,8 @@ const Trigger = ({ editor }: Props) => {
     },
     onSuccess: async (data: ReadableStream) => {
       let flag: boolean = false;
-      queryClient.invalidateQueries({ queryKey: ['membership'] });
+      if (usage?.subscription === 'basic')
+        queryClient.invalidateQueries({ queryKey: ['membership'] });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();

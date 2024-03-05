@@ -9,14 +9,14 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { startup_task, task_gif } from '@/constant';
-import { useMutateTrackInfo } from '@/query/query';
+import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
 import { UserTrackData } from '@/query/type';
+import { useAIEditor } from '@/zustand/store';
 import { type Editor } from '@tiptap/react';
 import { m } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { memo, useEffect, useLayoutEffect, useState } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
 
 type Props = { editor: Editor; track: UserTrackData };
 
@@ -24,24 +24,22 @@ const Task = ({ editor, track }: Props) => {
   const [step, setStep] = useState(-1);
   const [progress, setProgress] = useState(33.33);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-
-  const debounceUpdateTask = useDebouncedCallback(async () => {
-    await updateTrack({ field: 'highlight_task', data: true });
-    const { toast } = await import('sonner');
-    toast.success(
-      'Congrats! Highlight is the #1 way to intereact with out AI! Then use "AI Copilot" prompts to edit or generate based on highlighted content ✨'
-    );
-  }, 500);
-
+  const showCopilotMenu = useAIEditor((state) => state.showCopilotMenu);
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
   useEffect(() => {
-    if (!track.highlight_task) {
-      editor.on('selectionUpdate', debounceUpdateTask);
-    }
-    return () => {
-      editor.off('selectionUpdate', debounceUpdateTask);
+    const finishHighlight = async () => {
+      await updateTrack({ field: 'highlight_task', data: true });
+      await ButtonTrack({ event: 'Basic task: highlight any text' });
+      const { toast } = await import('sonner');
+      toast.success(
+        'Congrats! Highlight is the #1 way to intereact with out AI! Then use "AI Copilot" prompts to edit or generate based on highlighted content ✨'
+      );
     };
+    if (!track.highlight_task && showCopilotMenu) {
+      finishHighlight();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, track.highlight_task]);
+  }, [editor, track.highlight_task, showCopilotMenu]);
 
   useLayoutEffect(() => {
     setProgress(

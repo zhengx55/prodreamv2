@@ -17,7 +17,7 @@ export enum OutlineTooltip {
 
 export enum ContinueTooltip {
   TITLE = 'We write the next sentence for you 🤝',
-  TEXT = 'Continue Writing” can extend your writing while maintaining your unique style',
+  TEXT = '"Continue Writing" can extend your writing while maintaining your unique style',
 }
 export enum ContinueTooltipSecond {
   TITLE = 'Continue writing shortcut',

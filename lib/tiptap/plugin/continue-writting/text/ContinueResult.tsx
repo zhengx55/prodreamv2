@@ -1,3 +1,4 @@
+import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
@@ -9,7 +10,6 @@ import { useAIEditor } from '@/zustand/store';
 import { NodeViewContent, NodeViewProps, NodeViewWrapper } from '@tiptap/react';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { useAnimationFrame } from 'framer-motion';
-import { CornerDownLeft } from 'lucide-react';
 import {
   memo,
   useCallback,
@@ -94,24 +94,38 @@ const ContinueResult = (props: NodeViewProps) => {
         &nbsp;{currentText}
       </NodeViewContent>
       {showAccept && (
-        <Button
-          role='button'
-          onClick={handleAccept}
-          className='absolute bottom-0 h-6 w-6 cursor-pointer rounded bg-white px-0 shadow-[0px_2px_4px_0px_#DEE0EF]'
-        >
-          <TooltipProvider>
-            <Tooltip delayDuration={100}>
-              <TooltipTrigger asChild>
-                <span className='rounded bg-doc-primary'>
-                  <CornerDownLeft className='text-white' size={18} />
+        <TooltipProvider>
+          <Tooltip delayDuration={100}>
+            <TooltipTrigger asChild>
+              <Button
+                role='button'
+                onClick={handleAccept}
+                className='absolute -bottom-1 ml-1 h-max w-max cursor-pointer rounded bg-white p-0.5 shadow-[0px_2px_4px_0px_#DEE0EF]'
+              >
+                <span className='rounded bg-doc-primary px-1 py-0.5'>
+                  <p className='small-regular text-white'>Accept</p>
                 </span>
-              </TooltipTrigger>
-              <TooltipContent className='py-2'>
-                <p>Accept</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </Button>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className='rounded-lg py-2'>
+              <div className='flex items-center gap-x-2'>
+                <span className='small-regular rounded bg-[#64626A] px-2 py-1 text-white'>
+                  tab
+                </span>
+                <p className='small-regular text-[#64626A]'>
+                  for accept shortcut
+                </p>
+              </div>
+              <Spacer y='10' />
+              <div className='flex items-center gap-x-2'>
+                <span className='small-regular rounded bg-[#64626A] px-2 py-1 text-white'>
+                  delete
+                </span>
+                <p className='small-regular text-[#64626A]'>to discard</p>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       )}
     </NodeViewWrapper>
   );
