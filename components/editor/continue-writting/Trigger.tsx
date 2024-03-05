@@ -22,6 +22,7 @@ const Trigger = ({ editor }: Props) => {
   const queryClient = useQueryClient();
   const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
   const updateInsertPos = useAIEditor((state) => state.updateInsertPos);
+
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === '/') {
