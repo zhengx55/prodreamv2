@@ -48,7 +48,7 @@ export const SearchCitationCard = memo(
           field: 'citation_task',
           data: true,
         });
-        await ButtonTrack({ event: 'citation_task_completed' });
+        await ButtonTrack({ event: 'Onboarding task: add citation' });
       }
       const converted_data = ConvertCitationData(item);
       if (action === 'collect') {

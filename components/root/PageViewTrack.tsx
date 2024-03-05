@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
-const PageViewTrack = () => {
+const PageViewTrack = ({ no_route_event }: { no_route_event?: string }) => {
   const pathname = usePathname();
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [delay, setDelay] = useState(0); // Initialize delay as 0 for immediate first call
@@ -12,7 +12,9 @@ const PageViewTrack = () => {
 
   useEffect(() => {
     const callApi = async () => {
-      const page_name = pathname.split('/').pop() || 'landing_page';
+      const page_name = no_route_event
+        ? no_route_event
+        : pathname.split('/').pop() || 'landing_page';
       const delay_param = delay ? (delay / 1000).toString() : '0';
       await PageTrack(page_name, delay_param, isMobile ? 1 : 0);
       if (!firstCallDone.current) {
@@ -32,7 +34,7 @@ const PageViewTrack = () => {
         clearTimeout(timer.current);
       }
     };
-  }, [delay, pathname]);
+  }, [delay, pathname, no_route_event]);
 
   useEffect(() => {
     return () => {

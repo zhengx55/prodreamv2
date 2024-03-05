@@ -11,10 +11,8 @@ import Tiplayout from '../../guide/tips/Tiplayout';
 type Props = { type: string; handleGenerate: () => Promise<void> };
 const GenerateBtn = ({ handleGenerate, type }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
-  const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
-  const outline_step = useUserTask((state) => state.outline_step);
-  const generate_step = useUserTask((state) => state.generate_step);
+  const { updateOutlineStep, updateGenerateStep, outline_step, generate_step } =
+    useUserTask((state) => ({ ...state }));
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
 
@@ -54,6 +52,9 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
                 await updateTrack({
                   field: 'generate_tool_task',
                   data: true,
+                });
+                await ButtonTrack({
+                  event: 'Onboarding task: generate introduction',
                 });
               } else {
                 updateOutlineStep(0);

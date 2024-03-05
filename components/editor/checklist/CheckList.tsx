@@ -2,7 +2,11 @@ import Spacer from '@/components/root/Spacer';
 import { Feedback } from '@/components/root/SvgComponents';
 import { Checkbox } from '@/components/ui/checkbox';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
-import { useButtonTrack, useUserTrackInfo } from '@/query/query';
+import {
+  useButtonTrack,
+  useMutateTrackInfo,
+  useUserTrackInfo,
+} from '@/query/query';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -22,6 +26,7 @@ const CheckList = () => {
   const editor = useAIEditor((state) => state.editor_instance);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
 
   const {
     updateTaskStep,
@@ -49,6 +54,11 @@ const CheckList = () => {
         const checkList = document.getElementById('checklist-trigger');
         checkList?.click();
         updateContinueStep(1);
+        await ButtonTrack({ event: 'Onboarding task: next sentence' });
+        await updateTrack({
+          field: 'continue_writing_task',
+          data: true,
+        });
       }
     }
     if (index === 2) {

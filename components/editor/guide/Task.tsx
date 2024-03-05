@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { startup_task, task_gif } from '@/constant';
-import { useMutateTrackInfo } from '@/query/query';
+import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
 import { UserTrackData } from '@/query/type';
 import { useAIEditor } from '@/zustand/store';
 import { type Editor } from '@tiptap/react';
@@ -25,10 +25,11 @@ const Task = ({ editor, track }: Props) => {
   const [progress, setProgress] = useState(33.33);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const showCopilotMenu = useAIEditor((state) => state.showCopilotMenu);
-
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
   useEffect(() => {
     const finishHighlight = async () => {
       await updateTrack({ field: 'highlight_task', data: true });
+      await ButtonTrack({ event: 'Basic task: highlight any text' });
       const { toast } = await import('sonner');
       toast.success(
         'Congrats! Highlight is the #1 way to intereact with out AI! Then use "AI Copilot" prompts to edit or generate based on highlighted content ✨'
