@@ -1,10 +1,11 @@
+import PageViewTrack from '@/components/root/PageViewTrack';
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { sample_continue, sample_outline } from '@/constant';
-import { ButtonTrack, outline } from '@/query/api';
-import { useMutateTrackInfo } from '@/query/query';
+import { outline } from '@/query/api';
+import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
 import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
@@ -22,6 +23,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   const close = async () => {
     await updateTrack({
@@ -32,7 +34,6 @@ const Guidance = ({ editor }: { editor: Editor }) => {
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
-
     if (check === 2) {
       timer = setTimeout(() => {
         handleExplore();
@@ -53,11 +54,12 @@ const Guidance = ({ editor }: { editor: Editor }) => {
     onSuccess: async (data: ReadableStream) => {
       setIsGenerating(false);
       close();
-      await ButtonTrack('start with generated outlie');
+      await ButtonTrack({ event: 'start with generated outlie' });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
+          await ButtonTrack({ event: 'generate outline complete' });
           break;
         }
         handleStreamData(value);
@@ -140,27 +142,31 @@ const Guidance = ({ editor }: { editor: Editor }) => {
     editor.commands.insertContent(draftRef.current.value, {
       updateSelection: true,
     });
-    await ButtonTrack('start with draft');
+    await ButtonTrack({ event: 'start with draft' });
     updateContinueStep(1);
+    await ButtonTrack({ event: 'start from draft complete' });
+
     await close();
   };
 
   const handleExplore = async () => {
-    await ButtonTrack('just exploring');
+    await ButtonTrack({ event: 'just exploring' });
     editor.commands.setContent(sample_continue, true);
     updateContinueStep(1);
+    await ButtonTrack({ event: 'just exploring complete' });
     await close();
   };
 
   const handleClickSample = async () => {
     if (!ideaRef.current) return;
-    await ButtonTrack('start with sample outline');
+    await ButtonTrack({ event: 'start with sample outline' });
     editor.commands.setContent(sample_outline, true);
     ideaRef.current.value = 'Importance of religion in East Asian culture';
     setTimeout(async () => {
       updateOutlineStep(1);
       await close();
     }, 1500);
+    await ButtonTrack({ event: 'generate outline complete' });
   };
 
   return (
@@ -172,6 +178,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
       transition={{ duration: 1, type: 'spring', stiffness: 100, damping: 20 }}
       className='absolute z-[9999] h-full w-full bg-white font-inter'
     >
+      <PageViewTrack no_route_event='Aha moment select' />
       <div className='mx-auto flex w-[700px] flex-col'>
         <Spacer y='24' />
         <h1 className='text-[28px] font-semibold leading-normal'>

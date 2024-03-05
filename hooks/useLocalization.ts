@@ -16,12 +16,8 @@ const useLocalization = () => {
   // 从配置文件中获取默认语言和语言列表
   const defaultLanguage = config.i18n.defaultLocale;
   const locales = config.i18n.locales;
-
-  //@ts-ignore
-  const router = usePathname && usePathname();
-
+  const router = usePathname();
   let currentLng;
-
   // 存储已加载的翻译文件
   const translationsCache: Record<
     string,

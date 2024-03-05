@@ -125,7 +125,7 @@ const EditIntext = () => {
             <Input
               ref={pageRef}
               defaultValue={currentInline?.node.attrs.page_number}
-              className={`${pageCheck ? 'bg-doc-primary/20 text-doc-primary' : 'bg-[#F1F2FA] text-doc-font line-through'} subtle-regular h-max w-40 rounded  px-2 py-1 placeholder:text-doc-font/20`}
+              className={`${pageCheck ? 'bg-doc-primary/20 text-doc-primary' : 'bg-[#F1F2FA] text-doc-font'} subtle-regular h-max w-40 rounded px-2 py-1 placeholder:text-doc-font/20 placeholder:line-through`}
               placeholder='(e.g. 35 or 35-37)'
               type='text'
               id='pages'

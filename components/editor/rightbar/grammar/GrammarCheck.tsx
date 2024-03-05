@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/button';
+import { highLightGrammar } from '@/lib/tiptap/utils';
 import { submitPolish } from '@/query/api';
 import {
+  useButtonTrack,
   useMembershipInfo,
   useMutateTrackInfo,
   useUserTrackInfo,
@@ -13,7 +15,7 @@ import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { memo, useCallback, useState } from 'react';
+import { memo, useState } from 'react';
 
 const Result = dynamic(() => import('./Result'));
 
@@ -23,22 +25,25 @@ export const GrammarCheck = memo(() => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: userTrack } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
-  const [grammarResults, setGrammarResults] = useState<IGrammarResult[]>([]);
+  const grammarResults = useAIEditor((state) => state.grammarResults);
+  const updateGrammarResult = useAIEditor((state) => state.updateGrammarResult);
   const queryClient = useQueryClient();
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
-  const memoUpdateResult = useCallback((value: IGrammarResult[]) => {
-    setGrammarResults(value);
-  }, []);
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   const { mutateAsync: handleGrammarCheck } = useMutation({
     mutationFn: (params: { block: JSONContent[] }) => submitPolish(params),
     onMutate: () => {
       setIsChecking(true);
     },
-    onSuccess: (data: IGrammarResponse[]) => {
+    onSuccess: async (data: IGrammarResponse[]) => {
       if (usage?.subscription === 'basic')
         queryClient.invalidateQueries({ queryKey: ['membership'] });
       let grammar_result: IGrammarResult[] = [];
+      if (data.length === 0) {
+        const toast = (await import('sonner')).toast;
+        return toast.success('No grammar issues found!');
+      }
       grammar_result = data.map((item) => {
         return {
           index: item.index,
@@ -52,7 +57,11 @@ export const GrammarCheck = memo(() => {
             ),
         };
       });
-      setGrammarResults(grammar_result);
+      // 将第一个suggestion 展开并划线
+      const expand_head_array = [...grammar_result];
+      expand_head_array[0].diff[0].expand = true;
+      highLightGrammar(editor!, expand_head_array[0], 0);
+      updateGrammarResult(expand_head_array);
     },
     onSettled: () => {
       setIsChecking(false);
@@ -63,11 +72,12 @@ export const GrammarCheck = memo(() => {
     },
   });
   const handleCheck = async () => {
-    if (!userTrack?.grammar_task) {
+    if (!Boolean(userTrack?.grammar_task)) {
       await updateTrack({
         field: 'grammar_task',
         data: 'true',
       });
+      await ButtonTrack({ event: 'Basic task: grammar check' });
     }
     if (editor?.getText().trim() === '') {
       const toast = (await import('sonner')).toast;
@@ -94,10 +104,7 @@ export const GrammarCheck = memo(() => {
             <Loader2 className='animate-spin text-doc-shadow' />
           </m.div>
         ) : grammarResults.length > 0 ? (
-          <Result
-            grammarResults={grammarResults}
-            updateGrammarResult={memoUpdateResult}
-          />
+          <Result grammarResults={grammarResults} />
         ) : (
           <m.div
             initial={{ opacity: 0, y: -20 }}

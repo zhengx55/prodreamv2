@@ -16,6 +16,7 @@ import { Editor } from '@tiptap/react';
 import { ArrowUpRightFromSquare, Plus } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo, useEffect, useRef, useState } from 'react';
+import { v4 } from 'uuid';
 
 type Props = { editor: Editor };
 
@@ -79,8 +80,8 @@ const CitationMenu = ({ editor }: Props) => {
             ciationResult?.map((item, index) => {
               return (
                 <div
-                  key={item.article_title}
-                  className='flex flex-col gap-y-3 bg-shadow-400 p-4'
+                  key={v4()}
+                  className='flex flex-col gap-y-2 bg-shadow-400 p-4'
                 >
                   <h1 className='base-semibold'>{item.article_title}</h1>
                   <div className='small-regular flex flex-wrap items-center gap-x-2 text-doc-shadow'>

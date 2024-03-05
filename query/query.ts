@@ -5,7 +5,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
 import { useCookies } from 'react-cookie';
+import { isMobile } from 'react-device-detect';
 import {
+  ButtonTrack,
   createCitation,
   getDocDetail,
   getDocs,
@@ -18,13 +20,13 @@ import {
   updateUserInfo,
   userLogin,
 } from './api';
-import { UserTrackData } from './type';
 import {
   postABTest,
   postABTestByToken,
   postABTestPagePoint,
   postABTestPagePointByToken,
 } from './test';
+import { UserTrackData } from './type';
 
 export const useMembershipInfo = () => {
   return useQuery({
@@ -241,12 +243,9 @@ export const useUserLogin = () => {
 export const usePostABTest = () => {
   return useMutation({
     mutationFn: (variance?: string) => postABTest(variance ?? ''),
-    onSuccess: async (value) => {
-      console.log('ABTest:', value);
-    },
+    onSuccess: async (value) => {},
     onError: async (error) => {
       const { toast } = await import('sonner');
-      console.error('ABTest error:', error);
     },
   });
 };
@@ -254,12 +253,9 @@ export const usePostABTest = () => {
 export const usePostABTestByToken = () => {
   return useMutation({
     mutationFn: (variance?: string) => postABTestByToken(variance ?? ''),
-    onSuccess: async (value) => {
-      console.log('ABTest:', value);
-    },
+    onSuccess: async (value) => {},
     onError: async (error) => {
       const { toast } = await import('sonner');
-      console.error('ABTest error:', error);
     },
   });
 };
@@ -268,9 +264,7 @@ export const usePostABTestPagePoint = () => {
   return useMutation({
     mutationFn: (params: { page: string; duration?: number }) =>
       postABTestPagePoint(params),
-    onSuccess: async (value) => {
-      console.log('ABTest:', value);
-    },
+    onSuccess: async (value) => {},
     onError: async (error) => {
       const { toast } = await import('sonner');
       console.error('ABTest error:', error);
@@ -282,12 +276,17 @@ export const usePostABTestPagePointByToken = () => {
   return useMutation({
     mutationFn: (params: { page: string; duration?: number }) =>
       postABTestPagePointByToken(params),
-    onSuccess: async (value) => {
-      console.log('ABTest:', value);
-    },
+    onSuccess: async (value) => {},
     onError: async (error) => {
       const { toast } = await import('sonner');
       console.error('ABTest error:', error);
     },
+  });
+};
+
+export const useButtonTrack = () => {
+  return useMutation({
+    mutationFn: ({ event }: { event: string }) =>
+      ButtonTrack(event, isMobile ? 1 : 0),
   });
 };

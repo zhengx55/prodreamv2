@@ -1,3 +1,5 @@
+import { createRegex } from '@/lib/utils';
+import { IGrammarResult } from '@/query/type';
 import { isTextSelection } from '@tiptap/core';
 import type { Editor, JSONContent } from '@tiptap/react';
 
@@ -118,3 +120,48 @@ export const findNodePos = (editor: Editor, content: string) => {
   });
   return { nodePos, nodeSize };
 };
+
+export function highLightGrammar(
+  editor: Editor,
+  current_suggestion: IGrammarResult,
+  index: number
+) {
+  if (!editor) return;
+  const blocks = editor.getJSON().content?.slice(1) ?? [];
+  let found = findParagpraph(current_suggestion.index, blocks)?.text ?? '';
+  if (!found) return;
+  const { nodePos } = findNodePos(editor, found);
+  const original_sentence =
+    current_suggestion.diff.at(index)?.data.reduce((acc, current) => {
+      if (current.status !== 1) {
+        return acc + current.sub_str;
+      } else {
+        return acc + '';
+      }
+    }, '') ?? '';
+  const sentence_position = found.indexOf(original_sentence.trimEnd());
+  if (sentence_position === undefined) return;
+  current_suggestion.diff.at(index)?.data.forEach((sentence) => {
+    if (sentence.status === 3 || sentence.status === 2) {
+      let substring_regex = createRegex(sentence.sub_str.trim());
+      const modification_postion = original_sentence.search(substring_regex);
+      const from = modification_postion + nodePos + sentence_position;
+      const to =
+        modification_postion +
+        nodePos +
+        sentence_position +
+        sentence.sub_str.length -
+        1;
+      editor
+        .chain()
+        .setTextSelection({
+          from,
+          to,
+        })
+        .setHighlight({ color: 'rgba(236, 120, 113, 0.2)' })
+        .setGrammarUnderline()
+        .setTextSelection(0)
+        .run();
+    }
+  });
+}

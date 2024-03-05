@@ -1,3 +1,4 @@
+import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
@@ -8,15 +9,15 @@ import { memo, useEffect, useRef, useState } from 'react';
 
 const Plagiarism = () => {
   const editor = useAIEditor((state) => state.editor_instance);
-  const togglePlagiarism = useAIEditor((state) => state.togglePlagiarism);
-  const updatePlagiarismResult = useAIEditor(
-    (state) => state.updatePlagiarismResult
-  );
-  const plagiarismReCheck = useAIEditor((state) => state.plagiarismReCheck);
-  const updatePlagiarismRecheck = useAIEditor(
-    (state) => state.updatePlagiarismRecheck
-  );
-  const plagiarismResult = useAIEditor((state) => state.plagiarismResult);
+  const {
+    togglePlagiarism,
+    updatePlagiarismResult,
+    plagiarismReCheck,
+    updatePlagiarismRecheck,
+    plagiarismResult,
+  } = useAIEditor((state) => ({
+    ...state,
+  }));
   const [isGenerating, setIsGenerating] = useState(false);
   const timer = useRef<NodeJS.Timeout | null>(null);
 
@@ -74,18 +75,27 @@ const Plagiarism = () => {
       <ShieldCheck size={18} className='text-doc-primary' />
       <p className='small-regular text-doc-primary'>Plagiarism Report</p>
     </Button>
+  ) : isGenerating ? (
+    <Tooltip
+      tooltipContent='May take up to 5 minutes, thank you for waiting'
+      side='bottom'
+    >
+      <Button
+        role='button'
+        disabled
+        className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:transform-none disabled:pointer-events-auto'
+      >
+        <Loader2 className='animate-spin text-doc-primary' size={18} />
+        <p className='small-regular text-doc-primary'>Plagiarism Check</p>
+      </Button>
+    </Tooltip>
   ) : (
     <Button
       role='button'
-      disabled={isGenerating}
       onClick={handlePlagiarismCheck}
       className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
     >
-      {isGenerating ? (
-        <Loader2 className='animate-spin text-doc-primary' size={18} />
-      ) : (
-        <ShieldCheck size={18} className='text-doc-primary' />
-      )}
+      <ShieldCheck size={18} className='text-doc-primary' />
       <p className='small-regular text-doc-primary'>Plagiarism Check</p>
     </Button>
   );

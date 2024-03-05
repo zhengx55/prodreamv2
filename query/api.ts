@@ -958,12 +958,12 @@ export async function searchCitation(
   }
 }
 
-export async function PageTrack(event: string, time: string) {
+export async function PageTrack(event: string, time: string, mobile?: number) {
   try {
     const token = Cookies.get('token');
-    let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/?duration=${time}`;
+    let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/?duration=${time}&mobile=${mobile ?? 0}`;
     if (!token)
-      url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/anonymous?duration=${time}`;
+      url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/anonymous?duration=${time}&mobile=${mobile ?? 0}`;
     await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
       method: 'POST',
@@ -973,8 +973,9 @@ export async function PageTrack(event: string, time: string) {
   }
 }
 
-export async function ButtonTrack(event: string) {
+export async function ButtonTrack(event: string, mobile: number) {
   try {
+    let body = { mobile };
     const token = Cookies.get('token');
     let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/click/${event}`;
     if (!token)
@@ -982,6 +983,7 @@ export async function ButtonTrack(event: string) {
     await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
       method: 'POST',
+      body: JSON.stringify(body),
     });
   } catch (error) {
     console.error(error);
