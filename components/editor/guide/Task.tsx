@@ -17,7 +17,6 @@ import { m } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { memo, useEffect, useLayoutEffect, useState } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
 
 type Props = { editor: Editor; track: UserTrackData };
 
@@ -27,21 +26,17 @@ const Task = ({ editor, track }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const showCopilotMenu = useAIEditor((state) => state.showCopilotMenu);
 
-  const debounceUpdateTask = useDebouncedCallback(async () => {
-    await updateTrack({ field: 'highlight_task', data: true });
-    const { toast } = await import('sonner');
-    toast.success(
-      'Congrats! Highlight is the #1 way to intereact with out AI! Then use "AI Copilot" prompts to edit or generate based on highlighted content ✨'
-    );
-  }, 500);
-
   useEffect(() => {
-    if (!track.highlight_task && showCopilotMenu) {
-      editor.on('selectionUpdate', debounceUpdateTask);
-    }
-    return () => {
-      editor.off('selectionUpdate', debounceUpdateTask);
+    const finishHighlight = async () => {
+      await updateTrack({ field: 'highlight_task', data: true });
+      const { toast } = await import('sonner');
+      toast.success(
+        'Congrats! Highlight is the #1 way to intereact with out AI! Then use "AI Copilot" prompts to edit or generate based on highlighted content ✨'
+      );
     };
+    if (!track.highlight_task && showCopilotMenu) {
+      finishHighlight();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, track.highlight_task, showCopilotMenu]);
 
