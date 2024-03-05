@@ -74,7 +74,7 @@ const AiMenu = ({ editor }: Props) => {
         field: 'ai_copilot_task',
         data: true,
       });
-      await ButtonTrack({ event: 'ai_copilot_task_completed' });
+      await ButtonTrack({ event: 'Onboarding task: editing tool' });
     }
     await handleCopilot({ tool, text: selectedText });
   };

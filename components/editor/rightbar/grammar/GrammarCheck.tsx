@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { highLightGrammar } from '@/lib/tiptap/utils';
 import { submitPolish } from '@/query/api';
 import {
+  useButtonTrack,
   useMembershipInfo,
   useMutateTrackInfo,
   useUserTrackInfo,
@@ -28,16 +29,21 @@ export const GrammarCheck = memo(() => {
   const updateGrammarResult = useAIEditor((state) => state.updateGrammarResult);
   const queryClient = useQueryClient();
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   const { mutateAsync: handleGrammarCheck } = useMutation({
     mutationFn: (params: { block: JSONContent[] }) => submitPolish(params),
     onMutate: () => {
       setIsChecking(true);
     },
-    onSuccess: (data: IGrammarResponse[]) => {
+    onSuccess: async (data: IGrammarResponse[]) => {
       if (usage?.subscription === 'basic')
         queryClient.invalidateQueries({ queryKey: ['membership'] });
       let grammar_result: IGrammarResult[] = [];
+      if (data.length === 0) {
+        const toast = (await import('sonner')).toast;
+        return toast.success('No grammar issues found!');
+      }
       grammar_result = data.map((item) => {
         return {
           index: item.index,
@@ -66,11 +72,12 @@ export const GrammarCheck = memo(() => {
     },
   });
   const handleCheck = async () => {
-    if (!userTrack?.grammar_task) {
+    if (!Boolean(userTrack?.grammar_task)) {
       await updateTrack({
         field: 'grammar_task',
         data: 'true',
       });
+      await ButtonTrack({ event: 'Basic task: grammar check' });
     }
     if (editor?.getText().trim() === '') {
       const toast = (await import('sonner')).toast;

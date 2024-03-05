@@ -1,3 +1,4 @@
+import PageViewTrack from '@/components/root/PageViewTrack';
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -33,7 +34,6 @@ const Guidance = ({ editor }: { editor: Editor }) => {
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
-
     if (check === 2) {
       timer = setTimeout(() => {
         handleExplore();
@@ -59,6 +59,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
+          await ButtonTrack({ event: 'generate outline complete' });
           break;
         }
         handleStreamData(value);
@@ -143,6 +144,8 @@ const Guidance = ({ editor }: { editor: Editor }) => {
     });
     await ButtonTrack({ event: 'start with draft' });
     updateContinueStep(1);
+    await ButtonTrack({ event: 'start from draft complete' });
+
     await close();
   };
 
@@ -150,6 +153,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
     await ButtonTrack({ event: 'just exploring' });
     editor.commands.setContent(sample_continue, true);
     updateContinueStep(1);
+    await ButtonTrack({ event: 'just exploring complete' });
     await close();
   };
 
@@ -162,6 +166,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
       updateOutlineStep(1);
       await close();
     }, 1500);
+    await ButtonTrack({ event: 'generate outline complete' });
   };
 
   return (
@@ -173,6 +178,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
       transition={{ duration: 1, type: 'spring', stiffness: 100, damping: 20 }}
       className='absolute z-[9999] h-full w-full bg-white font-inter'
     >
+      <PageViewTrack no_route_event='Aha moment select' />
       <div className='mx-auto flex w-[700px] flex-col'>
         <Spacer y='24' />
         <h1 className='text-[28px] font-semibold leading-normal'>
