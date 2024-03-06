@@ -1,4 +1,4 @@
-import { IGrammarResult, IPlagiarismData } from '@/query/type';
+import { IPlagiarismData } from '@/query/type';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
@@ -25,7 +25,6 @@ const initialState: AIEditorState = {
   continueResult: '',
   disableContinue: false,
   continueInsertPos: null,
-  grammarResults: [],
 };
 
 type AIEditorState = {
@@ -49,7 +48,6 @@ type AIEditorState = {
   continueResult: string;
   disableContinue: boolean;
   continueInsertPos: number | null;
-  grammarResults: IGrammarResult[];
 };
 
 type AIEditorAction = {
@@ -74,7 +72,6 @@ type AIEditorAction = {
   updateContinueRes: (result: AIEditorState['continueResult']) => void;
   clearContinueRes: () => void;
   updateInsertPos: (result: number) => void;
-  updateGrammarResult: (result: AIEditorState['grammarResults']) => void;
   updateShowBubbleMenu: (result: AIEditorState['showBubbleMenu']) => void;
 };
 
@@ -168,11 +165,6 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateInsertPos: (result) => {
     set(() => ({
       continueInsertPos: result,
-    }));
-  },
-  updateGrammarResult(result) {
-    set(() => ({
-      grammarResults: result,
     }));
   },
 });
