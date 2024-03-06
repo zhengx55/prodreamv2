@@ -16,6 +16,7 @@ const initialState: AIEditorState = {
   plagiarismResult: null,
   showCopilotMenu: false,
   showCitiationMenu: false,
+  showBubbleMenu: false,
   copilotRect: null,
   copilotRectX: null,
   showSynonymMenu: false,
@@ -38,6 +39,7 @@ type AIEditorState = {
   isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
   showCopilotMenu: boolean;
+  showBubbleMenu: boolean;
   showCitiationMenu: boolean;
   copilotRect: null | number;
   showSynonymMenu: boolean;
@@ -73,6 +75,7 @@ type AIEditorAction = {
   clearContinueRes: () => void;
   updateInsertPos: (result: number) => void;
   updateGrammarResult: (result: AIEditorState['grammarResults']) => void;
+  updateShowBubbleMenu: (result: AIEditorState['showBubbleMenu']) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -82,6 +85,11 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
       plagiarismResult: result,
       showContinue: null,
     })),
+  updateShowBubbleMenu(result) {
+    set(() => ({
+      showBubbleMenu: result,
+    }));
+  },
   updateGenerateTab: (result) =>
     set(() => ({
       generateTab: result,
