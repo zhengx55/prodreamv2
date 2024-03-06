@@ -24,7 +24,7 @@ const Task = ({ editor, track }: Props) => {
   const [step, setStep] = useState(-1);
   const [progress, setProgress] = useState(33.33);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const showCopilotMenu = useAIEditor((state) => state.showCopilotMenu);
+  const showBubbleMenu = useAIEditor((state) => state.showBubbleMenu);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
   useEffect(() => {
     const finishHighlight = async () => {
@@ -35,11 +35,11 @@ const Task = ({ editor, track }: Props) => {
         'Congrats! Highlight is the #1 way to intereact with out AI! Then use "AI Copilot" prompts to edit or generate based on highlighted content ✨'
       );
     };
-    if (!track.highlight_task && showCopilotMenu) {
+    if (!track.highlight_task && showBubbleMenu) {
       finishHighlight();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, track.highlight_task, showCopilotMenu]);
+  }, [editor, track.highlight_task, showBubbleMenu]);
 
   useLayoutEffect(() => {
     setProgress(

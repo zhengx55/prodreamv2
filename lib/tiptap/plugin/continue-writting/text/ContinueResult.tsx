@@ -27,10 +27,11 @@ const ContinueResult = (props: NodeViewProps) => {
   const timeout = useRef<NodeJS.Timeout>();
   const clearContinueRes = useAIEditor((state) => state.clearContinueRes);
 
-  const removeNode = () => {
+  const removeNode = useCallback(() => {
     clearContinueRes();
     props.deleteNode();
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props]);
 
   const handleAccept = useCallback(() => {
     removeNode();
@@ -63,12 +64,13 @@ const ContinueResult = (props: NodeViewProps) => {
 
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
-      event.preventDefault();
       if (event.key === 'Tab') {
+        event.preventDefault();
         handleAccept();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
@@ -88,7 +90,6 @@ const ContinueResult = (props: NodeViewProps) => {
     <NodeViewWrapper as={'span'} className='relative'>
       <NodeViewContent
         as='span'
-        contentEditable={false}
         className='pointer-events-none select-none text-doc-primary'
       >
         &nbsp;{currentText}
