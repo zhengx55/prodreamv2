@@ -61,6 +61,7 @@ export interface IWebsiteCitation {
   url: string;
   reference_count: number;
   area: string[];
+  manual_create: boolean;
   id: string;
 }
 
@@ -76,6 +77,7 @@ export interface IJournalCitation {
     volume?: string;
   };
   tldr: string;
+  manual_create: boolean;
   publisher: string;
   citation_count: number;
   annotation: string;
@@ -88,6 +90,7 @@ export interface IJournalCitation {
     suffix: string;
   }[];
   document_id: string;
+  influential_citation_count: number;
   doi: string;
   journal_title?: string;
   page_info: { end?: string; start?: string };
@@ -108,6 +111,7 @@ export interface IBookCitation {
     total_vol?: string;
     vol?: string;
   };
+  manual_create: boolean;
   annotation: string;
   book_title: string;
   contributors: {
@@ -146,6 +150,7 @@ export interface IChapterCitation {
     role?: string;
   }[];
   document_id: string;
+  manual_create: boolean;
   page_info: { end?: number | null; start?: number | null };
   publication_info: {
     city?: string;
@@ -168,6 +173,7 @@ export interface IIntroductionCitation {
     vol?: string;
   };
   annotation: string;
+  manual_create: boolean;
   book_title: string;
   contributors: {
     first_name?: string;

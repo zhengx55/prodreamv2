@@ -50,7 +50,7 @@ export const SearchCitationCard = memo(
         });
         await ButtonTrack({ event: 'Onboarding task: add citation' });
       }
-      const converted_data = ConvertCitationData(item);
+      const converted_data = ConvertCitationData(item, false);
       if (action === 'collect') {
         await handleCollect({
           citation_data: converted_data,
@@ -215,23 +215,29 @@ export const MineCitationCard = memo(
         await removeInDocCitationIds(item.data.id, item.data.document_id);
       }
     };
-
+    console.log(item.data);
     return (
       <div className='mb-5 flex flex-col gap-y-2.5 p-2.5'>
-        {/* <Dialog>
+        {/* {!item.data.manual_create ? (
+          <Dialog>
             <DialogTrigger asChild>
               <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
-                {item.data.article_title
-                  ? item.data.article_title
-                  : item.data.book_title}{' '}
+                {item.data.article_title}
               </h1>
             </DialogTrigger>
-            <MineCitationPreview item={item.data} />
-          </Dialog> */}
+            <CitationPreview item={item.data as any} />
+          </Dialog>
+        ) : (
+          <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+            {item.data.article_title
+              ? item.data.article_title
+              : item.data.book_title}
+          </h1>
+        )} */}
         <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
           {item.data.article_title
             ? item.data.article_title
-            : item.data.book_title}{' '}
+            : item.data.book_title}
         </h1>
         {item.data.contributors?.length > 0 && (
           <p className='subtle-regular line-clamp-2 text-shadow-100'>

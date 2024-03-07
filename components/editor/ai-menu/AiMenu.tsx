@@ -17,7 +17,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import {
   Fragment,
-  RefObject,
   cloneElement,
   memo,
   useCallback,
@@ -26,13 +25,12 @@ import {
 } from 'react';
 import { v4 } from 'uuid';
 import { useEditorCommand } from '../hooks/useEditorCommand';
-import CustomPrompt from './CustomPrompt';
 import StreamText from './StreamText';
 import { useAiOptions } from './hooks/useAiOptions';
 import useAiResponse from './hooks/useAiResponse';
 
 const RemainUsages = dynamic(() => import('./RemainUsages'));
-
+const CustomPrompt = dynamic(() => import('./CustomPrompt'));
 type Props = { editor: Editor };
 const AiMenu = ({ editor }: Props) => {
   const { options, operations } = useAiOptions();
@@ -43,8 +41,8 @@ const AiMenu = ({ editor }: Props) => {
   const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
   const promptRef = useRef<HTMLInputElement>(null);
   const tool = useRef<string | null>(null);
-  const { replaceText, insertNext } = useEditorCommand(editor);
-  const elRef = useScrollIntoView();
+  const ref = useScrollIntoView();
+  const elRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
   const {
@@ -59,6 +57,8 @@ const AiMenu = ({ editor }: Props) => {
     showTyping,
     toogleTyping,
   } = useAiResponse(tool);
+
+  const { replaceText, insertNext } = useEditorCommand(editor);
 
   const hasAiResult = aiResult.length > 0;
 
@@ -81,24 +81,24 @@ const AiMenu = ({ editor }: Props) => {
 
   useEffect(() => {
     const handler = (e: { target: any }) => {
-      if (
-        !elRef.current?.contains(e.target) &&
-        !menuRef.current?.contains(e.target)
-      ) {
+      if (!elRef.current?.contains(e.target)) {
         updateCopilotMenu(false);
+      } else {
+        if (!menuRef.current?.contains(e.target)) {
+          updateCopilotMenu(false);
+        }
       }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [updateCopilotMenu]);
 
   const handleCustomPrompt = useCallback(async () => {
     const toast = (await import('sonner')).toast;
     const selectedText = getSelectedText(editor);
     const words = selectedText.match(/\b\w+\b/g);
-    if ((words?.length ?? 0) > 160) {
-      return toast.warning('Selected text should not exceed 160 words');
+    if ((words?.length ?? 0) > 500) {
+      return toast.warning('Selected text should not exceed 500 words');
     }
     if (promptRef.current && !promptRef.current.value.trim())
       return toast.error('please enter a custom prompt');
@@ -157,70 +157,61 @@ const AiMenu = ({ editor }: Props) => {
   if (!floatingMenuPos) return null;
   return (
     <section
+      ref={ref}
       style={{ top: `${floatingMenuPos.top - 54}px` }}
-      className='absolute -left-12 z-20 flex w-full justify-center overflow-visible '
+      className='absolute -left-12 flex w-full justify-center overflow-visible'
     >
-      <div className='relative flex w-[600px] flex-col bg-transparent'>
-        <div ref={elRef as RefObject<HTMLDivElement>}>
-          {!generating ? (
-            hasAiResult ? (
-              <div className='flex min-h-12 w-full flex-col justify-center rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
-                {showTyping ? (
-                  <p className='small-regular px-2'>
-                    <StreamText
-                      toogleTyping={toogleTyping}
-                      generatedResult={aiResult[currentResult]}
-                    />
+      <div
+        ref={elRef}
+        className='relative flex w-[600px] flex-col bg-transparent'
+      >
+        {!generating ? (
+          hasAiResult ? (
+            <div className='flex min-h-12 w-full flex-col justify-center rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
+              {showTyping ? (
+                <p className='small-regular px-2'>
+                  <StreamText
+                    toogleTyping={toogleTyping}
+                    generatedResult={aiResult[currentResult]}
+                  />
+                </p>
+              ) : (
+                <p className='small-regular px-2'>{aiResult[currentResult]}</p>
+              )}
+              {!showTyping && (
+                <div className='flex w-full items-center justify-end gap-x-0.5'>
+                  <ChevronLeft
+                    className='cursor-pointer text-doc-font'
+                    size={18}
+                    onClick={() =>
+                      setCurrentResult((prev) => (prev === 0 ? 0 : prev - 1))
+                    }
+                  />
+                  <p className='small-regular text-doc-font'>
+                    {currentResult + 1} of {aiResult.length}
                   </p>
-                ) : (
-                  <p className='small-regular px-2'>
-                    {aiResult[currentResult]}
-                  </p>
-                )}
-                {!showTyping && (
-                  <div className='flex w-full items-center justify-end gap-x-0.5'>
-                    <ChevronLeft
-                      className='cursor-pointer text-doc-font'
-                      size={18}
-                      onClick={() =>
-                        setCurrentResult((prev) => (prev === 0 ? 0 : prev - 1))
-                      }
-                    />
-                    <p className='small-regular text-doc-font'>
-                      {currentResult + 1} of {aiResult.length}
-                    </p>
-                    <ChevronRight
-                      className='cursor-pointer text-doc-font'
-                      size={18}
-                      onClick={() =>
-                        setCurrentResult((prev) =>
-                          prev === aiResult.length - 1
-                            ? aiResult.length - 1
-                            : prev + 1
-                        )
-                      }
-                    />
-                  </div>
-                )}
-              </div>
-            ) : (
-              <CustomPrompt
-                ref={promptRef}
-                editor={editor}
-                submit={handleCustomPrompt}
-              />
-            )
-          ) : (
-            <div className='flex h-12 w-full items-center gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
-              <Copilot size='24' />
-              <p className='base-semibold text-doc-primary'>
-                Al is writing <LoadingDot label='' />
-              </p>
+                  <ChevronRight
+                    className='cursor-pointer text-doc-font'
+                    size={18}
+                    onClick={() =>
+                      setCurrentResult((prev) =>
+                        prev === aiResult.length - 1
+                          ? aiResult.length - 1
+                          : prev + 1
+                      )
+                    }
+                  />
+                </div>
+              )}
             </div>
-          )}
-          {usage?.subscription === 'basic' && <RemainUsages />}
-          <Spacer y='5' />
-        </div>
+          ) : (
+            <CustomPrompt ref={promptRef} submit={handleCustomPrompt} />
+          )
+        ) : (
+          <Loader />
+        )}
+        {usage?.subscription === 'basic' && <RemainUsages />}
+        <Spacer y='5' />
         {generating ? null : (
           <Surface ref={menuRef} className='w-[256px] rounded py-2' withBorder>
             {!hasAiResult
@@ -320,3 +311,14 @@ const AiMenu = ({ editor }: Props) => {
 };
 
 export default memo(AiMenu);
+
+const Loader = () => {
+  return (
+    <div className='flex h-12 w-full items-center gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
+      <Copilot size='24' />
+      <p className='base-semibold text-doc-primary'>
+        Al is writing <LoadingDot label='' />
+      </p>
+    </div>
+  );
+};

@@ -41,9 +41,10 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
     onMutate: () => {
       setGenerating(true);
     },
-    onSuccess: async (data: ReadableStream) => {
+    onSuccess: async (data: ReadableStream, variables) => {
       queryClient.invalidateQueries({ queryKey: ['membership'] });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      tool.current = variables.text;
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
