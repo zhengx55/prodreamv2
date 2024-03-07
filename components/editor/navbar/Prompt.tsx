@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 
 const PromptView = ({id} : {id:string}) => {
   
-  const { data: document_content, isFetching, isError } = useDocumentDetail(id);
-  const [content, setContent] = useState<string>(document_content?.brief_description ?? '')
+  const { data: document_content, refetch,isFetching, isError } = useDocumentDetail(id);
+  const [content, setContent] = useState<string>(  document_content?.brief_description ?? '')
   const [openPrompt, setOpenPrompt] = useState(false);
   const [lineCount, setLineCount] = useState(0)
 
@@ -22,6 +22,7 @@ const PromptView = ({id} : {id:string}) => {
   };
 
   useEffect(()=>{
+   
     if (content) {
       if (content.length > 5 && content.length <= 10) {
         setLineCount(1) ;
@@ -35,9 +36,10 @@ const PromptView = ({id} : {id:string}) => {
     }
   },[content])
 
+  useEffect(() => {
+    refetch()
+  },[id])
 
-
-  
   return (
     <>
       <Popover open={openPrompt} >
