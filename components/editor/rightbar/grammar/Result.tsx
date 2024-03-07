@@ -16,14 +16,14 @@ import SentenceFragment from './SentenceFragment';
 
 type Props = {
   grammarResults: IGrammarResult[];
+  update: (value: IGrammarResult[]) => void;
 };
-const Result = ({ grammarResults }: Props) => {
+const Result = ({ grammarResults, update }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
-  const updateGrammarResult = useAIEditor((state) => state.updateGrammarResult);
 
   const handleDismiss = (index: number, group_index: number) => {
     const array = [...grammarResults];
-    updateGrammarResult(
+    update(
       array
         .map((el, pos) => {
           if (pos === group_index) {
@@ -99,14 +99,14 @@ const Result = ({ grammarResults }: Props) => {
         processAccept(group, index, group_index);
       });
     });
-    updateGrammarResult([]);
+    update([]);
   };
 
   const handleActvie = (group_index: number, index: number) => {
     command.clearAllHightLight();
     const current_suggestion = grammarResults.at(group_index);
     highLightGrammar(editor!, current_suggestion!, index);
-    updateGrammarResult(
+    update(
       grammarResults.map((el, pos) => ({
         ...el,
         diff: el.diff.map((item, idx) => ({
@@ -138,7 +138,7 @@ const Result = ({ grammarResults }: Props) => {
             Accept all
           </Button>
           <Button
-            onClick={() => updateGrammarResult([])}
+            onClick={() => update([])}
             variant={'ghost'}
             className='text-doc-shadow'
           >

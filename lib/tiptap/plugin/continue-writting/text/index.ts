@@ -9,13 +9,7 @@ export default Node.create({
   group: 'inline',
   atom: true,
   selectable: false,
-  addAttributes() {
-    return {
-      reader: {
-        default: null,
-      },
-    };
-  },
+
   parseHTML() {
     return [
       {

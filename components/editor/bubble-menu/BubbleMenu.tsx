@@ -36,7 +36,6 @@ export type TextMenuProps = {
 };
 
 const BubbleMenu = ({ editor }: TextMenuProps) => {
-  const [open, setOpen] = useState(false);
   const menuYOffside = useRef<number | null>(null);
   const menuXOffside = useRef<number | null>(null);
   const [selectedLength, setSelectedLength] = useState(0);
@@ -44,17 +43,21 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const commands = useTextmenuCommands(editor);
-  const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
-  const updateCopilotRect = useAIEditor((state) => state.updateCopilotRect);
-  const updateCitationMenu = useAIEditor((state) => state.updateCitationMenu);
-  const updateSynonymMenu = useAIEditor((state) => state.updateSynonymMenu);
-  const updateCopilotRectX = useAIEditor((state) => state.updateCopilotRectX);
+  const {
+    updateCopilotMenu,
+    updateCopilotRect,
+    updateCitationMenu,
+    updateSynonymMenu,
+    updateCopilotRectX,
+    showBubbleMenu,
+    updateShowBubbleMenu,
+  } = useAIEditor((state) => ({ ...state }));
   const task_step = useUserTask((state) => state.task_step);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   const prevSelection = useRef<{ from: number; to: number } | null>(null);
 
   const { x, y, strategy, refs } = useFloating({
-    open: open,
+    open: showBubbleMenu,
     strategy: 'fixed',
     whileElementsMounted: autoUpdate,
     placement: 'top-start',
@@ -81,7 +84,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
       }
       if (empty) {
         prevSelection.current = null;
-        setOpen(false);
+        updateShowBubbleMenu(false);
         return;
       }
       const { view } = editor;
@@ -91,7 +94,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         current_node.node.parentNode?.nodeName === 'H1';
       if (isTitle) {
         prevSelection.current = null;
-        setOpen(false);
+        updateShowBubbleMenu(false);
       } else {
         const from = Math.min(...ranges.map((range) => range.$from.pos));
         const to = Math.max(...ranges.map((range) => range.$to.pos));
@@ -113,17 +116,18 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
             return posToDOMRect(view, from, to);
           },
         });
-        setOpen(true);
+        updateShowBubbleMenu(true);
         prevSelection.current = { from, to };
       }
     };
+
     const NodeSelectHandler = () => {
       const { view } = editor;
       const { selection, doc } = editor.state;
       const { empty, ranges } = selection;
       if (empty) {
         prevSelection.current = null;
-        setOpen(false);
+        updateShowBubbleMenu(false);
         return;
       }
       if (isNodeSelection(selection)) {
@@ -151,7 +155,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
             return posToDOMRect(view, from, to);
           },
         });
-        setOpen(true);
+        updateShowBubbleMenu(true);
         prevSelection.current = { from, to };
       }
     };
@@ -164,7 +168,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, refs]);
 
-  if (!open) return null;
+  if (!showBubbleMenu) return null;
   return (
     <div
       ref={refs.setFloating}
@@ -177,7 +181,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           onClick={async () => {
             updateCopilotMenu(true);
             updateCopilotRect(menuYOffside.current);
-            setOpen(false);
+            updateShowBubbleMenu(false);
             task_step === 0 && updateTaskStep(-1);
           }}
           className='text-doc-primary'
@@ -195,7 +199,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
               updateSynonymMenu(true);
               updateCopilotRectX(menuXOffside.current);
               updateCopilotRect(menuYOffside.current);
-              setOpen(false);
+              updateShowBubbleMenu(false);
             }}
             className='text-doc-primary'
           >
@@ -212,7 +216,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
               }
               updateCitationMenu(true);
               updateCopilotRect(menuYOffside.current);
-              setOpen(false);
+              updateShowBubbleMenu(false);
             }}
             className='text-doc-primary'
           >

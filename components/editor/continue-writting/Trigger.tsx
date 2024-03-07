@@ -19,10 +19,10 @@ type Props = { editor: Editor };
 const Trigger = ({ editor }: Props) => {
   const showContinue = useAIEditor((state) => state.showContinue);
   const updateContinueRes = useAIEditor((state) => state.updateContinueRes);
-  const [generating, setGenerating] = useState(false);
-  const queryClient = useQueryClient();
   const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
   const updateInsertPos = useAIEditor((state) => state.updateInsertPos);
+  const [generating, setGenerating] = useState(false);
+  const queryClient = useQueryClient();
   const { data: usage } = useMembershipInfo();
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
