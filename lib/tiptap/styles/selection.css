@@ -1,8 +1,4 @@
 .ProseMirror {
-    .selection {
-        @apply inline;
-    }
-
     .selection,
     *::selection {
         @apply bg-[#D4D7FF];
