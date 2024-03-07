@@ -1,4 +1,4 @@
-import { IGrammarResult, IPlagiarismData } from '@/query/type';
+import { IPlagiarismData } from '@/query/type';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
@@ -16,6 +16,7 @@ const initialState: AIEditorState = {
   plagiarismResult: null,
   showCopilotMenu: false,
   showCitiationMenu: false,
+  showBubbleMenu: false,
   copilotRect: null,
   copilotRectX: null,
   showSynonymMenu: false,
@@ -24,7 +25,6 @@ const initialState: AIEditorState = {
   continueResult: '',
   disableContinue: false,
   continueInsertPos: null,
-  grammarResults: [],
 };
 
 type AIEditorState = {
@@ -38,6 +38,7 @@ type AIEditorState = {
   isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
   showCopilotMenu: boolean;
+  showBubbleMenu: boolean;
   showCitiationMenu: boolean;
   copilotRect: null | number;
   showSynonymMenu: boolean;
@@ -47,7 +48,6 @@ type AIEditorState = {
   continueResult: string;
   disableContinue: boolean;
   continueInsertPos: number | null;
-  grammarResults: IGrammarResult[];
 };
 
 type AIEditorAction = {
@@ -72,7 +72,7 @@ type AIEditorAction = {
   updateContinueRes: (result: AIEditorState['continueResult']) => void;
   clearContinueRes: () => void;
   updateInsertPos: (result: number) => void;
-  updateGrammarResult: (result: AIEditorState['grammarResults']) => void;
+  updateShowBubbleMenu: (result: AIEditorState['showBubbleMenu']) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -82,6 +82,11 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
       plagiarismResult: result,
       showContinue: null,
     })),
+  updateShowBubbleMenu(result) {
+    set(() => ({
+      showBubbleMenu: result,
+    }));
+  },
   updateGenerateTab: (result) =>
     set(() => ({
       generateTab: result,
@@ -160,11 +165,6 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateInsertPos: (result) => {
     set(() => ({
       continueInsertPos: result,
-    }));
-  },
-  updateGrammarResult(result) {
-    set(() => ({
-      grammarResults: result,
     }));
   },
 });

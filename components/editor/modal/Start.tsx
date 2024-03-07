@@ -98,11 +98,11 @@ const Start = ({ handleClose }: Props) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className='relative flex flex-1 flex-col gap-y-16'
+      className='relative flex flex-col flex-1 gap-y-16'
       key={'board-writing'}
     >
       {isGenrating && (
-        <div className='flex-center absolute inset-0 z-50 flex-1 bg-white/80 backdrop-blur-sm'>
+        <div className='absolute inset-0 z-50 flex-1 flex-center bg-white/80 backdrop-blur-sm'>
           <Loader2 className='animate-spin text-doc-primary' />
         </div>
       )}
@@ -115,7 +115,7 @@ const Start = ({ handleClose }: Props) => {
           </span>
         </h1>
         <Button
-          className='h-max w-max rounded border border-doc-primary px-10 py-1 text-doc-primary'
+          className='px-10 py-1 border rounded h-max w-max border-doc-primary text-doc-primary'
           variant={'ghost'}
           onClick={handleClose}
         >
@@ -136,7 +136,7 @@ const Start = ({ handleClose }: Props) => {
             />
           </div>
         </div>
-        <div className='flex h-full w-2/3 flex-col'>
+        <div className='flex flex-col w-2/3 h-full'>
           <p className='title-medium'>
             Brief description of what you are writing{' '}
           </p>
@@ -236,7 +236,7 @@ const Start = ({ handleClose }: Props) => {
           <Button
             role='button'
             onClick={handleStartWritting}
-            className='mt-auto w-max rounded-md bg-doc-primary px-20'
+            className='px-20 mt-auto rounded-md w-max bg-doc-primary'
           >
             Start Writting
           </Button>

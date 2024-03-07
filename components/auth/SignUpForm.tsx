@@ -56,7 +56,7 @@ const SignUpForm = () => {
       onSuccess: async (_, variables, _contex) => {
         try {
           const toast = (await import('sonner')).toast;
-          toast.success('Successfully Signup');
+          toast.success('Successfully signed up');
           const login_data = await userLogin({
             username: variables.email,
             password: variables.password,
@@ -115,7 +115,7 @@ const SignUpForm = () => {
                 <Input
                   autoComplete='first_name'
                   id='first_name'
-                  placeholder=''
+                  placeholder='e.g. Max Tang'
                   className='h-12 rounded-md border'
                   {...field}
                 />
@@ -141,7 +141,7 @@ const SignUpForm = () => {
                   autoComplete='email'
                   type='email'
                   id='username'
-                  placeholder='e.g hey@writingpal.ai'
+                  placeholder='e.g hey@prodream.ai'
                   className='h-12 rounded-md border'
                   {...field}
                 />

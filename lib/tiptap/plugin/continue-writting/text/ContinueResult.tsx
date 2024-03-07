@@ -10,14 +10,7 @@ import { useAIEditor } from '@/zustand/store';
 import { NodeViewContent, NodeViewProps, NodeViewWrapper } from '@tiptap/react';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { useAnimationFrame } from 'framer-motion';
-import {
-  memo,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 const ContinueResult = (props: NodeViewProps) => {
   const [showAccept, setShowAccept] = useState(false);
   const generatedResult = useAIEditor((state) => state.continueResult);
@@ -27,22 +20,17 @@ const ContinueResult = (props: NodeViewProps) => {
   const timeout = useRef<NodeJS.Timeout>();
   const clearContinueRes = useAIEditor((state) => state.clearContinueRes);
 
-  const removeNode = () => {
-    clearContinueRes();
-    props.deleteNode();
-  };
-
   const handleAccept = useCallback(() => {
-    removeNode();
+    props.deleteNode();
     props.editor
       .chain()
       .focus()
       .insertContentAt(continueInsertPos ?? 0, ` ${generatedResult}`)
       .run();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [continueInsertPos, generatedResult]);
+  }, [continueInsertPos, generatedResult, props]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!generatedResult) {
       return;
     }
@@ -63,15 +51,18 @@ const ContinueResult = (props: NodeViewProps) => {
 
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
-      event.preventDefault();
       if (event.key === 'Tab') {
+        event.preventDefault();
         handleAccept();
+      } else {
+        props.deleteNode();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleAccept]);
 
   useAnimationFrame(() => {
@@ -88,7 +79,6 @@ const ContinueResult = (props: NodeViewProps) => {
     <NodeViewWrapper as={'span'} className='relative'>
       <NodeViewContent
         as='span'
-        contentEditable={false}
         className='pointer-events-none select-none text-doc-primary'
       >
         &nbsp;{currentText}

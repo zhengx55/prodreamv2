@@ -12,7 +12,7 @@ import { useCitationInfo } from './rightbar/citation/hooks/useCitationInfo';
 const Editor = dynamic(() => import('./Editor'), {
   ssr: false,
   loading: () => (
-    <div className='flex flex-1 flex-col items-center'>
+    <div className='flex flex-col items-center flex-1'>
       <Spacer y='20' />
       <Skeleton className='h-10 w-[700px] rounded-lg' />
     </div>
@@ -27,12 +27,12 @@ const EssayPanel = ({ id }: { id: string }) => {
   if (isError) return <p>opps something went wrong!</p>;
   return (
     <LazyMotionProvider>
-      <main className='relative flex h-full w-full flex-col'>
-        <DocNavbar />
+      <main className='relative flex flex-col w-full h-full'>
+        <DocNavbar id={id}/>
         <CheckList />
-        <div className='relative flex h-full w-full justify-center overflow-hidden'>
+        <div className='relative flex justify-center w-full h-full overflow-hidden'>
           {isFetching ? (
-            <div className='flex flex-1 flex-col items-center'>
+            <div className='flex flex-col items-center flex-1'>
               <Spacer y='20' />
               <Skeleton className='h-10 w-[700px] rounded-lg' />
             </div>
