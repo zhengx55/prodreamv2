@@ -27,7 +27,7 @@ const EssayPanel = ({ id }: { id: string }) => {
   
   const [showPromptView, setShowPromptView] = useState(false)
 
-  const [refreshNavbar, setRefreshNavbar] = useState(false);
+  const [refreshNavbar, setRefreshNavbar] = useState('');
 
   useEffect(()=>{
     if (document_content && isEmpty(document_content?.content) && isEmpty(document_content?.brief_description)) {
@@ -44,11 +44,7 @@ const EssayPanel = ({ id }: { id: string }) => {
   return (
     <LazyMotionProvider>
       <main className='relative flex flex-col w-full h-full'>
-        
-        <div id={`${refreshNavbar}`}>
-          <DocNavbar  id={id} />
-        </div>
-        
+        <DocNavbar key={`${refreshNavbar}`}  id={id} />
         <CheckList />
         <div className='relative flex justify-center w-full h-full overflow-hidden'>
           {isFetching ? (
@@ -65,8 +61,8 @@ const EssayPanel = ({ id }: { id: string }) => {
         </div>
       </main>
       <PromptView id={id} showPromptView={showPromptView} onFinish={async ()=>{
-        await refetch().then(res => {
-          setRefreshNavbar(prevState => !prevState); 
+        await refetch().then((res) => {
+          setRefreshNavbar(res.data?.brief_description ?? ''); 
         })
       }} />
     </LazyMotionProvider>
