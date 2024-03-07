@@ -16,8 +16,6 @@ const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 
 const SearchBar = () => {
   const [isTyping, setIsTyping] = useState(false);
-  const [showPromptView, setShowPromptView] = useState(false)
-  const [docId, setDocId] = useState<string>('')
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -29,17 +27,14 @@ const SearchBar = () => {
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
     onSuccess: (data) => {
-      // TODO: 处理 prompt 
-
-      setDocId(data);
-      
-      // router.push(`/editor/${data}`);
-      // queryClient.invalidateQueries({
-      //   queryKey: ['membership'],
-      // });
-      // queryClient.invalidateQueries({
-      //   queryKey: ['document_history_list'],
-      // });
+      router.push(`/editor/${data}`);
+      queryClient.invalidateQueries({
+        queryKey: ['membership'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['document_history_list'],
+      });
+   
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
@@ -47,21 +42,7 @@ const SearchBar = () => {
     },
   });
 
-  const handlePromptFinish = useCallback(()=>{
-    router.push(`/editor/${docId}`);
-    queryClient.invalidateQueries({
-      queryKey: ['membership'],
-    });
-    queryClient.invalidateQueries({
-      queryKey: ['document_history_list'],
-    });
-  },[docId])
 
-  useUpdateEffect(()=>{
-    if (docId) {
-      setShowPromptView(true)
-    }
-  },[docId])
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const params = new URLSearchParams(searchParams);
@@ -140,7 +121,6 @@ const SearchBar = () => {
           placeholder='Search citation database'
         />
       </div>
-      <PromptView id={docId} showPromptView={showPromptView} onFinish={handlePromptFinish} />
     </div>
   );
 };
