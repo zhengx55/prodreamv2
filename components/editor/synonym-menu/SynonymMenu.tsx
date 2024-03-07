@@ -15,9 +15,9 @@ import { useEditorCommand } from '../hooks/useEditorCommand';
 type Props = { editor: Editor };
 export const SynonymMenu = memo(({ editor }: Props) => {
   const updateSynonymMenu = useAIEditor((state) => state.updateSynonymMenu);
-  const copilotRect = useAIEditor((state) => state.copilotRect);
-  const copilotRectX = useAIEditor((state) => state.copilotRectX);
+  const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
   const [text, setText] = useState('');
+
   useEffect(() => {
     const selectedText = getSelectedText(editor);
     selectedText.trim() && setText(selectedText);
@@ -47,11 +47,14 @@ export const SynonymMenu = memo(({ editor }: Props) => {
     updateSynonymMenu(false);
   };
 
-  if (!copilotRect || !copilotRectX) return null;
+  if (!floatingMenuPos) return null;
   return (
     <section
       ref={ref}
-      style={{ top: `${copilotRect - 44}px`, left: `${copilotRectX - 450}px` }}
+      style={{
+        top: `${floatingMenuPos.top - 44}px`,
+        left: `${floatingMenuPos.left - 300}px`,
+      }}
       className='absolute flex w-[450px] justify-center'
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>

@@ -39,7 +39,7 @@ const AiMenu = ({ editor }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: track } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
-  const copilotRect = useAIEditor((state) => state.copilotRect);
+  const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
   const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
   const promptRef = useRef<HTMLInputElement>(null);
   const tool = useRef<string | null>(null);
@@ -88,8 +88,8 @@ const AiMenu = ({ editor }: Props) => {
         updateCopilotMenu(false);
       }
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -154,10 +154,10 @@ const AiMenu = ({ editor }: Props) => {
     }
   };
 
-  if (!copilotRect) return null;
+  if (!floatingMenuPos) return null;
   return (
     <section
-      style={{ top: `${copilotRect - 54}px` }}
+      style={{ top: `${floatingMenuPos.top - 54}px` }}
       className='absolute -left-12 z-20 flex w-full justify-center overflow-visible '
     >
       <div className='relative flex w-[600px] flex-col bg-transparent'>

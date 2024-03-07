@@ -45,10 +45,9 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
   const commands = useTextmenuCommands(editor);
   const {
     updateCopilotMenu,
-    updateCopilotRect,
+    updateFloatingMenuPos,
     updateCitationMenu,
     updateSynonymMenu,
-    updateCopilotRectX,
     showBubbleMenu,
     updateShowBubbleMenu,
   } = useAIEditor((state) => ({ ...state }));
@@ -180,8 +179,13 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           id='copilot-button'
           onClick={async () => {
             updateCopilotMenu(true);
-            updateCopilotRect(menuYOffside.current);
+            updateFloatingMenuPos({
+              top: menuYOffside.current ?? 0,
+              left: menuXOffside.current ?? 0,
+            });
             updateShowBubbleMenu(false);
+            const { from, to } = editor.state.selection;
+            editor.chain().focus().setTextSelection({ from, to }).run();
             task_step === 0 && updateTaskStep(-1);
           }}
           className='text-doc-primary'
@@ -197,9 +201,13 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           <MemoButton
             onClick={() => {
               updateSynonymMenu(true);
-              updateCopilotRectX(menuXOffside.current);
-              updateCopilotRect(menuYOffside.current);
+              updateFloatingMenuPos({
+                top: menuYOffside.current ?? 0,
+                left: menuXOffside.current ?? 0,
+              });
               updateShowBubbleMenu(false);
+              const { from, to } = editor.state.selection;
+              editor.chain().focus().setTextSelection({ from, to }).run();
             }}
             className='text-doc-primary'
           >
@@ -215,8 +223,13 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
                 return;
               }
               updateCitationMenu(true);
-              updateCopilotRect(menuYOffside.current);
+              updateFloatingMenuPos({
+                top: menuYOffside.current ?? 0,
+                left: menuXOffside.current ?? 0,
+              });
               updateShowBubbleMenu(false);
+              const { from, to } = editor.state.selection;
+              editor.chain().focus().setTextSelection({ from, to }).run();
             }}
             className='text-doc-primary'
           >
