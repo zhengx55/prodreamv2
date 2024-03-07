@@ -19,19 +19,20 @@ const PromptView = ({id, showPromptView , onFinish} : {id:string, showPromptView
     setOpenPrompt(showPromptView)
   },[showPromptView])
 
-  useEffect(()=>{
+  useEffect(() => {
     if (content) {
-      if (content.length >= 5 && content.length < 10) {
-        setLineCount(1) ;
-      } else if (content.length >= 10 && content.length < 20) {
-        setLineCount(2) ;
-      } else if (content.length >= 20) {
-        setLineCount(3) ;
+      const wordCount = content.trim().split(/\s+/).length;
+      if (wordCount >= 5 && wordCount < 10) {
+        setLineCount(1);
+      } else if (wordCount >= 10 && wordCount < 20) {
+        setLineCount(2);
+      } else if (wordCount >= 20) {
+        setLineCount(3);
       } else {
-        setLineCount(0) ;
+        setLineCount(0);
       }
     }
-  },[content])
+  }, [content]);
 
   return <>
     <Dialog open={openPrompt} modal={false} >
@@ -50,35 +51,30 @@ const PromptView = ({id, showPromptView , onFinish} : {id:string, showPromptView
             <XCircle className="w-6 h-6 shrink-0" />
           </DialogClose>
         </DialogHeader>
-        
-          <Textarea value={content} onChange={(e)=>{
-            
-              setContent(e.target.value ?? "");
-            
-          }} className='w-[760px] h-[107px] shrink-0 rounded border bg-white border-solid border-[#EAEAEA]' placeholder="e.g.  This essay is about the challenges and strategies of conserving biodiversity in the Anthropocene and discuss the importance of conservation efforts in safeguarding ecosystems and species from the brink of extinction" />
-          <div className="flex items-center justify-between mt-4">
+        <Textarea  value={content} onChange={(e)=>setContent(e.target.value ?? "")} className='[font-family:poppins] w-[760px] h-[107px] shrink-0 rounded border bg-white border-solid border-[#EAEAEA]' placeholder= "e.g.  This essay is about the challenges and strategies of conserving biodiversity in the Anthropocene and discuss the importance of conservation efforts in safeguarding ecosystems and species from the brink of extinction" />
+        <div className="flex items-center justify-between mt-4">
           <div className="text-[#4B454D] [font-family:poppins] text-base font-normal leading-[160%]">
             Prompt strength：
             {[...Array(lineCount)].map((_, index) => {
-               // 计算亮度值
+              // 计算亮度值
                 const lightness = 90 - (index + 1) * 10;
-
                 // 使用 HSL 颜色表示法创建颜色值
-                 const color = `hsl(270, 100%, ${lightness}%)`;
+                const color = `hsl(270, 100%, ${lightness}%)`;
                 return (
-                  <div
-                    key={index}
-                    className={`w-20 h-2 shrink-0 bg-purple-500 rounded-[41px]`}
-                    style={{
-                      backgroundColor: color,
-                      display: 'inline-block',
-                      position: 'relative',
-                      left: `${index * 5}px`
-                    }}
-                  />
-                )
+                    <div
+                      key={index}
+                      className={`w-20 h-2 shrink-0 bg-purple-500 rounded-[41px]`}
+                      style={{
+                        backgroundColor: color,
+                        display: 'inline-block',
+                        position: 'relative',
+                        left: `${index * 5}px`
+                      }}
+                    />
+                  )
                 })}
-          </div></div>
+          </div>
+        </div>
         <DialogFooter>
           <Button onClick={async ()=>{
             if (content) {

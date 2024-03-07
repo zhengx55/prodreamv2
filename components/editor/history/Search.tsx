@@ -9,9 +9,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent, memo, useCallback, useRef, useState } from 'react';
-import PromptView from '../modal/Prompt';
-import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
+import { ChangeEvent, memo, useRef, useState } from 'react';
+
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 
 const SearchBar = () => {
@@ -41,8 +40,6 @@ const SearchBar = () => {
       toast.error(error.message);
     },
   });
-
-
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const params = new URLSearchParams(searchParams);
