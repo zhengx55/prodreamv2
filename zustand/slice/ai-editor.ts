@@ -17,14 +17,13 @@ const initialState: AIEditorState = {
   showCopilotMenu: false,
   showCitiationMenu: false,
   showBubbleMenu: false,
-  copilotRect: null,
-  copilotRectX: null,
   showSynonymMenu: false,
   paymentModalOpen: false,
   showContinue: null,
   continueResult: '',
   disableContinue: false,
   continueInsertPos: null,
+  floatingMenuPos: null,
 };
 
 type AIEditorState = {
@@ -40,14 +39,13 @@ type AIEditorState = {
   showCopilotMenu: boolean;
   showBubbleMenu: boolean;
   showCitiationMenu: boolean;
-  copilotRect: null | number;
   showSynonymMenu: boolean;
-  copilotRectX: null | number;
   paymentModalOpen: boolean;
   showContinue: { top: number; left: number } | null;
   continueResult: string;
   disableContinue: boolean;
   continueInsertPos: number | null;
+  floatingMenuPos: { top: number; left: number } | null;
 };
 
 type AIEditorAction = {
@@ -62,10 +60,9 @@ type AIEditorAction = {
   reset: () => void;
   updatePlagiarismResult: (result: AIEditorState['plagiarismResult']) => void;
   updateCopilotMenu: (result: AIEditorState['showCopilotMenu']) => void;
-  updateCopilotRect: (result: AIEditiorStore['copilotRect']) => void;
+  updateFloatingMenuPos: (result: AIEditiorStore['floatingMenuPos']) => void;
   updateCitationMenu: (result: AIEditorState['showCitiationMenu']) => void;
   updateSynonymMenu: (result: AIEditorState['showSynonymMenu']) => void;
-  updateCopilotRectX: (resutl: AIEditorState['copilotRectX']) => void;
   updatePaymentModal: (result: AIEditorState['paymentModalOpen']) => void;
   closeRightbar: () => void;
   updateshowContinue: (result: AIEditorState['showContinue']) => void;
@@ -125,10 +122,12 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set(() => ({
       showCopilotMenu: result,
     })),
-  updateCopilotRect: (result) =>
+
+  updateFloatingMenuPos: (result) =>
     set(() => ({
-      copilotRect: result,
+      floatingMenuPos: result,
     })),
+
   updateCitationMenu: (result) =>
     set(() => ({
       showCitiationMenu: result,
@@ -137,10 +136,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set(() => ({
       showSynonymMenu: result,
     })),
-  updateCopilotRectX: (result) =>
-    set(() => ({
-      copilotRectX: result,
-    })),
+
   updateshowContinue: (result) =>
     set(() => ({
       showContinue: result,
