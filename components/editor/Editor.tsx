@@ -156,15 +156,15 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
 
   if (!editor || isPending) return null;
   return (
-    <section className='relative flex w-full flex-col'>
-      <div className='flex h-full w-full'>
+    <section className='relative flex flex-col w-full'>
+      <div className='flex w-full h-full'>
         <TableOfContents editor={editor} />
         {Boolean(track?.guidence) && <EditorBlock editor={editor} />}
         <Procedure editor={editor} />
         <PaymentModal />
       </div>
       {showBottomBar && (
-        <div className='flex-center absolute bottom-0 h-10 w-full shrink-0 border-t border-shadow-border bg-white px-0'>
+        <div className='absolute bottom-0 w-full h-10 px-0 bg-white border-t flex-center shrink-0 border-shadow-border'>
           <BottomBar editor={editor} />
         </div>
       )}

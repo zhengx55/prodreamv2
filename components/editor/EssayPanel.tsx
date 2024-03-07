@@ -2,7 +2,7 @@
 import DocNavbar from '@/components/editor/navbar';
 import { useDocumentDetail } from '@/query/query';
 import dynamic from 'next/dynamic';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import LazyMotionProvider from '../root/LazyMotionProvider';
 import Spacer from '../root/Spacer';
 import { Skeleton } from '../ui/skeleton';
@@ -38,10 +38,6 @@ const EssayPanel = ({ id }: { id: string }) => {
     }
   },[document_content])
 
-  const reload = () => {
-     window.location.reload();
-  }
-  
   useCitationInfo(document_content);
 
   if (isError) return <p>opps something went wrong!</p>;
@@ -49,7 +45,7 @@ const EssayPanel = ({ id }: { id: string }) => {
     <LazyMotionProvider>
       <main className='relative flex flex-col w-full h-full'>
         
-        <div key={`${refreshNavbar}`}>
+        <div id={`${refreshNavbar}`}>
           <DocNavbar  id={id} />
         </div>
         

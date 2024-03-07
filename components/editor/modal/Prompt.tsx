@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { DialogClose } from '@radix-ui/react-dialog';
-import { PencilLine, XCircle } from 'lucide-react';
+import {  XCircle } from 'lucide-react';
 import {  useEffect, useState } from 'react';
 import { saveDoc } from '@/query/api';
 import { useDocumentDetail } from '@/query/query';
