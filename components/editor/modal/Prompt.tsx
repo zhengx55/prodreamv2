@@ -21,11 +21,11 @@ const PromptView = ({id, showPromptView , onFinish} : {id:string, showPromptView
 
   useEffect(()=>{
     if (content) {
-      if (content.length > 5 && content.length <= 10) {
+      if (content.length >= 5 && content.length < 10) {
         setLineCount(1) ;
-      } else if (content.length > 10 && content.length <= 20) {
+      } else if (content.length >= 10 && content.length < 20) {
         setLineCount(2) ;
-      } else if (content.length > 20) {
+      } else if (content.length >= 20) {
         setLineCount(3) ;
       } else {
         setLineCount(0) ;
@@ -41,8 +41,8 @@ const PromptView = ({id, showPromptView , onFinish} : {id:string, showPromptView
         borderRadius: '8px',
       }} className="sm:max-w-[800px]  shrink-0 bg-white shadow-md">
         <DialogHeader>
-          <DialogTitle className='text-[#4B454D] [font-family:Inter] text-2xl font-medium leading-[160%]'>Please input your prompt below</DialogTitle>
-          <DialogDescription className='w-[579px] h-[25px] shrink-0 text-[#7C757E] [font-family:Inter] text-sm font-normal leading-[160%]'>Adding an essay prompt can greatly enhance the quality of AI generations </DialogDescription>
+          <DialogTitle className='text-[#4B454D] [font-family:poppins] text-2xl font-medium leading-[160%]'>Please input your prompt below</DialogTitle>
+          <DialogDescription className='w-[579px] h-[25px] shrink-0 text-[#7C757E] [font-family:poppins] text-sm font-normal leading-[160%]'>Adding an essay prompt can greatly enhance the quality of AI generations </DialogDescription>
           <DialogClose onClick={()=>{
             setOpenPrompt(false);
             onFinish && onFinish()
@@ -52,12 +52,12 @@ const PromptView = ({id, showPromptView , onFinish} : {id:string, showPromptView
         </DialogHeader>
         
           <Textarea value={content} onChange={(e)=>{
-            if (e.target.value) {
-              setContent(e.target.value);
-            }
+            
+              setContent(e.target.value ?? "");
+            
           }} className='w-[760px] h-[107px] shrink-0 rounded border bg-white border-solid border-[#EAEAEA]' placeholder="e.g.  This essay is about the challenges and strategies of conserving biodiversity in the Anthropocene and discuss the importance of conservation efforts in safeguarding ecosystems and species from the brink of extinction" />
           <div className="flex items-center justify-between mt-4">
-          <div className="text-[#4B454D] [font-family:Inter] text-base font-normal leading-[160%]">
+          <div className="text-[#4B454D] [font-family:poppins] text-base font-normal leading-[160%]">
             Prompt strength：
             {[...Array(lineCount)].map((_, index) => {
                // 计算亮度值
