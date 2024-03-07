@@ -848,7 +848,7 @@ export const PricingBasic = {
 
 export const PricingUnlimited = {
   title: 'Unlimited',
-  month_price: '19.99',
+  month_price: '15.99',
   text: 'Unlock comprehensive academic support with unlimited access to all features for advanced writing needs.',
   features: [
     '<strong>Unlimited</strong> Documents',
@@ -862,7 +862,7 @@ export const PricingUnlimited = {
 
 export const PricingAnnualyUnlimited = {
   title: 'Unlimited',
-  month_price: '9.99',
+  month_price: '7.99',
   recommended: true,
   text: 'Unlock comprehensive academic support with unlimited access to all features for advanced writing needs.',
   price_text:
