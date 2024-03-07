@@ -45,7 +45,7 @@ const EssayPanel = ({ id }: { id: string }) => {
     <LazyMotionProvider>
       <main className='relative flex flex-col w-full h-full'>
         
-        <div id={`${refreshNavbar}`}>
+        <div key={`${refreshNavbar}`}>
           <DocNavbar  id={id} />
         </div>
         
@@ -66,7 +66,7 @@ const EssayPanel = ({ id }: { id: string }) => {
       </main>
       <PromptView id={id} showPromptView={showPromptView} onFinish={async ()=>{
         await refetch().then(res => {
-          setRefreshNavbar(prevState => !prevState); 
+          setRefreshNavbar(!refreshNavbar); 
         })
       }} />
     </LazyMotionProvider>
