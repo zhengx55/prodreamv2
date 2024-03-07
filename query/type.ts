@@ -75,6 +75,7 @@ export type IDocDetail = {
   in_text_citations: string[];
   content: string;
   citation_candidates: string[];
+  brief_description?: string;
 };
 
 export interface ICitation {

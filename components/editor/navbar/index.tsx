@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { memo } from 'react';
 import Plagiarism from './Plagiarism';
 import PromptView from './Prompt';
-import { Dialog } from '@/components/ui/dialog';
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
 
