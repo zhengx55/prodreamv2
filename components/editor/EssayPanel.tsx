@@ -23,9 +23,11 @@ const Editor = dynamic(() => import('./Editor'), {
 const DocRightBar = dynamic(() => import('./rightbar/DocRightBar'));
 
 const EssayPanel = ({ id }: { id: string }) => {
-  const { data: document_content, isFetching, isError } = useDocumentDetail(id);
+  const { data: document_content, refetch, isFetching, isError } = useDocumentDetail(id);
   
   const [showPromptView, setShowPromptView] = useState(false)
+
+  const [refreshNavbar, setRefreshNavbar] = useState(false);
 
   useEffect(()=>{
     if (document_content && isEmpty(document_content?.content) && isEmpty(document_content?.brief_description)) {
@@ -35,14 +37,18 @@ const EssayPanel = ({ id }: { id: string }) => {
       setShowPromptView(false)
     }
   },[document_content])
-  
+
   useCitationInfo(document_content);
 
   if (isError) return <p>opps something went wrong!</p>;
   return (
     <LazyMotionProvider>
       <main className='relative flex flex-col w-full h-full'>
-        <DocNavbar id={id}/>
+        
+        <div id={`${refreshNavbar}`}>
+          <DocNavbar  id={id} />
+        </div>
+        
         <CheckList />
         <div className='relative flex justify-center w-full h-full overflow-hidden'>
           {isFetching ? (
@@ -58,7 +64,11 @@ const EssayPanel = ({ id }: { id: string }) => {
           <DocRightBar />
         </div>
       </main>
-      <PromptView id={id} showPromptView={showPromptView} />
+      <PromptView id={id} showPromptView={showPromptView} onFinish={async ()=>{
+        await refetch().then(res => {
+          setRefreshNavbar(prevState => !prevState); 
+        })
+      }} />
     </LazyMotionProvider>
   );
 };

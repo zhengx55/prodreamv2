@@ -6,7 +6,7 @@ import { useAIEditor } from '@/zustand/store';
 import { ChevronLeft, Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import Plagiarism from './Plagiarism';
 import PromptView from './Prompt';
 
