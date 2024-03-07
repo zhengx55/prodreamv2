@@ -88,8 +88,8 @@ const AiMenu = ({ editor }: Props) => {
         updateCopilotMenu(false);
       }
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

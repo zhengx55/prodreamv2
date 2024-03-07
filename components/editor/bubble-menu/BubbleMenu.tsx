@@ -182,6 +182,8 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
             updateCopilotMenu(true);
             updateCopilotRect(menuYOffside.current);
             updateShowBubbleMenu(false);
+            const { from, to } = editor.state.selection;
+            editor.chain().focus().setTextSelection({ from, to }).run();
             task_step === 0 && updateTaskStep(-1);
           }}
           className='text-doc-primary'
@@ -200,6 +202,8 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
               updateCopilotRectX(menuXOffside.current);
               updateCopilotRect(menuYOffside.current);
               updateShowBubbleMenu(false);
+              const { from, to } = editor.state.selection;
+              editor.chain().focus().setTextSelection({ from, to }).run();
             }}
             className='text-doc-primary'
           >
@@ -217,6 +221,8 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
               updateCitationMenu(true);
               updateCopilotRect(menuYOffside.current);
               updateShowBubbleMenu(false);
+              const { from, to } = editor.state.selection;
+              editor.chain().focus().setTextSelection({ from, to }).run();
             }}
             className='text-doc-primary'
           >
