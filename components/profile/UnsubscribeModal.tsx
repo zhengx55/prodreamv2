@@ -45,9 +45,8 @@ const UnsubscribeModal = ({
           Are you sure you want to leave?
         </DialogTitle>
         <DialogDescription className='base-regular text-doc-font'>
-          Your Unlimited plan offers comprehensive support for unlimited AI
-          prompts, smart generations, citations, grammar and originality
-          checks-all in one package. Reconsider to keep enhancing your writing
+          You will lose benefits to unlimited AI generations, grammar check and
+          originality checks. Reconsider to keep enhancing your writing
           effortlessly.
         </DialogDescription>
         <DialogFooter>
@@ -58,7 +57,7 @@ const UnsubscribeModal = ({
               className='h-max border border-doc-primary py-1.5'
               onClick={handleUnsubscribe}
             >
-              Continue with Unsubscription
+              Unsubscribe
             </Button>
           </DialogClose>
           <DialogClose asChild>

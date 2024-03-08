@@ -23,7 +23,7 @@ const MembershipModal = () => {
   const isMonthly = data?.subscription_type === 'month';
   const isAnually = data?.subscription_type === 'year';
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={!open} onOpenChange={setOpen}>
       <DialogContent
         onPointerDownOutside={(e) => e.preventDefault()}
         className='z-50 border-none px-8 py-4 md:w-[900px] md:gap-y-0 md:rounded-lg'
@@ -49,16 +49,19 @@ const MembershipModal = () => {
             defaultValue='Annually'
             className='flex w-full flex-col justify-center'
           >
-            <TabsList className='h-10 w-max gap-x-2 self-center rounded-full bg-doc-primary p-1'>
+            <TabsList className='h-10 w-max gap-x-2 self-center rounded-full bg-[#EDE5FA] p-1'>
               <TabsTrigger
-                className='rounded-full px-9 text-white data-[state=active]:bg-white data-[state=active]:text-doc-primary'
+                className='gap-x-1 rounded-full px-7 text-doc-primary data-[state=active]:bg-white'
                 value='Annually'
               >
                 Annually
+                <span className='subtle-semibold rounded-full bg-doc-primary px-2 py-0.5 text-white'>
+                  -50%
+                </span>
               </TabsTrigger>
               <TabsTrigger
                 value='Monthly'
-                className='rounded-full px-9 text-white data-[state=active]:bg-white data-[state=active]:text-doc-primary'
+                className='rounded-full px-9 text-doc-primary data-[state=active]:bg-white'
               >
                 Monthly
               </TabsTrigger>
