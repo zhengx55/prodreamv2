@@ -23,7 +23,7 @@ const MembershipModal = () => {
   const isMonthly = data?.subscription_type === 'month';
   const isAnually = data?.subscription_type === 'year';
   return (
-    <Dialog open={!open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
         onPointerDownOutside={(e) => e.preventDefault()}
         className='z-50 border-none px-8 py-4 md:w-[900px] md:gap-y-0 md:rounded-lg'
