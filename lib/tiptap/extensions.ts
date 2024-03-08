@@ -27,7 +27,6 @@ import ContinueText from './plugin/continue-writting/text';
 import DragAndDrop from './plugin/drag';
 import IntextCitation from './plugin/intext-citation';
 import { GrammarUnderline } from './plugin/polish-underline';
-import Selection from './plugin/selection';
 import { SlashCommand } from './plugin/slashcommand';
 import Title from './plugin/title';
 
@@ -98,7 +97,6 @@ const ExtensionKit = () => [
   }),
   Underline,
   GrammarUnderline,
-  Selection,
   DropCursor.configure({
     width: 2,
     color: '#DADADA',

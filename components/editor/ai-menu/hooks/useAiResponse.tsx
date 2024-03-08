@@ -1,15 +1,46 @@
-import { ask, copilot } from '@/query/api';
+import { ask, copilot, humanize } from '@/query/api';
+import { useMembershipInfo } from '@/query/query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { MutableRefObject, useCallback, useState } from 'react';
 
 const useAiResponse = (tool: MutableRefObject<string | null>) => {
   const queryClient = useQueryClient();
+  const { data: membership } = useMembershipInfo();
   const [hoverItem, setHoverItem] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
   const [showTyping, setShowTyping] = useState(false);
   const [aiResult, setAiResult] = useState<string[]>([]);
   const [currentResult, setCurrentResult] = useState(0);
+
+  const { mutateAsync: handleHumanize } = useMutation({
+    mutationFn: (params: { text: string }) => humanize(params),
+    onMutate: () => {
+      setGenerating(true);
+      setShowTyping(true);
+    },
+    onSuccess: async (data: ReadableStream, variables) => {
+      if (membership?.subscription === 'basic')
+        queryClient.invalidateQueries({ queryKey: ['membership'] });
+      tool.current = 'humanize';
+      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          setHoverItem('copilot-operation-01');
+          break;
+        }
+        handleStreamData(value);
+      }
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      setGenerating(false);
+      setShowTyping(false);
+      toast.error(error.message);
+    },
+  });
+
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { tool: string; text: string }) => copilot(params),
     onMutate: () => {
@@ -17,7 +48,8 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
       setShowTyping(true);
     },
     onSuccess: async (data: ReadableStream, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['membership'] });
+      if (membership?.subscription === 'basic')
+        queryClient.invalidateQueries({ queryKey: ['membership'] });
       tool.current = variables.tool;
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
@@ -32,6 +64,8 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
       setGenerating(false);
+      setShowTyping(false);
+
       toast.error(error.message);
     },
   });
@@ -40,10 +74,12 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
     mutationFn: (params: { instruction: string; text: string }) => ask(params),
     onMutate: () => {
       setGenerating(true);
+      setShowTyping(true);
     },
-    onSuccess: async (data: ReadableStream) => {
+    onSuccess: async (data: ReadableStream, variables) => {
       queryClient.invalidateQueries({ queryKey: ['membership'] });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      tool.current = variables.text;
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
@@ -57,6 +93,8 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
       setGenerating(false);
+      setShowTyping(false);
+
       toast.error(error.message);
     },
   });
@@ -108,6 +146,7 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
     setCurrentResult,
     toogleTyping,
     showTyping,
+    handleHumanize,
   };
 };
 export default useAiResponse;

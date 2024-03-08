@@ -71,9 +71,7 @@ export default async function Page() {
               You are on the&nbsp;
               <strong>
                 Unlimited&nbsp;
-                {membership.subscription_type === 'year'
-                  ? 'Annualy'
-                  : 'Monthly'}
+                {membership.subscription_type === 'year' ? 'Annual' : 'Monthly'}
                 &nbsp; Plan
               </strong>
             </p>

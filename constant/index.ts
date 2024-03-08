@@ -50,6 +50,7 @@ export const GenerateOptions = [
       { id: 'outline-01', label: 'argumentative' },
       { id: 'outline-02', label: 'analytical' },
       { id: 'outline-03', label: 'scientific' },
+      { id: 'outline-04', label: 'general' },
     ],
   },
 ];

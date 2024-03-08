@@ -2,6 +2,7 @@ import Loading from '@/components/root/CustomLoading';
 import { H1_regex, H2_regex } from '@/constant';
 import { findLastParagraph, findTitle } from '@/lib/tiptap/utils';
 import { copilot, outline } from '@/query/api';
+import { useMembershipInfo } from '@/query/query';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
@@ -15,7 +16,7 @@ import GenerateBtn from './GenerateBtn';
 import OutlineBtn from './OutlineBtn';
 import Result from './Result';
 
-const OutlineTypes = ['argumentative', 'analytical', 'scientific'];
+const OutlineTypes = ['general', 'argumentative', 'analytical', 'scientific'];
 const GenerateTypes = [
   'Write Introduction',
   'Write Conclusion',
@@ -30,7 +31,7 @@ const GenerateSub = ({ generateTab, label }: Props) => {
   const [generatedResult, setGeneratedResult] = useState('');
   const editor = useAIEditor((state) => state.editor_instance);
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
-
+  const { data: membership } = useMembershipInfo();
   const { insertGenerated, deleteRange } = useEditorCommand(editor!);
   const outLineInfo = useRef<z.infer<typeof generateOutlineSchema> | null>(
     null
@@ -43,7 +44,8 @@ const GenerateSub = ({ generateTab, label }: Props) => {
       if (generatedResult) setGeneratedResult('');
     },
     onSuccess: async (data: ReadableStream) => {
-      queryClient.invalidateQueries({ queryKey: ['membership'] });
+      if (membership?.subscription === 'basic')
+        queryClient.invalidateQueries({ queryKey: ['membership'] });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
         const { value, done } = await reader.read();
@@ -66,7 +68,8 @@ const GenerateSub = ({ generateTab, label }: Props) => {
       if (generatedResult) setGeneratedResult('');
     },
     onSuccess: async (data: ReadableStream, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['membership'] });
+      if (membership?.subscription === 'basic')
+        queryClient.invalidateQueries({ queryKey: ['membership'] });
       outLineInfo.current = { idea: variables.idea, area: variables.area };
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       while (true) {
@@ -129,7 +132,11 @@ const GenerateSub = ({ generateTab, label }: Props) => {
 
   const handleGenerateOutline = useCallback(
     async (idea: string, area: string) => {
-      await handleOutline({ essay_type: generateTab as string, idea, area });
+      await handleOutline({
+        essay_type: generateTab === 'general' ? 'any' : (generateTab as string),
+        idea,
+        area,
+      });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [generateTab]

@@ -37,13 +37,11 @@ const Membership = () => {
         <>
           <div className='flex items-center gap-x-4'>
             <p className='text-doc-font'>
-              You are on the{' '}
+              You are on the&nbsp;
               <strong>
-                Unlimited{' '}
-                {membership.subscription_type === 'year'
-                  ? 'Annualy'
-                  : 'Monthly'}{' '}
-                Plan
+                Unlimited&nbsp;
+                {membership.subscription_type === 'year' ? 'Annual' : 'Monthly'}
+                &nbsp; Plan
               </strong>
             </p>
           </div>

@@ -131,6 +131,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
         setShowBottomBar(true);
       }
     },
+
     onFocus: ({ editor }) => {
       editor.view.dom.addEventListener('contextmenu', (e) => {
         e.preventDefault();
@@ -138,12 +139,15 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
         editor.commands.setTextSelection(0);
       });
     },
+
     onBlur: ({ editor }) => {
       editor.view.dom.removeEventListener('contextmenu', (e) => {
         e.preventDefault();
         editor.commands.blur();
+        editor.commands.setTextSelection(0);
       });
     },
+
     onUpdate: ({ editor }) => {
       const title = editor.getJSON().content?.at(0)?.content?.at(0)?.text;
       const html = editor.getHTML();
@@ -156,15 +160,15 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
 
   if (!editor || isPending) return null;
   return (
-    <section className='relative flex flex-col w-full'>
-      <div className='flex w-full h-full'>
+    <section className='relative flex w-full flex-col'>
+      <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
         {Boolean(track?.guidence) && <EditorBlock editor={editor} />}
         <Procedure editor={editor} />
         <PaymentModal />
       </div>
       {showBottomBar && (
-        <div className='absolute bottom-0 w-full h-10 px-0 bg-white border-t flex-center shrink-0 border-shadow-border'>
+        <div className='flex-center absolute bottom-0 h-10 w-full shrink-0 border-t border-shadow-border bg-white px-0'>
           <BottomBar editor={editor} />
         </div>
       )}
