@@ -21,7 +21,7 @@ import { v4 } from 'uuid';
 type Props = { editor: Editor };
 
 const CitationMenu = ({ editor }: Props) => {
-  const copilotRect = useAIEditor((state) => state.copilotRect);
+  const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
   const updateCitationMenu = useAIEditor((state) => state.updateCitationMenu);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const updateShowCreateCitation = useCitation(
@@ -46,7 +46,7 @@ const CitationMenu = ({ editor }: Props) => {
   const { mutateAsync: handleCite } = useCiteToDoc();
 
   const handler = async (item: ICitation) => {
-    const converted_data = ConvertCitationData(item);
+    const converted_data = ConvertCitationData(item, false);
     await handleCite({
       citation_data: converted_data,
       citation_type: 'Journal',
@@ -58,11 +58,11 @@ const CitationMenu = ({ editor }: Props) => {
     updateCitationMenu(false);
   });
 
-  if (!copilotRect) return null;
+  if (!floatingMenuPos) return null;
   return (
     <section
       ref={ref}
-      style={{ top: `${copilotRect - 54}px` }}
+      style={{ top: `${floatingMenuPos.top - 54}px` }}
       className='absolute -left-12 flex w-full justify-center overflow-visible '
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>

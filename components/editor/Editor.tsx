@@ -61,7 +61,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
         });
       }
     });
-  }, 1000);
+  }, 2000);
 
   const debouncedUpdateText = useDebouncedCallback(
     async (title: string, text: string) => {
@@ -131,6 +131,23 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
         setShowBottomBar(true);
       }
     },
+
+    onFocus: ({ editor }) => {
+      editor.view.dom.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        editor.commands.blur();
+        editor.commands.setTextSelection(0);
+      });
+    },
+
+    onBlur: ({ editor }) => {
+      editor.view.dom.removeEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        editor.commands.blur();
+        editor.commands.setTextSelection(0);
+      });
+    },
+
     onUpdate: ({ editor }) => {
       const title = editor.getJSON().content?.at(0)?.content?.at(0)?.text;
       const html = editor.getHTML();

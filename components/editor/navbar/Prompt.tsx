@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 
 const PromptView = ({id} : {id:string}) => {
   
-  const { data: document_content, isFetching, isError } = useDocumentDetail(id);
-  const [content, setContent] = useState<string>(document_content?.brief_description ?? '')
+  const { data: document_content,isFetching, isError } = useDocumentDetail(id);
+  const [content, setContent] = useState<string>(  document_content?.brief_description ?? '')
   const [openPrompt, setOpenPrompt] = useState(false);
   const [lineCount, setLineCount] = useState(0)
 
@@ -21,23 +21,21 @@ const PromptView = ({id} : {id:string}) => {
     setOpenPrompt(true);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (content) {
-      if (content.length > 5 && content.length <= 10) {
-        setLineCount(1) ;
-      } else if (content.length > 10 && content.length <= 20) {
-        setLineCount(2) ;
-      } else if (content.length > 20) {
-        setLineCount(3) ;
+      const wordCount = content.trim().split(/\s+/).length;
+      if (wordCount >= 5 && wordCount < 10) {
+        setLineCount(1);
+      } else if (wordCount >= 10 && wordCount < 20) {
+        setLineCount(2);
+      } else if (wordCount >= 20) {
+        setLineCount(3);
       } else {
-        setLineCount(0) ;
+        setLineCount(0);
       }
     }
-  },[content])
+  }, [content]);
 
-
-
-  
   return (
     <>
       <Popover open={openPrompt} >
@@ -57,21 +55,16 @@ const PromptView = ({id} : {id:string}) => {
             top: `${buttonPosition.y}px`,
             borderRadius: '8px',
           }} className="w-[800px] h-[260px] shrink-0 border [background:#FFF] rounded-lg border-solid border-[#EAEAEA]">
-          <div className="text-[#4B454D] [font-family:Inter] text-2xl font-medium leading-[160%]">
+          <div className="text-[#4B454D] [font-family:poppins] text-2xl font-medium leading-[160%]">
             Please input your prompt below
           </div>
-          <div className="w-[579px] h-[25px] shrink-0 text-[#7C757E] [font-family:Inter] text-sm font-normal leading-[160%]">
+          <div className="w-[579px] h-[25px] shrink-0 text-[#7C757E] [font-family:poppins] text-sm font-normal leading-[160%]">
             Adding an essay prompt can greatly enhance the quality of AI generations
           </div>
-          <Textarea value={content}  onChange={(e)=>{
-            if (e.target.value) {
-              setContent(e.target.value);
-            }
-          }} className='w-[760px] h-[107px] shrink-0 rounded border bg-white border-solid border-[#EAEAEA]' placeholder="e.g.  This essay is about the challenges and strategies of conserving biodiversity in the Anthropocene and discuss the importance of conservation efforts in safeguarding ecosystems and species from the brink of extinction" />
+          <Textarea value={content}  onChange={(e)=>setContent(e.target.value)} className='[font-family:poppins] w-[760px] h-[107px] shrink-0 rounded border bg-white border-solid border-[#EAEAEA]' placeholder="e.g.  This essay is about the challenges and strategies of conserving biodiversity in the Anthropocene and discuss the importance of conservation efforts in safeguarding ecosystems and species from the brink of extinction" />
            
-
           <div className="flex items-center justify-between mt-4">
-          <div className="text-[#4B454D] [font-family:Inter] text-base font-normal leading-[160%]">
+          <div className="text-[#4B454D] [font-family:poppins] text-base font-normal leading-[160%]">
             Prompt strength：
             {[...Array(lineCount)].map((_, index) => {
                // 计算亮度值
@@ -96,7 +89,7 @@ const PromptView = ({id} : {id:string}) => {
             <div>
               <Button onClick={()=>{
                 setOpenPrompt(false);
-              }} className="mx-2 inline-flex h-8 justify-center items-center gap-2.5 shrink-0 rounded border [background:#FFF] px-4 py-2 border-solid border-[#D9D9D9] text-[#939393] [font-family:Inter] text-base font-normal leading-[160%] ">Cancel</Button>
+              }} className="mx-2 inline-flex h-8 justify-center items-center gap-2.5 shrink-0 rounded border [background:#FFF] px-4 py-2 border-solid border-[#D9D9D9] text-[#939393] [font-family:poppins] text-base font-normal leading-[160%] ">Cancel</Button>
               <Button onClick={async ()=>{
                 if (content) {
                   await saveDoc({

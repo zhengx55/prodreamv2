@@ -64,14 +64,7 @@ const WebsiteForm = ({
   }, []);
 
   const onSubmit = async (values: IWebsiteCitation) => {
-    if (type === 'create') {
-      await handleCreate({
-        document_id: id as string,
-        citation_type: 'Website',
-        citation_data: values,
-      });
-      updateShowCreateCitation(false);
-    } else {
+    if (type === 'edit') {
       if (!data) return;
       await handleUpdate({
         citation_type: 'Journal',
@@ -86,8 +79,16 @@ const WebsiteForm = ({
         },
         id: data.id,
       });
+    } else {
+      await handleCreate({
+        document_id: id as string,
+        citation_type: 'Website',
+        citation_data: values,
+      });
+      updateShowCreateCitation(false);
     }
   };
+
   const handleCancel = () => {
     if (type === 'edit') {
       updateShowEditCitation(false);
@@ -95,6 +96,7 @@ const WebsiteForm = ({
       updateShowCreateCitation(false);
     }
   };
+
   const appendContributor = () => {
     append({
       first_name: '',

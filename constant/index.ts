@@ -50,6 +50,7 @@ export const GenerateOptions = [
       { id: 'outline-01', label: 'argumentative' },
       { id: 'outline-02', label: 'analytical' },
       { id: 'outline-03', label: 'scientific' },
+      { id: 'outline-04', label: 'general' },
     ],
   },
 ];
@@ -848,7 +849,7 @@ export const PricingBasic = {
 
 export const PricingUnlimited = {
   title: 'Unlimited',
-  month_price: '19.99',
+  month_price: '15.99',
   text: 'Unlock comprehensive academic support with unlimited access to all features for advanced writing needs.',
   features: [
     '<strong>Unlimited</strong> Documents',
@@ -862,7 +863,7 @@ export const PricingUnlimited = {
 
 export const PricingAnnualyUnlimited = {
   title: 'Unlimited',
-  month_price: '9.99',
+  month_price: '7.99',
   recommended: true,
   text: 'Unlock comprehensive academic support with unlimited access to all features for advanced writing needs.',
   price_text:

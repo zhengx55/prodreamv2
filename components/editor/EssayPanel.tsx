@@ -2,12 +2,14 @@
 import DocNavbar from '@/components/editor/navbar';
 import { useDocumentDetail } from '@/query/query';
 import dynamic from 'next/dynamic';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import LazyMotionProvider from '../root/LazyMotionProvider';
 import Spacer from '../root/Spacer';
 import { Skeleton } from '../ui/skeleton';
 import CheckList from './checklist/CheckList';
 import { useCitationInfo } from './rightbar/citation/hooks/useCitationInfo';
+import { isEmpty } from 'lodash';
+import PromptView from './modal/Prompt';
 
 const Editor = dynamic(() => import('./Editor'), {
   ssr: false,
@@ -21,14 +23,28 @@ const Editor = dynamic(() => import('./Editor'), {
 const DocRightBar = dynamic(() => import('./rightbar/DocRightBar'));
 
 const EssayPanel = ({ id }: { id: string }) => {
-  const { data: document_content, isFetching, isError } = useDocumentDetail(id);
+  const { data: document_content, refetch, isFetching, isError } = useDocumentDetail(id);
+  
+  const [showPromptView, setShowPromptView] = useState(false)
+
+  const [refreshNavbar, setRefreshNavbar] = useState('');
+
+  useEffect(()=>{
+    if (document_content && isEmpty(document_content?.content) && isEmpty(document_content?.brief_description)) {
+      setShowPromptView(true)
+    }
+    return () => {
+      setShowPromptView(false)
+    }
+  },[document_content])
+
   useCitationInfo(document_content);
 
   if (isError) return <p>opps something went wrong!</p>;
   return (
     <LazyMotionProvider>
       <main className='relative flex flex-col w-full h-full'>
-        <DocNavbar id={id}/>
+        <DocNavbar key={`${refreshNavbar}`}  id={id} />
         <CheckList />
         <div className='relative flex justify-center w-full h-full overflow-hidden'>
           {isFetching ? (
@@ -44,6 +60,11 @@ const EssayPanel = ({ id }: { id: string }) => {
           <DocRightBar />
         </div>
       </main>
+      <PromptView id={id} showPromptView={showPromptView} onFinish={async ()=>{
+        await refetch().then((res) => {
+          setRefreshNavbar(res.data?.brief_description ?? ''); 
+        })
+      }} />
     </LazyMotionProvider>
   );
 };
