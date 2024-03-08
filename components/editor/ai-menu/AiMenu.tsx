@@ -25,12 +25,12 @@ import {
 } from 'react';
 import { v4 } from 'uuid';
 import { useEditorCommand } from '../hooks/useEditorCommand';
+import CustomPrompt from './CustomPrompt';
 import StreamText from './StreamText';
 import { useAiOptions } from './hooks/useAiOptions';
 import useAiResponse from './hooks/useAiResponse';
 
 const RemainUsages = dynamic(() => import('./RemainUsages'));
-const CustomPrompt = dynamic(() => import('./CustomPrompt'));
 type Props = { editor: Editor };
 const AiMenu = ({ editor }: Props) => {
   const { options, operations } = useAiOptions();
@@ -56,6 +56,7 @@ const AiMenu = ({ editor }: Props) => {
     setCurrentResult,
     showTyping,
     toogleTyping,
+    handleHumanize,
   } = useAiResponse(tool);
 
   const { replaceText, insertNext } = useEditorCommand(editor);
@@ -76,17 +77,20 @@ const AiMenu = ({ editor }: Props) => {
       });
       await ButtonTrack({ event: 'Onboarding task: editing tool' });
     }
+    if (tool === 'humanize') {
+      await handleHumanize({ text: selectedText });
+      return;
+    }
     await handleCopilot({ tool, text: selectedText });
   };
 
   useEffect(() => {
     const handler = (e: { target: any }) => {
-      if (!elRef.current?.contains(e.target)) {
+      if (
+        !elRef.current?.contains(e.target) &&
+        !menuRef.current?.contains(e.target)
+      ) {
         updateCopilotMenu(false);
-      } else {
-        if (!menuRef.current?.contains(e.target)) {
-          updateCopilotMenu(false);
-        }
       }
     };
     document.addEventListener('mousedown', handler);
@@ -118,7 +122,11 @@ const AiMenu = ({ editor }: Props) => {
     const selectedText = getSelectedText(editor);
     setCurrentResult((prev) => prev + 1);
     if (!tool.current) return;
-    await handleCopilot({ tool: tool.current, text: selectedText });
+    if (tool.current === 'humanize') {
+      await handleHumanize({ text: selectedText });
+    } else {
+      await handleCopilot({ tool: tool.current, text: selectedText });
+    }
   };
 
   const handleReplace = () => {
@@ -161,57 +169,59 @@ const AiMenu = ({ editor }: Props) => {
       style={{ top: `${floatingMenuPos.top - 54}px` }}
       className='absolute -left-12 flex w-full justify-center overflow-visible'
     >
-      <div
-        ref={elRef}
-        className='relative flex w-[600px] flex-col bg-transparent'
-      >
-        {!generating ? (
-          hasAiResult ? (
-            <div className='flex min-h-12 w-full flex-col justify-center rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
-              {showTyping ? (
-                <p className='small-regular px-2'>
-                  <StreamText
-                    toogleTyping={toogleTyping}
-                    generatedResult={aiResult[currentResult]}
-                  />
-                </p>
-              ) : (
-                <p className='small-regular px-2'>{aiResult[currentResult]}</p>
-              )}
-              {!showTyping && (
-                <div className='flex w-full items-center justify-end gap-x-0.5'>
-                  <ChevronLeft
-                    className='cursor-pointer text-doc-font'
-                    size={18}
-                    onClick={() =>
-                      setCurrentResult((prev) => (prev === 0 ? 0 : prev - 1))
-                    }
-                  />
-                  <p className='small-regular text-doc-font'>
-                    {currentResult + 1} of {aiResult.length}
+      <div className='relative flex w-[600px] flex-col bg-transparent'>
+        <div ref={elRef} className='flex flex-col'>
+          {!generating ? (
+            hasAiResult ? (
+              <div className='flex min-h-12 w-full flex-col justify-center rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
+                {showTyping ? (
+                  <p className='small-regular px-2'>
+                    <StreamText
+                      toogleTyping={toogleTyping}
+                      generatedResult={aiResult[currentResult]}
+                    />
                   </p>
-                  <ChevronRight
-                    className='cursor-pointer text-doc-font'
-                    size={18}
-                    onClick={() =>
-                      setCurrentResult((prev) =>
-                        prev === aiResult.length - 1
-                          ? aiResult.length - 1
-                          : prev + 1
-                      )
-                    }
-                  />
-                </div>
-              )}
-            </div>
+                ) : (
+                  <p className='small-regular px-2'>
+                    {aiResult[currentResult]}
+                  </p>
+                )}
+                {!showTyping && (
+                  <div className='flex w-full items-center justify-end gap-x-0.5'>
+                    <ChevronLeft
+                      className='cursor-pointer text-doc-font'
+                      size={18}
+                      onClick={() =>
+                        setCurrentResult((prev) => (prev === 0 ? 0 : prev - 1))
+                      }
+                    />
+                    <p className='small-regular text-doc-font'>
+                      {currentResult + 1} of {aiResult.length}
+                    </p>
+                    <ChevronRight
+                      className='cursor-pointer text-doc-font'
+                      size={18}
+                      onClick={() =>
+                        setCurrentResult((prev) =>
+                          prev === aiResult.length - 1
+                            ? aiResult.length - 1
+                            : prev + 1
+                        )
+                      }
+                    />
+                  </div>
+                )}
+              </div>
+            ) : (
+              <CustomPrompt ref={promptRef} submit={handleCustomPrompt} />
+            )
           ) : (
-            <CustomPrompt ref={promptRef} submit={handleCustomPrompt} />
-          )
-        ) : (
-          <Loader />
-        )}
-        {usage?.subscription === 'basic' && <RemainUsages />}
-        <Spacer y='5' />
+            <Loader />
+          )}
+          {usage?.subscription === 'basic' && <RemainUsages />}
+          <Spacer y='5' />
+        </div>
+
         {generating ? null : (
           <Surface ref={menuRef} className='w-[256px] rounded py-2' withBorder>
             {!hasAiResult
@@ -240,6 +250,7 @@ const AiMenu = ({ editor }: Props) => {
                               hoverItem === option.id ? 'bg-border-50' : ''
                             } group flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5`}
                             key={option.id}
+                            onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
                               !option.submenu && handleEditTools(option.label);
                             }}
@@ -290,6 +301,7 @@ const AiMenu = ({ editor }: Props) => {
                       key={item.id}
                       onMouseEnter={() => setHoverItem(item.id)}
                       onMouseLeave={() => setHoverItem(null)}
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => handleOperation(idx)}
                     >
                       <div className='flex items-center gap-x-2'>

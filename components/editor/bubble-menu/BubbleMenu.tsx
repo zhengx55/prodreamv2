@@ -182,6 +182,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
       <Toolbar.Wrapper className='border-shadow-borde relative border shadow-lg'>
         <MemoButton
           id='copilot-button'
+          onMouseDown={(e) => e.preventDefault()}
           onClick={async (e) => {
             task_step === 0 && updateTaskStep(-1);
             updateCopilotMenu(true);
@@ -190,8 +191,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
               left: menuXOffside.current ?? 0,
             });
             updateShowBubbleMenu(false);
-            const { from, to } = editor.state.selection;
-            editor.chain().focus().setTextSelection({ from, to }).run();
           }}
           className='text-doc-primary'
         >
@@ -204,6 +203,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         <Toolbar.Divider />
         {isWord ? (
           <MemoButton
+            onMouseDown={(e) => e.preventDefault()}
             onClick={() => {
               updateSynonymMenu(true);
               updateFloatingMenuPos({
@@ -211,8 +211,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
                 left: menuXOffside.current ?? 0,
               });
               updateShowBubbleMenu(false);
-              const { from, to } = editor.state.selection;
-              editor.chain().focus().setTextSelection({ from, to }).run();
             }}
             className='text-doc-primary'
           >
@@ -221,6 +219,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           </MemoButton>
         ) : (
           <MemoButton
+            onMouseDown={(e) => e.preventDefault()}
             onClick={async () => {
               if (selectedLength >= 160) {
                 const toast = (await import('sonner')).toast;
@@ -233,8 +232,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
                 left: menuXOffside.current ?? 0,
               });
               updateShowBubbleMenu(false);
-              const { from, to } = editor.state.selection;
-              editor.chain().focus().setTextSelection({ from, to }).run();
             }}
             className='text-doc-primary'
           >

@@ -371,6 +371,31 @@ export async function copilot(params: {
   }
 }
 
+export async function humanize(params: {
+  text: string;
+}): Promise<ReadableStream> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/humanize`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          text: params.text,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'text/event-stream',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
+    return res.body;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
 export async function ask(params: {
   instruction: string;
   text: string;

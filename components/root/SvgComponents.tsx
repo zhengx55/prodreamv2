@@ -1310,3 +1310,20 @@ export const Continue = () => (
     />
   </svg>
 );
+
+export const Undetectable = () => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='16'
+    height='16'
+    viewBox='0 0 12 12'
+    fill='none'
+  >
+    <path
+      fillRule='evenodd'
+      clipRule='evenodd'
+      d='M6.65 1.5H5.355V2.795H6.65V1.5ZM6.65 9.205H5.355V10.5H6.65V9.205ZM1.5 5.355H2.795V6.65H1.5V5.355ZM10.5 5.355H9.205V6.65H10.5V5.355ZM8.725 2.36L9.64 3.275L6.915 6L9.64 8.725L8.725 9.64L6 6.915L3.275 9.64L2.36 8.725L5.085 6L2.36 3.275L3.275 2.36L6 5.085L8.725 2.36ZM5.155 5.995L6.01 6.85L6.865 5.995L6.01 5.14L5.155 5.995Z'
+      fill='#8652DB'
+    />
+  </svg>
+);
