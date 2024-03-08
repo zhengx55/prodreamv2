@@ -1,6 +1,10 @@
 .ProseMirror {
     @apply outline-0 z-0 font-inter;
 
+    .ProseMirror-selectednode {
+        @apply bg-[#D4D7FF];
+    }
+
     &>* {
         @apply mx-auto max-w-[700px];
     }
