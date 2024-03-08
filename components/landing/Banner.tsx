@@ -1,9 +1,10 @@
 'use client';
+import useLocalization from '@/hooks/useLocalization';
+import useReferrer from '@/hooks/useReferrer';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
 import CaptureProvider from './CaptureProvider';
-import useLocalization from '@/hooks/useLocalization';
 const UniversityCarousel = dynamic(
   () => import('./LandingCarousel').then((mod) => mod.UniversityCarousel),
   {
@@ -11,27 +12,26 @@ const UniversityCarousel = dynamic(
   }
 );
 const Banner = () => {
-
   const { t, getCurrentLanguage } = useLocalization();
+  useReferrer();
+
   return (
-    <section className='relative flex flex-col items-center justify-center w-full sm:px-0 sm:py-20'>
+    <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
       <Spacer y='20' />
       <CaptureProvider event='ScreenII'>
-        <p className='text-center base-regular'>
-         {t('BannerInfo_sub_title')}
-        </p>
+        <p className='base-regular text-center'>{t('BannerInfo_sub_title')}</p>
       </CaptureProvider>
 
       <Spacer y='20' />
-      <div className='w-full flex-center '>
+      <div className='flex-center w-full '>
         <UniversityCarousel />
       </div>
       <Spacer y='20' />
       <div className='flex-center w-full flex-col px-4 sm:max-w-[1200px] sm:px-0 '>
         <div className='flex flex-col gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
           <div className='relative w-full rounded-2xl bg-doc-primary p-7 sm:w-[47%] '>
-            <h2 className='text-white title-regular'>
-             {t('BannerInfo_title_1')}  
+            <h2 className='title-regular text-white'>
+              {t('BannerInfo_title_1')}
             </h2>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -48,7 +48,7 @@ const Banner = () => {
               />
             </svg>
             <Spacer y='20' />
-            <p className='leading-6 text-white text-regular'>
+            <p className='text-regular leading-6 text-white'>
               {t('BannerInfo_detail_1')}
             </p>
           </div>
@@ -67,28 +67,30 @@ const Banner = () => {
                 fill='white'
               />
             </svg>
-            <h2 className='text-white title-regular'>{t('BannerInfo_title_2')}</h2>
+            <h2 className='title-regular text-white'>
+              {t('BannerInfo_title_2')}
+            </h2>
             <Spacer y='20' />
-            <p className='leading-6 text-white text-regular'>
-             {t('BannerInfo_detail_2')}
+            <p className='text-regular leading-6 text-white'>
+              {t('BannerInfo_detail_2')}
             </p>
           </div>
         </div>
         <Spacer y='30' />
         <div className='flex-center h-[174px] w-full flex-col rounded-2xl bg-doc-primary/10 p-8 sm:h-[130px]'>
           <div className='flex w-full flex-col sm:max-w-[1200px] sm:flex-row sm:justify-between'>
-            {
-              getCurrentLanguage() === 'en'?
+            {getCurrentLanguage() === 'en' ? (
               <h1 className='text-center text-[16px] font-[500] sm:text-left sm:text-[18px]'>
                 {t('BannerInfo_footer')}
                 <br className='hidden sm:block' /> {t('BannerInfo_footer_form')}
               </h1>
-              :
-              <h1 className='text-center sm:text-left text-[16px] sm:text-[18px] font-[500] flex items-center justify-center sm:justify-start'>
-                {t('BannerInfo_footer')}{t('BannerInfo_footer_form')}
+            ) : (
+              <h1 className='flex items-center justify-center text-center text-[16px] font-[500] sm:justify-start sm:text-left sm:text-[18px]'>
+                {t('BannerInfo_footer')}
+                {t('BannerInfo_footer_form')}
               </h1>
-            }
-            
+            )}
+
             <Spacer y='14' className='block sm:hidden' />
             <div className='flex items-center justify-center gap-x-4 sm:justify-start'>
               <Image
@@ -96,14 +98,14 @@ const Banner = () => {
                 src='/landing/banner/Harvard.png'
                 width={200}
                 height={60}
-                className='w-40 h-auto'
+                className='h-auto w-40'
               />
               <Image
                 alt='Founders Hub'
                 src='/landing/banner/Microsorf.png'
                 width={200}
                 height={60}
-                className='w-40 h-auto'
+                className='h-auto w-40'
               />
             </div>
           </div>

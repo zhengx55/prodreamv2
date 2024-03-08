@@ -20,27 +20,18 @@ import { ISigunUpRequest } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { isMobile } from 'react-device-detect';
 
 const SignUpForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const posthog = usePostHog();
+  const searchParam = useSearchParams().get('from');
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobileDevice(window.matchMedia('(max-width: 768px)').matches);
-    };
-    handleResize(); // Initial check
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -91,7 +82,8 @@ const SignUpForm = () => {
       first_name: values.first_name,
       email: values.email,
       password: values.password,
-      is_mobile: isMobileDevice,
+      is_mobile: isMobile,
+      referral: searchParam ?? undefined,
     });
   }
   return (

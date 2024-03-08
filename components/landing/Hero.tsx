@@ -91,7 +91,7 @@ const Hero = () => {
   // }, []);
 
   useUpdateEffect(() => {
-    console.log('flag', flag);
+    // console.log('flag', flag);
     if (flag && flag !== 'undefined') {
       if (flag === 'v2') {
         setCurrentTitleNode(<V3Title />);
@@ -192,11 +192,11 @@ const Hero = () => {
       viewport={{
         once: true,
       }}
-      className='relative flex justify-center w-full px-4 sm:mt-0 sm:px-0'
+      className='relative flex w-full justify-center px-4 sm:mt-0 sm:px-0'
     >
       <m.div
         variants={textVariant(0.3)}
-        className='absolute hidden w-full h-full -z-10 sm:block'
+        className='absolute -z-10 hidden h-full w-full sm:block'
       >
         <Image
           draggable='false'
@@ -258,7 +258,7 @@ const Hero = () => {
         } */}
 
         <Spacer y='40' />
-        <div className='relative flex flex-col items-center justify-center w-full pl-2 gap-x-0 gap-y-4 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
+        <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
           <Link passHref href={'/signup'}>
             <Button
               role='button'
@@ -281,7 +281,7 @@ const Hero = () => {
         <Spacer y='90' className='hidden sm:block' />
         <Spacer y='20' className='block sm:hidden' />
         {isMobile && <HeroCarousel clickCallback={memoSetSelected} />}
-        <div className='justify-between hidden w-full gap-x-4 sm:flex'>
+        <div className='hidden w-full justify-between gap-x-4 sm:flex'>
           {HeroInfo.map((item, index) => {
             return (
               <span
@@ -324,7 +324,7 @@ const Hero = () => {
                 loading='eager'
                 priority
                 sizes='(max-width: 768px) 50vw, 100vw'
-                className='object-cover w-full h-full'
+                className='h-full w-full object-cover'
               />
             </div>
           ))}
