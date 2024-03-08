@@ -47,10 +47,10 @@ export const GenerateOptions = [
     id: 'generation-04',
     title: 'Generate Outline',
     submenu: [
-      { id: 'outline-04', label: 'general' },
       { id: 'outline-01', label: 'argumentative' },
       { id: 'outline-02', label: 'analytical' },
       { id: 'outline-03', label: 'scientific' },
+      { id: 'outline-04', label: 'general' },
     ],
   },
 ];
