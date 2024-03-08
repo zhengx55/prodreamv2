@@ -46,7 +46,7 @@ const CitationMenu = ({ editor }: Props) => {
   const { mutateAsync: handleCite } = useCiteToDoc();
 
   const handler = async (item: ICitation) => {
-    const converted_data = ConvertCitationData(item);
+    const converted_data = ConvertCitationData(item, false);
     await handleCite({
       citation_data: converted_data,
       citation_type: 'Journal',

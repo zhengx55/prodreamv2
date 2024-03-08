@@ -2,8 +2,8 @@ import { ICitation } from '@/query/type';
 import { IJournalCitation } from '@/types';
 import { clsx, type ClassValue } from 'clsx';
 import escapeStringRegExp from 'escape-string-regexp';
-import { twMerge } from 'tailwind-merge';
 import { cache } from 'react';
+import { twMerge } from 'tailwind-merge';
 import { uuidv7 } from 'uuidv7';
 
 export function cn(...inputs: ClassValue[]) {
@@ -253,7 +253,7 @@ export function numberToMonth(number: number): string | null {
   }
 }
 
-export function ConvertCitationData(item: ICitation) {
+export function ConvertCitationData(item: ICitation, manual: boolean) {
   const converted_data = {} as IJournalCitation;
   const {
     advanced_info,
@@ -266,6 +266,9 @@ export function ConvertCitationData(item: ICitation) {
     abstract,
     pdf_url,
     reference_count,
+    influential_citation_count,
+    tldr,
+    publisher,
     area,
   } = item;
   converted_data.publish_date = {
@@ -274,14 +277,9 @@ export function ConvertCitationData(item: ICitation) {
     year: publish_date.year ?? '',
   };
   converted_data.contributors = authors ?? [
-    {
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      role: '',
-      suffix: '',
-    },
+    { first_name: '', last_name: '', middle_name: '', role: '', suffix: '' },
   ];
+  converted_data.manual_create = manual;
   converted_data.reference_count = reference_count ?? 0;
   converted_data.area = area ?? [];
   converted_data.page_info = page_info ?? { start: '', end: '' };
@@ -289,6 +287,9 @@ export function ConvertCitationData(item: ICitation) {
   converted_data.article_title = article_title ?? '';
   converted_data.abstract = abstract ?? '';
   converted_data.pdf_url = pdf_url ?? '';
+  converted_data.tldr = tldr;
+  converted_data.publisher = publisher ?? '';
+  converted_data.influential_citation_count = influential_citation_count;
   converted_data.doi = doi ?? '';
   converted_data.advanced_info = {
     issue: advanced_info.issue ?? '',

@@ -13,6 +13,7 @@ import {
   Simplify,
   Summary,
   Translate,
+  Undetectable,
 } from '@/components/root/SvgComponents';
 import { useMemo } from 'react';
 
@@ -51,6 +52,12 @@ export const useAiOptions = () => {
             label: 'translate',
             name: 'Translate to english',
             icon: <Translate />,
+          },
+          {
+            id: 'edit-tools-07',
+            label: 'humanize',
+            name: 'Make undetectable',
+            icon: <Undetectable />,
           },
           {
             id: 'edit-tools-06',

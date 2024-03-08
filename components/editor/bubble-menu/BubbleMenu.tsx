@@ -107,12 +107,12 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         setSelectedLength(words ? words.length : 0);
         refs.setReference({
           getBoundingClientRect() {
-            menuXOffside.current = posToDOMRect(view, from, to).left;
-            const el_srcoll_top =
-              view.dom.parentElement?.parentElement?.scrollTop;
+            const coordinate = posToDOMRect(view, from, to);
+            menuXOffside.current = coordinate.left;
             menuYOffside.current =
-              posToDOMRect(view, from, to).bottom + (el_srcoll_top ?? 0);
-            return posToDOMRect(view, from, to);
+              coordinate.bottom +
+              (view.dom.parentElement?.parentElement?.scrollTop ?? 0);
+            return coordinate;
           },
         });
         updateShowBubbleMenu(true);
@@ -134,24 +134,29 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         const to = Math.max(...ranges.map((range) => range.$to.pos));
         const text = doc.textBetween(from, to);
         const words = text.match(/\b\w+\b/g);
+        if (words && words.length === 1) {
+          setIsWord(true);
+        } else {
+          setIsWord(false);
+        }
         setSelectedLength(words ? words.length : 0);
         refs.setReference({
           getBoundingClientRect() {
             const node = view.nodeDOM(from) as HTMLElement;
             if (node) {
-              menuXOffside.current = node.getBoundingClientRect().left;
-              const el_srcoll_top =
-                view.dom.parentElement?.parentElement?.scrollTop;
+              const nodeRect = node.getBoundingClientRect();
+              menuXOffside.current = nodeRect.left;
               menuYOffside.current =
-                node.getBoundingClientRect().bottom + (el_srcoll_top ?? 0);
-              return node.getBoundingClientRect();
+                nodeRect.bottom +
+                (view.dom.parentElement?.parentElement?.scrollTop ?? 0);
+              return nodeRect;
             }
-            menuXOffside.current = posToDOMRect(view, from, to).left;
-            const el_srcoll_top =
-              view.dom.parentElement?.parentElement?.scrollTop;
+            const coordinate = posToDOMRect(view, from, to);
+            menuXOffside.current = coordinate.left;
             menuYOffside.current =
-              posToDOMRect(view, from, to).bottom + (el_srcoll_top ?? 0);
-            return posToDOMRect(view, from, to);
+              coordinate.bottom +
+              (view.dom.parentElement?.parentElement?.scrollTop ?? 0);
+            return coordinate;
           },
         });
         updateShowBubbleMenu(true);
@@ -177,16 +182,15 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
       <Toolbar.Wrapper className='border-shadow-borde relative border shadow-lg'>
         <MemoButton
           id='copilot-button'
-          onClick={async () => {
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={async (e) => {
+            task_step === 0 && updateTaskStep(-1);
             updateCopilotMenu(true);
             updateFloatingMenuPos({
               top: menuYOffside.current ?? 0,
               left: menuXOffside.current ?? 0,
             });
             updateShowBubbleMenu(false);
-            const { from, to } = editor.state.selection;
-            editor.chain().focus().setTextSelection({ from, to }).run();
-            task_step === 0 && updateTaskStep(-1);
           }}
           className='text-doc-primary'
         >
@@ -199,6 +203,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         <Toolbar.Divider />
         {isWord ? (
           <MemoButton
+            onMouseDown={(e) => e.preventDefault()}
             onClick={() => {
               updateSynonymMenu(true);
               updateFloatingMenuPos({
@@ -206,8 +211,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
                 left: menuXOffside.current ?? 0,
               });
               updateShowBubbleMenu(false);
-              const { from, to } = editor.state.selection;
-              editor.chain().focus().setTextSelection({ from, to }).run();
             }}
             className='text-doc-primary'
           >
@@ -216,6 +219,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           </MemoButton>
         ) : (
           <MemoButton
+            onMouseDown={(e) => e.preventDefault()}
             onClick={async () => {
               if (selectedLength >= 160) {
                 const toast = (await import('sonner')).toast;
@@ -228,8 +232,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
                 left: menuXOffside.current ?? 0,
               });
               updateShowBubbleMenu(false);
-              const { from, to } = editor.state.selection;
-              editor.chain().focus().setTextSelection({ from, to }).run();
             }}
             className='text-doc-primary'
           >
