@@ -260,6 +260,7 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
     formdata.append('email', signUpParam.email);
     formdata.append('password', signUpParam.password);
     formdata.append('is_mobile', signUpParam.is_mobile ? '1' : '0');
+    if (signUpParam.referral) formdata.append('referral', signUpParam.referral);
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/register`,

@@ -9,12 +9,13 @@ import useLocalization from '@/hooks/useLocalization';
 import _ from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 import { Button } from '../ui/button';
 
 const NavBar = () => {
   const [cookies] = useCookies(['token']);
+  const searchParams = useSearchParams().get('from');
   const router = useRouter();
   const { t, getCurrentLanguage, locales } = useLocalization();
   return (
@@ -87,7 +88,10 @@ const NavBar = () => {
           >
             {t('log_in')}
           </Button>
-          <Link href={'/signup'} passHref>
+          <Link
+            href={searchParams ? `/signup?from=${searchParams}` : '/signup'}
+            passHref
+          >
             <Button className='bg-doc-primary hover:bg-doc-primary'>
               <strong>{t('start_writing')}</strong>
               {t('It_s_free')}
@@ -130,7 +134,12 @@ const NavBar = () => {
                     {t('log_in')}
                   </Button>
                 </Link>
-                <Link href={'/signup'} passHref>
+                <Link
+                  href={
+                    searchParams ? `/signup?from=${searchParams}` : '/signup'
+                  }
+                  passHref
+                >
                   <Button
                     role='link'
                     className='w-[340px] bg-doc-primary hover:bg-doc-primary'
