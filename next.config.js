@@ -23,7 +23,7 @@ const nextConfig = {
   },
   experimental: {
     nextScriptWorkers: true,
-    missingSuspenseWithCSRBailout: false,
+    // missingSuspenseWithCSRBailout: false,
   },
   reactStrictMode: false,
   output: 'standalone',

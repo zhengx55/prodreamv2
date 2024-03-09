@@ -5,6 +5,7 @@ import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 export default function Page() {
   return (
     <>
@@ -27,7 +28,9 @@ export default function Page() {
             </p>
           </div>
           <Spacer y='35' />
-          <SignUpForm />
+          <Suspense>
+            <SignUpForm />
+          </Suspense>
           <p className='small-regular mt-4 self-center text-black-200'>
             Already a member?&nbsp;
             <Link href={'/login'} className='small-semibold text-auth-primary'>
