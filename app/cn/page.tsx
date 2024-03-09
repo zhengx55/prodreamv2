@@ -8,14 +8,16 @@ import Introduction from '@/components/landing/Introduction';
 import NavBar from '@/components/landing/NavBar';
 import Question from '@/components/landing/Question';
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
+import { Suspense } from 'react';
 
 export default function Home() {
-
   return (
     <LazyMotionProvider>
-      <main className='relative flex flex-col w-full overflow-x-hidden touch-pan-y sm:overflow-x-auto'>
-        <NavBar />
-        <Hero/>
+      <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>
+        <Suspense>
+          <NavBar />
+        </Suspense>
+        <Hero />
         <Banner />
         <About />
         <Introduction />
@@ -28,5 +30,3 @@ export default function Home() {
     </LazyMotionProvider>
   );
 }
-
-

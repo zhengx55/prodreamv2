@@ -7,6 +7,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
+import { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import './globals.css';
 // import { cookies } from 'next/headers';
@@ -78,7 +79,7 @@ export default async function RootLayout({
       <Hotjar />
       <CSPostHogProvider
       //  bootstrapData={
-      //   bootstrapData 
+      //   bootstrapData
       // }
       >
         <body>
@@ -87,7 +88,9 @@ export default async function RootLayout({
           >
             <TanstackProvider>
               <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
-                <PageViewTrack />
+                <Suspense>
+                  <PageViewTrack />
+                </Suspense>
                 <PostHogPageView />
                 {children}
                 <Toaster richColors visibleToasts={1} />
