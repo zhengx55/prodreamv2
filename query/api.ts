@@ -984,12 +984,17 @@ export async function searchCitation(
   }
 }
 
-export async function PageTrack(event: string, time: string, mobile?: number) {
+export async function PageTrack(
+  event: string,
+  time: string,
+  mobile?: number,
+  traffic_source?: string
+) {
   try {
     const token = Cookies.get('token');
-    let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/?duration=${time}&mobile=${mobile ?? 0}`;
+    let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/?duration=${time}&mobile=${mobile ?? 0}&traffic_source=${traffic_source ?? ''}`;
     if (!token)
-      url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/anonymous?duration=${time}&mobile=${mobile ?? 0}`;
+      url = `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/log/page/${event}/anonymous?duration=${time}&mobile=${mobile ?? 0}&traffic_source=${traffic_source ?? ''}`;
     await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
       method: 'POST',

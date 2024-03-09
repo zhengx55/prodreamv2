@@ -53,7 +53,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
   } = useAIEditor((state) => ({ ...state }));
   const task_step = useUserTask((state) => state.task_step);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
-  const prevSelection = useRef<{ from: number; to: number } | null>(null);
 
   const { x, y, strategy, refs } = useFloating({
     open: showBubbleMenu,
@@ -72,17 +71,15 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
 
   useLayoutEffect(() => {
     const MouseUphandler = () => {
-      const { doc, selection } = editor.state;
-      const { from, empty, ranges, to } = selection;
-      if (
-        prevSelection.current &&
-        prevSelection.current.from === from &&
-        prevSelection.current.to === to
-      ) {
+      const { isFocused } = editor;
+      if (!isFocused) {
+        updateShowBubbleMenu(false);
         return;
       }
+      const { doc, selection } = editor.state;
+      const { from, empty, ranges, to } = selection;
+
       if (empty) {
-        prevSelection.current = null;
         updateShowBubbleMenu(false);
         return;
       }
@@ -92,7 +89,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         current_node.node.nodeName === 'H1' ||
         current_node.node.parentNode?.nodeName === 'H1';
       if (isTitle) {
-        prevSelection.current = null;
         updateShowBubbleMenu(false);
       } else {
         const from = Math.min(...ranges.map((range) => range.$from.pos));
@@ -116,7 +112,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           },
         });
         updateShowBubbleMenu(true);
-        prevSelection.current = { from, to };
       }
     };
 
@@ -125,7 +120,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
       const { selection, doc } = editor.state;
       const { empty, ranges } = selection;
       if (empty) {
-        prevSelection.current = null;
         updateShowBubbleMenu(false);
         return;
       }
@@ -160,7 +154,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           },
         });
         updateShowBubbleMenu(true);
-        prevSelection.current = { from, to };
       }
     };
     editor.on('selectionUpdate', NodeSelectHandler);
@@ -242,6 +235,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         <Toolbar.Divider />
         <MemoContentTypePicker options={blockOptions} />
         <MemoButton
+          onMouseDown={(e) => e.preventDefault()}
           tooltip='Undo'
           tooltipShortcut={['Mod', 'Z']}
           onClick={commands.onUndo}
@@ -249,6 +243,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           <Undo />
         </MemoButton>
         <MemoButton
+          onMouseDown={(e) => e.preventDefault()}
           tooltip='Redo'
           tooltipShortcut={['Mod', 'Y']}
           onClick={commands.onRedo}
@@ -257,6 +252,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         </MemoButton>
         <Toolbar.Divider />
         <MemoButton
+          onMouseDown={(e) => e.preventDefault()}
           tooltip='Bold'
           tooltipShortcut={['Mod', 'B']}
           onClick={commands.onBold}
@@ -265,6 +261,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           <Bold size={16} />
         </MemoButton>
         <MemoButton
+          onMouseDown={(e) => e.preventDefault()}
           tooltip='Italic'
           tooltipShortcut={['Mod', 'I']}
           onClick={commands.onItalic}
@@ -273,6 +270,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           <Italic size={16} />
         </MemoButton>
         <MemoButton
+          onMouseDown={(e) => e.preventDefault()}
           tooltip='Underline'
           tooltipShortcut={['Mod', 'U']}
           onClick={commands.onUnderline}
@@ -281,6 +279,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           <Underline size={16} />
         </MemoButton>
         <MemoButton
+          onMouseDown={(e) => e.preventDefault()}
           tooltip='Strikehrough'
           tooltipShortcut={['Mod', 'X']}
           onClick={commands.onStrike}
@@ -290,11 +289,18 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         </MemoButton>
         <Popover.Root>
           <Popover.Trigger asChild>
-            <MemoButton tooltip='More options'>
+            <MemoButton
+              onMouseDown={(e) => e.preventDefault()}
+              tooltip='More options'
+            >
               <MoreVertical size={16} />
             </MemoButton>
           </Popover.Trigger>
-          <Popover.Content side='top' asChild>
+          <Popover.Content
+            onPointerDown={(e) => e.preventDefault()}
+            side='top'
+            asChild
+          >
             <Toolbar.Wrapper>
               <MemoButton
                 tooltip='Align left'

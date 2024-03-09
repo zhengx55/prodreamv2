@@ -1,6 +1,5 @@
 'use client';
 import useLocalization from '@/hooks/useLocalization';
-import useReferrer from '@/hooks/useReferrer';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
@@ -13,8 +12,6 @@ const UniversityCarousel = dynamic(
 );
 const Banner = () => {
   const { t, getCurrentLanguage } = useLocalization();
-  useReferrer();
-
   return (
     <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
       <Spacer y='20' />
