@@ -44,11 +44,11 @@ const Hero = () => {
 
   const posthog = usePostHog();
 
-  const { mutateAsync: handleAbTestPoint } = usePostABTestPagePoint();
-  const { mutateAsync: handleAbTestByTokenPoint } =
-    usePostABTestPagePointByToken();
-  const { mutateAsync: handleAbTest } = usePostABTest();
-  const { mutateAsync: handleAbTestByToken } = usePostABTestByToken();
+  // const { mutateAsync: handleAbTestPoint } = usePostABTestPagePoint();
+  // const { mutateAsync: handleAbTestByTokenPoint } =
+  //   usePostABTestPagePointByToken();
+  // const { mutateAsync: handleAbTest } = usePostABTest();
+  // const { mutateAsync: handleAbTestByToken } = usePostABTestByToken();
 
   const [currentTitleNode, setCurrentTitleNode] = useState<ReactNode>(
     <V3Title />
@@ -77,18 +77,18 @@ const Hero = () => {
     }
   }, []);
 
-  useEffect(() => {
-    // console.log(
-    //   'posthog:',
-    //   posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '')
-    // );
-    if (posthog) {
-      setFlag(
-        `${posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '')}`
-      );
-      abTest(flag);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // console.log(
+  //   //   'posthog:',
+  //   //   posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '')
+  //   // );
+  //   if (posthog) {
+  //     setFlag(
+  //       `${posthog.getFeatureFlag(process.env.NEXT_PUBLIC_POSTHOG_EXPERIMENT ?? '')}`
+  //     );
+  //     abTest(flag);
+  //   }
+  // }, []);
 
   useUpdateEffect(() => {
     // console.log('flag', flag);
@@ -127,61 +127,61 @@ const Hero = () => {
     };
   }, [isMouseOver, startAutoSwitch]);
 
-  useEffect(() => {
-    const initialDelay = 2000; // 初始延迟 2 秒
-    const interval = 2000; // 间隔时间为 2 秒
-    const maxDelay = 16000; // 最大延迟 16 秒
-    let delay = initialDelay;
-    let param = 0;
+  // useEffect(() => {
+  //   const initialDelay = 2000; // 初始延迟 2 秒
+  //   const interval = 2000; // 间隔时间为 2 秒
+  //   const maxDelay = 16000; // 最大延迟 16 秒
+  //   let delay = initialDelay;
+  //   let param = 0;
 
-    const timer = setTimeout(() => {
-      abTestPoint(param);
-      param += 2; // 参数递增
-    }, initialDelay);
+  //   const timer = setTimeout(() => {
+  //     abTestPoint(param);
+  //     param += 2; // 参数递增
+  //   }, initialDelay);
 
-    const intervalTimer = setInterval(() => {
-      if (delay >= maxDelay) {
-        clearInterval(intervalTimer);
-        return;
-      }
-      abTestPoint(param);
-      param *= 2; // 参数乘以 2
-      delay *= 2; // 延迟乘以 2
-    }, interval);
+  //   const intervalTimer = setInterval(() => {
+  //     if (delay >= maxDelay) {
+  //       clearInterval(intervalTimer);
+  //       return;
+  //     }
+  //     abTestPoint(param);
+  //     param *= 2; // 参数乘以 2
+  //     delay *= 2; // 延迟乘以 2
+  //   }, interval);
 
-    // 在组件卸载时清除定时器
-    return () => {
-      clearTimeout(timer);
-      clearInterval(intervalTimer);
-    };
-  }, []); // 仅在组件挂载时执行
+  //   // 在组件卸载时清除定时器
+  //   return () => {
+  //     clearTimeout(timer);
+  //     clearInterval(intervalTimer);
+  //   };
+  // }, []); // 仅在组件挂载时执行
 
-  async function abTestPoint(duration: number) {
-    const token = Cookies.get('token');
-    const pageName = 'Hero';
+  // async function abTestPoint(duration: number) {
+  //   const token = Cookies.get('token');
+  //   const pageName = 'Hero';
 
-    if (token) {
-      await handleAbTestByTokenPoint({
-        page: pageName,
-        duration: duration,
-      });
-    } else {
-      await handleAbTestPoint({
-        page: pageName,
-        duration: duration,
-      });
-    }
-  }
+  //   if (token) {
+  //     await handleAbTestByTokenPoint({
+  //       page: pageName,
+  //       duration: duration,
+  //     });
+  //   } else {
+  //     await handleAbTestPoint({
+  //       page: pageName,
+  //       duration: duration,
+  //     });
+  //   }
+  // }
 
-  async function abTest(flag: string) {
-    const token = Cookies.get('token');
+  // async function abTest(flag: string) {
+  //   const token = Cookies.get('token');
 
-    if (token) {
-      await handleAbTestByToken(flag);
-    } else {
-      await handleAbTest(flag);
-    }
-  }
+  //   if (token) {
+  //     await handleAbTestByToken(flag);
+  //   } else {
+  //     await handleAbTest(flag);
+  //   }
+  // }
 
   return (
     <m.section

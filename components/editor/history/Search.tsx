@@ -9,9 +9,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent, memo, useCallback, useRef, useState } from 'react';
-import PromptView from '../modal/Prompt';
-import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
+import { ChangeEvent, memo, useRef, useState } from 'react';
+
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 
 const SearchBar = () => {
@@ -34,15 +33,12 @@ const SearchBar = () => {
       queryClient.invalidateQueries({
         queryKey: ['document_history_list'],
       });
-   
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
       toast.error(error.message);
     },
   });
-
-
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const params = new URLSearchParams(searchParams);
@@ -84,14 +80,14 @@ const SearchBar = () => {
             background:
               'linear-gradient(132deg, #DC3DC1 1.6%, #9C2CF3 49.22%, #7A4EF6 91.53%)',
           }}
-          className='rounded-lg cursor-pointer flex-center h-14 w-52 gap-x-2 hover:opacity-50'
+          className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg hover:opacity-50'
         >
           <Plus className='text-white' size={20} />
-          <p className='text-white base-semibold'>New Essay</p>
+          <p className='base-semibold text-white'>New Essay</p>
         </button>
         <Dialog>
           <DialogTrigger asChild>
-            <span className='border rounded-lg cursor-pointer flex-center h-14 w-52 gap-x-2 border-shadow-border hover:opacity-50'>
+            <span className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg border border-shadow-border hover:opacity-50'>
               <UploadGard />
               <p className='base-semibold '>Upload Essay</p>
             </span>
@@ -99,7 +95,7 @@ const SearchBar = () => {
           <FileUploadModal />
         </Dialog>
       </div>
-      <div className='relative flex items-center w-2/5 border rounded-lg h-14 shrink-0 border-shadow-border'>
+      <div className='relative flex h-14 w-2/5 shrink-0 items-center rounded-lg border border-shadow-border'>
         <Button
           disabled={!isTyping}
           onClick={handleSearch}
@@ -115,7 +111,7 @@ const SearchBar = () => {
           ref={ref}
           onChange={handleKeywordChange}
           type='text'
-          className='w-full h-full border-none pr-14 focus-visible:ring-0'
+          className='h-full w-full border-none pr-14 focus-visible:ring-0'
           name='search-essay'
           aria-label='Search'
           placeholder='Search citation database'
