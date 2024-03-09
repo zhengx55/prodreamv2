@@ -84,10 +84,17 @@ export default async function Page() {
             )}
           </div>
           <Spacer y='5' />
-          <p className='text-doc-font'>
-            Next billing date:&nbsp;
-            {formatTimestampToDateString(membership.expire_time, false)}
-          </p>
+          {membership.subscription_id ? (
+            <p className='text-doc-font'>
+              Next billing date:&nbsp;
+              {formatTimestampToDateString(membership.expire_time, false)}
+            </p>
+          ) : (
+            <p className='text-doc-font'>
+              Active Until:&nbsp;
+              {formatTimestampToDateString(membership.expire_time, false)}
+            </p>
+          )}
           <Spacer y='10' />
           {membership.subscription_type === 'month' && (
             <div className='flex w-max flex-col rounded-lg bg-[#FCFBFF] px-4 py-6'>
