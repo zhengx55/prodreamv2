@@ -12,7 +12,6 @@ const UniversityCarousel = dynamic(
 );
 const Banner = () => {
   const { t, getCurrentLanguage } = useLocalization();
-
   return (
     <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
       <Spacer y='20' />
