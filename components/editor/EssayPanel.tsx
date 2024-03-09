@@ -32,7 +32,7 @@ const EssayPanel = ({ id }: { id: string }) => {
 
   const [showPromptView, setShowPromptView] = useState(false);
 
-  const [refreshNavbar, setRefreshNavbar] = useState(false);
+  const [refreshNavbar, setRefreshNavbar] = useState('');
 
   useEffect(() => {
     if (
@@ -53,10 +53,7 @@ const EssayPanel = ({ id }: { id: string }) => {
   return (
     <LazyMotionProvider>
       <main className='relative flex h-full w-full flex-col'>
-        <div id={`${refreshNavbar}`}>
-          <DocNavbar id={id} />
-        </div>
-
+        <DocNavbar key={`${refreshNavbar}`} id={id} />
         <CheckList />
         <div className='relative flex h-full w-full justify-center overflow-hidden'>
           {isFetching ? (
@@ -77,7 +74,7 @@ const EssayPanel = ({ id }: { id: string }) => {
         showPromptView={showPromptView}
         onFinish={async () => {
           await refetch().then((res) => {
-            setRefreshNavbar((prevState) => !prevState);
+            setRefreshNavbar(res.data?.brief_description ?? '');
           });
         }}
       />
