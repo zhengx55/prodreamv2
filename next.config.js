@@ -23,18 +23,12 @@ const nextConfig = {
   },
   experimental: {
     nextScriptWorkers: true,
+    missingSuspenseWithCSRBailout: false,
   },
   reactStrictMode: false,
   output: 'standalone',
   compress: true,
   // poweredByHeader: false,
-  webpack: (config) => {
-    // Setting resolve.alias to false tells webpack to ignore a module
-    // https://webpack.js.org/configuration/resolve/#resolvealias
-    config.resolve.alias.canvas = false;
-    config.resolve.alias.encoding = false;
-    return config;
-  }
 };
 
 module.exports = withPlugins([withBundleAnalyzer], nextConfig);
