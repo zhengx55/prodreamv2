@@ -3,7 +3,7 @@ import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
 import { getDocs } from '@/query/api';
-import { useDocumentList } from '@/query/query';
+import { useDocumentList, useMembershipInfo } from '@/query/query';
 import { IDocDetail } from '@/query/type';
 import { DocSortingMethods } from '@/types';
 import { LayoutGrid, Loader2 } from 'lucide-react';
@@ -20,6 +20,11 @@ const FilterDropdown = dynamic(() => import('./FilterDropDown'));
 const DocumentList = () => {
   const { ref, inView } = useInView();
   const searchParams = useSearchParams();
+  const {
+    data: membership,
+    isPending: isMebershipPending,
+    isError: isMembershipError,
+  } = useMembershipInfo();
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const [list, setList] = useState<IDocDetail[]>([]);
   const [page, setPage] = useState(1);
@@ -68,7 +73,7 @@ const DocumentList = () => {
   const memoSetSortingMethod = useCallback((value: DocSortingMethods) => {
     setSortingMethod(value);
   }, []);
-  if (isError) return null;
+  if (isError || isMembershipError) return null;
   return (
     <>
       <div className='flex-between w-[1100px]'>
@@ -103,7 +108,7 @@ const DocumentList = () => {
         </div>
       </div>
       <Spacer y='24' />
-      {isPending ? (
+      {isPending || isMebershipPending ? (
         <Loading />
       ) : viewType === 'grid' ? (
         <CardView list={list} />
@@ -117,7 +122,10 @@ const DocumentList = () => {
         ) : null}
       </div>
       <Spacer y='10' />
-      <MembershipBar />
+      {(membership?.subscription === 'basic' ||
+        membership?.subscription === 'free_trail') && (
+        <MembershipBar membership={membership} />
+      )}
     </>
   );
 };
