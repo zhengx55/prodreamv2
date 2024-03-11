@@ -17,6 +17,7 @@ function getLocale(request: NextRequest): string | undefined {
 
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
+  const search = req.nextUrl.search;
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
@@ -27,7 +28,7 @@ export function middleware(req: NextRequest) {
   if (pathnameIsMissingLocale) {
     return NextResponse.redirect(
       new URL(
-        `/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`,
+        `/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}${search ?? ''}`,
         req.url
       )
     );
