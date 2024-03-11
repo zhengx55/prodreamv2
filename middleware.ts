@@ -18,14 +18,23 @@ function getLocale(request: NextRequest): string | undefined {
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   const search = req.nextUrl.search;
+  const alreadyOnLoginPage = i18n.locales.some(
+    (locale) =>
+      pathname === `/${locale}/login` ||
+      pathname.startsWith(`/${locale}/login?`)
+  );
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
+  if (alreadyOnLoginPage) {
+    return NextResponse.next();
+  }
   const locale = getLocale(req);
   const token = req.cookies.get('token');
-  if (!token)
+
+  if (!token) {
     return NextResponse.redirect(new URL(`/${locale}/login`, req.url));
-  if (pathnameIsMissingLocale) {
+  } else if (pathnameIsMissingLocale) {
     return NextResponse.redirect(
       new URL(
         `/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}${search ?? ''}`,
@@ -33,7 +42,6 @@ export function middleware(req: NextRequest) {
       )
     );
   }
-
   return NextResponse.next();
 }
 
