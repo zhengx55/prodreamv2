@@ -64,7 +64,7 @@ export const ContentTypePicker = ({ options }: ContentTypePickerProps) => {
           <Toolbar.Divider />
         </>
       ) : null}
-      <Dropdown.Content asChild>
+      <Dropdown.Content onPointerDown={(e) => e.preventDefault()} asChild>
         <Surface className='flex flex-col gap-1 border border-shadow-border p-2'>
           {options.map((option) => {
             if (isOption(option)) {
