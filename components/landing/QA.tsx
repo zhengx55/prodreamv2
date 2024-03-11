@@ -1,7 +1,7 @@
 'use client';
 
 import useInviewCapture from '@/hooks/useInViewCapture';
-import useLocalization from '@/hooks/useLocalization';
+import { HomePageDicType } from '@/types';
 import { useState } from 'react';
 
 const datalist = [
@@ -26,11 +26,9 @@ const datalist = [
     desc: `We greatly value your feedback and are here to help resolve any issues you encounter with ProDream. Please don't hesitate to reach out to us at support@prodream.ai or join our Discord server for direct support and assistance.`,
   },
 ];
-const QA = () => {
+const QA = ({ t }: HomePageDicType) => {
   const [selected, setSelected] = useState(0);
   const { ref } = useInviewCapture('ScreenVI');
-
-  const { t } = useLocalization()
 
   return (
     <div
@@ -50,7 +48,7 @@ const QA = () => {
               <p
                 className={`${selected === index ? 'text-[14px] font-[500] text-doc-primary sm:text-[20px]' : 'text-[14px] font-[500] text-[#3B3A40] sm:text-[20px]'}`}
               >
-                { t(`QuestionInfo_title_${index+1}`) }
+                {t[`QuestionInfo_title_${index + 1}` as keyof typeof t]}
               </p>
             </div>
             <div>
@@ -85,7 +83,7 @@ const QA = () => {
           </div>
           {selected === index ? (
             <p className='mt-[20px] text-[14px] text-[#64626A] sm:text-[18px]'>
-               { t(`QuestionInfo_desc_${index+1}`) }
+              {t[`QuestionInfo_desc_${index + 1}` as keyof typeof t]}
             </p>
           ) : (
             ''

@@ -5,19 +5,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import useLocalization from '@/hooks/useLocalization';
-import _ from 'lodash';
+import { Locale, i18n } from '@/i18n-config';
+import { HomePageDicType } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 import { Button } from '../ui/button';
 
-const NavBar = () => {
+const NavBar = ({ t, lang }: HomePageDicType) => {
   const [cookies] = useCookies(['token']);
   const searchParams = useSearchParams().get('from');
   const router = useRouter();
-  const { t, getCurrentLanguage, locales } = useLocalization();
   return (
     <section className='z-50 flex h-16 w-full justify-center bg-white py-3'>
       <nav className='flex-between w-full px-4 sm:max-w-[1200px] sm:px-0'>
@@ -36,8 +35,8 @@ const NavBar = () => {
           >
             <DropdownMenu>
               <DropdownMenuTrigger className='w-10 ' asChild>
-                <span className='hidden text-[#3B3A40] hover:bg-shadow-50 sm:block'>
-                  {_.toUpper(getCurrentLanguage())}
+                <span className='hidden uppercase text-[#3B3A40] hover:bg-shadow-50 sm:block'>
+                  {lang}
                 </span>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -46,7 +45,7 @@ const NavBar = () => {
                 sideOffset={3}
                 className='bg-white'
               >
-                {locales.map((locale: string | undefined, index: any) => (
+                {i18n.locales.map((locale: Locale, index: number) => (
                   <Link
                     key={locale ?? index}
                     href={`/${locale === 'en' ? '' : locale}`}
@@ -58,8 +57,8 @@ const NavBar = () => {
                         e.stopPropagation();
                       }}
                     >
-                      <span className='text-cente block w-20 pl-4'>
-                        {_.toUpper(locale)}{' '}
+                      <span className='text-cente block w-20 pl-4 uppercase'>
+                        {locale}
                       </span>
                     </DropdownMenuItem>
                   </Link>
@@ -86,15 +85,15 @@ const NavBar = () => {
             variant={'ghost'}
             className='text-doc-primary'
           >
-            {t('log_in')}
+            {t.log_in}
           </Button>
           <Link
             href={searchParams ? `/signup?from=${searchParams}` : '/signup'}
             passHref
           >
             <Button className='bg-doc-primary hover:bg-doc-primary'>
-              <strong>{t('start_writing')}</strong>
-              {t('It_s_free')}
+              <strong>{t.start_writing}</strong>
+              {t.It_s_free}
             </Button>
           </Link>
         </div>
@@ -131,7 +130,7 @@ const NavBar = () => {
                     role='link'
                     className='w-[340px] border-[2px] border-doc-primary text-doc-primary'
                   >
-                    {t('log_in')}
+                    {t.log_in}
                   </Button>
                 </Link>
                 <Link
@@ -144,8 +143,8 @@ const NavBar = () => {
                     role='link'
                     className='w-[340px] bg-doc-primary hover:bg-doc-primary'
                   >
-                    <strong>{t('start_writing')}</strong>
-                    {t('It_s_free')}
+                    <strong>{t.start_writing}</strong>
+                    {t.It_s_free}
                   </Button>
                 </Link>
               </div>

@@ -14,7 +14,7 @@ module.exports = {
         poppins: ['var(--poppins-font)'],
         inter: ['var(--inter-font)'],
         baskerville: ['var(--liber-font)'],
-        custom: ['XiQuejuzhenti']
+        custom: ['var(--cn-font)'],
       },
       fontSize: {
         regular: '14px',
@@ -112,12 +112,5 @@ module.exports = {
     require('tailwindcss-animate'),
     require('@tailwindcss/typography'),
     require('tailwind-scrollbar'),
-
   ],
-  fontFace: {
-    'XiQuejuzhenti': {
-      // 字体文件路径，相对于 public 文件夹
-      file: '/font/XiQuejuzhenti.ttf',
-    },
-  },
 };
