@@ -1,12 +1,8 @@
 'use client';
-import Panel from '@/components/auth/Panel';
-import { Button } from '@/components/ui/button';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-
 import GoogleSignin from '@/components/auth/GoogleSignin';
+import Panel from '@/components/auth/Panel';
 import Spacer from '@/components/root/Spacer';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -19,10 +15,13 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { loginSchema } from '@/lib/validation';
 import { useUserLogin } from '@/query/query';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 export default function Page() {
   const [hidePassword, setHidePassword] = useState(true);
