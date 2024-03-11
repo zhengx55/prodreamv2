@@ -23,7 +23,7 @@ const nextConfig = {
   },
   experimental: {
     nextScriptWorkers: true,
-    // missingSuspenseWithCSRBailout: false,
+    optimizePackageImports: ['lucide-react'],
   },
   reactStrictMode: false,
   output: 'standalone',
