@@ -12,18 +12,18 @@ export default async function Page({
   const dict = await getDictionary(lang);
   return (
     <Panel>
-      <div className='flex w-full flex-col sm:w-[580px]'>
-        <h1 className='text-[24px] font-[500] sm:text-[28px] 2xl:text-[42px]'>
+      <div className='flex w-full flex-col sm:w-[600px]'>
+        {/* <h1 className='text-[24px] font-[500] sm:text-[28px] 2xl:text-[42px]'>
           Reset Password
-        </h1>
+        </h1> */}
         <ResetForm t={dict.Homepage} lang={lang} />
         <p className='small-regular mt-8 self-center text-black-200'>
           Switch to&nbsp;
-          <Link href={'/login'} className='text-auth-primary'>
+          <Link href={`/${lang}/login`} className='text-auth-primary'>
             Log in
           </Link>
           &nbsp;or&nbsp;
-          <Link href={'/signup'} className='text-auth-primary'>
+          <Link href={`/${lang}/signup`} className='text-auth-primary'>
             Sign up
           </Link>
         </p>

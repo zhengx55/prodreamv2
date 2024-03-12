@@ -107,6 +107,12 @@ export type HomePageDicType = {
   t: Awaited<ReturnType<typeof getDictionary>>['Homepage'];
   lang: Locale;
 };
+
+export type AuthPageDicType = {
+  t: Awaited<ReturnType<typeof getDictionary>>['Auth'];
+  lang: Locale;
+};
+
 export interface IBookCitation {
   reference_count: number;
   area: string[];

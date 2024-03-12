@@ -18,12 +18,26 @@ function getLocale(request: NextRequest): string | undefined {
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   const search = req.nextUrl.search;
+  const isBase =
+    pathname === '/' ||
+    pathname === `/login` ||
+    pathname === `/signup` ||
+    pathname === `/reset-password`;
+
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
   const locale = 'en';
 
-  if (pathnameIsMissingLocale) {
+  const alreadyOnLoginPage = i18n.locales.some(
+    (locale) =>
+      pathname === `/${locale}` ||
+      pathname === `/${locale}/login` ||
+      pathname === `/${locale}/signup` ||
+      pathname === `/${locale}/reset-password`
+  );
+
+  if (pathnameIsMissingLocale && isBase) {
     return NextResponse.redirect(
       new URL(
         `/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}${search ?? ''}`,
@@ -31,16 +45,6 @@ export function middleware(req: NextRequest) {
       )
     );
   }
-  const alreadyOnLoginPage = i18n.locales.some(
-    (locale) =>
-      pathname === `/${locale}` ||
-      pathname === `/${locale}/login` ||
-      pathname.startsWith(`/${locale}/login`) ||
-      pathname === `/${locale}/signup` ||
-      pathname.startsWith(`/${locale}/signup`) ||
-      pathname === `/${locale}/reset-password` ||
-      pathname.startsWith(`/${locale}/reset-password`)
-  );
 
   if (alreadyOnLoginPage) {
     return NextResponse.next();

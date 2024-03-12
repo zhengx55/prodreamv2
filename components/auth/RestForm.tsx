@@ -146,13 +146,13 @@ const ResetForm = ({ t, lang }: HomePageDicType) => {
                 <EyeOff
                   onClick={() => setHidePassword((prev) => !prev)}
                   size={20}
-                  className='absolute right-2 top-10 cursor-pointer'
+                  className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
                 />
               ) : (
                 <Eye
                   onClick={() => setHidePassword((prev) => !prev)}
                   size={20}
-                  className='absolute right-2 top-10 cursor-pointer'
+                  className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
                 />
               )}
               <FormControl>
@@ -184,13 +184,13 @@ const ResetForm = ({ t, lang }: HomePageDicType) => {
                 <EyeOff
                   onClick={() => setHideConfirm((prev) => !prev)}
                   size={20}
-                  className='absolute right-2 top-10 cursor-pointer'
+                  className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
                 />
               ) : (
                 <Eye
                   onClick={() => setHideConfirm((prev) => !prev)}
                   size={20}
-                  className='absolute right-2 top-10 cursor-pointer'
+                  className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
                 />
               )}
               <FormControl>

@@ -86,7 +86,7 @@ const NavBar = ({ t, lang }: HomePageDicType) => {
             role='link'
             onClick={() => {
               cookies.token
-                ? router.push(`/${lang}/editor`)
+                ? router.push(`/editor`)
                 : router.push(`/${lang}/login`);
             }}
             variant={'ghost'}
@@ -96,7 +96,9 @@ const NavBar = ({ t, lang }: HomePageDicType) => {
           </Button>
           <Link
             href={
-              searchParams ? `/${lang}/signup?from=${searchParams}` : '/signup'
+              searchParams
+                ? `/${lang}/signup?from=${searchParams}`
+                : `/${lang}/signup`
             }
             passHref
           >
@@ -146,7 +148,7 @@ const NavBar = ({ t, lang }: HomePageDicType) => {
                   href={
                     searchParams
                       ? `/${lang}/signup?from=${searchParams}`
-                      : '/signup'
+                      : `/${lang}/signup`
                   }
                   passHref
                 >

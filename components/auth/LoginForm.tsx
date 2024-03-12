@@ -5,13 +5,12 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { loginSchema } from '@/lib/validation';
 import { useUserLogin } from '@/query/query';
-import { HomePageDicType } from '@/types';
+import { AuthPageDicType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
@@ -19,7 +18,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-const LoginForm = ({ t, lang }: HomePageDicType) => {
+const LoginForm = ({ t, lang }: AuthPageDicType) => {
   const [hidePassword, setHidePassword] = useState(true);
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -44,18 +43,12 @@ const LoginForm = ({ t, lang }: HomePageDicType) => {
           name='username'
           render={({ field }) => (
             <FormItem className='mt-0'>
-              <FormLabel
-                className='base-semibold 2xl:title-semibold'
-                htmlFor='username'
-              >
-                Email Address
-              </FormLabel>
               <FormControl>
                 <Input
                   autoComplete='email'
                   id='username'
-                  placeholder=''
-                  className='h-12 rounded-md border'
+                  placeholder={t.FormEmail}
+                  className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
               </FormControl>
@@ -68,23 +61,17 @@ const LoginForm = ({ t, lang }: HomePageDicType) => {
           name='password'
           render={({ field }) => (
             <FormItem className='relative'>
-              <FormLabel
-                className='base-semibold 2xl:title-semibold'
-                htmlFor='password'
-              >
-                Password
-              </FormLabel>
               {!hidePassword ? (
                 <EyeOff
                   onClick={() => setHidePassword((prev) => !prev)}
                   size={22}
-                  className='absolute right-2 top-10 cursor-pointer'
+                  className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
                 />
               ) : (
                 <Eye
                   onClick={() => setHidePassword((prev) => !prev)}
                   size={22}
-                  className='absolute right-2 top-10 cursor-pointer'
+                  className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
                 />
               )}
 
@@ -93,8 +80,8 @@ const LoginForm = ({ t, lang }: HomePageDicType) => {
                   autoComplete='current-password'
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
-                  placeholder=''
-                  className='h-12 rounded-md border'
+                  placeholder={t.FormPassword}
+                  className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
               </FormControl>
@@ -106,10 +93,10 @@ const LoginForm = ({ t, lang }: HomePageDicType) => {
           href={`/${lang}/reset-password`}
           className='small-semibold cursor-pointer self-end text-auth-primary hover:underline'
         >
-          Forgot Password?
+          {t.Login.Foget}
         </Link>
         <Button className='w-full rounded bg-auth-primary' type='submit'>
-          Sign in
+          {t.Login.Button}
         </Button>
       </form>
     </Form>

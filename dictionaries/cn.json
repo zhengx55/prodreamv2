@@ -101,5 +101,22 @@
     "QuestionInfo_desc_4": "目前，在我们的BETA测试阶段，ProDream是免费提供给用户的，您现在的参与可以使您在未来享受到专属折扣。",
     "QuestionInfo_title_5": "如何反馈ProDream使用中的问题？",
     "QuestionInfo_desc_5": "我们极为重视您的反馈，并致力于帮助您解决使用ProDream时遇到的任何问题。请通过support@prodream.ai随时联系我们，或加入我们的Discord服务器，获取即时的支持与帮助。"
+  },
+  "Auth": {
+    "Slogan": "前所未有的写作体验 ",
+    "FormEmail": "邮箱",
+    "FormPassword": "密码",
+    "FormName": "姓名",
+
+    "Login": {
+      "Foget": "忘记密码?",
+      "Button": "登录"
+    },
+    "Signup": {
+      "Button": "注册并登录",
+      "Term": "《ProDream用户协议》",
+      "Privacy": "《ProDream隐私政策》"
+    },
+    "ForgotPassword": {}
   }
 }
