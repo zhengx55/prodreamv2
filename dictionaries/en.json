@@ -101,5 +101,15 @@
     "QuestionInfo_desc_4": "ProDream is currently offered at no cost during our BETA phase, and your participation now could reward you with exclusive discounts for future services.",
     "QuestionInfo_title_5": "How can I report an issue with ProDream?",
     "QuestionInfo_desc_5": "We greatly value your feedback and are here to help resolve any issues you encounter with ProDream. Please don't hesitate to reach out to us at support@prodream.ai or join our Discord server for direct support and assistance."
+  },
+  "Auth": {
+    "Slogan": "Transform your academic writing journey",
+    "Login": {
+      "FormEmail": "",
+      "FormPassword": "",
+      "Foget": ""
+    },
+    "Signup": {},
+    "ForgotPassword": {}
   }
 }
