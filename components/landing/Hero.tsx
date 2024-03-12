@@ -181,7 +181,9 @@ const Hero = ({ t, lang }: HomePageDicType) => {
           <Link
             passHref
             href={
-              searchParams ? `/${lang}/signup?from=${searchParams}` : '/signup'
+              searchParams
+                ? `/${lang}/signup?from=${searchParams}`
+                : `/${lang}/signup`
             }
           >
             <Button
