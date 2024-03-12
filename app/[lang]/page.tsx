@@ -23,8 +23,8 @@ export default async function Home({
       <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>
         <Suspense>
           <NavBar lang={lang} t={dict.Homepage} />
+          <Hero lang={lang} t={dict.Homepage} />
         </Suspense>
-        <Hero lang={lang} t={dict.Homepage} />
         <Banner lang={lang} t={dict.Homepage} />
         <About lang={lang} t={dict.Homepage} />
         <Introduction lang={lang} t={dict.Homepage} />

@@ -52,10 +52,7 @@ const NavBar = ({ t, lang }: HomePageDicType) => {
                   >
                     <DropdownMenuItem
                       hidden={true}
-                      className='text-center hover:bg-doc-primary'
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
+                      className='cursor-pointer text-center hover:bg-doc-primary hover:text-white'
                     >
                       <span className='text-cente block w-20 pl-4 uppercase'>
                         {locale}
