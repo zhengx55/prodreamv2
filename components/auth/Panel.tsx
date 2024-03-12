@@ -1,4 +1,3 @@
-'use client';
 import { ReactNode } from 'react';
 
 const Panel = ({ children }: { children: ReactNode }) => {
