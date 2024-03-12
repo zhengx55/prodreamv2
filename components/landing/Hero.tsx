@@ -7,6 +7,7 @@ import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import useTypewriter from 'react-typewriter-hook';
 import Spacer from '../root/Spacer';
@@ -25,6 +26,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
   const [autoSwitchInterval, setAutoSwitchInterval] = useState<number | null>(
     null
   );
+  const searchParams = useSearchParams().get('from');
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   const { ref } = useInviewCapture('ScreenI');
   const [isMobile, setIsMobile] = useState(false);
@@ -129,7 +131,10 @@ const Hero = ({ t, lang }: HomePageDicType) => {
 
         <Spacer y='40' />
         <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
-          <Link passHref href={'/signup'}>
+          <Link
+            passHref
+            href={searchParams ? `/signup?from=${searchParams}` : '/signup'}
+          >
             <Button
               role='button'
               className='h-max w-52 rounded-lg bg-doc-primary px-5 sm:w-max sm:px-8 sm:py-2.5'
