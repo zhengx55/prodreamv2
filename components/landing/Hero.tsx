@@ -3,11 +3,13 @@ import { HeroInfo, HeroMainInfo } from '@/constant';
 import { staggerContainer, textVariant } from '@/constant/motion';
 import useInviewCapture from '@/hooks/useInViewCapture';
 import { HomePageDicType } from '@/types';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import useTypewriter from 'react-typewriter-hook';
 import Spacer from '../root/Spacer';
@@ -30,6 +32,8 @@ const Hero = ({ t, lang }: HomePageDicType) => {
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   const { ref } = useInviewCapture('ScreenI');
   const [isMobile, setIsMobile] = useState(false);
+  const [flag, setFlag] = useState('v3');
+  const posthog = usePostHog();
 
   // const { mutateAsync: handleAbTestPoint } = usePostABTestPagePoint();
   // const { mutateAsync: handleAbTestByTokenPoint } =
@@ -57,6 +61,49 @@ const Hero = ({ t, lang }: HomePageDicType) => {
   const handleMouseLeave = () => {
     setIsMouseOver(false);
   };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setIsMobile(true);
+    }
+  }, []);
+
+  useUpdateEffect(() => {
+    // console.log('flag', flag);
+    if (flag && flag !== 'undefined') {
+      if (flag === 'v2') {
+        setCurrentTitleNode(<V3Title t={t} lang={lang} />);
+      } else {
+        setCurrentTitleNode(<V2Title t={t} lang={lang} />);
+      }
+    }
+  }, [flag]);
+
+  const startAutoSwitch = useCallback(() => {
+    if (!autoSwitchInterval) {
+      const intervalId = setInterval(() => {
+        setSelected((prevSelected) => (prevSelected + 1) % HeroInfo.length);
+      }, 3000) as unknown as number;
+      setAutoSwitchInterval(intervalId);
+    }
+  }, [autoSwitchInterval]);
+
+  useEffect(() => {
+    // 只有在非手机设备上才启用自动切换
+    if (
+      typeof window !== 'undefined' &&
+      window.innerWidth > 768 &&
+      !isMouseOver
+    ) {
+      startAutoSwitch();
+    }
+
+    return () => {
+      if (autoSwitchInterval) {
+        clearInterval(autoSwitchInterval);
+      }
+    };
+  }, [isMouseOver, startAutoSwitch]);
 
   return (
     <m.section
@@ -133,7 +180,9 @@ const Hero = ({ t, lang }: HomePageDicType) => {
         <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
           <Link
             passHref
-            href={searchParams ? `/signup?from=${searchParams}` : '/signup'}
+            href={
+              searchParams ? `/${lang}/signup?from=${searchParams}` : '/signup'
+            }
           >
             <Button
               role='button'
