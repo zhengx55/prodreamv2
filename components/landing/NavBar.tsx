@@ -9,14 +9,24 @@ import { Locale, i18n } from '@/i18n-config';
 import { HomePageDicType } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCookies } from 'react-cookie';
+import { v4 } from 'uuid';
 import { Button } from '../ui/button';
 
 const NavBar = ({ t, lang }: HomePageDicType) => {
   const [cookies] = useCookies(['token']);
   const searchParams = useSearchParams().get('from');
+  const pathName = usePathname();
   const router = useRouter();
+
+  const redirectedPathName = (locale: Locale) => {
+    if (!pathName) return '/';
+    const segments = pathName.split('/');
+    segments[1] = locale;
+    return segments.join('/');
+  };
+
   return (
     <section className='z-50 flex h-16 w-full justify-center bg-white py-3'>
       <nav className='flex-between w-full px-4 sm:max-w-[1200px] sm:px-0'>
@@ -46,19 +56,17 @@ const NavBar = ({ t, lang }: HomePageDicType) => {
                 className='bg-white'
               >
                 {i18n.locales.map((locale: Locale, index: number) => (
-                  <Link
-                    key={locale ?? index}
-                    href={`/${locale === 'en' ? '' : locale}`}
+                  <DropdownMenuItem
+                    key={v4()}
+                    className='cursor-pointer hover:bg-doc-primary hover:text-white'
                   >
-                    <DropdownMenuItem
-                      hidden={true}
-                      className='cursor-pointer text-center hover:bg-doc-primary hover:text-white'
+                    <Link
+                      href={redirectedPathName(locale)}
+                      className='base-regular flex-center w-full uppercase'
                     >
-                      <span className='text-cente block w-20 pl-4 uppercase'>
-                        {locale}
-                      </span>
-                    </DropdownMenuItem>
-                  </Link>
+                      {locale}
+                    </Link>
+                  </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
@@ -77,7 +85,9 @@ const NavBar = ({ t, lang }: HomePageDicType) => {
           <Button
             role='link'
             onClick={() => {
-              cookies.token ? router.push('/editor') : router.push('/login');
+              cookies.token
+                ? router.push(`/${lang}/editor`)
+                : router.push(`/${lang}/login`);
             }}
             variant={'ghost'}
             className='text-doc-primary'
@@ -85,7 +95,9 @@ const NavBar = ({ t, lang }: HomePageDicType) => {
             {t.log_in}
           </Button>
           <Link
-            href={searchParams ? `/signup?from=${searchParams}` : '/signup'}
+            href={
+              searchParams ? `/${lang}/signup?from=${searchParams}` : '/signup'
+            }
             passHref
           >
             <Button className='bg-doc-primary hover:bg-doc-primary'>
@@ -121,7 +133,7 @@ const NavBar = ({ t, lang }: HomePageDicType) => {
           >
             <div className='w-[100vw] bg-white py-6 pt-[45px]'>
               <div className='flex flex-col items-center gap-y-4'>
-                <Link href={'/login'} passHref>
+                <Link href={`/${lang}/login`} passHref>
                   <Button
                     variant={'ghost'}
                     role='link'
@@ -132,7 +144,9 @@ const NavBar = ({ t, lang }: HomePageDicType) => {
                 </Link>
                 <Link
                   href={
-                    searchParams ? `/signup?from=${searchParams}` : '/signup'
+                    searchParams
+                      ? `/${lang}/signup?from=${searchParams}`
+                      : '/signup'
                   }
                   passHref
                 >
