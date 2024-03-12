@@ -17,16 +17,16 @@ import { SampleEssay } from '@/constant/enum';
 import { signUpSchema } from '@/lib/validation';
 import { createDoc, userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
+import { AuthPageDicType } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
 
-const SignUpForm = () => {
+const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   const [hidePassword, setHidePassword] = useState(true);
   const posthog = usePostHog();
   const searchParam = useSearchParams().get('from');
@@ -101,7 +101,7 @@ const SignUpForm = () => {
                 className='base-semibold 2xl:title-semibold'
                 htmlFor='first_name'
               >
-                Name
+                {t.FormName}
               </FormLabel>
               <FormControl>
                 <Input
@@ -126,7 +126,7 @@ const SignUpForm = () => {
                 className='base-semibold 2xl:title-semibold'
                 htmlFor='username'
               >
-                Email Address
+                {t.FormEmail}
               </FormLabel>
               <FormControl>
                 <Input
@@ -151,7 +151,7 @@ const SignUpForm = () => {
                 className='base-semibold 2xl:title-semibold'
                 htmlFor='password'
               >
-                Password
+                {t.FormPassword}
               </FormLabel>
               {!hidePassword ? (
                 <EyeOff
@@ -180,29 +180,31 @@ const SignUpForm = () => {
             </FormItem>
           )}
         />
+        {/* {lang === 'en' && (
+          <p className='small-regular cursor-pointer self-start text-neutral-400'>
+            By Continuing, you agree to&nbsp;Applify AI&apos;s&nbsp;
+            <Link
+              target='_blank'
+              href={
+                'https://applifyai.notion.site/Applify-AI-Subscription-Agreement-eef0b3cfdab6496dbe0fa04a3c9a0d3e?pvs=4'
+              }
+              className='text-auth-primary'
+            >
+              {t.Signup.Term}
+            </Link>
+            &nbsp; and
+            <Link
+              target='_blank'
+              href={
+                'https://applifyai.notion.site/Applify-AI-Privacy-Policy-e350e311e90c48608b4e85a8c7982e77'
+              }
+              className='text-auth-primary'
+            >
+              &nbsp;{t.Signup.Privacy}
+            </Link>
+          </p>
+        )} */}
 
-        <p className='small-regular cursor-pointer self-start text-black-400'>
-          By Continuing, you agree to&nbsp;Applify AI&apos;s&nbsp;
-          <Link
-            target='_blank'
-            href={
-              'https://applifyai.notion.site/Applify-AI-Subscription-Agreement-eef0b3cfdab6496dbe0fa04a3c9a0d3e?pvs=4'
-            }
-            className='text-auth-primary'
-          >
-            Term of Service
-          </Link>
-          &nbsp; and
-          <Link
-            target='_blank'
-            href={
-              'https://applifyai.notion.site/Applify-AI-Privacy-Policy-e350e311e90c48608b4e85a8c7982e77'
-            }
-            className='text-auth-primary'
-          >
-            &nbsp;Privacy Policy
-          </Link>
-        </p>
         <Button
           disabled={isSignupPending}
           className='w-full rounded bg-auth-primary'
@@ -211,7 +213,7 @@ const SignUpForm = () => {
           {isSignupPending && (
             <Loader2 className='animate-spin text-white' size={22} />
           )}
-          Sign up
+          {t.Signup.Button}
         </Button>
       </form>
     </Form>

@@ -52,7 +52,7 @@ const GoogleSignin = ({ label }: { label: string }) => {
   return (
     <button
       onClick={login}
-      className='flex-center w-full cursor-pointer gap-x-2 self-center rounded border border-shadow-border py-2 transition-transform hover:-translate-y-1'
+      className='flex-center w-full cursor-pointer gap-x-2 self-center rounded border border-shadow-border py-4 transition-transform hover:-translate-y-1'
     >
       <Image
         src='/google.svg'
@@ -62,9 +62,7 @@ const GoogleSignin = ({ label }: { label: string }) => {
         priority
         className='h-auto w-auto'
       />
-      <h1 className='small-semibold 2xl:base-semibold text-black-200'>
-        {label}
-      </h1>
+      <h1 className='base-medium 2xl:title-medium text-black-200'>{label}</h1>
     </button>
   );
 };

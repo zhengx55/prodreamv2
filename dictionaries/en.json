@@ -104,12 +104,18 @@
   },
   "Auth": {
     "Slogan": "Transform your academic writing journey",
+    "FormEmail": "Email Address",
+    "FormPassword": "Psssword",
+    "FormName": "Name",
     "Login": {
-      "FormEmail": "",
-      "FormPassword": "",
-      "Foget": ""
+      "Foget": "Forgot Password?",
+      "Button": "Log in"
     },
-    "Signup": {},
+    "Signup": {
+      "Button": "sign up",
+      "Term": "Term of Service",
+      "Privacy": "Privacy Policy"
+    },
     "ForgotPassword": {}
   }
 }
