@@ -2,8 +2,6 @@ import type { Locale } from '@/i18n-config';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import Spacer from '../root/Spacer';
-import SwitchTab from './SwitchTab';
 
 const Panel = ({ children, lang }: { children: ReactNode; lang?: Locale }) => {
   return (
@@ -18,16 +16,16 @@ const Panel = ({ children, lang }: { children: ReactNode; lang?: Locale }) => {
           priority
         />
       </div>
-      {lang === 'cn' && (
+      {/* {lang === 'cn' && (
         <>
           <Spacer y='100' className='block md:hidden' />
           <SwitchTab lang={lang} />
           <Spacer y='60' className='hidden md:block' />
           <Spacer y='30' className='block md:hidden' />
         </>
-      )}
+      )} */}
       {children}
-      {lang === 'cn' && (
+      {/* {lang === 'cn' && (
         <div className='mt-5 flex w-full items-center gap-x-2 md:mt-5 md:w-[500px]'>
           <p className='subtle-regular md:small-regular text-neutral-400 '>
             使用第三方账号登录
@@ -42,7 +40,7 @@ const Panel = ({ children, lang }: { children: ReactNode; lang?: Locale }) => {
             />
           </span>
         </div>
-      )}
+      )} */}
       {lang && <Privacy lang={lang} />}
     </div>
   );

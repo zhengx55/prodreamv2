@@ -110,12 +110,18 @@
 
     "Login": {
       "Foget": "忘记密码?",
-      "Button": "登录"
+      "Button": "登录",
+      "NotAccount": "还没有账号?",
+      "Google": "使用谷歌登录",
+      "GoogleDivider": "或者使用邮箱地址登录"
     },
     "Signup": {
       "Button": "注册并登录",
       "Term": "《ProDream用户协议》",
-      "Privacy": "《ProDream隐私政策》"
+      "Privacy": "《ProDream隐私政策》",
+      "Google": "使用谷歌注册",
+      "AlreadyLogged": "已有账号",
+      "GoogleDivider": "或者使用邮箱地址注册"
     },
     "ForgotPassword": {}
   },
