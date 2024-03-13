@@ -16,8 +16,11 @@ const PageViewTrack = ({ no_route_event }: { no_route_event?: string }) => {
       let traffic_source: string | undefined;
       const page_name = no_route_event
         ? no_route_event
-        : pathname.split('/').pop() || 'landing_page';
-      if (page_name === 'landing_page' || page_name === 'signup') {
+        : pathname.split('/').pop() === 'en'
+          ? 'landingpage-en'
+          : 'landingpage-cn';
+
+      if (['landingpage-en', 'landingpage-cn', 'signup'].includes(page_name)) {
         if (fromParam) {
           traffic_source = fromParam;
         } else {
