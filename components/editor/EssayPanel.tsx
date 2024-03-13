@@ -1,9 +1,8 @@
 'use client';
 import DocNavbar from '@/components/editor/navbar';
 import { useDocumentDetail } from '@/query/query';
-import { isEmpty } from 'lodash';
 import dynamic from 'next/dynamic';
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import LazyMotionProvider from '../root/LazyMotionProvider';
 import Spacer from '../root/Spacer';
 import { Skeleton } from '../ui/skeleton';
@@ -32,20 +31,18 @@ const EssayPanel = ({ id }: { id: string }) => {
 
   const [showPromptView, setShowPromptView] = useState(false);
 
-  const [refreshNavbar, setRefreshNavbar] = useState('');
-
-  useEffect(() => {
-    if (
-      document_content &&
-      isEmpty(document_content?.content) &&
-      isEmpty(document_content?.brief_description)
-    ) {
-      setShowPromptView(true);
-    }
-    return () => {
-      setShowPromptView(false);
-    };
-  }, [document_content]);
+  // useEffect(() => {
+  //   if (
+  //     document_content &&
+  //     isEmpty(document_content?.content) &&
+  //     isEmpty(document_content?.brief_description)
+  //   ) {
+  //     setShowPromptView(true);
+  //   }
+  //   return () => {
+  //     setShowPromptView(false);
+  //   };
+  // }, [document_content]);
 
   useCitationInfo(document_content);
 
@@ -53,7 +50,7 @@ const EssayPanel = ({ id }: { id: string }) => {
   return (
     <LazyMotionProvider>
       <main className='relative flex h-full w-full flex-col'>
-        <DocNavbar key={`${refreshNavbar}`} id={id} />
+        <DocNavbar id={id} />
         <CheckList />
         <div className='relative flex h-full w-full justify-center overflow-hidden'>
           {isFetching ? (
@@ -69,15 +66,7 @@ const EssayPanel = ({ id }: { id: string }) => {
           <DocRightBar />
         </div>
       </main>
-      <PromptView
-        id={id}
-        showPromptView={showPromptView}
-        onFinish={async () => {
-          await refetch().then((res) => {
-            setRefreshNavbar(res.data?.brief_description ?? '');
-          });
-        }}
-      />
+      <PromptView id={id} showPromptView={showPromptView} />
     </LazyMotionProvider>
   );
 };
