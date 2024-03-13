@@ -109,12 +109,18 @@
     "FormName": "Name",
     "Login": {
       "Foget": "Forgot Password?",
-      "Button": "Log in"
+      "Button": "Log in",
+      "Google": "Sign in with Google",
+      "NotAccount": "Don't have an account?",
+      "GoogleDivider": "Or sign up with"
     },
     "Signup": {
-      "Button": "sign up",
+      "Button": "Sign up",
       "Term": "Term of Service",
-      "Privacy": "Privacy Policy"
+      "Privacy": "Privacy Policy",
+      "Google": "Sign up with Google",
+      "AlreadyLogged": "Already a member?",
+      "GoogleDivider": "Or log in with"
     },
     "ForgotPassword": {}
   },

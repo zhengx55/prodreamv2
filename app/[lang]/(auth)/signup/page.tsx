@@ -25,35 +25,26 @@ export default async function Page({
   return (
     <Panel lang={lang}>
       <div className='flex w-full flex-col sm:w-[500px]'>
-        {lang === 'en' && (
-          <>
-            <Spacer y='120' className='block md:hidden' />
-            <GoogleSignin lang={lang} label='Sign up with Google' />
-            <div className='flex-center relative my-10'>
-              <Separator
-                orientation='horizontal'
-                className='bg-shadow-border'
-              />
-              <p className='small-regular absolute bg-white px-2 text-neutral-300'>
-                Or sign up with
-              </p>
-            </div>
-          </>
-        )}
+        <Spacer y='120' className='block md:hidden' />
+        <GoogleSignin lang={lang} label={dict.Auth.Signup.Google} />
+        <div className='flex-center relative my-10'>
+          <Separator orientation='horizontal' className='bg-shadow-border' />
+          <p className='small-regular absolute bg-white px-2 text-neutral-300'>
+            {dict.Auth.Signup.GoogleDivider}
+          </p>
+        </div>
         <Suspense fallback={<div>Loading...</div>}>
           <SignUpForm t={dict.Auth} lang={lang} />
         </Suspense>
-        {lang === 'en' && (
-          <p className='base-regular mt-4 text-neutral-400'>
-            Already a member?&nbsp;
-            <Link
-              href={`/${lang}/login`}
-              className='base-semibold text-auth-primary'
-            >
-              Log in
-            </Link>
-          </p>
-        )}
+        <p className='base-regular mt-4 text-neutral-400'>
+          {dict.Auth.Signup.AlreadyLogged}&nbsp;
+          <Link
+            href={`/${lang}/login`}
+            className='base-semibold text-auth-primary'
+          >
+            {dict.Auth.Login.Button}&nbsp;
+          </Link>
+        </p>
       </div>
     </Panel>
   );
