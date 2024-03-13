@@ -1,11 +1,10 @@
-'use client';
-
 import { IntroductionInfo } from '@/constant';
 import { HomePageDicType } from '@/types';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
 const CaptureProvider = dynamic(() => import('./CaptureProvider'));
+
 const Introduction = ({ t, lang }: HomePageDicType) => {
   return (
     <section className='relative flex w-full justify-center px-4 py-10 sm:px-0 sm:py-20'>

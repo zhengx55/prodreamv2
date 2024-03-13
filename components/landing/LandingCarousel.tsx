@@ -1,3 +1,4 @@
+'use client';
 import { HeroInfo, HeroMainInfo, Universitys } from '@/constant';
 import { HomePageDicType } from '@/types';
 import Autoplay from 'embla-carousel-autoplay';

@@ -1,5 +1,3 @@
-'use client';
-
 import { CommentsInfo } from '@/constant';
 import { HomePageDicType } from '@/types';
 import dynamic from 'next/dynamic';
