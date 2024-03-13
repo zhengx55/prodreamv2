@@ -32,7 +32,7 @@ const DocNavbar = ({ prompt }: { prompt: string }) => {
 
   return (
     <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-shadow-border px-5 py-3'>
-      {!Boolean(prompt) && <PromptViewModal prompt={prompt} />}
+      {/* {!Boolean(prompt) && <PromptViewModal prompt={prompt} />} */}
       <div className='flex h-full items-center gap-x-4'>
         {track?.guidence && (
           <Link passHref href={'/editor'}>
