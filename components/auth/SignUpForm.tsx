@@ -9,7 +9,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -25,6 +24,7 @@ import { usePostHog } from 'posthog-js/react';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
+import Spacer from '../root/Spacer';
 
 const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   const [hidePassword, setHidePassword] = useState(true);
@@ -79,7 +79,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   );
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     await handleSignup({
-      first_name: values.first_name,
+      first_name: '',
       email: values.email,
       password: values.password,
       is_mobile: isMobile,
@@ -94,46 +94,15 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
       >
         <FormField
           control={form.control}
-          name='first_name'
-          render={({ field }) => (
-            <FormItem className='relative'>
-              <FormLabel
-                className='base-semibold 2xl:title-semibold'
-                htmlFor='first_name'
-              >
-                {t.FormName}
-              </FormLabel>
-              <FormControl>
-                <Input
-                  autoComplete='first_name'
-                  id='first_name'
-                  placeholder='e.g. Max Tang'
-                  className='h-12 rounded-md border'
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name='email'
           render={({ field }) => (
             <FormItem className='relative'>
-              <FormLabel
-                className='base-semibold 2xl:title-semibold'
-                htmlFor='username'
-              >
-                {t.FormEmail}
-              </FormLabel>
               <FormControl>
                 <Input
                   autoComplete='email'
                   type='email'
                   id='username'
-                  placeholder='e.g hey@prodream.ai'
+                  placeholder={t.FormEmail}
                   className='h-12 rounded-md border'
                   {...field}
                 />
@@ -147,12 +116,6 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
           name='password'
           render={({ field }) => (
             <FormItem className='relative'>
-              <FormLabel
-                className='base-semibold 2xl:title-semibold'
-                htmlFor='password'
-              >
-                {t.FormPassword}
-              </FormLabel>
               {!hidePassword ? (
                 <EyeOff
                   onClick={() => setHidePassword((prev) => !prev)}
@@ -171,7 +134,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
                   autoComplete='current-password'
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
-                  placeholder='Must be at least 8 characters'
+                  placeholder={t.FormPassword}
                   className='h-12 rounded-md border'
                   {...field}
                 />
@@ -204,7 +167,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
             </Link>
           </p>
         )} */}
-
+        <Spacer y='20' />
         <Button
           disabled={isSignupPending}
           className='w-full rounded bg-auth-primary'

@@ -27,7 +27,7 @@ export default async function Page({
       <div className='flex w-full flex-col sm:w-[600px]'>
         {lang === 'en' && (
           <>
-            <Spacer y='120' className='block 2xl:hidden' />
+            <Spacer y='120' className='block md:hidden' />
             <GoogleSignin label='Sign up with Google' />
             <div className='flex-center relative my-10'>
               <Separator
