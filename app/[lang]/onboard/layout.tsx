@@ -11,7 +11,7 @@ export default function OnboardLayout({
 }) {
   return (
     <main className='relative flex h-full w-full flex-col overflow-auto'>
-      <nav className='flex-between h-20 w-full bg-doc-secondary px-4'>
+      <nav className='flex-between h-20 w-full shrink-0 bg-doc-secondary px-4'>
         <Image
           src='/logo/Prodream.png'
           width={140}
