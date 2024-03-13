@@ -31,10 +31,9 @@ export default async function Page({
         }
       );
     } catch (error) {
-      return {
-        message:
-          'An error occurred while setting education info. Please try again.',
-      };
+      throw new Error(
+        'An error occurred while setting education info. Please try again.'
+      );
     }
     redirect(`/${lang}/onboard/language`);
   }
