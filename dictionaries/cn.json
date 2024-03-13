@@ -136,9 +136,9 @@
       "Option3": "博士及科研人员"
     },
     "Language": {
-      "Title": "Could you share if English is your native language or if you're studying in English as a second language? Your response will help us ensure our services best fit your linguistic background and learning needs",
-      "Option1": "English native speaker",
-      "Option2": "International student"
+      "Title": "英语是你的母语吗？我们将根据你的语言背景和学习需求为你提供最合适的服务",
+      "Option1": "英语母语者",
+      "Option2": "非英语母语者"
     }
   }
 }
