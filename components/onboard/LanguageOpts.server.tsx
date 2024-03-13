@@ -4,10 +4,12 @@ import Image from 'next/image';
 type Props = {
   index: number;
   dict: Awaited<ReturnType<typeof getDictionary>>;
+  onClick: (index: number) => Promise<void>;
 };
-const LanguageOptions = ({ index, dict }: Props) => {
+const LanguageOptions = ({ index, dict, onClick }: Props) => {
   return (
     <div
+      onClick={() => onClick(index)}
       aria-label='education option'
       className='flex h-[420px] w-[460px] cursor-pointer flex-col items-center justify-between rounded-3xl border border-zinc-300 bg-white px-4 py-5 hover:bg-slate-50'
     >
