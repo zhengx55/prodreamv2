@@ -1,17 +1,11 @@
+import GoogleSignin from '@/components/auth/GoogleSignin';
 import LoginForm from '@/components/auth/LoginForm';
 import Panel from '@/components/auth/Panel';
+import Spacer from '@/components/root/Spacer';
+import { Separator } from '@/components/ui/separator';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
-
-const GoogleSignin = dynamic(() => import('@/components/auth/GoogleSignin'));
-const Spacer = dynamic(() => import('@/components/root/Spacer'));
-const Separator = dynamic(() =>
-  import('@/components/ui/separator').then((mod) => ({
-    default: mod.Separator,
-  }))
-);
 
 export default async function Page({
   params: { lang },

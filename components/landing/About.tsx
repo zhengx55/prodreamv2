@@ -1,4 +1,3 @@
-'use client';
 import { AboutInfo } from '@/constant';
 import { HomePageDicType } from '@/types';
 import Image from 'next/image';

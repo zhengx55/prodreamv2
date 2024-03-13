@@ -1,5 +1,3 @@
-'use client';
-
 import { HomePageDicType } from '@/types';
 import dynamic from 'next/dynamic';
 
@@ -16,7 +14,7 @@ const Question = ({ t, lang }: HomePageDicType) => {
               {t.QuestionInfo_theme_2}
             </h1>
             <p className='text-center leading-relaxed text-[#64626A] sm:w-full sm:text-left sm:text-[18px]'>
-              {t.QuestionInfo_theme_3}{' '}
+              {t.QuestionInfo_theme_3}
               {/* <span className='text-doc-primary'>{t.QuestionInfo_theme_4}</span> */}
             </p>
           </div>

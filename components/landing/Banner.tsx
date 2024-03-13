@@ -1,15 +1,10 @@
-'use client';
 import { HomePageDicType } from '@/types';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { memo } from 'react';
 import Spacer from '../root/Spacer';
 import CaptureProvider from './CaptureProvider';
-const UniversityCarousel = dynamic(
-  () => import('./LandingCarousel').then((mod) => mod.UniversityCarousel),
-  {
-    ssr: false,
-  }
-);
+import { UniversityCarousel } from './LandingCarousel';
+
 const Banner = ({ t, lang }: HomePageDicType) => {
   return (
     <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
@@ -106,4 +101,4 @@ const Banner = ({ t, lang }: HomePageDicType) => {
     </section>
   );
 };
-export default Banner;
+export default memo(Banner);
