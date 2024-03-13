@@ -1,8 +1,12 @@
 import LanguageOptions from '@/components/onboard/LanguageOpts.server';
 import Progress from '@/components/onboard/Progress';
 import Spacer from '@/components/root/Spacer';
+import { languange_info } from '@/constant';
+import { SampleEssay } from '@/constant/enum';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { v4 } from 'uuid';
 
 export default async function Page({
@@ -11,7 +15,40 @@ export default async function Page({
   params: { lang: Locale };
 }) {
   const dict = await getDictionary(lang);
-
+  const token = cookies().get('token')?.value;
+  async function setLanguageInfo(index: number) {
+    'use server';
+    const formData = new FormData();
+    formData.append('language_background', languange_info[index]);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/language_background`,
+      {
+        method: 'PUT',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (res.status === 200) {
+      const docData = new FormData();
+      docData.append('content', SampleEssay.TITLE);
+      docData.append('title', SampleEssay.TEXT);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document`,
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            contentType: 'multipart/form-data',
+          },
+        }
+      );
+      const new_doc_id = (await res.json()).data;
+      redirect(`/editor/${new_doc_id}`);
+    }
+  }
   return (
     <div className='flex w-full flex-col items-center pt-20'>
       <div className='flex max-w-[900px] flex-col items-center'>
@@ -25,7 +62,14 @@ export default async function Page({
         {Array(2)
           .fill(null)
           .map((_, index) => {
-            return <LanguageOptions key={v4()} index={index} dict={dict} />;
+            return (
+              <LanguageOptions
+                onClick={setLanguageInfo}
+                key={v4()}
+                index={index}
+                dict={dict}
+              />
+            );
           })}
       </div>
       <Spacer y='70' />

@@ -14,7 +14,6 @@ export default async function Page({
   params: { lang: Locale };
   searchParams: { name?: string };
 }) {
-  console.log(name);
   const dict = await getDictionary(lang);
   const token = cookies().get('token')?.value;
   async function updateInfo(formData: FormData) {

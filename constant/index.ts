@@ -55,18 +55,9 @@ export const GenerateOptions = [
   },
 ];
 
-export const WelcomLanguageOptions = [
-  {
-    name: 'English native speaker',
-    src: '/welcome/English.png',
-    label: 'english_native',
-  },
-  {
-    name: 'International Student',
-    src: '/welcome/International.png',
-    label: 'international',
-  },
-];
+export const education_info = ['undergrad', 'master_or_mba', 'phd_or_above'];
+
+export const languange_info = ['english_native', 'international'];
 
 export const H1_regex = /^([^#]*#){1}[^#]*$/;
 export const H2_regex = /^[^#]*##([^#]|$)/;
