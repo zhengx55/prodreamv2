@@ -6,7 +6,7 @@ import { SampleEssay } from '@/constant/enum';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { RedirectType, redirect } from 'next/navigation';
 import { v4 } from 'uuid';
 
 export default async function Page({
@@ -20,6 +20,7 @@ export default async function Page({
     'use server';
     const formData = new FormData();
     formData.append('language_background', languange_info[index]);
+    let doc_id: string = '';
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/language_background`,
@@ -35,7 +36,7 @@ export default async function Page({
         const docData = new FormData();
         docData.append('content', SampleEssay.TITLE);
         docData.append('title', SampleEssay.TEXT);
-        const res = await fetch(
+        const new_doc_res = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document`,
           {
             method: 'POST',
@@ -46,16 +47,20 @@ export default async function Page({
             },
           }
         );
-        const new_doc_id = (await res.json()).data;
-        redirect(`/editor/${new_doc_id}`);
+        doc_id = (await new_doc_res.json()).data;
+        if (!doc_id)
+          throw new Error(
+            'An error occurred while setting language info. Please try again.'
+          );
       }
     } catch (error) {
-      return {
-        message:
-          'An error occurred while setting language info. Please try again.',
-      };
+      throw new Error(
+        'An error occurred while setting language info. Please try again.'
+      );
     }
+    redirect(`/editor/${doc_id}`, RedirectType.replace);
   }
+
   return (
     <div className='flex w-full flex-col items-center pt-20'>
       <div className='flex max-w-[900px] flex-col items-center'>
