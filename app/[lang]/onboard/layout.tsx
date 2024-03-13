@@ -1,14 +1,17 @@
 import { Button } from '@/components/ui/button';
+import type { Locale } from '@/i18n-config';
+import { getDictionary } from '@/lib/get-dictionary';
 import Image from 'next/image';
 import { ReactNode } from 'react';
 
-export default function OnboardLayout({
+export default async function OnboardLayout({
   children,
   params: { lang },
 }: {
   children: ReactNode;
   params: { lang: Locale };
 }) {
+  const dict = await getDictionary(lang);
   return (
     <main className='relative flex h-full w-full flex-col overflow-auto'>
       <nav className='flex-between h-20 w-full shrink-0 bg-doc-secondary px-4'>
@@ -21,7 +24,7 @@ export default function OnboardLayout({
           priority
         />
         <Button className='bg-transparent' variant={'ghost'}>
-          Skip for now
+          {dict.Onboard.SkipButton}
         </Button>
       </nav>
       {children}

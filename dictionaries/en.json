@@ -120,6 +120,7 @@
   },
   "Onboard": {
     "Title": "Welcome to ProDream",
+    "SkipButton": "Skip for now",
     "SubTitle": "We're thrilled to have you on board. To get started, please tell us your name.",
     "FormName": "Name",
     "FormCode": "Invitation Code",

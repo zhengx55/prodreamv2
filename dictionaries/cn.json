@@ -121,6 +121,7 @@
   },
   "Onboard": {
     "Title": "欢迎加入ProDream",
+    "SkipButton": "跳过",
     "SubTitle": "首先，让我们认识一下吧！请告诉我你的名字",
     "FormName": "姓名",
     "FormCode": "邀请码",

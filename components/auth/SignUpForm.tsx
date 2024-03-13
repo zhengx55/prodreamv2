@@ -12,9 +12,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { SampleEssay } from '@/constant/enum';
 import { signUpSchema } from '@/lib/validation';
-import { createDoc, userLogin, userSignUp } from '@/query/api';
+import { userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
 import { AuthPageDicType } from '@/types';
 import { useMutation } from '@tanstack/react-query';
@@ -59,13 +58,14 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
             path: '/',
             maxAge: 604800,
             secure: true,
+            sameSite: 'lax',
           });
-          const new_doc_id = await createDoc(
-            SampleEssay.TEXT,
-            SampleEssay.TITLE
-          );
-
-          router.push(`/editor/${new_doc_id}`);
+          // const new_doc_id = await createDoc(
+          //   SampleEssay.TEXT,
+          //   SampleEssay.TITLE
+          // );
+          // router.push(`/editor/${new_doc_id}`);
+          router.push(`/${lang}/onboard`);
         } catch (error) {
           router.push('/editor');
         }
