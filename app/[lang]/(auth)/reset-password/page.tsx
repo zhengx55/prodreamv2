@@ -12,7 +12,7 @@ export default async function Page({
   const dict = await getDictionary(lang);
   return (
     <Panel>
-      <div className='flex w-full flex-col sm:w-[600px]'>
+      <div className='flex w-full flex-col sm:w-[500px]'>
         {/* <h1 className='text-[24px] font-[500] sm:text-[28px] 2xl:text-[42px]'>
           Reset Password
         </h1> */}

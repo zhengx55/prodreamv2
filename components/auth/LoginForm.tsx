@@ -42,7 +42,7 @@ const LoginForm = ({ t, lang }: AuthPageDicType) => {
           control={form.control}
           name='username'
           render={({ field }) => (
-            <FormItem className='mt-0'>
+            <FormItem className='relative'>
               <FormControl>
                 <Input
                   autoComplete='email'
@@ -52,7 +52,7 @@ const LoginForm = ({ t, lang }: AuthPageDicType) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage className='text-xs text-red-400' />
+              <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
             </FormItem>
           )}
         />
@@ -74,7 +74,6 @@ const LoginForm = ({ t, lang }: AuthPageDicType) => {
                   className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
                 />
               )}
-
               <FormControl>
                 <Input
                   autoComplete='current-password'
@@ -85,7 +84,7 @@ const LoginForm = ({ t, lang }: AuthPageDicType) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage className='text-xs text-red-400' />
+              <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
             </FormItem>
           )}
         />

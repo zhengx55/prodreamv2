@@ -36,7 +36,6 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      first_name: '',
       password: '',
       email: '',
     },
@@ -79,7 +78,6 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   );
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     await handleSignup({
-      first_name: '',
       email: values.email,
       password: values.password,
       is_mobile: isMobile,
@@ -103,7 +101,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
                   type='email'
                   id='username'
                   placeholder={t.FormEmail}
-                  className='h-12 rounded-md border'
+                  className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
               </FormControl>
@@ -135,7 +133,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
                   placeholder={t.FormPassword}
-                  className='h-12 rounded-md border'
+                  className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
               </FormControl>

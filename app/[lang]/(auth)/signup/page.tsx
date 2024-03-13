@@ -24,7 +24,7 @@ export default async function Page({
 
   return (
     <Panel lang={lang}>
-      <div className='flex w-full flex-col sm:w-[600px]'>
+      <div className='flex w-full flex-col sm:w-[500px]'>
         {lang === 'en' && (
           <>
             <Spacer y='120' className='block md:hidden' />
@@ -45,7 +45,7 @@ export default async function Page({
         </Suspense>
         {lang === 'en' && (
           <p className='base-regular mt-4 text-neutral-400'>
-            Already a member?{' '}
+            Already a member?&nbsp;
             <Link
               href={`/${lang}/login`}
               className='base-semibold text-auth-primary'
