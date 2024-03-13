@@ -6,7 +6,7 @@ import Image from 'next/image';
 type Props = {
   index: number;
   dict: Awaited<ReturnType<typeof getDictionary>>;
-  onClick: (index: number) => Promise<void>;
+  onClick: (index: number) => Promise<{ message: string } | undefined>;
 };
 const EducationOption = ({ index, dict, onClick }: Props) => {
   return (
@@ -22,8 +22,9 @@ const EducationOption = ({ index, dict, onClick }: Props) => {
       <Image
         src={`/onboard/education/education0${index + 1}.png`}
         alt={(dict.Onboard.Education as any)['Option' + (index + 1)]}
-        className='h-auto w-40'
+        className='h-[190px] w-40'
         width={150}
+        priority
         height={200}
       />
       <p className='base-regular text-center leading-loose text-neutral-600'>

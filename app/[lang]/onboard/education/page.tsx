@@ -19,19 +19,24 @@ export default async function Page({
     'use server';
     const formData = new FormData();
     formData.append('educational_background', education_info[index]);
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/educational_background`,
-      {
-        method: 'PUT',
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (res.status === 200) {
-      redirect(`/${lang}/onboard/language`);
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/educational_background`,
+        {
+          method: 'PUT',
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      return {
+        message:
+          'An error occurred while setting education info. Please try again.',
+      };
     }
+    redirect(`/${lang}/onboard/language`);
   }
   return (
     <div className='flex w-full flex-col items-center pt-20'>

@@ -23,7 +23,6 @@ const GoogleSignin = ({ label, lang }: { label: string; lang: Locale }) => {
           secure: true,
           sameSite: 'lax',
         });
-
         const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
           .subject.user_id;
         posthog.identify(user_id);
@@ -32,11 +31,6 @@ const GoogleSignin = ({ label, lang }: { label: string; lang: Locale }) => {
           router.push('/editor');
         } else {
           const name = (await refreshUserSession()).first_name;
-          // const new_doc_id = await createDoc(
-          //   SampleEssay.TEXT,
-          //   SampleEssay.TITLE
-          // );
-          // router.push(`/editor/${new_doc_id}`);
           router.push(`/${lang}/onboard?name=${name}`);
         }
       } catch (error) {
