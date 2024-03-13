@@ -117,6 +117,14 @@ export const useDocumentList = (
   });
 };
 
+// export const useUpdatePrompt = () => {
+//   return useMutation({
+//     mutationFn: () => saveDoc({
+
+//     }),
+//   });
+// };
+
 export const useUpdateCitation = () => {
   const updateCitationItem = useCitation((state) => state.updateCitationItem);
   return useMutation({

@@ -24,6 +24,7 @@ const initialState: AIEditorState = {
   disableContinue: false,
   continueInsertPos: null,
   floatingMenuPos: null,
+  essay_prompt: null,
 };
 
 type AIEditorState = {
@@ -46,6 +47,7 @@ type AIEditorState = {
   disableContinue: boolean;
   continueInsertPos: number | null;
   floatingMenuPos: { top: number; left: number } | null;
+  essay_prompt: string | null;
 };
 
 type AIEditorAction = {
@@ -70,10 +72,16 @@ type AIEditorAction = {
   clearContinueRes: () => void;
   updateInsertPos: (result: number) => void;
   updateShowBubbleMenu: (result: AIEditorState['showBubbleMenu']) => void;
+  updateEssayPrompt: (result: AIEditorState['essay_prompt']) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   ...initialState,
+  updateEssayPrompt(result) {
+    set(() => ({
+      essay_prompt: result,
+    }));
+  },
   updatePlagiarismResult: (result) =>
     set(() => ({
       plagiarismResult: result,

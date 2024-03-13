@@ -1,18 +1,21 @@
 import { Cloud, Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
+import { Popover, PopoverTrigger } from '@/components/ui/popover';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMembershipInfo, useUserTrackInfo } from '@/query/query';
 import { useAIEditor } from '@/zustand/store';
-import { ChevronLeft, Loader } from 'lucide-react';
+import { ChevronLeft, Loader, PencilLine } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
 import Plagiarism from './Plagiarism';
-import PromptView from './Prompt';
+
+const PromptView = dynamic(() => import('./Prompt'));
+const PromptViewModal = dynamic(() => import('../modal/Prompt'));
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
 
-const DocNavbar = ({ id }: { id: string }) => {
+const DocNavbar = ({ prompt }: { prompt: string }) => {
   const isSaving = useAIEditor((state) => state.isSaving);
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const docTtile = useAIEditor((state) => state.doc_title);
@@ -26,8 +29,10 @@ const DocNavbar = ({ id }: { id: string }) => {
         <Skeleton className='h-5 w-24 rounded' />
       </nav>
     );
+
   return (
     <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-shadow-border px-5 py-3'>
+      {!Boolean(prompt) && <PromptViewModal prompt={prompt} />}
       <div className='flex h-full items-center gap-x-4'>
         {track?.guidence && (
           <Link passHref href={'/editor'}>
@@ -44,7 +49,18 @@ const DocNavbar = ({ id }: { id: string }) => {
               : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
-        <PromptView id={id} />
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              role='button'
+              className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
+            >
+              <PencilLine size={18} className='text-doc-primary' />
+              <p className='small-regular text-doc-primary'>Essay Prompt</p>
+            </Button>
+          </PopoverTrigger>
+          <PromptView prompt={prompt} />
+        </Popover>
       </div>
       <div className='flex items-center gap-x-4'>
         <Plagiarism />
