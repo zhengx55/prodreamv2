@@ -117,5 +117,28 @@
       "Privacy": "Privacy Policy"
     },
     "ForgotPassword": {}
+  },
+  "Onboard": {
+    "Title": "Welcome to ProDream",
+    "SkipButton": "Skip for now",
+    "SubTitle": "We're thrilled to have you on board. To get started, please tell us your name.",
+    "FormName": "Name",
+    "FormCode": "Invitation Code",
+    "Option": "*Optional: leave blank if you don't have an invitation code.",
+    "Button": "Next",
+    "Education": {
+      "Title": "Which of the following best describes your current educational or professional stage",
+      "Option1": "Undergrad & High School",
+      "Option1Description": "High school students and bachelor's degree candidates",
+      "Option2Description": "Postgraduate and MBA students,  advanced certification professionals",
+      "Option3Description": "Doctoral candidates, academic researchers, post-doctoral fellows",
+      "Option2": "Masters or MBA",
+      "Option3": "PhD & Researcher"
+    },
+    "Language": {
+      "Title": "Could you share if English is your native language or if you're studying in English as a second language? Your response will help us ensure our services best fit your linguistic background and learning needs",
+      "Option1": "English native speaker",
+      "Option2": "International student"
+    }
   }
 }

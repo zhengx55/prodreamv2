@@ -118,5 +118,28 @@
       "Privacy": "《ProDream隐私政策》"
     },
     "ForgotPassword": {}
+  },
+  "Onboard": {
+    "Title": "欢迎加入ProDream",
+    "SkipButton": "跳过",
+    "SubTitle": "首先，让我们认识一下吧！请告诉我你的名字",
+    "FormName": "姓名",
+    "FormCode": "邀请码",
+    "Option": "**邀请码为选填项，没有可以不填",
+    "Button": "下一步",
+    "Education": {
+      "Title": "您目前处于哪个学生阶段？了解这一信息我们可以更好地满足您的写作需求",
+      "Option1": "本科及以下",
+      "Option1Description": "高中生、本科生和专科生",
+      "Option2Description": "研究生（含MBA）与专业学位在读 （医学、法学等",
+      "Option3Description": "博士生、教师和科研从业人员",
+      "Option2": "研究生或MBA",
+      "Option3": "博士及科研人员"
+    },
+    "Language": {
+      "Title": "英语是你的母语吗？我们将根据你的语言背景和学习需求为你提供最合适的服务",
+      "Option1": "英语母语者",
+      "Option2": "非英语母语者"
+    }
   }
 }

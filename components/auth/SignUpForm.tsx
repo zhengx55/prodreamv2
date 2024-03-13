@@ -12,9 +12,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { SampleEssay } from '@/constant/enum';
 import { signUpSchema } from '@/lib/validation';
-import { createDoc, userLogin, userSignUp } from '@/query/api';
+import { userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
 import { AuthPageDicType } from '@/types';
 import { useMutation } from '@tanstack/react-query';
@@ -36,7 +35,6 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      first_name: '',
       password: '',
       email: '',
     },
@@ -60,13 +58,14 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
             path: '/',
             maxAge: 604800,
             secure: true,
+            sameSite: 'lax',
           });
-          const new_doc_id = await createDoc(
-            SampleEssay.TEXT,
-            SampleEssay.TITLE
-          );
-
-          router.push(`/editor/${new_doc_id}`);
+          // const new_doc_id = await createDoc(
+          //   SampleEssay.TEXT,
+          //   SampleEssay.TITLE
+          // );
+          // router.push(`/editor/${new_doc_id}`);
+          router.push(`/${lang}/onboard`);
         } catch (error) {
           router.push('/editor');
         }
@@ -79,7 +78,6 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   );
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     await handleSignup({
-      first_name: '',
       email: values.email,
       password: values.password,
       is_mobile: isMobile,
@@ -103,7 +101,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
                   type='email'
                   id='username'
                   placeholder={t.FormEmail}
-                  className='h-12 rounded-md border'
+                  className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
               </FormControl>
@@ -135,7 +133,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
                   placeholder={t.FormPassword}
-                  className='h-12 rounded-md border'
+                  className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
               </FormControl>

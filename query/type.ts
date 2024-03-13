@@ -20,7 +20,7 @@ export interface LoginData {
 
 export interface ISigunUpRequest {
   email: string;
-  first_name: string;
+  first_name?: string;
   referral?: string;
   last_name?: string;
   password: string;

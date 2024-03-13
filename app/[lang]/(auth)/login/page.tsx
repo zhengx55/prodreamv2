@@ -22,11 +22,11 @@ export default async function Page({
 
   return (
     <Panel lang={lang}>
-      <div className='flex w-full flex-col sm:w-[600px]'>
+      <div className='flex w-full flex-col sm:w-[500px]'>
         {lang === 'en' && (
           <>
             <Spacer y='120' className='block md:hidden' />
-            <GoogleSignin label='Sign in with Google' />
+            <GoogleSignin lang={lang} label='Sign in with Google' />
             <div className='flex-center relative my-10'>
               <Separator
                 orientation='horizontal'

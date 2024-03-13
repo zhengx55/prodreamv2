@@ -230,6 +230,7 @@ export const useUserLogin = () => {
         path: '/',
         maxAge: 604800,
         secure: true,
+        sameSite: 'lax',
       });
       router.push('/editor');
     },

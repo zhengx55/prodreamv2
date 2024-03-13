@@ -11,7 +11,7 @@ const SwitchTab = ({ lang }: { lang: Locale }) => {
   const isSignup = path.includes('signup');
   const isLogin = path.includes('login');
   return (
-    <div className='flex items-center gap-x-6 sm:w-[600px]'>
+    <div className='flex w-full items-center gap-x-6 sm:w-[500px]'>
       <Button
         role='link'
         disabled={isLogin}

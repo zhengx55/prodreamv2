@@ -2,7 +2,6 @@ import Spacer from '@/components/root/Spacer';
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 
 export default async function AuthLayout({
@@ -17,9 +16,9 @@ export default async function AuthLayout({
     `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/utils/ip_country`
   );
   const ip_data = (await ip.json()).data;
-  if (ip_data === 'China' && lang !== 'cn') {
-    redirect('/cn/login');
-  }
+  // if (ip_data === 'China' && lang !== 'cn') {
+  //   redirect('/cn/login');
+  // }
   return (
     <div className='relative flex h-full w-full overflow-auto sm:flex-row'>
       {children}
