@@ -3,7 +3,6 @@ import Progress from '@/components/onboard/Progress';
 import Spacer from '@/components/root/Spacer';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
-import Link from 'next/link';
 import { v4 } from 'uuid';
 
 export default async function Page({
@@ -26,11 +25,7 @@ export default async function Page({
         {Array(2)
           .fill(null)
           .map((_, index) => {
-            return (
-              <Link passHref href={`/${lang}/onboard/language`} key={v4()}>
-                <LanguageOptions index={index} dict={dict} />
-              </Link>
-            );
+            return <LanguageOptions key={v4()} index={index} dict={dict} />;
           })}
       </div>
       <Spacer y='70' />

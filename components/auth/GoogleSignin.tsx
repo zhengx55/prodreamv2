@@ -1,6 +1,6 @@
 'use client';
-import { SampleEssay } from '@/constant/enum';
-import { createDoc, getUserInfo, googleLogin } from '@/query/api';
+import { Locale } from '@/i18n-config';
+import { getUserInfo, googleLogin, refreshUserSession } from '@/query/api';
 import { useGoogleLogin } from '@react-oauth/google';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -8,7 +8,7 @@ import { usePostHog } from 'posthog-js/react';
 import { memo } from 'react';
 import { useCookies } from 'react-cookie';
 
-const GoogleSignin = ({ label }: { label: string }) => {
+const GoogleSignin = ({ label, lang }: { label: string; lang: Locale }) => {
   const posthog = usePostHog();
   const [_cookies, setCookie] = useCookies(['token']);
   const router = useRouter();
@@ -23,6 +23,7 @@ const GoogleSignin = ({ label }: { label: string }) => {
           secure: true,
           sameSite: 'lax',
         });
+
         const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
           .subject.user_id;
         posthog.identify(user_id);
@@ -30,11 +31,13 @@ const GoogleSignin = ({ label }: { label: string }) => {
         if (Boolean(user_track)) {
           router.push('/editor');
         } else {
-          const new_doc_id = await createDoc(
-            SampleEssay.TEXT,
-            SampleEssay.TITLE
-          );
-          router.push(`/editor/${new_doc_id}`);
+          const name = (await refreshUserSession()).first_name;
+          // const new_doc_id = await createDoc(
+          //   SampleEssay.TEXT,
+          //   SampleEssay.TITLE
+          // );
+          // router.push(`/editor/${new_doc_id}`);
+          router.push(`/${lang}/onboard?name=${name}`);
         }
       } catch (error) {
         const toast = (await import('sonner')).toast;
@@ -46,13 +49,10 @@ const GoogleSignin = ({ label }: { label: string }) => {
       toast.error(errorResponse.error);
     },
   });
-  const login = () => {
-    googleAuth();
-  };
 
   return (
     <button
-      onClick={login}
+      onClick={() => googleAuth()}
       className='flex-center w-full cursor-pointer gap-x-2 self-center rounded border border-shadow-border py-4 transition-transform hover:-translate-y-1'
     >
       <Image

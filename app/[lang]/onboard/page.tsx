@@ -9,9 +9,12 @@ import { redirect } from 'next/navigation';
 
 export default async function Page({
   params: { lang },
+  searchParams: { name },
 }: {
   params: { lang: Locale };
+  searchParams: { name?: string };
 }) {
+  console.log(name);
   const dict = await getDictionary(lang);
   const token = cookies().get('token')?.value;
   async function updateInfo(formData: FormData) {
@@ -44,6 +47,7 @@ export default async function Page({
         <Input
           id='name'
           required
+          defaultValue={name ?? ''}
           name='first_name'
           aria-placeholder='name'
           className='title-regular h-14'

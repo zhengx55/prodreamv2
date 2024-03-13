@@ -26,7 +26,7 @@ export default async function Page({
         {lang === 'en' && (
           <>
             <Spacer y='120' className='block md:hidden' />
-            <GoogleSignin label='Sign in with Google' />
+            <GoogleSignin lang={lang} label='Sign in with Google' />
             <div className='flex-center relative my-10'>
               <Separator
                 orientation='horizontal'
