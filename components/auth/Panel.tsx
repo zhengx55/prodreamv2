@@ -28,7 +28,7 @@ const Panel = ({ children, lang }: { children: ReactNode; lang?: Locale }) => {
       )}
       {children}
       {lang === 'cn' ? (
-        <p className='subtle-regular md:base-regular mb-10 mt-auto cursor-pointer text-neutral-400 md:mb-0 md:mt-10'>
+        <p className='subtle-regular md:small-regular mb-10 mt-auto w-full cursor-pointer text-neutral-400 md:mb-0 md:mt-10 md:w-[600px]'>
           注册登录即代表同意{' '}
           <Link
             target='_blank'
@@ -50,7 +50,7 @@ const Panel = ({ children, lang }: { children: ReactNode; lang?: Locale }) => {
           </Link>
         </p>
       ) : (
-        <p className='subtle-regular md:base-regular mb-10 mt-auto cursor-pointer text-neutral-400 md:mb-0 md:mt-10'>
+        <p className='subtle-regular md:small-regular mb-10 mt-auto w-full cursor-pointer text-neutral-400 md:mb-0 md:mt-10 md:w-[600px]'>
           By Continuing, you agree to&nbsp;Applify AI&apos;s&nbsp;
           <Link
             target='_blank'
