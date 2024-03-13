@@ -6,7 +6,7 @@ import Image from 'next/image';
 type Props = {
   index: number;
   dict: Awaited<ReturnType<typeof getDictionary>>;
-  onClick: (index: number) => Promise<void>;
+  onClick: (index: number) => Promise<{ message: string } | undefined>;
 };
 const EducationOption = ({ index, dict, onClick }: Props) => {
   return (

@@ -20,33 +20,40 @@ export default async function Page({
     'use server';
     const formData = new FormData();
     formData.append('language_background', languange_info[index]);
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/language_background`,
-      {
-        method: 'PUT',
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (res.status === 200) {
-      const docData = new FormData();
-      docData.append('content', SampleEssay.TITLE);
-      docData.append('title', SampleEssay.TEXT);
+    try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/language_background`,
         {
-          method: 'POST',
+          method: 'PUT',
           body: formData,
           headers: {
             Authorization: `Bearer ${token}`,
-            contentType: 'multipart/form-data',
           },
         }
       );
-      const new_doc_id = (await res.json()).data;
-      redirect(`/editor/${new_doc_id}`);
+      if (res.status === 200) {
+        const docData = new FormData();
+        docData.append('content', SampleEssay.TITLE);
+        docData.append('title', SampleEssay.TEXT);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document`,
+          {
+            method: 'POST',
+            body: formData,
+            headers: {
+              Authorization: `Bearer ${token}`,
+              contentType: 'multipart/form-data',
+            },
+          }
+        );
+        const new_doc_id = (await res.json()).data;
+        redirect(`/editor/${new_doc_id}`);
+      }
+    } catch (error) {
+      return {
+        message:
+          'An error occurred while setting language info. Please try again.',
+      };
     }
   }
   return (
