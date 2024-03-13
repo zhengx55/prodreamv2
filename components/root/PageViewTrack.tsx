@@ -12,24 +12,33 @@ const PageViewTrack = ({ no_route_event }: { no_route_event?: string }) => {
   const firstCallDone = useRef(false);
 
   useEffect(() => {
-    const callApi = async () => {
-      let traffic_source: string | undefined;
-      const page_name = no_route_event
-        ? no_route_event
-        : pathname.split('/').pop() === 'en'
-          ? 'landingpage-en'
-          : 'landingpage-cn';
+    const getPageName = () => {
+      if (no_route_event) return no_route_event;
 
+      const lastPathSegment = pathname.split('/').pop();
+      switch (lastPathSegment) {
+        case 'en':
+          return 'landingpage-en';
+        case 'cn':
+          return 'landingpage-cn';
+        default:
+          return lastPathSegment;
+      }
+    };
+
+    const getTrafficSource = () => {
+      if (fromParam) return fromParam;
+      if (document.referrer.includes('google')) return 'google';
+      if (document.referrer.includes('baidu')) return 'baidu';
+      return undefined;
+    };
+
+    const callApi = async () => {
+      const page_name = getPageName();
+      if (!page_name) return;
+      let traffic_source: string | undefined;
       if (['landingpage-en', 'landingpage-cn', 'signup'].includes(page_name)) {
-        if (fromParam) {
-          traffic_source = fromParam;
-        } else {
-          traffic_source = document.referrer.includes('google')
-            ? 'google'
-            : document.referrer.includes('baidu')
-              ? 'baidu'
-              : undefined;
-        }
+        traffic_source = getTrafficSource();
       }
       const delay_param = delay ? (delay / 1000).toString() : '0';
       await PageTrack(page_name, delay_param, isMobile ? 1 : 0, traffic_source);
@@ -40,6 +49,7 @@ const PageViewTrack = ({ no_route_event }: { no_route_event?: string }) => {
         setDelay((prevDelay) => (prevDelay < 16000 ? prevDelay * 2 : 16000));
       }
     };
+
     if (delay === 0) {
       callApi();
     } else {
