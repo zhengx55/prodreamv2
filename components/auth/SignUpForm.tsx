@@ -60,11 +60,6 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
             secure: true,
             sameSite: 'lax',
           });
-          // const new_doc_id = await createDoc(
-          //   SampleEssay.TEXT,
-          //   SampleEssay.TITLE
-          // );
-          // router.push(`/editor/${new_doc_id}`);
           router.push(`/${lang}/onboard`);
         } catch (error) {
           router.push('/editor');
