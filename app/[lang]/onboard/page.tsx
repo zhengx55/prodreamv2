@@ -43,6 +43,7 @@ export default async function Page({
           },
         }
       );
+      // console.log(await code_res.json());
     }
     redirect(`/${lang}/onboard/education`);
   }

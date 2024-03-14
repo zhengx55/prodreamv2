@@ -80,11 +80,11 @@ export type IDocDetail = {
 
 export interface ICitation {
   abstract: string;
-  contributors?: Author[];
+  contributors: Author[];
   advanced_info: AdvancedInfo;
   area: string[];
   article_title: string;
-  authors: Author[];
+  authors?: Author[];
   citation_count: number;
   doi: null;
   publisher: string;
