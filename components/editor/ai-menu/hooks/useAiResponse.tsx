@@ -19,7 +19,7 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
       setGenerating(true);
       setShowTyping(true);
     },
-    onSuccess: async (data: ReadableStream, variables) => {
+    onSuccess: async (data: ReadableStream) => {
       if (membership?.subscription === 'basic')
         queryClient.invalidateQueries({ queryKey: ['membership'] });
       tool.current = 'humanize';
@@ -42,7 +42,11 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
   });
 
   const { mutateAsync: handleCopilot } = useMutation({
-    mutationFn: (params: { tool: string; text: string }) => copilot(params),
+    mutationFn: (params: {
+      tool: string;
+      text: string;
+      writing_goal?: string;
+    }) => copilot(params),
     onMutate: () => {
       setGenerating(true);
       setShowTyping(true);
@@ -71,7 +75,11 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
   });
 
   const { mutateAsync: handleAsk } = useMutation({
-    mutationFn: (params: { instruction: string; text: string }) => ask(params),
+    mutationFn: (params: {
+      instruction: string;
+      text: string;
+      writing_goal?: string;
+    }) => ask(params),
     onMutate: () => {
       setGenerating(true);
       setShowTyping(true);

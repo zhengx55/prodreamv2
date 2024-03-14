@@ -3,6 +3,7 @@ import Spacer from '@/components/root/Spacer';
 import { Copilot } from '@/components/root/SvgComponents';
 import { Separator } from '@/components/ui/separator';
 import { Surface } from '@/components/ui/surface';
+import { word_regex } from '@/constant';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import {
@@ -39,6 +40,8 @@ const AiMenu = ({ editor }: Props) => {
   const { data: usage } = useMembershipInfo();
   const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
   const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
+  const essay_prompt = useAIEditor((state) => state.essay_prompt);
+
   const promptRef = useRef<HTMLInputElement>(null);
   const tool = useRef<string | null>(null);
   const ref = useScrollIntoView();
@@ -66,7 +69,7 @@ const AiMenu = ({ editor }: Props) => {
   const handleEditTools = async (tool: string) => {
     const toast = (await import('sonner')).toast;
     const selectedText = getSelectedText(editor);
-    const words = selectedText.match(/\b\w+\b/g);
+    const words = selectedText.match(word_regex);
     if ((words?.length ?? 0) > 500) {
       return toast.warning('Selected text should not exceed 500 words');
     }
@@ -81,7 +84,11 @@ const AiMenu = ({ editor }: Props) => {
       await handleHumanize({ text: selectedText });
       return;
     }
-    await handleCopilot({ tool, text: selectedText });
+    await handleCopilot({
+      tool,
+      text: selectedText,
+      writing_goal: essay_prompt,
+    });
   };
 
   useEffect(() => {
@@ -100,7 +107,7 @@ const AiMenu = ({ editor }: Props) => {
   const handleCustomPrompt = useCallback(async () => {
     const toast = (await import('sonner')).toast;
     const selectedText = getSelectedText(editor);
-    const words = selectedText.match(/\b\w+\b/g);
+    const words = selectedText.match(word_regex);
     if ((words?.length ?? 0) > 500) {
       return toast.warning('Selected text should not exceed 500 words');
     }
@@ -110,6 +117,7 @@ const AiMenu = ({ editor }: Props) => {
     await handleAsk({
       instruction: promptRef.current?.value!,
       text: selectedText,
+      writing_goal: essay_prompt,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);

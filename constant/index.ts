@@ -61,6 +61,7 @@ export const languange_info = ['english_native', 'international'];
 
 export const H1_regex = /^([^#]*#){1}[^#]*$/;
 export const H2_regex = /^[^#]*##([^#]|$)/;
+export const word_regex = /\b\w+\b/g;
 
 export const WelcomEducationOptions = [
   {

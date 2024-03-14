@@ -10,6 +10,7 @@ export const useCitationInfo = (document_content: IDocDetail | undefined) => {
   );
   const updateInDocCitation = useCitation((state) => state.updateInDocCitation);
   const updateTitle = useAIEditor((state) => state.updateTitle);
+  const updateEssayPrompt = useAIEditor((state) => state.updateEssayPrompt);
 
   useEffect(() => {
     async function fetchInText(id_array: string[]) {
@@ -31,9 +32,14 @@ export const useCitationInfo = (document_content: IDocDetail | undefined) => {
       updateInDocCitation(parsed, id_array);
     }
     if (document_content) {
-      const { in_text_citations, citation_candidates, title } =
-        document_content;
+      const {
+        in_text_citations,
+        citation_candidates,
+        title,
+        brief_description,
+      } = document_content;
       updateTitle(title);
+      updateEssayPrompt(brief_description ?? '');
       if (in_text_citations.length > 0) {
         fetchInText(document_content.in_text_citations);
       } else {

@@ -24,7 +24,7 @@ const initialState: AIEditorState = {
   disableContinue: false,
   continueInsertPos: null,
   floatingMenuPos: null,
-  essay_prompt: null,
+  essay_prompt: '',
 };
 
 type AIEditorState = {
@@ -47,7 +47,7 @@ type AIEditorState = {
   disableContinue: boolean;
   continueInsertPos: number | null;
   floatingMenuPos: { top: number; left: number } | null;
-  essay_prompt: string | null;
+  essay_prompt: string;
 };
 
 type AIEditorAction = {
