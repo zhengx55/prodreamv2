@@ -122,7 +122,14 @@
       "AlreadyLogged": "Already a member?",
       "GoogleDivider": "Or log in with"
     },
-    "ForgotPassword": {}
+    "ForgotPassword": {
+      "Button": "Confirm Reset",
+      "FormEmail": "Enter the Email linked to Your Account",
+      "FormPassword": "Enter New Password",
+      "FormConfirm": "Confirm New Password",
+      "Verification": "Verification",
+      "VerificationBtn": "Send Verification"
+    }
   },
   "Onboard": {
     "Title": "Welcome to ProDream",
