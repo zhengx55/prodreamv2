@@ -398,6 +398,19 @@ export async function humanize(params: {
     throw new Error(error as string);
   }
 }
+
+export async function getIpAddress() {
+  try {
+    const ip = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/utils/ip_country`
+    );
+    const ip_data = (await ip.json()).data;
+    return ip_data === 'China';
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function ask(params: {
   instruction: string;
   text: string;

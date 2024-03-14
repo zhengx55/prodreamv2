@@ -1,20 +1,9 @@
 import Spacer from '@/components/root/Spacer';
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
+import { getIpAddress } from '@/query/api';
 import Image from 'next/image';
 import { ReactNode } from 'react';
-
-async function getIpAddress() {
-  try {
-    const ip = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/utils/ip_country`
-    );
-    const ip_data = (await ip.json()).data;
-    return ip_data === 'Canada';
-  } catch (error) {
-    return false;
-  }
-}
 
 export default async function AuthLayout({
   children,
