@@ -18,6 +18,9 @@ export default async function Page({
   const token = cookies().get('token')?.value;
   async function updateInfo(formData: FormData) {
     'use server';
+    const nameForm = new FormData();
+    const codeForm = new FormData();
+    nameForm.append('first_name', formData.get('first_name') as string);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/name`,
       {
@@ -28,9 +31,20 @@ export default async function Page({
         },
       }
     );
-    if (res.status === 200) {
-      redirect(`/${lang}/onboard/education`);
+    if (formData.get('code')) {
+      codeForm.append('referral_code', formData.get('code') as string);
+      const code_res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/referral_code`,
+        {
+          method: 'PUT',
+          body: codeForm,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
     }
+    redirect(`/${lang}/onboard/education`);
   }
 
   return (
