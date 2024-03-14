@@ -347,6 +347,7 @@ export async function verifyEmail(params: IVerifyEmail) {
 export async function copilot(params: {
   tool: string;
   text: string;
+  writing_goal?: string;
 }): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
@@ -356,6 +357,7 @@ export async function copilot(params: {
         method: 'POST',
         body: JSON.stringify({
           text: params.text,
+          writing_goal: params.writing_goal,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -399,6 +401,7 @@ export async function humanize(params: {
 export async function ask(params: {
   instruction: string;
   text: string;
+  writing_goal?: string;
 }): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
@@ -409,6 +412,7 @@ export async function ask(params: {
         body: JSON.stringify({
           text: params.text,
           instruction: params.instruction,
+          writing_goal: params.writing_goal,
         }),
         headers: {
           'Content-Type': 'application/json',

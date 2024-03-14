@@ -1,21 +1,20 @@
 import { Cloud, Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
-import { Popover, PopoverTrigger } from '@/components/ui/popover';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMembershipInfo, useUserTrackInfo } from '@/query/query';
 import { useAIEditor } from '@/zustand/store';
-import { ChevronLeft, Loader, PencilLine } from 'lucide-react';
+import { ChevronLeft, Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
 import Plagiarism from './Plagiarism';
+import Prompt from './Prompt';
 
-const PromptView = dynamic(() => import('./Prompt'));
 const PromptViewModal = dynamic(() => import('../modal/Prompt'));
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
 
-const DocNavbar = ({ prompt }: { prompt: string }) => {
+const DocNavbar = () => {
   const isSaving = useAIEditor((state) => state.isSaving);
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const docTtile = useAIEditor((state) => state.doc_title);
@@ -49,18 +48,7 @@ const DocNavbar = ({ prompt }: { prompt: string }) => {
               : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              role='button'
-              className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
-            >
-              <PencilLine size={18} className='text-doc-primary' />
-              <p className='small-regular text-doc-primary'>Essay Prompt</p>
-            </Button>
-          </PopoverTrigger>
-          <PromptView prompt={prompt} />
-        </Popover>
+        <Prompt />
       </div>
       <div className='flex items-center gap-x-4'>
         <Plagiarism />
