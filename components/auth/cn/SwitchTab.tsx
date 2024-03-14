@@ -3,9 +3,8 @@
 import { Locale } from '@/i18n-config';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 
-type Props = {};
 const SwitchTab = ({ lang }: { lang: Locale }) => {
   const path = usePathname();
   const isSignup = path.includes('signup');
