@@ -25,21 +25,22 @@ const CitationPreview = ({ item }: Props) => {
               ))}
             </div>
           )}
-          {item.authors?.length > 0 && (
+          {item.contributors?.length > 0 && (
             <p className='subtle-regular text-shadow-100'>
               Authors:{' '}
-              {item.authors.map((author, idx) => {
+              {item.contributors.map((author, idx) => {
                 return (
                   <span key={`author-${idx}`}>
                     {author.last_name ?? ''}&nbsp;
                     {author.middle_name ?? ''}
                     {author.first_name ?? ''}
-                    {idx !== item.authors.length - 1 && ', '}
+                    {idx !== item.contributors.length - 1 && ', '}
                   </span>
                 );
               })}
             </p>
           )}
+
           {item.publish_date.year &&
             (item.publish_date.month && item.publish_date.month ? (
               <p className='subtle-regular text-shadow-100'>

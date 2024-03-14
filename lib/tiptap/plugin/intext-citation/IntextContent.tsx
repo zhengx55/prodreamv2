@@ -1,24 +1,33 @@
 'use client';
 import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import {
   Popover,
+  PopoverClose,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
 import useAIEditor, { useCitation } from '@/zustand/store';
-import { PopoverClose } from '@radix-ui/react-popover';
 import type { NodeViewProps } from '@tiptap/react';
 import { Trash2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
 
+const CitationPreview = dynamic(
+  () => import('@/components/editor/rightbar/citation/CitationPreview'),
+  {
+    ssr: false,
+  }
+);
 const IntextContent = (props: NodeViewProps) => {
-  const citation_style = useCitation((state) => state.citationStyle);
-  const updateCurrentInline = useCitation((state) => state.updateCurrentInline);
-  const inTextCitation = useCitation((state) => state.inTextCitation);
-  const updateShowEditCitation = useCitation(
-    (state) => state.updateShowEditCitation
-  );
+  const {
+    citationStyle,
+    updateCurrentInline,
+    inTextCitation,
+    updateShowEditCitation,
+  } = useCitation((state) => ({ ...state }));
+
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const current_citation = useMemo(() => {
     const foundCitation = inTextCitation.find(
@@ -39,7 +48,7 @@ const IntextContent = (props: NodeViewProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        {citation_style === 'APA' ? (
+        {citationStyle === 'APA' ? (
           <p className='!m-0 text-doc-primary'>
             (
             {props.node.attrs.show_author && (
@@ -67,7 +76,14 @@ const IntextContent = (props: NodeViewProps) => {
         align='start'
         className='flex w-[420px] flex-col gap-y-2 rounded border border-shadow-border bg-white p-3'
       >
-        <h1 className='base-medium'>{title}&nbsp;</h1>
+        <Dialog>
+          <DialogTrigger asChild>
+            <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+              {title}
+            </h1>
+          </DialogTrigger>
+          <CitationPreview item={current_citation as any} />
+        </Dialog>
         <p className='subtle-regular text-doc-font'>
           Year: {current_citation?.publish_date?.year}
         </p>
@@ -152,4 +168,5 @@ const MLAAuhors = ({
     contributors[0].last_name + ' et al.'
   ) : null;
 };
+
 export default IntextContent;

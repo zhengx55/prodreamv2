@@ -42,7 +42,13 @@ const SearchList = () => {
   });
 
   useEffect(() => {
-    if (citationResult) setSearchResult(citationResult);
+    if (citationResult) {
+      let filter_result = citationResult.map((article) => {
+        const { authors = [], ...rest } = article;
+        return { ...rest, contributors: authors };
+      });
+      setSearchResult(filter_result);
+    }
   }, [citationResult]);
 
   return (

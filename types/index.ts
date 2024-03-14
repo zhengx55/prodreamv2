@@ -215,6 +215,11 @@ export type ISubscription = {
   subscription_type: string;
 };
 
+export type IDisucount = {
+  discount: string | null;
+  expire_at: number | null;
+};
+
 type FreeTimesDetail = {
   Copilot: number | null;
   Generate: number | null;

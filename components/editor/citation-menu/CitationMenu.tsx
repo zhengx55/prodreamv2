@@ -21,9 +21,8 @@ import { v4 } from 'uuid';
 type Props = { editor: Editor };
 
 const CitationMenu = ({ editor }: Props) => {
-  const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
-  const updateCitationMenu = useAIEditor((state) => state.updateCitationMenu);
-  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+  const { floatingMenuPos, updateCitationMenu, updateRightbarTab } =
+    useAIEditor((state) => ({ ...state }));
   const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
@@ -85,7 +84,7 @@ const CitationMenu = ({ editor }: Props) => {
                 >
                   <h1 className='base-semibold'>{item.article_title}</h1>
                   <div className='small-regular flex flex-wrap items-center gap-x-2 text-doc-shadow'>
-                    {item.authors.map((author, idx) => (
+                    {item.contributors.map((author, idx) => (
                       <p key={`${index}-${idx}`}>
                         {author.first_name} {author.middle_name}
                         {author.last_name}

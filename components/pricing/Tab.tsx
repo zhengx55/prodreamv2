@@ -24,7 +24,7 @@ const Tab = ({ membership }: Props) => {
       defaultValue='Annually'
       className='flex w-full flex-col justify-center gap-y-4'
     >
-      <TabsList className='h-10 w-max gap-x-2 self-center rounded-full bg-[#EDE5FA] p-1'>
+      <TabsList className='h-10 w-max gap-x-2 self-center rounded-full bg-violet-100 p-1'>
         <TabsTrigger
           className='gap-x-1 rounded-full px-7 text-doc-primary data-[state=active]:bg-white'
           value='Annually'
