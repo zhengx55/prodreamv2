@@ -26,7 +26,6 @@ export default async function WrittingpalLayout({
           </div>
         </DeviceProvider>
       </main>
-
       <div className='flex flex-1 flex-col items-center bg-[#F6F4FF] md:hidden'>
         <div className='relative h-[70%] w-full overflow-hidden'>
           <Image
