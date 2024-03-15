@@ -1,5 +1,5 @@
+import Navbar from '@/components/onboard/Navbar';
 import Spacer from '@/components/root/Spacer';
-import { Button } from '@/components/ui/button';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
 import Image from 'next/image';
@@ -16,19 +16,7 @@ export default async function OnboardLayout({
   return (
     <>
       <main className='relative hidden h-full w-full flex-col overflow-auto sm:flex'>
-        <nav className='flex-between h-20 w-full shrink-0 bg-doc-secondary px-4'>
-          <Image
-            src='/logo/Prodream.png'
-            width={140}
-            height={30}
-            alt='logo'
-            className='h-auto w-40'
-            priority
-          />
-          <Button className='bg-transparent' variant={'ghost'}>
-            {dict.Onboard.SkipButton}
-          </Button>
-        </nav>
+        <Navbar dict={dict} />
         {children}
       </main>
       <div className='flex flex-1 flex-col items-center bg-[#F6F4FF] sm:hidden'>
