@@ -119,7 +119,7 @@ export const GrammarCheck = memo(() => {
             className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-shadow-border px-4 py-4'
           >
             <Image
-              src='/Grammar.png'
+              src='/editor/Grammar.png'
               alt='grammar check'
               width={450}
               height={270}

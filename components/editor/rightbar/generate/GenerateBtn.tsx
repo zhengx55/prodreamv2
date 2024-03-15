@@ -21,7 +21,7 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
       <Spacer y='30' />
       <div className='flex-center h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-shadow-border px-4 py-4'>
         <Image
-          src='/Generate.png'
+          src='/editor/Generate.png'
           alt='generate-img'
           priority
           width={210}

@@ -17,7 +17,7 @@ const Empty = ({ show }: { show: boolean }) => {
         >
           <Image
             alt='citation'
-            src='/Citation.png'
+            src='/editor/Citation.png'
             width={300}
             height={200}
             className='h-auto w-3/5'
