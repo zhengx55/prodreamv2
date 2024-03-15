@@ -44,6 +44,7 @@ const Modal = ({ children }: { children: ReactNode }) => {
                 src='/review/Submission.png'
                 width={162}
                 height={162}
+                className='h-auto w-40'
               />
               <p className='h-[55px] w-[321px] text-center text-base font-light leading-7 text-zinc-600'>
                 Provide your essay details for quick access to professional
@@ -66,6 +67,7 @@ const Modal = ({ children }: { children: ReactNode }) => {
                 src='/review/free.png'
                 width={162}
                 height={162}
+                className='h-auto w-40'
               />
 
               <p className='h-[55px] w-[321px] text-center text-base font-light leading-7 text-zinc-600'>

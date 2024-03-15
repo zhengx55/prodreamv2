@@ -1,10 +1,12 @@
-import Modal from '@/components/review/Modal';
 import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { ReviewReasons, ReviewSteps } from '@/constant';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { v4 } from 'uuid';
+
+const Modal = dynamic(() => import('@/components/review/Modal'));
 
 export default function Page() {
   return (
