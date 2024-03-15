@@ -4,6 +4,7 @@ import { getDictionary } from '@/lib/get-dictionary';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Button } from '../ui/button';
+import { toDocument } from './_action';
 
 type Props = {
   dict: Awaited<ReturnType<typeof getDictionary>>;
@@ -22,7 +23,12 @@ const Navbar = ({ dict }: Props) => {
         priority
       />
       {!isBaseOnboard && (
-        <Button className='bg-transparent' variant={'ghost'}>
+        <Button
+          role='link'
+          onClick={async () => await toDocument()}
+          className='bg-transparent'
+          variant={'ghost'}
+        >
           {dict.Onboard.SkipButton}
         </Button>
       )}

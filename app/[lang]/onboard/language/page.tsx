@@ -40,7 +40,7 @@ export default async function Page({
           `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document`,
           {
             method: 'POST',
-            body: formData,
+            body: docData,
             headers: {
               Authorization: `Bearer ${token}`,
               contentType: 'multipart/form-data',
