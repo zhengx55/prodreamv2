@@ -2,31 +2,17 @@ export const SidebarLinks = [
   {
     id: 'sidebar-01',
     title: 'AI Editor',
-    image: '/polish.svg',
-    active_image: '/polish_active.svg',
+    image: '/nav/polish.svg',
+    active_image: '/nav/polish_active.svg',
     link: '/editor',
   },
-  // {
-  //   id: 'sidebar-02',
-  //   title: 'Brainstorm',
-  //   image: '/templates.svg',
-  //   active_image: '/templates_active.svg',
-  //   link: '/writtingpal/brainstorm',
-  // },
-  // {
-  //   id: 'sidebar-03',
-  //   title: 'Resume',
-  //   image: '/resume.svg',
-  //   active_image: '/resume_active.svg',
-  //   link: '/writtingpal/resume',
-  // },
-  // {
-  //   id: 'sidebar-04',
-  //   title: 'Activity List',
-  //   image: '/activity.svg',
-  //   active_image: '/activity_active.svg',
-  //   link: '/writtingpal/activityList',
-  // },
+  {
+    id: 'sidebar-02',
+    title: 'Essay Review',
+    image: '/nav/review.svg',
+    active_image: '/nav/review_active.svg',
+    link: '/essay-review',
+  },
 ];
 
 export const contributorAnimation = {

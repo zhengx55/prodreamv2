@@ -52,7 +52,7 @@ const DocNavbar = () => {
       </div>
       <div className='flex items-center gap-x-4'>
         <Plagiarism />
-        {usage?.subscription === 'basic' ? (
+        {['basic', 'free_trail'].includes(usage?.subscription ?? '') ? (
           <Button
             role='button'
             onClick={() => updatePaymentModal(true)}

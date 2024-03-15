@@ -1,7 +1,8 @@
 import { memo } from 'react';
+import DiscountCountdown from './DiscountCountdown';
 
-type Props = {};
-const DiscountBanner = (props: Props) => {
+type Props = { time: number };
+const DiscountBanner = ({ time }: Props) => {
   return (
     <div className='flex h-6 w-full'>
       <span className='flex-center h-full w-1/5 rounded-l bg-doc-primary'>
@@ -9,7 +10,7 @@ const DiscountBanner = (props: Props) => {
       </span>
       <span className='flex-between w-4/5 rounded-r bg-violet-100 px-2'>
         <p className='subtle-regular text-doc-primary'>Discount</p>
-        <p className='subtle-regular text-doc-primary'>20:58:00</p>
+        <DiscountCountdown timestamp={time} />
       </span>
     </div>
   );

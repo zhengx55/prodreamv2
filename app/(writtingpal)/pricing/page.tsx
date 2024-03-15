@@ -1,6 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import { Diamond } from '@/components/root/SvgComponents';
-import { IDisucount, ISubscription } from '@/types';
+import { IDiscount, ISubscription } from '@/types';
 import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 
@@ -38,7 +38,7 @@ async function getDiscountInfo() {
 
 export default async function Page() {
   const membership: ISubscription = await getBalance();
-  const discount_info: IDisucount = await getDiscountInfo();
+  const discount_info: IDiscount = await getDiscountInfo();
   return (
     <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
       <div className='flex-center absolute top-0 h-10 w-full gap-x-2 bg-zinc-700'>
@@ -54,7 +54,7 @@ export default async function Page() {
         Select the perfect plan to enhance your academic writing journey
       </p>
       <Spacer y='10' />
-      <Tab membership={membership} />
+      <Tab membership={membership} discount={discount_info} />
       <Spacer y='100' />
     </main>
   );

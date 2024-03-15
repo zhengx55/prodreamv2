@@ -80,7 +80,12 @@ const FileUploadModal = () => {
           </div>
         )}
         <input {...getInputProps()} />
-        <Image alt='file-upload' src='/Essay.png' width={80} height={80} />
+        <Image
+          alt='file-upload'
+          src='/editor/Essay.png'
+          width={80}
+          height={80}
+        />
         <p className='small-semibold text-primary-200'>Click here to upload</p>
         <p className='subtle-regular text-shadow-100'>Or drag and drop here</p>
         <p className='small-regular'>Maximum file size: 1M</p>

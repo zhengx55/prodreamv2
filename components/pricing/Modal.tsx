@@ -4,7 +4,7 @@ import {
   PricingBasic,
   PricingUnlimited,
 } from '@/constant';
-import { useMembershipInfo } from '@/query/query';
+import { useDiscountInfo, useMembershipInfo } from '@/query/query';
 import { useAIEditor } from '@/zustand/store';
 import { X } from 'lucide-react';
 import { memo } from 'react';
@@ -16,6 +16,7 @@ import Card from './Card';
 
 const MembershipModal = () => {
   const { data } = useMembershipInfo();
+  const { data: discountInfo } = useDiscountInfo();
   const open = useAIEditor((state) => state.paymentModalOpen);
   const setOpen = useAIEditor((state) => state.updatePaymentModal);
   const isBasic =
@@ -66,7 +67,7 @@ const MembershipModal = () => {
                 Monthly
               </TabsTrigger>
             </TabsList>
-            <Spacer y='35' />
+            <Spacer y='15' />
             <TabsContent value='Annually'>
               <div className='flex w-full justify-center gap-x-10 py-4'>
                 <Card current={isBasic} basic={true} info={PricingBasic} />
@@ -74,6 +75,7 @@ const MembershipModal = () => {
                   current={isMonthly}
                   purchase_type='annualy'
                   info={PricingAnnualyUnlimited}
+                  discount={discountInfo}
                 />
               </div>
             </TabsContent>
@@ -84,12 +86,13 @@ const MembershipModal = () => {
                   current={isAnually}
                   purchase_type='monthly'
                   info={PricingUnlimited}
+                  discount={discountInfo}
                 />
               </div>
             </TabsContent>
           </Tabs>
         </div>
-        <Spacer y='20' />
+        <Spacer y='30' />
         <div className='absolute bottom-0 flex h-10 w-full items-center gap-x-2 rounded-b-lg bg-black-200 px-5'>
           <Diamond />
           <p className='subtle-regular text-white'>
