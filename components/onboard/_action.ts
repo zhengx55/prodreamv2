@@ -43,26 +43,27 @@ export async function setOnboardNameAndCode(formData: FormData, lang: Locale) {
 export async function toDocument() {
   'use server';
   const token = cookies().get('token')?.value;
-
   const docData = new FormData();
-  docData.append('content', SampleEssay.TITLE);
-  docData.append('title', SampleEssay.TEXT);
-  const new_doc_res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document`,
-    {
-      method: 'POST',
-      body: docData,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        contentType: 'multipart/form-data',
-      },
-    }
-  );
-  const doc_id = (await new_doc_res.json()).data;
-  console.log('🚀 ~ toDocument ~ doc_id:', doc_id);
-  if (!doc_id)
+  docData.append('content', SampleEssay.TEXT);
+  docData.append('title', SampleEssay.TITLE);
+  let doc_id: string = '';
+  try {
+    const new_doc_res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document`,
+      {
+        method: 'POST',
+        body: docData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          contentType: 'multipart/form-data',
+        },
+      }
+    );
+    doc_id = (await new_doc_res.json()).data;
+  } catch (error) {
     throw new Error(
       'An error occurred while setting language info. Please try again.'
     );
+  }
   redirect(`/editor/${doc_id}`, RedirectType.replace);
 }
