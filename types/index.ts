@@ -215,8 +215,8 @@ export type ISubscription = {
   subscription_type: string;
 };
 
-export type IDisucount = {
-  discount: string | null;
+export type IDiscount = {
+  discount: number | null;
   expire_at: number | null;
 };
 

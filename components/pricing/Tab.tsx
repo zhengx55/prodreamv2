@@ -6,12 +6,12 @@ import {
   PricingUnlimited,
 } from '@/constant';
 import { useButtonTrack } from '@/query/query';
-import { ISubscription } from '@/types';
+import { IDiscount, ISubscription } from '@/types';
 import Spacer from '../root/Spacer';
 import Card from './Card';
 
-type Props = { membership: ISubscription };
-const Tab = ({ membership }: Props) => {
+type Props = { membership: ISubscription; discount: IDiscount };
+const Tab = ({ membership, discount }: Props) => {
   const isBasic =
     membership.subscription === 'free_trail' ||
     membership.subscription === 'basic';
@@ -50,6 +50,7 @@ const Tab = ({ membership }: Props) => {
             current={isAnually}
             purchase_type='annualy'
             info={PricingAnnualyUnlimited}
+            discount={discount}
           />
         </div>
       </TabsContent>
@@ -60,6 +61,7 @@ const Tab = ({ membership }: Props) => {
             current={isMonthly}
             purchase_type='monthly'
             info={PricingUnlimited}
+            discount={discount}
           />
         </div>
       </TabsContent>

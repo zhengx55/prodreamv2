@@ -9,6 +9,7 @@ import { isMobile } from 'react-device-detect';
 import {
   ButtonTrack,
   createCitation,
+  getDiscountInfo,
   getDocDetail,
   getDocs,
   getUserInfo,
@@ -36,7 +37,15 @@ export const useMembershipInfo = () => {
   });
 };
 
-export const useMutationMembershio = () => {
+export const useDiscountInfo = () => {
+  return useQuery({
+    queryKey: ['discount'],
+    queryFn: () => getDiscountInfo(),
+    staleTime: 1000 * 60 * 60 * 24,
+  });
+};
+
+export const useMutationMembership = () => {
   const router = useRouter();
   return useMutation({
     mutationFn: (params: { product_id: string; url: string }) =>

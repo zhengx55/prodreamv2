@@ -1,4 +1,9 @@
-import { ICitationData, ICitationType, ISubscription } from '@/types';
+import {
+  ICitationData,
+  ICitationType,
+  IDiscount,
+  ISubscription,
+} from '@/types';
 import Cookies from 'js-cookie';
 import {
   ICitation,
@@ -52,6 +57,20 @@ export async function getUserMemberShip(): Promise<ISubscription> {
   } catch (error) {
     throw new Error(error as string);
   }
+}
+
+export async function getDiscountInfo(): Promise<IDiscount> {
+  const token = Cookies.get('token');
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/referral_discount`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  if (!res.ok) throw new Error('Failed to fetch coupon');
+  const data = await res.json();
+  if (data.code !== 0) throw new Error('Failed to fetch coupon');
+  return data.data;
 }
 
 export async function purchaseMembership(params: {
