@@ -11,7 +11,7 @@ import { Button } from '../ui/button';
 import { DropdownMenu } from '../ui/dropdown-menu';
 import { Skeleton } from '../ui/skeleton';
 import Spacer from './Spacer';
-import { AnimatedLogo, Diamond, Feedback } from './SvgComponents';
+import { Diamond, Feedback } from './SvgComponents';
 import User from './User';
 
 const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
@@ -47,9 +47,16 @@ const Sidebar = () => {
   }, [pathname]);
 
   return (
-    <aside className='relative flex w-[270px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
+    <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
       <Link passHref href={'/'}>
-        <AnimatedLogo show />
+        <Image
+          alt='prodream'
+          src='/logo/prodream.png'
+          width={150}
+          height={30}
+          className='h-auto w-36'
+          priority
+        />
       </Link>
       <Spacer y='50' />
       <DropdownMenu>
