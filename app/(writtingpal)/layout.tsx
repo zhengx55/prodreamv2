@@ -18,10 +18,15 @@ export default async function WrittingpalLayout({
 }) {
   const dict = await getDictionary(lang);
   return (
-    <main className='hidden h-full w-full overflow-x-auto overflow-y-hidden md:flex'>
-      <DeviceProvider>
-        <div className='relative flex h-full w-full flex-col '>{children}</div>
-      </DeviceProvider>
+    <>
+      <main className='hidden h-full w-full overflow-x-auto overflow-y-hidden md:flex'>
+        <DeviceProvider>
+          <div className='relative flex h-full w-full flex-col '>
+            {children}
+          </div>
+        </DeviceProvider>
+      </main>
+
       <div className='flex flex-1 flex-col items-center bg-[#F6F4FF] md:hidden'>
         <div className='relative h-[70%] w-full overflow-hidden'>
           <Image
@@ -40,6 +45,6 @@ export default async function WrittingpalLayout({
           your computer to access full features
         </p>
       </div>
-    </main>
+    </>
   );
 }
