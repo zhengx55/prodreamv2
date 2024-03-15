@@ -15,7 +15,7 @@ export default async function OnboardLayout({
   const dict = await getDictionary(lang);
   return (
     <>
-      <main className='relative hidden h-full  w-full flex-col overflow-auto sm:flex'>
+      <main className='relative hidden h-full w-full flex-col overflow-auto sm:flex'>
         <nav className='flex-between h-20 w-full shrink-0 bg-doc-secondary px-4'>
           <Image
             src='/logo/Prodream.png'
