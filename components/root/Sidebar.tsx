@@ -31,11 +31,14 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    const currentroute = pathname.split('/')[2];
+    const currentroute = pathname.split('/')[1];
     let index = 0;
     switch (currentroute) {
       case 'polish':
         index = 0;
+        break;
+      case 'essay-review':
+        index = 1;
         break;
       default:
         break;
