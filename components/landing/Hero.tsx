@@ -3,14 +3,12 @@ import { HeroInfo, HeroMainInfo } from '@/constant';
 import { staggerContainer, textVariant } from '@/constant/motion';
 import useInviewCapture from '@/hooks/useInViewCapture';
 import { HomePageDicType } from '@/types';
-import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { usePostHog } from 'posthog-js/react';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useTypewriter from 'react-typewriter-hook';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
@@ -29,81 +27,18 @@ const Hero = ({ t, lang }: HomePageDicType) => {
     null
   );
   const searchParams = useSearchParams().get('from');
-  const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   const { ref } = useInviewCapture('ScreenI');
-  const [isMobile, setIsMobile] = useState(false);
-  const [flag, setFlag] = useState('v3');
-  const posthog = usePostHog();
-
-  // const { mutateAsync: handleAbTestPoint } = usePostABTestPagePoint();
-  // const { mutateAsync: handleAbTestByTokenPoint } =
-  //   usePostABTestPagePointByToken();
-  // const { mutateAsync: handleAbTest } = usePostABTest();
-  // const { mutateAsync: handleAbTestByToken } = usePostABTestByToken();
-
-  const [currentTitleNode, setCurrentTitleNode] = useState<ReactNode>(
-    <V3Title lang={lang} t={t} />
-  );
-
   const memoSetSelected = useCallback((index: number) => {
     setSelected(index);
   }, []);
 
   const handleMouseEnter = (index: number) => {
     setSelected(index);
-    setIsMouseOver(true);
     if (autoSwitchInterval) {
       clearInterval(autoSwitchInterval);
       setAutoSwitchInterval(null);
     }
   };
-
-  const handleMouseLeave = () => {
-    setIsMouseOver(false);
-  };
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      setIsMobile(true);
-    }
-  }, []);
-
-  useUpdateEffect(() => {
-    // console.log('flag', flag);
-    if (flag && flag !== 'undefined') {
-      if (flag === 'v2') {
-        setCurrentTitleNode(<V3Title t={t} lang={lang} />);
-      } else {
-        setCurrentTitleNode(<V2Title t={t} lang={lang} />);
-      }
-    }
-  }, [flag]);
-
-  const startAutoSwitch = useCallback(() => {
-    if (!autoSwitchInterval) {
-      const intervalId = setInterval(() => {
-        setSelected((prevSelected) => (prevSelected + 1) % HeroInfo.length);
-      }, 3000) as unknown as number;
-      setAutoSwitchInterval(intervalId);
-    }
-  }, [autoSwitchInterval]);
-
-  useEffect(() => {
-    // 只有在非手机设备上才启用自动切换
-    if (
-      typeof window !== 'undefined' &&
-      window.innerWidth > 768 &&
-      !isMouseOver
-    ) {
-      startAutoSwitch();
-    }
-
-    return () => {
-      if (autoSwitchInterval) {
-        clearInterval(autoSwitchInterval);
-      }
-    };
-  }, [isMouseOver, startAutoSwitch]);
 
   return (
     <m.section
@@ -136,17 +71,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
         className='sm:flex-center flex h-full w-full flex-col py-10 sm:w-[1200px] sm:flex-col sm:py-20'
       >
         {lang === 'en' ? (
-          // 英文
-          // <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
-          //   <span  className='relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-          //   {t("transform")}
-          //   </span>{' '}
-          //   {t.your}
-          //   <br className='sm:hidden' /> {t.academic}
-          //   <br className='hidden sm:block' /> {t.writing}
-          //   <br className='sm:hidden' /> {t.journey}
-          // </h1>
-          currentTitleNode
+          <V2Title lang={lang} t={t} />
         ) : (
           // 中文
           <h1 className='text-center font-custom text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
@@ -157,24 +82,6 @@ const Hero = ({ t, lang }: HomePageDicType) => {
             {t.journey}
           </h1>
         )}
-
-        {/* <Spacer y='20' />
-        {
-          // 英文
-           getCurrentLanguage() === 'en'? 
-           <p className='text-center text-[14px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-            {t.experience_the}{' '}
-            <span className='text-doc-primary'>{t.one_stop}</span>
-            <br className='hidden sm:block' /> {t.that_enhances_writing}&nbsp;
-            <span className='text-doc-primary'>{t.efficiency}</span> {t.and_elevates}
-            {t.paper} <span className='text-doc-primary'>{t.quality}</span>
-          </p>
-          :
-          // 中文
-          <p className='text-center text-[14px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-            {t.experience_the}{' '}<br/>{t.one_stop}{t.that_enhances_writing}{t.efficiency}{t.and_elevates}{t.quality}{t.paper}
-          </p>
-        } */}
 
         <Spacer y='40' />
         <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
@@ -214,7 +121,6 @@ const Hero = ({ t, lang }: HomePageDicType) => {
                 className={`${selected === index ? 'border border-doc-primary/20 ' : 'bg-doc-primary/5'} flex cursor-pointer flex-col gap-y-2 rounded-[20px] p-5 sm:w-1/4`}
                 key={item.id}
                 onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={handleMouseLeave}
               >
                 <Image
                   alt={item.title}
@@ -275,11 +181,10 @@ export const V2Title = ({ t, lang }: HomePageDicType) => {
               'Quality Worries',
             ]}
           />{' '}
-          <span className='cursor'></span>
-          {/* <TextAnimation texts={["Brain Fog","Plagiarism Risks","Grammer Issues","AI Concerns","Quality Worries"]} classN='containerV2' /> */}
+          <span className='cursor' />
         </span>
-        <span className='sm:block'>{'    '}</span>
-        <br className='sm:hidden' /> {'in Academic Writing'}
+        <br />
+        {'in Academic Writing'}
       </h1>
       <Spacer y='30' />
       <p className='text-center text-[18px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
