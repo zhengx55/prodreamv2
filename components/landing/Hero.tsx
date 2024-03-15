@@ -28,7 +28,6 @@ const Hero = ({ t, lang }: HomePageDicType) => {
   );
   const searchParams = useSearchParams().get('from');
   const { ref } = useInviewCapture('ScreenI');
-
   const memoSetSelected = useCallback((index: number) => {
     setSelected(index);
   }, []);
@@ -83,24 +82,6 @@ const Hero = ({ t, lang }: HomePageDicType) => {
             {t.journey}
           </h1>
         )}
-
-        {/* <Spacer y='20' />
-        {
-          // 英文
-           getCurrentLanguage() === 'en'? 
-           <p className='text-center text-[14px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-            {t.experience_the}{' '}
-            <span className='text-doc-primary'>{t.one_stop}</span>
-            <br className='hidden sm:block' /> {t.that_enhances_writing}&nbsp;
-            <span className='text-doc-primary'>{t.efficiency}</span> {t.and_elevates}
-            {t.paper} <span className='text-doc-primary'>{t.quality}</span>
-          </p>
-          :
-          // 中文
-          <p className='text-center text-[14px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-            {t.experience_the}{' '}<br/>{t.one_stop}{t.that_enhances_writing}{t.efficiency}{t.and_elevates}{t.quality}{t.paper}
-          </p>
-        } */}
 
         <Spacer y='40' />
         <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
