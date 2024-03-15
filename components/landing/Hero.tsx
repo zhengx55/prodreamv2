@@ -214,7 +214,6 @@ export const V3Title = ({ t, lang }: HomePageDicType) => {
             ]}
           />{' '}
           <span className='cursor'></span>
-          {/* <TextAnimation texts={["Outline","Introduction","Summary","Conclusion","Citation List"]} classN={"containerV3"} /> */}
         </span>{' '}
         <br className='sm:hidden' /> {` in Minutes!`}
       </h1>
@@ -225,38 +224,6 @@ export const V3Title = ({ t, lang }: HomePageDicType) => {
         {t.for_your_academic_paper_requirements_with_pro_dream}{' '}
       </p>
     </>
-  );
-};
-
-export const TextAnimation = (props: { texts: string[]; classN: string }) => {
-  const { texts, classN } = props;
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [visibleTextIndex, setVisibleTextIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setVisibleTextIndex((prev) => (prev === texts.length - 1 ? 0 : prev + 1)); // 切换显示的文本索引
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev === texts.length - 1 ? 0 : prev + 1)); // 切换当前文本索引
-      }, 1500); // 在当前文本隐藏后1.5秒再次切换到下一个文本
-    }, 3000); // 5000毫秒切换一次
-
-    return () => clearInterval(interval);
-  }, [texts]);
-
-  return (
-    <span className={classN ?? 'container'} style={{ display: 'inline-block' }}>
-      {texts.map((text, index) => (
-        <span
-          key={index}
-          className={`text ${index === visibleTextIndex ? 'slide-in-top' : 'slide-in-bottom'}`}
-          style={{ zIndex: index === visibleTextIndex ? 1 : 0, width: '100%' }}
-        >
-          {text}
-        </span>
-      ))}
-    </span>
   );
 };
 
