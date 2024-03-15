@@ -70,14 +70,13 @@ const Sidebar = () => {
             <li
               key={item.id}
               onClick={() => handleNavigation(item.link, index)}
-              className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-4`}
+              className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2`}
             >
               <Image
                 src={isActive ? item.active_image : item.image}
                 alt={'sidebar'}
                 width={24}
                 height={24}
-                className='h-auto w-auto'
                 priority
               />
               <span

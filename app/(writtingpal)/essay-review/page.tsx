@@ -6,7 +6,7 @@ import Image from 'next/image';
 export default function Page() {
   return (
     <main className='flex h-full w-full justify-center overflow-y-auto py-6'>
-      <div className='flex w-[1024px] flex-col'>
+      <div className='flex w-[1100px] flex-col'>
         <div className='relative h-[397px] w-full rounded-2xl bg-indigo-500'>
           <Image
             alt=''
