@@ -2,9 +2,7 @@ import { ICitation } from '@/query/type';
 import { IJournalCitation } from '@/types';
 import { clsx, type ClassValue } from 'clsx';
 import escapeStringRegExp from 'escape-string-regexp';
-import { cache } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { uuidv7 } from 'uuidv7';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -308,8 +306,3 @@ export function createRegex(str: string) {
   }
   return substring_regex;
 }
-
-export const generateId = cache(() => {
-  const id = uuidv7();
-  return id;
-});
