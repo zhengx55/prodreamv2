@@ -7,6 +7,7 @@ type IconProps = {
   height: number;
   alt?: string;
   priority?: boolean;
+  className?: string;
 };
 
 const Icon = ({
@@ -15,6 +16,7 @@ const Icon = ({
   height,
   priority = false,
   alt = '',
+  className,
 }: IconProps) => {
   return (
     <Image
@@ -23,6 +25,7 @@ const Icon = ({
       height={height}
       alt={alt}
       priority={priority}
+      className={className}
     />
   );
 };
