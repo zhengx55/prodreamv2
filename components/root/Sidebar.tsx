@@ -51,7 +51,7 @@ const Sidebar = () => {
       <Link passHref href={'/'}>
         <Image
           alt='prodream'
-          src='/logo/prodream.png'
+          src='/logo/Prodream.png'
           width={150}
           height={30}
           className='h-auto w-36'
