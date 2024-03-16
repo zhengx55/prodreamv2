@@ -1,3 +1,6 @@
+import { Locale } from '@/i18n-config';
+import { type getDictionary } from '@/lib/get-dictionary';
+
 declare namespace NodeJS {
   export interface ProcessEnv {
     NEXT_PUBLIC_API_BASE_URL: string;
@@ -100,6 +103,15 @@ export interface IJournalCitation {
     year: number | string;
   };
 }
+export type HomePageDicType = {
+  t: Awaited<ReturnType<typeof getDictionary>>['Homepage'];
+  lang: Locale;
+};
+
+export type AuthPageDicType = {
+  t: Awaited<ReturnType<typeof getDictionary>>['Auth'];
+  lang: Locale;
+};
 
 export interface IBookCitation {
   reference_count: number;
@@ -201,6 +213,11 @@ export type ISubscription = {
   free_times_detail: FreeTimesDetail;
   subscription_id: string;
   subscription_type: string;
+};
+
+export type IDiscount = {
+  discount: number | null;
+  expire_at: number | null;
 };
 
 type FreeTimesDetail = {

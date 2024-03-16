@@ -9,13 +9,11 @@ export default function useClickOutside(
       preventDefault: () => void;
       target: any;
     }) => {
-      event.preventDefault();
       if (
         elementRef &&
         elementRef.current &&
         !elementRef.current.contains(event.target)
       ) {
-        // Call Callback only if event happens outside element or descendent elements
         callback();
       }
       return;

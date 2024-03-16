@@ -13,7 +13,7 @@ import {
   Strikethrough,
   Underline,
 } from 'lucide-react';
-import { memo, useLayoutEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 
 import {
   BookHalf,
@@ -69,7 +69,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
     ],
   });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const MouseUphandler = () => {
       const { isFocused } = editor;
       if (!isFocused) {
@@ -77,8 +77,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         return;
       }
       const { doc, selection } = editor.state;
-      const { from, empty, ranges, to } = selection;
-
+      const { from, empty, ranges } = selection;
       if (empty) {
         updateShowBubbleMenu(false);
         return;
@@ -184,6 +183,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
               left: menuXOffside.current ?? 0,
             });
             updateShowBubbleMenu(false);
+            editor.chain().setHighlight({ color: '#D4D7FF' }).run();
           }}
           className='text-doc-primary'
         >
@@ -204,6 +204,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
                 left: menuXOffside.current ?? 0,
               });
               updateShowBubbleMenu(false);
+              editor.chain().setHighlight({ color: '#D4D7FF' }).run();
             }}
             className='text-doc-primary'
           >
@@ -225,6 +226,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
                 left: menuXOffside.current ?? 0,
               });
               updateShowBubbleMenu(false);
+              editor.chain().setHighlight({ color: '#D4D7FF' }).run();
             }}
             className='text-doc-primary'
           >

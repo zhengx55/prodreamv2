@@ -6,12 +6,12 @@ import {
   PricingUnlimited,
 } from '@/constant';
 import { useButtonTrack } from '@/query/query';
-import { ISubscription } from '@/types';
+import { IDiscount, ISubscription } from '@/types';
 import Spacer from '../root/Spacer';
 import Card from './Card';
 
-type Props = { membership: ISubscription };
-const Tab = ({ membership }: Props) => {
+type Props = { membership: ISubscription; discount: IDiscount };
+const Tab = ({ membership, discount }: Props) => {
   const isBasic =
     membership.subscription === 'free_trail' ||
     membership.subscription === 'basic';
@@ -24,7 +24,7 @@ const Tab = ({ membership }: Props) => {
       defaultValue='Annually'
       className='flex w-full flex-col justify-center gap-y-4'
     >
-      <TabsList className='h-10 w-max gap-x-2 self-center rounded-full bg-[#EDE5FA] p-1'>
+      <TabsList className='h-10 w-max gap-x-2 self-center rounded-full bg-violet-100 p-1'>
         <TabsTrigger
           className='gap-x-1 rounded-full px-7 text-doc-primary data-[state=active]:bg-white'
           value='Annually'
@@ -50,6 +50,7 @@ const Tab = ({ membership }: Props) => {
             current={isAnually}
             purchase_type='annualy'
             info={PricingAnnualyUnlimited}
+            discount={discount}
           />
         </div>
       </TabsContent>
@@ -60,6 +61,7 @@ const Tab = ({ membership }: Props) => {
             current={isMonthly}
             purchase_type='monthly'
             info={PricingUnlimited}
+            discount={discount}
           />
         </div>
       </TabsContent>

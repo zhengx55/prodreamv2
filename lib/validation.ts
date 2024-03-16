@@ -1,8 +1,11 @@
 import * as z from 'zod';
 
 export const loginSchema = z.object({
-  username: z.string().min(2).max(50),
-  password: z.string().min(2).max(50),
+  username: z.string().email({ message: 'Invalid email address' }),
+  password: z
+    .string()
+    .min(2, { message: 'Password must be at least 8 characters' })
+    .max(50, { message: 'Password cannot exceed 50 characters' }),
 });
 
 export const signUpSchema = z.object({
@@ -11,10 +14,6 @@ export const signUpSchema = z.object({
     .min(8, { message: 'Password must be at least 8 characters' })
     .max(50, { message: 'Password cannot exceed 50 characters' }),
   email: z.string().email({ message: 'Invalid email address' }),
-  first_name: z
-    .string()
-    .min(2, { message: 'First name must be at least 2 characters' })
-    .max(50, { message: 'First name cannot exceed 50 characters' }),
 });
 
 export const resetSchema = z

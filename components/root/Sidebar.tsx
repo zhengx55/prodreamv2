@@ -11,7 +11,7 @@ import { Button } from '../ui/button';
 import { DropdownMenu } from '../ui/dropdown-menu';
 import { Skeleton } from '../ui/skeleton';
 import Spacer from './Spacer';
-import { AnimatedLogo, Diamond, Feedback } from './SvgComponents';
+import { Diamond, Feedback } from './SvgComponents';
 import User from './User';
 
 const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
@@ -31,11 +31,14 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    const currentroute = pathname.split('/')[2];
+    const currentroute = pathname.split('/')[1];
     let index = 0;
     switch (currentroute) {
       case 'polish':
         index = 0;
+        break;
+      case 'essay-review':
+        index = 1;
         break;
       default:
         break;
@@ -44,9 +47,16 @@ const Sidebar = () => {
   }, [pathname]);
 
   return (
-    <aside className='relative flex w-[270px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
+    <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
       <Link passHref href={'/'}>
-        <AnimatedLogo show />
+        <Image
+          alt='prodream'
+          src='/logo/Prodream.png'
+          width={150}
+          height={30}
+          className='h-auto w-36'
+          priority
+        />
       </Link>
       <Spacer y='50' />
       <DropdownMenu>
@@ -67,14 +77,13 @@ const Sidebar = () => {
             <li
               key={item.id}
               onClick={() => handleNavigation(item.link, index)}
-              className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-4`}
+              className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2`}
             >
               <Image
                 src={isActive ? item.active_image : item.image}
                 alt={'sidebar'}
                 width={24}
                 height={24}
-                className='h-auto w-auto'
                 priority
               />
               <span

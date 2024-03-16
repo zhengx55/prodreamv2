@@ -1,134 +1,167 @@
+import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
+  PopoverClose,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { saveDoc } from '@/query/api';
-import { useDocumentDetail } from '@/query/query';
+import { useAIEditor } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import { PencilLine } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { ChangeEvent, memo, useReducer, useState } from 'react';
 
-const PromptView = ({ id }: { id: string }) => {
-  const { data: document_content, isFetching, isError } = useDocumentDetail(id);
-  const [content, setContent] = useState<string>(
-    document_content?.brief_description ?? ''
-  );
-  const [openPrompt, setOpenPrompt] = useState(false);
-  const [lineCount, setLineCount] = useState(0);
+interface State {
+  content: string;
+  wordCount: number;
+}
 
-  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+type Action = { type: 'updateContent'; payload: string };
 
-  const handleOpenPrompt = () => {
-    setButtonPosition({ x: -80, y: 10 });
-    setOpenPrompt(true);
+const initialState: State = {
+  content: '',
+  wordCount: 0,
+};
+
+function reducer(state: State, action: Action) {
+  switch (action.type) {
+    case 'updateContent':
+      return {
+        ...state,
+        content: action.payload,
+        wordCount: action.payload.trim().split(/\s+/).length,
+      };
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
+  }
+}
+
+const PromptView = () => {
+  const prompt = useAIEditor((state) => state.essay_prompt);
+  const updateEssayPrompt = useAIEditor((state) => state.updateEssayPrompt);
+  const { id } = useParams();
+  const [saving, setSaving] = useState(false);
+  const [show, setShow] = useState(false);
+  const { mutateAsync: savePrompt } = useMutation({
+    mutationFn: (params: { brief_description: string; id: string }) =>
+      saveDoc(params),
+    onMutate: () => {
+      setSaving(true);
+    },
+    onSettled: () => {
+      setSaving(false);
+    },
+    onError: async () => {
+      const { toast } = await import('sonner');
+      toast.error(
+        'Something went wrong when setting essay prompt, please try again later'
+      );
+    },
+    onSuccess: async (data, variables) => {
+      const { toast } = await import('sonner');
+      updateEssayPrompt(variables.brief_description);
+      toast.success('Successfully set essay prompt');
+    },
+  });
+  const [{ content, wordCount }, dispatch] = useReducer(reducer, {
+    ...initialState,
+    content: prompt ?? '',
+  });
+
+  const handleSubmit = async () => {
+    if (!content) {
+      setShow(false);
+      return;
+    }
+    await savePrompt({ id: id as string, brief_description: content });
   };
 
-  useEffect(() => {
-    if (content) {
-      const wordCount = content.trim().split(/\s+/).length;
-      if (wordCount >= 5 && wordCount < 10) {
-        setLineCount(1);
-      } else if (wordCount >= 10 && wordCount < 20) {
-        setLineCount(2);
-      } else if (wordCount >= 20) {
-        setLineCount(3);
-      } else {
-        setLineCount(0);
-      }
-    }
-  }, [content]);
-
+  const onChangHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    dispatch({ type: 'updateContent', payload: e.target.value });
+  };
   return (
-    <>
-      <Popover open={openPrompt}>
-        <PopoverTrigger asChild>
-          <Button
-            role='button'
-            className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
-            onClick={handleOpenPrompt}
-          >
-            <PencilLine size={18} className='text-doc-primary' />
-            <p className='small-regular text-doc-primary'>Essay Prompt</p>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          style={{
-            position: 'absolute',
-            left: `${buttonPosition.x}px`,
-            top: `${buttonPosition.y}px`,
-            borderRadius: '8px',
-          }}
-          className='h-[260px] w-[800px] shrink-0 rounded-lg border border-solid border-[#EAEAEA] [background:#FFF]'
+    <Popover open={show} onOpenChange={setShow}>
+      <PopoverTrigger asChild>
+        <Button
+          role='button'
+          className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
         >
-          <div className='text-2xl font-medium leading-[160%] text-[#4B454D] [font-family:poppins]'>
-            Please input your prompt below
-          </div>
-          <div className='h-[25px] w-[579px] shrink-0 text-sm font-normal leading-[160%] text-[#7C757E] [font-family:poppins]'>
-            Adding an essay prompt can greatly enhance the quality of AI
-            generations
-          </div>
-          <Textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className='h-[107px] w-[760px] shrink-0 rounded border border-solid border-[#EAEAEA] bg-white [font-family:poppins]'
-            placeholder='e.g.  This essay is about the challenges and strategies of conserving biodiversity in the Anthropocene and discuss the importance of conservation efforts in safeguarding ecosystems and species from the brink of extinction'
-          />
+          <PencilLine size={18} className='text-doc-primary' />
+          <p className='small-regular text-doc-primary'>Essay Prompt</p>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        align='start'
+        sideOffset={15}
+        className='h-[260px] w-[800px] shrink-0 rounded-lg border border-solid border-gray-200 bg-white'
+      >
+        <h1 className='text-2xl font-medium leading-[160%] '>
+          Please input your prompt below
+        </h1>
+        <p className='small-regular text-zinc-500'>
+          Adding an essay prompt can greatly enhance the quality of AI
+          generations
+        </p>
+        <Spacer y='10' />
+        <Textarea
+          value={content}
+          disabled={saving}
+          aria-label='essay prompt'
+          onChange={onChangHandler}
+          className='small-regular h-[107px] w-[760px] shrink-0 rounded border border-gray-200'
+          placeholder='e.g.  This essay is about the challenges and strategies of conserving biodiversity in the Anthropocene and discuss the importance of conservation efforts in safeguarding ecosystems and species from the brink of extinction'
+        />
 
-          <div className='mt-4 flex items-center justify-between'>
-            <div className='text-base font-normal leading-[160%] text-[#4B454D] [font-family:poppins]'>
-              Prompt strength：
-              {[...Array(lineCount)].map((_, index) => {
-                // 计算亮度值
-                const lightness = 90 - (index + 1) * 10;
-
-                // 使用 HSL 颜色表示法创建颜色值
-                const color = `hsl(270, 100%, ${lightness}%)`;
-                return (
-                  <div
-                    key={index}
-                    className={`h-2 w-20 shrink-0 rounded-[41px] bg-purple-500`}
-                    style={{
-                      backgroundColor: color,
-                      display: 'inline-block',
-                      position: 'relative',
-                      left: `${index * 5}px`,
-                    }}
-                  />
-                );
-              })}
+        <div className='mt-4 flex items-center justify-between'>
+          <div className='flex items-center'>
+            <p className='base-regular'>Prompt strength :</p>&nbsp;&nbsp;
+            <div className='flex items-center gap-x-0.5'>
+              {wordCount < 5 ? (
+                <span className='h-2 w-20 rounded-[41px] bg-slate-200' />
+              ) : (
+                <span className='h-2 w-20 rounded-[41px] bg-violet-300' />
+              )}
+              {wordCount < 10 ? (
+                <span className='h-2 w-20 rounded-[41px] bg-slate-200' />
+              ) : (
+                <span className='h-2 w-20 rounded-[41px] bg-violet-400' />
+              )}
+              {wordCount < 20 ? (
+                <span className='h-2 w-20 rounded-[41px] bg-slate-200' />
+              ) : (
+                <span className='h-2 w-20 rounded-[41px] bg-violet-500' />
+              )}
             </div>
-            <div>
+          </div>
+
+          <div className='flex items-center gap-x-2'>
+            <PopoverClose asChild>
               <Button
-                onClick={() => {
-                  setOpenPrompt(false);
-                }}
-                className='mx-2 inline-flex h-8 shrink-0 items-center justify-center gap-2.5 rounded border border-solid border-[#D9D9D9] px-4 py-2 text-base font-normal leading-[160%] text-[#939393] [font-family:poppins] [background:#FFF] '
+                role='button'
+                variant={'ghost'}
+                className='border-zin-300 base-regular h-max rounded border px-4 py-2 text-neutral-400'
               >
                 Cancel
               </Button>
+            </PopoverClose>
+            <PopoverClose asChild>
               <Button
-                onClick={async () => {
-                  if (content) {
-                    await saveDoc({
-                      id,
-                      brief_description: content,
-                    }).then((res) => {
-                      setOpenPrompt(false);
-                    });
-                  }
-                }}
-                className='mx-2 inline-flex h-8 shrink-0 items-center justify-center gap-2.5 rounded px-4 py-2 [background:#8652DB]'
+                disabled={saving}
+                role='button'
+                onClick={handleSubmit}
+                className='base-regular h-max rounded px-4 py-2 '
               >
                 Done
               </Button>
-            </div>
+            </PopoverClose>
           </div>
-        </PopoverContent>
-      </Popover>
-    </>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 };
 
-export default PromptView;
+export default memo(PromptView);
