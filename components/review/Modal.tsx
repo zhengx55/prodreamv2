@@ -64,7 +64,7 @@ const Modal = ({ children }: { children: ReactNode }) => {
               </h3>
               <Image
                 alt='free'
-                src='/review/free.png'
+                src='/review/Free.png'
                 width={162}
                 height={162}
                 className='h-auto w-40'
