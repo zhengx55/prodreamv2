@@ -13,13 +13,13 @@ const Navbar = ({ dict }: Props) => {
   const pathName = usePathname();
   const isBaseOnboard = pathName.split('/').pop() === 'onboard';
   return (
-    <nav className='flex-between h-20 w-full shrink-0 bg-doc-secondary px-4'>
+    <nav className='flex-between h-14 w-full shrink-0 bg-doc-secondary px-4 sm:h-20'>
       <Image
         src='/logo/Prodream.png'
         width={140}
         height={30}
         alt='logo'
-        className='h-auto w-40'
+        className='h-auto w-28 sm:w-40'
         priority
       />
       {!isBaseOnboard && (

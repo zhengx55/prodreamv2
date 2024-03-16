@@ -25,14 +25,14 @@ const InfoForm = ({ dict, name, lang }: Props) => {
     }
   }
   return (
-    <form action={updateInfo} className='flex w-[500px] flex-col'>
+    <form action={updateInfo} className='flex w-full flex-col sm:w-[500px] '>
       <Input
         id='name'
         required
         defaultValue={name ?? ''}
         name='first_name'
         aria-placeholder='name'
-        className='title-regular h-14'
+        className='base-regular sm:title-regular h-14'
         placeholder={dict.Onboard.FormName}
       />
       <Spacer y='20' />
@@ -40,7 +40,7 @@ const InfoForm = ({ dict, name, lang }: Props) => {
         id='code'
         name='code'
         aria-placeholder='code'
-        className={`title-regular h-14 ${errorMessage ? ' border-red-400 bg-red-50' : ''}`}
+        className={`base-regular sm:title-regular h-14 ${errorMessage ? ' border-red-400 bg-red-50' : ''}`}
         placeholder={dict.Onboard.FormCode}
       />
       <div className='flex w-full justify-end'>
@@ -63,7 +63,7 @@ const SubmitBtn = ({ label }: { label: string }) => {
       disabled={pending}
       role='button'
       type='submit'
-      className='title-medium h-max w-full rounded-lg py-4'
+      className='small-medium sm:title-medium h-max w-full rounded-lg py-2 sm:py-4'
     >
       {pending && <Loader2 className='animate-spin' size={22} />}
       {label}

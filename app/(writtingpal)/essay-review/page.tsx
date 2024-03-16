@@ -42,7 +42,7 @@ export default function Page() {
             <br />
             personalized feedback and
             <br />
-            <span className='text-yellow-400'>personalized</span>&nbsp; Editing
+            <span className='text-yellow-400'>professional</span>&nbsp; Editing
           </h1>
           <Modal>
             <Button

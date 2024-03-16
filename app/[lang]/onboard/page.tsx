@@ -14,14 +14,17 @@ export default async function Page({
   const dict = await getDictionary(lang);
 
   return (
-    <div className='flex w-full flex-col items-center pt-20'>
-      <div className='flex max-w-[900px] flex-col items-center'>
-        <h1 className='text-[42px] font-medium'>{dict.Onboard.Title}</h1>
-        <p className='title-regular text-neutral-600'>
+    <div className='flex h-full w-full flex-col items-center px-6 pt-12 sm:px-0 sm:pt-20'>
+      <div className='flex w-full max-w-full flex-col items-center sm:max-w-[900px]'>
+        <h1 className='text-[20px] font-medium sm:text-[42px]'>
+          {dict.Onboard.Title}
+        </h1>
+        <p className='small-regular sm:title-regular text-center text-neutral-600 sm:text-left'>
           {dict.Onboard.SubTitle}
         </p>
       </div>
-      <Spacer y='150' />
+      <Spacer y='150' className='hidden sm:block' />
+      <Spacer y='30' className='block sm:hidden' />
       <InfoForm name={name} dict={dict} lang={lang} />
       <Spacer y='110' />
       <Progress />

@@ -13,21 +13,20 @@ const EducationOption = ({ index, dict, onClick }: Props) => {
     <div
       onClick={() => onClick(index)}
       aria-label='education option'
-      className='flex h-[420px] w-96 cursor-pointer flex-col items-center justify-between rounded-3xl border border-zinc-300 bg-white px-4 py-5 hover:bg-slate-50'
+      className='flex h-52 w-full cursor-pointer flex-col items-center justify-between rounded-3xl border border-zinc-300 bg-white py-3 hover:bg-slate-50 sm:h-[420px] sm:w-96 sm:px-4 sm:py-5'
     >
-      <h2 className='text-2xl font-medium text-slate-600'>
+      <h2 className='text-lg font-medium text-slate-600 sm:text-2xl'>
         {(dict.Onboard.Education as any)['Option' + (index + 1)]}
       </h2>
-
-      <Image
-        src={`/onboard/education/education0${index + 1}.png`}
-        alt={(dict.Onboard.Education as any)['Option' + (index + 1)]}
-        className='h-[190px] w-40'
-        width={150}
-        priority
-        height={200}
-      />
-      <p className='base-regular text-center leading-loose text-neutral-600'>
+      <div className='relative h-[87px] w-20 overflow-hidden sm:h-[190px] sm:w-40'>
+        <Image
+          src={`/onboard/education/education0${index + 1}.png`}
+          alt={(dict.Onboard.Education as any)['Option' + (index + 1)]}
+          fill
+          sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
+        />
+      </div>
+      <p className='small-regular sm:base-regular text-center leading-loose text-neutral-600'>
         {
           (dict.Onboard.Education as any)[
             'Option' + (index + 1) + 'Description'
