@@ -50,7 +50,7 @@ export default async function Page({
       <Spacer y='70' className='hidden sm:block' />
       <Spacer y='30' className='block sm:hidden' />
 
-      <div className='flex flex-col gap-y-4 sm:flex-row sm:gap-x-4'>
+      <div className='flex w-full flex-col gap-y-4 sm:flex-row sm:gap-x-4'>
         {Array(3)
           .fill(null)
           .map((_, index) => {
