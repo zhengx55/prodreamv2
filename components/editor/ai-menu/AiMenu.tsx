@@ -14,6 +14,7 @@ import {
 } from '@/query/query';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import {
@@ -65,7 +66,6 @@ const AiMenu = ({ editor }: Props) => {
   const { replaceText, insertNext } = useEditorCommand(editor);
 
   const hasAiResult = aiResult.length > 0;
-
   const handleEditTools = async (tool: string) => {
     const toast = (await import('sonner')).toast;
     const selectedText = getSelectedText(editor);
@@ -103,6 +103,10 @@ const AiMenu = ({ editor }: Props) => {
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, [updateCopilotMenu]);
+
+  useUnmount(() => {
+    editor.chain().unsetHighlight().run();
+  });
 
   const handleCustomPrompt = useCallback(async () => {
     const toast = (await import('sonner')).toast;
@@ -258,7 +262,6 @@ const AiMenu = ({ editor }: Props) => {
                               hoverItem === option.id ? 'bg-border-50' : ''
                             } group flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5`}
                             key={option.id}
-                            onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
                               !option.submenu && handleEditTools(option.label);
                             }}
