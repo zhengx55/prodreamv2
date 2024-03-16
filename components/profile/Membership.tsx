@@ -1,15 +1,12 @@
-'use client';
 import { formatTimestampToDateString } from '@/lib/utils';
-import { useMembershipInfo } from '@/query/query';
+import { ISubscription } from '@/types';
 import Link from 'next/link';
 import PromoCode from '../editor/modal/PromoCode';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
-const Membership = () => {
-  const { data: membership, isPending, isError } = useMembershipInfo();
-  if (isPending || isError) return null;
+const Membership = ({ membership }: { membership: ISubscription }) => {
   return (
     <>
       <h2 className='title-medium'>Membership</h2>
