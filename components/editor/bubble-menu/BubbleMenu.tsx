@@ -13,7 +13,7 @@ import {
   Strikethrough,
   Underline,
 } from 'lucide-react';
-import { memo, useLayoutEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 
 import {
   BookHalf,
@@ -69,7 +69,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
     ],
   });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const MouseUphandler = () => {
       const { isFocused } = editor;
       if (!isFocused) {
