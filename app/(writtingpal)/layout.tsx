@@ -1,14 +1,10 @@
+import DeviceProvider from '@/components/root/DeviceProvider';
 import Spacer from '@/components/root/Spacer';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { ReactNode } from 'react';
 
-const DeviceProvider = dynamic(
-  () => import('@/components/root/DeviceProvider'),
-  { ssr: false }
-);
 export default async function WrittingpalLayout({
   children,
   params: { lang },

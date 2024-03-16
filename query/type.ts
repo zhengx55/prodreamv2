@@ -140,4 +140,6 @@ export type UserTrackData = {
   highlight_task?: string;
   grammar_task?: string;
   basic_task?: string;
+  has_referral_code?: string;
+  show_referral_dialog?: string;
 };

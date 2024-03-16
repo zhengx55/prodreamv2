@@ -18,7 +18,6 @@ const EditPassword = dynamic(
 
 const Setting = () => {
   const userInfo = useUserInfo((state) => state.user);
-
   return (
     <>
       <h1 className='title-medium'>My Profile</h1>

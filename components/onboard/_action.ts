@@ -32,7 +32,26 @@ export async function setOnboardNameAndCode(formData: FormData, lang: Locale) {
         }
       );
       const data = await code_res.json();
-      console.log(data);
+      if (data.code !== 0) {
+        return {
+          error: 'Invalid referral code. Please try again.',
+        };
+      } else {
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/auxiliary_info`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            method: 'PATCH',
+            body: JSON.stringify({
+              field: 'has_referral_code',
+              data: 'true',
+            }),
+          }
+        );
+      }
     }
   } catch (error: any) {
     return { error: error.msg };

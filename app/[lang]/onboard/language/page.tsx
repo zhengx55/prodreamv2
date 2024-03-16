@@ -73,7 +73,7 @@ export default async function Page({
       </div>
       <Spacer y='50' className='hidden sm:block' />
       <Spacer y='30' className='block sm:hidden' />
-      <div className='flex w-full flex-col gap-y-4 sm:flex-row sm:gap-x-4'>
+      <div className='flex w-full flex-col gap-y-4 sm:w-max sm:flex-row sm:gap-x-4'>
         {Array(2)
           .fill(null)
           .map((_, index) => {
