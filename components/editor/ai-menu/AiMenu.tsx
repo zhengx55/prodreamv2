@@ -42,7 +42,6 @@ const AiMenu = ({ editor }: Props) => {
   const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
   const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
   const essay_prompt = useAIEditor((state) => state.essay_prompt);
-
   const promptRef = useRef<HTMLInputElement>(null);
   const tool = useRef<string | null>(null);
   const ref = useScrollIntoView();
@@ -312,7 +311,6 @@ const AiMenu = ({ editor }: Props) => {
                       key={item.id}
                       onMouseEnter={() => setHoverItem(item.id)}
                       onMouseLeave={() => setHoverItem(null)}
-                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => handleOperation(idx)}
                     >
                       <div className='flex items-center gap-x-2'>
