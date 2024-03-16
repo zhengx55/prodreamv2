@@ -55,7 +55,24 @@ export default function Page() {
         </div>
         <Spacer y='30' />
         <div className='flex-between'>
-          <div className='flex-between h-[450px] w-[48%] shrink-0 flex-col rounded-2xl bg-zinc-100 pt-4'>
+          <div className='flex-between relative h-[450px] w-[48%] shrink-0 flex-col rounded-2xl bg-zinc-100 pt-4'>
+            <span className='absolute left-20 top-[30%] size-6 rotate-45 bg-yellow-400' />
+            <Image
+              alt=''
+              src='/review/RectandCircle.png'
+              width={58}
+              height={50}
+              priority
+              className='absolute right-14 top-[30%] z-10'
+            />
+            <Image
+              alt='shield'
+              src='/review/shield_bg.png'
+              className='absolute bottom-0 z-0'
+              width={270}
+              height={270}
+              priority
+            />
             <h2 className='text-2xl font-medium capitalize leading-[50px] tracking-tight text-zinc-800'>
               Our Comprehensive Services
             </h2>
@@ -64,7 +81,7 @@ export default function Page() {
               src='/review/Review.png'
               width={300}
               height={220}
-              className='h-auto w-auto'
+              className='z-10 h-auto w-auto'
               priority
             />
           </div>
