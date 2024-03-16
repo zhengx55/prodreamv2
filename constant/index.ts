@@ -900,3 +900,42 @@ export const PlanData = [
     basic_status: false,
   },
 ];
+
+export const ReviewSteps = [
+  {
+    title: 'Share Your Essay Details',
+    description:
+      'Quickly submit the basic info and requirements for your essay. No matter the subject or format, we’re ready.',
+  },
+  {
+    title: 'Personalized Consultation',
+    description:
+      'Our team will reach out to discuss details and match you with one of our expert editors.',
+  },
+  {
+    title: 'Receive Your Reviewed Essay',
+    description:
+      'Get your reviewed & edited essay, with flexibility for deadline. Guaranteed money back if not satisfied. ',
+  },
+];
+
+export const ReviewReasons = [
+  {
+    icon: '/review/smile.svg',
+    title: 'Personalized Approach',
+    description:
+      'From nuanced feedback to detailed rewrites, our services are tailored to your unique needs and academic goals.',
+  },
+  {
+    icon: '/review/team.svg',
+    title: 'Expert Team',
+    description:
+      'Our reviewers and writers are professionals with advanced degrees from top universities like Stanford and Harvard, offering insights from years of academic and professional experience.',
+  },
+  {
+    icon: '/review/light.svg',
+    title: 'Flexibility and Speed',
+    description:
+      'Urgent deadlines? Our service accommodates your schedule, delivering quality reviews and rewrites when you need them.',
+  },
+];

@@ -40,7 +40,7 @@ export default async function Page({
           `${process.env.NEXT_PUBLIC_API_BASE_URL}v0/editor/document`,
           {
             method: 'POST',
-            body: formData,
+            body: docData,
             headers: {
               Authorization: `Bearer ${token}`,
               contentType: 'multipart/form-data',
@@ -62,15 +62,18 @@ export default async function Page({
   }
 
   return (
-    <div className='flex w-full flex-col items-center pt-20'>
-      <div className='flex max-w-[900px] flex-col items-center'>
-        <h1 className='text-[42px] font-medium'>{dict.Onboard.Title}</h1>
-        <p className='text-center text-lg text-neutral-600'>
+    <div className='flex h-full w-full flex-col items-center px-6 pt-12 sm:px-0 sm:pt-20'>
+      <div className='flex w-full max-w-full flex-col items-center sm:max-w-[900px]'>
+        <h1 className='text-[20px] font-medium sm:text-[42px]'>
+          {dict.Onboard.Title}
+        </h1>
+        <p className='small-regular sm:title-regular text-center text-neutral-600 sm:text-left'>
           {dict.Onboard.Language.Title}
         </p>
       </div>
-      <Spacer y='50' />
-      <div className='flex gap-x-4'>
+      <Spacer y='50' className='hidden sm:block' />
+      <Spacer y='30' className='block sm:hidden' />
+      <div className='flex w-full flex-col gap-y-4 sm:flex-row sm:gap-x-4'>
         {Array(2)
           .fill(null)
           .map((_, index) => {
