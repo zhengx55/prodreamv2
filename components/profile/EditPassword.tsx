@@ -15,15 +15,14 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { resetPass } from '@/lib/validation';
-import { profileResetPasswords } from '@/query/api';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { ReactNode, memo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { resetPasswordAction } from './_action';
 
 type Props = {
   children: ReactNode;
@@ -32,6 +31,7 @@ type Props = {
 const EditPassModal = ({ children }: Props) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [hideNewPassword, setHideNewPassword] = useState(true);
+  const [show, setShow] = useState(false);
 
   const form = useForm<z.infer<typeof resetPass>>({
     resolver: zodResolver(resetPass),
@@ -41,27 +41,21 @@ const EditPassModal = ({ children }: Props) => {
     },
   });
 
-  const { mutateAsync: resetPassAction } = useMutation({
-    mutationFn: (params: { new_password: string; old_password: string }) =>
-      profileResetPasswords(params),
-    onSuccess: async () => {
-      const toast = (await import('sonner')).toast;
-      toast.success('Password has been reset successfully!');
-    },
-    onError: async (error) => {
-      const toast = (await import('sonner')).toast;
-      toast.error(error.message);
-    },
-  });
-
   async function onSubmit(values: z.infer<typeof resetPass>) {
-    resetPassAction({
-      new_password: values.new_password,
-      old_password: values.old_password,
-    });
+    const toast = (await import('sonner')).toast;
+    try {
+      const formData = new FormData();
+      formData.append('old_password', values.old_password);
+      formData.append('password', values.new_password);
+      resetPasswordAction(formData);
+      toast.success('password has been reset successfully!');
+      setShow(false);
+    } catch (error) {
+      toast.error('An error occurred, please try again later!');
+    }
   }
   return (
-    <Dialog>
+    <Dialog open={show} onOpenChange={setShow}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         onPointerDownOutside={(e) => {
@@ -150,9 +144,8 @@ const EditPassModal = ({ children }: Props) => {
                   Cancel
                 </Button>
               </DialogClose>
-              <DialogClose asChild>
-                <Button type='submit'>Save</Button>
-              </DialogClose>
+
+              <Button type='submit'>Save</Button>
             </div>
           </form>
         </Form>

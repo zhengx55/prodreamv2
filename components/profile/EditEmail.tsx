@@ -15,22 +15,22 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { resetEmail } from '@/lib/validation';
-import { profileResetEmail } from '@/query/api';
 import { useUserInfo } from '@/zustand/store';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { ReactNode, memo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { resetEmailAction } from './_action';
 
 type Props = {
   children: ReactNode;
 };
 
 const EditEmailModal = ({ children }: Props) => {
+  const [show, setShow] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
   const updateUserEmail = useUserInfo((state) => state.setUserEmail);
   const form = useForm<z.infer<typeof resetEmail>>({
@@ -41,29 +41,23 @@ const EditEmailModal = ({ children }: Props) => {
     },
   });
 
-  const { mutateAsync: resetEmailAction } = useMutation({
-    mutationFn: (params: { new_email: string; password: string }) =>
-      profileResetEmail(params),
-    onSuccess: async () => {
-      const toast = (await import('sonner')).toast;
+  async function onSubmit(values: z.infer<typeof resetEmail>) {
+    const toast = (await import('sonner')).toast;
+    try {
+      const formData = new FormData();
+      formData.append('email', values.email);
+      formData.append('password', values.password);
+      resetEmailAction(formData);
       toast.success('Email has been reset successfully!');
       updateUserEmail(form.getValues().email);
-    },
-    onError: async (error) => {
-      const toast = (await import('sonner')).toast;
-      toast.error(error.message);
-    },
-  });
-
-  async function onSubmit(values: z.infer<typeof resetEmail>) {
-    resetEmailAction({
-      new_email: values.email,
-      password: values.password,
-    });
+      setShow(false);
+    } catch (error) {
+      toast.error('An error occurred, please try again later!');
+    }
   }
 
   return (
-    <Dialog>
+    <Dialog open={show} onOpenChange={setShow}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         onPointerDownOutside={(e) => {
@@ -140,9 +134,7 @@ const EditEmailModal = ({ children }: Props) => {
                   Cancel
                 </Button>
               </DialogClose>
-              <DialogClose asChild>
-                <Button type='submit'>Save</Button>
-              </DialogClose>
+              <Button type='submit'>Save</Button>
             </div>
           </form>
         </Form>
