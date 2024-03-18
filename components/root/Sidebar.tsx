@@ -12,7 +12,7 @@ import { DropdownMenu } from '../ui/dropdown-menu';
 import { Skeleton } from '../ui/skeleton';
 import Spacer from './Spacer';
 import { Diamond, Feedback } from './SvgComponents';
-import User from './User';
+import User, { UserSkeleton } from './User';
 
 const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
 
@@ -22,7 +22,7 @@ const Sidebar = () => {
   const [topValue, setTopValue] = useState<number | undefined>();
   const { isPending: memberShipPending, data: memberShip } =
     useMembershipInfo();
-  console.log(memberShip);
+  // console.log(memberShip);
   const user = useUserInfo((state) => state.user);
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
@@ -63,7 +63,15 @@ const Sidebar = () => {
       </Link>
       <Spacer y='50' />
       <DropdownMenu>
-        <User name={user.first_name} email={user.email} imgSrc={user.avatar} />
+        {!user.first_name ? (
+          <UserSkeleton />
+        ) : (
+          <User
+            name={user.first_name}
+            email={user.email}
+            imgSrc={user.avatar}
+          />
+        )}
         <UserInfoDropdown />
       </DropdownMenu>
       <Spacer y='24' />
