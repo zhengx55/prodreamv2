@@ -195,9 +195,9 @@ export default function Page() {
               <h3 className='small-regular capitalize text-indigo-500'>
                 {`step ${index + 1}:`}
               </h3>
-              <h2 className='title-semibold text-indigo-500'>{item.title}</h2>
+              <h2 className='base-semibold text-indigo-500'>{item.title}</h2>
               <Spacer y='5' />
-              <p className=' text-zinc-600'>{item.description}</p>
+              <p className='small-regular text-zinc-600'>{item.description}</p>
             </div>
           ))}
         </div>
