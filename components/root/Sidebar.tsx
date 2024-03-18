@@ -12,10 +12,12 @@ import { DropdownMenu } from '../ui/dropdown-menu';
 import { Skeleton } from '../ui/skeleton';
 import Spacer from './Spacer';
 import { Diamond, Feedback } from './SvgComponents';
-import User, { UserSkeleton } from './User';
+import { UserSkeleton } from './User';
 
 const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
-
+const User = dynamic(() => import('./User'), {
+  loading: () => <UserSkeleton />,
+});
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
