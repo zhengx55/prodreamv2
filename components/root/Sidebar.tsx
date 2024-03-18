@@ -101,7 +101,7 @@ const Sidebar = () => {
               />
               <span
                 className={`${
-                  isActive ? 'text-doc-primary' : 'text-doc-shadow'
+                  isActive ? 'text-doc-primary' : 'text-zinc-600'
                 } base-semibold`}
               >
                 {item.title}
