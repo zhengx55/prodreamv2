@@ -26,13 +26,10 @@ const UserInfoDropdown = () => {
       <Link href={'/profile/setting'} passHref>
         <DropdownMenuItem className='cursor-pointer gap-x-2.5 rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
           <User2 size={20} />
-          <span className='text-md font-[500]'>View Profile</span>{' '}
+          <span className='text-md font-[500]'>View Profile</span>
         </DropdownMenuItem>
       </Link>
-      {/* <DropdownMenuItem className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
-            <MailOpen size={20} />
-            <span className='text-md font-[500]'>Notification</span>
-          </DropdownMenuItem> */}
+
       <DropdownMenuItem
         onClick={logOut}
         className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'
