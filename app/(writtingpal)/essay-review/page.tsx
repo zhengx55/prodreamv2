@@ -11,14 +11,14 @@ const Modal = dynamic(() => import('@/components/review/Modal'));
 export default function Page() {
   return (
     <main className='flex h-full w-full justify-center overflow-y-auto'>
-      <div className='flex w-[1100px] flex-col'>
+      <div className='flex w-[900px] flex-col'>
         <Spacer y='24' />
-        <div className='relative h-[400px] w-full shrink-0 rounded-2xl bg-indigo-500'>
+        <div className='relative h-[360px] w-full shrink-0 rounded-2xl bg-indigo-500'>
           <Image
             alt=''
             src='/review/Ellipse.png'
-            width={343}
-            height={343}
+            width={330}
+            height={330}
             priority
             className='absolute bottom-0 left-0'
           />
@@ -32,12 +32,12 @@ export default function Page() {
           <Image
             alt=''
             src='/review/ReviewBanner.png'
-            width={395}
-            height={356}
+            width={320}
+            height={288}
             priority
-            className='absolute bottom-0 right-4'
+            className='absolute -right-4 bottom-0 h-auto w-[320px]'
           />
-          <h1 className='absolute left-20 top-16 text-4xl font-semibold capitalize leading-snug text-white'>
+          <h1 className='absolute left-10 top-16 text-2xl font-semibold capitalize leading-normal text-white'>
             Elevate your writing with
             <br />
             personalized feedback and
@@ -47,7 +47,8 @@ export default function Page() {
           <Modal>
             <Button
               role='button'
-              className='absolute bottom-16 left-20 h-max rounded-lg bg-amber-500 py-3'
+              variant={'ghost'}
+              className='absolute bottom-16 left-10 h-max rounded-lg border-none bg-white py-3'
             >
               Claim Your Free Review
             </Button>
@@ -55,44 +56,44 @@ export default function Page() {
         </div>
         <Spacer y='30' />
         <div className='flex-between'>
-          <div className='flex-between relative h-[450px] w-[48%] shrink-0 flex-col rounded-2xl bg-zinc-100 pt-4'>
-            <span className='absolute left-20 top-[30%] size-6 rotate-45 bg-yellow-400' />
+          <div className='flex-between relative h-[515px] w-[40%] shrink-0 flex-col rounded-2xl bg-zinc-100 pt-4'>
+            <span className='absolute left-8 top-[30%] size-6 rotate-45 bg-yellow-400' />
             <Image
               alt=''
               src='/review/RectandCircle.png'
               width={58}
               height={50}
               priority
-              className='absolute right-14 top-[30%] z-10'
+              className='absolute right-5 top-[30%] z-10 w-auto'
             />
             <Image
               alt='shield'
               src='/review/shield_bg.png'
-              className='absolute bottom-0 z-0'
-              width={270}
-              height={270}
+              className='absolute bottom-10 z-0 w-auto'
+              width={190}
+              height={260}
               priority
             />
-            <h2 className='text-2xl font-medium capitalize leading-[50px] tracking-tight text-zinc-800'>
-              Our Comprehensive Services
+            <h2 className='text-center text-2xl font-medium capitalize leading-[42px] text-zinc-800'>
+              Our Comprehensive <br /> Services
             </h2>
             <Image
               alt='Trust&'
               src='/review/Review.png'
-              width={300}
+              width={230}
               height={220}
               className='z-10 h-auto w-auto'
               priority
             />
           </div>
-          <div className='flex h-[450px] w-[48%] flex-col justify-between rounded-2xl pt-4'>
+          <div className='flex h-[515px] w-[58%] flex-col justify-between rounded-2xl pt-4'>
             <div className='flex items-start gap-x-4'>
               <Icon src='/review/chat.svg' width={24} height={24} priority />
-              <div className='flex flex-col gap-y-1'>
+              <div className='flex flex-col gap-y-2'>
                 <h3 className='title-medium capitalize !leading-none text-zinc-600'>
                   Tailored Essay Reviews
                 </h3>
-                <p className='small-regular capitalize leading-snug'>
+                <p className='small-regular capitalize text-zinc-600'>
                   Receive in-depth critiques on structure, argumentation,
                   clarity, and style across various writing types and subjects,
                   from academic essays to personal statements.
@@ -101,11 +102,11 @@ export default function Page() {
             </div>
             <div className='flex items-start gap-x-4'>
               <Icon src='/review/shield.svg' width={24} height={24} priority />
-              <div className='flex flex-col gap-y-1'>
+              <div className='flex flex-col gap-y-2'>
                 <h3 className='title-medium capitalize !leading-none text-zinc-600'>
                   Professional Rewriting
                 </h3>
-                <p className='small-regular capitalize leading-snug'>
+                <p className='small-regular capitalize text-zinc-600'>
                   Beyond review, we offer a rewriting service to implement
                   suggested edits, enhance readability, and ensure your essay
                   meets the highest standards. Ideal for those seeking not just
@@ -115,11 +116,11 @@ export default function Page() {
             </div>
             <div className='flex items-start gap-x-4'>
               <Icon src='/review/global.svg' width={24} height={24} priority />
-              <div className='flex flex-col gap-y-1'>
+              <div className='flex flex-col gap-y-2'>
                 <h3 className='title-medium capitalize !leading-none text-zinc-600'>
                   Wide Subject Range
                 </h3>
-                <p className='small-regular capitalize leading-snug'>
+                <p className='small-regular capitalize text-zinc-600'>
                   Our experts cover disciplines from Literature to STEM,
                   ensuring knowledgeable feedback and revisions no matter your
                   field of study.
@@ -128,11 +129,11 @@ export default function Page() {
             </div>
             <div className='flex items-start gap-x-4'>
               <Icon src='/review/lock.svg' width={24} height={24} priority />
-              <div className='flex flex-col gap-y-1'>
+              <div className='flex flex-col gap-y-2'>
                 <h3 className='title-medium capitalize !leading-none text-zinc-600'>
                   Absolute Confidentiality
                 </h3>
-                <p className='small-regular capitalize leading-snug'>
+                <p className='small-regular capitalize text-zinc-600'>
                   Your work and identity are guarded with strict confidentiality
                   protocols, ensuring privacy and security at every step.
                 </p>
@@ -142,13 +143,13 @@ export default function Page() {
         </div>
         <Spacer y='30' />
         <Modal>
-          <Button role='button' className='h-max rounded-lg bg-amber-500 py-3'>
+          <Button role='button' className='h-max rounded-lg py-3'>
             Claim Your Free Review
           </Button>
         </Modal>
 
         <Spacer y='40' />
-        <h2 className='text-[28px] font-medium tracking-tight text-zinc-800'>
+        <h2 className='text-[28px] font-medium  text-zinc-800'>
           Get Your Expert Essay Review in 3 Easy Steps
         </h2>
         <Spacer y='25' />
@@ -194,27 +195,24 @@ export default function Page() {
               <h3 className='small-regular capitalize text-indigo-500'>
                 {`step ${index + 1}:`}
               </h3>
-              <h2 className='title-semibold text-indigo-500'>{item.title}</h2>
+              <h2 className='base-semibold text-indigo-500'>{item.title}</h2>
               <Spacer y='5' />
-              <p className=' text-zinc-600'>{item.description}</p>
+              <p className='small-regular text-zinc-600'>{item.description}</p>
             </div>
           ))}
         </div>
         <Spacer y='60' />
-        <h2 className='text-[28px] font-medium tracking-tight text-zinc-800'>
-          Why Us?
-        </h2>
+        <h2 className='text-[28px] font-medium text-zinc-800'>Why Us?</h2>
         <Spacer y='25' />
-        <div className='flex w-full flex-col gap-y-4'>
+        <div className='flex w-full flex-col gap-y-5'>
           {ReviewReasons.map((item) => (
             <div key={v4()} className='flex items-start gap-x-4'>
               <Icon src={item.icon} width={24} height={24} priority />
-              <div className='block space-y-2'>
-                <h3 className='text-xl font-medium capitalize !leading-none tracking-tight text-zinc-800'>
+              <div className='block space-y-3'>
+                <h3 className='text-xl font-medium capitalize !leading-none text-zinc-800'>
                   {item.title}
                 </h3>
-
-                <p className='text-sm font-normal capitalize leading-snug tracking-tight text-zinc-600'>
+                <p className='text-sm font-normal capitalize leading-snug text-zinc-600'>
                   {item.description}
                 </p>
               </div>

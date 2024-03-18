@@ -13,6 +13,13 @@ export const SidebarLinks = [
     active_image: '/nav/review_active.svg',
     link: '/essay-review',
   },
+  // {
+  //   id: 'sidebar-03',
+  //   title: 'ProPDF',
+  //   image: '/nav/pdf.svg',
+  //   active_image: '/nav/pdf_active.svg',
+  //   link: '/pdf-chat',
+  // },
 ];
 
 export const contributorAnimation = {

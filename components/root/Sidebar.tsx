@@ -12,17 +12,19 @@ import { DropdownMenu } from '../ui/dropdown-menu';
 import { Skeleton } from '../ui/skeleton';
 import Spacer from './Spacer';
 import { Diamond, Feedback } from './SvgComponents';
-import User from './User';
+import { UserSkeleton } from './User';
 
 const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
-
+const User = dynamic(() => import('./User'), {
+  loading: () => <UserSkeleton />,
+});
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [topValue, setTopValue] = useState<number | undefined>();
   const { isPending: memberShipPending, data: memberShip } =
     useMembershipInfo();
-  console.log(memberShip);
+  // console.log(memberShip);
   const user = useUserInfo((state) => state.user);
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
@@ -40,10 +42,13 @@ const Sidebar = () => {
       case 'essay-review':
         index = 1;
         break;
+      case 'pdf-chat':
+        index = 2;
+        break;
       default:
         break;
     }
-    setTopValue(index * (48 + 20));
+    setTopValue(index * (48 + 10));
   }, [pathname]);
 
   return (
@@ -58,13 +63,21 @@ const Sidebar = () => {
           priority
         />
       </Link>
-      <Spacer y='50' />
+      <Spacer y='40' />
       <DropdownMenu>
-        <User name={user.first_name} email={user.email} imgSrc={user.avatar} />
+        {!user.first_name ? (
+          <UserSkeleton />
+        ) : (
+          <User
+            name={user.first_name}
+            email={user.email}
+            imgSrc={user.avatar}
+          />
+        )}
         <UserInfoDropdown />
       </DropdownMenu>
       <Spacer y='24' />
-      <ul className='relative flex flex-col gap-5'>
+      <ul className='relative flex flex-col gap-2.5'>
         {topValue !== undefined ? (
           <span
             style={{ top: topValue }}
@@ -82,8 +95,8 @@ const Sidebar = () => {
               <Image
                 src={isActive ? item.active_image : item.image}
                 alt={'sidebar'}
-                width={24}
-                height={24}
+                width={20}
+                height={20}
                 priority
               />
               <span
