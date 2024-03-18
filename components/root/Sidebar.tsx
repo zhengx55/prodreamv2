@@ -48,7 +48,7 @@ const Sidebar = () => {
       default:
         break;
     }
-    setTopValue(index * (48 + 20));
+    setTopValue(index * (48 + 10));
   }, [pathname]);
 
   return (
@@ -63,7 +63,7 @@ const Sidebar = () => {
           priority
         />
       </Link>
-      <Spacer y='50' />
+      <Spacer y='40' />
       <DropdownMenu>
         {!user.first_name ? (
           <UserSkeleton />
@@ -77,7 +77,7 @@ const Sidebar = () => {
         <UserInfoDropdown />
       </DropdownMenu>
       <Spacer y='24' />
-      <ul className='relative flex flex-col gap-5'>
+      <ul className='relative flex flex-col gap-2.5'>
         {topValue !== undefined ? (
           <span
             style={{ top: topValue }}
