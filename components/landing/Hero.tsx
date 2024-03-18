@@ -90,7 +90,9 @@ const Hero = ({ t, lang }: HomePageDicType) => {
             href={
               searchParams
                 ? `/${lang}/signup?from=${searchParams}`
-                : `/${lang}/signup`
+                : lang === 'cn'
+                  ? `/${lang}/signup?from=cn`
+                  : `/${lang}/signup`
             }
           >
             <Button

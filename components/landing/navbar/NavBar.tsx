@@ -63,7 +63,9 @@ const NavBar = ({
             href={
               search_param
                 ? `/${lang}/signup?from=${search_param}`
-                : `/${lang}/signup`
+                : lang === 'cn'
+                  ? `/${lang}/signup?from=cn`
+                  : `/${lang}/signup`
             }
             passHref
           >
