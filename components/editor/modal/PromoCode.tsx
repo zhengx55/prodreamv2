@@ -40,7 +40,7 @@ const PromoCode = ({ children }: Props) => {
               variant={'ghost'}
               className='border border-neutral-400 text-zinc-400'
             >
-              Cancle
+              Cancel
             </Button>
           </DialogClose>
           <Button role='button'>Redeem</Button>
