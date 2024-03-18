@@ -85,8 +85,8 @@ const Sidebar = () => {
               <Image
                 src={isActive ? item.active_image : item.image}
                 alt={'sidebar'}
-                width={24}
-                height={24}
+                width={20}
+                height={20}
                 priority
               />
               <span
