@@ -53,7 +53,7 @@ const DiscountModal = () => {
               variant={'ghost'}
               className='border border-neutral-400 text-zinc-400'
             >
-              Cancle
+              Cancel
             </Button>
           </DialogClose>
 
