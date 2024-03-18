@@ -42,7 +42,7 @@ export const useDiscountInfo = () => {
 export const useMutationMembership = () => {
   const router = useRouter();
   return useMutation({
-    mutationFn: (params: { product_id: string; url: string }) =>
+    mutationFn: (params: { product_id: string; url: string; coupon: string }) =>
       purchaseMembership(params),
     onSuccess: (data) => {
       router.push(data);
