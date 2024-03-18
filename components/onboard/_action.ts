@@ -13,7 +13,7 @@ export async function setOnboardNameAndCode(formData: FormData, lang: Locale) {
   nameForm.append('first_name', formData.get('first_name') as string);
   try {
     await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/name`, {
-      method: 'PUT',
+      method: 'POST',
       body: formData,
       headers: {
         Authorization: `Bearer ${token}`,

@@ -12,7 +12,12 @@ const ListView = ({ list }: Props) => {
   return (
     <ul role='list' className='flex w-[1100px] flex-col gap-y-2'>
       {list.map((item) => (
-        <Link key={item.id} passHref href={`/editor/${item.id}`}>
+        <Link
+          key={item.id}
+          passHref
+          prefetch={false}
+          href={`/editor/${item.id}`}
+        >
           <li className='flex-between cursor-pointer items-center rounded-lg py-2 hover:bg-nav-selected'>
             <span className='flex items-center gap-x-1.5'>
               <FileIcon />
