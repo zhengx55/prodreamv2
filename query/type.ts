@@ -20,7 +20,7 @@ export interface LoginData {
 
 export interface ISigunUpRequest {
   email: string;
-  first_name: string;
+  first_name?: string;
   referral?: string;
   last_name?: string;
   password: string;
@@ -80,11 +80,11 @@ export type IDocDetail = {
 
 export interface ICitation {
   abstract: string;
-  contributors?: Author[];
+  contributors: Author[];
   advanced_info: AdvancedInfo;
   area: string[];
   article_title: string;
-  authors: Author[];
+  authors?: Author[];
   citation_count: number;
   doi: null;
   publisher: string;
@@ -128,6 +128,7 @@ export interface PublishDate {
 }
 
 export type UserTrackData = {
+  current_coupon_code?: string;
   guidence?: string;
   continue_writing_task?: string;
   ai_copilot_task?: string;
@@ -140,4 +141,6 @@ export type UserTrackData = {
   highlight_task?: string;
   grammar_task?: string;
   basic_task?: string;
+  has_referral_code?: string;
+  show_referral_dialog?: string;
 };

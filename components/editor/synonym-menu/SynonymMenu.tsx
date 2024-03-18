@@ -8,6 +8,7 @@ import { synonym } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { Info } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
 import { useEditorCommand } from '../hooks/useEditorCommand';
@@ -23,6 +24,9 @@ export const SynonymMenu = memo(({ editor }: Props) => {
     selectedText.trim() && setText(selectedText);
   }, [editor]);
   const { replaceText } = useEditorCommand(editor);
+  useUnmount(() => {
+    editor.chain().unsetHighlight().run();
+  });
 
   const {
     data: synoymwords,

@@ -1,8 +1,17 @@
+'use client';
 import { HeroInfo, HeroMainInfo, Universitys } from '@/constant';
+import { HomePageDicType } from '@/types';
 import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
-import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
 import React from 'react';
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '../ui/carousel';
 
 const UniversityCarousel = () => {
   return (
@@ -69,22 +78,22 @@ const HeroShowCaseCarousel = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      
     </Carousel>
   );
 };
 
 const HeroCarousel = ({
   clickCallback,
+  t,
 }: {
   clickCallback: (index: number) => void;
+  t: HomePageDicType['t'];
 }) => {
+  const [api, setApi] = React.useState<CarouselApi>();
 
-  const [api, setApi] = React.useState<CarouselApi>()
-
-  api?.on("select",(value)=>{
-    clickCallback(value.selectedScrollSnap())
-  })
+  api?.on('select', (value) => {
+    clickCallback(value.selectedScrollSnap());
+  });
 
   return (
     <Carousel
@@ -95,27 +104,22 @@ const HeroCarousel = ({
       plugins={[
         Autoplay({
           delay: 3000,
-          stopOnInteraction:false,
+          stopOnInteraction: false,
         }),
-        
       ]}
       setApi={setApi}
       className='block sm:hidden'
     >
-      <CarouselContent   className='ml-10 mr-10 overflow-visible'>
-        
+      <CarouselContent className='ml-10 mr-10 overflow-visible'>
         {HeroInfo.map((item, index) => {
-          
           return (
             <CarouselItem
-              className='flex flex-col gap-y-2 ml-1 mr-1 rounded-2xl bg-[#F8F9FC] p-5'
+              className='ml-1 mr-1 flex flex-col gap-y-2 rounded-2xl bg-[#F8F9FC] p-5'
               key={item.id}
               onClick={() => {
-                clickCallback(index)
-                api?.scrollTo(index)
-                
-              } }
-              
+                clickCallback(index);
+                api?.scrollTo(index);
+              }}
             >
               <Image
                 alt={item.title}
@@ -124,8 +128,12 @@ const HeroCarousel = ({
                 src={item.icon}
                 priority
               />
-              <h2 className='small-regular'>{item.title}</h2>
-              <p className='subtle-regular text-shadow-100'>{item.text}</p>
+              <h2 className='small-regular'>
+                {t[`HeroInfo_title_${index + 1}` as keyof typeof t]}
+              </h2>
+              <p className='subtle-regular text-shadow-100'>
+                {t[`HeroInfo_text_${index + 1}` as keyof typeof t]}
+              </p>
             </CarouselItem>
           );
         })}

@@ -52,6 +52,7 @@ const AvatarChange = () => {
             alt={userInfo.last_name}
             className='h-auto w-auto'
             fill
+            sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
             priority
             placeholder='empty'
             src={

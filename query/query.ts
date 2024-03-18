@@ -9,6 +9,7 @@ import { isMobile } from 'react-device-detect';
 import {
   ButtonTrack,
   createCitation,
+  getDiscountInfo,
   getDocDetail,
   getDocs,
   getUserInfo,
@@ -20,12 +21,6 @@ import {
   updateUserInfo,
   userLogin,
 } from './api';
-import {
-  postABTest,
-  postABTestByToken,
-  postABTestPagePoint,
-  postABTestPagePointByToken,
-} from './test';
 import { UserTrackData } from './type';
 
 export const useMembershipInfo = () => {
@@ -36,10 +31,18 @@ export const useMembershipInfo = () => {
   });
 };
 
-export const useMutationMembershio = () => {
+export const useDiscountInfo = () => {
+  return useQuery({
+    queryKey: ['discount'],
+    queryFn: () => getDiscountInfo(),
+    staleTime: 1000 * 60 * 60 * 24,
+  });
+};
+
+export const useMutationMembership = () => {
   const router = useRouter();
   return useMutation({
-    mutationFn: (params: { product_id: string; url: string }) =>
+    mutationFn: (params: { product_id: string; url: string; coupon: string }) =>
       purchaseMembership(params),
     onSuccess: (data) => {
       router.push(data);
@@ -230,56 +233,13 @@ export const useUserLogin = () => {
         path: '/',
         maxAge: 604800,
         secure: true,
+        sameSite: 'lax',
       });
       router.push('/editor');
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
       toast.error(error.message);
-    },
-  });
-};
-
-export const usePostABTest = () => {
-  return useMutation({
-    mutationFn: (variance?: string) => postABTest(variance ?? ''),
-    onSuccess: async (value) => {},
-    onError: async (error) => {
-      const { toast } = await import('sonner');
-    },
-  });
-};
-
-export const usePostABTestByToken = () => {
-  return useMutation({
-    mutationFn: (variance?: string) => postABTestByToken(variance ?? ''),
-    onSuccess: async (value) => {},
-    onError: async (error) => {
-      const { toast } = await import('sonner');
-    },
-  });
-};
-
-export const usePostABTestPagePoint = () => {
-  return useMutation({
-    mutationFn: (params: { page: string; duration?: number }) =>
-      postABTestPagePoint(params),
-    onSuccess: async (value) => {},
-    onError: async (error) => {
-      const { toast } = await import('sonner');
-      console.error('ABTest error:', error);
-    },
-  });
-};
-
-export const usePostABTestPagePointByToken = () => {
-  return useMutation({
-    mutationFn: (params: { page: string; duration?: number }) =>
-      postABTestPagePointByToken(params),
-    onSuccess: async (value) => {},
-    onError: async (error) => {
-      const { toast } = await import('sonner');
-      console.error('ABTest error:', error);
     },
   });
 };

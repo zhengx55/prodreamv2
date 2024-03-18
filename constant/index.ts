@@ -2,30 +2,23 @@ export const SidebarLinks = [
   {
     id: 'sidebar-01',
     title: 'AI Editor',
-    image: '/polish.svg',
-    active_image: '/polish_active.svg',
+    image: '/nav/polish.svg',
+    active_image: '/nav/polish_active.svg',
     link: '/editor',
   },
-  // {
-  //   id: 'sidebar-02',
-  //   title: 'Brainstorm',
-  //   image: '/templates.svg',
-  //   active_image: '/templates_active.svg',
-  //   link: '/writtingpal/brainstorm',
-  // },
+  {
+    id: 'sidebar-02',
+    title: 'Essay Review',
+    image: '/nav/review.svg',
+    active_image: '/nav/review_active.svg',
+    link: '/essay-review',
+  },
   // {
   //   id: 'sidebar-03',
-  //   title: 'Resume',
-  //   image: '/resume.svg',
-  //   active_image: '/resume_active.svg',
-  //   link: '/writtingpal/resume',
-  // },
-  // {
-  //   id: 'sidebar-04',
-  //   title: 'Activity List',
-  //   image: '/activity.svg',
-  //   active_image: '/activity_active.svg',
-  //   link: '/writtingpal/activityList',
+  //   title: 'ProPDF',
+  //   image: '/nav/pdf.svg',
+  //   active_image: '/nav/pdf_active.svg',
+  //   link: '/pdf-chat',
   // },
 ];
 
@@ -55,21 +48,13 @@ export const GenerateOptions = [
   },
 ];
 
-export const WelcomLanguageOptions = [
-  {
-    name: 'English native speaker',
-    src: '/welcome/English.png',
-    label: 'english_native',
-  },
-  {
-    name: 'International Student',
-    src: '/welcome/International.png',
-    label: 'international',
-  },
-];
+export const education_info = ['undergrad', 'master_or_mba', 'phd_or_above'];
+
+export const languange_info = ['english_native', 'international'];
 
 export const H1_regex = /^([^#]*#){1}[^#]*$/;
 export const H2_regex = /^[^#]*##([^#]|$)/;
+export const word_regex = /\b\w+\b/g;
 
 export const WelcomEducationOptions = [
   {
@@ -920,5 +905,44 @@ export const PlanData = [
     text: 'Get a taste of what Prodream can do for you.',
     basic: 'Not modifiable',
     basic_status: false,
+  },
+];
+
+export const ReviewSteps = [
+  {
+    title: 'Submit Your Review Needs',
+    description:
+      'Quickly submit the basic info and requirements for your essay. No matter the subject or format, we’re ready.',
+  },
+  {
+    title: 'Personalized Consultation',
+    description:
+      'Our team will reach out to discuss details and match you with one of our expert editors.',
+  },
+  {
+    title: 'Receive Your Reviewed Essay',
+    description:
+      'Get comprehensive feedback & editing on your essay, with flexibility for any deadline.',
+  },
+];
+
+export const ReviewReasons = [
+  {
+    icon: '/review/smile.svg',
+    title: 'Personalized Approach',
+    description:
+      'From nuanced feedback to detailed rewrites, our services are tailored to your unique needs and academic goals.',
+  },
+  {
+    icon: '/review/team.svg',
+    title: 'Expert Team',
+    description:
+      'Our reviewers and writers are professionals with advanced degrees from top universities like Stanford and Harvard, offering insights from years of academic and professional experience.',
+  },
+  {
+    icon: '/review/light.svg',
+    title: 'Flexibility and Speed',
+    description:
+      'Our reviewers and writers are experienced professionals with advanced degrees from tops schools like Stanford and Harvard, offering insights from years of academic and professional experience.',
   },
 ];

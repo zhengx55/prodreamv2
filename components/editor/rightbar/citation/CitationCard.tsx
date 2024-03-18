@@ -77,21 +77,22 @@ export const SearchCitationCard = memo(
           <CitationPreview item={item} />
         </Dialog>
         <Spacer y='10' />
-        {item.authors?.length > 0 && (
+        {item.contributors?.length > 0 && (
           <p className='subtle-regular line-clamp-2 text-shadow-100'>
             Authors:{' '}
-            {item.authors.map((author, idx) => {
+            {item.contributors.map((author, idx) => {
               return (
                 <span key={`author-${idx}`}>
                   {author.last_name ?? ''}&nbsp;
                   {author.middle_name ?? ''}
                   {author.first_name ?? ''}
-                  {idx !== item.authors.length - 1 && ', '}
+                  {idx !== item.contributors.length - 1 && ', '}
                 </span>
               );
             })}
           </p>
         )}
+
         <Spacer y='10' />
         {item.abstract && (
           <p className='small-regular line-clamp-4'>{item.abstract}</p>
@@ -215,10 +216,9 @@ export const MineCitationCard = memo(
         await removeInDocCitationIds(item.data.id, item.data.document_id);
       }
     };
-    console.log(item.data);
     return (
       <div className='mb-5 flex flex-col gap-y-2.5 p-2.5'>
-        {/* {!item.data.manual_create ? (
+        {!item.data.manual_create ? (
           <Dialog>
             <DialogTrigger asChild>
               <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
@@ -233,12 +233,12 @@ export const MineCitationCard = memo(
               ? item.data.article_title
               : item.data.book_title}
           </h1>
-        )} */}
-        <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+        )}
+        {/* <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
           {item.data.article_title
             ? item.data.article_title
             : item.data.book_title}
-        </h1>
+        </h1> */}
         {item.data.contributors?.length > 0 && (
           <p className='subtle-regular line-clamp-2 text-shadow-100'>
             Authors:{' '}

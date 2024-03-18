@@ -11,18 +11,20 @@ import { Button } from '../ui/button';
 import { DropdownMenu } from '../ui/dropdown-menu';
 import { Skeleton } from '../ui/skeleton';
 import Spacer from './Spacer';
-import { AnimatedLogo, Diamond, Feedback } from './SvgComponents';
-import User from './User';
+import { Diamond, Feedback } from './SvgComponents';
+import { UserSkeleton } from './User';
 
 const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
-
+const User = dynamic(() => import('./User'), {
+  loading: () => <UserSkeleton />,
+});
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [topValue, setTopValue] = useState<number | undefined>();
   const { isPending: memberShipPending, data: memberShip } =
     useMembershipInfo();
-  console.log(memberShip);
+  // console.log(memberShip);
   const user = useUserInfo((state) => state.user);
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
@@ -31,30 +33,51 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    const currentroute = pathname.split('/')[2];
+    const currentroute = pathname.split('/')[1];
     let index = 0;
     switch (currentroute) {
       case 'polish':
         index = 0;
         break;
+      case 'essay-review':
+        index = 1;
+        break;
+      case 'pdf-chat':
+        index = 2;
+        break;
       default:
         break;
     }
-    setTopValue(index * (48 + 20));
+    setTopValue(index * (48 + 10));
   }, [pathname]);
 
   return (
-    <aside className='relative flex w-[270px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
+    <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
       <Link passHref href={'/'}>
-        <AnimatedLogo show />
+        <Image
+          alt='prodream'
+          src='/logo/Prodream.png'
+          width={150}
+          height={30}
+          className='h-auto w-36'
+          priority
+        />
       </Link>
-      <Spacer y='50' />
+      <Spacer y='40' />
       <DropdownMenu>
-        <User name={user.first_name} email={user.email} imgSrc={user.avatar} />
+        {!user.first_name ? (
+          <UserSkeleton />
+        ) : (
+          <User
+            name={user.first_name}
+            email={user.email}
+            imgSrc={user.avatar}
+          />
+        )}
         <UserInfoDropdown />
       </DropdownMenu>
       <Spacer y='24' />
-      <ul className='relative flex flex-col gap-5'>
+      <ul className='relative flex flex-col gap-2.5'>
         {topValue !== undefined ? (
           <span
             style={{ top: topValue }}
@@ -67,20 +90,19 @@ const Sidebar = () => {
             <li
               key={item.id}
               onClick={() => handleNavigation(item.link, index)}
-              className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-4`}
+              className={`z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2`}
             >
               <Image
                 src={isActive ? item.active_image : item.image}
                 alt={'sidebar'}
-                width={24}
-                height={24}
-                className='h-auto w-auto'
+                width={20}
+                height={20}
                 priority
               />
               <span
                 className={`${
-                  isActive ? 'text-doc-primary' : 'text-doc-shadow'
-                } base-semibold`}
+                  isActive ? 'text-doc-primary' : 'text-zinc-600'
+                } base-regular`}
               >
                 {item.title}
               </span>

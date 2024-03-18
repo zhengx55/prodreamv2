@@ -13,6 +13,8 @@ import './globals.css';
 // import { cookies } from 'next/headers';
 // import { generateId } from '@/lib/utils';
 // import { PostHog } from 'posthog-node'
+import localFont from 'next/font/local';
+import { i18n, type Locale } from '../i18n-config';
 
 const PostHogPageView = dynamic(() => import('@/components/root/PostHug'), {
   ssr: false,
@@ -42,12 +44,19 @@ const liber = Libre_Baskerville({
   preload: true,
 });
 
+const cnFont = localFont({
+  src: '../public/font/XiQuejuzhenti.ttf',
+  display: 'swap',
+  variable: '--cn-font',
+  preload: true,
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   referrer: 'no-referrer',
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'en',
     url: siteConfig.url,
     title: siteConfig.name,
     description: siteConfig.description,
@@ -64,24 +73,26 @@ export const metadata: Metadata = {
   },
 };
 
+export async function generateStaticParams() {
+  return i18n.locales.map((locale) => ({ lang: locale }));
+}
+
 export default async function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { lang: Locale };
 }) {
   // const bootstrapData = await getBootstrapData();
   return (
     <html
-      lang='en'
-      className={`${poppins.variable} ${inter.variable} ${liber.variable}`}
+      lang={params.lang}
+      className={`${poppins.variable} ${inter.variable} ${liber.variable} ${cnFont.variable}`}
       suppressHydrationWarning
     >
       <Hotjar />
-      <CSPostHogProvider
-      //  bootstrapData={
-      //   bootstrapData
-      // }
-      >
+      <CSPostHogProvider>
         <body>
           <GoogleOAuthProvider
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
@@ -102,32 +113,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
-// export async function getBootstrapData() {
-//   let distinct_id = ''
-//   const phProjectAPIKey = 'phc_hJ9Vfuzn4cByNbktugzjuJpHGkVYfXeQE494H5nla42'
-//   const phCookieName = `ph_${phProjectAPIKey}_posthog`
-//   const cookieStore = cookies()
-//   const phCookie = cookieStore.get(phCookieName);
-//   if (phCookie) {
-//     const phCookieParsed = JSON.parse(phCookie.value);
-//     distinct_id = phCookieParsed.distinct_id;
-//   }
-//   if (!distinct_id) {
-//     distinct_id = generateId();
-//   }
-
-//   const client = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY ?? '', {
-//     host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-//   });
-
-//   const flags = await client.getAllFlags(distinct_id);
-//   console.log("flags:",flags)
-//   console.log("distinct_id:",distinct_id)
-//   const bootstrap = {
-//     distinctID: distinct_id,
-//     featureFlags: flags,
-//   };
-
-//   return bootstrap;
-// }

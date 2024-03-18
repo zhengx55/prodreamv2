@@ -3,6 +3,7 @@ import Spacer from '@/components/root/Spacer';
 import { Copilot } from '@/components/root/SvgComponents';
 import { Separator } from '@/components/ui/separator';
 import { Surface } from '@/components/ui/surface';
+import { word_regex } from '@/constant';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import {
@@ -13,6 +14,7 @@ import {
 } from '@/query/query';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import {
@@ -39,6 +41,7 @@ const AiMenu = ({ editor }: Props) => {
   const { data: usage } = useMembershipInfo();
   const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
   const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
+  const essay_prompt = useAIEditor((state) => state.essay_prompt);
   const promptRef = useRef<HTMLInputElement>(null);
   const tool = useRef<string | null>(null);
   const ref = useScrollIntoView();
@@ -62,11 +65,10 @@ const AiMenu = ({ editor }: Props) => {
   const { replaceText, insertNext } = useEditorCommand(editor);
 
   const hasAiResult = aiResult.length > 0;
-
   const handleEditTools = async (tool: string) => {
     const toast = (await import('sonner')).toast;
     const selectedText = getSelectedText(editor);
-    const words = selectedText.match(/\b\w+\b/g);
+    const words = selectedText.match(word_regex);
     if ((words?.length ?? 0) > 500) {
       return toast.warning('Selected text should not exceed 500 words');
     }
@@ -81,7 +83,11 @@ const AiMenu = ({ editor }: Props) => {
       await handleHumanize({ text: selectedText });
       return;
     }
-    await handleCopilot({ tool, text: selectedText });
+    await handleCopilot({
+      tool,
+      text: selectedText,
+      writing_goal: essay_prompt,
+    });
   };
 
   useEffect(() => {
@@ -97,10 +103,14 @@ const AiMenu = ({ editor }: Props) => {
     return () => document.removeEventListener('mousedown', handler);
   }, [updateCopilotMenu]);
 
+  useUnmount(() => {
+    editor.chain().unsetHighlight().run();
+  });
+
   const handleCustomPrompt = useCallback(async () => {
     const toast = (await import('sonner')).toast;
     const selectedText = getSelectedText(editor);
-    const words = selectedText.match(/\b\w+\b/g);
+    const words = selectedText.match(word_regex);
     if ((words?.length ?? 0) > 500) {
       return toast.warning('Selected text should not exceed 500 words');
     }
@@ -110,6 +120,7 @@ const AiMenu = ({ editor }: Props) => {
     await handleAsk({
       instruction: promptRef.current?.value!,
       text: selectedText,
+      writing_goal: essay_prompt,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
@@ -250,7 +261,6 @@ const AiMenu = ({ editor }: Props) => {
                               hoverItem === option.id ? 'bg-border-50' : ''
                             } group flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5`}
                             key={option.id}
-                            onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
                               !option.submenu && handleEditTools(option.label);
                             }}
@@ -301,7 +311,6 @@ const AiMenu = ({ editor }: Props) => {
                       key={item.id}
                       onMouseEnter={() => setHoverItem(item.id)}
                       onMouseLeave={() => setHoverItem(null)}
-                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => handleOperation(idx)}
                     >
                       <div className='flex items-center gap-x-2'>

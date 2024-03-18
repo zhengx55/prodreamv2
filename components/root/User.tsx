@@ -19,8 +19,10 @@ const User = ({ name, email, imgSrc }: Props) => {
           <AvatarFallback>{name}</AvatarFallback>
         </Avatar>
         <div className='flex flex-col'>
-          <h2 className='text-[18px] font-semibold'>{name}</h2>
-          <p className='subtle-semibold text-shadow-100'>{email}</p>
+          <h2 className='text-xl font-semibold leading-tight'>{name}</h2>
+          <p className='subtle-semibold line-clamp-1 text-shadow-100'>
+            {email}
+          </p>
         </div>
       </div>
     </DropdownMenuTrigger>
@@ -29,10 +31,10 @@ const User = ({ name, email, imgSrc }: Props) => {
 
 export const UserSkeleton = () => {
   return (
-    <div className='flex w-56 items-center gap-x-2'>
+    <div className='w-50 flex items-center gap-x-2'>
       <Skeleton className='h-10 w-10 shrink-0 rounded-full' />
       <div className='flex w-full flex-col gap-y-1'>
-        <Skeleton className='h-3.5' />
+        <Skeleton className='h-6' />
         <Skeleton className='h-3.5 w-full' />
       </div>
     </div>

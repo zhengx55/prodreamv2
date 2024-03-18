@@ -1,4 +1,9 @@
-import { ICitationData, ICitationType, ISubscription } from '@/types';
+import {
+  ICitationData,
+  ICitationType,
+  IDiscount,
+  ISubscription,
+} from '@/types';
 import Cookies from 'js-cookie';
 import {
   ICitation,
@@ -54,13 +59,48 @@ export async function getUserMemberShip(): Promise<ISubscription> {
   }
 }
 
+export async function getCoupon(coupon: string): Promise<ISubscription> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/coupon/${coupon}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function getDiscountInfo(): Promise<IDiscount> {
+  const token = Cookies.get('token');
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/referral_discount`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  if (!res.ok) throw new Error('Failed to fetch coupon');
+  const data = await res.json();
+  if (data.code !== 0) throw new Error('Failed to fetch coupon');
+  return data.data;
+}
+
 export async function purchaseMembership(params: {
   product_id: string;
   url: string;
+  coupon: string;
 }) {
   try {
     const formData = new FormData();
     formData.append('redirect_url', params.url);
+    formData.append('coupon', params.coupon);
     const token = Cookies.get('token');
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/${params.product_id}/order`,
@@ -256,7 +296,6 @@ export async function userLogin(loginParam: {
 export async function userSignUp(signUpParam: ISigunUpRequest) {
   try {
     const formdata = new FormData();
-    formdata.append('first_name', signUpParam.first_name);
     formdata.append('email', signUpParam.email);
     formdata.append('password', signUpParam.password);
     formdata.append('is_mobile', signUpParam.is_mobile ? '1' : '0');
@@ -348,6 +387,7 @@ export async function verifyEmail(params: IVerifyEmail) {
 export async function copilot(params: {
   tool: string;
   text: string;
+  writing_goal?: string;
 }): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
@@ -357,6 +397,7 @@ export async function copilot(params: {
         method: 'POST',
         body: JSON.stringify({
           text: params.text,
+          writing_goal: params.writing_goal,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -397,9 +438,23 @@ export async function humanize(params: {
     throw new Error(error as string);
   }
 }
+
+export async function getIpAddress() {
+  try {
+    const ip = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/utils/ip_country`
+    );
+    const ip_data = (await ip.json()).data;
+    return ip_data === 'China';
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function ask(params: {
   instruction: string;
   text: string;
+  writing_goal?: string;
 }): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
@@ -410,6 +465,7 @@ export async function ask(params: {
         body: JSON.stringify({
           text: params.text,
           instruction: params.instruction,
+          writing_goal: params.writing_goal,
         }),
         headers: {
           'Content-Type': 'application/json',

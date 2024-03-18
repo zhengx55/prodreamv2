@@ -1,14 +1,12 @@
-'use client';
 import { formatTimestampToDateString } from '@/lib/utils';
-import { useMembershipInfo } from '@/query/query';
+import { ISubscription } from '@/types';
 import Link from 'next/link';
+import PromoCode from '../editor/modal/PromoCode';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
-const Membership = () => {
-  const { data: membership, isPending, isError } = useMembershipInfo();
-  if (isPending || isError) return null;
+const Membership = ({ membership }: { membership: ISubscription }) => {
   return (
     <>
       <h2 className='title-medium'>Membership</h2>
@@ -27,11 +25,23 @@ const Membership = () => {
             </Link>
           </div>
           <Spacer y='5' />
-          <Link passHref href={'/profile/subscription'}>
-            <Button role='button' className='base-regular rounded-lg'>
-              Manage subscription
-            </Button>
-          </Link>
+          <div className='flex gap-x-2'>
+            <PromoCode>
+              <Button
+                role='dialog'
+                className='rounded-lg border border-neutral-400 text-zinc-600'
+                variant={'ghost'}
+              >
+                Promo Code
+              </Button>
+            </PromoCode>
+
+            <Link passHref href={'/profile/subscription'}>
+              <Button role='button' className='base-regular rounded-lg'>
+                Manage subscription
+              </Button>
+            </Link>
+          </div>
         </div>
       ) : (
         <>
