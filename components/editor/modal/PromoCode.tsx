@@ -71,7 +71,7 @@ const PromoCode = ({ children }: Props) => {
             onChange={() => setError('')}
             ref={couponRef}
             type='text'
-            className={`${error ? 'border-red-400 bg-red-100' : ''}`}
+            className={`placeholder:capitalize ${error ? 'border-red-400 bg-red-100' : ''}`}
             aria-label='promo-code'
           />
           {error && (
