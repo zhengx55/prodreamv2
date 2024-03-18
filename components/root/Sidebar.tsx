@@ -40,6 +40,9 @@ const Sidebar = () => {
       case 'essay-review':
         index = 1;
         break;
+      case 'pdf-chat':
+        index = 2;
+        break;
       default:
         break;
     }
