@@ -910,7 +910,7 @@ export const PlanData = [
 
 export const ReviewSteps = [
   {
-    title: 'Share Your Essay Details',
+    title: 'Submit Your Review Needs',
     description:
       'Quickly submit the basic info and requirements for your essay. No matter the subject or format, we’re ready.',
   },
@@ -922,7 +922,7 @@ export const ReviewSteps = [
   {
     title: 'Receive Your Reviewed Essay',
     description:
-      'Get your reviewed & edited essay, with flexibility for deadline. Guaranteed money back if not satisfied. ',
+      'Get comprehensive feedback & editing on your essay, with flexibility for any deadline.',
   },
 ];
 
@@ -943,6 +943,6 @@ export const ReviewReasons = [
     icon: '/review/light.svg',
     title: 'Flexibility and Speed',
     description:
-      'Urgent deadlines? Our service accommodates your schedule, delivering quality reviews and rewrites when you need them.',
+      'Our reviewers and writers are experienced professionals with advanced degrees from tops schools like Stanford and Harvard, offering insights from years of academic and professional experience.',
   },
 ];
