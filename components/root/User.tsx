@@ -20,7 +20,9 @@ const User = ({ name, email, imgSrc }: Props) => {
         </Avatar>
         <div className='flex flex-col'>
           <h2 className='text-xl font-semibold leading-tight'>{name}</h2>
-          <p className='subtle-semibold text-shadow-100'>{email}</p>
+          <p className='subtle-semibold line-clamp-1 text-shadow-100'>
+            {email}
+          </p>
         </div>
       </div>
     </DropdownMenuTrigger>
