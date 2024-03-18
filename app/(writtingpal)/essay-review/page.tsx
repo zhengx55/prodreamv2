@@ -104,10 +104,10 @@ export default function Page() {
               <Icon src='/review/shield.svg' width={24} height={24} priority />
               <div className='flex flex-col gap-y-2'>
                 <h3 className='title-medium capitalize !leading-none text-zinc-600'>
-                  Professional Rewriting
+                  Professional Editing
                 </h3>
                 <p className='small-regular capitalize text-zinc-600'>
-                  Beyond review, we offer a rewriting service to implement
+                  Beyond review, we offer a editing service to implement
                   suggested edits, enhance readability, and ensure your essay
                   meets the highest standards. Ideal for those seeking not just
                   feedback but a polished, submission-ready piece.
@@ -121,7 +121,7 @@ export default function Page() {
                   Wide Subject Range
                 </h3>
                 <p className='small-regular capitalize text-zinc-600'>
-                  Our experts cover disciplines from Literature to STEM,
+                  Our experts cover diverse disciplines from Business to STEM,
                   ensuring knowledgeable feedback and revisions no matter your
                   field of study.
                 </p>
