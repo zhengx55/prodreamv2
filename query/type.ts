@@ -128,6 +128,7 @@ export interface PublishDate {
 }
 
 export type UserTrackData = {
+  current_coupon_code?: string;
   guidence?: string;
   continue_writing_task?: string;
   ai_copilot_task?: string;

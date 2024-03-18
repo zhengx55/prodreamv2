@@ -59,6 +59,25 @@ export async function getUserMemberShip(): Promise<ISubscription> {
   }
 }
 
+export async function getCoupon(coupon: string): Promise<ISubscription> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/coupon/${coupon}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function getDiscountInfo(): Promise<IDiscount> {
   const token = Cookies.get('token');
   const res = await fetch(
@@ -76,10 +95,12 @@ export async function getDiscountInfo(): Promise<IDiscount> {
 export async function purchaseMembership(params: {
   product_id: string;
   url: string;
+  coupon: string;
 }) {
   try {
     const formData = new FormData();
     formData.append('redirect_url', params.url);
+    formData.append('coupon', params.coupon);
     const token = Cookies.get('token');
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/${params.product_id}/order`,

@@ -1,4 +1,4 @@
-import { useMutationMembership } from '@/query/query';
+import { useMutationMembership, useUserTrackInfo } from '@/query/query';
 import { IDiscount } from '@/types';
 import { memo } from 'react';
 import Spacer from '../root/Spacer';
@@ -22,10 +22,13 @@ type Props = {
 
 const Card = ({ info, current, purchase_type, basic, discount }: Props) => {
   const { mutateAsync: purchase } = useMutationMembership();
+  const { data: track } = useUserTrackInfo();
   const handlePurchase = async () => {
     const url = window.origin + '/editor';
+    const coupon_code = track?.current_coupon_code;
     await purchase({
       product_id: purchase_type === 'annualy' ? 'year' : 'month',
+      coupon: coupon_code ?? '',
       url,
     });
   };

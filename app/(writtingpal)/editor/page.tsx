@@ -1,7 +1,7 @@
+import DocumentList from '@/components/editor/history/List';
 import Spacer from '@/components/root/Spacer';
 import dynamic from 'next/dynamic';
 const Search = dynamic(() => import('@/components/editor/history/Search'));
-const DocumentList = dynamic(() => import('@/components/editor/history/List'));
 
 export default function Page() {
   return (
