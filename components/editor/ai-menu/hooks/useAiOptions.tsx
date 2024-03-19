@@ -56,7 +56,7 @@ export const useAiOptions = () => {
           {
             id: 'edit-tools-07',
             label: 'humanize',
-            name: 'Make undetectable',
+            name: 'Humanize',
             icon: <Undetectable />,
           },
           {
