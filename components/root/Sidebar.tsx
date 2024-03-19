@@ -28,10 +28,10 @@ const Sidebar = () => {
   const user = useUserInfo((state) => state.user);
   const handleNavigation = (link: string, index: number) => {
     router.push(link);
-    const newTopValue = index * (48 + 20);
+    const newTopValue = index * (48 + 10);
     setTopValue(newTopValue);
   };
-
+  console.log(topValue);
   useEffect(() => {
     const currentroute = pathname.split('/')[1];
     let index = 0;
