@@ -13,30 +13,29 @@ import { useAnimationFrame } from 'framer-motion';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 const ContinueResult = (props: NodeViewProps) => {
   const [showAccept, setShowAccept] = useState(false);
-  const generatedResult = useAIEditor((state) => state.continueResult);
-  const continueInsertPos = useAIEditor((state) => state.continueInsertPos);
+  const { continueResult, continueInsertPos, clearContinueRes } = useAIEditor(
+    (state) => ({ ...state })
+  );
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeout = useRef<NodeJS.Timeout>();
-  const clearContinueRes = useAIEditor((state) => state.clearContinueRes);
-
   const handleAccept = useCallback(() => {
     props.deleteNode();
     props.editor
       .chain()
       .focus()
-      .insertContentAt(continueInsertPos ?? 0, ` ${generatedResult}`)
+      .insertContentAt(continueInsertPos ?? 0, ` ${continueResult}`)
       .run();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [continueInsertPos, generatedResult, props]);
+  }, [continueInsertPos, continueResult, props]);
 
   useEffect(() => {
-    if (!generatedResult) {
+    if (!continueResult) {
       return;
     }
-    if (currentIndex < generatedResult.length) {
+    if (currentIndex < continueResult.length) {
       timeout.current = setTimeout(() => {
-        setCurrentText((prevText) => prevText + generatedResult[currentIndex]);
+        setCurrentText((prevText) => prevText + continueResult[currentIndex]);
         setCurrentIndex((prevIndex) => prevIndex + 1);
       }, 10);
     } else {
@@ -47,7 +46,7 @@ const ContinueResult = (props: NodeViewProps) => {
       clearTimeout(timeout.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex, generatedResult]);
+  }, [currentIndex, continueResult]);
 
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
@@ -66,7 +65,7 @@ const ContinueResult = (props: NodeViewProps) => {
   }, [handleAccept]);
 
   useAnimationFrame(() => {
-    if (!generatedResult) {
+    if (!continueResult) {
       props.deleteNode();
     }
   });
