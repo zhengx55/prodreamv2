@@ -65,6 +65,7 @@ const AiMenu = ({ editor }: Props) => {
   const { replaceText, insertNext } = useEditorCommand(editor);
 
   const hasAiResult = aiResult.length > 0;
+
   const handleEditTools = async (tool: string) => {
     const toast = (await import('sonner')).toast;
     const selectedText = getSelectedText(editor);
@@ -155,6 +156,8 @@ const AiMenu = ({ editor }: Props) => {
   };
 
   const handleOperation = (idx: number) => {
+    editor.chain().unsetHighlight().run();
+
     switch (idx) {
       case 0:
         handleReplace();
