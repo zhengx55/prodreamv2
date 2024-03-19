@@ -306,3 +306,26 @@ export function createRegex(str: string) {
   }
   return substring_regex;
 }
+
+export function convertToBibtex(data: ICitation) {
+  const { article_title, contributors, publish_date, doi, publisher } = data;
+
+  // 处理作者
+  const formattedAuthors = contributors
+    .map((contributor) => {
+      const { first_name, middle_name, last_name } = contributor;
+      return `${last_name}, ${first_name}${middle_name ? ` ${middle_name}` : ''}`;
+    })
+    .join(' and ');
+
+  // 构建BibTeX字符串
+  let bibtex = `@article{${(doi ?? '').replace(/\//g, '')},
+    title={${article_title}},
+    author={${formattedAuthors}},
+    year={${publish_date.year}},
+    publisher={${publisher}},
+    doi={${doi}}
+  }`;
+
+  return bibtex;
+}

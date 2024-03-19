@@ -41,7 +41,7 @@ const Comments = ({ t, lang }: HomePageDicType) => {
         {CommentsInfo.map((comment, index) => (
           <li
             key={comment.id}
-            className='flex h-full w-full flex-col justify-between gap-y-4 border-b border-shadow-border px-10 py-5 sm:w-1/3 sm:gap-y-0 sm:border-b-0 sm:border-r sm:py-0 sm:last:border-r-0'
+            className='flex h-full w-full flex-col justify-between gap-y-4 border-b border-gray-200 px-10 py-5 sm:w-1/3 sm:gap-y-0 sm:border-b-0 sm:border-r sm:py-0 sm:last:border-r-0'
           >
             <p className='text-[18px] leading-relaxed'>
               {t[`ShowCase_title_${index + 1}` as keyof typeof t]}

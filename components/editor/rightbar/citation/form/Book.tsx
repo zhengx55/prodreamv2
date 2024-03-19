@@ -24,7 +24,7 @@ const BookForm = () => {
       <Spacer y='16' />
       <Select onValueChange={setBookType as any} defaultValue='The whole book'>
         <SelectTrigger>
-          <SelectValue className='rounded border border-shadow-border text-doc-shadow outline-none' />
+          <SelectValue className='rounded border border-gray-200 text-doc-shadow outline-none' />
         </SelectTrigger>
         <SelectContent className='rounded bg-white'>
           <SelectItem

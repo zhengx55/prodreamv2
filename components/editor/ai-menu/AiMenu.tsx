@@ -126,10 +126,6 @@ const AiMenu = ({ editor }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
-  const handleDiscard = () => {
-    updateCopilotMenu(false);
-  };
-
   const handleRegenerate = async () => {
     const selectedText = getSelectedText(editor);
     setCurrentResult((prev) => prev + 1);
@@ -167,7 +163,7 @@ const AiMenu = ({ editor }: Props) => {
         handleRegenerate();
         break;
       case 3:
-        handleDiscard();
+        updateCopilotMenu(false);
         break;
       default:
         break;
@@ -184,8 +180,8 @@ const AiMenu = ({ editor }: Props) => {
       <div className='relative flex w-[600px] flex-col bg-transparent'>
         <div ref={elRef} className='flex flex-col'>
           {!generating ? (
-            hasAiResult ? (
-              <div className='flex min-h-12 w-full flex-col justify-center rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
+            <>
+              <div className='flex min-h-12 w-full flex-col justify-center rounded-t border border-b-0 border-gray-200 bg-white p-2 shadow-lg'>
                 {showTyping ? (
                   <p className='small-regular px-2'>
                     <StreamText
@@ -224,9 +220,8 @@ const AiMenu = ({ editor }: Props) => {
                   </div>
                 )}
               </div>
-            ) : (
               <CustomPrompt ref={promptRef} submit={handleCustomPrompt} />
-            )
+            </>
           ) : (
             <Loader />
           )}
@@ -336,7 +331,7 @@ export default memo(AiMenu);
 
 const Loader = () => {
   return (
-    <div className='flex h-12 w-full items-center gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
+    <div className='flex h-12 w-full items-center gap-x-2 rounded-t border border-gray-200 bg-white p-2 shadow-lg'>
       <Copilot size='24' />
       <p className='base-semibold text-doc-primary'>
         Al is writing <LoadingDot label='' />

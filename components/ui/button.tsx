@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         default: 'bg-doc-primary text-white hover:-translate-y-0.5',
         secondary: 'bg-transparent hover:-translate-y-0.5',
-        outline: 'border border-shadow-border bg-white hover:-translate-y-0.5',
+        outline: 'border border-gray-200 bg-white hover:-translate-y-0.5',
         ghost: 'gap-x-2 bg-white text-doc-primary hover:-translate-y-0.5',
       },
       size: {

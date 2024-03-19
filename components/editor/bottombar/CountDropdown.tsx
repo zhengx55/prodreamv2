@@ -31,7 +31,7 @@ const CountDropdown = ({ editor }: Props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         aria-label='words'
-        className='border border-shadow-border bg-white'
+        className='border border-gray-200 bg-white'
       >
         <DropdownMenuItem
           className='flex cursor-pointer text-shadow hover:bg-border-50'

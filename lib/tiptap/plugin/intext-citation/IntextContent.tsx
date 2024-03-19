@@ -74,7 +74,7 @@ const IntextContent = (props: NodeViewProps) => {
       </PopoverTrigger>
       <PopoverContent
         align='start'
-        className='flex w-[420px] flex-col gap-y-2 rounded border border-shadow-border bg-white p-3'
+        className='flex w-[420px] flex-col gap-y-2 rounded border border-gray-200 bg-white p-3'
       >
         <Dialog>
           <DialogTrigger asChild>

@@ -264,7 +264,7 @@ const WebsiteForm = ({
         </div>
       </div>
       <Spacer y='120' />
-      <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-1.5'>
+      <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-gray-200 bg-white py-1.5'>
         <Button
           className='h-max rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}

@@ -47,7 +47,7 @@ const GoogleSignin = ({ label, lang }: { label: string; lang: Locale }) => {
   return (
     <button
       onClick={() => googleAuth()}
-      className='flex-center w-full cursor-pointer gap-x-2 self-center rounded border border-shadow-border py-4 transition-transform hover:-translate-y-1'
+      className='flex-center w-full cursor-pointer gap-x-2 self-center rounded border border-gray-200 py-4 transition-transform hover:-translate-y-1'
     >
       <Image
         src='/google.svg'

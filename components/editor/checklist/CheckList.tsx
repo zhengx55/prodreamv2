@@ -159,7 +159,7 @@ const CheckList = () => {
             <Link
               passHref
               href={'https://tally.so/r/3NovEO'}
-              className='mt-auto flex w-full items-center gap-x-2 border-t border-shadow-border py-4'
+              className='mt-auto flex w-full items-center gap-x-2 border-t border-gray-200 py-4'
               target='_blank'
             >
               <Feedback /> <p className='small-regular'>Submit Feedback</p>
