@@ -102,6 +102,7 @@ export const useEditorCommand = (editor: Editor) => {
       editor
         .chain()
         .focus()
+        .unsetHighlight()
         .insertContentAt(to, ` ${value}`, {
           parseOptions: { preserveWhitespace: 'full' },
           updateSelection: true,
@@ -110,7 +111,6 @@ export const useEditorCommand = (editor: Editor) => {
           from: to,
           to: `${value}`.length + to,
         })
-
         .run();
     },
     [editor]
