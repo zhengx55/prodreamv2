@@ -70,7 +70,7 @@ const Mine = () => {
       }}
       transition={{ delay: 0.2 }}
       animate={showMine ? 'show' : 'hide'}
-      className='absolute bottom-0 flex w-full flex-col gap-x-2 border-t border-shadow-border bg-white'
+      className='absolute bottom-0 flex w-full flex-col gap-x-2 border-t border-gray-200 bg-white'
     >
       <div className='flex-between items-center py-1.5'>
         <div className='flex items-center gap-x-2'>

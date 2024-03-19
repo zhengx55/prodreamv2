@@ -52,7 +52,7 @@ const Footer = () => {
               className='mt-3 flex items-center gap-x-4'
             >
               <input
-                className='h-11 w-full rounded border border-shadow-border px-4 py-2 outline-none focus-visible:ring-2 sm:rounded-xl sm:py-3 md:w-[327px]'
+                className='h-11 w-full rounded border border-gray-200 px-4 py-2 outline-none focus-visible:ring-2 sm:rounded-xl sm:py-3 md:w-[327px]'
                 type='email'
                 id='email'
                 autoComplete='email'

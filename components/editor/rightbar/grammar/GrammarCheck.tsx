@@ -116,7 +116,7 @@ export const GrammarCheck = memo(() => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             key={'grammer-check'}
-            className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-shadow-border px-4 py-4'
+            className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
           >
             <Image
               src='/editor/Grammar.png'

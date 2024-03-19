@@ -161,7 +161,7 @@ const Result = ({ grammarResults, update }: Props) => {
               }}
               transition={{ duration: 0.3 }}
               key={`grammar-suggestion${index}`}
-              className='w-full shrink-0 cursor-pointer overflow-hidden rounded-lg border border-shadow-border hover:shadow-xl'
+              className='w-full shrink-0 cursor-pointer overflow-hidden rounded-lg border border-gray-200 hover:shadow-xl'
             >
               <div className='flex flex-1 flex-col gap-y-2 p-3'>
                 <p

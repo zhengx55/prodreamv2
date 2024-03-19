@@ -176,7 +176,7 @@ const Report = () => {
         width: 0,
       }}
       transition={{ duration: 0.2 }}
-      className='flex h-full shrink-0 flex-col overflow-y-auto border-l border-shadow-border px-4 py-5'
+      className='flex h-full shrink-0 flex-col overflow-y-auto border-l border-gray-200 px-4 py-5'
     >
       <div className='flex-between'>
         <div className='flex items-center gap-x-5'>
@@ -214,7 +214,7 @@ const Report = () => {
       {membership?.subscription === 'basic' ? (
         <>
           <Spacer y='20' />
-          <div className='flex flex-col gap-y-4 rounded-lg border border-shadow-border px-4 py-2'>
+          <div className='flex flex-col gap-y-4 rounded-lg border border-gray-200 px-4 py-2'>
             <div className='flex items-center gap-x-2'>
               <AlertTriangle size={22} className='shrink-0 text-yellow-400' />
               <h1 className='base-semibold text-yellow-400'>
@@ -246,7 +246,7 @@ const Report = () => {
               return (
                 <div
                   key={item.id}
-                  className='rounded border border-shadow-border px-4 py-3'
+                  className='rounded border border-gray-200 px-4 py-3'
                 >
                   <p className='small-regular line-clamp-4'>{item.text}</p>
                   <Spacer y='20' />

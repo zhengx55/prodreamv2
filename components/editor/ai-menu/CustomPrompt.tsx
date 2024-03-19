@@ -22,7 +22,7 @@ const CustomPrompt = forwardRef<HTMLInputElement, Props>(({ submit }, ref) => {
   };
 
   return (
-    <div className='flex-between h-12 w-full gap-x-2 rounded-t border border-shadow-border bg-white p-2 shadow-lg'>
+    <div className='flex-between h-12 w-full gap-x-2 rounded-t border border-gray-200 bg-white p-2 shadow-lg'>
       <Copilot size='24' />
       <Input
         type='text'

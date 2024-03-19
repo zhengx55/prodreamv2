@@ -40,7 +40,7 @@ const Result = ({
   }, [currentIndex, generatedResult]);
 
   return (
-    <div className='mt-4 flex w-full flex-col rounded-t border border-shadow-border pt-3'>
+    <div className='mt-4 flex w-full flex-col rounded-t border border-gray-200 pt-3'>
       <div className='small-regular whitespace-pre-wrap px-3 text-doc-font'>
         {currentText}
       </div>

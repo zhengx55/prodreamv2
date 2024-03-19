@@ -168,7 +168,7 @@ const Editor = ({ essay_content }: { essay_content: string }) => {
         <PaymentModal />
       </div>
       {showBottomBar && (
-        <div className='flex-center absolute bottom-0 h-10 w-full shrink-0 border-t border-shadow-border bg-white px-0'>
+        <div className='flex-center absolute bottom-0 h-10 w-full shrink-0 border-t border-gray-200 bg-white px-0'>
           <BottomBar editor={editor} />
         </div>
       )}

@@ -35,7 +35,7 @@ const General = () => {
         width: 0,
       }}
       transition={{ duration: 0.2 }}
-      className='flex h-full shrink-0 flex-col border-l border-shadow-border'
+      className='flex h-full shrink-0 flex-col border-l border-gray-200'
     >
       <section className='flex h-full flex-col px-3 pt-4'>
         <PanelRightClose
@@ -54,7 +54,7 @@ const General = () => {
               className={`flex-center h-11 cursor-pointer ${
                 rightbarTab === 0
                   ? 'rounded-md border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                  : 'relative rounded-md border border-shadow-border bg-transparent'
+                  : 'relative rounded-md border border-gray-200 bg-transparent'
               }`}
             >
               {rightbarTab === 0 ? (
@@ -91,7 +91,7 @@ const General = () => {
               className={`flex-center h-11 cursor-pointer ${
                 rightbarTab === 1
                   ? 'rounded border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                  : 'relative rounded border border-shadow-border bg-transparent'
+                  : 'relative rounded border border-gray-200 bg-transparent'
               }`}
             >
               {rightbarTab === 1 ? (
@@ -117,7 +117,7 @@ const General = () => {
               className={`flex-center h-11 cursor-pointer ${
                 rightbarTab === 2
                   ? 'rounded border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                  : 'relative rounded border border-shadow-border bg-transparent'
+                  : 'relative rounded border border-gray-200 bg-transparent'
               }`}
             >
               {rightbarTab === 2 ? (

@@ -12,7 +12,7 @@ export const Surface = forwardRef<HTMLDivElement, SurfaceProps>(
       className,
       'bg-white rounded z-[50]',
       withShadow ? 'shadow-sm' : '',
-      withBorder ? 'border border-shadow-border dark:border-neutral-800' : ''
+      withBorder ? 'border border-gray-200 dark:border-neutral-800' : ''
     );
 
     return (

@@ -9,19 +9,19 @@ const CustomCitation = () => {
       <Tabs defaultValue='Website' className='flex-1 overflow-y-auto'>
         <TabsList className='gap-x-2 px-0'>
           <TabsTrigger
-            className='rounded-lg border border-shadow-border bg-transparent data-[state=active]:bg-doc-primary/20 data-[state=active]:text-doc-primary'
+            className='rounded-lg border border-gray-200 bg-transparent data-[state=active]:bg-doc-primary/20 data-[state=active]:text-doc-primary'
             value='Website'
           >
             Website
           </TabsTrigger>
           <TabsTrigger
-            className='rounded-lg border border-shadow-border bg-transparent data-[state=active]:bg-doc-primary/20 data-[state=active]:text-doc-primary'
+            className='rounded-lg border border-gray-200 bg-transparent data-[state=active]:bg-doc-primary/20 data-[state=active]:text-doc-primary'
             value='Book'
           >
             Book
           </TabsTrigger>
           <TabsTrigger
-            className='rounded-lg border border-shadow-border bg-transparent data-[state=active]:bg-doc-primary/20 data-[state=active]:text-doc-primary'
+            className='rounded-lg border border-gray-200 bg-transparent data-[state=active]:bg-doc-primary/20 data-[state=active]:text-doc-primary'
             value='Journal'
           >
             Journal

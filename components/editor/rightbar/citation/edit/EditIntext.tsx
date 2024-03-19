@@ -79,7 +79,7 @@ const EditIntext = () => {
     current_citation?.article_title || current_citation?.book_title || '';
   return (
     <TabsContent value='in-text'>
-      <div className='flex flex-col rounded border border-shadow-border p-4'>
+      <div className='flex flex-col rounded border border-gray-200 p-4'>
         <h1 className='font-medium'>{title}</h1>
         <Spacer y='10' />
         <ul className='flex flex-col gap-y-3'>
@@ -133,7 +133,7 @@ const EditIntext = () => {
           </li>
         </ul>
       </div>
-      <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-shadow-border bg-white py-1.5'>
+      <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-gray-200 bg-white py-1.5'>
         <Button
           className='h-max rounded border border-doc-primary text-doc-primary'
           variant={'ghost'}

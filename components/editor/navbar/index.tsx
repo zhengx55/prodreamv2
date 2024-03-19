@@ -23,14 +23,14 @@ const DocNavbar = () => {
 
   if (isPending || isUsagePending)
     return (
-      <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-shadow-border px-5 py-3'>
+      <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-gray-200 px-5 py-3'>
         <Skeleton className='h-5 w-24 rounded' />
         <Skeleton className='h-5 w-24 rounded' />
       </nav>
     );
 
   return (
-    <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-shadow-border px-5 py-3'>
+    <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-gray-200 px-5 py-3'>
       {/* {!Boolean(prompt) && <PromptViewModal prompt={prompt} />} */}
       <div className='flex h-full items-center gap-x-4'>
         {track?.guidence && (

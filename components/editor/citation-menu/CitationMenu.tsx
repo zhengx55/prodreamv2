@@ -97,7 +97,7 @@ const CitationMenu = ({ editor }: Props) => {
                     <p className='italic'>{item.area ? item.area[0] : ''}</p>
                     <p>{item.publish_date.year ?? ''}</p>
                   </div>
-                  <div className='flex flex-col gap-y-2 rounded border border-shadow-border p-3'>
+                  <div className='flex flex-col gap-y-2 rounded border border-gray-200 p-3'>
                     <p className='small-regular line-clamp-3'>
                       {item.abstract ?? ''}
                     </p>

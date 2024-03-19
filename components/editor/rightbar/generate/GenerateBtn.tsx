@@ -19,7 +19,7 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
   return (
     <div className='flex flex-col'>
       <Spacer y='30' />
-      <div className='flex-center h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-shadow-border px-4 py-4'>
+      <div className='flex-center h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
         <Image
           src='/editor/Generate.png'
           alt='generate-img'

@@ -19,7 +19,7 @@ const Card = ({ item }: Props) => {
 
   return (
     <Link passHref prefetch={false} href={`/editor/${item.id}`}>
-      <li className='flex h-[200px] w-full shrink-0 cursor-pointer flex-col overflow-hidden rounded-lg border border-shadow-border hover:shadow-lg hover:brightness-95'>
+      <li className='flex h-[200px] w-full shrink-0 cursor-pointer flex-col overflow-hidden rounded-lg border border-gray-200 hover:shadow-lg hover:brightness-95'>
         <div className='h-4/5 w-full overflow-hidden rounded-t-lg bg-nav-selected px-3 py-2.5'>
           <FileIcon />
           <Spacer y='5' />

@@ -32,7 +32,7 @@ const MembershipModal = () => {
         <div className='relative flex w-full flex-col'>
           <DialogClose asChild>
             <Button
-              className='absolute right-0 h-max w-max rounded-full border border-shadow-border p-0.5'
+              className='absolute right-0 h-max w-max rounded-full border border-gray-200 p-0.5'
               variant={'ghost'}
             >
               <X size={18} className='text-shadow-border' />
