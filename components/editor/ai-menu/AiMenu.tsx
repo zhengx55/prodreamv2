@@ -156,8 +156,6 @@ const AiMenu = ({ editor }: Props) => {
   };
 
   const handleOperation = (idx: number) => {
-    editor.chain().unsetHighlight().run();
-
     switch (idx) {
       case 0:
         handleReplace();
