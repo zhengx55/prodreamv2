@@ -162,7 +162,6 @@ const AiMenu = ({ editor }: Props) => {
         break;
       case 1:
         handleInsert();
-        editor.chain().unsetHighlight().run();
         break;
       case 2:
         handleRegenerate();
