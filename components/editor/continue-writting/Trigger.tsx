@@ -17,10 +17,12 @@ import { memo, useEffect, useState } from 'react';
 
 type Props = { editor: Editor };
 const Trigger = ({ editor }: Props) => {
-  const showContinue = useAIEditor((state) => state.showContinue);
-  const updateContinueRes = useAIEditor((state) => state.updateContinueRes);
-  const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
-  const updateInsertPos = useAIEditor((state) => state.updateInsertPos);
+  const {
+    showContinue,
+    updateContinueRes,
+    updateshowContinue,
+    updateInsertPos,
+  } = useAIEditor((state) => ({ ...state }));
   const [generating, setGenerating] = useState(false);
   const queryClient = useQueryClient();
   const { data: usage } = useMembershipInfo();

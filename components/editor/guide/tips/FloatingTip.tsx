@@ -90,7 +90,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const insertPos = useRef<number>(0);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const { updateRightbarTab, updateshowContinue, updateContinueRes } =
+  const { updateshowContinue, updateContinueRes, updateInsertPos } =
     useAIEditor((state) => ({
       ...state,
     }));
@@ -102,6 +102,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
       let flag: boolean = false;
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       insertPos.current = variables.pos - 1;
+      updateInsertPos(variables.pos);
       while (true) {
         const { value, done } = await reader.read();
         const lines = value?.split('\n');
@@ -184,7 +185,6 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
               field: 'continue_tip_task',
               data: true,
             });
-            updateRightbarTab(0);
           }}
           className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'
           role='button'
