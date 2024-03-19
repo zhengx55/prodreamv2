@@ -44,6 +44,14 @@ export type ICitationData = IWebsiteCitation &
   IChapterCitation &
   IIntroductionCitation;
 
+export type IContributors = {
+  first_name: string;
+  last_name: string;
+  middle_name: string;
+  role: string;
+  suffix: string;
+};
+
 export interface IWebsiteCitation {
   abstract: string;
   access_date: {
@@ -53,11 +61,7 @@ export interface IWebsiteCitation {
   };
   annotation: string;
   article_title: string;
-  contributors: {
-    first_name?: string;
-    last_name?: string;
-    middle_name?: string;
-  }[];
+  contributors: IContributors[];
   document_id: string;
   publisher: string;
   website_title: string;
@@ -85,13 +89,7 @@ export interface IJournalCitation {
   citation_count: number;
   annotation: string;
   article_title: string;
-  contributors: {
-    first_name: string;
-    last_name: string;
-    middle_name: string;
-    role: string;
-    suffix: string;
-  }[];
+  contributors: IContributors[];
   document_id: string;
   influential_citation_count: number;
   doi: string;
@@ -126,13 +124,7 @@ export interface IBookCitation {
   manual_create: boolean;
   annotation: string;
   book_title: string;
-  contributors: {
-    first_name?: string;
-    last_name?: string;
-    middle_name?: string;
-    role?: string;
-    suffix?: string;
-  }[];
+  contributors: IContributors[];
   document_id: string;
   publication_info: {
     city?: string;
@@ -155,12 +147,7 @@ export interface IChapterCitation {
   };
   annotation: string;
   book_title: string;
-  contributors: {
-    first_name?: string;
-    last_name?: string;
-    middle_name?: string;
-    role?: string;
-  }[];
+  contributors: IContributors[];
   document_id: string;
   manual_create: boolean;
   page_info: { end?: number | null; start?: number | null };
@@ -187,13 +174,7 @@ export interface IIntroductionCitation {
   annotation: string;
   manual_create: boolean;
   book_title: string;
-  contributors: {
-    first_name?: string;
-    last_name?: string;
-    middle_name?: string;
-    role?: string;
-    suffix?: string;
-  }[];
+  contributors: IContributors[];
   document_id: string;
   page_info: { end?: number | null; start?: number | null };
   publication_info: {
