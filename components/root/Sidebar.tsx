@@ -11,7 +11,7 @@ import { Button } from '../ui/button';
 import { DropdownMenu } from '../ui/dropdown-menu';
 import { Skeleton } from '../ui/skeleton';
 import Spacer from './Spacer';
-import { Diamond, Feedback } from './SvgComponents';
+import { Diamond } from './SvgComponents';
 import { UserSkeleton } from './User';
 
 const useSidebarElevation = (pathname: string) => {
@@ -118,18 +118,7 @@ const Sidebar = () => {
           );
         })}
       </ul>
-      <div className='mt-auto flex flex-col gap-y-6'>
-        <Link passHref href={'https://tally.so/r/3NovEO'} target='_blank'>
-          <div
-            role='link'
-            className='flex cursor-pointer gap-x-2 rounded-xl bg-doc-secondary p-2'
-          >
-            <Feedback />
-            <p className='text-md font-[500] text-doc-shadow'>
-              Submit feedback
-            </p>
-          </div>
-        </Link>
+      <div className='mt-auto flex flex-col'>
         {memberShipPending ? (
           <Skeleton className='h-10 w-full rounded-lg' />
         ) : memberShip?.subscription === 'basic' ? (

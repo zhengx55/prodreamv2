@@ -455,6 +455,7 @@ export async function ask(params: {
   instruction: string;
   text: string;
   writing_goal?: string;
+  session_id?: string;
 }): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
@@ -466,6 +467,7 @@ export async function ask(params: {
           text: params.text,
           instruction: params.instruction,
           writing_goal: params.writing_goal,
+          session_id: params.session_id ?? null,
         }),
         headers: {
           'Content-Type': 'application/json',

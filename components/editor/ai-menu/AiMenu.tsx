@@ -60,6 +60,7 @@ const AiMenu = ({ editor }: Props) => {
     showTyping,
     toogleTyping,
     handleHumanize,
+    session,
   } = useAiResponse(tool);
 
   const { replaceText, insertNext } = useEditorCommand(editor);
@@ -80,6 +81,7 @@ const AiMenu = ({ editor }: Props) => {
       });
       await ButtonTrack({ event: 'Onboarding task: editing tool' });
     }
+    setCurrentResult((prev) => prev + 1);
     if (tool === 'humanize') {
       await handleHumanize({ text: selectedText });
       return;
@@ -118,13 +120,16 @@ const AiMenu = ({ editor }: Props) => {
     if (promptRef.current && !promptRef.current.value.trim())
       return toast.error('please enter a custom prompt');
 
+    setCurrentResult((prev) => prev + 1);
     await handleAsk({
       instruction: promptRef.current?.value!,
       text: selectedText,
       writing_goal: essay_prompt,
+      session_id: session,
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor]);
+  }, [editor, essay_prompt, session]);
 
   const handleRegenerate = async () => {
     const selectedText = getSelectedText(editor);
@@ -181,45 +186,49 @@ const AiMenu = ({ editor }: Props) => {
         <div ref={elRef} className='flex flex-col'>
           {!generating ? (
             <>
-              <div className='flex min-h-12 w-full flex-col justify-center rounded-t border border-b-0 border-gray-200 bg-white p-2 shadow-lg'>
-                {showTyping ? (
-                  <p className='small-regular px-2'>
-                    <StreamText
-                      toogleTyping={toogleTyping}
-                      generatedResult={aiResult[currentResult]}
-                    />
-                  </p>
-                ) : (
-                  <p className='small-regular px-2'>
-                    {aiResult[currentResult]}
-                  </p>
-                )}
-                {!showTyping && (
-                  <div className='flex w-full items-center justify-end gap-x-0.5'>
-                    <ChevronLeft
-                      className='cursor-pointer text-doc-font'
-                      size={18}
-                      onClick={() =>
-                        setCurrentResult((prev) => (prev === 0 ? 0 : prev - 1))
-                      }
-                    />
-                    <p className='small-regular text-doc-font'>
-                      {currentResult + 1} of {aiResult.length}
+              {hasAiResult && (
+                <div className='flex min-h-12 w-full flex-col justify-center rounded-t border border-b-0 border-gray-200 bg-white p-2 shadow-lg'>
+                  {showTyping ? (
+                    <p className='small-regular px-2'>
+                      <StreamText
+                        toogleTyping={toogleTyping}
+                        generatedResult={aiResult[currentResult]}
+                      />
                     </p>
-                    <ChevronRight
-                      className='cursor-pointer text-doc-font'
-                      size={18}
-                      onClick={() =>
-                        setCurrentResult((prev) =>
-                          prev === aiResult.length - 1
-                            ? aiResult.length - 1
-                            : prev + 1
-                        )
-                      }
-                    />
-                  </div>
-                )}
-              </div>
+                  ) : (
+                    <p className='small-regular px-2'>
+                      {aiResult[currentResult]}
+                    </p>
+                  )}
+                  {!showTyping && (
+                    <div className='flex w-full items-center justify-end gap-x-0.5'>
+                      <ChevronLeft
+                        className='cursor-pointer text-doc-font'
+                        size={18}
+                        onClick={() =>
+                          setCurrentResult((prev) =>
+                            prev === 0 ? 0 : prev - 1
+                          )
+                        }
+                      />
+                      <p className='small-regular text-doc-font'>
+                        {currentResult + 1} of {aiResult.length}
+                      </p>
+                      <ChevronRight
+                        className='cursor-pointer text-doc-font'
+                        size={18}
+                        onClick={() =>
+                          setCurrentResult((prev) =>
+                            prev === aiResult.length - 1
+                              ? aiResult.length - 1
+                              : prev + 1
+                          )
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
               <CustomPrompt ref={promptRef} submit={handleCustomPrompt} />
             </>
           ) : (
