@@ -2,7 +2,7 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CitationTooltip } from '@/constant/enum';
-import { ConvertCitationData, convertToBibtex } from '@/lib/utils';
+import { ConvertCitationData } from '@/lib/utils';
 import {
   useButtonTrack,
   useCiteToDoc,
@@ -37,8 +37,6 @@ export const SearchCitationCard = memo(
     const { mutateAsync: handleCollect } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
     const { mutateAsync: ButtonTrack } = useButtonTrack();
-    console.log(convertToBibtex(item));
-
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
         const { toast } = await import('sonner');
