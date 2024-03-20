@@ -25,6 +25,8 @@ import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
 import Spacer from '../root/Spacer';
 
+const defaultValues = { password: '', email: '' };
+
 const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   const [hidePassword, setHidePassword] = useState(true);
   const posthog = usePostHog();
@@ -34,10 +36,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: {
-      password: '',
-      email: '',
-    },
+    defaultValues,
   });
   const { mutateAsync: handleSignup, isPending: isSignupPending } = useMutation(
     {
@@ -71,13 +70,16 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
       },
     }
   );
-  async function onSubmit(values: z.infer<typeof signUpSchema>) {
-    const referral = document.referrer.includes('google')
-      ? 'google'
-      : document.referrer.includes('baidu')
-        ? 'baidu'
-        : undefined;
 
+  const getReferralSource = () => {
+    const sources = ['google', 'baidu'];
+    return (
+      sources.find((source) => document.referrer.includes(source)) || undefined
+    );
+  };
+
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    const referral = getReferralSource();
     await handleSignup({
       email: values.email,
       password: values.password,
@@ -86,6 +88,9 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
       traffic_source: searchParam ?? undefined,
     });
   }
+
+  const PasswordToggleIcon = hidePassword ? EyeOff : Eye;
+
   return (
     <Form {...form}>
       <form
@@ -116,19 +121,11 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
           name='password'
           render={({ field }) => (
             <FormItem className='relative'>
-              {!hidePassword ? (
-                <EyeOff
-                  onClick={() => setHidePassword((prev) => !prev)}
-                  size={20}
-                  className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
-                />
-              ) : (
-                <Eye
-                  onClick={() => setHidePassword((prev) => !prev)}
-                  size={20}
-                  className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
-                />
-              )}
+              <PasswordToggleIcon
+                onClick={() => setHidePassword((prev) => !prev)}
+                size={20}
+                className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
+              />
               <FormControl>
                 <Input
                   autoComplete='current-password'
