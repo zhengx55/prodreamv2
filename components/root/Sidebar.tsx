@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { DropdownMenu } from '../ui/dropdown-menu';
 import { Skeleton } from '../ui/skeleton';
@@ -14,23 +14,12 @@ import Spacer from './Spacer';
 import { Diamond, Feedback } from './SvgComponents';
 import { UserSkeleton } from './User';
 
-const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
-const User = dynamic(() => import('./User'), {
-  loading: () => <UserSkeleton />,
-});
-const Sidebar = () => {
-  const pathname = usePathname();
-  const router = useRouter();
+const useSidebarElevation = (pathname: string) => {
   const [topValue, setTopValue] = useState<number | undefined>();
-  const { isPending: memberShipPending, data: memberShip } =
-    useMembershipInfo();
-  // console.log(memberShip);
-  const user = useUserInfo((state) => state.user);
-  const handleNavigation = (link: string, index: number) => {
-    router.push(link);
-    const newTopValue = index * (48 + 20);
-    setTopValue(newTopValue);
-  };
+
+  const changeTopValue = useCallback((value: number) => {
+    setTopValue(value);
+  }, []);
 
   useEffect(() => {
     const currentroute = pathname.split('/')[1];
@@ -50,6 +39,25 @@ const Sidebar = () => {
     }
     setTopValue(index * (48 + 10));
   }, [pathname]);
+  return { topValue, changeTopValue };
+};
+
+const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
+const User = dynamic(() => import('./User'), {
+  loading: () => <UserSkeleton />,
+});
+const Sidebar = () => {
+  const pathname = usePathname();
+  const { topValue, changeTopValue } = useSidebarElevation(pathname);
+  const router = useRouter();
+  const { isPending: memberShipPending, data: memberShip } =
+    useMembershipInfo();
+  const user = useUserInfo((state) => state.user);
+  const handleNavigation = (link: string, index: number) => {
+    router.push(link);
+    const newTopValue = index * (48 + 10);
+    changeTopValue(newTopValue);
+  };
 
   return (
     <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>

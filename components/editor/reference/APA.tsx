@@ -1,233 +1,94 @@
-import {
-  IBookCitation,
-  IChapterCitation,
-  ICitationType,
-  IIntroductionCitation,
-  IJournalCitation,
-  IWebsiteCitation,
-} from '@/types';
+import { ICitationData, ICitationType, IContributors } from '@/types';
 import React from 'react';
 
 interface IAPAReferenceProps {
   citation: {
     type: ICitationType;
-    data:
-      | IWebsiteCitation
-      | IJournalCitation
-      | IBookCitation
-      | IChapterCitation
-      | IIntroductionCitation;
+    data: ICitationData;
   };
 }
 
 const APAReference: React.FC<IAPAReferenceProps> = ({ citation }) => {
-  const formatAuthors = (contributors: any[]) => {
+  const formatAuthors = (contributors: IContributors[]) => {
     return contributors
-      .map((contributor) => {
-        const { last_name, first_name } = contributor;
-        return `${last_name}${first_name ? `, ${first_name?.charAt(0)}` : ''}.`;
-      })
-      .join('& ');
+      .map(
+        ({ last_name, first_name }) =>
+          `${last_name}, ${first_name ? `${first_name.charAt(0)}.` : ''}`
+      )
+      .join(', ');
   };
 
-  const generateWebsiteReference = (citation: IWebsiteCitation) => {
-    const { website_title, url, access_date, contributors } = citation;
+  const formatDate = ({
+    year,
+    month,
+    day,
+  }: {
+    year: any;
+    month: any;
+    day: any;
+  }) => {
+    if (year && month && day) {
+      return `(${year}, ${month} ${day})`;
+    } else if (year && month) {
+      return `(${year}, ${month})`;
+    } else if (year) {
+      return `(${year})`;
+    }
+    return '';
+  };
+
+  const generateReference = (data: ICitationData) => {
     let reference = '';
-    if (contributors && contributors.length > 0) {
-      reference += `${formatAuthors(contributors)} `;
-    }
-    if (access_date) {
-      if (access_date.month && access_date.day) {
-        reference += `(${access_date.year}, ${access_date.month} ${access_date.day}) `;
-      } else if (access_date.month) {
-        reference += `(${access_date.year}, ${access_date.month}) `;
-      } else if (access_date.day) {
-        reference += `(${access_date.year}, ${access_date.day}) `;
-      } else {
-        reference += `(${access_date.year}). `;
-      }
+    if (data.contributors?.length) {
+      reference += `${formatAuthors(data.contributors)} `;
     }
 
-    reference += `${website_title}. ${url}`;
-
-    return !reference.trimEnd().endsWith('.')
-      ? reference.slice(0, -1) + '.'
-      : reference;
-  };
-
-  const generateJournalReference = (citation: IJournalCitation) => {
-    const {
-      journal_title,
-      article_title,
-      contributors,
-      page_info,
-      publish_date,
-      doi,
-    } = citation;
-
-    let reference = '';
-
-    if (contributors && contributors.length > 0) {
-      reference += `${formatAuthors(contributors)} `;
+    const date = data.publish_date || data.access_date;
+    if (date) {
+      reference += `${formatDate(date)} `;
     }
 
-    if (publish_date) {
-      if (publish_date.month && publish_date.day) {
-        reference += `(${publish_date.year}, ${publish_date.month} ${publish_date.day}) `;
-      } else if (publish_date.month) {
-        reference += `(${publish_date.year}, ${publish_date.month}) `;
-      } else if (publish_date.day) {
-        reference += `(${publish_date.year}, ${publish_date.day}) `;
-      } else {
-        reference += `(${publish_date.year}). `;
-      }
+    switch (citation.type) {
+      case 'Website':
+        reference += `${data.website_title}. ${data.url}`;
+        break;
+      case 'Journal':
+        reference += `${data.article_title}. <em>${data.journal_title}</em>`;
+        if (data.page_info?.start && data.page_info?.end) {
+          reference += ` ${data.page_info.start}-${data.page_info.end}`;
+        }
+        if (data.doi) {
+          reference += `, https://doi.org/${data.doi}`;
+        }
+        break;
+
+      case 'WholeBook':
+        reference += `<em>${data.book_title}</em>`;
+        if (data.publication_info?.publisher) {
+          reference += ` ${data.publication_info.publisher}`;
+        }
+        break;
+      case 'BookSection':
+      case 'BookSpecialSection':
+        reference += `${data.section_title} In <em>${data.book_title}</em>`;
+        if (data.page_info?.start && data.page_info?.end) {
+          reference += `, pp. ${data.page_info.start}-${data.page_info.end}`;
+        }
+        if (data.publication_info?.publisher) {
+          reference += `, ${data.publication_info.publisher}`;
+        }
+        break;
     }
 
-    reference += `${article_title}. ${journal_title}`;
-
-    if (page_info?.start && page_info?.end) {
-      reference += `, ${page_info.start}-${page_info.end}`;
-    }
-
-    if (doi) {
-      reference += `. https://doi.org/${doi}`;
-    }
-
-    return !reference.trimEnd().endsWith('.')
-      ? reference.slice(0, -1) + '.'
-      : reference;
-  };
-
-  const generateBookReference = (citation: IBookCitation) => {
-    const { book_title, advanced_info, publication_info, contributors } =
-      citation;
-
-    let reference = '';
-
-    if (contributors && contributors.length > 0) {
-      reference += `${formatAuthors(contributors)} `;
-    }
-
-    reference += `(${publication_info?.publish_year}). ${book_title}`;
-
-    if (advanced_info?.edition) {
-      reference += ` (${advanced_info.edition}nd ed.).`;
-    }
-
-    if (publication_info?.publisher) {
-      reference += ` ${publication_info.publisher}.`;
-    }
-
-    return !reference.trimEnd().endsWith('.')
-      ? reference.slice(0, -1) + '.'
-      : reference;
-  };
-
-  const generateChapterReference = (citation: IChapterCitation) => {
-    const {
-      advanced_info,
-      book_title,
-      page_info,
-      publication_info,
-      contributors,
-      section_title,
-    } = citation;
-
-    let reference = '';
-
-    if (contributors && contributors.length > 0) {
-      reference += `${formatAuthors(contributors)} `;
-    }
-
-    reference += `(${publication_info?.publish_year}). ${section_title}. In ${book_title}`;
-
-    if (advanced_info?.edition) {
-      reference += ` (${advanced_info.edition}nd ed.).`;
-    }
-
-    if (publication_info?.publisher) {
-      reference += ` ${publication_info.publisher}.`;
-    }
-
-    if (publication_info?.city) {
-      reference += ` ${publication_info.city}.`;
-    }
-
-    if (publication_info?.state) {
-      reference += ` ${publication_info.state}.`;
-    }
-
-    if (page_info?.start && page_info.end) {
-      reference += ` pp. ${page_info.start}-${page_info.end}.`;
-    }
-
-    return !reference.trimEnd().endsWith('.')
-      ? reference.slice(0, -1) + '.'
-      : reference;
-  };
-
-  const generateIntroductionReference = (citation: IIntroductionCitation) => {
-    const {
-      contributors,
-      advanced_info,
-      book_title,
-      page_info,
-      publication_info,
-      section_title,
-    } = citation;
-
-    let reference = '';
-
-    if (contributors && contributors.length > 0) {
-      reference += `${formatAuthors(contributors)} `;
-    }
-
-    reference += `(${publication_info?.publish_year}). ${section_title}. In ${book_title}`;
-
-    if (advanced_info?.edition) {
-      reference += ` (${advanced_info.edition}nd ed.).`;
-    }
-
-    if (publication_info?.publisher) {
-      reference += ` ${publication_info.publisher}.`;
-    }
-
-    if (publication_info?.city) {
-      reference += ` ${publication_info.city}.`;
-    }
-
-    if (publication_info?.state) {
-      reference += ` ${publication_info.state}.`;
-    }
-
-    if (page_info?.start && page_info.end) {
-      reference += ` pp. ${page_info.start}-${page_info.end}.`;
-    }
-
-    return !reference.trimEnd().endsWith('.')
-      ? reference.slice(0, -1) + '.'
-      : reference;
-  };
-
-  const generateAPAReference = () => {
-    if (citation.type === 'Website') {
-      return generateWebsiteReference(citation.data as IWebsiteCitation);
-    } else if (citation.type === 'Journal') {
-      return generateJournalReference(citation.data as IJournalCitation);
-    } else if (citation.type === 'WholeBook') {
-      return generateBookReference(citation.data as IBookCitation);
-    } else if (citation.type === 'BookSection') {
-      return generateChapterReference(citation.data as IChapterCitation);
-    } else if (citation.type === 'BookSpecialSection') {
-      return generateIntroductionReference(
-        citation.data as IIntroductionCitation
-      );
-    }
-    // Add similar conditions for other citation types as needed.
+    return reference.endsWith('.') ? reference : reference + '.';
   };
 
   return (
-    <p dangerouslySetInnerHTML={{ __html: generateAPAReference() ?? '' }} />
+    <p
+      dangerouslySetInnerHTML={{
+        __html: generateReference(citation.data) ?? '',
+      }}
+    />
   );
 };
 

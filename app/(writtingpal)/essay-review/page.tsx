@@ -3,12 +3,27 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { ReviewReasons, ReviewSteps } from '@/constant';
 import dynamic from 'next/dynamic';
+import { cookies } from 'next/headers';
 import Image from 'next/image';
+import Link from 'next/link';
 import { v4 } from 'uuid';
 
 const Modal = dynamic(() => import('@/components/review/Modal'));
 
-export default function Page() {
+export default async function Page() {
+  const token = cookies().get('token')?.value;
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/redeem/essay_review`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const data = await res.json();
+  const isFree = data.code === 0;
+
   return (
     <main className='flex h-full w-full justify-center overflow-y-auto'>
       <div className='flex w-[900px] flex-col'>
@@ -44,15 +59,27 @@ export default function Page() {
             <br />
             <span className='text-yellow-400'>professional</span>&nbsp; Editing
           </h1>
-          <Modal>
-            <Button
-              role='button'
-              variant={'ghost'}
-              className='absolute bottom-16 left-10 h-max rounded-lg border-none bg-white py-3'
-            >
-              Claim Your Free Review
-            </Button>
-          </Modal>
+          {isFree ? (
+            <Modal>
+              <Button
+                role='button'
+                variant={'ghost'}
+                className='absolute bottom-16 left-10 h-max rounded-lg border-none bg-white py-3'
+              >
+                Claim Your Free Review
+              </Button>
+            </Modal>
+          ) : (
+            <Link href={'https://tally.so/r/wAdBro'} target='_black' passHref>
+              <Button
+                role='button'
+                variant={'ghost'}
+                className='absolute bottom-16 left-10 h-max rounded-lg border-none bg-white py-3'
+              >
+                Get Started
+              </Button>
+            </Link>
+          )}
         </div>
         <Spacer y='30' />
         <div className='flex-between'>
@@ -142,11 +169,19 @@ export default function Page() {
           </div>
         </div>
         <Spacer y='30' />
-        <Modal>
-          <Button role='button' className='h-max rounded-lg py-3'>
-            Claim Your Free Review
-          </Button>
-        </Modal>
+        {isFree ? (
+          <Modal>
+            <Button role='button' className='h-max rounded-lg py-3'>
+              Claim Your Free Review
+            </Button>
+          </Modal>
+        ) : (
+          <Link href={'https://tally.so/r/wAdBro'} target='_black' passHref>
+            <Button role='button' className='h-max w-full rounded-lg py-3'>
+              Get Started
+            </Button>
+          </Link>
+        )}
 
         <Spacer y='40' />
         <h2 className='text-[28px] font-medium  text-zinc-800'>

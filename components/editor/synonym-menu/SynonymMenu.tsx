@@ -62,7 +62,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
       className='absolute flex w-[450px] justify-center'
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>
-        <div className='flex h-60 w-full flex-col gap-x-2 rounded-t border border-shadow-border bg-white p-4 shadow-lg'>
+        <div className='flex h-60 w-full flex-col gap-x-2 rounded-t border border-gray-200 bg-white p-4 shadow-lg'>
           <div className='flex items-center gap-x-2'>
             <Synonym size='24' />
             <h1 className='base-semibold'>Synonyms for &quot;{text}&quot;</h1>

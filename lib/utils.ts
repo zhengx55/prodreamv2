@@ -256,7 +256,7 @@ export function ConvertCitationData(item: ICitation, manual: boolean) {
   const {
     advanced_info,
     article_title,
-    authors,
+    contributors,
     doi,
     journal_title,
     page_info,
@@ -274,7 +274,7 @@ export function ConvertCitationData(item: ICitation, manual: boolean) {
     month: publish_date.month ? numberToMonth(publish_date.month) : '',
     year: publish_date.year ?? '',
   };
-  converted_data.contributors = authors ?? [
+  converted_data.contributors = contributors ?? [
     { first_name: '', last_name: '', middle_name: '', role: '', suffix: '' },
   ];
   converted_data.manual_create = manual;
@@ -305,4 +305,27 @@ export function createRegex(str: string) {
     substring_regex = new RegExp(`\\b${str}\\b`, 'g');
   }
   return substring_regex;
+}
+
+export function convertToBibtex(data: ICitation) {
+  const { article_title, contributors, publish_date, doi, publisher } = data;
+
+  // 处理作者
+  const formattedAuthors = contributors
+    .map((contributor) => {
+      const { first_name, middle_name, last_name } = contributor;
+      return `${last_name}, ${first_name}${middle_name ? ` ${middle_name}` : ''}`;
+    })
+    .join(' and ');
+
+  // 构建BibTeX字符串
+  let bibtex = `@article{${(doi ?? '').replace(/\//g, '')},
+    title={${article_title}},
+    author={${formattedAuthors}},
+    year={${publish_date.year}},
+    publisher={${publisher}},
+    doi={${doi}}
+  }`;
+
+  return bibtex;
 }

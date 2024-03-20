@@ -1,3 +1,4 @@
+import Tab from '@/components/pricing/Tab';
 import Spacer from '@/components/root/Spacer';
 import { Diamond } from '@/components/root/SvgComponents';
 import { IDiscount, ISubscription } from '@/types';
@@ -6,8 +7,6 @@ import { cookies } from 'next/headers';
 
 const Plan = dynamic(() => import('@/components/pricing/Plan'));
 const QA = dynamic(() => import('@/components/pricing/QA'));
-const Tab = dynamic(() => import('@/components/pricing/Tab'));
-
 async function getBalance() {
   const token = cookies().get('token')?.value;
   const res = await fetch(

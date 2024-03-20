@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo } from 'react';
 
 const MonthDropdown = ({
   setValue,
@@ -32,7 +32,7 @@ const MonthDropdown = ({
 
   return (
     <select
-      className='text-muted-foreground h-10 w-full rounded-md border border-shadow-border px-2 outline-none'
+      className='text-muted-foreground h-10 w-full rounded-md border border-gray-200 px-2 outline-none'
       id='month'
       value={value}
       onChange={handleMonthChange}

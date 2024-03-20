@@ -98,11 +98,11 @@ const Start = ({ handleClose }: Props) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className='relative flex flex-col flex-1 gap-y-16'
+      className='relative flex flex-1 flex-col gap-y-16'
       key={'board-writing'}
     >
       {isGenrating && (
-        <div className='absolute inset-0 z-50 flex-1 flex-center bg-white/80 backdrop-blur-sm'>
+        <div className='flex-center absolute inset-0 z-50 flex-1 bg-white/80 backdrop-blur-sm'>
           <Loader2 className='animate-spin text-doc-primary' />
         </div>
       )}
@@ -115,7 +115,7 @@ const Start = ({ handleClose }: Props) => {
           </span>
         </h1>
         <Button
-          className='px-10 py-1 border rounded h-max w-max border-doc-primary text-doc-primary'
+          className='h-max w-max rounded border border-doc-primary px-10 py-1 text-doc-primary'
           variant={'ghost'}
           onClick={handleClose}
         >
@@ -123,7 +123,7 @@ const Start = ({ handleClose }: Props) => {
         </Button>
       </div>
       <div className='flex-between gap-x-4'>
-        <div className='flex h-[380px] w-1/3 cursor-pointer flex-col items-center justify-evenly rounded-2xl border border-shadow-border py-4 hover:bg-[#F8F9FC]'>
+        <div className='flex h-[380px] w-1/3 cursor-pointer flex-col items-center justify-evenly rounded-2xl border border-gray-200 py-4 hover:bg-[#F8F9FC]'>
           <p className='title-semibold text-doc-shadow'>
             Start writing an essay
           </p>
@@ -136,7 +136,7 @@ const Start = ({ handleClose }: Props) => {
             />
           </div>
         </div>
-        <div className='flex flex-col w-2/3 h-full'>
+        <div className='flex h-full w-2/3 flex-col'>
           <p className='title-medium'>
             Brief description of what you are writing{' '}
           </p>
@@ -236,7 +236,7 @@ const Start = ({ handleClose }: Props) => {
           <Button
             role='button'
             onClick={handleStartWritting}
-            className='px-20 mt-auto rounded-md w-max bg-doc-primary'
+            className='mt-auto w-max rounded-md bg-doc-primary px-20'
           >
             Start Writting
           </Button>

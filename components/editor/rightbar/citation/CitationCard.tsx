@@ -37,7 +37,6 @@ export const SearchCitationCard = memo(
     const { mutateAsync: handleCollect } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
     const { mutateAsync: ButtonTrack } = useButtonTrack();
-
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
         const { toast } = await import('sonner');

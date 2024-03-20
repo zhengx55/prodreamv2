@@ -22,7 +22,7 @@ const SearchBar = ({ setKeyword, setResult }: Props) => {
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
   const [searchTerm, setSearchTerm] = useState('');
   return (
-    <div className='flex-between h-12 w-full rounded border border-shadow-border px-1.5'>
+    <div className='flex-between h-12 w-full rounded border border-gray-200 px-1.5'>
       {citation_tooltip_step === 1 ? (
         <Tiplayout
           title={CitationTooltip.STEP1_TITLE}
