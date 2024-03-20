@@ -184,7 +184,7 @@ const TaskItem = ({
         {label}
       </label>
     </div>
-    {taskCompleted && (
+    {!taskCompleted && (
       <span
         role='button'
         onClick={onClickHandler}

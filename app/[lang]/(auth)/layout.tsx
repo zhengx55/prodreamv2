@@ -16,7 +16,7 @@ export default async function AuthLayout({
   const isInChina = await getIpAddress();
 
   return isInChina ? (
-    <div className='relative flex h-full w-full overflow-auto sm:flex-row'>
+    <div className='relative flex h-full w-full overflow-auto sm:min-h-[800px] sm:flex-row'>
       {children}
       <div className='relative hidden h-full w-1/2 justify-center bg-slate-50 sm:flex sm:flex-col sm:items-center'>
         <h1
@@ -36,7 +36,7 @@ export default async function AuthLayout({
       </div>
     </div>
   ) : (
-    <div className='relative flex h-full w-full overflow-auto sm:flex-row'>
+    <div className='relative flex h-full w-full overflow-auto sm:min-h-[800px] sm:flex-row'>
       {children}
       <div className='relative hidden h-full w-1/2 justify-center bg-slate-50 sm:flex sm:flex-col sm:items-center'>
         <h1
