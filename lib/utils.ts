@@ -256,7 +256,7 @@ export function ConvertCitationData(item: ICitation, manual: boolean) {
   const {
     advanced_info,
     article_title,
-    authors,
+    contributors,
     doi,
     journal_title,
     page_info,
@@ -274,7 +274,7 @@ export function ConvertCitationData(item: ICitation, manual: boolean) {
     month: publish_date.month ? numberToMonth(publish_date.month) : '',
     year: publish_date.year ?? '',
   };
-  converted_data.contributors = authors ?? [
+  converted_data.contributors = contributors ?? [
     { first_name: '', last_name: '', middle_name: '', role: '', suffix: '' },
   ];
   converted_data.manual_create = manual;
