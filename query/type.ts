@@ -25,6 +25,7 @@ export interface ISigunUpRequest {
   last_name?: string;
   password: string;
   is_mobile?: boolean;
+  traffic_source?: string;
 }
 
 export interface IResetParams {

@@ -72,11 +72,18 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
     }
   );
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    const referral = document.referrer.includes('google')
+      ? 'google'
+      : document.referrer.includes('baidu')
+        ? 'baidu'
+        : '';
+
     await handleSignup({
       email: values.email,
       password: values.password,
       is_mobile: isMobile,
-      referral: searchParam ?? undefined,
+      referral,
+      traffic_source: searchParam ?? undefined,
     });
   }
   return (
