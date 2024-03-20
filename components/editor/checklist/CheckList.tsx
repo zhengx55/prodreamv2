@@ -1,5 +1,4 @@
 import Spacer from '@/components/root/Spacer';
-import { Feedback } from '@/components/root/SvgComponents';
 import { Checkbox } from '@/components/ui/checkbox';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
 import {
@@ -10,7 +9,6 @@ import {
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import Link from 'next/link';
 import { memo, useState } from 'react';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
@@ -156,14 +154,6 @@ const CheckList = () => {
               />
             </ul>
             <Spacer y='16' />
-            <Link
-              passHref
-              href={'https://tally.so/r/3NovEO'}
-              className='mt-auto flex w-full items-center gap-x-2 border-t border-gray-200 py-4'
-              target='_blank'
-            >
-              <Feedback /> <p className='small-regular'>Submit Feedback</p>
-            </Link>
           </m.div>
         )}
       </AnimatePresence>
