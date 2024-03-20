@@ -76,7 +76,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
       ? 'google'
       : document.referrer.includes('baidu')
         ? 'baidu'
-        : '';
+        : undefined;
 
     await handleSignup({
       email: values.email,
