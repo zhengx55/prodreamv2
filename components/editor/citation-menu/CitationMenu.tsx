@@ -66,7 +66,7 @@ const CitationMenu = ({ editor }: Props) => {
     <section
       ref={ref}
       style={{ top: `${floatingMenuPos.top - 54}px` }}
-      className='absolute -left-12 flex w-full justify-center overflow-visible '
+      className='absolute -left-12 z-40 flex w-full justify-center overflow-visible '
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>
         <Spacer y='5' />
