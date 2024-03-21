@@ -23,7 +23,9 @@ export const SynonymMenu = memo(({ editor }: Props) => {
     const selectedText = getSelectedText(editor);
     selectedText.trim() && setText(selectedText);
   }, [editor]);
+
   const { replaceText } = useEditorCommand(editor);
+
   useUnmount(() => {
     editor.chain().unsetHighlight().run();
   });

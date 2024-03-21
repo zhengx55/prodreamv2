@@ -1038,7 +1038,12 @@ export async function searchCitation(
     if (data.code !== 0) {
       throw data.msg;
     }
-    return data.data;
+    let result: ICitation[] = data.data;
+    let filter_result: ICitation[] = result.map((article) => {
+      const { authors = [], ...rest } = article;
+      return { ...rest, contributors: authors };
+    });
+    return filter_result;
   } catch (error) {
     throw new Error(error as string);
   }
