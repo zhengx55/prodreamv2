@@ -19,7 +19,6 @@ const SearchList = () => {
 
   const [keyword, setKeyword] = useState('');
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
-
   const memopSetSearchResult = useCallback(
     (value: ICitation[]) => setSearchResult(value),
     []
@@ -43,11 +42,8 @@ const SearchList = () => {
 
   useEffect(() => {
     if (citationResult) {
-      let filter_result = citationResult.map((article) => {
-        const { authors = [], ...rest } = article;
-        return { ...rest, contributors: authors };
-      });
-      setSearchResult(filter_result);
+      console.log('🚀 ~ useEffect ~ citationResult:', citationResult);
+      setSearchResult(citationResult);
     }
   }, [citationResult]);
 
