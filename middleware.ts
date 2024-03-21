@@ -18,15 +18,21 @@ function getLocale(request: NextRequest): string | undefined {
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   const search = req.nextUrl.search;
-  const isBase = [
-    '/',
-    '/onboard',
-    '/onboard/language',
-    '/onboard/education',
-    '/login',
-    '/signup',
-    '/reset-password',
-  ].includes(pathname);
+  const isBase =
+    [
+      '/',
+      '/onboard',
+      '/onboard/language',
+      '/onboard/education',
+      '/login',
+      '/signup',
+      '/reset-password',
+      '/editor',
+      '/profile/setting',
+      '/profile/subscription',
+      '/pricing',
+      '/essay-review',
+    ].includes(pathname) || pathname.startsWith(`/editor/`);
 
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`

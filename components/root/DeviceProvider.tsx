@@ -9,9 +9,7 @@ import Sidebar from './Sidebar';
 const DeviceProvider = ({ children }: { children: ReactNode }) => {
   const path = usePathname();
   const param = useParams();
-  const isEssayDetail =
-    Object.keys(param).length > 0 && path.includes('/editor');
-
+  const isEssayDetail = param['id'] && path.includes('/editor');
   const updateUserInfo = useUserInfo((state) => state.setUser);
   useMount(() => {
     async function refreshUserInfo() {

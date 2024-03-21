@@ -1,7 +1,6 @@
 import DeviceProvider from '@/components/root/DeviceProvider';
 import Spacer from '@/components/root/Spacer';
 import type { Locale } from '@/i18n-config';
-import { getDictionary } from '@/lib/get-dictionary';
 import Image from 'next/image';
 import { ReactNode } from 'react';
 
@@ -12,7 +11,6 @@ export default async function WrittingpalLayout({
   children: ReactNode;
   params: { lang: Locale };
 }) {
-  const dict = await getDictionary(lang);
   return (
     <>
       <main className='hidden h-full w-full overflow-x-auto overflow-y-hidden md:flex'>

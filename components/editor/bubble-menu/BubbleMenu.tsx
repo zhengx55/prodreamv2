@@ -231,7 +231,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
             className='text-doc-primary'
           >
             <BookHalf size={'18'} />
-            Citation
+            Related Sources
           </MemoButton>
         )}
         <Toolbar.Divider />
