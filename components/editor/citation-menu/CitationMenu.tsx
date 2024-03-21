@@ -1,5 +1,4 @@
 import Loading from '@/components/root/CustomLoading';
-import Spacer from '@/components/root/Spacer';
 import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Surface } from '@/components/ui/surface';
@@ -24,13 +23,17 @@ type Props = { editor: Editor };
 const CitationMenu = ({ editor }: Props) => {
   const { floatingMenuPos, updateCitationMenu, updateRightbarTab } =
     useAIEditor((state) => ({ ...state }));
+  const { id } = useParams();
+  const [text, setText] = useState('');
   const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
   const elRef = useRef<HTMLDivElement>(null);
-  const { id } = useParams();
   const ref = useScrollIntoView();
-  const [text, setText] = useState('');
+  useClickOutside(elRef, () => {
+    editor.chain().unsetHighlight().run();
+    updateCitationMenu(false);
+  });
 
   useEffect(() => {
     const selectedText = getSelectedText(editor);
@@ -41,24 +44,23 @@ const CitationMenu = ({ editor }: Props) => {
     editor.chain().unsetHighlight().run();
   });
 
-  useClickOutside(elRef, () => {
-    updateCitationMenu(false);
-  });
-
   const { data: ciationResult, isPending } = useQuery({
     queryFn: ({ signal }) => searchCitation(text, signal),
-    queryKey: ['search-citation', text],
+    queryKey: ['search-citation-indoc', text],
     enabled: !!text,
   });
+
   const { mutateAsync: handleCite } = useCiteToDoc();
 
   const handler = async (item: ICitation) => {
     const converted_data = ConvertCitationData(item, false);
+    editor.chain().unsetHighlight().run();
     await handleCite({
       citation_data: converted_data,
       citation_type: 'Journal',
       document_id: id as string,
     });
+    updateCitationMenu(false);
   };
 
   if (!floatingMenuPos) return null;
@@ -66,16 +68,15 @@ const CitationMenu = ({ editor }: Props) => {
     <section
       ref={ref}
       style={{ top: `${floatingMenuPos.top - 54}px` }}
-      className='absolute -left-12 flex w-full justify-center overflow-visible '
+      className='absolute -left-12 z-40 flex w-full justify-center'
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>
-        <Spacer y='5' />
         <Surface
           className='relative flex h-72 w-[600px] flex-col gap-y-2 overflow-y-auto !rounded py-2'
           withBorder
         >
           <div className='flex-between px-2'>
-            <p className='base-regular text-doc-shadow'>Search Results</p>
+            <p className='base-medium text-doc-shadow'>Search Results</p>
           </div>
           {isPending ? (
             <Loading />
@@ -83,13 +84,13 @@ const CitationMenu = ({ editor }: Props) => {
             ciationResult?.map((item, index) => {
               return (
                 <div
-                  key={v4()}
-                  className='flex flex-col gap-y-2 bg-shadow-400 p-4'
+                  key={index}
+                  className='flex flex-col gap-y-2 bg-shadow-400 px-4 py-1.5'
                 >
                   <h1 className='base-semibold'>{item.article_title}</h1>
                   <div className='small-regular flex flex-wrap items-center gap-x-2 text-doc-shadow'>
-                    {item.authors?.map((author, idx) => (
-                      <p key={`${index}-${idx}`}>
+                    {item.contributors?.map((author) => (
+                      <p key={v4()}>
                         {author.first_name} {author.middle_name}
                         {author.last_name}
                       </p>
@@ -99,7 +100,7 @@ const CitationMenu = ({ editor }: Props) => {
                   </div>
                   <div className='flex flex-col gap-y-2 rounded border border-gray-200 p-3'>
                     <p className='small-regular line-clamp-3'>
-                      {item.abstract ?? ''}
+                      {item.abstract ?? 'No detail description available...'}
                     </p>
                   </div>
                   <div className='flex gap-x-2'>

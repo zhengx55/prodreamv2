@@ -38,7 +38,7 @@ const EssayPanel = ({ id }: { id: string }) => {
     <LazyMotionProvider>
       <main className='relative flex h-full w-full flex-col'>
         <DocNavbar />
-        {showCheckList && <CheckList />}
+        {!showCheckList && <CheckList />}
         <div className='relative flex h-full w-full justify-center overflow-hidden'>
           {isPending ? (
             <div className='flex flex-1 flex-col items-center'>

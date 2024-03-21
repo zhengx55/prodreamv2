@@ -300,6 +300,8 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
     formdata.append('password', signUpParam.password);
     formdata.append('is_mobile', signUpParam.is_mobile ? '1' : '0');
     if (signUpParam.referral) formdata.append('referral', signUpParam.referral);
+    if (signUpParam.traffic_source)
+      formdata.append('traffic_source', signUpParam.traffic_source);
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/register`,
@@ -455,6 +457,7 @@ export async function ask(params: {
   instruction: string;
   text: string;
   writing_goal?: string;
+  session_id?: string;
 }): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
@@ -466,6 +469,7 @@ export async function ask(params: {
           text: params.text,
           instruction: params.instruction,
           writing_goal: params.writing_goal,
+          session_id: params.session_id ?? null,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -1034,7 +1038,12 @@ export async function searchCitation(
     if (data.code !== 0) {
       throw data.msg;
     }
-    return data.data;
+    let result: ICitation[] = data.data;
+    let filter_result: ICitation[] = result.map((article) => {
+      const { authors = [], ...rest } = article;
+      return { ...rest, contributors: authors };
+    });
+    return filter_result;
   } catch (error) {
     throw new Error(error as string);
   }

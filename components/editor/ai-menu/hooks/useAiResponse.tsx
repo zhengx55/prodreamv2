@@ -11,8 +11,8 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
   const [generating, setGenerating] = useState(false);
   const [showTyping, setShowTyping] = useState(false);
   const [aiResult, setAiResult] = useState<string[]>([]);
-  const [currentResult, setCurrentResult] = useState(0);
-
+  const [currentResult, setCurrentResult] = useState(-1);
+  const [session, setSession] = useState('');
   const { mutateAsync: handleHumanize } = useMutation({
     mutationFn: (params: { text: string }) => humanize(params),
     onMutate: () => {
@@ -69,7 +69,6 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
       const toast = (await import('sonner')).toast;
       setGenerating(false);
       setShowTyping(false);
-
       toast.error(error.message);
     },
   });
@@ -79,6 +78,7 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
       instruction: string;
       text: string;
       writing_goal?: string;
+      session_id?: string;
     }) => ask(params),
     onMutate: () => {
       setGenerating(true);
@@ -110,6 +110,17 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
   const handleStreamData = (value: string | undefined) => {
     if (!value) return;
     const lines = value.split('\n');
+    const session_raw = lines
+      .filter(
+        (line, index) =>
+          lines.at(index - 1)?.startsWith('event: session_id') &&
+          line?.startsWith('data: ')
+      )
+      .at(0);
+    if (session_raw) {
+      const session = session_raw.slice('data:'.length);
+      setSession(session.trim());
+    }
     const dataLines = lines.filter(
       (line, index) =>
         line.startsWith('data:') &&
@@ -155,6 +166,7 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
     toogleTyping,
     showTyping,
     handleHumanize,
+    session,
   };
 };
 export default useAiResponse;

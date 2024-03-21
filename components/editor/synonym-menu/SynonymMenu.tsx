@@ -23,7 +23,9 @@ export const SynonymMenu = memo(({ editor }: Props) => {
     const selectedText = getSelectedText(editor);
     selectedText.trim() && setText(selectedText);
   }, [editor]);
+
   const { replaceText } = useEditorCommand(editor);
+
   useUnmount(() => {
     editor.chain().unsetHighlight().run();
   });
@@ -59,7 +61,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
         top: `${floatingMenuPos.top - 44}px`,
         left: `${floatingMenuPos.left - 300}px`,
       }}
-      className='absolute flex w-[450px] justify-center'
+      className='absolute z-40 flex w-[450px] justify-center'
     >
       <div ref={elRef} className='relative flex flex-col bg-transparent'>
         <div className='flex h-60 w-full flex-col gap-x-2 rounded-t border border-gray-200 bg-white p-4 shadow-lg'>

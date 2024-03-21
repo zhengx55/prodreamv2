@@ -1,5 +1,4 @@
 import Spacer from '@/components/root/Spacer';
-import { Feedback } from '@/components/root/SvgComponents';
 import { Checkbox } from '@/components/ui/checkbox';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
 import {
@@ -10,7 +9,6 @@ import {
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import Link from 'next/link';
 import { memo, useState } from 'react';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
@@ -74,7 +72,7 @@ const CheckList = () => {
   }, 500);
 
   return (
-    <div className='absolute bottom-[5%] left-2 z-50 flex flex-col'>
+    <div className='absolute bottom-[10%] left-2 z-50 flex flex-col'>
       <m.div
         initial={false}
         variants={variants}
@@ -121,13 +119,13 @@ const CheckList = () => {
             key='checklist'
             className='flex w-[300px] flex-col rounded-b-lg bg-white px-4 shadow-lg'
           >
-            <Spacer y='16' />
+            <Spacer y='12' />
             <p className='small-regular'>
               Learn how to use ProDream to help you write & research!
             </p>
-            <Spacer y='16' />
+            <Spacer y='12' />
             <h2 className='base-medium'>Getting around ☕️</h2>
-            <Spacer y='16' />
+            <Spacer y='12' />
             <ul className='flex flex-col gap-y-2.5'>
               <TaskItem
                 taskCompleted={!!userTrack?.citation_task}
@@ -140,9 +138,9 @@ const CheckList = () => {
                 onClickHandler={() => selectHandler(0)}
               />
             </ul>
-            <Spacer y='16' />
+            <Spacer y='12' />
             <h2 className='base-medium'>Productivity boost 🚀</h2>
-            <Spacer y='16' />
+            <Spacer y='12' />
             <ul className='flex flex-col gap-y-2.5'>
               <TaskItem
                 taskCompleted={!!userTrack?.continue_writing_task}
@@ -155,15 +153,7 @@ const CheckList = () => {
                 onClickHandler={() => selectHandler(2)}
               />
             </ul>
-            <Spacer y='16' />
-            <Link
-              passHref
-              href={'https://tally.so/r/3NovEO'}
-              className='mt-auto flex w-full items-center gap-x-2 border-t border-gray-200 py-4'
-              target='_blank'
-            >
-              <Feedback /> <p className='small-regular'>Submit Feedback</p>
-            </Link>
+            <Spacer y='24' />
           </m.div>
         )}
       </AnimatePresence>
@@ -194,7 +184,7 @@ const TaskItem = ({
         {label}
       </label>
     </div>
-    {taskCompleted && (
+    {!taskCompleted && (
       <span
         role='button'
         onClick={onClickHandler}
