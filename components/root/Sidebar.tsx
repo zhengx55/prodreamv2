@@ -22,7 +22,7 @@ const useSidebarElevation = (pathname: string) => {
   }, []);
 
   useEffect(() => {
-    const currentroute = pathname.split('/')[1];
+    const currentroute = pathname.split('/').pop();
     let index = 0;
     switch (currentroute) {
       case 'polish':

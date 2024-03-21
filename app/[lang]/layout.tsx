@@ -7,14 +7,11 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
+import localFont from 'next/font/local';
 import { Suspense } from 'react';
 import { Toaster } from 'sonner';
+import { i18n, type Locale } from '../../i18n-config';
 import './globals.css';
-// import { cookies } from 'next/headers';
-// import { generateId } from '@/lib/utils';
-// import { PostHog } from 'posthog-node'
-import localFont from 'next/font/local';
-import { i18n, type Locale } from '../i18n-config';
 
 const PostHogPageView = dynamic(() => import('@/components/root/PostHug'), {
   ssr: false,
@@ -45,7 +42,7 @@ const liber = Libre_Baskerville({
 });
 
 const cnFont = localFont({
-  src: '../public/font/XiQuejuzhenti.ttf',
+  src: '../../public/font/XiQuejuzhenti.ttf',
   display: 'swap',
   variable: '--cn-font',
   preload: true,
@@ -56,7 +53,6 @@ export const metadata: Metadata = {
   referrer: 'no-referrer',
   openGraph: {
     type: 'website',
-    locale: 'en',
     url: siteConfig.url,
     title: siteConfig.name,
     description: siteConfig.description,
