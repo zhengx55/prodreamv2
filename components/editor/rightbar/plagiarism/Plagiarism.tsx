@@ -24,13 +24,17 @@ const Starter = () => (
     className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
   >
     <Image
-      src='/editor/Plag.png'
+      src='/editor/Start.png'
       alt='plagiarism check'
       width={450}
       height={270}
       className='h-auto w-auto'
       priority
     />
+    <p className='text-center text-sm font-normal text-zinc-600'>
+      Click to start checking for potential duplication issues in the article.
+    </p>
+
     <Button
       className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'
       role='button'
