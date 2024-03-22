@@ -12,10 +12,10 @@ import { AnimatePresence, m } from 'framer-motion';
 import { ChevronUp } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
-import Empty from './Empty';
+import Empty from './library/Empty';
 
-const InTextList = dynamic(() => import('./InTextList'));
-const LibraryList = dynamic(() => import('./LibraryList'));
+const InTextList = dynamic(() => import('./library/InTextList'));
+const LibraryList = dynamic(() => import('./library/LibraryList'));
 
 const Mine = () => {
   const showMine = useCitation((state) => state.showMineCitation);

@@ -2,10 +2,10 @@ import { Button } from '@/components/ui/button';
 import { useMutateTrackInfo } from '@/query/query';
 import { AnimatePresence, m } from 'framer-motion';
 import Image from 'next/image';
+import { memo } from 'react';
 
 const Empty = () => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-
   return (
     <AnimatePresence>
       <m.div
@@ -41,4 +41,4 @@ const Empty = () => {
     </AnimatePresence>
   );
 };
-export default Empty;
+export default memo(Empty);

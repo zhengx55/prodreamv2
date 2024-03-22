@@ -1,8 +1,9 @@
 import { useCitation } from '@/zustand/store';
 import { m } from 'framer-motion';
-import { MineCitationCard } from './CitationCard';
-const LibraryList = () => {
-  const inDocCitation = useCitation((state) => state.inDocCitation);
+import { MineCitationCard } from '../CitationCard';
+
+const InTextList = () => {
+  const inTextCitation = useCitation((state) => state.inTextCitation);
   return (
     <m.div
       key={'mine-intext'}
@@ -16,11 +17,11 @@ const LibraryList = () => {
       }}
       className='flex flex-1 flex-col overflow-y-auto pt-2'
     >
-      {inDocCitation.map((item, index) => {
+      {inTextCitation.map((item, index) => {
         return (
           <MineCitationCard
+            type='inText'
             item={item as any}
-            type='library'
             key={`in-doc-citation-${index}`}
           />
         );
@@ -28,4 +29,4 @@ const LibraryList = () => {
     </m.div>
   );
 };
-export default LibraryList;
+export default InTextList;

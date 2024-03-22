@@ -2,9 +2,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUserTrackInfo } from '@/query/query';
 import { useCitation } from '@/zustand/store';
 import { memo } from 'react';
-import Empty from '../Empty';
-import InTextList from '../InTextList';
-import LibraryList from '../LibraryList';
+import Empty from './Empty';
+import InTextList from './InTextList';
+import LibraryList from './LibraryList';
 
 const CitationLibrary = () => {
   const IndocCitationIds = useCitation((state) => state.inDocCitationIds);
