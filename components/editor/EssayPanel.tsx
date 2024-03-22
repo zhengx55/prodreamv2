@@ -1,5 +1,5 @@
 'use client';
-import DocNavbar from '@/components/editor/navbar';
+import DocNavbar from '@/components/editor/navbar/Navbar';
 import { useDocumentDetail } from '@/query/query';
 import { useUserInfo } from '@/zustand/store';
 import dynamic from 'next/dynamic';
