@@ -1049,6 +1049,37 @@ export async function searchCitation(
   }
 }
 
+// ----------------------------------------------------------------
+// AI-Detection
+// ----------------------------------------------------------------
+export async function getDetectionResult(params: {
+  text: string;
+}): Promise<{ prob: number; highlight_sentences: string[] }> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/ai_detect`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          text: params.text,
+        }),
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    console.log(data.data);
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function PageTrack(
   event: string,
   time: string,

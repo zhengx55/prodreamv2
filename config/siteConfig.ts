@@ -1,9 +1,9 @@
 import { SiteConfig } from '@/types';
 
 export const siteConfig: SiteConfig = {
-  name: 'Prodream',
+  name: 'ProDream',
   description:
-    'The most powerful AI copilot in crafting personal statements. Powered by years of college admission expertise, QuickApply&apos;s AI offers instant and professional feedback with detailed suggestions 24/7. Get insights on structure, authenticity, and wording, ensuring your essay truly reflects the traits and values that schools seek.',
+    "Your one-stop AI solution for academic writing needs. ProDream's AI writing assistant boosts your speed, sharpens skills, assists with research papers, streamlines citations, and prevents plagiarism.",
   url: 'https://prodream.ai',
   ogImage: '',
   links: {
