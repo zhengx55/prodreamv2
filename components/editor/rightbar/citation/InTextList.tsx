@@ -15,10 +15,6 @@ const InTextList = () => {
         y: 0,
         opacity: 1,
       }}
-      exit={{
-        y: -10,
-        opacity: 0,
-      }}
       className='flex flex-1 flex-col overflow-y-auto pt-2'
     >
       {inTextCitation.map((item, index) => {

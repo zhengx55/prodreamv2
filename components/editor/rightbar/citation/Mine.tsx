@@ -142,14 +142,7 @@ const Mine = () => {
           </Button>
         </div>
       </div>
-      <Empty
-        show={
-          citation_tooltip_step === 0 &&
-          !track?.citation_empty_check &&
-          IndocCitationIds.length === 0 &&
-          InTextCitationIds.length === 0
-        }
-      />
+      <Empty />
       <AnimatePresence>
         {showMine && (type === 0 ? <LibraryList /> : <InTextList />)}
       </AnimatePresence>
