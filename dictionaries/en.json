@@ -154,5 +154,53 @@
       "Option2": "International student"
     }
   },
-  "Editor": {}
+  "Editor": {
+    "Utility": {
+      "Enter": "Enter",
+      "Cancel": "Cancel",
+      "Done": "Done",
+      "Got it": "Got it"
+    },
+    "Prompt": {
+      "Title": "What would you like to write today?",
+      "Option1": "Essay",
+      "Option2": "Research Paper",
+      "Option3": "Thesis",
+      "Option4": "Dissertation",
+      "Option5": "Other"
+    },
+    "Copilot": {
+      "Paraphrase": "Paraphrase",
+      "Make_academic": "Make academic",
+      "Improve_fluency": "Improve fluency",
+      "Simplify_language": "Simplify language",
+      "Translate_to_english": "Translate to english",
+      "Humanize": "Humanize",
+      "Edit_length": "Edit length",
+      "Write_opposing_argument": "Write opposing argument",
+      "Write_with_more_depth": "Write with more depth",
+      "Generate_summary": "Generate summary",
+      "Write_more_content": "Write more content",
+      "PlaceHolder": "Ask AI to edit or generate..."
+    },
+    "Grammar": {},
+    "Citation": {
+      "search": "Search publications",
+      "customized": "Or add customized citations",
+      "all": "All",
+      "in_this_doc": "In this doc",
+      "My Library": "My Library",
+      "empty": "Your library is currently empty. Try adding more citations. "
+    },
+    "Generate": {
+      "Write Introduction": "Write Introduction",
+      "Write Conclusion": "Write Conclusion",
+      "Generate Title": "Generate Title",
+      "Generate Outline": "Generate Outline",
+      "Argumentative": "Argumentative",
+      "Analytical": "Analytical",
+      "Scientific": "Scientific",
+      "General": "General"
+    }
+  }
 }

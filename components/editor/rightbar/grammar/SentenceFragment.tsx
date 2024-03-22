@@ -36,7 +36,9 @@ const SentenceFragment: FC<SentenceProps> = ({
   } else if (isModify) {
     content = (
       <Fragment>
-        <span className='small-regular text-red-500'>{sentence.sub_str}</span>
+        <span className='small-regular text-red-500 line-through'>
+          {sentence.sub_str}
+        </span>
         <span className='small-regular text-indigo-500'>
           {sentence.new_str}
         </span>
