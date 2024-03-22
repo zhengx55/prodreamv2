@@ -28,19 +28,18 @@ const SentenceFragment: FC<SentenceProps> = ({
     className = 'text-black-400';
     content = <span className={className}>{sentence.sub_str}</span>;
   } else if (isAdd) {
-    className = 'text-doc-primary small-semibold';
+    className = 'text-doc-primary small-regular';
     content = <span className={className}>{sentence.new_str}</span>;
   } else if (isDelete) {
-    className = 'text-red-500 line-through small-semibold';
+    className = 'text-red-500 line-through small-regular';
     content = <span className={className}>{sentence.sub_str}</span>;
   } else if (isModify) {
-    className = 'text-red-500 line-through small-semibold';
     content = (
       <Fragment>
-        <span className='small-semibold text-doc-primary'>
-          {sentence.sub_str}
+        <span className='small-regular text-red-500'>{sentence.sub_str}</span>
+        <span className='small-regular text-indigo-500'>
+          {sentence.new_str}
         </span>
-        <span className='small-semibold text-red-500'>{sentence.new_str}</span>
       </Fragment>
     );
   }
