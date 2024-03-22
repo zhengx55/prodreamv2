@@ -7,7 +7,7 @@ export type AIEditiorStore = AIEditorState & AIEditorAction;
 const initialState: AIEditorState = {
   doc_title: '',
   rightbarOpen: false,
-  rightbarTab: 0,
+  rightbarTab: -1,
   generateTab: -1,
   editor_instance: null,
   isSaving: false,

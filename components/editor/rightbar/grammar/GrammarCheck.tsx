@@ -119,13 +119,17 @@ export const GrammarCheck = memo(() => {
             className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
           >
             <Image
-              src='/editor/Grammar.png'
+              src='/editor/Start.png'
               alt='grammar check'
               width={450}
               height={270}
-              className='h-auto w-auto'
+              className='h-44 w-60 self-center'
               priority
             />
+            <p className='text-center text-sm font-normal text-zinc-600'>
+              Click to start checking for any grammar, spelling, and punctuation
+              issues in your writing
+            </p>
             <Button
               className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'
               role='button'

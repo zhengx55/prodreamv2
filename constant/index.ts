@@ -946,3 +946,42 @@ export const ReviewReasons = [
       'Our reviewers and writers are experienced professionals with advanced degrees from tops schools like Stanford and Harvard, offering insights from years of academic and professional experience.',
   },
 ];
+
+export const EditorRightBar = [
+  {
+    id: 'rightbar-01',
+    title: 'Grammar Check',
+    icon: '/editor/rightbar/grammar.svg',
+    active_icon: '/editor/rightbar/grammar_active.svg',
+  },
+  {
+    id: 'rightbar-04',
+    title: 'Plagiarism Check',
+    icon: '/editor/rightbar/plagiarism.svg',
+    active_icon: '/editor/rightbar/plagiarism_active.svg',
+  },
+  {
+    id: 'rightbar-06',
+    title: 'AI Detection',
+    icon: '/editor/rightbar/detection.svg',
+    active_icon: '/editor/rightbar/detection_active.svg',
+  },
+  {
+    id: 'rightbar-02',
+    title: 'Citation',
+    icon: '/editor/rightbar/citation.svg',
+    active_icon: '/editor/rightbar/citation_active.svg',
+  },
+  {
+    id: 'rightbar-05',
+    title: 'My Citation Library',
+    icon: '/editor/rightbar/library.svg',
+    active_icon: '/editor/rightbar/library_active.svg',
+  },
+  {
+    id: 'rightbar-03',
+    title: 'Generate',
+    icon: '/editor/rightbar/generate.svg',
+    active_icon: '/editor/rightbar/generate_active.svg',
+  },
+];

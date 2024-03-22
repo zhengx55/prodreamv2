@@ -1,6 +1,6 @@
 import { useCitation } from '@/zustand/store';
 import { m } from 'framer-motion';
-import { MineCitationCard } from './CitationCard';
+import { MineCitationCard } from '../CitationCard';
 
 const InTextList = () => {
   const inTextCitation = useCitation((state) => state.inTextCitation);
@@ -14,10 +14,6 @@ const InTextList = () => {
       animate={{
         y: 0,
         opacity: 1,
-      }}
-      exit={{
-        y: -10,
-        opacity: 0,
       }}
       className='flex flex-1 flex-col overflow-y-auto pt-2'
     >

@@ -7,7 +7,6 @@ import { ChevronLeft, Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
-import Plagiarism from './Plagiarism';
 import Prompt from './Prompt';
 
 const PromptViewModal = dynamic(() => import('../modal/Prompt'));
@@ -51,7 +50,7 @@ const DocNavbar = () => {
         <Prompt />
       </div>
       <div className='flex items-center gap-x-4'>
-        <Plagiarism />
+        {/* <Plagiarism /> */}
         {['basic', 'free_trail'].includes(usage?.subscription ?? '') ? (
           <Button
             role='button'
