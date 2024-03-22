@@ -123,7 +123,7 @@ export const GrammarCheck = memo(() => {
               alt='grammar check'
               width={450}
               height={270}
-              className='h-auto w-full'
+              className='h-44 w-60 self-center'
               priority
             />
             <p className='text-center text-sm font-normal text-zinc-600'>

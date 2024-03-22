@@ -3,13 +3,18 @@ import { useMembershipInfo } from '@/query/query';
 import { AnimatePresence, m } from 'framer-motion';
 import Image from 'next/image';
 import { memo } from 'react';
+import Unlock from '../Unlock';
 
 const Plagiarism = () => {
   const { data: membership } = useMembershipInfo();
   return (
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
       <AnimatePresence mode='wait'>
-        <Starter />
+        {membership?.subscription === 'basic' ? (
+          <Unlock text={'Unlock paraphrase suggestions withUnlimited Plan'} />
+        ) : (
+          <Starter />
+        )}
       </AnimatePresence>
     </div>
   );
@@ -28,7 +33,7 @@ const Starter = () => (
       alt='plagiarism check'
       width={450}
       height={270}
-      className='h-auto w-auto'
+      className='h-44 w-60 self-center'
       priority
     />
     <p className='text-center text-sm font-normal text-zinc-600'>
