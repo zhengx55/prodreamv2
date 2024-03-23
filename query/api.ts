@@ -590,13 +590,15 @@ export async function batchParaphrase(texts: string[]) {
 }
 
 export async function plagiarismQuery(
-  scan_id: string
+  scan_id: string,
+  signal: AbortSignal
 ): Promise<IPlagiarismData> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/plagiarism_check/${scan_id}`,
       {
+        signal,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

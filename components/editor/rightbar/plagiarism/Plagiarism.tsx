@@ -5,28 +5,37 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { AnimatePresence, m } from 'framer-motion';
-import { Loader2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useCallback, useRef, useState } from 'react';
-import Report from './Report';
+
+const Report = dynamic(() => import('./Report'));
+const WaitingModal = dynamic(() => import('./WaitingModal'));
 
 const Plagiarism = () => {
   const editor = useAIEditor((state) => state.editor_instance);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState<
     Omit<IPlagiarismData, 'status'> | undefined
   >();
+  const abortControllerRef = useRef<AbortController | null>(null);
+
   const { mutateAsync: plagiarism } = useMutation({
     mutationFn: (params: string) => plagiarismCheck(params),
     onMutate: () => {
-      setIsGenerating(true);
+      setShowLoading(true);
     },
     onSuccess: (data) => {
       timer.current = setInterval(async () => {
-        const res = await plagiarismQuery(data);
+        abortControllerRef.current = new AbortController();
+        const signal = abortControllerRef.current.signal;
+        const res = await plagiarismQuery(data as string, signal);
+        setProgress((prev) => prev + 5);
         if (res.status === 'done') {
-          setIsGenerating(false);
+          setProgress(100);
+          setShowLoading(false);
           setResult({ scores: res.scores, spans: res.spans });
           clearInterval(timer.current!);
         }
@@ -35,12 +44,22 @@ const Plagiarism = () => {
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
       toast.error(error.message);
+      setShowLoading(false);
     },
   });
 
   useUnmount(() => {
     timer.current && clearInterval(timer.current);
+    abortControllerRef.current && abortControllerRef.current.abort();
   });
+
+  const abortRequest = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      setShowLoading(false);
+      setProgress(0);
+    }
+  }, []);
 
   const handlePlagiarismCheck = useCallback(async () => {
     if (result) {
@@ -57,19 +76,12 @@ const Plagiarism = () => {
 
   return (
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
+      {showLoading && (
+        <WaitingModal progress={progress} onAbort={abortRequest} />
+      )}
       <AnimatePresence mode='wait'>
         {result ? (
           <Report report={result} recheck={handlePlagiarismCheck} />
-        ) : isGenerating ? (
-          <m.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            key={'plagiarism generating'}
-            exit={{ opacity: 0, y: -20 }}
-            className='flex-center flex-1'
-          >
-            <Loader2 className='animate-spin text-doc-shadow' />
-          </m.div>
         ) : (
           <Starter start={handlePlagiarismCheck} />
         )}

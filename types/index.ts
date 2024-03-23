@@ -201,7 +201,7 @@ export type IDiscount = {
   expire_at: number | null;
 };
 
-type FreeTimesDetail = {
+export type FreeTimesDetail = {
   Copilot: number | null;
   Generate: number | null;
   Grammar: number | null;
