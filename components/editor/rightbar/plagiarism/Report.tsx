@@ -202,55 +202,15 @@ const Report = ({
             </div>
           ) : (
             sentences.map((item) => {
-              const isExpand = item.expand;
               return (
-                <m.div
+                <SentenceItem
                   key={item.id}
-                  initial={false}
-                  animate={isExpand ? 'expand' : 'collapse'}
-                  variants={{
-                    expand: { height: 'auto' },
-                    collapse: { height: '87px' },
-                  }}
-                  transition={{ duration: 0.3 }}
-                  onClick={() => toggleExpand(item)}
-                  className='cursor-pointer overflow-hidden rounded border border-gray-200 px-4 hover:shadow-md'
-                >
-                  <Spacer y='15' />
-                  <p
-                    className={`base-medium ${isExpand ? '' : 'line-clamp-1'}`}
-                  >
-                    {item.result}
-                  </p>
-                  <Spacer y='10' />
-                  <div className='w-full rounded bg-neutral-50 p-2'>
-                    <p
-                      className={`${isExpand ? '' : 'line-clamp-1'} w-full text-sm font-normal leading-snug text-zinc-600`}
-                    >
-                      {item.text}
-                    </p>
-                  </div>
-                  {isExpand && (
-                    <div className='mt-2 flex justify-end gap-x-2'>
-                      <Button
-                        role='button'
-                        variant={'ghost'}
-                        onClick={() => handleDismiss(item)}
-                        className='h-max w-max rounded border border-zinc-600 px-4 py-1 text-zinc-600'
-                      >
-                        Dismiss
-                      </Button>
-                      <Button
-                        role='button'
-                        className='h-max w-max rounded border border-transparent px-4 py-1'
-                        onClick={() => handleAccept(item)}
-                      >
-                        Accept
-                      </Button>
-                    </div>
-                  )}
-                  <Spacer y='15' />
-                </m.div>
+                  item={item}
+                  isExpand={item.expand}
+                  onToggleExpand={() => toggleExpand(item)}
+                  onDismiss={() => handleDismiss(item)}
+                  onAccept={() => handleAccept(item)}
+                />
               );
             })
           )}
@@ -259,4 +219,65 @@ const Report = ({
     </m.div>
   );
 };
+interface SentenceItemProps {
+  item: Sentence;
+  isExpand: boolean;
+  onToggleExpand: () => void;
+  onDismiss: () => void;
+  onAccept: () => void;
+}
+const SentenceItem = ({
+  item,
+  isExpand,
+  onToggleExpand,
+  onDismiss,
+  onAccept,
+}: SentenceItemProps) => (
+  <m.div
+    key={item.id}
+    initial={false}
+    animate={isExpand ? 'expand' : 'collapse'}
+    variants={{
+      expand: { height: 'auto' },
+      collapse: { height: '87px' },
+    }}
+    transition={{ duration: 0.3 }}
+    onClick={onToggleExpand}
+    className='cursor-pointer overflow-hidden rounded border border-gray-200 px-4 hover:shadow-md'
+  >
+    <Spacer y='15' />
+    <p className={`base-medium ${isExpand ? '' : 'line-clamp-1'}`}>
+      {item.result}
+    </p>
+    <Spacer y='10' />
+    <div className='w-full rounded bg-neutral-50 p-2'>
+      <p
+        className={`${isExpand ? '' : 'line-clamp-1'} w-full text-sm font-normal leading-snug text-zinc-600`}
+      >
+        {item.text}
+      </p>
+    </div>
+    {isExpand && (
+      <div className='mt-2 flex justify-end gap-x-2'>
+        <Button
+          role='button'
+          variant={'ghost'}
+          onClick={onDismiss}
+          className='h-max w-max rounded border border-zinc-600 px-4 py-1 text-zinc-600'
+        >
+          Dismiss
+        </Button>
+        <Button
+          role='button'
+          className='h-max w-max rounded border border-transparent px-4 py-1'
+          onClick={onAccept}
+        >
+          Accept
+        </Button>
+      </div>
+    )}
+    <Spacer y='15' />
+  </m.div>
+);
+
 export default memo(Report);

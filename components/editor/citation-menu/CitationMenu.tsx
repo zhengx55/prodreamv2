@@ -16,7 +16,6 @@ import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { ArrowUpRightFromSquare, Plus } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo, useEffect, useRef, useState } from 'react';
-import { v4 } from 'uuid';
 
 type Props = { editor: Editor };
 
@@ -89,8 +88,8 @@ const CitationMenu = ({ editor }: Props) => {
                 >
                   <h1 className='base-semibold'>{item.article_title}</h1>
                   <div className='small-regular flex flex-wrap items-center gap-x-2 text-doc-shadow'>
-                    {item.contributors?.map((author) => (
-                      <p key={v4()}>
+                    {item.contributors?.map((author, a_idx) => (
+                      <p key={`author-${a_idx}`}>
                         {author.first_name} {author.middle_name}
                         {author.last_name}
                       </p>

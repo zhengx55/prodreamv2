@@ -6,7 +6,6 @@ import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { v4 } from 'uuid';
 
 export default async function Page({
   params: { lang },
@@ -56,7 +55,7 @@ export default async function Page({
           .map((_, index) => {
             return (
               <EducationOption
-                key={v4()}
+                key={`education-${index}`}
                 dict={dict}
                 onClick={setEducationInfo}
                 index={index}

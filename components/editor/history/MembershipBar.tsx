@@ -4,7 +4,6 @@ import { format_hour_diff } from '@/lib/utils';
 import { ISubscription } from '@/types';
 import Link from 'next/link';
 import { memo } from 'react';
-import { v4 } from 'uuid';
 
 const MembershipBar = ({ membership }: { membership: ISubscription }) => {
   return (
@@ -52,14 +51,14 @@ const MembershipBar = ({ membership }: { membership: ISubscription }) => {
                   .map((_, i) => (
                     <span
                       className='h-2 w-[78px] rounded-[14px] bg-doc-primary'
-                      key={v4()}
+                      key={`${i}-doc`}
                     />
                   ))}
                 {Array(membership.free_times_detail?.Document ?? 0)
                   .fill(0)
                   .map((_, i) => (
                     <span
-                      key={v4()}
+                      key={`${i}-doc-available`}
                       className='h-2 w-[78px] rounded-[14px] bg-gray-200'
                     />
                   ))}

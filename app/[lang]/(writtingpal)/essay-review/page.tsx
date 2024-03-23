@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
-import { v4 } from 'uuid';
 
 const Modal = dynamic(() => import('@/components/review/Modal'));
 
@@ -226,7 +225,10 @@ export default async function Page() {
         <Spacer y='24' />
         <div className='relative flex w-full shrink-0'>
           {ReviewSteps.map((item, index) => (
-            <div key={v4()} className={`flex w-1/3 flex-col px-2 `}>
+            <div
+              key={`review-${index}`}
+              className={`flex w-1/3 flex-col px-2 `}
+            >
               <h3 className='small-regular capitalize text-indigo-500'>
                 {`step ${index + 1}:`}
               </h3>
@@ -240,8 +242,8 @@ export default async function Page() {
         <h2 className='text-[28px] font-medium text-zinc-800'>Why Us?</h2>
         <Spacer y='25' />
         <div className='flex w-full flex-col gap-y-5'>
-          {ReviewReasons.map((item) => (
-            <div key={v4()} className='flex items-start gap-x-4'>
+          {ReviewReasons.map((item, index) => (
+            <div key={`reason-${index}`} className='flex items-start gap-x-4'>
               <Icon src={item.icon} width={24} height={24} priority />
               <div className='block space-y-3'>
                 <h3 className='text-xl font-medium capitalize !leading-none text-zinc-800'>

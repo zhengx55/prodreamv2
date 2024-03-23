@@ -97,7 +97,7 @@ export const SearchCitationCard = memo(
           <p className='small-regular line-clamp-4'>{item.abstract}</p>
         )}
         <Spacer y='15' />
-        <div className='flex-between'>
+        <div className='flex items-center justify-end gap-x-2'>
           {citation_tooltip_step === 2 && index === 0 ? (
             <Tiplayout
               title={CitationTooltip.STEP2_TITLE}
@@ -111,7 +111,7 @@ export const SearchCitationCard = memo(
               }}
             >
               <Button
-                className='h-[30px] w-[48%] rounded bg-doc-primary'
+                className='h-max w-max rounded bg-doc-primary px-4 py-1'
                 role='button'
                 onClick={() => handler(item as any, 'cite')}
               >
@@ -121,7 +121,7 @@ export const SearchCitationCard = memo(
             </Tiplayout>
           ) : (
             <Button
-              className='h-[30px] w-[48%] rounded bg-doc-primary'
+              className='h-max w-max rounded bg-doc-primary px-4 py-1'
               role='button'
               onClick={() => handler(item as any, 'cite')}
             >
@@ -143,7 +143,7 @@ export const SearchCitationCard = memo(
               }}
             >
               <Button
-                className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
+                className='h-max w-max rounded border border-doc-primary px-4 py-1 text-doc-primary'
                 variant={'ghost'}
                 role='button'
                 onClick={() => handler(item as any, 'collect')}
@@ -153,7 +153,7 @@ export const SearchCitationCard = memo(
             </Tiplayout>
           ) : (
             <Button
-              className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
+              className='h-max w-max rounded border border-doc-primary px-4 py-1 text-doc-primary'
               variant={'ghost'}
               role='button'
               onClick={() => handler(item as any, 'collect')}
@@ -258,9 +258,9 @@ export const MineCitationCard = memo(
             {item.data.abstract}
           </p>
         )}
-        <div className='flex-between gap-x-4'>
+        <div className='flex justify-end gap-x-2'>
           <Button
-            className='h-8 w-full rounded bg-doc-primary py-1'
+            className='h-max w-max rounded bg-doc-primary px-4 py-1'
             role='button'
             onClick={handleCite}
           >
