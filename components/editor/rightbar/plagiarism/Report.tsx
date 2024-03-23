@@ -1,14 +1,15 @@
 import Spacer from '@/components/root/Spacer';
-import { Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { copilot } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
+import { IPlagiarismData } from '@/query/type';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { m } from 'framer-motion';
-import { AlertTriangle, Loader2, RefreshCcw, X } from 'lucide-react';
+import { Loader2, RefreshCcw } from 'lucide-react';
 import { memo, useEffect, useState } from 'react';
 import { v4 } from 'uuid';
+import Unlock from '../Unlock';
 
 export type Sentence = {
   id: string;
@@ -19,17 +20,11 @@ export type Sentence = {
   ranges: number[];
 };
 
-const Report = () => {
-  const plagReport = useAIEditor((state) => state.plagiarismResult);
-  const updatePlagiarismRecheck = useAIEditor(
-    (state) => state.updatePlagiarismRecheck
-  );
+const Report = ({ report }: { report: Omit<IPlagiarismData, 'status'> }) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const [sentences, setSentences] = useState<Sentence[]>([]);
   const { data: membership } = useMembershipInfo();
-  const togglePlagiarism = useAIEditor((state) => state.togglePlagiarism);
-
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { id: string; text: string }) =>
       copilot({ text: params.text, tool: 'paraphrase' }),
@@ -147,9 +142,9 @@ const Report = () => {
   };
 
   useEffect(() => {
-    if (plagReport && plagReport.spans.length > 0) {
+    if (report && report.spans.length > 0) {
       const newSentences: Sentence[] = [];
-      plagReport.spans.map((item) => {
+      report.spans.map((item) => {
         let start = item[0];
         let end = item[1];
         newSentences.push({
@@ -163,150 +158,106 @@ const Report = () => {
       });
       setSentences(newSentences);
     }
-  }, [editor, plagReport]);
-  if (!plagReport) return null;
+  }, [editor, report]);
+
   return (
     <m.aside
       key={'plagiarism-panel'}
-      initial={{ width: 0 }}
-      animate={{
-        width: 400,
-      }}
-      exit={{
-        width: 0,
-      }}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2 }}
-      className='flex h-full shrink-0 flex-col overflow-y-auto border-l border-gray-200 px-4 py-5'
+      className='flex h-full w-full shrink-0 flex-col overflow-y-auto'
     >
-      <div className='flex-between'>
-        <div className='flex items-center gap-x-5'>
-          <h1 className='text-[64px] italic text-doc-primary'>
-            {(plagReport.scores * 100).toFixed(0)}%
-          </h1>
-          <div className='flex flex-col gap-y-2'>
-            <p className='small-regular'>
-              {plagReport.scores * 100 > 25
-                ? 'May be plagiarized'
-                : 'Acceptable'}
-            </p>
-            <Button
-              role='button'
-              variant={'ghost'}
-              className='h-max rounded border border-doc-primary px-4 py-1'
-              onClick={() => {
-                updatePlagiarismRecheck(true);
-                togglePlagiarism();
-              }}
-            >
-              <RefreshCcw size={14} className='text-doc-primary' />
-              <p className='subtle-regular text-doc-primary'>Re-check</p>
-            </Button>
-          </div>
+      <div className='flex items-center gap-x-5'>
+        <h1 className='text-[64px] italic text-doc-primary'>
+          {(report.scores * 100).toFixed(0)}%
+        </h1>
+        <div className='flex flex-col gap-y-2'>
+          <p className='small-regular'>
+            {report.scores * 100 > 25 ? 'May be plagiarized' : 'Acceptable'}
+          </p>
+          <Button
+            role='button'
+            variant={'ghost'}
+            className='h-max rounded border border-doc-primary px-4 py-1'
+            onClick={() => {}}
+          >
+            <RefreshCcw size={14} className='text-doc-primary' />
+            <p className='subtle-regular text-doc-primary'>Re-check</p>
+          </Button>
         </div>
-        <Button
-          role='button'
-          onClick={() => togglePlagiarism()}
-          className='h-max w-max rounded-full bg-red-400 p-0.5'
-        >
-          <X size={16} className='text-white' />
-        </Button>
       </div>
-      {membership?.subscription === 'basic' ? (
-        <>
-          <Spacer y='20' />
-          <div className='flex flex-col gap-y-4 rounded-lg border border-gray-200 px-4 py-2'>
-            <div className='flex items-center gap-x-2'>
-              <AlertTriangle size={22} className='shrink-0 text-yellow-400' />
-              <h1 className='base-semibold text-yellow-400'>
-                Unlock paraphrase suggestions with Unlimited Plan
-              </h1>
-            </div>
-            <p className='small-regular'>
-              Move beyond viewing plagiarism percentages with the Basic plan.
-              Upgrade to Unlimited for detailed, sentence-by-sentence
-              paraphrasing guidance to enhance your paper.
-            </p>
-            <Button
-              onClick={() => updatePaymentModal(true)}
-              role='button'
-              className='h-max w-max rounded py-1.5'
-            >
-              <Diamond /> Upgrade
-            </Button>
-          </div>
-        </>
+      {membership?.subscription !== 'basic' ? (
+        <Unlock
+          text={'Unlock paraphrase suggestions with the Unlimited Plan'}
+        />
       ) : (
-        <>
-          <Spacer y='20' />
-          <div className='flex flex-col gap-y-4'>
-            {sentences.map((item) => {
-              const isExpand = item.expand;
-              const isParaphrasing = item.isParaphrasing;
-              const hasResult = item.paraphrase_result !== '';
-              return (
-                <div
-                  key={item.id}
-                  className='rounded border border-gray-200 px-4 py-3'
+        <div className='flex flex-col gap-y-4'>
+          {sentences.map((item) => {
+            const isExpand = item.expand;
+            const isParaphrasing = item.isParaphrasing;
+            const hasResult = item.paraphrase_result !== '';
+            return (
+              <div
+                key={item.id}
+                className='rounded border border-gray-200 px-4 py-3'
+              >
+                <p className='small-regular line-clamp-4'>{item.text}</p>
+                <Spacer y='20' />
+                <Button
+                  disabled={isParaphrasing}
+                  onClick={() => handleParaphrase(item)}
+                  role='button'
+                  className='h-max w-full rounded p-1'
                 >
-                  <p className='small-regular line-clamp-4'>{item.text}</p>
-                  <Spacer y='20' />
-                  <Button
-                    disabled={isParaphrasing}
-                    onClick={() => handleParaphrase(item)}
-                    role='button'
-                    className='h-max w-full rounded p-1'
-                  >
-                    {isParaphrasing ? (
-                      <>
-                        <Loader2
-                          className=' animate-spin text-white'
-                          size={18}
-                        />
-                        Paraphrasing
-                      </>
-                    ) : hasResult ? (
-                      'View Paraphrase output'
-                    ) : (
-                      'Paraphrase Sentence'
-                    )}
-                  </Button>
-                  {isExpand && (
+                  {isParaphrasing ? (
                     <>
-                      <Spacer y='10' />
-                      <p className='small-regular line-clamp-4'>
-                        {item.paraphrase_result}
-                      </p>
-                      <Spacer y='10' />
-                      <div className='bg-[#FAFAFA] px-4 py-2'>
-                        <p className='small-regular line-clamp-2'>
-                          Original sentence: {item.text}
-                        </p>
-                      </div>
-                      <Spacer y='10' />
-                      <div className='flex-between'>
-                        <Button
-                          role='button'
-                          className='h-max w-[48%] rounded p-1'
-                          onClick={() => handleAccept(item)}
-                        >
-                          Accept
-                        </Button>
-                        <Button
-                          role='button'
-                          variant={'ghost'}
-                          onClick={() => handleDismiss(item.id)}
-                          className='h-max w-[48%] rounded border border-doc-primary p-1'
-                        >
-                          Dismiss
-                        </Button>
-                      </div>
+                      <Loader2 className=' animate-spin text-white' size={18} />
+                      Paraphrasing
                     </>
+                  ) : hasResult ? (
+                    'View Paraphrase output'
+                  ) : (
+                    'Paraphrase Sentence'
                   )}
-                </div>
-              );
-            })}
-          </div>
-        </>
+                </Button>
+                {isExpand && (
+                  <>
+                    <Spacer y='10' />
+                    <p className='small-regular line-clamp-4'>
+                      {item.paraphrase_result}
+                    </p>
+                    <Spacer y='10' />
+                    <div className='bg-[#FAFAFA] px-4 py-2'>
+                      <p className='small-regular line-clamp-2'>
+                        Original sentence: {item.text}
+                      </p>
+                    </div>
+                    <Spacer y='10' />
+                    <div className='flex-between'>
+                      <Button
+                        role='button'
+                        className='h-max w-[48%] rounded p-1'
+                        onClick={() => handleAccept(item)}
+                      >
+                        Accept
+                      </Button>
+                      <Button
+                        role='button'
+                        variant={'ghost'}
+                        onClick={() => handleDismiss(item.id)}
+                        className='h-max w-[48%] rounded border border-doc-primary p-1'
+                      >
+                        Dismiss
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
+            );
+          })}
+        </div>
       )}
     </m.aside>
   );

@@ -7,6 +7,7 @@ import {
 import Cookies from 'js-cookie';
 import {
   ICitation,
+  IDetectionResult,
   IDocDetail,
   IPlagiarismData,
   IPolishParams,
@@ -1054,17 +1055,18 @@ export async function searchCitation(
 // ----------------------------------------------------------------
 export async function getDetectionResult(params: {
   text: string;
-}): Promise<{ prob: number; highlight_sentences: string[] }> {
+}): Promise<IDetectionResult> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/ai_detect`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/ai_detect`,
       {
         method: 'POST',
         body: JSON.stringify({
           text: params.text,
         }),
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }

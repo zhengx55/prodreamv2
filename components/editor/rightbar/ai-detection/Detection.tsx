@@ -2,29 +2,63 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { getDetectionResult } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
+import { IDetectionResult } from '@/query/type';
+import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
-import { memo, useCallback } from 'react';
-import Unlock from '../Unlock';
+import { memo, useCallback, useState } from 'react';
+import Result from './Result';
 
 const Detection = () => {
   const { data: membership } = useMembershipInfo();
+  const [generating, setGenerating] = useState(false);
+  const [result, setResult] = useState<IDetectionResult>();
+  const editor = useAIEditor((state) => state.editor_instance);
   const { mutateAsync: detection } = useMutation({
     mutationFn: (params: { text: string }) => getDetectionResult(params),
-    onSuccess: async () => {},
-    onMutate: () => {},
+    onSuccess: async (data) => {
+      console.log(data);
+    },
+    onMutate: () => {
+      setGenerating(true);
+    },
     onError: async () => {},
-    onSettled: () => {},
+    onSettled: () => {
+      setGenerating(false);
+    },
   });
+
   const startDetection = useCallback(async () => {
-    await detection({ text: 'text' });
+    const editor_text = editor?.getText();
+    const { toast } = await import('sonner');
+    if (!editor_text) {
+      toast.error('Please write something first');
+      return;
+    }
+    await detection({ text: editor_text });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <AnimatePresence mode='wait'>
-      {membership?.subscription !== 'basic' ? (
-        <Unlock text={'Unlock Humanizer with the Unlimited Plan'} />
+      {/* {membership?.subscription !== 'basic' ? (
+        // <Unlock text={'Unlock Humanizer with the Unlimited Plan'} />
+      ) :  */}
+      {!result ? (
+        <Result />
+      ) : generating ? (
+        <m.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          key={'break-down generating'}
+          exit={{ opacity: 0, y: -20 }}
+          className='flex-center flex-1'
+        >
+          <Loader2 className='animate-spin text-doc-shadow' />
+        </m.div>
       ) : (
         <Starter start={startDetection} />
       )}
@@ -43,6 +77,14 @@ const Starter = memo(({ start }: { start: () => Promise<void> }) => {
     >
       <h3 className='text-black text-sm font-medium'>Humanizer</h3>
       <Spacer y='16' />
+      {/* <span className='relative h-36 w-36 rounded-full bg-green-100'>
+        <div
+          className='absolute inset-0 h-full w-full rounded-full'
+          style={{
+            background: 'conic-gradient(red 6deg, green 6deg 360deg)',
+          }}
+        ></div>
+      </span> */}
       <Image
         src='/editor/Start.png'
         alt='Upgrade check'
@@ -57,6 +99,7 @@ const Starter = memo(({ start }: { start: () => Promise<void> }) => {
       <Button
         className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'
         role='button'
+        onClick={start}
       >
         Start Humanize
       </Button>

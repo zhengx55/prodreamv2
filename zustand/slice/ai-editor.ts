@@ -1,4 +1,3 @@
-import { IPlagiarismData } from '@/query/type';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
@@ -11,9 +10,6 @@ const initialState: AIEditorState = {
   generateTab: -1,
   editor_instance: null,
   isSaving: false,
-  isPlagiarismOpen: false,
-  plagiarismReCheck: false,
-  plagiarismResult: null,
   showCopilotMenu: false,
   showCitiationMenu: false,
   showBubbleMenu: false,
@@ -33,9 +29,6 @@ type AIEditorState = {
   generateTab: number | string;
   rightbarTab: number;
   isSaving: boolean;
-  plagiarismReCheck: boolean;
-  plagiarismResult: null | Omit<IPlagiarismData, 'status'>;
-  isPlagiarismOpen: boolean;
   editor_instance: Editor | null;
   showCopilotMenu: boolean;
   showBubbleMenu: boolean;
@@ -55,12 +48,9 @@ type AIEditorAction = {
   toggleRightbar: () => void;
   updateGenerateTab: (result: AIEditorState['generateTab']) => void;
   updateRightbarTab: (result: AIEditorState['rightbarTab']) => void;
-  togglePlagiarism: () => void;
-  updatePlagiarismRecheck: (result: AIEditorState['plagiarismReCheck']) => void;
   toogleIsSaving: (result: AIEditorState['isSaving']) => void;
   setEditorInstance: (result: Editor) => void;
   reset: () => void;
-  updatePlagiarismResult: (result: AIEditorState['plagiarismResult']) => void;
   updateCopilotMenu: (result: AIEditorState['showCopilotMenu']) => void;
   updateFloatingMenuPos: (result: AIEditiorStore['floatingMenuPos']) => void;
   updateCitationMenu: (result: AIEditorState['showCitiationMenu']) => void;
@@ -82,11 +72,6 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
       essay_prompt: result,
     }));
   },
-  updatePlagiarismResult: (result) =>
-    set(() => ({
-      plagiarismResult: result,
-      showContinue: null,
-    })),
   updateShowBubbleMenu(result) {
     set(() => ({
       showBubbleMenu: result,
@@ -108,16 +93,6 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   toggleRightbar: () =>
     set((state) => ({ showContinue: null, rightbarOpen: !state.rightbarOpen })),
 
-  updatePlagiarismRecheck: (result) =>
-    set(() => ({ plagiarismReCheck: result })),
-  togglePlagiarism: () =>
-    set((state) =>
-      state.isPlagiarismOpen
-        ? state.rightbarOpen
-          ? { rightbarOpen: false, isPlagiarismOpen: !state.isPlagiarismOpen }
-          : { isPlagiarismOpen: !state.isPlagiarismOpen }
-        : { isPlagiarismOpen: !state.isPlagiarismOpen }
-    ),
   toogleIsSaving: (result) => set(() => ({ isSaving: result })),
   reset: () => set(initialState),
 

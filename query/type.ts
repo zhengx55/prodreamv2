@@ -51,6 +51,8 @@ export interface IGrammarResult {
   }[];
 }
 
+export type IDetectionResult = { prob: number; highlight_sentences: string[] };
+
 export type IGrammarResponse = {
   index: number[];
   diff: IDiffObject[][];
