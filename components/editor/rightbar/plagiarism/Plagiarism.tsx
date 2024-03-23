@@ -15,10 +15,10 @@ const Plagiarism = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState<Omit<IPlagiarismData, 'status'>>({
-    scores: 0.736,
+    scores: 0.934,
     spans: [
-      [70, 91],
-      [557, 585],
+      [39, 128],
+      [129, 605],
     ],
   });
   const { mutateAsync: plagiarism } = useMutation({

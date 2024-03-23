@@ -1,126 +1,44 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { copilot } from '@/query/api';
+import { batchParaphrase } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
 import { IPlagiarismData } from '@/query/type';
 import { useAIEditor } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { m } from 'framer-motion';
 import { Loader2, RefreshCcw } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { memo, useEffect, useState } from 'react';
 import { v4 } from 'uuid';
-import Unlock from '../Unlock';
+import { useEditorCommand } from '../../hooks/useEditorCommand';
+
+const Unlock = dynamic(() => import('../Unlock'));
 
 export type Sentence = {
   id: string;
   text: string;
-  isParaphrasing: boolean;
   expand: boolean;
-  paraphrase_result: string;
   ranges: number[];
+  result: string;
 };
 
 const Report = ({ report }: { report: Omit<IPlagiarismData, 'status'> }) => {
   const editor = useAIEditor((state) => state.editor_instance);
-  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const [sentences, setSentences] = useState<Sentence[]>([]);
+  const [texts, setTexts] = useState<string[]>([]);
   const { data: membership } = useMembershipInfo();
-  const { mutateAsync: handleCopilot } = useMutation({
-    mutationFn: (params: { id: string; text: string }) =>
-      copilot({ text: params.text, tool: 'paraphrase' }),
-    onMutate(variables) {
-      setSentences((prev) =>
-        prev.map((prevItem) => {
-          if (prevItem.id === variables.id)
-            return { ...prevItem, isParaphrasing: true };
-          return prevItem;
-        })
-      );
-    },
-    onSuccess: async (data: ReadableStream, variables) => {
-      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) {
-          setSentences((prev) =>
-            prev.map((prevItem) => {
-              if (prevItem.id === variables.id)
-                return { ...prevItem, isParaphrasing: false };
-              return prevItem;
-            })
-          );
-          break;
-        }
-        handleStreamData(value, variables.id);
-      }
-    },
-    onError: async (error, variables) => {
-      const toast = (await import('sonner')).toast;
-      setSentences((prev) =>
-        prev.map((prevItem) => {
-          if (prevItem.id === variables.id)
-            return { ...prevItem, isParaphrasing: true };
-          return prevItem;
-        })
-      );
-      toast.error(error.message);
-    },
+  const commands = useEditorCommand(editor!);
+
+  useUnmount(() => {
+    commands.clearAllHightLight();
   });
 
-  const handleStreamData = (value: string | undefined, id: string) => {
-    if (!value) return;
-    const lines = value.split('\n');
-    const dataLines = lines.filter(
-      (line, index) =>
-        line.startsWith('data:') &&
-        lines.at(index - 1)?.startsWith('event: data')
-    );
-    const eventData = dataLines.map((line) =>
-      JSON.parse(line.slice('data:'.length))
-    );
-    let result = '';
-    eventData.forEach((word) => {
-      result += word;
-    });
+  const handleDismiss = (item: Sentence) => {
+    editor?.chain().blur().setTextSelection(0).run();
     setSentences((prev) =>
-      prev.map((prevItem) => {
-        if (prevItem.id === id)
-          return {
-            ...prevItem,
-            paraphrase_result: (prevItem.paraphrase_result += result),
-          };
-        return prevItem;
-      })
-    );
-  };
-
-  const handleParaphrase = async (item: Sentence) => {
-    if (item.paraphrase_result) {
-      if (!item.expand) {
-        editor?.commands.setTextSelection({
-          from: item.ranges[0],
-          to: item.ranges[1],
-        });
-      } else {
-        editor?.commands.setTextSelection(0);
-      }
-      setSentences((prev) =>
-        prev.map((prevItem) => {
-          if (prevItem.id === item.id)
-            return { ...prevItem, expand: !prevItem.expand };
-          return prevItem;
-        })
-      );
-    } else {
-      await handleCopilot({ id: item.id, text: item.text });
-    }
-  };
-
-  const handleDismiss = (id: string) => {
-    setSentences((prev) =>
-      prev.map((prevItem) => {
-        if (prevItem.id === id) return { ...prevItem, expand: false };
-        return prevItem;
+      prev.filter((prevItem) => {
+        return prevItem.id !== item.id;
       })
     );
   };
@@ -130,44 +48,90 @@ const Report = ({ report }: { report: Omit<IPlagiarismData, 'status'> }) => {
     const end = item.ranges[1];
     editor
       ?.chain()
-      .focus()
+      .blur()
       .deleteRange({ from: start, to: end })
-      .insertContentAt(start, item.paraphrase_result)
+      .insertContentAt(start, item.result)
       .run();
-    setSentences((prev) =>
-      prev.filter((prevItem) => {
-        return prevItem.id !== item.id;
-      })
-    );
+    // setSentences((prev) =>
+    //   prev.filter((prevItem) => {
+    //     return prevItem.id !== item.id;
+    //   })
+    // );
   };
 
   useEffect(() => {
     if (report && report.spans.length > 0) {
-      const newSentences: Sentence[] = [];
+      let text_array: string[] = [];
       report.spans.map((item) => {
         let start = item[0];
         let end = item[1];
+        let text = editor?.getText()?.substring(start, end) ?? '';
+        text_array = [...text_array, text];
+      });
+      setTexts(text_array);
+    }
+  }, [editor, report]);
+
+  const {
+    data: suggestions,
+    isPending,
+    isError,
+  } = useQuery({
+    queryFn: () => batchParaphrase(texts),
+    queryKey: ['batchParaphrase', texts],
+    enabled: texts.length > 0,
+  });
+
+  useEffect(() => {
+    if (suggestions) {
+      const newSentences: Sentence[] = [];
+      report.spans.map((item, index) => {
+        let start = item[0];
+        let end = item[1];
+        let text = editor?.getText()?.substring(item[0], item[1]) ?? '';
         newSentences.push({
           id: v4(),
-          text: editor?.getText()?.substring(start, end) ?? '',
-          isParaphrasing: false,
+          text,
           expand: false,
-          paraphrase_result: '',
+          result: suggestions[index],
           ranges: [start, end + 1],
         });
       });
       setSentences(newSentences);
     }
-  }, [editor, report]);
+  }, [editor, report, suggestions]);
+
+  const handleRejectAll = () => {
+    setSentences([]);
+  };
+
+  const toggleExpand = (item: Sentence) => {
+    const { id, ranges } = item;
+    if (!item.expand) {
+      editor
+        ?.chain()
+        .focus()
+        .setTextSelection({ from: ranges[0] + 1, to: ranges[1] })
+        .run();
+      setSentences((prev) =>
+        prev.map((prevItem) => {
+          if (prevItem.id === id) return { ...prevItem, expand: true };
+          else {
+            return { ...prevItem, expand: false };
+          }
+        })
+      );
+    }
+  };
 
   return (
-    <m.aside
+    <m.div
       key={'plagiarism-panel'}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2 }}
-      className='flex h-full w-full shrink-0 flex-col overflow-y-auto'
+      className='flex flex-1 flex-col overflow-y-auto'
     >
       <div className='flex items-center gap-x-5'>
         <h1 className='text-[64px] italic text-doc-primary'>
@@ -194,72 +158,91 @@ const Report = ({ report }: { report: Omit<IPlagiarismData, 'status'> }) => {
         />
       ) : (
         <div className='flex flex-col gap-y-4'>
-          {sentences.map((item) => {
-            const isExpand = item.expand;
-            const isParaphrasing = item.isParaphrasing;
-            const hasResult = item.paraphrase_result !== '';
-            return (
-              <div
-                key={item.id}
-                className='rounded border border-gray-200 px-4 py-3'
+          <div className='flex-between'>
+            <p className='small-medium'>{sentences.length} Suggestions</p>
+            <div className='flex gap-x-3'>
+              <Button
+                role='button'
+                variant={'ghost'}
+                className='w-max px-0 text-stone-300 hover:text-doc-primary'
               >
-                <p className='small-regular line-clamp-4'>{item.text}</p>
-                <Spacer y='20' />
-                <Button
-                  disabled={isParaphrasing}
-                  onClick={() => handleParaphrase(item)}
-                  role='button'
-                  className='h-max w-full rounded p-1'
+                Accept all
+              </Button>
+              <Button
+                role='button'
+                variant={'ghost'}
+                onClick={handleRejectAll}
+                className='w-max px-0 text-stone-300 hover:text-doc-primary'
+              >
+                Reject all
+              </Button>
+            </div>
+          </div>
+          {isError ? (
+            <p className='small-medium text-red-400'>
+              Something went wrong, please try again later
+            </p>
+          ) : isPending ? (
+            <div className='flex-center flex-1'>
+              <Loader2 className='animate-spin text-doc-primary' />
+            </div>
+          ) : (
+            sentences.map((item) => {
+              const isExpand = item.expand;
+              return (
+                <m.div
+                  key={item.id}
+                  initial={false}
+                  animate={isExpand ? 'expand' : 'collapse'}
+                  variants={{
+                    expand: { height: 'auto' },
+                    collapse: { height: '87px' },
+                  }}
+                  transition={{ duration: 0.3 }}
+                  onClick={() => toggleExpand(item)}
+                  className='cursor-pointer overflow-hidden rounded border border-gray-200 px-4 hover:shadow-md'
                 >
-                  {isParaphrasing ? (
-                    <>
-                      <Loader2 className=' animate-spin text-white' size={18} />
-                      Paraphrasing
-                    </>
-                  ) : hasResult ? (
-                    'View Paraphrase output'
-                  ) : (
-                    'Paraphrase Sentence'
-                  )}
-                </Button>
-                {isExpand && (
-                  <>
-                    <Spacer y='10' />
-                    <p className='small-regular line-clamp-4'>
-                      {item.paraphrase_result}
+                  <Spacer y='15' />
+                  <p
+                    className={`base-medium ${isExpand ? 'line-clamp-4' : 'line-clamp-1'}`}
+                  >
+                    {item.result}
+                  </p>
+                  <Spacer y='10' />
+                  <div className='w-full rounded bg-neutral-50 p-2'>
+                    <p
+                      className={`${isExpand ? 'line-clamp-4' : 'line-clamp-1'} w-full text-sm font-normal leading-snug text-zinc-600`}
+                    >
+                      {item.text}
                     </p>
-                    <Spacer y='10' />
-                    <div className='bg-[#FAFAFA] px-4 py-2'>
-                      <p className='small-regular line-clamp-2'>
-                        Original sentence: {item.text}
-                      </p>
-                    </div>
-                    <Spacer y='10' />
-                    <div className='flex-between'>
+                  </div>
+                  {isExpand && (
+                    <div className='mt-2 flex justify-end gap-x-2'>
                       <Button
                         role='button'
-                        className='h-max w-[48%] rounded p-1'
+                        variant={'ghost'}
+                        onClick={() => handleDismiss(item)}
+                        className='h-max w-max rounded border border-zinc-600 px-4 py-1 text-zinc-600'
+                      >
+                        Dismiss
+                      </Button>
+                      <Button
+                        role='button'
+                        className='h-max w-max rounded border border-transparent px-4 py-1'
                         onClick={() => handleAccept(item)}
                       >
                         Accept
                       </Button>
-                      <Button
-                        role='button'
-                        variant={'ghost'}
-                        onClick={() => handleDismiss(item.id)}
-                        className='h-max w-[48%] rounded border border-doc-primary p-1'
-                      >
-                        Dismiss
-                      </Button>
                     </div>
-                  </>
-                )}
-              </div>
-            );
-          })}
+                  )}
+                  <Spacer y='15' />
+                </m.div>
+              );
+            })
+          )}
         </div>
       )}
-    </m.aside>
+    </m.div>
   );
 };
 export default memo(Report);
