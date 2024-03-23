@@ -14,13 +14,9 @@ const Plagiarism = () => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [isGenerating, setIsGenerating] = useState(false);
   const timer = useRef<NodeJS.Timeout | null>(null);
-  const [result, setResult] = useState<Omit<IPlagiarismData, 'status'>>({
-    scores: 0.934,
-    spans: [
-      [39, 128],
-      [129, 605],
-    ],
-  });
+  const [result, setResult] = useState<
+    Omit<IPlagiarismData, 'status'> | undefined
+  >();
   const { mutateAsync: plagiarism } = useMutation({
     mutationFn: (params: string) => plagiarismCheck(params),
     onMutate: () => {
@@ -47,6 +43,9 @@ const Plagiarism = () => {
   });
 
   const handlePlagiarismCheck = useCallback(async () => {
+    if (result) {
+      setResult(undefined);
+    }
     if (!editor?.getText()) {
       const toast = (await import('sonner')).toast;
       toast.error('Please write something to check plagiarism');
@@ -54,13 +53,13 @@ const Plagiarism = () => {
     }
     await plagiarism(editor?.getText());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [editor]);
 
   return (
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
       <AnimatePresence mode='wait'>
         {result ? (
-          <Report report={result} />
+          <Report report={result} recheck={handlePlagiarismCheck} />
         ) : isGenerating ? (
           <m.div
             initial={{ opacity: 0, y: -20 }}

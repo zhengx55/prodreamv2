@@ -5,13 +5,11 @@ import { useMembershipInfo } from '@/query/query';
 import { IPlagiarismData } from '@/query/type';
 import { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { m } from 'framer-motion';
 import { Loader2, RefreshCcw } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useEffect, useState } from 'react';
 import { v4 } from 'uuid';
-import { useEditorCommand } from '../../hooks/useEditorCommand';
 
 const Unlock = dynamic(() => import('../Unlock'));
 
@@ -23,16 +21,31 @@ export type Sentence = {
   result: string;
 };
 
-const Report = ({ report }: { report: Omit<IPlagiarismData, 'status'> }) => {
+const Report = ({
+  report,
+  recheck,
+}: {
+  report: Omit<IPlagiarismData, 'status'>;
+  recheck: () => Promise<void>;
+}) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [sentences, setSentences] = useState<Sentence[]>([]);
   const [texts, setTexts] = useState<string[]>([]);
   const { data: membership } = useMembershipInfo();
-  const commands = useEditorCommand(editor!);
 
-  useUnmount(() => {
-    commands.clearAllHightLight();
-  });
+  const handleAcceptAll = () => {
+    sentences.map((item) => {
+      const start = item.ranges[0];
+      const end = item.ranges[1];
+      editor
+        ?.chain()
+        .blur()
+        .setTextSelection({ from: start + 1, to: end })
+        .insertContent(item.result)
+        .run();
+    });
+    setSentences([]);
+  };
 
   const handleDismiss = (item: Sentence) => {
     editor?.chain().blur().setTextSelection(0).run();
@@ -49,14 +62,14 @@ const Report = ({ report }: { report: Omit<IPlagiarismData, 'status'> }) => {
     editor
       ?.chain()
       .blur()
-      .deleteRange({ from: start, to: end })
-      .insertContentAt(start, item.result)
+      .setTextSelection({ from: start + 1, to: end })
+      .insertContent(item.result)
       .run();
-    // setSentences((prev) =>
-    //   prev.filter((prevItem) => {
-    //     return prevItem.id !== item.id;
-    //   })
-    // );
+    setSentences((prev) =>
+      prev.filter((prevItem) => {
+        return prevItem.id !== item.id;
+      })
+    );
   };
 
   useEffect(() => {
@@ -145,7 +158,7 @@ const Report = ({ report }: { report: Omit<IPlagiarismData, 'status'> }) => {
             role='button'
             variant={'ghost'}
             className='h-max rounded border border-doc-primary px-4 py-1'
-            onClick={() => {}}
+            onClick={recheck}
           >
             <RefreshCcw size={14} className='text-doc-primary' />
             <p className='subtle-regular text-doc-primary'>Re-check</p>
@@ -164,6 +177,7 @@ const Report = ({ report }: { report: Omit<IPlagiarismData, 'status'> }) => {
               <Button
                 role='button'
                 variant={'ghost'}
+                onClick={handleAcceptAll}
                 className='w-max px-0 text-stone-300 hover:text-doc-primary'
               >
                 Accept all
@@ -204,14 +218,14 @@ const Report = ({ report }: { report: Omit<IPlagiarismData, 'status'> }) => {
                 >
                   <Spacer y='15' />
                   <p
-                    className={`base-medium ${isExpand ? 'line-clamp-4' : 'line-clamp-1'}`}
+                    className={`base-medium ${isExpand ? '' : 'line-clamp-1'}`}
                   >
                     {item.result}
                   </p>
                   <Spacer y='10' />
                   <div className='w-full rounded bg-neutral-50 p-2'>
                     <p
-                      className={`${isExpand ? 'line-clamp-4' : 'line-clamp-1'} w-full text-sm font-normal leading-snug text-zinc-600`}
+                      className={`${isExpand ? '' : 'line-clamp-1'} w-full text-sm font-normal leading-snug text-zinc-600`}
                     >
                       {item.text}
                     </p>
