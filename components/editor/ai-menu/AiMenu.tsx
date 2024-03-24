@@ -12,6 +12,7 @@ import {
   useMutateTrackInfo,
   useUserTrackInfo,
 } from '@/query/query';
+import { DocPageDicType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
@@ -32,8 +33,9 @@ import { useAiOptions } from './hooks/useAiOptions';
 import useAiResponse from './hooks/useAiResponse';
 
 const RemainUsages = dynamic(() => import('./RemainUsages'));
-type Props = { editor: Editor };
-const AiMenu = ({ editor }: Props) => {
+type Props = { editor: Editor } & DocPageDicType;
+
+const AiMenu = ({ editor, t, lang }: Props) => {
   const { options, operations } = useAiOptions();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: track } = useUserTrackInfo();
@@ -273,7 +275,13 @@ const AiMenu = ({ editor }: Props) => {
                           >
                             <div className='flex items-center gap-x-2'>
                               {cloneElement(option.icon)}
-                              <p className='small-regular'>{option.name}</p>
+                              <p className='small-regular'>
+                                {
+                                  t.Copilot[
+                                    option.name as keyof typeof t.Copilot
+                                  ]
+                                }
+                              </p>
                             </div>
                             {option.submenu ? <ChevronRight size={18} /> : null}
                             {option.submenu && hoverItem === option.id && (
@@ -322,7 +330,7 @@ const AiMenu = ({ editor }: Props) => {
                           ? cloneElement(item.icon, { color: '#774EBB' })
                           : cloneElement(item.icon)}
                         <p className='small-regular group-hover:text-doc-primary'>
-                          {item.name}
+                          {t.Copilot[item.name as keyof typeof t.Copilot]}
                         </p>
                       </div>
                     </div>

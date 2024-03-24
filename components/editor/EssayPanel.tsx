@@ -25,7 +25,7 @@ const DocRightBar = dynamic(() => import('./rightbar/DocRightBar'));
 type Props = {
   id: string;
 } & DocPageDicType;
-const EssayPanel = ({ id, lang, t }: Props) => {
+const EssayPanel = ({ id, ...props }: Props) => {
   const { data: document_content, isPending, isError } = useDocumentDetail(id);
   const signUpTime = useUserInfo((state) => state.user.create_time);
   const showCheckList = useMemo(() => {
@@ -52,9 +52,10 @@ const EssayPanel = ({ id, lang, t }: Props) => {
           ) : (
             <Editor
               essay_content={document_content ? document_content.content : ''}
+              {...props}
             />
           )}
-          <DocRightBar t={t} lang={lang} />
+          <DocRightBar {...props} />
         </div>
       </main>
     </LazyMotionProvider>

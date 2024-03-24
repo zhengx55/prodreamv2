@@ -4,13 +4,13 @@ import { AnimatePresence } from 'framer-motion';
 import { memo } from 'react';
 import General from './General';
 
-const DocRightBar = ({ t, lang }: DocPageDicType) => {
+const DocRightBar = (props: DocPageDicType) => {
   const rightbarOpen = useAIEditor((state) => state.rightbarOpen);
   return (
     <>
-      <General.Trigger t={t} lang={lang} />
+      <General.Trigger {...props} />
       <AnimatePresence>
-        {rightbarOpen && <General t={t} lang={lang} />}
+        {rightbarOpen && <General {...props} />}
       </AnimatePresence>
     </>
   );
