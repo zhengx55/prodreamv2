@@ -17,7 +17,7 @@ const OPTIONS = [
   'Plagiarism Check',
   'AI Detection',
   'Citation',
-  'My Citation Library',
+  'Library',
   'Generate',
 ];
 

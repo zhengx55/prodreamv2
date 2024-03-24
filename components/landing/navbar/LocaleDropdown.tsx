@@ -7,7 +7,6 @@ import {
 import { Locale, i18n } from '@/i18n-config';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { v4 } from 'uuid';
 
 const LocaleDropdown = () => {
   const pathName = usePathname();
@@ -26,7 +25,7 @@ const LocaleDropdown = () => {
     >
       {i18n.locales.map((locale: Locale, index: number) => (
         <DropdownMenuItem
-          key={v4()}
+          key={`locale-switcher-${index}`}
           className='cursor-pointer hover:bg-doc-primary hover:text-white'
         >
           <Link

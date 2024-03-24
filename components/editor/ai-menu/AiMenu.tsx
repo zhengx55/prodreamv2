@@ -25,7 +25,6 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import { v4 } from 'uuid';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 import CustomPrompt from './CustomPrompt';
 import StreamText from './StreamText';
@@ -243,7 +242,7 @@ const AiMenu = ({ editor }: Props) => {
             {!hasAiResult
               ? options.map((item, index) => {
                   return (
-                    <Fragment key={v4()}>
+                    <Fragment key={`option-${index}`}>
                       {index !== 0 && (
                         <>
                           <Spacer y='5' />

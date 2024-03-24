@@ -1,131 +1,57 @@
 import Spacer from '@/components/root/Spacer';
-import { Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
-import { copilot } from '@/query/api';
+import { batchParaphrase } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
+import { IPlagiarismData } from '@/query/type';
 import { useAIEditor } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { m } from 'framer-motion';
-import { AlertTriangle, Loader2, RefreshCcw, X } from 'lucide-react';
+import { Loader2, RefreshCcw } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { memo, useEffect, useState } from 'react';
 import { v4 } from 'uuid';
+
+const Unlock = dynamic(() => import('../Unlock'));
 
 export type Sentence = {
   id: string;
   text: string;
-  isParaphrasing: boolean;
   expand: boolean;
-  paraphrase_result: string;
   ranges: number[];
+  result: string;
 };
 
-const Report = () => {
-  const plagReport = useAIEditor((state) => state.plagiarismResult);
-  const updatePlagiarismRecheck = useAIEditor(
-    (state) => state.updatePlagiarismRecheck
-  );
+const Report = ({
+  report,
+  recheck,
+}: {
+  report: Omit<IPlagiarismData, 'status'>;
+  recheck: () => Promise<void>;
+}) => {
   const editor = useAIEditor((state) => state.editor_instance);
-  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const [sentences, setSentences] = useState<Sentence[]>([]);
+  const [texts, setTexts] = useState<string[]>([]);
   const { data: membership } = useMembershipInfo();
-  const togglePlagiarism = useAIEditor((state) => state.togglePlagiarism);
 
-  const { mutateAsync: handleCopilot } = useMutation({
-    mutationFn: (params: { id: string; text: string }) =>
-      copilot({ text: params.text, tool: 'paraphrase' }),
-    onMutate(variables) {
-      setSentences((prev) =>
-        prev.map((prevItem) => {
-          if (prevItem.id === variables.id)
-            return { ...prevItem, isParaphrasing: true };
-          return prevItem;
-        })
-      );
-    },
-    onSuccess: async (data: ReadableStream, variables) => {
-      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) {
-          setSentences((prev) =>
-            prev.map((prevItem) => {
-              if (prevItem.id === variables.id)
-                return { ...prevItem, isParaphrasing: false };
-              return prevItem;
-            })
-          );
-          break;
-        }
-        handleStreamData(value, variables.id);
-      }
-    },
-    onError: async (error, variables) => {
-      const toast = (await import('sonner')).toast;
-      setSentences((prev) =>
-        prev.map((prevItem) => {
-          if (prevItem.id === variables.id)
-            return { ...prevItem, isParaphrasing: true };
-          return prevItem;
-        })
-      );
-      toast.error(error.message);
-    },
-  });
-
-  const handleStreamData = (value: string | undefined, id: string) => {
-    if (!value) return;
-    const lines = value.split('\n');
-    const dataLines = lines.filter(
-      (line, index) =>
-        line.startsWith('data:') &&
-        lines.at(index - 1)?.startsWith('event: data')
-    );
-    const eventData = dataLines.map((line) =>
-      JSON.parse(line.slice('data:'.length))
-    );
-    let result = '';
-    eventData.forEach((word) => {
-      result += word;
+  const handleAcceptAll = () => {
+    sentences.map((item) => {
+      const start = item.ranges[0];
+      const end = item.ranges[1];
+      editor
+        ?.chain()
+        .blur()
+        .setTextSelection({ from: start + 1, to: end })
+        .insertContent(item.result)
+        .run();
     });
-    setSentences((prev) =>
-      prev.map((prevItem) => {
-        if (prevItem.id === id)
-          return {
-            ...prevItem,
-            paraphrase_result: (prevItem.paraphrase_result += result),
-          };
-        return prevItem;
-      })
-    );
+    setSentences([]);
   };
 
-  const handleParaphrase = async (item: Sentence) => {
-    if (item.paraphrase_result) {
-      if (!item.expand) {
-        editor?.commands.setTextSelection({
-          from: item.ranges[0],
-          to: item.ranges[1],
-        });
-      } else {
-        editor?.commands.setTextSelection(0);
-      }
-      setSentences((prev) =>
-        prev.map((prevItem) => {
-          if (prevItem.id === item.id)
-            return { ...prevItem, expand: !prevItem.expand };
-          return prevItem;
-        })
-      );
-    } else {
-      await handleCopilot({ id: item.id, text: item.text });
-    }
-  };
-
-  const handleDismiss = (id: string) => {
+  const handleDismiss = (item: Sentence) => {
+    editor?.chain().blur().setTextSelection(0).run();
     setSentences((prev) =>
-      prev.map((prevItem) => {
-        if (prevItem.id === id) return { ...prevItem, expand: false };
-        return prevItem;
+      prev.filter((prevItem) => {
+        return prevItem.id !== item.id;
       })
     );
   };
@@ -135,9 +61,9 @@ const Report = () => {
     const end = item.ranges[1];
     editor
       ?.chain()
-      .focus()
-      .deleteRange({ from: start, to: end })
-      .insertContentAt(start, item.paraphrase_result)
+      .blur()
+      .setTextSelection({ from: start + 1, to: end })
+      .insertContent(item.result)
       .run();
     setSentences((prev) =>
       prev.filter((prevItem) => {
@@ -147,168 +73,211 @@ const Report = () => {
   };
 
   useEffect(() => {
-    if (plagReport && plagReport.spans.length > 0) {
-      const newSentences: Sentence[] = [];
-      plagReport.spans.map((item) => {
+    if (report && report.spans.length > 0) {
+      let text_array: string[] = [];
+      report.spans.map((item) => {
         let start = item[0];
         let end = item[1];
+        let text = editor?.getText()?.substring(start, end) ?? '';
+        text_array = [...text_array, text];
+      });
+      setTexts(text_array);
+    }
+  }, [editor, report]);
+
+  const {
+    data: suggestions,
+    isPending,
+    isError,
+  } = useQuery({
+    queryFn: () => batchParaphrase(texts),
+    queryKey: ['batchParaphrase', texts],
+    enabled: texts.length > 0,
+  });
+
+  useEffect(() => {
+    if (suggestions) {
+      const newSentences: Sentence[] = [];
+      report.spans.map((item, index) => {
+        let start = item[0];
+        let end = item[1];
+        let text = editor?.getText()?.substring(item[0], item[1]) ?? '';
         newSentences.push({
           id: v4(),
-          text: editor?.getText()?.substring(start, end) ?? '',
-          isParaphrasing: false,
+          text,
           expand: false,
-          paraphrase_result: '',
+          result: suggestions[index],
           ranges: [start, end + 1],
         });
       });
       setSentences(newSentences);
     }
-  }, [editor, plagReport]);
-  if (!plagReport) return null;
+  }, [editor, report, suggestions]);
+
+  const handleRejectAll = () => {
+    setSentences([]);
+  };
+
+  const toggleExpand = (item: Sentence) => {
+    const { id, ranges } = item;
+    if (!item.expand) {
+      editor
+        ?.chain()
+        .focus()
+        .setTextSelection({ from: ranges[0] + 1, to: ranges[1] })
+        .run();
+      setSentences((prev) =>
+        prev.map((prevItem) => {
+          if (prevItem.id === id) return { ...prevItem, expand: true };
+          else {
+            return { ...prevItem, expand: false };
+          }
+        })
+      );
+    }
+  };
+
   return (
-    <m.aside
+    <m.div
       key={'plagiarism-panel'}
-      initial={{ width: 0 }}
-      animate={{
-        width: 400,
-      }}
-      exit={{
-        width: 0,
-      }}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2 }}
-      className='flex h-full shrink-0 flex-col overflow-y-auto border-l border-gray-200 px-4 py-5'
+      className='flex flex-1 flex-col overflow-y-auto'
     >
-      <div className='flex-between'>
-        <div className='flex items-center gap-x-5'>
-          <h1 className='text-[64px] italic text-doc-primary'>
-            {(plagReport.scores * 100).toFixed(0)}%
-          </h1>
-          <div className='flex flex-col gap-y-2'>
-            <p className='small-regular'>
-              {plagReport.scores * 100 > 25
-                ? 'May be plagiarized'
-                : 'Acceptable'}
-            </p>
-            <Button
-              role='button'
-              variant={'ghost'}
-              className='h-max rounded border border-doc-primary px-4 py-1'
-              onClick={() => {
-                updatePlagiarismRecheck(true);
-                togglePlagiarism();
-              }}
-            >
-              <RefreshCcw size={14} className='text-doc-primary' />
-              <p className='subtle-regular text-doc-primary'>Re-check</p>
-            </Button>
-          </div>
+      <div className='flex items-center gap-x-5'>
+        <h1 className='text-[64px] italic text-doc-primary'>
+          {(report.scores * 100).toFixed(0)}%
+        </h1>
+        <div className='flex flex-col gap-y-2'>
+          <p className='small-regular'>
+            {report.scores * 100 > 25 ? 'May be plagiarized' : 'Acceptable'}
+          </p>
+          <Button
+            role='button'
+            variant={'ghost'}
+            className='h-max rounded border border-doc-primary px-4 py-1'
+            onClick={recheck}
+          >
+            <RefreshCcw size={14} className='text-doc-primary' />
+            <p className='subtle-regular text-doc-primary'>Re-check</p>
+          </Button>
         </div>
-        <Button
-          role='button'
-          onClick={() => togglePlagiarism()}
-          className='h-max w-max rounded-full bg-red-400 p-0.5'
-        >
-          <X size={16} className='text-white' />
-        </Button>
       </div>
-      {membership?.subscription === 'basic' ? (
-        <>
-          <Spacer y='20' />
-          <div className='flex flex-col gap-y-4 rounded-lg border border-gray-200 px-4 py-2'>
-            <div className='flex items-center gap-x-2'>
-              <AlertTriangle size={22} className='shrink-0 text-yellow-400' />
-              <h1 className='base-semibold text-yellow-400'>
-                Unlock paraphrase suggestions with Unlimited Plan
-              </h1>
-            </div>
-            <p className='small-regular'>
-              Move beyond viewing plagiarism percentages with the Basic plan.
-              Upgrade to Unlimited for detailed, sentence-by-sentence
-              paraphrasing guidance to enhance your paper.
-            </p>
-            <Button
-              onClick={() => updatePaymentModal(true)}
-              role='button'
-              className='h-max w-max rounded py-1.5'
-            >
-              <Diamond /> Upgrade
-            </Button>
-          </div>
-        </>
+      {membership?.subscription !== 'basic' ? (
+        <Unlock
+          text={'Unlock paraphrase suggestions with the Unlimited Plan'}
+        />
       ) : (
-        <>
-          <Spacer y='20' />
-          <div className='flex flex-col gap-y-4'>
-            {sentences.map((item) => {
-              const isExpand = item.expand;
-              const isParaphrasing = item.isParaphrasing;
-              const hasResult = item.paraphrase_result !== '';
-              return (
-                <div
-                  key={item.id}
-                  className='rounded border border-gray-200 px-4 py-3'
-                >
-                  <p className='small-regular line-clamp-4'>{item.text}</p>
-                  <Spacer y='20' />
-                  <Button
-                    disabled={isParaphrasing}
-                    onClick={() => handleParaphrase(item)}
-                    role='button'
-                    className='h-max w-full rounded p-1'
-                  >
-                    {isParaphrasing ? (
-                      <>
-                        <Loader2
-                          className=' animate-spin text-white'
-                          size={18}
-                        />
-                        Paraphrasing
-                      </>
-                    ) : hasResult ? (
-                      'View Paraphrase output'
-                    ) : (
-                      'Paraphrase Sentence'
-                    )}
-                  </Button>
-                  {isExpand && (
-                    <>
-                      <Spacer y='10' />
-                      <p className='small-regular line-clamp-4'>
-                        {item.paraphrase_result}
-                      </p>
-                      <Spacer y='10' />
-                      <div className='bg-[#FAFAFA] px-4 py-2'>
-                        <p className='small-regular line-clamp-2'>
-                          Original sentence: {item.text}
-                        </p>
-                      </div>
-                      <Spacer y='10' />
-                      <div className='flex-between'>
-                        <Button
-                          role='button'
-                          className='h-max w-[48%] rounded p-1'
-                          onClick={() => handleAccept(item)}
-                        >
-                          Accept
-                        </Button>
-                        <Button
-                          role='button'
-                          variant={'ghost'}
-                          onClick={() => handleDismiss(item.id)}
-                          className='h-max w-[48%] rounded border border-doc-primary p-1'
-                        >
-                          Dismiss
-                        </Button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              );
-            })}
+        <div className='flex flex-col gap-y-4'>
+          <div className='flex-between'>
+            <p className='small-medium'>{sentences.length} Suggestions</p>
+            <div className='flex gap-x-3'>
+              <Button
+                role='button'
+                variant={'ghost'}
+                onClick={handleAcceptAll}
+                className='w-max px-0 text-stone-300 hover:text-doc-primary'
+              >
+                Accept all
+              </Button>
+              <Button
+                role='button'
+                variant={'ghost'}
+                onClick={handleRejectAll}
+                className='w-max px-0 text-stone-300 hover:text-doc-primary'
+              >
+                Reject all
+              </Button>
+            </div>
           </div>
-        </>
+          {isError ? (
+            <p className='small-medium text-red-400'>
+              Something went wrong, please try again later
+            </p>
+          ) : isPending ? (
+            <div className='flex-center flex-1'>
+              <Loader2 className='animate-spin text-doc-primary' />
+            </div>
+          ) : (
+            sentences.map((item) => {
+              return (
+                <SentenceItem
+                  key={item.id}
+                  item={item}
+                  isExpand={item.expand}
+                  onToggleExpand={() => toggleExpand(item)}
+                  onDismiss={() => handleDismiss(item)}
+                  onAccept={() => handleAccept(item)}
+                />
+              );
+            })
+          )}
+        </div>
       )}
-    </m.aside>
+    </m.div>
   );
 };
+interface SentenceItemProps {
+  item: Sentence;
+  isExpand: boolean;
+  onToggleExpand: () => void;
+  onDismiss: () => void;
+  onAccept: () => void;
+}
+const SentenceItem = ({
+  item,
+  isExpand,
+  onToggleExpand,
+  onDismiss,
+  onAccept,
+}: SentenceItemProps) => (
+  <m.div
+    key={item.id}
+    initial={false}
+    animate={isExpand ? 'expand' : 'collapse'}
+    variants={{
+      expand: { height: 'auto' },
+      collapse: { height: '87px' },
+    }}
+    transition={{ duration: 0.3 }}
+    onClick={onToggleExpand}
+    className='cursor-pointer overflow-hidden rounded border border-gray-200 px-4 hover:shadow-md'
+  >
+    <Spacer y='15' />
+    <p className={`base-medium ${isExpand ? '' : 'line-clamp-1'}`}>
+      {item.result}
+    </p>
+    <Spacer y='10' />
+    <div className='w-full rounded bg-neutral-50 p-2'>
+      <p
+        className={`${isExpand ? '' : 'line-clamp-1'} w-full text-sm font-normal leading-snug text-zinc-600`}
+      >
+        {item.text}
+      </p>
+    </div>
+    {isExpand && (
+      <div className='mt-2 flex justify-end gap-x-2'>
+        <Button
+          role='button'
+          variant={'ghost'}
+          onClick={onDismiss}
+          className='h-max w-max rounded border border-zinc-600 px-4 py-1 text-zinc-600'
+        >
+          Dismiss
+        </Button>
+        <Button
+          role='button'
+          className='h-max w-max rounded border border-transparent px-4 py-1'
+          onClick={onAccept}
+        >
+          Accept
+        </Button>
+      </div>
+    )}
+    <Spacer y='15' />
+  </m.div>
+);
+
 export default memo(Report);

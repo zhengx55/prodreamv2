@@ -7,7 +7,6 @@ import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
 import { cookies } from 'next/headers';
 import { RedirectType, redirect } from 'next/navigation';
-import { v4 } from 'uuid';
 
 export default async function Page({
   params: { lang },
@@ -80,7 +79,7 @@ export default async function Page({
             return (
               <LanguageOptions
                 onClick={setLanguageInfo}
-                key={v4()}
+                key={`language-${index}`}
                 index={index}
                 dict={dict}
               />

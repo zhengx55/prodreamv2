@@ -10,7 +10,6 @@ import { useAIEditor } from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { m } from 'framer-motion';
 import { memo, useCallback } from 'react';
-import { v4 } from 'uuid';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 import SentenceFragment from './SentenceFragment';
 
@@ -167,7 +166,7 @@ const Result = ({ grammarResults, update }: Props) => {
                 <p
                   className={`${item.expand ? '' : 'line-clamp-2'} small-regular break-words leading-relaxed`}
                 >
-                  {item.data.map((sentence) => {
+                  {item.data.map((sentence, idx) => {
                     const isAdd = sentence.status === 1;
                     const isDelete = sentence.status === 2;
                     const isModify = sentence.status === 3;
@@ -179,7 +178,7 @@ const Result = ({ grammarResults, update }: Props) => {
                         isModify={isModify}
                         isAdd={isAdd}
                         sentence={sentence}
-                        key={v4()}
+                        key={`${idx}-sentence`}
                       />
                     );
                   })}

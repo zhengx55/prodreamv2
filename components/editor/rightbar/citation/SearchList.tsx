@@ -5,12 +5,9 @@ import { searchCitation } from '@/query/api';
 import { ICitation } from '@/query/type';
 import { useCitation } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
-import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { SearchCitationCard } from './CitationCard';
 import SearchBar from './SearchBar';
-
-const Mine = dynamic(() => import('./Mine'), { ssr: false });
 
 const SearchList = () => {
   const updateShowCreateCitation = useCitation(
@@ -42,7 +39,6 @@ const SearchList = () => {
 
   useEffect(() => {
     if (citationResult) {
-      console.log('🚀 ~ useEffect ~ citationResult:', citationResult);
       setSearchResult(citationResult);
     }
   }, [citationResult]);
@@ -75,8 +71,7 @@ const SearchList = () => {
           ))
         )}
       </div>
-      <Mine />
     </section>
   );
 };
-export default SearchList;
+export default memo(SearchList);

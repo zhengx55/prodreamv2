@@ -11,7 +11,6 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { XCircle } from 'lucide-react';
-import { useParams } from 'next/navigation';
 import { ChangeEvent, useReducer, useState } from 'react';
 interface State {
   content: string;
@@ -38,7 +37,6 @@ function reducer(state: State, action: Action) {
   }
 }
 const PromptView = ({ prompt }: { prompt: string }) => {
-  const { id } = useParams();
   const [{ content, wordCount }, dispatch] = useReducer(reducer, {
     ...initialState,
     content: prompt,
