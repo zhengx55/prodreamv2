@@ -38,15 +38,11 @@ const Detection = () => {
       return;
     }
     await detection({ text: editor_text });
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [editor]);
 
   return (
     <AnimatePresence mode='wait'>
-      {/* {membership?.subscription !== 'basic' ? (
-        // <Unlock text={'Unlock Humanizer with the Unlimited Plan'} />
-      ) :  */}
       {!result ? (
         <Result />
       ) : generating ? (
@@ -77,14 +73,7 @@ const Starter = memo(({ start }: { start: () => Promise<void> }) => {
     >
       <h3 className='text-black text-sm font-medium'>Humanizer</h3>
       <Spacer y='16' />
-      {/* <span className='relative h-36 w-36 rounded-full bg-green-100'>
-        <div
-          className='absolute inset-0 h-full w-full rounded-full'
-          style={{
-            background: 'conic-gradient(red 6deg, green 6deg 360deg)',
-          }}
-        ></div>
-      </span> */}
+
       <Image
         src='/editor/Start.png'
         alt='Upgrade check'

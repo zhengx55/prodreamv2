@@ -4,6 +4,7 @@ import { IPlagiarismData } from '@/query/type';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
+import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { AnimatePresence, m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -16,6 +17,7 @@ const Plagiarism = () => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [showLoading, setShowLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [abort, setAbort] = useState(false);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState<
     Omit<IPlagiarismData, 'status'> | undefined
@@ -28,11 +30,10 @@ const Plagiarism = () => {
       setShowLoading(true);
     },
     onSuccess: (data) => {
+      setProgress((prev) => prev + 10);
       timer.current = setInterval(async () => {
-        abortControllerRef.current = new AbortController();
-        const signal = abortControllerRef.current.signal;
-        const res = await plagiarismQuery(data as string, signal);
-        setProgress((prev) => prev + 5);
+        const res = await plagiarismQuery(data as string);
+        setProgress((prev) => prev + 2);
         if (res.status === 'done') {
           setProgress(100);
           setShowLoading(false);
@@ -47,6 +48,11 @@ const Plagiarism = () => {
       setShowLoading(false);
     },
   });
+  useUpdateEffect(() => {
+    if (abort) {
+      timer.current && clearInterval(timer.current);
+    }
+  }, [abort]);
 
   useUnmount(() => {
     timer.current && clearInterval(timer.current);
@@ -54,11 +60,9 @@ const Plagiarism = () => {
   });
 
   const abortRequest = useCallback(() => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-      setShowLoading(false);
-      setProgress(0);
-    }
+    setShowLoading(false);
+    setAbort(true);
+    setProgress(0);
   }, []);
 
   const handlePlagiarismCheck = useCallback(async () => {
