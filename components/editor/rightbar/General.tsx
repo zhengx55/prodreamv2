@@ -3,6 +3,7 @@ import Spacer from '@/components/root/Spacer';
 import Tooltip from '@/components/root/Tooltip';
 import { Separator } from '@/components/ui/separator';
 import { EditorRightBar } from '@/constant';
+import { DocPageDicType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { XCircle } from 'lucide-react';
@@ -13,11 +14,11 @@ import CitationLibrary from './citation/library/CitationLibrary';
 import { GrammarCheck } from './grammar/GrammarCheck';
 import Plagiarism from './plagiarism/Plagiarism';
 const OPTIONS = [
-  'Grammar Check',
-  'Plagiarism Check',
-  'AI Detection',
+  'Grammar_Check',
+  'Plagiarism_Check',
+  'AI_Detection',
   'Citation',
-  'Library',
+  'My_Citation_Library',
   'Generate',
 ];
 
@@ -29,7 +30,7 @@ const Citation = dynamic(
   () => import('@/components/editor/rightbar/citation/Citation')
 );
 
-const General = () => {
+const General = ({ t, lang }: DocPageDicType) => {
   const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
 
@@ -44,7 +45,9 @@ const General = () => {
     >
       <section className='flex h-full flex-col px-3 pt-4'>
         <div className='flex-between'>
-          <h2 className='title-medium'>{OPTIONS[rightbarTab]}</h2>
+          <h2 className='title-medium'>
+            {t.RightBar[OPTIONS[rightbarTab] as keyof typeof t.RightBar]}
+          </h2>
           <XCircle
             size={20}
             onClick={toggleRightbar}
@@ -70,7 +73,7 @@ const General = () => {
   );
 };
 
-const Trigger = () => {
+const Trigger = ({ t, lang }: DocPageDicType) => {
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
   const rightbarOpen = useAIEditor((state) => state.rightbarOpen);
@@ -85,7 +88,10 @@ const Trigger = () => {
           {(index === 3 || index === 5) && (
             <Separator orientation='horizontal' className='bg-gray-200' />
           )}
-          <Tooltip side='left' tooltipContent={item.title}>
+          <Tooltip
+            side='left'
+            tooltipContent={t.RightBar[item.title as keyof typeof t.RightBar]}
+          >
             <li
               onClick={() => {
                 updateRightbarTab(index);

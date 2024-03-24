@@ -950,19 +950,19 @@ export const ReviewReasons = [
 export const EditorRightBar = [
   {
     id: 'rightbar-01',
-    title: 'Grammar Check',
+    title: 'Grammar_Check',
     icon: '/editor/rightbar/grammar.svg',
     active_icon: '/editor/rightbar/grammar_active.svg',
   },
   {
     id: 'rightbar-04',
-    title: 'Plagiarism Check',
+    title: 'Plagiarism_Check',
     icon: '/editor/rightbar/plagiarism.svg',
     active_icon: '/editor/rightbar/plagiarism_active.svg',
   },
   {
     id: 'rightbar-06',
-    title: 'AI Detection',
+    title: 'AI_Detection',
     icon: '/editor/rightbar/detection.svg',
     active_icon: '/editor/rightbar/detection_active.svg',
   },
@@ -974,7 +974,7 @@ export const EditorRightBar = [
   },
   {
     id: 'rightbar-05',
-    title: 'My Citation Library',
+    title: 'My_Citation_Library',
     icon: '/editor/rightbar/library.svg',
     active_icon: '/editor/rightbar/library_active.svg',
   },
