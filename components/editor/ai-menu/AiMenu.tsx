@@ -4,6 +4,7 @@ import { Copilot } from '@/components/root/SvgComponents';
 import { Separator } from '@/components/ui/separator';
 import { Surface } from '@/components/ui/surface';
 import { word_regex } from '@/constant';
+import { OperationType } from '@/constant/enum';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import {
@@ -132,47 +133,33 @@ const AiMenu = ({ editor, t, lang }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, essay_prompt, session]);
 
-  const handleRegenerate = async () => {
-    const selectedText = getSelectedText(editor);
-    setCurrentResult((prev) => prev + 1);
-    if (!tool.current) return;
-    if (tool.current === 'humanize') {
-      await handleHumanize({ text: selectedText });
-    } else {
-      await handleCopilot({ tool: tool.current, text: selectedText });
-    }
-  };
-
-  const handleReplace = () => {
-    const { selection } = editor.state;
-    const { from, to } = selection;
-    replaceText(from, to, aiResult[currentResult]);
-    updateCopilotMenu(false);
-  };
-
-  const handleInsert = () => {
-    const { selection } = editor.state;
-    const { to } = selection;
-    insertNext(to, aiResult[currentResult]);
-    updateCopilotMenu(false);
-  };
-
   const handleOperation = (idx: number) => {
-    switch (idx) {
-      case 0:
-        handleReplace();
+    handleEditorOperation(idx as OperationType);
+  };
+
+  const handleEditorOperation = async (operation: OperationType) => {
+    const selectedText = getSelectedText(editor);
+    switch (operation) {
+      case OperationType.Replace:
+        const { selection } = editor.state;
+        replaceText(selection.from, selection.to, aiResult[currentResult]);
         break;
-      case 1:
-        handleInsert();
+      case OperationType.Insert:
+        insertNext(editor.state.selection.to, aiResult[currentResult]);
         break;
-      case 2:
-        handleRegenerate();
+      case OperationType.Regenerate:
+        if (!tool.current) return;
+        setCurrentResult((prev) => prev + 1);
+        const action =
+          tool.current === 'humanize' ? handleHumanize : handleCopilot;
+        await action({ text: selectedText, tool: tool.current });
         break;
-      case 3:
+      case OperationType.Close:
         updateCopilotMenu(false);
         break;
-      default:
-        break;
+    }
+    if (operation !== OperationType.Regenerate) {
+      updateCopilotMenu(false);
     }
   };
 
@@ -236,9 +223,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
             <Loader />
           )}
           {usage?.subscription === 'basic' && <RemainUsages />}
-          <Spacer y='5' />
         </div>
-
         {generating ? null : (
           <Surface ref={menuRef} className='w-[256px] rounded py-2' withBorder>
             {!hasAiResult

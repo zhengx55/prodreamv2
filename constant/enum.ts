@@ -10,6 +10,13 @@ export enum CitationTooltip {
   KEY_WORD = 'Machine learning',
 }
 
+export enum OperationType {
+  Replace,
+  Insert,
+  Regenerate,
+  Close,
+}
+
 export enum OutlineTooltip {
   TITLE = 'Find the generate outline feature here',
   TEXT = 'We provide high-quality outlines tailored towards any subject, any academic writing format.',
