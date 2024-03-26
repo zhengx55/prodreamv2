@@ -159,7 +159,8 @@
       "Enter": "Enter",
       "Cancel": "Cancel",
       "Done": "Done",
-      "Got it": "Got it"
+      "Got it": "Got it",
+      "Generate": "Generate"
     },
     "Prompt": {
       "Title": "Please input your prompt below",
@@ -208,7 +209,15 @@
       "Argumentative": "Argumentative",
       "Analytical": "Analytical",
       "Scientific": "Scientific",
-      "General": "General"
+      "General": "General",
+      "outline_form1": "Field of study",
+      "outline_form2": "Brief description of what you are writing",
+      "outline_placeholder": "Describe your research topic or essay prompt. Adding more information can greatly increase the quality of our generations :)",
+      "SubTitle": {
+        "Write Introduction": "Click to generate the Introduction section based on the entire writing",
+        "Write Conclusion": "Click to generate the Conclusion section based on the entire writing",
+        "Generate Title": "Click to generate a title for your essay"
+      }
     },
     "RightBar": {
       "Grammar_Check": "Grammar Check",
@@ -257,6 +266,17 @@
       "Result": "May be plagiarized",
       "Result_good": "Acceptable",
       "Suggestions": "Suggestions"
+    },
+    "CheckList": {
+      "Show": "Show me",
+      "copilot": "Try any AI Copilot editing feature",
+      "citation": "Add one citation",
+      "continue": "Use Continue Writing feature to write next sentence",
+      "generate": "Generate an introduction",
+      "format_1": "Building the foundation",
+      "format_2": "Up and beyond 🚀",
+      "title": "Onboarding Checklist",
+      "describtion": "Learn how to use ProDream to help you write & research!"
     }
   }
 }

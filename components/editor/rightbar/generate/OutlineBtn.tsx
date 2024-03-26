@@ -12,11 +12,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { generateOutlineSchema } from '@/lib/validation';
+import { EdtitorDictType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-type Props = { handleGenerate: (idea: string, area: string) => Promise<void> };
-const OutlineBtn = ({ handleGenerate }: Props) => {
+type Props = {
+  handleGenerate: (idea: string, area: string) => Promise<void>;
+  t: EdtitorDictType;
+};
+const OutlineBtn = ({ handleGenerate, t }: Props) => {
   const form = useForm<z.infer<typeof generateOutlineSchema>>({
     resolver: zodResolver(generateOutlineSchema),
     defaultValues: {
@@ -44,7 +48,7 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
                   className='small-regular text-black-400'
                   htmlFor='area'
                 >
-                  Field of study
+                  {t.Generate.outline_form1}
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -68,12 +72,12 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
                   className='small-regular text-black-400'
                   htmlFor='idea'
                 >
-                  Brief description of what you are writing
+                  {t.Generate.outline_form2}
                 </FormLabel>
                 <FormControl>
                   <Textarea
                     id='idea'
-                    placeholder='Describe your research topic or essay prompt. Adding more information can greatly increase the quality of our generations :)'
+                    placeholder={t.Generate.outline_placeholder}
                     className='small-regular rounded focus-visible:ring-0'
                     {...field}
                   />
@@ -87,7 +91,7 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
             className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
           >
             <GenerateFill fill='#fff' size='20' />
-            Generate
+            {t.Utility.Generate}
           </Button>
         </form>
       </Form>

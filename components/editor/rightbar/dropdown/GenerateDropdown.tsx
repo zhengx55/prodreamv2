@@ -23,9 +23,9 @@ const GenerateDropdown = ({ items, t }: Props) => {
         <DropdownMenuItem
           className='group cursor-pointer bg-white px-2.5 py-2 capitalize text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'
           key={subItem.id}
-          onClick={() => setGenerateTab(subItem.label)}
+          onClick={() => setGenerateTab(subItem.title)}
         >
-          {t.Generate[subItem.title as keyof typeof t.Generate]}
+          {t.Generate[subItem.title as keyof typeof t.Generate] as any}
         </DropdownMenuItem>
       ))}
     </DropdownMenuContent>

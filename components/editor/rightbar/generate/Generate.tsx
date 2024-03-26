@@ -26,7 +26,6 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
   const outline_step = useUserTask((state) => state.outline_step);
   const copilot_option = useRef<string | null>(null);
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
-  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { data: usage } = useMembershipInfo();
 
   return (
@@ -70,7 +69,7 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                                   {
                                     t.Generate[
                                       item.title as keyof typeof t.Generate
-                                    ]
+                                    ] as any
                                   }
                                 </p>
                               </div>
@@ -96,7 +95,7 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                                 {
                                   t.Generate[
                                     item.title as keyof typeof t.Generate
-                                  ]
+                                  ] as any
                                 }
                               </p>
                             </div>
@@ -127,7 +126,7 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                       size={20}
                     />
                     <p className='base-regular text-doc-font group-hover:text-doc-primary'>
-                      {t.Generate[item.title as keyof typeof t.Generate]}
+                      {t.Generate[item.title as keyof typeof t.Generate] as any}
                     </p>
                   </div>
                 </div>
@@ -142,36 +141,43 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
           />
         )}
       </AnimatePresence>
-      {usage?.subscription === 'basic' ? (
-        <div className='mt-auto flex flex-col gap-y-0.5'>
-          <div className='relative h-2 w-full rounded-xl bg-border-50'>
-            {usage.free_times_detail.Generate === 0 ? (
-              <span className='absolute inset-0 rounded-xl bg-red-400' />
-            ) : (
-              <span
-                className='absolute inset-0 w-full rounded-xl bg-doc-primary'
-                style={{
-                  width: `${((5 - (usage?.free_times_detail.Generate ?? 0)) / 5) * 100}%`,
-                }}
-              />
-            )}
-          </div>
-          <p className='small-regular w-max px-0 text-doc-font'>
-            {usage?.free_times_detail.Generate}/5 weekly generate credits left;
-            <Button
-              role='dialog'
-              onClick={() => {
-                updatePaymentModal(true);
-              }}
-              variant={'ghost'}
-              className='px-2'
-            >
-              Go unlimited
-            </Button>
-          </p>
-        </div>
-      ) : null}
+      {usage?.subscription === 'basic' ? <Unlock /> : null}
     </>
+  );
+};
+
+const Unlock = () => {
+  const { data: usage } = useMembershipInfo();
+  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
+
+  return (
+    <div className='mt-auto flex flex-col gap-y-0.5'>
+      <div className='relative h-2 w-full rounded-xl bg-border-50'>
+        {usage?.free_times_detail.Generate === 0 ? (
+          <span className='absolute inset-0 rounded-xl bg-red-400' />
+        ) : (
+          <span
+            className='absolute inset-0 w-full rounded-xl bg-doc-primary'
+            style={{
+              width: `${((5 - (usage?.free_times_detail.Generate ?? 0)) / 5) * 100}%`,
+            }}
+          />
+        )}
+      </div>
+      <p className='small-regular w-max px-0 text-doc-font'>
+        {usage?.free_times_detail.Generate}/5 weekly generate credits left;
+        <Button
+          role='dialog'
+          onClick={() => {
+            updatePaymentModal(true);
+          }}
+          variant={'ghost'}
+          className='px-2'
+        >
+          Go unlimited
+        </Button>
+      </p>
+    </div>
   );
 };
 
