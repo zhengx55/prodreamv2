@@ -20,13 +20,13 @@ const CitationLibrary = () => {
         <TabsList className='flex-1 gap-x-2'>
           <TabsTrigger
             value='library'
-            className='hover:bg-border-200 rounded border border-gray-200 bg-zinc-100 p-2 data-[state=active]:bg-doc-primary/20 data-[state=active]:text-doc-primary hover:bg-gray-200'
+            className='hover:bg-border-200 rounded border border-gray-200 bg-zinc-100 p-2 data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-500 hover:bg-gray-200'
           >
             All
           </TabsTrigger>
           <TabsTrigger
             value='doc'
-            className='hover:bg-border-200 rounded border border-gray-200 bg-zinc-100 p-2 data-[state=active]:bg-doc-primary/20 data-[state=active]:text-doc-primary hover:bg-gray-200'
+            className='hover:bg-border-200 rounded border border-gray-200 bg-zinc-100 p-2 data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-500 hover:bg-gray-200'
           >
             In this doc
           </TabsTrigger>

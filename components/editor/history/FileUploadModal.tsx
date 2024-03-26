@@ -70,9 +70,9 @@ const FileUploadModal = () => {
         {...getRootProps({
           'aria-label': 'drag and drop area',
         })}
-        className={`${isDragActive && 'bg-doc-primary'} ${
+        className={`${isDragActive && 'bg-violet-500'} ${
           isUploading && 'pointer-events-none'
-        } relative mt-6 flex cursor-pointer flex-col items-center gap-y-2 rounded-lg border-2 border-dashed border-primary-200 p-4 hover:bg-doc-primary`}
+        } relative mt-6 flex cursor-pointer flex-col items-center gap-y-2 rounded-lg border-2 border-dashed border-primary-200 p-4 hover:bg-violet-500`}
       >
         {isUploading && (
           <div className='flex-center absolute inset-0 cursor-not-allowed backdrop-blur-sm'>

@@ -1,6 +1,6 @@
 .ProseMirror {
     .is-empty::before {
-        @apply text-black-400/40 dark:text-white/40 float-left h-0 pointer-events-none w-full;
+        @apply text-black/40 dark:text-white/40 float-left h-0 pointer-events-none w-full;
     }
 
 

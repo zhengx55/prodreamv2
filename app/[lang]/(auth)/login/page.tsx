@@ -37,7 +37,7 @@ export default async function Page({
             <Link
               href={`/${lang}/signup`}
               prefetch
-              className='base-semibold text-auth-primary'
+              className='base-semibold text-violet-500'
             >
               {dict.Auth.Signup.Button}
             </Link>

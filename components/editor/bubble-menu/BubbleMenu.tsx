@@ -187,10 +187,10 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
             updateShowBubbleMenu(false);
             editor.chain().setHighlight({ color: '#D4D7FF' }).run();
           }}
-          className='text-doc-primary'
+          className='text-violet-500'
         >
           {task_step === 0 && (
-            <span className='absolute h-7 w-7 animate-ping rounded-full bg-doc-primary/50' />
+            <span className='absolute h-7 w-7 animate-ping rounded-full bg-violet-500/50' />
           )}
           <Copilot />
           {t.BubbleMenu.Copilot}
@@ -208,7 +208,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
               updateShowBubbleMenu(false);
               editor.chain().setHighlight({ color: '#D4D7FF' }).run();
             }}
-            className='text-doc-primary'
+            className='text-violet-500'
           >
             <Synonym />
             {t.BubbleMenu.Synonym}
@@ -230,7 +230,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
               updateShowBubbleMenu(false);
               editor.chain().setHighlight({ color: '#D4D7FF' }).run();
             }}
-            className='text-doc-primary'
+            className='text-violet-500'
           >
             <BookHalf size={'18'} />
             {t.BubbleMenu.Citation}

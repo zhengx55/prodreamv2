@@ -35,7 +35,7 @@ const MobileDropdown = ({
       <DropdownMenuContent
         align='center'
         sideOffset={0}
-        className='h-[100vh] w-[100vw] border-none bg-black-400/25 p-0'
+        className='h-[100vh] w-[100vw] border-none bg-black/25 p-0'
       >
         <div className='w-[100vw] bg-white py-6 pt-[45px]'>
           <div className='flex flex-col items-center gap-y-4'>
@@ -43,7 +43,7 @@ const MobileDropdown = ({
               <Button
                 variant={'ghost'}
                 role='link'
-                className='w-[340px] border-[2px] border-doc-primary text-doc-primary'
+                className='w-[340px] border-[2px] border-violet-500 text-violet-500'
               >
                 {t.log_in}
               </Button>
@@ -60,7 +60,7 @@ const MobileDropdown = ({
             >
               <Button
                 role='link'
-                className='w-[340px] bg-doc-primary hover:bg-doc-primary'
+                className='w-[340px] bg-violet-500 hover:bg-violet-500'
               >
                 <strong>{t.start_writing}</strong>
                 {t.It_s_free}

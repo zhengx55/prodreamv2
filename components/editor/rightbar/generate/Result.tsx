@@ -41,7 +41,7 @@ const Result = ({
 
   return (
     <div className='mt-4 flex w-full flex-col rounded-t border border-gray-200 pt-3'>
-      <div className='small-regular whitespace-pre-wrap px-3 text-doc-font'>
+      <div className='small-regular whitespace-pre-wrap px-3 text-neutral-400'>
         {currentText}
       </div>
       <Spacer y='24' />
@@ -51,7 +51,7 @@ const Result = ({
             <RotateCw
               onClick={handleGenerate}
               size={20}
-              className='cursor-pointer text-doc-font hover:opacity-50'
+              className='cursor-pointer text-neutral-400 hover:opacity-50'
             />
             <div className='flex gap-x-2'>
               <Button
@@ -64,7 +64,7 @@ const Result = ({
               <Button
                 variant={'outline'}
                 onClick={handleInsert}
-                className='h-max w-max rounded border-doc-primary px-6 py-1 text-doc-primary'
+                className='h-max w-max rounded border-violet-500 px-6 py-1 text-violet-500'
               >
                 Insert
               </Button>

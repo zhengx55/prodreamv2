@@ -7,11 +7,11 @@ import { memo } from 'react';
 
 const renderTrialEnds = (expireTime: number) => (
   <div className='flex items-center gap-x-4'>
-    <p className='text-[18px] font-medium text-doc-font'>
+    <p className='text-[18px] font-medium text-neutral-400'>
       Unlimited Free Trial ends in {format_hour_diff(expireTime)}
     </p>
     <Link href='/pricing' passHref>
-      <Button role='button' className='h-max rounded bg-doc-primary px-4'>
+      <Button role='button' className='h-max rounded bg-violet-500 px-4'>
         Upgrade now
       </Button>
     </Link>
@@ -26,10 +26,7 @@ const renderBasicMembership = (freeTimesDetail: FreeTimesDetail) => {
     <div className='flex flex-col gap-y-2'>
       <div className='flex gap-x-2'>
         {filledBars.map((_, i) => (
-          <span
-            className='h-2 w-[78px] rounded-[14px] bg-doc-primary'
-            key={i}
-          />
+          <span className='h-2 w-[78px] rounded-[14px] bg-violet-500' key={i} />
         ))}
         {emptyBars.map((_, i) => (
           <span
@@ -43,7 +40,7 @@ const renderBasicMembership = (freeTimesDetail: FreeTimesDetail) => {
         <Link
           href='/pricing'
           passHref
-          className='text-base font-semibold leading-relaxed text-doc-primary'
+          className='text-base font-semibold leading-relaxed text-violet-500'
         >
           Unlimited
         </Link>

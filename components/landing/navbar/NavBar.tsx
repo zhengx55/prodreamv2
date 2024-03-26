@@ -54,7 +54,7 @@ const NavBar = ({
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={token ? `/editor` : `/${lang}/login`} passHref>
-            <Button role='link' variant={'ghost'} className='text-doc-primary'>
+            <Button role='link' variant={'ghost'} className='text-violet-500'>
               {t.log_in}
             </Button>
           </Link>
@@ -69,7 +69,7 @@ const NavBar = ({
             }
             passHref
           >
-            <Button className='bg-doc-primary hover:bg-doc-primary'>
+            <Button className='bg-violet-500 hover:bg-violet-500'>
               <strong>{t.start_writing}</strong>
               {t.It_s_free}
             </Button>

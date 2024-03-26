@@ -115,7 +115,7 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
       ref={scrollContainer}
       withBorder
       withShadow
-      className='max-h-[min(80vh,24rem)] w-[250px] flex-wrap overflow-auto p-2 text-black-400'
+      className='max-h-[min(80vh,24rem)] w-[250px] flex-wrap overflow-auto p-2 text-black'
     >
       <div className='grid grid-cols-1 gap-0.5'>
         {props.items.map((group, groupIndex: number) => (

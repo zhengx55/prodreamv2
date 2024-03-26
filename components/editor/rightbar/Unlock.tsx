@@ -26,7 +26,7 @@ const Unlock = ({ text }: { text: String }) => {
       <p className='text-center text-sm font-normal text-zinc-600'>{text}</p>
       <Button
         onClick={() => updatePaymentModal(true)}
-        className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'
+        className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
         role='button'
       >
         <Diamond />

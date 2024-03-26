@@ -105,7 +105,7 @@ export const GrammarCheck = memo(
               exit={{ opacity: 0, y: -20 }}
               className='flex-center flex-1'
             >
-              <Loader2 className='animate-spin text-doc-shadow' />
+              <Loader2 className='animate-spin text-zinc-600' />
             </m.div>
           ) : grammarResults.length > 0 ? (
             <Result
@@ -132,7 +132,7 @@ export const GrammarCheck = memo(
                 {t.Grammar.Title}
               </p>
               <Button
-                className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'
+                className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
                 role='button'
                 onClick={handleCheck}
               >
@@ -148,14 +148,14 @@ export const GrammarCheck = memo(
                 <span className='absolute inset-0 rounded-xl bg-red-400' />
               ) : (
                 <span
-                  className='absolute inset-0 w-full rounded-xl bg-doc-primary'
+                  className='absolute inset-0 w-full rounded-xl bg-violet-500'
                   style={{
                     width: `${((100 - (usage?.free_times_detail.Grammar ?? 0)) / 100) * 100}%`,
                   }}
                 />
               )}
             </div>
-            <p className='small-regular w-max px-0 text-doc-font'>
+            <p className='small-regular w-max px-0 text-neutral-400'>
               {usage?.free_times_detail.Grammar}/100 weekly Grammar Checks left;
               <Button
                 role='dialog'

@@ -21,7 +21,7 @@ const Empty = () => {
           height={200}
           className='h-auto w-3/5'
         />
-        <p className='small-regular text-center text-doc-font'>
+        <p className='small-regular text-center text-neutral-400'>
           Your library is currently empty. Try search for citations 😊
         </p>
         <Button
@@ -32,7 +32,7 @@ const Empty = () => {
               data: true,
             });
           }}
-          className='h-max w-full border border-doc-primary py-1 text-doc-primary'
+          className='h-max w-full border border-violet-500 py-1 text-violet-500'
           variant={'ghost'}
         >
           Got it

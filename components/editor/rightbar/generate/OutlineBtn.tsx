@@ -44,10 +44,7 @@ const OutlineBtn = ({ handleGenerate, t }: Props) => {
             name='area'
             render={({ field }) => (
               <FormItem className='relative'>
-                <FormLabel
-                  className='small-regular text-black-400'
-                  htmlFor='area'
-                >
+                <FormLabel className='small-regular text-black' htmlFor='area'>
                   {t.Generate.outline_form1}
                 </FormLabel>
                 <FormControl>
@@ -68,10 +65,7 @@ const OutlineBtn = ({ handleGenerate, t }: Props) => {
             name='idea'
             render={({ field }) => (
               <FormItem className='relative'>
-                <FormLabel
-                  className='small-regular text-black-400'
-                  htmlFor='idea'
-                >
+                <FormLabel className='small-regular text-black' htmlFor='idea'>
                   {t.Generate.outline_form2}
                 </FormLabel>
                 <FormControl>
@@ -88,7 +82,7 @@ const OutlineBtn = ({ handleGenerate, t }: Props) => {
           />
           <Button
             type='submit'
-            className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
+            className='h-max w-max self-center rounded-full bg-violet-500 px-8 py-1'
           >
             <GenerateFill fill='#fff' size='20' />
             {t.Utility.Generate}

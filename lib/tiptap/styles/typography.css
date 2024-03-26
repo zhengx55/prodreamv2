@@ -44,20 +44,20 @@
         @apply my-8 py-4 transition-all duration-100 ease-in-out cursor-pointer;
 
         &.ProseMirror-selectednode {
-            @apply bg-black-200/5 dark:bg-white/10;
+            @apply bg-black/5 dark:bg-white/10;
 
             hr {
-                @apply border-t-black-200/30 dark:border-t-white/30;
+                @apply border-t-black/30 dark:border-t-white/30;
             }
         }
 
         &:hover:not(&.ProseMirror-selectednode) {
-            @apply bg-black-200/5;
+            @apply bg-black/5;
             @apply dark:bg-white/10;
         }
 
         hr {
-            @apply border-0 border-t border-black-200/20 bg-black-200/80;
+            @apply border-0 border-t border-black/20 bg-black/80;
             @apply dark:border-white/20 dark:bg-white/80;
         }
     }

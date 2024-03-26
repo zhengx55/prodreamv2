@@ -1,5 +1,5 @@
 import { ChevronLeft } from 'lucide-react';
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 const BackButton = ({ onBack }: { onBack: () => void }) => {
   return (
@@ -7,8 +7,8 @@ const BackButton = ({ onBack }: { onBack: () => void }) => {
       className='flex cursor-pointer items-center hover:underline'
       onClick={onBack}
     >
-      <ChevronLeft className='text-black-200' />
-      <h1 className='small-semibold text-black-200'>Back</h1>
+      <ChevronLeft className='text-black' />
+      <h1 className='small-semibold text-black'>Back</h1>
     </div>
   );
 };

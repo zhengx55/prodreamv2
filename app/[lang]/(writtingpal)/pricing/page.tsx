@@ -49,7 +49,7 @@ export default async function Page() {
       <Spacer y='80' />
       <h1 className='text-center text-[40px] font-medium'>Plans & Pricing</h1>
       <Spacer y='10' />
-      <p className='base-regular text-center text-doc-font'>
+      <p className='base-regular text-center text-neutral-400'>
         Select the perfect plan to enhance your academic writing journey
       </p>
       <Spacer y='10' />

@@ -18,7 +18,7 @@ const RemainUsages = () => {
             }}
             role='button'
             variant={'ghost'}
-            className='subtle-regular h-max w-max cursor-pointer bg-transparent p-0 text-doc-primary'
+            className='subtle-regular h-max w-max cursor-pointer bg-transparent p-0 text-violet-500'
           >
             Go unlimited
           </Button>

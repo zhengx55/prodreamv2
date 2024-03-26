@@ -48,7 +48,7 @@ const SearchList = () => {
       <Spacer y='10' />
       <SearchBar setResult={memopSetSearchResult} setKeyword={setKeyword} />
       <Button
-        className='w-max bg-transparent px-2 text-doc-primary hover:underline'
+        className='w-max bg-transparent px-2 text-violet-500 hover:underline'
         variant={'ghost'}
         onClick={() => {
           updateShowCreateCitation(true);

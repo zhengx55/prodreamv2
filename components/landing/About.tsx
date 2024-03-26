@@ -34,13 +34,13 @@ const About = ({ t, lang }: HomePageDicType) => {
             return (
               <div
                 key={item.id}
-                className={`w-full ${index === 1 ? 'sm:flex-row-reverse' : ''}  flex h-[420px] flex-col items-center rounded-2xl bg-doc-primary/5 sm:h-[370px] sm:flex-row`}
+                className={`w-full ${index === 1 ? 'sm:flex-row-reverse' : ''}  flex h-[420px] flex-col items-center rounded-2xl bg-violet-500/5 sm:h-[370px] sm:flex-row`}
               >
                 <div className='flex w-full flex-col gap-y-4 p-4 sm:w-1/2 sm:p-10'>
                   <h3 className='text-[20px] leading-snug sm:text-[30px]'>
                     {t[`AboutInfo_title_${index + 1}` as keyof typeof t]}
                   </h3>
-                  <p className='text-[12px] leading-loose text-shadow-100 sm:text-regular'>
+                  <p className='text-[12px] leading-loose text-shadow-100 sm:text-xs'>
                     {t[`AboutInfo_description_${index + 1}` as keyof typeof t]}
                   </p>
                 </div>

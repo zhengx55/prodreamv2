@@ -128,7 +128,7 @@
   }
 
   .tab-default {
-    @apply flex-center small-medium h-full w-[33%] cursor-pointer rounded-xl hover:bg-doc-primary hover:text-primary-200
+    @apply flex-center small-medium h-full w-[33%] cursor-pointer rounded-xl hover:bg-violet-500 hover:text-primary-200
   }
 
   .flex-center {

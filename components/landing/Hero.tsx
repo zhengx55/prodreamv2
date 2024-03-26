@@ -97,7 +97,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
           >
             <Button
               role='button'
-              className='h-max w-52 rounded-lg bg-doc-primary px-5 sm:w-max sm:px-8 sm:py-2.5'
+              className='h-max w-52 rounded-lg bg-violet-500 px-5 sm:w-max sm:px-8 sm:py-2.5'
             >
               <strong>{t.start_writing}</strong>
               {t.It_s_free}
@@ -105,7 +105,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
           </Link>
           <Link href={'https://discord.gg/xXSFXv5kPd'} passHref target='_blank'>
             <Button
-              className='h-max w-52 rounded-lg border border-doc-primary text-doc-primary sm:w-max sm:px-8 sm:py-2.5'
+              className='h-max w-52 rounded-lg border border-violet-500 text-violet-500 sm:w-max sm:px-8 sm:py-2.5'
               variant={'ghost'}
               role='button'
             >
@@ -120,7 +120,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
           {HeroInfo.map((item, index) => {
             return (
               <span
-                className={`${selected === index ? 'border border-doc-primary/20 ' : 'bg-doc-primary/5'} flex cursor-pointer flex-col gap-y-2 rounded-[20px] p-5 sm:w-1/4`}
+                className={`${selected === index ? 'border border-violet-500/20 ' : 'bg-violet-500/5'} flex cursor-pointer flex-col gap-y-2 rounded-[20px] p-5 sm:w-1/4`}
                 key={item.id}
                 onMouseEnter={() => handleMouseEnter(index)}
               >
@@ -135,7 +135,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
                 <h2 className='title-regular 2xl:h3-regular'>
                   {t[`HeroInfo_title_${index + 1}` as keyof typeof t]}
                 </h2>
-                <p className='text-[12px] leading-relaxed text-shadow-100 2xl:text-regular'>
+                <p className='text-[12px] leading-relaxed text-shadow-100 2xl:text-xs'>
                   {t[`HeroInfo_text_${index + 1}` as keyof typeof t]}
                 </p>
               </span>

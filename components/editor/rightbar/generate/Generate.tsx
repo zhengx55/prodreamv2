@@ -62,10 +62,10 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                             <div className='flex-between group cursor-pointer bg-doc-secondary px-2.5 py-3'>
                               <div className='flex items-center gap-x-3'>
                                 <FileText
-                                  className='text-doc-primary'
+                                  className='text-violet-500'
                                   size={20}
                                 />
-                                <p className='base-regular text-doc-primary'>
+                                <p className='base-regular text-violet-500'>
                                   {
                                     t.Generate[
                                       item.title as keyof typeof t.Generate
@@ -74,7 +74,7 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                                 </p>
                               </div>
                               <ChevronUp
-                                className='text-doc-font transition-transform group-hover:text-doc-primary group-data-[state=open]:rotate-180'
+                                className='text-neutral-400 transition-transform group-hover:text-violet-500 group-data-[state=open]:rotate-180'
                                 size={20}
                               />
                             </div>
@@ -88,10 +88,10 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                           <div className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'>
                             <div className='flex items-center gap-x-3'>
                               <FileText
-                                className='text-doc-font group-hover:text-doc-primary'
+                                className='text-neutral-400 group-hover:text-violet-500'
                                 size={20}
                               />
-                              <p className='base-regular text-doc-font group-hover:text-doc-primary'>
+                              <p className='base-regular text-neutral-400 group-hover:text-violet-500'>
                                 {
                                   t.Generate[
                                     item.title as keyof typeof t.Generate
@@ -100,7 +100,7 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                               </p>
                             </div>
                             <ChevronUp
-                              className='text-doc-font transition-transform group-hover:text-doc-primary group-data-[state=open]:rotate-180'
+                              className='text-neutral-400 transition-transform group-hover:text-violet-500 group-data-[state=open]:rotate-180'
                               size={20}
                             />
                           </div>
@@ -122,10 +122,10 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                 >
                   <div className='flex items-center gap-x-3'>
                     <FileText
-                      className='text-doc-font group-hover:text-doc-primary'
+                      className='text-neutral-400 group-hover:text-violet-500'
                       size={20}
                     />
-                    <p className='base-regular text-doc-font group-hover:text-doc-primary'>
+                    <p className='base-regular text-neutral-400 group-hover:text-violet-500'>
                       {t.Generate[item.title as keyof typeof t.Generate] as any}
                     </p>
                   </div>
@@ -157,14 +157,14 @@ const Unlock = () => {
           <span className='absolute inset-0 rounded-xl bg-red-400' />
         ) : (
           <span
-            className='absolute inset-0 w-full rounded-xl bg-doc-primary'
+            className='absolute inset-0 w-full rounded-xl bg-violet-500'
             style={{
               width: `${((5 - (usage?.free_times_detail.Generate ?? 0)) / 5) * 100}%`,
             }}
           />
         )}
       </div>
-      <p className='small-regular w-max px-0 text-doc-font'>
+      <p className='small-regular w-max px-0 text-neutral-400'>
         {usage?.free_times_detail.Generate}/5 weekly generate credits left;
         <Button
           role='dialog'

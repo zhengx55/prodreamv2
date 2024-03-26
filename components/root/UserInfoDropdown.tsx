@@ -24,7 +24,7 @@ const UserInfoDropdown = () => {
       className='w-60 rounded-lg bg-white shadow-lg'
     >
       <Link href={'/profile/setting'} passHref>
-        <DropdownMenuItem className='cursor-pointer gap-x-2.5 rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'>
+        <DropdownMenuItem className='cursor-pointer gap-x-2.5 rounded text-zinc-600 hover:bg-doc-secondary hover:text-violet-500'>
           <User2 size={20} />
           <span className='text-md font-[500]'>View Profile</span>
         </DropdownMenuItem>
@@ -32,7 +32,7 @@ const UserInfoDropdown = () => {
 
       <DropdownMenuItem
         onClick={logOut}
-        className='cursor-pointer gap-x-2.5  rounded text-doc-shadow hover:bg-doc-secondary hover:text-doc-primary'
+        className='cursor-pointer gap-x-2.5  rounded text-zinc-600 hover:bg-doc-secondary hover:text-violet-500'
       >
         <LogOut size={20} />
         <span className='text-md font-[500]'>Log Out</span>

@@ -26,7 +26,7 @@ const LocaleDropdown = () => {
       {i18n.locales.map((locale: Locale, index: number) => (
         <DropdownMenuItem
           key={`locale-switcher-${index}`}
-          className='cursor-pointer hover:bg-doc-primary hover:text-white'
+          className='cursor-pointer hover:bg-violet-500 hover:text-white'
         >
           <Link
             href={redirectedPathName(locale)}

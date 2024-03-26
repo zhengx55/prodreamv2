@@ -93,7 +93,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
                   className='group flex w-full cursor-pointer px-2 py-2 hover:bg-doc-secondary'
                   key={`synonym-${index}`}
                 >
-                  <p className='small-semibold text-doc-font group-hover:text-doc-primary'>
+                  <p className='small-semibold text-neutral-400 group-hover:text-violet-500'>
                     {item}
                   </p>
                 </div>

@@ -50,7 +50,7 @@ const Detection = () => {
           exit={{ opacity: 0, y: -20 }}
           className='flex-center flex-1'
         >
-          <Loader2 className='animate-spin text-doc-shadow' />
+          <Loader2 className='animate-spin text-zinc-600' />
         </m.div>
       ) : (
         <Starter start={startDetection} />
@@ -80,7 +80,7 @@ const Starter = memo(({ start }: { start: () => Promise<void> }) => {
         Identify AI-generated content and help maintain originality in your work
       </p>
       <Button
-        className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'
+        className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
         role='button'
         onClick={start}
       >

@@ -208,7 +208,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
                   variant={'ghost'}
                   onClick={handleSentVerificationEmail}
                   type='button'
-                  className='base-regularw-[150px] h-12 shrink-0 rounded-md border border-doc-primary text-doc-primary'
+                  className='base-regularw-[150px] h-12 shrink-0 rounded-md border border-violet-500 text-violet-500'
                 >
                   {verifyWait ? countdown : t.ForgotPassword.VerificationBtn}
                 </Button>
@@ -217,7 +217,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
             </FormItem>
           )}
         />
-        <Button className='w-full rounded bg-auth-primary' type='submit'>
+        <Button className='w-full rounded bg-violet-500' type='submit'>
           {t.ForgotPassword.Button}
         </Button>
       </form>

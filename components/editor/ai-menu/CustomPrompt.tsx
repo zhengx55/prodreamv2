@@ -36,7 +36,7 @@ const CustomPrompt = forwardRef<HTMLInputElement, Props>(({ submit }, ref) => {
       <Button
         onClick={submit}
         disabled={!isTyping}
-        className='h-7 rounded bg-doc-primary disabled:bg-doc-shadow'
+        className='h-7 rounded bg-violet-500 disabled:bg-zinc-600'
       >
         Enter
       </Button>

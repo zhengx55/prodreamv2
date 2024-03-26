@@ -103,19 +103,19 @@ const Start = ({ handleClose }: Props) => {
     >
       {isGenrating && (
         <div className='flex-center absolute inset-0 z-50 flex-1 bg-white/80 backdrop-blur-sm'>
-          <Loader2 className='animate-spin text-doc-primary' />
+          <Loader2 className='animate-spin text-violet-500' />
         </div>
       )}
       <div className='flex-between'>
         <h1 className='h2-semibold'>
           And one more thing...
           <br />
-          <span className='font-[300] text-doc-primary'>
+          <span className='font-[300] text-violet-500'>
             What are you looking for today?
           </span>
         </h1>
         <Button
-          className='h-max w-max rounded border border-doc-primary px-10 py-1 text-doc-primary'
+          className='h-max w-max rounded border border-violet-500 px-10 py-1 text-violet-500'
           variant={'ghost'}
           onClick={handleClose}
         >
@@ -124,9 +124,7 @@ const Start = ({ handleClose }: Props) => {
       </div>
       <div className='flex-between gap-x-4'>
         <div className='flex h-[380px] w-1/3 cursor-pointer flex-col items-center justify-evenly rounded-2xl border border-gray-200 py-4 hover:bg-[#F8F9FC]'>
-          <p className='title-semibold text-doc-shadow'>
-            Start writing an essay
-          </p>
+          <p className='title-semibold text-zinc-600'>Start writing an essay</p>
           <div className='relative h-[250px] w-[90%] overflow-hidden'>
             <Image
               alt='start'
@@ -236,7 +234,7 @@ const Start = ({ handleClose }: Props) => {
           <Button
             role='button'
             onClick={handleStartWritting}
-            className='mt-auto w-max rounded-md bg-doc-primary px-20'
+            className='mt-auto w-max rounded-md bg-violet-500 px-20'
           >
             Start Writting
           </Button>

@@ -20,12 +20,12 @@ const Edit = () => {
         <TabsList className='gap-x-2 self-start'>
           <TabsTrigger
             value='in-text'
-            className='rounded-lg border border-gray-200 px-2 py-1 text-doc-font data-[state=active]:border-transparent data-[state=active]:bg-doc-primary/20 data-[state=active]:text-doc-primary'
+            className='rounded-lg border border-gray-200 px-2 py-1 text-neutral-400 data-[state=active]:border-transparent data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-500'
           >
             Edit in-text
           </TabsTrigger>
           <TabsTrigger
-            className='rounded-lg border border-gray-200 px-2 py-1 text-doc-font data-[state=active]:border-transparent data-[state=active]:bg-doc-primary/20 data-[state=active]:text-doc-primary'
+            className='rounded-lg border border-gray-200 px-2 py-1 text-neutral-400 data-[state=active]:border-transparent data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-500'
             value='citation'
           >
             Edit Citation

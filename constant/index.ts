@@ -872,7 +872,7 @@ export const PricingAnnualyUnlimited = {
   recommended: true,
   text: 'Unlock comprehensive academic support with unlimited access to all features for advanced writing needs.',
   price_text:
-    'Save <span className="text-doc-primary">50%</span> on yearly plan',
+    'Save <span className="text-violet-500">50%</span> on yearly plan',
   features: [
     '<strong>Unlimited</strong> Documents',
     '<strong>Unlimited</strong> Copilot prompt uses',

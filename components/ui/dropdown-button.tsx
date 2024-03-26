@@ -31,7 +31,7 @@ export const DropdownButton = ({
     'hover:bg-neutral-100 hover:text-neutral-800 dark:hover:bg-neutral-900 dark:hover:text-neutral-200',
     isActive &&
       !disabled &&
-      'bg-doc-secondary text-doc-primary dark:bg-neutral-900 dark:text-neutral-200',
+      'bg-doc-secondary text-violet-500 dark:bg-neutral-900 dark:text-neutral-200',
     disabled && 'text-neutral-400 cursor-not-allowed dark:text-neutral-600',
     className
   );

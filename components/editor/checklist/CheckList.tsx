@@ -79,7 +79,7 @@ const CheckList = ({ t }: { t: EdtitorDictType }) => {
         variants={variants}
         id='checklist-trigger'
         animate={show ? 'show' : 'hide'}
-        className='flex-between rounded-lg bg-doc-primary p-2 text-white'
+        className='flex-between rounded-lg bg-violet-500 p-2 text-white'
         onClick={() => setShow((prev) => !prev)}
       >
         <p className='small-medium'>{t.CheckList.title}</p>{' '}
@@ -175,7 +175,7 @@ const TaskItem = ({
       <Checkbox
         disabled
         checked={taskCompleted}
-        className='h-4 w-4 rounded-full border-black-400'
+        className='border-black-400 h-4 w-4 rounded-full'
       />
       <label
         className={`subtle-regular ${taskCompleted ? 'text-neutral-400 line-through' : ''}`}
@@ -187,7 +187,7 @@ const TaskItem = ({
       <span
         role='button'
         onClick={onClickHandler}
-        className='subtle-regular cursor-pointer text-doc-primary'
+        className='subtle-regular cursor-pointer text-violet-500'
       >
         Show me
       </span>
