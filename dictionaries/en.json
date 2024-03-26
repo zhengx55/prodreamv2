@@ -159,7 +159,8 @@
       "Enter": "Enter",
       "Cancel": "Cancel",
       "Done": "Done",
-      "Got it": "Got it"
+      "Got it": "Got it",
+      "Generate": "Generate"
     },
     "Prompt": {
       "Title": "Please input your prompt below",
@@ -208,7 +209,12 @@
       "Argumentative": "Argumentative",
       "Analytical": "Analytical",
       "Scientific": "Scientific",
-      "General": "General"
+      "General": "General",
+      "SubTitle": {
+        "Write Introduction": "Click to generate the Introduction section based on the entire writing",
+        "Write Conclusion": "Click to generate the Conclusion section based on the entire writing",
+        "Generate Title": "Click to generate a title for your essay"
+      }
     },
     "RightBar": {
       "Grammar_Check": "Grammar Check",

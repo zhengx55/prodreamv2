@@ -160,7 +160,13 @@
       "Enter": "确认",
       "Cancel": "取消",
       "Done": "确认",
-      "Got it": "我知道了"
+      "Got it": "我知道了",
+      "Dismiss": "忽略",
+      "Accept": "接受",
+      "AcceptAll": "全部接受",
+      "DismissAll": "全部忽略",
+      "Upgrade": "一键升级",
+      "Generate": "一键生成"
     },
     "Prompt": {
       "Title": "请用英语输入写作主题",
@@ -209,7 +215,12 @@
       "Argumentative": "论证性论文大纲",
       "Analytical": "分析性论文大纲",
       "Scientific": "科学写作大纲",
-      "General": "通用大纲"
+      "General": "通用大纲",
+      "SubTitle": {
+        "Write Introduction": "点击生成基于整篇写作的引言部分",
+        "Write Conclusion": "点击生成基于整篇写作的结论部分",
+        "Generate Title": "点击生成文章标题"
+      }
     },
     "RightBar": {
       "Grammar_Check": "语法检测",

@@ -3,13 +3,18 @@ import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
 import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
+import { EdtitorDictType } from '@/types';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import Image from 'next/image';
 import { memo } from 'react';
 import Tiplayout from '../../guide/tips/Tiplayout';
 
-type Props = { type: string; handleGenerate: () => Promise<void> };
-const GenerateBtn = ({ handleGenerate, type }: Props) => {
+type Props = {
+  type: string;
+  handleGenerate: () => Promise<void>;
+  t: EdtitorDictType;
+};
+const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { updateOutlineStep, updateGenerateStep, outline_step, generate_step } =
     useUserTask((state) => ({ ...state }));
@@ -30,13 +35,7 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
         />
 
         <p className='base-regular text-center text-doc-font'>
-          {type === 'Write Introduction'
-            ? 'Click to generate the Introduction section based on the entire writing'
-            : type === 'Write Conclusion'
-              ? 'Click to generate the Conclusion section based on the entire writing'
-              : type === 'Generate title'
-                ? 'Click to generate a title for your essay'
-                : null}{' '}
+          {t.Generate.SubTitle[type as keyof typeof t.Generate.SubTitle]}
         </p>
         {outline_step === 3 || generate_step === 1 ? (
           <Tiplayout
@@ -67,25 +66,28 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
               }
             }}
           >
-            <Button
-              onClick={handleGenerate}
-              className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
-            >
-              <GenerateFill fill='#fff' size='20' />
-              Generate
-            </Button>
+            <Btn label={t.Utility.Generate} onClick={handleGenerate} />
           </Tiplayout>
         ) : (
-          <Button
-            onClick={handleGenerate}
-            className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
-          >
-            <GenerateFill fill='#fff' size='20' />
-            Generate
-          </Button>
+          <Btn label={t.Utility.Generate} onClick={handleGenerate} />
         )}
       </div>
     </div>
   );
 };
+const Btn = ({
+  onClick,
+  label,
+}: {
+  onClick: () => Promise<void>;
+  label: string;
+}) => (
+  <Button
+    onClick={onClick}
+    className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
+  >
+    <GenerateFill fill='#fff' size='20' />
+    {label}
+  </Button>
+);
 export default memo(GenerateBtn);

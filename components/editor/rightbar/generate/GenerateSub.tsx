@@ -17,7 +17,7 @@ import GenerateBtn from './GenerateBtn';
 import OutlineBtn from './OutlineBtn';
 import Result from './Result';
 
-const OutlineTypes = ['general', 'argumentative', 'analytical', 'scientific'];
+const OutlineTypes = ['General', 'Argumentative', 'Analytical', 'Scientific'];
 const GenerateTypes = [
   'Write Introduction',
   'Write Conclusion',
@@ -202,7 +202,7 @@ const GenerateSub = ({ generateTab, label, t }: Props) => {
       >
         <ChevronLeft size={20} className='text-doc-font' />
         <p className='base-regular capitalize text-doc-font'>
-          {t.Generate[generateTab as keyof typeof t.Generate]}
+          {t.Generate[generateTab as keyof typeof t.Generate] as any}
         </p>
       </div>
       <div className='flex flex-1 flex-col overflow-y-auto'>
@@ -210,7 +210,11 @@ const GenerateSub = ({ generateTab, label, t }: Props) => {
           isOutline ? (
             <OutlineBtn handleGenerate={handleGenerateOutline} />
           ) : (
-            <GenerateBtn type={generateTab} handleGenerate={handleGenerate} />
+            <GenerateBtn
+              t={t}
+              type={generateTab}
+              handleGenerate={handleGenerate}
+            />
           )
         ) : !isGenerating ? (
           <Result
