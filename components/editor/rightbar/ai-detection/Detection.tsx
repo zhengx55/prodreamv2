@@ -1,7 +1,5 @@
-import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { getDetectionResult } from '@/query/api';
-import { useMembershipInfo } from '@/query/query';
 import { IDetectionResult } from '@/query/type';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -12,14 +10,22 @@ import { memo, useCallback, useState } from 'react';
 import Result from './Result';
 
 const Detection = () => {
-  const { data: membership } = useMembershipInfo();
   const [generating, setGenerating] = useState(false);
-  const [result, setResult] = useState<IDetectionResult>();
+  const [result, setResult] = useState<IDetectionResult>({
+    prob: 1,
+    highlight_sentences: [[0, 3768]],
+    message: 'Our detector is highly confident that the text is written by AI.',
+    class_probabilities: {
+      ai: 0.9582642233236245,
+      human: 0.025346799969153896,
+      mixed: 0.01638897670722151,
+    },
+  });
   const editor = useAIEditor((state) => state.editor_instance);
   const { mutateAsync: detection } = useMutation({
     mutationFn: (params: { text: string }) => getDetectionResult(params),
     onSuccess: async (data) => {
-      console.log(data);
+      setResult(data);
     },
     onMutate: () => {
       setGenerating(true);
@@ -43,8 +49,8 @@ const Detection = () => {
 
   return (
     <AnimatePresence mode='wait'>
-      {!result ? (
-        <Result />
+      {result ? (
+        <Result result={result} />
       ) : generating ? (
         <m.div
           initial={{ opacity: 0, y: -20 }}
@@ -71,9 +77,6 @@ const Starter = memo(({ start }: { start: () => Promise<void> }) => {
       key={'detection-check'}
       className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
     >
-      <h3 className='text-black text-sm font-medium'>Humanizer</h3>
-      <Spacer y='16' />
-
       <Image
         src='/editor/Start.png'
         alt='Upgrade check'
@@ -83,14 +86,14 @@ const Starter = memo(({ start }: { start: () => Promise<void> }) => {
         priority
       />
       <p className='text-center text-sm font-normal text-zinc-600'>
-        Click to see humanize suggestions
+        Identify AI-generated content and help maintain originality in your work
       </p>
       <Button
         className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'
         role='button'
         onClick={start}
       >
-        Start Humanize
+        Start AI Detection
       </Button>
     </m.div>
   );

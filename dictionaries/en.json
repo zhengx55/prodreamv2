@@ -162,12 +162,9 @@
       "Got it": "Got it"
     },
     "Prompt": {
-      "Title": "What would you like to write today?",
-      "Option1": "Essay",
-      "Option2": "Research Paper",
-      "Option3": "Thesis",
-      "Option4": "Dissertation",
-      "Option5": "Other"
+      "Title": "Please input your prompt below",
+      "PlaceHolder": "Adding an essay prompt can greatly enhance the quality of AI generations",
+      "Strength": "Prompt Strength"
     },
     "Copilot": {
       "Paraphrase": "Paraphrase",
@@ -181,15 +178,22 @@
       "Write_with_more_depth": "Write with more depth",
       "Generate_summary": "Generate summary",
       "Write_more_content": "Write more content",
-      "PlaceHolder": "Ask AI to edit or generate..."
+      "PlaceHolder": "Ask AI to edit or generate...",
+      "Replace_selection": "Replace selection",
+      "Insert_below": "Insert below",
+      "Try_again": "Try again",
+      "Discard": "Discard"
     },
-    "Grammar": {},
+    "Grammar": {
+      "Title": "Click to start checking for any grammar, spelling, and punctuation issues in your writing",
+      "Button": "Start Grammar Check"
+    },
     "Citation": {
       "search": "Search publications",
       "customized": "Or add customized citations",
       "all": "All",
       "in_this_doc": "In this doc",
-      "My Library": "My Library",
+      "my_library": "My Library",
       "empty": "Your library is currently empty. Try adding more citations. "
     },
     "Generate": {
@@ -201,6 +205,15 @@
       "Analytical": "Analytical",
       "Scientific": "Scientific",
       "General": "General"
+    },
+    "RightBar": {
+      "Grammar_Check": "Grammar Check",
+      "Citation": "Citation",
+      "My_Citation_Library": "Library",
+      "Generate": "Generate",
+      "Plagiarism_Check": "Plagiarism Check",
+      "AI_Detection": "AI Detection",
+      "Essay_Prompt": "Essay Prompt"
     }
   }
 }

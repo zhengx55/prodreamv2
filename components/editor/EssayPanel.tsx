@@ -1,6 +1,7 @@
 'use client';
 import DocNavbar from '@/components/editor/navbar/Navbar';
 import { useDocumentDetail } from '@/query/query';
+import { DocPageDicType } from '@/types';
 import { useUserInfo } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
@@ -21,7 +22,10 @@ const Editor = dynamic(() => import('./Editor'), {
 
 const DocRightBar = dynamic(() => import('./rightbar/DocRightBar'));
 
-const EssayPanel = ({ id }: { id: string }) => {
+type Props = {
+  id: string;
+} & DocPageDicType;
+const EssayPanel = ({ id, ...props }: Props) => {
   const { data: document_content, isPending, isError } = useDocumentDetail(id);
   const signUpTime = useUserInfo((state) => state.user.create_time);
   const showCheckList = useMemo(() => {
@@ -48,9 +52,10 @@ const EssayPanel = ({ id }: { id: string }) => {
           ) : (
             <Editor
               essay_content={document_content ? document_content.content : ''}
+              {...props}
             />
           )}
-          <DocRightBar />
+          <DocRightBar {...props} />
         </div>
       </main>
     </LazyMotionProvider>

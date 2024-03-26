@@ -111,6 +111,11 @@ export type AuthPageDicType = {
   lang: Locale;
 };
 
+export type DocPageDicType = {
+  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
+  lang: Locale;
+};
+
 export interface IBookCitation {
   reference_count: number;
   area: string[];

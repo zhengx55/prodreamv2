@@ -51,7 +51,16 @@ export interface IGrammarResult {
   }[];
 }
 
-export type IDetectionResult = { prob: number; highlight_sentences: string[] };
+export type IDetectionResult = {
+  prob: number;
+  class_probabilities: {
+    ai: number;
+    human: number;
+    mixed: number;
+  };
+  message: string;
+  highlight_sentences: [number[]];
+};
 
 export type IGrammarResponse = {
   index: number[];

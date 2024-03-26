@@ -233,11 +233,6 @@ export const MineCitationCard = memo(
               : item.data.book_title}
           </h1>
         )}
-        {/* <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
-          {item.data.article_title
-            ? item.data.article_title
-            : item.data.book_title}
-        </h1> */}
         {item.data.contributors?.length > 0 && (
           <p className='subtle-regular line-clamp-2 text-shadow-100'>
             Authors:{' '}
@@ -268,7 +263,7 @@ export const MineCitationCard = memo(
             Cite
           </Button>
           <Button
-            className='aspect-square h-8 rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
+            className='h-7 rounded bg-doc-shadow/20 px-1 text-doc-shadow hover:bg-red-400 hover:text-white'
             variant={'ghost'}
             onClick={handleDeleteCitation}
           >

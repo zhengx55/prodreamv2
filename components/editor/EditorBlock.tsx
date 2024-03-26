@@ -1,5 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import '@/lib/tiptap/styles/index.css';
+import { DocPageDicType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { EditorContent, Editor as EditorType } from '@tiptap/react';
 import dynamic from 'next/dynamic';
@@ -13,9 +14,9 @@ import { SynonymMenu } from './synonym-menu';
 // const Finish = dynamic(() => import('./guide/Task').then((mod) => mod.Finish));
 const Reference = dynamic(() => import('./Reference'));
 const Trigger = dynamic(() => import('./continue-writting/Trigger'));
-type Props = { editor: EditorType };
+type Props = { editor: EditorType } & DocPageDicType;
 
-const EditorBlock = ({ editor }: Props) => {
+const EditorBlock = ({ editor, ...props }: Props) => {
   const { showCopilotMenu, showContinue, showCitiationMenu, showSynonymMenu } =
     useAIEditor((state) => ({
       ...state,
@@ -44,7 +45,7 @@ const EditorBlock = ({ editor }: Props) => {
         ) : null}
       </AnimatePresence> */}
       {showSynonymMenu && <SynonymMenu editor={editor} />}
-      {showCopilotMenu && <AiMenu editor={editor} />}
+      {showCopilotMenu && <AiMenu {...props} editor={editor} />}
       {showCitiationMenu && <CitationMenu editor={editor} />}
       {showContinue && <Trigger editor={editor} />}
       <BubbleMenu editor={editor} />

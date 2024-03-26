@@ -154,5 +154,67 @@
       "Option1": "英语母语者",
       "Option2": "非英语母语者"
     }
+  },
+  "Editor": {
+    "Utility": {
+      "Enter": "确认",
+      "Cancel": "取消",
+      "Done": "确认",
+      "Got it": "我知道了"
+    },
+    "Prompt": {
+      "Title": "请用英语输入写作主题",
+      "PlaceHolder": "添加个性化主题可以大幅度提高AI生成的质量",
+      "Strength": "主题强度"
+    },
+    "Copilot": {
+      "Paraphrase": "重述表达",
+      "Make_academic": "增加学术性",
+      "Improve_fluency": "提高流畅度",
+      "Simplify_language": "简化表达",
+      "Translate_to_english": "翻译成英语",
+      "Humanize": "反AI检测",
+      "Edit_length": "调整长度",
+      "Write_opposing_argument": "对立观点",
+      "Write_with_more_depth": "加深论述",
+      "Generate_summary": "生成总结",
+      "Write_more_content": "扩充内容",
+      "PlaceHolder": "向AI发送编辑或生成指令",
+      "Replace_selection": "替换",
+      "Insert_below": "插入",
+      "Try_again": "重新生成",
+      "Discard": "删除"
+    },
+    "Grammar": {
+      "Title": "点击开始检查您的写作中的语法、拼写和标点问题",
+      "Button": "开始语法检测"
+    },
+    "Citation": {
+      "search": "文献搜索",
+      "customized": "或手动添加文献",
+      "all": "全部文献",
+      "in_this_doc": "本文引用",
+      "my_library": "我的图书馆",
+      "empty": "您的图书馆当前为空，尝试添加更多引用。"
+    },
+    "Generate": {
+      "Write Introduction": "撰写引言",
+      "Write Conclusion": "撰写结论",
+      "Generate Title": "生成标题",
+      "Generate Outline": "生成大纲",
+      "Argumentative": "论证性论文大纲",
+      "Analytical": "分析性论文大纲",
+      "Scientific": "科学写作大纲",
+      "General": "通用大纲"
+    },
+    "RightBar": {
+      "Grammar_Check": "语法检测",
+      "Citation": "添加引用",
+      "My_Citation_Library": "我的图书馆",
+      "Generate": "一键生成",
+      "Plagiarism_Check": "查重检测",
+      "AI_Detection": "AI检测",
+      "Essay_Prompt": "个性化写作"
+    }
   }
 }
