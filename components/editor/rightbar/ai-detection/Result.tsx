@@ -1,6 +1,7 @@
 import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import { IDetectionResult } from '@/query/type';
+import { EdtitorDictType } from '@/types';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
@@ -22,8 +23,8 @@ const breakdown_descriptioons = [
   'Our detector is highly confident that the text is written by Al ',
 ];
 
-type Props = { result: IDetectionResult };
-const Result = ({ result }: Props) => {
+type Props = { result: IDetectionResult; t: EdtitorDictType };
+const Result = ({ result, t }: Props) => {
   const ai_percent = result.class_probabilities.ai * 100;
   const human_percent = result.class_probabilities.human * 100;
   const mixed_percent = result.class_probabilities.mixed * 100;
@@ -42,7 +43,7 @@ const Result = ({ result }: Props) => {
       key={'detection-result'}
       className='flex h-full w-full flex-col overflow-y-auto'
     >
-      <h3 className='base-medium'>Classification&nbsp;&nbsp;</h3>
+      <h3 className='base-medium'>{t.Detection.Classification}&nbsp;&nbsp;</h3>
       <Spacer y='8' />
       <p className='small-regular leading-relaxed text-zinc-600'>
         {description[result_index]}&nbsp;
@@ -77,12 +78,12 @@ const Result = ({ result }: Props) => {
         >
           {ai_percent.toFixed(0)}%
         </span>
-        &nbsp;&nbsp;Probability Al generated
+        &nbsp;&nbsp;{t.Detection.probability}
       </p>
       <Spacer y='44' />
       <Separator orientation='horizontal' className='bg-gray-200' />
       <Spacer y='44' />
-      <h3 className='base-medium'>Probability Breakdown</h3>
+      <h3 className='base-medium'>{t.Detection.breakdown}</h3>
       <Spacer y='8' />
       <p className='small-regular leading-relaxed text-zinc-600'>
         {breakdown_descriptioons[result_index]}
@@ -97,7 +98,7 @@ const Result = ({ result }: Props) => {
       <Separator orientation='horizontal' className='bg-gray-200' />
       <Spacer y='44' />
       {result.highlight_sentences.length > 0 && (
-        <Suggestion suggestions={result.highlight_sentences} />
+        <Suggestion t={t} suggestions={result.highlight_sentences} />
       )}
       <Spacer y='20' />
     </m.div>

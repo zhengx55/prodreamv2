@@ -283,6 +283,16 @@
       "format_2": "Up and beyond 🚀",
       "title": "Onboarding Checklist",
       "describtion": "Learn how to use ProDream to help you write & research!"
+    },
+    "Detection": {
+      "Title": "Identify AI-generated content and help maintain originality in your work",
+      "Button": "Start AI Detection",
+      "Classification": "Classification",
+      "probability": "Probability Al generated",
+      "breakdown": "Probability breakdown",
+      "Unlock": "Unlock AI Detection with the Unlimited Plan",
+      "Humanizer": "Humanizer",
+      "mixed": "We are moderately confident this text is entirely"
     }
   }
 }

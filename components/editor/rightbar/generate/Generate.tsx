@@ -74,7 +74,7 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                                 </p>
                               </div>
                               <ChevronUp
-                                className='text-neutral-400 transition-transform group-hover:text-violet-500 group-data-[state=open]:rotate-180'
+                                className='text-zinc-600 transition-transform group-hover:text-violet-500 group-data-[state=open]:rotate-180'
                                 size={20}
                               />
                             </div>
@@ -88,10 +88,10 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                           <div className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-slate-100'>
                             <div className='flex items-center gap-x-3'>
                               <FileText
-                                className='text-neutral-400 group-hover:text-violet-500'
+                                className='text-zinc-600 group-hover:text-violet-500'
                                 size={20}
                               />
-                              <p className='base-regular text-neutral-400 group-hover:text-violet-500'>
+                              <p className='base-regular text-zinc-600 group-hover:text-violet-500'>
                                 {
                                   t.Generate[
                                     item.title as keyof typeof t.Generate
@@ -100,7 +100,7 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                               </p>
                             </div>
                             <ChevronUp
-                              className='text-neutral-400 transition-transform group-hover:text-violet-500 group-data-[state=open]:rotate-180'
+                              className='text-zinc-600 transition-transform group-hover:text-violet-500 group-data-[state=open]:rotate-180'
                               size={20}
                             />
                           </div>
@@ -122,10 +122,10 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                 >
                   <div className='flex items-center gap-x-3'>
                     <FileText
-                      className='text-neutral-400 group-hover:text-violet-500'
+                      className='text-zinc-600 group-hover:text-violet-500'
                       size={20}
                     />
-                    <p className='base-regular text-neutral-400 group-hover:text-violet-500'>
+                    <p className='base-regular text-zinc-600 group-hover:text-violet-500'>
                       {t.Generate[item.title as keyof typeof t.Generate] as any}
                     </p>
                   </div>
@@ -164,7 +164,7 @@ const Unlock = () => {
           />
         )}
       </div>
-      <p className='small-regular w-max px-0 text-neutral-400'>
+      <p className='small-regular w-max px-0 text-zinc-600'>
         {usage?.free_times_detail.Generate}/5 weekly generate credits left;
         <Button
           role='dialog'

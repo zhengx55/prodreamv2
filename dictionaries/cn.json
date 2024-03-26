@@ -284,6 +284,16 @@
       "format_2": "超越极限 🚀",
       "title": "清单",
       "describtion": "学习如何使用ProDream来帮助您写作和研究！"
+    },
+    "Detection": {
+      "Title": "识别AI生成的内容，帮助保持原创性",
+      "Button": "开始AI检测",
+      "Classification": "分类",
+      "probability": "概率由AI生成",
+      "breakdown": "概率细分",
+      "Unlock": "通过无限套餐解锁AI检测",
+      "Humanizer": "反AI检测",
+      "mixed": "我们对这段文本完全是有一定的信心"
     }
   }
 }

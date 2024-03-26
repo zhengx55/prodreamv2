@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { getDetectionResult } from '@/query/api';
 import { IDetectionResult } from '@/query/type';
+import { EdtitorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
@@ -9,7 +10,7 @@ import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
 import Result from './Result';
 
-const Detection = () => {
+const Detection = ({ t }: { t: EdtitorDictType }) => {
   const [generating, setGenerating] = useState(false);
   const [result, setResult] = useState<IDetectionResult>();
   const editor = useAIEditor((state) => state.editor_instance);
@@ -44,7 +45,7 @@ const Detection = () => {
   return (
     <AnimatePresence mode='wait'>
       {result ? (
-        <Result result={result} />
+        <Result t={t} result={result} />
       ) : generating ? (
         <m.div
           initial={{ opacity: 0, y: -20 }}
@@ -56,42 +57,44 @@ const Detection = () => {
           <Loader2 className='animate-spin text-zinc-600' />
         </m.div>
       ) : (
-        <Starter start={startDetection} />
+        <Starter t={t} start={startDetection} />
       )}
     </AnimatePresence>
   );
 };
 
-const Starter = memo(({ start }: { start: () => Promise<void> }) => {
-  return (
-    <m.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      key={'detection-check'}
-      className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
-    >
-      <Image
-        src='/editor/Start.png'
-        alt='Upgrade check'
-        width={450}
-        height={270}
-        className='h-44 w-60 self-center'
-        priority
-      />
-      <p className='text-center text-sm font-normal text-zinc-600'>
-        Identify AI-generated content and help maintain originality in your work
-      </p>
-      <Button
-        className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
-        role='button'
-        onClick={start}
+const Starter = memo(
+  ({ start, t }: { start: () => Promise<void>; t: EdtitorDictType }) => {
+    return (
+      <m.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        key={'detection-check'}
+        className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
       >
-        Start AI Detection
-      </Button>
-    </m.div>
-  );
-});
+        <Image
+          src='/editor/Start.png'
+          alt='Upgrade check'
+          width={450}
+          height={270}
+          className='h-44 w-60 self-center'
+          priority
+        />
+        <p className='text-center text-sm font-normal text-zinc-600'>
+          {t.Detection.Title}
+        </p>
+        <Button
+          className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
+          role='button'
+          onClick={start}
+        >
+          {t.Detection.Button}
+        </Button>
+      </m.div>
+    );
+  }
+);
 
 Starter.displayName = 'Starter';
 
