@@ -4,6 +4,7 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { getDictionary } from '@/lib/get-dictionary';
 import useAIEditor, { useCitation } from '@/zustand/store';
 import { Editor } from '@tiptap/react';
 import dynamic from 'next/dynamic';
@@ -13,7 +14,13 @@ import CountDropdown from './CountDropdown';
 const MemoButton = memo(Toolbar.Button);
 const CitationDropdown = dynamic(() => import('./CitationDropdown'));
 
-const BottomBar = ({ editor }: { editor: Editor }) => {
+const BottomBar = ({
+  editor,
+  t,
+}: {
+  editor: Editor;
+  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
+}) => {
   const citationStyle = useCitation((state) => state.citationStyle);
   const commands = useTextmenuCommands(editor);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
@@ -28,12 +35,12 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
         className='text-doc-primary'
       >
         <BookHalf size={'18'} />
-        Citation
+        {t.BubbleMenu.Citation}
       </MemoButton>
       <Toolbar.Divider />
       <DropdownMenu>
         <div className='flex items-center'>
-          <p className='small-medium'>Citation Style:</p>
+          <p className='small-medium'>{t.BubbleMenu.citation_style}:</p>
           <DropdownMenuTrigger asChild>
             <MemoButton role='button' className='mx-0 font-medium'>
               {citationStyle}
@@ -60,8 +67,8 @@ const BottomBar = ({ editor }: { editor: Editor }) => {
         <Redo />
       </MemoButton>
       <Toolbar.Divider />
-      <CountDropdown editor={editor} />
+      <CountDropdown t={t} editor={editor} />
     </Toolbar.Wrapper>
   );
 };
-export default BottomBar;
+export default memo(BottomBar);

@@ -48,7 +48,7 @@ const EditorBlock = ({ editor, ...props }: Props) => {
       {showCopilotMenu && <AiMenu {...props} editor={editor} />}
       {showCitiationMenu && <CitationMenu editor={editor} />}
       {showContinue && <Trigger editor={editor} />}
-      <BubbleMenu editor={editor} />
+      <BubbleMenu t={props.t} editor={editor} />
       <EditorContent className='flex-1' spellCheck={false} editor={editor} />
       <Spacer y='40' />
       <Reference />

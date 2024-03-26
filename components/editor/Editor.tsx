@@ -173,7 +173,7 @@ const Editor = ({
       </div>
       {showBottomBar && (
         <div className='flex-center absolute bottom-0 h-10 w-full shrink-0 border-t border-gray-200 bg-white px-0'>
-          <BottomBar editor={editor} />
+          <BottomBar t={props.t} editor={editor} />
         </div>
       )}
     </section>

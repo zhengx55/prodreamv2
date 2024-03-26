@@ -215,6 +215,35 @@
       "Plagiarism_Check": "查重检测",
       "AI_Detection": "AI检测",
       "Essay_Prompt": "个性化写作"
+    },
+    "BubbleMenu": {
+      "Copilot": "AI助手",
+      "Citation": "文献检索",
+      "Synonym": "同义词",
+      "citation_style": "检索样式",
+      "words": "单词",
+      "characters": "字符"
+    },
+    "Onboard": {
+      "Title": "欢迎来到ProDream，我们可以帮你做点什么？",
+      "Option1": {
+        "Title": "我有一篇文章需要修改",
+        "Subtitle": "请将您的文章复制到下方 😊",
+        "PlaceHolder": "复制到这里",
+        "Button": "确定"
+      },
+      "Option2": {
+        "Title": "我想从头开始写一篇文章",
+        "Subtitle": "文章的逻辑非常重要，我们先构思一下大纲吧。",
+        "Question": "你想写一篇关于什么的文章？",
+        "PlaceHolder": "E.g. Importance of religion in East Asian culture",
+        "Button": "生成",
+        "Sample": "展示示例大纲"
+      },
+      "Option3": {
+        "Title": "我想自己先探索一下",
+        "Subtitle": "Welcome to Prodream!"
+      }
     }
   }
 }
