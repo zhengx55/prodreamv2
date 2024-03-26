@@ -168,7 +168,7 @@ const Editor = ({
       <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
         {Boolean(track?.guidence) && <EditorBlock {...props} editor={editor} />}
-        <Procedure editor={editor} />
+        <Procedure t={props.t} editor={editor} />
         <PaymentModal />
       </div>
       {showBottomBar && (

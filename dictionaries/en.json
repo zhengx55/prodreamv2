@@ -243,12 +243,12 @@
       "characters": "Characters"
     },
     "Onboard": {
+      "question": "Do you need help editing an essay or writing a new one from scratch?",
       "Title": "Do you have a draft or writing a new one from scratch?",
       "Option1": {
         "Title": "Yes, I have a draft already.",
         "Subtitle": "Sounds good! Please paste your essay below :)",
-        "PlaceHolder": "Paste your essay here",
-        "Button": "Enter"
+        "PlaceHolder": "Paste your essay here"
       },
       "Option2": {
         "Title": "No, I am starting from scratch.",
