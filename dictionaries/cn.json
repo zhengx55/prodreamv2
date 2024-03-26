@@ -216,6 +216,9 @@
       "Analytical": "分析性论文大纲",
       "Scientific": "科学写作大纲",
       "General": "通用大纲",
+      "outline_form1": "研究领域",
+      "outline_form2": "你正在写作的简要描述",
+      "outline_placeholder": "描述你的研究主题或论文题目。添加更多信息可以极大地提高我们的生成质量 :)",
       "SubTitle": {
         "Write Introduction": "点击生成基于整篇写作的引言部分",
         "Write Conclusion": "点击生成基于整篇写作的结论部分",

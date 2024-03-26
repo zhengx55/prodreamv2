@@ -208,7 +208,7 @@ const GenerateSub = ({ generateTab, label, t }: Props) => {
       <div className='flex flex-1 flex-col overflow-y-auto'>
         {!generatedResult && !isGenerating ? (
           isOutline ? (
-            <OutlineBtn handleGenerate={handleGenerateOutline} />
+            <OutlineBtn t={t} handleGenerate={handleGenerateOutline} />
           ) : (
             <GenerateBtn
               t={t}
