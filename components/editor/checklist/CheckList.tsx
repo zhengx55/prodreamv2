@@ -6,6 +6,7 @@ import {
   useMutateTrackInfo,
   useUserTrackInfo,
 } from '@/query/query';
+import { EdtitorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -18,7 +19,7 @@ const variants: Variants = {
   show: { width: 300, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
 };
 
-const CheckList = () => {
+const CheckList = ({ t }: { t: EdtitorDictType }) => {
   const [show, setShow] = useState(false);
   const { data: userTrack } = useUserTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
@@ -81,7 +82,7 @@ const CheckList = () => {
         className='flex-between rounded-lg bg-doc-primary p-2 text-white'
         onClick={() => setShow((prev) => !prev)}
       >
-        <p className='small-medium'>Onboarding Checklist</p>{' '}
+        <p className='small-medium'>{t.CheckList.title}</p>{' '}
         {!show ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </m.div>
       <AnimatePresence initial={false} mode='wait'>
@@ -120,36 +121,34 @@ const CheckList = () => {
             className='flex w-[300px] flex-col rounded-b-lg bg-white px-4 shadow-lg'
           >
             <Spacer y='12' />
-            <p className='small-regular'>
-              Learn how to use ProDream to help you write & research!
-            </p>
+            <p className='small-regular'>{t.CheckList.describtion}</p>
             <Spacer y='12' />
-            <h2 className='base-medium'>Getting around ☕️</h2>
+            <h2 className='base-medium'>{t.CheckList.format_1}</h2>
             <Spacer y='12' />
             <ul className='flex flex-col gap-y-2.5'>
               <TaskItem
-                taskCompleted={!!userTrack?.citation_task}
-                label='Add one citation'
+                taskCompleted={!!userTrack?.ai_copilot_task}
+                label={t.CheckList.copilot}
                 onClickHandler={() => selectHandler(3)}
               />
               <TaskItem
-                taskCompleted={!!userTrack?.ai_copilot_task}
-                label='Try any AI editing tools'
+                taskCompleted={!!userTrack?.citation_task}
+                label={t.CheckList.citation}
                 onClickHandler={() => selectHandler(0)}
               />
             </ul>
             <Spacer y='12' />
-            <h2 className='base-medium'>Productivity boost 🚀</h2>
+            <h2 className='base-medium'>{t.CheckList.format_2}</h2>
             <Spacer y='12' />
             <ul className='flex flex-col gap-y-2.5'>
               <TaskItem
                 taskCompleted={!!userTrack?.continue_writing_task}
-                label='Write next sentence'
+                label={t.CheckList.continue}
                 onClickHandler={() => selectHandler(1)}
               />
               <TaskItem
                 taskCompleted={!!userTrack?.generate_tool_task}
-                label='Generate an introduction'
+                label={t.CheckList.generate}
                 onClickHandler={() => selectHandler(2)}
               />
             </ul>

@@ -272,6 +272,17 @@
       "Result": "可能为重复内容",
       "Result_good": "未发现重复内容",
       "Suggestions": "降重建议"
+    },
+    "CheckList": {
+      "Show": "展示",
+      "copilot": "尝试任何AI Copilot编辑功能",
+      "citation": "添加一条引用",
+      "continue": "使用继续写作功能来写下一句话",
+      "generate": "生成一个引言",
+      "format_1": "构建基础",
+      "format_2": "超越极限 🚀",
+      "title": "清单",
+      "describtion": "学习如何使用ProDream来帮助您写作和研究！"
     }
   }
 }

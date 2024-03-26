@@ -266,6 +266,17 @@
       "Result": "May be plagiarized",
       "Result_good": "Acceptable",
       "Suggestions": "Suggestions"
+    },
+    "CheckList": {
+      "Show": "Show me",
+      "copilot": "Try any AI Copilot editing feature",
+      "citation": "Add one citation",
+      "continue": "Use Continue Writing feature to write next sentence",
+      "generate": "Generate an introduction",
+      "format_1": "Building the foundation",
+      "format_2": "Up and beyond 🚀",
+      "title": "Onboarding Checklist",
+      "describtion": "Learn how to use ProDream to help you write & research!"
     }
   }
 }
