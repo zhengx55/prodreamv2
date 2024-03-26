@@ -5,7 +5,7 @@ import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
 import { getDocs } from '@/query/api';
 import { useDocumentList, useMembershipInfo } from '@/query/query';
 import { IDocDetail } from '@/query/type';
-import { DocSortingMethods } from '@/types';
+import { DocPageDicType, DocSortingMethods } from '@/types';
 import { LayoutGrid, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
@@ -17,7 +17,8 @@ const CardView = dynamic(() => import('./CardView'));
 const ListView = dynamic(() => import('./ListView'));
 const FilterDropdown = dynamic(() => import('./FilterDropDown'));
 
-const DocumentList = () => {
+type Props = DocPageDicType;
+const DocumentList = (props: Props) => {
   const { ref, inView } = useInView();
   const searchParams = useSearchParams();
   const {
@@ -111,9 +112,9 @@ const DocumentList = () => {
       {isPending || isMebershipPending ? (
         <Loading />
       ) : viewType === 'grid' ? (
-        <CardView list={list} />
+        <CardView {...props} list={list} />
       ) : (
-        <ListView list={list} />
+        <ListView {...props} list={list} />
       )}
       <Spacer y='10' />
       <div className='flex-center h-10 w-full' ref={ref}>

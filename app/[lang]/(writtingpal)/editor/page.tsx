@@ -1,5 +1,7 @@
 import DocumentList from '@/components/editor/history/List';
 import Spacer from '@/components/root/Spacer';
+import { Locale } from '@/i18n-config';
+import { getDictionary } from '@/lib/get-dictionary';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 const DiscountModal = dynamic(
@@ -7,7 +9,12 @@ const DiscountModal = dynamic(
 );
 const Search = dynamic(() => import('@/components/editor/history/Search'));
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: { id: string; lang: Locale };
+}) {
+  const dict = (await getDictionary(params.lang)).Editor;
   return (
     <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
       <DiscountModal />
@@ -15,7 +22,7 @@ export default function Page() {
       <Search />
       <Spacer y='30' />
       <Suspense>
-        <DocumentList />
+        <DocumentList t={dict} lang={params.lang} />
       </Suspense>
     </main>
   );
