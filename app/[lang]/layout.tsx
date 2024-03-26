@@ -1,21 +1,15 @@
 import PageViewTrack from '@/components/root/PageViewTrack';
-import CSPostHogProvider from '@/components/root/PostHogProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import Hotjar from '@/htojar/Hotjar';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
 import localFont from 'next/font/local';
 import { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import { i18n, type Locale } from '../../i18n-config';
 import './globals.css';
-
-const PostHogPageView = dynamic(() => import('@/components/root/PostHug'), {
-  ssr: false,
-});
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -88,24 +82,21 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <Hotjar />
-      <CSPostHogProvider>
-        <body>
-          <GoogleOAuthProvider
-            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
-          >
-            <TanstackProvider>
-              <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
-                <Suspense>
-                  <PageViewTrack />
-                </Suspense>
-                <PostHogPageView />
-                {children}
-                <Toaster richColors visibleToasts={1} />
-              </main>
-            </TanstackProvider>
-          </GoogleOAuthProvider>
-        </body>
-      </CSPostHogProvider>
+      <body>
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
+        >
+          <TanstackProvider>
+            <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
+              <Suspense>
+                <PageViewTrack />
+              </Suspense>
+              {children}
+              <Toaster richColors visibleToasts={1} />
+            </main>
+          </TanstackProvider>
+        </GoogleOAuthProvider>
+      </body>
     </html>
   );
 }

@@ -2,7 +2,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { LogOut, User2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { usePostHog } from 'posthog-js/react';
 import { memo } from 'react';
 import { useCookies } from 'react-cookie';
 import { DropdownMenuContent, DropdownMenuItem } from '../ui/dropdown-menu';
@@ -10,11 +9,9 @@ import { DropdownMenuContent, DropdownMenuItem } from '../ui/dropdown-menu';
 const UserInfoDropdown = () => {
   const [_cookies, _setCookie, removeCookie] = useCookies(['token']);
   const router = useRouter();
-  const posthog = usePostHog();
   const queryClient = useQueryClient();
   const logOut = () => {
     queryClient.removeQueries();
-    posthog.reset();
     removeCookie('token', { path: '/' });
     router.replace('/login');
   };

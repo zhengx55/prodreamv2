@@ -19,7 +19,6 @@ import { AuthPageDicType } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { usePostHog } from 'posthog-js/react';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
@@ -29,7 +28,6 @@ const defaultValues = { password: '', email: '' };
 
 const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   const [hidePassword, setHidePassword] = useState(true);
-  const posthog = usePostHog();
   const searchParam = useSearchParams().get('from');
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
@@ -52,7 +50,6 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
           const user_id = JSON.parse(
             atob(login_data.access_token.split('.')[1])
           ).subject.user_id;
-          posthog.identify(user_id);
           setCookie('token', login_data.access_token, {
             path: '/',
             maxAge: 604800,

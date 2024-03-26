@@ -4,12 +4,10 @@ import { getUserInfo, googleLogin, refreshUserSession } from '@/query/api';
 import { useGoogleLogin } from '@react-oauth/google';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { usePostHog } from 'posthog-js/react';
 import { memo } from 'react';
 import { useCookies } from 'react-cookie';
 
 const GoogleSignin = ({ label, lang }: { label: string; lang: Locale }) => {
-  const posthog = usePostHog();
   const [_cookies, setCookie] = useCookies(['token']);
   const router = useRouter();
   const googleAuth = useGoogleLogin({
@@ -25,7 +23,6 @@ const GoogleSignin = ({ label, lang }: { label: string; lang: Locale }) => {
         });
         const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
           .subject.user_id;
-        posthog.identify(user_id);
         const user_track = await getUserInfo();
         if (Boolean(user_track)) {
           router.push('/editor');
