@@ -2,9 +2,11 @@ import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import { IDetectionResult } from '@/query/type';
 import { m } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
-import Suggestion from './Suggestion';
+
+const Suggestion = dynamic(() => import('./Suggestion'));
 
 const labels = ['human', 'mixed', 'ai generated'];
 const primaryColor = ['#48B251', '#5266CC', '#E58600'];
@@ -94,7 +96,9 @@ const Result = ({ result }: Props) => {
       <Spacer y='44' />
       <Separator orientation='horizontal' className='bg-gray-200' />
       <Spacer y='44' />
-      <Suggestion suggestions={result.highlight_sentences} />
+      {result.highlight_sentences.length > 0 && (
+        <Suggestion suggestions={result.highlight_sentences} />
+      )}
       <Spacer y='20' />
     </m.div>
   );
