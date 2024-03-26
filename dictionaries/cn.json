@@ -244,12 +244,12 @@
       "characters": "字符"
     },
     "Onboard": {
+      "question": "您需要帮助修改文章还是从头开始写一篇新的文章？",
       "Title": "欢迎来到ProDream，我们可以帮你做点什么？",
       "Option1": {
         "Title": "我有一篇文章需要修改",
         "Subtitle": "请将您的文章复制到下方 😊",
-        "PlaceHolder": "复制到这里",
-        "Button": "确定"
+        "PlaceHolder": "复制到这里"
       },
       "Option2": {
         "Title": "我想从头开始写一篇文章",

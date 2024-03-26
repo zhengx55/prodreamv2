@@ -13,7 +13,7 @@ import {
   useMutateTrackInfo,
   useUserTrackInfo,
 } from '@/query/query';
-import { DocPageDicType } from '@/types';
+import { DocPageDicType, EdtitorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
@@ -36,7 +36,7 @@ import useAiResponse from './hooks/useAiResponse';
 const RemainUsages = dynamic(() => import('./RemainUsages'));
 type Props = { editor: Editor } & DocPageDicType;
 
-const AiMenu = ({ editor, t, lang }: Props) => {
+const AiMenu = ({ editor, t }: Props) => {
   const { options, operations } = useAiOptions();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: track } = useUserTrackInfo();
@@ -217,7 +217,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                   )}
                 </div>
               )}
-              <CustomPrompt ref={promptRef} submit={handleCustomPrompt} />
+              <CustomPrompt t={t} ref={promptRef} submit={handleCustomPrompt} />
             </>
           ) : (
             <Loader />
@@ -305,24 +305,16 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                 })
               : operations.map((item, idx) => {
                   return (
-                    <div
-                      className={` ${
-                        hoverItem === item.id ? 'bg-slate-100' : ''
-                      } ${showTyping && 'pointer-events-none'} group flex cursor-pointer items-center justify-between rounded px-2 py-1.5`}
+                    <Operation
                       key={item.id}
                       onMouseEnter={() => setHoverItem(item.id)}
                       onMouseLeave={() => setHoverItem(null)}
                       onClick={() => handleOperation(idx)}
-                    >
-                      <div className='flex items-center gap-x-2'>
-                        {hoverItem === item.id
-                          ? cloneElement(item.icon, { color: '#774EBB' })
-                          : cloneElement(item.icon)}
-                        <p className='small-regular group-hover:text-violet-500'>
-                          {t.Copilot[item.name as keyof typeof t.Copilot]}
-                        </p>
-                      </div>
-                    </div>
+                      t={t}
+                      item={item}
+                      isTyping={showTyping}
+                      isHover={hoverItem === item.id}
+                    />
                   );
                 })}
           </Surface>
@@ -333,6 +325,46 @@ const AiMenu = ({ editor, t, lang }: Props) => {
 };
 
 export default memo(AiMenu);
+
+type OperationProps = {
+  t: EdtitorDictType;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  onClick: () => void;
+  isHover: boolean;
+  isTyping: boolean;
+  item: { id: string; name: string; icon: JSX.Element };
+};
+const Operation = ({
+  t,
+  onMouseEnter,
+  onClick,
+  isHover,
+  onMouseLeave,
+  isTyping,
+  item,
+}: OperationProps) => {
+  return (
+    <div
+      className={` ${
+        isHover ? 'bg-slate-100' : ''
+      } ${isTyping && 'pointer-events-none'} group flex cursor-pointer items-center justify-between rounded px-2 py-1.5`}
+      key={item.id}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+    >
+      <div className='flex items-center gap-x-2'>
+        {isHover
+          ? cloneElement(item.icon, { color: '#774EBB' })
+          : cloneElement(item.icon)}
+        <p className='small-regular group-hover:text-violet-500'>
+          {t.Copilot[item.name as keyof typeof t.Copilot]}
+        </p>
+      </div>
+    </div>
+  );
+};
 
 const Loader = () => {
   return (

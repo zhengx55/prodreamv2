@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { sample_continue, sample_outline } from '@/constant';
 import { outline } from '@/query/api';
 import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
+import { EdtitorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
@@ -14,7 +15,7 @@ import { Loader2 } from 'lucide-react';
 import { parse } from 'marked';
 import { useEffect, useRef, useState } from 'react';
 
-const Guidance = ({ editor }: { editor: Editor }) => {
+const Guidance = ({ editor, t }: { editor: Editor; t: EdtitorDictType }) => {
   const [check, setCheck] = useState(-1);
   const ideaRef = useRef<HTMLTextAreaElement | null>(null);
   const draftRef = useRef<HTMLTextAreaElement | null>(null);
@@ -182,7 +183,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
       <div className='mx-auto flex w-[700px] flex-col'>
         <Spacer y='24' />
         <h1 className='text-[28px] font-semibold leading-normal'>
-          Do you need help editing an essay or writing a new one from scratch?
+          {t.Onboard.question}
         </h1>
         <Spacer y='24' />
         <ul className='flex flex-col gap-y-6 self-start'>
@@ -196,7 +197,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
               htmlFor='have-draft'
               className={`text-sm font-medium leading-none ${check === 0 ? 'text-violet-500' : 'text-neutral-400'}`}
             >
-              Yes, I have a draft already.
+              {t.Onboard.Option1.Title}
             </label>
           </li>
           <li className='inline-flex items-center gap-x-2'>
@@ -211,7 +212,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
               htmlFor='start-outline'
               className={`text-sm font-medium leading-none ${check === 1 ? 'text-violet-500' : 'text-neutral-400'}`}
             >
-              No, I am starting from scratch.
+              {t.Onboard.Option2.Title}
             </label>
           </li>
           <li className='inline-flex items-center gap-x-2'>
@@ -226,7 +227,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
               htmlFor='just-exploring'
               className={`text-sm font-medium leading-none ${check === 2 ? 'text-violet-500' : 'text-neutral-400'}`}
             >
-              Neither, I&apos;m just exploring
+              {t.Onboard.Option3.Title}
             </label>
           </li>
         </ul>
@@ -241,13 +242,13 @@ const Guidance = ({ editor }: { editor: Editor }) => {
               className='flex flex-col gap-y-4'
             >
               <h2 className='text-[28px] font-semibold leading-normal'>
-                Sounds good! Please paste your essay below :)
+                {t.Onboard.Option1.Subtitle}
               </h2>
               <Textarea
                 className='h-24 rounded shadow-lg'
                 name='outline-description'
                 ref={draftRef}
-                placeholder='Paste your essay here'
+                placeholder={t.Onboard.Option1.PlaceHolder}
               />
               <Button
                 role='button'
@@ -255,7 +256,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
                 className='rounded'
                 id='guidence-generate'
               >
-                Enter
+                {t.Utility.Enter}
               </Button>
             </m.div>
           ) : check === 1 ? (
@@ -267,16 +268,14 @@ const Guidance = ({ editor }: { editor: Editor }) => {
               key={'terms-2'}
             >
               <h2 className='text-[28px] font-semibold leading-normal'>
-                Let&apos;s get started by generating an outline!
+                {t.Onboard.Option2.Subtitle}
               </h2>
-              <p className='base-semibold'>
-                Could you briefly tell me what you are writing?
-              </p>
+              <p className='base-semibold'>{t.Onboard.Option2.Question}</p>
               <Textarea
                 className='h-24 rounded shadow-lg'
                 name='outline-description'
                 ref={ideaRef}
-                placeholder='E.g. Importance of religion in East Asian culture'
+                placeholder={t.Onboard.Option2.PlaceHolder}
               />
               <div className='flex gap-x-2'>
                 <Button
@@ -286,7 +285,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
                   className='w-max rounded bg-violet-500'
                   id='guidence-generate'
                 >
-                  Generate
+                  {t.Utility.Generate}
                   {isGenerating && (
                     <Loader2 size={18} className='animate-spin text-white' />
                   )}
@@ -298,7 +297,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
                   disabled={isGenerating}
                   onClick={handleClickSample}
                 >
-                  Show me a sample outline
+                  {t.Onboard.Option2.Sample}
                 </Button>
               </div>
             </m.div>
@@ -310,7 +309,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
               exit={{ opacity: 0, y: 10 }}
               className='text-[28px] font-semibold leading-normal'
             >
-              Welcome to ProDream!
+              {t.Onboard.Option3.Subtitle}
             </m.p>
           ) : null}
         </AnimatePresence>
