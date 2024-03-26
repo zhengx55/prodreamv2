@@ -167,6 +167,8 @@
       "Strength": "Prompt Strength"
     },
     "Copilot": {
+      "Format_1": "Edit language",
+      "Format_2": "Generate from selection",
       "Paraphrase": "Paraphrase",
       "Make_academic": "Make academic",
       "Improve_fluency": "Improve fluency",
@@ -182,7 +184,9 @@
       "Replace_selection": "Replace selection",
       "Insert_below": "Insert below",
       "Try_again": "Try again",
-      "Discard": "Discard"
+      "Discard": "Discard",
+      "Shorten": "Shorten",
+      "Extend": "Make Longer"
     },
     "Grammar": {
       "Title": "Click to start checking for any grammar, spelling, and punctuation issues in your writing",
@@ -214,6 +218,45 @@
       "Plagiarism_Check": "Plagiarism Check",
       "AI_Detection": "AI Detection",
       "Essay_Prompt": "Essay Prompt"
+    },
+    "BubbleMenu": {
+      "Copilot": "AI Copilot",
+      "Citation": "Reference",
+      "Synonym": "Synonym",
+      "citation_style": "Citation Style",
+      "words": "Words",
+      "characters": "Characters"
+    },
+    "Onboard": {
+      "Title": "Do you have a draft or writing a new one from scratch?",
+      "Option1": {
+        "Title": "Yes, I have a draft already.",
+        "Subtitle": "Sounds good! Please paste your essay below :)",
+        "PlaceHolder": "Paste your essay here",
+        "Button": "Enter"
+      },
+      "Option2": {
+        "Title": "No, I am starting from scratch.",
+        "Subtitle": "Let's get started by generating an outline!",
+        "Question": "Could you briefly tell me what you are writing?",
+        "PlaceHolder": "E.g. Importance of religion in East Asian culture",
+        "Button": "Generate",
+        "Sample": "Show me a sample outline"
+      },
+      "Option3": {
+        "Title": "Neither, I'm just exploring",
+        "Subtitle": "Welcome to Prodream!"
+      }
+    },
+    "Plagiarism": {
+      "Title": "Check for originality of your work with deep similarity detection.",
+      "Waiting": "Our extensive database ensures thorough checks, which may take up to 5 minutes.",
+      "recheck": "Re-check",
+      "Button": "Start Plagiarism Check",
+      "Unlock": "Unlock paraphrase suggestions with the Unlimited Plan",
+      "Result": "May be plagiarized",
+      "Result_good": "Acceptable",
+      "Suggestions": "Suggestions"
     }
   }
 }

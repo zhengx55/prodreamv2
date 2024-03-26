@@ -56,13 +56,13 @@ const General = ({ t, lang }: DocPageDicType) => {
         </div>
         <Spacer y='15' />
         {rightbarTab === 0 ? (
-          <GrammarCheck />
+          <GrammarCheck t={t} />
         ) : rightbarTab === 3 ? (
           <Citation />
         ) : rightbarTab === 5 ? (
-          <Generate />
+          <Generate t={t} />
         ) : rightbarTab === 1 ? (
-          <Plagiarism />
+          <Plagiarism t={t} />
         ) : rightbarTab === 2 ? (
           <Detection />
         ) : (

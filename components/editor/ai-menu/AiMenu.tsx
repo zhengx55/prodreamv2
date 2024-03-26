@@ -242,7 +242,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                       )}
                       <Spacer y='5' />
                       <h3 className='small-semibold px-2.5 text-doc-font'>
-                        {item.format}
+                        {t.Copilot[item.format as keyof typeof t.Copilot]}
                       </h3>
                       <Spacer y='5' />
                       {item.options.map((option, option_idx) => {
@@ -287,7 +287,11 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                                     key={subitem.id}
                                   >
                                     <p className='small-regular'>
-                                      {subitem.name}
+                                      {
+                                        t.Copilot[
+                                          subitem.name as keyof typeof t.Copilot
+                                        ]
+                                      }
                                     </p>
                                   </div>
                                 ))}

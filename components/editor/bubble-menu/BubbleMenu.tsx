@@ -22,6 +22,7 @@ import {
   Synonym,
   Undo,
 } from '@/components/root/SvgComponents';
+import { getDictionary } from '@/lib/get-dictionary';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { ContentTypePicker } from '../picker/content';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
@@ -33,9 +34,10 @@ const MemoContentTypePicker = memo(ContentTypePicker);
 
 export type TextMenuProps = {
   editor: Editor;
+  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
 };
 
-const BubbleMenu = ({ editor }: TextMenuProps) => {
+const BubbleMenu = ({ editor, t }: TextMenuProps) => {
   const menuYOffside = useRef<number | null>(null);
   const menuXOffside = useRef<number | null>(null);
   const [selectedLength, setSelectedLength] = useState(0);
@@ -191,7 +193,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
             <span className='absolute h-7 w-7 animate-ping rounded-full bg-doc-primary/50' />
           )}
           <Copilot />
-          AI Copilot
+          {t.BubbleMenu.Copilot}
         </MemoButton>
         <Toolbar.Divider />
         {isWord ? (
@@ -209,7 +211,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
             className='text-doc-primary'
           >
             <Synonym />
-            Synonym
+            {t.BubbleMenu.Synonym}
           </MemoButton>
         ) : (
           <MemoButton
@@ -231,7 +233,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
             className='text-doc-primary'
           >
             <BookHalf size={'18'} />
-            Related Sources
+            {t.BubbleMenu.Citation}
           </MemoButton>
         )}
         <Toolbar.Divider />
@@ -342,7 +344,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         <span className='flex h-full items-center px-2'>
           <p className='small-regular text-shadow'>
             {selectedLength}
-            &nbsp;Words
+            &nbsp;{t.BubbleMenu.words}
           </p>
         </span>
       </Toolbar.Wrapper>

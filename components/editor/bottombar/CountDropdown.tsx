@@ -4,11 +4,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { getDictionary } from '@/lib/get-dictionary';
 import type { Editor } from '@tiptap/react';
 import { useState } from 'react';
 
-type Props = { editor: Editor };
-const CountDropdown = ({ editor }: Props) => {
+type Props = {
+  editor: Editor;
+  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
+};
+const CountDropdown = ({ editor, t }: Props) => {
   const [type, setType] = useState('word');
   return (
     <DropdownMenu>
@@ -17,14 +21,14 @@ const CountDropdown = ({ editor }: Props) => {
           <span className='flex h-full cursor-pointer items-center px-2 hover:bg-border-50'>
             <p className='small-regular text-shadow'>
               {editor.storage.characterCount.words()}
-              &nbsp;Words
+              &nbsp;{t.BubbleMenu.words}
             </p>
           </span>
         ) : (
           <span className='flex h-full cursor-pointer items-center px-2 hover:bg-border-50'>
             <p className='small-regular text-shadow'>
               {editor.storage.characterCount.characters()}
-              &nbsp;Characters
+              &nbsp;{t.BubbleMenu.characters}
             </p>
           </span>
         )}

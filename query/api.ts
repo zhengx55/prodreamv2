@@ -602,14 +602,11 @@ export async function batchHumanize(texts: string[]) {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
+          Accept: 'text/event-stream',
         },
       }
     );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
+    return res.body;
   } catch (error) {
     throw new Error(error as string);
   }

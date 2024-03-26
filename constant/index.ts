@@ -34,16 +34,36 @@ export const GenerateOptions = [
     title: 'Write Introduction',
     label: 'write_introduction',
   },
-  { id: 'generation-02', title: 'Write Conclusion', label: 'write_conclusion' },
-  { id: 'generation-03', title: 'Generate Title', label: 'generate_title' },
+  {
+    id: 'generation-02',
+    title: 'Write Conclusion',
+    label: 'write_conclusion',
+  },
+  {
+    id: 'generation-03',
+    title: 'Generate Title',
+    label: 'generate_title',
+  },
   {
     id: 'generation-04',
     title: 'Generate Outline',
     submenu: [
-      { id: 'outline-01', label: 'argumentative' },
-      { id: 'outline-02', label: 'analytical' },
-      { id: 'outline-03', label: 'scientific' },
-      { id: 'outline-04', label: 'general' },
+      {
+        id: 'outline-01',
+        label: 'argumentative',
+        title: 'Argumentative',
+      },
+      {
+        id: 'outline-02',
+        label: 'analytical',
+        title: 'Analytical',
+      },
+      {
+        id: 'outline-03',
+        label: 'scientific',
+        title: 'Scientific',
+      },
+      { id: 'outline-04', label: 'general', title: 'General' },
     ],
   },
 ];

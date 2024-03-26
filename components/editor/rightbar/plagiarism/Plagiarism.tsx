@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
 import { IPlagiarismData } from '@/query/type';
+import { EdtitorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
@@ -12,8 +13,8 @@ import { memo, useCallback, useRef, useState } from 'react';
 
 const Report = dynamic(() => import('./Report'));
 const WaitingModal = dynamic(() => import('./WaitingModal'));
-
-const Plagiarism = () => {
+type Props = { t: EdtitorDictType };
+const Plagiarism = ({ t }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [showLoading, setShowLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -85,16 +86,22 @@ const Plagiarism = () => {
       )}
       <AnimatePresence mode='wait'>
         {result ? (
-          <Report report={result} recheck={handlePlagiarismCheck} />
+          <Report t={t} report={result} recheck={handlePlagiarismCheck} />
         ) : (
-          <Starter start={handlePlagiarismCheck} />
+          <Starter t={t} start={handlePlagiarismCheck} />
         )}
       </AnimatePresence>
     </div>
   );
 };
 
-const Starter = ({ start }: { start: () => Promise<void> }) => (
+const Starter = ({
+  start,
+  t,
+}: {
+  start: () => Promise<void>;
+  t: EdtitorDictType;
+}) => (
   <m.div
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -111,9 +118,8 @@ const Starter = ({ start }: { start: () => Promise<void> }) => (
       priority
     />
     <p className='text-center text-sm font-normal text-zinc-600'>
-      Check for originality of your work with deep similarity detection. <br />
-      Our extensive database ensures thorough checks, which may take up to 5
-      minutes.
+      {t.Plagiarism.Title} <br />
+      {t.Plagiarism.Waiting}
     </p>
 
     <Button
@@ -121,7 +127,7 @@ const Starter = ({ start }: { start: () => Promise<void> }) => (
       role='button'
       onClick={start}
     >
-      Start Plaglarism Check
+      {t.Plagiarism.Button}
     </Button>
   </m.div>
 );

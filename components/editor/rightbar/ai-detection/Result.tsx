@@ -25,13 +25,13 @@ const Result = ({ result }: Props) => {
   const ai_percent = result.class_probabilities.ai * 100;
   const human_percent = result.class_probabilities.human * 100;
   const mixed_percent = result.class_probabilities.mixed * 100;
-
   const result_index = useMemo(() => {
     const max = Math.max(ai_percent, human_percent, mixed_percent);
     if (max === ai_percent) return 2;
     if (max === human_percent) return 0;
     return 1;
   }, [ai_percent, human_percent, mixed_percent]);
+
   return (
     <m.div
       initial={{ opacity: 0, y: -20 }}
@@ -86,7 +86,6 @@ const Result = ({ result }: Props) => {
         {breakdown_descriptioons[result_index]}
       </p>
       <Spacer y='32' />
-
       <Bar
         human_percent={human_percent}
         mixed_percent={mixed_percent}

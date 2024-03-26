@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { batchParaphrase } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
 import { IPlagiarismData } from '@/query/type';
+import { EdtitorDictType, Sentence } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { m } from 'framer-motion';
@@ -13,20 +14,14 @@ import { v4 } from 'uuid';
 
 const Unlock = dynamic(() => import('../Unlock'));
 
-export type Sentence = {
-  id: string;
-  text: string;
-  expand: boolean;
-  ranges: number[];
-  result: string;
-};
-
 const Report = ({
   report,
   recheck,
+  t,
 }: {
   report: Omit<IPlagiarismData, 'status'>;
   recheck: () => Promise<void>;
+  t: EdtitorDictType;
 }) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [sentences, setSentences] = useState<Sentence[]>([]);
@@ -152,7 +147,9 @@ const Report = ({
         </h1>
         <div className='flex flex-col gap-y-2'>
           <p className='small-regular'>
-            {report.scores * 100 > 25 ? 'May be plagiarized' : 'Acceptable'}
+            {report.scores * 100 > 25
+              ? t.Plagiarism.Result
+              : t.Plagiarism.Result_good}
           </p>
           <Button
             role='button'
@@ -161,7 +158,9 @@ const Report = ({
             onClick={recheck}
           >
             <RefreshCcw size={14} className='text-doc-primary' />
-            <p className='subtle-regular text-doc-primary'>Re-check</p>
+            <p className='subtle-regular text-doc-primary'>
+              {t.Plagiarism.recheck}
+            </p>
           </Button>
         </div>
       </div>
@@ -172,7 +171,9 @@ const Report = ({
       ) : (
         <div className='flex flex-col gap-y-4'>
           <div className='flex-between'>
-            <p className='small-medium'>{sentences.length} Suggestions</p>
+            <p className='small-medium'>
+              {sentences.length} {t.Plagiarism.Suggestions}
+            </p>
             <div className='flex gap-x-3'>
               <Button
                 role='button'

@@ -21,7 +21,7 @@ export const useAiOptions = () => {
   const options = useMemo(() => {
     return [
       {
-        format: 'Edit language',
+        format: 'Format_1',
         options: [
           {
             id: 'edit-tools-01',
@@ -71,7 +71,7 @@ export const useAiOptions = () => {
               },
               {
                 id: 'edit-tools-06-02',
-                name: 'Make longer',
+                name: 'Extend',
                 label: 'make_longer',
               },
             ],
@@ -79,7 +79,7 @@ export const useAiOptions = () => {
         ],
       },
       {
-        format: 'Generate from selection',
+        format: 'Format_2',
         options: [
           {
             id: 'edit-tools-08',
