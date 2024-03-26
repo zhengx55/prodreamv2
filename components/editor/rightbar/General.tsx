@@ -60,9 +60,9 @@ const General = ({ t, lang }: DocPageDicType) => {
         ) : rightbarTab === 3 ? (
           <Citation />
         ) : rightbarTab === 5 ? (
-          <Generate />
+          <Generate t={t} />
         ) : rightbarTab === 1 ? (
-          <Plagiarism />
+          <Plagiarism t={t} />
         ) : rightbarTab === 2 ? (
           <Detection />
         ) : (

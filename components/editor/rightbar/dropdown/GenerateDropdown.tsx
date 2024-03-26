@@ -2,14 +2,20 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
+import { EdtitorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { memo } from 'react';
 
 type Props = {
-  items: { id: string; label: string }[];
+  items: {
+    title: any;
+    id: string;
+    label: string;
+  }[];
+  t: EdtitorDictType;
 };
 
-const GenerateDropdown = ({ items }: Props) => {
+const GenerateDropdown = ({ items, t }: Props) => {
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
   return (
     <DropdownMenuContent hideWhenDetached className='w-[350px] rounded p-0'>
@@ -19,7 +25,7 @@ const GenerateDropdown = ({ items }: Props) => {
           key={subItem.id}
           onClick={() => setGenerateTab(subItem.label)}
         >
-          {subItem.label}
+          {t.Generate[subItem.title as keyof typeof t.Generate]}
         </DropdownMenuItem>
       ))}
     </DropdownMenuContent>

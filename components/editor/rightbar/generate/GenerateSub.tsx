@@ -3,6 +3,7 @@ import { H1_regex, H2_regex } from '@/constant';
 import { findLastParagraph, findTitle } from '@/lib/tiptap/utils';
 import { copilot, outline } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
+import { EdtitorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
@@ -23,8 +24,8 @@ const GenerateTypes = [
   'Generate Title',
 ];
 
-type Props = { generateTab: string; label: string | null };
-const GenerateSub = ({ generateTab, label }: Props) => {
+type Props = { generateTab: string; label: string | null; t: EdtitorDictType };
+const GenerateSub = ({ generateTab, label, t }: Props) => {
   const isOutline =
     typeof generateTab !== 'number' && OutlineTypes.includes(generateTab);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -200,7 +201,9 @@ const GenerateSub = ({ generateTab, label }: Props) => {
         className='flex cursor-pointer items-center gap-x-2 hover:underline'
       >
         <ChevronLeft size={20} className='text-doc-font' />
-        <p className='base-regular capitalize text-doc-font'>{generateTab}</p>
+        <p className='base-regular capitalize text-doc-font'>
+          {t.Generate[generateTab as keyof typeof t.Generate]}
+        </p>
       </div>
       <div className='flex flex-1 flex-col overflow-y-auto'>
         {!generatedResult && !isGenerating ? (

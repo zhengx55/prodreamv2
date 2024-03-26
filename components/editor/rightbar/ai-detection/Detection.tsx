@@ -11,16 +11,7 @@ import Result from './Result';
 
 const Detection = () => {
   const [generating, setGenerating] = useState(false);
-  const [result, setResult] = useState<IDetectionResult>({
-    prob: 1,
-    highlight_sentences: [[0, 3768]],
-    message: 'Our detector is highly confident that the text is written by AI.',
-    class_probabilities: {
-      ai: 0.9582642233236245,
-      human: 0.025346799969153896,
-      mixed: 0.01638897670722151,
-    },
-  });
+  const [result, setResult] = useState<IDetectionResult>();
   const editor = useAIEditor((state) => state.editor_instance);
   const { mutateAsync: detection } = useMutation({
     mutationFn: (params: { text: string }) => getDetectionResult(params),

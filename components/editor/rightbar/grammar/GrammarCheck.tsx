@@ -129,15 +129,14 @@ export const GrammarCheck = memo(
                 priority
               />
               <p className='text-center text-sm font-normal text-zinc-600'>
-                Click to start checking for any grammar, spelling, and
-                punctuation issues in your writing
+                {t.Grammar.Title}
               </p>
               <Button
                 className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'
                 role='button'
                 onClick={handleCheck}
               >
-                Start Grammar Check
+                {t.Grammar.Button}
               </Button>
             </m.div>
           )}

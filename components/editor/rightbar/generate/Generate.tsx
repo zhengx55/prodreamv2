@@ -6,6 +6,7 @@ import {
 import { GenerateOptions } from '@/constant';
 import { OutlineTooltip } from '@/constant/enum';
 import { useMembershipInfo } from '@/query/query';
+import { EdtitorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { ChevronUp, FileText } from 'lucide-react';
@@ -19,7 +20,7 @@ const Tiplayout = dynamic(
 
 const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 
-export const Generate = () => {
+export const Generate = ({ t }: { t: EdtitorDictType }) => {
   const generateTab = useAIEditor((state) => state.generateTab);
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
   const outline_step = useUserTask((state) => state.outline_step);
@@ -66,7 +67,11 @@ export const Generate = () => {
                                   size={20}
                                 />
                                 <p className='base-regular text-doc-primary'>
-                                  {item.title}
+                                  {
+                                    t.Generate[
+                                      item.title as keyof typeof t.Generate
+                                    ]
+                                  }
                                 </p>
                               </div>
                               <ChevronUp
@@ -76,7 +81,7 @@ export const Generate = () => {
                             </div>
                           </DropdownMenuTrigger>
                         </Tiplayout>
-                        <GenerateDropdown items={item.submenu} />
+                        <GenerateDropdown t={t} items={item.submenu} />
                       </>
                     ) : (
                       <>
@@ -88,7 +93,11 @@ export const Generate = () => {
                                 size={20}
                               />
                               <p className='base-regular text-doc-font group-hover:text-doc-primary'>
-                                {item.title}
+                                {
+                                  t.Generate[
+                                    item.title as keyof typeof t.Generate
+                                  ]
+                                }
                               </p>
                             </div>
                             <ChevronUp
@@ -97,7 +106,7 @@ export const Generate = () => {
                             />
                           </div>
                         </DropdownMenuTrigger>
-                        <GenerateDropdown items={item.submenu} />
+                        <GenerateDropdown t={t} items={item.submenu} />
                       </>
                     )}
                   </DropdownMenu>
@@ -118,7 +127,7 @@ export const Generate = () => {
                       size={20}
                     />
                     <p className='base-regular text-doc-font group-hover:text-doc-primary'>
-                      {item.title}
+                      {t.Generate[item.title as keyof typeof t.Generate]}
                     </p>
                   </div>
                 </div>
@@ -127,6 +136,7 @@ export const Generate = () => {
           </m.div>
         ) : (
           <GenerateSub
+            t={t}
             generateTab={generateTab as string}
             label={copilot_option.current}
           />

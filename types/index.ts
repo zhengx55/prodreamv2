@@ -116,6 +116,10 @@ export type DocPageDicType = {
   lang: Locale;
 };
 
+export type EdtitorDictType = Awaited<
+  ReturnType<typeof getDictionary>
+>['Editor'];
+
 export type Sentence = {
   id: string;
   text: string;
