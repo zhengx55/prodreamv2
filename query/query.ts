@@ -3,7 +3,6 @@ import { DocSortingMethods, ICitationType } from '@/types';
 import { useAIEditor, useCitation } from '@/zustand/store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { usePostHog } from 'posthog-js/react';
 import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
 import {
@@ -194,6 +193,8 @@ export const useCiteToDoc = () => {
         },
       });
       insertCitation(data);
+      const toast = (await import('sonner')).toast;
+      toast.success('Citation created successfully');
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
@@ -217,7 +218,6 @@ export const useRensendEmail = () => {
 };
 
 export const useUserLogin = () => {
-  const posthog = usePostHog();
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
   return useMutation({
@@ -228,7 +228,6 @@ export const useUserLogin = () => {
       toast.success('Successfully Login');
       const user_id = JSON.parse(atob(data.access_token.split('.')[1])).subject
         .user_id;
-      posthog.identify(user_id);
       setCookie('token', data.access_token, {
         path: '/',
         maxAge: 604800,
