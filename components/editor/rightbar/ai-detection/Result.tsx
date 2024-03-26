@@ -2,9 +2,11 @@ import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import { IDetectionResult } from '@/query/type';
 import { m } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
-import Suggestion from './Suggestion';
+
+const Suggestion = dynamic(() => import('./Suggestion'));
 
 const labels = ['human', 'mixed', 'ai generated'];
 const primaryColor = ['#48B251', '#5266CC', '#E58600'];
