@@ -167,6 +167,8 @@
       "Strength": "Prompt Strength"
     },
     "Copilot": {
+      "Format_1": "Edit language",
+      "Format_2": "Generate from selection",
       "Paraphrase": "Paraphrase",
       "Make_academic": "Make academic",
       "Improve_fluency": "Improve fluency",
@@ -182,7 +184,9 @@
       "Replace_selection": "Replace selection",
       "Insert_below": "Insert below",
       "Try_again": "Try again",
-      "Discard": "Discard"
+      "Discard": "Discard",
+      "Shorten": "Shorten",
+      "Extend": "Make Longer"
     },
     "Grammar": {
       "Title": "Click to start checking for any grammar, spelling, and punctuation issues in your writing",

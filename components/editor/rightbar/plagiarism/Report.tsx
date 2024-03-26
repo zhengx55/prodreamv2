@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { batchParaphrase } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
 import { IPlagiarismData } from '@/query/type';
+import { Sentence } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { m } from 'framer-motion';
@@ -12,14 +13,6 @@ import { memo, useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
 const Unlock = dynamic(() => import('../Unlock'));
-
-export type Sentence = {
-  id: string;
-  text: string;
-  expand: boolean;
-  ranges: number[];
-  result: string;
-};
 
 const Report = ({
   report,

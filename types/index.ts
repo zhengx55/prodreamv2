@@ -116,6 +116,14 @@ export type DocPageDicType = {
   lang: Locale;
 };
 
+export type Sentence = {
+  id: string;
+  text: string;
+  expand: boolean;
+  ranges: number[];
+  result: string;
+};
+
 export interface IBookCitation {
   reference_count: number;
   area: string[];

@@ -168,6 +168,8 @@
       "Strength": "主题强度"
     },
     "Copilot": {
+      "Format_1": "编辑语言",
+      "Format_2": "基于文本生成",
       "Paraphrase": "重述表达",
       "Make_academic": "增加学术性",
       "Improve_fluency": "提高流畅度",
@@ -183,7 +185,9 @@
       "Replace_selection": "替换",
       "Insert_below": "插入",
       "Try_again": "重新生成",
-      "Discard": "删除"
+      "Discard": "删除",
+      "Shorten": "缩短",
+      "Extend": "增加"
     },
     "Grammar": {
       "Title": "点击开始检查您的写作中的语法、拼写和标点问题",
