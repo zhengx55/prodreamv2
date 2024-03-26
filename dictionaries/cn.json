@@ -171,7 +171,8 @@
     "Prompt": {
       "Title": "请用英语输入写作主题",
       "PlaceHolder": "添加个性化主题可以大幅度提高AI生成的质量",
-      "Strength": "主题强度"
+      "Strength": "主题强度",
+      "Trigger": "文章主题"
     },
     "Copilot": {
       "Format_1": "编辑语言",

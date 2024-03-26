@@ -160,12 +160,18 @@
       "Cancel": "Cancel",
       "Done": "Done",
       "Got it": "Got it",
+      "Dismiss": "Dismiss",
+      "Accept": "Accept",
+      "AcceptAll": "Accept all",
+      "DismissAll": "Dismiss all",
+      "Upgrade": "Upgrade",
       "Generate": "Generate"
     },
     "Prompt": {
       "Title": "Please input your prompt below",
       "PlaceHolder": "Adding an essay prompt can greatly enhance the quality of AI generations",
-      "Strength": "Prompt Strength"
+      "Strength": "Prompt Strength",
+      "Trigger": "Essay Prompt"
     },
     "Copilot": {
       "Format_1": "Edit language",

@@ -2,6 +2,7 @@ import { Cloud, Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMembershipInfo, useUserTrackInfo } from '@/query/query';
+import { DocPageDicType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { ChevronLeft, Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -13,10 +14,12 @@ const PromptViewModal = dynamic(() => import('../modal/Prompt'));
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
 
-const DocNavbar = () => {
-  const isSaving = useAIEditor((state) => state.isSaving);
-  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
-  const docTtile = useAIEditor((state) => state.doc_title);
+const DocNavbar = ({ t, lang }: DocPageDicType) => {
+  const { isSaving, updatePaymentModal, docTtile } = useAIEditor((state) => ({
+    isSaving: state.isSaving,
+    updatePaymentModal: state.updatePaymentModal,
+    docTtile: state.doc_title,
+  }));
   const { data: track, isPending } = useUserTrackInfo();
   const { data: usage, isPending: isUsagePending } = useMembershipInfo();
 
@@ -33,7 +36,7 @@ const DocNavbar = () => {
       {/* {!Boolean(prompt) && <PromptViewModal prompt={prompt} />} */}
       <div className='flex h-full items-center gap-x-4'>
         {track?.guidence && (
-          <Link passHref href={'/editor'}>
+          <Link passHref href={`/${lang}/editor`}>
             <span className='flex-center h-10 w-10 cursor-pointer rounded-md hover:bg-shadow-border hover:opacity-50'>
               <ChevronLeft />
             </span>
@@ -47,17 +50,16 @@ const DocNavbar = () => {
               : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
-        <Prompt />
+        <Prompt t={t} />
       </div>
       <div className='flex items-center gap-x-4'>
-        {/* <Plagiarism /> */}
         {['basic', 'free_trail'].includes(usage?.subscription ?? '') ? (
           <Button
             role='button'
             onClick={() => updatePaymentModal(true)}
             className='h-max rounded bg-violet-500 px-2 py-1 hover:bg-slate-100 hover:text-violet-500'
           >
-            <Diamond /> Upgrade
+            <Diamond /> {t.Utility.Upgrade}
           </Button>
         ) : null}
         {/* <DropdownMenu>
