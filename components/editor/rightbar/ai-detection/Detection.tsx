@@ -21,7 +21,10 @@ const Detection = () => {
     onMutate: () => {
       setGenerating(true);
     },
-    onError: async () => {},
+    onError: async () => {
+      const { toast } = await import('sonner');
+      toast.error('Something went wrong, please try again later');
+    },
     onSettled: () => {
       setGenerating(false);
     },

@@ -94,7 +94,9 @@ const Result = ({ result }: Props) => {
       <Spacer y='44' />
       <Separator orientation='horizontal' className='bg-gray-200' />
       <Spacer y='44' />
-      <Suggestion suggestions={result.highlight_sentences} />
+      {result.highlight_sentences.length > 0 && (
+        <Suggestion suggestions={result.highlight_sentences} />
+      )}
       <Spacer y='20' />
     </m.div>
   );
