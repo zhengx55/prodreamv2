@@ -1,15 +1,15 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { useMembershipInfo } from '@/query/query';
-import { Sentence } from '@/types';
+import { EdtitorDictType, Sentence } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import Unlock from '../Unlock';
 import useSuggestion from './hooks/useSuggestion';
 
-type Props = { suggestions: [number[]] };
-const Suggestion = ({ suggestions }: Props) => {
+type Props = { suggestions: [number[]]; t: EdtitorDictType };
+const Suggestion = ({ suggestions, t }: Props) => {
   const { data: membership } = useMembershipInfo();
   const editor = useAIEditor((state) => state.editor_instance);
   const { sentences, setSentences, isPending, isError } =
@@ -88,14 +88,14 @@ const Suggestion = ({ suggestions }: Props) => {
       ) : (
         <>
           <div className='flex-between'>
-            <p className='small-medium'>Humanize</p>
+            <p className='small-medium'>{t.Detection.Humanizer}</p>
             <div className='flex gap-x-3'>
               <Button
                 role='button'
                 onClick={() => {}}
                 className='h-max w-max rounded py-1'
               >
-                Change all
+                {t.Utility.AcceptAll}
               </Button>
             </div>
           </div>
@@ -103,6 +103,7 @@ const Suggestion = ({ suggestions }: Props) => {
           {sentences.map((sentence) => {
             return (
               <SentenceItem
+                t={t}
                 key={sentence.id}
                 item={sentence}
                 isExpand={sentence.expand}
@@ -124,6 +125,7 @@ interface SentenceItemProps {
   onToggleExpand: () => void;
   onDismiss: () => void;
   onAccept: () => void;
+  t: EdtitorDictType;
 }
 const SentenceItem = ({
   item,
@@ -131,6 +133,7 @@ const SentenceItem = ({
   onToggleExpand,
   onDismiss,
   onAccept,
+  t,
 }: SentenceItemProps) => (
   <m.div
     key={item.id}
@@ -164,14 +167,14 @@ const SentenceItem = ({
           onClick={onDismiss}
           className='h-max w-max rounded border border-zinc-600 px-4 py-1 text-zinc-600'
         >
-          Dismiss
+          {t.Utility.Dismiss}
         </Button>
         <Button
           role='button'
           className='h-max w-max rounded border border-transparent px-4 py-1'
           onClick={onAccept}
         >
-          Accept
+          {t.Utility.Accept}
         </Button>
       </div>
     )}

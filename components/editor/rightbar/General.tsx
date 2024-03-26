@@ -9,10 +9,20 @@ import { m } from 'framer-motion';
 import { XCircle } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { Fragment } from 'react';
-import Detection from './ai-detection/Detection';
-import CitationLibrary from './citation/library/CitationLibrary';
-import { GrammarCheck } from './grammar/GrammarCheck';
-import Plagiarism from './plagiarism/Plagiarism';
+const Detection = dynamic(() => import('./ai-detection/Detection'));
+const CitationLibrary = dynamic(
+  () => import('./citation/library/CitationLibrary')
+);
+const GrammarCheck = dynamic(() => import('./grammar/GrammarCheck'));
+const Plagiarism = dynamic(() => import('./plagiarism/Plagiarism'));
+const Generate = dynamic(
+  () => import('@/components/editor/rightbar/generate/Generate')
+);
+
+const Citation = dynamic(
+  () => import('@/components/editor/rightbar/citation/Citation')
+);
+
 const OPTIONS = [
   'Grammar_Check',
   'Plagiarism_Check',
@@ -21,14 +31,6 @@ const OPTIONS = [
   'My_Citation_Library',
   'Generate',
 ];
-
-const Generate = dynamic(
-  () => import('@/components/editor/rightbar/generate/Generate')
-);
-
-const Citation = dynamic(
-  () => import('@/components/editor/rightbar/citation/Citation')
-);
 
 const General = ({ t, lang }: DocPageDicType) => {
   const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
@@ -58,15 +60,15 @@ const General = ({ t, lang }: DocPageDicType) => {
         {rightbarTab === 0 ? (
           <GrammarCheck t={t} />
         ) : rightbarTab === 3 ? (
-          <Citation />
+          <Citation t={t} />
         ) : rightbarTab === 5 ? (
           <Generate t={t} />
         ) : rightbarTab === 1 ? (
           <Plagiarism t={t} />
         ) : rightbarTab === 2 ? (
-          <Detection />
+          <Detection t={t} />
         ) : (
-          <CitationLibrary />
+          <CitationLibrary t={t} />
         )}
       </section>
     </m.aside>

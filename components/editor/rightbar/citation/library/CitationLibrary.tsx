@@ -1,12 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUserTrackInfo } from '@/query/query';
+import { EdtitorDictType } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { memo } from 'react';
 import Empty from './Empty';
 import InTextList from './InTextList';
 import LibraryList from './LibraryList';
 
-const CitationLibrary = () => {
+const CitationLibrary = ({ t }: { t: EdtitorDictType }) => {
   const IndocCitationIds = useCitation((state) => state.inDocCitationIds);
   const InTextCitationIds = useCitation((state) => state.inTextCitationIds);
   const { data: track } = useUserTrackInfo();
@@ -22,13 +23,13 @@ const CitationLibrary = () => {
             value='library'
             className='hover:bg-border-200 rounded border border-gray-200 bg-zinc-100 p-2 data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-500 hover:bg-gray-200'
           >
-            All
+            {t.Citation.my_library}
           </TabsTrigger>
           <TabsTrigger
             value='doc'
             className='hover:bg-border-200 rounded border border-gray-200 bg-zinc-100 p-2 data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-500 hover:bg-gray-200'
           >
-            In this doc
+            {t.Citation.in_this_doc}
           </TabsTrigger>
         </TabsList>
         {showEmpty ? (

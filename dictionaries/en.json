@@ -160,12 +160,18 @@
       "Cancel": "Cancel",
       "Done": "Done",
       "Got it": "Got it",
+      "Dismiss": "Dismiss",
+      "Accept": "Accept",
+      "AcceptAll": "Accept all",
+      "DismissAll": "Dismiss all",
+      "Upgrade": "Upgrade",
       "Generate": "Generate"
     },
     "Prompt": {
       "Title": "Please input your prompt below",
       "PlaceHolder": "Adding an essay prompt can greatly enhance the quality of AI generations",
-      "Strength": "Prompt Strength"
+      "Strength": "Prompt Strength",
+      "Trigger": "Essay Prompt"
     },
     "Copilot": {
       "Format_1": "Edit language",
@@ -277,6 +283,16 @@
       "format_2": "Up and beyond 🚀",
       "title": "Onboarding Checklist",
       "describtion": "Learn how to use ProDream to help you write & research!"
+    },
+    "Detection": {
+      "Title": "Identify AI-generated content and help maintain originality in your work",
+      "Button": "Start AI Detection",
+      "Classification": "Classification",
+      "probability": "Probability Al generated",
+      "breakdown": "Probability breakdown",
+      "Unlock": "Unlock AI Detection with the Unlimited Plan",
+      "Humanizer": "Humanizer",
+      "mixed": "We are moderately confident this text is entirely"
     }
   }
 }

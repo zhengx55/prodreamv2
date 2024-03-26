@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { sample_search_citation } from '@/constant';
 import { CitationTooltip } from '@/constant/enum';
 import { ICitation } from '@/query/type';
+import { EdtitorDictType } from '@/types';
 import { useCitation, useUserTask } from '@/zustand/store';
 import { Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -15,8 +16,9 @@ const Tiplayout = dynamic(
 type Props = {
   setKeyword: (value: string) => void;
   setResult: (value: ICitation[]) => void;
+  t: EdtitorDictType;
 };
-const SearchBar = ({ setKeyword, setResult }: Props) => {
+const SearchBar = ({ setKeyword, setResult, t }: Props) => {
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
   const setShowMine = useCitation((state) => state.updateShowMineCitation);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
@@ -42,7 +44,7 @@ const SearchBar = ({ setKeyword, setResult }: Props) => {
             onChange={(e) => setSearchTerm(e.currentTarget.value)}
             type='text'
             id='search-citation'
-            placeholder='Search publications ...'
+            placeholder={t.Citation.search}
             className='rounded border-none px-2 shadow-none outline-none focus-visible:ring-0'
           />
         </Tiplayout>
@@ -55,7 +57,7 @@ const SearchBar = ({ setKeyword, setResult }: Props) => {
           }
           type='text'
           id='search-citation'
-          placeholder='Search publications ...'
+          placeholder={t.Citation.search}
           className='rounded border-none px-2 shadow-none outline-none focus-visible:ring-0'
         />
       )}
