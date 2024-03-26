@@ -21,7 +21,7 @@ const GenerateDropdown = ({ items, t }: Props) => {
     <DropdownMenuContent hideWhenDetached className='w-[350px] rounded p-0'>
       {items.map((subItem) => (
         <DropdownMenuItem
-          className='group cursor-pointer bg-white px-2.5 py-2 capitalize text-zinc-600 hover:bg-doc-secondary hover:text-violet-500'
+          className='group cursor-pointer bg-white px-2.5 py-2 capitalize text-zinc-600 hover:bg-slate-100 hover:text-violet-500'
           key={subItem.id}
           onClick={() => setGenerateTab(subItem.title)}
         >

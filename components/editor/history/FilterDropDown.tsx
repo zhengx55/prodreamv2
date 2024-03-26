@@ -36,13 +36,13 @@ const FilterDropdown = ({ sortingMethod, setSortingMethod }: Props) => {
           <CheckCircle2
             className={`${
               sortingMethod === 'lastOpenedTime' ? 'opacity-100' : 'opacity-0'
-            } text-primary-200`}
+            } text-violet-500`}
             size={16}
           />
           <p
             className={`${
               sortingMethod === 'lastOpenedTime'
-                ? 'text-primary-200'
+                ? 'text-violet-500'
                 : 'text-shadow'
             } small-regular`}
           >
@@ -59,12 +59,12 @@ const FilterDropdown = ({ sortingMethod, setSortingMethod }: Props) => {
           <CheckCircle2
             className={`${
               sortingMethod === 'title' ? 'opacity-100' : 'opacity-0'
-            } text-primary-200`}
+            } text-violet-500`}
             size={16}
           />
           <p
             className={`${
-              sortingMethod === 'title' ? 'text-primary-200' : 'text-shadow'
+              sortingMethod === 'title' ? 'text-violet-500' : 'text-shadow'
             } small-regular`}
           >
             Title

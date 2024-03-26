@@ -143,7 +143,7 @@ export const GrammarCheck = memo(
         </AnimatePresence>
         {usage?.subscription === 'basic' ? (
           <div className='mt-auto flex flex-col gap-y-0.5'>
-            <div className='relative h-2 w-full rounded-xl bg-border-50'>
+            <div className='relative h-2 w-full rounded-xl bg-gray-200'>
               {usage.free_times_detail.Generate === 0 ? (
                 <span className='absolute inset-0 rounded-xl bg-red-400' />
               ) : (

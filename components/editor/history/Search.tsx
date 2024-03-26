@@ -101,7 +101,7 @@ const SearchBar = () => {
           onClick={handleSearch}
           className={`${
             isTyping
-              ? 'bg-primary-200 text-white'
+              ? 'bg-violet-500 text-white'
               : 'bg-shadow-border text-shadow'
           } flex-center absolute right-2 h-10 w-10 rounded-lg p-1 `}
         >

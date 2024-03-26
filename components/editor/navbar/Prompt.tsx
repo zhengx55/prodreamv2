@@ -87,7 +87,7 @@ const PromptView = () => {
       <PopoverTrigger asChild>
         <Button
           role='button'
-          className='h-max rounded border border-violet-500 bg-transparent px-2 py-1 text-black hover:bg-doc-secondary hover:text-violet-500'
+          className='h-max rounded border border-violet-500 bg-transparent px-2 py-1 text-black hover:bg-slate-100 hover:text-violet-500'
         >
           <PencilLine size={18} className='text-violet-500' />
           <p className='small-regular text-violet-500'>Essay Prompt</p>

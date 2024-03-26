@@ -42,7 +42,7 @@ const ProfileSidebar = () => {
               />
               <span
                 className={`${
-                  isActive ? 'text-primary-200' : 'text-shadow-100'
+                  isActive ? 'text-violet-500' : 'text-shadow-100'
                 } whitespace-nowrap text-[14px]`}
               >
                 {item.title}

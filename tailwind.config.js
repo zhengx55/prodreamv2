@@ -17,21 +17,6 @@ module.exports = {
         custom: ['var(--cn-font)'],
       },
       colors: {
-        border: {
-          50: '#EAEAEA',
-        },
-        primary: {
-          50: '#F6F0FF',
-          200: '#9C2CF3',
-          100: '#7D22F5',
-          300: '#BB35FF',
-          400: '#E5D7FD',
-          500: '#FCF9FF',
-          600: '#EAD9FC',
-        },
-        doc: {
-          secondary: '#F1F2FA',
-        },
         shadow: '#797979',
         'shadow-50': '#F9F9F9',
         'shadow-100': '#828282',

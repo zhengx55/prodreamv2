@@ -66,7 +66,7 @@ const Task = ({ editor, track }: Props) => {
             </p>
             <ChevronDown className='h-6 w-max shrink-0 text-white transition-transform duration-200' />
           </AccordionTrigger>
-          <AccordionContent className='relative flex h-[200px] rounded-b-lg bg-doc-secondary px-3 pb-2 pt-4'>
+          <AccordionContent className='relative flex h-[200px] rounded-b-lg bg-slate-100 px-3 pb-2 pt-4'>
             <ul className='flex w-1/2 flex-col gap-y-2'>
               <div className='flex flex-col gap-y-1.5'>
                 <li className='flex-between pr-4'>

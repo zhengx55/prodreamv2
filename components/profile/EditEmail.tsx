@@ -130,7 +130,7 @@ const EditEmailModal = ({ children }: Props) => {
             />
             <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
               <DialogClose asChild>
-                <Button variant={'ghost'} className=' text-primary-200'>
+                <Button variant={'ghost'} className=' text-violet-500'>
                   Cancel
                 </Button>
               </DialogClose>

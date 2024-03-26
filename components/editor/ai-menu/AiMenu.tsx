@@ -249,7 +249,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                         return (
                           <div
                             className={` ${
-                              hoverItem === option.id ? 'bg-border-50' : ''
+                              hoverItem === option.id ? 'bg-gray-200' : ''
                             } group flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5`}
                             key={option.id}
                             onClick={() => {
@@ -283,7 +283,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                                     onClick={() => {
                                       handleEditTools(subitem.label);
                                     }}
-                                    className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-border-50'
+                                    className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-gray-200'
                                     key={subitem.id}
                                   >
                                     <p className='small-regular'>
@@ -307,7 +307,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                   return (
                     <div
                       className={` ${
-                        hoverItem === item.id ? 'bg-doc-secondary' : ''
+                        hoverItem === item.id ? 'bg-slate-100' : ''
                       } ${showTyping && 'pointer-events-none'} group flex cursor-pointer items-center justify-between rounded px-2 py-1.5`}
                       key={item.id}
                       onMouseEnter={() => setHoverItem(item.id)}

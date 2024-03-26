@@ -89,7 +89,7 @@ const Sidebar = () => {
         {topValue !== undefined ? (
           <span
             style={{ top: topValue }}
-            className={`absolute z-30 h-12 w-full rounded-md bg-doc-secondary transition-all duration-300 ease-in-out`}
+            className={`absolute z-30 h-12 w-full rounded-md bg-slate-100 transition-all duration-300 ease-in-out`}
           />
         ) : null}
         {SidebarLinks.map((item, index) => {

@@ -59,7 +59,7 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                           }}
                         >
                           <DropdownMenuTrigger>
-                            <div className='flex-between group cursor-pointer bg-doc-secondary px-2.5 py-3'>
+                            <div className='flex-between group cursor-pointer bg-slate-100 px-2.5 py-3'>
                               <div className='flex items-center gap-x-3'>
                                 <FileText
                                   className='text-violet-500'
@@ -85,7 +85,7 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                     ) : (
                       <>
                         <DropdownMenuTrigger asChild>
-                          <div className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'>
+                          <div className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-slate-100'>
                             <div className='flex items-center gap-x-3'>
                               <FileText
                                 className='text-neutral-400 group-hover:text-violet-500'
@@ -118,7 +118,7 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                     copilot_option.current = item.label!;
                     setGenerateTab(item.title);
                   }}
-                  className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-doc-secondary'
+                  className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-slate-100'
                 >
                   <div className='flex items-center gap-x-3'>
                     <FileText
@@ -152,7 +152,7 @@ const Unlock = () => {
 
   return (
     <div className='mt-auto flex flex-col gap-y-0.5'>
-      <div className='relative h-2 w-full rounded-xl bg-border-50'>
+      <div className='relative h-2 w-full rounded-xl bg-gray-200'>
         {usage?.free_times_detail.Generate === 0 ? (
           <span className='absolute inset-0 rounded-xl bg-red-400' />
         ) : (

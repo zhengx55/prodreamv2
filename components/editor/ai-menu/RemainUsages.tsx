@@ -7,7 +7,7 @@ const RemainUsages = () => {
   const { data: usage } = useMembershipInfo();
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   return (
-    <div className='flex-between w-[600px] rounded-b bg-border-50 px-2 py-1'>
+    <div className='flex-between w-[600px] rounded-b bg-gray-200 px-2 py-1'>
       <div className='flex items-center gap-x-2'>
         <AlertTriangle className='text-shadow' size={15} />
         <p className='subtle-regular text-shadow'>

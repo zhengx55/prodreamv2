@@ -90,7 +90,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
               {synoymwords.map((item, index) => (
                 <div
                   onClick={() => handleReplace(item)}
-                  className='group flex w-full cursor-pointer px-2 py-2 hover:bg-doc-secondary'
+                  className='group flex w-full cursor-pointer px-2 py-2 hover:bg-slate-100'
                   key={`synonym-${index}`}
                 >
                   <p className='small-semibold text-neutral-400 group-hover:text-violet-500'>

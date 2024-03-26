@@ -118,7 +118,7 @@ const DocumentList = () => {
       <Spacer y='10' />
       <div className='flex-center h-10 w-full' ref={ref}>
         {loadingMore ? (
-          <Loader2 className='animate-spin text-primary-200' />
+          <Loader2 className='animate-spin text-violet-500' />
         ) : null}
       </div>
       <Spacer y='10' />
