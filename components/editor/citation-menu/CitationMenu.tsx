@@ -134,7 +134,7 @@ const CitationMenu = ({ editor }: Props) => {
             <Button
               role='button'
               onClick={() => {
-                updateRightbarTab(1);
+                updateRightbarTab(3);
                 updateShowCreateCitation(true);
               }}
               variant={'ghost'}
