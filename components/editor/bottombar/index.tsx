@@ -32,7 +32,7 @@ const BottomBar = ({
       <MemoButton
         role='button'
         onClick={showCitation}
-        className='text-doc-primary'
+        className='text-violet-500'
       >
         <BookHalf size={'18'} />
         {t.BubbleMenu.Citation}

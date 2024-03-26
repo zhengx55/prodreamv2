@@ -191,7 +191,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                   {!showTyping && (
                     <div className='flex w-full items-center justify-end gap-x-0.5'>
                       <ChevronLeft
-                        className='cursor-pointer text-doc-font'
+                        className='cursor-pointer text-neutral-400'
                         size={18}
                         onClick={() =>
                           setCurrentResult((prev) =>
@@ -199,11 +199,11 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                           )
                         }
                       />
-                      <p className='small-regular text-doc-font'>
+                      <p className='small-regular text-neutral-400'>
                         {currentResult + 1} of {aiResult.length}
                       </p>
                       <ChevronRight
-                        className='cursor-pointer text-doc-font'
+                        className='cursor-pointer text-neutral-400'
                         size={18}
                         onClick={() =>
                           setCurrentResult((prev) =>
@@ -241,7 +241,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                         </>
                       )}
                       <Spacer y='5' />
-                      <h3 className='small-semibold px-2.5 text-doc-font'>
+                      <h3 className='small-semibold px-2.5 text-neutral-400'>
                         {t.Copilot[item.format as keyof typeof t.Copilot]}
                       </h3>
                       <Spacer y='5' />
@@ -249,7 +249,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                         return (
                           <div
                             className={` ${
-                              hoverItem === option.id ? 'bg-border-50' : ''
+                              hoverItem === option.id ? 'bg-gray-200' : ''
                             } group flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5`}
                             key={option.id}
                             onClick={() => {
@@ -283,7 +283,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                                     onClick={() => {
                                       handleEditTools(subitem.label);
                                     }}
-                                    className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-border-50'
+                                    className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-gray-200'
                                     key={subitem.id}
                                   >
                                     <p className='small-regular'>
@@ -307,7 +307,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                   return (
                     <div
                       className={` ${
-                        hoverItem === item.id ? 'bg-doc-secondary' : ''
+                        hoverItem === item.id ? 'bg-slate-100' : ''
                       } ${showTyping && 'pointer-events-none'} group flex cursor-pointer items-center justify-between rounded px-2 py-1.5`}
                       key={item.id}
                       onMouseEnter={() => setHoverItem(item.id)}
@@ -318,7 +318,7 @@ const AiMenu = ({ editor, t, lang }: Props) => {
                         {hoverItem === item.id
                           ? cloneElement(item.icon, { color: '#774EBB' })
                           : cloneElement(item.icon)}
-                        <p className='small-regular group-hover:text-doc-primary'>
+                        <p className='small-regular group-hover:text-violet-500'>
                           {t.Copilot[item.name as keyof typeof t.Copilot]}
                         </p>
                       </div>
@@ -338,7 +338,7 @@ const Loader = () => {
   return (
     <div className='flex h-12 w-full items-center gap-x-2 rounded-t border border-gray-200 bg-white p-2 shadow-lg'>
       <Copilot size='24' />
-      <p className='base-semibold text-doc-primary'>
+      <p className='base-semibold text-violet-500'>
         Al is writing <LoadingDot label='' />
       </p>
     </div>

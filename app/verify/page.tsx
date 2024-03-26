@@ -25,13 +25,13 @@ export default function Page({
             alt='verify_success'
             className='h-auto w-auto self-center'
           />
-          <p className='base-regular text-doc-font'>
+          <p className='base-regular text-neutral-400'>
             Congratulations! Your email is successfully verified.
           </p>
           <Link passHref href={'/login'} className='self-center'>
             <Button
               role='button'
-              className='w-max self-center border border-doc-primary'
+              className='w-max self-center border border-violet-500'
               variant={'ghost'}
             >
               Back to log in
@@ -48,14 +48,14 @@ export default function Page({
             alt='verify_success'
             className='h-auto w-auto self-center'
           />
-          <p className='base-regular text-doc-font'>
+          <p className='base-regular text-neutral-400'>
             Verification timed out, please resend verification link.
           </p>
           <div className='flex gap-x-3 self-center'>
             <Link passHref href={'/login'} className='self-center'>
               <Button
                 role='button'
-                className='w-max self-center border border-doc-primary'
+                className='w-max self-center border border-violet-500'
                 variant={'ghost'}
               >
                 Return

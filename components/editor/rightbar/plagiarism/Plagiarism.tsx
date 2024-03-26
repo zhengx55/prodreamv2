@@ -123,7 +123,7 @@ const Starter = ({
     </p>
 
     <Button
-      className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'
+      className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
       role='button'
       onClick={start}
     >

@@ -121,7 +121,7 @@ const Trigger = ({ editor }: Props) => {
         <TooltipProvider>
           <Tooltip delayDuration={100}>
             <TooltipTrigger asChild>
-              <span className='rounded bg-doc-primary'>
+              <span className='rounded bg-violet-500'>
                 <Continue />
               </span>
             </TooltipTrigger>
@@ -135,7 +135,7 @@ const Trigger = ({ editor }: Props) => {
           </Tooltip>
         </TooltipProvider>
       ) : (
-        <span className='rounded bg-doc-primary'>
+        <span className='rounded bg-violet-500'>
           <Loader2 size={18} className='animate-spin text-white' />
         </span>
       )}

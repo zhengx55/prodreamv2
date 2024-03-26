@@ -30,7 +30,7 @@ export default async function WrittingpalLayout({
           />
         </div>
         <h1 className='px-2 text-center text-[28px] font-[600]'>
-          Welcome to <span className='text-doc-primary'>Prodream!</span>
+          Welcome to <span className='text-violet-500'>Prodream!</span>
         </h1>
         <Spacer y='10' />
         <p className='px-2 text-center'>

@@ -28,7 +28,7 @@ const Tooltip = ({
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent side={side}>
           <TooltipArrow />
-          <p className={cn(contentClassname, 'text-regular text-white')}>
+          <p className={cn(contentClassname, 'text-xs text-white')}>
             {tooltipContent}
           </p>
         </TooltipContent>

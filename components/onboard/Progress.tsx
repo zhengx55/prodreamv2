@@ -11,13 +11,13 @@ const Progress = () => {
   return (
     <div className='flex h-1.5 w-56 gap-x-2'>
       <div
-        className={`h-full w-16 ${isFirst ? 'bg-doc-primary' : 'bg-violet-50'} rounded-[17px]`}
+        className={`h-full w-16 ${isFirst ? 'bg-violet-500' : 'bg-violet-50'} rounded-[17px]`}
       />
       <div
-        className={`h-full w-16 ${isEducation ? 'bg-doc-primary' : 'bg-violet-50'} rounded-[17px]`}
+        className={`h-full w-16 ${isEducation ? 'bg-violet-500' : 'bg-violet-50'} rounded-[17px]`}
       />
       <div
-        className={`h-full w-16 ${isLanguages ? 'bg-doc-primary' : 'bg-violet-50'} rounded-[17px]`}
+        className={`h-full w-16 ${isLanguages ? 'bg-violet-500' : 'bg-violet-50'} rounded-[17px]`}
       />
     </div>
   );

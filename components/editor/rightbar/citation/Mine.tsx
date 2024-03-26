@@ -76,7 +76,7 @@ const Mine = () => {
         <div className='flex items-center gap-x-2'>
           <Book />
           <p
-            className='small-regular cursor-pointer text-doc-primary'
+            className='small-regular cursor-pointer text-violet-500'
             onClick={() => {
               setShowMine(true);
               setType(0);
@@ -89,7 +89,7 @@ const Mine = () => {
           <Toggle
             pressed={type === 0}
             onPressedChange={(pressed: boolean) => onPressHandler(pressed, 0)}
-            className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
+            className='small-regular text-zinc-600 data-[state=on]:bg-violet-500/20 data-[state=on]:text-violet-500'
           >
             All
           </Toggle>
@@ -110,7 +110,7 @@ const Mine = () => {
                 onPressedChange={(pressed: boolean) =>
                   onPressHandler(pressed, 1)
                 }
-                className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
+                className='small-regular text-zinc-600 data-[state=on]:bg-violet-500/20 data-[state=on]:text-violet-500'
               >
                 In this doc
               </Toggle>
@@ -119,7 +119,7 @@ const Mine = () => {
             <Toggle
               pressed={type === 1}
               onPressedChange={(pressed: boolean) => onPressHandler(pressed, 1)}
-              className='small-regular text-doc-shadow data-[state=on]:bg-doc-primary/20 data-[state=on]:text-doc-primary'
+              className='small-regular text-zinc-600 data-[state=on]:bg-violet-500/20 data-[state=on]:text-violet-500'
             >
               In this doc
             </Toggle>
@@ -133,7 +133,7 @@ const Mine = () => {
                   data: true,
                 }));
             }}
-            className='h-max w-max rounded bg-doc-primary px-2 py-1'
+            className='h-max w-max rounded bg-violet-500 px-2 py-1'
           >
             <ChevronUp
               className={`${showMine && 'rotate-180 transition-transform'}`}

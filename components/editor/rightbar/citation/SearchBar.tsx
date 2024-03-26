@@ -64,7 +64,7 @@ const SearchBar = ({ setKeyword, setResult }: Props) => {
           if (searchTerm) setKeyword(searchTerm);
           setShowMine(false);
         }}
-        className='h-max w-max rounded bg-doc-primary p-1.5'
+        className='h-max w-max rounded bg-violet-500 p-1.5'
       >
         <Search className='text-white' size={20} />
       </Button>

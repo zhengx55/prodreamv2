@@ -19,18 +19,18 @@ export default async function Page({
         {lang === 'en' ? (
           <p className='base-regular text-neutral-400'>
             Switch to&nbsp;
-            <Link href={`/${lang}/login`} className='text-auth-primary'>
+            <Link href={`/${lang}/login`} className='text-violet-500'>
               Log in
             </Link>
             &nbsp;or&nbsp;
-            <Link href={`/${lang}/signup`} className='text-auth-primary'>
+            <Link href={`/${lang}/signup`} className='text-violet-500'>
               Sign up
             </Link>
           </p>
         ) : (
           <p className='base-medium text-neutral-400'>
             已有账号&nbsp;
-            <Link href={`/${lang}/login`} className='text-auth-primary'>
+            <Link href={`/${lang}/login`} className='text-violet-500'>
               马上登陆
             </Link>
           </p>

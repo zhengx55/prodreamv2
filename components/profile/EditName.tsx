@@ -122,12 +122,12 @@ const EditNameModal = ({ children }: Props) => {
             />
             <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
               <DialogClose asChild>
-                <Button variant={'ghost'} className='text-doc-primary'>
+                <Button variant={'ghost'} className='text-violet-500'>
                   Cancel
                 </Button>
               </DialogClose>
               <DialogClose asChild>
-                <Button className='bg-doc-primary' type='submit'>
+                <Button className='bg-violet-500' type='submit'>
                   Save
                 </Button>
               </DialogClose>

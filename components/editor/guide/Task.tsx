@@ -60,20 +60,20 @@ const Task = ({ editor, track }: Props) => {
     >
       <Accordion defaultValue='item-1' type='single' collapsible>
         <AccordionItem className='mx-auto w-[700px] rounded-lg' value='item-1'>
-          <AccordionTrigger className='flex-between bg-doc-primary px-5 py-2 data-[state=closed]:rounded-lg data-[state=open]:rounded-t-lg'>
+          <AccordionTrigger className='flex-between bg-violet-500 px-5 py-2 data-[state=closed]:rounded-lg data-[state=open]:rounded-t-lg'>
             <p className='base-semibold text-left text-white'>
               Let&apos;s start with the basics!
             </p>
             <ChevronDown className='h-6 w-max shrink-0 text-white transition-transform duration-200' />
           </AccordionTrigger>
-          <AccordionContent className='relative flex h-[200px] rounded-b-lg bg-doc-secondary px-3 pb-2 pt-4'>
+          <AccordionContent className='relative flex h-[200px] rounded-b-lg bg-slate-100 px-3 pb-2 pt-4'>
             <ul className='flex w-1/2 flex-col gap-y-2'>
               <div className='flex flex-col gap-y-1.5'>
                 <li className='flex-between pr-4'>
-                  <p className='small-regular text-doc-font'>
+                  <p className='small-regular text-neutral-400'>
                     Here are a few things to try first
                   </p>
-                  <p className='small-regular text-doc-primary'>
+                  <p className='small-regular text-violet-500'>
                     {progress.toFixed(0)}%
                   </p>
                 </li>
@@ -90,11 +90,11 @@ const Task = ({ editor, track }: Props) => {
                   <li
                     onClick={() => setStep(index)}
                     key={index}
-                    className={`flex-between ${taskComplete ? 'border-green-600 bg-green-100' : step === index ? 'border-doc-primary bg-[#E6CAFC] text-doc-primary' : 'border-transparent bg-white'} group w-[80%] cursor-pointer gap-x-2.5 rounded-full border px-3 py-1.5 hover:border-doc-primary hover:text-doc-primary`}
+                    className={`flex-between ${taskComplete ? 'border-green-600 bg-green-100' : step === index ? 'border-violet-500 bg-[#E6CAFC] text-violet-500' : 'border-transparent bg-white'} group w-[80%] cursor-pointer gap-x-2.5 rounded-full border px-3 py-1.5 hover:border-violet-500 hover:text-violet-500`}
                   >
                     <label
                       htmlFor={task.label}
-                      className={`${step === index ? 'text-doc-primary' : ''} ${taskComplete && 'text-green-600'} subtle-regular group-hover:cursor-pointer`}
+                      className={`${step === index ? 'text-violet-500' : ''} ${taskComplete && 'text-green-600'} subtle-regular group-hover:cursor-pointer`}
                     >
                       {task.label}
                     </label>
@@ -108,7 +108,7 @@ const Task = ({ editor, track }: Props) => {
                             : !!track?.grammar_task
                       }
                       id={task.label}
-                      className='h-4 w-4 rounded-full border-doc-primary data-[state=checked]:border-transparent data-[state=checked]:bg-green-600
+                      className='h-4 w-4 rounded-full border-violet-500 data-[state=checked]:border-transparent data-[state=checked]:bg-green-600
                       data-[state=checked]:text-white'
                     />
                   </li>
@@ -146,7 +146,7 @@ export const Finish = memo(() => {
       key='complete-panel'
       className='flex flex-col'
     >
-      <div className='relative mx-auto flex h-[180px] w-[700px] shrink-0 flex-col justify-between rounded-lg bg-doc-primary px-5 py-7'>
+      <div className='relative mx-auto flex h-[180px] w-[700px] shrink-0 flex-col justify-between rounded-lg bg-violet-500 px-5 py-7'>
         <Image
           alt='task_finish'
           src='/task/Finish.png'

@@ -78,7 +78,7 @@ const ContinueResult = (props: NodeViewProps) => {
     <NodeViewWrapper as={'span'} className='relative'>
       <NodeViewContent
         as='span'
-        className='pointer-events-none select-none text-doc-primary'
+        className='pointer-events-none select-none text-violet-500'
       >
         &nbsp;{currentText}
       </NodeViewContent>
@@ -91,7 +91,7 @@ const ContinueResult = (props: NodeViewProps) => {
                 onClick={handleAccept}
                 className='absolute -bottom-1 ml-1 h-max w-max cursor-pointer rounded bg-white p-0.5 shadow-[0px_2px_4px_0px_#DEE0EF]'
               >
-                <span className='rounded bg-doc-primary px-1 py-0.5'>
+                <span className='rounded bg-violet-500 px-1 py-0.5'>
                   <p className='small-regular text-white'>Accept</p>
                 </span>
               </Button>

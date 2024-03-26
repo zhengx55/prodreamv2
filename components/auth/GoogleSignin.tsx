@@ -57,7 +57,7 @@ const GoogleSignin = ({ label, lang }: { label: string; lang: Locale }) => {
         priority
         className='h-auto w-auto'
       />
-      <h1 className='base-medium 2xl:title-medium text-black-200'>{label}</h1>
+      <h1 className='base-medium 2xl:title-medium text-black'>{label}</h1>
     </button>
   );
 };

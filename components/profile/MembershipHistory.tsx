@@ -16,11 +16,11 @@ const MembershipHistory = ({ history }: Props) => {
         className='flex h-full max-w-3xl flex-col gap-y-2 overflow-y-auto rounded bg-[#FCFBFF] p-4'
       >
         <li className='grid grid-cols-5'>
-          <p className='small-regular text-doc-font'>Plan Name</p>
-          <p className='small-regular text-doc-font'>Start Date</p>
-          <p className='small-regular text-doc-font'>End Date</p>
-          <p className='small-regular text-doc-font'>Paid amount</p>
-          <p className='small-regular text-doc-font'>Membership status</p>
+          <p className='small-regular text-neutral-400'>Plan Name</p>
+          <p className='small-regular text-neutral-400'>Start Date</p>
+          <p className='small-regular text-neutral-400'>End Date</p>
+          <p className='small-regular text-neutral-400'>Paid amount</p>
+          <p className='small-regular text-neutral-400'>Membership status</p>
         </li>
         <Separator orientation='horizontal' className=' bg-shadow-border' />
         {history.map((item) => {

@@ -148,7 +148,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
               href={
                 'https://applifyai.notion.site/Applify-AI-Subscription-Agreement-eef0b3cfdab6496dbe0fa04a3c9a0d3e?pvs=4'
               }
-              className='text-auth-primary'
+              className='text-violet-500'
             >
               {t.Signup.Term}
             </Link>
@@ -158,7 +158,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
               href={
                 'https://applifyai.notion.site/Applify-AI-Privacy-Policy-e350e311e90c48608b4e85a8c7982e77'
               }
-              className='text-auth-primary'
+              className='text-violet-500'
             >
               &nbsp;{t.Signup.Privacy}
             </Link>
@@ -167,7 +167,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
         <Spacer y='20' />
         <Button
           disabled={isSignupPending}
-          className='w-full rounded bg-auth-primary'
+          className='w-full rounded bg-violet-500'
           type='submit'
         >
           {isSignupPending && (

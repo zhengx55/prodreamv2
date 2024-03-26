@@ -132,14 +132,14 @@ const Result = ({ grammarResults, update }: Props) => {
           <Button
             onClick={handleAcceptAll}
             variant={'secondary'}
-            className='border-none text-doc-primary'
+            className='border-none text-violet-500'
           >
             Accept all
           </Button>
           <Button
             onClick={() => update([])}
             variant={'ghost'}
-            className='text-doc-shadow'
+            className='text-zinc-600'
           >
             Reject all
           </Button>
@@ -203,7 +203,7 @@ const Result = ({ grammarResults, update }: Props) => {
                         handleAccept(group, index, group_index);
                       }}
                       variant={'ghost'}
-                      className='subtle-regular h-max w-max rounded border  border-doc-primary py-1 text-doc-primary'
+                      className='subtle-regular h-max w-max rounded border  border-violet-500 py-1 text-violet-500'
                     >
                       Accept
                     </Button>

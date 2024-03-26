@@ -142,7 +142,7 @@ const Report = ({
       className='flex flex-1 flex-col overflow-y-auto'
     >
       <div className='flex items-center gap-x-5'>
-        <h1 className='text-[64px] italic text-doc-primary'>
+        <h1 className='text-[64px] italic text-violet-500'>
           {(report.scores * 100).toFixed(0)}%
         </h1>
         <div className='flex flex-col gap-y-2'>
@@ -154,11 +154,11 @@ const Report = ({
           <Button
             role='button'
             variant={'ghost'}
-            className='h-max rounded border border-doc-primary px-4 py-1'
+            className='h-max rounded border border-violet-500 px-4 py-1'
             onClick={recheck}
           >
-            <RefreshCcw size={14} className='text-doc-primary' />
-            <p className='subtle-regular text-doc-primary'>
+            <RefreshCcw size={14} className='text-violet-500' />
+            <p className='subtle-regular text-violet-500'>
               {t.Plagiarism.recheck}
             </p>
           </Button>
@@ -179,7 +179,7 @@ const Report = ({
                 role='button'
                 variant={'ghost'}
                 onClick={handleAcceptAll}
-                className='w-max px-0 text-stone-300 hover:text-doc-primary'
+                className='w-max px-0 text-stone-300 hover:text-violet-500'
               >
                 Accept all
               </Button>
@@ -187,7 +187,7 @@ const Report = ({
                 role='button'
                 variant={'ghost'}
                 onClick={handleRejectAll}
-                className='w-max px-0 text-stone-300 hover:text-doc-primary'
+                className='w-max px-0 text-stone-300 hover:text-violet-500'
               >
                 Reject all
               </Button>
@@ -199,7 +199,7 @@ const Report = ({
             </p>
           ) : isPending ? (
             <div className='flex-center flex-1'>
-              <Loader2 className='animate-spin text-doc-primary' />
+              <Loader2 className='animate-spin text-violet-500' />
             </div>
           ) : (
             sentences.map((item) => {

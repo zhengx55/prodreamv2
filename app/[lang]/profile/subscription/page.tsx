@@ -53,7 +53,7 @@ export default async function Page() {
       membership.subscription === 'free_trail' ? (
         <div className='flex w-max flex-col'>
           <div className='flex items-center gap-x-4'>
-            <p className='text-doc-font'>
+            <p className='text-neutral-400'>
               You are on the <strong>Basic</strong> Plan
             </p>
             <Link passHref href={'/pricing'}>
@@ -67,7 +67,7 @@ export default async function Page() {
         <>
           <Spacer y='5' />
           <div className='flex items-center gap-x-4'>
-            <p className='text-doc-font'>
+            <p className='text-neutral-400'>
               You are on the&nbsp;
               <strong>
                 Unlimited&nbsp;
@@ -85,12 +85,12 @@ export default async function Page() {
           </div>
           <Spacer y='5' />
           {membership.subscription_id ? (
-            <p className='text-doc-font'>
+            <p className='text-neutral-400'>
               Next billing date:&nbsp;
               {formatTimestampToDateString(membership.expire_time, false)}
             </p>
           ) : (
-            <p className='text-doc-font'>
+            <p className='text-neutral-400'>
               Active Until:&nbsp;
               {formatTimestampToDateString(membership.expire_time, false)}
             </p>
@@ -99,13 +99,13 @@ export default async function Page() {
           {membership.subscription_type === 'month' && (
             <div className='flex w-max flex-col rounded-lg bg-[#FCFBFF] px-4 py-6'>
               <div className='flex items-start gap-x-2 '>
-                <span className='flex-center h-5 w-5 rounded-full bg-doc-primary text-white'>
+                <span className='flex-center h-5 w-5 rounded-full bg-violet-500 text-white'>
                   !
                 </span>
-                <p className='small-regular text-doc-font'>
+                <p className='small-regular text-neutral-400'>
                   Save $10 every month by switching to the annual plan,
                   <br />
-                  <Link href={'/pricing'} className='text-doc-primary'>
+                  <Link href={'/pricing'} className='text-violet-500'>
                     Go annual now
                   </Link>
                 </p>

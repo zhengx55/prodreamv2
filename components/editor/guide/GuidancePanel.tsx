@@ -194,7 +194,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
             />
             <label
               htmlFor='have-draft'
-              className={`text-sm font-medium leading-none ${check === 0 ? 'text-doc-primary' : 'text-doc-font'}`}
+              className={`text-sm font-medium leading-none ${check === 0 ? 'text-violet-500' : 'text-neutral-400'}`}
             >
               Yes, I have a draft already.
             </label>
@@ -209,7 +209,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
             />
             <label
               htmlFor='start-outline'
-              className={`text-sm font-medium leading-none ${check === 1 ? 'text-doc-primary' : 'text-doc-font'}`}
+              className={`text-sm font-medium leading-none ${check === 1 ? 'text-violet-500' : 'text-neutral-400'}`}
             >
               No, I am starting from scratch.
             </label>
@@ -224,7 +224,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
             />
             <label
               htmlFor='just-exploring'
-              className={`text-sm font-medium leading-none ${check === 2 ? 'text-doc-primary' : 'text-doc-font'}`}
+              className={`text-sm font-medium leading-none ${check === 2 ? 'text-violet-500' : 'text-neutral-400'}`}
             >
               Neither, I&apos;m just exploring
             </label>
@@ -283,7 +283,7 @@ const Guidance = ({ editor }: { editor: Editor }) => {
                   role='button'
                   onClick={handleGenerate}
                   disabled={isGenerating}
-                  className='w-max rounded bg-doc-primary'
+                  className='w-max rounded bg-violet-500'
                   id='guidence-generate'
                 >
                   Generate

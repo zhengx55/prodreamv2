@@ -37,7 +37,7 @@ export default async function Page({
             {dict.Auth.Signup.AlreadyLogged}&nbsp;
             <Link
               href={`/${lang}/login`}
-              className='base-semibold text-auth-primary'
+              className='base-semibold text-violet-500'
             >
               {dict.Auth.Login.Button}&nbsp;
             </Link>

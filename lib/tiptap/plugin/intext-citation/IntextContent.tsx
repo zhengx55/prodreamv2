@@ -49,7 +49,7 @@ const IntextContent = (props: NodeViewProps) => {
     <Popover>
       <PopoverTrigger asChild>
         {citationStyle === 'APA' ? (
-          <p className='!m-0 text-doc-primary'>
+          <p className='!m-0 text-violet-500'>
             (
             {props.node.attrs.show_author && (
               <APAAuthors contributors={current_citation?.contributors ?? []} />
@@ -60,7 +60,7 @@ const IntextContent = (props: NodeViewProps) => {
             )
           </p>
         ) : (
-          <p className='!m-0 text-doc-primary'>
+          <p className='!m-0 text-violet-500'>
             (
             {props.node.attrs.show_author && (
               <MLAAuhors contributors={current_citation?.contributors ?? []} />
@@ -78,17 +78,17 @@ const IntextContent = (props: NodeViewProps) => {
       >
         <Dialog>
           <DialogTrigger asChild>
-            <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+            <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-violet-500'>
               {title}
             </h1>
           </DialogTrigger>
           <CitationPreview item={current_citation as any} />
         </Dialog>
-        <p className='subtle-regular text-doc-font'>
+        <p className='subtle-regular text-neutral-400'>
           Year: {current_citation?.publish_date?.year}
         </p>
         {current_citation?.contributors.length ? (
-          <p className='subtle-regular text-doc-font'>
+          <p className='subtle-regular text-neutral-400'>
             Authors:&nbsp;
             {current_citation.contributors.map((contributor, index) => (
               <span key={`${props.node.attrs.citation_id}-${index}`}>
@@ -107,14 +107,14 @@ const IntextContent = (props: NodeViewProps) => {
             <Button
               role='button'
               onClick={handleEditCitation}
-              className='h-8 w-full rounded border border-doc-primary py-1 text-doc-primary'
+              className='h-8 w-full rounded border border-violet-500 py-1 text-violet-500'
               variant={'ghost'}
             >
               <Book /> Edit
             </Button>
           </PopoverClose>
           <Button
-            className='aspect-square h-8 rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
+            className='aspect-square h-8 rounded bg-zinc-600/20 p-2 text-zinc-600 hover:bg-red-400 hover:text-white'
             variant={'ghost'}
             onClick={handleDeleteCitation}
           >

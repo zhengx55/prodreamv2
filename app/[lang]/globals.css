@@ -127,10 +127,6 @@
     @apply transition invert brightness-0;
   }
 
-  .tab-default {
-    @apply flex-center small-medium h-full w-[33%] cursor-pointer rounded-xl hover:bg-doc-primary hover:text-primary-200
-  }
-
   .flex-center {
     @apply flex items-center justify-center;
   }
@@ -148,7 +144,7 @@
   }
 
   .tool {
-    @apply cursor-pointer rounded-[4px] bg-transparent p-1 hover:bg-border-50 flex gap-x-1 small-semibold items-center disabled:pointer-events-none disabled:opacity-20
+    @apply cursor-pointer rounded-[4px] bg-transparent p-1 hover:bg-gray-200 flex gap-x-1 small-semibold items-center disabled:pointer-events-none disabled:opacity-20
   }
 
   .common-container {
@@ -192,5 +188,3 @@
   animation: fade 1.5s infinite;
   display: inline-block;
 }
-
-

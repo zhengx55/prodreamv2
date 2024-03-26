@@ -25,10 +25,10 @@ const SentenceFragment: FC<SentenceProps> = ({
   let content: ReactNode | null = null;
 
   if (isNoChange) {
-    className = 'text-black-400';
+    className = 'text-black';
     content = <span className={className}>{sentence.sub_str}</span>;
   } else if (isAdd) {
-    className = 'text-doc-primary small-regular';
+    className = 'text-violet-500 small-regular';
     content = <span className={className}>{sentence.new_str}</span>;
   } else if (isDelete) {
     className = 'text-red-500 line-through small-regular';

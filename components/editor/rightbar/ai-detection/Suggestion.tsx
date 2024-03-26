@@ -83,7 +83,7 @@ const Suggestion = ({ suggestions }: Props) => {
         </p>
       ) : isPending ? (
         <div className='flex-center flex-1'>
-          <Loader2 className='animate-spin text-doc-primary' />
+          <Loader2 className='animate-spin text-violet-500' />
         </div>
       ) : (
         <>

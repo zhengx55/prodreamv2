@@ -87,13 +87,13 @@ const EditIntext = () => {
             <Checkbox
               checked={authorCheck}
               onCheckedChange={(e: boolean) => setAuthorCeck(e)}
-              className='h-4 w-4 rounded-full border-doc-primary'
+              className='h-4 w-4 rounded-full border-violet-500'
               id='autors'
             />
-            <label className='subtle-regular text-doc-font' htmlFor='autors'>
+            <label className='subtle-regular text-neutral-400' htmlFor='autors'>
               Authors:
             </label>
-            <span className='subtle-regular flex-center rounded bg-doc-primary/20 px-2 py-0.5 text-doc-primary'>
+            <span className='subtle-regular flex-center rounded bg-violet-500/20 px-2 py-0.5 text-violet-500'>
               {renderContributors()}
             </span>
           </li>
@@ -101,13 +101,13 @@ const EditIntext = () => {
             <Checkbox
               checked={yearCheck}
               onCheckedChange={(e: boolean) => setYearCheck(e)}
-              className='h-4 w-4 rounded-full border-doc-primary'
+              className='h-4 w-4 rounded-full border-violet-500'
               id='year'
             />
-            <label className='subtle-regular text-doc-font' htmlFor='year'>
+            <label className='subtle-regular text-neutral-400' htmlFor='year'>
               Year:
             </label>
-            <span className='subtle-regular flex-center rounded bg-doc-primary/20 px-2 py-0.5 text-doc-primary'>
+            <span className='subtle-regular flex-center rounded bg-violet-500/20 px-2 py-0.5 text-violet-500'>
               {current_citation?.publish_date?.year}
             </span>
           </li>
@@ -116,16 +116,16 @@ const EditIntext = () => {
             <Checkbox
               checked={pageCheck}
               onCheckedChange={(e: boolean) => setPageCheck(e)}
-              className='h-4 w-4 rounded-full border-doc-primary'
+              className='h-4 w-4 rounded-full border-violet-500'
               id='pages'
             />
-            <label className='subtle-regular text-doc-font' htmlFor='pages'>
+            <label className='subtle-regular text-neutral-400' htmlFor='pages'>
               Page number:
             </label>
             <Input
               ref={pageRef}
               defaultValue={currentInline?.node.attrs.page_number}
-              className={`${pageCheck ? 'bg-doc-primary/20 text-doc-primary' : 'bg-[#F1F2FA] text-doc-font'} subtle-regular h-max w-40 rounded px-2 py-1 placeholder:text-doc-font/20 placeholder:line-through`}
+              className={`${pageCheck ? 'bg-violet-500/20 text-violet-500' : 'bg-[#F1F2FA] text-neutral-400'} subtle-regular h-max w-40 rounded px-2 py-1 placeholder:text-neutral-400/20 placeholder:line-through`}
               placeholder='(e.g. 35 or 35-37)'
               type='text'
               id='pages'
@@ -135,7 +135,7 @@ const EditIntext = () => {
       </div>
       <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-gray-200 bg-white py-1.5'>
         <Button
-          className='h-max rounded border border-doc-primary text-doc-primary'
+          className='h-max rounded border border-violet-500 text-violet-500'
           variant={'ghost'}
           type='button'
           onClick={() => {

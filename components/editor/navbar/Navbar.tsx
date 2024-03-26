@@ -55,14 +55,14 @@ const DocNavbar = () => {
           <Button
             role='button'
             onClick={() => updatePaymentModal(true)}
-            className='h-max rounded bg-doc-primary px-2 py-1 hover:bg-doc-secondary hover:text-doc-primary'
+            className='h-max rounded bg-violet-500 px-2 py-1 hover:bg-slate-100 hover:text-violet-500'
           >
             <Diamond /> Upgrade
           </Button>
         ) : null}
         {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className='p-2 bg-transparent text-black-400 hover:bg-doc-secondary hover:text-doc-primary'>
+            <Button className='p-2 bg-transparent text-black hover:bg-slate-100 hover:text-violet-500'>
               <MoreHorizontal size={18} />
             </Button>
           </DropdownMenuTrigger>

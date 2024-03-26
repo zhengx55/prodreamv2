@@ -75,7 +75,7 @@ const CitationMenu = ({ editor }: Props) => {
           withBorder
         >
           <div className='flex-between px-2'>
-            <p className='base-medium text-doc-shadow'>Search Results</p>
+            <p className='base-medium text-zinc-600'>Search Results</p>
           </div>
           {isPending ? (
             <Loading />
@@ -87,7 +87,7 @@ const CitationMenu = ({ editor }: Props) => {
                   className='flex flex-col gap-y-2 bg-shadow-400 px-4 py-1.5'
                 >
                   <h1 className='base-semibold'>{item.article_title}</h1>
-                  <div className='small-regular flex flex-wrap items-center gap-x-2 text-doc-shadow'>
+                  <div className='small-regular flex flex-wrap items-center gap-x-2 text-zinc-600'>
                     {item.contributors?.map((author, a_idx) => (
                       <p key={`author-${a_idx}`}>
                         {author.first_name} {author.middle_name}
@@ -106,7 +106,7 @@ const CitationMenu = ({ editor }: Props) => {
                     <Button
                       onClick={() => handler(item)}
                       role='button'
-                      className='rounded bg-doc-primary'
+                      className='rounded bg-violet-500'
                     >
                       <Plus size={20} />
                       Add citation
@@ -114,7 +114,7 @@ const CitationMenu = ({ editor }: Props) => {
                     <Button
                       disabled={!Boolean(item.pdf_url)}
                       role='link'
-                      className='rounded border-doc-primary text-doc-primary'
+                      className='rounded border-violet-500 text-violet-500'
                       variant={'secondary'}
                       onClick={() => {
                         if (item.pdf_url) {
@@ -138,7 +138,7 @@ const CitationMenu = ({ editor }: Props) => {
                 updateShowCreateCitation(true);
               }}
               variant={'ghost'}
-              className='small-regular gap-x-1 px-0 text-doc-primary hover:underline'
+              className='small-regular gap-x-1 px-0 text-violet-500 hover:underline'
             >
               <Book />
               Add custom citation
