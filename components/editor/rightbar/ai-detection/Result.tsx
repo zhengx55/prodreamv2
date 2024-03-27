@@ -108,7 +108,7 @@ const Bar = ({
   <>
     <div className='flex h-2.5 w-full shrink-0 bg-transparent'>
       <span
-        className='h-full rounded-3xl bg-emerald-100'
+        className='h-full rounded-l-3xl bg-emerald-100'
         style={{
           width: `${human_percent}%`,
         }}
