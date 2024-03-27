@@ -269,7 +269,7 @@ const SentenceItem = ({
         <Button
           role='button'
           variant={'ghost'}
-          onClick={onDismiss}
+          onClick={onAccept}
           className='h-max w-max rounded border border-zinc-600 px-4 py-1 text-zinc-600'
         >
           {acceptLable}
@@ -277,7 +277,7 @@ const SentenceItem = ({
         <Button
           role='button'
           className='h-max w-max rounded border border-transparent px-4 py-1'
-          onClick={onAccept}
+          onClick={onDismiss}
         >
           {dismissLable}
         </Button>

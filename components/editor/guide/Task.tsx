@@ -2,15 +2,18 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { useMutateTrackInfo } from '@/query/query';
 import { EdtitorDictType } from '@/types';
-import { type Editor } from '@tiptap/react';
+import { useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
 
-type Props = { editor: Editor; t: EdtitorDictType };
+type Props = { t: EdtitorDictType };
 
-const Task = ({ editor, t }: Props) => {
+const Task = ({ t }: Props) => {
+  const updateShowTaskDialog = useUserTask(
+    (state) => state.updateShowTaskDialog
+  );
   return (
     <m.div
       initial={{ opacity: 0, y: -10 }}
@@ -25,7 +28,7 @@ const Task = ({ editor, t }: Props) => {
         </p>
         <XCircle
           className='cursor-pointer text-neutral-400'
-          onClick={() => {}}
+          onClick={updateShowTaskDialog}
           size={22}
         />
       </div>

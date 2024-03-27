@@ -71,7 +71,7 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
         <Button
           onClick={() => {
             updateOutlineStep(2);
-            updateRightbarTab(2);
+            updateRightbarTab(5);
             editor.chain().blur().setTextSelection(0).run();
           }}
           className='h-max w-max rounded bg-violet-500 px-5 py-1 capitalize'
