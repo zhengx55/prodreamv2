@@ -188,7 +188,8 @@
       "Write_with_more_depth": "加深论述",
       "Generate_summary": "生成总结",
       "Write_more_content": "扩充内容",
-      "PlaceHolder": "向AI发送编辑或生成指令",
+      "PlaceHolder_1": "对AI进行下一步指令...",
+      "PlaceHolder_2": "指令AI进行编辑或生成",
       "Replace_selection": "替换",
       "Insert_below": "插入",
       "Try_again": "重新生成",
@@ -293,7 +294,9 @@
       "breakdown": "概率细分",
       "Unlock": "通过无限套餐解锁AI检测",
       "Humanizer": "反AI检测",
-      "mixed": "我们对这段文本完全是有一定的信心"
+      "mixed": "我们对这段文本完全是有一定的信心",
+      "humanize_title": "点击查看反AI详细建议",
+      "humanize_button": "开始一键反AI"
     }
   }
 }

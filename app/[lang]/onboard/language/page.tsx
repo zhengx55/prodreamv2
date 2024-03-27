@@ -57,7 +57,7 @@ export default async function Page({
         'An error occurred while setting language info. Please try again.'
       );
     }
-    redirect(`/editor/${doc_id}`, RedirectType.replace);
+    redirect(`/${lang}/editor/${doc_id}`, RedirectType.replace);
   }
 
   return (

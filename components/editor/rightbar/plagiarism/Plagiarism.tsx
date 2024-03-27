@@ -49,6 +49,7 @@ const Plagiarism = ({ t }: Props) => {
       setShowLoading(false);
     },
   });
+
   useUpdateEffect(() => {
     if (abort) {
       timer.current && clearInterval(timer.current);
@@ -67,6 +68,7 @@ const Plagiarism = ({ t }: Props) => {
   }, []);
 
   const handlePlagiarismCheck = useCallback(async () => {
+    progress !== 0 && setProgress(0);
     if (result) {
       setResult(undefined);
     }
