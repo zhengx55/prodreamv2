@@ -199,7 +199,8 @@
     },
     "Grammar": {
       "Title": "点击开始检查您的写作中的语法、拼写和标点问题",
-      "Button": "开始语法检测"
+      "Button": "开始语法检测",
+      "suggestions": "条语法修改建议"
     },
     "Citation": {
       "search": "文献搜索",
@@ -275,7 +276,7 @@
       "Unlock": "购买无限套餐即可解锁一键降重建议",
       "Result": "可能为重复内容",
       "Result_good": "未发现重复内容",
-      "Suggestions": "降重建议"
+      "Suggestions": "条降重建议"
     },
     "CheckList": {
       "Show": "点击试用",
