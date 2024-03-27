@@ -1,6 +1,6 @@
 'use client';
 import DocNavbar from '@/components/editor/navbar/Navbar';
-import { useDocumentDetail, useUserTrackInfo } from '@/query/query';
+import { useUserTrackInfo } from '@/query/query';
 import { DocPageDicType } from '@/types';
 import { useUserInfo } from '@/zustand/store';
 import dynamic from 'next/dynamic';
@@ -26,9 +26,9 @@ type Props = {
   id: string;
 } & DocPageDicType;
 const EssayPanel = ({ id, ...props }: Props) => {
-  const { data: document_content, isPending, isError } = useDocumentDetail(id);
   const signUpTime = useUserInfo((state) => state.user.create_time);
   const { data: userTrack } = useUserTrackInfo();
+  const { essayContent, loading, error } = useCitationInfo(id);
   const showCheckList = useMemo(() => {
     const signUpDate = new Date(signUpTime * 1000);
     const currentDate = new Date();
@@ -36,23 +36,20 @@ const EssayPanel = ({ id, ...props }: Props) => {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays < 7 && userTrack?.guidence;
   }, [signUpTime, userTrack?.guidence]);
-
-  useCitationInfo(document_content);
-  if (isError) return null;
   return (
     <LazyMotionProvider>
       <main className='relative flex h-full w-full flex-col'>
         <DocNavbar {...props} />
         {showCheckList && <CheckList t={props.t} />}
         <div className='relative flex h-full w-full justify-center overflow-hidden'>
-          {isPending ? (
+          {loading ? (
             <div className='flex flex-1 flex-col items-center'>
               <Spacer y='20' />
               <Skeleton className='h-10 w-[700px] rounded-lg' />
             </div>
           ) : (
             <Editor
-              essay_content={document_content ? document_content.content : ''}
+              essay_content={essayContent ? essayContent.content : ''}
               {...props}
             />
           )}

@@ -46,7 +46,7 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
         return toast.warning('please write some content and try again');
       if (index === 0) {
         closeRightbar();
-        editor?.commands.setNodeSelection(first_paragraph.pos);
+        editor?.chain().focus().setNodeSelection(first_paragraph.pos).run();
         updateTaskStep(0);
       } else {
         closeRightbar();
