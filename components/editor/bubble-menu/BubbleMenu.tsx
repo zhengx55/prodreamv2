@@ -215,6 +215,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
           </MemoButton>
         ) : (
           <MemoButton
+            tooltip={t.BubbleMenu.tooltip_citation}
             onMouseDown={(e) => e.preventDefault()}
             onClick={async () => {
               if (selectedLength >= 160) {
@@ -233,7 +234,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
             className='text-violet-500'
           >
             <BookHalf size={'18'} />
-            {t.BubbleMenu.Citation}
+            {t.BubbleMenu.Reference}
           </MemoButton>
         )}
         <Toolbar.Divider />

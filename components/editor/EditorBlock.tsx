@@ -13,7 +13,6 @@ import CitationMenu from './citation-menu/CitationMenu';
 import { SynonymMenu } from './synonym-menu';
 
 const Task = dynamic(() => import('./guide/Task'));
-// const Finish = dynamic(() => import('./guide/Task').then((mod) => mod.Finish));
 const Reference = dynamic(() => import('./Reference'));
 const Trigger = dynamic(() => import('./continue-writting/Trigger'));
 type Props = { editor: EditorType } & DocPageDicType;
@@ -39,7 +38,7 @@ const EditorBlock = ({ editor, ...props }: Props) => {
       {showSynonymMenu && <SynonymMenu editor={editor} />}
       {showCopilotMenu && <AiMenu {...props} editor={editor} />}
       {showCitiationMenu && <CitationMenu editor={editor} />}
-      {showContinue && <Trigger editor={editor} />}
+      {showContinue && <Trigger t={props.t} editor={editor} />}
       <BubbleMenu t={props.t} editor={editor} />
       <EditorContent className='flex-1' spellCheck={false} editor={editor} />
       <Spacer y='40' />
