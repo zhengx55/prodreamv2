@@ -13,7 +13,6 @@ import CitationMenu from './citation-menu/CitationMenu';
 import { SynonymMenu } from './synonym-menu';
 
 const Task = dynamic(() => import('./guide/Task'));
-// const Finish = dynamic(() => import('./guide/Task').then((mod) => mod.Finish));
 const Reference = dynamic(() => import('./Reference'));
 const Trigger = dynamic(() => import('./continue-writting/Trigger'));
 type Props = { editor: EditorType } & DocPageDicType;
