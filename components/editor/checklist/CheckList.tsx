@@ -61,13 +61,13 @@ const CheckList = ({ t }: { t: EdtitorDictType }) => {
       }
     }
     if (index === 2) {
-      updateRightbarTab(2);
+      updateRightbarTab(5);
       setGenerateTab('Write Introduction');
       await ButtonTrack({ event: 'generate_tool_task_completed' });
       updateGenerateStep(1);
     }
     if (index === 3) {
-      updateRightbarTab(1);
+      updateRightbarTab(3);
       updateCitationStep();
     }
   }, 500);
@@ -129,12 +129,14 @@ const CheckList = ({ t }: { t: EdtitorDictType }) => {
               <TaskItem
                 taskCompleted={!!userTrack?.ai_copilot_task}
                 label={t.CheckList.copilot}
-                onClickHandler={() => selectHandler(3)}
+                onClickHandler={() => selectHandler(0)}
+                t={t}
               />
               <TaskItem
                 taskCompleted={!!userTrack?.citation_task}
                 label={t.CheckList.citation}
-                onClickHandler={() => selectHandler(0)}
+                onClickHandler={() => selectHandler(3)}
+                t={t}
               />
             </ul>
             <Spacer y='12' />
@@ -145,11 +147,13 @@ const CheckList = ({ t }: { t: EdtitorDictType }) => {
                 taskCompleted={!!userTrack?.continue_writing_task}
                 label={t.CheckList.continue}
                 onClickHandler={() => selectHandler(1)}
+                t={t}
               />
               <TaskItem
                 taskCompleted={!!userTrack?.generate_tool_task}
                 label={t.CheckList.generate}
                 onClickHandler={() => selectHandler(2)}
+                t={t}
               />
             </ul>
             <Spacer y='24' />
@@ -165,10 +169,12 @@ const TaskItem = ({
   taskCompleted,
   label,
   onClickHandler,
+  t,
 }: {
   taskCompleted: boolean;
   label: string;
   onClickHandler: () => void;
+  t: EdtitorDictType;
 }) => (
   <li className='flex-between'>
     <div className='flex items-center gap-x-2'>
@@ -189,7 +195,7 @@ const TaskItem = ({
         onClick={onClickHandler}
         className='subtle-regular cursor-pointer text-violet-500'
       >
-        Show me
+        {t.CheckList.Show}
       </span>
     )}
   </li>

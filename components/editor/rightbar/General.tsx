@@ -3,12 +3,14 @@ import Spacer from '@/components/root/Spacer';
 import Tooltip from '@/components/root/Tooltip';
 import { Separator } from '@/components/ui/separator';
 import { EditorRightBar } from '@/constant';
+import { CitationTooltip } from '@/constant/enum';
 import { DocPageDicType } from '@/types';
-import { useAIEditor } from '@/zustand/store';
+import { useAIEditor, useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { XCircle } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { Fragment } from 'react';
+import Tiplayout from '../guide/tips/Tiplayout';
 const Detection = dynamic(() => import('./ai-detection/Detection'));
 const CitationLibrary = dynamic(
   () => import('./citation/library/CitationLibrary')
@@ -76,9 +78,12 @@ const General = ({ t, lang }: DocPageDicType) => {
 };
 
 const Trigger = ({ t, lang }: DocPageDicType) => {
-  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
-  const rightbarTab = useAIEditor((state) => state.rightbarTab);
-  const rightbarOpen = useAIEditor((state) => state.rightbarOpen);
+  const { updateRightbarTab, rightbarTab, rightbarOpen } = useAIEditor(
+    (state) => ({ ...state })
+  );
+  const resetCitationStep = useUserTask((state) => state.resetCitationStep);
+  const citation_tooltip_step = useUserTask((state) => state.citation_step);
+
   return (
     <m.ul
       animate={{ right: rightbarOpen ? '408px' : '12px' }}
@@ -90,28 +95,83 @@ const Trigger = ({ t, lang }: DocPageDicType) => {
           {(index === 3 || index === 5) && (
             <Separator orientation='horizontal' className='bg-gray-200' />
           )}
-          <Tooltip
-            side='left'
-            tooltipContent={t.RightBar[item.title as keyof typeof t.RightBar]}
-          >
-            <li
+          {index === 4 ? (
+            citation_tooltip_step === 4 ? (
+              <Tiplayout
+                title={CitationTooltip.STEP4_TITLE}
+                content={CitationTooltip.STEP4_TEXT}
+                step={citation_tooltip_step}
+                side='top'
+                totalSteps={4}
+                buttonLabel='done'
+                onClickCallback={() => {
+                  resetCitationStep();
+                }}
+              >
+                <li
+                  onClick={() => {
+                    updateRightbarTab(index);
+                  }}
+                  className='cursor-pointer hover:opacity-70'
+                >
+                  <Icon
+                    alt=''
+                    src={rightbarTab === index ? item.active_icon : item.icon}
+                    priority
+                    width={24}
+                    height={24}
+                  />
+                </li>
+              </Tiplayout>
+            ) : (
+              <TriggerItem
+                onClick={() => {
+                  updateRightbarTab(index);
+                }}
+                item={item}
+                label={t.RightBar[item.title as keyof typeof t.RightBar]}
+                isActive={rightbarTab === index}
+              />
+            )
+          ) : (
+            <TriggerItem
               onClick={() => {
                 updateRightbarTab(index);
               }}
-              className='cursor-pointer hover:opacity-70'
-            >
-              <Icon
-                alt=''
-                src={rightbarTab === index ? item.active_icon : item.icon}
-                priority
-                width={24}
-                height={24}
-              />
-            </li>
-          </Tooltip>
+              item={item}
+              label={t.RightBar[item.title as keyof typeof t.RightBar]}
+              isActive={rightbarTab === index}
+            />
+          )}
         </Fragment>
       ))}
     </m.ul>
+  );
+};
+
+const TriggerItem = ({
+  onClick,
+  item,
+  label,
+  isActive,
+}: {
+  onClick: () => void;
+  item: any;
+  label: string;
+  isActive: boolean;
+}) => {
+  return (
+    <Tooltip side='left' tooltipContent={label}>
+      <li onClick={onClick} className='cursor-pointer hover:opacity-70'>
+        <Icon
+          alt=''
+          src={isActive ? item.active_icon : item.icon}
+          priority
+          width={24}
+          height={24}
+        />
+      </li>
+    </Tooltip>
   );
 };
 
