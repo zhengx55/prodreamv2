@@ -6,6 +6,7 @@ import {
   highLightGrammar,
 } from '@/lib/tiptap/utils';
 import { IGrammarResult } from '@/query/type';
+import { EdtitorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { m } from 'framer-motion';
@@ -16,8 +17,9 @@ import SentenceFragment from './SentenceFragment';
 type Props = {
   grammarResults: IGrammarResult[];
   update: (value: IGrammarResult[]) => void;
+  t: EdtitorDictType;
 };
-const Result = ({ grammarResults, update }: Props) => {
+const Result = ({ grammarResults, update, t }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
 
   const handleDismiss = (index: number, group_index: number) => {
@@ -126,7 +128,10 @@ const Result = ({ grammarResults, update }: Props) => {
     >
       <div aria-label='all suggestions' className='flex-between'>
         <div className='flex items-center gap-x-2'>
-          <h2 className='base-semibold'>All Suggestions</h2>
+          <h2 className='base-semibold'>
+            {grammarResults.length}&nbsp;
+            {t.Grammar.suggestions}
+          </h2>
         </div>
         <div className='flex items-center'>
           <Button
@@ -134,14 +139,14 @@ const Result = ({ grammarResults, update }: Props) => {
             variant={'secondary'}
             className='border-none text-violet-500'
           >
-            Accept all
+            {t.Utility.AcceptAll}
           </Button>
           <Button
             onClick={() => update([])}
             variant={'ghost'}
             className='text-zinc-600'
           >
-            Reject all
+            {t.Utility.DismissAll}
           </Button>
         </div>
       </div>
@@ -194,7 +199,7 @@ const Result = ({ grammarResults, update }: Props) => {
                       variant={'ghost'}
                       className='subtle-regular h-max w-max rounded border border-[#AFB5FF] py-1 text-[#AFB5FF]'
                     >
-                      Dismiss
+                      {t.Utility.Dismiss}
                     </Button>
                     <Button
                       role='button'
@@ -205,7 +210,7 @@ const Result = ({ grammarResults, update }: Props) => {
                       variant={'ghost'}
                       className='subtle-regular h-max w-max rounded border  border-violet-500 py-1 text-violet-500'
                     >
-                      Accept
+                      {t.Utility.Accept}
                     </Button>
                   </div>
                 )}

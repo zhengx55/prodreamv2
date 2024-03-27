@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import { getDictionary } from '@/lib/get-dictionary';
 import { highLightGrammar } from '@/lib/tiptap/utils';
 import { submitPolish } from '@/query/api';
 import {
@@ -9,6 +8,7 @@ import {
   useUserTrackInfo,
 } from '@/query/query';
 import { IGrammarResponse, IGrammarResult } from '@/query/type';
+import { EdtitorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { JSONContent } from '@tiptap/react';
@@ -20,11 +20,7 @@ import { memo, useCallback, useState } from 'react';
 
 const Result = dynamic(() => import('./Result'));
 
-export const GrammarCheck = ({
-  t,
-}: {
-  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
-}) => {
+export const GrammarCheck = ({ t }: { t: EdtitorDictType }) => {
   const [isChecking, setIsChecking] = useState(false);
   const [grammarResults, setGrammarResults] = useState<IGrammarResult[]>([]);
   const editor = useAIEditor((state) => state.editor_instance);
@@ -112,6 +108,7 @@ export const GrammarCheck = ({
           </m.div>
         ) : grammarResults.length > 0 ? (
           <Result
+            t={t}
             update={updateGrammarResult}
             grammarResults={grammarResults}
           />
