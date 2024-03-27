@@ -193,7 +193,7 @@ const TaskItem = ({
       <span
         role='button'
         onClick={onClickHandler}
-        className='subtle-regular cursor-pointer text-violet-500'
+        className='subtle-regular min-w-14 cursor-pointer text-violet-500'
       >
         {t.CheckList.Show}
       </span>
