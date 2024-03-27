@@ -5,6 +5,8 @@ import { EdtitorDictType, Sentence } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
+import Image from 'next/image';
+import { memo } from 'react';
 import Unlock from '../Unlock';
 import useSuggestion from './hooks/useSuggestion';
 
@@ -12,7 +14,7 @@ type Props = { suggestions: [number[]]; t: EdtitorDictType };
 const Suggestion = ({ suggestions, t }: Props) => {
   const { data: membership } = useMembershipInfo();
   const editor = useAIEditor((state) => state.editor_instance);
-  const { sentences, setSentences, isPending, isError } =
+  const { sentences, setSentences, generating, humanize } =
     useSuggestion(suggestions);
 
   const toggleExpand = (item: Sentence) => {
@@ -57,6 +59,10 @@ const Suggestion = ({ suggestions, t }: Props) => {
     );
   };
 
+  const handleHumanize = async () => {
+    await humanize();
+  };
+
   const handleAccept = (item: Sentence) => {
     const start = item.ranges[0];
     const end = item.ranges[1];
@@ -77,14 +83,14 @@ const Suggestion = ({ suggestions, t }: Props) => {
     <div className='flex flex-1 flex-col'>
       {membership?.subscription === 'basic' ? (
         <Unlock text={'Unlock humanize suggestions with the Unlimited Plan'} />
-      ) : isError ? (
-        <p className='small-medium text-red-400'>
-          Something went wrong, please try again later
-        </p>
-      ) : isPending ? (
-        <div className='flex-center flex-1'>
-          <Loader2 className='animate-spin text-violet-500' />
-        </div>
+      ) : sentences.length === 0 ? (
+        generating ? (
+          <div className='flex-center flex-1'>
+            <Loader2 className='animate-spin text-violet-500' />
+          </div>
+        ) : (
+          <Starter start={handleHumanize} t={t} />
+        )
       ) : (
         <>
           <div className='flex-between'>
@@ -92,7 +98,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
             <div className='flex gap-x-3'>
               <Button
                 role='button'
-                onClick={() => {}}
+                onClick={handleAcceptAll}
                 className='h-max w-max rounded py-1'
               >
                 {t.Utility.AcceptAll}
@@ -118,6 +124,40 @@ const Suggestion = ({ suggestions, t }: Props) => {
     </div>
   );
 };
+const Starter = memo(
+  ({ start, t }: { start: () => Promise<void>; t: EdtitorDictType }) => {
+    return (
+      <m.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        key={'detection-check'}
+        className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
+      >
+        <Image
+          src='/editor/Start.png'
+          alt='Upgrade check'
+          width={450}
+          height={270}
+          className='h-44 w-60 self-center'
+          priority
+        />
+        <p className='text-center text-sm font-normal text-zinc-600'>
+          {t.Detection.humanize_title}
+        </p>
+        <Button
+          className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
+          role='button'
+          onClick={start}
+        >
+          {t.Detection.humanize_button}
+        </Button>
+      </m.div>
+    );
+  }
+);
+
+Starter.displayName = 'Starter';
 
 interface SentenceItemProps {
   item: Sentence;

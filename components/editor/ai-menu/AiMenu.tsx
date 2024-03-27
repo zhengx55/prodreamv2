@@ -217,7 +217,12 @@ const AiMenu = ({ editor, t }: Props) => {
                   )}
                 </div>
               )}
-              <CustomPrompt t={t} ref={promptRef} submit={handleCustomPrompt} />
+              <CustomPrompt
+                currentResult={currentResult}
+                t={t}
+                ref={promptRef}
+                submit={handleCustomPrompt}
+              />
             </>
           ) : (
             <Loader />

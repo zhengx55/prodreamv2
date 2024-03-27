@@ -12,16 +12,6 @@ const Suggestion = dynamic(() => import('./Suggestion'));
 const labels = ['human', 'mixed', 'ai generated'];
 const primaryColor = ['#48B251', '#5266CC', '#E58600'];
 const secondaryColor = ['#D5F9D8', '#F2F4FF', '#FFEACC'];
-const description = [
-  'We are moderately confident this text is entirely',
-  'We are highly, confident this text was',
-  'We are moderately confident this text is entirely',
-];
-const breakdown_descriptioons = [
-  'Our detector is highly confident that the text is written entirely by a human',
-  'Our detector is highly confident that the text may include parts written by Al',
-  'Our detector is highly confident that the text is written by Al ',
-];
 
 type Props = { result: IDetectionResult; t: EdtitorDictType };
 const Result = ({ result, t }: Props) => {
@@ -46,7 +36,7 @@ const Result = ({ result, t }: Props) => {
       <h3 className='base-medium'>{t.Detection.Classification}&nbsp;&nbsp;</h3>
       <Spacer y='8' />
       <p className='small-regular leading-relaxed text-zinc-600'>
-        {description[result_index]}&nbsp;
+        {result.message}&nbsp;
         <span
           className='small-regular inline-block px-1.5 py-1'
           style={{
@@ -86,7 +76,7 @@ const Result = ({ result, t }: Props) => {
       <h3 className='base-medium'>{t.Detection.breakdown}</h3>
       <Spacer y='8' />
       <p className='small-regular leading-relaxed text-zinc-600'>
-        {breakdown_descriptioons[result_index]}
+        {result.message}
       </p>
       <Spacer y='32' />
       <Bar

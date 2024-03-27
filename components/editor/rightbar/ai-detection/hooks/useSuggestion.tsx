@@ -1,14 +1,14 @@
 import { batchHumanize } from '@/query/api';
 import { Sentence } from '@/types';
 import { useAIEditor } from '@/zustand/store';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { v4 } from 'uuid';
 
 export default function useSuggestion(suggestions: [number[]]) {
   const [result, setResult] = useState<string[]>([]);
   const [sentences, setSentences] = useState<Sentence[]>([]);
-
+  const [generating, setGenerating] = useState(false);
   const editor = useAIEditor((state) => state.editor_instance);
   const texts = useMemo(() => {
     if (!editor) return [];
@@ -17,34 +17,15 @@ export default function useSuggestion(suggestions: [number[]]) {
     );
   }, [editor, suggestions]);
 
-  const {
-    data: humanize_result,
-    isPending,
-    isError,
-  } = useQuery({
-    queryKey: ['humanize', texts],
-    queryFn: () => batchHumanize(texts),
-    staleTime: 1000 * 60 * 60 * 24,
-    enabled: texts.length > 0,
-  });
-
-  const handleStreamData = useCallback((value: string) => {
-    if (!value) return;
-    const lines = value.split('\n');
-    const eventData = lines
-      .filter((line) => line.startsWith('data:'))
-      .map((line) => JSON.parse(line.slice('data:'.length)))[0];
-    setResult((prev) => [...prev, eventData]);
-  }, []);
-
-  useEffect(() => {
-    async function batchRequest() {
-      if (humanize_result) {
-        const reader = humanize_result
-          .pipeThrough(new TextDecoderStream())
-          .getReader();
+  const { mutateAsync: humanize } = useMutation({
+    mutationFn: () => batchHumanize(texts),
+    onMutate: () => {
+      setGenerating(true);
+    },
+    onSuccess: async (data) => {
+      if (data) {
+        const reader = data.pipeThrough(new TextDecoderStream()).getReader();
         let finalValue = [];
-
         while (true) {
           const { value, done } = await reader.read();
           if (value) {
@@ -56,9 +37,20 @@ export default function useSuggestion(suggestions: [number[]]) {
         }
         handleStreamData(finalValue.join('\n'));
       }
-    }
-    batchRequest();
-  }, [handleStreamData, humanize_result]);
+    },
+    onSettled: () => {
+      setGenerating(false);
+    },
+  });
+
+  const handleStreamData = useCallback((value: string) => {
+    if (!value) return;
+    const lines = value.split('\n');
+    const eventData = lines
+      .filter((line) => line.startsWith('data:'))
+      .map((line) => JSON.parse(line.slice('data:'.length)))[0];
+    setResult((prev) => [...prev, eventData]);
+  }, []);
 
   useEffect(() => {
     if (result.length > 0) {
@@ -75,5 +67,5 @@ export default function useSuggestion(suggestions: [number[]]) {
     }
   }, [result, suggestions, texts]);
 
-  return { sentences, setSentences, isPending, isError };
+  return { sentences, setSentences, generating, humanize };
 }

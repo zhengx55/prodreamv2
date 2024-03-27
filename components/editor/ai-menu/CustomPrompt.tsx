@@ -4,9 +4,9 @@ import { Input } from '@/components/ui/input';
 import { EdtitorDictType } from '@/types';
 import { ChangeEvent, KeyboardEvent, forwardRef, memo, useState } from 'react';
 
-type Props = { submit: () => void; t: EdtitorDictType };
+type Props = { submit: () => void; t: EdtitorDictType; currentResult: number };
 const CustomPrompt = forwardRef<HTMLInputElement, Props>(
-  ({ submit, t }, ref) => {
+  ({ submit, t, currentResult }, ref) => {
     const [isTyping, setIsTyping] = useState(false);
 
     const handleKeyEnter = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -33,7 +33,11 @@ const CustomPrompt = forwardRef<HTMLInputElement, Props>(
           onKeyDown={handleKeyEnter}
           id='ai-prompt'
           className='small-regular h-8 border-none px-0 py-0 shadow-none focus-visible:right-0 focus-visible:ring-0'
-          placeholder={t.Copilot.PlaceHolder}
+          placeholder={
+            currentResult === -1
+              ? t.Copilot.PlaceHolder_1
+              : t.Copilot.PlaceHolder_2
+          }
         />
         <Button
           onClick={submit}
