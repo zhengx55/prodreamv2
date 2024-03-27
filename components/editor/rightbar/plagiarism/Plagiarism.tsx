@@ -12,17 +12,16 @@ import { memo, useCallback, useRef, useState } from 'react';
 
 const Report = dynamic(() => import('./Report'));
 const WaitingModal = dynamic(() => import('./WaitingModal'));
+
 type Props = { t: EditorDictType };
 const Plagiarism = ({ t }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [showLoading, setShowLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [abort, setAbort] = useState(false);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState<
     Omit<IPlagiarismData, 'status'> | undefined
   >();
-  const abortControllerRef = useRef<AbortController | null>(null);
 
   const { mutateAsync: plagiarism } = useMutation({
     mutationFn: (params: string) => plagiarismCheck(params),
@@ -52,12 +51,10 @@ const Plagiarism = ({ t }: Props) => {
 
   useUnmount(() => {
     timer.current && clearInterval(timer.current);
-    abortControllerRef.current && abortControllerRef.current.abort();
   });
 
   const abortRequest = useCallback(() => {
     setShowLoading(false);
-    setAbort(true);
     timer.current && clearInterval(timer.current);
     setProgress(0);
   }, []);
