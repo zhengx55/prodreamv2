@@ -1,5 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
+import { findTextInDoc } from '@/lib/tiptap/utils';
 import { useMembershipInfo } from '@/query/query';
 import { EditorDictType, Sentence } from '@/types';
 import { useAIEditor } from '@/zustand/store';
@@ -19,12 +20,9 @@ const Suggestion = ({ suggestions, t }: Props) => {
 
   const toggleExpand = (item: Sentence) => {
     const { id } = item;
-    const editor_text = editor?.getText();
 
     if (!item.expand) {
-      const position = editor_text?.indexOf(item.text) ?? 0;
-      const from = position + 1;
-      const to = position + item.text.length + 1;
+      const { from, to } = findTextInDoc(item.text, editor!);
       editor?.chain().focus().setTextSelection({ from, to }).run();
       setSentences((prev) =>
         prev.map((prevItem) => {
@@ -39,10 +37,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
 
   const handleAcceptAll = () => {
     sentences.map((item) => {
-      const editor_text = editor?.getText();
-      const position = editor_text?.indexOf(item.text) ?? 0;
-      const from = position + 1;
-      const to = position + item.text.length + 1;
+      const { from, to } = findTextInDoc(item.text, editor!);
       editor
         ?.chain()
         .focus()

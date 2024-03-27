@@ -55,10 +55,10 @@ export default function useSuggestion(suggestions: [number[]]) {
           expand: false,
           text: texts[index],
           result: eventData[index],
-          ranges: [suggestion[0], suggestion[1] + 1],
         };
       });
       setSentences(sentences);
+      console.log('🚀 ~ useSuggestion ~ sentences:', sentences);
     },
     [texts]
   );
