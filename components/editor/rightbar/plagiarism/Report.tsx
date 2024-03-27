@@ -207,7 +207,8 @@ const Report = ({
                 <SentenceItem
                   key={item.id}
                   item={item}
-                  t={t}
+                  acceptLable={t.Utility.Accept}
+                  dismissLable={t.Utility.Dismiss}
                   isExpand={item.expand}
                   onToggleExpand={() => toggleExpand(item)}
                   onDismiss={() => handleDismiss(item)}
@@ -227,7 +228,8 @@ interface SentenceItemProps {
   onToggleExpand: () => void;
   onDismiss: () => void;
   onAccept: () => void;
-  t: EdtitorDictType;
+  acceptLable: string;
+  dismissLable: string;
 }
 const SentenceItem = ({
   item,
@@ -235,7 +237,8 @@ const SentenceItem = ({
   onToggleExpand,
   onDismiss,
   onAccept,
-  t,
+  acceptLable,
+  dismissLable,
 }: SentenceItemProps) => (
   <m.div
     key={item.id}
@@ -269,14 +272,14 @@ const SentenceItem = ({
           onClick={onDismiss}
           className='h-max w-max rounded border border-zinc-600 px-4 py-1 text-zinc-600'
         >
-          {t.Utility.Dismiss}
+          {acceptLable}
         </Button>
         <Button
           role='button'
           className='h-max w-max rounded border border-transparent px-4 py-1'
           onClick={onAccept}
         >
-          {t.Utility.Accept}
+          {dismissLable}
         </Button>
       </div>
     )}
