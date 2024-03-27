@@ -76,7 +76,8 @@ const Result = ({ result, t }: Props) => {
       <h3 className='base-medium'>{t.Detection.breakdown}</h3>
       <Spacer y='8' />
       <p className='small-regular leading-relaxed text-zinc-600'>
-        {result.message}
+        The probability this text has been entirely written by a human, AI or a
+        mix of the two.
       </p>
       <Spacer y='32' />
       <Bar
@@ -125,7 +126,7 @@ const Bar = ({
         }}
       />
     </div>
-    <Spacer y='10' />{' '}
+    <Spacer y='10' />
     <div className='flex w-full items-center'>
       <div
         className='flex flex-col gap-y-0.5'
