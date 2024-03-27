@@ -82,7 +82,7 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
         className='flex-between rounded-lg bg-violet-500 p-2 text-white'
         onClick={() => setShow((prev) => !prev)}
       >
-        <p className='small-medium'>{t.CheckList.title}</p>{' '}
+        <p className='small-medium'>{t.CheckList.title}</p>
         {!show ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </m.div>
       <AnimatePresence initial={false} mode='wait'>

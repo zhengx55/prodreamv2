@@ -8,11 +8,11 @@ import { OutlineTooltip } from '@/constant/enum';
 import { useMembershipInfo } from '@/query/query';
 import { EditorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
-import { m } from 'framer-motion';
 import { ChevronUp, FileText } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { memo, useRef } from 'react';
-import GenerateSub from './GenerateSub';
+import { forwardRef, memo, useRef } from 'react';
+
+const GenerateSub = dynamic(() => import('./GenerateSub'));
 
 const Tiplayout = dynamic(
   () => import('@/components/editor/guide/tips/Tiplayout')
@@ -31,36 +31,27 @@ export const Generate = ({ t }: { t: EditorDictType }) => {
   return (
     <>
       {generateTab === -1 ? (
-        <m.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          key='generate-panel'
-          className='flex w-full flex-col overflow-hidden'
-        >
+        <div className='flex w-full flex-col overflow-hidden'>
           {GenerateOptions.map((item) => {
             if (item.submenu)
               return (
                 <DropdownMenu key={item.id}>
                   {outline_step === 2 ? (
-                    <>
-                      <Tiplayout
-                        title={OutlineTooltip.TITLE}
-                        content={OutlineTooltip.TEXT}
-                        side='left'
-                        buttonLabel='Next'
-                        step={2}
-                        totalSteps={3}
-                        onClickCallback={() => {
-                          updateOutlineStep(3);
-                          copilot_option.current = 'write_introduction';
-                          setGenerateTab('Write Introduction');
-                        }}
-                      >
-                        <Submeu item={item} t={t} />
-                      </Tiplayout>
-                      <GenerateDropdown t={t} items={item.submenu} />
-                    </>
+                    <Tiplayout
+                      title={OutlineTooltip.TITLE}
+                      content={OutlineTooltip.TEXT}
+                      side='left'
+                      buttonLabel='Next'
+                      step={2}
+                      totalSteps={3}
+                      onClickCallback={() => {
+                        updateOutlineStep(3);
+                        copilot_option.current = 'write_introduction';
+                        setGenerateTab('Write Introduction');
+                      }}
+                    >
+                      <Submeu item={item} t={t} />
+                    </Tiplayout>
                   ) : (
                     <Submeu item={item} t={t} />
                   )}
@@ -88,7 +79,7 @@ export const Generate = ({ t }: { t: EditorDictType }) => {
               </div>
             );
           })}
-        </m.div>
+        </div>
       ) : (
         <GenerateSub
           t={t}
@@ -136,29 +127,35 @@ const Unlock = () => {
   );
 };
 
-const Submeu = ({ item, t }: { item: any; t: EditorDictType }) => {
-  return (
-    <>
-      <DropdownMenuTrigger asChild>
-        <div className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-slate-100'>
-          <div className='flex items-center gap-x-3'>
-            <FileText
-              className='text-zinc-600 group-hover:text-violet-500'
+const Submeu = forwardRef<HTMLDivElement, { item: any; t: EditorDictType }>(
+  ({ item, t }, ref) => {
+    return (
+      <>
+        <DropdownMenuTrigger asChild>
+          <div
+            ref={ref}
+            className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-slate-100'
+          >
+            <div className='flex items-center gap-x-3'>
+              <FileText
+                className='text-zinc-600 group-hover:text-violet-500'
+                size={20}
+              />
+              <p className='base-regular text-zinc-600 group-hover:text-violet-500'>
+                {t.Generate[item.title as keyof typeof t.Generate] as any}
+              </p>
+            </div>
+            <ChevronUp
+              className='text-zinc-600 transition-transform group-hover:text-violet-500 group-data-[state=open]:rotate-180'
               size={20}
             />
-            <p className='base-regular text-zinc-600 group-hover:text-violet-500'>
-              {t.Generate[item.title as keyof typeof t.Generate] as any}
-            </p>
           </div>
-          <ChevronUp
-            className='text-zinc-600 transition-transform group-hover:text-violet-500 group-data-[state=open]:rotate-180'
-            size={20}
-          />
-        </div>
-      </DropdownMenuTrigger>
-      <GenerateDropdown t={t} items={item.submenu} />
-    </>
-  );
-};
+        </DropdownMenuTrigger>
+        <GenerateDropdown t={t} items={item.submenu} />
+      </>
+    );
+  }
+);
+Submeu.displayName = 'Submeu';
 
 export default memo(Generate);

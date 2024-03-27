@@ -1,6 +1,6 @@
 'use client';
 import DocNavbar from '@/components/editor/navbar/Navbar';
-import { useDocumentDetail } from '@/query/query';
+import { useDocumentDetail, useUserTrackInfo } from '@/query/query';
 import { DocPageDicType } from '@/types';
 import { useUserInfo } from '@/zustand/store';
 import dynamic from 'next/dynamic';
@@ -28,13 +28,14 @@ type Props = {
 const EssayPanel = ({ id, ...props }: Props) => {
   const { data: document_content, isPending, isError } = useDocumentDetail(id);
   const signUpTime = useUserInfo((state) => state.user.create_time);
+  const { data: userTrack } = useUserTrackInfo();
   const showCheckList = useMemo(() => {
     const signUpDate = new Date(signUpTime * 1000);
     const currentDate = new Date();
     const diffTime = Math.abs(currentDate.getTime() - signUpDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays < 7;
-  }, [signUpTime]);
+    return diffDays < 7 && userTrack?.guidence;
+  }, [signUpTime, userTrack?.guidence]);
 
   useCitationInfo(document_content);
   if (isError) return null;
