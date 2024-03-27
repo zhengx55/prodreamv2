@@ -75,6 +75,7 @@ export const useDocumentDetail = (id: string) => {
   return useQuery({
     queryKey: ['document_item', id],
     queryFn: () => getDocDetail(id),
+    staleTime: 0,
   });
 };
 
@@ -227,8 +228,6 @@ export const useUserLogin = (lang: Locale) => {
     onSuccess: async (data) => {
       const toast = (await import('sonner')).toast;
       toast.success('Successfully Login');
-      const user_id = JSON.parse(atob(data.access_token.split('.')[1])).subject
-        .user_id;
       setCookie('token', data.access_token, {
         path: '/',
         maxAge: 604800,
