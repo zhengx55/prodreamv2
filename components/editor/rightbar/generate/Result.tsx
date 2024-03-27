@@ -41,7 +41,7 @@ const Result = ({
 
   return (
     <div className='mt-4 flex w-full flex-col rounded-t border border-gray-200 pt-3'>
-      <div className='small-regular whitespace-pre-wrap px-3 text-neutral-400'>
+      <div className='small-regular whitespace-pre-wrap px-3 text-zinc-600'>
         {currentText}
       </div>
       <Spacer y='24' />

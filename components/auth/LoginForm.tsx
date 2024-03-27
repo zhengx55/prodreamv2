@@ -27,7 +27,7 @@ const LoginForm = ({ t, lang }: AuthPageDicType) => {
       password: '',
     },
   });
-  const { mutateAsync: handleLogin } = useUserLogin();
+  const { mutateAsync: handleLogin } = useUserLogin(lang);
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     await handleLogin(values);

@@ -88,7 +88,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
           <Starter start={handleHumanize} t={t} />
         )
       ) : (
-        <>
+        <div className='flex flex-col gap-y-2'>
           <div className='flex-between'>
             <p className='small-medium'>{t.Detection.Humanizer}</p>
             <div className='flex gap-x-3'>
@@ -101,7 +101,6 @@ const Suggestion = ({ suggestions, t }: Props) => {
               </Button>
             </div>
           </div>
-          <Spacer y='10' />
           {sentences.map((sentence) => {
             return (
               <SentenceItem
@@ -115,7 +114,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
               />
             );
           })}
-        </>
+        </div>
       )}
     </div>
   );

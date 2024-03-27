@@ -192,8 +192,8 @@ const GenerateSub = ({ generateTab, label, t }: Props) => {
         onClick={() => setGenerateTab(-1)}
         className='flex cursor-pointer items-center gap-x-2 hover:underline'
       >
-        <ChevronLeft size={20} className='text-neutral-400' />
-        <p className='base-regular capitalize text-neutral-400'>
+        <ChevronLeft size={20} className='text-zinc-600' />
+        <p className='base-regular capitalize text-zinc-600'>
           {t.Generate[generateTab as keyof typeof t.Generate] as any}
         </p>
       </div>
