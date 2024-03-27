@@ -25,7 +25,7 @@ const BottomBar = ({
   const commands = useTextmenuCommands(editor);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const showCitation = () => {
-    updateRightbarTab(1);
+    updateRightbarTab(3);
   };
   return (
     <Toolbar.Wrapper className='w-max justify-between gap-x-3 !rounded-none border-none'>
