@@ -61,12 +61,12 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
   } = useEventListener(editor);
   const task_step = useUserTask((state) => state.task_step);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
-
+  if (!showBubbleMenu) return null;
   return (
     <div
       ref={refs.setFloating}
       style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-      className={`z-[99] transition-transform duration-200 ${showBubbleMenu ? ' translate-y-0 opacity-100' : '-translate-y-1 opacity-0'}`}
+      className='z-[99]'
     >
       <Toolbar.Wrapper className='border-shadow-borde relative border shadow-lg'>
         <MemoButton
