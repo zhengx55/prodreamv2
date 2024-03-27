@@ -26,11 +26,6 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
           first_paragraph_to = node.nodeSize + pos;
         }
       });
-      editor
-        .chain()
-        .focus()
-        .setTextSelection({ from: first_paragraph_pos, to: first_paragraph_to })
-        .run();
       const coordinate = posToDOMRect(
         editor.view,
         first_paragraph_pos,

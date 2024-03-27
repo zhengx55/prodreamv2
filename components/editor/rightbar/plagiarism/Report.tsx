@@ -147,7 +147,7 @@ const Report = ({
         </h1>
         <div className='flex flex-col gap-y-2'>
           <p className='small-regular'>
-            {report.scores * 100 > 25
+            {report.scores * 100 > 0
               ? t.Plagiarism.Result
               : t.Plagiarism.Result_good}
           </p>
