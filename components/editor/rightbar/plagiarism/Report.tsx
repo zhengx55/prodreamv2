@@ -164,7 +164,7 @@ const Report = ({
           </Button>
         </div>
       </div>
-      {membership?.subscription !== 'basic' ? (
+      {membership?.subscription === 'basic' ? (
         <Unlock
           text={'Unlock paraphrase suggestions with the Unlimited Plan'}
         />

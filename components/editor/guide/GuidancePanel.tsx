@@ -23,7 +23,6 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EdtitorDictType }) => {
   const resultString = useRef<string>('');
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
-  const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   const close = async () => {
@@ -144,16 +143,13 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EdtitorDictType }) => {
       updateSelection: true,
     });
     await ButtonTrack({ event: 'start with draft' });
-    updateContinueStep(1);
     await ButtonTrack({ event: 'start from draft complete' });
-
     await close();
   };
 
   const handleExplore = async () => {
     await ButtonTrack({ event: 'just exploring' });
     editor.commands.setContent(sample_continue, true);
-    updateContinueStep(1);
     await ButtonTrack({ event: 'just exploring complete' });
     await close();
   };
