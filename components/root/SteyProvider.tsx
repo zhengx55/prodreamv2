@@ -2,7 +2,7 @@
 
 import Script from 'next/script';
 
-const SteyProvider = () => {
+export default function SteyProvider() {
   return (
     <Script
       id='stey_script'
@@ -131,7 +131,7 @@ const SteyProvider = () => {
   }
 })()`,
       }}
-      strategy='lazyOnload'
+      strategy='worker'
     />
   );
-};
+}
