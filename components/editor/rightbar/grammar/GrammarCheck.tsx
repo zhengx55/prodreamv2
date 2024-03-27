@@ -8,7 +8,7 @@ import {
   useUserTrackInfo,
 } from '@/query/query';
 import { IGrammarResponse, IGrammarResult } from '@/query/type';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { JSONContent } from '@tiptap/react';
@@ -20,7 +20,7 @@ import { memo, useCallback, useState } from 'react';
 
 const Result = dynamic(() => import('./Result'));
 
-export const GrammarCheck = ({ t }: { t: EdtitorDictType }) => {
+export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
   const [isChecking, setIsChecking] = useState(false);
   const [grammarResults, setGrammarResults] = useState<IGrammarResult[]>([]);
   const editor = useAIEditor((state) => state.editor_instance);

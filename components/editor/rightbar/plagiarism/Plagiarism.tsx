@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
 import { IPlagiarismData } from '@/query/type';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
-import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { AnimatePresence, m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -13,21 +12,21 @@ import { memo, useCallback, useRef, useState } from 'react';
 
 const Report = dynamic(() => import('./Report'));
 const WaitingModal = dynamic(() => import('./WaitingModal'));
-type Props = { t: EdtitorDictType };
+
+type Props = { t: EditorDictType };
 const Plagiarism = ({ t }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [showLoading, setShowLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [abort, setAbort] = useState(false);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState<
     Omit<IPlagiarismData, 'status'> | undefined
   >();
-  const abortControllerRef = useRef<AbortController | null>(null);
 
   const { mutateAsync: plagiarism } = useMutation({
     mutationFn: (params: string) => plagiarismCheck(params),
     onMutate: () => {
+      setProgress(0);
       setShowLoading(true);
     },
     onSuccess: (data) => {
@@ -50,25 +49,17 @@ const Plagiarism = ({ t }: Props) => {
     },
   });
 
-  useUpdateEffect(() => {
-    if (abort) {
-      timer.current && clearInterval(timer.current);
-    }
-  }, [abort]);
-
   useUnmount(() => {
     timer.current && clearInterval(timer.current);
-    abortControllerRef.current && abortControllerRef.current.abort();
   });
 
   const abortRequest = useCallback(() => {
     setShowLoading(false);
-    setAbort(true);
+    timer.current && clearInterval(timer.current);
     setProgress(0);
   }, []);
 
   const handlePlagiarismCheck = useCallback(async () => {
-    progress !== 0 && setProgress(0);
     if (result) {
       setResult(undefined);
     }
@@ -102,7 +93,7 @@ const Starter = ({
   t,
 }: {
   start: () => Promise<void>;
-  t: EdtitorDictType;
+  t: EditorDictType;
 }) => (
   <m.div
     initial={{ opacity: 0, y: -20 }}

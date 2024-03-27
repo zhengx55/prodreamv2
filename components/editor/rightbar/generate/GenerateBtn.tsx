@@ -3,8 +3,8 @@ import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
 import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
-import { EdtitorDictType } from '@/types';
-import { useAIEditor, useUserTask } from '@/zustand/store';
+import { EditorDictType } from '@/types';
+import { useUserTask } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { forwardRef, memo } from 'react';
@@ -14,7 +14,7 @@ const Tiplayout = dynamic(() => import('../../guide/tips/Tiplayout'));
 type Props = {
   type: string;
   handleGenerate: () => Promise<void>;
-  t: EdtitorDictType;
+  t: EditorDictType;
 };
 const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
@@ -25,7 +25,6 @@ const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
     outline_step,
     generate_step,
   } = useUserTask((state) => ({ ...state }));
-  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   return (
@@ -100,28 +99,5 @@ const Btn = forwardRef<
   </Button>
 ));
 Btn.displayName = 'Btn';
-
-type OutlineTipProps = {
-  content: React.ReactNode;
-  top: number;
-  left: number;
-};
-
-const OutlineTip: React.FC<OutlineTipProps> = ({ content, top, left }) => (
-  <div
-    style={{
-      position: 'fixed',
-      top: `${top}px`,
-      left: `${left - 150}px`,
-      backgroundColor: 'black',
-      color: 'white',
-      padding: '8px',
-      borderRadius: '4px',
-      whiteSpace: 'nowrap',
-    }}
-  >
-    {content}
-  </div>
-);
 
 export default memo(GenerateBtn);

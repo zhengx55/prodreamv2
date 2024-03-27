@@ -1,10 +1,10 @@
 import { Copilot } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { ChangeEvent, KeyboardEvent, forwardRef, memo, useState } from 'react';
 
-type Props = { submit: () => void; t: EdtitorDictType; currentResult: number };
+type Props = { submit: () => void; t: EditorDictType; currentResult: number };
 const CustomPrompt = forwardRef<HTMLInputElement, Props>(
   ({ submit, t, currentResult }, ref) => {
     const [isTyping, setIsTyping] = useState(false);

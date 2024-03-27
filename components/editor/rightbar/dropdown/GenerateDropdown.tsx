@@ -2,7 +2,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { memo } from 'react';
 
@@ -12,7 +12,7 @@ type Props = {
     id: string;
     label: string;
   }[];
-  t: EdtitorDictType;
+  t: EditorDictType;
 };
 
 const GenerateDropdown = ({ items, t }: Props) => {

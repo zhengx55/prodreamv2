@@ -37,7 +37,6 @@ const OPTIONS = [
 const General = ({ t, lang }: DocPageDicType) => {
   const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
-  const rightbarOpen = useAIEditor((state) => state.rightbarOpen);
 
   return (
     <m.aside

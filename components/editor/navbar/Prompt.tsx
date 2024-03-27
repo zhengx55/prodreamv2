@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { saveDoc } from '@/query/api';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { PencilLine } from 'lucide-react';
@@ -40,7 +40,7 @@ function reducer(state: State, action: Action) {
   }
 }
 
-const PromptView = ({ t }: { t: EdtitorDictType }) => {
+const PromptView = ({ t }: { t: EditorDictType }) => {
   const prompt = useAIEditor((state) => state.essay_prompt);
   const updateEssayPrompt = useAIEditor((state) => state.updateEssayPrompt);
   const { id } = useParams();

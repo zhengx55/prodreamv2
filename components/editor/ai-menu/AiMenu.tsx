@@ -13,7 +13,7 @@ import {
   useMutateTrackInfo,
   useUserTrackInfo,
 } from '@/query/query';
-import { DocPageDicType, EdtitorDictType } from '@/types';
+import { DocPageDicType, EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
@@ -332,7 +332,7 @@ const AiMenu = ({ editor, t }: Props) => {
 export default memo(AiMenu);
 
 type OperationProps = {
-  t: EdtitorDictType;
+  t: EditorDictType;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   onClick: () => void;

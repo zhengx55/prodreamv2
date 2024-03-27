@@ -1,14 +1,14 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { useMutateTrackInfo } from '@/query/query';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
 
-type Props = { t: EdtitorDictType };
+type Props = { t: EditorDictType };
 
 const Task = ({ t }: Props) => {
   const updateShowTaskDialog = useUserTask(

@@ -1,7 +1,7 @@
 import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import { IDetectionResult } from '@/query/type';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
@@ -13,7 +13,7 @@ const labels = ['human', 'mixed', 'ai generated'];
 const primaryColor = ['#48B251', '#5266CC', '#E58600'];
 const secondaryColor = ['#D5F9D8', '#F2F4FF', '#FFEACC'];
 
-type Props = { result: IDetectionResult; t: EdtitorDictType };
+type Props = { result: IDetectionResult; t: EditorDictType };
 const Result = ({ result, t }: Props) => {
   const ai_percent = result.class_probabilities.ai * 100;
   const human_percent = result.class_probabilities.human * 100;
@@ -76,7 +76,8 @@ const Result = ({ result, t }: Props) => {
       <h3 className='base-medium'>{t.Detection.breakdown}</h3>
       <Spacer y='8' />
       <p className='small-regular leading-relaxed text-zinc-600'>
-        {result.message}
+        The probability this text has been entirely written by a human, AI or a
+        mix of the two.
       </p>
       <Spacer y='32' />
       <Bar
@@ -107,7 +108,7 @@ const Bar = ({
   <>
     <div className='flex h-2.5 w-full shrink-0 bg-transparent'>
       <span
-        className='h-full rounded-3xl bg-emerald-100'
+        className='h-full rounded-l-3xl bg-emerald-100'
         style={{
           width: `${human_percent}%`,
         }}
@@ -125,7 +126,7 @@ const Bar = ({
         }}
       />
     </div>
-    <Spacer y='10' />{' '}
+    <Spacer y='10' />
     <div className='flex w-full items-center'>
       <div
         className='flex flex-col gap-y-0.5'

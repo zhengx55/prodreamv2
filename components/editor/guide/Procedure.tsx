@@ -1,11 +1,12 @@
 import '@/lib/tiptap/styles/index.css';
 import { useUserTrackInfo } from '@/query/query';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
-type Props = { editor: Editor; t: EdtitorDictType };
+import { memo } from 'react';
+type Props = { editor: Editor; t: EditorDictType };
 
 const GuidancePanel = dynamic(() => import('./GuidancePanel'));
 
@@ -15,12 +16,6 @@ const OutlineTip = dynamic(
     ssr: false,
   }
 );
-// const ContinueTip = dynamic(
-//   () => import('./tips/FloatingTip').then((mod) => mod.ContinueTip),
-//   {
-//     ssr: false,
-//   }
-// );
 
 const Procedure = ({ editor, t }: Props) => {
   const { data: userTrack } = useUserTrackInfo();
@@ -35,4 +30,4 @@ const Procedure = ({ editor, t }: Props) => {
     </AnimatePresence>
   );
 };
-export default Procedure;
+export default memo(Procedure);

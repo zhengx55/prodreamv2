@@ -1,7 +1,7 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { useMembershipInfo } from '@/query/query';
-import { EdtitorDictType, Sentence } from '@/types';
+import { EditorDictType, Sentence } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
@@ -10,7 +10,7 @@ import { memo } from 'react';
 import Unlock from '../Unlock';
 import useSuggestion from './hooks/useSuggestion';
 
-type Props = { suggestions: [number[]]; t: EdtitorDictType };
+type Props = { suggestions: [number[]]; t: EditorDictType };
 const Suggestion = ({ suggestions, t }: Props) => {
   const { data: membership } = useMembershipInfo();
   const editor = useAIEditor((state) => state.editor_instance);
@@ -18,13 +18,14 @@ const Suggestion = ({ suggestions, t }: Props) => {
     useSuggestion(suggestions);
 
   const toggleExpand = (item: Sentence) => {
-    const { id, ranges } = item;
+    const { id } = item;
+    const editor_text = editor?.getText();
+
     if (!item.expand) {
-      editor
-        ?.chain()
-        .focus()
-        .setTextSelection({ from: ranges[0] + 1, to: ranges[1] })
-        .run();
+      const position = editor_text?.indexOf(item.text) ?? 0;
+      const from = position + 1;
+      const to = position + item.text.length + 1;
+      editor?.chain().focus().setTextSelection({ from, to }).run();
       setSentences((prev) =>
         prev.map((prevItem) => {
           if (prevItem.id === id) return { ...prevItem, expand: true };
@@ -38,12 +39,14 @@ const Suggestion = ({ suggestions, t }: Props) => {
 
   const handleAcceptAll = () => {
     sentences.map((item) => {
-      const start = item.ranges[0];
-      const end = item.ranges[1];
+      const editor_text = editor?.getText();
+      const position = editor_text?.indexOf(item.text) ?? 0;
+      const from = position + 1;
+      const to = position + item.text.length + 1;
       editor
         ?.chain()
-        .blur()
-        .setTextSelection({ from: start + 1, to: end })
+        .focus()
+        .setTextSelection({ from, to })
         .insertContent(item.result)
         .run();
     });
@@ -64,14 +67,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
   };
 
   const handleAccept = (item: Sentence) => {
-    const start = item.ranges[0];
-    const end = item.ranges[1];
-    editor
-      ?.chain()
-      .blur()
-      .setTextSelection({ from: start + 1, to: end })
-      .insertContent(item.result)
-      .run();
+    editor?.chain().insertContent(item.result).run();
     setSentences((prev) =>
       prev.filter((prevItem) => {
         return prevItem.id !== item.id;
@@ -125,7 +121,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
   );
 };
 const Starter = memo(
-  ({ start, t }: { start: () => Promise<void>; t: EdtitorDictType }) => {
+  ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
     return (
       <m.div
         initial={{ opacity: 0, y: -20 }}
@@ -165,7 +161,7 @@ interface SentenceItemProps {
   onToggleExpand: () => void;
   onDismiss: () => void;
   onAccept: () => void;
-  t: EdtitorDictType;
+  t: EditorDictType;
 }
 const SentenceItem = ({
   item,

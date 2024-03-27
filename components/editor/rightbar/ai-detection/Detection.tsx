@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { getDetectionResult } from '@/query/api';
 import { IDetectionResult } from '@/query/type';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
 import Result from './Result';
 
-const Detection = ({ t }: { t: EdtitorDictType }) => {
+const Detection = ({ t }: { t: EditorDictType }) => {
   const [generating, setGenerating] = useState(false);
   const [result, setResult] = useState<IDetectionResult>();
   const editor = useAIEditor((state) => state.editor_instance);
@@ -64,7 +64,7 @@ const Detection = ({ t }: { t: EdtitorDictType }) => {
 };
 
 const Starter = memo(
-  ({ start, t }: { start: () => Promise<void>; t: EdtitorDictType }) => {
+  ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
     return (
       <m.div
         initial={{ opacity: 0, y: -20 }}
