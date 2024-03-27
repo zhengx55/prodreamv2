@@ -1,16 +1,16 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { useMutateTrackInfo } from '@/query/query';
-import { UserTrackData } from '@/query/type';
+import { EdtitorDictType } from '@/types';
 import { type Editor } from '@tiptap/react';
 import { m } from 'framer-motion';
 import { XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
 
-type Props = { editor: Editor; track: UserTrackData };
+type Props = { editor: Editor; t: EdtitorDictType };
 
-const Task = ({ editor, track }: Props) => {
+const Task = ({ editor, t }: Props) => {
   return (
     <m.div
       initial={{ opacity: 0, y: -10 }}
@@ -21,7 +21,7 @@ const Task = ({ editor, track }: Props) => {
     >
       <div className='flex-between'>
         <p className='text-xl font-medium leading-normal text-zinc-600'>
-          Try AI Copilot for easy editing
+          {t.Task.title}
         </p>
         <XCircle
           className='cursor-pointer text-neutral-400'
@@ -30,36 +30,36 @@ const Task = ({ editor, track }: Props) => {
         />
       </div>
       <p className='base-regular text-neutral-400'>
-        Features Including:&nbsp;
+        {t.Task.feature}:&nbsp;
         <span className='inline-flex rounded bg-white px-1.5 text-neutral-400'>
-          Paraphrase
+          {t.Task.paraphrase}
         </span>
         &nbsp;
         <span className='inline-flex rounded bg-white px-1.5 text-neutral-400'>
-          Make Academic
+          {t.Task.academic}
         </span>
         &nbsp;
         <span className='inline-flex rounded bg-white px-1.5 text-neutral-400'>
-          Edit length
+          {t.Task.length}
         </span>
       </p>
       <div className='flex-between'>
         <div className='flex flex-col gap-y-2'>
           <p className='text-base font-medium text-zinc-600'>
-            <strong>Step 1: </strong>
-            Highlight any text in the text editor
+            <strong>{t.Task.Step} 1: </strong>
+            {t.Task.step_1}
           </p>
           <p className='text-base font-medium text-zinc-600'>
-            <strong>Step 2: </strong>
-            Click the &nbsp;
+            <strong>{t.Task.Step} 2: </strong>
+            {t.Task.step_2_prefix} &nbsp;
             <span className='inline-flex rounded bg-violet-100 px-1 text-base font-normal text-violet-500'>
-              AI Copilot
+              {t.Task.step_2_middle}
             </span>
-            &nbsp; button
+            &nbsp; {t.Task.step_2_suffix}
           </p>
           <p className='text-base font-medium text-zinc-600'>
-            <strong>Step 3: </strong>
-            Try any Edit or Generate tool
+            <strong>{t.Task.Step} 3: </strong>
+            {t.Task.step_3}
           </p>
         </div>
         <Image
