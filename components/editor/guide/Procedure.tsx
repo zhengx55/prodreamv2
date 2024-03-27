@@ -25,10 +25,7 @@ const OutlineTip = dynamic(
 const Procedure = ({ editor, t }: Props) => {
   const { data: userTrack } = useUserTrackInfo();
   const outline_step = useUserTask((state) => state.outline_step);
-  const continue_step = useUserTask((state) => state.continue_step);
-
-  const showGuidance =
-    !Boolean(userTrack?.guidence) && outline_step === 0 && continue_step === 0;
+  const showGuidance = !Boolean(userTrack?.guidence) && outline_step === 0;
   const showOutlineTip = Boolean(userTrack?.guidence) && outline_step === 1;
 
   return (
