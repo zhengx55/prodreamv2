@@ -39,11 +39,9 @@ const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
           height={270}
           className='h-auto w-auto object-contain'
         />
-
         <p className='base-regular text-center text-neutral-400'>
           {t.Generate.SubTitle[type as keyof typeof t.Generate.SubTitle]}
         </p>
-
         {outline_step === 3 || generate_step === 1 ? (
           <Tiplayout
             title={OutlineTooltipThrid.TITLE}

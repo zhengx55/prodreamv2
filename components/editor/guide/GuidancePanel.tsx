@@ -196,7 +196,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
             />
             <label
               htmlFor='have-draft'
-              className={`text-sm font-medium leading-none ${check === 0 ? 'text-violet-500' : 'text-neutral-400'}`}
+              className={`text-sm font-medium leading-none ${check === 0 ? 'text-violet-500' : 'text-zinc-600'}`}
             >
               {t.Onboard.Option1.Title}
             </label>
@@ -211,7 +211,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
             />
             <label
               htmlFor='start-outline'
-              className={`text-sm font-medium leading-none ${check === 1 ? 'text-violet-500' : 'text-neutral-400'}`}
+              className={`text-sm font-medium leading-none ${check === 1 ? 'text-violet-500' : 'text-zinc-600'}`}
             >
               {t.Onboard.Option2.Title}
             </label>
@@ -226,7 +226,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
             />
             <label
               htmlFor='just-exploring'
-              className={`text-sm font-medium leading-none ${check === 2 ? 'text-violet-500' : 'text-neutral-400'}`}
+              className={`text-sm font-medium leading-none ${check === 2 ? 'text-violet-500' : 'text-zinc-600'}`}
             >
               {t.Onboard.Option3.Title}
             </label>
