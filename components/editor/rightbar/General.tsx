@@ -37,6 +37,7 @@ const OPTIONS = [
 const General = ({ t, lang }: DocPageDicType) => {
   const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
+  const rightbarOpen = useAIEditor((state) => state.rightbarOpen);
 
   return (
     <m.aside
@@ -116,7 +117,11 @@ const Trigger = ({ t, lang }: DocPageDicType) => {
                 >
                   <Icon
                     alt=''
-                    src={rightbarTab === index ? item.active_icon : item.icon}
+                    src={
+                      rightbarTab === index && rightbarOpen
+                        ? item.active_icon
+                        : item.icon
+                    }
                     priority
                     width={24}
                     height={24}
@@ -130,7 +135,7 @@ const Trigger = ({ t, lang }: DocPageDicType) => {
                 }}
                 item={item}
                 label={t.RightBar[item.title as keyof typeof t.RightBar]}
-                isActive={rightbarTab === index}
+                isActive={rightbarTab === index && rightbarOpen}
               />
             )
           ) : (
@@ -140,7 +145,7 @@ const Trigger = ({ t, lang }: DocPageDicType) => {
               }}
               item={item}
               label={t.RightBar[item.title as keyof typeof t.RightBar]}
-              isActive={rightbarTab === index}
+              isActive={rightbarTab === index && rightbarOpen}
             />
           )}
         </Fragment>
