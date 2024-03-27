@@ -296,6 +296,19 @@
       "mixed": "We are moderately confident this text is entirely",
       "humanize_title": "Click to see humanize suggestions",
       "humanize_button": "Start Humanize"
+    },
+    "Task": {
+      "title": "Try AI Copilot for easy editing",
+      "feature": "Features Including",
+      "paraphrase": "Paraphrase",
+      "academic": "Make Academic",
+      "length": "Edit Length",
+      "Step": "Step",
+      "step_1": "Highlight any text in the text editor",
+      "step_2_prefix": "Click the",
+      "step_2_middle": "AI Copilot",
+      "step_2_suffix": "button",
+      "step_3": "Try any Edit or Generate tool"
     }
   }
 }
