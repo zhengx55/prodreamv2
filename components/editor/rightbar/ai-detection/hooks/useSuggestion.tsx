@@ -49,16 +49,15 @@ export default function useSuggestion(suggestions: [number[]]) {
       const eventData = lines
         .filter((line) => line.startsWith('data:'))
         .map((line) => JSON.parse(line.slice('data:'.length)));
-      const sentences = eventData.map((suggestion, index) => {
+      const sentences = eventData.map((item, index) => {
         return {
           id: v4(),
           expand: false,
           text: texts[index],
-          result: eventData[index],
+          result: item,
         };
       });
       setSentences(sentences);
-      console.log('🚀 ~ useSuggestion ~ sentences:', sentences);
     },
     [texts]
   );
