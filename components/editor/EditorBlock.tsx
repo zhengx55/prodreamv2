@@ -38,7 +38,7 @@ const EditorBlock = ({ editor, ...props }: Props) => {
     >
       <Spacer y='20' />
       <AnimatePresence>
-        {showTaskPanel ? <Task editor={editor} track={userTrack!} /> : null}
+        {showTaskPanel ? <Task editor={editor} t={props.t} /> : null}
       </AnimatePresence>
       {showSynonymMenu && <SynonymMenu editor={editor} />}
       {showCopilotMenu && <AiMenu {...props} editor={editor} />}
