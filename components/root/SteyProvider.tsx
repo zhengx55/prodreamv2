@@ -131,7 +131,7 @@ const SteyProvider = () => {
   }
 })()`,
       }}
-      strategy='worker'
+      strategy='lazyOnload'
     />
   );
 };
