@@ -8,7 +8,7 @@ import { OutlineTooltip } from '@/constant/enum';
 import { useMembershipInfo } from '@/query/query';
 import { EdtitorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
-import { AnimatePresence, m } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ChevronUp, FileText } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useRef } from 'react';
@@ -23,75 +23,45 @@ const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 export const Generate = ({ t }: { t: EdtitorDictType }) => {
   const generateTab = useAIEditor((state) => state.generateTab);
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
-  const outline_step = useUserTask((state) => state.outline_step);
   const copilot_option = useRef<string | null>(null);
+  const outline_step = useUserTask((state) => state.outline_step);
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const { data: usage } = useMembershipInfo();
 
   return (
     <>
-      <AnimatePresence mode='wait' initial={false}>
-        {generateTab === -1 ? (
-          <m.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            key='generate-panel'
-            className='flex w-full flex-col overflow-hidden'
-          >
-            {GenerateOptions.map((item) => {
-              if (item.submenu)
-                return (
-                  <DropdownMenu key={item.id}>
-                    {outline_step === 2 ? (
-                      <>
-                        <Tiplayout
-                          title={OutlineTooltip.TITLE}
-                          content={OutlineTooltip.TEXT}
-                          side='left'
-                          buttonLabel='Next'
-                          step={2}
-                          totalSteps={3}
-                          onClickCallback={() => {
-                            updateOutlineStep(3);
-                            copilot_option.current = 'write_introduction';
-                            setGenerateTab('Write Introduction');
-                          }}
-                        >
-                          <DropdownMenuTrigger>
-                            <div className='flex-between group cursor-pointer bg-slate-100 px-2.5 py-3'>
-                              <div className='flex items-center gap-x-3'>
-                                <FileText
-                                  className='text-violet-500'
-                                  size={20}
-                                />
-                                <p className='base-regular text-violet-500'>
-                                  {
-                                    t.Generate[
-                                      item.title as keyof typeof t.Generate
-                                    ] as any
-                                  }
-                                </p>
-                              </div>
-                              <ChevronUp
-                                className='text-zinc-600 transition-transform group-hover:text-violet-500 group-data-[state=open]:rotate-180'
-                                size={20}
-                              />
-                            </div>
-                          </DropdownMenuTrigger>
-                        </Tiplayout>
-                        <GenerateDropdown t={t} items={item.submenu} />
-                      </>
-                    ) : (
-                      <>
-                        <DropdownMenuTrigger asChild>
-                          <div className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-slate-100'>
+      {generateTab === -1 ? (
+        <m.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          key='generate-panel'
+          className='flex w-full flex-col overflow-hidden'
+        >
+          {GenerateOptions.map((item) => {
+            if (item.submenu)
+              return (
+                <DropdownMenu key={item.id}>
+                  {outline_step === 2 ? (
+                    <>
+                      <Tiplayout
+                        title={OutlineTooltip.TITLE}
+                        content={OutlineTooltip.TEXT}
+                        side='left'
+                        buttonLabel='Next'
+                        step={2}
+                        totalSteps={3}
+                        onClickCallback={() => {
+                          updateOutlineStep(3);
+                          copilot_option.current = 'write_introduction';
+                          setGenerateTab('Write Introduction');
+                        }}
+                      >
+                        <DropdownMenuTrigger>
+                          <div className='flex-between group cursor-pointer bg-slate-100 px-2.5 py-3'>
                             <div className='flex items-center gap-x-3'>
-                              <FileText
-                                className='text-zinc-600 group-hover:text-violet-500'
-                                size={20}
-                              />
-                              <p className='base-regular text-zinc-600 group-hover:text-violet-500'>
+                              <FileText className='text-violet-500' size={20} />
+                              <p className='base-regular text-violet-500'>
                                 {
                                   t.Generate[
                                     item.title as keyof typeof t.Generate
@@ -105,42 +75,67 @@ export const Generate = ({ t }: { t: EdtitorDictType }) => {
                             />
                           </div>
                         </DropdownMenuTrigger>
-                        <GenerateDropdown t={t} items={item.submenu} />
-                      </>
-                    )}
-                  </DropdownMenu>
-                );
-              return (
-                <div
-                  key={item.id}
-                  id={item.id}
-                  onClick={() => {
-                    copilot_option.current = item.label!;
-                    setGenerateTab(item.title);
-                  }}
-                  className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-slate-100'
-                >
-                  <div className='flex items-center gap-x-3'>
-                    <FileText
-                      className='text-zinc-600 group-hover:text-violet-500'
-                      size={20}
-                    />
-                    <p className='base-regular text-zinc-600 group-hover:text-violet-500'>
-                      {t.Generate[item.title as keyof typeof t.Generate] as any}
-                    </p>
-                  </div>
-                </div>
+                      </Tiplayout>
+                      <GenerateDropdown t={t} items={item.submenu} />
+                    </>
+                  ) : (
+                    <>
+                      <DropdownMenuTrigger asChild>
+                        <div className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-slate-100'>
+                          <div className='flex items-center gap-x-3'>
+                            <FileText
+                              className='text-zinc-600 group-hover:text-violet-500'
+                              size={20}
+                            />
+                            <p className='base-regular text-zinc-600 group-hover:text-violet-500'>
+                              {
+                                t.Generate[
+                                  item.title as keyof typeof t.Generate
+                                ] as any
+                              }
+                            </p>
+                          </div>
+                          <ChevronUp
+                            className='text-zinc-600 transition-transform group-hover:text-violet-500 group-data-[state=open]:rotate-180'
+                            size={20}
+                          />
+                        </div>
+                      </DropdownMenuTrigger>
+                      <GenerateDropdown t={t} items={item.submenu} />
+                    </>
+                  )}
+                </DropdownMenu>
               );
-            })}
-          </m.div>
-        ) : (
-          <GenerateSub
-            t={t}
-            generateTab={generateTab as string}
-            label={copilot_option.current}
-          />
-        )}
-      </AnimatePresence>
+            return (
+              <div
+                key={item.id}
+                id={item.id}
+                onClick={() => {
+                  copilot_option.current = item.label!;
+                  setGenerateTab(item.title);
+                }}
+                className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-slate-100'
+              >
+                <div className='flex items-center gap-x-3'>
+                  <FileText
+                    className='text-zinc-600 group-hover:text-violet-500'
+                    size={20}
+                  />
+                  <p className='base-regular text-zinc-600 group-hover:text-violet-500'>
+                    {t.Generate[item.title as keyof typeof t.Generate] as any}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </m.div>
+      ) : (
+        <GenerateSub
+          t={t}
+          generateTab={generateTab as string}
+          label={copilot_option.current}
+        />
+      )}
       {usage?.subscription === 'basic' ? <Unlock /> : null}
     </>
   );

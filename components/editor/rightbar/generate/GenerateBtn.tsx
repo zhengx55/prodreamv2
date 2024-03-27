@@ -5,9 +5,11 @@ import { OutlineTooltipThrid } from '@/constant/enum';
 import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
 import { EdtitorDictType } from '@/types';
 import { useAIEditor, useUserTask } from '@/zustand/store';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { memo } from 'react';
-import Tiplayout from '../../guide/tips/Tiplayout';
+import { forwardRef, memo } from 'react';
+
+const Tiplayout = dynamic(() => import('../../guide/tips/Tiplayout'));
 
 type Props = {
   type: string;
@@ -16,15 +18,20 @@ type Props = {
 };
 const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const { updateOutlineStep, updateGenerateStep, outline_step, generate_step } =
-    useUserTask((state) => ({ ...state }));
+  const {
+    updateOutlineStep,
+    updateGenerateStep,
+    updateShowTaskDialog,
+    outline_step,
+    generate_step,
+  } = useUserTask((state) => ({ ...state }));
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   return (
     <div className='flex flex-col'>
-      <Spacer y='30' />
-      <div className='flex-center h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
+      <Spacer y='10' />
+      <div className='flex-center relative h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
         <Image
           src='/editor/Generate.png'
           alt='generate-img'
@@ -37,6 +44,7 @@ const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
         <p className='base-regular text-center text-neutral-400'>
           {t.Generate.SubTitle[type as keyof typeof t.Generate.SubTitle]}
         </p>
+
         {outline_step === 3 || generate_step === 1 ? (
           <Tiplayout
             title={OutlineTooltipThrid.TITLE}
@@ -57,12 +65,12 @@ const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
                 });
               } else {
                 updateOutlineStep(0);
+                updateShowTaskDialog();
                 await updateTrack({
                   field: 'outline_tip_task',
                   data: true,
                 });
                 await ButtonTrack({ event: 'outline_gotit' });
-                updateRightbarTab(0);
               }
             }}
           >
@@ -75,19 +83,45 @@ const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
     </div>
   );
 };
-const Btn = ({
-  onClick,
-  label,
-}: {
-  onClick: () => Promise<void>;
-  label: string;
-}) => (
+const Btn = forwardRef<
+  HTMLButtonElement,
+  {
+    onClick: () => Promise<void>;
+    label: string;
+  }
+>(({ onClick, label }, ref) => (
   <Button
+    ref={ref}
     onClick={onClick}
     className='h-max w-max self-center rounded-full bg-violet-500 px-8 py-1'
   >
     <GenerateFill fill='#fff' size='20' />
     {label}
   </Button>
+));
+Btn.displayName = 'Btn';
+
+type OutlineTipProps = {
+  content: React.ReactNode;
+  top: number;
+  left: number;
+};
+
+const OutlineTip: React.FC<OutlineTipProps> = ({ content, top, left }) => (
+  <div
+    style={{
+      position: 'fixed',
+      top: `${top}px`,
+      left: `${left - 150}px`,
+      backgroundColor: 'black',
+      color: 'white',
+      padding: '8px',
+      borderRadius: '4px',
+      whiteSpace: 'nowrap',
+    }}
+  >
+    {content}
+  </div>
 );
+
 export default memo(GenerateBtn);

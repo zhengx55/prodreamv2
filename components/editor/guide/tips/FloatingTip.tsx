@@ -26,11 +26,6 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
           first_paragraph_to = node.nodeSize + pos;
         }
       });
-      editor
-        .chain()
-        .focus()
-        .setTextSelection({ from: first_paragraph_pos, to: first_paragraph_to })
-        .run();
       const coordinate = posToDOMRect(
         editor.view,
         first_paragraph_pos,
@@ -71,7 +66,7 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
         <Button
           onClick={() => {
             updateOutlineStep(2);
-            updateRightbarTab(2);
+            updateRightbarTab(5);
             editor.chain().blur().setTextSelection(0).run();
           }}
           className='h-max w-max rounded bg-violet-500 px-5 py-1 capitalize'

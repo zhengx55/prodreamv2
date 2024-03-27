@@ -1,8 +1,7 @@
 import Spacer from '@/components/root/Spacer';
 import '@/lib/tiptap/styles/index.css';
-import { useUserTrackInfo } from '@/query/query';
 import { DocPageDicType } from '@/types';
-import { useAIEditor } from '@/zustand/store';
+import { useAIEditor, useUserTask } from '@/zustand/store';
 import { EditorContent, Editor as EditorType } from '@tiptap/react';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -22,9 +21,7 @@ const EditorBlock = ({ editor, ...props }: Props) => {
     useAIEditor((state) => ({
       ...state,
     }));
-  const { data: userTrack } = useUserTrackInfo();
-  const isOutlineFinished = Boolean(userTrack?.outline_tip_task);
-  const showTaskPanel = isOutlineFinished;
+  const show_task_dialog = useUserTask((state) => state.show_task_dialog);
   return (
     <div
       aria-label='editor-parent'
@@ -33,7 +30,7 @@ const EditorBlock = ({ editor, ...props }: Props) => {
     >
       <Spacer y='20' />
       <AnimatePresence>
-        {showTaskPanel ? <Task editor={editor} t={props.t} /> : null}
+        {show_task_dialog ? <Task t={props.t} /> : null}
       </AnimatePresence>
       {showSynonymMenu && <SynonymMenu editor={editor} />}
       {showCopilotMenu && <AiMenu {...props} editor={editor} />}

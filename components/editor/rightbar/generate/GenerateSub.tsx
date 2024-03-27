@@ -7,7 +7,6 @@ import { EdtitorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
-import { m } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { memo, useCallback, useRef, useState } from 'react';
 import { z } from 'zod';
@@ -114,7 +113,6 @@ const GenerateSub = ({ generateTab, label, t }: Props) => {
         return JSON.parse(line.slice('data:'.length));
       });
     }
-
     setGeneratedResult((prev) => (prev += eventData.join('')));
   };
 
@@ -189,13 +187,7 @@ const GenerateSub = ({ generateTab, label, t }: Props) => {
   }, [isOutline]);
 
   return (
-    <m.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 50 }}
-      className='flex h-full w-full flex-col overflow-hidden'
-      key='generate-detail'
-    >
+    <div className='flex h-full w-full flex-col overflow-hidden'>
       <div
         onClick={() => setGenerateTab(-1)}
         className='flex cursor-pointer items-center gap-x-2 hover:underline'
@@ -227,7 +219,7 @@ const GenerateSub = ({ generateTab, label, t }: Props) => {
           <Loading />
         )}
       </div>
-    </m.div>
+    </div>
   );
 };
 export default memo(GenerateSub);

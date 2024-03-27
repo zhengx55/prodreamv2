@@ -38,7 +38,7 @@ const Tiplayout = ({
   };
   return (
     <TooltipProvider>
-      <Tooltip open={show}>
+      <Tooltip delayDuration={500} open={show}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
           sideOffset={10}

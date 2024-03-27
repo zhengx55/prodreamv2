@@ -147,7 +147,7 @@ const Report = ({
         </h1>
         <div className='flex flex-col gap-y-2'>
           <p className='small-regular'>
-            {report.scores * 100 > 25
+            {report.scores * 100 > 0
               ? t.Plagiarism.Result
               : t.Plagiarism.Result_good}
           </p>
@@ -269,7 +269,7 @@ const SentenceItem = ({
         <Button
           role='button'
           variant={'ghost'}
-          onClick={onDismiss}
+          onClick={onAccept}
           className='h-max w-max rounded border border-zinc-600 px-4 py-1 text-zinc-600'
         >
           {acceptLable}
@@ -277,7 +277,7 @@ const SentenceItem = ({
         <Button
           role='button'
           className='h-max w-max rounded border border-transparent px-4 py-1'
-          onClick={onAccept}
+          onClick={onDismiss}
         >
           {dismissLable}
         </Button>

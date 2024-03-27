@@ -23,6 +23,9 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EdtitorDictType }) => {
   const resultString = useRef<string>('');
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
+  const updateShowTaskDialog = useUserTask(
+    (state) => state.updateShowTaskDialog
+  );
   const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   const close = async () => {
@@ -142,12 +145,14 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EdtitorDictType }) => {
     editor.commands.insertContent(draftRef.current.value, {
       updateSelection: true,
     });
+    updateShowTaskDialog();
     await ButtonTrack({ event: 'start with draft' });
     await ButtonTrack({ event: 'start from draft complete' });
     await close();
   };
 
   const handleExplore = async () => {
+    updateShowTaskDialog();
     await ButtonTrack({ event: 'just exploring' });
     editor.commands.setContent(sample_continue, true);
     await ButtonTrack({ event: 'just exploring complete' });
