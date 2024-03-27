@@ -311,6 +311,10 @@
       "step_2_middle": "AI Copilot",
       "step_2_suffix": "button",
       "step_3": "Try any Edit or Generate tool"
+    },
+    "Continue": {
+      "title": "Continue Writing",
+      "description": "cmd/ctrl + '/' for shortcut"
     }
   }
 }

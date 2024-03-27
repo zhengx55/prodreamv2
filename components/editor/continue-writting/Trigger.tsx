@@ -9,14 +9,15 @@ import {
 } from '@/components/ui/tooltip';
 import { copilot } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
+import { EdtitorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { Loader2 } from 'lucide-react';
 import { memo, useEffect, useState } from 'react';
 
-type Props = { editor: Editor };
-const Trigger = ({ editor }: Props) => {
+type Props = { editor: Editor; t: EdtitorDictType };
+const Trigger = ({ editor, t }: Props) => {
   const {
     showContinue,
     updateContinueRes,
@@ -26,6 +27,7 @@ const Trigger = ({ editor }: Props) => {
   const [generating, setGenerating] = useState(false);
   const queryClient = useQueryClient();
   const { data: usage } = useMembershipInfo();
+
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === '/') {
@@ -126,11 +128,9 @@ const Trigger = ({ editor }: Props) => {
               </span>
             </TooltipTrigger>
             <TooltipContent className='py-2'>
-              <p>Continue Writing</p>
+              <p>{t.Continue.title}</p>
               <Spacer y='5' />
-              <p className='text-[#939393]'>
-                cmd/ctrl + &quot;/&quot; for shortcut
-              </p>
+              <p className='text-[#939393]'>{t.Continue.description}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

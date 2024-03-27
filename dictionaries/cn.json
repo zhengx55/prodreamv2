@@ -312,6 +312,10 @@
       "step_2_middle": "AI Copilot",
       "step_2_suffix": "按钮",
       "step_3": "尝试任何编辑或生成工具"
+    },
+    "Continue": {
+      "title": "续写",
+      "description": "快捷键 cmd/ctrl  + \"/\""
     }
   }
 }
