@@ -1,4 +1,5 @@
 import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
+import { Locale } from '@/i18n-config';
 import { DocSortingMethods, ICitationType } from '@/types';
 import { useAIEditor, useCitation } from '@/zustand/store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -217,7 +218,7 @@ export const useRensendEmail = () => {
   });
 };
 
-export const useUserLogin = () => {
+export const useUserLogin = (lang: Locale) => {
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
   return useMutation({
@@ -234,7 +235,7 @@ export const useUserLogin = () => {
         secure: true,
         sameSite: 'lax',
       });
-      router.push('/editor');
+      router.push(`/${lang}/editor`);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

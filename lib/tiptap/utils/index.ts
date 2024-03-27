@@ -165,3 +165,16 @@ export function highLightGrammar(
     }
   });
 }
+
+export function findTextInDoc(text: string, editor: Editor) {
+  let from = 0,
+    to = 0;
+  editor?.state.doc.descendants((node, pos) => {
+    if (node.type.name === 'paragraph' && node.textContent?.includes(text)) {
+      const postion = node.textContent.indexOf(text);
+      from = postion + pos + 1;
+      to = from + text.length;
+    }
+  });
+  return { from, to };
+}

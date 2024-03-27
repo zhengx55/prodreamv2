@@ -20,7 +20,7 @@ const variants: Variants = {
 };
 
 const CheckList = ({ t }: { t: EditorDictType }) => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const { data: userTrack } = useUserTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);

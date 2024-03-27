@@ -124,7 +124,7 @@ export type Sentence = {
   id: string;
   text: string;
   expand: boolean;
-  ranges: number[];
+  ranges?: number[];
   result: string;
 };
 

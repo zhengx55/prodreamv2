@@ -2,11 +2,10 @@ import { batchHumanize } from '@/query/api';
 import { Sentence } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { v4 } from 'uuid';
 
 export default function useSuggestion(suggestions: [number[]]) {
-  const [result, setResult] = useState<string[]>([]);
   const [sentences, setSentences] = useState<Sentence[]>([]);
   const [generating, setGenerating] = useState(false);
   const editor = useAIEditor((state) => state.editor_instance);
@@ -32,10 +31,10 @@ export default function useSuggestion(suggestions: [number[]]) {
             finalValue.push(value);
           }
           if (done) {
+            handleStreamData(finalValue.join('\n'));
             break;
           }
         }
-        handleStreamData(finalValue.join('\n'));
       }
     },
     onSettled: () => {
@@ -43,29 +42,26 @@ export default function useSuggestion(suggestions: [number[]]) {
     },
   });
 
-  const handleStreamData = useCallback((value: string) => {
-    if (!value) return;
-    const lines = value.split('\n');
-    const eventData = lines
-      .filter((line) => line.startsWith('data:'))
-      .map((line) => JSON.parse(line.slice('data:'.length)))[0];
-    setResult((prev) => [...prev, eventData]);
-  }, []);
-
-  useEffect(() => {
-    if (result.length > 0) {
-      const sentences = suggestions.map((suggestion, index) => {
+  const handleStreamData = useCallback(
+    (value: string) => {
+      if (!value) return;
+      const lines = value.split('\n');
+      const eventData = lines
+        .filter((line) => line.startsWith('data:'))
+        .map((line) => JSON.parse(line.slice('data:'.length)));
+      const sentences = eventData.map((suggestion, index) => {
         return {
           id: v4(),
           expand: false,
           text: texts[index],
-          result: result[index],
-          ranges: [suggestion[0], suggestion[1] + 1],
+          result: eventData[index],
         };
       });
       setSentences(sentences);
-    }
-  }, [result, suggestions, texts]);
+      console.log('🚀 ~ useSuggestion ~ sentences:', sentences);
+    },
+    [texts]
+  );
 
   return { sentences, setSentences, generating, humanize };
 }
