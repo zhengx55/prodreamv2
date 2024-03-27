@@ -228,8 +228,8 @@
     },
     "RightBar": {
       "Grammar_Check": "Grammar Check",
-      "Citation": "Citation",
-      "My_Citation_Library": "Library",
+      "Citation": "Citation Search",
+      "My_Citation_Library": "My Citation Library",
       "Generate": "Generate",
       "Plagiarism_Check": "Plagiarism Check",
       "AI_Detection": "AI Detection",
@@ -237,11 +237,13 @@
     },
     "BubbleMenu": {
       "Copilot": "AI Copilot",
-      "Citation": "Reference",
+      "Citation": "Citation Search",
+      "Reference": "Reference",
       "Synonym": "Synonym",
       "citation_style": "Citation Style",
       "words": "Words",
-      "characters": "Characters"
+      "characters": "Characters",
+      "tooltip_citation": "Find Supporting Sources"
     },
     "Onboard": {
       "question": "Do you need help editing an essay or writing a new one from scratch?",

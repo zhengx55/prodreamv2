@@ -239,10 +239,12 @@
     "BubbleMenu": {
       "Copilot": "AI助手",
       "Citation": "文献检索",
+      "Reference": "文献检索",
       "Synonym": "同义词",
       "citation_style": "检索样式",
       "words": "单词",
-      "characters": "字符"
+      "characters": "字符",
+      "tooltip_citation": "找寻相关文献"
     },
     "Onboard": {
       "question": "您需要帮助修改文章还是从头开始写一篇新的文章？",
