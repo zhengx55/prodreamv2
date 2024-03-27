@@ -26,10 +26,6 @@ const EditorBlock = ({ editor, ...props }: Props) => {
   const { data: userTrack } = useUserTrackInfo();
   const isOutlineFinished = Boolean(userTrack?.outline_tip_task);
   const showTaskPanel = isOutlineFinished;
-  // const isClose = Boolean(userTrack?.basic_task);
-  // const isContinueFinished = Boolean(userTrack?.continue_tip_task);
-  // const showCompletePanel = !isClose && isComplete;
-
   return (
     <div
       aria-label='editor-parent'
