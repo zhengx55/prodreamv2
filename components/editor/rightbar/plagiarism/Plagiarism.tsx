@@ -21,7 +21,14 @@ const Plagiarism = ({ t }: Props) => {
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState<
     Omit<IPlagiarismData, 'status'> | undefined
-  >();
+  >({
+    scores: 1.0,
+    spans: [
+      [398, 542],
+      [543, 634],
+      [635, 787],
+    ],
+  });
 
   const { mutateAsync: plagiarism } = useMutation({
     mutationFn: (params: string) => plagiarismCheck(params),
