@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { sample_search_citation } from '@/constant';
 import { CitationTooltip } from '@/constant/enum';
 import { ICitation } from '@/query/type';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useCitation, useUserTask } from '@/zustand/store';
 import { Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -16,7 +16,7 @@ const Tiplayout = dynamic(
 type Props = {
   setKeyword: (value: string) => void;
   setResult: (value: ICitation[]) => void;
-  t: EdtitorDictType;
+  t: EditorDictType;
 };
 const SearchBar = ({ setKeyword, setResult, t }: Props) => {
   const citation_tooltip_step = useUserTask((state) => state.citation_step);

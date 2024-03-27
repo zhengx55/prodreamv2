@@ -3,7 +3,7 @@ import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
 import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -14,7 +14,7 @@ const Tiplayout = dynamic(() => import('../../guide/tips/Tiplayout'));
 type Props = {
   type: string;
   handleGenerate: () => Promise<void>;
-  t: EdtitorDictType;
+  t: EditorDictType;
 };
 const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();

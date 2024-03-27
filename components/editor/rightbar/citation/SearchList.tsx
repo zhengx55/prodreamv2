@@ -3,14 +3,14 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { searchCitation } from '@/query/api';
 import { ICitation } from '@/query/type';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { SearchCitationCard } from './CitationCard';
 import SearchBar from './SearchBar';
 
-const SearchList = ({ t }: { t: EdtitorDictType }) => {
+const SearchList = ({ t }: { t: EditorDictType }) => {
   const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );

@@ -3,7 +3,7 @@ import { H1_regex, H2_regex } from '@/constant';
 import { findLastParagraph, findTitle } from '@/lib/tiptap/utils';
 import { copilot, outline } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
@@ -23,7 +23,7 @@ const GenerateTypes = [
   'Generate Title',
 ];
 
-type Props = { generateTab: string; label: string | null; t: EdtitorDictType };
+type Props = { generateTab: string; label: string | null; t: EditorDictType };
 const GenerateSub = ({ generateTab, label, t }: Props) => {
   const isOutline =
     typeof generateTab !== 'number' && OutlineTypes.includes(generateTab);

@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { sample_continue, sample_outline } from '@/constant';
 import { outline } from '@/query/api';
 import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
@@ -15,7 +15,7 @@ import { Loader2 } from 'lucide-react';
 import { parse } from 'marked';
 import { useEffect, useRef, useState } from 'react';
 
-const Guidance = ({ editor, t }: { editor: Editor; t: EdtitorDictType }) => {
+const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
   const [check, setCheck] = useState(-1);
   const ideaRef = useRef<HTMLTextAreaElement | null>(null);
   const draftRef = useRef<HTMLTextAreaElement | null>(null);

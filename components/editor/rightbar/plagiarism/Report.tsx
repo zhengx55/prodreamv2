@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { batchParaphrase } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
 import { IPlagiarismData } from '@/query/type';
-import { EdtitorDictType, Sentence } from '@/types';
+import { EditorDictType, Sentence } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { m } from 'framer-motion';
@@ -21,7 +21,7 @@ const Report = ({
 }: {
   report: Omit<IPlagiarismData, 'status'>;
   recheck: () => Promise<void>;
-  t: EdtitorDictType;
+  t: EditorDictType;
 }) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [sentences, setSentences] = useState<Sentence[]>([]);

@@ -6,7 +6,7 @@ import {
   highLightGrammar,
 } from '@/lib/tiptap/utils';
 import { IGrammarResult } from '@/query/type';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { m } from 'framer-motion';
@@ -17,7 +17,7 @@ import SentenceFragment from './SentenceFragment';
 type Props = {
   grammarResults: IGrammarResult[];
   update: (value: IGrammarResult[]) => void;
-  t: EdtitorDictType;
+  t: EditorDictType;
 };
 const Result = ({ grammarResults, update, t }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);

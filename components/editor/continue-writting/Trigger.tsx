@@ -9,14 +9,14 @@ import {
 } from '@/components/ui/tooltip';
 import { copilot } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { Loader2 } from 'lucide-react';
 import { memo, useEffect, useState } from 'react';
 
-type Props = { editor: Editor; t: EdtitorDictType };
+type Props = { editor: Editor; t: EditorDictType };
 const Trigger = ({ editor, t }: Props) => {
   const {
     showContinue,

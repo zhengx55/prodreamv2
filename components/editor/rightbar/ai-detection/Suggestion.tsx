@@ -1,7 +1,7 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { useMembershipInfo } from '@/query/query';
-import { EdtitorDictType, Sentence } from '@/types';
+import { EditorDictType, Sentence } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
@@ -10,7 +10,7 @@ import { memo } from 'react';
 import Unlock from '../Unlock';
 import useSuggestion from './hooks/useSuggestion';
 
-type Props = { suggestions: [number[]]; t: EdtitorDictType };
+type Props = { suggestions: [number[]]; t: EditorDictType };
 const Suggestion = ({ suggestions, t }: Props) => {
   const { data: membership } = useMembershipInfo();
   const editor = useAIEditor((state) => state.editor_instance);
@@ -125,7 +125,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
   );
 };
 const Starter = memo(
-  ({ start, t }: { start: () => Promise<void>; t: EdtitorDictType }) => {
+  ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
     return (
       <m.div
         initial={{ opacity: 0, y: -20 }}
@@ -165,7 +165,7 @@ interface SentenceItemProps {
   onToggleExpand: () => void;
   onDismiss: () => void;
   onAccept: () => void;
-  t: EdtitorDictType;
+  t: EditorDictType;
 }
 const SentenceItem = ({
   item,

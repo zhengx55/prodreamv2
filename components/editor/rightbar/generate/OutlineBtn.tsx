@@ -12,13 +12,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { generateOutlineSchema } from '@/lib/validation';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 type Props = {
   handleGenerate: (idea: string, area: string) => Promise<void>;
-  t: EdtitorDictType;
+  t: EditorDictType;
 };
 const OutlineBtn = ({ handleGenerate, t }: Props) => {
   const form = useForm<z.infer<typeof generateOutlineSchema>>({

@@ -6,7 +6,7 @@ import {
   useMutateTrackInfo,
   useUserTrackInfo,
 } from '@/query/query';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -19,7 +19,7 @@ const variants: Variants = {
   show: { width: 300, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
 };
 
-const CheckList = ({ t }: { t: EdtitorDictType }) => {
+const CheckList = ({ t }: { t: EditorDictType }) => {
   const [show, setShow] = useState(false);
   const { data: userTrack } = useUserTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
@@ -174,7 +174,7 @@ const TaskItem = ({
   taskCompleted: boolean;
   label: string;
   onClickHandler: () => void;
-  t: EdtitorDictType;
+  t: EditorDictType;
 }) => (
   <li className='flex-between'>
     <div className='flex items-center gap-x-2'>

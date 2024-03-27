@@ -1,7 +1,7 @@
 import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import { IDetectionResult } from '@/query/type';
-import { EdtitorDictType } from '@/types';
+import { EditorDictType } from '@/types';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
@@ -13,7 +13,7 @@ const labels = ['human', 'mixed', 'ai generated'];
 const primaryColor = ['#48B251', '#5266CC', '#E58600'];
 const secondaryColor = ['#D5F9D8', '#F2F4FF', '#FFEACC'];
 
-type Props = { result: IDetectionResult; t: EdtitorDictType };
+type Props = { result: IDetectionResult; t: EditorDictType };
 const Result = ({ result, t }: Props) => {
   const ai_percent = result.class_probabilities.ai * 100;
   const human_percent = result.class_probabilities.human * 100;

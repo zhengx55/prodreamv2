@@ -116,7 +116,7 @@ export type DocPageDicType = {
   lang: Locale;
 };
 
-export type EdtitorDictType = Awaited<
+export type EditorDictType = Awaited<
   ReturnType<typeof getDictionary>
 >['Editor'];
 
