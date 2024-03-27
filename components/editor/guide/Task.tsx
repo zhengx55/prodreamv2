@@ -1,136 +1,76 @@
 import Spacer from '@/components/root/Spacer';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Progress } from '@/components/ui/progress';
-import { startup_task, task_gif } from '@/constant';
-import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
+import { useMutateTrackInfo } from '@/query/query';
 import { UserTrackData } from '@/query/type';
-import { useAIEditor } from '@/zustand/store';
 import { type Editor } from '@tiptap/react';
 import { m } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { XCircle } from 'lucide-react';
 import Image from 'next/image';
-import { memo, useEffect, useLayoutEffect, useState } from 'react';
+import { memo } from 'react';
 
 type Props = { editor: Editor; track: UserTrackData };
 
 const Task = ({ editor, track }: Props) => {
-  const [step, setStep] = useState(-1);
-  const [progress, setProgress] = useState(33.33);
-  const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const showBubbleMenu = useAIEditor((state) => state.showBubbleMenu);
-  const { mutateAsync: ButtonTrack } = useButtonTrack();
-  useEffect(() => {
-    const finishHighlight = async () => {
-      await updateTrack({ field: 'highlight_task', data: true });
-      await ButtonTrack({ event: 'Basic task: highlight any text' });
-      const { toast } = await import('sonner');
-      toast.success(
-        'Congrats! Highlight is the #1 way to intereact with out AI! Then use "AI Copilot" prompts to edit or generate based on highlighted content ✨'
-      );
-    };
-    if (!track.highlight_task && showBubbleMenu) {
-      finishHighlight();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, track.highlight_task, showBubbleMenu]);
-
-  useLayoutEffect(() => {
-    setProgress(
-      track.highlight_task && track.grammar_task
-        ? 100
-        : track.highlight_task || track.grammar_task
-          ? 66.66
-          : 33.33
-    );
-  }, [track]);
   return (
     <m.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       key={'task-panel'}
-      className='flex flex-col'
+      className='mx-auto mb-5 flex w-[700px] flex-col gap-y-3 rounded-lg bg-slate-100 p-2'
     >
-      <Accordion defaultValue='item-1' type='single' collapsible>
-        <AccordionItem className='mx-auto w-[700px] rounded-lg' value='item-1'>
-          <AccordionTrigger className='flex-between bg-violet-500 px-5 py-2 data-[state=closed]:rounded-lg data-[state=open]:rounded-t-lg'>
-            <p className='base-semibold text-left text-white'>
-              Let&apos;s start with the basics!
-            </p>
-            <ChevronDown className='h-6 w-max shrink-0 text-white transition-transform duration-200' />
-          </AccordionTrigger>
-          <AccordionContent className='relative flex h-[200px] rounded-b-lg bg-slate-100 px-3 pb-2 pt-4'>
-            <ul className='flex w-1/2 flex-col gap-y-2'>
-              <div className='flex flex-col gap-y-1.5'>
-                <li className='flex-between pr-4'>
-                  <p className='small-regular text-neutral-400'>
-                    Here are a few things to try first
-                  </p>
-                  <p className='small-regular text-violet-500'>
-                    {progress.toFixed(0)}%
-                  </p>
-                </li>
-                <Progress value={progress} className='h-2 w-[80%] shrink-0' />
-              </div>
-
-              <Spacer y='15' />
-              {startup_task.map((task, index) => {
-                const taskComplete =
-                  index === 0 ||
-                  (index === 1 && track.highlight_task) ||
-                  (index === 2 && track.grammar_task);
-                return (
-                  <li
-                    onClick={() => setStep(index)}
-                    key={index}
-                    className={`flex-between ${taskComplete ? 'border-green-600 bg-green-100' : step === index ? 'border-violet-500 bg-[#E6CAFC] text-violet-500' : 'border-transparent bg-white'} group w-[80%] cursor-pointer gap-x-2.5 rounded-full border px-3 py-1.5 hover:border-violet-500 hover:text-violet-500`}
-                  >
-                    <label
-                      htmlFor={task.label}
-                      className={`${step === index ? 'text-violet-500' : ''} ${taskComplete && 'text-green-600'} subtle-regular group-hover:cursor-pointer`}
-                    >
-                      {task.label}
-                    </label>
-                    <Checkbox
-                      disabled
-                      checked={
-                        index === 0
-                          ? true
-                          : index === 1
-                            ? !!track?.highlight_task
-                            : !!track?.grammar_task
-                      }
-                      id={task.label}
-                      className='h-4 w-4 rounded-full border-violet-500 data-[state=checked]:border-transparent data-[state=checked]:bg-green-600
-                      data-[state=checked]:text-white'
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-            <div className='relative h-full w-1/2 overflow-hidden rounded-lg'>
-              {step === -1 ? null : (
-                <Image
-                  alt='task-showcase'
-                  src={task_gif[step].src}
-                  fill
-                  priority
-                  className='z-0'
-                  sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
-                />
-              )}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-      <Spacer y='20' />
+      <div className='flex-between'>
+        <p className='text-xl font-medium leading-normal text-zinc-600'>
+          Try AI Copilot for easy editing
+        </p>
+        <XCircle
+          className='cursor-pointer text-neutral-400'
+          onClick={() => {}}
+          size={22}
+        />
+      </div>
+      <p className='base-regular text-neutral-400'>
+        Features Including:&nbsp;
+        <span className='inline-flex rounded bg-white px-1.5 text-neutral-400'>
+          Paraphrase
+        </span>
+        &nbsp;
+        <span className='inline-flex rounded bg-white px-1.5 text-neutral-400'>
+          Make Academic
+        </span>
+        &nbsp;
+        <span className='inline-flex rounded bg-white px-1.5 text-neutral-400'>
+          Edit length
+        </span>
+      </p>
+      <div className='flex-between'>
+        <div className='flex flex-col gap-y-2'>
+          <p className='text-base font-medium text-zinc-600'>
+            <strong>Step 1: </strong>
+            Highlight any text in the text editor
+          </p>
+          <p className='text-base font-medium text-zinc-600'>
+            <strong>Step 2: </strong>
+            Click the &nbsp;
+            <span className='inline-flex rounded bg-violet-100 px-1 text-base font-normal text-violet-500'>
+              AI Copilot
+            </span>
+            &nbsp; button
+          </p>
+          <p className='text-base font-medium text-zinc-600'>
+            <strong>Step 3: </strong>
+            Try any Edit or Generate tool
+          </p>
+        </div>
+        <Image
+          alt='task'
+          className='h-[100px] w-60 rounded-lg'
+          height={100}
+          width={240}
+          src={'/task/Task.png'}
+        />
+      </div>
+      <Spacer y='8' />
     </m.div>
   );
 };
