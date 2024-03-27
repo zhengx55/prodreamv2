@@ -1,7 +1,6 @@
 import { Toolbar } from '@/components/editor/ui/Toolbar';
-import { autoUpdate, flip, offset, useFloating } from '@floating-ui/react-dom';
 import * as Popover from '@radix-ui/react-popover';
-import { Editor, isNodeSelection, posToDOMRect } from '@tiptap/react';
+import { Editor } from '@tiptap/react';
 import {
   AlignCenter,
   AlignJustify,
@@ -13,7 +12,7 @@ import {
   Strikethrough,
   Underline,
 } from 'lucide-react';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo } from 'react';
 
 import {
   BookHalf,
@@ -25,6 +24,7 @@ import {
 import { getDictionary } from '@/lib/get-dictionary';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { ContentTypePicker } from '../picker/content';
+import useEventListener from './hooks/useEventListener';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
 import { useTextmenuStates } from './hooks/useTextmenuStates';
@@ -38,10 +38,6 @@ export type TextMenuProps = {
 };
 
 const BubbleMenu = ({ editor, t }: TextMenuProps) => {
-  const menuYOffside = useRef<number | null>(null);
-  const menuXOffside = useRef<number | null>(null);
-  const [selectedLength, setSelectedLength] = useState(0);
-  const [isWord, setIsWord] = useState(false);
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const commands = useTextmenuCommands(editor);
@@ -53,125 +49,24 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
     showBubbleMenu,
     updateShowBubbleMenu,
   } = useAIEditor((state) => ({ ...state }));
+  const {
+    refs,
+    x,
+    y,
+    strategy,
+    isWord,
+    selectedLength,
+    menuXOffside,
+    menuYOffside,
+  } = useEventListener(editor);
   const task_step = useUserTask((state) => state.task_step);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
 
-  const { x, y, strategy, refs } = useFloating({
-    open: showBubbleMenu,
-    strategy: 'fixed',
-    whileElementsMounted: autoUpdate,
-    placement: 'top-start',
-    middleware: [
-      offset({ mainAxis: 10 }),
-      flip({
-        padding: 8,
-        boundary: editor.options.element,
-        fallbackPlacements: ['bottom-start'],
-      }),
-    ],
-  });
-
-  useEffect(() => {
-    const MouseUphandler = () => {
-      const { isFocused } = editor;
-      if (!isFocused) {
-        updateShowBubbleMenu(false);
-        return;
-      }
-      const { doc, selection } = editor.state;
-      const { from, empty, ranges } = selection;
-      if (empty) {
-        updateShowBubbleMenu(false);
-        return;
-      }
-      const { view } = editor;
-      const current_node = view.domAtPos(from || 0);
-      const isTitle =
-        current_node.node.nodeName === 'H1' ||
-        current_node.node.parentNode?.nodeName === 'H1';
-      if (isTitle) {
-        updateShowBubbleMenu(false);
-      } else {
-        const from = Math.min(...ranges.map((range) => range.$from.pos));
-        const to = Math.max(...ranges.map((range) => range.$to.pos));
-        const text = doc.textBetween(from, to);
-        const words = text.match(/\b\w+\b/g);
-        if (words && words.length === 1) {
-          setIsWord(true);
-        } else {
-          setIsWord(false);
-        }
-        setSelectedLength(words ? words.length : 0);
-        refs.setReference({
-          getBoundingClientRect() {
-            const coordinate = posToDOMRect(view, from, to);
-            menuXOffside.current = coordinate.left;
-            menuYOffside.current =
-              coordinate.bottom +
-              (view.dom.parentElement?.parentElement?.scrollTop ?? 0);
-            return coordinate;
-          },
-        });
-        updateShowBubbleMenu(true);
-      }
-    };
-
-    const NodeSelectHandler = () => {
-      const { view } = editor;
-      const { selection, doc } = editor.state;
-      const { empty, ranges } = selection;
-      if (empty) {
-        updateShowBubbleMenu(false);
-        return;
-      }
-      if (isNodeSelection(selection)) {
-        const from = Math.min(...ranges.map((range) => range.$from.pos));
-        const to = Math.max(...ranges.map((range) => range.$to.pos));
-        const text = doc.textBetween(from, to);
-        const words = text.match(/\b\w+\b/g);
-        if (words && words.length === 1) {
-          setIsWord(true);
-        } else {
-          setIsWord(false);
-        }
-        setSelectedLength(words ? words.length : 0);
-        refs.setReference({
-          getBoundingClientRect() {
-            const node = view.nodeDOM(from) as HTMLElement;
-            if (node) {
-              const nodeRect = node.getBoundingClientRect();
-              menuXOffside.current = nodeRect.left;
-              menuYOffside.current =
-                nodeRect.bottom +
-                (view.dom.parentElement?.parentElement?.scrollTop ?? 0);
-              return nodeRect;
-            }
-            const coordinate = posToDOMRect(view, from, to);
-            menuXOffside.current = coordinate.left;
-            menuYOffside.current =
-              coordinate.bottom +
-              (view.dom.parentElement?.parentElement?.scrollTop ?? 0);
-            return coordinate;
-          },
-        });
-        updateShowBubbleMenu(true);
-      }
-    };
-    editor.on('selectionUpdate', NodeSelectHandler);
-    document.addEventListener('mouseup', MouseUphandler);
-    return () => {
-      editor.off('selectionUpdate', NodeSelectHandler);
-      document.removeEventListener('mouseup', MouseUphandler);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, refs]);
-
-  if (!showBubbleMenu) return null;
   return (
     <div
       ref={refs.setFloating}
       style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-      className='z-[99]'
+      className={`z-[99] transition-transform duration-200 ${showBubbleMenu ? ' translate-y-0 opacity-100' : '-translate-y-1 opacity-0'}`}
     >
       <Toolbar.Wrapper className='border-shadow-borde relative border shadow-lg'>
         <MemoButton
