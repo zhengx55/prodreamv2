@@ -20,9 +20,11 @@ const Suggestion = ({ suggestions, t }: Props) => {
 
   const toggleExpand = (item: Sentence) => {
     const { id } = item;
-
     if (!item.expand) {
-      const { from, to } = findTextInDoc(item.text, editor!);
+      // const { from, to } = findTextInDoc(item.text, editor!);
+      const editor_text = editor?.getText();
+      const from = editor_text?.indexOf(item.text) ?? 0;
+      const to = from + item.text.length + 1;
       editor?.chain().focus().setTextSelection({ from, to }).run();
       setSentences((prev) =>
         prev.map((prevItem) => {
@@ -62,7 +64,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
   };
 
   const handleAccept = (item: Sentence) => {
-    editor?.chain().insertContent(item.result).run();
+    editor?.chain().blur().insertContent(item.result).run();
     setSentences((prev) =>
       prev.filter((prevItem) => {
         return prevItem.id !== item.id;
@@ -178,17 +180,17 @@ const SentenceItem = ({
     className='cursor-pointer overflow-hidden rounded border border-gray-200 px-4 hover:shadow-md'
   >
     <Spacer y='15' />
-    <p className={`base-medium ${isExpand ? '' : 'line-clamp-1'}`}>
+    <p className={`base-medium ${isExpand ? '' : 'line-clamp-3'}`}>
       {item.result}
     </p>
     <Spacer y='10' />
-    <div className='w-full rounded bg-neutral-50 p-2'>
+    {/* <div className='w-full rounded bg-neutral-50 p-2'>
       <p
         className={`${isExpand ? '' : 'line-clamp-1'} w-full text-sm font-normal leading-snug text-zinc-600`}
       >
         {item.text}
       </p>
-    </div>
+    </div> */}
     {isExpand && (
       <div className='mt-2 flex justify-end gap-x-2'>
         <Button

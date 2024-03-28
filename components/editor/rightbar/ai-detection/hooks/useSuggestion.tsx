@@ -11,9 +11,12 @@ export default function useSuggestion(suggestions: [number[]]) {
   const editor = useAIEditor((state) => state.editor_instance);
   const texts = useMemo(() => {
     if (!editor) return [];
-    return suggestions.map(([start, end]) =>
-      editor.getText().slice(start, end)
-    );
+    let editor_text: string | undefined;
+    const title = editor?.getJSON().content?.at(0)?.content?.at(0)?.text;
+    editor_text = editor?.getText()?.replace(title!, '').trimStart();
+    return suggestions.map(([start, end]) => {
+      return editor_text.slice(start, end).trim();
+    });
   }, [editor, suggestions]);
 
   const { mutateAsync: humanize } = useMutation({

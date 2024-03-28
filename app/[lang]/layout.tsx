@@ -1,5 +1,4 @@
 import PageViewTrack from '@/components/root/PageViewTrack';
-import SteyProvider from '@/components/root/SteyProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import Hotjar from '@/htojar/Hotjar';
@@ -83,7 +82,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <Hotjar />
-      <SteyProvider />
+      {/* <SteyProvider /> */}
       <body>
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
