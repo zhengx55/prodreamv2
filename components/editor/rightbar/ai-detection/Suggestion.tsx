@@ -26,15 +26,16 @@ const Suggestion = ({ suggestions, t }: Props) => {
       const from = editor_text?.indexOf(item.text) ?? 0;
       const to = from + item.text.length + 1;
       editor?.chain().focus().setTextSelection({ from, to }).run();
-      setSentences((prev) =>
-        prev.map((prevItem) => {
-          if (prevItem.id === id) return { ...prevItem, expand: true };
-          else {
-            return { ...prevItem, expand: false };
-          }
-        })
-      );
     }
+    setSentences((prev) =>
+      prev.map((prevItem) => {
+        if (prevItem.id === id)
+          return { ...prevItem, expand: !prevItem.expand };
+        else {
+          return { ...prevItem, expand: false };
+        }
+      })
+    );
   };
 
   const handleAcceptAll = () => {
