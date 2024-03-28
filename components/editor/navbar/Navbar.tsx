@@ -50,9 +50,9 @@ const DocNavbar = ({ t, lang }: DocPageDicType) => {
               : docTtile}
         </h1>
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
-        <Prompt t={t} />
       </div>
       <div className='flex items-center gap-x-4'>
+        <Prompt t={t} />
         {['basic', 'free_trail'].includes(usage?.subscription ?? '') ? (
           <Button
             role='button'
