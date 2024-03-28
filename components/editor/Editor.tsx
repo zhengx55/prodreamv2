@@ -21,6 +21,9 @@ const EditorBlock = dynamic(() => import('./EditorBlock'));
 const PaymentModal = dynamic(() => import('@/components/pricing/Modal'), {
   ssr: false,
 });
+const OutlineWaitingModal = dynamic(() => import('./guide/Waiting'), {
+  ssr: false,
+});
 const Editor = ({
   essay_content,
   ...props
@@ -170,6 +173,7 @@ const Editor = ({
         {Boolean(track?.guidence) && <EditorBlock {...props} editor={editor} />}
         <Procedure t={props.t} editor={editor} />
         <PaymentModal />
+        <OutlineWaitingModal />
       </div>
       {showBottomBar && (
         <div className='flex-center absolute bottom-0 h-10 w-full shrink-0 border-t border-gray-200 bg-white px-0'>

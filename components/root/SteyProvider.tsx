@@ -131,7 +131,7 @@ export default function SteyProvider() {
   }
 })()`,
       }}
-      strategy='worker'
+      strategy='lazyOnload'
     />
   );
 }

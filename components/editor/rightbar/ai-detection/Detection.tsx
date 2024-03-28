@@ -35,7 +35,7 @@ const Detection = ({ t }: { t: EditorDictType }) => {
     const { toast } = await import('sonner');
     let editor_text: string | undefined;
     const title = editor?.getJSON().content?.at(0)?.content?.at(0)?.text;
-    editor_text = editor?.getText()?.replace(title!, '');
+    editor_text = editor?.getText()?.replace(title!, '').trimStart();
     if (!editor_text) {
       toast.error('Please write something first');
       return;
