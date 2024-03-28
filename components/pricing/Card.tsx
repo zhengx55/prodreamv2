@@ -35,13 +35,13 @@ const Card = ({ info, current, purchase_type, basic, discount }: Props) => {
   return (
     <div className='flex w-[360px] flex-col gap-y-2'>
       <div
-        className={`${!basic ? 'border border-doc-primary' : 'border border-transparent'} flex h-[460px] w-full flex-col rounded-lg bg-white px-5 py-4 shadow-price`}
+        className={`${!basic ? 'border border-violet-500' : 'border border-transparent'} flex h-[460px] w-full flex-col rounded-lg bg-white px-5 py-4 shadow-price`}
       >
         <div className='flex h-1/4 flex-col gap-y-1.5'>
           <div className='flex items-center gap-x-2'>
             <h2 className='h3-semibold'>{info.title}</h2>
             {info.recommended && (
-              <span className='subtle-regular rounded bg-doc-primary/20 px-2 py-1 text-doc-primary'>
+              <span className='subtle-regular rounded bg-violet-500/20 px-2 py-1 text-violet-500'>
                 Recommended
               </span>
             )}
@@ -66,7 +66,7 @@ const Card = ({ info, current, purchase_type, basic, discount }: Props) => {
           )}
           {info.price_text ? (
             <p
-              className='small-regular text-doc-font'
+              className='small-regular text-neutral-400'
               dangerouslySetInnerHTML={{ __html: info.price_text }}
             />
           ) : (
@@ -76,7 +76,7 @@ const Card = ({ info, current, purchase_type, basic, discount }: Props) => {
             onClick={handlePurchase}
             role='button'
             disabled={current || basic}
-            className={`h-max rounded disabled:opacity-100 ${current || basic ? 'border border-gray-200 bg-white text-shadow-border' : 'bg-doc-primary'}`}
+            className={`h-max rounded disabled:opacity-100 ${current || basic ? 'border border-gray-200 bg-white text-shadow-border' : 'bg-violet-500'}`}
           >
             {current || basic ? 'Current Plan' : 'Upgrade Now'}
           </Button>
@@ -85,7 +85,7 @@ const Card = ({ info, current, purchase_type, basic, discount }: Props) => {
           {info.features.map((feature, idx) => {
             return (
               <li
-                className='small-regular flex gap-x-1 text-doc-font before:content-["✓"]'
+                className='small-regular flex gap-x-1 text-neutral-400 before:content-["✓"]'
                 key={`basic-${idx}`}
               >
                 <p dangerouslySetInnerHTML={{ __html: feature }} />

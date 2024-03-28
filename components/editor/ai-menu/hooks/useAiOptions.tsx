@@ -21,7 +21,7 @@ export const useAiOptions = () => {
   const options = useMemo(() => {
     return [
       {
-        format: 'Edit language',
+        format: 'Format_1',
         options: [
           {
             id: 'edit-tools-01',
@@ -32,25 +32,25 @@ export const useAiOptions = () => {
           {
             id: 'edit-tools-02',
             label: 'more_academic',
-            name: 'Make academic',
+            name: 'Make_academic',
             icon: <Academic />,
           },
           {
             id: 'edit-tools-03',
             label: 'improve_fluency',
-            name: 'Improve fluency',
+            name: 'Improve_fluency',
             icon: <Fluency />,
           },
           {
             id: 'edit-tools-04',
             label: 'simplify_language',
-            name: 'Simplify language',
+            name: 'Simplify_language',
             icon: <Simplify />,
           },
           {
             id: 'edit-tools-05',
             label: 'translate',
-            name: 'Translate to english',
+            name: 'Translate_to_english',
             icon: <Translate />,
           },
           {
@@ -61,7 +61,7 @@ export const useAiOptions = () => {
           },
           {
             id: 'edit-tools-06',
-            name: 'Edit length',
+            name: 'Edit_length',
             icon: <Length />,
             submenu: [
               {
@@ -71,7 +71,7 @@ export const useAiOptions = () => {
               },
               {
                 id: 'edit-tools-06-02',
-                name: 'Make longer',
+                name: 'Extend',
                 label: 'make_longer',
               },
             ],
@@ -79,30 +79,30 @@ export const useAiOptions = () => {
         ],
       },
       {
-        format: 'Generate from selection',
+        format: 'Format_2',
         options: [
           {
             id: 'edit-tools-08',
             label: 'opposing_arguments',
-            name: 'Write opposing argument',
+            name: 'Write_opposing_argument',
             icon: <Opposing />,
           },
           {
             id: 'edit-tools-09',
             label: 'more_depth',
-            name: 'Write with more depth',
+            name: 'Write_with_more_depth',
             icon: <Depth />,
           },
           {
             id: 'edit-tools-10',
             label: 'summarize',
-            name: 'Generate summary',
+            name: 'Generate_summary',
             icon: <Summary />,
           },
           {
             id: 'edit-tools-11',
             label: 'continue_write_paragraph',
-            name: 'Write more content',
+            name: 'Write_more_content',
             icon: <MoreContent />,
           },
         ],
@@ -114,17 +114,17 @@ export const useAiOptions = () => {
     return [
       {
         id: 'copilot-operation-01',
-        name: 'Replace selection',
+        name: 'Replace_selection',
         icon: <Copilot_Replace />,
       },
       {
         id: 'copilot-operation-02',
-        name: 'Insert below',
+        name: 'Insert_below',
         icon: <Copilot_Insert />,
       },
       {
         id: 'copilot-operation-03',
-        name: 'Try again',
+        name: 'Try_again',
         icon: <Copilot_Try />,
       },
       {

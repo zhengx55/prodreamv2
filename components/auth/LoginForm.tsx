@@ -27,7 +27,7 @@ const LoginForm = ({ t, lang }: AuthPageDicType) => {
       password: '',
     },
   });
-  const { mutateAsync: handleLogin } = useUserLogin();
+  const { mutateAsync: handleLogin } = useUserLogin(lang);
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     await handleLogin(values);
@@ -90,11 +90,11 @@ const LoginForm = ({ t, lang }: AuthPageDicType) => {
         />
         <Link
           href={`/${lang}/reset-password`}
-          className='small-semibold cursor-pointer self-end text-auth-primary hover:underline'
+          className='small-semibold cursor-pointer self-end text-violet-500 hover:underline'
         >
           {t.Login.Foget}
         </Link>
-        <Button className='w-full rounded bg-auth-primary' type='submit'>
+        <Button className='w-full rounded bg-violet-500' type='submit'>
           {t.Login.Button}
         </Button>
       </form>

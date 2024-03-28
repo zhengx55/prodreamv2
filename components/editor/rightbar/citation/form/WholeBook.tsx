@@ -119,7 +119,7 @@ const WholeBook = ({
             >
               <div className='flex flex-col'>
                 <label
-                  className='small-regular text-doc-font'
+                  className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.first_name`}
                 >
                   First Name
@@ -134,7 +134,7 @@ const WholeBook = ({
               </div>
               <div className='flex flex-col'>
                 <label
-                  className='small-regular text-doc-font'
+                  className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.middle_name`}
                 >
                   MI/ Middle
@@ -149,7 +149,7 @@ const WholeBook = ({
               </div>
               <div className='flex flex-col'>
                 <label
-                  className='small-regular text-doc-font'
+                  className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.last_name`}
                 >
                   Last Name
@@ -180,13 +180,13 @@ const WholeBook = ({
         type='button'
         onClick={appendContributor}
       >
-        <PlusCircle className='fill-doc-primary text-white' size={22} />
-        <p className='text-doc-primary'> Add Contributor</p>
+        <PlusCircle className='fill-violet-500 text-white' size={22} />
+        <p className='text-violet-500'> Add Contributor</p>
       </Button>
       <Spacer y='20' />
       <h1 className='base-semibold'>In print publication info</h1>
       <Spacer y='16' />
-      <label className='small-regular text-doc-font' htmlFor='Source title'>
+      <label className='small-regular text-neutral-400' htmlFor='Source title'>
         Source title
       </label>
       <Input
@@ -197,7 +197,7 @@ const WholeBook = ({
         aria-label='book_title'
       />
       <Spacer y='16' />
-      <h2 className='small-regular text-doc-font'>Advanced info</h2>
+      <h2 className='small-regular text-neutral-400'>Advanced info</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
@@ -237,7 +237,7 @@ const WholeBook = ({
         </div>
       </div>
       <Spacer y='16' />
-      <h2 className='small-regular text-doc-font'>Publication info</h2>
+      <h2 className='small-regular text-neutral-400'>Publication info</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
@@ -279,7 +279,7 @@ const WholeBook = ({
       <Spacer y='120' />
       <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-gray-200 bg-white py-1.5'>
         <Button
-          className='h-max rounded border border-doc-primary text-doc-primary'
+          className='h-max rounded border border-violet-500 text-violet-500'
           variant={'ghost'}
           role='button'
           type='button'
@@ -287,7 +287,7 @@ const WholeBook = ({
         >
           Cancel
         </Button>
-        <Button type='submit' role='button' className='rounded bg-doc-primary'>
+        <Button type='submit' role='button' className='rounded bg-violet-500'>
           Save
         </Button>
       </div>

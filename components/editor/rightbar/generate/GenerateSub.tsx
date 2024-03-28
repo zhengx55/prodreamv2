@@ -3,10 +3,10 @@ import { H1_regex, H2_regex } from '@/constant';
 import { findLastParagraph, findTitle } from '@/lib/tiptap/utils';
 import { copilot, outline } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
-import { m } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { memo, useCallback, useRef, useState } from 'react';
 import { z } from 'zod';
@@ -16,15 +16,15 @@ import GenerateBtn from './GenerateBtn';
 import OutlineBtn from './OutlineBtn';
 import Result from './Result';
 
-const OutlineTypes = ['general', 'argumentative', 'analytical', 'scientific'];
+const OutlineTypes = ['General', 'Argumentative', 'Analytical', 'Scientific'];
 const GenerateTypes = [
   'Write Introduction',
   'Write Conclusion',
   'Generate Title',
 ];
 
-type Props = { generateTab: string; label: string | null };
-const GenerateSub = ({ generateTab, label }: Props) => {
+type Props = { generateTab: string; label: string | null; t: EditorDictType };
+const GenerateSub = ({ generateTab, label, t }: Props) => {
   const isOutline =
     typeof generateTab !== 'number' && OutlineTypes.includes(generateTab);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -113,7 +113,6 @@ const GenerateSub = ({ generateTab, label }: Props) => {
         return JSON.parse(line.slice('data:'.length));
       });
     }
-
     setGeneratedResult((prev) => (prev += eventData.join('')));
   };
 
@@ -188,26 +187,26 @@ const GenerateSub = ({ generateTab, label }: Props) => {
   }, [isOutline]);
 
   return (
-    <m.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 50 }}
-      className='flex h-full w-full flex-col overflow-hidden'
-      key='generate-detail'
-    >
+    <div className='flex h-full w-full flex-col overflow-hidden'>
       <div
         onClick={() => setGenerateTab(-1)}
         className='flex cursor-pointer items-center gap-x-2 hover:underline'
       >
-        <ChevronLeft size={20} className='text-doc-font' />
-        <p className='base-regular capitalize text-doc-font'>{generateTab}</p>
+        <ChevronLeft size={20} className='text-zinc-600' />
+        <p className='base-regular capitalize text-zinc-600'>
+          {t.Generate[generateTab as keyof typeof t.Generate] as any}
+        </p>
       </div>
       <div className='flex flex-1 flex-col overflow-y-auto'>
         {!generatedResult && !isGenerating ? (
           isOutline ? (
-            <OutlineBtn handleGenerate={handleGenerateOutline} />
+            <OutlineBtn t={t} handleGenerate={handleGenerateOutline} />
           ) : (
-            <GenerateBtn type={generateTab} handleGenerate={handleGenerate} />
+            <GenerateBtn
+              t={t}
+              type={generateTab}
+              handleGenerate={handleGenerate}
+            />
           )
         ) : !isGenerating ? (
           <Result
@@ -220,7 +219,7 @@ const GenerateSub = ({ generateTab, label }: Props) => {
           <Loading />
         )}
       </div>
-    </m.div>
+    </div>
   );
 };
 export default memo(GenerateSub);

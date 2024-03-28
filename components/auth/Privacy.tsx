@@ -11,7 +11,7 @@ const Privacy = ({ lang }: { lang: Locale }) => {
         href={
           'https://applifyai.notion.site/Applify-AI-Subscription-Agreement-eef0b3cfdab6496dbe0fa04a3c9a0d3e?pvs=4'
         }
-        className='text-auth-primary'
+        className='text-violet-500'
       >
         《ProDream用户协议》
       </Link>
@@ -20,7 +20,7 @@ const Privacy = ({ lang }: { lang: Locale }) => {
         href={
           'https://applifyai.notion.site/Applify-AI-Privacy-Policy-e350e311e90c48608b4e85a8c7982e77'
         }
-        className='text-auth-primary'
+        className='text-violet-500'
       >
         《ProDream隐私政策》
       </Link>
@@ -33,7 +33,7 @@ const Privacy = ({ lang }: { lang: Locale }) => {
         href={
           'https://applifyai.notion.site/Applify-AI-Subscription-Agreement-eef0b3cfdab6496dbe0fa04a3c9a0d3e?pvs=4'
         }
-        className='text-auth-primary'
+        className='text-violet-500'
       >
         Term of Service
       </Link>
@@ -43,7 +43,7 @@ const Privacy = ({ lang }: { lang: Locale }) => {
         href={
           'https://applifyai.notion.site/Applify-AI-Privacy-Policy-e350e311e90c48608b4e85a8c7982e77'
         }
-        className='text-auth-primary'
+        className='text-violet-500'
       >
         &nbsp;Privacy Policy
       </Link>

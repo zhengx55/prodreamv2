@@ -15,7 +15,7 @@ const Question = ({ t, lang }: HomePageDicType) => {
             </h1>
             <p className='text-center leading-relaxed text-[#64626A] sm:w-full sm:text-left sm:text-[18px]'>
               {t.QuestionInfo_theme_3}
-              {/* <span className='text-doc-primary'>{t.QuestionInfo_theme_4}</span> */}
+              {/* <span className='text-violet-500'>{t.QuestionInfo_theme_4}</span> */}
             </p>
           </div>
           <QA t={t} lang={lang} />

@@ -34,16 +34,36 @@ export const GenerateOptions = [
     title: 'Write Introduction',
     label: 'write_introduction',
   },
-  { id: 'generation-02', title: 'Write Conclusion', label: 'write_conclusion' },
-  { id: 'generation-03', title: 'Generate Title', label: 'generate_title' },
+  {
+    id: 'generation-02',
+    title: 'Write Conclusion',
+    label: 'write_conclusion',
+  },
+  {
+    id: 'generation-03',
+    title: 'Generate Title',
+    label: 'generate_title',
+  },
   {
     id: 'generation-04',
     title: 'Generate Outline',
     submenu: [
-      { id: 'outline-01', label: 'argumentative' },
-      { id: 'outline-02', label: 'analytical' },
-      { id: 'outline-03', label: 'scientific' },
-      { id: 'outline-04', label: 'general' },
+      {
+        id: 'outline-01',
+        label: 'argumentative',
+        title: 'Argumentative',
+      },
+      {
+        id: 'outline-02',
+        label: 'analytical',
+        title: 'Analytical',
+      },
+      {
+        id: 'outline-03',
+        label: 'scientific',
+        title: 'Scientific',
+      },
+      { id: 'outline-04', label: 'general', title: 'General' },
     ],
   },
 ];
@@ -852,7 +872,7 @@ export const PricingAnnualyUnlimited = {
   recommended: true,
   text: 'Unlock comprehensive academic support with unlimited access to all features for advanced writing needs.',
   price_text:
-    'Save <span className="text-doc-primary">50%</span> on yearly plan',
+    'Save <span className="text-violet-500">50%</span> on yearly plan',
   features: [
     '<strong>Unlimited</strong> Documents',
     '<strong>Unlimited</strong> Copilot prompt uses',
@@ -944,5 +964,44 @@ export const ReviewReasons = [
     title: 'Flexibility and Speed',
     description:
       'Our reviewers and writers are experienced professionals with advanced degrees from tops schools like Stanford and Harvard, offering insights from years of academic and professional experience.',
+  },
+];
+
+export const EditorRightBar = [
+  {
+    id: 'rightbar-01',
+    title: 'Grammar_Check',
+    icon: '/editor/rightbar/grammar.svg',
+    active_icon: '/editor/rightbar/grammar_active.svg',
+  },
+  {
+    id: 'rightbar-04',
+    title: 'Plagiarism_Check',
+    icon: '/editor/rightbar/plagiarism.svg',
+    active_icon: '/editor/rightbar/plagiarism_active.svg',
+  },
+  {
+    id: 'rightbar-06',
+    title: 'AI_Detection',
+    icon: '/editor/rightbar/detection.svg',
+    active_icon: '/editor/rightbar/detection_active.svg',
+  },
+  {
+    id: 'rightbar-02',
+    title: 'Citation',
+    icon: '/editor/rightbar/citation.svg',
+    active_icon: '/editor/rightbar/citation_active.svg',
+  },
+  {
+    id: 'rightbar-05',
+    title: 'My_Citation_Library',
+    icon: '/editor/rightbar/library.svg',
+    active_icon: '/editor/rightbar/library_active.svg',
+  },
+  {
+    id: 'rightbar-03',
+    title: 'Generate',
+    icon: '/editor/rightbar/generate.svg',
+    active_icon: '/editor/rightbar/generate_active.svg',
   },
 ];

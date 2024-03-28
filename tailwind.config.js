@@ -16,54 +16,7 @@ module.exports = {
         baskerville: ['var(--liber-font)'],
         custom: ['var(--cn-font)'],
       },
-      fontSize: {
-        regular: '14px',
-      },
       colors: {
-        welcome: {
-          border: '#525758',
-          background: '#525758',
-        },
-        sectionBackground: '#F8F9FF',
-        border: {
-          50: '#EAEAEA',
-        },
-        auth: {
-          primary: '#8551F3',
-        },
-        primary: {
-          50: '#F6F0FF',
-          200: '#9C2CF3',
-          100: '#7D22F5',
-          300: '#BB35FF',
-          400: '#E5D7FD',
-          500: '#FCF9FF',
-          600: '#EAD9FC',
-        },
-        gray: {
-          50: '#313746',
-        },
-        black: {
-          50: '#3B4453',
-          100: '#1E1E1E',
-          200: '#1C1F37',
-          300: '#1C1A1B',
-          400: '#191919',
-          500: '#202020',
-          600: '#161616',
-          700: '#141718',
-        },
-        hover: {
-          50: '#FBF7FF',
-          100: '#F7F9FC',
-        },
-        doc: {
-          primary: '#8652DB',
-          secondary: '#F1F2FA',
-          font: '#4B454D',
-          warn: '#F8BC25',
-          shadow: '#7C757E',
-        },
         shadow: '#797979',
         'shadow-50': '#F9F9F9',
         'shadow-100': '#828282',

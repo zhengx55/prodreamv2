@@ -55,7 +55,7 @@ const DeleteModal = ({ id, title }: Props) => {
             <Button
               onClick={(e) => e.stopPropagation()}
               variant={'ghost'}
-              className='w-max border border-primary-200 text-primary-200'
+              className='w-max border border-violet-500 text-violet-500'
             >
               Cancel
             </Button>

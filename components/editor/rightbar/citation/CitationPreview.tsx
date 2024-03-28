@@ -17,7 +17,7 @@ const CitationPreview = ({ item }: Props) => {
             <div className='flex items-center gap-x-2'>
               {item.area.map((keyword, idx) => (
                 <span
-                  className='subtle-regular rounded bg-doc-primary/10 p-1.5 text-doc-primary'
+                  className='subtle-regular rounded bg-violet-500/10 p-1.5 text-violet-500'
                   key={`keyword-${idx}`}
                 >
                   {keyword}
@@ -57,7 +57,7 @@ const CitationPreview = ({ item }: Props) => {
               {item.journal_title}{' '}
               {item.doi && (
                 <Link
-                  className='text-doc-primary'
+                  className='text-violet-500'
                   href={`https://doi.org/${item.doi}`}
                   target='_blank'
                 >
@@ -70,16 +70,16 @@ const CitationPreview = ({ item }: Props) => {
         <div className='flex-between w-full pr-4'>
           <div className='flex items-center gap-x-2'>
             <Link passHref href={item.publisher} target='_blank'>
-              <Button className='h-max rounded-xl bg-doc-primary/10 text-doc-primary'>
+              <Button className='h-max rounded-xl bg-violet-500/10 text-violet-500'>
                 Pulisher Site
-                <LinkIcon size={16} className='text-doc-primary' />
+                <LinkIcon size={16} className='text-violet-500' />
               </Button>
             </Link>
             {item.pdf_url && (
               <Link passHref href={item.pdf_url} target='_blank'>
-                <Button className='h-max rounded-xl bg-doc-primary/10 text-doc-primary'>
+                <Button className='h-max rounded-xl bg-violet-500/10 text-violet-500'>
                   PDF
-                  <Download size={16} className='text-doc-primary' />
+                  <Download size={16} className='text-violet-500' />
                 </Button>
               </Link>
             )}
@@ -93,13 +93,13 @@ const CitationPreview = ({ item }: Props) => {
       <div className='flex w-1/2 flex-col gap-y-2 overflow-y-auto'>
         {item.tldr && (
           <>
-            <h2 className='title-regular text-doc-font'>Summary</h2>
+            <h2 className='title-regular text-neutral-400'>Summary</h2>
             <p className='text-[14px] leading-relaxed'>{item.tldr}</p>
           </>
         )}
         {item.abstract && (
           <>
-            <h2 className='title-regular text-doc-font'>Abstract</h2>
+            <h2 className='title-regular text-neutral-400'>Abstract</h2>
             <p className='text-[14px] leading-relaxed'>{item.abstract}</p>
           </>
         )}

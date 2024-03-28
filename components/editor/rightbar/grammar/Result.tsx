@@ -6,19 +6,20 @@ import {
   highLightGrammar,
 } from '@/lib/tiptap/utils';
 import { IGrammarResult } from '@/query/type';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { m } from 'framer-motion';
 import { memo, useCallback } from 'react';
-import { v4 } from 'uuid';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 import SentenceFragment from './SentenceFragment';
 
 type Props = {
   grammarResults: IGrammarResult[];
   update: (value: IGrammarResult[]) => void;
+  t: EditorDictType;
 };
-const Result = ({ grammarResults, update }: Props) => {
+const Result = ({ grammarResults, update, t }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
 
   const handleDismiss = (index: number, group_index: number) => {
@@ -127,22 +128,25 @@ const Result = ({ grammarResults, update }: Props) => {
     >
       <div aria-label='all suggestions' className='flex-between'>
         <div className='flex items-center gap-x-2'>
-          <h2 className='base-semibold'>All Suggestions</h2>
+          <h2 className='base-semibold'>
+            {grammarResults.length}&nbsp;
+            {t.Grammar.suggestions}
+          </h2>
         </div>
         <div className='flex items-center'>
           <Button
             onClick={handleAcceptAll}
             variant={'secondary'}
-            className='border-none text-doc-primary'
+            className='border-none text-violet-500'
           >
-            Accept all
+            {t.Utility.AcceptAll}
           </Button>
           <Button
             onClick={() => update([])}
             variant={'ghost'}
-            className='text-doc-shadow'
+            className='text-zinc-600'
           >
-            Reject all
+            {t.Utility.DismissAll}
           </Button>
         </div>
       </div>
@@ -167,7 +171,7 @@ const Result = ({ grammarResults, update }: Props) => {
                 <p
                   className={`${item.expand ? '' : 'line-clamp-2'} small-regular break-words leading-relaxed`}
                 >
-                  {item.data.map((sentence) => {
+                  {item.data.map((sentence, idx) => {
                     const isAdd = sentence.status === 1;
                     const isDelete = sentence.status === 2;
                     const isModify = sentence.status === 3;
@@ -179,7 +183,7 @@ const Result = ({ grammarResults, update }: Props) => {
                         isModify={isModify}
                         isAdd={isAdd}
                         sentence={sentence}
-                        key={v4()}
+                        key={`${idx}-sentence`}
                       />
                     );
                   })}
@@ -195,7 +199,7 @@ const Result = ({ grammarResults, update }: Props) => {
                       variant={'ghost'}
                       className='subtle-regular h-max w-max rounded border border-[#AFB5FF] py-1 text-[#AFB5FF]'
                     >
-                      Dismiss
+                      {t.Utility.Dismiss}
                     </Button>
                     <Button
                       role='button'
@@ -204,9 +208,9 @@ const Result = ({ grammarResults, update }: Props) => {
                         handleAccept(group, index, group_index);
                       }}
                       variant={'ghost'}
-                      className='subtle-regular h-max w-max rounded border  border-doc-primary py-1 text-doc-primary'
+                      className='subtle-regular h-max w-max rounded border  border-violet-500 py-1 text-violet-500'
                     >
-                      Accept
+                      {t.Utility.Accept}
                     </Button>
                   </div>
                 )}

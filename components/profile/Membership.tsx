@@ -15,7 +15,7 @@ const Membership = ({ membership }: { membership: ISubscription }) => {
       membership.subscription === 'free_trail' ? (
         <div className='flex w-max flex-col'>
           <div className='flex items-center gap-x-4'>
-            <p className='text-doc-font'>
+            <p className='text-neutral-400'>
               You are on the <strong>Basic</strong> plan
             </p>
             <Link passHref href={'/pricing'}>
@@ -46,7 +46,7 @@ const Membership = ({ membership }: { membership: ISubscription }) => {
       ) : (
         <>
           <div className='flex items-center gap-x-4'>
-            <p className='text-doc-font'>
+            <p className='text-neutral-400'>
               You are on the&nbsp;
               <strong>
                 Unlimited&nbsp;
@@ -57,12 +57,12 @@ const Membership = ({ membership }: { membership: ISubscription }) => {
           </div>
           <Spacer y='5' />
           {membership.subscription_id ? (
-            <p className='text-doc-font'>
+            <p className='text-neutral-400'>
               Next billing date:&nbsp;
               {formatTimestampToDateString(membership.expire_time, false)}
             </p>
           ) : (
-            <p className='text-doc-font'>
+            <p className='text-neutral-400'>
               Active Until:&nbsp;
               {formatTimestampToDateString(membership.expire_time, false)}
             </p>
@@ -72,13 +72,13 @@ const Membership = ({ membership }: { membership: ISubscription }) => {
           {membership.subscription_type !== 'year' && (
             <div className='flex w-max flex-col rounded-t-lg bg-[#FCFBFF]'>
               <div className='flex items-start gap-x-2 px-4 py-6'>
-                <span className='flex-center h-5 w-5 rounded-full bg-doc-primary text-white'>
+                <span className='flex-center h-5 w-5 rounded-full bg-violet-500 text-white'>
                   !
                 </span>
-                <p className='text-doc-font'>
+                <p className='text-neutral-400'>
                   Save $10 every month by switching to the annual plan,
                   <br />
-                  <Link href={'/pricing'} className='text-doc-primary'>
+                  <Link href={'/pricing'} className='text-violet-500'>
                     Go annual now
                   </Link>
                 </p>

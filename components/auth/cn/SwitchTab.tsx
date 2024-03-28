@@ -14,7 +14,7 @@ const SwitchTab = ({ lang }: { lang: Locale }) => {
       <Button
         role='link'
         disabled={isLogin}
-        className={`${isLogin ? 'border-doc-primary' : 'border-transparent'} h-max w-max rounded-none border-b-[4px] px-0.5 py-1 text-xl font-medium text-doc-font disabled:opacity-100 sm:text-[32px]`}
+        className={`${isLogin ? 'border-violet-500' : 'border-transparent'} h-max w-max rounded-none border-b-[4px] px-0.5 py-1 text-xl font-medium text-neutral-400 disabled:opacity-100 sm:text-[32px]`}
         variant={'ghost'}
       >
         <Link href={`/${lang}/login`}>登录</Link>
@@ -23,7 +23,7 @@ const SwitchTab = ({ lang }: { lang: Locale }) => {
       <Button
         role='link'
         disabled={isSignup}
-        className={`${isSignup ? ' border-doc-primary' : 'border-transparent'} h-max w-max rounded-none border-b-[4px] px-0.5 py-1 text-xl font-medium text-doc-font disabled:opacity-100 sm:text-[32px]`}
+        className={`${isSignup ? ' border-violet-500' : 'border-transparent'} h-max w-max rounded-none border-b-[4px] px-0.5 py-1 text-xl font-medium text-neutral-400 disabled:opacity-100 sm:text-[32px]`}
         variant={'ghost'}
       >
         <Link href={`/${lang}/signup`}>注册</Link>

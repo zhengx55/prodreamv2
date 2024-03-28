@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { saveDoc } from '@/query/api';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { PencilLine } from 'lucide-react';
@@ -39,7 +40,7 @@ function reducer(state: State, action: Action) {
   }
 }
 
-const PromptView = () => {
+const PromptView = ({ t }: { t: EditorDictType }) => {
   const prompt = useAIEditor((state) => state.essay_prompt);
   const updateEssayPrompt = useAIEditor((state) => state.updateEssayPrompt);
   const { id } = useParams();
@@ -87,10 +88,10 @@ const PromptView = () => {
       <PopoverTrigger asChild>
         <Button
           role='button'
-          className='h-max rounded border border-doc-primary bg-transparent px-2 py-1 text-black-400 hover:bg-doc-secondary hover:text-doc-primary'
+          className='h-max rounded border border-violet-500 bg-transparent px-2 py-1 text-black hover:bg-slate-100 hover:text-violet-500'
         >
-          <PencilLine size={18} className='text-doc-primary' />
-          <p className='small-regular text-doc-primary'>Essay Prompt</p>
+          <PencilLine size={18} className='text-violet-500' />
+          <p className='small-regular text-violet-500'>{t.Prompt.Trigger}</p>
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -99,12 +100,9 @@ const PromptView = () => {
         className='h-[260px] w-[800px] shrink-0 rounded-lg border border-solid border-gray-200 bg-white'
       >
         <h1 className='text-2xl font-medium leading-[160%] '>
-          Please input your prompt below
+          {t.Prompt.Title}
         </h1>
-        <p className='small-regular text-zinc-500'>
-          Adding an essay prompt can greatly enhance the quality of AI
-          generations
-        </p>
+        <p className='small-regular text-zinc-500'>{t.Prompt.PlaceHolder}</p>
         <Spacer y='10' />
         <Textarea
           value={content}
@@ -117,7 +115,7 @@ const PromptView = () => {
 
         <div className='mt-4 flex items-center justify-between'>
           <div className='flex items-center'>
-            <p className='base-regular'>Prompt strength :</p>&nbsp;&nbsp;
+            <p className='base-regular'>{t.Prompt.Strength} :</p>&nbsp;&nbsp;
             <div className='flex items-center gap-x-0.5'>
               {wordCount < 5 ? (
                 <span className='h-2 w-20 rounded-[41px] bg-slate-200' />
@@ -144,7 +142,7 @@ const PromptView = () => {
                 variant={'ghost'}
                 className='border-zin-300 base-regular h-max rounded border px-4 py-2 text-neutral-400'
               >
-                Cancel
+                {t.Utility.Cancel}
               </Button>
             </PopoverClose>
             <PopoverClose asChild>
@@ -154,7 +152,7 @@ const PromptView = () => {
                 onClick={handleSubmit}
                 className='base-regular h-max rounded px-4 py-2 '
               >
-                Done
+                {t.Utility.Done}
               </Button>
             </PopoverClose>
           </div>

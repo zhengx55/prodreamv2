@@ -70,13 +70,13 @@ const FileUploadModal = () => {
         {...getRootProps({
           'aria-label': 'drag and drop area',
         })}
-        className={`${isDragActive && 'bg-doc-primary'} ${
+        className={`${isDragActive && 'bg-violet-500'} ${
           isUploading && 'pointer-events-none'
-        } relative mt-6 flex cursor-pointer flex-col items-center gap-y-2 rounded-lg border-2 border-dashed border-primary-200 p-4 hover:bg-doc-primary`}
+        } relative mt-6 flex cursor-pointer flex-col items-center gap-y-2 rounded-lg border-2 border-dashed border-violet-500 p-4 hover:bg-violet-500`}
       >
         {isUploading && (
           <div className='flex-center absolute inset-0 cursor-not-allowed backdrop-blur-sm'>
-            <Loader2 className='animate-spin text-primary-200' />
+            <Loader2 className='animate-spin text-violet-500' />
           </div>
         )}
         <input {...getInputProps()} />
@@ -86,7 +86,7 @@ const FileUploadModal = () => {
           width={80}
           height={80}
         />
-        <p className='small-semibold text-primary-200'>Click here to upload</p>
+        <p className='small-semibold text-violet-500'>Click here to upload</p>
         <p className='subtle-regular text-shadow-100'>Or drag and drop here</p>
         <p className='small-regular'>Maximum file size: 1M</p>
       </div>

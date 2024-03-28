@@ -1,9 +1,9 @@
 import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
+import { Locale } from '@/i18n-config';
 import { DocSortingMethods, ICitationType } from '@/types';
 import { useAIEditor, useCitation } from '@/zustand/store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { usePostHog } from 'posthog-js/react';
 import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
 import {
@@ -75,6 +75,7 @@ export const useDocumentDetail = (id: string) => {
   return useQuery({
     queryKey: ['document_item', id],
     queryFn: () => getDocDetail(id),
+    staleTime: 0,
   });
 };
 
@@ -194,6 +195,8 @@ export const useCiteToDoc = () => {
         },
       });
       insertCitation(data);
+      const toast = (await import('sonner')).toast;
+      toast.success('Citation created successfully');
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
@@ -216,8 +219,7 @@ export const useRensendEmail = () => {
   });
 };
 
-export const useUserLogin = () => {
-  const posthog = usePostHog();
+export const useUserLogin = (lang: Locale) => {
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
   return useMutation({
@@ -226,16 +228,13 @@ export const useUserLogin = () => {
     onSuccess: async (data) => {
       const toast = (await import('sonner')).toast;
       toast.success('Successfully Login');
-      const user_id = JSON.parse(atob(data.access_token.split('.')[1])).subject
-        .user_id;
-      posthog.identify(user_id);
       setCookie('token', data.access_token, {
         path: '/',
         maxAge: 604800,
         secure: true,
         sameSite: 'lax',
       });
-      router.push('/editor');
+      router.push(`/${lang}/editor`);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

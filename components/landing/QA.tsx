@@ -46,7 +46,7 @@ const QA = ({ t }: HomePageDicType) => {
           <div className='flex justify-between'>
             <div>
               <p
-                className={`${selected === index ? 'text-[14px] font-[500] text-doc-primary sm:text-[20px]' : 'text-[14px] font-[500] text-[#3B3A40] sm:text-[20px]'}`}
+                className={`${selected === index ? 'text-[14px] font-[500] text-violet-500 sm:text-[20px]' : 'text-[14px] font-[500] text-[#3B3A40] sm:text-[20px]'}`}
               >
                 {t[`QuestionInfo_title_${index + 1}` as keyof typeof t]}
               </p>

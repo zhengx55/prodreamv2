@@ -26,11 +26,6 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
           first_paragraph_to = node.nodeSize + pos;
         }
       });
-      editor
-        .chain()
-        .focus()
-        .setTextSelection({ from: first_paragraph_pos, to: first_paragraph_to })
-        .run();
       const coordinate = posToDOMRect(
         editor.view,
         first_paragraph_pos,
@@ -49,9 +44,9 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
       exit={{ opacity: 0, scale: 0 }}
       key={'outline'}
       style={{ top: position.top, left: position.left }}
-      className='absolute z-20 w-[320px] rounded-lg bg-black-100 p-3'
+      className='absolute z-20 w-[320px] rounded-lg bg-black p-3'
     >
-      <span className='absolute -right-[8px] top-[calc(50%_-8px)] h-0 w-0 border-b-[8px] border-l-[8px] border-t-[8px] border-b-transparent border-l-black-100 border-t-transparent' />
+      <span className='border-l-black-100 absolute -right-[8px] top-[calc(50%_-8px)] h-0 w-0 border-b-[8px] border-l-[8px] border-t-[8px] border-b-transparent border-t-transparent' />
       <h1 className='small-semibold text-white'>{OutlineTooltipMain.TITLE}</h1>
       <Spacer y='5' />
       <ul className='ml-5 list-disc marker:text-white'>
@@ -71,10 +66,10 @@ export const OutlineTip = memo(({ editor }: { editor: Editor }) => {
         <Button
           onClick={() => {
             updateOutlineStep(2);
-            updateRightbarTab(2);
+            updateRightbarTab(5);
             editor.chain().blur().setTextSelection(0).run();
           }}
-          className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'
+          className='h-max w-max rounded bg-violet-500 px-5 py-1 capitalize'
           role='button'
         >
           Next
@@ -168,7 +163,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
       exit={{ opacity: 0, scale: 0 }}
       key={'outline'}
       style={{ top, left }}
-      className='absolute z-20 w-[320px] rounded-lg bg-black-100 p-3'
+      className='absolute z-20 w-[320px] rounded-lg bg-black p-3'
     >
       <h1 className='small-semibold text-white'>{ContinueTooltip.TITLE}</h1>
       <Spacer y='5' />
@@ -186,7 +181,7 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
               data: true,
             });
           }}
-          className='h-max w-max rounded bg-doc-primary px-5 py-1 capitalize'
+          className='h-max w-max rounded bg-violet-500 px-5 py-1 capitalize'
           role='button'
         >
           Got it

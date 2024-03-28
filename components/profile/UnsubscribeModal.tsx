@@ -44,7 +44,7 @@ const UnsubscribeModal = ({
         <DialogTitle className='h3-semibold'>
           Are you sure you want to leave?
         </DialogTitle>
-        <DialogDescription className='base-regular text-doc-font'>
+        <DialogDescription className='base-regular text-neutral-400'>
           You will lose benefits to unlimited AI generations, grammar check and
           originality checks. Reconsider to keep enhancing your writing
           effortlessly.
@@ -54,7 +54,7 @@ const UnsubscribeModal = ({
             <Button
               role='button'
               variant={'ghost'}
-              className='h-max border border-doc-primary py-1.5'
+              className='h-max border border-violet-500 py-1.5'
               onClick={handleUnsubscribe}
             >
               Unsubscribe

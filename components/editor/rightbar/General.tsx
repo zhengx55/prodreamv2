@@ -1,17 +1,22 @@
+import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
-import {
-  BookHalf,
-  FileCheck,
-  GenerateFill,
-} from '@/components/root/SvgComponents';
 import Tooltip from '@/components/root/Tooltip';
-import { Button } from '@/components/ui/button';
-import { useAIEditor } from '@/zustand/store';
-import { AnimatePresence, m } from 'framer-motion';
-import { PanelRight, PanelRightClose } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { EditorRightBar } from '@/constant';
+import { CitationTooltip } from '@/constant/enum';
+import { DocPageDicType } from '@/types';
+import { useAIEditor, useUserTask } from '@/zustand/store';
+import { m } from 'framer-motion';
+import { XCircle } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { GrammarCheck } from './grammar/GrammarCheck';
-
+import { Fragment } from 'react';
+import Tiplayout from '../guide/tips/Tiplayout';
+const Detection = dynamic(() => import('./ai-detection/Detection'));
+const CitationLibrary = dynamic(
+  () => import('./citation/library/CitationLibrary')
+);
+const GrammarCheck = dynamic(() => import('./grammar/GrammarCheck'));
+const Plagiarism = dynamic(() => import('./plagiarism/Plagiarism'));
 const Generate = dynamic(
   () => import('@/components/editor/rightbar/generate/Generate')
 );
@@ -20,153 +25,157 @@ const Citation = dynamic(
   () => import('@/components/editor/rightbar/citation/Citation')
 );
 
-const General = () => {
+const OPTIONS = [
+  'Grammar_Check',
+  'Plagiarism_Check',
+  'AI_Detection',
+  'Citation',
+  'My_Citation_Library',
+  'Generate',
+];
+
+const General = ({ t, lang }: DocPageDicType) => {
   const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
-  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+
   return (
     <m.aside
       key={'doc-right-bar'}
       initial={{ width: 0 }}
-      animate={{
-        width: 400,
-      }}
-      exit={{
-        width: 0,
-      }}
+      animate={{ width: 400 }}
+      exit={{ width: 0 }}
       transition={{ duration: 0.2 }}
       className='flex h-full shrink-0 flex-col border-l border-gray-200'
     >
       <section className='flex h-full flex-col px-3 pt-4'>
-        <PanelRightClose
-          size={20}
-          onClick={toggleRightbar}
-          className='shrink-0 cursor-pointer text-shadow hover:opacity-50'
-        />
-        <Spacer y='15' />
-        <div className='flex-between w-full gap-x-2.5'>
-          <AnimatePresence>
-            <m.span
-              onClick={() => updateRightbarTab(0)}
-              initial={false}
-              animate={{ width: rightbarTab === 0 ? '70%' : '15%' }}
-              exit={{ width: rightbarTab === 0 ? '15%' : '70%' }}
-              className={`flex-center h-11 cursor-pointer ${
-                rightbarTab === 0
-                  ? 'rounded-md border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                  : 'relative rounded-md border border-gray-200 bg-transparent'
-              }`}
-            >
-              {rightbarTab === 0 ? (
-                <>
-                  <FileCheck size='18' />
-                  <m.p
-                    initial={{ opacity: 0, scale: 0 }}
-                    exit={{ opacity: 0, scale: 0 }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      transition: { duration: 0.5 },
-                    }}
-                    className='small-semibold text-doc-primary'
-                  >
-                    Grammar Check
-                  </m.p>
-                </>
-              ) : (
-                <Tooltip tooltipContent='Grammar check'>
-                  <div className='flex-center absolute h-full w-full'>
-                    <FileCheck size='18' />
-                  </div>
-                </Tooltip>
-              )}
-            </m.span>
-          </AnimatePresence>
-          <AnimatePresence>
-            <m.span
-              onClick={() => updateRightbarTab(1)}
-              initial={false}
-              animate={{ width: rightbarTab === 1 ? '70%' : '15%' }}
-              exit={{ width: rightbarTab === 1 ? '15%' : '70%' }}
-              className={`flex-center h-11 cursor-pointer ${
-                rightbarTab === 1
-                  ? 'rounded border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                  : 'relative rounded border border-gray-200 bg-transparent'
-              }`}
-            >
-              {rightbarTab === 1 ? (
-                <>
-                  <BookHalf size={'18'} />
-                  <p className='small-semibold text-doc-primary'>Citation</p>
-                </>
-              ) : (
-                <Tooltip tooltipContent='Citation'>
-                  <div className='flex-center absolute h-full w-full'>
-                    <BookHalf size={'18'} />
-                  </div>
-                </Tooltip>
-              )}
-            </m.span>
-          </AnimatePresence>
-          <AnimatePresence>
-            <m.span
-              onClick={() => updateRightbarTab(2)}
-              initial={false}
-              animate={{ width: rightbarTab === 2 ? '70%' : '15%' }}
-              exit={{ width: rightbarTab === 2 ? '15%' : '70%' }}
-              className={`flex-center h-11 cursor-pointer ${
-                rightbarTab === 2
-                  ? 'rounded border border-[#E7E9FF] bg-[#E7E9FF]/50'
-                  : 'relative rounded border border-gray-200 bg-transparent'
-              }`}
-            >
-              {rightbarTab === 2 ? (
-                <>
-                  <GenerateFill size='18' />
-                  <p className='small-semibold text-doc-primary'>Generate</p>
-                </>
-              ) : (
-                <Tooltip tooltipContent='Generate'>
-                  <div className='flex-center absolute h-full w-full'>
-                    <GenerateFill size='18' />
-                  </div>
-                </Tooltip>
-              )}
-            </m.span>
-          </AnimatePresence>
+        <div className='flex-between'>
+          <h2 className='title-medium'>
+            {t.RightBar[OPTIONS[rightbarTab] as keyof typeof t.RightBar]}
+          </h2>
+          <XCircle
+            size={20}
+            onClick={toggleRightbar}
+            className='shrink-0 cursor-pointer text-shadow hover:opacity-50'
+          />
         </div>
         <Spacer y='15' />
         {rightbarTab === 0 ? (
-          <GrammarCheck />
+          <GrammarCheck t={t} />
+        ) : rightbarTab === 3 ? (
+          <Citation t={t} />
+        ) : rightbarTab === 5 ? (
+          <Generate t={t} />
         ) : rightbarTab === 1 ? (
-          <Citation />
+          <Plagiarism t={t} />
         ) : rightbarTab === 2 ? (
-          <Generate />
-        ) : null}
+          <Detection t={t} />
+        ) : (
+          <CitationLibrary t={t} />
+        )}
       </section>
     </m.aside>
   );
 };
 
-const Trigger = () => {
-  const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
+const Trigger = ({ t, lang }: DocPageDicType) => {
+  const { updateRightbarTab, rightbarTab, rightbarOpen } = useAIEditor(
+    (state) => ({ ...state })
+  );
+  const resetCitationStep = useUserTask((state) => state.resetCitationStep);
+  const citation_tooltip_step = useUserTask((state) => state.citation_step);
+
   return (
-    <m.span
-      key={'doc-rightbar-trigger'}
-      initial={{ opacity: 0 }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{ opacity: 0 }}
+    <m.ul
+      animate={{ right: rightbarOpen ? '408px' : '12px' }}
+      initial={false}
+      className='absolute top-2 flex flex-col items-center gap-y-4 rounded border border-gray-200 bg-white px-1.5 py-2'
     >
-      <Button
-        className='absolute right-0 top-1'
-        variant={'ghost'}
-        onClick={toggleRightbar}
-      >
-        <PanelRight size={20} className='text-shadow' />
-      </Button>
-    </m.span>
+      {EditorRightBar.map((item, index) => (
+        <Fragment key={item.id}>
+          {(index === 3 || index === 5) && (
+            <Separator orientation='horizontal' className='bg-gray-200' />
+          )}
+          {index === 4 ? (
+            citation_tooltip_step === 4 ? (
+              <Tiplayout
+                title={CitationTooltip.STEP4_TITLE}
+                content={CitationTooltip.STEP4_TEXT}
+                step={citation_tooltip_step}
+                side='top'
+                totalSteps={4}
+                buttonLabel='done'
+                onClickCallback={() => {
+                  resetCitationStep();
+                }}
+              >
+                <li
+                  onClick={() => {
+                    updateRightbarTab(index);
+                  }}
+                  className='cursor-pointer hover:opacity-70'
+                >
+                  <Icon
+                    alt=''
+                    src={
+                      rightbarTab === index && rightbarOpen
+                        ? item.active_icon
+                        : item.icon
+                    }
+                    priority
+                    width={24}
+                    height={24}
+                  />
+                </li>
+              </Tiplayout>
+            ) : (
+              <TriggerItem
+                onClick={() => {
+                  updateRightbarTab(index);
+                }}
+                item={item}
+                label={t.RightBar[item.title as keyof typeof t.RightBar]}
+                isActive={rightbarTab === index && rightbarOpen}
+              />
+            )
+          ) : (
+            <TriggerItem
+              onClick={() => {
+                updateRightbarTab(index);
+              }}
+              item={item}
+              label={t.RightBar[item.title as keyof typeof t.RightBar]}
+              isActive={rightbarTab === index && rightbarOpen}
+            />
+          )}
+        </Fragment>
+      ))}
+    </m.ul>
+  );
+};
+
+const TriggerItem = ({
+  onClick,
+  item,
+  label,
+  isActive,
+}: {
+  onClick: () => void;
+  item: any;
+  label: string;
+  isActive: boolean;
+}) => {
+  return (
+    <Tooltip side='left' tooltipContent={label}>
+      <li onClick={onClick} className='cursor-pointer hover:opacity-70'>
+        <Icon
+          alt=''
+          src={isActive ? item.active_icon : item.icon}
+          priority
+          width={24}
+          height={24}
+        />
+      </li>
+    </Tooltip>
   );
 };
 

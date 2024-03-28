@@ -20,7 +20,7 @@ const Banner = ({ t, lang }: HomePageDicType) => {
       <Spacer y='20' />
       <div className='flex-center w-full flex-col px-4 sm:max-w-[1200px] sm:px-0 '>
         <div className='flex flex-col gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
-          <div className='relative w-full rounded-2xl bg-doc-primary p-7 sm:w-[47%] '>
+          <div className='relative w-full rounded-2xl bg-violet-500 p-7 sm:w-[47%] '>
             <h2 className='title-regular text-white'>{t.BannerInfo_title_1}</h2>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -37,7 +37,7 @@ const Banner = ({ t, lang }: HomePageDicType) => {
               />
             </svg>
             <Spacer y='20' />
-            <p className='text-regular leading-6 text-white'>
+            <p className='text-xs leading-6 text-white'>
               {t.BannerInfo_detail_1}
             </p>
           </div>
@@ -58,13 +58,13 @@ const Banner = ({ t, lang }: HomePageDicType) => {
             </svg>
             <h2 className='title-regular text-white'>{t.BannerInfo_title_2}</h2>
             <Spacer y='20' />
-            <p className='text-regular leading-6 text-white'>
+            <p className='text-xs leading-6 text-white'>
               {t.BannerInfo_detail_2}
             </p>
           </div>
         </div>
         <Spacer y='30' />
-        <div className='flex-center h-[174px] w-full flex-col rounded-2xl bg-doc-primary/10 p-8 sm:h-[130px]'>
+        <div className='flex-center h-[174px] w-full flex-col rounded-2xl bg-violet-500/10 p-8 sm:h-[130px]'>
           <div className='flex w-full flex-col sm:max-w-[1200px] sm:flex-row sm:justify-between'>
             {lang === 'en' ? (
               <h1 className='text-center text-[16px] font-[500] sm:text-left sm:text-[18px]'>

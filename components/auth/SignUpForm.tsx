@@ -19,7 +19,6 @@ import { AuthPageDicType } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { usePostHog } from 'posthog-js/react';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
@@ -29,7 +28,6 @@ const defaultValues = { password: '', email: '' };
 
 const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   const [hidePassword, setHidePassword] = useState(true);
-  const posthog = usePostHog();
   const searchParam = useSearchParams().get('from');
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
@@ -52,7 +50,6 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
           const user_id = JSON.parse(
             atob(login_data.access_token.split('.')[1])
           ).subject.user_id;
-          posthog.identify(user_id);
           setCookie('token', login_data.access_token, {
             path: '/',
             maxAge: 604800,
@@ -148,7 +145,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
               href={
                 'https://applifyai.notion.site/Applify-AI-Subscription-Agreement-eef0b3cfdab6496dbe0fa04a3c9a0d3e?pvs=4'
               }
-              className='text-auth-primary'
+              className='text-violet-500'
             >
               {t.Signup.Term}
             </Link>
@@ -158,7 +155,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
               href={
                 'https://applifyai.notion.site/Applify-AI-Privacy-Policy-e350e311e90c48608b4e85a8c7982e77'
               }
-              className='text-auth-primary'
+              className='text-violet-500'
             >
               &nbsp;{t.Signup.Privacy}
             </Link>
@@ -167,7 +164,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
         <Spacer y='20' />
         <Button
           disabled={isSignupPending}
-          className='w-full rounded bg-auth-primary'
+          className='w-full rounded bg-violet-500'
           type='submit'
         >
           {isSignupPending && (

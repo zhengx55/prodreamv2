@@ -16,7 +16,7 @@ const ProfileSidebar = () => {
     <aside className='relative hidden w-[180px] shrink-0 flex-col border-r border-r-shadow-border bg-white md:flex md:px-2 md:py-5'>
       <ul className='relative mt-2 flex flex-col gap-5'>
         <Link
-          className='base-regular flex items-center gap-x-1 pl-2 text-black-200'
+          className='base-regular flex items-center gap-x-1 pl-2 text-black'
           href={'/editor'}
         >
           <ChevronLeft />
@@ -42,7 +42,7 @@ const ProfileSidebar = () => {
               />
               <span
                 className={`${
-                  isActive ? 'text-primary-200' : 'text-shadow-100'
+                  isActive ? 'text-violet-500' : 'text-shadow-100'
                 } whitespace-nowrap text-[14px]`}
               >
                 {item.title}

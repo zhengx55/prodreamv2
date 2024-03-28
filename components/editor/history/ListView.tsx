@@ -2,13 +2,14 @@
 import { FileIcon } from '@/components/root/SvgComponents';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { IDocDetail } from '@/query/type';
+import { DocPageDicType } from '@/types';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 const HistoryDropDown = dynamic(() => import('./HistoryDropDown'));
 type Props = {
   list: IDocDetail[];
-};
-const ListView = ({ list }: Props) => {
+} & DocPageDicType;
+const ListView = ({ list, t, lang }: Props) => {
   return (
     <ul role='list' className='flex w-[1100px] flex-col gap-y-2'>
       {list.map((item) => (
@@ -16,7 +17,7 @@ const ListView = ({ list }: Props) => {
           key={item.id}
           passHref
           prefetch={false}
-          href={`/editor/${item.id}`}
+          href={`/${lang}/editor/${item.id}`}
         >
           <li className='flex-between cursor-pointer items-center rounded-lg py-2 hover:bg-nav-selected'>
             <span className='flex items-center gap-x-1.5'>

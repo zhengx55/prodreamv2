@@ -38,12 +38,12 @@ const Tiplayout = ({
   };
   return (
     <TooltipProvider>
-      <Tooltip open={show}>
+      <Tooltip delayDuration={500} open={show}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
           sideOffset={10}
           side={side}
-          className='min-w-[320px] rounded-lg bg-black-100 p-3'
+          className='min-w-[320px] rounded-lg bg-black p-3'
         >
           <TooltipArrow />
           <div className='flex flex-col'>
@@ -62,7 +62,7 @@ const Tiplayout = ({
                 <span />
               )}
               <Button
-                className='h-max w-max rounded bg-doc-primary py-1 capitalize'
+                className='h-max w-max rounded bg-violet-500 py-1 capitalize'
                 role='button'
                 onClick={buttonHandler}
               >

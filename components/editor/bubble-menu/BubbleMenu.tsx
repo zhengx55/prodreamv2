@@ -1,7 +1,6 @@
 import { Toolbar } from '@/components/editor/ui/Toolbar';
-import { autoUpdate, flip, offset, useFloating } from '@floating-ui/react-dom';
 import * as Popover from '@radix-ui/react-popover';
-import { Editor, isNodeSelection, posToDOMRect } from '@tiptap/react';
+import { Editor } from '@tiptap/react';
 import {
   AlignCenter,
   AlignJustify,
@@ -13,7 +12,7 @@ import {
   Strikethrough,
   Underline,
 } from 'lucide-react';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo } from 'react';
 
 import {
   BookHalf,
@@ -22,8 +21,10 @@ import {
   Synonym,
   Undo,
 } from '@/components/root/SvgComponents';
+import { getDictionary } from '@/lib/get-dictionary';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { ContentTypePicker } from '../picker/content';
+import useEventListener from './hooks/useEventListener';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
 import { useTextmenuStates } from './hooks/useTextmenuStates';
@@ -33,13 +34,10 @@ const MemoContentTypePicker = memo(ContentTypePicker);
 
 export type TextMenuProps = {
   editor: Editor;
+  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
 };
 
-const BubbleMenu = ({ editor }: TextMenuProps) => {
-  const menuYOffside = useRef<number | null>(null);
-  const menuXOffside = useRef<number | null>(null);
-  const [selectedLength, setSelectedLength] = useState(0);
-  const [isWord, setIsWord] = useState(false);
+const BubbleMenu = ({ editor, t }: TextMenuProps) => {
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const commands = useTextmenuCommands(editor);
@@ -51,119 +49,18 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
     showBubbleMenu,
     updateShowBubbleMenu,
   } = useAIEditor((state) => ({ ...state }));
+  const {
+    refs,
+    x,
+    y,
+    strategy,
+    isWord,
+    selectedLength,
+    menuXOffside,
+    menuYOffside,
+  } = useEventListener(editor);
   const task_step = useUserTask((state) => state.task_step);
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
-
-  const { x, y, strategy, refs } = useFloating({
-    open: showBubbleMenu,
-    strategy: 'fixed',
-    whileElementsMounted: autoUpdate,
-    placement: 'top-start',
-    middleware: [
-      offset({ mainAxis: 10 }),
-      flip({
-        padding: 8,
-        boundary: editor.options.element,
-        fallbackPlacements: ['bottom-start'],
-      }),
-    ],
-  });
-
-  useEffect(() => {
-    const MouseUphandler = () => {
-      const { isFocused } = editor;
-      if (!isFocused) {
-        updateShowBubbleMenu(false);
-        return;
-      }
-      const { doc, selection } = editor.state;
-      const { from, empty, ranges } = selection;
-      if (empty) {
-        updateShowBubbleMenu(false);
-        return;
-      }
-      const { view } = editor;
-      const current_node = view.domAtPos(from || 0);
-      const isTitle =
-        current_node.node.nodeName === 'H1' ||
-        current_node.node.parentNode?.nodeName === 'H1';
-      if (isTitle) {
-        updateShowBubbleMenu(false);
-      } else {
-        const from = Math.min(...ranges.map((range) => range.$from.pos));
-        const to = Math.max(...ranges.map((range) => range.$to.pos));
-        const text = doc.textBetween(from, to);
-        const words = text.match(/\b\w+\b/g);
-        if (words && words.length === 1) {
-          setIsWord(true);
-        } else {
-          setIsWord(false);
-        }
-        setSelectedLength(words ? words.length : 0);
-        refs.setReference({
-          getBoundingClientRect() {
-            const coordinate = posToDOMRect(view, from, to);
-            menuXOffside.current = coordinate.left;
-            menuYOffside.current =
-              coordinate.bottom +
-              (view.dom.parentElement?.parentElement?.scrollTop ?? 0);
-            return coordinate;
-          },
-        });
-        updateShowBubbleMenu(true);
-      }
-    };
-
-    const NodeSelectHandler = () => {
-      const { view } = editor;
-      const { selection, doc } = editor.state;
-      const { empty, ranges } = selection;
-      if (empty) {
-        updateShowBubbleMenu(false);
-        return;
-      }
-      if (isNodeSelection(selection)) {
-        const from = Math.min(...ranges.map((range) => range.$from.pos));
-        const to = Math.max(...ranges.map((range) => range.$to.pos));
-        const text = doc.textBetween(from, to);
-        const words = text.match(/\b\w+\b/g);
-        if (words && words.length === 1) {
-          setIsWord(true);
-        } else {
-          setIsWord(false);
-        }
-        setSelectedLength(words ? words.length : 0);
-        refs.setReference({
-          getBoundingClientRect() {
-            const node = view.nodeDOM(from) as HTMLElement;
-            if (node) {
-              const nodeRect = node.getBoundingClientRect();
-              menuXOffside.current = nodeRect.left;
-              menuYOffside.current =
-                nodeRect.bottom +
-                (view.dom.parentElement?.parentElement?.scrollTop ?? 0);
-              return nodeRect;
-            }
-            const coordinate = posToDOMRect(view, from, to);
-            menuXOffside.current = coordinate.left;
-            menuYOffside.current =
-              coordinate.bottom +
-              (view.dom.parentElement?.parentElement?.scrollTop ?? 0);
-            return coordinate;
-          },
-        });
-        updateShowBubbleMenu(true);
-      }
-    };
-    editor.on('selectionUpdate', NodeSelectHandler);
-    document.addEventListener('mouseup', MouseUphandler);
-    return () => {
-      editor.off('selectionUpdate', NodeSelectHandler);
-      document.removeEventListener('mouseup', MouseUphandler);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, refs]);
-
   if (!showBubbleMenu) return null;
   return (
     <div
@@ -185,13 +82,13 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
             updateShowBubbleMenu(false);
             editor.chain().setHighlight({ color: '#D4D7FF' }).run();
           }}
-          className='text-doc-primary'
+          className='text-violet-500'
         >
           {task_step === 0 && (
-            <span className='absolute h-7 w-7 animate-ping rounded-full bg-doc-primary/50' />
+            <span className='absolute h-7 w-7 animate-ping rounded-full bg-violet-500/50' />
           )}
           <Copilot />
-          AI Copilot
+          {t.BubbleMenu.Copilot}
         </MemoButton>
         <Toolbar.Divider />
         {isWord ? (
@@ -206,13 +103,14 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
               updateShowBubbleMenu(false);
               editor.chain().setHighlight({ color: '#D4D7FF' }).run();
             }}
-            className='text-doc-primary'
+            className='text-violet-500'
           >
             <Synonym />
-            Synonym
+            {t.BubbleMenu.Synonym}
           </MemoButton>
         ) : (
           <MemoButton
+            tooltip={t.BubbleMenu.tooltip_citation}
             onMouseDown={(e) => e.preventDefault()}
             onClick={async () => {
               if (selectedLength >= 160) {
@@ -228,10 +126,10 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
               updateShowBubbleMenu(false);
               editor.chain().setHighlight({ color: '#D4D7FF' }).run();
             }}
-            className='text-doc-primary'
+            className='text-violet-500'
           >
             <BookHalf size={'18'} />
-            Citation
+            {t.BubbleMenu.Reference}
           </MemoButton>
         )}
         <Toolbar.Divider />
@@ -342,7 +240,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         <span className='flex h-full items-center px-2'>
           <p className='small-regular text-shadow'>
             {selectedLength}
-            &nbsp;Words
+            &nbsp;{t.BubbleMenu.words}
           </p>
         </span>
       </Toolbar.Wrapper>

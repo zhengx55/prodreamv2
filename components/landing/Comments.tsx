@@ -37,7 +37,7 @@ const Comments = ({ t, lang }: HomePageDicType) => {
       </CaptureProvider>
 
       <Spacer y='20' />
-      <ul className='flex w-full flex-col gap-y-8 rounded-xl bg-doc-primary/5 py-16 sm:h-[500px] sm:w-[1200px] sm:flex-row sm:gap-y-0'>
+      <ul className='flex w-full flex-col gap-y-8 rounded-xl bg-violet-500/5 py-16 sm:h-[500px] sm:w-[1200px] sm:flex-row sm:gap-y-0'>
         {CommentsInfo.map((comment, index) => (
           <li
             key={comment.id}

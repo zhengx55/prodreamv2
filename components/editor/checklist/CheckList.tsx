@@ -6,6 +6,7 @@ import {
   useMutateTrackInfo,
   useUserTrackInfo,
 } from '@/query/query';
+import { EditorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -18,8 +19,8 @@ const variants: Variants = {
   show: { width: 300, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
 };
 
-const CheckList = () => {
-  const [show, setShow] = useState(false);
+const CheckList = ({ t }: { t: EditorDictType }) => {
+  const [show, setShow] = useState(true);
   const { data: userTrack } = useUserTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
@@ -45,7 +46,7 @@ const CheckList = () => {
         return toast.warning('please write some content and try again');
       if (index === 0) {
         closeRightbar();
-        editor?.commands.setNodeSelection(first_paragraph.pos);
+        editor?.chain().focus().setNodeSelection(first_paragraph.pos).run();
         updateTaskStep(0);
       } else {
         closeRightbar();
@@ -60,13 +61,13 @@ const CheckList = () => {
       }
     }
     if (index === 2) {
-      updateRightbarTab(2);
+      updateRightbarTab(5);
       setGenerateTab('Write Introduction');
       await ButtonTrack({ event: 'generate_tool_task_completed' });
       updateGenerateStep(1);
     }
     if (index === 3) {
-      updateRightbarTab(1);
+      updateRightbarTab(3);
       updateCitationStep();
     }
   }, 500);
@@ -78,10 +79,10 @@ const CheckList = () => {
         variants={variants}
         id='checklist-trigger'
         animate={show ? 'show' : 'hide'}
-        className='flex-between rounded-lg bg-doc-primary p-2 text-white'
+        className='flex-between rounded-lg bg-violet-500 p-2 text-white'
         onClick={() => setShow((prev) => !prev)}
       >
-        <p className='small-medium'>Onboarding Checklist</p>{' '}
+        <p className='small-medium'>{t.CheckList.title}</p>
         {!show ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </m.div>
       <AnimatePresence initial={false} mode='wait'>
@@ -120,37 +121,39 @@ const CheckList = () => {
             className='flex w-[300px] flex-col rounded-b-lg bg-white px-4 shadow-lg'
           >
             <Spacer y='12' />
-            <p className='small-regular'>
-              Learn how to use ProDream to help you write & research!
-            </p>
+            <p className='small-regular'>{t.CheckList.describtion}</p>
             <Spacer y='12' />
-            <h2 className='base-medium'>Getting around ☕️</h2>
+            <h2 className='base-medium'>{t.CheckList.format_1}</h2>
             <Spacer y='12' />
             <ul className='flex flex-col gap-y-2.5'>
               <TaskItem
-                taskCompleted={!!userTrack?.citation_task}
-                label='Add one citation'
-                onClickHandler={() => selectHandler(3)}
+                taskCompleted={!!userTrack?.ai_copilot_task}
+                label={t.CheckList.copilot}
+                onClickHandler={() => selectHandler(0)}
+                t={t}
               />
               <TaskItem
-                taskCompleted={!!userTrack?.ai_copilot_task}
-                label='Try any AI editing tools'
-                onClickHandler={() => selectHandler(0)}
+                taskCompleted={!!userTrack?.citation_task}
+                label={t.CheckList.citation}
+                onClickHandler={() => selectHandler(3)}
+                t={t}
               />
             </ul>
             <Spacer y='12' />
-            <h2 className='base-medium'>Productivity boost 🚀</h2>
+            <h2 className='base-medium'>{t.CheckList.format_2}</h2>
             <Spacer y='12' />
             <ul className='flex flex-col gap-y-2.5'>
               <TaskItem
                 taskCompleted={!!userTrack?.continue_writing_task}
-                label='Write next sentence'
+                label={t.CheckList.continue}
                 onClickHandler={() => selectHandler(1)}
+                t={t}
               />
               <TaskItem
                 taskCompleted={!!userTrack?.generate_tool_task}
-                label='Generate an introduction'
+                label={t.CheckList.generate}
                 onClickHandler={() => selectHandler(2)}
+                t={t}
               />
             </ul>
             <Spacer y='24' />
@@ -166,17 +169,19 @@ const TaskItem = ({
   taskCompleted,
   label,
   onClickHandler,
+  t,
 }: {
   taskCompleted: boolean;
   label: string;
   onClickHandler: () => void;
+  t: EditorDictType;
 }) => (
   <li className='flex-between'>
     <div className='flex items-center gap-x-2'>
       <Checkbox
         disabled
         checked={taskCompleted}
-        className='h-4 w-4 rounded-full border-black-400'
+        className='border-black-400 h-4 w-4 rounded-full'
       />
       <label
         className={`subtle-regular ${taskCompleted ? 'text-neutral-400 line-through' : ''}`}
@@ -188,9 +193,9 @@ const TaskItem = ({
       <span
         role='button'
         onClick={onClickHandler}
-        className='subtle-regular cursor-pointer text-doc-primary'
+        className='subtle-regular min-w-14 cursor-pointer text-violet-500'
       >
-        Show me
+        {t.CheckList.Show}
       </span>
     )}
   </li>

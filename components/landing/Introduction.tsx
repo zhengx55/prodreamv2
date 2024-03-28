@@ -37,13 +37,13 @@ const Introduction = ({ t, lang }: HomePageDicType) => {
             ).map((item, idx) => {
               return (
                 <div
-                  className={`flex ${idx === 0 ? 'sm:h-[750px]' : 'sm:h-[630px]'} h-[440px] flex-col gap-y-4 rounded-xl bg-doc-primary/5 p-5 sm:gap-y-8 sm:p-10`}
+                  className={`flex ${idx === 0 ? 'sm:h-[750px]' : 'sm:h-[630px]'} h-[440px] flex-col gap-y-4 rounded-xl bg-violet-500/5 p-5 sm:gap-y-8 sm:p-10`}
                   key={item.id}
                 >
                   <h3 className='text-[20px] leading-snug sm:text-[24px]'>
                     {t[`IntroductionInfo_title_${idx === 0 ? 1 : 3}`]}
                   </h3>
-                  <p className='text-regular leading-relaxed text-shadow-100 sm:text-[18px]'>
+                  <p className='text-xs leading-relaxed text-shadow-100 sm:text-[18px]'>
                     {t[`IntroductionInfo_description_${idx === 0 ? 1 : 3}`]}
                   </p>
                   <div className='relative h-full w-full overflow-hidden'>
@@ -67,13 +67,13 @@ const Introduction = ({ t, lang }: HomePageDicType) => {
             ).map((item, idx) => {
               return (
                 <div
-                  className={`flex ${idx === 1 ? 'sm:h-[750px]' : 'sm:h-[630px]'} h-[440px] flex-col gap-y-4 rounded-xl bg-doc-primary/5 p-5 sm:gap-y-8 sm:p-10`}
+                  className={`flex ${idx === 1 ? 'sm:h-[750px]' : 'sm:h-[630px]'} h-[440px] flex-col gap-y-4 rounded-xl bg-violet-500/5 p-5 sm:gap-y-8 sm:p-10`}
                   key={item.id}
                 >
                   <h3 className='text-[20px] leading-snug sm:text-[24px]'>
                     {t[`IntroductionInfo_title_${idx === 0 ? 2 : 4}`]}
                   </h3>
-                  <p className='text-regular leading-relaxed text-shadow-100 sm:text-[18px]'>
+                  <p className='text-xs leading-relaxed text-shadow-100 sm:text-[18px]'>
                     {t[`IntroductionInfo_description_${idx === 0 ? 2 : 4}`]}
                   </p>
                   <div className='relative h-full w-full overflow-hidden'>

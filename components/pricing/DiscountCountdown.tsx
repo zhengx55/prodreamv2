@@ -30,6 +30,6 @@ const DiscountCountdown = ({ timestamp }: Props) => {
     return () => clearTimeout(timer);
   });
 
-  return <p className='subtle-regular text-doc-primary'>{timeLeft}</p>;
+  return <p className='subtle-regular text-violet-500'>Ends in: {timeLeft}</p>;
 };
 export default memo(DiscountCountdown);

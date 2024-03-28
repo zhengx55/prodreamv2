@@ -8,6 +8,7 @@ import {
   useUserTrackInfo,
 } from '@/query/query';
 import { IGrammarResponse, IGrammarResult } from '@/query/type';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { JSONContent } from '@tiptap/react';
@@ -19,7 +20,7 @@ import { memo, useCallback, useState } from 'react';
 
 const Result = dynamic(() => import('./Result'));
 
-export const GrammarCheck = memo(() => {
+export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
   const [isChecking, setIsChecking] = useState(false);
   const [grammarResults, setGrammarResults] = useState<IGrammarResult[]>([]);
   const editor = useAIEditor((state) => state.editor_instance);
@@ -103,10 +104,11 @@ export const GrammarCheck = memo(() => {
             exit={{ opacity: 0, y: -20 }}
             className='flex-center flex-1'
           >
-            <Loader2 className='animate-spin text-doc-shadow' />
+            <Loader2 className='animate-spin text-zinc-600' />
           </m.div>
         ) : grammarResults.length > 0 ? (
           <Result
+            t={t}
             update={updateGrammarResult}
             grammarResults={grammarResults}
           />
@@ -119,38 +121,41 @@ export const GrammarCheck = memo(() => {
             className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
           >
             <Image
-              src='/editor/Grammar.png'
+              src='/editor/Start.png'
               alt='grammar check'
               width={450}
               height={270}
-              className='h-auto w-auto'
+              className='h-44 w-60 self-center'
               priority
             />
+            <p className='text-center text-sm font-normal text-zinc-600'>
+              {t.Grammar.Title}
+            </p>
             <Button
-              className='base-regular h-max w-max self-center rounded-full bg-doc-primary px-20'
+              className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
               role='button'
               onClick={handleCheck}
             >
-              Start Grammar Check
+              {t.Grammar.Button}
             </Button>
           </m.div>
         )}
       </AnimatePresence>
       {usage?.subscription === 'basic' ? (
         <div className='mt-auto flex flex-col gap-y-0.5'>
-          <div className='relative h-2 w-full rounded-xl bg-border-50'>
+          <div className='relative h-2 w-full rounded-xl bg-gray-200'>
             {usage.free_times_detail.Generate === 0 ? (
               <span className='absolute inset-0 rounded-xl bg-red-400' />
             ) : (
               <span
-                className='absolute inset-0 w-full rounded-xl bg-doc-primary'
+                className='absolute inset-0 w-full rounded-xl bg-violet-500'
                 style={{
                   width: `${((100 - (usage?.free_times_detail.Grammar ?? 0)) / 100) * 100}%`,
                 }}
               />
             )}
           </div>
-          <p className='small-regular w-max px-0 text-doc-font'>
+          <p className='small-regular w-max px-0 text-neutral-400'>
             {usage?.free_times_detail.Grammar}/100 weekly Grammar Checks left;
             <Button
               role='dialog'
@@ -167,6 +172,6 @@ export const GrammarCheck = memo(() => {
       ) : null}
     </div>
   );
-});
+};
 
-GrammarCheck.displayName = 'GrammarCheck';
+export default memo(GrammarCheck);

@@ -25,22 +25,23 @@ const SentenceFragment: FC<SentenceProps> = ({
   let content: ReactNode | null = null;
 
   if (isNoChange) {
-    className = 'text-black-400';
+    className = 'text-black';
     content = <span className={className}>{sentence.sub_str}</span>;
   } else if (isAdd) {
-    className = 'text-doc-primary small-semibold';
+    className = 'text-violet-500 small-regular';
     content = <span className={className}>{sentence.new_str}</span>;
   } else if (isDelete) {
-    className = 'text-red-500 line-through small-semibold';
+    className = 'text-red-500 line-through small-regular';
     content = <span className={className}>{sentence.sub_str}</span>;
   } else if (isModify) {
-    className = 'text-red-500 line-through small-semibold';
     content = (
       <Fragment>
-        <span className='small-semibold text-doc-primary'>
+        <span className='small-regular text-red-500 line-through'>
           {sentence.sub_str}
         </span>
-        <span className='small-semibold text-red-500'>{sentence.new_str}</span>
+        <span className='small-regular text-indigo-500'>
+          {sentence.new_str}
+        </span>
       </Fragment>
     );
   }

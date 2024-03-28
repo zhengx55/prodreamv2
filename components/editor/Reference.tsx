@@ -61,7 +61,7 @@ const Reference = () => {
         <h3 className='text-xl font-[600]'>References</h3>
         <div className='flex gap-x-4'>
           {usage?.subscription === 'basic' ? (
-            <p className='subtle-regular inline-flex items-center gap-x-2 text-doc-font'>
+            <p className='subtle-regular inline-flex items-center gap-x-2 text-neutral-400'>
               Upgrade to unlimted to export citations
               <Button
                 role='button'
@@ -82,7 +82,7 @@ const Reference = () => {
             </Button>
           )}
           <Select onValueChange={(value) => updateCitationStyle(value)}>
-            <SelectTrigger className='h-max w-20 gap-x-2 rounded border-doc-primary px-2 py-0.5 text-doc-primary'>
+            <SelectTrigger className='h-max w-20 gap-x-2 rounded border-violet-500 px-2 py-0.5 text-violet-500'>
               <SelectValue placeholder={citationStyle} />
             </SelectTrigger>
             <SelectContent className='bg-white'>

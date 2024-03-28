@@ -1,10 +1,12 @@
 import '@/lib/tiptap/styles/index.css';
 import { useUserTrackInfo } from '@/query/query';
+import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
-type Props = { editor: Editor };
+import { memo } from 'react';
+type Props = { editor: Editor; t: EditorDictType };
 
 const GuidancePanel = dynamic(() => import('./GuidancePanel'));
 
@@ -21,22 +23,20 @@ const ContinueTip = dynamic(
   }
 );
 
-const Procedure = ({ editor }: Props) => {
+const Procedure = ({ editor, t }: Props) => {
   const { data: userTrack } = useUserTrackInfo();
   const outline_step = useUserTask((state) => state.outline_step);
   const continue_step = useUserTask((state) => state.continue_step);
-
-  const showGuidance =
-    !Boolean(userTrack?.guidence) && outline_step === 0 && continue_step === 0;
+  const showGuidance = !Boolean(userTrack?.guidence) && outline_step === 0;
   const showOutlineTip = Boolean(userTrack?.guidence) && outline_step === 1;
   const showContinueTip = Boolean(userTrack?.guidence) && continue_step === 1;
 
   return (
     <AnimatePresence mode='wait'>
-      {showGuidance && <GuidancePanel editor={editor} />}
+      {showGuidance && <GuidancePanel t={t} editor={editor} />}
       {showOutlineTip && <OutlineTip editor={editor} />}
       {showContinueTip && <ContinueTip editor={editor} />}
     </AnimatePresence>
   );
 };
-export default Procedure;
+export default memo(Procedure);

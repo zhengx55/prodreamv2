@@ -4,6 +4,7 @@ import { Copilot } from '@/components/root/SvgComponents';
 import { Separator } from '@/components/ui/separator';
 import { Surface } from '@/components/ui/surface';
 import { word_regex } from '@/constant';
+import { OperationType } from '@/constant/enum';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import {
@@ -12,6 +13,7 @@ import {
   useMutateTrackInfo,
   useUserTrackInfo,
 } from '@/query/query';
+import { DocPageDicType, EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
 import useUnmount from 'beautiful-react-hooks/useUnmount';
@@ -25,7 +27,6 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import { v4 } from 'uuid';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 import CustomPrompt from './CustomPrompt';
 import StreamText from './StreamText';
@@ -33,8 +34,9 @@ import { useAiOptions } from './hooks/useAiOptions';
 import useAiResponse from './hooks/useAiResponse';
 
 const RemainUsages = dynamic(() => import('./RemainUsages'));
-type Props = { editor: Editor };
-const AiMenu = ({ editor }: Props) => {
+type Props = { editor: Editor } & DocPageDicType;
+
+const AiMenu = ({ editor, t }: Props) => {
   const { options, operations } = useAiOptions();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { data: track } = useUserTrackInfo();
@@ -131,47 +133,33 @@ const AiMenu = ({ editor }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, essay_prompt, session]);
 
-  const handleRegenerate = async () => {
-    const selectedText = getSelectedText(editor);
-    setCurrentResult((prev) => prev + 1);
-    if (!tool.current) return;
-    if (tool.current === 'humanize') {
-      await handleHumanize({ text: selectedText });
-    } else {
-      await handleCopilot({ tool: tool.current, text: selectedText });
-    }
-  };
-
-  const handleReplace = () => {
-    const { selection } = editor.state;
-    const { from, to } = selection;
-    replaceText(from, to, aiResult[currentResult]);
-    updateCopilotMenu(false);
-  };
-
-  const handleInsert = () => {
-    const { selection } = editor.state;
-    const { to } = selection;
-    insertNext(to, aiResult[currentResult]);
-    updateCopilotMenu(false);
-  };
-
   const handleOperation = (idx: number) => {
-    switch (idx) {
-      case 0:
-        handleReplace();
+    handleEditorOperation(idx as OperationType);
+  };
+
+  const handleEditorOperation = async (operation: OperationType) => {
+    const selectedText = getSelectedText(editor);
+    switch (operation) {
+      case OperationType.Replace:
+        const { selection } = editor.state;
+        replaceText(selection.from, selection.to, aiResult[currentResult]);
         break;
-      case 1:
-        handleInsert();
+      case OperationType.Insert:
+        insertNext(editor.state.selection.to, aiResult[currentResult]);
         break;
-      case 2:
-        handleRegenerate();
+      case OperationType.Regenerate:
+        if (!tool.current) return;
+        setCurrentResult((prev) => prev + 1);
+        const action =
+          tool.current === 'humanize' ? handleHumanize : handleCopilot;
+        await action({ text: selectedText, tool: tool.current });
         break;
-      case 3:
+      case OperationType.Close:
         updateCopilotMenu(false);
         break;
-      default:
-        break;
+    }
+    if (operation !== OperationType.Regenerate) {
+      updateCopilotMenu(false);
     }
   };
 
@@ -203,7 +191,7 @@ const AiMenu = ({ editor }: Props) => {
                   {!showTyping && (
                     <div className='flex w-full items-center justify-end gap-x-0.5'>
                       <ChevronLeft
-                        className='cursor-pointer text-doc-font'
+                        className='cursor-pointer text-neutral-400'
                         size={18}
                         onClick={() =>
                           setCurrentResult((prev) =>
@@ -211,11 +199,11 @@ const AiMenu = ({ editor }: Props) => {
                           )
                         }
                       />
-                      <p className='small-regular text-doc-font'>
+                      <p className='small-regular text-neutral-400'>
                         {currentResult + 1} of {aiResult.length}
                       </p>
                       <ChevronRight
-                        className='cursor-pointer text-doc-font'
+                        className='cursor-pointer text-neutral-400'
                         size={18}
                         onClick={() =>
                           setCurrentResult((prev) =>
@@ -229,21 +217,24 @@ const AiMenu = ({ editor }: Props) => {
                   )}
                 </div>
               )}
-              <CustomPrompt ref={promptRef} submit={handleCustomPrompt} />
+              <CustomPrompt
+                currentResult={currentResult}
+                t={t}
+                ref={promptRef}
+                submit={handleCustomPrompt}
+              />
             </>
           ) : (
             <Loader />
           )}
           {usage?.subscription === 'basic' && <RemainUsages />}
-          <Spacer y='5' />
         </div>
-
         {generating ? null : (
           <Surface ref={menuRef} className='w-[256px] rounded py-2' withBorder>
             {!hasAiResult
               ? options.map((item, index) => {
                   return (
-                    <Fragment key={v4()}>
+                    <Fragment key={`option-${index}`}>
                       {index !== 0 && (
                         <>
                           <Spacer y='5' />
@@ -255,15 +246,15 @@ const AiMenu = ({ editor }: Props) => {
                         </>
                       )}
                       <Spacer y='5' />
-                      <h3 className='small-semibold px-2.5 text-doc-font'>
-                        {item.format}
+                      <h3 className='small-semibold px-2.5 text-neutral-400'>
+                        {t.Copilot[item.format as keyof typeof t.Copilot]}
                       </h3>
                       <Spacer y='5' />
                       {item.options.map((option, option_idx) => {
                         return (
                           <div
                             className={` ${
-                              hoverItem === option.id ? 'bg-border-50' : ''
+                              hoverItem === option.id ? 'bg-gray-200' : ''
                             } group flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5`}
                             key={option.id}
                             onClick={() => {
@@ -274,7 +265,13 @@ const AiMenu = ({ editor }: Props) => {
                           >
                             <div className='flex items-center gap-x-2'>
                               {cloneElement(option.icon)}
-                              <p className='small-regular'>{option.name}</p>
+                              <p className='small-regular'>
+                                {
+                                  t.Copilot[
+                                    option.name as keyof typeof t.Copilot
+                                  ]
+                                }
+                              </p>
                             </div>
                             {option.submenu ? <ChevronRight size={18} /> : null}
                             {option.submenu && hoverItem === option.id && (
@@ -291,11 +288,15 @@ const AiMenu = ({ editor }: Props) => {
                                     onClick={() => {
                                       handleEditTools(subitem.label);
                                     }}
-                                    className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-border-50'
+                                    className='relative z-50 flex cursor-pointer items-center gap-x-2 rounded px-3 py-1 hover:bg-gray-200'
                                     key={subitem.id}
                                   >
                                     <p className='small-regular'>
-                                      {subitem.name}
+                                      {
+                                        t.Copilot[
+                                          subitem.name as keyof typeof t.Copilot
+                                        ]
+                                      }
                                     </p>
                                   </div>
                                 ))}
@@ -309,24 +310,16 @@ const AiMenu = ({ editor }: Props) => {
                 })
               : operations.map((item, idx) => {
                   return (
-                    <div
-                      className={` ${
-                        hoverItem === item.id ? 'bg-doc-secondary' : ''
-                      } ${showTyping && 'pointer-events-none'} group flex cursor-pointer items-center justify-between rounded px-2 py-1.5`}
+                    <Operation
                       key={item.id}
                       onMouseEnter={() => setHoverItem(item.id)}
                       onMouseLeave={() => setHoverItem(null)}
                       onClick={() => handleOperation(idx)}
-                    >
-                      <div className='flex items-center gap-x-2'>
-                        {hoverItem === item.id
-                          ? cloneElement(item.icon, { color: '#774EBB' })
-                          : cloneElement(item.icon)}
-                        <p className='small-regular group-hover:text-doc-primary'>
-                          {item.name}
-                        </p>
-                      </div>
-                    </div>
+                      t={t}
+                      item={item}
+                      isTyping={showTyping}
+                      isHover={hoverItem === item.id}
+                    />
                   );
                 })}
           </Surface>
@@ -338,11 +331,51 @@ const AiMenu = ({ editor }: Props) => {
 
 export default memo(AiMenu);
 
+type OperationProps = {
+  t: EditorDictType;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  onClick: () => void;
+  isHover: boolean;
+  isTyping: boolean;
+  item: { id: string; name: string; icon: JSX.Element };
+};
+const Operation = ({
+  t,
+  onMouseEnter,
+  onClick,
+  isHover,
+  onMouseLeave,
+  isTyping,
+  item,
+}: OperationProps) => {
+  return (
+    <div
+      className={` ${
+        isHover ? 'bg-slate-100' : ''
+      } ${isTyping && 'pointer-events-none'} group flex cursor-pointer items-center justify-between rounded px-2 py-1.5`}
+      key={item.id}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+    >
+      <div className='flex items-center gap-x-2'>
+        {isHover
+          ? cloneElement(item.icon, { color: '#774EBB' })
+          : cloneElement(item.icon)}
+        <p className='small-regular group-hover:text-violet-500'>
+          {t.Copilot[item.name as keyof typeof t.Copilot]}
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const Loader = () => {
   return (
     <div className='flex h-12 w-full items-center gap-x-2 rounded-t border border-gray-200 bg-white p-2 shadow-lg'>
       <Copilot size='24' />
-      <p className='base-semibold text-doc-primary'>
+      <p className='base-semibold text-violet-500'>
         Al is writing <LoadingDot label='' />
       </p>
     </div>

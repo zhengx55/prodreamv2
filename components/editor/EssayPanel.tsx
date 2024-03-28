@@ -1,6 +1,7 @@
 'use client';
-import DocNavbar from '@/components/editor/navbar';
-import { useDocumentDetail } from '@/query/query';
+import DocNavbar from '@/components/editor/navbar/Navbar';
+import { useUserTrackInfo } from '@/query/query';
+import { DocPageDicType } from '@/types';
 import { useUserInfo } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
@@ -21,36 +22,38 @@ const Editor = dynamic(() => import('./Editor'), {
 
 const DocRightBar = dynamic(() => import('./rightbar/DocRightBar'));
 
-const EssayPanel = ({ id }: { id: string }) => {
-  const { data: document_content, isPending, isError } = useDocumentDetail(id);
+type Props = {
+  id: string;
+} & DocPageDicType;
+const EssayPanel = ({ id, ...props }: Props) => {
   const signUpTime = useUserInfo((state) => state.user.create_time);
+  const { data: userTrack } = useUserTrackInfo();
+  const { essayContent, loading, error } = useCitationInfo(id);
   const showCheckList = useMemo(() => {
     const signUpDate = new Date(signUpTime * 1000);
     const currentDate = new Date();
     const diffTime = Math.abs(currentDate.getTime() - signUpDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays < 7;
-  }, [signUpTime]);
-
-  useCitationInfo(document_content);
-  if (isError) return null;
+    return diffDays < 7 && userTrack?.guidence;
+  }, [signUpTime, userTrack?.guidence]);
   return (
     <LazyMotionProvider>
       <main className='relative flex h-full w-full flex-col'>
-        <DocNavbar />
-        {!showCheckList && <CheckList />}
+        <DocNavbar {...props} />
+        {showCheckList && <CheckList t={props.t} />}
         <div className='relative flex h-full w-full justify-center overflow-hidden'>
-          {isPending ? (
+          {loading ? (
             <div className='flex flex-1 flex-col items-center'>
               <Spacer y='20' />
               <Skeleton className='h-10 w-[700px] rounded-lg' />
             </div>
           ) : (
             <Editor
-              essay_content={document_content ? document_content.content : ''}
+              essay_content={essayContent ? essayContent.content : ''}
+              {...props}
             />
           )}
-          <DocRightBar />
+          <DocRightBar {...props} />
         </div>
       </main>
     </LazyMotionProvider>

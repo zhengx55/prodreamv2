@@ -153,5 +153,169 @@
       "Option1": "English native speaker",
       "Option2": "International student"
     }
+  },
+  "Editor": {
+    "Utility": {
+      "Enter": "Enter",
+      "Cancel": "Cancel",
+      "Done": "Done",
+      "Got it": "Got it",
+      "Dismiss": "Dismiss",
+      "Accept": "Accept",
+      "AcceptAll": "Accept all",
+      "DismissAll": "Dismiss all",
+      "Upgrade": "Upgrade",
+      "Generate": "Generate"
+    },
+    "Prompt": {
+      "Title": "Please input your prompt below",
+      "PlaceHolder": "Adding an essay prompt can greatly enhance the quality of AI generations",
+      "Strength": "Prompt Strength",
+      "Trigger": "Essay Prompt"
+    },
+    "Copilot": {
+      "Format_1": "Edit language",
+      "Format_2": "Generate from selection",
+      "Paraphrase": "Paraphrase",
+      "Make_academic": "Make academic",
+      "Improve_fluency": "Improve fluency",
+      "Simplify_language": "Simplify language",
+      "Translate_to_english": "Translate to english",
+      "Humanize": "Humanize",
+      "Edit_length": "Edit length",
+      "Write_opposing_argument": "Write opposing argument",
+      "Write_with_more_depth": "Write with more depth",
+      "Generate_summary": "Generate summary",
+      "Write_more_content": "Write more content",
+      "PlaceHolder_1": "Instruct AI on edits or generation...",
+      "PlaceHolder_2": "Instruct AI on further actions...",
+      "Replace_selection": "Replace selection",
+      "Insert_below": "Insert below",
+      "Try_again": "Try again",
+      "Discard": "Discard",
+      "Shorten": "Shorten",
+      "Extend": "Make Longer"
+    },
+    "Grammar": {
+      "Title": "Click to start checking for any grammar, spelling, and punctuation issues in your writing",
+      "Button": "Start Grammar Check",
+      "suggestions": "Grammar Suggestions"
+    },
+    "Citation": {
+      "search": "Search publications",
+      "customized": "Or add customized citations",
+      "all": "All",
+      "in_this_doc": "In this doc",
+      "my_library": "My Library",
+      "empty": "Your library is currently empty. Try adding more citations. "
+    },
+    "Generate": {
+      "Write Introduction": "Write Introduction",
+      "Write Conclusion": "Write Conclusion",
+      "Generate Title": "Generate Title",
+      "Generate Outline": "Generate Outline",
+      "Argumentative": "Argumentative",
+      "Analytical": "Analytical",
+      "Scientific": "Scientific",
+      "General": "General",
+      "outline_form1": "Field of study",
+      "outline_form2": "Brief description of what you are writing",
+      "outline_placeholder": "Describe your research topic or essay prompt. Adding more information can greatly increase the quality of our generations :)",
+      "SubTitle": {
+        "Write Introduction": "Click to generate the Introduction section based on the entire writing",
+        "Write Conclusion": "Click to generate the Conclusion section based on the entire writing",
+        "Generate Title": "Click to generate a title for your essay"
+      }
+    },
+    "RightBar": {
+      "Grammar_Check": "Grammar Check",
+      "Citation": "Citation Search",
+      "My_Citation_Library": "My Citation Library",
+      "Generate": "Generate",
+      "Plagiarism_Check": "Plagiarism Check",
+      "AI_Detection": "AI Detection",
+      "Essay_Prompt": "Essay Prompt"
+    },
+    "BubbleMenu": {
+      "Copilot": "AI Copilot",
+      "Citation": "Citation Search",
+      "Reference": "Reference",
+      "Synonym": "Synonym",
+      "citation_style": "Citation Style",
+      "words": "Words",
+      "characters": "Characters",
+      "tooltip_citation": "Find Supporting Sources"
+    },
+    "Onboard": {
+      "question": "Do you need help editing an essay or writing a new one from scratch?",
+      "Title": "Do you have a draft or writing a new one from scratch?",
+      "Option1": {
+        "Title": "Yes, I have a draft already.",
+        "Subtitle": "Sounds good! Please paste your essay below :)",
+        "PlaceHolder": "Paste your essay here"
+      },
+      "Option2": {
+        "Title": "No, I am starting from scratch.",
+        "Subtitle": "Let's get started by generating an outline!",
+        "Question": "Could you briefly tell me what you are writing?",
+        "PlaceHolder": "E.g. Importance of religion in East Asian culture",
+        "Button": "Generate",
+        "Sample": "Show me a sample outline"
+      },
+      "Option3": {
+        "Title": "Neither, I'm just exploring",
+        "Subtitle": "Welcome to Prodream!"
+      }
+    },
+    "Plagiarism": {
+      "Title": "Check for originality of your work with deep similarity detection.",
+      "Waiting": "Our extensive database ensures thorough checks, which may take up to 5 minutes.",
+      "recheck": "Re-check",
+      "Button": "Start Plagiarism Check",
+      "Unlock": "Unlock paraphrase suggestions with the Unlimited Plan",
+      "Result": "May be plagiarized",
+      "Result_good": "Completely original.",
+      "Suggestions": "Suggestions"
+    },
+    "CheckList": {
+      "Show": "Show me",
+      "copilot": "Try any AI Copilot editing feature",
+      "citation": "Add one citation",
+      "continue": "Use Continue Writing feature to write next sentence",
+      "generate": "Generate an introduction",
+      "format_1": "Building the foundation",
+      "format_2": "Up and beyond 🚀",
+      "title": "Onboarding Checklist",
+      "describtion": "Learn how to use ProDream to help you write & research!"
+    },
+    "Detection": {
+      "Title": "Identify AI-generated content and help maintain originality in your work",
+      "Button": "Start AI Detection",
+      "Classification": "Classification",
+      "probability": "Probability Al generated",
+      "breakdown": "Probability breakdown",
+      "Unlock": "Unlock AI Detection with the Unlimited Plan",
+      "Humanizer": "Humanizer",
+      "mixed": "We are moderately confident this text is entirely",
+      "humanize_title": "Click to see humanize suggestions",
+      "humanize_button": "Start Humanize"
+    },
+    "Task": {
+      "title": "Try AI Copilot for easy editing",
+      "feature": "Features Including",
+      "paraphrase": "Paraphrase",
+      "academic": "Make Academic",
+      "length": "Edit Length",
+      "Step": "Step",
+      "step_1": "Highlight any text in the text editor",
+      "step_2_prefix": "Click the",
+      "step_2_middle": "AI Copilot",
+      "step_2_suffix": "button",
+      "step_3": "Try any Edit or Generate tool"
+    },
+    "Continue": {
+      "title": "Continue Writing",
+      "description": "cmd/ctrl + '/' for shortcut"
+    }
   }
 }

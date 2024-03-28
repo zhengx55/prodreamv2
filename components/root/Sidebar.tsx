@@ -22,7 +22,7 @@ const useSidebarElevation = (pathname: string) => {
   }, []);
 
   useEffect(() => {
-    const currentroute = pathname.split('/')[1];
+    const currentroute = pathname.split('/').pop();
     let index = 0;
     switch (currentroute) {
       case 'polish':
@@ -89,7 +89,7 @@ const Sidebar = () => {
         {topValue !== undefined ? (
           <span
             style={{ top: topValue }}
-            className={`absolute z-30 h-12 w-full rounded-md bg-doc-secondary transition-all duration-300 ease-in-out`}
+            className={`absolute z-30 h-12 w-full rounded-md bg-slate-100 transition-all duration-300 ease-in-out`}
           />
         ) : null}
         {SidebarLinks.map((item, index) => {
@@ -109,7 +109,7 @@ const Sidebar = () => {
               />
               <span
                 className={`${
-                  isActive ? 'text-doc-primary' : 'text-zinc-600'
+                  isActive ? 'text-violet-500' : 'text-zinc-600'
                 } base-regular`}
               >
                 {item.title}
@@ -123,7 +123,7 @@ const Sidebar = () => {
           <Skeleton className='h-10 w-full rounded-lg' />
         ) : memberShip?.subscription === 'basic' ? (
           <Link href={'/pricing'} passHref>
-            <Button className='w-full rounded-lg bg-doc-primary'>
+            <Button className='w-full rounded-lg bg-violet-500'>
               <Diamond size='22' />
               <p className='base-semibold'>Upgrade</p>
             </Button>

@@ -26,17 +26,17 @@ const Tab = ({ membership, discount }: Props) => {
     >
       <TabsList className='h-10 w-max gap-x-2 self-center rounded-full bg-violet-100 p-1'>
         <TabsTrigger
-          className='gap-x-1 rounded-full px-7 text-doc-primary data-[state=active]:bg-white'
+          className='gap-x-1 rounded-full px-7 text-violet-500 data-[state=active]:bg-white'
           value='Annually'
         >
           Annually
-          <span className='subtle-semibold rounded-full bg-doc-primary px-2 py-0.5 text-white'>
+          <span className='subtle-semibold rounded-full bg-violet-500 px-2 py-0.5 text-white'>
             -50%
           </span>
         </TabsTrigger>
         <TabsTrigger
           value='Monthly'
-          className='rounded-full px-9 text-doc-primary data-[state=active]:bg-white'
+          className='rounded-full px-9 text-violet-500 data-[state=active]:bg-white'
           onClick={async () => await ButtonTrack({ event: 'Monthly_Plan' })}
         >
           Monthly

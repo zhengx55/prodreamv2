@@ -111,6 +111,23 @@ export type AuthPageDicType = {
   lang: Locale;
 };
 
+export type DocPageDicType = {
+  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
+  lang: Locale;
+};
+
+export type EditorDictType = Awaited<
+  ReturnType<typeof getDictionary>
+>['Editor'];
+
+export type Sentence = {
+  id: string;
+  text: string;
+  expand: boolean;
+  ranges?: number[];
+  result: string;
+};
+
 export interface IBookCitation {
   reference_count: number;
   area: string[];
@@ -201,7 +218,7 @@ export type IDiscount = {
   expire_at: number | null;
 };
 
-type FreeTimesDetail = {
+export type FreeTimesDetail = {
   Copilot: number | null;
   Generate: number | null;
   Grammar: number | null;

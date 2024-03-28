@@ -7,7 +7,6 @@ import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
 import { cookies } from 'next/headers';
 import { RedirectType, redirect } from 'next/navigation';
-import { v4 } from 'uuid';
 
 export default async function Page({
   params: { lang },
@@ -58,7 +57,7 @@ export default async function Page({
         'An error occurred while setting language info. Please try again.'
       );
     }
-    redirect(`/editor/${doc_id}`, RedirectType.replace);
+    redirect(`/${lang}/editor/${doc_id}`, RedirectType.replace);
   }
 
   return (
@@ -80,7 +79,7 @@ export default async function Page({
             return (
               <LanguageOptions
                 onClick={setLanguageInfo}
-                key={v4()}
+                key={`language-${index}`}
                 index={index}
                 dict={dict}
               />

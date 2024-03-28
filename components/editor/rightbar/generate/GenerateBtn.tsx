@@ -3,23 +3,34 @@ import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
 import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
-import { useAIEditor, useUserTask } from '@/zustand/store';
+import { EditorDictType } from '@/types';
+import { useUserTask } from '@/zustand/store';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { memo } from 'react';
-import Tiplayout from '../../guide/tips/Tiplayout';
+import { forwardRef, memo } from 'react';
 
-type Props = { type: string; handleGenerate: () => Promise<void> };
-const GenerateBtn = ({ handleGenerate, type }: Props) => {
+const Tiplayout = dynamic(() => import('../../guide/tips/Tiplayout'));
+
+type Props = {
+  type: string;
+  handleGenerate: () => Promise<void>;
+  t: EditorDictType;
+};
+const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const { updateOutlineStep, updateGenerateStep, outline_step, generate_step } =
-    useUserTask((state) => ({ ...state }));
-  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+  const {
+    updateOutlineStep,
+    updateGenerateStep,
+    updateShowTaskDialog,
+    outline_step,
+    generate_step,
+  } = useUserTask((state) => ({ ...state }));
   const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   return (
     <div className='flex flex-col'>
-      <Spacer y='30' />
-      <div className='flex-center h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
+      <Spacer y='10' />
+      <div className='flex-center relative h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
         <Image
           src='/editor/Generate.png'
           alt='generate-img'
@@ -28,15 +39,8 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
           height={270}
           className='h-auto w-auto object-contain'
         />
-
-        <p className='base-regular text-center text-doc-font'>
-          {type === 'Write Introduction'
-            ? 'Click to generate the Introduction section based on the entire writing'
-            : type === 'Write Conclusion'
-              ? 'Click to generate the Conclusion section based on the entire writing'
-              : type === 'Generate title'
-                ? 'Click to generate a title for your essay'
-                : null}{' '}
+        <p className='base-regular text-center text-neutral-400'>
+          {t.Generate.SubTitle[type as keyof typeof t.Generate.SubTitle]}
         </p>
         {outline_step === 3 || generate_step === 1 ? (
           <Tiplayout
@@ -58,34 +62,40 @@ const GenerateBtn = ({ handleGenerate, type }: Props) => {
                 });
               } else {
                 updateOutlineStep(0);
+                updateShowTaskDialog();
                 await updateTrack({
                   field: 'outline_tip_task',
                   data: true,
                 });
                 await ButtonTrack({ event: 'outline_gotit' });
-                updateRightbarTab(0);
               }
             }}
           >
-            <Button
-              onClick={handleGenerate}
-              className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
-            >
-              <GenerateFill fill='#fff' size='20' />
-              Generate
-            </Button>
+            <Btn label={t.Utility.Generate} onClick={handleGenerate} />
           </Tiplayout>
         ) : (
-          <Button
-            onClick={handleGenerate}
-            className='h-max w-max self-center rounded-full bg-doc-primary px-8 py-1'
-          >
-            <GenerateFill fill='#fff' size='20' />
-            Generate
-          </Button>
+          <Btn label={t.Utility.Generate} onClick={handleGenerate} />
         )}
       </div>
     </div>
   );
 };
+const Btn = forwardRef<
+  HTMLButtonElement,
+  {
+    onClick: () => Promise<void>;
+    label: string;
+  }
+>(({ onClick, label }, ref) => (
+  <Button
+    ref={ref}
+    onClick={onClick}
+    className='h-max w-max self-center rounded-full bg-violet-500 px-8 py-1'
+  >
+    <GenerateFill fill='#fff' size='20' />
+    {label}
+  </Button>
+));
+Btn.displayName = 'Btn';
+
 export default memo(GenerateBtn);

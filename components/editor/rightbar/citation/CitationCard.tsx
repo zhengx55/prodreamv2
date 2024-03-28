@@ -68,7 +68,7 @@ export const SearchCitationCard = memo(
       <div key={item.article_title} className='group flex flex-col px-2'>
         <Dialog>
           <DialogTrigger asChild>
-            <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+            <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-violet-500'>
               {item.article_title}&nbsp;{' '}
               {item.publish_date.year ? `(${item.publish_date.year})` : null}
             </h1>
@@ -97,7 +97,7 @@ export const SearchCitationCard = memo(
           <p className='small-regular line-clamp-4'>{item.abstract}</p>
         )}
         <Spacer y='15' />
-        <div className='flex-between'>
+        <div className='flex items-center justify-end gap-x-2'>
           {citation_tooltip_step === 2 && index === 0 ? (
             <Tiplayout
               title={CitationTooltip.STEP2_TITLE}
@@ -111,7 +111,7 @@ export const SearchCitationCard = memo(
               }}
             >
               <Button
-                className='h-[30px] w-[48%] rounded bg-doc-primary'
+                className='h-max w-max rounded bg-violet-500 px-4 py-1'
                 role='button'
                 onClick={() => handler(item as any, 'cite')}
               >
@@ -121,7 +121,7 @@ export const SearchCitationCard = memo(
             </Tiplayout>
           ) : (
             <Button
-              className='h-[30px] w-[48%] rounded bg-doc-primary'
+              className='h-max w-max rounded bg-violet-500 px-4 py-1'
               role='button'
               onClick={() => handler(item as any, 'cite')}
             >
@@ -143,22 +143,22 @@ export const SearchCitationCard = memo(
               }}
             >
               <Button
-                className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
+                className='h-max w-max rounded border border-violet-500 px-4 py-1 text-violet-500'
                 variant={'ghost'}
                 role='button'
                 onClick={() => handler(item as any, 'collect')}
               >
-                <Plus size={18} className='text-doc-primary' /> Add to library
+                <Plus size={18} className='text-violet-500' /> Add to library
               </Button>
             </Tiplayout>
           ) : (
             <Button
-              className='h-[30px] w-[48%] rounded border border-doc-primary text-doc-primary'
+              className='h-max w-max rounded border border-violet-500 px-4 py-1 text-violet-500'
               variant={'ghost'}
               role='button'
               onClick={() => handler(item as any, 'collect')}
             >
-              <Plus size={18} className='text-doc-primary' /> Add to library
+              <Plus size={18} className='text-violet-500' /> Add to library
             </Button>
           )}
         </div>
@@ -220,24 +220,19 @@ export const MineCitationCard = memo(
         {!item.data.manual_create ? (
           <Dialog>
             <DialogTrigger asChild>
-              <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+              <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-violet-500'>
                 {item.data.article_title}
               </h1>
             </DialogTrigger>
             <CitationPreview item={item.data as any} />
           </Dialog>
         ) : (
-          <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
+          <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-violet-500'>
             {item.data.article_title
               ? item.data.article_title
               : item.data.book_title}
           </h1>
         )}
-        {/* <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-doc-primary'>
-          {item.data.article_title
-            ? item.data.article_title
-            : item.data.book_title}
-        </h1> */}
         {item.data.contributors?.length > 0 && (
           <p className='subtle-regular line-clamp-2 text-shadow-100'>
             Authors:{' '}
@@ -254,13 +249,13 @@ export const MineCitationCard = memo(
           </p>
         )}
         {item.data.abstract && (
-          <p className='subtle-regular line-clamp-4 text-doc-shadow'>
+          <p className='subtle-regular line-clamp-4 text-zinc-600'>
             {item.data.abstract}
           </p>
         )}
-        <div className='flex-between gap-x-4'>
+        <div className='flex justify-end gap-x-2'>
           <Button
-            className='h-8 w-full rounded bg-doc-primary py-1'
+            className='h-max w-max rounded bg-violet-500 px-4 py-1'
             role='button'
             onClick={handleCite}
           >
@@ -268,7 +263,7 @@ export const MineCitationCard = memo(
             Cite
           </Button>
           <Button
-            className='aspect-square h-8 rounded bg-doc-shadow/20 p-2 text-doc-shadow hover:bg-red-400 hover:text-white'
+            className='h-7 rounded bg-zinc-600/20 px-1 text-zinc-600 hover:bg-red-400 hover:text-white'
             variant={'ghost'}
             onClick={handleDeleteCitation}
           >
