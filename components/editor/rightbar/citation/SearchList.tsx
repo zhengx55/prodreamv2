@@ -35,7 +35,7 @@ const SearchList = ({ t }: { t: EditorDictType }) => {
       }
     },
     queryKey: ['search-citation', keyword],
-    staleTime: 600000,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
