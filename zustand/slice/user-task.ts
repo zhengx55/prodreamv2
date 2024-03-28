@@ -7,6 +7,7 @@ const initialState: UserTaskState = {
   continue_step: 0,
   generate_step: 0,
   show_task_dialog: false,
+  show_outline_loading_dialog: false,
 };
 
 type UserTaskState = {
@@ -16,6 +17,7 @@ type UserTaskState = {
   continue_step: number;
   generate_step: number;
   show_task_dialog: boolean;
+  show_outline_loading_dialog: boolean;
 };
 
 type UserTaskAction = {
@@ -26,6 +28,7 @@ type UserTaskAction = {
   updateContinueStep: (result: number) => void;
   updateGenerateStep: (result: number) => void;
   updateShowTaskDialog: () => void;
+  updateShowOutlineLoadingDialog: (result: boolean) => void;
 };
 
 export type UserTaskStore = UserTaskState & UserTaskAction;
@@ -40,6 +43,8 @@ export const useUserTaskStore: StateCreator<UserTaskStore> = (set, get) => ({
     set((state) => ({
       citation_step: state.citation_step + 1,
     })),
+  updateShowOutlineLoadingDialog: (result) =>
+    set({ show_outline_loading_dialog: result }),
   resetCitationStep: () =>
     set(() => ({
       citation_step: 0,

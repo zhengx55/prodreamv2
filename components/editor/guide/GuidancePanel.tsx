@@ -20,6 +20,9 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
   const ideaRef = useRef<HTMLTextAreaElement | null>(null);
   const draftRef = useRef<HTMLTextAreaElement | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const updateShowOutlineLoadingDialog = useUserTask(
+    (state) => state.updateShowOutlineLoadingDialog
+  );
   const resultString = useRef<string>('');
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
@@ -56,13 +59,15 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
     },
     onSuccess: async (data: ReadableStream) => {
       setIsGenerating(false);
-      close();
+      await close();
       await ButtonTrack({ event: 'start with generated outlie' });
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      updateShowOutlineLoadingDialog(true);
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
           await ButtonTrack({ event: 'generate outline complete' });
+          updateShowOutlineLoadingDialog(false);
           break;
         }
         handleStreamData(value);
