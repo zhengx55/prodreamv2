@@ -1,3 +1,4 @@
+import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import {
@@ -88,20 +89,23 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
       <PopoverTrigger asChild>
         <Button
           role='button'
-          className='h-max rounded border border-violet-500 bg-transparent px-2 py-1 text-black hover:bg-slate-100 hover:text-violet-500'
+          className='h-max rounded border border-violet-500 bg-transparent px-2 py-1 hover:bg-slate-100 hover:text-violet-500'
         >
           <PencilLine size={18} className='text-violet-500' />
           <p className='small-regular text-violet-500'>{t.Prompt.Trigger}</p>
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        align='start'
+        align='end'
         sideOffset={15}
         className='h-[260px] w-[800px] shrink-0 rounded-lg border border-solid border-gray-200 bg-white'
       >
-        <h1 className='text-2xl font-medium leading-[160%] '>
-          {t.Prompt.Title}
-        </h1>
+        <div className='flex items-center gap-x-2'>
+          <Icon alt='' src='/editor/prompt/Light.svg' width={24} height={24} />
+          <h1 className='text-2xl font-medium leading-[160%] '>
+            {t.Prompt.Title}
+          </h1>
+        </div>
         <p className='small-regular text-zinc-500'>{t.Prompt.PlaceHolder}</p>
         <Spacer y='10' />
         <Textarea
@@ -120,17 +124,17 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
               {wordCount < 5 ? (
                 <span className='h-2 w-20 rounded-[41px] bg-slate-200' />
               ) : (
-                <span className='h-2 w-20 rounded-[41px] bg-violet-300' />
+                <span className='h-2 w-20 rounded-[41px] bg-orange-300' />
               )}
               {wordCount < 10 ? (
                 <span className='h-2 w-20 rounded-[41px] bg-slate-200' />
               ) : (
-                <span className='h-2 w-20 rounded-[41px] bg-violet-400' />
+                <span className='h-2 w-20 rounded-[41px] bg-orange-400' />
               )}
               {wordCount < 20 ? (
                 <span className='h-2 w-20 rounded-[41px] bg-slate-200' />
               ) : (
-                <span className='h-2 w-20 rounded-[41px] bg-violet-500' />
+                <span className='h-2 w-20 rounded-[41px] bg-orange-500' />
               )}
             </div>
           </div>

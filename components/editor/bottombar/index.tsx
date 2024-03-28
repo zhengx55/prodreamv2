@@ -7,6 +7,7 @@ import {
 import { getDictionary } from '@/lib/get-dictionary';
 import useAIEditor, { useCitation } from '@/zustand/store';
 import { Editor } from '@tiptap/react';
+import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import { useTextmenuCommands } from '../bubble-menu/hooks/useTextMenuCommand';
@@ -28,7 +29,12 @@ const BottomBar = ({
     updateRightbarTab(3);
   };
   return (
-    <Toolbar.Wrapper className='w-max justify-between gap-x-3 !rounded-none border-none'>
+    <m.footer
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      className='flex-between absolute bottom-5 left-[35%] h-14 w-[600px] rounded-lg border border-gray-200 bg-white p-2 shadow 2xl:left-[37%]'
+    >
       <MemoButton
         role='button'
         onClick={showCitation}
@@ -68,7 +74,7 @@ const BottomBar = ({
       </MemoButton>
       <Toolbar.Divider />
       <CountDropdown t={t} editor={editor} />
-    </Toolbar.Wrapper>
+    </m.footer>
   );
 };
 export default memo(BottomBar);
