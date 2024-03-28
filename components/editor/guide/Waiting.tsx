@@ -14,7 +14,7 @@ const Waiting = () => {
   const setOpen = useUserTask((state) => state.updateShowOutlineLoadingDialog);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogOverlay className='bg-black/50 backdrop-blur-sm' />
+      <DialogOverlay className='bg-slate-50/50 backdrop-blur-sm' />
       <DialogContent
         className='bg-white p-6 shadow md:w-[448px] md:rounded-2xl'
         onPointerDownOutside={(e) => e.preventDefault()}
@@ -29,7 +29,7 @@ const Waiting = () => {
           />
         </div>
         <p className='text-center text-sm font-light leading-7 text-zinc-600'>
-          AI is processing your outline.
+          AI is generating your outline.
         </p>
         <DialogFooter className='sm:justify-center'>
           <Loader2 className='animate-spin text-violet-500' />

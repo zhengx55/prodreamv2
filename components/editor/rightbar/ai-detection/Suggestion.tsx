@@ -73,6 +73,10 @@ const Suggestion = ({ suggestions, t }: Props) => {
     );
   };
 
+  const handleRejectAll = () => {
+    setSentences([]);
+  };
+
   return (
     <div className='flex flex-1 flex-col'>
       {membership?.subscription === 'basic' ? (
@@ -92,10 +96,19 @@ const Suggestion = ({ suggestions, t }: Props) => {
             <div className='flex gap-x-3'>
               <Button
                 role='button'
+                variant={'ghost'}
                 onClick={handleAcceptAll}
-                className='h-max w-max rounded py-1'
+                className='w-max px-0 text-stone-300 hover:text-violet-500'
               >
                 {t.Utility.AcceptAll}
+              </Button>
+              <Button
+                role='button'
+                variant={'ghost'}
+                onClick={handleRejectAll}
+                className='w-max px-0 text-stone-300 hover:text-violet-500'
+              >
+                {t.Utility.DismissAll}
               </Button>
             </div>
           </div>
@@ -185,13 +198,6 @@ const SentenceItem = ({
       {item.result}
     </p>
     <Spacer y='10' />
-    {/* <div className='w-full rounded bg-neutral-50 p-2'>
-      <p
-        className={`${isExpand ? '' : 'line-clamp-1'} w-full text-sm font-normal leading-snug text-zinc-600`}
-      >
-        {item.text}
-      </p>
-    </div> */}
     {isExpand && (
       <div className='mt-2 flex justify-end gap-x-2'>
         <Button
