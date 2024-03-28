@@ -34,10 +34,10 @@ const DocNavbar = ({ t, lang }: DocPageDicType) => {
   return (
     <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-gray-200 px-5 py-3'>
       {/* {!Boolean(prompt) && <PromptViewModal prompt={prompt} />} */}
-      <div className='flex h-full items-center gap-x-4'>
+      <div className='flex h-full items-center gap-x-2'>
         {track?.guidence && (
           <Link passHref href={`/${lang}/editor`}>
-            <span className='flex-center h-10 w-10 cursor-pointer rounded-md hover:bg-shadow-border hover:opacity-50'>
+            <span className='cursor-pointer rounded-md hover:bg-shadow-border hover:opacity-50'>
               <ChevronLeft />
             </span>
           </Link>
