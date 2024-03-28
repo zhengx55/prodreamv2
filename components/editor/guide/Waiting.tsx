@@ -13,7 +13,7 @@ const Waiting = () => {
   const open = useUserTask((state) => state.show_outline_loading_dialog);
   const setOpen = useUserTask((state) => state.updateShowOutlineLoadingDialog);
   return (
-    <Dialog open={!open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogOverlay className='bg-slate-50/50 backdrop-blur-sm' />
       <DialogContent
         className='bg-white p-6 shadow md:w-[448px] md:rounded-2xl'
