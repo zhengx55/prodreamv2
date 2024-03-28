@@ -30,7 +30,7 @@
     background-position: center;
     width: 1.2rem;
     height: 1.5rem;
-    z-index: 10;
+    z-index: 1;
     cursor: grab;
 
     &:hover {
