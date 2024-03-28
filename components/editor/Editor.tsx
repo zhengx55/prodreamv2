@@ -8,6 +8,7 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor as EditorType, posToDOMRect, useEditor } from '@tiptap/react';
 import useWindowResize from 'beautiful-react-hooks/useWindowResize';
+import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
@@ -175,11 +176,9 @@ const Editor = ({
         <PaymentModal />
         <OutlineWaitingModal />
       </div>
-      {showBottomBar && (
-        <div className='flex-center absolute bottom-0 h-10 w-full shrink-0 border-t border-gray-200 bg-white px-0'>
-          <BottomBar t={props.t} editor={editor} />
-        </div>
-      )}
+      <AnimatePresence>
+        {showBottomBar && <BottomBar t={props.t} editor={editor} />}
+      </AnimatePresence>
     </section>
   );
 };
