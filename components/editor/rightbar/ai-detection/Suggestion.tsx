@@ -1,4 +1,3 @@
-import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { findTextInDoc } from '@/lib/tiptap/utils';
 import { useMembershipInfo } from '@/query/query';
@@ -187,19 +186,19 @@ const SentenceItem = ({
     animate={isExpand ? 'expand' : 'collapse'}
     variants={{
       expand: { height: 'auto' },
-      collapse: { height: '87px' },
+      collapse: { height: '86px' },
     }}
     transition={{ duration: 0.3 }}
     onClick={onToggleExpand}
-    className='cursor-pointer overflow-hidden rounded border border-gray-200 px-4 hover:shadow-md'
+    className='cursor-pointer overflow-hidden rounded border border-gray-200 px-4 py-2 hover:shadow-md'
   >
-    <Spacer y='15' />
-    <p className={`base-medium ${isExpand ? '' : 'line-clamp-3'}`}>
+    <p
+      className={`base-regular text-zinc-600 ${isExpand ? '' : 'line-clamp-3'}`}
+    >
       {item.result}
     </p>
-    <Spacer y='10' />
     {isExpand && (
-      <div className='mt-2 flex justify-end gap-x-2'>
+      <div className='my-4 flex justify-end gap-x-2'>
         <Button
           role='button'
           variant={'ghost'}
@@ -217,7 +216,6 @@ const SentenceItem = ({
         </Button>
       </div>
     )}
-    <Spacer y='15' />
   </m.div>
 );
 
