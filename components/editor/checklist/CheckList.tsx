@@ -73,7 +73,7 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
   }, 500);
 
   return (
-    <div className='absolute bottom-[10%] left-2 z-[999] flex flex-col'>
+    <div className='absolute bottom-[10%] left-2 z-50 flex flex-col'>
       <m.div
         initial={false}
         variants={variants}
