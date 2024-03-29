@@ -33,7 +33,7 @@ const Introduction = ({ t, lang }: HomePageDicType) => {
         <div className='flex flex-col gap-y-6 sm:flex-row sm:gap-x-8 sm:gap-y-0'>
           <div className='flex w-full flex-col gap-y-8 sm:w-1/2'>
             {IntroductionInfo.filter(
-              (el, index) => index === 0 || index === 2
+              (_el, index) => index === 0 || index === 2
             ).map((item, idx) => {
               return (
                 <div
@@ -54,7 +54,7 @@ const Introduction = ({ t, lang }: HomePageDicType) => {
                       }
                       className='object-contain'
                       fill
-                      sizes='(max-width: 768px) 50vw, 100vw'
+                      sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
                     />
                   </div>
                 </div>
@@ -82,7 +82,7 @@ const Introduction = ({ t, lang }: HomePageDicType) => {
                       alt={t[`IntroductionInfo_title_${idx === 0 ? 2 : 4}`]}
                       fill
                       className='object-contain'
-                      sizes='(max-width: 768px) 50vw, 100vw'
+                      sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
                     />
                   </div>
                 </div>

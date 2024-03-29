@@ -47,7 +47,7 @@ const EditPassModal = ({ children }: Props) => {
       const formData = new FormData();
       formData.append('old_password', values.old_password);
       formData.append('password', values.new_password);
-      resetPasswordAction(formData);
+      await resetPasswordAction(formData);
       toast.success('password has been reset successfully!');
       setShow(false);
     } catch (error) {
@@ -65,7 +65,7 @@ const EditPassModal = ({ children }: Props) => {
       >
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
-            <p className='h2-bold mt-2 text-center'>Change Password </p>
+            <p className='h2-bold mt-2 text-center'>Change Password</p>
             <DialogClose>
               <X className='self-end text-shadow' />
             </DialogClose>

@@ -50,10 +50,10 @@ export const Generate = ({ t }: { t: EditorDictType }) => {
                         setGenerateTab('Write Introduction');
                       }}
                     >
-                      <Submeu item={item} t={t} />
+                      <Submenu item={item} t={t} />
                     </Tiplayout>
                   ) : (
-                    <Submeu item={item} t={t} />
+                    <Submenu item={item} t={t} />
                   )}
                 </DropdownMenu>
               );
@@ -127,7 +127,7 @@ const Unlock = () => {
   );
 };
 
-const Submeu = forwardRef<HTMLDivElement, { item: any; t: EditorDictType }>(
+const Submenu = forwardRef<HTMLDivElement, { item: any; t: EditorDictType }>(
   ({ item, t }, ref) => {
     return (
       <>
@@ -156,6 +156,6 @@ const Submeu = forwardRef<HTMLDivElement, { item: any; t: EditorDictType }>(
     );
   }
 );
-Submeu.displayName = 'Submeu';
+Submenu.displayName = 'Submenu';
 
 export default memo(Generate);
