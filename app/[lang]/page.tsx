@@ -31,7 +31,6 @@ export default async function Home({
         <About lang={lang} t={dict.Homepage} />
         <Introduction lang={lang} t={dict.Homepage} />
         <Comments lang={lang} t={dict.Homepage} />
-        {/* <ShowCase /> */}
         <Question lang={lang} t={dict.Homepage} />
         <BottomBanner />
         <Footer />
