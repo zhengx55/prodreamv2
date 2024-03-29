@@ -8,15 +8,17 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { ChevronLeft } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { memo, useCallback, useRef, useState } from 'react';
 import { z } from 'zod';
 import { generateOutlineSchema } from '../../../../lib/validation';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
-import GenerateBtn from './GenerateBtn';
-import OutlineBtn from './OutlineBtn';
-import Result from './Result';
 
-const OutlineTypes = ['General', 'Argumentative', 'Analytical', 'Scientific'];
+const GenerateBtn = dynamic(() => import('./GenerateBtn'));
+const OutlineBtn = dynamic(() => import('./OutlineBtn'));
+const Result = dynamic(() => import('./Result'));
+
+const OutlineTypes = ['general', 'argumentative', 'analytical', 'scientific'];
 const GenerateTypes = [
   'Write Introduction',
   'Write Conclusion',
