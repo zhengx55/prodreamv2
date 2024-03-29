@@ -21,11 +21,9 @@ const GoogleSignin = ({ label, lang }: { label: string; lang: Locale }) => {
           secure: true,
           sameSite: 'lax',
         });
-        const user_id = JSON.parse(atob(login_data.access_token.split('.')[1]))
-          .subject.user_id;
         const user_track = await getUserInfo();
         if (Boolean(user_track)) {
-          router.push('/editor');
+          router.push(`/${lang}/editor`);
         } else {
           const name = (await refreshUserSession()).first_name;
           router.push(`/${lang}/onboard?name=${name}`);
