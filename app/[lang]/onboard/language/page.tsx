@@ -66,7 +66,7 @@ export default async function Page({
         <h1 className='text-[20px] font-medium sm:text-[42px]'>
           {dict.Onboard.Title}
         </h1>
-        <p className='small-regular sm:title-regular text-center text-neutral-600 sm:text-left'>
+        <p className='small-regular sm:base-regular text-center text-neutral-600 sm:text-center'>
           {dict.Onboard.Language.Title}
         </p>
       </div>

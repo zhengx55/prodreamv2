@@ -141,12 +141,13 @@
     "Button": "Next",
     "Education": {
       "Title": "Which of the following best describes your current educational or professional stage",
-      "Option1": "Undergrad & High School",
+      "Option1": "High School",
       "Option1Description": "High school students and bachelor's degree candidates",
       "Option2Description": "Postgraduate and MBA students,  advanced certification professionals",
       "Option3Description": "Doctoral candidates, academic researchers, post-doctoral fellows",
-      "Option2": "Masters or MBA",
-      "Option3": "PhD & Researcher"
+      "Option2": "Undergrad",
+      "Option3": "Masters or MBA",
+      "Option4": "PhD & Researcher"
     },
     "Language": {
       "Title": "Could you share if English is your native language or if you're studying in English as a second language? Your response will help us ensure our services best fit your linguistic background and learning needs",
