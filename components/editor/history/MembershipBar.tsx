@@ -19,8 +19,9 @@ const renderTrialEnds = (expireTime: number) => (
 );
 
 const renderBasicMembership = (freeTimesDetail: FreeTimesDetail) => {
-  const filledBars = Array(3 - (freeTimesDetail?.Document ?? 0)).fill(0);
-  const emptyBars = Array(freeTimesDetail?.Document ?? 0).fill(0);
+  const document_count = Math.max(0, freeTimesDetail?.Document ?? 0);
+  const filledBars = Array(3 - document_count).fill(0);
+  const emptyBars = Array(document_count).fill(0);
 
   return (
     <div className='flex flex-col gap-y-2'>
