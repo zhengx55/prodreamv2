@@ -20,16 +20,16 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
   const ideaRef = useRef<HTMLTextAreaElement | null>(null);
   const draftRef = useRef<HTMLTextAreaElement | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const resultString = useRef<string>('');
+  const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const { mutateAsync: ButtonTrack } = useButtonTrack();
   const updateShowOutlineLoadingDialog = useUserTask(
     (state) => state.updateShowOutlineLoadingDialog
   );
-  const resultString = useRef<string>('');
-  const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const updateShowTaskDialog = useUserTask(
     (state) => state.updateShowTaskDialog
   );
-  const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   const close = async () => {
     await updateTrack({
@@ -133,7 +133,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
     if (ideaRef.current && ideaRef.current.value) {
       await handleStart({
         idea: ideaRef.current?.value as string,
-        essay_type: 'any',
+        essay_type: 'argumentative',
         area: '',
       });
     } else {
