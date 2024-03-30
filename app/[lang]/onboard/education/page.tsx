@@ -42,15 +42,15 @@ export default async function Page({
         <h1 className='text-[20px] font-medium sm:text-[42px]'>
           {dict.Onboard.Title}
         </h1>
-        <p className='small-regular sm:title-regular text-center text-neutral-600 sm:text-left'>
+        <p className='small-regular sm:base-regular text-center text-neutral-600'>
           {dict.Onboard.Education.Title}
         </p>
       </div>
       <Spacer y='70' className='hidden sm:block' />
       <Spacer y='30' className='block sm:hidden' />
 
-      <div className='flex w-full flex-col gap-y-4 sm:w-max sm:flex-row sm:gap-x-4'>
-        {Array(3)
+      <div className='flex w-full flex-col gap-y-4 sm:grid sm:w-[900px] sm:grid-cols-2 sm:gap-4'>
+        {Array(4)
           .fill(null)
           .map((_, index) => {
             return (

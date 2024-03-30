@@ -6,6 +6,7 @@ export default function SteyProvider() {
   return (
     <Script
       id='stey_script'
+      async
       dangerouslySetInnerHTML={{
         __html: `
       (function () {
@@ -131,7 +132,7 @@ export default function SteyProvider() {
   }
 })()`,
       }}
-      strategy='lazyOnload'
+      strategy='afterInteractive'
     />
   );
 }

@@ -68,7 +68,12 @@ export const GenerateOptions = [
   },
 ];
 
-export const education_info = ['undergrad', 'master_or_mba', 'phd_or_above'];
+export const education_info = [
+  'high_school',
+  'undergrad',
+  'master_or_mba',
+  'phd_or_above',
+];
 
 export const languange_info = ['english_native', 'international'];
 

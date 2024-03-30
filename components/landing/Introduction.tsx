@@ -12,7 +12,7 @@ const Introduction = ({ t, lang }: HomePageDicType) => {
         {lang === 'en' ? (
           <h2 className='text-center font-baskerville text-[24px] leading-relaxed sm:text-[48px]'>
             {t.IntroductionInfo_theme_1}
-            <br />{' '}
+            <br />
             <span className='sm:before:h-[40% relative inline-block before:absolute before:-inset-1 before:top-[18px] before:z-[-1] before:h-[40%] before:-skew-y-0 before:bg-[#F2C8FB] sm:before:top-[36px]'>
               {t.IntroductionInfo_theme_2}
             </span>

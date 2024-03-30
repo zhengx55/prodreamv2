@@ -21,11 +21,13 @@ const Tiplayout = dynamic(
 const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 
 export const Generate = ({ t }: { t: EditorDictType }) => {
-  const generateTab = useAIEditor((state) => state.generateTab);
-  const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
+  const { generateTab, updateGenerateTab } = useAIEditor((state) => ({
+    ...state,
+  }));
   const copilot_option = useRef<string | null>(null);
-  const outline_step = useUserTask((state) => state.outline_step);
-  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
+  const { outline_step, updateOutlineStep } = useUserTask((state) => ({
+    ...state,
+  }));
   const { data: usage } = useMembershipInfo();
 
   return (
@@ -47,7 +49,7 @@ export const Generate = ({ t }: { t: EditorDictType }) => {
                       onClickCallback={() => {
                         updateOutlineStep(3);
                         copilot_option.current = 'write_introduction';
-                        setGenerateTab('Write Introduction');
+                        updateGenerateTab('Write Introduction');
                       }}
                     >
                       <Submenu item={item} t={t} />
@@ -63,7 +65,7 @@ export const Generate = ({ t }: { t: EditorDictType }) => {
                 id={item.id}
                 onClick={() => {
                   copilot_option.current = item.label!;
-                  setGenerateTab(item.title);
+                  updateGenerateTab(item.title);
                 }}
                 className='flex-between group cursor-pointer px-2.5 py-3 hover:bg-slate-100'
               >
