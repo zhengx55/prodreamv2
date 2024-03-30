@@ -20,6 +20,7 @@ const Detection = ({ t }: { t: EditorDictType }) => {
       setResult(data);
     },
     onMutate: () => {
+      setResult(undefined);
       setGenerating(true);
     },
     onError: async () => {
@@ -47,7 +48,7 @@ const Detection = ({ t }: { t: EditorDictType }) => {
   return (
     <AnimatePresence mode='wait'>
       {result ? (
-        <Result t={t} result={result} />
+        <Result recheck={startDetection} t={t} result={result} />
       ) : generating ? (
         <m.div
           initial={{ opacity: 0, y: -20 }}

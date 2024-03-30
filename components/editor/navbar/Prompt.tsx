@@ -71,6 +71,7 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
   const [{ content, wordCount }, dispatch] = useReducer(reducer, {
     ...initialState,
     content: prompt ?? '',
+    wordCount: prompt.trim().split(/\s+/).length ?? 0,
   });
 
   const handleSubmit = async () => {
@@ -87,39 +88,67 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
   return (
     <Popover open={show} onOpenChange={setShow}>
       <PopoverTrigger asChild>
-        <Button
-          role='button'
-          className='h-max rounded border border-violet-500 bg-transparent px-2 py-1 hover:bg-slate-100 hover:text-violet-500'
-        >
-          <PencilLine size={18} className='text-violet-500' />
-          <p className='small-regular text-violet-500'>{t.Prompt.Trigger}</p>
-        </Button>
+        {!prompt ? (
+          <Button
+            role='dialog'
+            className='h-max rounded border border-violet-500 bg-transparent px-2 py-1 hover:bg-slate-100 hover:text-violet-500'
+          >
+            <PencilLine size={18} className='text-violet-500' />
+            <p className='small-regular text-violet-500'>{t.Prompt.Trigger}</p>
+          </Button>
+        ) : (
+          <Button
+            role='dialog'
+            variant={'ghost'}
+            className='h-max rounded border border-gray-200  bg-transparent px-2 py-1  hover:text-violet-500'
+          >
+            <p className='small-regular text-zinc-700'>{t.Prompt.Strength}</p>
+            <div className='flex items-center gap-x-2'>
+              {wordCount < 5 ? (
+                <span className='h-2 w-2 rounded-full bg-zinc-300' />
+              ) : (
+                <span className='h-2 w-2 rounded-full bg-orange-300' />
+              )}
+              {wordCount < 10 ? (
+                <span className='h-2 w-2 rounded-full bg-zinc-300' />
+              ) : (
+                <span className='h-2 w-2 rounded-full bg-orange-400' />
+              )}
+              {wordCount < 20 ? (
+                <span className='h-2 w-2 rounded-full bg-zinc-300' />
+              ) : (
+                <span className='h-2 w-2 rounded-full bg-orange-500' />
+              )}
+            </div>
+          </Button>
+        )}
       </PopoverTrigger>
       <PopoverContent
         align='end'
-        sideOffset={15}
-        className='h-[260px] w-[800px] shrink-0 rounded-lg border border-solid border-gray-200 bg-white'
+        sideOffset={5}
+        className='w-[620px] shrink-0 rounded-lg border border-solid border-gray-200 bg-white'
       >
         <div className='flex items-center gap-x-2'>
           <Icon alt='' src='/editor/prompt/Light.svg' width={24} height={24} />
-          <h1 className='text-2xl font-medium leading-[160%] '>
-            {t.Prompt.Title}
-          </h1>
+          <h1 className='base-medium '>{t.Prompt.Title}</h1>
         </div>
-        <p className='small-regular text-zinc-500'>{t.Prompt.PlaceHolder}</p>
+        <p className='small-regular text-neutral-400'>{t.Prompt.PlaceHolder}</p>
         <Spacer y='10' />
         <Textarea
           value={content}
           disabled={saving}
           aria-label='essay prompt'
           onChange={onChangHandler}
-          className='small-regular h-[107px] w-[760px] shrink-0 rounded border border-gray-200'
+          className='small-regular h-[107px] w-full shrink-0 rounded border border-gray-200'
           placeholder='e.g.  This essay is about the challenges and strategies of conserving biodiversity in the Anthropocene and discuss the importance of conservation efforts in safeguarding ecosystems and species from the brink of extinction'
         />
 
         <div className='mt-4 flex items-center justify-between'>
           <div className='flex items-center'>
-            <p className='base-regular'>{t.Prompt.Strength} :</p>&nbsp;&nbsp;
+            <p className='base-regular text-neutral-400'>
+              {t.Prompt.Strength} :
+            </p>
+            &nbsp;&nbsp;
             <div className='flex items-center gap-x-0.5'>
               {wordCount < 5 ? (
                 <span className='h-2 w-20 rounded-[41px] bg-slate-200' />
@@ -144,7 +173,7 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
               <Button
                 role='button'
                 variant={'ghost'}
-                className='border-zin-300 base-regular h-max rounded border px-4 py-2 text-neutral-400'
+                className='border-zin-300 base-regular h-max rounded border px-4 py-1 text-neutral-400'
               >
                 {t.Utility.Cancel}
               </Button>
@@ -154,7 +183,7 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
                 disabled={saving}
                 role='button'
                 onClick={handleSubmit}
-                className='base-regular h-max rounded px-4 py-2 '
+                className='base-regular h-max rounded px-4 py-1 '
               >
                 {t.Utility.Done}
               </Button>

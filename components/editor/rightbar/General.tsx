@@ -47,7 +47,7 @@ const General = ({ t, lang }: DocPageDicType) => {
       transition={{ duration: 0.2 }}
       className='flex h-full shrink-0 flex-col border-l border-gray-200'
     >
-      <section className='flex h-full flex-col px-3 pt-4'>
+      <section className='relative flex h-full flex-col px-3 pt-4'>
         <div className='flex-between'>
           <h2 className='title-medium'>
             {t.RightBar[OPTIONS[rightbarTab] as keyof typeof t.RightBar]}
