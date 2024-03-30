@@ -29,7 +29,7 @@ const Waiting = () => {
           />
         </div>
         <p className='text-center text-sm font-light leading-7 text-zinc-600'>
-          AI is generating your outline.
+          We are working on your outline...
         </p>
         <DialogFooter className='sm:justify-center'>
           <Loader2 className='animate-spin text-violet-500' />
