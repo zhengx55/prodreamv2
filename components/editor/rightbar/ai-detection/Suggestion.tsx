@@ -86,12 +86,15 @@ const Suggestion = ({ suggestions, t }: Props) => {
             <Loader2 className='animate-spin text-violet-500' />
           </div>
         ) : (
-          <Starter start={handleHumanize} t={t} />
+          <div className='flex flex-col gap-y-2'>
+            <h2 className='base-medium'>{t.Detection.Humanizer}</h2>
+            <Starter start={handleHumanize} t={t} />
+          </div>
         )
       ) : (
         <div className='flex flex-col gap-y-2'>
           <div className='flex-between'>
-            <p className='small-medium'>{t.Detection.Humanizer}</p>
+            <p className='base-medium'>{t.Detection.Humanizer}</p>
             <div className='flex gap-x-3'>
               <Button
                 role='button'

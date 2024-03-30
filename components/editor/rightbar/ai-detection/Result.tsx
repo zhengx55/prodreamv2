@@ -1,8 +1,10 @@
 import Spacer from '@/components/root/Spacer';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { IDetectionResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { m } from 'framer-motion';
+import { RefreshCcw } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
@@ -13,8 +15,12 @@ const labels = ['human', 'mixed', 'ai generated'];
 const primaryColor = ['#48B251', '#5266CC', '#E58600'];
 const secondaryColor = ['#D5F9D8', '#F2F4FF', '#FFEACC'];
 
-type Props = { result: IDetectionResult; t: EditorDictType };
-const Result = ({ result, t }: Props) => {
+type Props = {
+  recheck: () => Promise<void>;
+  result: IDetectionResult;
+  t: EditorDictType;
+};
+const Result = ({ recheck, result, t }: Props) => {
   const ai_percent = result.class_probabilities.ai * 100;
   const human_percent = result.class_probabilities.human * 100;
   const mixed_percent = result.class_probabilities.mixed * 100;
@@ -33,7 +39,21 @@ const Result = ({ result, t }: Props) => {
       key={'detection-result'}
       className='flex h-full w-full flex-col overflow-y-auto'
     >
-      <h3 className='base-medium'>{t.Detection.Classification}&nbsp;&nbsp;</h3>
+      <div className='flex items-center gap-x-2'>
+        <h3 className='base-medium'>
+          {t.Detection.Classification}&nbsp;&nbsp;
+        </h3>
+        <Button
+          role='button'
+          variant={'ghost'}
+          className='h-max rounded border border-zinc-600 px-4 py-1 hover:transform-none hover:opacity-50'
+          onClick={recheck}
+        >
+          <RefreshCcw size={14} className='text-zinc-600' />
+          <p className='subtle-regular text-zinc-600'>{t.Plagiarism.recheck}</p>
+        </Button>
+      </div>
+
       <Spacer y='8' />
       <p className='small-regular leading-relaxed text-zinc-600'>
         {result.message}&nbsp;

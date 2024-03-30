@@ -1,5 +1,4 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useUserTrackInfo } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { memo } from 'react';
@@ -10,7 +9,6 @@ import LibraryList from './LibraryList';
 const CitationLibrary = ({ t }: { t: EditorDictType }) => {
   const IndocCitationIds = useCitation((state) => state.inDocCitationIds);
   const InTextCitationIds = useCitation((state) => state.inTextCitationIds);
-  const { data: track } = useUserTrackInfo();
   const showEmpty =
     IndocCitationIds.length === 0 && InTextCitationIds.length === 0;
   return (
