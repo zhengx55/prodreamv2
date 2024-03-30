@@ -135,13 +135,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
 const Starter = memo(
   ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
     return (
-      <m.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        key={'detection-check'}
-        className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
-      >
+      <div className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
         <Image
           src='/editor/Start.png'
           alt='Upgrade check'
@@ -160,7 +154,7 @@ const Starter = memo(
         >
           {t.Detection.humanize_button}
         </Button>
-      </m.div>
+      </div>
     );
   }
 );
