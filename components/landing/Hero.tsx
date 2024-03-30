@@ -8,11 +8,10 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
-import useTypewriter from 'react-typewriter-hook';
+import { useCallback, useState } from 'react';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
-import './animation.css';
+import TypeTitle from './TypeTitle';
 
 const HeroCarousel = dynamic(
   () => import('./LandingCarousel').then((mod) => mod.HeroCarousel),
@@ -71,9 +70,8 @@ const Hero = ({ t, lang }: HomePageDicType) => {
         className='sm:flex-center flex h-full w-full flex-col py-10 sm:w-[1200px] sm:flex-col sm:py-20'
       >
         {lang === 'en' ? (
-          <V2Title lang={lang} t={t} />
+          <TypeTitle t={t} />
         ) : (
-          // 中文
           <h1 className='text-center font-custom text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
             {t.transform}
             <br /> {t.your}
@@ -166,85 +164,6 @@ const Hero = ({ t, lang }: HomePageDicType) => {
       </m.div>
     </m.section>
   );
-};
-
-export const V2Title = ({ t, lang }: HomePageDicType) => {
-  return (
-    <>
-      <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
-        {'Say Goodbye to'} <br className='sm:hidden' />
-        <span className='relative inline-block before:absolute before:-inset-1 before:top-[28px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-          <TypeWriterAnimation
-            texts={[
-              'Brain Fog',
-              'Plagiarism Risks',
-              'Grammar Issues',
-              'AI Concerns',
-              'Quality Worries',
-            ]}
-          />{' '}
-          <span className='cursor' />
-        </span>
-        <br />
-        {'in Academic Writing'}
-      </h1>
-      <Spacer y='30' />
-      <p className='text-center text-[18px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-        {`ProDream's`} <span className='font-bold'>{t.one_stop_solution}</span>{' '}
-        {t.helps_you_write} <span className='font-bold'>{t.better}</span>{' '}
-        {t.and} <span className='font-bold'>{t.faster}</span>{' '}
-        {t.with_confidence}
-      </p>
-    </>
-  );
-};
-
-export const V3Title = ({ t, lang }: HomePageDicType) => {
-  return (
-    <>
-      <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
-        {'Generate a Strong Paper'}
-        <br />{' '}
-        <span className='relative inline-block before:absolute before:-inset-1 before:top-[38px] before:z-[-1] before:block before:h-[40%] before:-skew-y-0 before:bg-[#D2DFFF] sm:before:top-[36px] sm:before:h-[40%]'>
-          <TypeWriterAnimation
-            texts={[
-              'Outline',
-              'Introduction',
-              'Summary',
-              'Conclusion',
-              'Citation List',
-            ]}
-          />{' '}
-          <span className='cursor'></span>
-        </span>{' '}
-        <br className='sm:hidden' /> {` in Minutes!`}
-      </h1>
-      <Spacer y='30' />
-      <p className='text-center text-[18px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-        {t.discover_the}{' '}
-        <span className='font-bold'>{t.ultimate_solution}</span>{' '}
-        {t.for_your_academic_paper_requirements_with_pro_dream}{' '}
-      </p>
-    </>
-  );
-};
-
-export const TypeWriterAnimation = (props: { texts: string[] }) => {
-  const { texts } = props;
-
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % texts.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [texts]);
-
-  const typewriterText = useTypewriter(texts[index]);
-
-  return typewriterText;
 };
 
 export default Hero;
