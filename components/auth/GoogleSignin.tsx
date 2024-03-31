@@ -43,7 +43,7 @@ const GoogleSignin = ({
           router.push(`/${lang}/editor`);
         } else {
           const name = (await refreshUserSession()).first_name;
-          router.push(`/${lang}/onboard?name=${name}`);
+          router.push(`/${lang}/onboard`);
         }
       } catch (error) {
         const toast = (await import('sonner')).toast;
