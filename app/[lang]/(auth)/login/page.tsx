@@ -11,8 +11,10 @@ import Link from 'next/link';
 
 export default async function Page({
   params: { lang },
+  searchParams: { from },
 }: {
   params: { lang: Locale };
+  searchParams: { from: string };
 }) {
   const dict = await getDictionary(lang);
   const cn_dict = await getDictionary('cn');
@@ -23,7 +25,11 @@ export default async function Page({
       <Panel lang={lang}>
         <div className='flex w-full flex-col sm:w-[500px]'>
           <Spacer y='120' className='block md:hidden' />
-          <GoogleSignin lang={lang} label={dict.Auth.Login.Google} />
+          <GoogleSignin
+            searchParam={from}
+            lang={lang}
+            label={dict.Auth.Login.Google}
+          />
           <div className='flex-center relative my-10'>
             <Separator orientation='horizontal' className='bg-shadow-border' />
             <p className='small-regular absolute bg-white px-2 text-neutral-300'>
