@@ -43,7 +43,6 @@ function reducer(state: State, action: Action) {
 
 const PromptView = ({ t }: { t: EditorDictType }) => {
   const prompt = useAIEditor((state) => state.essay_prompt);
-  console.log('🚀 ~ PromptView ~ prompt:', prompt);
   const promptRef = useRef<HTMLTextAreaElement>(null);
   const updateEssayPrompt = useAIEditor((state) => state.updateEssayPrompt);
   const { id } = useParams();
