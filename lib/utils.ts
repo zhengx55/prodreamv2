@@ -13,6 +13,13 @@ const isObject = (item: any): item is Object => {
   return item && typeof item === 'object' && !Array.isArray(item);
 };
 
+export function getReferralSource() {
+  const sources = ['google', 'baidu'];
+  return (
+    sources.find((source) => document.referrer.includes(source)) || undefined
+  );
+}
+
 /**
  * Deep merge two objects by overriding target with fields in source.
  * It returns a new object and doesn't modify any object in place since

@@ -246,12 +246,16 @@ export async function updateUserInfo(params: {
 
 export async function googleLogin(loginParam: {
   access_token: string;
-  from?: string;
-  refferal?: string;
+  traffic_source?: string;
+  referral?: string;
+  is_mobile?: boolean;
 }): Promise<{ access_token: string }> {
   try {
     const formData = new FormData();
     formData.append('google_access_token', loginParam.access_token);
+    formData.append('traffic_source', loginParam.traffic_source ?? '');
+    formData.append('referral', loginParam.referral ?? '');
+    formData.append('is_mobile', loginParam.is_mobile ? '1' : '0');
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/login/google`,
       {

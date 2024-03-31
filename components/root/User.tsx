@@ -8,7 +8,7 @@ type Props = { name: string; email: string; imgSrc: string };
 const User = ({ name, email, imgSrc }: Props) => {
   return (
     <DropdownMenuTrigger asChild>
-      <div className='flex max-w-56 cursor-pointer items-center gap-x-3.5'>
+      <div className='flex cursor-pointer items-center gap-x-2'>
         <Avatar>
           <AvatarImage
             className='rounded-full object-contain'

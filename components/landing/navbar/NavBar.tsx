@@ -42,7 +42,12 @@ const NavBar = ({
             </DropdownMenuTrigger>
             <LocaleDropdown />
           </DropdownMenu>
-          <Link href={'https://prodream.ai/blog'} passHref target='_blank'>
+          <Link
+            prefetch={false}
+            href={'https://prodream.ai/blog'}
+            passHref
+            target='_blank'
+          >
             <Button
               role='link'
               className='hidden w-max px-1 text-[#3B3A40] sm:block'
