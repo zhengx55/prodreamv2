@@ -19,7 +19,9 @@ export default async function Page({
     <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
       <DiscountModal />
       <Spacer y='75' />
-      <Search t={t} lang={params.lang} />
+      <Suspense>
+        <Search t={t} lang={params.lang} />
+      </Suspense>
       <Spacer y='30' />
       <Suspense>
         <DocumentList t={t} lang={params.lang} />
