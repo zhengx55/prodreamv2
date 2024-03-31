@@ -4,7 +4,7 @@ import { ICitationData, ICitationType } from '@/types';
 import { useAIEditor, useCitation } from '@/zustand/store';
 import { useEffect, useState } from 'react';
 
-export const useCitationInfo = (id: string) => {
+export const useDocumentInfo = (id: string) => {
   const updateInTextCitation = useCitation(
     (state) => state.updateInTextCitation
   );

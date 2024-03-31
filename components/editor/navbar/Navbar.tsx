@@ -13,8 +13,9 @@ import Prompt from './Prompt';
 const PromptViewModal = dynamic(() => import('../modal/Prompt'));
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
+type Props = {} & DocPageDicType;
 
-const DocNavbar = ({ t, lang }: DocPageDicType) => {
+const DocNavbar = ({ t, lang }: Props) => {
   const { isSaving, updatePaymentModal, docTtile } = useAIEditor((state) => ({
     isSaving: state.isSaving,
     updatePaymentModal: state.updatePaymentModal,
