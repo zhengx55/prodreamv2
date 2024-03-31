@@ -1,6 +1,8 @@
 import Membership from '@/components/profile/Membership';
 import Setting from '@/components/profile/Setting';
 import Verification from '@/components/profile/Verification';
+import { Locale } from '@/i18n-config';
+import { getDictionary } from '@/lib/get-dictionary';
 import { LoginData } from '@/query/type';
 import { ISubscription } from '@/types';
 import { cookies } from 'next/headers';
@@ -32,13 +34,19 @@ async function getMembership() {
   return data.data;
 }
 
-export default async function Page() {
+export default async function Page({
+  params,
+}: {
+  params: { id: string; lang: Locale };
+}) {
   const userInfo: LoginData = await getUserInfo();
   const memberInfo: ISubscription = await getMembership();
+  const dict = (await getDictionary(params.lang)).Editor;
+
   return (
     <main className='flex h-full w-full flex-col overflow-y-auto px-10 py-5'>
       <Setting userInfo={userInfo} />
-      <Membership membership={memberInfo} />
+      <Membership lang={params.lang} t={dict} membership={memberInfo} />
       <Verification
         isGoogle={userInfo.is_google}
         isVerified={userInfo.is_verified}

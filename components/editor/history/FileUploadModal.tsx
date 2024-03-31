@@ -5,6 +5,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { createDoc } from '@/query/api';
+import { DocPageDicType } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { Loader2, X } from 'lucide-react';
 import Image from 'next/image';
@@ -12,15 +13,16 @@ import { useRouter } from 'next/navigation';
 import { memo, useCallback } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
+type Props = DocPageDicType;
 
-const FileUploadModal = () => {
+const FileUploadModal = ({ lang, t }: Props) => {
   const router = useRouter();
 
   const { mutateAsync: createNew, isPending: isUploading } = useMutation({
     mutationFn: (params: { file?: File }) =>
       createDoc(undefined, undefined, params.file),
     onSuccess: (data) => {
-      router.push(`/editor/${data}`);
+      router.push(`/${lang}/editor/${data}`);
     },
     onError: (error) => {
       toast.error(error.message);
