@@ -14,7 +14,7 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { PencilLine } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { ChangeEvent, memo, useReducer, useState } from 'react';
+import { ChangeEvent, memo, useReducer, useRef, useState } from 'react';
 
 interface State {
   content: string;
@@ -43,6 +43,8 @@ function reducer(state: State, action: Action) {
 
 const PromptView = ({ t }: { t: EditorDictType }) => {
   const prompt = useAIEditor((state) => state.essay_prompt);
+  console.log('🚀 ~ PromptView ~ prompt:', prompt);
+  const promptRef = useRef<HTMLTextAreaElement>(null);
   const updateEssayPrompt = useAIEditor((state) => state.updateEssayPrompt);
   const { id } = useParams();
   const [saving, setSaving] = useState(false);
@@ -62,7 +64,7 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
         'Something went wrong when setting essay prompt, please try again later'
       );
     },
-    onSuccess: async (data, variables) => {
+    onSuccess: async (_data, variables) => {
       const { toast } = await import('sonner');
       updateEssayPrompt(variables.brief_description);
       toast.success('Successfully set essay prompt');
@@ -71,7 +73,7 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
   const [{ content, wordCount }, dispatch] = useReducer(reducer, {
     ...initialState,
     content: prompt ?? '',
-    wordCount: prompt.trim().split(/\s+/).length ?? 0,
+    wordCount: prompt.trim().split(/\s+/).length,
   });
 
   const handleSubmit = async () => {
@@ -136,9 +138,11 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
         <Spacer y='10' />
         <Textarea
           value={content}
+          id='essay_prompt'
           disabled={saving}
           aria-label='essay prompt'
           onChange={onChangHandler}
+          ref={promptRef}
           className='small-regular h-[107px] w-full shrink-0 rounded border border-gray-200'
           placeholder='e.g.  This essay is about the challenges and strategies of conserving biodiversity in the Anthropocene and discuss the importance of conservation efforts in safeguarding ecosystems and species from the brink of extinction'
         />
