@@ -1,12 +1,16 @@
 import { formatTimestampToDateString } from '@/lib/utils';
-import { ISubscription } from '@/types';
+import { DocPageDicType, ISubscription } from '@/types';
 import Link from 'next/link';
 import PromoCode from '../editor/modal/PromoCode';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
-const Membership = ({ membership }: { membership: ISubscription }) => {
+const Membership = ({
+  membership,
+  lang,
+  t,
+}: { membership: ISubscription } & DocPageDicType) => {
   return (
     <>
       <h2 className='title-medium'>Membership</h2>
@@ -18,7 +22,7 @@ const Membership = ({ membership }: { membership: ISubscription }) => {
             <p className='text-neutral-400'>
               You are on the <strong>Basic</strong> plan
             </p>
-            <Link passHref href={'/pricing'}>
+            <Link passHref href={`/${lang}/pricing`}>
               <Button role='dialog' className='px-0' variant={'ghost'}>
                 Go unlimited
               </Button>
@@ -36,7 +40,7 @@ const Membership = ({ membership }: { membership: ISubscription }) => {
               </Button>
             </PromoCode>
 
-            <Link passHref href={'/profile/subscription'}>
+            <Link passHref href={`/${lang}/profile/subscription`}>
               <Button role='button' className='base-regular rounded-lg'>
                 Manage subscription
               </Button>
@@ -86,7 +90,7 @@ const Membership = ({ membership }: { membership: ISubscription }) => {
             </div>
           )}
           <Spacer y='10' />
-          <Link passHref href={'/profile/subscription'}>
+          <Link passHref href={`/${lang}/profile/subscription`}>
             <Button role='button' className='base-regular rounded-lg'>
               Manage subscription
             </Button>

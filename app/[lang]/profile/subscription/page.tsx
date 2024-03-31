@@ -39,7 +39,11 @@ async function getHistory(): Promise<ISubsciptionHistory[]> {
   return data.data;
 }
 
-export default async function Page() {
+export default async function Page({
+  params,
+}: {
+  params: { id: string; lang: Locale };
+}) {
   const membership = await getMembership();
   const history = await getHistory();
   return (
@@ -56,7 +60,7 @@ export default async function Page() {
             <p className='text-neutral-400'>
               You are on the <strong>Basic</strong> Plan
             </p>
-            <Link passHref href={'/pricing'}>
+            <Link passHref href={`/${params.lang}/pricing`}>
               <Button role='dialog' className='px-0' variant={'ghost'}>
                 Go unlimited
               </Button>
@@ -105,7 +109,10 @@ export default async function Page() {
                 <p className='small-regular text-neutral-400'>
                   Save $10 every month by switching to the annual plan,
                   <br />
-                  <Link href={'/pricing'} className='text-violet-500'>
+                  <Link
+                    href={`/${params.lang}/pricing`}
+                    className='text-violet-500'
+                  >
                     Go annual now
                   </Link>
                 </p>

@@ -118,7 +118,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
           {HeroInfo.map((item, index) => {
             return (
               <span
-                className={`${selected === index ? 'border border-violet-500/20 ' : 'bg-violet-500/5'} flex cursor-pointer flex-col gap-y-2 rounded-[20px] p-5 sm:w-1/4`}
+                className={`${selected === index ? 'border-violet-500/20 ' : 'bg-violet-500/5'} flex cursor-pointer flex-col gap-y-2 rounded-[20px] border border-transparent p-5 sm:w-1/4`}
                 key={item.id}
                 onMouseEnter={() => handleMouseEnter(index)}
               >

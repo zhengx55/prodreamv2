@@ -5,6 +5,7 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { Locale, i18n } from '@/i18n-config';
+import type { Route } from 'next';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -29,7 +30,7 @@ const LocaleDropdown = () => {
           className='cursor-pointer hover:bg-violet-500 hover:text-white'
         >
           <Link
-            href={redirectedPathName(locale)}
+            href={redirectedPathName(locale) as Route}
             className='base-regular flex-center w-full uppercase'
           >
             {locale}
