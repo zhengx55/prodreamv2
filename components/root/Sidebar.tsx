@@ -1,7 +1,9 @@
 'use client';
 import { SidebarLinks } from '@/constant';
+import { Locale } from '@/i18n-config';
 import { useMembershipInfo } from '@/query/query';
 import { useUserInfo } from '@/zustand/store';
+import type { Route } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -46,7 +48,8 @@ const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
 const User = dynamic(() => import('./User'), {
   loading: () => <UserSkeleton />,
 });
-const Sidebar = () => {
+
+const Sidebar = ({ lang }: { lang: Locale }) => {
   const pathname = usePathname();
   const { topValue, changeTopValue } = useSidebarElevation(pathname);
   const router = useRouter();
@@ -54,14 +57,14 @@ const Sidebar = () => {
     useMembershipInfo();
   const user = useUserInfo((state) => state.user);
   const handleNavigation = (link: string, index: number) => {
-    router.push(link);
+    router.push(`/${lang}/${link}` as Route);
     const newTopValue = index * (48 + 10);
     changeTopValue(newTopValue);
   };
 
   return (
     <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
-      <Link passHref href={'/'}>
+      <Link passHref href={`/${lang}`}>
         <Image
           alt='prodream'
           src='/logo/Prodream.png'
@@ -82,7 +85,7 @@ const Sidebar = () => {
             imgSrc={user.avatar}
           />
         )}
-        <UserInfoDropdown />
+        <UserInfoDropdown lang={lang} />
       </DropdownMenu>
       <Spacer y='24' />
       <ul className='relative flex flex-col gap-2.5'>

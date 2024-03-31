@@ -5,19 +5,19 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { createDoc } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
+import { DocPageDicType } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, memo, useRef, useState } from 'react';
 
 const FileUploadModal = dynamic(() => import('./FileUploadModal'));
 
-const SearchBar = () => {
+type Props = DocPageDicType;
+const SearchBar = ({ lang, t }: Props) => {
   const [isTyping, setIsTyping] = useState(false);
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
@@ -26,7 +26,7 @@ const SearchBar = () => {
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
     onSuccess: (data) => {
-      router.push(`/editor/${data}`);
+      router.push(`/${lang}/editor/${data}`);
       queryClient.invalidateQueries({
         queryKey: ['membership'],
       });
@@ -45,7 +45,7 @@ const SearchBar = () => {
     if (!e.target.value.trim()) {
       setIsTyping(false);
       params.delete('query');
-      replace(`${pathname}?${params.toString()}`);
+      router.replace(`/${lang}/editor?${params.toString()}`);
     } else {
       setIsTyping(true);
     }
@@ -57,7 +57,7 @@ const SearchBar = () => {
       if (ref.current.value) {
         params.set('query', ref.current.value);
       }
-      replace(`${pathname}?${params.toString()}`);
+      router.replace(`/${lang}/editor?${params.toString()}`);
     }
   };
 
@@ -92,7 +92,7 @@ const SearchBar = () => {
               <p className='base-semibold '>Upload Essay</p>
             </span>
           </DialogTrigger>
-          <FileUploadModal />
+          <FileUploadModal t={t} lang={lang} />
         </Dialog>
       </div>
       <div className='relative flex h-14 w-2/5 shrink-0 items-center rounded-lg border border-gray-200'>

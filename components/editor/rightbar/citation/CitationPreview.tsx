@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { DialogContent } from '@/components/ui/dialog';
 import { ICitation } from '@/query/type';
 import { Download, LinkIcon } from 'lucide-react';
+import type { Route } from 'next';
 import Link from 'next/link';
 import { memo } from 'react';
 
@@ -69,14 +70,14 @@ const CitationPreview = ({ item }: Props) => {
         </div>
         <div className='flex-between w-full pr-4'>
           <div className='flex items-center gap-x-2'>
-            <Link passHref href={item.publisher} target='_blank'>
+            <Link passHref href={item.publisher as Route} target='_blank'>
               <Button className='h-max rounded-xl bg-violet-500/10 text-violet-500'>
                 Pulisher Site
                 <LinkIcon size={16} className='text-violet-500' />
               </Button>
             </Link>
             {item.pdf_url && (
-              <Link passHref href={item.pdf_url} target='_blank'>
+              <Link passHref href={item.pdf_url as Route} target='_blank'>
                 <Button className='h-max rounded-xl bg-violet-500/10 text-violet-500'>
                   PDF
                   <Download size={16} className='text-violet-500' />
