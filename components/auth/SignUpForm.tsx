@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { getReferralSource } from '@/lib/utils';
 import { signUpSchema } from '@/lib/validation';
 import { userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
@@ -47,9 +48,6 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
             username: variables.email,
             password: variables.password,
           });
-          const user_id = JSON.parse(
-            atob(login_data.access_token.split('.')[1])
-          ).subject.user_id;
           setCookie('token', login_data.access_token, {
             path: '/',
             maxAge: 604800,
@@ -67,13 +65,6 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
       },
     }
   );
-
-  const getReferralSource = () => {
-    const sources = ['google', 'baidu'];
-    return (
-      sources.find((source) => document.referrer.includes(source)) || undefined
-    );
-  };
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     const referral = getReferralSource();

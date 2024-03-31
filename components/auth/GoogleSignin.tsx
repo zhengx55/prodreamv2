@@ -1,20 +1,37 @@
 'use client';
 import { Locale } from '@/i18n-config';
+import { getReferralSource } from '@/lib/utils';
 import { getUserInfo, googleLogin, refreshUserSession } from '@/query/api';
 import { useGoogleLogin } from '@react-oauth/google';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { memo } from 'react';
 import { useCookies } from 'react-cookie';
+import { isMobile } from 'react-device-detect';
 
-const GoogleSignin = ({ label, lang }: { label: string; lang: Locale }) => {
+const GoogleSignin = ({
+  label,
+  lang,
+  searchParam,
+}: {
+  label: string;
+  lang: Locale;
+  searchParam?: string;
+}) => {
   const [_cookies, setCookie] = useCookies(['token']);
   const router = useRouter();
+
   const googleAuth = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       try {
+        const referral = getReferralSource();
         const { access_token } = codeResponse;
-        const login_data = await googleLogin({ access_token });
+        const login_data = await googleLogin({
+          access_token,
+          is_mobile: isMobile,
+          traffic_source: searchParam ?? undefined,
+          referral,
+        });
         setCookie('token', login_data.access_token, {
           path: '/',
           maxAge: 604800,
