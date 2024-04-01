@@ -30,7 +30,7 @@ const Editor = ({
   ...props
 }: { essay_content: string } & DocPageDicType) => {
   const { id }: { id: string } = useParams();
-  const { data: track, isPending } = useUserTrackInfo();
+  const { data: track } = useUserTrackInfo();
   const [showBottomBar, setShowBottomBar] = useState(true);
   const {
     setEditorInstance,
@@ -166,7 +166,7 @@ const Editor = ({
     },
   });
 
-  if (!editor || isPending) return null;
+  if (!editor) return null;
   return (
     <section className='relative flex w-full flex-col'>
       <div className='flex h-full w-full'>
