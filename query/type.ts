@@ -154,4 +154,5 @@ export type UserTrackData = {
   basic_task?: string;
   has_referral_code?: string;
   show_referral_dialog?: string;
+  close_checkList?: string;
 };

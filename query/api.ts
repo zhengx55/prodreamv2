@@ -1090,7 +1090,9 @@ export async function searchCitation(
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw data.msg;
+      throw new Error(
+        'Citation machine is not available for now, please try again later'
+      );
     }
     let result: ICitation[] = data.data;
     let filter_result: ICitation[] = result.map((article) => {
@@ -1099,7 +1101,9 @@ export async function searchCitation(
     });
     return filter_result;
   } catch (error) {
-    throw new Error(error as string);
+    throw new Error(
+      'Citation machine is not available for now, please try again later'
+    );
   }
 }
 
