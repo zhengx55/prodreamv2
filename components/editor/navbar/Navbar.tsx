@@ -27,18 +27,18 @@ const DocNavbar = ({ t, lang }: Props) => {
   return (
     <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-gray-200 px-5 py-3'>
       {/* {!Boolean(prompt) && <PromptViewModal prompt={prompt} />} */}
-      <div className='flex h-full items-center gap-x-2'>
+      <div className='flex h-full items-center gap-x-3'>
         {track?.guidence && (
           <Link passHref href={`/${lang}/editor`}>
             <span className='cursor-pointer rounded-md hover:bg-shadow-border hover:opacity-50'>
-              <ChevronLeft />
+              <ChevronLeft className='text-zinc-600' />
             </span>
           </Link>
         )}
-        <h1 className='base-semibold line-clamp-1 max-w-xl'>
+        <h1 className='line-clamp-1 max-w-xl text-base font-medium'>
           {!track?.guidence
             ? 'Welcome To Prodream'
-            : docTtile === 'Untitled'
+            : !docTtile
               ? 'Untitled Document'
               : docTtile}
         </h1>
