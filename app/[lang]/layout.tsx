@@ -82,8 +82,12 @@ export default async function RootLayout({
       className={`${poppins.variable} ${inter.variable} ${liber.variable} ${cnFont.variable}`}
       suppressHydrationWarning
     >
-      <Hotjar />
-      <SteyProvider />
+      {process.env.NODE_ENV === 'production' && (
+        <>
+          <Hotjar />
+          <SteyProvider />
+        </>
+      )}
       <body>
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
