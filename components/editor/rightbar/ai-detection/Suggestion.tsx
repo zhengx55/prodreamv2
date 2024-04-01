@@ -20,9 +20,11 @@ const Suggestion = ({ suggestions, t }: Props) => {
   const toggleExpand = (item: Sentence) => {
     const { id } = item;
     if (!item.expand) {
-      // const { from, to } = findTextInDoc(item.text, editor!);
+      const title = editor?.getJSON().content?.at(0)?.content?.at(0)?.text;
       const editor_text = editor?.getText();
-      const from = editor_text?.indexOf(item.text) ?? 0;
+      const index = editor_text?.indexOf(item.text) ?? 0;
+      let from = index + 1;
+      if (!title) from = from += 1;
       const to = from + item.text.length + 1;
       editor?.chain().focus().setTextSelection({ from, to }).run();
     }
