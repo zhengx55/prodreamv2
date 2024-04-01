@@ -28,8 +28,8 @@ const EssayPanel = ({ id, ...props }: Props) => {
     const currentDate = new Date();
     const diffTime = Math.abs(currentDate.getTime() - signUpDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays < 7 && userTrack?.guidence;
-  }, [signUpTime, userTrack?.guidence]);
+    return diffDays < 7 && userTrack?.guidence && !userTrack.close_checkList;
+  }, [signUpTime, userTrack?.close_checkList, userTrack?.guidence]);
   if (isPending || isUsagePending || loading)
     return (
       <div className='flex-center flex-1 items-center'>
