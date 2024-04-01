@@ -46,7 +46,6 @@ const EssayPanel = ({ id, ...props }: Props) => {
             essay_content={essayContent ? essayContent.content : ''}
             {...props}
           />
-
           <DocRightBar {...props} />
         </div>
       </main>
