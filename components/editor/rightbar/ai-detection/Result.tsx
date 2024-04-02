@@ -14,11 +14,6 @@ const Suggestion = dynamic(() => import('./Suggestion'));
 const labels = ['human', 'mixed', 'ai generated'];
 const primaryColor = ['#48B251', '#5266CC', '#E58600'];
 const secondaryColor = ['#D5F9D8', '#F2F4FF', '#FFEACC'];
-const clampPercent = (percent: number): number => {
-  const MIN_PERCENT = 19;
-  const MAX_PERCENT = 62;
-  return Math.max(MIN_PERCENT, Math.min(MAX_PERCENT, percent));
-};
 
 type Props = {
   recheck: () => Promise<void>;
@@ -130,30 +125,27 @@ const Bar = ({
   mixed_percent: number;
   ai_percent: number;
 }) => {
-  const adjustedHumanPercent = clampPercent(human_percent);
-  const adjustedMixedPercent = clampPercent(mixed_percent);
-  const adjustedAIPercent = clampPercent(ai_percent);
   return (
     <>
       <div className='relative flex h-2.5 w-full shrink-0 bg-transparent'>
         <span
           className='absolute left-0 z-20 h-full rounded-l-3xl rounded-r-3xl bg-emerald-100'
           style={{
-            width: `${adjustedHumanPercent + 1}%`,
+            width: `${human_percent + 1}%`,
           }}
         />
         <span
           className='absolute z-10 h-full rounded-r-3xl bg-violet-200'
           style={{
-            width: `${adjustedMixedPercent + 1}%`,
-            left: `${adjustedHumanPercent}%`,
+            width: `${mixed_percent + 1}%`,
+            left: `${human_percent - 1}%`,
           }}
         />
         <span
           className='absolute z-0 h-full rounded-r-3xl bg-orange-100'
           style={{
-            width: `${adjustedAIPercent}%`,
-            left: `${adjustedHumanPercent + adjustedMixedPercent}%`,
+            width: `${ai_percent + 1}%`,
+            left: `${human_percent + mixed_percent - 1}%`,
           }}
         />
       </div>
