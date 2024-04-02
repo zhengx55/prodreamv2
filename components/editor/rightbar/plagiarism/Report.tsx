@@ -1,5 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
+import { findTextInDoc } from '@/lib/tiptap/utils';
 import { batchParaphrase } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
 import { IPlagiarismData } from '@/query/type';
@@ -30,10 +31,7 @@ const Report = ({
 
   const handleAcceptAll = () => {
     sentences.map((item) => {
-      const editor_text = editor?.getText();
-      const position = editor_text?.indexOf(item.text) ?? 0;
-      const from = position + 1;
-      const to = position + item.text.length + 1;
+      const { from, to } = findTextInDoc(item.text, editor!);
       editor
         ?.chain()
         .focus()
@@ -110,12 +108,15 @@ const Report = ({
 
   const toggleExpand = (item: Sentence) => {
     const { id } = item;
-    const editor_text = editor?.getText();
     if (!item.expand) {
-      const position = editor_text?.indexOf(item.text) ?? 0;
-      const from = position + 1;
-      const to = position + item.text.length + 1;
+      const title = editor?.getJSON().content?.at(0)?.content?.at(0)?.text;
+      const editor_text = editor?.getText();
+      const index = editor_text?.indexOf(item.text) ?? 0;
+      let from = index + 1;
+      if (!title) from = from += 1;
+      const to = from + item.text.length;
       editor?.chain().focus().setTextSelection({ from, to }).run();
+
       setSentences((prev) =>
         prev.map((prevItem) => {
           if (prevItem.id === id) return { ...prevItem, expand: true };
@@ -188,7 +189,7 @@ const Report = ({
               </Button>
             </div>
           </div>
-          {isError ? (
+          {report.spans.length === 0 ? null : isError ? (
             <p className='small-medium text-red-400'>
               Something went wrong, please try again later
             </p>

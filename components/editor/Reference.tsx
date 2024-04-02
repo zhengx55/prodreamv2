@@ -102,7 +102,6 @@ const Reference = () => {
                 key={`reference-${index}`}
                 className='my-4 text-left -indent-4 font-serif leading-[150%] first:mt-0'
               >
-                {item.data.in_text_rank}
                 <MLAReference citation={item as any} />
               </li>
             ))
