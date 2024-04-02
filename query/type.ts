@@ -77,6 +77,7 @@ export interface IPlagiarismData {
   scores: number;
   spans: number[][];
   status: string;
+  texts: string[];
 }
 
 export type IDocDetail = {

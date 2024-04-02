@@ -26,7 +26,6 @@ const Report = ({
 }) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [sentences, setSentences] = useState<Sentence[]>([]);
-  const [texts, setTexts] = useState<string[]>([]);
   const { data: membership } = useMembershipInfo();
 
   const handleAcceptAll = () => {
@@ -51,42 +50,25 @@ const Report = ({
     );
   };
 
-  useEffect(() => {
-    if (report && report.spans.length > 0) {
-      let text_array: string[] = [];
-      report.spans.map((item) => {
-        let start = item[0];
-        let end = item[1];
-        let text = editor?.getText()?.substring(start, end) ?? '';
-        text_array = [...text_array, text];
-      });
-      setTexts(text_array);
-    }
-  }, [editor, report]);
-
   const {
     data: suggestions,
     isPending,
     isError,
   } = useQuery({
-    queryFn: () => batchParaphrase(texts),
-    queryKey: ['batchParaphrase', texts],
-    enabled: texts.length > 0,
+    queryFn: () => batchParaphrase(report.texts),
+    queryKey: ['batchParaphrase', report.texts],
+    enabled: report.texts.length > 0,
   });
 
   useEffect(() => {
     if (suggestions) {
       const newSentences: Sentence[] = [];
-      report.spans.map((item, index) => {
-        let start = item[0];
-        let end = item[1];
-        let text = editor?.getText()?.substring(item[0], item[1]) ?? '';
+      report.spans.map((_, index) => {
         newSentences.push({
           id: v4(),
-          text,
+          text: report.texts[index],
           expand: false,
           result: suggestions[index],
-          ranges: [start, end + 1],
         });
       });
       setSentences(newSentences);
@@ -110,10 +92,9 @@ const Report = ({
     const { id } = item;
     if (!item.expand) {
       const title = editor?.getJSON().content?.at(0)?.content?.at(0)?.text;
-      const editor_text = editor?.getText();
+      const editor_text = editor?.getText().replace(title!, '').trimStart();
       const index = editor_text?.indexOf(item.text) ?? 0;
-      let from = index + 1;
-      if (!title) from = from += 1;
+      let from = index + (title?.length ?? 0);
       const to = from + item.text.length;
       editor?.chain().focus().setTextSelection({ from, to }).run();
 

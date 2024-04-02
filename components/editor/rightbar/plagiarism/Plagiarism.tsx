@@ -37,7 +37,21 @@ const Plagiarism = ({ t }: Props) => {
         if (res.status === 'done') {
           setProgress(100);
           setShowLoading(false);
-          setResult({ scores: res.scores, spans: res.spans });
+          let text_array: string[] = [];
+          if (res && res.spans.length > 0) {
+            res.spans.map((item) => {
+              let start = item[0];
+              let end = item[1];
+              let text = editor?.getText()?.substring(start, end) ?? '';
+              text_array = [...text_array, text];
+            });
+          }
+          setResult({
+            scores: res.scores,
+            spans: res.spans,
+            texts: text_array,
+          });
+          console.log(res);
           clearInterval(timer.current!);
         }
       }, 5000);
