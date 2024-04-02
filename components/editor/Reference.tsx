@@ -82,12 +82,14 @@ const Reference = () => {
             </Button>
           )}
           <Select onValueChange={(value) => updateCitationStyle(value)}>
-            <SelectTrigger className='h-max w-20 gap-x-2 rounded border-violet-500 px-2 py-0.5 text-violet-500'>
+            <SelectTrigger className='w-30 h-max gap-x-2 rounded border-violet-500 px-2 py-0.5 text-violet-500'>
               <SelectValue placeholder={citationStyle} />
             </SelectTrigger>
             <SelectContent className='bg-white'>
               <SelectItem value='MLA'>MLA</SelectItem>
               <SelectItem value='APA'>APA</SelectItem>
+              <SelectItem value='IEEE'>IEEE</SelectItem>
+              <SelectItem value='Chicago'>Chicago</SelectItem>
             </SelectContent>
           </Select>
         </div>

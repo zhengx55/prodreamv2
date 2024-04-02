@@ -186,15 +186,18 @@ export const useCiteToDoc = () => {
       document_id: string;
     }) => createCitation(params),
     onSuccess: async (data, variables) => {
+      const { selection } = editor!.state;
+      const { from, to, anchor } = selection;
       await appendInTextCitationIds({
         type: variables.citation_type,
         data: {
           ...variables.citation_data,
           id: data,
           document_id: variables.document_id,
+          in_text_pos: anchor,
         },
       });
-      insertCitation(data);
+      insertCitation(data, anchor, from, to);
       const toast = (await import('sonner')).toast;
       toast.success('Citation created successfully');
     },

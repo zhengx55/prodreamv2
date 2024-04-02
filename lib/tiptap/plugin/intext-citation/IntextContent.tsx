@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/popover';
 import useAIEditor, { useCitation } from '@/zustand/store';
 import type { NodeViewProps } from '@tiptap/react';
+import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
@@ -26,6 +27,7 @@ const IntextContent = (props: NodeViewProps) => {
     updateCurrentInline,
     inTextCitation,
     updateShowEditCitation,
+    removeInTextCitationIds,
   } = useCitation((state) => ({ ...state }));
 
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
@@ -38,8 +40,27 @@ const IntextContent = (props: NodeViewProps) => {
   const handleDeleteCitation = () => {
     props.deleteNode();
   };
+
+  useUnmount(() => {
+    if (!current_citation) return;
+    let found: boolean = false;
+    props.editor.state.doc.descendants((node) => {
+      if (node.type.name === 'IntextCitation') {
+        if (node.attrs.citation_id === props.node.attrs.citation_id) {
+          found = true;
+        }
+      }
+    });
+    if (!found) {
+      removeInTextCitationIds(
+        props.node.attrs.citation_id,
+        current_citation.document_id
+      );
+    }
+  });
+
   const handleEditCitation = () => {
-    updateRightbarTab(1);
+    updateRightbarTab(3);
     updateShowEditCitation(true);
     updateCurrentInline(props);
   };
@@ -147,6 +168,7 @@ const APAAuthors = ({
     <span>{contributors[0].last_name} et al.,</span>
   ) : null;
 };
+
 const MLAAuhors = ({
   contributors,
 }: {

@@ -21,7 +21,17 @@ const Plagiarism = ({ t }: Props) => {
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState<
     Omit<IPlagiarismData, 'status'> | undefined
-  >();
+  >({
+    scores: 0.56,
+    spans: [
+      [19, 30],
+      [1060, 1244],
+      [1245, 1385],
+      [1386, 1568],
+      [1569, 1847],
+      [2103, 2205],
+    ],
+  });
 
   const { mutateAsync: plagiarism } = useMutation({
     mutationFn: (params: string) => plagiarismCheck(params),
@@ -63,12 +73,15 @@ const Plagiarism = ({ t }: Props) => {
     if (result) {
       setResult(undefined);
     }
-    if (!editor?.getText()) {
+    let editor_text: string | undefined;
+    const title = editor?.getJSON().content?.at(0)?.content?.at(0)?.text;
+    editor_text = editor?.getText()?.replace(title!, '').trimStart();
+    if (!editor_text) {
       const toast = (await import('sonner')).toast;
       toast.error('Please write something to check plagiarism');
       return;
     }
-    await plagiarism(editor?.getText());
+    await plagiarism(editor_text);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
