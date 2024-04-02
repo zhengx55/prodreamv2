@@ -32,6 +32,24 @@ const NavbarDropdown = () => {
       >
         APA
       </DropdownMenuItem>
+      <DropdownMenuItem
+        onClick={(e) => {
+          e.stopPropagation();
+          setCitationStyle('IEEE');
+        }}
+        className='flex cursor-pointer justify-center text-shadow hover:bg-gray-200'
+      >
+        IEEE
+      </DropdownMenuItem>
+      <DropdownMenuItem
+        onClick={(e) => {
+          e.stopPropagation();
+          setCitationStyle('Chicago');
+        }}
+        className='flex cursor-pointer justify-center text-shadow hover:bg-gray-200'
+      >
+        Chicago
+      </DropdownMenuItem>
     </DropdownMenuContent>
   );
 };
