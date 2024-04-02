@@ -22,6 +22,8 @@ export const SidebarLinks = [
   // },
 ];
 
+export const CitationOptions = ['MLA', 'APA', 'IEEE', 'Chicago'];
+
 export const contributorAnimation = {
   initial: { opacity: 0, y: -20 },
   animate: { opacity: 1, y: 0 },

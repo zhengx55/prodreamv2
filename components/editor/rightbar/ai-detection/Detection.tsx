@@ -6,9 +6,10 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
-import Result from './Result';
+const Result = dynamic(() => import('./Result'));
 
 const Detection = ({ t }: { t: EditorDictType }) => {
   const [generating, setGenerating] = useState(false);
