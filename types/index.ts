@@ -42,7 +42,10 @@ export type ICitationData = IWebsiteCitation &
   IJournalCitation &
   IBookCitation &
   IChapterCitation &
-  IIntroductionCitation;
+  IIntroductionCitation & {
+    in_text_pos?: number;
+    in_text_rank?: number;
+  };
 
 export type IContributors = {
   first_name: string;

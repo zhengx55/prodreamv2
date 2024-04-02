@@ -117,10 +117,8 @@ export const useEditorCommand = (editor: Editor) => {
   );
 
   const insertCitation = useCallback(
-    (citation_id: string) => {
+    (citation_id: string, anchor: number, from: number, to: number) => {
       if (!editor) return null;
-      const { selection } = editor!.state;
-      const { anchor, from, to } = selection;
       const { pos, size } = findFirstParagraph(editor);
       if (anchor === 1) {
         editor
