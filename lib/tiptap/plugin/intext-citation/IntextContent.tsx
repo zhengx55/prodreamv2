@@ -54,7 +54,7 @@ const IntextContent = (props: NodeViewProps) => {
     if (!found) {
       removeInTextCitationIds(
         props.node.attrs.citation_id,
-        current_citation?.document_id ?? ''
+        current_citation.document_id
       );
     }
   });

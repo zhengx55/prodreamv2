@@ -209,12 +209,21 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
       id: document_id,
       citation_ids: data_after_remove,
     });
-    set((state) => ({
-      inTextCitationIds: state.inTextCitationIds.filter((id) => id !== result),
-      inTextCitation: state.inTextCitation.filter(
+    set((state) => {
+      const updatedInTextCitation = state.inTextCitation.filter(
         (item) => item.data.id !== result
-      ),
-    }));
+      );
+      updatedInTextCitation.sort(
+        (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
+      );
+      updatedInTextCitation.forEach((item, index) => {
+        item.data.in_text_rank = index + 1;
+      });
+      return {
+        inTextCitationIds: data_after_remove,
+        inTextCitation: updatedInTextCitation,
+      };
+    });
   },
   removeInDocCitationIds: async (result, document_id) => {
     const data_after_remove = get().inDocCitationIds.filter(
