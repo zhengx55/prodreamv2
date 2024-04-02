@@ -186,6 +186,7 @@ export const useCiteToDoc = () => {
       document_id: string;
     }) => createCitation(params),
     onSuccess: async (data, variables) => {
+      console.log('🚀 ~ onSuccess: ~ data:', data);
       const { selection } = editor!.state;
       const { from, to, anchor } = selection;
       await appendInTextCitationIds({
