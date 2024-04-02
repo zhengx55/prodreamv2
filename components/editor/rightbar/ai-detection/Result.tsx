@@ -14,6 +14,11 @@ const Suggestion = dynamic(() => import('./Suggestion'));
 const labels = ['human', 'mixed', 'ai generated'];
 const primaryColor = ['#48B251', '#5266CC', '#E58600'];
 const secondaryColor = ['#D5F9D8', '#F2F4FF', '#FFEACC'];
+const clampPercent = (percent: number): number => {
+  const MIN_PERCENT = 19;
+  const MAX_PERCENT = 62;
+  return Math.max(MIN_PERCENT, Math.min(MAX_PERCENT, percent));
+};
 
 type Props = {
   recheck: () => Promise<void>;
@@ -124,70 +129,79 @@ const Bar = ({
   human_percent: number;
   mixed_percent: number;
   ai_percent: number;
-}) => (
-  <>
-    <div className='flex h-2.5 w-full shrink-0 bg-transparent'>
-      <span
-        className='h-full rounded-l-3xl bg-emerald-100'
-        style={{
-          width: `${human_percent}%`,
-        }}
-      />
-      <span
-        className='h-full rounded-r-3xl bg-violet-200'
-        style={{
-          width: `${mixed_percent}%`,
-        }}
-      />
-      <span
-        className='h-full rounded-r-3xl bg-orange-100'
-        style={{
-          width: `${ai_percent}%`,
-        }}
-      />
-    </div>
-    <Spacer y='10' />
-    <div className='flex w-full items-center'>
-      <div
-        className='flex flex-col gap-y-0.5'
-        style={{
-          width: `${human_percent}%`,
-          minWidth: '20%',
-        }}
-      >
-        <p className='text-sm font-medium leading-tight text-green-500'>
-          human
-        </p>
-        <p className='small-regular text-zinc-600'>
-          {human_percent.toFixed(0)}%
-        </p>
+}) => {
+  const adjustedHumanPercent = clampPercent(human_percent);
+  const adjustedMixedPercent = clampPercent(mixed_percent);
+  const adjustedAIPercent = clampPercent(ai_percent);
+  return (
+    <>
+      <div className='relative flex h-2.5 w-full shrink-0 bg-transparent'>
+        <span
+          className='absolute left-0 z-20 h-full rounded-l-3xl rounded-r-3xl bg-emerald-100'
+          style={{
+            width: `${adjustedHumanPercent + 1}%`,
+          }}
+        />
+        <span
+          className='absolute z-10 h-full rounded-r-3xl bg-violet-200'
+          style={{
+            width: `${adjustedMixedPercent + 1}%`,
+            left: `${adjustedHumanPercent}%`,
+          }}
+        />
+        <span
+          className='absolute z-0 h-full rounded-r-3xl bg-orange-100'
+          style={{
+            width: `${adjustedAIPercent}%`,
+            left: `${adjustedHumanPercent + adjustedMixedPercent}%`,
+          }}
+        />
       </div>
-      <div
-        style={{
-          width: `${mixed_percent}%`,
-          minWidth: '20%',
-        }}
-        className='flex flex-col gap-y-0.5'
-      >
-        <p className='text-sm font-medium leading-tight text-indigo-500'>
-          mixed
-        </p>
-        <p className='small-regular text-zinc-600'>
-          {mixed_percent.toFixed(0)}%
-        </p>
+      <Spacer y='10' />
+      <div className='flex w-full items-center'>
+        <div
+          className='flex flex-col gap-y-0.5'
+          style={{
+            width: `${human_percent}%`,
+            minWidth: '20%',
+          }}
+        >
+          <p className='text-sm font-medium leading-tight text-green-500'>
+            human
+          </p>
+          <p className='small-regular text-zinc-600'>
+            {human_percent.toFixed(0)}%
+          </p>
+        </div>
+        <div
+          style={{
+            width: `${mixed_percent}%`,
+            minWidth: '20%',
+          }}
+          className='flex flex-col gap-y-0.5'
+        >
+          <p className='text-sm font-medium leading-tight text-indigo-500'>
+            mixed
+          </p>
+          <p className='small-regular text-zinc-600'>
+            {mixed_percent.toFixed(0)}%
+          </p>
+        </div>
+        <div
+          style={{
+            width: `${ai_percent}%`,
+            minWidth: '20%',
+          }}
+          className='flex flex-col gap-y-0.5'
+        >
+          <p className='text-sm font-medium leading-tight text-amber-600'>ai</p>
+          <p className='small-regular text-zinc-600'>
+            {ai_percent.toFixed(0)}%
+          </p>
+        </div>
       </div>
-      <div
-        style={{
-          width: `${ai_percent}%`,
-          minWidth: '20%',
-        }}
-        className='flex flex-col gap-y-0.5'
-      >
-        <p className='text-sm font-medium leading-tight text-amber-600'>ai</p>
-        <p className='small-regular text-zinc-600'>{ai_percent.toFixed(0)}%</p>
-      </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 export default memo(Result);
