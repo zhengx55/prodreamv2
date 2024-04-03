@@ -157,3 +157,5 @@ export type UserTrackData = {
   show_referral_dialog?: string;
   close_checkList?: string;
 };
+
+export type ReferenceType = 'mla' | 'apa' | 'ieee' | 'chicago';

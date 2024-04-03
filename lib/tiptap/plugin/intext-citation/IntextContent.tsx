@@ -69,7 +69,7 @@ const IntextContent = (props: NodeViewProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        {citationStyle === 'APA' ? (
+        {citationStyle === 'apa' ? (
           <p className='!m-0 text-violet-500'>
             (
             {props.node.attrs.show_author && (

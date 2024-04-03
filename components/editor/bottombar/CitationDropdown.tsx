@@ -3,11 +3,12 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { CitationOptions } from '@/constant';
+import { ReferenceType } from '@/query/type';
 import { useCitation } from '@/zustand/store';
 import { memo } from 'react';
 
 const ItemClassName =
-  'flex cursor-pointer justify-center text-shadow hover:bg-gray-200';
+  'flex cursor-pointer uppercase justify-center text-shadow hover:bg-gray-200';
 
 const NavbarDropdown = () => {
   const setCitationStyle = useCitation((state) => state.updateCitationStyle);
@@ -23,7 +24,7 @@ const NavbarDropdown = () => {
           key={style}
           onClick={(e) => {
             e.stopPropagation();
-            setCitationStyle(style);
+            setCitationStyle(style as ReferenceType);
           }}
           className={ItemClassName}
         >

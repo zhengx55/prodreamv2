@@ -22,7 +22,7 @@ export const SidebarLinks = [
   // },
 ];
 
-export const CitationOptions = ['MLA', 'APA', 'IEEE', 'Chicago'];
+export const CitationOptions = ['mla', 'apa', 'ieee', 'chicago'];
 
 export const CNPayments = [
   {
