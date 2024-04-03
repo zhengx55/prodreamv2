@@ -25,21 +25,20 @@ const useSidebarElevation = (pathname: string) => {
 
   useEffect(() => {
     const currentroute = pathname.split('/').pop();
-    let index = 0;
     switch (currentroute) {
-      case 'polish':
-        index = 0;
+      case 'editor':
+        setTopValue(0);
         break;
       case 'essay-review':
-        index = 1;
+        setTopValue(48 + 10);
         break;
       case 'pdf-chat':
-        index = 2;
+        setTopValue(2 * (48 + 10));
         break;
       default:
+        setTopValue(undefined);
         break;
     }
-    setTopValue(index * (48 + 10));
   }, [pathname]);
   return { topValue, changeTopValue };
 };

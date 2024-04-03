@@ -55,64 +55,45 @@ export const CNFeatures = [
   {
     feature: 'Generate',
     description: '智能生成文本的实例',
-    availableInBasic: '20次/周',
-    availableInPro: '无限的',
     icon: '/editor/rightbar/generate_active.svg',
   },
   {
     feature: 'Copilot',
     description: '体验Prodecan能为您做些什么',
-    availableInBasic: '5次/周',
-    availableInPro: '无限的',
-
     icon: '/editor/rightbar/copilot.svg',
   },
   {
     feature: 'Grammar suggestions',
     description: '智能提供修正建议',
-    availableInBasic: '100句/周',
-    availableInPro: '无限的',
     icon: '/editor/rightbar/grammar_active.svg',
   },
   {
     feature: 'Citation',
     description: '200M+ 数据学术资源',
     icon: '/editor/rightbar/citation_active.svg',
-    availableInBasic: true,
-    availableInPro: true,
     subFeatures: [
       {
         name: 'In-text Citations',
         description: '文本内部引用',
-        availableInBasic: true,
-        availableInPro: true,
       },
       {
         name: 'Citation Style Changer',
         description: '一键式引文风格转换',
-        availableInBasic: false,
-        availableInPro: true,
       },
       {
         name: 'Edit Citations',
         description: '编辑引用格式',
-        availableInBasic: false,
-        availableInPro: true,
       },
     ],
   },
   {
     feature: 'Plagiarism check',
     description: 'Get a taste of what Prodecan can do for you',
-    availableInBasic: false,
-    availableInPro: true,
     icon: '/editor/rightbar/plagiarism_active.svg',
   },
   {
     feature: 'Document',
     description: 'Get a taste of what Prodecan can do for you',
-    availableInBasic: '3篇',
-    availableInPro: '无限的',
     icon: '/editor/rightbar/document.svg',
   },
 ];
