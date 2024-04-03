@@ -24,26 +24,12 @@ const Reference = () => {
   const sort_array = useMemo(() => {
     if (citationStyle !== 'ieee') {
       return inTextCitation.sort((a, b) => {
-        const lastNameA = (
-          a.data.contributors?.[0]?.last_name || ''
-        ).toLowerCase();
-        const lastNameB = (
-          b.data.contributors?.[0]?.last_name || ''
-        ).toLowerCase();
+        const lastNameA =
+          a.data.contributors?.[0]?.last_name?.toLowerCase() || '';
+        const lastNameB =
+          b.data.contributors?.[0]?.last_name?.toLowerCase() || '';
 
-        if (lastNameA && lastNameB) {
-          if (lastNameA < lastNameB) {
-            return -1;
-          }
-          if (lastNameA > lastNameB) {
-            return 1;
-          }
-        } else if (lastNameA) {
-          return -1;
-        } else if (lastNameB) {
-          return 1;
-        }
-        return 0;
+        return lastNameA.localeCompare(lastNameB);
       });
     }
     return inTextCitation;
@@ -65,6 +51,7 @@ const Reference = () => {
     type: citationStyle,
     bibtex: bibtext_ids,
   });
+
   const copyHtml = async () => {
     const htmlNode = referenceListRef.current;
     navigator.clipboard.writeText(htmlNode?.innerText ?? '');

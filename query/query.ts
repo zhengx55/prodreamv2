@@ -194,6 +194,7 @@ export const useCiteToDoc = () => {
           in_text_pos: anchor,
         },
       });
+
       insertCitation(data.id, anchor, from, to);
       const toast = (await import('sonner')).toast;
       toast.success('Citation created successfully');
@@ -260,6 +261,7 @@ export const useGetReference = ({
   return useQuery({
     queryFn: () => getReferenceType({ type, bibtex }),
     queryKey: ['reference', type, bibtex],
+    enabled: bibtex.length > 0,
     staleTime: Infinity,
   });
 };

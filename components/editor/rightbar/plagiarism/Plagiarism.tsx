@@ -21,7 +21,14 @@ const Plagiarism = ({ t }: Props) => {
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState<
     Omit<IPlagiarismData, 'status'> | undefined
-  >();
+  >({
+    scores: 1,
+    spans: [
+      [0, 418],
+      [420, 1022],
+    ],
+    pdf: 'https://quickapply.blob.core.windows.net/report/c471f93d9d9a4d0cb7dd474f5fd537c3.pdf',
+  });
 
   const { mutateAsync: plagiarism } = useMutation({
     mutationFn: (params: string) => plagiarismCheck(params),
@@ -37,21 +44,12 @@ const Plagiarism = ({ t }: Props) => {
         if (res.status === 'done') {
           setProgress(100);
           setShowLoading(false);
-          let text_array: string[] = [];
-          if (res && res.spans.length > 0) {
-            res.spans.map((item) => {
-              let start = item[0];
-              let end = item[1];
-              let text = editor?.getText()?.substring(start, end) ?? '';
-              text_array = [...text_array, text];
-            });
-          }
           setResult({
             scores: res.scores,
             spans: res.spans,
-            texts: text_array,
+            pdf: res.pdf,
           });
-          console.log(res);
+          console.log({ scores: res.scores, spans: res.spans, pdf: res.pdf });
           clearInterval(timer.current!);
         }
       }, 5000);
