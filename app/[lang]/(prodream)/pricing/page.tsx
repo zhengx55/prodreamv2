@@ -44,15 +44,10 @@ export default async function Page() {
   const discount_info: IDiscount = await getDiscountInfo();
   const isInChina = await getIpAddress();
 
-  return isInChina ? (
+  return !isInChina ? (
     <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
-      <div className='flex-center absolute top-0 h-10 w-full gap-x-2 bg-zinc-700'>
-        <Diamond />
-        <p className='subtle-regular text-white'>
-          Upgrade to Unlimited to unlock unlimited possibilities
-        </p>
-      </div>
-      <Spacer y='80' />
+      <HeaderSection text='Upgrade to Unlimited to unlock unlimited possibilities' />
+      <Spacer y='40' />
       <h1 className='text-center text-[40px] font-medium'>Plans & Pricing</h1>
       <Spacer y='10' />
       <p className='base-regular text-center text-neutral-400'>
@@ -78,7 +73,7 @@ export default async function Page() {
             <PricingCard key={`pricing-${index}`} item={item} />
           ))}
         </div>
-        <Spacer y='88' />
+        <Spacer y='80' />
         <h2 className='text-3xl font-medium text-neutral-900'>会员权益</h2>
         <Spacer y='32' />
         <div className='flex-between w-full'>
@@ -118,7 +113,7 @@ export default async function Page() {
             <p className='inline-flex justify-center py-4'>无限的</p>
           </div>
         </div>
-        <Spacer y='88' />
+        <Spacer y='80' />
       </div>
     </main>
   );
