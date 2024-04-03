@@ -62,7 +62,7 @@ const GoogleSignin = ({
       className='flex-center w-full cursor-pointer gap-x-2 self-center rounded border border-gray-200 py-4 transition-transform hover:-translate-y-1'
     >
       <Image
-        src='/google.svg'
+        src='/auth/google.svg'
         alt='google'
         width={23}
         height={23}
