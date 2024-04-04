@@ -98,6 +98,12 @@ export const CNFeatures = [
   },
 ];
 
+export const plag_report_type = [
+  'Overall similarity score',
+  'Results found',
+  'Total words in text',
+];
+
 export const contributorAnimation = {
   initial: { opacity: 0, y: -20 },
   animate: { opacity: 1, y: 0 },
