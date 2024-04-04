@@ -278,7 +278,8 @@
       "Result_good": "Completely original.",
       "Report": "Plagiarism Report",
       "view_full": "View Full Report",
-      "score": "May be plagiarized"
+      "score": "May be plagiarized",
+      "non-plagiarized": "Overall Similarity Score"
     },
     "CheckList": {
       "Show": "Show me",
