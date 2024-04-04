@@ -22,6 +22,88 @@ export const SidebarLinks = [
   // },
 ];
 
+export const CitationOptions = ['mla', 'apa', 'ieee', 'chicago'];
+
+export const CNPayments = [
+  {
+    name: '月度会员',
+    currentPrice: 110,
+    originalPrice: 110,
+    discountDurationMonths: null,
+    buttonText: '立即开通',
+    discounted: false,
+  },
+  {
+    name: '季度会员',
+    currentPrice: 264,
+    originalPrice: 330,
+    discountDurationMonths: 8,
+    buttonText: '立即开通',
+    discounted: true,
+  },
+  {
+    name: '季度会员',
+    currentPrice: 660,
+    originalPrice: 1320,
+    discountDurationMonths: 5,
+    buttonText: '立即开通',
+    discounted: true,
+  },
+];
+
+export const CNFeatures = [
+  {
+    feature: 'Generate',
+    description: '智能生成文本的实例',
+    icon: '/editor/rightbar/generate_active.svg',
+  },
+  {
+    feature: 'Copilot',
+    description: '体验Prodecan能为您做些什么',
+    icon: '/editor/rightbar/copilot.svg',
+  },
+  {
+    feature: 'Grammar suggestions',
+    description: '智能提供修正建议',
+    icon: '/editor/rightbar/grammar_active.svg',
+  },
+  {
+    feature: 'Citation',
+    description: '200M+ 数据学术资源',
+    icon: '/editor/rightbar/citation_active.svg',
+    subFeatures: [
+      {
+        name: 'In-text Citations',
+        description: '文本内部引用',
+      },
+      {
+        name: 'Citation Style Changer',
+        description: '一键式引文风格转换',
+      },
+      {
+        name: 'Edit Citations',
+        description: '编辑引用格式',
+      },
+    ],
+  },
+  {
+    feature: 'Plagiarism check',
+    description: 'Get a taste of what Prodecan can do for you',
+    icon: '/editor/rightbar/plagiarism_active.svg',
+  },
+  {
+    feature: 'Document',
+    description: 'Get a taste of what Prodecan can do for you',
+    icon: '/editor/rightbar/document.svg',
+  },
+];
+
+export const plag_report_type = [
+  'Overall similarity score',
+  'Results found',
+  'Total words in text',
+];
+
 export const contributorAnimation = {
   initial: { opacity: 0, y: -20 },
   animate: { opacity: 1, y: 0 },

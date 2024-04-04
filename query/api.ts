@@ -15,6 +15,7 @@ import {
   ISigunUpRequest,
   IVerifyEmail,
   LoginData,
+  ReferenceType,
   UserTrackData,
 } from './type';
 
@@ -587,6 +588,7 @@ export async function batchParaphrase(texts: string[]) {
     if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
+
     return data.data;
   } catch (error) {
     throw new Error(error as string);
@@ -969,6 +971,36 @@ export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
 // ----------------------------------------------------------------
 // Citation
 // ----------------------------------------------------------------
+
+export async function getReferenceType(params: {
+  type: ReferenceType;
+  bibtex: string[];
+}): Promise<string[]> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/format/${params.type}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          bibtex: params.bibtex,
+        }),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function createCitation(params: {
   citation_type: ICitationType;
   citation_data: any;

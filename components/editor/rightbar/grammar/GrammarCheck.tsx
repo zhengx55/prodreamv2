@@ -17,6 +17,7 @@ import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
+import Title from '../Title';
 
 const Result = dynamic(() => import('./Result'));
 
@@ -95,6 +96,7 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
   };
   return (
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
+      <Title t={t} />
       <AnimatePresence mode='wait'>
         {isChecking ? (
           <m.div

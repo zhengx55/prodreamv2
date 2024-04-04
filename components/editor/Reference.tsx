@@ -1,5 +1,7 @@
-import { useMembershipInfo } from '@/query/query';
+import { useGetReference, useMembershipInfo } from '@/query/query';
+import { ReferenceType } from '@/query/type';
 import useAIEditor, { useCitation } from '@/zustand/store';
+import { Loader2 } from 'lucide-react';
 import { memo, useMemo, useRef } from 'react';
 import Spacer from '../root/Spacer';
 import { Copy } from '../root/SvgComponents';
@@ -11,8 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
-import APAReference from './reference/APA';
-import MLAReference from './reference/MLA';
 
 const Reference = () => {
   const { citationStyle, inTextCitation, updateCitationStyle } = useCitation(
@@ -22,30 +22,35 @@ const Reference = () => {
   const { data: usage } = useMembershipInfo();
   const referenceListRef = useRef<HTMLOListElement>(null);
   const sort_array = useMemo(() => {
-    return inTextCitation.sort((a, b) => {
-      const lastNameA = (
-        a.data.contributors?.[0]?.last_name || ''
-      ).toLowerCase();
-      const lastNameB = (
-        b.data.contributors?.[0]?.last_name || ''
-      ).toLowerCase();
+    if (citationStyle !== 'ieee') {
+      return inTextCitation.sort((a, b) => {
+        const lastNameA =
+          a.data.contributors?.[0]?.last_name?.toLowerCase() || '';
+        const lastNameB =
+          b.data.contributors?.[0]?.last_name?.toLowerCase() || '';
 
-      if (lastNameA && lastNameB) {
-        if (lastNameA < lastNameB) {
-          return -1;
-        }
-        if (lastNameA > lastNameB) {
-          return 1;
-        }
-      } else if (lastNameA) {
-        return -1;
-      } else if (lastNameB) {
-        return 1;
-      }
+        return lastNameA.localeCompare(lastNameB);
+      });
+    }
+    return inTextCitation;
+  }, [citationStyle, inTextCitation]);
 
-      return 0;
-    });
-  }, [inTextCitation]);
+  const bibtext_ids = useMemo(() => {
+    let bibtext_array = [];
+    for (let i = 0; i < sort_array.length; i++) {
+      bibtext_array.push(sort_array[i].data.bibtex);
+    }
+    return bibtext_array;
+  }, [sort_array]);
+
+  const {
+    data: reference_data,
+    isPending,
+    isError,
+  } = useGetReference({
+    type: citationStyle,
+    bibtex: bibtext_ids,
+  });
 
   const copyHtml = async () => {
     const htmlNode = referenceListRef.current;
@@ -81,39 +86,39 @@ const Reference = () => {
               <Copy size='18' color='white' />
             </Button>
           )}
-          <Select onValueChange={(value) => updateCitationStyle(value)}>
-            <SelectTrigger className='h-max w-20 gap-x-2 rounded border-violet-500 px-2 py-0.5 text-violet-500'>
-              <SelectValue placeholder={citationStyle} />
+          <Select
+            onValueChange={(value) =>
+              updateCitationStyle(value as ReferenceType)
+            }
+          >
+            <SelectTrigger className='w-30 h-max gap-x-2 rounded border-violet-500 px-2 py-0.5 text-violet-500'>
+              <SelectValue placeholder={citationStyle.toLocaleUpperCase()} />
             </SelectTrigger>
             <SelectContent className='bg-white'>
-              <SelectItem value='MLA'>MLA</SelectItem>
-              <SelectItem value='APA'>APA</SelectItem>
+              <SelectItem value='mla'>MLA</SelectItem>
+              <SelectItem value='apa'>APA</SelectItem>
+              <SelectItem value='ieee'>IEEE</SelectItem>
+              <SelectItem value='chicago'>Chicago</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
       <Spacer y='20' />
-      <ol className={`pl-8`} ref={referenceListRef}>
-        {citationStyle === 'MLA'
-          ? sort_array.map((item, index) => (
-              <li
-                key={`reference-${index}`}
-                className='my-4 text-left -indent-4 font-serif leading-[150%] first:mt-0'
-              >
-                <MLAReference citation={item as any} />
-              </li>
-            ))
-          : citationStyle === 'APA'
-            ? sort_array.map((item, index) => (
-                <li
-                  key={`reference-${index}`}
-                  className='my-4 text-left -indent-4 font-serif leading-[150%] first:mt-0'
-                >
-                  <APAReference citation={item as any} />
-                </li>
-              ))
-            : null}
-      </ol>
+      {isPending ? (
+        <div className='flex-center'>
+          <Loader2 className='animate-spin text-violet-500' />
+        </div>
+      ) : isError ? null : (
+        <ol className={`pl-4`} ref={referenceListRef}>
+          {reference_data.map((item, index) => (
+            <li
+              dangerouslySetInnerHTML={{ __html: item }}
+              key={`reference-${index}`}
+              className='my-4 text-left -indent-4 font-serif leading-[150%] first:mt-0'
+            />
+          ))}
+        </ol>
+      )}
     </div>
   );
 };

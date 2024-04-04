@@ -29,7 +29,7 @@ const CNPanel = ({ children }: { children: ReactNode }) => {
         <span className='relative h-6 w-6 overflow-hidden rounded-full bg-neutral-300 p-0.5'>
           <Image
             alt='google'
-            src='/google_dark.svg'
+            src='/auth/google_dark.svg'
             width={20}
             height={20}
             className='h-auto w-auto'

@@ -1,5 +1,4 @@
 import Icon from '@/components/root/Icon';
-import Spacer from '@/components/root/Spacer';
 import Tooltip from '@/components/root/Tooltip';
 import { Separator } from '@/components/ui/separator';
 import { EditorRightBar } from '@/constant';
@@ -7,7 +6,6 @@ import { CitationTooltip } from '@/constant/enum';
 import { DocPageDicType } from '@/types';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';
-import { XCircle } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { Fragment } from 'react';
 import Tiplayout from '../guide/tips/Tiplayout';
@@ -25,17 +23,7 @@ const Citation = dynamic(
   () => import('@/components/editor/rightbar/citation/Citation')
 );
 
-const OPTIONS = [
-  'Grammar_Check',
-  'Plagiarism_Check',
-  'AI_Detection',
-  'Citation',
-  'My_Citation_Library',
-  'Generate',
-];
-
 const General = ({ t, lang }: DocPageDicType) => {
-  const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
 
   return (
@@ -48,17 +36,6 @@ const General = ({ t, lang }: DocPageDicType) => {
       className='flex h-full shrink-0 flex-col border-l border-gray-200'
     >
       <section className='relative flex h-full flex-col px-3 pt-4'>
-        <div className='flex-between'>
-          <h2 className='title-medium'>
-            {t.RightBar[OPTIONS[rightbarTab] as keyof typeof t.RightBar]}
-          </h2>
-          <XCircle
-            size={20}
-            onClick={toggleRightbar}
-            className='shrink-0 cursor-pointer text-shadow hover:opacity-50'
-          />
-        </div>
-        <Spacer y='15' />
         {rightbarTab === 0 ? (
           <GrammarCheck t={t} />
         ) : rightbarTab === 3 ? (
