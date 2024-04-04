@@ -24,6 +24,10 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react'],
     typedRoutes: true,
   },
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;
+    return config;
+  },
   reactStrictMode: false,
   output: 'standalone',
   compress: true,

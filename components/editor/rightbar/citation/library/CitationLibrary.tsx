@@ -1,16 +1,20 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { EditorDictType } from '@/types';
 import { useCitation } from '@/zustand/store';
+import dynamic from 'next/dynamic';
 import { memo } from 'react';
+import Title from '../../Title';
 import Empty from './Empty';
-import InTextList from './InTextList';
 import LibraryList from './LibraryList';
+
+const InTextList = dynamic(() => import('./InTextList'));
 
 const CitationLibrary = ({ t }: { t: EditorDictType }) => {
   const IndocCitationIds = useCitation((state) => state.inDocCitationIds);
   const InTextCitationIds = useCitation((state) => state.inTextCitationIds);
   return (
     <div className='flex h-full w-full flex-col'>
+      <Title t={t} />
       <Tabs defaultValue='library' className='h-full w-full'>
         <TabsList className='h-8 w-full justify-start gap-x-2 rounded-none border-b border-gray-200 p-0'>
           <TabsTrigger

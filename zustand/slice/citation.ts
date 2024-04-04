@@ -1,11 +1,12 @@
 import { saveDoc } from '@/query/api';
+import { ReferenceType } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { NodeViewProps } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
 const initialState: CitationState = {
   showCustomCitiation: false,
-  citationStyle: 'MLA',
+  citationStyle: 'mla',
   showCreateCitation: false,
   showEditCitation: false,
   inTextCitation: [],
@@ -17,7 +18,7 @@ const initialState: CitationState = {
 };
 
 type CitationState = {
-  citationStyle: string;
+  citationStyle: ReferenceType;
   showCreateCitation: boolean;
   showEditCitation: boolean;
   inTextCitation: { type: ICitationType; data: ICitationData }[];

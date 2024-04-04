@@ -12,6 +12,7 @@ import {
   getDiscountInfo,
   getDocDetail,
   getDocs,
+  getReferenceType,
   getUserInfo,
   getUserMemberShip,
   purchaseMembership,
@@ -21,7 +22,7 @@ import {
   updateUserInfo,
   userLogin,
 } from './api';
-import { UserTrackData } from './type';
+import { ReferenceType, UserTrackData } from './type';
 
 export const useMembershipInfo = () => {
   return useQuery({
@@ -158,9 +159,7 @@ export const useCreateCitation = () => {
       await appendInDocCitationIds({
         type: variables.citation_type,
         data: {
-          ...variables.citation_data,
-          id: data,
-          document_id: variables.document_id,
+          ...data,
         },
       });
       const toast = (await import('sonner')).toast;
@@ -186,19 +185,17 @@ export const useCiteToDoc = () => {
       document_id: string;
     }) => createCitation(params),
     onSuccess: async (data, variables) => {
-      console.log('🚀 ~ onSuccess: ~ data:', data);
       const { selection } = editor!.state;
       const { from, to, anchor } = selection;
       await appendInTextCitationIds({
         type: variables.citation_type,
         data: {
-          ...variables.citation_data,
-          id: data,
-          document_id: variables.document_id,
+          ...data,
           in_text_pos: anchor,
         },
       });
-      insertCitation(data, anchor, from, to);
+
+      insertCitation(data.id, anchor, from, to);
       const toast = (await import('sonner')).toast;
       toast.success('Citation created successfully');
     },
@@ -251,5 +248,20 @@ export const useButtonTrack = () => {
   return useMutation({
     mutationFn: ({ event }: { event: string }) =>
       ButtonTrack(event, isMobile ? 1 : 0),
+  });
+};
+
+export const useGetReference = ({
+  type,
+  bibtex,
+}: {
+  type: ReferenceType;
+  bibtex: string[];
+}) => {
+  return useQuery({
+    queryFn: () => getReferenceType({ type, bibtex }),
+    queryKey: ['reference', type, bibtex],
+    enabled: bibtex.length > 0,
+    staleTime: Infinity,
   });
 };

@@ -77,7 +77,7 @@ export interface IPlagiarismData {
   scores: number;
   spans: number[][];
   status: string;
-  texts: string[];
+  pdf: string;
 }
 
 export type IDocDetail = {
@@ -157,3 +157,5 @@ export type UserTrackData = {
   show_referral_dialog?: string;
   close_checkList?: string;
 };
+
+export type ReferenceType = 'mla' | 'apa' | 'ieee' | 'chicago';
