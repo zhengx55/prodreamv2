@@ -117,6 +117,7 @@ function DragHandle(options: DragHandleOptions) {
     view: (view) => {
       const parent = view.dom.parentElement;
       dragHandleElement = document.createElement('div');
+      dragHandleElement.id = 'dragHandle';
       dragHandleElement.draggable = true;
       dragHandleElement.dataset.dragHandle = '';
       dragHandleElement.classList.add('drag-handle');
@@ -165,7 +166,12 @@ function DragHandle(options: DragHandleOptions) {
 
     props: {
       handleDOMEvents: {
-        mouseleave: () => {
+        mouseout: (_view, event) => {
+          if (
+            event.relatedTarget instanceof Element &&
+            event.relatedTarget.id === 'dragHandle'
+          )
+            return;
           hideDragHandle();
         },
         mousemove: (view, event) => {
