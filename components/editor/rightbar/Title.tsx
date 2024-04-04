@@ -31,13 +31,11 @@ const Title = ({ t, showRecheck, recheck }: Props) => {
         <Button
           role='button'
           variant={'ghost'}
-          className='h-max rounded border border-violet-500 px-4 py-1 hover:transform-none'
+          className='h-max rounded border px-4 py-1 text-zinc-600 hover:transform-none'
           onClick={recheck}
         >
-          <RefreshCcw size={14} className='text-violet-500' />
-          <p className='subtle-regular text-violet-500'>
-            {t.Plagiarism.recheck}
-          </p>
+          <RefreshCcw size={14} />
+          <p className='subtle-regular'>{t.Plagiarism.recheck}</p>
         </Button>
       )}
       <XCircle

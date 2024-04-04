@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useCallback, useRef, useState } from 'react';
 import Title from '../Title';
+import NoPlagiarismReport from './NoPlagiarismReport';
 
 const Report = dynamic(() => import('./Report'));
 const WaitingModal = dynamic(() => import('./WaitingModal'));
@@ -23,7 +24,7 @@ const Plagiarism = ({ t }: Props) => {
   const [result, setResult] = useState<
     Omit<IPlagiarismData, 'status'> | undefined
   >({
-    scores: 1,
+    scores: 0,
     spans: [
       [0, 418],
       [420, 1022],
@@ -50,7 +51,6 @@ const Plagiarism = ({ t }: Props) => {
             spans: res.spans,
             pdf: res.pdf,
           });
-          console.log({ scores: res.scores, spans: res.spans, pdf: res.pdf });
           clearInterval(timer.current!);
         }
       }, 5000);
@@ -96,7 +96,11 @@ const Plagiarism = ({ t }: Props) => {
       )}
       <AnimatePresence mode='wait'>
         {result ? (
-          <Report t={t} report={result} recheck={handlePlagiarismCheck} />
+          result.scores === 0 ? (
+            <NoPlagiarismReport t={t} />
+          ) : (
+            <Report t={t} report={result} />
+          )
         ) : (
           <Starter t={t} start={handlePlagiarismCheck} />
         )}

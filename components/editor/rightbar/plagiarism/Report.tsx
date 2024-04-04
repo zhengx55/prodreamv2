@@ -11,11 +11,10 @@ const ReportPDF = dynamic(() => import('./ReportPDF'), { ssr: false });
 
 const Report = ({
   report,
-  recheck,
+
   t,
 }: {
   report: Omit<IPlagiarismData, 'status'>;
-  recheck: () => Promise<void>;
   t: EditorDictType;
 }) => {
   return (

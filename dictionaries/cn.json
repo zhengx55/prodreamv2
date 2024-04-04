@@ -280,7 +280,8 @@
       "Suggestions": "条降重建议",
       "Report": "查重报告",
       "view_full": "查看完整报告",
-      "score": "可能为重复内容"
+      "score": "可能为重复内容",
+      "non-plagiarized": "未发现重复内容"
     },
     "CheckList": {
       "Show": "点击试用",
