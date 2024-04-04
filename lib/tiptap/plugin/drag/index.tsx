@@ -115,6 +115,7 @@ function DragHandle(options: DragHandleOptions) {
 
   return new Plugin({
     view: (view) => {
+      const parent = view.dom.parentElement;
       dragHandleElement = document.createElement('div');
       dragHandleElement.draggable = true;
       dragHandleElement.dataset.dragHandle = '';
@@ -138,8 +139,8 @@ function DragHandle(options: DragHandleOptions) {
       });
       hideTooltip();
       hideDragHandle();
-      view?.dom?.parentElement?.appendChild(dragHandleElement);
-      view.dom.parentElement?.appendChild(toolTipElement);
+      parent?.appendChild(dragHandleElement);
+      parent?.appendChild(toolTipElement);
       return {
         destroy: () => {
           dragHandleElement?.removeEventListener('dragstart', (e) => {
@@ -164,6 +165,9 @@ function DragHandle(options: DragHandleOptions) {
 
     props: {
       handleDOMEvents: {
+        mouseleave: () => {
+          hideDragHandle();
+        },
         mousemove: (view, event) => {
           if (!view.editable) {
             return;
@@ -182,7 +186,6 @@ function DragHandle(options: DragHandleOptions) {
           const rect = absoluteRect(node);
           rect.top += (lineHeight - 24) / 2;
           rect.top += paddingTop;
-          // Li markers
           if (node.matches('ul:not([data-type=taskList]) li, ol li')) {
             rect.left -= options.dragHandleWidth;
           }

@@ -37,7 +37,7 @@ const EditorBlock = ({ editor, ...props }: Props) => {
       {showCitiationMenu && <CitationMenu editor={editor} />}
       {showContinue && <Trigger t={props.t} editor={editor} />}
       <BubbleMenu t={props.t} editor={editor} />
-      <EditorContent className='flex-1' spellCheck={false} editor={editor} />
+      <EditorContent spellCheck={false} editor={editor} />
       <Spacer y='40' />
       <Reference />
     </div>
