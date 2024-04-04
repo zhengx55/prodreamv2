@@ -9,6 +9,7 @@ import { AnimatePresence, m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useCallback, useRef, useState } from 'react';
+import Title from '../Title';
 
 const Report = dynamic(() => import('./Report'));
 const WaitingModal = dynamic(() => import('./WaitingModal'));
@@ -89,6 +90,7 @@ const Plagiarism = ({ t }: Props) => {
 
   return (
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
+      <Title t={t} showRecheck recheck={handlePlagiarismCheck} />
       {showLoading && (
         <WaitingModal progress={progress} onAbort={abortRequest} />
       )}
@@ -118,11 +120,11 @@ const Starter = ({
     className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
   >
     <Image
-      src='/editor/Start.png'
+      src='/editor/Plaglarism.png'
       alt='plagiarism check'
-      width={450}
-      height={270}
-      className='h-44 w-60 self-center'
+      width={180}
+      height={180}
+      className='size-44 self-center'
       priority
     />
     <p className='text-center text-sm font-normal text-zinc-600'>

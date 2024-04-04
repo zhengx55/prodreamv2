@@ -9,6 +9,7 @@ import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
+import Title from '../Title';
 const Result = dynamic(() => import('./Result'));
 
 const Detection = ({ t }: { t: EditorDictType }) => {
@@ -47,23 +48,26 @@ const Detection = ({ t }: { t: EditorDictType }) => {
   }, [editor]);
 
   return (
-    <AnimatePresence mode='wait'>
-      {result ? (
-        <Result recheck={startDetection} t={t} result={result} />
-      ) : generating ? (
-        <m.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          key={'break-down generating'}
-          exit={{ opacity: 0, y: -20 }}
-          className='flex-center flex-1'
-        >
-          <Loader2 className='animate-spin text-zinc-600' />
-        </m.div>
-      ) : (
-        <Starter t={t} start={startDetection} />
-      )}
-    </AnimatePresence>
+    <>
+      <Title t={t} />
+      <AnimatePresence mode='wait'>
+        {result ? (
+          <Result recheck={startDetection} t={t} result={result} />
+        ) : generating ? (
+          <m.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            key={'break-down generating'}
+            exit={{ opacity: 0, y: -20 }}
+            className='flex-center flex-1'
+          >
+            <Loader2 className='animate-spin text-zinc-600' />
+          </m.div>
+        ) : (
+          <Starter t={t} start={startDetection} />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

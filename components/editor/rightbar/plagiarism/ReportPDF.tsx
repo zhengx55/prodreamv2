@@ -1,25 +1,29 @@
-import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import Spacer from '@/components/root/Spacer';
+import { useMembershipInfo } from '@/query/query';
+import { EditorDictType } from '@/types';
+import { Loader2, RefreshCcw } from 'lucide-react';
 import { Document, Page, pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
   import.meta.url
 ).toString();
-type Props = { pdf: string };
-const ReportPDF = ({ pdf }: Props) => {
-  const [numPages, setNumPages] = useState<number>();
-  const [pageNumber, setPageNumber] = useState<number>(1);
-
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
-    setNumPages(numPages);
-  }
-  console.log('🚀 ~ onDocumentLoadSuccess ~ numPages:', numPages);
+type Props = { pdf: string; t: EditorDictType };
+const ReportPDF = ({ pdf, t }: Props) => {
+  const { data: membership } = useMembershipInfo();
   return (
-    <div className=' w-96'>
+    <div className='flex flex-col'>
+      <h2 className='small-medium inline-flex items-center gap-x-2'>
+        {t.Plagiarism.Report}
+        <RefreshCcw className='text-violet-500' size={14} />
+      </h2>
+      <Spacer y='32' />
       <Document
-        onLoadSuccess={onDocumentLoadSuccess}
         file={pdf}
-        loading={<Loader2 className='animate-spin text-violet-500' />}
+        loading={
+          <div className='flex-center flex-1'>
+            <Loader2 className='animate-spin text-violet-500' />
+          </div>
+        }
       >
         <Page
           width={388}
