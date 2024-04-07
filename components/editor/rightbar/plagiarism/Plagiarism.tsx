@@ -119,14 +119,14 @@ const Plagiarism = ({ t }: Props) => {
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
       <Title t={t} showRecheck recheck={handlePlagiarismCheck} />
       <AnimatePresence mode='wait'>
-        {pdfResult ? (
+        {showLoading ? (
+          <Waiting progress={progress} onAbort={abortRequest} />
+        ) : pdfResult ? (
           pdfResult.prob === 0 ? (
             <NoPlagiarismReport t={t} />
           ) : (
             <Report t={t} report={pdfResult} />
           )
-        ) : showLoading ? (
-          <Waiting progress={progress} onAbort={abortRequest} />
         ) : (
           <Starter t={t} start={handlePlagiarismCheck} />
         )}
