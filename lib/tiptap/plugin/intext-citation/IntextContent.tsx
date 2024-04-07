@@ -10,10 +10,10 @@ import {
 } from '@/components/ui/popover';
 import useAIEditor, { useCitation } from '@/zustand/store';
 import type { NodeViewProps } from '@tiptap/react';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
+import { useUnmount } from 'react-use';
 
 const CitationPreview = dynamic(
   () => import('@/components/editor/rightbar/citation/CitationPreview'),

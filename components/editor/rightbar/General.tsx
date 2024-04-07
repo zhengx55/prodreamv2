@@ -4,11 +4,12 @@ import { Separator } from '@/components/ui/separator';
 import { EditorRightBar } from '@/constant';
 import { CitationTooltip } from '@/constant/enum';
 import { DocPageDicType } from '@/types';
-import { useAIEditor, useUserTask } from '@/zustand/store';
+import { useAIEditor, useChatBot, useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { Fragment } from 'react';
 import Tiplayout from '../guide/tips/Tiplayout';
+import Chatbot from './Chatbot';
 const Detection = dynamic(() => import('./ai-detection/Detection'));
 const CitationLibrary = dynamic(
   () => import('./citation/library/CitationLibrary')
@@ -25,6 +26,7 @@ const Citation = dynamic(
 
 const General = ({ t, lang }: DocPageDicType) => {
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
+  const chatbotOpen = useChatBot((state) => state.chatbotOpen);
 
   return (
     <m.aside
@@ -46,8 +48,10 @@ const General = ({ t, lang }: DocPageDicType) => {
           <Plagiarism t={t} />
         ) : rightbarTab === 2 ? (
           <Detection t={t} />
-        ) : (
+        ) : rightbarTab === 4 ? (
           <CitationLibrary t={t} />
+        ) : (
+          <Chatbot />
         )}
       </section>
     </m.aside>

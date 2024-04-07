@@ -7,10 +7,9 @@ import { memo } from 'react';
 import Chart from './Chart';
 import { PdfResult } from './Plagiarism';
 
-const ReportPDF = dynamic(() => import('./ReportPDF'), { ssr: false });
+const ReportPDF = dynamic(() => import('./ReportPDF'));
 
 const Report = ({ report, t }: { report: PdfResult; t: EditorDictType }) => {
-  console.log('🚀 ~ report:', report);
   return (
     <m.div
       key={'plagiarism-panel'}
