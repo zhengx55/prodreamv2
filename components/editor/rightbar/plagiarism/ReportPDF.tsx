@@ -5,6 +5,7 @@ import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { Download } from 'lucide-react';
 import { Route } from 'next';
+import { memo } from 'react';
 import { PdfResult } from './Plagiarism';
 
 type Props = { t: EditorDictType; report: PdfResult };
@@ -22,7 +23,7 @@ const ReportPDF = ({ t, report }: Props) => {
       <div className='flex w-full flex-col items-center justify-between gap-y-8 border border-gray-200 py-10'>
         <div className='flex items-start justify-evenly'>
           <div className='flex w-1/3 flex-col items-center gap-y-2'>
-            <div className='flex-center h-16 w-16 rounded-full border-4 border-indigo-500'>
+            <div className='flex-center size-20 rounded-full border-4 border-indigo-500'>
               <h2 className='base-medium'>{report.score}</h2>
             </div>
             <p className='subtle-regular text-center text-neutral-400'>
@@ -30,7 +31,7 @@ const ReportPDF = ({ t, report }: Props) => {
             </p>
           </div>
           <div className='flex w-1/3 flex-col items-center gap-y-2'>
-            <div className='flex-center h-16 w-16 rounded-full border-4 border-red-500'>
+            <div className='flex-center size-20 rounded-full border-4 border-red-500'>
               <h2 className='base-medium'>{report.results}</h2>
             </div>
             <p className='subtle-regular text-center text-neutral-400'>
@@ -38,7 +39,7 @@ const ReportPDF = ({ t, report }: Props) => {
             </p>
           </div>
           <div className='flex w-1/3 flex-col items-center gap-y-2'>
-            <div className='flex-center h-16 w-16 rounded-full border-4 border-amber-500'>
+            <div className='flex-center size-20 rounded-full border-4 border-amber-500'>
               <h2 className='base-medium text-center'>{report.total_words}</h2>
             </div>
             <p className='subtle-regular text-neutral-400'>
@@ -46,7 +47,7 @@ const ReportPDF = ({ t, report }: Props) => {
             </p>
           </div>
         </div>
-        {membership?.subscription !== 'basic' ? (
+        {membership?.subscription === 'basic' ? (
           <div className='flex-center'>
             <Button
               role='button'
@@ -88,4 +89,4 @@ const ReportPDF = ({ t, report }: Props) => {
     </div>
   );
 };
-export default ReportPDF;
+export default memo(ReportPDF);

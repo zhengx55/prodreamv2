@@ -21,7 +21,7 @@ const nextConfig = {
   },
   experimental: {
     nextScriptWorkers: true,
-    optimizePackageImports: ['lucide-react'],
+    optimizePackageImports: ['lucide-react', 'react-use'],
     typedRoutes: true,
   },
   webpack: (config) => {
