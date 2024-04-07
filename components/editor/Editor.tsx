@@ -13,6 +13,8 @@ import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+import Icon from '../root/Icon';
+import { Button } from '../ui/button';
 import Procedure from './guide/Procedure';
 
 const TableOfContents = dynamic(
@@ -34,6 +36,7 @@ const Editor = ({
   const [showBottomBar, setShowBottomBar] = useState(true);
   const {
     setEditorInstance,
+    updateRightbarTab,
     reset,
     doc_title,
     updateTitle,
@@ -169,6 +172,20 @@ const Editor = ({
   if (!editor) return null;
   return (
     <section className='relative flex w-full flex-col'>
+      <Button
+        className='absolute bottom-2 right-2 z-50 h-max w-max cursor-pointer bg-transparent p-0'
+        role='button'
+        onClick={() => updateRightbarTab(6)}
+      >
+        <Icon
+          src='/editor/chatbot/trigger.svg'
+          alt='trigger_chat'
+          height={44}
+          width={44}
+          priority
+        />
+      </Button>
+
       <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
         {Boolean(track?.guidence) && <EditorBlock {...props} editor={editor} />}

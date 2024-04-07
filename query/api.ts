@@ -564,7 +564,7 @@ export async function plagiarismCheck(text: string) {
     }
     return data.data;
   } catch (error) {
-    throw new Error(error as string);
+    throw new Error('Opps something went wrong, please try again later');
   }
 }
 
