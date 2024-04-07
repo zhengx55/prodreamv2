@@ -52,8 +52,6 @@ const Plagiarism = ({ t }: Props) => {
         const res = await plagiarismQuery(data as string);
         setProgress((prev) => prev + 2);
         if (res.status === 'done') {
-          setProgress(100);
-          setShowLoading(false);
           let updates: PdfResult = {
             prob: -1,
             link: '',
@@ -79,6 +77,8 @@ const Plagiarism = ({ t }: Props) => {
           });
           setPdfResult(updates);
           clearInterval(timer.current!);
+          setProgress(100);
+          setShowLoading(false);
         }
       }, 5000);
     },
