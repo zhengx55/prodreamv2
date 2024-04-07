@@ -8,9 +8,9 @@ import { synonym } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { Info } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
+import { useUnmount } from 'react-use';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 
 type Props = { editor: Editor };

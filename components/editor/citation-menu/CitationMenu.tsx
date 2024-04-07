@@ -12,10 +12,10 @@ import { ICitation } from '@/query/type';
 import { useAIEditor, useCitation } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { ArrowUpRightFromSquare, Plus } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo, useEffect, useRef, useState } from 'react';
+import { useUnmount } from 'react-use';
 
 type Props = { editor: Editor };
 

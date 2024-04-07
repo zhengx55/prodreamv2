@@ -8,9 +8,9 @@ import {
 import { IGrammarResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { m } from 'framer-motion';
 import { memo, useCallback } from 'react';
+import { useUnmount } from 'react-use';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 import SentenceFragment from './SentenceFragment';
 

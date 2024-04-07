@@ -16,7 +16,6 @@ import {
 import { DocPageDicType, EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import {
@@ -27,6 +26,7 @@ import {
   useEffect,
   useRef,
 } from 'react';
+import { useUnmount } from 'react-use';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 import CustomPrompt from './CustomPrompt';
 import StreamText from './StreamText';

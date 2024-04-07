@@ -8,9 +8,9 @@ import {
 } from '@/components/ui/tooltip';
 import { useAIEditor } from '@/zustand/store';
 import { NodeViewContent, NodeViewProps, NodeViewWrapper } from '@tiptap/react';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { useAnimationFrame } from 'framer-motion';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useUnmount } from 'react-use';
 const ContinueResult = (props: NodeViewProps) => {
   const [showAccept, setShowAccept] = useState(false);
   const { continueResult, continueInsertPos, clearContinueRes } = useAIEditor(

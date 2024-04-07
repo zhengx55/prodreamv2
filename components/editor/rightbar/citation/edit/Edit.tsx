@@ -1,7 +1,7 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCitation } from '@/zustand/store';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
 import { memo } from 'react';
+import { useUnmount } from 'react-use';
 import EditCitation from './EditCitation';
 import EditIntext from './EditIntext';
 
