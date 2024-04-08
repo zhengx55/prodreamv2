@@ -73,11 +73,7 @@ const ReportPDF = ({ t, report }: Props) => {
                 View full report
               </Button>
             </a>
-            <a
-              rel='noopener noreferrer'
-              href={report.link as Route}
-              target='_blank'
-            >
+            <a href={report.link} download target='_blank'>
               <Button role='document' className='h-max w-max rounded-lg p-2'>
                 <Download className='text-white' />
               </Button>
