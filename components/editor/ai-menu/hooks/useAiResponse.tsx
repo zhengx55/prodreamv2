@@ -1,8 +1,8 @@
 import { ask, copilot, humanize } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { MutableRefObject, useCallback, useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 const useAiResponse = (tool: MutableRefObject<string | null>) => {
   const queryClient = useQueryClient();

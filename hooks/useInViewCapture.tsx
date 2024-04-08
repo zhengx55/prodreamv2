@@ -1,6 +1,6 @@
 import { PageTrack } from '@/query/api';
-import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useInView } from 'react-intersection-observer';
+import { useUpdateEffect } from 'react-use';
 
 export default function useInviewCapture(event: string) {
   const { ref, inView } = useInView({
