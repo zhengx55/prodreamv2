@@ -26,7 +26,7 @@ const EditorBlock = ({ editor, ...props }: Props) => {
     <div
       aria-label='editor-parent'
       id='editor-parent'
-      className='relative flex w-full flex-col overflow-y-auto pb-[40vh] sm:pb-[30vh]'
+      className='relative flex w-full flex-col overflow-y-auto'
     >
       <Spacer y='20' />
       <AnimatePresence>
@@ -38,7 +38,6 @@ const EditorBlock = ({ editor, ...props }: Props) => {
       {showContinue && <Trigger t={props.t} editor={editor} />}
       <BubbleMenu t={props.t} editor={editor} />
       <EditorContent spellCheck={false} editor={editor} />
-      <Spacer y='40' />
       <Reference />
     </div>
   );

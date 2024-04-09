@@ -1210,13 +1210,16 @@ export async function ButtonTrack(event: string, mobile: number) {
 // ----------------------------------------------------------------
 // CHAT
 // ----------------------------------------------------------------
-export async function chat(params: { session_id?: string; query: string }) {
+export async function chat(params: {
+  session_id: string | null;
+  query: string;
+}): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/`, {
       method: 'POST',
       body: JSON.stringify({
-        session_id: params.session_id ? params.session_id : null,
+        session_id: params.session_id,
         query: params.query,
       }),
       headers: {
@@ -1224,11 +1227,8 @@ export async function chat(params: { session_id?: string; query: string }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw data.msg;
-    }
-    return data.data;
+    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
+    return res.body;
   } catch (error) {
     throw new Error(error as string);
   }

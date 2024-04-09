@@ -123,7 +123,7 @@ const Editor = ({
         autocomplete: 'off',
         autocorrect: 'on',
         autocapitalize: 'off',
-        class: 'outline-none whitespace-pre-wrap',
+        class: 'outline-none pb-[30vh] whitespace-pre-wrap',
       },
     },
     injectCSS: false,

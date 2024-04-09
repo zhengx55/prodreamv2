@@ -10,25 +10,47 @@ import { Textarea } from '@/components/ui/textarea';
 import { ChatbotEngine } from '@/constant';
 import useAutoSizeTextArea from '@/hooks/useAutoSizeTextArea';
 import { EditorDictType } from '@/types';
+import type { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { ChevronDown, History, Paperclip, Plus } from 'lucide-react';
-import { memo, useRef, useState } from 'react';
+import { memo, useRef } from 'react';
 
 type Props = {
   t: EditorDictType;
   engine: number;
-  update: (value: number) => void;
+  updateEngine: (value: number) => void;
+  value: string;
+  updateValue: (value: string) => void;
+  sending: boolean;
+  session: string | null;
+  mutateFn: UseMutateAsyncFunction<
+    any,
+    Error,
+    {
+      session_id: string | null;
+      query: string;
+    },
+    void
+  >;
 };
-const ChatInput = ({ t, engine, update }: Props) => {
+const ChatInput = ({
+  t,
+  engine,
+  value,
+  updateValue,
+  updateEngine,
+  session,
+  mutateFn,
+  sending,
+}: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useState<string>('');
-  const [isTyping, setIsTyping] = useState<boolean>(false);
   useAutoSizeTextArea(chatRef.current, value, 96);
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
-    if (value.trim() === '') setIsTyping(false);
-    else {
-      setIsTyping(true);
-    }
+    updateValue(e.target.value);
+  };
+  const submit = async () => {
+    if (!value.trim()) return;
+    await mutateFn({ query: value, session_id: session });
+    chatRef.current?.focus();
   };
   return (
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
@@ -61,7 +83,7 @@ const ChatInput = ({ t, engine, update }: Props) => {
                   <DropdownMenuItem
                     className='flex cursor-pointer items-center gap-x-2 hover:bg-zinc-100'
                     key={engine.id}
-                    onClick={() => update(index)}
+                    onClick={() => updateEngine(index)}
                   >
                     <Icon alt='' src={engine.icon} width={16} height={16} />
                     {engine.title}
@@ -85,14 +107,24 @@ const ChatInput = ({ t, engine, update }: Props) => {
       </div>
       <Textarea
         ref={chatRef}
+        autoFocus
+        aria-label='chat-textarea'
+        onKeyDown={(e) => {
+          if (e.code === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            submit();
+          }
+        }}
         className='small-regular w-full rounded-lg py-2 pl-2 pr-7 focus-visible:ring-0'
         id='chat-textarea'
         value={value}
+        disabled={sending}
         onChange={handleValueChnage}
         placeholder='message Dream Cat AI...'
       />
       <Button
-        disabled={!value.trim()}
+        onClick={submit}
+        disabled={!value.trim() || sending}
         className='absolute bottom-2 right-2 h-max w-max p-0'
         variant={'ghost'}
         type='button'

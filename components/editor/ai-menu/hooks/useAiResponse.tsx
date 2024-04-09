@@ -119,7 +119,7 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
       .at(0);
     if (session_raw) {
       const session = session_raw.slice('data:'.length);
-      setSession(session.trim());
+      setSession(session.replaceAll(/"/g, '').trim());
     }
     const dataLines = lines.filter(
       (line, index) =>
