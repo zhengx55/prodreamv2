@@ -1,7 +1,6 @@
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { Synonym } from '@/components/root/SvgComponents';
-import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import { synonym } from '@/query/api';
@@ -10,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { Info } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
-import { useUnmount } from 'react-use';
+import { useClickAway, useUnmount } from 'react-use';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 
 type Props = { editor: Editor };
@@ -41,7 +40,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
   });
 
   const elRef = useRef<HTMLDivElement>(null);
-  useClickOutside(elRef, () => {
+  useClickAway(elRef, () => {
     updateSynonymMenu(false);
   });
   const ref = useScrollIntoView();

@@ -2,7 +2,6 @@ import Loading from '@/components/root/CustomLoading';
 import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Surface } from '@/components/ui/surface';
-import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import { ConvertCitationData } from '@/lib/utils';
@@ -15,7 +14,7 @@ import { Editor } from '@tiptap/react';
 import { ArrowUpRightFromSquare, Plus } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo, useEffect, useRef, useState } from 'react';
-import { useUnmount } from 'react-use';
+import { useClickAway, useUnmount } from 'react-use';
 
 type Props = { editor: Editor };
 
@@ -29,7 +28,7 @@ const CitationMenu = ({ editor }: Props) => {
   );
   const elRef = useRef<HTMLDivElement>(null);
   const ref = useScrollIntoView();
-  useClickOutside(elRef, () => {
+  useClickAway(elRef, () => {
     editor.chain().unsetHighlight().run();
     updateCitationMenu(false);
   });

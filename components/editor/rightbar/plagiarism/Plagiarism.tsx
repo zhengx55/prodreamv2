@@ -60,6 +60,7 @@ const Plagiarism = ({ t }: Props) => {
             total_words: '',
           };
           updates.prob = res.scores;
+          updates.link = res.pdf;
           const loadingTask = pdfjs.getDocument(res.pdf);
           const pdfpage = await loadingTask.promise;
           const page = await pdfpage.getPage(1);

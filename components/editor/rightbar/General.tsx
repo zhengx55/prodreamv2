@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator';
 import { EditorRightBar } from '@/constant';
 import { CitationTooltip } from '@/constant/enum';
 import { DocPageDicType } from '@/types';
-import { useAIEditor, useChatBot, useUserTask } from '@/zustand/store';
+import { useAIEditor, useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { Fragment } from 'react';
@@ -26,7 +26,6 @@ const Citation = dynamic(
 
 const General = ({ t, lang }: DocPageDicType) => {
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
-  const chatbotOpen = useChatBot((state) => state.chatbotOpen);
 
   return (
     <m.aside
@@ -51,7 +50,7 @@ const General = ({ t, lang }: DocPageDicType) => {
         ) : rightbarTab === 4 ? (
           <CitationLibrary t={t} />
         ) : (
-          <Chatbot />
+          <Chatbot t={t} />
         )}
       </section>
     </m.aside>

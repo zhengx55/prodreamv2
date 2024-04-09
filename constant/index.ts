@@ -1092,3 +1092,16 @@ export const EditorRightBar = [
     active_icon: '/editor/rightbar/generate_active.svg',
   },
 ];
+
+export const ChatbotEngine = [
+  {
+    title: 'Research Assistant',
+    id: 'engine-01',
+    icon: '/editor/chatbot/Research.svg',
+  },
+  {
+    title: 'Writing Tutor',
+    id: 'engine-02',
+    icon: '/editor/chatbot/Tutor.svg',
+  },
+];
