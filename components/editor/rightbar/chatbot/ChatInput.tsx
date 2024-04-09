@@ -20,11 +20,13 @@ type Props = {
   updateEngine: (value: number) => void;
   value: string;
   updateValue: (value: string) => void;
+  sending: boolean;
+  session: string | null;
   mutateFn: UseMutateAsyncFunction<
     any,
     Error,
     {
-      session_id?: string | undefined;
+      session_id: string | null;
       query: string;
     },
     void
@@ -36,7 +38,9 @@ const ChatInput = ({
   value,
   updateValue,
   updateEngine,
+  session,
   mutateFn,
+  sending,
 }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
   useAutoSizeTextArea(chatRef.current, value, 96);
@@ -45,7 +49,8 @@ const ChatInput = ({
   };
   const submit = async () => {
     if (!value.trim()) return;
-    await mutateFn({ query: value });
+    await mutateFn({ query: value, session_id: session });
+    chatRef.current?.focus();
   };
   return (
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
@@ -102,15 +107,23 @@ const ChatInput = ({
       </div>
       <Textarea
         ref={chatRef}
+        autoFocus
+        aria-label='chat-textarea'
+        onKeyDown={(e) => {
+          if (e.code === 'Enter') {
+            submit();
+          }
+        }}
         className='small-regular w-full rounded-lg py-2 pl-2 pr-7 focus-visible:ring-0'
         id='chat-textarea'
         value={value}
+        disabled={sending}
         onChange={handleValueChnage}
         placeholder='message Dream Cat AI...'
       />
       <Button
         onClick={submit}
-        disabled={!value.trim()}
+        disabled={!value.trim() || sending}
         className='absolute bottom-2 right-2 h-max w-max p-0'
         variant={'ghost'}
         type='button'
