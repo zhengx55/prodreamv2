@@ -98,7 +98,6 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
       updatedInTextCitation.forEach((item, index) => {
         item.data.in_text_rank = index + 1;
       });
-      console.log(updatedInTextCitation);
       return {
         inTextCitation: updatedInTextCitation,
         inDocCitation: state.inDocCitation.map((item) => {
