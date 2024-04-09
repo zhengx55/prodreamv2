@@ -7,6 +7,7 @@ import { synonym } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
+import { m } from 'framer-motion';
 import { Info } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
 import { useClickAway, useUnmount } from 'react-use';
@@ -54,7 +55,9 @@ export const SynonymMenu = memo(({ editor }: Props) => {
 
   if (!floatingMenuPos) return null;
   return (
-    <section
+    <m.section
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
       ref={ref}
       style={{
         top: `${floatingMenuPos.top - 44}px`,
@@ -101,7 +104,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
           )}
         </div>
       </div>
-    </section>
+    </m.section>
   );
 });
 
