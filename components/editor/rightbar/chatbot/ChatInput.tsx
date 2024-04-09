@@ -1,4 +1,5 @@
 import Icon from '@/components/root/Icon';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,9 +8,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Textarea } from '@/components/ui/textarea';
 import { ChatbotEngine } from '@/constant';
+import useAutoSizeTextArea from '@/hooks/useAutoSizeTextArea';
 import { EditorDictType } from '@/types';
 import { ChevronDown, History, Paperclip, Plus } from 'lucide-react';
-import { useRef } from 'react';
+import { memo, useRef, useState } from 'react';
 
 type Props = {
   t: EditorDictType;
@@ -18,13 +20,23 @@ type Props = {
 };
 const ChatInput = ({ t, engine, update }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
+  const [value, setValue] = useState<string>('');
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  useAutoSizeTextArea(chatRef.current, value, 96);
+  const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+    if (value.trim() === '') setIsTyping(false);
+    else {
+      setIsTyping(true);
+    }
+  };
   return (
-    <div className='mb-4 mt-auto flex w-full flex-col gap-y-2'>
+    <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
       <div className='flex-between'>
         <div className='flex items-center gap-x-4'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className='flex-between group min-w-52 cursor-pointer gap-x-2 rounded border border-gray-200 bg-white p-2 data-[state=open]:bg-zinc-100 hover:bg-zinc-100'>
+              <div className='flex-between group min-w-52 cursor-pointer gap-x-2 rounded-lg border border-gray-200 bg-white p-2 data-[state=open]:bg-zinc-100 hover:bg-zinc-100'>
                 <div className='flex items-center gap-x-2'>
                   <Icon
                     alt=''
@@ -73,11 +85,30 @@ const ChatInput = ({ t, engine, update }: Props) => {
       </div>
       <Textarea
         ref={chatRef}
-        className='small-regular w-full rounded-lg p-2 focus-visible:ring-0'
+        className='small-regular w-full rounded-lg py-2 pl-2 pr-7 focus-visible:ring-0'
         id='chat-textarea'
+        value={value}
+        onChange={handleValueChnage}
         placeholder='message Dream Cat AI...'
       />
+      <Button
+        disabled={!value.trim()}
+        className='absolute bottom-2 right-2 h-max w-max p-0'
+        variant={'ghost'}
+        type='button'
+      >
+        <Icon
+          alt='messaging'
+          width={18}
+          height={18}
+          src={
+            !value.trim
+              ? '/editor/chatbot/Send_disable.svg'
+              : '/editor/chatbot/Send.svg'
+          }
+        />
+      </Button>
     </div>
   );
 };
-export default ChatInput;
+export default memo(ChatInput);
