@@ -109,39 +109,36 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
 
   const handleStreamData = (value: string | undefined) => {
     if (!value) return;
-    const lines = value.split('\n');
-    const session_raw = lines
-      .filter(
-        (line, index) =>
-          lines.at(index - 1)?.startsWith('event: session_id') &&
-          line?.startsWith('data: ')
-      )
-      .at(0);
-    if (session_raw) {
-      const session = session_raw.slice('data:'.length);
-      setSession(session.replaceAll(/"/g, '').trim());
-    }
-    const dataLines = lines.filter(
-      (line, index) =>
-        line.startsWith('data:') &&
-        lines.at(index - 1)?.startsWith('event: data')
-    );
-    const eventData = dataLines.map((line) =>
-      JSON.parse(line.slice('data:'.length))
-    );
 
-    setAiResult((prev) =>
-      prev.length === 0
-        ? [eventData.join('')]
-        : prev.length - 1 < currentResult
-          ? [...prev, eventData.join('')]
-          : prev.map((item, index) => {
-              if (index === currentResult) {
-                return item + eventData.join('');
-              }
-              return item;
-            })
-    );
+    const lines = value.split('\n');
+    let session: string | undefined;
+    let eventDataStr = '';
+
+    lines.forEach((line, index) => {
+      if (
+        lines[index - 1]?.startsWith('event: session_id') &&
+        line.startsWith('data: ')
+      ) {
+        session = line.slice(5).replaceAll('"', '').trim();
+      } else if (
+        line.startsWith('data:') &&
+        lines[index - 1]?.startsWith('event: data')
+      ) {
+      }
+    });
+
+    if (session) setSession(session);
+    if (eventDataStr) {
+      setAiResult((prev) => {
+        if (prev.length === 0 || prev.length - 1 < currentResult) {
+          return [...prev, eventDataStr];
+        } else {
+          return prev.map((item, index) =>
+            index === currentResult ? item + eventDataStr : item
+          );
+        }
+      });
+    }
   };
 
   useUpdateEffect(() => {

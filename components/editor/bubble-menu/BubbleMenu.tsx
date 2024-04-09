@@ -23,6 +23,7 @@ import {
 } from '@/components/root/SvgComponents';
 import { getDictionary } from '@/lib/get-dictionary';
 import useAIEditor, { useUserTask } from '@/zustand/store';
+import { m } from 'framer-motion';
 import { ContentTypePicker } from '../picker/content';
 import useEventListener from './hooks/useEventListener';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
@@ -63,7 +64,9 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
   const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   if (!showBubbleMenu) return null;
   return (
-    <div
+    <m.div
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
       ref={refs.setFloating}
       style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
       className='z-[99]'
@@ -244,7 +247,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
           </p>
         </span>
       </Toolbar.Wrapper>
-    </div>
+    </m.div>
   );
 };
 
