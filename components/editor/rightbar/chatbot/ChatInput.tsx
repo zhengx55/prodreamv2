@@ -110,7 +110,8 @@ const ChatInput = ({
         autoFocus
         aria-label='chat-textarea'
         onKeyDown={(e) => {
-          if (e.code === 'Enter') {
+          if (e.code === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
             submit();
           }
         }}

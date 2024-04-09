@@ -28,7 +28,7 @@ export const MineMessage = memo(({ text, engine }: MessageProps) => {
         />
         <p className='small-regular'>{userInfo.first_name}</p>
       </div>
-      <div className='rounded bg-stone-50 p-2'>
+      <div className='min-h-9 rounded bg-stone-100 p-2'>
         <p className='small-regular text-zinc-600'>{text}</p>
       </div>
     </m.div>
@@ -59,7 +59,7 @@ export const SystemMessage = memo(({ text, engine }: MessageProps) => {
           Writting Cat | {ChatbotEngine[engine].title}
         </p>
       </div>
-      <div className='rounded bg-stone-50 p-2'>
+      <div className='min-h-9 rounded bg-stone-100 p-2'>
         <p className='small-regular text-zinc-600'>{text}</p>
       </div>
     </m.div>
