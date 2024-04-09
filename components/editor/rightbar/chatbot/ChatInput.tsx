@@ -10,25 +10,42 @@ import { Textarea } from '@/components/ui/textarea';
 import { ChatbotEngine } from '@/constant';
 import useAutoSizeTextArea from '@/hooks/useAutoSizeTextArea';
 import { EditorDictType } from '@/types';
+import type { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { ChevronDown, History, Paperclip, Plus } from 'lucide-react';
-import { memo, useRef, useState } from 'react';
+import { memo, useRef } from 'react';
 
 type Props = {
   t: EditorDictType;
   engine: number;
-  update: (value: number) => void;
+  updateEngine: (value: number) => void;
+  value: string;
+  updateValue: (value: string) => void;
+  mutateFn: UseMutateAsyncFunction<
+    any,
+    Error,
+    {
+      session_id?: string | undefined;
+      query: string;
+    },
+    void
+  >;
 };
-const ChatInput = ({ t, engine, update }: Props) => {
+const ChatInput = ({
+  t,
+  engine,
+  value,
+  updateValue,
+  updateEngine,
+  mutateFn,
+}: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useState<string>('');
-  const [isTyping, setIsTyping] = useState<boolean>(false);
   useAutoSizeTextArea(chatRef.current, value, 96);
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
-    if (value.trim() === '') setIsTyping(false);
-    else {
-      setIsTyping(true);
-    }
+    updateValue(e.target.value);
+  };
+  const submit = async () => {
+    if (!value.trim()) return;
+    await mutateFn({ query: value });
   };
   return (
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
@@ -61,7 +78,7 @@ const ChatInput = ({ t, engine, update }: Props) => {
                   <DropdownMenuItem
                     className='flex cursor-pointer items-center gap-x-2 hover:bg-zinc-100'
                     key={engine.id}
-                    onClick={() => update(index)}
+                    onClick={() => updateEngine(index)}
                   >
                     <Icon alt='' src={engine.icon} width={16} height={16} />
                     {engine.title}
@@ -92,6 +109,7 @@ const ChatInput = ({ t, engine, update }: Props) => {
         placeholder='message Dream Cat AI...'
       />
       <Button
+        onClick={submit}
         disabled={!value.trim()}
         className='absolute bottom-2 right-2 h-max w-max p-0'
         variant={'ghost'}

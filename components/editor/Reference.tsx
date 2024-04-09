@@ -61,7 +61,7 @@ const Reference = () => {
 
   if (inTextCitation.length === 0) return null;
   return (
-    <div className='mx-auto flex w-[700px] select-none flex-col'>
+    <div className='mx-auto flex w-[700px] select-none flex-col pb-[10vh]'>
       <div className='flex-between'>
         <h3 className='text-xl font-[600]'>References</h3>
         <div className='flex gap-x-4'>
