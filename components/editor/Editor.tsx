@@ -173,7 +173,7 @@ const Editor = ({
   return (
     <section className='relative flex w-full flex-col'>
       <Button
-        className='absolute bottom-2 right-2 z-50 h-max w-max cursor-pointer bg-transparent p-0'
+        className='absolute bottom-2 right-4 z-50 h-max w-max cursor-pointer bg-transparent p-0'
         role='button'
         onClick={() => updateRightbarTab(6)}
       >
@@ -183,6 +183,7 @@ const Editor = ({
           height={44}
           width={44}
           priority
+          className='size-11'
         />
       </Button>
 
