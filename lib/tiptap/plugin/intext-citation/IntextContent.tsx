@@ -80,7 +80,7 @@ const IntextContent = (props: NodeViewProps) => {
             )}
             )
           </p>
-        ) : (
+        ) : citationStyle === 'mla' ? (
           <p className='!m-0 text-violet-500'>
             (
             {props.node.attrs.show_author && (
@@ -89,6 +89,26 @@ const IntextContent = (props: NodeViewProps) => {
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
               ` ${props.node.attrs.page_number}`}
+            )
+          </p>
+        ) : citationStyle === 'ieee' ? (
+          <p className='!m-0 text-violet-500'>
+            [{current_citation?.in_text_rank}]
+          </p>
+        ) : (
+          <p className='!m-0 text-violet-500'>
+            (
+            {props.node.attrs.show_author && (
+              <ChicagoAuthors
+                contributors={current_citation?.contributors ?? []}
+              />
+            )}
+            {props.node.attrs.show_year && (
+              <span>{` ${current_citation?.publish_date?.year}`}</span>
+            )}
+            {props.node.attrs.show_page &&
+              props.node.attrs.page_number &&
+              `, p. ${props.node.attrs.page_number}`}
             )
           </p>
         )}
@@ -189,6 +209,50 @@ const MLAAuhors = ({
   ) : contributors.length > 2 ? (
     contributors[0].last_name + ' et al.'
   ) : null;
+};
+
+const ChicagoAuthors = ({
+  contributors,
+}: {
+  contributors: {
+    first_name?: string;
+    last_name?: string;
+    middle_name?: string;
+    role?: string;
+    suffix?: string;
+  }[];
+}) => {
+  if (contributors.length === 1) {
+    // 单一作者
+    return (
+      <span>
+        {contributors[0].last_name}
+        {contributors[0].suffix ? `, ${contributors[0].suffix}` : ''},{' '}
+        {contributors[0].first_name}{' '}
+        {contributors[0].middle_name ? `${contributors[0].middle_name}.` : ''}
+      </span>
+    );
+  } else if (contributors.length === 2) {
+    // 两位作者
+    return (
+      <span>
+        {contributors[0].last_name}, {contributors[0].first_name}
+        {contributors[0].middle_name
+          ? ` ${contributors[0].middle_name[0]}.`
+          : ''}{' '}
+        and {contributors[1].first_name}{' '}
+        {contributors[1].middle_name
+          ? `${contributors[1].middle_name[0]}.`
+          : ''}
+        {contributors[1].last_name}
+      </span>
+    );
+  } else if (contributors.length > 2) {
+    // 三位或更多作者，只显示第一位作者加et al.
+    return <span>{contributors[0].last_name} et al.</span>;
+  } else {
+    return null; // 没有作者信息
+  }
 };
 
 export default IntextContent;

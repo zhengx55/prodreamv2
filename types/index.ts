@@ -31,6 +31,44 @@ export type SiteConfig = {
 
 export type DocSortingMethods = 'lastOpenedTime' | 'title';
 
+export type HomePageDicType = {
+  t: Awaited<ReturnType<typeof getDictionary>>['Homepage'];
+  lang: Locale;
+};
+
+export type AuthPageDicType = {
+  t: Awaited<ReturnType<typeof getDictionary>>['Auth'];
+  lang: Locale;
+};
+
+export type DocPageDicType = {
+  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
+  lang: Locale;
+};
+
+export type EditorDictType = Awaited<
+  ReturnType<typeof getDictionary>
+>['Editor'];
+
+export type Sentence = {
+  id: string;
+  text: string;
+  expand: boolean;
+  ranges?: number[];
+  result: string;
+};
+
+interface ICitationBase {
+  id: string;
+  reference_count: number;
+  area: string[];
+  abstract: string;
+  annotation: string;
+  contributors: IContributors[];
+  document_id: string;
+  manual_create: boolean;
+}
+
 export type ICitationType =
   | 'BookSection'
   | 'WholeBook'
@@ -105,32 +143,6 @@ export interface IJournalCitation {
     year: number | string;
   };
 }
-export type HomePageDicType = {
-  t: Awaited<ReturnType<typeof getDictionary>>['Homepage'];
-  lang: Locale;
-};
-
-export type AuthPageDicType = {
-  t: Awaited<ReturnType<typeof getDictionary>>['Auth'];
-  lang: Locale;
-};
-
-export type DocPageDicType = {
-  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
-  lang: Locale;
-};
-
-export type EditorDictType = Awaited<
-  ReturnType<typeof getDictionary>
->['Editor'];
-
-export type Sentence = {
-  id: string;
-  text: string;
-  expand: boolean;
-  ranges?: number[];
-  result: string;
-};
 
 export interface IBookCitation {
   reference_count: number;

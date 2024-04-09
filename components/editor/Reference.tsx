@@ -87,6 +87,7 @@ const Reference = () => {
             </Button>
           )}
           <Select
+            value={citationStyle}
             onValueChange={(value) =>
               updateCitationStyle(value as ReferenceType)
             }
