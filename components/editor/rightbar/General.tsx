@@ -50,7 +50,7 @@ const General = ({ t, lang }: DocPageDicType) => {
         ) : rightbarTab === 4 ? (
           <CitationLibrary t={t} />
         ) : (
-          <Chatbot />
+          <Chatbot t={t} />
         )}
       </section>
     </m.aside>

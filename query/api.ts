@@ -1164,7 +1164,6 @@ export async function getDetectionResult(params: {
     if (data.code !== 0) {
       throw data.msg;
     }
-    console.log(data.data);
     return data.data;
   } catch (error) {
     throw new Error(error as string);
@@ -1207,3 +1206,32 @@ export async function ButtonTrack(event: string, mobile: number) {
     console.error(error);
   }
 }
+
+// ----------------------------------------------------------------
+// CHAT
+// ----------------------------------------------------------------
+export async function chat(params: { session_id?: string; query: string }) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat`, {
+      method: 'POST',
+      body: JSON.stringify({
+        session_id: params.session_id ? params.session_id : null,
+        query: params.query,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function pdfSummary() {}

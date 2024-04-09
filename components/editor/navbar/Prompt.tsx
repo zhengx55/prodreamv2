@@ -143,7 +143,7 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
           onChange={onChangHandler}
           ref={promptRef}
           className='small-regular h-[107px] w-full shrink-0 rounded border border-gray-200'
-          placeholder='e.g.  This essay is about the challenges and strategies of conserving biodiversity in the Anthropocene and discuss the importance of conservation efforts in safeguarding ecosystems and species from the brink of extinction'
+          placeholder='An argumentative essay discussing challenges and strategies of conserving biodiversity in the Amazon rainforest'
         />
 
         <div className='mt-4 flex items-center justify-between'>
