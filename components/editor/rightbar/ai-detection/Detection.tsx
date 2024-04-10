@@ -20,6 +20,7 @@ const Detection = ({ t }: { t: EditorDictType }) => {
   const { id } = useParams();
   const [detectionResult, setDetectionResult, remove] =
     useLocalStorage<IDetectionResult>(`detection_report_${id}`, undefined);
+
   const editor = useAIEditor((state) => state.editor_instance);
   const { mutateAsync: detection } = useMutation({
     mutationFn: (params: { text: JSONContent[] }) => getDetectionResult(params),
