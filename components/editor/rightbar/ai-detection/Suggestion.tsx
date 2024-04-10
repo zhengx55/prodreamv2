@@ -1,20 +1,24 @@
 import { Button } from '@/components/ui/button';
 import { findNodePos, findParagpraph } from '@/lib/tiptap/utils';
 import { useMembershipInfo } from '@/query/query';
+import { IDetectionResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import { memo, useState } from 'react';
+import { useLocalStorage } from 'react-use';
 import Unlock from '../Unlock';
 
-type Props = { suggestions: [number[], number[], string][]; t: EditorDictType };
-const Suggestion = ({ suggestions, t }: Props) => {
+type Props = { t: EditorDictType };
+const Suggestion = ({ t }: Props) => {
   const [expanded, setExpanded] = useState(-1);
-  const [allSuggestion, setAllSuggestions] =
-    useState<[number[], number[], string][]>(suggestions);
+  const { id } = useParams();
   const { data: membership } = useMembershipInfo();
   const editor = useAIEditor((state) => state.editor_instance);
+  const [detectionResult, setDetectionResult, _remove] =
+    useLocalStorage<IDetectionResult>(`detection_report_${id}`);
 
   const toggleExpand = (item: [number[], number[], string], index: number) => {
     setExpanded(index);
@@ -29,7 +33,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
 
   const handleAcceptAll = () => {
     const editor_block = editor?.getJSON().content ?? [];
-    allSuggestion.map((item) => {
+    detectionResult?.highlight_sentences.map((item) => {
       const nodeText = findParagpraph(item[0], editor_block)?.text;
       const nodePos = findNodePos(editor!, nodeText!);
       const selection_range = item[1][1] - item[1][0];
@@ -42,38 +46,58 @@ const Suggestion = ({ suggestions, t }: Props) => {
         .insertContent(item[2])
         .run();
     });
-    setAllSuggestions([]);
+    const new_storage = {
+      ...detectionResult,
+      highlight_sentences: [],
+    };
+    setDetectionResult(new_storage as IDetectionResult);
   };
 
-  const handleDismiss = (index: number) => {
+  const handleDismiss = (indexToRemove: number) => {
     setExpanded(-1);
     editor?.chain().blur().setTextSelection(0).run();
-    setAllSuggestions((prev) =>
-      prev.filter((_, suggestion_idx) => {
-        return suggestion_idx !== index;
-      })
-    );
+
+    const updatedHighlightSentences =
+      detectionResult?.highlight_sentences.filter(
+        (_, index) => index !== indexToRemove
+      );
+    const updatedDetectionResult = {
+      ...detectionResult,
+      highlight_sentences: updatedHighlightSentences,
+    };
+    setDetectionResult(updatedDetectionResult as IDetectionResult);
   };
 
-  const handleAccept = (item: [number[], number[], string], index: number) => {
+  const handleAccept = (
+    item: [number[], number[], string],
+    indexToRemove: number
+  ) => {
     setExpanded(-1);
     editor?.chain().blur().insertContent(item[2]).run();
-    setAllSuggestions((prev) =>
-      prev.filter((_, suggestion_idx) => {
-        return suggestion_idx !== index;
-      })
-    );
+    const updatedHighlightSentences =
+      detectionResult?.highlight_sentences.filter(
+        (_, index) => index !== indexToRemove
+      );
+    const updatedDetectionResult = {
+      ...detectionResult,
+      highlight_sentences: updatedHighlightSentences,
+    };
+    setDetectionResult(updatedDetectionResult as IDetectionResult);
   };
 
   const handleRejectAll = () => {
-    setAllSuggestions([]);
+    const new_storage = {
+      ...detectionResult,
+      highlight_sentences: [],
+    };
+    setDetectionResult(new_storage as IDetectionResult);
   };
 
   return (
     <div className='flex flex-1 flex-col'>
       {membership?.subscription === 'basic' ? (
         <Unlock text={'Unlock humanize suggestions with the Unlimited Plan'} />
-      ) : allSuggestion.length === 0 ? null : (
+      ) : detectionResult?.highlight_sentences.length === 0 ? null : (
         <div className='flex flex-col gap-y-2'>
           <div className='flex-between'>
             <p className='base-medium'>{t.Detection.Humanizer}</p>
@@ -96,7 +120,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
               </Button>
             </div>
           </div>
-          {allSuggestion.map((suggestion, idx) => {
+          {detectionResult?.highlight_sentences.map((suggestion, idx) => {
             if (!suggestion[2]) return null;
             return (
               <SentenceItem

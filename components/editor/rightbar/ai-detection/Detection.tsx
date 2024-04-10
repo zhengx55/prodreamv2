@@ -19,7 +19,8 @@ const Detection = ({ t }: { t: EditorDictType }) => {
   const [generating, setGenerating] = useState(false);
   const { id } = useParams();
   const [detectionResult, setDetectionResult, remove] =
-    useLocalStorage<IDetectionResult>(`detection_report_${id}`, undefined);
+    useLocalStorage<IDetectionResult>(`detection_report_${id}`);
+
   const editor = useAIEditor((state) => state.editor_instance);
   const { mutateAsync: detection } = useMutation({
     mutationFn: (params: { text: JSONContent[] }) => getDetectionResult(params),
@@ -27,7 +28,7 @@ const Detection = ({ t }: { t: EditorDictType }) => {
       setDetectionResult(data);
     },
     onMutate: () => {
-      setDetectionResult(undefined);
+      if (detectionResult) remove();
       setGenerating(true);
     },
     onError: async () => {
@@ -40,13 +41,12 @@ const Detection = ({ t }: { t: EditorDictType }) => {
   });
 
   const startDetection = useCallback(async () => {
-    remove();
-    const { toast } = await import('sonner');
     const editor_block = editor?.getJSON().content ?? [];
     let editor_text: string | undefined;
     const title = editor?.getJSON().content?.at(0)?.content?.at(0)?.text;
     editor_text = editor?.getText()?.replace(title!, '').trimStart();
     if (!editor_text) {
+      const { toast } = await import('sonner');
       toast.error('Please write something first');
       return;
     }

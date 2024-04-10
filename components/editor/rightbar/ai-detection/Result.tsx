@@ -55,10 +55,10 @@ const Result = ({ recheck, result, t }: Props) => {
       </div>
 
       <Spacer y='8' />
-      <p className='small-regular leading-relaxed text-zinc-600'>
+      <p className='text-sm leading-relaxed text-zinc-600'>
         {result.message}&nbsp;
         <span
-          className='small-regular inline-block px-1.5 py-1'
+          className='small-regular inline-block rounded-xl px-1.5 py-1'
           style={{
             backgroundColor: secondaryColor[result_index],
             color: primaryColor[result_index],
@@ -108,9 +108,7 @@ const Result = ({ recheck, result, t }: Props) => {
       <Spacer y='44' />
       <Separator orientation='horizontal' className='bg-gray-200' />
       <Spacer y='44' />
-      {result.highlight_sentences.length > 0 && (
-        <Suggestion t={t} suggestions={result.highlight_sentences} />
-      )}
+      {result.highlight_sentences.length > 0 && <Suggestion t={t} />}
       <Spacer y='20' />
     </m.div>
   );
