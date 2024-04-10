@@ -4,6 +4,7 @@ import {
   IDiscount,
   ISubscription,
 } from '@/types';
+import { JSONContent } from '@tiptap/react';
 import Cookies from 'js-cookie';
 import {
   ICitation,
@@ -1143,7 +1144,7 @@ export async function searchCitation(
 // AI-Detection
 // ----------------------------------------------------------------
 export async function getDetectionResult(params: {
-  text: string;
+  text: JSONContent[];
 }): Promise<IDetectionResult> {
   try {
     const token = Cookies.get('token');
@@ -1152,7 +1153,7 @@ export async function getDetectionResult(params: {
       {
         method: 'POST',
         body: JSON.stringify({
-          text: params.text,
+          blocks: params.text,
         }),
         headers: {
           'Content-Type': 'application/json',

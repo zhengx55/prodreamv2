@@ -30,7 +30,7 @@ const Result = ({ recheck, result, t }: Props) => {
     if (max === human_percent) return 0;
     return 1;
   }, [ai_percent, human_percent, mixed_percent]);
-
+  const a = [[1, 0], 'sadasd'];
   return (
     <m.div
       initial={{ opacity: 0, y: -20 }}

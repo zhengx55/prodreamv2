@@ -30,6 +30,7 @@ const CitationPreview = dynamic(() => import('./CitationPreview'), {
 export const SearchCitationCard = memo(
   ({ item, index }: { item: ICitation; index: number }) => {
     const { id } = useParams();
+    const editor = useAIEditor((state) => state.editor_instance);
     const citation_tooltip_step = useUserTask((state) => state.citation_step);
     const updateCitationStep = useUserTask((state) => state.updateCitationStep);
     const { mutateAsync: updateTrack } = useMutateTrackInfo();
@@ -50,6 +51,8 @@ export const SearchCitationCard = memo(
         await ButtonTrack({ event: 'Onboarding task: add citation' });
       }
       const converted_data = ConvertCitationData(item, false);
+      const { selection } = editor!.state;
+      const { anchor } = selection;
       if (action === 'collect') {
         await handleCollect({
           citation_data: converted_data,
@@ -58,7 +61,7 @@ export const SearchCitationCard = memo(
         });
       } else {
         await handleCite({
-          citation_data: converted_data,
+          citation_data: { ...converted_data, in_text_pos: anchor },
           citation_type: 'Journal',
           document_id: id as string,
         });
