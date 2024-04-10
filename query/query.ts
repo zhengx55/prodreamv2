@@ -189,10 +189,7 @@ export const useCiteToDoc = () => {
       const { from, to, anchor } = selection;
       await appendInTextCitationIds({
         type: variables.citation_type,
-        data: {
-          ...data,
-          in_text_pos: anchor,
-        },
+        data,
       });
 
       insertCitation(data.id, anchor, from, to);

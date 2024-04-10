@@ -59,7 +59,7 @@ export type IDetectionResult = {
     mixed: number;
   };
   message: string;
-  highlight_sentences: [number[]];
+  highlight_sentences: [number[], number[], string][];
 };
 
 export type IGrammarResponse = {

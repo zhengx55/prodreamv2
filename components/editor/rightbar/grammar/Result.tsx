@@ -40,6 +40,7 @@ const Result = ({ grammarResults, update, t }: Props) => {
   };
 
   const command = useEditorCommand(editor!);
+
   useUnmount(() => {
     command.clearAllHightLight();
   });
