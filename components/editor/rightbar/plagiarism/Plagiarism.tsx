@@ -44,6 +44,7 @@ const Plagiarism = ({ t }: Props) => {
     mutationFn: (params: string) => plagiarismCheck(params),
     onMutate: () => {
       setProgress(0);
+      if (pdfResult) remove();
       setShowLoading(true);
     },
     onSuccess: (data) => {
@@ -101,9 +102,6 @@ const Plagiarism = ({ t }: Props) => {
   }, []);
 
   const handlePlagiarismCheck = useCallback(async () => {
-    if (pdfResult) {
-      remove();
-    }
     let editor_text: string | undefined;
     const title = editor?.getJSON().content?.at(0)?.content?.at(0)?.text;
     editor_text = editor?.getText()?.replace(title!, '').trimStart();
