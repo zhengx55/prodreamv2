@@ -127,10 +127,12 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
     set(() => ({
       showCustomCitiation: result,
     })),
+
   updateCitationStyle: (result) =>
     set(() => ({
       citationStyle: result,
     })),
+
   updateShowCreateCitation: (result) => {
     if (result) {
       set((state) => ({
@@ -143,11 +145,18 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
       });
     }
   },
-  updateInTextCitation: (result, id_array) =>
+  updateInTextCitation: (result, id_array) => {
+    result.sort(
+      (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
+    );
+    result.forEach((item, index) => {
+      item.data.in_text_rank = index + 1;
+    });
     set(() => ({
       inTextCitation: result,
       inTextCitationIds: id_array,
-    })),
+    }));
+  },
 
   updateInDocCitation: (result, id_array) =>
     set(() => ({
