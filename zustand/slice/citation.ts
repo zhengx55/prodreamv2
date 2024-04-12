@@ -165,34 +165,42 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
     })),
 
   appendInTextCitationIds: async (result) => {
-    const found = get().inTextCitationIds.find(
+    const { inTextCitationIds, inDocCitationIds } = get();
+    let intext_after_append = inTextCitationIds;
+    let indoc_after_append = inDocCitationIds;
+    const found = intext_after_append.find((item) => item === result.data.id);
+    const found_in_doc = indoc_after_append.find(
       (item) => item === result.data.id
     );
-    if (!found) {
-      const data_after_append = [...get().inTextCitationIds, result.data.id];
-      const libary_after_append = [...get().inDocCitationIds, result.data.id];
-      await saveDoc({
-        id: result.data.document_id,
-        citation_ids: data_after_append,
-        citation_candidate_ids: libary_after_append,
+    if (!found) intext_after_append = [...inTextCitationIds, result.data.id];
+    if (!found_in_doc)
+      indoc_after_append = [...inTextCitationIds, result.data.id];
+    if (found && found_in_doc) return;
+    await saveDoc({
+      id: result.data.document_id,
+      citation_ids: intext_after_append,
+      citation_candidate_ids: indoc_after_append,
+    });
+    set((state) => {
+      const updatedInTextCitation = found
+        ? state.inTextCitation
+        : [...state.inTextCitation, result];
+      const updatedInDocCitation = found_in_doc
+        ? state.inDocCitation
+        : [...state.inDocCitation, result];
+      updatedInTextCitation.sort(
+        (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
+      );
+      updatedInTextCitation.forEach((item, index) => {
+        item.data.in_text_rank = index + 1;
       });
-      set((state) => {
-        const updatedInTextCitation = [...state.inTextCitation, result];
-        const updatedInDocCitation = [...state.inDocCitation, result];
-        updatedInTextCitation.sort(
-          (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
-        );
-        updatedInTextCitation.forEach((item, index) => {
-          item.data.in_text_rank = index + 1;
-        });
-        return {
-          inTextCitationIds: data_after_append,
-          inDocCitationIds: libary_after_append,
-          inTextCitation: updatedInTextCitation,
-          inDocCitation: updatedInDocCitation,
-        };
-      });
-    }
+      return {
+        inTextCitationIds: intext_after_append,
+        inDocCitationIds: indoc_after_append,
+        inTextCitation: updatedInTextCitation,
+        inDocCitation: updatedInDocCitation,
+      };
+    });
   },
 
   appendInDocCitationIds: async (result) => {

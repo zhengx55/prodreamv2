@@ -8,7 +8,7 @@ type Props = { name: string; email: string; imgSrc: string };
 const User = ({ name, email, imgSrc }: Props) => {
   return (
     <DropdownMenuTrigger asChild>
-      <div className='flex cursor-pointer items-center gap-x-2'>
+      <div className='flex w-full cursor-pointer items-center gap-x-2'>
         <Avatar>
           <AvatarImage
             className='rounded-full object-contain'
@@ -19,9 +19,11 @@ const User = ({ name, email, imgSrc }: Props) => {
           <AvatarFallback>{name}</AvatarFallback>
         </Avatar>
         <div className='flex flex-col'>
-          <h2 className='text-xl font-semibold leading-tight'>{name}</h2>
-          <p className='subtle-semibold line-clamp-1 text-shadow-100'>
-            {email}
+          <h2 className='title-semibold'>
+            {name.length > 10 ? `${name.slice(0, 10)}...` : name}
+          </h2>
+          <p className='subtle-semibold text-shadow-100'>
+            {email.length > 20 ? `${email.slice(0, 20)}...` : email}
           </p>
         </div>
       </div>
