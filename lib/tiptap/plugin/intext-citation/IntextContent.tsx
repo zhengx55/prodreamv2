@@ -86,9 +86,11 @@ const IntextContent = (props: NodeViewProps) => {
             {props.node.attrs.show_author && (
               <MLAAuhors contributors={current_citation?.contributors ?? []} />
             )}
+            {props.node.attrs.show_year &&
+              `, ${current_citation?.publish_date?.year}`}
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
-              ` ${props.node.attrs.page_number}`}
+              `, ${props.node.attrs.page_number}`}
             )
           </p>
         ) : citationStyle === 'ieee' ? (
