@@ -164,7 +164,7 @@ const Waiting = ({
       </div>
       <Progress value={progress} />
       <p className='text-center text-sm font-light text-neutral-400'>
-        Generating plagiarism check report May take up to 5 minutes, thank you
+        Generating plagiarism check report. May take up to 5 minutes, thank you
         for waiting
       </p>
       <Button

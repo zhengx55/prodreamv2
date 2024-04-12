@@ -172,7 +172,7 @@
       "Title": "Please input your prompt below",
       "PlaceHolder": "Adding an essay prompt can greatly enhance the quality of AI generations",
       "Strength": "Prompt Strength",
-      "Trigger": "Writting Booster"
+      "Trigger": "Writing Booster"
     },
     "Copilot": {
       "Format_1": "Edit language",
