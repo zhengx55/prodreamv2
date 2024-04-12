@@ -61,22 +61,26 @@ const Plagiarism = ({ t }: Props) => {
             total_words: '',
           };
           updates.prob = res.scores;
-          updates.link = res.pdf;
-          const loadingTask = pdfjs.getDocument(res.pdf);
-          const pdfpage = await loadingTask.promise;
-          const page = await pdfpage.getPage(1);
-          const textContent = await page.getTextContent();
-          textContent.items.forEach((item, index) => {
-            if ('str' in item && plag_report_type.includes(item.str)) {
-              if (item.str === plag_report_type[0]) {
-                updates.score = (textContent.items[index + 2] as any).str;
-              } else if (item.str === plag_report_type[1]) {
-                updates.results = (textContent.items[index + 2] as any).str;
-              } else {
-                updates.total_words = (textContent.items[index + 2] as any).str;
+          if (res.pdf) {
+            updates.link = res.pdf;
+            const loadingTask = pdfjs.getDocument(res.pdf);
+            const pdfpage = await loadingTask.promise;
+            const page = await pdfpage.getPage(1);
+            const textContent = await page.getTextContent();
+            textContent.items.forEach((item, index) => {
+              if ('str' in item && plag_report_type.includes(item.str)) {
+                if (item.str === plag_report_type[0]) {
+                  updates.score = (textContent.items[index + 2] as any).str;
+                } else if (item.str === plag_report_type[1]) {
+                  updates.results = (textContent.items[index + 2] as any).str;
+                } else {
+                  updates.total_words = (
+                    textContent.items[index + 2] as any
+                  ).str;
+                }
               }
-            }
-          });
+            });
+          }
           setPdfResult(updates);
           clearInterval(timer.current!);
           setProgress(100);
