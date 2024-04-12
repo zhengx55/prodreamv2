@@ -97,7 +97,10 @@ const Suggestion = ({ t }: Props) => {
     <div className='flex flex-1 flex-col'>
       {membership?.subscription === 'basic' ? (
         <Unlock text={'Unlock humanize suggestions with the Unlimited Plan'} />
-      ) : detectionResult?.highlight_sentences.length === 0 ? null : (
+      ) : detectionResult?.highlight_sentences.length === 0 ||
+        detectionResult?.highlight_sentences.every(
+          (item) => item[2] !== ''
+        ) ? null : (
         <div className='flex flex-col gap-y-2'>
           <div className='flex-between'>
             <p className='base-medium'>{t.Detection.Humanizer}</p>
