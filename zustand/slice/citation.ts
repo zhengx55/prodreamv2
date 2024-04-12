@@ -165,34 +165,41 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
     })),
 
   appendInTextCitationIds: async (result) => {
-    const found = get().inTextCitationIds.find(
-      (item) => item === result.data.id
-    );
-    if (!found) {
-      const data_after_append = [...get().inTextCitationIds, result.data.id];
-      const libary_after_append = [...get().inDocCitationIds, result.data.id];
-      await saveDoc({
-        id: result.data.document_id,
-        citation_ids: data_after_append,
-        citation_candidate_ids: libary_after_append,
-      });
-      set((state) => {
-        const updatedInTextCitation = [...state.inTextCitation, result];
-        const updatedInDocCitation = [...state.inDocCitation, result];
-        updatedInTextCitation.sort(
-          (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
-        );
-        updatedInTextCitation.forEach((item, index) => {
-          item.data.in_text_rank = index + 1;
-        });
-        return {
-          inTextCitationIds: data_after_append,
-          inDocCitationIds: libary_after_append,
-          inTextCitation: updatedInTextCitation,
-          inDocCitation: updatedInDocCitation,
-        };
-      });
+    const state = get();
+    const { inTextCitationIds, inDocCitationIds } = state;
+    const { id, document_id } = result.data;
+    let updated = false;
+    if (!inTextCitationIds.includes(id)) {
+      state.inTextCitationIds.push(id);
+      updated = true;
     }
+    if (!inDocCitationIds.includes(id)) {
+      state.inDocCitationIds.push(id);
+      updated = true;
+    }
+    if (!updated) return;
+    await saveDoc({
+      id: document_id,
+      citation_ids: state.inTextCitationIds,
+      citation_candidate_ids: state.inDocCitationIds,
+    });
+    set((state) => {
+      if (!inTextCitationIds.includes(id)) {
+        state.inTextCitation.push(result);
+      }
+      if (!inDocCitationIds.includes(id)) {
+        state.inDocCitation.push(result);
+      }
+
+      state.inTextCitation.sort(
+        (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
+      );
+      state.inTextCitation.forEach((item, index) => {
+        item.data.in_text_rank = index + 1;
+      });
+
+      return state;
+    });
   },
 
   appendInDocCitationIds: async (result) => {
