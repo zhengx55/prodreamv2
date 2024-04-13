@@ -914,12 +914,16 @@ export const sample_search_citation = [
     },
     area: ['Computer Science', 'Mathematics'],
     reference_count: 6,
-    citation_count: 6613,
-    influential_citation_count: 1704,
+    citation_count: 6967,
+    influential_citation_count: 1455,
     pdf_url: null,
-    tldr: 'Fashion-MNIST is intended to serve as a direct drop-in replacement for the original MNIST dataset for benchmarking machine learning algorithms, as it shares the same image size, data format and the structure of training and testing splits.',
+    tldr: null,
+    bibtex: null,
     publisher:
       'https://www.semanticscholar.org/paper/f9c602cc436a9ea2f9e7db48c77d924e09ce3c32',
+    publication: null,
+    snippet: null,
+    citation_id: null,
   },
 ];
 
