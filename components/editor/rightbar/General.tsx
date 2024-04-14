@@ -9,7 +9,6 @@ import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { Fragment } from 'react';
 import Tiplayout from '../guide/tips/Tiplayout';
-import Chatbot from './Chatbot';
 const Detection = dynamic(() => import('./ai-detection/Detection'));
 const CitationLibrary = dynamic(
   () => import('./citation/library/CitationLibrary')
@@ -37,21 +36,24 @@ const General = ({ t, lang }: DocPageDicType) => {
       className='flex h-full shrink-0 flex-col border-l border-gray-200'
     >
       <section className='relative flex h-full flex-col px-3 pt-4'>
-        {rightbarTab === 0 ? (
-          <GrammarCheck t={t} />
-        ) : rightbarTab === 3 ? (
-          <Citation t={t} />
-        ) : rightbarTab === 5 ? (
-          <Generate t={t} />
-        ) : rightbarTab === 1 ? (
-          <Plagiarism t={t} />
-        ) : rightbarTab === 2 ? (
-          <Detection t={t} />
-        ) : rightbarTab === 4 ? (
-          <CitationLibrary t={t} />
-        ) : (
-          <Chatbot t={t} />
-        )}
+        {
+          rightbarTab === 0 ? (
+            <GrammarCheck t={t} />
+          ) : rightbarTab === 3 ? (
+            <Citation t={t} />
+          ) : rightbarTab === 5 ? (
+            <Generate t={t} />
+          ) : rightbarTab === 1 ? (
+            <Plagiarism t={t} />
+          ) : rightbarTab === 2 ? (
+            <Detection t={t} />
+          ) : rightbarTab === 4 ? (
+            <CitationLibrary t={t} />
+          ) : null
+          // : (
+          //   <Chatbot t={t} />
+          // )
+        }
       </section>
     </m.aside>
   );

@@ -13,8 +13,6 @@ import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import Icon from '../root/Icon';
-import { Button } from '../ui/button';
 import Procedure from './guide/Procedure';
 
 const TableOfContents = dynamic(
@@ -172,7 +170,7 @@ const Editor = ({
   if (!editor) return null;
   return (
     <section className='relative flex w-full flex-col'>
-      <Button
+      {/* <Button
         className='absolute bottom-2 right-4 z-50 h-max w-max cursor-pointer bg-transparent p-0'
         role='button'
         onClick={() => updateRightbarTab(6)}
@@ -185,7 +183,7 @@ const Editor = ({
           priority
           className='size-11'
         />
-      </Button>
+      </Button> */}
 
       <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
