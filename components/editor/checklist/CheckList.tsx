@@ -9,7 +9,7 @@ import {
 import { EditorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, XCircle } from 'lucide-react';
 import { memo, useState } from 'react';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
@@ -22,6 +22,7 @@ const variants: Variants = {
 const CheckList = ({ t }: { t: EditorDictType }) => {
   const [show, setShow] = useState(true);
   const { data: userTrack } = useUserTrackInfo();
+  const { mutateAsync: updateInfo } = useMutateTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
@@ -71,9 +72,14 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
       updateCitationStep();
     }
   }, 500);
+  const Finsh =
+    userTrack?.ai_copilot_task &&
+    userTrack?.citation_task &&
+    userTrack?.continue_writing_task &&
+    userTrack?.generate_tool_task;
 
   return (
-    <div className='absolute bottom-[10%] left-2 z-10 flex flex-col'>
+    <div className='absolute bottom-[5%] left-5 z-10 flex flex-col'>
       <m.div
         initial={false}
         variants={variants}
@@ -83,7 +89,21 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
         onClick={() => setShow((prev) => !prev)}
       >
         <p className='small-medium'>{t.CheckList.title}</p>
-        {!show ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        {Finsh ? (
+          <XCircle
+            size={18}
+            role='button'
+            onClick={async (e) => {
+              e.stopPropagation();
+              await updateInfo({ field: 'close_checkList', data: 'true' });
+            }}
+            className='cursor-pointer'
+          />
+        ) : !show ? (
+          <ChevronUp size={18} />
+        ) : (
+          <ChevronDown size={18} />
+        )}
       </m.div>
       <AnimatePresence initial={false} mode='wait'>
         {show && (

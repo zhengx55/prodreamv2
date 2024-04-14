@@ -4,23 +4,31 @@ import { IDetectionResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
+import { JSONContent } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import { memo, useCallback, useState } from 'react';
-import Result from './Result';
+import { useLocalStorage } from 'react-use';
+import Title from '../Title';
+const Result = dynamic(() => import('./Result'));
 
 const Detection = ({ t }: { t: EditorDictType }) => {
   const [generating, setGenerating] = useState(false);
-  const [result, setResult] = useState<IDetectionResult>();
+  const { id } = useParams();
+  const [detectionResult, setDetectionResult, remove] =
+    useLocalStorage<IDetectionResult>(`detection_report_${id}`);
+
   const editor = useAIEditor((state) => state.editor_instance);
   const { mutateAsync: detection } = useMutation({
-    mutationFn: (params: { text: string }) => getDetectionResult(params),
+    mutationFn: (params: { text: JSONContent[] }) => getDetectionResult(params),
     onSuccess: async (data) => {
-      setResult(data);
+      setDetectionResult(data);
     },
     onMutate: () => {
-      setResult(undefined);
+      if (detectionResult) remove();
       setGenerating(true);
     },
     onError: async () => {
@@ -33,36 +41,40 @@ const Detection = ({ t }: { t: EditorDictType }) => {
   });
 
   const startDetection = useCallback(async () => {
-    const { toast } = await import('sonner');
+    const editor_block = editor?.getJSON().content ?? [];
     let editor_text: string | undefined;
     const title = editor?.getJSON().content?.at(0)?.content?.at(0)?.text;
     editor_text = editor?.getText()?.replace(title!, '').trimStart();
     if (!editor_text) {
+      const { toast } = await import('sonner');
       toast.error('Please write something first');
       return;
     }
-    await detection({ text: editor_text });
+    await detection({ text: editor_block });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
   return (
-    <AnimatePresence mode='wait'>
-      {result ? (
-        <Result recheck={startDetection} t={t} result={result} />
-      ) : generating ? (
-        <m.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          key={'break-down generating'}
-          exit={{ opacity: 0, y: -20 }}
-          className='flex-center flex-1'
-        >
-          <Loader2 className='animate-spin text-zinc-600' />
-        </m.div>
-      ) : (
-        <Starter t={t} start={startDetection} />
-      )}
-    </AnimatePresence>
+    <>
+      <Title t={t} />
+      <AnimatePresence mode='wait'>
+        {detectionResult ? (
+          <Result recheck={startDetection} t={t} result={detectionResult} />
+        ) : generating ? (
+          <m.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            key={'break-down generating'}
+            exit={{ opacity: 0, y: -20 }}
+            className='flex-center flex-1'
+          >
+            <Loader2 className='animate-spin text-zinc-600' />
+          </m.div>
+        ) : (
+          <Starter t={t} start={startDetection} />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

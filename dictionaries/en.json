@@ -172,7 +172,7 @@
       "Title": "Please input your prompt below",
       "PlaceHolder": "Adding an essay prompt can greatly enhance the quality of AI generations",
       "Strength": "Prompt Strength",
-      "Trigger": "Essay Prompt"
+      "Trigger": "Writing Booster"
     },
     "Copilot": {
       "Format_1": "Edit language",
@@ -276,7 +276,10 @@
       "Unlock": "Unlock paraphrase suggestions with the Unlimited Plan",
       "Result": "May be plagiarized",
       "Result_good": "Completely original.",
-      "Suggestions": "Suggestions"
+      "Report": "Plagiarism Report",
+      "view_full": "View Full Report",
+      "score": "May be plagiarized",
+      "non-plagiarized": "Overall Similarity Score"
     },
     "CheckList": {
       "Show": "Show me",

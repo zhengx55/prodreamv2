@@ -48,7 +48,10 @@ const BottomBar = ({
         <div className='flex items-center'>
           <p className='small-medium'>{t.BubbleMenu.citation_style}:</p>
           <DropdownMenuTrigger asChild>
-            <MemoButton role='button' className='mx-0 font-medium'>
+            <MemoButton
+              role='button'
+              className={`mx-0 font-medium ${citationStyle === 'chicago' ? 'capitalize' : 'uppercase'}`}
+            >
               {citationStyle}
             </MemoButton>
           </DropdownMenuTrigger>

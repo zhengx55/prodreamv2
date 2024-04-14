@@ -13,6 +13,7 @@ import type { NodeViewProps } from '@tiptap/react';
 import { Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
+import { useUnmount } from 'react-use';
 
 const CitationPreview = dynamic(
   () => import('@/components/editor/rightbar/citation/CitationPreview'),
@@ -26,6 +27,7 @@ const IntextContent = (props: NodeViewProps) => {
     updateCurrentInline,
     inTextCitation,
     updateShowEditCitation,
+    removeInTextCitationIds,
   } = useCitation((state) => ({ ...state }));
 
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
@@ -38,8 +40,27 @@ const IntextContent = (props: NodeViewProps) => {
   const handleDeleteCitation = () => {
     props.deleteNode();
   };
+
+  useUnmount(() => {
+    if (!current_citation) return;
+    let found: boolean = false;
+    props.editor.state.doc.descendants((node) => {
+      if (node.type.name === 'IntextCitation') {
+        if (node.attrs.citation_id === props.node.attrs.citation_id) {
+          found = true;
+        }
+      }
+    });
+    if (!found) {
+      removeInTextCitationIds(
+        props.node.attrs.citation_id,
+        current_citation.document_id
+      );
+    }
+  });
+
   const handleEditCitation = () => {
-    updateRightbarTab(1);
+    updateRightbarTab(3);
     updateShowEditCitation(true);
     updateCurrentInline(props);
   };
@@ -48,7 +69,7 @@ const IntextContent = (props: NodeViewProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        {citationStyle === 'APA' ? (
+        {citationStyle === 'apa' ? (
           <p className='!m-0 text-violet-500'>
             (
             {props.node.attrs.show_author && (
@@ -59,15 +80,37 @@ const IntextContent = (props: NodeViewProps) => {
             )}
             )
           </p>
-        ) : (
+        ) : citationStyle === 'mla' ? (
           <p className='!m-0 text-violet-500'>
             (
             {props.node.attrs.show_author && (
               <MLAAuhors contributors={current_citation?.contributors ?? []} />
             )}
+            {props.node.attrs.show_year &&
+              `, ${current_citation?.publish_date?.year}`}
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
-              ` ${props.node.attrs.page_number}`}
+              `, ${props.node.attrs.page_number}`}
+            )
+          </p>
+        ) : citationStyle === 'ieee' ? (
+          <p className='!m-0 text-violet-500'>
+            [{current_citation?.in_text_rank}]
+          </p>
+        ) : (
+          <p className='!m-0 text-violet-500'>
+            (
+            {props.node.attrs.show_author && (
+              <ChicagoAuthors
+                contributors={current_citation?.contributors ?? []}
+              />
+            )}
+            {props.node.attrs.show_year && (
+              <span>{` ${current_citation?.publish_date?.year}`}</span>
+            )}
+            {props.node.attrs.show_page &&
+              props.node.attrs.page_number &&
+              `, p. ${props.node.attrs.page_number}`}
             )
           </p>
         )}
@@ -147,6 +190,7 @@ const APAAuthors = ({
     <span>{contributors[0].last_name} et al.,</span>
   ) : null;
 };
+
 const MLAAuhors = ({
   contributors,
 }: {
@@ -167,6 +211,50 @@ const MLAAuhors = ({
   ) : contributors.length > 2 ? (
     contributors[0].last_name + ' et al.'
   ) : null;
+};
+
+const ChicagoAuthors = ({
+  contributors,
+}: {
+  contributors: {
+    first_name?: string;
+    last_name?: string;
+    middle_name?: string;
+    role?: string;
+    suffix?: string;
+  }[];
+}) => {
+  if (contributors.length === 1) {
+    // 单一作者
+    return (
+      <span>
+        {contributors[0].last_name}
+        {contributors[0].suffix ? `, ${contributors[0].suffix}` : ''},{' '}
+        {contributors[0].first_name}{' '}
+        {contributors[0].middle_name ? `${contributors[0].middle_name}.` : ''}
+      </span>
+    );
+  } else if (contributors.length === 2) {
+    // 两位作者
+    return (
+      <span>
+        {contributors[0].last_name}, {contributors[0].first_name}
+        {contributors[0].middle_name
+          ? ` ${contributors[0].middle_name[0]}.`
+          : ''}{' '}
+        and {contributors[1].first_name}{' '}
+        {contributors[1].middle_name
+          ? `${contributors[1].middle_name[0]}.`
+          : ''}
+        {contributors[1].last_name}
+      </span>
+    );
+  } else if (contributors.length > 2) {
+    // 三位或更多作者，只显示第一位作者加et al.
+    return <span>{contributors[0].last_name} et al.</span>;
+  } else {
+    return null; // 没有作者信息
+  }
 };
 
 export default IntextContent;

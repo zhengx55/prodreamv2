@@ -16,7 +16,7 @@ import {
 import { DocPageDicType, EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
+import { m } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import {
@@ -27,6 +27,7 @@ import {
   useEffect,
   useRef,
 } from 'react';
+import { useUnmount } from 'react-use';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 import CustomPrompt from './CustomPrompt';
 import StreamText from './StreamText';
@@ -165,7 +166,9 @@ const AiMenu = ({ editor, t }: Props) => {
 
   if (!floatingMenuPos) return null;
   return (
-    <section
+    <m.section
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
       ref={ref}
       style={{ top: `${floatingMenuPos.top - 54}px` }}
       className='absolute -left-12 z-40 flex w-full justify-center overflow-visible'
@@ -325,7 +328,7 @@ const AiMenu = ({ editor, t }: Props) => {
           </Surface>
         )}
       </div>
-    </section>
+    </m.section>
   );
 };
 

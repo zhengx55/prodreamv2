@@ -1,97 +1,106 @@
 import { Button } from '@/components/ui/button';
-import { findTextInDoc } from '@/lib/tiptap/utils';
+import { findNodePos, findParagpraph } from '@/lib/tiptap/utils';
 import { useMembershipInfo } from '@/query/query';
-import { EditorDictType, Sentence } from '@/types';
+import { IDetectionResult } from '@/query/type';
+import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
-import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
-import { memo } from 'react';
+import { useParams } from 'next/navigation';
+import { memo, useState } from 'react';
+import { useLocalStorage } from 'react-use';
 import Unlock from '../Unlock';
-import useSuggestion from './hooks/useSuggestion';
 
-type Props = { suggestions: [number[]]; t: EditorDictType };
-const Suggestion = ({ suggestions, t }: Props) => {
+type Props = { t: EditorDictType };
+const Suggestion = ({ t }: Props) => {
+  const [expanded, setExpanded] = useState(-1);
+  const { id } = useParams();
   const { data: membership } = useMembershipInfo();
   const editor = useAIEditor((state) => state.editor_instance);
-  const { sentences, setSentences, generating, humanize } =
-    useSuggestion(suggestions);
+  const [detectionResult, setDetectionResult, _remove] =
+    useLocalStorage<IDetectionResult>(`detection_report_${id}`);
 
-  const toggleExpand = (item: Sentence) => {
-    const { id } = item;
-    if (!item.expand) {
-      // const { from, to } = findTextInDoc(item.text, editor!);
-      const editor_text = editor?.getText();
-      const from = editor_text?.indexOf(item.text) ?? 0;
-      const to = from + item.text.length + 1;
-      editor?.chain().focus().setTextSelection({ from, to }).run();
-    }
-    setSentences((prev) =>
-      prev.map((prevItem) => {
-        if (prevItem.id === id)
-          return { ...prevItem, expand: !prevItem.expand };
-        else {
-          return { ...prevItem, expand: false };
-        }
-      })
-    );
+  const toggleExpand = (item: [number[], number[], string], index: number) => {
+    setExpanded(index);
+    const editor_block = editor?.getJSON().content ?? [];
+    const nodeText = findParagpraph(item[0], editor_block)?.text;
+    const nodePos = findNodePos(editor!, nodeText!);
+    const selection_range = item[1][1] - item[1][0];
+    const from = nodePos.nodePos;
+    const to = from + selection_range;
+    editor?.chain().focus().setTextSelection({ from, to }).run();
   };
 
   const handleAcceptAll = () => {
-    sentences.map((item) => {
-      const { from, to } = findTextInDoc(item.text, editor!);
+    const editor_block = editor?.getJSON().content ?? [];
+    detectionResult?.highlight_sentences.map((item) => {
+      const nodeText = findParagpraph(item[0], editor_block)?.text;
+      const nodePos = findNodePos(editor!, nodeText!);
+      const selection_range = item[1][1] - item[1][0];
+      const from = nodePos.nodePos;
+      const to = from + selection_range;
       editor
         ?.chain()
         .focus()
         .setTextSelection({ from, to })
-        .insertContent(item.result)
+        .insertContent(item[2])
         .run();
     });
-    setSentences([]);
+    const new_storage = {
+      ...detectionResult,
+      highlight_sentences: [],
+    };
+    setDetectionResult(new_storage as IDetectionResult);
   };
 
-  const handleDismiss = (item: Sentence) => {
+  const handleDismiss = (indexToRemove: number) => {
+    setExpanded(-1);
     editor?.chain().blur().setTextSelection(0).run();
-    setSentences((prev) =>
-      prev.filter((prevItem) => {
-        return prevItem.id !== item.id;
-      })
-    );
+
+    const updatedHighlightSentences =
+      detectionResult?.highlight_sentences.filter(
+        (_, index) => index !== indexToRemove
+      );
+    const updatedDetectionResult = {
+      ...detectionResult,
+      highlight_sentences: updatedHighlightSentences,
+    };
+    setDetectionResult(updatedDetectionResult as IDetectionResult);
   };
 
-  const handleHumanize = async () => {
-    await humanize();
-  };
-
-  const handleAccept = (item: Sentence) => {
-    editor?.chain().blur().insertContent(item.result).run();
-    setSentences((prev) =>
-      prev.filter((prevItem) => {
-        return prevItem.id !== item.id;
-      })
-    );
+  const handleAccept = (
+    item: [number[], number[], string],
+    indexToRemove: number
+  ) => {
+    setExpanded(-1);
+    editor?.chain().blur().insertContent(item[2]).run();
+    const updatedHighlightSentences =
+      detectionResult?.highlight_sentences.filter(
+        (_, index) => index !== indexToRemove
+      );
+    const updatedDetectionResult = {
+      ...detectionResult,
+      highlight_sentences: updatedHighlightSentences,
+    };
+    setDetectionResult(updatedDetectionResult as IDetectionResult);
   };
 
   const handleRejectAll = () => {
-    setSentences([]);
+    const new_storage = {
+      ...detectionResult,
+      highlight_sentences: [],
+    };
+    setDetectionResult(new_storage as IDetectionResult);
   };
 
   return (
     <div className='flex flex-1 flex-col'>
       {membership?.subscription === 'basic' ? (
         <Unlock text={'Unlock humanize suggestions with the Unlimited Plan'} />
-      ) : sentences.length === 0 ? (
-        generating ? (
-          <div className='flex-center flex-1'>
-            <Loader2 className='animate-spin text-violet-500' />
-          </div>
-        ) : (
-          <div className='flex flex-col gap-y-2'>
-            <h2 className='base-medium'>{t.Detection.Humanizer}</h2>
-            <Starter start={handleHumanize} t={t} />
-          </div>
-        )
-      ) : (
+      ) : detectionResult?.highlight_sentences.length === 0 ||
+        detectionResult?.highlight_sentences.every(
+          (item) => item[2] !== ''
+        ) ? null : (
         <div className='flex flex-col gap-y-2'>
           <div className='flex-between'>
             <p className='base-medium'>{t.Detection.Humanizer}</p>
@@ -114,16 +123,17 @@ const Suggestion = ({ suggestions, t }: Props) => {
               </Button>
             </div>
           </div>
-          {sentences.map((sentence) => {
+          {detectionResult?.highlight_sentences.map((suggestion, idx) => {
+            if (!suggestion[2]) return null;
             return (
               <SentenceItem
                 t={t}
-                key={sentence.id}
-                item={sentence}
-                isExpand={sentence.expand}
-                onToggleExpand={() => toggleExpand(sentence)}
-                onDismiss={() => handleDismiss(sentence)}
-                onAccept={() => handleAccept(sentence)}
+                key={`suggestion-${idx}`}
+                item={suggestion}
+                isExpand={expanded === idx}
+                onToggleExpand={() => toggleExpand(suggestion, idx)}
+                onDismiss={() => handleDismiss(idx)}
+                onAccept={() => handleAccept(suggestion, idx)}
               />
             );
           })}
@@ -132,6 +142,7 @@ const Suggestion = ({ suggestions, t }: Props) => {
     </div>
   );
 };
+
 const Starter = memo(
   ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
     return (
@@ -162,7 +173,7 @@ const Starter = memo(
 Starter.displayName = 'Starter';
 
 interface SentenceItemProps {
-  item: Sentence;
+  item: [number[], number[], string];
   isExpand: boolean;
   onToggleExpand: () => void;
   onDismiss: () => void;
@@ -178,7 +189,6 @@ const SentenceItem = ({
   t,
 }: SentenceItemProps) => (
   <m.div
-    key={item.id}
     initial={false}
     animate={isExpand ? 'expand' : 'collapse'}
     variants={{
@@ -190,16 +200,19 @@ const SentenceItem = ({
     className='cursor-pointer overflow-hidden rounded border border-gray-200 px-4 py-2 hover:shadow-md'
   >
     <p
-      className={`base-regular text-zinc-600 ${isExpand ? '' : 'line-clamp-3'}`}
+      className={`small-regular text-zinc-600 ${isExpand ? '' : 'line-clamp-3'}`}
     >
-      {item.result}
+      {item[2]}
     </p>
     {isExpand && (
       <div className='my-4 flex justify-end gap-x-2'>
         <Button
           role='button'
           variant={'ghost'}
-          onClick={onDismiss}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDismiss();
+          }}
           className='h-max w-max rounded border border-zinc-600 px-4 py-1 text-zinc-600'
         >
           {t.Utility.Dismiss}
@@ -207,7 +220,10 @@ const SentenceItem = ({
         <Button
           role='button'
           className='h-max w-max rounded border border-transparent px-4 py-1'
-          onClick={onAccept}
+          onClick={(e) => {
+            e.stopPropagation();
+            onAccept();
+          }}
         >
           {t.Utility.Accept}
         </Button>

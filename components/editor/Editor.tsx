@@ -13,6 +13,8 @@ import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+import Icon from '../root/Icon';
+import { Button } from '../ui/button';
 import Procedure from './guide/Procedure';
 
 const TableOfContents = dynamic(
@@ -30,10 +32,11 @@ const Editor = ({
   ...props
 }: { essay_content: string } & DocPageDicType) => {
   const { id }: { id: string } = useParams();
-  const { data: track, isPending } = useUserTrackInfo();
+  const { data: track } = useUserTrackInfo();
   const [showBottomBar, setShowBottomBar] = useState(true);
   const {
     setEditorInstance,
+    updateRightbarTab,
     reset,
     doc_title,
     updateTitle,
@@ -120,7 +123,7 @@ const Editor = ({
         autocomplete: 'off',
         autocorrect: 'on',
         autocapitalize: 'off',
-        class: 'min-h-full outline-none whitespace-pre-wrap',
+        class: 'outline-none pb-[30vh] whitespace-pre-wrap',
       },
     },
     injectCSS: false,
@@ -166,9 +169,24 @@ const Editor = ({
     },
   });
 
-  if (!editor || isPending) return null;
+  if (!editor) return null;
   return (
     <section className='relative flex w-full flex-col'>
+      <Button
+        className='absolute bottom-2 right-4 z-50 h-max w-max cursor-pointer bg-transparent p-0'
+        role='button'
+        onClick={() => updateRightbarTab(6)}
+      >
+        <Icon
+          src='/editor/chatbot/trigger.svg'
+          alt='trigger_chat'
+          height={44}
+          width={44}
+          priority
+          className='size-11'
+        />
+      </Button>
+
       <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
         {Boolean(track?.guidence) && <EditorBlock {...props} editor={editor} />}

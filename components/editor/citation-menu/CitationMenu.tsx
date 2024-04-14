@@ -2,7 +2,6 @@ import Loading from '@/components/root/CustomLoading';
 import { Book } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { Surface } from '@/components/ui/surface';
-import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import { ConvertCitationData } from '@/lib/utils';
@@ -12,10 +11,11 @@ import { ICitation } from '@/query/type';
 import { useAIEditor, useCitation } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
+import { m } from 'framer-motion';
 import { ArrowUpRightFromSquare, Plus } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo, useEffect, useRef, useState } from 'react';
+import { useClickAway } from 'react-use';
 
 type Props = { editor: Editor };
 
@@ -27,21 +27,20 @@ const CitationMenu = ({ editor }: Props) => {
   const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
-  const elRef = useRef<HTMLDivElement>(null);
-  const ref = useScrollIntoView();
-  useClickOutside(elRef, () => {
+  const menuRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useScrollIntoView();
+  useClickAway(menuRef, () => {
     editor.chain().unsetHighlight().run();
     updateCitationMenu(false);
   });
 
   useEffect(() => {
-    const selectedText = getSelectedText(editor);
-    selectedText.trim() && setText(selectedText);
+    const text = getSelectedText(editor).trim();
+    setText(text);
+    return () => {
+      editor.chain().unsetHighlight().run();
+    };
   }, [editor]);
-
-  useUnmount(() => {
-    editor.chain().unsetHighlight().run();
-  });
 
   const { data: ciationResult, isPending } = useQuery({
     queryFn: ({ signal }) => searchCitation(text, signal),
@@ -64,12 +63,14 @@ const CitationMenu = ({ editor }: Props) => {
 
   if (!floatingMenuPos) return null;
   return (
-    <section
-      ref={ref}
+    <m.section
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      ref={scrollRef}
       style={{ top: `${floatingMenuPos.top - 54}px` }}
       className='absolute -left-12 z-40 flex w-full justify-center'
     >
-      <div ref={elRef} className='relative flex flex-col bg-transparent'>
+      <div ref={menuRef} className='relative flex flex-col bg-transparent'>
         <Surface
           className='relative flex h-72 w-[600px] flex-col gap-y-2 overflow-y-auto !rounded py-2'
           withBorder
@@ -146,7 +147,7 @@ const CitationMenu = ({ editor }: Props) => {
           </div>
         </Surface>
       </div>
-    </section>
+    </m.section>
   );
 };
 

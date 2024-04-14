@@ -4,6 +4,7 @@ import {
   IDiscount,
   ISubscription,
 } from '@/types';
+import { JSONContent } from '@tiptap/react';
 import Cookies from 'js-cookie';
 import {
   ICitation,
@@ -15,6 +16,7 @@ import {
   ISigunUpRequest,
   IVerifyEmail,
   LoginData,
+  ReferenceType,
   UserTrackData,
 } from './type';
 
@@ -563,7 +565,7 @@ export async function plagiarismCheck(text: string) {
     }
     return data.data;
   } catch (error) {
-    throw new Error(error as string);
+    throw new Error('Opps something went wrong, please try again later');
   }
 }
 
@@ -587,6 +589,7 @@ export async function batchParaphrase(texts: string[]) {
     if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
+
     return data.data;
   } catch (error) {
     throw new Error(error as string);
@@ -969,6 +972,36 @@ export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
 // ----------------------------------------------------------------
 // Citation
 // ----------------------------------------------------------------
+
+export async function getReferenceType(params: {
+  type: ReferenceType;
+  bibtex: string[];
+}): Promise<string[]> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/format/${params.type}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          bibtex: params.bibtex,
+        }),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function createCitation(params: {
   citation_type: ICitationType;
   citation_data: any;
@@ -1090,7 +1123,9 @@ export async function searchCitation(
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw data.msg;
+      throw new Error(
+        'Citation machine is not available for now, please try again later'
+      );
     }
     let result: ICitation[] = data.data;
     let filter_result: ICitation[] = result.map((article) => {
@@ -1099,7 +1134,9 @@ export async function searchCitation(
     });
     return filter_result;
   } catch (error) {
-    throw new Error(error as string);
+    throw new Error(
+      'Citation machine is not available for now, please try again later'
+    );
   }
 }
 
@@ -1107,7 +1144,7 @@ export async function searchCitation(
 // AI-Detection
 // ----------------------------------------------------------------
 export async function getDetectionResult(params: {
-  text: string;
+  text: JSONContent[];
 }): Promise<IDetectionResult> {
   try {
     const token = Cookies.get('token');
@@ -1116,7 +1153,7 @@ export async function getDetectionResult(params: {
       {
         method: 'POST',
         body: JSON.stringify({
-          text: params.text,
+          blocks: params.text,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -1128,7 +1165,6 @@ export async function getDetectionResult(params: {
     if (data.code !== 0) {
       throw data.msg;
     }
-    console.log(data.data);
     return data.data;
   } catch (error) {
     throw new Error(error as string);
@@ -1171,3 +1207,32 @@ export async function ButtonTrack(event: string, mobile: number) {
     console.error(error);
   }
 }
+
+// ----------------------------------------------------------------
+// CHAT
+// ----------------------------------------------------------------
+export async function chat(params: {
+  session_id: string | null;
+  query: string;
+}): Promise<ReadableStream> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/`, {
+      method: 'POST',
+      body: JSON.stringify({
+        session_id: params.session_id,
+        query: params.query,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
+    return res.body;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function pdfSummary() {}

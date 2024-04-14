@@ -9,9 +9,9 @@ import {
   DialogHeader,
 } from '@/components/ui/dialog';
 import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
-import useUpdateEffect from 'beautiful-react-hooks/useUpdateEffect';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 const DiscountModal = () => {
   const [open, setOpen] = useState(false);

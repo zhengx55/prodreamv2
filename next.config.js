@@ -21,8 +21,12 @@ const nextConfig = {
   },
   experimental: {
     nextScriptWorkers: true,
-    optimizePackageImports: ['lucide-react'],
+    optimizePackageImports: ['lucide-react', 'react-use'],
     typedRoutes: true,
+  },
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;
+    return config;
   },
   reactStrictMode: false,
   output: 'standalone',

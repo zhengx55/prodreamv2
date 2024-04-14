@@ -109,12 +109,15 @@ const SearchBar = ({ lang, t }: Props) => {
         </Button>
         <Input
           ref={ref}
+          autoFocus={searchParams.get('query') ? true : false}
+          defaultValue={searchParams.get('query') ?? ''}
           onChange={handleKeywordChange}
           type='text'
           className='h-full w-full border-none pr-14 focus-visible:ring-0'
           name='search-essay'
           aria-label='Search'
           placeholder='Search'
+          onKeyDown={(e) => e.code === 'Enter' && handleSearch()}
         />
       </div>
     </div>

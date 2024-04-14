@@ -30,6 +30,7 @@ const CitationPreview = dynamic(() => import('./CitationPreview'), {
 export const SearchCitationCard = memo(
   ({ item, index }: { item: ICitation; index: number }) => {
     const { id } = useParams();
+    const editor = useAIEditor((state) => state.editor_instance);
     const citation_tooltip_step = useUserTask((state) => state.citation_step);
     const updateCitationStep = useUserTask((state) => state.updateCitationStep);
     const { mutateAsync: updateTrack } = useMutateTrackInfo();
@@ -50,6 +51,8 @@ export const SearchCitationCard = memo(
         await ButtonTrack({ event: 'Onboarding task: add citation' });
       }
       const converted_data = ConvertCitationData(item, false);
+      const { selection } = editor!.state;
+      const { anchor } = selection;
       if (action === 'collect') {
         await handleCollect({
           citation_data: converted_data,
@@ -58,7 +61,7 @@ export const SearchCitationCard = memo(
         });
       } else {
         await handleCite({
-          citation_data: converted_data,
+          citation_data: { ...converted_data, in_text_pos: anchor },
           citation_type: 'Journal',
           document_id: id as string,
         });
@@ -176,23 +179,28 @@ export const MineCitationCard = memo(
     type: 'inText' | 'library';
   }) => {
     const editor = useAIEditor((state) => state.editor_instance);
-    const removeInTextCitationIds = useCitation(
-      (state) => state.removeInTextCitationIds
-    );
-    const removeInDocCitationIds = useCitation(
-      (state) => state.removeInDocCitationIds
-    );
-    const appendInTextCitationIds = useCitation(
-      (state) => state.appendInTextCitationIds
-    );
+    const {
+      removeInTextCitationIds,
+      removeInDocCitationIds,
+      appendInTextCitationIds,
+      updateCitationItem,
+    } = useCitation((state) => ({ ...state }));
     const { insertCitation } = useEditorCommand(editor!);
 
     const handleCite = async () => {
+      const { selection } = editor!.state;
+      const { from, to, anchor } = selection;
+      const new_data = {
+        type: item.type,
+        data: { ...item.data, in_text_pos: anchor },
+      };
       if (type === 'inText') {
-        insertCitation(item.data.id);
+        updateCitationItem(new_data);
+        insertCitation(item.data.id, anchor, from, to);
       } else {
+        updateCitationItem(new_data);
         await appendInTextCitationIds(item);
-        insertCitation(item.data.id);
+        insertCitation(item.data.id, anchor, from, to);
       }
     };
 

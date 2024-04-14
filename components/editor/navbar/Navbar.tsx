@@ -1,6 +1,5 @@
 import { Cloud, Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useMembershipInfo, useUserTrackInfo } from '@/query/query';
 import { DocPageDicType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
@@ -13,6 +12,7 @@ import Prompt from './Prompt';
 const PromptViewModal = dynamic(() => import('../modal/Prompt'));
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
+
 type Props = {} & DocPageDicType;
 
 const DocNavbar = ({ t, lang }: Props) => {
@@ -21,32 +21,24 @@ const DocNavbar = ({ t, lang }: Props) => {
     updatePaymentModal: state.updatePaymentModal,
     docTtile: state.doc_title,
   }));
-  const { data: track, isPending } = useUserTrackInfo();
-  const { data: usage, isPending: isUsagePending } = useMembershipInfo();
-
-  if (isPending || isUsagePending)
-    return (
-      <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-gray-200 px-5 py-3'>
-        <Skeleton className='h-5 w-24 rounded' />
-        <Skeleton className='h-5 w-24 rounded' />
-      </nav>
-    );
+  const { data: track } = useUserTrackInfo();
+  const { data: usage } = useMembershipInfo();
 
   return (
-    <nav className='flex-between h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-gray-200 px-5 py-3'>
+    <nav className='flex-between z-50 h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-gray-200 bg-white px-5 py-3'>
       {/* {!Boolean(prompt) && <PromptViewModal prompt={prompt} />} */}
-      <div className='flex h-full items-center gap-x-2'>
+      <div className='flex h-full items-center gap-x-3'>
         {track?.guidence && (
           <Link passHref href={`/${lang}/editor`}>
             <span className='cursor-pointer rounded-md hover:bg-shadow-border hover:opacity-50'>
-              <ChevronLeft />
+              <ChevronLeft className='text-zinc-600' />
             </span>
           </Link>
         )}
-        <h1 className='base-semibold line-clamp-1 max-w-xl'>
+        <h1 className='line-clamp-1 max-w-xl text-base font-medium'>
           {!track?.guidence
             ? 'Welcome To Prodream'
-            : docTtile === 'Untitled'
+            : !docTtile
               ? 'Untitled Document'
               : docTtile}
         </h1>

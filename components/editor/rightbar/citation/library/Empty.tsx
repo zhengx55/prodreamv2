@@ -13,7 +13,7 @@ const Empty = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className='flex-center mt-4 w-full max-w-max flex-col gap-y-2 border border-gray-200 p-4'
+        className='flex-center mt-4 w-full flex-col gap-y-2 border border-gray-200 p-4'
       >
         <Image
           alt='citation'

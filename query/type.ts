@@ -59,7 +59,7 @@ export type IDetectionResult = {
     mixed: number;
   };
   message: string;
-  highlight_sentences: [number[]];
+  highlight_sentences: [number[], number[], string][];
 };
 
 export type IGrammarResponse = {
@@ -77,6 +77,7 @@ export interface IPlagiarismData {
   scores: number;
   spans: number[][];
   status: string;
+  pdf: string;
 }
 
 export type IDocDetail = {
@@ -154,4 +155,7 @@ export type UserTrackData = {
   basic_task?: string;
   has_referral_code?: string;
   show_referral_dialog?: string;
+  close_checkList?: string;
 };
+
+export type ReferenceType = 'mla' | 'apa' | 'ieee' | 'chicago';

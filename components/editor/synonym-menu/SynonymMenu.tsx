@@ -1,16 +1,16 @@
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { Synonym } from '@/components/root/SvgComponents';
-import useClickOutside from '@/hooks/useClickOutside';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import { synonym } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
-import useUnmount from 'beautiful-react-hooks/useUnmount';
+import { m } from 'framer-motion';
 import { Info } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
+import { useClickAway, useUnmount } from 'react-use';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 
 type Props = { editor: Editor };
@@ -41,7 +41,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
   });
 
   const elRef = useRef<HTMLDivElement>(null);
-  useClickOutside(elRef, () => {
+  useClickAway(elRef, () => {
     updateSynonymMenu(false);
   });
   const ref = useScrollIntoView();
@@ -55,7 +55,9 @@ export const SynonymMenu = memo(({ editor }: Props) => {
 
   if (!floatingMenuPos) return null;
   return (
-    <section
+    <m.section
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
       ref={ref}
       style={{
         top: `${floatingMenuPos.top - 44}px`,
@@ -102,7 +104,7 @@ export const SynonymMenu = memo(({ editor }: Props) => {
           )}
         </div>
       </div>
-    </section>
+    </m.section>
   );
 });
 
