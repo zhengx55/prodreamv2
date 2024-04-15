@@ -51,7 +51,10 @@ const SearchBar = ({ setKeyword, setResult, t }: Props) => {
       ) : (
         <Input
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.currentTarget.value)}
+          onChange={(e) => {
+            e.currentTarget.value.trim() &&
+              setSearchTerm(e.currentTarget.value);
+          }}
           onKeyDown={(e) =>
             e.key === 'Enter' && searchTerm.trim() && setKeyword(searchTerm)
           }
