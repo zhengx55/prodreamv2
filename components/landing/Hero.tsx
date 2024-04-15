@@ -66,7 +66,6 @@ const Hero = ({ t, lang }: HomePageDicType) => {
             {t.journey}
           </h1>
         )}
-
         <Spacer y='40' />
         <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
           <Link
