@@ -38,7 +38,7 @@ const DeleteModal = ({ id, title }: Props) => {
   return (
     <DialogContent
       onPointerDownOutside={(e) => {
-        e.preventDefault();
+        e.stopPropagation();
       }}
       className='px-8 py-4 md:w-[640px] md:rounded-md'
     >
