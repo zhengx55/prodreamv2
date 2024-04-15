@@ -79,7 +79,7 @@ const NavBar = ({
             }
             passHref
           >
-            <Button className='bg-violet-500 hover:bg-violet-500'>
+            <Button className='rounded-lg'>
               <strong>{t.start_writing}</strong>
               {t.It_s_free}
             </Button>

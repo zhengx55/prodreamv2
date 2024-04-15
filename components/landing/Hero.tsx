@@ -95,7 +95,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
           >
             <Button
               className='h-max w-52 rounded-lg border border-violet-500 text-violet-500 sm:w-max sm:px-8 sm:py-2.5'
-              variant={'ghost'}
+              variant={'outline'}
               role='button'
             >
               {t.join_community}
