@@ -1,9 +1,7 @@
 'use client';
 import { HeroInfo, HeroMainInfo } from '@/constant';
-import { staggerContainer, textVariant } from '@/constant/motion';
 import useInviewCapture from '@/hooks/useInViewCapture';
 import { HomePageDicType } from '@/types';
-import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -40,20 +38,11 @@ const Hero = ({ t, lang }: HomePageDicType) => {
   };
 
   return (
-    <m.section
+    <section
       ref={ref}
-      variants={staggerContainer()}
-      initial='hidden'
-      whileInView='show'
-      viewport={{
-        once: true,
-      }}
       className='relative flex w-full justify-center px-4 sm:mt-0 sm:px-0'
     >
-      <m.div
-        variants={textVariant(0.3)}
-        className='absolute -z-10 hidden h-full w-full sm:block'
-      >
+      <div className='absolute -z-10 hidden h-full w-full sm:block'>
         <Image
           draggable='false'
           alt='gardient-bg'
@@ -64,11 +53,8 @@ const Hero = ({ t, lang }: HomePageDicType) => {
           loading='eager'
           src='/landing/heros/Mask_group.png'
         />
-      </m.div>
-      <m.div
-        variants={textVariant(0)}
-        className='sm:flex-center flex h-full w-full flex-col py-10 sm:w-[1200px] sm:flex-col sm:py-20'
-      >
+      </div>
+      <div className='sm:flex-center flex h-full w-full flex-col py-10 sm:w-[1200px] sm:flex-col sm:py-20'>
         {lang === 'en' ? (
           <TypeTitle t={t} />
         ) : (
@@ -156,8 +142,8 @@ const Hero = ({ t, lang }: HomePageDicType) => {
             className='h-full w-full object-cover'
           />
         </div>
-      </m.div>
-    </m.section>
+      </div>
+    </section>
   );
 };
 
