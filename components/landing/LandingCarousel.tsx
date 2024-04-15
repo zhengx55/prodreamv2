@@ -38,7 +38,6 @@ const UniversityCarousel = () => {
               sizes='(max-width: 768px) 50vw, 100vw'
               alt={university.title}
               fill
-              priority={false}
               className='object-contain grayscale'
             />
           </CarouselItem>

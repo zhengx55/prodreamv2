@@ -3,7 +3,7 @@ import Script from 'next/script';
 const Hotjar = () => {
   return (
     <Script
-      strategy='afterInteractive'
+      strategy='lazyOnload'
       id='hotjar'
       dangerouslySetInnerHTML={{
         __html: `

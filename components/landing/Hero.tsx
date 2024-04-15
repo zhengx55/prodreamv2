@@ -84,6 +84,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
         <Spacer y='40' />
         <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
           <Link
+            prefetch={false}
             passHref
             href={
               searchParams
@@ -101,7 +102,12 @@ const Hero = ({ t, lang }: HomePageDicType) => {
               {t.It_s_free}
             </Button>
           </Link>
-          <Link href={'https://discord.gg/xXSFXv5kPd'} passHref target='_blank'>
+          <Link
+            prefetch={false}
+            href={'https://discord.gg/xXSFXv5kPd'}
+            passHref
+            target='_blank'
+          >
             <Button
               className='h-max w-52 rounded-lg border border-violet-500 text-violet-500 sm:w-max sm:px-8 sm:py-2.5'
               variant={'ghost'}
@@ -127,8 +133,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
                   width={28}
                   height={28}
                   src={item.icon}
-                  loading='eager'
-                  priority
+                  priority={index === 0 ? true : false}
                 />
                 <h2 className='title-regular 2xl:h3-regular'>
                   {t[`HeroInfo_title_${index + 1}` as keyof typeof t]}
@@ -142,24 +147,14 @@ const Hero = ({ t, lang }: HomePageDicType) => {
         </div>
         <Spacer y='40' />
         <div className='relative h-[270px] w-full overflow-hidden sm:h-[800px]'>
-          {HeroMainInfo.map((item, index) => (
-            <div
-              key={index}
-              className={`absolute left-0 top-0 h-full w-full transition-opacity duration-500 ${
-                index === selected ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <Image
-                alt={'prodream.ai'}
-                src={item.image}
-                fill
-                loading='eager'
-                priority
-                sizes='(max-width: 768px) 50vw, 100vw'
-                className='h-full w-full object-cover'
-              />
-            </div>
-          ))}
+          <Image
+            alt={'prodream.ai'}
+            src={HeroMainInfo[selected].image}
+            fill
+            loading='lazy'
+            sizes='(max-width: 768px) 50vw, 100vw'
+            className='h-full w-full object-cover'
+          />
         </div>
       </m.div>
     </m.section>
