@@ -33,7 +33,7 @@ export default async function Page({
           <div className='flex-center relative my-10'>
             <Separator orientation='horizontal' className='bg-shadow-border' />
             <p className='small-regular absolute bg-white px-2 text-neutral-300'>
-              {dict.Auth.Login.GoogleDivider}
+              {dict.Auth.Signup.GoogleDivider}
             </p>
           </div>
           <LoginForm t={dict.Auth} lang={lang} />
