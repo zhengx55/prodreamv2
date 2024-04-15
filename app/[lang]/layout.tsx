@@ -1,8 +1,6 @@
 import PageViewTrack from '@/components/root/PageViewTrack';
-import SteyProvider from '@/components/root/SteyProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
-import Hotjar from '@/htojar/Hotjar';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
@@ -25,7 +23,7 @@ const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
   variable: '--inter-font',
-  preload: true,
+  preload: false,
 });
 
 const liber = Libre_Baskerville({
@@ -33,7 +31,7 @@ const liber = Libre_Baskerville({
   weight: ['400', '700'],
   display: 'swap',
   variable: '--liber-font',
-  preload: true,
+  preload: false,
 });
 
 const cnFont = localFont({
@@ -82,12 +80,12 @@ export default async function RootLayout({
       className={`${poppins.variable} ${inter.variable} ${liber.variable} ${cnFont.variable}`}
       suppressHydrationWarning
     >
-      {process.env.NODE_ENV === 'production' && (
+      {/* {process.env.NODE_ENV === 'production' && (
         <>
           <Hotjar />
           <SteyProvider />
         </>
-      )}
+      )} */}
       <body>
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}

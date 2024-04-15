@@ -38,6 +38,7 @@ const UniversityCarousel = () => {
               sizes='(max-width: 768px) 50vw, 100vw'
               alt={university.title}
               fill
+              priority={false}
               className='object-contain grayscale'
             />
           </CarouselItem>
@@ -126,7 +127,7 @@ const HeroCarousel = ({
                 width={28}
                 height={28}
                 src={item.icon}
-                priority
+                priority={index === 0 ? true : false}
               />
               <h2 className='small-regular'>
                 {t[`HeroInfo_title_${index + 1}` as keyof typeof t]}
