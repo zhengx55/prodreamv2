@@ -137,7 +137,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
             alt={'prodream.ai'}
             src={HeroMainInfo[selected].image}
             fill
-            loading='lazy'
+            priority
             sizes='(max-width: 768px) 50vw, 100vw'
             className='h-full w-full object-cover'
           />
