@@ -45,8 +45,8 @@ const Result = ({ recheck, result, t }: Props) => {
         </h3>
         <Button
           role='button'
-          variant={'ghost'}
-          className='h-max rounded border border-zinc-600 px-4 py-1 hover:transform-none hover:opacity-50'
+          variant={'outline'}
+          className='rounded0 h-max px-4 py-1'
           onClick={recheck}
         >
           <RefreshCcw size={14} className='text-zinc-600' />
