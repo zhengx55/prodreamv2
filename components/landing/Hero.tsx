@@ -66,7 +66,6 @@ const Hero = ({ t, lang }: HomePageDicType) => {
             {t.journey}
           </h1>
         )}
-
         <Spacer y='40' />
         <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
           <Link
@@ -96,7 +95,7 @@ const Hero = ({ t, lang }: HomePageDicType) => {
           >
             <Button
               className='h-max w-52 rounded-lg border border-violet-500 text-violet-500 sm:w-max sm:px-8 sm:py-2.5'
-              variant={'ghost'}
+              variant={'outline'}
               role='button'
             >
               {t.join_community}

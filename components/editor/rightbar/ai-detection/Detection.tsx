@@ -100,7 +100,7 @@ const Starter = memo(
           {t.Detection.Title}
         </p>
         <Button
-          className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
+          className='base-medium h-max w-max self-center rounded-lg px-8'
           role='button'
           onClick={start}
         >

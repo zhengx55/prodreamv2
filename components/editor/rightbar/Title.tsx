@@ -30,8 +30,8 @@ const Title = ({ t, showRecheck, recheck }: Props) => {
       {showRecheck && (
         <Button
           role='button'
-          variant={'ghost'}
-          className='h-max rounded border px-4 py-1 text-zinc-600 hover:transform-none'
+          variant={'outline'}
+          className='h-max rounded border px-4 py-1'
           onClick={recheck}
         >
           <RefreshCcw size={14} />
