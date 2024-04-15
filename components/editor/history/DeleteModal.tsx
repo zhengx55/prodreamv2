@@ -54,8 +54,8 @@ const DeleteModal = ({ id, title }: Props) => {
           <DialogClose asChild>
             <Button
               onClick={(e) => e.stopPropagation()}
-              variant={'ghost'}
-              className='w-max border border-violet-500 text-violet-500'
+              variant={'outline'}
+              className='w-max'
             >
               Cancel
             </Button>

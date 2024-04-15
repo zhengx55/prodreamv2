@@ -34,7 +34,7 @@ const NavBar = ({
             <DropdownMenuTrigger asChild>
               <Button
                 role='button'
-                className='hidden w-max px-1 uppercase text-[#3B3A40] sm:block'
+                className='hidden w-max px-1 uppercase sm:block'
                 variant={'ghost'}
               >
                 {lang}
@@ -50,7 +50,7 @@ const NavBar = ({
           >
             <Button
               role='link'
-              className='hidden w-max px-1 text-[#3B3A40] sm:block'
+              className='hidden w-max px-1 sm:block'
               variant={'ghost'}
             >
               Blogs
