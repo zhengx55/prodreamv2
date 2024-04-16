@@ -30,7 +30,7 @@ const EditorBlock = ({ editor, ...props }: Props) => {
     >
       <Spacer y='20' />
       <AnimatePresence>
-        {!show_task_dialog ? <Task t={props.t} /> : null}
+        {show_task_dialog ? <Task t={props.t} /> : null}
       </AnimatePresence>
       {showSynonymMenu && <SynonymMenu editor={editor} />}
       {showCopilotMenu && <AiMenu {...props} editor={editor} />}
