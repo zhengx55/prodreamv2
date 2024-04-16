@@ -4,7 +4,7 @@ import { sample_search_citation } from '@/constant';
 import { CitationTooltip } from '@/constant/enum';
 import { ICitation } from '@/query/type';
 import { EditorDictType } from '@/types';
-import { useCitation, useUserTask } from '@/zustand/store';
+import { useUserTask } from '@/zustand/store';
 import { Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
@@ -20,7 +20,6 @@ type Props = {
 };
 const SearchBar = ({ setKeyword, setResult, t }: Props) => {
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
-  const setShowMine = useCitation((state) => state.updateShowMineCitation);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
   const [searchTerm, setSearchTerm] = useState('');
   return (
@@ -52,8 +51,7 @@ const SearchBar = ({ setKeyword, setResult, t }: Props) => {
         <Input
           value={searchTerm}
           onChange={(e) => {
-            e.currentTarget.value.trim() &&
-              setSearchTerm(e.currentTarget.value);
+            setSearchTerm(e.currentTarget.value);
           }}
           onKeyDown={(e) =>
             e.key === 'Enter' && searchTerm.trim() && setKeyword(searchTerm)
@@ -66,8 +64,7 @@ const SearchBar = ({ setKeyword, setResult, t }: Props) => {
       )}
       <Button
         onClick={() => {
-          if (searchTerm) setKeyword(searchTerm);
-          setShowMine(false);
+          if (searchTerm.trim()) setKeyword(searchTerm);
         }}
         className='h-max w-max rounded bg-violet-500 p-1.5'
       >

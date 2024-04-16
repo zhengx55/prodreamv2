@@ -9,7 +9,6 @@ import NavBar from '@/components/landing/navbar/NavBar';
 import Question from '@/components/landing/Question';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
-import { Suspense } from 'react';
 
 export default async function Home({
   params: { lang },
@@ -21,10 +20,8 @@ export default async function Home({
   const dict = await getDictionary(lang);
   return (
     <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>
-      <Suspense>
-        <NavBar search_param={from} lang={lang} t={dict.Homepage} />
-        <Hero lang={lang} t={dict.Homepage} />
-      </Suspense>
+      <NavBar search_param={from} lang={lang} t={dict.Homepage} />
+      <Hero lang={lang} search_param={from} t={dict.Homepage} />
       <Banner lang={lang} t={dict.Homepage} />
       <About lang={lang} t={dict.Homepage} />
       <Introduction lang={lang} t={dict.Homepage} />

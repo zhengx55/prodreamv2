@@ -1,3 +1,4 @@
+'use client';
 import { getDictionary } from '@/lib/get-dictionary';
 import ReactTyped from 'react-typed';
 import Spacer from '../root/Spacer';
