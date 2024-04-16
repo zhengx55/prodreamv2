@@ -235,12 +235,12 @@ const SentenceItem = ({
       <div className='my-4 flex justify-end gap-x-2'>
         <Button
           role='button'
-          variant={'ghost'}
+          variant={'outline'}
           onClick={(e) => {
             e.stopPropagation();
             onDismiss();
           }}
-          className='h-max w-max rounded border border-zinc-600 px-4 py-1 text-zinc-600'
+          className='h-max w-max rounded border px-4 py-1'
         >
           {t.Utility.Dismiss}
         </Button>
