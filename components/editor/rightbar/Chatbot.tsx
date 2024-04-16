@@ -68,11 +68,9 @@ const Chatbot = ({ t }: Props) => {
     let session: string | undefined;
 
     const eventData = lines.reduce((acc, line, index) => {
-      // Extract session ID if the previous line indicates its start
       if (lines[index - 1]?.startsWith('event: session_id')) {
         session = line.replace('data: "', '').replace('"', '').trim();
       }
-      // Accumulate data lines following an 'event: data' line
       if (
         line.startsWith('data:') &&
         lines[index - 1]?.startsWith('event: data')
