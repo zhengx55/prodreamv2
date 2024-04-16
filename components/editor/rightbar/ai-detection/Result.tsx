@@ -1,10 +1,8 @@
 import Spacer from '@/components/root/Spacer';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { IDetectionResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { m } from 'framer-motion';
-import { RefreshCcw } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
@@ -16,11 +14,10 @@ const primaryColor = ['#48B251', '#5266CC', '#E58600'];
 const secondaryColor = ['#D5F9D8', '#F2F4FF', '#FFEACC'];
 
 type Props = {
-  recheck: () => Promise<void>;
   result: IDetectionResult;
   t: EditorDictType;
 };
-const Result = ({ recheck, result, t }: Props) => {
+const Result = ({ result, t }: Props) => {
   const ai_percent = result.class_probabilities.ai * 100;
   const human_percent = result.class_probabilities.human * 100;
   const mixed_percent = result.class_probabilities.mixed * 100;
@@ -30,7 +27,6 @@ const Result = ({ recheck, result, t }: Props) => {
     if (max === human_percent) return 0;
     return 1;
   }, [ai_percent, human_percent, mixed_percent]);
-  const a = [[1, 0], 'sadasd'];
   return (
     <m.div
       initial={{ opacity: 0, y: -20 }}
@@ -43,17 +39,7 @@ const Result = ({ recheck, result, t }: Props) => {
         <h3 className='base-medium'>
           {t.Detection.Classification}&nbsp;&nbsp;
         </h3>
-        <Button
-          role='button'
-          variant={'ghost'}
-          className='h-max rounded border border-zinc-600 px-4 py-1 hover:transform-none hover:opacity-50'
-          onClick={recheck}
-        >
-          <RefreshCcw size={14} className='text-zinc-600' />
-          <p className='subtle-regular text-zinc-600'>{t.Plagiarism.recheck}</p>
-        </Button>
       </div>
-
       <Spacer y='8' />
       <p className='text-sm leading-relaxed text-zinc-600'>
         {result.message}&nbsp;
@@ -67,7 +53,7 @@ const Result = ({ recheck, result, t }: Props) => {
           {labels[result_index]}
         </span>
       </p>
-      <Spacer y='32' />
+      <Spacer y='16' />
       <div className='size-36 self-center'>
         <PieChart
           animate
@@ -78,7 +64,7 @@ const Result = ({ recheck, result, t }: Props) => {
           ]}
         />
       </div>
-      <Spacer y='24' />
+      <Spacer y='16' />
       <p className='inline-flex items-center justify-center text-xs text-zinc-600'>
         <span
           style={{
@@ -90,24 +76,24 @@ const Result = ({ recheck, result, t }: Props) => {
         </span>
         &nbsp;&nbsp;{t.Detection.probability}
       </p>
-      <Spacer y='44' />
+      <Spacer y='24' />
       <Separator orientation='horizontal' className='bg-gray-200' />
-      <Spacer y='44' />
+      <Spacer y='24' />
       <h3 className='base-medium'>{t.Detection.breakdown}</h3>
       <Spacer y='8' />
       <p className='small-regular leading-relaxed text-zinc-600'>
         The probability this text has been entirely written by a human, AI or a
         mix of the two.
       </p>
-      <Spacer y='32' />
+      <Spacer y='16' />
       <Bar
         human_percent={human_percent}
         mixed_percent={mixed_percent}
         ai_percent={ai_percent}
       />
-      <Spacer y='44' />
+      <Spacer y='24' />
       <Separator orientation='horizontal' className='bg-gray-200' />
-      <Spacer y='44' />
+      <Spacer y='24' />
       {result.highlight_sentences.length > 0 && <Suggestion t={t} />}
       <Spacer y='20' />
     </m.div>
@@ -148,14 +134,8 @@ const Bar = ({
         />
       </div>
       <Spacer y='10' />
-      <div className='flex w-full items-center'>
-        <div
-          className='flex flex-col gap-y-0.5'
-          style={{
-            width: `${human_percent}%`,
-            minWidth: '20%',
-          }}
-        >
+      <div className='flex w-full items-center justify-between'>
+        <div className='flex flex-col gap-y-0.5'>
           <p className='text-sm font-medium leading-tight text-green-500'>
             human
           </p>
@@ -163,13 +143,7 @@ const Bar = ({
             {human_percent.toFixed(0)}%
           </p>
         </div>
-        <div
-          style={{
-            width: `${mixed_percent}%`,
-            minWidth: '20%',
-          }}
-          className='flex flex-col gap-y-0.5'
-        >
+        <div className='flex flex-col gap-y-0.5'>
           <p className='text-sm font-medium leading-tight text-indigo-500'>
             mixed
           </p>
@@ -177,13 +151,7 @@ const Bar = ({
             {mixed_percent.toFixed(0)}%
           </p>
         </div>
-        <div
-          style={{
-            width: `${ai_percent}%`,
-            minWidth: '20%',
-          }}
-          className='flex flex-col gap-y-0.5'
-        >
+        <div className='flex flex-col gap-y-0.5'>
           <p className='text-sm font-medium leading-tight text-amber-600'>ai</p>
           <p className='small-regular text-zinc-600'>
             {ai_percent.toFixed(0)}%

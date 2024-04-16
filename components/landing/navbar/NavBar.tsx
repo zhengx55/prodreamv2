@@ -34,7 +34,7 @@ const NavBar = ({
             <DropdownMenuTrigger asChild>
               <Button
                 role='button'
-                className='hidden w-max px-1 uppercase text-[#3B3A40] sm:block'
+                className='hidden w-max px-1 uppercase sm:block'
                 variant={'ghost'}
               >
                 {lang}
@@ -50,7 +50,7 @@ const NavBar = ({
           >
             <Button
               role='link'
-              className='hidden w-max px-1 text-[#3B3A40] sm:block'
+              className='hidden w-max px-1 sm:block'
               variant={'ghost'}
             >
               Blogs
@@ -58,13 +58,18 @@ const NavBar = ({
           </Link>
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
-          <Link href={token ? `/${lang}/editor` : `/${lang}/login`} passHref>
+          <Link
+            prefetch={false}
+            href={token ? `/${lang}/editor` : `/${lang}/login`}
+            passHref
+          >
             <Button role='link' variant={'ghost'} className='text-violet-500'>
               {t.log_in}
             </Button>
           </Link>
 
           <Link
+            prefetch={false}
             href={
               search_param
                 ? `/${lang}/signup?from=${search_param}`
@@ -74,7 +79,7 @@ const NavBar = ({
             }
             passHref
           >
-            <Button className='bg-violet-500 hover:bg-violet-500'>
+            <Button className='rounded-lg'>
               <strong>{t.start_writing}</strong>
               {t.It_s_free}
             </Button>

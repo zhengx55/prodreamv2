@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { DialogClose, DialogContent } from '@/components/ui/dialog';
 import { deleteDoc } from '@/query/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { XCircle } from 'lucide-react';
 
 type Props = {
   id: string;
@@ -38,12 +39,17 @@ const DeleteModal = ({ id, title }: Props) => {
   return (
     <DialogContent
       onPointerDownOutside={(e) => {
-        e.preventDefault();
+        e.stopPropagation();
       }}
       className='px-8 py-4 md:w-[640px] md:rounded-md'
     >
       <div className='flex flex-col gap-y-2'>
-        <h1 className='h3-bold'>Move to trash?</h1>
+        <div className='flex-between'>
+          <h1 className='h3-bold'>Move to trash?</h1>
+          <DialogClose>
+            <XCircle size={20} className=' text-neutral-400' />
+          </DialogClose>
+        </div>
         <p className='title-regular text-shadow-100'>
           Are you sure you want to delete &quot;
           {title !== 'Untitled' ? title : 'Untitled Document'}
@@ -54,8 +60,8 @@ const DeleteModal = ({ id, title }: Props) => {
           <DialogClose asChild>
             <Button
               onClick={(e) => e.stopPropagation()}
-              variant={'ghost'}
-              className='w-max border border-violet-500 text-violet-500'
+              variant={'outline'}
+              className='w-max'
             >
               Cancel
             </Button>

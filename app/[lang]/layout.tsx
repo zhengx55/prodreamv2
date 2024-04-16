@@ -25,7 +25,7 @@ const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
   variable: '--inter-font',
-  preload: true,
+  preload: false,
 });
 
 const liber = Libre_Baskerville({
@@ -33,7 +33,7 @@ const liber = Libre_Baskerville({
   weight: ['400', '700'],
   display: 'swap',
   variable: '--liber-font',
-  preload: true,
+  preload: false,
 });
 
 const cnFont = localFont({
@@ -75,7 +75,6 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { lang: Locale };
 }) {
-  // const bootstrapData = await getBootstrapData();
   return (
     <html
       lang={params.lang}

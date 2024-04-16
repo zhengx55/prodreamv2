@@ -33,7 +33,7 @@ export default async function Page({
           <div className='flex-center relative my-10'>
             <Separator orientation='horizontal' className='bg-shadow-border' />
             <p className='small-regular absolute bg-white px-2 text-neutral-300'>
-              {dict.Auth.Login.GoogleDivider}
+              {dict.Auth.Signup.GoogleDivider}
             </p>
           </div>
           <LoginForm t={dict.Auth} lang={lang} />
@@ -43,7 +43,7 @@ export default async function Page({
             <Link
               href={`/${lang}/signup`}
               prefetch
-              className='base-semibold text-violet-500'
+              className='base-semibold text-violet-500 hover:underline'
             >
               {dict.Auth.Signup.Button}
             </Link>

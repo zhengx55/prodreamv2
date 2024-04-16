@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { getDetectionResult } from '@/query/api';
+import { getDetectionResult, pdfSummary } from '@/query/api';
 import { IDetectionResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
@@ -25,7 +25,19 @@ const Detection = ({ t }: { t: EditorDictType }) => {
   const { mutateAsync: detection } = useMutation({
     mutationFn: (params: { text: JSONContent[] }) => getDetectionResult(params),
     onSuccess: async (data) => {
-      setDetectionResult(data);
+      if (
+        data.highlight_sentences.length > 0 &&
+        data.highlight_sentences[0][0][0] === 0 &&
+        data.highlight_sentences[0][0][1] === 0
+      ) {
+        const newData = {
+          ...data,
+          highlight_sentences: data.highlight_sentences.slice(1),
+        };
+        setDetectionResult(newData);
+      } else {
+        setDetectionResult(data);
+      }
     },
     onMutate: () => {
       if (detectionResult) remove();
@@ -56,10 +68,10 @@ const Detection = ({ t }: { t: EditorDictType }) => {
 
   return (
     <>
-      <Title t={t} />
+      <Title t={t} showRecheck={!!pdfSummary} recheck={startDetection} />
       <AnimatePresence mode='wait'>
         {detectionResult ? (
-          <Result recheck={startDetection} t={t} result={detectionResult} />
+          <Result t={t} result={detectionResult} />
         ) : generating ? (
           <m.div
             initial={{ opacity: 0, y: -20 }}
@@ -100,7 +112,7 @@ const Starter = memo(
           {t.Detection.Title}
         </p>
         <Button
-          className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
+          className='base-medium h-max w-max self-center rounded-lg px-8'
           role='button'
           onClick={start}
         >

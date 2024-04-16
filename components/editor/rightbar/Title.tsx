@@ -24,20 +24,23 @@ const Title = ({ t, showRecheck, recheck }: Props) => {
 
   return (
     <div className='flex-between mb-4'>
-      <h2 className='title-medium'>
-        {t.RightBar[OPTIONS[rightbarTab] as keyof typeof t.RightBar]}
-      </h2>
-      {showRecheck && (
-        <Button
-          role='button'
-          variant={'ghost'}
-          className='h-max rounded border px-4 py-1 text-zinc-600 hover:transform-none'
-          onClick={recheck}
-        >
-          <RefreshCcw size={14} />
-          <p className='subtle-regular'>{t.Plagiarism.recheck}</p>
-        </Button>
-      )}
+      <div className='flex items-center gap-x-3'>
+        <h2 className='title-medium'>
+          {t.RightBar[OPTIONS[rightbarTab] as keyof typeof t.RightBar]}
+        </h2>
+        {showRecheck && (
+          <Button
+            role='button'
+            variant={'outline'}
+            className='h-max rounded border px-3 py-1'
+            onClick={recheck}
+          >
+            <RefreshCcw size={14} />
+            <p className='subtle-regular'>{t.Plagiarism.recheck}</p>
+          </Button>
+        )}
+      </div>
+
       <XCircle
         size={20}
         onClick={toggleRightbar}

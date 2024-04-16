@@ -317,7 +317,6 @@ export function createRegex(str: string) {
 export function convertToBibtex(data: ICitation) {
   const { article_title, contributors, publish_date, doi, publisher } = data;
 
-  // 处理作者
   const formattedAuthors = contributors
     .map((contributor) => {
       const { first_name, middle_name, last_name } = contributor;
@@ -325,7 +324,6 @@ export function convertToBibtex(data: ICitation) {
     })
     .join(' and ');
 
-  // 构建BibTeX字符串
   let bibtex = `@article{${(doi ?? '').replace(/\//g, '')},
     title={${article_title}},
     author={${formattedAuthors}},

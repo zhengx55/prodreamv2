@@ -92,7 +92,8 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
         {!prompt ? (
           <Button
             role='dialog'
-            className='h-max rounded border border-violet-500 bg-transparent px-2 py-1 hover:bg-slate-100 hover:text-violet-500'
+            variant={'secondary'}
+            className='h-max rounded px-2 py-1'
           >
             <PencilLine size={18} className='text-violet-500' />
             <p className='small-regular text-violet-500'>{t.Prompt.Trigger}</p>
@@ -100,8 +101,8 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
         ) : (
           <Button
             role='dialog'
-            variant={'ghost'}
-            className='h-max rounded border border-gray-200  bg-transparent px-2 py-1  hover:text-violet-500'
+            variant={'outline'}
+            className='h-max rounded border border-gray-200 bg-transparent px-2 py-1  hover:text-violet-500'
           >
             <p className='small-regular text-zinc-700'>{t.Prompt.Strength}</p>
             <div className='flex items-center gap-x-2'>
@@ -175,8 +176,8 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
             <PopoverClose asChild>
               <Button
                 role='button'
-                variant={'ghost'}
-                className='border-zin-300 base-regular h-max rounded border px-4 py-1 text-neutral-400'
+                variant={'outline'}
+                className='base-regular h-max rounded border px-4 py-1'
               >
                 {t.Utility.Cancel}
               </Button>

@@ -112,33 +112,29 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
 
     const lines = value.split('\n');
     let session: string | undefined;
-    let eventDataStr = '';
 
-    lines.forEach((line, index) => {
+    const eventData = lines.reduce((acc, line, index) => {
+      if (lines[index - 1]?.startsWith('event: session_id')) {
+        session = line.replace('data: "', '').replace('"', '').trim();
+      }
       if (
-        lines[index - 1]?.startsWith('event: session_id') &&
-        line.startsWith('data: ')
-      ) {
-        session = line.slice(5).replaceAll('"', '').trim();
-      } else if (
         line.startsWith('data:') &&
         lines[index - 1]?.startsWith('event: data')
       ) {
+        acc.push(JSON.parse(line.slice(5)));
+      }
+      return acc;
+    }, [] as any[]);
+    if (session) setSession(session);
+    setAiResult((prev) => {
+      if (prev.length === 0 || prev.length - 1 < currentResult) {
+        return [...prev, eventData.join('')];
+      } else {
+        return prev.map((item, index) =>
+          index === currentResult ? item + eventData.join('') : item
+        );
       }
     });
-
-    if (session) setSession(session);
-    if (eventDataStr) {
-      setAiResult((prev) => {
-        if (prev.length === 0 || prev.length - 1 < currentResult) {
-          return [...prev, eventDataStr];
-        } else {
-          return prev.map((item, index) =>
-            index === currentResult ? item + eventDataStr : item
-          );
-        }
-      });
-    }
   };
 
   useUpdateEffect(() => {

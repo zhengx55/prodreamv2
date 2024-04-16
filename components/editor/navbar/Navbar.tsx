@@ -50,7 +50,7 @@ const DocNavbar = ({ t, lang }: Props) => {
           <Button
             role='button'
             onClick={() => updatePaymentModal(true)}
-            className='h-max rounded bg-violet-500 px-2 py-1 hover:bg-slate-100 hover:text-violet-500'
+            className='h-max rounded px-2 py-1'
           >
             <Diamond /> {t.Utility.Upgrade}
           </Button>
