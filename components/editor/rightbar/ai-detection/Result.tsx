@@ -136,14 +136,8 @@ const Bar = ({
         />
       </div>
       <Spacer y='10' />
-      <div className='flex w-full items-center'>
-        <div
-          className='flex flex-col gap-y-0.5'
-          style={{
-            width: `${human_percent}%`,
-            minWidth: '20%',
-          }}
-        >
+      <div className='flex w-full items-center justify-between'>
+        <div className='flex flex-col gap-y-0.5'>
           <p className='text-sm font-medium leading-tight text-green-500'>
             human
           </p>
@@ -151,13 +145,7 @@ const Bar = ({
             {human_percent.toFixed(0)}%
           </p>
         </div>
-        <div
-          style={{
-            width: `${mixed_percent}%`,
-            minWidth: '20%',
-          }}
-          className='flex flex-col gap-y-0.5'
-        >
+        <div className='flex flex-col gap-y-0.5'>
           <p className='text-sm font-medium leading-tight text-indigo-500'>
             mixed
           </p>
@@ -165,13 +153,7 @@ const Bar = ({
             {mixed_percent.toFixed(0)}%
           </p>
         </div>
-        <div
-          style={{
-            width: `${ai_percent}%`,
-            minWidth: '20%',
-          }}
-          className='flex flex-col gap-y-0.5'
-        >
+        <div className='flex flex-col gap-y-0.5'>
           <p className='text-sm font-medium leading-tight text-amber-600'>ai</p>
           <p className='small-regular text-zinc-600'>
             {ai_percent.toFixed(0)}%

@@ -51,8 +51,8 @@ const ReportPDF = ({ t, report }: Props) => {
           <div className='flex-center'>
             <Button
               role='button'
-              className='rounded-lg border border-neutral-400 text-zinc-600'
-              variant={'ghost'}
+              className='rounded-lg'
+              variant={'outline'}
               onClick={() => updatePaymentModal(true)}
             >
               Unlock full report
@@ -65,11 +65,7 @@ const ReportPDF = ({ t, report }: Props) => {
               href={report.link as Route}
               target='_blank'
             >
-              <Button
-                role='button'
-                className='rounded-lg border border-neutral-400 text-zinc-600'
-                variant={'ghost'}
-              >
+              <Button role='button' className='rounded-lg' variant={'outline'}>
                 View full report
               </Button>
             </a>
