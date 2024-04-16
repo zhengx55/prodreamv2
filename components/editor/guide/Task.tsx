@@ -20,7 +20,7 @@ const Task = ({ t }: Props) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       key={'task-panel'}
-      className='mx-auto mb-5 flex w-[700px] flex-col gap-y-3 rounded-lg bg-slate-100 p-2'
+      className='mx-auto mb-8 flex w-[700px] flex-col rounded-lg bg-slate-100 p-4'
     >
       <div className='flex-between'>
         <p className='text-xl font-medium leading-normal text-zinc-600'>
@@ -32,7 +32,8 @@ const Task = ({ t }: Props) => {
           size={22}
         />
       </div>
-      <p className='base-regular text-neutral-400'>
+      <Spacer y='5' />
+      <p className='small-regular text-neutral-400'>
         {t.Task.feature}:&nbsp;
         <span className='inline-flex rounded bg-white px-1.5 text-neutral-400'>
           {t.Task.paraphrase}
@@ -46,23 +47,21 @@ const Task = ({ t }: Props) => {
           {t.Task.length}
         </span>
       </p>
+      <Spacer y='32' />
       <div className='flex-between'>
         <div className='flex flex-col gap-y-2'>
           <p className='text-base font-medium text-zinc-600'>
-            <strong>{t.Task.Step} 1: </strong>
-            {t.Task.step_1}
+            {t.Task.Step} 1 : {t.Task.step_1}
           </p>
           <p className='text-base font-medium text-zinc-600'>
-            <strong>{t.Task.Step} 2: </strong>
-            {t.Task.step_2_prefix} &nbsp;
+            {t.Task.Step} 2 : {t.Task.step_2_prefix} &nbsp;
             <span className='inline-flex rounded bg-violet-100 px-1 text-base font-normal text-violet-500'>
               {t.Task.step_2_middle}
             </span>
             &nbsp; {t.Task.step_2_suffix}
           </p>
           <p className='text-base font-medium text-zinc-600'>
-            <strong>{t.Task.Step} 3: </strong>
-            {t.Task.step_3}
+            {t.Task.Step} 3 : {t.Task.step_3}
           </p>
         </div>
         <Image
