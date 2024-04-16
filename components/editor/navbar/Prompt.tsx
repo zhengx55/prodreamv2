@@ -176,8 +176,8 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
             <PopoverClose asChild>
               <Button
                 role='button'
-                variant={'ghost'}
-                className='border-zin-300 base-regular h-max rounded border px-4 py-1 text-neutral-400'
+                variant={'outline'}
+                className='base-regular h-max rounded border px-4 py-1'
               >
                 {t.Utility.Cancel}
               </Button>

@@ -25,7 +25,19 @@ const Detection = ({ t }: { t: EditorDictType }) => {
   const { mutateAsync: detection } = useMutation({
     mutationFn: (params: { text: JSONContent[] }) => getDetectionResult(params),
     onSuccess: async (data) => {
-      setDetectionResult(data);
+      if (
+        data.highlight_sentences.length > 0 &&
+        data.highlight_sentences[0][0][0] === 0 &&
+        data.highlight_sentences[0][0][1] === 0
+      ) {
+        const newData = {
+          ...data,
+          highlight_sentences: data.highlight_sentences.slice(1),
+        };
+        setDetectionResult(newData);
+      } else {
+        setDetectionResult(data);
+      }
     },
     onMutate: () => {
       if (detectionResult) remove();

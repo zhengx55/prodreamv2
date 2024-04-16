@@ -600,7 +600,7 @@ export async function batchHumanize(texts: string[]) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/humanize`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/humanize/batch`,
       {
         method: 'POST',
         body: JSON.stringify({
@@ -613,7 +613,12 @@ export async function batchHumanize(texts: string[]) {
         },
       }
     );
-    return res.body;
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+
+    return data.data;
   } catch (error) {
     throw new Error(error as string);
   }

@@ -27,7 +27,6 @@ const Result = ({ result, t }: Props) => {
     if (max === human_percent) return 0;
     return 1;
   }, [ai_percent, human_percent, mixed_percent]);
-  const a = [[1, 0], 'sadasd'];
   return (
     <m.div
       initial={{ opacity: 0, y: -20 }}
@@ -41,7 +40,6 @@ const Result = ({ result, t }: Props) => {
           {t.Detection.Classification}&nbsp;&nbsp;
         </h3>
       </div>
-
       <Spacer y='8' />
       <p className='text-sm leading-relaxed text-zinc-600'>
         {result.message}&nbsp;
@@ -55,7 +53,7 @@ const Result = ({ result, t }: Props) => {
           {labels[result_index]}
         </span>
       </p>
-      <Spacer y='32' />
+      <Spacer y='16' />
       <div className='size-36 self-center'>
         <PieChart
           animate
@@ -66,7 +64,7 @@ const Result = ({ result, t }: Props) => {
           ]}
         />
       </div>
-      <Spacer y='24' />
+      <Spacer y='16' />
       <p className='inline-flex items-center justify-center text-xs text-zinc-600'>
         <span
           style={{
@@ -78,24 +76,24 @@ const Result = ({ result, t }: Props) => {
         </span>
         &nbsp;&nbsp;{t.Detection.probability}
       </p>
-      <Spacer y='44' />
+      <Spacer y='24' />
       <Separator orientation='horizontal' className='bg-gray-200' />
-      <Spacer y='44' />
+      <Spacer y='24' />
       <h3 className='base-medium'>{t.Detection.breakdown}</h3>
       <Spacer y='8' />
       <p className='small-regular leading-relaxed text-zinc-600'>
         The probability this text has been entirely written by a human, AI or a
         mix of the two.
       </p>
-      <Spacer y='32' />
+      <Spacer y='16' />
       <Bar
         human_percent={human_percent}
         mixed_percent={mixed_percent}
         ai_percent={ai_percent}
       />
-      <Spacer y='44' />
+      <Spacer y='24' />
       <Separator orientation='horizontal' className='bg-gray-200' />
-      <Spacer y='44' />
+      <Spacer y='24' />
       {result.highlight_sentences.length > 0 && <Suggestion t={t} />}
       <Spacer y='20' />
     </m.div>
@@ -136,14 +134,8 @@ const Bar = ({
         />
       </div>
       <Spacer y='10' />
-      <div className='flex w-full items-center'>
-        <div
-          className='flex flex-col gap-y-0.5'
-          style={{
-            width: `${human_percent}%`,
-            minWidth: '20%',
-          }}
-        >
+      <div className='flex w-full items-center justify-between'>
+        <div className='flex flex-col gap-y-0.5'>
           <p className='text-sm font-medium leading-tight text-green-500'>
             human
           </p>
@@ -151,13 +143,7 @@ const Bar = ({
             {human_percent.toFixed(0)}%
           </p>
         </div>
-        <div
-          style={{
-            width: `${mixed_percent}%`,
-            minWidth: '20%',
-          }}
-          className='flex flex-col gap-y-0.5'
-        >
+        <div className='flex flex-col gap-y-0.5'>
           <p className='text-sm font-medium leading-tight text-indigo-500'>
             mixed
           </p>
@@ -165,13 +151,7 @@ const Bar = ({
             {mixed_percent.toFixed(0)}%
           </p>
         </div>
-        <div
-          style={{
-            width: `${ai_percent}%`,
-            minWidth: '20%',
-          }}
-          className='flex flex-col gap-y-0.5'
-        >
+        <div className='flex flex-col gap-y-0.5'>
           <p className='text-sm font-medium leading-tight text-amber-600'>ai</p>
           <p className='small-regular text-zinc-600'>
             {ai_percent.toFixed(0)}%
