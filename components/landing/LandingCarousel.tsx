@@ -3,7 +3,8 @@ import { HeroInfo, HeroMainInfo, Universitys } from '@/constant';
 import { HomePageDicType } from '@/types';
 import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import Spacer from '../root/Spacer';
 import {
   Carousel,
   CarouselApi,
@@ -144,7 +145,65 @@ const HeroCarousel = ({
   );
 };
 
+const HeroClientSection = ({ t }: { t: HomePageDicType['t'] }) => {
+  const [selected, setSelected] = useState<number>(0);
+  const memoSetSelected = useCallback((index: number) => {
+    setSelected(index);
+  }, []);
+
+  const handleMouseEnter = (index: number) => {
+    setSelected(index);
+  };
+  return (
+    <>
+      <HeroCarousel clickCallback={memoSetSelected} t={t} />
+      <div className='hidden w-full justify-between gap-x-4 sm:flex'>
+        {HeroInfo.map((item, index) => {
+          return (
+            <span
+              className={`${selected === index ? 'border-violet-500/20 ' : 'bg-violet-500/5'} flex cursor-pointer flex-col gap-y-2 rounded-[20px] border border-transparent p-5 sm:w-1/4`}
+              key={item.id}
+              onMouseEnter={() => handleMouseEnter(index)}
+            >
+              <Image
+                alt={item.title}
+                width={28}
+                height={28}
+                src={item.icon}
+                priority={index === 0 ? true : false}
+              />
+              <h2 className='title-regular 2xl:h3-regular'>
+                {t[`HeroInfo_title_${index + 1}` as keyof typeof t]}
+              </h2>
+              <p className='text-[12px] leading-relaxed text-shadow-100 2xl:text-xs'>
+                {t[`HeroInfo_text_${index + 1}` as keyof typeof t]}
+              </p>
+            </span>
+          );
+        })}
+      </div>
+      <Spacer y='40' />
+      <div className='relative h-[270px] w-full overflow-hidden sm:h-[800px]'>
+        <Image
+          alt={'prodream.ai'}
+          src={HeroMainInfo[selected].image}
+          fill
+          priority
+          sizes='(max-width: 768px) 50vw, 100vw'
+          className='h-full w-full object-cover'
+        />
+      </div>
+    </>
+  );
+};
+
+HeroClientSection.displayName = 'HeroClientSection';
 HeroCarousel.displayName = 'HeroCarousel';
 UniversityCarousel.displayName = 'UniversityCarousel';
 HeroShowCaseCarousel.displayName = 'HeroShowCaseCarousel';
-export { HeroCarousel, HeroShowCaseCarousel, UniversityCarousel };
+export {
+  HeroCarousel,
+  HeroClientSection,
+  HeroShowCaseCarousel,
+  UniversityCarousel,
+};
