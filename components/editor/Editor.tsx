@@ -34,7 +34,6 @@ const Editor = ({
   const [showBottomBar, setShowBottomBar] = useState(true);
   const {
     setEditorInstance,
-    updateRightbarTab,
     reset,
     doc_title,
     updateTitle,

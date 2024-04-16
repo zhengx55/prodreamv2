@@ -129,7 +129,7 @@ const Result = ({ grammarResults, update, t }: Props) => {
     >
       <div aria-label='all suggestions' className='flex-between'>
         <div className='flex items-center gap-x-2'>
-          <h2 className='base-semibold'>
+          <h2 className='small-semibold'>
             {grammarResults.length}&nbsp;
             {t.Grammar.suggestions}
           </h2>
@@ -195,23 +195,22 @@ const Result = ({ grammarResults, update, t }: Props) => {
                       role='button'
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleDismiss(index, group_index);
+                        handleAccept(group, index, group_index);
                       }}
-                      variant={'ghost'}
-                      className='subtle-regular h-max w-max rounded border border-[#AFB5FF] py-1 text-[#AFB5FF]'
+                      className='subtle-regular h-max w-max rounded px-6 py-1.5'
                     >
-                      {t.Utility.Dismiss}
+                      {t.Utility.Accept}
                     </Button>
                     <Button
                       role='button'
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleAccept(group, index, group_index);
+                        handleDismiss(index, group_index);
                       }}
-                      variant={'ghost'}
-                      className='subtle-regular h-max w-max rounded border  border-violet-500 py-1 text-violet-500'
+                      variant={'outline'}
+                      className='subtle-regular h-max w-max rounded px-6 py-1.5'
                     >
-                      {t.Utility.Accept}
+                      {t.Utility.Dismiss}
                     </Button>
                   </div>
                 )}

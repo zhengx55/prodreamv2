@@ -1,10 +1,8 @@
 import Spacer from '@/components/root/Spacer';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { IDetectionResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { m } from 'framer-motion';
-import { RefreshCcw } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
@@ -16,11 +14,10 @@ const primaryColor = ['#48B251', '#5266CC', '#E58600'];
 const secondaryColor = ['#D5F9D8', '#F2F4FF', '#FFEACC'];
 
 type Props = {
-  recheck: () => Promise<void>;
   result: IDetectionResult;
   t: EditorDictType;
 };
-const Result = ({ recheck, result, t }: Props) => {
+const Result = ({ result, t }: Props) => {
   const ai_percent = result.class_probabilities.ai * 100;
   const human_percent = result.class_probabilities.human * 100;
   const mixed_percent = result.class_probabilities.mixed * 100;
@@ -43,15 +40,6 @@ const Result = ({ recheck, result, t }: Props) => {
         <h3 className='base-medium'>
           {t.Detection.Classification}&nbsp;&nbsp;
         </h3>
-        <Button
-          role='button'
-          variant={'outline'}
-          className='rounded0 h-max px-4 py-1'
-          onClick={recheck}
-        >
-          <RefreshCcw size={14} className='text-zinc-600' />
-          <p className='subtle-regular text-zinc-600'>{t.Plagiarism.recheck}</p>
-        </Button>
       </div>
 
       <Spacer y='8' />
