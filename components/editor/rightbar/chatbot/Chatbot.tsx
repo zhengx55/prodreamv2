@@ -5,8 +5,8 @@ import { useMutation } from '@tanstack/react-query';
 import { XCircle } from 'lucide-react';
 import { memo, useCallback, useState } from 'react';
 import { v4 } from 'uuid';
-import ChatInput from './chatbot/ChatInput';
-import ChatSection from './chatbot/ChatSection';
+import ChatInput from './ChatInput';
+import ChatSection from './ChatSection';
 
 type Props = { t: EditorDictType };
 const Chatbot = ({ t }: Props) => {
