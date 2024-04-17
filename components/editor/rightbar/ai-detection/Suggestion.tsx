@@ -1,15 +1,18 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { findNodePos, findParagpraph } from '@/lib/tiptap/utils';
+import { batchHumanize } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
 import { IDetectionResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import { m } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { useLocalStorage } from 'react-use';
 
 const Unlock = dynamic(() => import('../Unlock'));
@@ -19,9 +22,38 @@ const Suggestion = ({ t }: Props) => {
   const [expanded, setExpanded] = useState(-1);
   const { id } = useParams();
   const { data: membership } = useMembershipInfo();
+  const [suggestion, setSuggestion] =
+    useState<[number[], number[], string][]>();
   const editor = useAIEditor((state) => state.editor_instance);
-  const [detectionResult, setDetectionResult, _remove] =
+  const [detectionResult, _setDetectionResult, _remove] =
     useLocalStorage<IDetectionResult>(`detection_report_${id}`);
+
+  const { mutateAsync: humanize, isPending } = useMutation({
+    mutationFn: (params: string[]) => batchHumanize(params),
+    onSuccess: async (data) => {
+      let resultWithSuggestion: [number[], number[], string][] = [];
+      resultWithSuggestion = detectionResult!.highlight_sentences.map(
+        (item, index) => {
+          return [item[0], item[1], data[index]];
+        }
+      );
+      setSuggestion(resultWithSuggestion);
+      toggleExpand(resultWithSuggestion[0], 0);
+    },
+    onError: async (error) => {
+      const { toast } = await import('sonner');
+      toast.error(error.message);
+    },
+  });
+
+  const handleHumanize = useCallback(async () => {
+    const text_array = detectionResult?.highlight_sentences.map(
+      (item) => item[2]
+    );
+    if (!text_array) return;
+    await humanize(text_array);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [detectionResult?.highlight_sentences]);
 
   const toggleExpand = (item: [number[], number[], string], index: number) => {
     setExpanded(index);
@@ -36,7 +68,7 @@ const Suggestion = ({ t }: Props) => {
 
   const handleAcceptAll = () => {
     const editor_block = editor?.getJSON().content ?? [];
-    detectionResult?.highlight_sentences.map((item) => {
+    suggestion?.map((item) => {
       const nodeText = findParagpraph(item[0], editor_block)?.text;
       const nodePos = findNodePos(editor!, nodeText!);
       const selection_range = item[1][1] - item[1][0];
@@ -49,26 +81,18 @@ const Suggestion = ({ t }: Props) => {
         .insertContent(item[2])
         .run();
     });
-    const new_storage = {
-      ...detectionResult,
-      highlight_sentences: [],
-    };
-    setDetectionResult(new_storage as IDetectionResult);
+
+    setSuggestion([]);
   };
 
   const handleDismiss = (indexToRemove: number) => {
     setExpanded(-1);
     editor?.chain().blur().setTextSelection(0).run();
-
     const updatedHighlightSentences =
       detectionResult?.highlight_sentences.filter(
         (_, index) => index !== indexToRemove
       );
-    const updatedDetectionResult = {
-      ...detectionResult,
-      highlight_sentences: updatedHighlightSentences,
-    };
-    setDetectionResult(updatedDetectionResult as IDetectionResult);
+    setSuggestion(updatedHighlightSentences);
   };
 
   const handleAccept = (
@@ -77,33 +101,29 @@ const Suggestion = ({ t }: Props) => {
   ) => {
     setExpanded(-1);
     editor?.chain().blur().insertContent(item[2]).run();
-    const updatedHighlightSentences =
-      detectionResult?.highlight_sentences.filter(
-        (_, index) => index !== indexToRemove
-      );
-    const updatedDetectionResult = {
-      ...detectionResult,
-      highlight_sentences: updatedHighlightSentences,
-    };
-    setDetectionResult(updatedDetectionResult as IDetectionResult);
+    const updatedHighlightSentences = suggestion?.filter(
+      (_, index) => index !== indexToRemove
+    );
+    setSuggestion(updatedHighlightSentences);
   };
 
   const handleRejectAll = () => {
-    const new_storage = {
-      ...detectionResult,
-      highlight_sentences: [],
-    };
-    setDetectionResult(new_storage as IDetectionResult);
+    setSuggestion([]);
   };
 
   return (
     <div className='flex flex-1 flex-col'>
       {membership?.subscription === 'basic' ? (
         <Unlock text={'Unlock humanize suggestions with the Unlimited Plan'} />
-      ) : detectionResult?.highlight_sentences.length === 0 ||
-        detectionResult?.highlight_sentences.every(
-          (item) => item[2] !== ''
-        ) ? null : (
+      ) : !suggestion ? (
+        isPending ? (
+          <div className='flex-center flex-1'>
+            <Loader2 className='animate-spin text-violet-500' size={24} />
+          </div>
+        ) : (
+          <Starter t={t} start={handleHumanize} />
+        )
+      ) : (
         <div className='flex flex-col gap-y-2'>
           <div className='flex-between'>
             <p className='base-medium'>{t.Detection.Humanizer}</p>
@@ -112,7 +132,7 @@ const Suggestion = ({ t }: Props) => {
                 role='button'
                 variant={'ghost'}
                 onClick={handleAcceptAll}
-                className='w-max px-0 text-violet-500 hover:text-violet-500'
+                className='w-max px-0 text-violet-400 hover:text-violet-500'
               >
                 {t.Utility.AcceptAll}
               </Button>
@@ -120,13 +140,13 @@ const Suggestion = ({ t }: Props) => {
                 role='button'
                 variant={'ghost'}
                 onClick={handleRejectAll}
-                className='w-max px-0 text-stone-300 hover:text-violet-500'
+                className='w-max px-0 text-neutral-400 hover:text-violet-500'
               >
                 {t.Utility.DismissAll}
               </Button>
             </div>
           </div>
-          {detectionResult?.highlight_sentences.map((suggestion, idx) => {
+          {suggestion.map((suggestion, idx) => {
             if (!suggestion[2]) return null;
             return (
               <SentenceItem
