@@ -1,17 +1,10 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Textarea } from '@/components/ui/textarea';
-import { ChatbotEngine } from '@/constant';
 import useAutoSizeTextArea from '@/hooks/useAutoSizeTextArea';
 import { EditorDictType } from '@/types';
 import type { UseMutateAsyncFunction } from '@tanstack/react-query';
-import { ChevronDown, History, Paperclip, Plus } from 'lucide-react';
+import { History, Paperclip, Plus, Search } from 'lucide-react';
 import { memo, useRef } from 'react';
 
 type Props = {
@@ -56,7 +49,7 @@ const ChatInput = ({
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
       <div className='flex-between'>
         <div className='flex items-center gap-x-4'>
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className='flex-between group min-w-52 cursor-pointer gap-x-2 rounded-lg border border-gray-200 bg-white p-2 data-[state=open]:bg-zinc-100 hover:bg-zinc-100'>
                 <div className='flex items-center gap-x-2'>
@@ -70,10 +63,9 @@ const ChatInput = ({
                     {ChatbotEngine[engine].title}
                   </p>
                 </div>
-
                 <ChevronDown
                   size={20}
-                  className=' text-zinc-600 transition-transform group-data-[state=open]:rotate-180'
+                  className='text-zinc-600 transition-transform group-data-[state=open]:rotate-180'
                 />
               </div>
             </DropdownMenuTrigger>
@@ -91,8 +83,15 @@ const ChatInput = ({
                 );
               })}
             </DropdownMenuContent>
-          </DropdownMenu>
-          <Paperclip size={20} className='cursor-pointer text-zinc-600' />
+          </DropdownMenu> */}
+          <Button role='button' className='h-max w-max p-0' variant={'text'}>
+            <Search size={16} className='cursor-pointer' />
+            <p className='small-regular'>Research</p>
+          </Button>
+          <Button role='button' className='h-max w-max p-0' variant={'text'}>
+            <Paperclip size={16} className='cursor-pointer' />
+            <p className='small-regular'>Upload files</p>
+          </Button>
         </div>
         <div className='flex items-center gap-x-4'>
           <History
@@ -115,12 +114,12 @@ const ChatInput = ({
             submit();
           }
         }}
-        className='small-regular w-full rounded-lg py-2 pl-2 pr-7 focus-visible:ring-0'
+        className='small-regular h-14 w-full rounded-lg py-2 pl-2 pr-7 focus-visible:ring-0'
         id='chat-textarea'
         value={value}
         disabled={sending}
         onChange={handleValueChnage}
-        placeholder='message Dream Cat AI...'
+        placeholder='Message Dream Cat AI...'
       />
       <Button
         onClick={submit}

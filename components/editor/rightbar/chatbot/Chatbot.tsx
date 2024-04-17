@@ -1,12 +1,11 @@
 import { chat } from '@/query/api';
 import { EditorDictType } from '@/types';
-import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
-import { XCircle } from 'lucide-react';
 import { memo, useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 import ChatInput from './ChatInput';
 import ChatSection from './ChatSection';
+import ChatTitle from './ChatTitle';
 
 type Props = { t: EditorDictType };
 const Chatbot = ({ t }: Props) => {
@@ -102,7 +101,7 @@ const Chatbot = ({ t }: Props) => {
 
   return (
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
-      <ChatTitle t={t} />
+      <ChatTitle title='Jessica | Essay Tutor' t={t} />
       <ChatSection engine={chatEngine} messages={messages} t={t} />
       <ChatInput
         value={value}
@@ -118,20 +117,3 @@ const Chatbot = ({ t }: Props) => {
   );
 };
 export default memo(Chatbot);
-
-const ChatTitle = ({ t }: { t: EditorDictType }) => {
-  const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
-
-  return (
-    <div className='flex-between mb-4'>
-      <div className='flex items-center gap-x-4'>
-        <h2 className='title-medium'>Dream Cat AI</h2>
-      </div>
-      <XCircle
-        size={20}
-        onClick={toggleRightbar}
-        className='shrink-0 cursor-pointer text-shadow hover:opacity-50'
-      />
-    </div>
-  );
-};
