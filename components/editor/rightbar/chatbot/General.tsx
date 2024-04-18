@@ -34,7 +34,7 @@ const General = ({ t, lang }: DocPageDicType) => {
       animate={{ width: 400 }}
       exit={{ width: 0 }}
       transition={{ duration: 0.2 }}
-      className='flex h-full shrink-0 flex-col border-l border-gray-200'
+      className='relative flex h-full shrink-0 flex-col border-l border-gray-200'
     >
       <section className='relative flex h-full flex-col px-3 pt-4'>
         {rightbarTab === 0 ? (

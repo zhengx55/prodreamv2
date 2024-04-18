@@ -1,14 +1,18 @@
 import { chat } from '@/query/api';
 import { EditorDictType } from '@/types';
 import { useMutation } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
 import { memo, useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 import ChatInput from './ChatInput';
 import ChatSection from './ChatSection';
 import ChatTitle from './ChatTitle';
 
+const UploadModal = dynamic(() => import('./UploadModal'));
+
 type Props = { t: EditorDictType };
 const Chatbot = ({ t }: Props) => {
+  const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [chatEngine, setChatEngine] = useState<number>(1);
   const [value, setValue] = useState<string>('');
   const [sending, setSending] = useState<boolean>(false);
@@ -100,7 +104,11 @@ const Chatbot = ({ t }: Props) => {
   };
 
   return (
-    <div className='flex w-full flex-1 flex-col overflow-hidden'>
+    <div
+      ref={setContainer}
+      className='flex w-full flex-1 flex-col overflow-hidden'
+    >
+      <UploadModal container={container} />
       <ChatTitle title='Jessica | Essay Tutor' t={t} />
       <ChatSection engine={chatEngine} messages={messages} t={t} />
       <ChatInput

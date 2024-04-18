@@ -18,6 +18,7 @@ const buttonVariants = cva(
         ghost:
           'bg-white hover:text-[#9A66FF] hover:underline active:text-[#7B52CC] text-violet-500',
         text: 'text-zinc-600 text-2xl font-normal hover:text-violet-500 active:text-violet-600',
+        icon: 'p-1 hover:bg-zinc-100 text-zinc-600 gap-1 rounded',
       },
       size: {
         default: 'h-10 px-4 py-2',

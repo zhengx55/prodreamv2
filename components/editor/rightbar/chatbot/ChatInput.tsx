@@ -1,8 +1,10 @@
 import Icon from '@/components/root/Icon';
+import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import useAutoSizeTextArea from '@/hooks/useAutoSizeTextArea';
 import { EditorDictType } from '@/types';
+import { useChatbot } from '@/zustand/store';
 import type { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { History, Paperclip, Plus, Search } from 'lucide-react';
 import { memo, useRef } from 'react';
@@ -40,15 +42,19 @@ const ChatInput = ({
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateValue(e.target.value);
   };
+  const { updateUploadModal } = useChatbot((state) => ({
+    ...state,
+  }));
   const submit = async () => {
     if (!value.trim()) return;
     await mutateFn({ query: value, session_id: session });
     chatRef.current?.focus();
   };
+
   return (
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
       <div className='flex-between'>
-        <div className='flex items-center gap-x-4'>
+        <div className='flex items-center gap-x-1'>
           {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className='flex-between group min-w-52 cursor-pointer gap-x-2 rounded-lg border border-gray-200 bg-white p-2 data-[state=open]:bg-zinc-100 hover:bg-zinc-100'>
@@ -84,24 +90,34 @@ const ChatInput = ({
               })}
             </DropdownMenuContent>
           </DropdownMenu> */}
-          <Button role='button' className='h-max w-max p-0' variant={'text'}>
+          <Button role='button' className='size-max px-1' variant={'icon'}>
             <Search size={16} className='cursor-pointer' />
             <p className='small-regular'>Research</p>
           </Button>
-          <Button role='button' className='h-max w-max p-0' variant={'text'}>
+          <Button
+            onClick={() => updateUploadModal(true)}
+            role='button'
+            className='size-max px-1'
+            variant={'icon'}
+          >
             <Paperclip size={16} className='cursor-pointer' />
             <p className='small-regular'>Upload files</p>
           </Button>
         </div>
-        <div className='flex items-center gap-x-4'>
-          <History
-            size={20}
-            className='cursor-pointer transition-transform hover:scale-110'
-          />
-          <Plus
-            size={20}
-            className='cursor-pointer rounded-full bg-violet-500 text-white transition-transform hover:scale-110'
-          />
+        <div className='flex items-center gap-x-2'>
+          <Tooltip side='top' tooltipContent='History'>
+            <Button variant={'icon'} role='button' className='p-2'>
+              <History size={18} className='text-zinc-600' />
+            </Button>
+          </Tooltip>
+          <Tooltip side='top' tooltipContent='New Chat'>
+            <Button variant={'icon'} role='button' className='p-2'>
+              <Plus
+                size={18}
+                className='cursor-pointer rounded-full bg-violet-500 text-white'
+              />
+            </Button>
+          </Tooltip>
         </div>
       </div>
       <Textarea
