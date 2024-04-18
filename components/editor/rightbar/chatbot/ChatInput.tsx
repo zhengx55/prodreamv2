@@ -14,36 +14,28 @@ type Props = {
   value: string;
   updateValue: (value: string) => void;
   sending: boolean;
-  session: string | null;
   mutateFn: UseMutateAsyncFunction<
-    any,
+    ReadableStream<any>,
     Error,
     {
       session_id: string | null;
       query: string;
     },
-    void
+    unknown
   >;
 };
-const ChatInput = ({
-  t,
-  value,
-  updateValue,
-  session,
-  mutateFn,
-  sending,
-}: Props) => {
+const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
   useAutoSizeTextArea(chatRef.current, value, 96);
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateValue(e.target.value);
   };
-  const { updateUploadModal } = useChatbot((state) => ({
+  const { updateUploadModal, currentSession } = useChatbot((state) => ({
     ...state,
   }));
   const submit = async () => {
     if (!value.trim()) return;
-    await mutateFn({ query: value, session_id: session });
+    await mutateFn({ query: value, session_id: currentSession });
     chatRef.current?.focus();
   };
 

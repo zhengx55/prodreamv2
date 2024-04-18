@@ -1,5 +1,6 @@
-import { chat } from '@/query/api';
+import { chat, createPdfChat, researchChat } from '@/query/api';
 import { EditorDictType } from '@/types';
+import { useChatbot } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { memo, useCallback, useState } from 'react';
@@ -15,8 +16,9 @@ type Props = { t: EditorDictType };
 const Chatbot = ({ t }: Props) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [value, setValue] = useState<string>('');
-  const [sending, setSending] = useState<boolean>(false);
-  const [session, setSession] = useState<string | null>(null);
+  const { chatType, updateCurrentSession } = useChatbot((state) => ({
+    ...state,
+  }));
   const [messages, setMessages] = useState<
     {
       type: 'mine' | 'system';
@@ -29,14 +31,34 @@ const Chatbot = ({ t }: Props) => {
     setValue(value);
   }, []);
 
-  const { mutateAsync: submitChat } = useMutation({
+  const { mutateAsync: createPdf, isPending: uploading } = useMutation({
+    mutationFn: (params: { file: File }) => createPdfChat(params),
+    onSuccess: () => {},
+    onError: async (error) => {
+      const { toast } = await import('sonner');
+      toast.error('Failed to create PDF chat, please try again later.');
+    },
+  });
+
+  const { mutateAsync: aiResearchChat, isPending: pdfChatSending } =
+    useMutation({
+      mutationFn: (params: {
+        session_id: string;
+        query?: string;
+        document_id: string;
+      }) => researchChat(params),
+      onSuccess: () => {},
+      onError: async (error) => {
+        const { toast } = await import('sonner');
+        toast.error('Failed to submit your, please try again later.');
+      },
+    });
+
+  const { mutateAsync: submitChat, isPending: sending } = useMutation({
     mutationFn: (params: { session_id: string | null; query: string }) =>
       chat(params),
-    onMutate: () => {
-      setSending(true);
-    },
+
     onSuccess: async (data: ReadableStream) => {
-      setSending(false);
       setMessages((prev) => [...prev, { type: 'mine', text: value, id: v4() }]);
       setValue('');
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
@@ -55,7 +77,6 @@ const Chatbot = ({ t }: Props) => {
       }
     },
     onError: async (error) => {
-      setSending(false);
       const { toast } = await import('sonner');
       toast.error('Failed to send message, please try again later.');
     },
@@ -80,7 +101,7 @@ const Chatbot = ({ t }: Props) => {
       return acc;
     }, [] as any[]);
     if (session) {
-      setSession(session);
+      updateCurrentSession(session);
     }
     if (eventData.length > 0) {
       setMessages((prevMessages) => {
@@ -107,7 +128,7 @@ const Chatbot = ({ t }: Props) => {
     >
       <UploadModal container={container} />
       <ChatTitle title='Jessica' t={t} />
-      {messages.length === 0 ? (
+      {!chatType ? (
         <Starter t={t} />
       ) : (
         <ChatSection messages={messages} t={t} />
@@ -116,7 +137,6 @@ const Chatbot = ({ t }: Props) => {
         value={value}
         updateValue={updateChatMessage}
         t={t}
-        session={session}
         mutateFn={submitChat}
         sending={sending}
       />

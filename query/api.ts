@@ -1266,21 +1266,21 @@ export async function createPdfChat(params: { file?: File; url?: string }) {
   }
 }
 
-export async function pdfChat(params: {
-  assistant_id: string;
-  thread_id?: string;
-  query: string;
+export async function researchChat(params: {
+  session_id: string;
+  query?: string;
+  document_id: string;
 }) {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat_pdf/chat`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/research`,
       {
         method: 'POST',
         body: JSON.stringify({
-          assistant_id: params.assistant_id,
-          thread_id: params.thread_id ?? null,
+          assistant_id: params.session_id,
           query: params.query,
+          document_id: params.document_id,
         }),
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import { EditorDictType } from '@/types';
-import { useUserInfo } from '@/zustand/store';
+import { useChatbot, useUserInfo } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { FileText, Search } from 'lucide-react';
 import { memo } from 'react';
@@ -8,6 +8,9 @@ import { memo } from 'react';
 type Props = { t: EditorDictType };
 const Starter = (props: Props) => {
   const userName = useUserInfo((state) => state.user.first_name);
+  const { updateChatType, updateUploadModal } = useChatbot((state) => ({
+    ...state,
+  }));
   return (
     <m.div
       initial={{ opacity: 0, y: -10 }}
@@ -17,7 +20,7 @@ const Starter = (props: Props) => {
       <Spacer y='24' />
       <p>👋</p>
       <Spacer y='8' />
-      <h2 className='text-base font-medium text-zinc-800'>Hi, {userName}</h2>
+      <h2 className='text-xl font-medium text-zinc-800'>Hi, {userName}</h2>
       <Spacer y='8' />
       <p className='text-sm font-normal text-zinc-600'>
         Greetings! I&apos;m Jessica, your personal essay tutor. Explore AI
@@ -27,6 +30,7 @@ const Starter = (props: Props) => {
       <div className='flex gap-x-3'>
         <div
           role='button'
+          onClick={() => updateChatType('research')}
           aria-label='ai-research'
           className='flex w-1/2 cursor-pointer flex-col items-center justify-between gap-y-2 rounded-lg bg-stone-50 px-3 py-2'
         >
@@ -38,6 +42,10 @@ const Starter = (props: Props) => {
         </div>
         <div
           role='button'
+          onClick={() => {
+            updateChatType('pdf');
+            updateUploadModal(true);
+          }}
           aria-label='chat-pdf'
           className='flex w-1/2 cursor-pointer flex-col items-center justify-between gap-y-2 rounded-lg bg-stone-50 px-3 py-2'
         >
