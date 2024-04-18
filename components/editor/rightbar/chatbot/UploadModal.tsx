@@ -36,11 +36,8 @@ const UploadModal = ({ container }: Props) => {
   return (
     <Dialog.Root open={showUploadModal} onOpenChange={updateUploadModal}>
       <Dialog.Portal container={container}>
-        <Dialog.Overlay className='absolute inset-0 bg-black/10' />
-        <Dialog.Content
-          onPointerDownOutside={(e) => e.preventDefault()}
-          className='absolute left-1/2 top-1/2 flex w-[332px] -translate-x-1/2 -translate-y-1/2 flex-col gap-y-3 rounded-lg bg-white p-4 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] focus-visible:outline-none'
-        >
+        <Dialog.Overlay className='absolute inset-0 bg-neutral-700/20' />
+        <Dialog.Content className='absolute left-1/2 top-1/2 flex w-[332px] -translate-x-1/2 -translate-y-1/2 flex-col gap-y-3 rounded-lg bg-white p-4 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] focus-visible:outline-none'>
           <DialogHeader>
             <Dialog.Title className='flex-between text-sm font-medium text-zinc-700'>
               Upload Essay

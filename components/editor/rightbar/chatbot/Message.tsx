@@ -1,10 +1,9 @@
 import Icon from '@/components/root/Icon';
-import { ChatbotEngine } from '@/constant';
 import { useUserInfo } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { memo } from 'react';
-type MessageProps = { text: string; engine: number };
-export const MineMessage = memo(({ text, engine }: MessageProps) => {
+type MessageProps = { text: string };
+export const MineMessage = memo(({ text }: MessageProps) => {
   const userInfo = useUserInfo((state) => state.user);
   return (
     <m.div
@@ -35,7 +34,7 @@ export const MineMessage = memo(({ text, engine }: MessageProps) => {
   );
 });
 
-export const SystemMessage = memo(({ text, engine }: MessageProps) => {
+export const SystemMessage = memo(({ text }: MessageProps) => {
   return (
     <m.div
       initial={{
@@ -55,9 +54,7 @@ export const SystemMessage = memo(({ text, engine }: MessageProps) => {
           width={16}
           height={16}
         />
-        <p className='small-regular'>
-          Writting Cat | {ChatbotEngine[engine].title}
-        </p>
+        <p className='small-regular'>Jessica</p>
       </div>
       <div className='min-h-9 rounded bg-stone-100 p-2'>
         <p className='small-regular text-zinc-600'>{text}</p>

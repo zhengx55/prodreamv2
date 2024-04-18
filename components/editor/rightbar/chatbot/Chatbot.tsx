@@ -7,13 +7,13 @@ import { v4 } from 'uuid';
 import ChatInput from './ChatInput';
 import ChatSection from './ChatSection';
 import ChatTitle from './ChatTitle';
+import Starter from './Starter';
 
 const UploadModal = dynamic(() => import('./UploadModal'));
 
 type Props = { t: EditorDictType };
 const Chatbot = ({ t }: Props) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
-  const [chatEngine, setChatEngine] = useState<number>(1);
   const [value, setValue] = useState<string>('');
   const [sending, setSending] = useState<boolean>(false);
   const [session, setSession] = useState<string | null>(null);
@@ -27,9 +27,6 @@ const Chatbot = ({ t }: Props) => {
 
   const updateChatMessage = useCallback((value: string) => {
     setValue(value);
-  }, []);
-  const updateChatEngine = useCallback((value: number) => {
-    setChatEngine(value);
   }, []);
 
   const { mutateAsync: submitChat } = useMutation({
@@ -109,19 +106,22 @@ const Chatbot = ({ t }: Props) => {
       className='flex w-full flex-1 flex-col overflow-hidden'
     >
       <UploadModal container={container} />
-      <ChatTitle title='Jessica | Essay Tutor' t={t} />
-      <ChatSection engine={chatEngine} messages={messages} t={t} />
+      <ChatTitle title='Jessica' t={t} />
+      {messages.length === 0 ? (
+        <Starter t={t} />
+      ) : (
+        <ChatSection messages={messages} t={t} />
+      )}
       <ChatInput
         value={value}
         updateValue={updateChatMessage}
         t={t}
         session={session}
-        engine={chatEngine}
-        updateEngine={updateChatEngine}
         mutateFn={submitChat}
         sending={sending}
       />
     </div>
   );
 };
+
 export default memo(Chatbot);

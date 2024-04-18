@@ -1240,4 +1240,82 @@ export async function chat(params: {
   }
 }
 
-export async function pdfSummary() {}
+export async function createPdfChat(params: { file?: File; url?: string }) {
+  try {
+    const token = Cookies.get('token');
+    const body = new FormData();
+    if (params.file) body.append('pdf', params.file);
+    if (params.url) body.append('url', params.url);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat_pdf/assistant`,
+      {
+        method: 'POST',
+        body,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function pdfChat(params: {
+  assistant_id: string;
+  thread_id?: string;
+  query: string;
+}) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat_pdf/chat`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          assistant_id: params.assistant_id,
+          thread_id: params.thread_id ?? null,
+          query: params.query,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function pdfSummary(assistant_id: string) {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat_pdf/${assistant_id}/summary`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}

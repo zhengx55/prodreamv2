@@ -3,10 +3,9 @@ import { MineMessage, SystemMessage } from './Message';
 
 type Props = {
   t: EditorDictType;
-  engine: number;
   messages: { type: 'mine' | 'system'; text: string; id: string }[];
 };
-const ChatSection = ({ t, messages, engine }: Props) => {
+const ChatSection = ({ t, messages }: Props) => {
   return (
     <div className='flex w-full flex-col gap-y-4 overflow-y-auto'>
       {messages.map((message, index) => {
@@ -14,9 +13,9 @@ const ChatSection = ({ t, messages, engine }: Props) => {
         return (
           <div key={message.id} className={'flex flex-col gap-y-1'}>
             {isMine ? (
-              <MineMessage engine={engine} text={message.text} />
+              <MineMessage text={message.text} />
             ) : (
-              <SystemMessage engine={engine} text={message.text} />
+              <SystemMessage text={message.text} />
             )}
           </div>
         );

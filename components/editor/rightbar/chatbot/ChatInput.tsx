@@ -11,8 +11,6 @@ import { memo, useRef } from 'react';
 
 type Props = {
   t: EditorDictType;
-  engine: number;
-  updateEngine: (value: number) => void;
   value: string;
   updateValue: (value: string) => void;
   sending: boolean;
@@ -29,10 +27,8 @@ type Props = {
 };
 const ChatInput = ({
   t,
-  engine,
   value,
   updateValue,
-  updateEngine,
   session,
   mutateFn,
   sending,

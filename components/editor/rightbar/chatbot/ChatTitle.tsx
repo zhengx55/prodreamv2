@@ -1,3 +1,4 @@
+import Icon from '@/components/root/Icon';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { XCircle } from 'lucide-react';
@@ -9,7 +10,8 @@ const ChatTitle = ({ t, title }: Props) => {
 
   return (
     <div className='flex-between mb-4'>
-      <div className='flex items-center gap-x-4'>
+      <div className='flex items-center gap-x-2'>
+        <Icon alt='' src='/editor/chatbot/trigger.svg' width={32} height={32} />
         <h2 className='title-medium'>{title}</h2>
       </div>
       <XCircle
