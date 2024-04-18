@@ -1,6 +1,8 @@
 import { DialogClose, DialogHeader } from '@/components/ui/dialog';
+import { createPdfChat } from '@/query/api';
 import { useChatbot } from '@/zustand/store';
 import * as Dialog from '@radix-ui/react-dialog';
+import { useMutation } from '@tanstack/react-query';
 
 import { FileText, Loader2, XCircle } from 'lucide-react';
 import { memo, useCallback } from 'react';
@@ -8,9 +10,35 @@ import { FileRejection, useDropzone } from 'react-dropzone';
 
 type Props = { container: any };
 const UploadModal = ({ container }: Props) => {
-  const { showUploadModal, updateUploadModal } = useChatbot((state) => ({
+  const {
+    showUploadModal,
+    updateCurrentFile,
+    updateFileUploading,
+    updateUploadModal,
+    resetCurrentFile,
+  } = useChatbot((state) => ({
     ...state,
   }));
+
+  const { mutateAsync: createPdf } = useMutation({
+    mutationFn: (params: { file: File }) => createPdfChat(params),
+    onMutate: () => {
+      updateFileUploading(true);
+      updateUploadModal(false);
+    },
+    onSettled: () => {
+      updateFileUploading(false);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: async (error) => {
+      const { toast } = await import('sonner');
+      toast.error('Failed to create PDF chat, please try again later.');
+      resetCurrentFile();
+    },
+  });
+
   const onDrop = useCallback(
     async (acceptedFile: File[], fileRejections: FileRejection[]) => {
       if (fileRejections.length > 0) {
@@ -19,6 +47,8 @@ const UploadModal = ({ container }: Props) => {
         toast.error(error_message);
         return;
       }
+      updateCurrentFile(acceptedFile[0]);
+      await createPdf({ file: acceptedFile[0] });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []

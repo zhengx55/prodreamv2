@@ -17,6 +17,8 @@ import {
   IVerifyEmail,
   LoginData,
   ReferenceType,
+  ResearchChatResponse,
+  UploadChatPdfResponse,
   UserTrackData,
 } from './type';
 
@@ -1240,14 +1242,15 @@ export async function chat(params: {
   }
 }
 
-export async function createPdfChat(params: { file?: File; url?: string }) {
+export async function createPdfChat(params: {
+  file: File;
+}): Promise<UploadChatPdfResponse> {
   try {
     const token = Cookies.get('token');
     const body = new FormData();
-    if (params.file) body.append('pdf', params.file);
-    if (params.url) body.append('url', params.url);
+    if (params.file) body.append('attachment', params.file);
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat_pdf/assistant`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/attachment`,
       {
         method: 'POST',
         body,
@@ -1270,7 +1273,7 @@ export async function researchChat(params: {
   session_id: string;
   query?: string;
   document_id: string;
-}) {
+}): Promise<ResearchChatResponse> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -1298,7 +1301,9 @@ export async function researchChat(params: {
   }
 }
 
-export async function pdfSummary(assistant_id: string) {
+export async function pdfSummary(
+  assistant_id: string
+): Promise<UploadChatPdfResponse> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(

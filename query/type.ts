@@ -159,3 +159,13 @@ export type UserTrackData = {
 };
 
 export type ReferenceType = 'mla' | 'apa' | 'ieee' | 'chicago';
+
+export type UploadChatPdfResponse = {
+  thread_id: string;
+  response: string;
+};
+
+export interface ResearchChatResponse {
+  response: string;
+  thread_id: string;
+}

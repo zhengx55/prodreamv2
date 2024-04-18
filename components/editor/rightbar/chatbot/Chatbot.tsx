@@ -1,4 +1,4 @@
-import { chat, createPdfChat, researchChat } from '@/query/api';
+import { chat, researchChat } from '@/query/api';
 import { EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -30,15 +30,6 @@ const Chatbot = ({ t }: Props) => {
   const updateChatMessage = useCallback((value: string) => {
     setValue(value);
   }, []);
-
-  const { mutateAsync: createPdf, isPending: uploading } = useMutation({
-    mutationFn: (params: { file: File }) => createPdfChat(params),
-    onSuccess: () => {},
-    onError: async (error) => {
-      const { toast } = await import('sonner');
-      toast.error('Failed to create PDF chat, please try again later.');
-    },
-  });
 
   const { mutateAsync: aiResearchChat, isPending: pdfChatSending } =
     useMutation({

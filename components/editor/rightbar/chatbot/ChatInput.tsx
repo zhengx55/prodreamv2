@@ -1,12 +1,21 @@
 import Icon from '@/components/root/Icon';
+import Spacer from '@/components/root/Spacer';
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import useAutoSizeTextArea from '@/hooks/useAutoSizeTextArea';
 import { EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
 import type { UseMutateAsyncFunction } from '@tanstack/react-query';
-import { History, Paperclip, Plus, Search } from 'lucide-react';
+import {
+  FileText,
+  History,
+  Loader2,
+  Paperclip,
+  Plus,
+  Search,
+} from 'lucide-react';
 import { memo, useRef } from 'react';
 
 type Props = {
@@ -30,7 +39,13 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateValue(e.target.value);
   };
-  const { updateUploadModal, currentSession } = useChatbot((state) => ({
+  const {
+    updateUploadModal,
+    fileUploading,
+    currentFile,
+    updateChatType,
+    currentSession,
+  } = useChatbot((state) => ({
     ...state,
   }));
   const submit = async () => {
@@ -78,12 +93,20 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
               })}
             </DropdownMenuContent>
           </DropdownMenu> */}
-          <Button role='button' className='size-max px-1' variant={'icon'}>
+          <Button
+            role='button'
+            onClick={() => updateChatType('research')}
+            className='size-max px-1'
+            variant={'icon'}
+          >
             <Search size={16} className='cursor-pointer' />
             <p className='small-regular'>Research</p>
           </Button>
           <Button
-            onClick={() => updateUploadModal(true)}
+            onClick={() => {
+              updateUploadModal(true);
+              updateChatType('pdf');
+            }}
             role='button'
             className='size-max px-1'
             variant={'icon'}
@@ -108,41 +131,78 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
           </Tooltip>
         </div>
       </div>
-      <Textarea
-        ref={chatRef}
-        autoFocus
-        aria-label='chat-textarea'
-        onKeyDown={(e) => {
-          if (e.code === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            submit();
-          }
-        }}
-        className='small-regular h-14 w-full rounded-lg py-2 pl-2 pr-7 focus-visible:ring-0'
-        id='chat-textarea'
-        value={value}
-        disabled={sending}
-        onChange={handleValueChnage}
-        placeholder='Message Dream Cat AI...'
-      />
-      <Button
-        onClick={submit}
-        disabled={!value.trim() || sending}
-        className='absolute bottom-2 right-2 h-max w-max p-0'
-        variant={'ghost'}
-        type='button'
-      >
-        <Icon
-          alt='messaging'
-          width={18}
-          height={18}
-          src={
-            !value.trim
-              ? '/editor/chatbot/Send_disable.svg'
-              : '/editor/chatbot/Send.svg'
-          }
+      <div className='flex flex-col rounded-lg border border-gray-200 p-2'>
+        {currentFile ? (
+          <>
+            <div className='flex-between bg-stone-50 p-2'>
+              <div className='flex items-center gap-x-2'>
+                <span className='flex-center size-8 rounded bg-violet-500'>
+                  {fileUploading ? (
+                    <Loader2 className='animate-spin text-white' size={26} />
+                  ) : (
+                    <FileText size={26} className='text-white' />
+                  )}
+                </span>
+                <div className='flex flex-col'>
+                  <h3 className='small-regular text-zinc-600'>Prodream</h3>
+                  <p className='subtle-regular text-zinc-500'>PDF</p>
+                </div>
+              </div>
+              <Button
+                disabled={fileUploading}
+                variant={'outline'}
+                className='size-max rounded border-none bg-gray-200 px-2 py-2 text-zinc-600'
+                role='button'
+              >
+                <Icon
+                  alt='summerize-pdf'
+                  width={20}
+                  height={20}
+                  src='/editor/chatbot/Summerize.svg'
+                />
+                Summarize
+              </Button>
+            </div>
+            <Spacer y='8' />
+            <Separator className='bg-gray-200' orientation='horizontal' />
+          </>
+        ) : null}
+        <Textarea
+          ref={chatRef}
+          autoFocus
+          aria-label='chat-textarea'
+          onKeyDown={(e) => {
+            if (e.code === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              submit();
+            }
+          }}
+          className='small-regular h-14 w-full border-none py-2 pl-0 pr-5 focus-visible:ring-0'
+          id='chat-textarea'
+          value={value}
+          disabled={sending}
+          onChange={handleValueChnage}
+          placeholder='Message Dream Cat AI...'
         />
-      </Button>
+        <Button
+          onClick={submit}
+          disabled={!value.trim() || sending}
+          className='absolute bottom-2 right-2 h-max w-max p-0'
+          variant={'ghost'}
+          type='button'
+        >
+          <Icon
+            alt='messaging'
+            width={18}
+            height={18}
+            src={
+              !value.trim
+                ? '/editor/chatbot/Send_disable.svg'
+                : '/editor/chatbot/Send.svg'
+            }
+          />
+        </Button>
+      </div>
     </div>
   );
 };
