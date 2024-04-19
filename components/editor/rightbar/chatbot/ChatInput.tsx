@@ -41,16 +41,12 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateValue(e.target.value);
   };
-  const {
-    updateUploadModal,
-    fileUploading,
-    currentFile,
-    updateChatType,
-    currentSession,
-    openHistory,
-  } = useChatbot((state) => ({
-    ...state,
-  }));
+  const updateUploadModal = useChatbot((state) => state.updateUploadModal);
+  const fileUploading = useChatbot((state) => state.fileUploading);
+  const currentFile = useChatbot((state) => state.currentFile);
+  const updateChatType = useChatbot((state) => state.updateChatType);
+  const currentSession = useChatbot((state) => state.currentSession);
+  const openHistory = useChatbot((state) => state.openHistory);
 
   const submit = async () => {
     if (!value.trim()) return;

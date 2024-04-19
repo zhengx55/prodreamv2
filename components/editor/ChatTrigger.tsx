@@ -4,11 +4,9 @@ import { memo } from 'react';
 import Icon from '../root/Icon';
 import { Button } from '../ui/button';
 const ChatTrigger = () => {
-  const { updateRightbarTab, closeRightbar, rightbarTab } = useAIEditor(
-    (state) => ({
-      ...state,
-    })
-  );
+  const rightbarTab = useAIEditor((state) => state.rightbarTab);
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+  const closeRightbar = useAIEditor((state) => state.closeRightbar);
   return (
     <Button
       className='absolute bottom-2 right-4 z-50 h-max w-max cursor-pointer border-none bg-transparent p-0'

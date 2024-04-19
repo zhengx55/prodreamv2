@@ -85,10 +85,9 @@ export const ContinueTip = memo(({ editor }: { editor: Editor }) => {
   const updateContinueStep = useUserTask((state) => state.updateContinueStep);
   const insertPos = useRef<number>(0);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const { updateshowContinue, updateContinueRes, updateInsertPos } =
-    useAIEditor((state) => ({
-      ...state,
-    }));
+  const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
+  const updateContinueRes = useAIEditor((state) => state.updateContinueRes);
+  const updateInsertPos = useAIEditor((state) => state.updateInsertPos);
 
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { text: string; pos: number; start: number }) =>

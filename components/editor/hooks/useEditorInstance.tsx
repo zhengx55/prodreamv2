@@ -10,17 +10,13 @@ import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function useEditorInstance(essay_content: string | undefined) {
-  const {
-    setEditorInstance,
-    reset,
-    doc_title,
-    updateTitle,
-    toogleIsSaving,
-    disableContinue,
-    updateshowContinue,
-  } = useAIEditor((state) => ({
-    ...state,
-  }));
+  const setEditorInstance = useAIEditor((state) => state.setEditorInstance);
+  const reset = useAIEditor((state) => state.reset);
+  const doc_title = useAIEditor((state) => state.doc_title);
+  const updateTitle = useAIEditor((state) => state.updateTitle);
+  const toogleIsSaving = useAIEditor((state) => state.toogleIsSaving);
+  const disableContinue = useAIEditor((state) => state.disableContinue);
+  const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
   const [showBottomBar, setShowBottomBar] = useState(true);
   const onWindowResize = useWindowResize();
   const { id }: { id: string } = useParams();
