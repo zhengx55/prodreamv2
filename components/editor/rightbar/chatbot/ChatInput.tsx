@@ -7,7 +7,6 @@ import { Textarea } from '@/components/ui/textarea';
 import useAutoSizeTextArea from '@/hooks/useAutoSizeTextArea';
 import { EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
-import { type UseMutateAsyncFunction } from '@tanstack/react-query';
 import {
   FileText,
   History,
@@ -18,29 +17,26 @@ import {
 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo, useRef } from 'react';
+import useChat from './hooks/useChat';
 
 type Props = {
   t: EditorDictType;
-  value: string;
-  updateValue: (value: string) => void;
-  sending: boolean;
-  mutateFn: UseMutateAsyncFunction<
-    ReadableStream<any>,
-    Error,
-    {
-      session_id: string | null;
-      document_id: string;
-      query: string;
-    },
-    unknown
-  >;
 };
-const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
+const ChatInput = ({ t }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
+  const {
+    sending,
+    value,
+    updateChatMessage,
+    aiChatSending,
+    submitChat,
+    aiResearchChat,
+  } = useChat();
+
   const { id } = useParams();
   useAutoSizeTextArea(chatRef.current, value, 96);
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    updateValue(e.target.value);
+    updateChatMessage(e.target.value);
   };
   const updateUploadModal = useChatbot((state) => state.updateUploadModal);
   const fileUploading = useChatbot((state) => state.fileUploading);
@@ -48,14 +44,25 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
   const updateChatType = useChatbot((state) => state.updateChatType);
   const currentSession = useChatbot((state) => state.currentSession);
   const openHistory = useChatbot((state) => state.openHistory);
+  const chatType = useChatbot((state) => state.chatType);
 
   const submit = async () => {
     if (!value.trim()) return;
-    await mutateFn({
-      query: value,
-      session_id: currentSession,
-      document_id: id as string,
-    });
+    if (!chatType || chatType === 'pdf') {
+      updateChatType('pdf');
+      await submitChat({
+        query: value,
+        session_id: currentSession,
+        document_id: id as string,
+      });
+    } else {
+      await aiResearchChat({
+        query: value,
+        session_id: currentSession,
+        document_id: id as string,
+      });
+    }
+
     chatRef.current?.focus();
   };
 
@@ -196,13 +203,13 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
           className='small-regular min-h-14 w-full border-none py-2 pl-0 pr-5 focus-visible:ring-0'
           id='chat-textarea'
           value={value}
-          disabled={sending}
+          disabled={sending || aiChatSending}
           onChange={handleValueChnage}
           placeholder='Message Dream Cat AI...'
         />
         <Button
           onClick={submit}
-          disabled={!value.trim() || sending}
+          disabled={!value.trim() || sending || aiChatSending}
           className='absolute bottom-2 right-2 h-max w-max p-0'
           variant={'ghost'}
           type='button'

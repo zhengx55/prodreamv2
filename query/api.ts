@@ -18,7 +18,6 @@ import {
   IVerifyEmail,
   LoginData,
   ReferenceType,
-  ResearchChatResponse,
   UploadChatPdfResponse,
   UserTrackData,
 } from './type';
@@ -1273,10 +1272,10 @@ export async function createPdfChat(params: {
 }
 
 export async function researchChat(params: {
-  session_id: string;
-  query?: string;
+  session_id: string | null;
+  query: string;
   document_id: string;
-}): Promise<ResearchChatResponse> {
+}): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -1294,11 +1293,8 @@ export async function researchChat(params: {
         },
       }
     );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
+    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
+    return res.body;
   } catch (error) {
     throw new Error(error as string);
   }

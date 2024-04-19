@@ -23,6 +23,13 @@ type ChatBotAction = {
   updateFileUploading: (result: ChatBotState['fileUploading']) => void;
   updateCurrentFile: (result: ChatBotState['currentFile']) => void;
   updateDeleteModal: (result: ChatBotState['showDeleteModal']) => void;
+  updateMessageList: (result: ChatBotState['messageList']) => void;
+  appendMessage: (result: {
+    type: 'mine' | 'system';
+    text: string;
+    id: string;
+  }) => void;
+  updateMessageItem: (id: string, data: string[]) => void;
   resetCurrentFile: () => void;
   openHistory: () => void;
   closeHistory: () => void;
@@ -46,6 +53,28 @@ export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
   updateDeleteSession(result) {
     set({ deleteSession: result });
   },
+  updateMessageList(result) {
+    set({ messageList: result });
+  },
+  appendMessage(result) {
+    set({ messageList: [...get().messageList, result] });
+  },
+  updateMessageItem: (id, data) =>
+    set((state) => {
+      const messageIndex = state.messageList.findIndex(
+        (message) => message.id === id
+      );
+      if (messageIndex !== -1) {
+        const newMessages = [...state.messageList];
+        const updatedMessage = {
+          ...newMessages[messageIndex],
+          text: newMessages[messageIndex].text + data.join(''),
+        };
+        newMessages[messageIndex] = updatedMessage;
+        return { ...state, messageList: newMessages };
+      }
+      return state;
+    }),
   updateChatType(result) {
     set({ chatType: result });
   },

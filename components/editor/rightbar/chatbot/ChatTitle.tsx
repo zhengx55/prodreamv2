@@ -19,11 +19,12 @@ const ChatTitle = ({ t }: Props) => {
           height={32}
         />
         <h2 className='title-medium'>
-          {chatType === 'pdf'
+          {/* {chatType === 'pdf'
             ? 'Chatpdf'
             : chatType === 'research'
               ? 'AI Research'
-              : 'Jessica'}
+              : 'Jessica'} */}
+          Jessica
         </h2>
       </div>
       <XCircle
