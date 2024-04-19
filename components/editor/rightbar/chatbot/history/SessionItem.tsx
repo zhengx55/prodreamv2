@@ -1,14 +1,16 @@
 import Icon from '@/components/root/Icon';
+import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import { formatTimestamphh_number } from '@/lib/utils';
-import { useDeleteSession } from '@/query/query';
 import { ChatResponse } from '@/query/type';
+import { useChatbot } from '@/zustand/store';
 import { Trash2 } from 'lucide-react';
 import { memo } from 'react';
 
 type Props = { item: ChatResponse };
 const SessionItem = ({ item }: Props) => {
-  const { mutateAsync: deleteHistoryItem, isPending } = useDeleteSession();
+  const updateDeleteModal = useChatbot((state) => state.updateDeleteModal);
+  const updateDeleteSession = useChatbot((state) => state.updateDeleteSession);
   return (
     <div className='flex flex-col gap-y-2 rounded p-2 hover:bg-stone-50'>
       <div className='flex items-center gap-x-2'>
@@ -27,18 +29,20 @@ const SessionItem = ({ item }: Props) => {
       <p className='small-regular line-clamp-2 text-neutral-400'>
         {item.first_message}
       </p>
-      <Button
-        onClick={async (e) => {
-          e.stopPropagation();
-          await deleteHistoryItem(item.id);
-        }}
-        disabled={isPending}
-        role='button'
-        variant={'icon'}
-        className='size-max self-end'
-      >
-        <Trash2 className='text-zinc-600' size={18} />
-      </Button>
+      <Tooltip tooltipContent='Delete' side='top'>
+        <Button
+          onClick={async (e) => {
+            e.stopPropagation();
+            updateDeleteModal(true);
+            updateDeleteSession(item.id);
+          }}
+          role='button'
+          variant={'icon'}
+          className='size-max self-end'
+        >
+          <Trash2 className='text-zinc-600' size={18} />
+        </Button>
+      </Tooltip>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import ChatInput from './ChatInput';
 import ChatSection from './ChatSection';
 import ChatTitle from './ChatTitle';
 import Starter from './Starter';
+import DeleteModal from './history/DeleteModal';
 const ChatHistory = dynamic(() => import('./history/ChatHistory'));
 const UploadModal = dynamic(() => import('./UploadModal'));
 
@@ -124,7 +125,8 @@ const Chatbot = ({ t }: Props) => {
       className='flex w-full flex-1 flex-col overflow-hidden'
     >
       <AnimatePresence>{showHistory && <ChatHistory t={t} />}</AnimatePresence>
-      <UploadModal container={container} />
+      <UploadModal t={t} container={container} />
+      <DeleteModal t={t} container={container} />
       <ChatTitle t={t} />
       {!chatType ? (
         <Starter t={t} />

@@ -3,6 +3,8 @@ export type ChatBotStore = ChatBotState & ChatBotAction;
 
 type ChatBotState = {
   showUploadModal: boolean;
+  showDeleteModal: boolean;
+  deleteSession: string;
   chatType: 'research' | 'pdf' | null;
   history: string[];
   currentSession: string | null;
@@ -13,18 +15,21 @@ type ChatBotState = {
 };
 
 type ChatBotAction = {
+  updateDeleteSession: (result: ChatBotState['deleteSession']) => void;
   updateUploadModal: (result: ChatBotState['showUploadModal']) => void;
   updateChatType: (result: ChatBotState['chatType']) => void;
   updateHistory: (result: ChatBotState['history']) => void;
   updateCurrentSession: (result: ChatBotState['currentSession']) => void;
   updateFileUploading: (result: ChatBotState['fileUploading']) => void;
   updateCurrentFile: (result: ChatBotState['currentFile']) => void;
+  updateDeleteModal: (result: ChatBotState['showDeleteModal']) => void;
   resetCurrentFile: () => void;
   openHistory: () => void;
   closeHistory: () => void;
 };
 
 const initialState: ChatBotState = {
+  deleteSession: '',
   showUploadModal: false,
   chatType: null,
   history: [],
@@ -33,12 +38,19 @@ const initialState: ChatBotState = {
   currentFile: null,
   messageList: [],
   showHistory: false,
+  showDeleteModal: false,
 };
 
 export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
   ...initialState,
+  updateDeleteSession(result) {
+    set({ deleteSession: result });
+  },
   updateChatType(result) {
     set({ chatType: result });
+  },
+  updateDeleteModal(result) {
+    set({ showDeleteModal: result });
   },
   updateUploadModal(result) {
     set({ showUploadModal: result });
