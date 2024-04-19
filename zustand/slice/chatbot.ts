@@ -8,6 +8,7 @@ type ChatBotState = {
   chatType: 'research' | 'pdf' | null;
   history: string[];
   currentSession: string | null;
+  currentResearchSession: string | null;
   fileUploading: boolean;
   currentFile: File | null;
   messageList: { type: 'mine' | 'system'; text: string; id: string }[];
@@ -20,6 +21,9 @@ type ChatBotAction = {
   updateChatType: (result: ChatBotState['chatType']) => void;
   updateHistory: (result: ChatBotState['history']) => void;
   updateCurrentSession: (result: ChatBotState['currentSession']) => void;
+  updateCurrentResearchSession: (
+    result: ChatBotState['currentResearchSession']
+  ) => void;
   updateFileUploading: (result: ChatBotState['fileUploading']) => void;
   updateCurrentFile: (result: ChatBotState['currentFile']) => void;
   updateDeleteModal: (result: ChatBotState['showDeleteModal']) => void;
@@ -41,6 +45,7 @@ const initialState: ChatBotState = {
   chatType: null,
   history: [],
   currentSession: null,
+  currentResearchSession: null,
   fileUploading: false,
   currentFile: null,
   messageList: [],
@@ -95,6 +100,9 @@ export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
   },
   updateCurrentFile(result) {
     set({ currentFile: result });
+  },
+  updateCurrentResearchSession(result) {
+    set({ currentResearchSession: result });
   },
   resetCurrentFile() {
     set({ currentFile: null });

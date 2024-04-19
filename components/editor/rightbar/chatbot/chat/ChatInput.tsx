@@ -17,21 +17,15 @@ import {
 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo, useRef } from 'react';
-import useChat from './hooks/useChat';
+import useChat from '../hooks/useChat';
 
 type Props = {
   t: EditorDictType;
 };
 const ChatInput = ({ t }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
-  const {
-    sending,
-    value,
-    updateChatMessage,
-    aiChatSending,
-    submitChat,
-    aiResearchChat,
-  } = useChat();
+  const { sending, value, updateChatMessage, aiChatSending, submitChat } =
+    useChat();
 
   const { id } = useParams();
   useAutoSizeTextArea(chatRef.current, value, 96);
@@ -55,20 +49,9 @@ const ChatInput = ({ t }: Props) => {
         session_id: currentSession,
         document_id: id as string,
       });
-    } else {
-      await aiResearchChat({
-        query: value,
-        session_id: currentSession,
-        document_id: id as string,
-      });
     }
-
     chatRef.current?.focus();
   };
-
-  // const {} = useMutation({
-  //   mutationFn: () => pdfSummary(),
-  // });
 
   return (
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>

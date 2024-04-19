@@ -4,21 +4,22 @@ import { Separator } from '@/components/ui/separator';
 import { EditorRightBar } from '@/constant';
 import { CitationTooltip } from '@/constant/enum';
 import { DocPageDicType } from '@/types';
-import { useAIEditor, useUserTask } from '@/zustand/store';
+import { useAIEditor, useChatbot, useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { Fragment } from 'react';
-import Tiplayout from '../../guide/tips/Tiplayout';
-const Detection = dynamic(() => import('../ai-detection/Detection'));
+import Tiplayout from '../../../guide/tips/Tiplayout';
+import ResearchChat from '../research/ResearchChat';
+const Detection = dynamic(() => import('../../ai-detection/Detection'));
 const CitationLibrary = dynamic(
-  () => import('../citation/library/CitationLibrary')
+  () => import('../../citation/library/CitationLibrary')
 );
-const GrammarCheck = dynamic(() => import('../grammar/GrammarCheck'));
-const Plagiarism = dynamic(() => import('../plagiarism/Plagiarism'));
+const GrammarCheck = dynamic(() => import('../../grammar/GrammarCheck'));
+const Plagiarism = dynamic(() => import('../../plagiarism/Plagiarism'));
 const Generate = dynamic(
   () => import('@/components/editor/rightbar/generate/Generate')
 );
-const Chatbot = dynamic(() => import('./Chatbot'));
+const Chatbot = dynamic(() => import('../Chatbot'));
 
 const Citation = dynamic(
   () => import('@/components/editor/rightbar/citation/Citation')
@@ -26,6 +27,7 @@ const Citation = dynamic(
 
 const General = ({ t, lang }: DocPageDicType) => {
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
+  const chatType = useChatbot((state) => state.chatType);
   return (
     <m.aside
       key={'doc-right-bar'}
@@ -48,9 +50,13 @@ const General = ({ t, lang }: DocPageDicType) => {
           <Detection t={t} />
         ) : rightbarTab === 4 ? (
           <CitationLibrary t={t} />
-        ) : (
-          <Chatbot t={t} />
-        )}
+        ) : rightbarTab === 6 ? (
+          chatType === 'research' ? (
+            <ResearchChat t={t} />
+          ) : (
+            <Chatbot t={t} />
+          )
+        ) : null}
       </section>
     </m.aside>
   );
