@@ -15,7 +15,6 @@ const UploadModal = dynamic(() => import('./UploadModal'));
 
 type Props = { t: EditorDictType };
 const Chatbot = ({ t }: Props) => {
-  console.log('chatbot');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [value, setValue] = useState<string>('');
   const chatType = useChatbot((state) => state.chatType);

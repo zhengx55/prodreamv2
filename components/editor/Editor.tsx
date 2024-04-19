@@ -4,7 +4,6 @@ import { useUserTrackInfo } from '@/query/query';
 import { DocPageDicType } from '@/types';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import ChatTrigger from './ChatTrigger';
 import Procedure from './guide/Procedure';
 import useEditorInstance from './hooks/useEditorInstance';
 
@@ -27,7 +26,7 @@ const Editor = ({
   if (!editor) return null;
   return (
     <section className='relative flex w-full flex-col'>
-      <ChatTrigger />
+      {/* <ChatTrigger /> */}
       <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
         {Boolean(track?.guidence) && <EditorBlock {...props} editor={editor} />}
