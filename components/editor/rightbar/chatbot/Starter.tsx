@@ -8,9 +8,8 @@ import { memo } from 'react';
 type Props = { t: EditorDictType };
 const Starter = (props: Props) => {
   const userName = useUserInfo((state) => state.user.first_name);
-  const { updateChatType, updateUploadModal } = useChatbot((state) => ({
-    ...state,
-  }));
+  const updateChatType = useChatbot((state) => state.updateChatType);
+  const updateUploadModal = useChatbot((state) => state.updateUploadModal);
   return (
     <m.div
       initial={{ opacity: 0, y: -10 }}

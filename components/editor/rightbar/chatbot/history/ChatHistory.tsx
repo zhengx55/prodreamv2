@@ -11,9 +11,7 @@ import SearchBar from './SearchBar';
 type Props = { t: EditorDictType };
 const ChatHistory = ({ t }: Props) => {
   const { id } = useParams();
-  const { closeHistory } = useChatbot((state) => ({
-    ...state,
-  }));
+  const closeHistory = useChatbot((state) => state.closeHistory);
   const { data } = useChatBotSessions({
     document_id: id as string,
     history_type: 'chat',

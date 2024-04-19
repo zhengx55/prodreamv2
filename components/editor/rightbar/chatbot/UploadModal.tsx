@@ -10,15 +10,11 @@ import { FileRejection, useDropzone } from 'react-dropzone';
 
 type Props = { container: any };
 const UploadModal = ({ container }: Props) => {
-  const {
-    showUploadModal,
-    updateCurrentFile,
-    updateFileUploading,
-    updateUploadModal,
-    resetCurrentFile,
-  } = useChatbot((state) => ({
-    ...state,
-  }));
+  const showUploadModal = useChatbot((state) => state.showUploadModal);
+  const updateCurrentFile = useChatbot((state) => state.updateCurrentFile);
+  const updateFileUploading = useChatbot((state) => state.updateFileUploading);
+  const updateUploadModal = useChatbot((state) => state.updateUploadModal);
+  const resetCurrentFile = useChatbot((state) => state.resetCurrentFile);
 
   const { mutateAsync: createPdf } = useMutation({
     mutationFn: (params: { file: File }) => createPdfChat(params),

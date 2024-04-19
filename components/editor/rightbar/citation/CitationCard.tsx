@@ -179,12 +179,16 @@ export const MineCitationCard = memo(
     type: 'inText' | 'library';
   }) => {
     const editor = useAIEditor((state) => state.editor_instance);
-    const {
-      removeInTextCitationIds,
-      removeInDocCitationIds,
-      appendInTextCitationIds,
-      updateCitationItem,
-    } = useCitation((state) => ({ ...state }));
+    const removeInTextCitationIds = useCitation(
+      (state) => state.removeInTextCitationIds
+    );
+    const removeInDocCitationIds = useCitation(
+      (state) => state.removeInDocCitationIds
+    );
+    const appendInTextCitationIds = useCitation(
+      (state) => state.appendInTextCitationIds
+    );
+    const updateCitationItem = useCitation((state) => state.updateCitationItem);
     const { insertCitation } = useEditorCommand(editor!);
 
     const handleCite = async () => {

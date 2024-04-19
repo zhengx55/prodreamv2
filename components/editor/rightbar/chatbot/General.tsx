@@ -57,9 +57,9 @@ const General = ({ t, lang }: DocPageDicType) => {
 };
 
 const Trigger = ({ t, lang }: DocPageDicType) => {
-  const { updateRightbarTab, rightbarTab, rightbarOpen } = useAIEditor(
-    (state) => ({ ...state })
-  );
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+  const rightbarTab = useAIEditor((state) => state.rightbarTab);
+  const rightbarOpen = useAIEditor((state) => state.rightbarOpen);
   const resetCitationStep = useUserTask((state) => state.resetCitationStep);
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
 
