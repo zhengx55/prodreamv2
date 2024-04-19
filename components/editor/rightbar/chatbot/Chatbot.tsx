@@ -49,8 +49,11 @@ const Chatbot = ({ t }: Props) => {
   //   });
 
   const { mutateAsync: submitChat, isPending: sending } = useMutation({
-    mutationFn: (params: { session_id: string | null; query: string }) =>
-      chat(params),
+    mutationFn: (params: {
+      session_id: string | null;
+      query: string;
+      document_id: string;
+    }) => chat(params),
 
     onSuccess: async (data: ReadableStream) => {
       setMessages((prev) => [...prev, { type: 'mine', text: value, id: v4() }]);

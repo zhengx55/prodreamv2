@@ -29,6 +29,7 @@ type Props = {
     Error,
     {
       session_id: string | null;
+      document_id: string;
       query: string;
     },
     unknown
@@ -50,7 +51,11 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
 
   const submit = async () => {
     if (!value.trim()) return;
-    await mutateFn({ query: value, session_id: currentSession });
+    await mutateFn({
+      query: value,
+      session_id: currentSession,
+      document_id: id as string,
+    });
     chatRef.current?.focus();
   };
 

@@ -277,7 +277,7 @@ export const useChatBotSessions = ({
   return useQuery({
     queryKey: ['session-history', document_id, history_type, query],
     queryFn: () =>
-      chatHistory({ document_id, history_type, page: 1, page_size: 20, query }),
+      chatHistory({ document_id, history_type, page: 0, page_size: 20, query }),
     staleTime: Infinity,
   });
 };

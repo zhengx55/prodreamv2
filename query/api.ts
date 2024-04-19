@@ -1221,6 +1221,7 @@ export async function ButtonTrack(event: string, mobile: number) {
 export async function chat(params: {
   session_id: string | null;
   query: string;
+  document_id: string;
 }): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
@@ -1229,6 +1230,7 @@ export async function chat(params: {
       body: JSON.stringify({
         session_id: params.session_id,
         query: params.query,
+        document_id: params.document_id,
       }),
       headers: {
         'Content-Type': 'application/json',
