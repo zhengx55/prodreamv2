@@ -4,8 +4,8 @@ import { useAIEditor, useChatbot } from '@/zustand/store';
 import { XCircle } from 'lucide-react';
 import { memo } from 'react';
 
-type Props = { t: EditorDictType; title: string };
-const ChatTitle = ({ t, title }: Props) => {
+type Props = { t: EditorDictType };
+const ChatTitle = ({ t }: Props) => {
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
   const chatType = useChatbot((state) => state.chatType);
   return (

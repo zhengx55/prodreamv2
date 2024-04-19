@@ -55,12 +55,12 @@ const UploadModal = ({ container }: Props) => {
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    maxSize: 1024 * 1024,
+    maxSize: 100 * 1024 * 1024, // 100MB
     accept: {
       'application/pdf': ['.pdf'],
-      'application/msword': ['.doc'],
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        ['.docx'],
+      // 'application/msword': ['.doc'],
+      // 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+      //   ['.docx'],
     },
   });
   return (

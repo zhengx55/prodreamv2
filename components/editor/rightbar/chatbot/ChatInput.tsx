@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import useAutoSizeTextArea from '@/hooks/useAutoSizeTextArea';
 import { EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
-import type { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { type UseMutateAsyncFunction } from '@tanstack/react-query';
 import {
   FileText,
   History,
@@ -16,6 +16,7 @@ import {
   Plus,
   Search,
 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { memo, useRef } from 'react';
 
 type Props = {
@@ -35,6 +36,7 @@ type Props = {
 };
 const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
+  const { id } = useParams();
   useAutoSizeTextArea(chatRef.current, value, 96);
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateValue(e.target.value);
@@ -45,19 +47,25 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
     currentFile,
     updateChatType,
     currentSession,
+    openHistory,
   } = useChatbot((state) => ({
     ...state,
   }));
+
   const submit = async () => {
     if (!value.trim()) return;
     await mutateFn({ query: value, session_id: currentSession });
     chatRef.current?.focus();
   };
 
+  // const {} = useMutation({
+  //   mutationFn: () => pdfSummary(),
+  // });
+
   return (
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
       <div className='flex-between'>
-        <div className='flex items-center gap-x-1'>
+        <div className='flex items-center gap-x-2'>
           {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className='flex-between group min-w-52 cursor-pointer gap-x-2 rounded-lg border border-gray-200 bg-white p-2 data-[state=open]:bg-zinc-100 hover:bg-zinc-100'>
@@ -117,7 +125,12 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
         </div>
         <div className='flex items-center gap-x-2'>
           <Tooltip side='top' tooltipContent='History'>
-            <Button variant={'icon'} role='button' className='p-2'>
+            <Button
+              onClick={openHistory}
+              variant={'icon'}
+              role='button'
+              className='p-2'
+            >
               <History size={18} className='text-zinc-600' />
             </Button>
           </Tooltip>
@@ -138,13 +151,15 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
               <div className='flex items-center gap-x-2'>
                 <span className='flex-center size-8 rounded bg-violet-500'>
                   {fileUploading ? (
-                    <Loader2 className='animate-spin text-white' size={26} />
+                    <Loader2 className='animate-spin text-white' size={22} />
                   ) : (
-                    <FileText size={26} className='text-white' />
+                    <FileText size={22} className='text-white' />
                   )}
                 </span>
-                <div className='flex flex-col'>
-                  <h3 className='small-regular text-zinc-600'>Prodream</h3>
+                <div className='flex max-w-14 flex-col'>
+                  <h3 className='small-regular line-clamp-1 text-zinc-600'>
+                    {currentFile.name}
+                  </h3>
                   <p className='subtle-regular text-zinc-500'>PDF</p>
                 </div>
               </div>

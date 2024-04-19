@@ -26,7 +26,6 @@ const Citation = dynamic(
 
 const General = ({ t, lang }: DocPageDicType) => {
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
-
   return (
     <m.aside
       key={'doc-right-bar'}

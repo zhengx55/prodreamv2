@@ -18,6 +18,7 @@ type Props = {
 };
 const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  console.log('generateBtn');
   const {
     updateOutlineStep,
     updateGenerateStep,

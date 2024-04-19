@@ -2,7 +2,7 @@ import { EditorDictType } from '@/types';
 import { memo } from 'react';
 
 type Props = { t: EditorDictType };
-const ChatHistory = (props: Props) => {
-  return <div>ChatHistory</div>;
+const SearchBar = (props: Props) => {
+  return <div>SearchBar</div>;
 };
-export default memo(ChatHistory);
+export default memo(SearchBar);

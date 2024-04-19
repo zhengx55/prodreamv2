@@ -8,6 +8,8 @@ type ChatBotState = {
   currentSession: string | null;
   fileUploading: boolean;
   currentFile: File | null;
+  messageList: { type: 'mine' | 'system'; text: string; id: string }[];
+  showHistory: boolean;
 };
 
 type ChatBotAction = {
@@ -18,6 +20,8 @@ type ChatBotAction = {
   updateFileUploading: (result: ChatBotState['fileUploading']) => void;
   updateCurrentFile: (result: ChatBotState['currentFile']) => void;
   resetCurrentFile: () => void;
+  openHistory: () => void;
+  closeHistory: () => void;
 };
 
 const initialState: ChatBotState = {
@@ -27,6 +31,8 @@ const initialState: ChatBotState = {
   currentSession: null,
   fileUploading: false,
   currentFile: null,
+  messageList: [],
+  showHistory: false,
 };
 
 export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
@@ -51,5 +57,11 @@ export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
   },
   resetCurrentFile() {
     set({ currentFile: null });
+  },
+  openHistory() {
+    set({ showHistory: true });
+  },
+  closeHistory() {
+    set({ showHistory: false });
   },
 });

@@ -1,7 +1,8 @@
-import { chat, researchChat } from '@/query/api';
+import { chat } from '@/query/api';
 import { EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
+import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo, useCallback, useState } from 'react';
 import { v4 } from 'uuid';
@@ -9,16 +10,19 @@ import ChatInput from './ChatInput';
 import ChatSection from './ChatSection';
 import ChatTitle from './ChatTitle';
 import Starter from './Starter';
-
+const ChatHistory = dynamic(() => import('./history/ChatHistory'));
 const UploadModal = dynamic(() => import('./UploadModal'));
 
 type Props = { t: EditorDictType };
 const Chatbot = ({ t }: Props) => {
+  console.log('chatbot');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [value, setValue] = useState<string>('');
-  const { chatType, updateCurrentSession } = useChatbot((state) => ({
-    ...state,
-  }));
+  const chatType = useChatbot((state) => state.chatType);
+  const updateCurrentSession = useChatbot(
+    (state) => state.updateCurrentSession
+  );
+  const showHistory = useChatbot((state) => state.showHistory);
   const [messages, setMessages] = useState<
     {
       type: 'mine' | 'system';
@@ -31,19 +35,19 @@ const Chatbot = ({ t }: Props) => {
     setValue(value);
   }, []);
 
-  const { mutateAsync: aiResearchChat, isPending: pdfChatSending } =
-    useMutation({
-      mutationFn: (params: {
-        session_id: string;
-        query?: string;
-        document_id: string;
-      }) => researchChat(params),
-      onSuccess: () => {},
-      onError: async (error) => {
-        const { toast } = await import('sonner');
-        toast.error('Failed to submit your, please try again later.');
-      },
-    });
+  // const { mutateAsync: aiResearchChat, isPending: pdfChatSending } =
+  //   useMutation({
+  //     mutationFn: (params: {
+  //       session_id: string;
+  //       query?: string;
+  //       document_id: string;
+  //     }) => researchChat(params),
+  //     onSuccess: () => {},
+  //     onError: async (error) => {
+  //       const { toast } = await import('sonner');
+  //       toast.error('Failed to submit your, please try again later.');
+  //     },
+  //   });
 
   const { mutateAsync: submitChat, isPending: sending } = useMutation({
     mutationFn: (params: { session_id: string | null; query: string }) =>
@@ -117,8 +121,9 @@ const Chatbot = ({ t }: Props) => {
       ref={setContainer}
       className='flex w-full flex-1 flex-col overflow-hidden'
     >
+      <AnimatePresence>{showHistory && <ChatHistory t={t} />}</AnimatePresence>
       <UploadModal container={container} />
-      <ChatTitle title='Jessica' t={t} />
+      <ChatTitle t={t} />
       {!chatType ? (
         <Starter t={t} />
       ) : (
