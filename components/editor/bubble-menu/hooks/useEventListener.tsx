@@ -4,9 +4,10 @@ import { isNodeSelection, posToDOMRect, type Editor } from '@tiptap/react';
 import { useEffect, useRef, useState } from 'react';
 
 const useEventListener = (editor: Editor) => {
-  const { showBubbleMenu, updateShowBubbleMenu } = useAIEditor((state) => ({
-    ...state,
-  }));
+  const showBubbleMenu = useAIEditor((state) => state.showBubbleMenu);
+  const updateShowBubbleMenu = useAIEditor(
+    (state) => state.updateShowBubbleMenu
+  );
   const [selectedLength, setSelectedLength] = useState(0);
   const menuYOffside = useRef<number | null>(null);
   const menuXOffside = useRef<number | null>(null);

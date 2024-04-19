@@ -1,19 +1,27 @@
 import { chat } from '@/query/api';
 import { EditorDictType } from '@/types';
-import { useAIEditor } from '@/zustand/store';
+import { useChatbot } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
-import { XCircle } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { memo, useCallback, useState } from 'react';
 import { v4 } from 'uuid';
-import ChatInput from './chatbot/ChatInput';
-import ChatSection from './chatbot/ChatSection';
+import ChatInput from './ChatInput';
+import ChatSection from './ChatSection';
+import ChatTitle from './ChatTitle';
+import Starter from './Starter';
+const ChatHistory = dynamic(() => import('./history/ChatHistory'));
+const UploadModal = dynamic(() => import('./UploadModal'));
 
 type Props = { t: EditorDictType };
 const Chatbot = ({ t }: Props) => {
-  const [chatEngine, setChatEngine] = useState<number>(1);
+  const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [value, setValue] = useState<string>('');
-  const [sending, setSending] = useState<boolean>(false);
-  const [session, setSession] = useState<string | null>(null);
+  const chatType = useChatbot((state) => state.chatType);
+  const updateCurrentSession = useChatbot(
+    (state) => state.updateCurrentSession
+  );
+  const showHistory = useChatbot((state) => state.showHistory);
   const [messages, setMessages] = useState<
     {
       type: 'mine' | 'system';
@@ -25,18 +33,26 @@ const Chatbot = ({ t }: Props) => {
   const updateChatMessage = useCallback((value: string) => {
     setValue(value);
   }, []);
-  const updateChatEngine = useCallback((value: number) => {
-    setChatEngine(value);
-  }, []);
 
-  const { mutateAsync: submitChat } = useMutation({
+  // const { mutateAsync: aiResearchChat, isPending: pdfChatSending } =
+  //   useMutation({
+  //     mutationFn: (params: {
+  //       session_id: string;
+  //       query?: string;
+  //       document_id: string;
+  //     }) => researchChat(params),
+  //     onSuccess: () => {},
+  //     onError: async (error) => {
+  //       const { toast } = await import('sonner');
+  //       toast.error('Failed to submit your, please try again later.');
+  //     },
+  //   });
+
+  const { mutateAsync: submitChat, isPending: sending } = useMutation({
     mutationFn: (params: { session_id: string | null; query: string }) =>
       chat(params),
-    onMutate: () => {
-      setSending(true);
-    },
+
     onSuccess: async (data: ReadableStream) => {
-      setSending(false);
       setMessages((prev) => [...prev, { type: 'mine', text: value, id: v4() }]);
       setValue('');
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
@@ -55,7 +71,6 @@ const Chatbot = ({ t }: Props) => {
       }
     },
     onError: async (error) => {
-      setSending(false);
       const { toast } = await import('sonner');
       toast.error('Failed to send message, please try again later.');
     },
@@ -80,7 +95,7 @@ const Chatbot = ({ t }: Props) => {
       return acc;
     }, [] as any[]);
     if (session) {
-      setSession(session);
+      updateCurrentSession(session);
     }
     if (eventData.length > 0) {
       setMessages((prevMessages) => {
@@ -101,37 +116,27 @@ const Chatbot = ({ t }: Props) => {
   };
 
   return (
-    <div className='flex w-full flex-1 flex-col overflow-hidden'>
+    <div
+      ref={setContainer}
+      className='flex w-full flex-1 flex-col overflow-hidden'
+    >
+      <AnimatePresence>{showHistory && <ChatHistory t={t} />}</AnimatePresence>
+      <UploadModal container={container} />
       <ChatTitle t={t} />
-      <ChatSection engine={chatEngine} messages={messages} t={t} />
+      {!chatType ? (
+        <Starter t={t} />
+      ) : (
+        <ChatSection messages={messages} t={t} />
+      )}
       <ChatInput
         value={value}
         updateValue={updateChatMessage}
         t={t}
-        session={session}
-        engine={chatEngine}
-        updateEngine={updateChatEngine}
         mutateFn={submitChat}
         sending={sending}
       />
     </div>
   );
 };
+
 export default memo(Chatbot);
-
-const ChatTitle = ({ t }: { t: EditorDictType }) => {
-  const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
-
-  return (
-    <div className='flex-between mb-4'>
-      <div className='flex items-center gap-x-4'>
-        <h2 className='title-medium'>Dream Cat AI</h2>
-      </div>
-      <XCircle
-        size={20}
-        onClick={toggleRightbar}
-        className='shrink-0 cursor-pointer text-shadow hover:opacity-50'
-      />
-    </div>
-  );
-};

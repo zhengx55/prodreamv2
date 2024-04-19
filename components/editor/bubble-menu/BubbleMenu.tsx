@@ -42,14 +42,16 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const commands = useTextmenuCommands(editor);
-  const {
-    updateCopilotMenu,
-    updateFloatingMenuPos,
-    updateCitationMenu,
-    updateSynonymMenu,
-    showBubbleMenu,
-    updateShowBubbleMenu,
-  } = useAIEditor((state) => ({ ...state }));
+  const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
+  const updateFloatingMenuPos = useAIEditor(
+    (state) => state.updateFloatingMenuPos
+  );
+  const updateCitationMenu = useAIEditor((state) => state.updateCitationMenu);
+  const updateSynonymMenu = useAIEditor((state) => state.updateSynonymMenu);
+  const showBubbleMenu = useAIEditor((state) => state.showBubbleMenu);
+  const updateShowBubbleMenu = useAIEditor(
+    (state) => state.updateShowBubbleMenu
+  );
   const {
     refs,
     x,

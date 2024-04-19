@@ -13,12 +13,13 @@ import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useUnmount } from 'react-use';
 const ContinueResult = (props: NodeViewProps) => {
   const [showAccept, setShowAccept] = useState(false);
-  const { continueResult, continueInsertPos, clearContinueRes } = useAIEditor(
-    (state) => ({ ...state })
-  );
+  const continueResult = useAIEditor((state) => state.continueResult);
+  const continueInsertPos = useAIEditor((state) => state.continueInsertPos);
+  const clearContinueRes = useAIEditor((state) => state.clearContinueRes);
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeout = useRef<NodeJS.Timeout>();
+
   const handleAccept = useCallback(() => {
     props.deleteNode();
     props.editor

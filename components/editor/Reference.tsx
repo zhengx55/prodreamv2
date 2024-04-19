@@ -15,9 +15,9 @@ import {
 } from '../ui/select';
 
 const Reference = () => {
-  const { citationStyle, inTextCitation, updateCitationStyle } = useCitation(
-    (state) => ({ ...state })
-  );
+  const citationStyle = useCitation((state) => state.citationStyle);
+  const inTextCitation = useCitation((state) => state.inTextCitation);
+  const updateCitationStyle = useCitation((state) => state.updateCitationStyle);
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { data: usage } = useMembershipInfo();
   const referenceListRef = useRef<HTMLOListElement>(null);

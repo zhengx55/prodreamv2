@@ -8,6 +8,7 @@ import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
 import {
   ButtonTrack,
+  chatHistory,
   createCitation,
   getDiscountInfo,
   getDocDetail,
@@ -259,6 +260,24 @@ export const useGetReference = ({
     queryFn: () => getReferenceType({ type, bibtex }),
     queryKey: ['reference', type, bibtex],
     enabled: bibtex.length > 0,
+    staleTime: Infinity,
+  });
+};
+
+// ------------------ Chatbot ------------------
+export const useChatBotSessions = ({
+  document_id,
+  query,
+  history_type,
+}: {
+  query?: string;
+  document_id: string;
+  history_type: 'chat' | 'research';
+}) => {
+  return useQuery({
+    queryKey: ['session-history', document_id, history_type, query],
+    queryFn: () =>
+      chatHistory({ document_id, history_type, page: 1, page_size: 20, query }),
     staleTime: Infinity,
   });
 };

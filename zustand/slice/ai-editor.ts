@@ -81,7 +81,7 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set(() => ({
       generateTab: result,
     })),
-  closeRightbar: () => set(() => ({ rightbarOpen: false })),
+  closeRightbar: () => set(() => ({ rightbarOpen: false, rightbarTab: -1 })),
   updateTitle: (result) => set(() => ({ doc_title: result })),
   updatePaymentModal: (result) => set(() => ({ paymentModalOpen: result })),
   updateRightbarTab: (result) =>

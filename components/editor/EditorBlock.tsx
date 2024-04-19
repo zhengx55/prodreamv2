@@ -17,10 +17,10 @@ const Trigger = dynamic(() => import('./continue-writting/Trigger'));
 type Props = { editor: EditorType } & DocPageDicType;
 
 const EditorBlock = ({ editor, ...props }: Props) => {
-  const { showCopilotMenu, showContinue, showCitiationMenu, showSynonymMenu } =
-    useAIEditor((state) => ({
-      ...state,
-    }));
+  const showCopilotMenu = useAIEditor((state) => state.showCopilotMenu);
+  const showContinue = useAIEditor((state) => state.showContinue);
+  const showCitiationMenu = useAIEditor((state) => state.showCitiationMenu);
+  const showSynonymMenu = useAIEditor((state) => state.showSynonymMenu);
   const show_task_dialog = useUserTask((state) => state.show_task_dialog);
   return (
     <div
