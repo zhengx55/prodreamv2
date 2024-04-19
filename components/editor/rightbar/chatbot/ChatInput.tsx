@@ -1,62 +1,68 @@
 import Icon from '@/components/root/Icon';
+import Spacer from '@/components/root/Spacer';
+import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { ChatbotEngine } from '@/constant';
 import useAutoSizeTextArea from '@/hooks/useAutoSizeTextArea';
 import { EditorDictType } from '@/types';
-import type { UseMutateAsyncFunction } from '@tanstack/react-query';
-import { ChevronDown, History, Paperclip, Plus } from 'lucide-react';
+import { useChatbot } from '@/zustand/store';
+import { type UseMutateAsyncFunction } from '@tanstack/react-query';
+import {
+  FileText,
+  History,
+  Loader2,
+  Paperclip,
+  Plus,
+  Search,
+} from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { memo, useRef } from 'react';
 
 type Props = {
   t: EditorDictType;
-  engine: number;
-  updateEngine: (value: number) => void;
   value: string;
   updateValue: (value: string) => void;
   sending: boolean;
-  session: string | null;
   mutateFn: UseMutateAsyncFunction<
-    any,
+    ReadableStream<any>,
     Error,
     {
       session_id: string | null;
       query: string;
     },
-    void
+    unknown
   >;
 };
-const ChatInput = ({
-  t,
-  engine,
-  value,
-  updateValue,
-  updateEngine,
-  session,
-  mutateFn,
-  sending,
-}: Props) => {
+const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
+  const { id } = useParams();
   useAutoSizeTextArea(chatRef.current, value, 96);
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateValue(e.target.value);
   };
+  const updateUploadModal = useChatbot((state) => state.updateUploadModal);
+  const fileUploading = useChatbot((state) => state.fileUploading);
+  const currentFile = useChatbot((state) => state.currentFile);
+  const updateChatType = useChatbot((state) => state.updateChatType);
+  const currentSession = useChatbot((state) => state.currentSession);
+  const openHistory = useChatbot((state) => state.openHistory);
+
   const submit = async () => {
     if (!value.trim()) return;
-    await mutateFn({ query: value, session_id: session });
+    await mutateFn({ query: value, session_id: currentSession });
     chatRef.current?.focus();
   };
+
+  // const {} = useMutation({
+  //   mutationFn: () => pdfSummary(),
+  // });
+
   return (
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
       <div className='flex-between'>
-        <div className='flex items-center gap-x-4'>
-          <DropdownMenu>
+        <div className='flex items-center gap-x-2'>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className='flex-between group min-w-52 cursor-pointer gap-x-2 rounded-lg border border-gray-200 bg-white p-2 data-[state=open]:bg-zinc-100 hover:bg-zinc-100'>
                 <div className='flex items-center gap-x-2'>
@@ -70,10 +76,9 @@ const ChatInput = ({
                     {ChatbotEngine[engine].title}
                   </p>
                 </div>
-
                 <ChevronDown
                   size={20}
-                  className=' text-zinc-600 transition-transform group-data-[state=open]:rotate-180'
+                  className='text-zinc-600 transition-transform group-data-[state=open]:rotate-180'
                 />
               </div>
             </DropdownMenuTrigger>
@@ -91,55 +96,124 @@ const ChatInput = ({
                 );
               })}
             </DropdownMenuContent>
-          </DropdownMenu>
-          <Paperclip size={20} className='cursor-pointer text-zinc-600' />
+          </DropdownMenu> */}
+          <Button
+            role='button'
+            onClick={() => updateChatType('research')}
+            className='size-max px-1'
+            variant={'icon'}
+          >
+            <Search size={16} className='cursor-pointer' />
+            <p className='small-regular'>Research</p>
+          </Button>
+          <Button
+            onClick={() => {
+              updateUploadModal(true);
+              updateChatType('pdf');
+            }}
+            role='button'
+            className='size-max px-1'
+            variant={'icon'}
+          >
+            <Paperclip size={16} className='cursor-pointer' />
+            <p className='small-regular'>Upload files</p>
+          </Button>
         </div>
-        <div className='flex items-center gap-x-4'>
-          <History
-            size={20}
-            className='cursor-pointer transition-transform hover:scale-110'
-          />
-          <Plus
-            size={20}
-            className='cursor-pointer rounded-full bg-violet-500 text-white transition-transform hover:scale-110'
-          />
+        <div className='flex items-center gap-x-2'>
+          <Tooltip side='top' tooltipContent='History'>
+            <Button
+              onClick={openHistory}
+              variant={'icon'}
+              role='button'
+              className='p-2'
+            >
+              <History size={18} className='text-zinc-600' />
+            </Button>
+          </Tooltip>
+          <Tooltip side='top' tooltipContent='New Chat'>
+            <Button variant={'icon'} role='button' className='p-2'>
+              <Plus
+                size={18}
+                className='cursor-pointer rounded-full bg-violet-500 text-white'
+              />
+            </Button>
+          </Tooltip>
         </div>
       </div>
-      <Textarea
-        ref={chatRef}
-        autoFocus
-        aria-label='chat-textarea'
-        onKeyDown={(e) => {
-          if (e.code === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            submit();
-          }
-        }}
-        className='small-regular w-full rounded-lg py-2 pl-2 pr-7 focus-visible:ring-0'
-        id='chat-textarea'
-        value={value}
-        disabled={sending}
-        onChange={handleValueChnage}
-        placeholder='message Dream Cat AI...'
-      />
-      <Button
-        onClick={submit}
-        disabled={!value.trim() || sending}
-        className='absolute bottom-2 right-2 h-max w-max p-0'
-        variant={'ghost'}
-        type='button'
-      >
-        <Icon
-          alt='messaging'
-          width={18}
-          height={18}
-          src={
-            !value.trim
-              ? '/editor/chatbot/Send_disable.svg'
-              : '/editor/chatbot/Send.svg'
-          }
+      <div className='flex flex-col rounded-lg border border-gray-200 p-2'>
+        {currentFile ? (
+          <>
+            <div className='flex-between bg-stone-50 p-2'>
+              <div className='flex items-center gap-x-2'>
+                <span className='flex-center size-8 rounded bg-violet-500'>
+                  {fileUploading ? (
+                    <Loader2 className='animate-spin text-white' size={22} />
+                  ) : (
+                    <FileText size={22} className='text-white' />
+                  )}
+                </span>
+                <div className='flex max-w-14 flex-col'>
+                  <h3 className='small-regular line-clamp-1 text-zinc-600'>
+                    {currentFile.name}
+                  </h3>
+                  <p className='subtle-regular text-zinc-500'>PDF</p>
+                </div>
+              </div>
+              <Button
+                disabled={fileUploading}
+                variant={'outline'}
+                className='size-max rounded border-none bg-gray-200 px-2 py-2 text-zinc-600'
+                role='button'
+              >
+                <Icon
+                  alt='summerize-pdf'
+                  width={20}
+                  height={20}
+                  src='/editor/chatbot/Summerize.svg'
+                />
+                Summarize
+              </Button>
+            </div>
+            <Spacer y='8' />
+            <Separator className='bg-gray-200' orientation='horizontal' />
+          </>
+        ) : null}
+        <Textarea
+          ref={chatRef}
+          autoFocus
+          aria-label='chat-textarea'
+          onKeyDown={(e) => {
+            if (e.code === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              submit();
+            }
+          }}
+          className='small-regular min-h-14 w-full border-none py-2 pl-0 pr-5 focus-visible:ring-0'
+          id='chat-textarea'
+          value={value}
+          disabled={sending}
+          onChange={handleValueChnage}
+          placeholder='Message Dream Cat AI...'
         />
-      </Button>
+        <Button
+          onClick={submit}
+          disabled={!value.trim() || sending}
+          className='absolute bottom-2 right-2 h-max w-max p-0'
+          variant={'ghost'}
+          type='button'
+        >
+          <Icon
+            alt='messaging'
+            width={18}
+            height={18}
+            src={
+              !value.trim
+                ? '/editor/chatbot/Send_disable.svg'
+                : '/editor/chatbot/Send.svg'
+            }
+          />
+        </Button>
+      </div>
     </div>
   );
 };

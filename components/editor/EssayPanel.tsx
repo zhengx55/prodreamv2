@@ -13,7 +13,7 @@ const Editor = dynamic(() => import('./Editor'), {
   ssr: false,
 });
 
-const DocRightBar = dynamic(() => import('./rightbar/chatbot/DocRightBar'));
+const DocRightBar = dynamic(() => import('./rightbar/DocRightBar'));
 
 type Props = {
   id: string;

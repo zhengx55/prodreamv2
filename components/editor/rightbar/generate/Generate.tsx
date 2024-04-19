@@ -22,13 +22,11 @@ const Tiplayout = dynamic(
 const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 
 export const Generate = ({ t }: { t: EditorDictType }) => {
-  const { generateTab, updateGenerateTab } = useAIEditor((state) => ({
-    ...state,
-  }));
+  const generateTab = useAIEditor((state) => state.generateTab);
+  const updateGenerateTab = useAIEditor((state) => state.updateGenerateTab);
   const copilot_option = useRef<string | null>(null);
-  const { outline_step, updateOutlineStep } = useUserTask((state) => ({
-    ...state,
-  }));
+  const outline_step = useUserTask((state) => state.outline_step);
+  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const { data: usage } = useMembershipInfo();
 
   return (

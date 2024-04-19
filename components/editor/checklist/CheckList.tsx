@@ -28,14 +28,10 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
 
-  const {
-    updateTaskStep,
-    updateCitationStep,
-    updateGenerateStep,
-    updateContinueStep,
-  } = useUserTask((state) => ({
-    ...state,
-  }));
+  const updateTaskStep = useUserTask((state) => state.updateTaskStep);
+  const updateCitationStep = useUserTask((state) => state.updateCitationStep);
+  const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
+  const updateContinueStep = useUserTask((state) => state.updateContinueStep);
 
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
   const { mutateAsync: ButtonTrack } = useButtonTrack();

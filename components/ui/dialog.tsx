@@ -32,9 +32,10 @@ const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
     maskclass?: string;
+    container?: any;
   }
 >(({ className, children, ...props }, ref) => (
-  <DialogPortal>
+  <DialogPortal container={props.container}>
     <DialogOverlay className={props.maskclass} />
     <DialogPrimitive.Content
       ref={ref}

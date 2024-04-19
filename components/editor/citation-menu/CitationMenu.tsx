@@ -20,8 +20,9 @@ import { useClickAway } from 'react-use';
 type Props = { editor: Editor };
 
 const CitationMenu = ({ editor }: Props) => {
-  const { floatingMenuPos, updateCitationMenu, updateRightbarTab } =
-    useAIEditor((state) => ({ ...state }));
+  const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
+  const updateCitationMenu = useAIEditor((state) => state.updateCitationMenu);
+  const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const { id } = useParams();
   const [text, setText] = useState('');
   const updateShowCreateCitation = useCitation(

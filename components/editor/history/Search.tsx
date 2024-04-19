@@ -89,7 +89,7 @@ const SearchBar = ({ lang, t }: Props) => {
           <DialogTrigger asChild>
             <span className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg border border-gray-200 hover:opacity-50'>
               <UploadGard />
-              <p className='base-semibold '>Upload Essay</p>
+              <p className='base-semibold'>Upload Essay</p>
             </span>
           </DialogTrigger>
           <FileUploadModal t={t} lang={lang} />

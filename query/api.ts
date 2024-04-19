@@ -17,6 +17,8 @@ import {
   IVerifyEmail,
   LoginData,
   ReferenceType,
+  ResearchChatResponse,
+  UploadChatPdfResponse,
   UserTrackData,
 } from './type';
 
@@ -1240,4 +1242,118 @@ export async function chat(params: {
   }
 }
 
-export async function pdfSummary() {}
+export async function createPdfChat(params: {
+  file: File;
+}): Promise<UploadChatPdfResponse> {
+  try {
+    const token = Cookies.get('token');
+    const body = new FormData();
+    if (params.file) body.append('attachment', params.file);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/attachment`,
+      {
+        method: 'POST',
+        body,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function researchChat(params: {
+  session_id: string;
+  query?: string;
+  document_id: string;
+}): Promise<ResearchChatResponse> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/research`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          assistant_id: params.session_id,
+          query: params.query,
+          document_id: params.document_id,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function pdfSummary(params: {
+  session_id: string;
+  document_id: string;
+  attachment: {
+    id: string;
+    size: number;
+  };
+}): Promise<UploadChatPdfResponse> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat_pdf/summary`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function chatHistory(params: {
+  page: number;
+  page_size: number;
+  query?: string;
+  document_id: string;
+  history_type: 'chat' | 'research';
+}): Promise<UploadChatPdfResponse> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/?page=${params.page}&page_size=${params.page_size}&query=${params.query ?? ''}&document_id=${params.document_id}&history_type=${params.history_type}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
