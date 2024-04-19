@@ -5,13 +5,26 @@ import { useChatbot } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { Loader2, XCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
+import { useDebounce } from 'react-use';
 import SearchBar from './SearchBar';
 import SessionItem from './SessionItem';
 
 type Props = { t: EditorDictType };
 const ChatHistory = ({ t }: Props) => {
   const { id } = useParams();
+  const [query, setQuery] = useState('');
+  const updateQuery = useCallback((value: string) => {
+    setQuery(value);
+  }, []);
+  const [debounceQuery, setDebounceQuery] = useState('');
+  useDebounce(
+    () => {
+      setDebounceQuery(query);
+    },
+    500,
+    [query]
+  );
   const [historyType, setHistoryType] = useState<'chat' | 'research'>('chat');
   const closeHistory = useChatbot((state) => state.closeHistory);
   const {
@@ -21,6 +34,7 @@ const ChatHistory = ({ t }: Props) => {
   } = useChatBotSessions({
     document_id: id as string,
     history_type: historyType,
+    query: debounceQuery,
   });
 
   return (
@@ -56,7 +70,7 @@ const ChatHistory = ({ t }: Props) => {
           />
         </div>
         <Spacer y='32' />
-        <SearchBar t={t} />
+        <SearchBar query={query} updateQuery={updateQuery} t={t} />
         <Spacer y='16' />
         <div className='flex gap-x-4'>
           <button
