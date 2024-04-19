@@ -1,5 +1,6 @@
 import { DialogClose, DialogHeader } from '@/components/ui/dialog';
 import { createPdfChat } from '@/query/api';
+import { EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useMutation } from '@tanstack/react-query';
@@ -8,7 +9,7 @@ import { FileText, Loader2, XCircle } from 'lucide-react';
 import { memo, useCallback } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 
-type Props = { container: any };
+type Props = { container: any; t: EditorDictType };
 const UploadModal = ({ container }: Props) => {
   const showUploadModal = useChatbot((state) => state.showUploadModal);
   const updateCurrentFile = useChatbot((state) => state.updateCurrentFile);

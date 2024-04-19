@@ -166,6 +166,15 @@ export type UploadChatPdfResponse = {
   size: number;
 };
 
+export interface ChatResponse {
+  id: string;
+  title: string;
+  create_time: number;
+  update_time: number;
+  document_id: string;
+  first_message: string;
+}
+
 export interface ResearchChatResponse {
   response: string;
   thread_id: string;

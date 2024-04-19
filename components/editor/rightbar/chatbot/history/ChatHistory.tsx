@@ -3,19 +3,40 @@ import { useChatBotSessions } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
 import { m } from 'framer-motion';
-import { XCircle } from 'lucide-react';
+import { Loader2, XCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { memo } from 'react';
+import { memo, useCallback, useState } from 'react';
+import { useDebounce } from 'react-use';
 import SearchBar from './SearchBar';
+import SessionItem from './SessionItem';
 
 type Props = { t: EditorDictType };
 const ChatHistory = ({ t }: Props) => {
   const { id } = useParams();
+  const [query, setQuery] = useState('');
+  const updateQuery = useCallback((value: string) => {
+    setQuery(value);
+  }, []);
+  const [debounceQuery, setDebounceQuery] = useState('');
+  useDebounce(
+    () => {
+      setDebounceQuery(query);
+    },
+    500,
+    [query]
+  );
+  const [historyType, setHistoryType] = useState<'chat' | 'research'>('chat');
   const closeHistory = useChatbot((state) => state.closeHistory);
-  const { data } = useChatBotSessions({
+  const {
+    data: historyList,
+    isPending,
+    isError,
+  } = useChatBotSessions({
     document_id: id as string,
-    history_type: 'chat',
+    history_type: historyType,
+    query: debounceQuery,
   });
+
   return (
     <m.section
       initial={{
@@ -49,7 +70,46 @@ const ChatHistory = ({ t }: Props) => {
           />
         </div>
         <Spacer y='32' />
-        <SearchBar t={t} />
+        <SearchBar query={query} updateQuery={updateQuery} t={t} />
+        <Spacer y='16' />
+        <div className='flex gap-x-4'>
+          <button
+            role='tab'
+            onClick={() => setHistoryType('research')}
+            className={`${
+              historyType === 'research'
+                ? 'border-violet-500 text-zinc-700'
+                : 'border-transparent text-neutral-400'
+            } small-regular border-b-2`}
+          >
+            Chat
+          </button>
+          <button
+            role='tab'
+            onClick={() => setHistoryType('chat')}
+            className={`${
+              historyType === 'chat'
+                ? 'border-violet-500 text-zinc-700'
+                : 'border-transparent text-neutral-400'
+            } small-regular border-b-2`}
+          >
+            File
+          </button>
+        </div>
+        <Spacer y='16' />
+        {isError ? null : isPending ? (
+          <div className='flex-center flex-1'>
+            <Loader2 className='animate-spin text-violet-500' />
+          </div>
+        ) : (
+          <div className='flex w-full flex-col gap-y-2 overflow-y-auto'>
+            {historyList.map((session, index) => {
+              return (
+                <SessionItem key={`session-hitory-${index}`} item={session} />
+              );
+            })}
+          </div>
+        )}
       </m.div>
     </m.section>
   );

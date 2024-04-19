@@ -7,6 +7,7 @@ import {
 import { JSONContent } from '@tiptap/react';
 import Cookies from 'js-cookie';
 import {
+  ChatResponse,
   ICitation,
   IDetectionResult,
   IDocDetail,
@@ -17,7 +18,6 @@ import {
   IVerifyEmail,
   LoginData,
   ReferenceType,
-  ResearchChatResponse,
   UploadChatPdfResponse,
   UserTrackData,
 } from './type';
@@ -1221,6 +1221,7 @@ export async function ButtonTrack(event: string, mobile: number) {
 export async function chat(params: {
   session_id: string | null;
   query: string;
+  document_id: string;
 }): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
@@ -1229,6 +1230,7 @@ export async function chat(params: {
       body: JSON.stringify({
         session_id: params.session_id,
         query: params.query,
+        document_id: params.document_id,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -1270,10 +1272,10 @@ export async function createPdfChat(params: {
 }
 
 export async function researchChat(params: {
-  session_id: string;
-  query?: string;
+  session_id: string | null;
+  query: string;
   document_id: string;
-}): Promise<ResearchChatResponse> {
+}): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -1291,11 +1293,8 @@ export async function researchChat(params: {
         },
       }
     );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
+    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
+    return res.body;
   } catch (error) {
     throw new Error(error as string);
   }
@@ -1336,7 +1335,7 @@ export async function chatHistory(params: {
   query?: string;
   document_id: string;
   history_type: 'chat' | 'research';
-}): Promise<UploadChatPdfResponse> {
+}): Promise<ChatResponse[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -1352,7 +1351,28 @@ export async function chatHistory(params: {
     if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
-    return data.data;
+    return data.data[0];
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function deleteHistory(session_id: string): Promise<void> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/${session_id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
   } catch (error) {
     throw new Error(error as string);
   }

@@ -3,6 +3,8 @@ export type ChatBotStore = ChatBotState & ChatBotAction;
 
 type ChatBotState = {
   showUploadModal: boolean;
+  showDeleteModal: boolean;
+  deleteSession: string;
   chatType: 'research' | 'pdf' | null;
   history: string[];
   currentSession: string | null;
@@ -13,18 +15,28 @@ type ChatBotState = {
 };
 
 type ChatBotAction = {
+  updateDeleteSession: (result: ChatBotState['deleteSession']) => void;
   updateUploadModal: (result: ChatBotState['showUploadModal']) => void;
   updateChatType: (result: ChatBotState['chatType']) => void;
   updateHistory: (result: ChatBotState['history']) => void;
   updateCurrentSession: (result: ChatBotState['currentSession']) => void;
   updateFileUploading: (result: ChatBotState['fileUploading']) => void;
   updateCurrentFile: (result: ChatBotState['currentFile']) => void;
+  updateDeleteModal: (result: ChatBotState['showDeleteModal']) => void;
+  updateMessageList: (result: ChatBotState['messageList']) => void;
+  appendMessage: (result: {
+    type: 'mine' | 'system';
+    text: string;
+    id: string;
+  }) => void;
+  updateMessageItem: (id: string, data: string[]) => void;
   resetCurrentFile: () => void;
   openHistory: () => void;
   closeHistory: () => void;
 };
 
 const initialState: ChatBotState = {
+  deleteSession: '',
   showUploadModal: false,
   chatType: null,
   history: [],
@@ -33,12 +45,41 @@ const initialState: ChatBotState = {
   currentFile: null,
   messageList: [],
   showHistory: false,
+  showDeleteModal: false,
 };
 
 export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
   ...initialState,
+  updateDeleteSession(result) {
+    set({ deleteSession: result });
+  },
+  updateMessageList(result) {
+    set({ messageList: result });
+  },
+  appendMessage(result) {
+    set({ messageList: [...get().messageList, result] });
+  },
+  updateMessageItem: (id, data) =>
+    set((state) => {
+      const messageIndex = state.messageList.findIndex(
+        (message) => message.id === id
+      );
+      if (messageIndex !== -1) {
+        const newMessages = [...state.messageList];
+        const updatedMessage = {
+          ...newMessages[messageIndex],
+          text: newMessages[messageIndex].text + data.join(''),
+        };
+        newMessages[messageIndex] = updatedMessage;
+        return { ...state, messageList: newMessages };
+      }
+      return state;
+    }),
   updateChatType(result) {
     set({ chatType: result });
+  },
+  updateDeleteModal(result) {
+    set({ showDeleteModal: result });
   },
   updateUploadModal(result) {
     set({ showUploadModal: result });

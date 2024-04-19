@@ -1,14 +1,22 @@
 import { EditorDictType } from '@/types';
+import { useChatbot } from '@/zustand/store';
+import { memo, useEffect, useRef } from 'react';
 import { MineMessage, SystemMessage } from './Message';
 
 type Props = {
   t: EditorDictType;
-  messages: { type: 'mine' | 'system'; text: string; id: string }[];
 };
-const ChatSection = ({ t, messages }: Props) => {
+const ChatSection = ({ t }: Props) => {
+  const messageList = useChatbot((state) => state.messageList);
+  const endOfMessagesRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (endOfMessagesRef.current) {
+      endOfMessagesRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messageList]);
   return (
     <div className='flex w-full flex-col gap-y-4 overflow-y-auto'>
-      {messages.map((message, index) => {
+      {messageList.map((message, index) => {
         const isMine = message.type === 'mine';
         return (
           <div key={message.id} className={'flex flex-col gap-y-1'}>
@@ -20,7 +28,8 @@ const ChatSection = ({ t, messages }: Props) => {
           </div>
         );
       })}
+      <div ref={endOfMessagesRef} />
     </div>
   );
 };
-export default ChatSection;
+export default memo(ChatSection);
