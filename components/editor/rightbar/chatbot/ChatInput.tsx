@@ -177,7 +177,7 @@ const ChatInput = ({ t, value, updateValue, mutateFn, sending }: Props) => {
               submit();
             }
           }}
-          className='small-regular h-14 w-full border-none py-2 pl-0 pr-5 focus-visible:ring-0'
+          className='small-regular min-h-14 w-full border-none py-2 pl-0 pr-5 focus-visible:ring-0'
           id='chat-textarea'
           value={value}
           disabled={sending}
