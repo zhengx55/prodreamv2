@@ -7,6 +7,7 @@ import { Loader2, XCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo, useState } from 'react';
 import SearchBar from './SearchBar';
+import SessionItem from './SessionItem';
 
 type Props = { t: EditorDictType };
 const ChatHistory = ({ t }: Props) => {
@@ -21,7 +22,7 @@ const ChatHistory = ({ t }: Props) => {
     document_id: id as string,
     history_type: historyType,
   });
-  console.log(historyList, isError);
+
   return (
     <m.section
       initial={{
@@ -81,11 +82,20 @@ const ChatHistory = ({ t }: Props) => {
             File
           </button>
         </div>
+        <Spacer y='16' />
         {isError ? null : isPending ? (
           <div className='flex-center flex-1'>
             <Loader2 className='animate-spin text-violet-500' />
           </div>
-        ) : null}
+        ) : (
+          <div className='flex w-full flex-col gap-y-2 overflow-y-auto'>
+            {historyList.map((session, index) => {
+              return (
+                <SessionItem key={`session-hitory-${index}`} item={session} />
+              );
+            })}
+          </div>
+        )}
       </m.div>
     </m.section>
   );

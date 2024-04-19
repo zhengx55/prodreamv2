@@ -10,6 +10,7 @@ import {
   ButtonTrack,
   chatHistory,
   createCitation,
+  deleteHistory,
   getDiscountInfo,
   getDocDetail,
   getDocs,
@@ -279,5 +280,22 @@ export const useChatBotSessions = ({
     queryFn: () =>
       chatHistory({ document_id, history_type, page: 0, page_size: 20, query }),
     staleTime: Infinity,
+  });
+};
+
+export const useDeleteSession = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (session_id: string) => deleteHistory(session_id),
+    onSuccess: async () => {
+      const toast = (await import('sonner')).toast;
+      toast.success('Session deleted successfully');
+      queryClient.invalidateQueries({ queryKey: ['session-history'] });
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
   });
 };

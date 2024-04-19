@@ -7,6 +7,7 @@ import {
 import { JSONContent } from '@tiptap/react';
 import Cookies from 'js-cookie';
 import {
+  ChatResponse,
   ICitation,
   IDetectionResult,
   IDocDetail,
@@ -1338,7 +1339,7 @@ export async function chatHistory(params: {
   query?: string;
   document_id: string;
   history_type: 'chat' | 'research';
-}): Promise<UploadChatPdfResponse> {
+}): Promise<ChatResponse[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
@@ -1354,7 +1355,28 @@ export async function chatHistory(params: {
     if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
-    return data.data;
+    return data.data[0];
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function deleteHistory(session_id: string): Promise<void> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/${session_id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
   } catch (error) {
     throw new Error(error as string);
   }
