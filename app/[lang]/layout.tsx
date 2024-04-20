@@ -82,10 +82,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       {process.env.NODE_ENV === 'production' && (
-        <>
           <Hotjar />
-          <SteyProvider />
-        </>
       )}
       <body>
         <GoogleOAuthProvider
