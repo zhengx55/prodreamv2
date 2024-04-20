@@ -4,28 +4,45 @@ import { Separator } from '@/components/ui/separator';
 import { EditorRightBar } from '@/constant';
 import { CitationTooltip } from '@/constant/enum';
 import { DocPageDicType } from '@/types';
-import { useAIEditor, useUserTask } from '@/zustand/store';
+import { useAIEditor, useChatbot, useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { Fragment } from 'react';
-import Tiplayout from '../../guide/tips/Tiplayout';
-const Detection = dynamic(() => import('../ai-detection/Detection'));
+import Tiplayout from '../../../guide/tips/Tiplayout';
+import ResearchChat from '../research/ResearchChat';
+const Detection = dynamic(() => import('../../ai-detection/Detection'));
 const CitationLibrary = dynamic(
-  () => import('../citation/library/CitationLibrary')
+  () => import('../../citation/library/CitationLibrary')
 );
-const GrammarCheck = dynamic(() => import('../grammar/GrammarCheck'));
-const Plagiarism = dynamic(() => import('../plagiarism/Plagiarism'));
+const GrammarCheck = dynamic(() => import('../../grammar/GrammarCheck'));
+const Plagiarism = dynamic(() => import('../../plagiarism/Plagiarism'));
 const Generate = dynamic(
   () => import('@/components/editor/rightbar/generate/Generate')
 );
-const Chatbot = dynamic(() => import('./Chatbot'));
+const Chatbot = dynamic(() => import('../Chatbot'));
 
 const Citation = dynamic(
   () => import('@/components/editor/rightbar/citation/Citation')
 );
 
+const tabComponents: { [key: number]: React.ComponentType<any> } = {
+  0: GrammarCheck,
+  1: Plagiarism,
+  2: Detection,
+  3: Citation,
+  4: CitationLibrary,
+  5: Generate,
+};
+
 const General = ({ t, lang }: DocPageDicType) => {
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
+  const chatType = useChatbot((state) => state.chatType);
+  const TabContent =
+    rightbarTab === 6
+      ? chatType === 'research'
+        ? ResearchChat
+        : Chatbot
+      : tabComponents[rightbarTab];
   return (
     <m.aside
       key={'doc-right-bar'}
@@ -36,21 +53,7 @@ const General = ({ t, lang }: DocPageDicType) => {
       className='relative flex h-full shrink-0 flex-col border-l border-gray-200'
     >
       <section className='relative flex h-full flex-col px-3 pt-4'>
-        {rightbarTab === 0 ? (
-          <GrammarCheck t={t} />
-        ) : rightbarTab === 3 ? (
-          <Citation t={t} />
-        ) : rightbarTab === 5 ? (
-          <Generate t={t} />
-        ) : rightbarTab === 1 ? (
-          <Plagiarism t={t} />
-        ) : rightbarTab === 2 ? (
-          <Detection t={t} />
-        ) : rightbarTab === 4 ? (
-          <CitationLibrary t={t} />
-        ) : (
-          <Chatbot t={t} />
-        )}
+        {TabContent ? <TabContent t={t} /> : null}
       </section>
     </m.aside>
   );

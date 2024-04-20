@@ -17,21 +17,14 @@ import {
 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo, useRef } from 'react';
-import useChat from './hooks/useChat';
+import useChat from '../hooks/useChat';
 
 type Props = {
   t: EditorDictType;
 };
 const ChatInput = ({ t }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
-  const {
-    sending,
-    value,
-    updateChatMessage,
-    aiChatSending,
-    submitChat,
-    aiResearchChat,
-  } = useChat();
+  const { sending, value, updateChatMessage, submitChat } = useChat();
 
   const { id } = useParams();
   useAutoSizeTextArea(chatRef.current, value, 96);
@@ -55,20 +48,9 @@ const ChatInput = ({ t }: Props) => {
         session_id: currentSession,
         document_id: id as string,
       });
-    } else {
-      await aiResearchChat({
-        query: value,
-        session_id: currentSession,
-        document_id: id as string,
-      });
     }
-
     chatRef.current?.focus();
   };
-
-  // const {} = useMutation({
-  //   mutationFn: () => pdfSummary(),
-  // });
 
   return (
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
@@ -203,13 +185,13 @@ const ChatInput = ({ t }: Props) => {
           className='small-regular min-h-14 w-full border-none py-2 pl-0 pr-5 focus-visible:ring-0'
           id='chat-textarea'
           value={value}
-          disabled={sending || aiChatSending}
+          disabled={sending}
           onChange={handleValueChnage}
           placeholder='Message Dream Cat AI...'
         />
         <Button
           onClick={submit}
-          disabled={!value.trim() || sending || aiChatSending}
+          disabled={!value.trim() || sending}
           className='absolute bottom-2 right-2 h-max w-max p-0'
           variant={'ghost'}
           type='button'

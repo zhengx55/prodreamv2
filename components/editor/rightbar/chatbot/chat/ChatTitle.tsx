@@ -1,13 +1,12 @@
 import Icon from '@/components/root/Icon';
 import { EditorDictType } from '@/types';
-import { useAIEditor, useChatbot } from '@/zustand/store';
+import { useAIEditor } from '@/zustand/store';
 import { XCircle } from 'lucide-react';
 import { memo } from 'react';
 
 type Props = { t: EditorDictType };
 const ChatTitle = ({ t }: Props) => {
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
-  const chatType = useChatbot((state) => state.chatType);
   return (
     <div className='flex-between mb-4'>
       <div className='flex items-center gap-x-2'>
@@ -18,14 +17,7 @@ const ChatTitle = ({ t }: Props) => {
           width={32}
           height={32}
         />
-        <h2 className='title-medium'>
-          {/* {chatType === 'pdf'
-            ? 'Chatpdf'
-            : chatType === 'research'
-              ? 'AI Research'
-              : 'Jessica'} */}
-          Jessica
-        </h2>
+        <h2 className='title-medium'>Jessica</h2>
       </div>
       <XCircle
         size={20}

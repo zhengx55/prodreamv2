@@ -253,3 +253,18 @@ export type ISubsciptionHistory = {
   mode: string;
   canceled: boolean;
 };
+
+export type AIResearchMessage = {
+  query: string;
+  message: string;
+  reference: AIResearchMessageRef[];
+  id: string;
+};
+
+export type AIResearchMessageRef = {
+  title: string;
+  link: string;
+  date: string;
+  position: string;
+  snippet: string;
+};

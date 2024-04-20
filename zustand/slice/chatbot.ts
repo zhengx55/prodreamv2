@@ -1,3 +1,4 @@
+import { AIResearchMessage, AIResearchMessageRef } from '@/types';
 import { StateCreator } from 'zustand';
 export type ChatBotStore = ChatBotState & ChatBotAction;
 
@@ -8,9 +9,11 @@ type ChatBotState = {
   chatType: 'research' | 'pdf' | null;
   history: string[];
   currentSession: string | null;
+  currentResearchSession: string | null;
   fileUploading: boolean;
   currentFile: File | null;
   messageList: { type: 'mine' | 'system'; text: string; id: string }[];
+  researchList: AIResearchMessage[];
   showHistory: boolean;
 };
 
@@ -20,6 +23,9 @@ type ChatBotAction = {
   updateChatType: (result: ChatBotState['chatType']) => void;
   updateHistory: (result: ChatBotState['history']) => void;
   updateCurrentSession: (result: ChatBotState['currentSession']) => void;
+  updateCurrentResearchSession: (
+    result: ChatBotState['currentResearchSession']
+  ) => void;
   updateFileUploading: (result: ChatBotState['fileUploading']) => void;
   updateCurrentFile: (result: ChatBotState['currentFile']) => void;
   updateDeleteModal: (result: ChatBotState['showDeleteModal']) => void;
@@ -33,6 +39,10 @@ type ChatBotAction = {
   resetCurrentFile: () => void;
   openHistory: () => void;
   closeHistory: () => void;
+  updateResearchList: (result: ChatBotState['researchList']) => void;
+  appendResearchItem: (result: AIResearchMessage) => void;
+  updateResearchMessage: (id: string, data: string[]) => void;
+  updateResearchReference: (id: string, data: AIResearchMessageRef[]) => void;
 };
 
 const initialState: ChatBotState = {
@@ -41,9 +51,11 @@ const initialState: ChatBotState = {
   chatType: null,
   history: [],
   currentSession: null,
+  currentResearchSession: null,
   fileUploading: false,
   currentFile: null,
   messageList: [],
+  researchList: [],
   showHistory: false,
   showDeleteModal: false,
 };
@@ -58,6 +70,45 @@ export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
   },
   appendMessage(result) {
     set({ messageList: [...get().messageList, result] });
+  },
+  updateResearchList(result) {
+    set({ researchList: result });
+  },
+  appendResearchItem(result) {
+    set({ researchList: [...get().researchList, result] });
+  },
+  updateResearchMessage: (id, data) =>
+    set((state) => {
+      const messageIndex = state.researchList.findIndex(
+        (message) => message.id === id
+      );
+      if (messageIndex !== -1) {
+        const newMessages = [...state.researchList];
+        const updatedMessage = {
+          ...newMessages[messageIndex],
+          message: newMessages[messageIndex].message + data.join(''),
+        };
+        newMessages[messageIndex] = updatedMessage;
+        return { ...state, researchList: newMessages };
+      }
+      return state;
+    }),
+  updateResearchReference: (id, data) => {
+    set((state) => {
+      const messageIndex = state.researchList.findIndex(
+        (message) => message.id === id
+      );
+      if (messageIndex !== -1) {
+        const newMessages = [...state.researchList];
+        const updatedMessage = {
+          ...newMessages[messageIndex],
+          reference: data,
+        };
+        newMessages[messageIndex] = updatedMessage;
+        return { ...state, researchList: newMessages };
+      }
+      return state;
+    });
   },
   updateMessageItem: (id, data) =>
     set((state) => {
@@ -95,6 +146,9 @@ export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
   },
   updateCurrentFile(result) {
     set({ currentFile: result });
+  },
+  updateCurrentResearchSession(result) {
+    set({ currentResearchSession: result });
   },
   resetCurrentFile() {
     set({ currentFile: null });
