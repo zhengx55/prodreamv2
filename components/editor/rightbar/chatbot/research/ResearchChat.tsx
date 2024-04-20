@@ -14,7 +14,7 @@ const ResearchChat = ({ t }: Props) => {
   return (
     <div
       ref={setContainer}
-      className='flex w-full flex-1 flex-col overflow-hidden'
+      className='flex h-full w-full flex-col overflow-hidden'
     >
       <ReserchTitle t={t} />
       <DeleteModal t={t} container={container} />

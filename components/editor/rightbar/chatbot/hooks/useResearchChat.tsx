@@ -36,11 +36,10 @@ export default function useResearchChat() {
         const reader = data.pipeThrough(new TextDecoderStream()).getReader();
         while (true) {
           const { value, done } = await reader.read();
-          console.log('🚀 ~ onSuccess: ~ value:', value);
           if (done) {
             break;
           }
-          // handleStreamData(value, new_id);
+          handleStreamData(value, new_id);
         }
       },
       onError: async (error) => {
@@ -63,8 +62,7 @@ export default function useResearchChat() {
       }
       if (lines[index - 1]?.startsWith('event: reference')) {
         reference = JSON.parse(line.slice(5));
-        console.log('🚀 ~ eventData ~ reference:', reference);
-        // updateResearchReference(id, reference);
+        updateResearchReference(id, reference);
       }
       if (
         line.startsWith('data:') &&

@@ -1,8 +1,35 @@
 import { EditorDictType } from '@/types';
-import { memo } from 'react';
+import { useChatbot } from '@/zustand/store';
+import { memo, useEffect, useRef } from 'react';
+import ResearchInput from './ResearchInput';
+import ResearchMessageItem from './ResearchMessageItem';
 
 type Props = { t: EditorDictType };
-const ResearchSection = (props: Props) => {
-  return <div>ResearchSection</div>;
+const ResearchSection = ({ t }: Props) => {
+  const researchList = useChatbot((state) => state.researchList);
+  const endOfMessagesRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (endOfMessagesRef.current) {
+      endOfMessagesRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [researchList]);
+  return (
+    <div className='flex h-[calc(100%_-58px)] flex-col justify-between pb-4'>
+      <div className='flex flex-col gap-y-16 overflow-y-auto'>
+        {researchList.map((message, index) => {
+          return (
+            <ResearchMessageItem
+              t={t}
+              key={message.id}
+              index={index}
+              message={message}
+            />
+          );
+        })}
+      </div>
+      <ResearchInput t={t} />
+      <div ref={endOfMessagesRef} />
+    </div>
+  );
 };
 export default memo(ResearchSection);

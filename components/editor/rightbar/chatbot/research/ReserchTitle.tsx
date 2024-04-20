@@ -13,7 +13,7 @@ const ReserchTitle = ({ t }: Props) => {
   const [showHistory, setShowHistory] = useState(false);
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
   return (
-    <div className='flex-between mb-4'>
+    <div className='flex-between'>
       <AnimatePresence>
         {showHistory && <ResearchHistory t={t} />}
       </AnimatePresence>
