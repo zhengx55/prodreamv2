@@ -12,6 +12,7 @@ type ChatBotState = {
   fileUploading: boolean;
   currentFile: File | null;
   messageList: { type: 'mine' | 'system'; text: string; id: string }[];
+  researchList: any[];
   showHistory: boolean;
 };
 
@@ -37,6 +38,8 @@ type ChatBotAction = {
   resetCurrentFile: () => void;
   openHistory: () => void;
   closeHistory: () => void;
+  updateResearchList: (result: ChatBotState['researchList']) => void;
+  appendResearchItem: (result: any) => void;
 };
 
 const initialState: ChatBotState = {
@@ -49,6 +52,7 @@ const initialState: ChatBotState = {
   fileUploading: false,
   currentFile: null,
   messageList: [],
+  researchList: [],
   showHistory: false,
   showDeleteModal: false,
 };
@@ -63,6 +67,12 @@ export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
   },
   appendMessage(result) {
     set({ messageList: [...get().messageList, result] });
+  },
+  updateResearchList(result) {
+    set({ researchList: result });
+  },
+  appendResearchItem(result) {
+    set({ researchList: [...get().researchList, result] });
   },
   updateMessageItem: (id, data) =>
     set((state) => {

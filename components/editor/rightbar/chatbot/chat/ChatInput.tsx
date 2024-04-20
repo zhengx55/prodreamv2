@@ -24,8 +24,7 @@ type Props = {
 };
 const ChatInput = ({ t }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
-  const { sending, value, updateChatMessage, aiChatSending, submitChat } =
-    useChat();
+  const { sending, value, updateChatMessage, submitChat } = useChat();
 
   const { id } = useParams();
   useAutoSizeTextArea(chatRef.current, value, 96);
@@ -186,13 +185,13 @@ const ChatInput = ({ t }: Props) => {
           className='small-regular min-h-14 w-full border-none py-2 pl-0 pr-5 focus-visible:ring-0'
           id='chat-textarea'
           value={value}
-          disabled={sending || aiChatSending}
+          disabled={sending}
           onChange={handleValueChnage}
           placeholder='Message Dream Cat AI...'
         />
         <Button
           onClick={submit}
-          disabled={!value.trim() || sending || aiChatSending}
+          disabled={!value.trim() || sending}
           className='absolute bottom-2 right-2 h-max w-max p-0'
           variant={'ghost'}
           type='button'
