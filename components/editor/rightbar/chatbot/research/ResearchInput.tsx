@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import useAutoSizeTextArea from '@/hooks/useAutoSizeTextArea';
 import { EditorDictType } from '@/types';
+import { useChatbot } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { useParams } from 'next/navigation';
 import { memo, useRef } from 'react';
@@ -14,13 +15,26 @@ const ResearchInput = (props: Props) => {
   const { id } = useParams();
   const { aiResearchChat, value, updateChatMessage, aiChatSending } =
     useResearchChat();
+  const currentResearchSession = useChatbot(
+    (state) => state.currentResearchSession
+  );
 
   useAutoSizeTextArea(chatRef.current, value, 96);
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateChatMessage(e.target.value);
   };
 
-  const submit = async () => {};
+  const submit = async () => {
+    if (!value.trim()) return;
+
+    await aiResearchChat({
+      query: value,
+      session_id: currentResearchSession,
+      document_id: id as string,
+    });
+
+    chatRef.current?.focus();
+  };
   return (
     <m.div
       initial={{ opacity: 0, y: 10 }}
@@ -32,9 +46,10 @@ const ResearchInput = (props: Props) => {
         ref={chatRef}
         autoFocus
         aria-label='chat-textarea'
-        onKeyDown={(e) => {
+        onKeyDown={async (e) => {
           if (e.code === 'Enter' && !e.shiftKey) {
             e.preventDefault();
+            await submit();
           }
         }}
         className='small-regular min-h-14 w-full border-none py-2 pl-0 pr-5 focus-visible:ring-0'

@@ -5,10 +5,15 @@ import { useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 
 export default function useResearchChat() {
-  const appendMessage = useChatbot((state) => state.appendMessage);
-  const updateMessageItem = useChatbot((state) => state.updateMessageItem);
-  const updateCurrentSession = useChatbot(
-    (state) => state.updateCurrentSession
+  const appendResearchItem = useChatbot((state) => state.appendResearchItem);
+  const updateResearchMessage = useChatbot(
+    (state) => state.updateResearchMessage
+  );
+  const updateResearchReference = useChatbot(
+    (state) => state.updateResearchReference
+  );
+  const updateCurrentResearchSession = useChatbot(
+    (state) => state.updateCurrentResearchSession
   );
   const [value, setValue] = useState<string>('');
 
@@ -19,20 +24,23 @@ export default function useResearchChat() {
         query: string;
         document_id: string;
       }) => researchChat(params),
-      onSuccess: async (data: ReadableStream) => {
-        const new_mine_id = v4();
-        appendMessage({ type: 'mine', text: value, id: new_mine_id });
+      onSuccess: async (data: ReadableStream, variables) => {
+        const new_id = v4();
+        appendResearchItem({
+          query: variables.query,
+          id: new_id,
+          message: value,
+          reference: [],
+        });
         setValue('');
         const reader = data.pipeThrough(new TextDecoderStream()).getReader();
-        const new_id = v4();
-        appendMessage({ type: 'system', text: '', id: new_id });
         while (true) {
           const { value, done } = await reader.read();
           console.log('🚀 ~ onSuccess: ~ value:', value);
           if (done) {
             break;
           }
-          handleStreamData(value, new_id);
+          // handleStreamData(value, new_id);
         }
       },
       onError: async (error) => {
@@ -47,24 +55,30 @@ export default function useResearchChat() {
 
     const lines = value.split('\n');
     let session: string | undefined;
+    let reference: any;
 
     const eventData = lines.reduce((acc, line, index) => {
       if (lines[index - 1]?.startsWith('event: session_id')) {
         session = line.replace('data: "', '').replace('"', '').trim();
       }
+      if (lines[index - 1]?.startsWith('event: reference')) {
+        reference = JSON.parse(line.slice(5));
+        console.log('🚀 ~ eventData ~ reference:', reference);
+        // updateResearchReference(id, reference);
+      }
       if (
         line.startsWith('data:') &&
         lines[index - 1]?.startsWith('event: data')
       ) {
-        acc.push(JSON.parse(line.slice('data:'.length)));
+        acc.push(JSON.parse(line.slice(5)));
       }
       return acc;
     }, [] as any[]);
     if (session) {
-      updateCurrentSession(session);
+      updateCurrentResearchSession(session);
     }
     if (eventData.length > 0) {
-      updateMessageItem(id, eventData);
+      updateResearchMessage(id, eventData);
     }
   };
   const updateChatMessage = useCallback((value: string) => {

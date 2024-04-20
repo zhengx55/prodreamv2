@@ -25,9 +25,24 @@ const Citation = dynamic(
   () => import('@/components/editor/rightbar/citation/Citation')
 );
 
+const tabComponents: { [key: number]: React.ComponentType<any> } = {
+  0: GrammarCheck,
+  1: Plagiarism,
+  2: Detection,
+  3: Citation,
+  4: CitationLibrary,
+  5: Generate,
+};
+
 const General = ({ t, lang }: DocPageDicType) => {
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
   const chatType = useChatbot((state) => state.chatType);
+  const TabContent =
+    rightbarTab === 6
+      ? chatType === 'research'
+        ? ResearchChat
+        : Chatbot
+      : tabComponents[rightbarTab];
   return (
     <m.aside
       key={'doc-right-bar'}
@@ -38,25 +53,7 @@ const General = ({ t, lang }: DocPageDicType) => {
       className='relative flex h-full shrink-0 flex-col border-l border-gray-200'
     >
       <section className='relative flex h-full flex-col px-3 pt-4'>
-        {rightbarTab === 0 ? (
-          <GrammarCheck t={t} />
-        ) : rightbarTab === 3 ? (
-          <Citation t={t} />
-        ) : rightbarTab === 5 ? (
-          <Generate t={t} />
-        ) : rightbarTab === 1 ? (
-          <Plagiarism t={t} />
-        ) : rightbarTab === 2 ? (
-          <Detection t={t} />
-        ) : rightbarTab === 4 ? (
-          <CitationLibrary t={t} />
-        ) : rightbarTab === 6 ? (
-          chatType === 'research' ? (
-            <ResearchChat t={t} />
-          ) : (
-            <Chatbot t={t} />
-          )
-        ) : null}
+        {TabContent ? <TabContent t={t} /> : null}
       </section>
     </m.aside>
   );

@@ -1,3 +1,4 @@
+import { AIResearchMessage, AIResearchMessageRef } from '@/types';
 import { StateCreator } from 'zustand';
 export type ChatBotStore = ChatBotState & ChatBotAction;
 
@@ -12,7 +13,7 @@ type ChatBotState = {
   fileUploading: boolean;
   currentFile: File | null;
   messageList: { type: 'mine' | 'system'; text: string; id: string }[];
-  researchList: any[];
+  researchList: AIResearchMessage[];
   showHistory: boolean;
 };
 
@@ -39,7 +40,9 @@ type ChatBotAction = {
   openHistory: () => void;
   closeHistory: () => void;
   updateResearchList: (result: ChatBotState['researchList']) => void;
-  appendResearchItem: (result: any) => void;
+  appendResearchItem: (result: AIResearchMessage) => void;
+  updateResearchMessage: (id: string, data: string[]) => void;
+  updateResearchReference: (id: string, data: AIResearchMessageRef[]) => void;
 };
 
 const initialState: ChatBotState = {
@@ -73,6 +76,39 @@ export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
   },
   appendResearchItem(result) {
     set({ researchList: [...get().researchList, result] });
+  },
+  updateResearchMessage: (id, data) =>
+    set((state) => {
+      const messageIndex = state.researchList.findIndex(
+        (message) => message.id === id
+      );
+      if (messageIndex !== -1) {
+        const newMessages = [...state.researchList];
+        const updatedMessage = {
+          ...newMessages[messageIndex],
+          message: newMessages[messageIndex].message + data.join(''),
+        };
+        newMessages[messageIndex] = updatedMessage;
+        return { ...state, researchList: newMessages };
+      }
+      return state;
+    }),
+  updateResearchReference: (id, data) => {
+    set((state) => {
+      const messageIndex = state.researchList.findIndex(
+        (message) => message.id === id
+      );
+      if (messageIndex !== -1) {
+        const newMessages = [...state.researchList];
+        const updatedMessage = {
+          ...newMessages[messageIndex],
+          reference: data,
+        };
+        newMessages[messageIndex] = updatedMessage;
+        return { ...state, researchList: newMessages };
+      }
+      return state;
+    });
   },
   updateMessageItem: (id, data) =>
     set((state) => {
