@@ -4,7 +4,7 @@ import { useAIEditor, useChatbot } from '@/zustand/store';
 import { AnimatePresence } from 'framer-motion';
 import { ChevronLeft, Clock, XCircle } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 const ResearchHistory = dynamic(() => import('./ResearchHistory'));
 
 type Props = { t: EditorDictType };
@@ -12,10 +12,13 @@ const ReserchTitle = ({ t }: Props) => {
   const updateChatType = useChatbot((state) => state.updateChatType);
   const [showHistory, setShowHistory] = useState(false);
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
+  const closeHistory = useCallback(() => {
+    setShowHistory(false);
+  }, []);
   return (
     <div className='flex-between'>
       <AnimatePresence>
-        {showHistory && <ResearchHistory t={t} />}
+        {showHistory && <ResearchHistory closeHistory={closeHistory} t={t} />}
       </AnimatePresence>
       <div className='flex items-center gap-x-1'>
         <Button

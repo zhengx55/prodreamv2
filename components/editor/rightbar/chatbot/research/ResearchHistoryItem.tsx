@@ -1,28 +1,18 @@
-import Icon from '@/components/root/Icon';
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { ChatResponse } from '@/query/type';
+import { EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
 import { Trash2 } from 'lucide-react';
 import { memo } from 'react';
 
-type Props = { item: ChatResponse };
-const SessionItem = ({ item }: Props) => {
+type Props = { t: EditorDictType; item: ChatResponse };
+const ResearchHistoryItem = ({ t, item }: Props) => {
   const updateDeleteModal = useChatbot((state) => state.updateDeleteModal);
   const updateDeleteSession = useChatbot((state) => state.updateDeleteSession);
   return (
-    <div className='flex flex-col gap-y-2 rounded p-2 hover:bg-stone-50'>
-      <div className='flex items-center gap-x-2'>
-        <Icon
-          alt='Chat-engine'
-          className='size-6'
-          src='/editor/chatbot/trigger.svg'
-          height={24}
-          width={24}
-        />
-        <h3 className='base-medium'>Jessica</h3>
-      </div>
+    <div className='flex cursor-pointer flex-col gap-y-2 rounded-lg p-2 hover:bg-stone-50'>
       <p className='small-regular self-end text-neutral-400'>
         {formatTimestamphh_number(item.update_time)}
       </p>
@@ -46,4 +36,4 @@ const SessionItem = ({ item }: Props) => {
     </div>
   );
 };
-export default memo(SessionItem);
+export default memo(ResearchHistoryItem);

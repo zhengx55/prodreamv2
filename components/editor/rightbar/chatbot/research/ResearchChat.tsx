@@ -4,13 +4,16 @@ import { useChatbot } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
 import ResearchCover from './ResearchCover';
-import ResearchSection from './ResearchSection';
 import ReserchTitle from './ReserchTitle';
+
+const ResearchHistory = dynamic(() => import('./ResearchHistory'));
+const ResearchSection = dynamic(() => import('./ResearchSection'));
 const DeleteModal = dynamic(() => import('../chat/history/DeleteModal'));
 type Props = { t: EditorDictType };
 const ResearchChat = ({ t }: Props) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const researchList = useChatbot((state) => state.researchList);
+
   return (
     <div
       ref={setContainer}
