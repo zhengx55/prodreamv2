@@ -18,14 +18,13 @@ type Props = {
 };
 const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  console.log('generateBtn');
-  const {
-    updateOutlineStep,
-    updateGenerateStep,
-    updateShowTaskDialog,
-    outline_step,
-    generate_step,
-  } = useUserTask((state) => ({ ...state }));
+  const outline_step = useUserTask((state) => state.outline_step);
+  const generate_step = useUserTask((state) => state.generate_step);
+  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
+  const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
+  const updateShowTaskDialog = useUserTask(
+    (state) => state.updateShowTaskDialog
+  );
   const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   return (
