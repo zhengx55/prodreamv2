@@ -302,7 +302,9 @@
       "Humanizer": "Humanize",
       "mixed": "We are moderately confident this text is entirely",
       "humanize_title": "Click to see humanize suggestions",
-      "humanize_button": "Start Humanize"
+      "humanize_button": "Start Humanize",
+      "recheck_title": "Check again for AI Detection",
+      "recheck_button": "Re-check"
     },
     "Task": {
       "title": "Try AI Copilot for easy editing",

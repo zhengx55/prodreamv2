@@ -1357,6 +1357,28 @@ export async function chatHistory(params: {
   }
 }
 
+export async function chatHistoryItem(session_id: string): Promise<any> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/${session_id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function deleteHistory(session_id: string): Promise<void> {
   try {
     const token = Cookies.get('token');

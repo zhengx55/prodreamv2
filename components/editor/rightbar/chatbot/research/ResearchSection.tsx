@@ -15,7 +15,7 @@ const ResearchSection = ({ t }: Props) => {
   }, [researchList]);
   return (
     <div className='flex h-[calc(100%_-58px)] flex-col justify-between pb-4'>
-      <div className='flex flex-col gap-y-16 overflow-y-auto'>
+      <div className='flex h-full flex-col gap-y-16 overflow-y-auto'>
         {researchList.map((message, index) => {
           return (
             <ResearchMessageItem
@@ -27,8 +27,8 @@ const ResearchSection = ({ t }: Props) => {
           );
         })}
       </div>
-      <ResearchInput t={t} />
       <div ref={endOfMessagesRef} />
+      <ResearchInput t={t} />
     </div>
   );
 };

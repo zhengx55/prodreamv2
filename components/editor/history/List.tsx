@@ -2,6 +2,8 @@
 import Loading from '@/components/root/CustomLoading';
 import Spacer from '@/components/root/Spacer';
 import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
+import Tooltip from '@/components/root/Tooltip';
+import { Button } from '@/components/ui/button';
 import { getDocs } from '@/query/api';
 import { useDocumentList, useMembershipInfo } from '@/query/query';
 import { IDocDetail } from '@/query/type';
@@ -85,21 +87,29 @@ const DocumentList = (props: Props) => {
           ) : (
             <span />
           )}
-          <div className='flex gap-x-4'>
+          <div className='flex gap-x-2'>
             {viewType === 'grid' ? (
-              <span
-                onClick={() => setViewType('list')}
-                className='cursor-pointer rounded-md bg-transparent p-1 hover:bg-shadow-border'
-              >
-                <ListViewIcon />
-              </span>
+              <Tooltip side='bottom' tooltipContent='List view'>
+                <Button
+                  role='button'
+                  variant={'icon'}
+                  onClick={() => setViewType('list')}
+                  className='size-max p-1'
+                >
+                  <ListViewIcon />
+                </Button>
+              </Tooltip>
             ) : (
-              <span
-                onClick={() => setViewType('grid')}
-                className='cursor-pointer rounded-md bg-transparent p-1 hover:bg-shadow-border'
-              >
-                <LayoutGrid />
-              </span>
+              <Tooltip side='bottom' tooltipContent='Grid view'>
+                <Button
+                  role='button'
+                  variant={'icon'}
+                  onClick={() => setViewType('grid')}
+                  className='size-max p-1'
+                >
+                  <LayoutGrid />
+                </Button>
+              </Tooltip>
             )}
             <FilterDropdown
               setSortingMethod={memoSetSortingMethod}

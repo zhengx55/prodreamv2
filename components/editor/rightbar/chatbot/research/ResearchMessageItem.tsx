@@ -11,21 +11,23 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
     <div className='flex flex-col gap-y-4'>
       <h2 className='text-base font-normal text-black'>{message.query}</h2>
       <p className='text-sm font-normal text-zinc-600'>{message.message}</p>
-      <div className='flex-between'>
-        <div className='gapx-3 flex items-center'>
+      {message.reference.length > 0 && (
+        <div className='flex-between'>
+          <div className='gapx-3 flex items-center'>
+            <Button role='button' variant={'icon'} className='size-max p-1'>
+              <Repeat size={16} className='text-stone-400' />
+              <p className='subtle-regular text-stone-400'>Rewrite</p>
+            </Button>
+            <Button role='button' variant={'icon'} className='size-max p-1'>
+              <Copy size={16} className='text-stone-400' />
+              <p className='subtle-regular text-stone-400'>Copy</p>
+            </Button>
+          </div>
           <Button role='button' variant={'icon'} className='size-max p-1'>
-            <Repeat size={16} className='text-stone-400' />
-            <p className='subtle-regular text-stone-400'>Rewrite</p>
-          </Button>
-          <Button role='button' variant={'icon'} className='size-max p-1'>
-            <Copy size={16} className='text-stone-400' />
-            <p className='subtle-regular text-stone-400'>Copy</p>
+            <ThumbsDown size={16} className='text-stone-400' />
           </Button>
         </div>
-        <Button role='button' variant={'icon'} className='size-max p-1'>
-          <ThumbsDown size={16} className='text-stone-400' />
-        </Button>
-      </div>
+      )}
       {message.reference.map((ref, idx) => {
         return (
           <div

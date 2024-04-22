@@ -11,7 +11,7 @@ import useAIEditor, { useUserTask } from '@/zustand/store';
 import { ChevronUp, FileText } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { forwardRef, memo, useRef } from 'react';
-import Title from '../Title';
+import GenerateTitle from './GenerateTitle';
 
 const GenerateSub = dynamic(() => import('./GenerateSub'));
 
@@ -31,7 +31,7 @@ export const Generate = ({ t }: { t: EditorDictType }) => {
 
   return (
     <>
-      <Title t={t} />
+      <GenerateTitle t={t} />
       {generateTab === -1 ? (
         <div className='flex w-full flex-col overflow-hidden'>
           {GenerateOptions.map((item) => {
