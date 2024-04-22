@@ -1,5 +1,4 @@
 import Spacer from '@/components/root/Spacer';
-import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
 import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
@@ -90,9 +89,8 @@ const Btn = forwardRef<
   <Button
     ref={ref}
     onClick={onClick}
-    className='h-max w-max self-center rounded-full bg-violet-500 px-8 py-1'
+    className='size-max self-center rounded bg-violet-500 px-8 py-2'
   >
-    <GenerateFill fill='#fff' size='20' />
     {label}
   </Button>
 ));
