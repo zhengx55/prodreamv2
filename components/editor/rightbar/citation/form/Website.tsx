@@ -266,14 +266,14 @@ const WebsiteForm = ({
       <Spacer y='120' />
       <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-gray-200 bg-white py-1.5'>
         <Button
-          className='h-max rounded border border-violet-500 text-violet-500'
-          variant={'ghost'}
+          className='size-max rounded px-4 py-1'
+          variant={'outline'}
           type='button'
           onClick={handleCancel}
         >
           Cancel
         </Button>
-        <Button type='submit' className='rounded bg-violet-500'>
+        <Button type='submit' className='size-max rounded px-4 py-1'>
           Save
         </Button>
       </div>
