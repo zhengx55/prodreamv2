@@ -102,8 +102,8 @@ const SearchBar = ({ lang, t }: Props) => {
           className={`${
             isTyping
               ? 'bg-violet-500 text-white'
-              : 'bg-shadow-border text-shadow'
-          } flex-center absolute right-2 h-10 w-10 rounded-lg p-1 `}
+              : 'bg-zinc-300 text-neutral-400'
+          } absolute right-2 h-10 w-10 rounded-xl p-1 `}
         >
           <Search size={22} />
         </Button>

@@ -304,7 +304,9 @@
       "Humanizer": "反AI检测",
       "mixed": "我们对这段文本完全是有一定的信心",
       "humanize_title": "点击查看反AI详细建议",
-      "humanize_button": "开始一键反AI"
+      "humanize_button": "开始一键反AI",
+      "recheck_title": "重新进行反AI检测",
+      "recheck_button": "重新检测"
     },
     "Task": {
       "title": "尝试AI Copilot进行轻松编辑",

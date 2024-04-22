@@ -22,12 +22,12 @@ const Suggestion = ({ t }: Props) => {
   const [expanded, setExpanded] = useState(-1);
   const { id } = useParams();
   const { data: membership } = useMembershipInfo();
+  const [showRecheck, setShowRecheck] = useState(false);
   const [suggestion, setSuggestion] =
     useState<[number[], number[], string][]>();
   const editor = useAIEditor((state) => state.editor_instance);
   const [detectionResult, _setDetectionResult, _remove] =
     useLocalStorage<IDetectionResult>(`detection_report_${id}`);
-
   const { mutateAsync: humanize, isPending } = useMutation({
     mutationFn: (params: string[]) => batchHumanize(params),
     onSuccess: async (data) => {
@@ -81,17 +81,17 @@ const Suggestion = ({ t }: Props) => {
         .insertContent(item[2])
         .run();
     });
-
     setSuggestion([]);
+    setShowRecheck(true);
   };
 
   const handleDismiss = (indexToRemove: number) => {
     setExpanded(-1);
     editor?.chain().blur().setTextSelection(0).run();
-    const updatedHighlightSentences =
-      detectionResult?.highlight_sentences.filter(
-        (_, index) => index !== indexToRemove
-      );
+    const updatedHighlightSentences = suggestion?.filter(
+      (_, index) => index !== indexToRemove
+    );
+    if (updatedHighlightSentences?.length === 0) setShowRecheck(true);
     setSuggestion(updatedHighlightSentences);
   };
 
@@ -104,22 +104,26 @@ const Suggestion = ({ t }: Props) => {
     const updatedHighlightSentences = suggestion?.filter(
       (_, index) => index !== indexToRemove
     );
+    if (updatedHighlightSentences?.length === 0) setShowRecheck(true);
     setSuggestion(updatedHighlightSentences);
   };
 
   const handleRejectAll = () => {
     setSuggestion([]);
+    setShowRecheck(true);
   };
 
   return (
     <div className='flex flex-1 flex-col'>
       {membership?.subscription === 'basic' ? (
         <Unlock text={'Unlock humanize suggestions with the Unlimited Plan'} />
-      ) : !suggestion ? (
+      ) : !suggestion || suggestion.length === 0 ? (
         isPending ? (
           <div className='flex-center flex-1'>
             <Loader2 className='animate-spin text-violet-500' size={24} />
           </div>
+        ) : showRecheck ? (
+          <Recheck t={t} recheck={handleHumanize} />
         ) : (
           <Starter t={t} start={handleHumanize} />
         )
@@ -165,6 +169,35 @@ const Suggestion = ({ t }: Props) => {
     </div>
   );
 };
+const Recheck = memo(
+  ({ t, recheck }: { t: EditorDictType; recheck: () => void }) => {
+    return (
+      <div className='flex flex-1 flex-col'>
+        <p className='base-medium'>{t.Detection.Humanizer}</p>
+        <Spacer y='14' />
+        <div className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
+          <Image
+            src='/editor/Detection-recheck.png'
+            alt='Upgrade check'
+            width={200}
+            height={200}
+            className='size-44 self-center'
+          />
+          <p className='text-center text-sm font-normal text-zinc-600'>
+            {t.Detection.recheck_title}
+          </p>
+          <Button
+            className='base-regular h-max w-max self-center rounded-lg px-8'
+            role='button'
+            onClick={recheck}
+          >
+            {t.Detection.recheck_button}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+);
 
 const Starter = memo(
   ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
@@ -179,7 +212,6 @@ const Starter = memo(
             width={450}
             height={270}
             className='h-44 w-60 self-center'
-            priority
           />
           <p className='text-center text-sm font-normal text-zinc-600'>
             {t.Detection.humanize_title}
@@ -196,6 +228,7 @@ const Starter = memo(
     );
   }
 );
+Recheck.displayName = 'Recheck';
 
 Starter.displayName = 'Starter';
 

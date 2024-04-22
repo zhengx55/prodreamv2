@@ -17,13 +17,13 @@ type Props = {
 const FilterDropdown = ({ sortingMethod, setSortingMethod }: Props) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Tooltip side='bottom' tooltipContent='Sort by'>
+      <Tooltip side='bottom' tooltipContent='Sort by'>
+        <DropdownMenuTrigger asChild>
           <Button role='button' variant={'icon'} className='size-max p-1'>
             <ArrowUpNarrowWide />
           </Button>
-        </Tooltip>
-      </DropdownMenuTrigger>
+        </DropdownMenuTrigger>
+      </Tooltip>
       <DropdownMenuContent
         side='bottom'
         align='end'
