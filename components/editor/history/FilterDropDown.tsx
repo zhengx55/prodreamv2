@@ -1,3 +1,5 @@
+import Tooltip from '@/components/root/Tooltip';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,10 +17,12 @@ type Props = {
 const FilterDropdown = ({ sortingMethod, setSortingMethod }: Props) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <span className='cursor-pointer rounded-md bg-transparent p-1 hover:bg-shadow-border'>
-          <ArrowUpNarrowWide />
-        </span>
+      <DropdownMenuTrigger>
+        <Tooltip side='bottom' tooltipContent='Sort by'>
+          <Button role='button' variant={'icon'} className='size-max p-1'>
+            <ArrowUpNarrowWide />
+          </Button>
+        </Tooltip>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         side='bottom'

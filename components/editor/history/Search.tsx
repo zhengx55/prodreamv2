@@ -76,21 +76,21 @@ const SearchBar = ({ lang, t }: Props) => {
         <button
           role='button'
           onClick={handleCreateScrath}
-          style={{
-            background:
-              'linear-gradient(132deg, #DC3DC1 1.6%, #9C2CF3 49.22%, #7A4EF6 91.53%)',
-          }}
-          className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg hover:opacity-50'
+          className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg bg-gradient-to-br from-fuchsia-600 via-purple-600 to-violet-500 hover:bg-violet-500 hover:bg-none'
         >
           <Plus className='text-white' size={20} />
           <p className='base-semibold text-white'>New Essay</p>
         </button>
         <Dialog>
           <DialogTrigger asChild>
-            <span className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg border border-gray-200 hover:opacity-50'>
+            <Button
+              role='dialog'
+              variant={'outline'}
+              className='size-max cursor-pointer rounded-lg border border-gray-200 px-8 py-4 hover:shadow'
+            >
               <UploadGard />
               <p className='base-semibold'>Upload Essay</p>
-            </span>
+            </Button>
           </DialogTrigger>
           <FileUploadModal t={t} lang={lang} />
         </Dialog>
