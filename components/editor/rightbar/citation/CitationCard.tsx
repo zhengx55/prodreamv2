@@ -64,7 +64,7 @@ export const SearchCitationCard = memo(
         await handleCite({
           document_id: id as string,
           url: item.pdf_url,
-          citation_id: item.citation_id,
+          citation_id: 'Ezyu2WFA3LcJ',
           snippet: item.snippet,
           citation_count: item.citation_count,
           in_text_pos: anchor,
@@ -83,77 +83,82 @@ export const SearchCitationCard = memo(
           <CitationPreview item={item} />
         </Dialog>
         <Spacer y='10' />
-        <p className='subtle-regular line-clamp-2 text-shadow-100'>
+        <p className='subtle-regular line-clamp-2 text-zinc-500'>
           Authors: {item.publication}
         </p>
-
         <Spacer y='10' />
-        <p className='small-regular line-clamp-4'>{item.snippet}</p>
+        <p className='small-regular line-clamp-3 text-zinc-600'>
+          {item.snippet}
+        </p>
         <Spacer y='15' />
-        <div className='flex items-center justify-end gap-x-2'>
-          {citation_tooltip_step === 2 && index === 0 ? (
-            <Tiplayout
-              title={CitationTooltip.STEP2_TITLE}
-              content={CitationTooltip.STEP2_TEXT}
-              step={citation_tooltip_step}
-              side='left'
-              totalSteps={4}
-              buttonLabel='next'
-              onClickCallback={() => {
-                updateCitationStep();
-              }}
-            >
+        <div className='flex items-center justify-between'>
+          <p className='small-regular text-violet-500'>
+            Cited by {item.citation_count}
+          </p>
+          <div className='flex items-center gap-x-2'>
+            {citation_tooltip_step === 3 && index === 0 ? (
+              <Tiplayout
+                title={CitationTooltip.STEP3_TITLE}
+                content={CitationTooltip.STEP3_TEXT}
+                step={citation_tooltip_step}
+                side='top'
+                totalSteps={4}
+                buttonLabel='next'
+                onClickCallback={() => {
+                  updateCitationStep();
+                }}
+              >
+                <Button
+                  className='size-max px-3 py-1'
+                  variant={'outline'}
+                  role='button'
+                  onClick={() => handler(item as any, 'collect')}
+                >
+                  <Plus size={18} /> Add to library
+                </Button>
+              </Tiplayout>
+            ) : (
               <Button
-                className='h-max w-max rounded bg-violet-500 px-4 py-1'
+                className='size-max px-3 py-1'
+                variant={'outline'}
+                role='button'
+                onClick={() => handler(item as any, 'collect')}
+              >
+                <Plus size={18} /> Add to library
+              </Button>
+            )}
+            {citation_tooltip_step === 2 && index === 0 ? (
+              <Tiplayout
+                title={CitationTooltip.STEP2_TITLE}
+                content={CitationTooltip.STEP2_TEXT}
+                step={citation_tooltip_step}
+                side='left'
+                totalSteps={4}
+                buttonLabel='next'
+                onClickCallback={() => {
+                  updateCitationStep();
+                }}
+              >
+                <Button
+                  className='size-max px-3 py-1'
+                  role='button'
+                  onClick={() => handler(item as any, 'cite')}
+                >
+                  <ReplyAll size={18} />
+                  Cite
+                </Button>
+              </Tiplayout>
+            ) : (
+              <Button
+                className='size-max px-3 py-1'
                 role='button'
                 onClick={() => handler(item as any, 'cite')}
               >
                 <ReplyAll size={18} />
                 Cite
               </Button>
-            </Tiplayout>
-          ) : (
-            <Button
-              className='h-max w-max rounded bg-violet-500 px-4 py-1'
-              role='button'
-              onClick={() => handler(item as any, 'cite')}
-            >
-              <ReplyAll size={18} />
-              Cite
-            </Button>
-          )}
-
-          {citation_tooltip_step === 3 && index === 0 ? (
-            <Tiplayout
-              title={CitationTooltip.STEP3_TITLE}
-              content={CitationTooltip.STEP3_TEXT}
-              step={citation_tooltip_step}
-              side='top'
-              totalSteps={4}
-              buttonLabel='next'
-              onClickCallback={() => {
-                updateCitationStep();
-              }}
-            >
-              <Button
-                className='h-max w-max rounded border border-violet-500 px-4 py-1 text-violet-500'
-                variant={'ghost'}
-                role='button'
-                onClick={() => handler(item as any, 'collect')}
-              >
-                <Plus size={18} className='text-violet-500' /> Add to library
-              </Button>
-            </Tiplayout>
-          ) : (
-            <Button
-              className='h-max w-max rounded border border-violet-500 px-4 py-1 text-violet-500'
-              variant={'ghost'}
-              role='button'
-              onClick={() => handler(item as any, 'collect')}
-            >
-              <Plus size={18} className='text-violet-500' /> Add to library
-            </Button>
-          )}
+            )}
+          </div>
         </div>
       </div>
     );
