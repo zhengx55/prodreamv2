@@ -9,24 +9,20 @@ import Link from 'next/link';
 import { memo } from 'react';
 import Prompt from './Prompt';
 
-const PromptViewModal = dynamic(() => import('../modal/Prompt'));
-
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
 
 type Props = {} & DocPageDicType;
 
 const DocNavbar = ({ t, lang }: Props) => {
-  const { isSaving, updatePaymentModal, docTtile } = useAIEditor((state) => ({
-    isSaving: state.isSaving,
-    updatePaymentModal: state.updatePaymentModal,
-    docTtile: state.doc_title,
-  }));
+  const isSaving = useAIEditor((state) => state.isSaving);
+  const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
+  const docTtile = useAIEditor((state) => state.doc_title);
+  const prompt = useAIEditor((state) => state.essay_prompt);
   const { data: track } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
 
   return (
     <nav className='flex-between z-50 h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-gray-200 bg-white px-5 py-3'>
-      {/* {!Boolean(prompt) && <PromptViewModal prompt={prompt} />} */}
       <div className='flex h-full items-center gap-x-3'>
         {track?.guidence && (
           <Link passHref href={`/${lang}/editor`}>
@@ -45,7 +41,7 @@ const DocNavbar = ({ t, lang }: Props) => {
         {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
       </div>
       <div className='flex items-center gap-x-4'>
-        <Prompt t={t} />
+        <Prompt key={prompt} prompt={prompt} t={t} />
         {['basic', 'free_trail'].includes(usage?.subscription ?? '') ? (
           <Button
             role='button'

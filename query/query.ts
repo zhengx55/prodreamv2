@@ -10,6 +10,7 @@ import {
   ButtonTrack,
   chatHistory,
   createCitation,
+  createGoogleCiation,
   deleteHistory,
   getDiscountInfo,
   getDocDetail,
@@ -147,7 +148,7 @@ export const useUpdateCitation = () => {
   });
 };
 
-export const useCreateCitation = () => {
+export const useCreateCustomCitation = () => {
   const appendInDocCitationIds = useCitation(
     (state) => state.appendInDocCitationIds
   );
@@ -174,6 +175,36 @@ export const useCreateCitation = () => {
   });
 };
 
+export const useCreateCitation = () => {
+  const appendInDocCitationIds = useCitation(
+    (state) => state.appendInDocCitationIds
+  );
+  return useMutation({
+    mutationFn: (params: {
+      url: string;
+      citation_id: string;
+      snippet: string;
+      citation_count: number;
+      in_text_pos: number;
+      document_id: string;
+    }) => createGoogleCiation(params),
+    onSuccess: async (data) => {
+      await appendInDocCitationIds({
+        type: 'Journal',
+        data: {
+          ...data,
+        },
+      });
+      const toast = (await import('sonner')).toast;
+      toast.success('Citation created successfully');
+    },
+    onError: async (error) => {
+      const toast = (await import('sonner')).toast;
+      toast.error(error.message);
+    },
+  });
+};
+
 export const useCiteToDoc = () => {
   const editor = useAIEditor((state) => state.editor_instance);
   const { insertCitation } = useEditorCommand(editor!);
@@ -182,15 +213,18 @@ export const useCiteToDoc = () => {
   );
   return useMutation({
     mutationFn: (params: {
-      citation_type: ICitationType;
-      citation_data: any;
+      url: string;
+      citation_id: string;
+      snippet: string;
+      citation_count: number;
+      in_text_pos: number;
       document_id: string;
-    }) => createCitation(params),
-    onSuccess: async (data, variables) => {
+    }) => createGoogleCiation(params),
+    onSuccess: async (data) => {
       const { selection } = editor!.state;
       const { from, to, anchor } = selection;
       await appendInTextCitationIds({
-        type: variables.citation_type,
+        type: 'Journal',
         data,
       });
 

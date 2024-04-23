@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation, useUpdateCitation } from '@/query/query';
+import { useCreateCustomCitation, useUpdateCitation } from '@/query/query';
 import { IJournalCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -20,7 +20,7 @@ const JournalForm = ({
   data?: IJournalCitation;
 }) => {
   const { id } = useParams();
-  const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleCreate } = useCreateCustomCitation();
   const { mutateAsync: handleUpdate } = useUpdateCitation();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IJournalCitation>({

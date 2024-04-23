@@ -26,7 +26,7 @@ const SearchBar = ({ lang, t }: Props) => {
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
     onSuccess: (data) => {
-      router.push(`/${lang}/editor/${data}`);
+      router.push(`/${lang}/editor/${data}?new=true`);
       queryClient.invalidateQueries({
         queryKey: ['membership'],
       });

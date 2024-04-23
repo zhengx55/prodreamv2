@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation, useUpdateCitation } from '@/query/query';
+import { useCreateCustomCitation, useUpdateCitation } from '@/query/query';
 import { IWebsiteCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -110,7 +110,7 @@ const WebsiteForm = ({
   const removeContributor = (index: number) => {
     remove(index);
   };
-  const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleCreate } = useCreateCustomCitation();
   const { mutateAsync: handleUpdate } = useUpdateCitation();
 
   return (

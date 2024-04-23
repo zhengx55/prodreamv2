@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation, useUpdateCitation } from '@/query/query';
+import { useCreateCustomCitation, useUpdateCitation } from '@/query/query';
 import { IIntroductionCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -24,7 +24,7 @@ const IntroductionForm = ({
   data?: IIntroductionCitation;
 }) => {
   const { id } = useParams();
-  const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleCreate } = useCreateCustomCitation();
   const { mutateAsync: handleUpdate } = useUpdateCitation();
 
   const { register, handleSubmit, control, setValue } =

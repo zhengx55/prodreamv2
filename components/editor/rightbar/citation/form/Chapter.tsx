@@ -2,7 +2,7 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation, useUpdateCitation } from '@/query/query';
+import { useCreateCustomCitation, useUpdateCitation } from '@/query/query';
 import { IChapterCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -17,7 +17,7 @@ const ChapterForm = ({
   data?: IChapterCitation;
 }) => {
   const { id } = useParams();
-  const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleCreate } = useCreateCustomCitation();
   const { mutateAsync: handleUpdate } = useUpdateCitation();
 
   const { register, handleSubmit, control } = useForm<IChapterCitation>({

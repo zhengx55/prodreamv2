@@ -92,22 +92,25 @@ export type IDocDetail = {
 };
 
 export interface ICitation {
-  abstract: string;
-  contributors: Author[];
+  abstract: null;
   advanced_info: AdvancedInfo;
-  area: string[];
+  area: null;
   article_title: string;
-  authors?: Author[];
+  authors: Author[];
+  bibtex: null;
   citation_count: number;
+  citation_id: string;
   doi: null;
-  publisher: string;
-  tldr: string;
-  influential_citation_count: number;
-  journal_title: null | string;
+  influential_citation_count: null;
+  journal_title: null;
   page_info: PageInfo;
-  pdf_url: null | string;
+  pdf_url: string;
+  publication: string;
   publish_date: PublishDate;
-  reference_count: number;
+  publisher: null;
+  reference_count: null;
+  snippet: string;
+  tldr: null;
 }
 
 interface AdvancedInfo {
@@ -116,9 +119,18 @@ interface AdvancedInfo {
   volume: null | string;
 }
 
-interface Series {
-  end: null;
-  start: null;
+interface Author {
+  first_name: string;
+  last_name: string;
+  middle_name: string;
+  role: string;
+  suffix: string;
+}
+
+interface AdvancedInfo {
+  issue: null;
+  series: string | null;
+  volume: null | string;
 }
 
 interface Author {
