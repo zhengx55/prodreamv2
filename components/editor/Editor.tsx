@@ -15,13 +15,16 @@ const EditorBlock = dynamic(() => import('./EditorBlock'));
 const PaymentModal = dynamic(() => import('@/components/pricing/Modal'), {
   ssr: false,
 });
+const PromptView = dynamic(() => import('./modal/Prompt'), { ssr: false });
+
 const OutlineWaitingModal = dynamic(() => import('./guide/Waiting'), {
   ssr: false,
 });
 const Editor = ({
   essay_content,
+  isNew,
   ...props
-}: { essay_content: string } & DocPageDicType) => {
+}: { essay_content: string; isNew: boolean } & DocPageDicType) => {
   const { data: track } = useUserTrackInfo();
   const { editor, showBottomBar } = useEditorInstance(essay_content);
   if (!editor) return null;
@@ -33,6 +36,7 @@ const Editor = ({
         {Boolean(track?.guidence) && <EditorBlock {...props} editor={editor} />}
         <Procedure t={props.t} editor={editor} />
         <PaymentModal />
+        <PromptView t={props.t} show={isNew} />
         <OutlineWaitingModal />
       </div>
       <AnimatePresence>

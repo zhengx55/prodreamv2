@@ -21,6 +21,7 @@ const initialState: AIEditorState = {
   continueInsertPos: null,
   floatingMenuPos: null,
   essay_prompt: '',
+  showPromptModal: false,
 };
 
 type AIEditorState = {
@@ -41,6 +42,7 @@ type AIEditorState = {
   continueInsertPos: number | null;
   floatingMenuPos: { top: number; left: number } | null;
   essay_prompt: string;
+  showPromptModal: boolean;
 };
 
 type AIEditorAction = {
@@ -63,6 +65,7 @@ type AIEditorAction = {
   updateInsertPos: (result: number) => void;
   updateShowBubbleMenu: (result: AIEditorState['showBubbleMenu']) => void;
   updateEssayPrompt: (result: AIEditorState['essay_prompt']) => void;
+  updatePromptModal: (result: boolean) => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -144,6 +147,11 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
   updateInsertPos: (result) => {
     set(() => ({
       continueInsertPos: result,
+    }));
+  },
+  updatePromptModal: (result) => {
+    set(() => ({
+      showPromptModal: result,
     }));
   },
 });

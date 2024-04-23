@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
 import LazyMotionProvider from '../root/LazyMotionProvider';
 import { useDocumentInfo } from './rightbar/citation/hooks/useDocumentInfo';
+
 const CheckList = dynamic(() => import('./checklist/CheckList'));
 const Editor = dynamic(() => import('./Editor'), {
   ssr: false,
@@ -17,12 +18,13 @@ const DocRightBar = dynamic(() => import('./rightbar/DocRightBar'));
 
 type Props = {
   id: string;
+  isNew: boolean;
 } & DocPageDicType;
 const EssayPanel = ({ id, ...props }: Props) => {
   const signUpTime = useUserInfo((state) => state.user.create_time);
   const { data: userTrack, isPending } = useUserTrackInfo();
   const { isPending: isUsagePending } = useMembershipInfo();
-  const { essayContent, loading, error } = useDocumentInfo(id);
+  const { essayContent, loading } = useDocumentInfo(id);
   const showCheckList = useMemo(() => {
     const signUpDate = new Date(signUpTime * 1000);
     const currentDate = new Date();

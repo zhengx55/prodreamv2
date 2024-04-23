@@ -2,7 +2,6 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CitationTooltip } from '@/constant/enum';
-import { ConvertCitationData } from '@/lib/utils';
 import {
   useButtonTrack,
   useCiteToDoc,
@@ -50,20 +49,25 @@ export const SearchCitationCard = memo(
         });
         await ButtonTrack({ event: 'Onboarding task: add citation' });
       }
-      const converted_data = ConvertCitationData(item, false);
       const { selection } = editor!.state;
       const { anchor } = selection;
       if (action === 'collect') {
         await handleCollect({
-          citation_data: converted_data,
-          citation_type: 'Journal',
           document_id: id as string,
+          url: item.pdf_url,
+          citation_id: item.citation_id,
+          snippet: item.snippet,
+          citation_count: item.citation_count,
+          in_text_pos: 0,
         });
       } else {
         await handleCite({
-          citation_data: { ...converted_data, in_text_pos: anchor },
-          citation_type: 'Journal',
           document_id: id as string,
+          url: item.pdf_url,
+          citation_id: item.citation_id,
+          snippet: item.snippet,
+          citation_count: item.citation_count,
+          in_text_pos: anchor,
         });
       }
     };
@@ -79,26 +83,12 @@ export const SearchCitationCard = memo(
           <CitationPreview item={item} />
         </Dialog>
         <Spacer y='10' />
-        {item.contributors?.length > 0 && (
-          <p className='subtle-regular line-clamp-2 text-shadow-100'>
-            Authors:{' '}
-            {item.contributors.map((author, idx) => {
-              return (
-                <span key={`author-${idx}`}>
-                  {author.last_name ?? ''}&nbsp;
-                  {author.middle_name ?? ''}
-                  {author.first_name ?? ''}
-                  {idx !== item.contributors.length - 1 && ', '}
-                </span>
-              );
-            })}
-          </p>
-        )}
+        <p className='subtle-regular line-clamp-2 text-shadow-100'>
+          Authors: {item.publication}
+        </p>
 
         <Spacer y='10' />
-        {item.abstract && (
-          <p className='small-regular line-clamp-4'>{item.abstract}</p>
-        )}
+        <p className='small-regular line-clamp-4'>{item.snippet}</p>
         <Spacer y='15' />
         <div className='flex items-center justify-end gap-x-2'>
           {citation_tooltip_step === 2 && index === 0 ? (

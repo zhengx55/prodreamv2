@@ -29,7 +29,7 @@ const SearchList = ({ t }: { t: EditorDictType }) => {
   } = useQuery({
     queryFn: ({ signal }) => {
       if (keyword) {
-        return searchCitation(keyword, signal, 0);
+        return searchCitation(keyword, signal);
       } else {
         setSearchResult([]);
         return [];
