@@ -3,6 +3,8 @@ import { useUserInfo } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { memo } from 'react';
+import Markdown from 'react-markdown';
+
 type MessageProps = { text: string };
 export const MineMessage = memo(({ text }: MessageProps) => {
   const userInfo = useUserInfo((state) => state.user);
@@ -61,7 +63,7 @@ export const SystemMessage = memo(({ text }: MessageProps) => {
         {!text ? (
           <Loader2 className='animate-spin text-zinc-600' size={18} />
         ) : (
-          <p className='small-regular text-zinc-600'>{text}</p>
+          <Markdown className='small-regular text-zinc-600'>{text}</Markdown>
         )}
       </div>
     </m.div>

@@ -1,10 +1,11 @@
 import { researchChat } from '@/query/api';
 import { useChatbot } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 
 export default function useResearchChat() {
+  const queryClient = useQueryClient();
   const appendResearchItem = useChatbot((state) => state.appendResearchItem);
   const updateResearchMessage = useChatbot(
     (state) => state.updateResearchMessage
@@ -37,6 +38,8 @@ export default function useResearchChat() {
         while (true) {
           const { value, done } = await reader.read();
           if (done) {
+            queryClient.invalidateQueries({ queryKey: ['session-history'] });
+
             break;
           }
           handleStreamData(value, new_id);

@@ -34,7 +34,7 @@ const DeleteModal = ({ container }: Props) => {
             Are you sure you want to delete this conversation?
           </div>
           <div className=' flex justify-end gap-x-2'>
-            <Dialog.Close>
+            <Dialog.Close asChild>
               <Button
                 role='button'
                 variant={'outline'}

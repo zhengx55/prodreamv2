@@ -1,10 +1,11 @@
 import { chat } from '@/query/api';
 import { useChatbot } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 
 export default function useChat() {
+  const queryClient = useQueryClient();
   const appendMessage = useChatbot((state) => state.appendMessage);
   const updateMessageItem = useChatbot((state) => state.updateMessageItem);
   const updateCurrentSession = useChatbot(
@@ -29,6 +30,7 @@ export default function useChat() {
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
+          queryClient.invalidateQueries({ queryKey: ['session-history'] });
           break;
         }
         handleStreamData(value, new_id);

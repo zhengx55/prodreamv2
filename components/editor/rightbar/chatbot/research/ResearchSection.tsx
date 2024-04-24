@@ -26,8 +26,8 @@ const ResearchSection = ({ t }: Props) => {
             />
           );
         })}
+        <div ref={endOfMessagesRef} />
       </div>
-      <div ref={endOfMessagesRef} />
       <ResearchInput t={t} />
     </div>
   );
