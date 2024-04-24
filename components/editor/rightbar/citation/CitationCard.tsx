@@ -64,7 +64,7 @@ export const SearchCitationCard = memo(
         await handleCite({
           document_id: id as string,
           url: item.pdf_url,
-          citation_id: 'Ezyu2WFA3LcJ',
+          citation_id: item.citation_id,
           snippet: item.snippet,
           citation_count: item.citation_count,
           in_text_pos: anchor,
