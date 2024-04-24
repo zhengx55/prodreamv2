@@ -6,7 +6,6 @@ import { memo, useState } from 'react';
 import ResearchCover from './ResearchCover';
 import ReserchTitle from './ReserchTitle';
 
-const ResearchHistory = dynamic(() => import('./ResearchHistory'));
 const ResearchSection = dynamic(() => import('./ResearchSection'));
 const DeleteModal = dynamic(() => import('../chat/history/DeleteModal'));
 type Props = { t: EditorDictType };

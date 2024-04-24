@@ -21,6 +21,18 @@ export const SidebarLinks = [
   //   link: '/pdf-chat',
   // },
 ];
+export const emojis = [
+  '🐬',
+  '🐳',
+  '🦄',
+  '🐝',
+  '🦋',
+  '🌻',
+  '🌼',
+  '🍀',
+  '🌈',
+  '🍄',
+];
 
 export const CitationOptions = ['mla', 'apa', 'ieee', 'chicago'];
 

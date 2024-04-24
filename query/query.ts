@@ -15,6 +15,7 @@ import {
   getDiscountInfo,
   getDocDetail,
   getDocs,
+  getRecommendQs,
   getReferenceType,
   getUserInfo,
   getUserMemberShip,
@@ -300,6 +301,15 @@ export const useGetReference = ({
 };
 
 // ------------------ Chatbot ------------------
+
+export const useRecommandQs = (id: string) => {
+  return useQuery({
+    queryKey: ['airesearch-recommand', id],
+    queryFn: () => getRecommendQs(id as string),
+    staleTime: Infinity,
+  });
+};
+
 export const useChatBotSessions = ({
   document_id,
   query,

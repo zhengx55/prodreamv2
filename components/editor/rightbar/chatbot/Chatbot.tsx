@@ -4,10 +4,10 @@ import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
 import ChatInput from './chat/ChatInput';
-import ChatSection from './chat/ChatSection';
 import ChatTitle from './chat/ChatTitle';
 import Starter from './chat/Starter';
 import DeleteModal from './chat/history/DeleteModal';
+const ChatSection = dynamic(() => import('./chat/ChatSection'));
 const ChatHistory = dynamic(() => import('./chat/history/ChatHistory'));
 const UploadModal = dynamic(() => import('./chat/UploadModal'));
 

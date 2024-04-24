@@ -38,6 +38,10 @@ const ChatInput = ({ t }: Props) => {
   const currentSession = useChatbot((state) => state.currentSession);
   const openHistory = useChatbot((state) => state.openHistory);
   const chatType = useChatbot((state) => state.chatType);
+  const updateCurrentSession = useChatbot(
+    (state) => state.updateCurrentSession
+  );
+  const updateMessageList = useChatbot((state) => state.updateMessageList);
 
   const submit = async () => {
     if (!value.trim()) return;
@@ -125,7 +129,16 @@ const ChatInput = ({ t }: Props) => {
             </Button>
           </Tooltip>
           <Tooltip side='top' tooltipContent='New Chat'>
-            <Button variant={'icon'} role='button' className='p-2'>
+            <Button
+              variant={'icon'}
+              role='button'
+              onClick={() => {
+                if (!chatType) return;
+                updateChatType(null);
+                updateMessageList([]);
+              }}
+              className='p-2'
+            >
               <Plus
                 size={18}
                 className='cursor-pointer rounded-full bg-violet-500 text-white'

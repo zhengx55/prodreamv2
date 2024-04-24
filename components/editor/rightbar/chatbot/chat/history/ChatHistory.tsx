@@ -75,16 +75,16 @@ const ChatHistory = ({ t }: Props) => {
         <div className='flex gap-x-4'>
           <button
             role='tab'
-            onClick={() => setHistoryType('research')}
+            onClick={() => setHistoryType('chat')}
             className={`${
-              historyType === 'research'
+              historyType === 'chat'
                 ? 'border-violet-500 text-zinc-700'
                 : 'border-transparent text-neutral-400'
             } small-regular border-b-2`}
           >
             Chat
           </button>
-          <button
+          {/* <button
             role='tab'
             onClick={() => setHistoryType('chat')}
             className={`${
@@ -94,7 +94,7 @@ const ChatHistory = ({ t }: Props) => {
             } small-regular border-b-2`}
           >
             File
-          </button>
+          </button> */}
         </div>
         <Spacer y='16' />
         {isError ? null : isPending ? (

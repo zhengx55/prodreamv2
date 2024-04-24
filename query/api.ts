@@ -1433,3 +1433,25 @@ export async function deleteHistory(session_id: string): Promise<void> {
     throw new Error(error as string);
   }
 }
+
+export async function getRecommendQs(document_id: string): Promise<string[]> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/research/recommend_questions?document_id=${document_id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
