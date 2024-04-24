@@ -27,7 +27,7 @@ const UploadModal = ({ container }: Props) => {
       updateFileUploading(false);
     },
     onSuccess: (data) => {
-      console.log(data);
+      updateCurrentFile(data);
     },
     onError: async (error) => {
       const { toast } = await import('sonner');
@@ -44,7 +44,6 @@ const UploadModal = ({ container }: Props) => {
         toast.error(error_message);
         return;
       }
-      updateCurrentFile(acceptedFile[0]);
       await createPdf({ file: acceptedFile[0] });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,4 +1,4 @@
-import { chat } from '@/query/api';
+import { chat, pdfSummary } from '@/query/api';
 import { useChatbot } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
@@ -13,11 +13,51 @@ export default function useChat() {
   );
   const [value, setValue] = useState<string>('');
 
+  const { mutateAsync: summary, isPending: isSummarzing } = useMutation({
+    mutationFn: (params: {
+      session_id: string | null;
+      document_id: string;
+      attachment: {
+        id: string;
+        size: number;
+        filename: string;
+      };
+    }) => pdfSummary(params),
+    onSuccess: async (data: ReadableStream, variables) => {
+      const message_id = v4();
+      const reader = data.pipeThrough(new TextDecoderStream()).getReader();
+      appendMessage({
+        type: 'system',
+        text: '',
+        id: message_id,
+        filename: variables.attachment.filename,
+      });
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          queryClient.invalidateQueries({ queryKey: ['session-history'] });
+          break;
+        }
+        handleStreamData(value, message_id);
+      }
+    },
+    onError: async (error) => {
+      const { toast } = await import('sonner');
+      toast.error('Failed to summarize pdf, please try again later.');
+    },
+  });
+
   const { mutateAsync: submitChat, isPending: sending } = useMutation({
     mutationFn: (params: {
       session_id: string | null;
       query: string;
       document_id: string;
+      attachment: {
+        id: string;
+        size: number;
+        filename: string;
+      } | null;
     }) => chat(params),
 
     onSuccess: async (data: ReadableStream) => {
@@ -72,6 +112,8 @@ export default function useChat() {
   }, []);
   return {
     submitChat,
+    summary,
+    isSummarzing,
     sending,
     value,
     updateChatMessage,

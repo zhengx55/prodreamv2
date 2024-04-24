@@ -24,7 +24,14 @@ type Props = {
 };
 const ChatInput = ({ t }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
-  const { sending, value, updateChatMessage, submitChat } = useChat();
+  const {
+    sending,
+    isSummarzing,
+    summary,
+    value,
+    updateChatMessage,
+    submitChat,
+  } = useChat();
 
   const { id } = useParams();
   useAutoSizeTextArea(chatRef.current, value, 96);
@@ -38,10 +45,16 @@ const ChatInput = ({ t }: Props) => {
   const currentSession = useChatbot((state) => state.currentSession);
   const openHistory = useChatbot((state) => state.openHistory);
   const chatType = useChatbot((state) => state.chatType);
-  const updateCurrentSession = useChatbot(
-    (state) => state.updateCurrentSession
-  );
   const updateMessageList = useChatbot((state) => state.updateMessageList);
+
+  const summarizeFile = async () => {
+    if (!currentFile) return;
+    await summary({
+      session_id: currentSession,
+      document_id: id as string,
+      attachment: currentFile,
+    });
+  };
 
   const submit = async () => {
     if (!value.trim()) return;
@@ -51,6 +64,7 @@ const ChatInput = ({ t }: Props) => {
         query: value,
         session_id: currentSession,
         document_id: id as string,
+        attachment: currentFile ?? null,
       });
     }
     chatRef.current?.focus();
@@ -60,41 +74,6 @@ const ChatInput = ({ t }: Props) => {
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
       <div className='flex-between'>
         <div className='flex items-center gap-x-2'>
-          {/* <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className='flex-between group min-w-52 cursor-pointer gap-x-2 rounded-lg border border-gray-200 bg-white p-2 data-[state=open]:bg-zinc-100 hover:bg-zinc-100'>
-                <div className='flex items-center gap-x-2'>
-                  <Icon
-                    alt=''
-                    src={ChatbotEngine[engine].icon}
-                    width={16}
-                    height={16}
-                  />
-                  <p className='small-regular text-zinc-600'>
-                    {ChatbotEngine[engine].title}
-                  </p>
-                </div>
-                <ChevronDown
-                  size={20}
-                  className='text-zinc-600 transition-transform group-data-[state=open]:rotate-180'
-                />
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent side='top' className='w-52 bg-white'>
-              {ChatbotEngine.map((engine, index) => {
-                return (
-                  <DropdownMenuItem
-                    className='flex cursor-pointer items-center gap-x-2 hover:bg-zinc-100'
-                    key={engine.id}
-                    onClick={() => updateEngine(index)}
-                  >
-                    <Icon alt='' src={engine.icon} width={16} height={16} />
-                    {engine.title}
-                  </DropdownMenuItem>
-                );
-              })}
-            </DropdownMenuContent>
-          </DropdownMenu> */}
           <Button
             role='button'
             onClick={() => updateChatType('research')}
@@ -161,13 +140,14 @@ const ChatInput = ({ t }: Props) => {
                 </span>
                 <div className='flex max-w-14 flex-col'>
                   <h3 className='small-regular line-clamp-1 text-zinc-600'>
-                    {currentFile.name}
+                    {currentFile.filename}
                   </h3>
                   <p className='subtle-regular text-zinc-500'>PDF</p>
                 </div>
               </div>
               <Button
-                disabled={fileUploading}
+                onClick={summarizeFile}
+                disabled={fileUploading || sending || isSummarzing}
                 variant={'outline'}
                 className='size-max rounded border-none bg-gray-200 px-2 py-2 text-zinc-600'
                 role='button'
@@ -198,13 +178,13 @@ const ChatInput = ({ t }: Props) => {
           className='small-regular min-h-14 w-full border-none py-2 pl-0 pr-5 focus-visible:ring-0'
           id='chat-textarea'
           value={value}
-          disabled={sending}
+          disabled={sending || isSummarzing}
           onChange={handleValueChnage}
           placeholder='Message Dream Cat AI...'
         />
         <Button
           onClick={submit}
-          disabled={!value.trim() || sending}
+          disabled={!value.trim() || sending || isSummarzing}
           className='absolute bottom-2 right-2 h-max w-max p-0'
           variant={'ghost'}
           type='button'

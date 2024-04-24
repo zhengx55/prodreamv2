@@ -11,8 +11,17 @@ type ChatBotState = {
   currentSession: string | null;
   currentResearchSession: string | null;
   fileUploading: boolean;
-  currentFile: File | null;
-  messageList: { type: 'mine' | 'system'; text: string; id: string }[];
+  currentFile: {
+    id: string;
+    size: number;
+    filename: string;
+  } | null;
+  messageList: {
+    type: 'mine' | 'system';
+    text: string;
+    id: string;
+    filename?: string;
+  }[];
   researchList: AIResearchMessage[];
   showHistory: boolean;
 };
@@ -34,6 +43,7 @@ type ChatBotAction = {
     type: 'mine' | 'system';
     text: string;
     id: string;
+    filename?: string;
   }) => void;
   updateMessageItem: (id: string, data: string[]) => void;
   resetCurrentFile: () => void;
