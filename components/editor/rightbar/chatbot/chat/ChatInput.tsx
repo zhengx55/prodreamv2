@@ -127,44 +127,11 @@ const ChatInput = ({ t }: Props) => {
         </div>
       </div>
       <div className='flex flex-col rounded-lg border border-gray-200 p-2'>
-        {currentFile ? (
-          <>
-            <div className='flex-between bg-stone-50 p-2'>
-              <div className='flex items-center gap-x-2'>
-                <span className='flex-center size-8 rounded bg-violet-500'>
-                  {fileUploading ? (
-                    <Loader2 className='animate-spin text-white' size={22} />
-                  ) : (
-                    <FileText size={22} className='text-white' />
-                  )}
-                </span>
-                <div className='flex max-w-14 flex-col'>
-                  <h3 className='small-regular line-clamp-1 text-zinc-600'>
-                    {currentFile.filename}
-                  </h3>
-                  <p className='subtle-regular text-zinc-500'>PDF</p>
-                </div>
-              </div>
-              <Button
-                onClick={summarizeFile}
-                disabled={fileUploading || sending || isSummarzing}
-                variant={'outline'}
-                className='size-max rounded border-none bg-gray-200 px-2 py-2 text-zinc-600'
-                role='button'
-              >
-                <Icon
-                  alt='summerize-pdf'
-                  width={20}
-                  height={20}
-                  src='/editor/chatbot/Summerize.svg'
-                />
-                Summarize
-              </Button>
-            </div>
-            <Spacer y='8' />
-            <Separator className='bg-gray-200' orientation='horizontal' />
-          </>
-        ) : null}
+        <FileDisplay
+          sending={sending}
+          isSummarizing={isSummarzing}
+          summarizeFile={summarizeFile}
+        />
         <Textarea
           ref={chatRef}
           autoFocus
@@ -205,3 +172,89 @@ const ChatInput = ({ t }: Props) => {
   );
 };
 export default memo(ChatInput);
+
+type FileIconProps = {
+  uploading: boolean;
+};
+
+type FileInfoProps = {
+  filename: string;
+};
+
+type SummarizeButtonProps = {
+  onClick: () => void;
+  disabled: boolean;
+};
+
+type FileDisplayProps = {
+  sending: boolean;
+  isSummarizing: boolean;
+  summarizeFile: () => void;
+};
+
+const FileIcon: React.FC<FileIconProps> = ({ uploading }) => (
+  <span className='flex-center size-8 rounded bg-violet-500'>
+    {uploading ? (
+      <Loader2 className='animate-spin text-white' size={22} />
+    ) : (
+      <FileText size={22} className='text-white' />
+    )}
+  </span>
+);
+
+const FileInfo: React.FC<FileInfoProps> = ({ filename }) => (
+  <div className='flex max-w-14 flex-col'>
+    <h3 className='small-regular line-clamp-1 text-zinc-600'>{filename}</h3>
+    <p className='subtle-regular text-zinc-500'>PDF</p>
+  </div>
+);
+
+const SummarizeButton: React.FC<SummarizeButtonProps> = ({
+  onClick,
+  disabled,
+}) => (
+  <Button
+    onClick={onClick}
+    disabled={disabled}
+    variant='outline'
+    className='size-max rounded border-none bg-gray-200 px-2 py-2 text-zinc-600'
+    role='button'
+  >
+    <Icon
+      alt='summarize-pdf'
+      width={20}
+      height={20}
+      src='/editor/chatbot/Summarize.svg'
+    />
+    Summarize
+  </Button>
+);
+
+const FileDisplay: React.FC<FileDisplayProps> = ({
+  sending,
+  isSummarizing,
+  summarizeFile,
+}) => {
+  const fileUploading = useChatbot((state) => state.fileUploading);
+  const currentFile = useChatbot((state) => state.currentFile);
+  if (!currentFile && !fileUploading) return null;
+
+  const disableSummarizeButton = fileUploading || sending || isSummarizing;
+
+  return (
+    <>
+      <div className='flex-between bg-stone-50 p-2'>
+        <div className='flex items-center gap-x-2'>
+          <FileIcon uploading={fileUploading} />
+          <FileInfo filename={currentFile?.filename || ''} />
+        </div>
+        <SummarizeButton
+          onClick={summarizeFile}
+          disabled={disableSummarizeButton}
+        />
+      </div>
+      <Spacer y='8' />
+      <Separator className='bg-gray-200' orientation='horizontal' />
+    </>
+  );
+};
