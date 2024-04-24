@@ -1256,6 +1256,11 @@ export async function chat(params: {
   session_id: string | null;
   query: string;
   document_id: string;
+  attachment: {
+    id: string;
+    size: number;
+    filename: string;
+  } | null;
 }): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
@@ -1265,6 +1270,7 @@ export async function chat(params: {
         session_id: params.session_id,
         query: params.query,
         document_id: params.document_id,
+        attachment: params.attachment,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -1335,29 +1341,32 @@ export async function researchChat(params: {
 }
 
 export async function pdfSummary(params: {
-  session_id: string;
+  session_id: string | null;
   document_id: string;
   attachment: {
     id: string;
     size: number;
   };
-}): Promise<UploadChatPdfResponse> {
+}): Promise<ReadableStream> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat_pdf/summary`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/attachment/tldr`,
       {
-        method: 'GET',
+        body: JSON.stringify({
+          session_id: params.session_id,
+          document_id: params.document_id,
+          attachment: params.attachment,
+        }),
+        method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
+    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
+    return res.body;
   } catch (error) {
     throw new Error(error as string);
   }

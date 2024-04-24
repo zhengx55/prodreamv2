@@ -23,7 +23,7 @@ const ChatSection = ({ t }: Props) => {
             {isMine ? (
               <MineMessage text={message.text} />
             ) : (
-              <SystemMessage text={message.text} />
+              <SystemMessage filename={message.filename} text={message.text} />
             )}
           </div>
         );
