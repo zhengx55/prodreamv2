@@ -75,9 +75,11 @@ const IntextContent = (props: NodeViewProps) => {
             {props.node.attrs.show_author && (
               <APAAuthors contributors={current_citation?.contributors ?? []} />
             )}
-            {props.node.attrs.show_year && (
-              <span>{current_citation?.publish_date?.year}</span>
-            )}
+            {props.node.attrs.show_year &&
+              ` ${current_citation?.publish_date?.year}`}
+            {props.node.attrs.show_page &&
+              props.node.attrs.page_number &&
+              `, p.${props.node.attrs.page_number}`}
             )
           </p>
         ) : citationStyle === 'mla' ? (
@@ -87,7 +89,7 @@ const IntextContent = (props: NodeViewProps) => {
               <MLAAuhors contributors={current_citation?.contributors ?? []} />
             )}
             {props.node.attrs.show_year &&
-              `, ${current_citation?.publish_date?.year}`}
+              ` ${current_citation?.publish_date?.year}`}
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
               `, ${props.node.attrs.page_number}`}
@@ -110,7 +112,7 @@ const IntextContent = (props: NodeViewProps) => {
             )}
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
-              `, p. ${props.node.attrs.page_number}`}
+              `, ${props.node.attrs.page_number}`}
             )
           </p>
         )}
