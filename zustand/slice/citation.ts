@@ -244,13 +244,14 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
     );
     if (found) return;
     const data_after_append = [...get().inDocCitationIds, result.data.id];
+    const citation_after_append = [...get().inDocCitation, result];
     await saveDoc({
       id: result.data.document_id,
       citation_candidate_ids: data_after_append,
     });
-    set((state) => ({
-      inDocCitationIds: [...state.inDocCitationIds, result.data.id],
-      inDocCitation: [...state.inDocCitation, result],
+    set(() => ({
+      inDocCitationIds: data_after_append,
+      inDocCitation: citation_after_append,
     }));
   },
 
