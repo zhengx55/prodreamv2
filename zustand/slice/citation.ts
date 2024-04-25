@@ -1,4 +1,4 @@
-import { saveDoc } from '@/query/api';
+import { saveDoc, updateCitation } from '@/query/api';
 import { ReferenceType } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { NodeViewProps } from '@tiptap/react';
@@ -83,14 +83,30 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
       showMineCitation: result,
     }));
   },
-  updateCitationItem: (result) => {
-    set((state) => {
-      const updatedInTextCitation = state.inTextCitation.map((item) => {
-        if (item.data.id === result.data.id) {
-          return { type: item.type, data: { ...result.data } };
-        } else {
-          return item;
+  updateCitationItem: async (result) => {
+    const { inTextCitation, inDocCitation } = get();
+    let needsSorting = false;
+    const updateInDocCitation = inDocCitation.map((item) => {
+      if (item.data.id === result.data.id) {
+        return { ...item, data: { ...result.data } };
+      }
+      return item;
+    });
+
+    const updatedInTextCitation = inTextCitation.map((item) => {
+      if (item.data.id === result.data.id) {
+        if (item.data.in_text_pos !== result.data.in_text_pos) {
+          needsSorting = true; // Set flag to sort and rank later if position changed
         }
+        return { ...item, data: { ...result.data } };
+      }
+      return item;
+    });
+    if (needsSorting) {
+      await updateCitation({
+        citation_type: result.type,
+        id: result.data.id,
+        data: result.data,
       });
       updatedInTextCitation.sort(
         (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
@@ -98,19 +114,15 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
       updatedInTextCitation.forEach((item, index) => {
         item.data.in_text_rank = index + 1;
       });
-
+    }
+    set(() => {
       return {
         inTextCitation: updatedInTextCitation,
-        inDocCitation: state.inDocCitation.map((item) => {
-          if (item.data.id === result.data.id) {
-            return { type: item.type, data: { ...result.data } };
-          } else {
-            return item;
-          }
-        }),
+        inDocCitation: updateInDocCitation,
       };
     });
   },
+
   updateShowEditCitation: (result) => {
     if (result) {
       set((state) => ({
@@ -205,6 +217,11 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
         citation_candidate_ids: updatedInDocCitationIds,
       });
     }
+    await updateCitation({
+      citation_type: result.type,
+      id: result.data.id,
+      data: result.data,
+    });
     updatedInTextCitation.sort(
       (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
     );
