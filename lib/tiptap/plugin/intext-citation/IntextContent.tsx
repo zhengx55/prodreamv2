@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/popover';
 import useAIEditor, { useCitation } from '@/zustand/store';
 import type { NodeViewProps } from '@tiptap/react';
+import { useAnimationFrame } from 'framer-motion';
 import { Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
@@ -41,6 +42,9 @@ const IntextContent = (props: NodeViewProps) => {
     props.deleteNode();
   };
 
+  useAnimationFrame(() => {
+    if (!current_citation) props.deleteNode();
+  });
   useUnmount(() => {
     if (!current_citation) return;
     let found: boolean = false;

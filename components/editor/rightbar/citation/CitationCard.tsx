@@ -204,19 +204,19 @@ export const MineCitationCard = memo(
     };
 
     const handleDeleteCitation = async () => {
-      if (type === 'inText') {
-        let counter = 0;
-        editor?.state.doc.descendants((node, pos) => {
-          if (node.type.name === 'IntextCitation') {
-            if (node.attrs.citation_id === item.data.id) {
-              editor.commands.deleteRange({
-                from: pos - counter,
-                to: pos + node.nodeSize - counter,
-              });
-              counter += node.nodeSize;
-            }
+      let counter = 0;
+      editor?.state.doc.descendants((node, pos) => {
+        if (node.type.name === 'IntextCitation') {
+          if (node.attrs.citation_id === item.data.id) {
+            editor.commands.deleteRange({
+              from: pos - counter,
+              to: pos + node.nodeSize - counter,
+            });
+            counter += node.nodeSize;
           }
-        });
+        }
+      });
+      if (type === 'inText') {
         await removeInTextCitationIds(item.data.id, item.data.document_id);
       } else {
         await removeInDocCitationIds(item.data.id, item.data.document_id);
