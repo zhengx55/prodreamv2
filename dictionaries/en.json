@@ -304,7 +304,10 @@
       "humanize_title": "Click to see humanize suggestions",
       "humanize_button": "Start Humanize",
       "recheck_title": "Check again for AI Detection",
-      "recheck_button": "Re-check"
+      "recheck_button": "Re-check",
+      "full_human_title": "Your essay is highly likely to be entirely written by a human, showing no signs of AI involvement to humanize",
+      "most_human_title": "Our detector found 0 sentence that is likely AI generated",
+      "most_human_instruction": "If you would like to do a flexible paragraph level humanize for the full text, click to proceed"
     },
     "Task": {
       "title": "Try AI Copilot for easy editing",

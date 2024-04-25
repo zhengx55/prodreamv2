@@ -110,7 +110,7 @@ const Result = ({ result, t }: Props) => {
       <Spacer y='24' />
       <Separator orientation='horizontal' className='bg-gray-200' />
       <Spacer y='24' />
-      {result.highlight_sentences.length > 0 && <Suggestion t={t} />}
+      <Suggestion highlight_sentences={result.highlight_sentences} t={t} />
       <Spacer y='20' />
     </m.div>
   );
