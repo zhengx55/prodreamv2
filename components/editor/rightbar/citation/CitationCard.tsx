@@ -197,8 +197,7 @@ export const MineCitationCard = memo(
         updateCitationItem(new_data);
         insertCitation(item.data.id, anchor, from, to);
       } else {
-        updateCitationItem(new_data);
-        await appendInTextCitationIds(item);
+        await appendInTextCitationIds(new_data);
         insertCitation(item.data.id, anchor, from, to);
       }
     };
