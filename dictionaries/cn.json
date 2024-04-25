@@ -306,7 +306,10 @@
       "humanize_title": "点击查看反AI详细建议",
       "humanize_button": "开始一键反AI",
       "recheck_title": "重新进行反AI检测",
-      "recheck_button": "重新检测"
+      "recheck_button": "重新检测",
+      "full_human_title": "您的文章很可能完全由人类撰写，没有显示出AI参与的迹象",
+      "most_human_title": "我们的检测器发现0个句子很可能是由AI生成的",
+      "most_human_instruction": "如果您想对整篇文本进行灵活的段落级反AI处理，请点击继续"
     },
     "Task": {
       "title": "尝试AI Copilot进行轻松编辑",

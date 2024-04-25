@@ -165,38 +165,56 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
     })),
 
   appendInTextCitationIds: async (result) => {
-    const { inTextCitationIds, inDocCitationIds } = get();
-    let intext_after_append = inTextCitationIds;
-    let indoc_after_append = inDocCitationIds;
-    const found = intext_after_append.find((item) => item === result.data.id);
-    const found_in_doc = indoc_after_append.find(
+    const {
+      inTextCitationIds,
+      inDocCitationIds,
+      inTextCitation,
+      inDocCitation,
+    } = get();
+
+    let updatedIntextCitationIds = inTextCitationIds;
+    let updatedInDocCitationIds = inDocCitationIds;
+    let updatedInTextCitation = inTextCitation;
+    let updatedInDocCitation = inDocCitation;
+    const found = updatedIntextCitationIds.find(
       (item) => item === result.data.id
     );
-    if (!found) intext_after_append = [...inTextCitationIds, result.data.id];
-    if (!found_in_doc)
-      indoc_after_append = [...inTextCitationIds, result.data.id];
-    if (found && found_in_doc) return;
-    await saveDoc({
-      id: result.data.document_id,
-      citation_ids: intext_after_append,
-      citation_candidate_ids: indoc_after_append,
-    });
-    set((state) => {
-      const updatedInTextCitation = found
-        ? state.inTextCitation
-        : [...state.inTextCitation, result];
-      const updatedInDocCitation = found_in_doc
-        ? state.inDocCitation
-        : [...state.inDocCitation, result];
-      updatedInTextCitation.sort(
-        (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
-      );
-      updatedInTextCitation.forEach((item, index) => {
-        item.data.in_text_rank = index + 1;
+    const found_in_doc = updatedInDocCitationIds.find(
+      (item) => item === result.data.id
+    );
+    if (!found) {
+      updatedIntextCitationIds = [...inTextCitationIds, result.data.id];
+      updatedInTextCitation = [...inTextCitation, result];
+    } else {
+      updatedInTextCitation = updatedInTextCitation.map((item) => {
+        if (item.data.id === result.data.id) {
+          return { type: item.type, data: { ...result.data } };
+        } else {
+          return item;
+        }
       });
+    }
+    if (!found_in_doc) {
+      updatedInDocCitationIds = [...inTextCitationIds, result.data.id];
+      updatedInDocCitation = [...inDocCitation, result];
+    }
+    if (!found || !found_in_doc) {
+      await saveDoc({
+        id: result.data.document_id,
+        citation_ids: updatedIntextCitationIds,
+        citation_candidate_ids: updatedInDocCitationIds,
+      });
+    }
+    updatedInTextCitation.sort(
+      (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
+    );
+    updatedInTextCitation.forEach((item, index) => {
+      item.data.in_text_rank = index + 1;
+    });
+    set(() => {
       return {
-        inTextCitationIds: intext_after_append,
-        inDocCitationIds: indoc_after_append,
+        inTextCitationIds: updatedIntextCitationIds,
+        inDocCitationIds: updatedInDocCitationIds,
         inTextCitation: updatedInTextCitation,
         inDocCitation: updatedInDocCitation,
       };
@@ -223,20 +241,20 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
     const data_after_remove = get().inTextCitationIds.filter(
       (item) => item !== result
     );
+    const updatedInTextCitation = get().inTextCitation.filter(
+      (item) => item.data.id !== result
+    );
+    updatedInTextCitation.sort(
+      (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
+    );
+    updatedInTextCitation.forEach((item, index) => {
+      item.data.in_text_rank = index + 1;
+    });
     await saveDoc({
       id: document_id,
       citation_ids: data_after_remove,
     });
-    set((state) => {
-      const updatedInTextCitation = state.inTextCitation.filter(
-        (item) => item.data.id !== result
-      );
-      updatedInTextCitation.sort(
-        (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
-      );
-      updatedInTextCitation.forEach((item, index) => {
-        item.data.in_text_rank = index + 1;
-      });
+    set(() => {
       return {
         inTextCitationIds: data_after_remove,
         inTextCitation: updatedInTextCitation,
@@ -244,26 +262,35 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
     });
   },
   removeInDocCitationIds: async (result, document_id) => {
-    const data_after_remove = get().inDocCitationIds.filter(
-      (item) => item !== result
+    const currentState = get();
+    const updatedInDocCitationIds = currentState.inDocCitationIds.filter(
+      (id) => id !== result
     );
-    const intext_after_remove = get().inTextCitationIds.filter(
-      (item) => item !== result
+    const updatedInTextCitationIds = currentState.inTextCitationIds.filter(
+      (id) => id !== result
     );
+    const updatedInTextCitation = currentState.inTextCitation.filter(
+      (item) => item.data.id !== result
+    );
+    const updatedInDocCitation = currentState.inDocCitation.filter(
+      (item) => item.data.id !== result
+    );
+    updatedInTextCitation.sort(
+      (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
+    );
+    updatedInTextCitation.forEach((item, index) => {
+      item.data.in_text_rank = index + 1;
+    });
     await saveDoc({
       id: document_id,
-      citation_candidate_ids: data_after_remove,
-      citation_ids: intext_after_remove,
+      citation_candidate_ids: updatedInDocCitationIds,
+      citation_ids: updatedInTextCitationIds,
     });
-    set((state) => ({
-      inDocCitationIds: state.inDocCitationIds.filter((id) => id !== result),
-      inTextCitationIds: state.inTextCitationIds.filter((id) => id !== result),
-      inTextCitation: state.inTextCitation.filter(
-        (item) => item.data.id !== result
-      ),
-      inDocCitation: state.inDocCitation.filter(
-        (item) => item.data.id !== result
-      ),
-    }));
+    set({
+      inDocCitationIds: updatedInDocCitationIds,
+      inTextCitationIds: updatedInTextCitationIds,
+      inTextCitation: updatedInTextCitation,
+      inDocCitation: updatedInDocCitation,
+    });
   },
 });

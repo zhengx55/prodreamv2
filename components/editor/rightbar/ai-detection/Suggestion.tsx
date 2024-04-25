@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { findNodePos, findParagpraph } from '@/lib/tiptap/utils';
 import { batchHumanize } from '@/query/api';
 import { useMembershipInfo } from '@/query/query';
-import { IDetectionResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -13,12 +12,14 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { memo, useCallback, useState } from 'react';
-import { useLocalStorage } from 'react-use';
 
 const Unlock = dynamic(() => import('../Unlock'));
 
-type Props = { t: EditorDictType };
-const Suggestion = ({ t }: Props) => {
+type Props = {
+  t: EditorDictType;
+  highlight_sentences: [number[], number[], string][];
+};
+const Suggestion = ({ t, highlight_sentences }: Props) => {
   const [expanded, setExpanded] = useState(-1);
   const { id } = useParams();
   const { data: membership } = useMembershipInfo();
@@ -26,17 +27,14 @@ const Suggestion = ({ t }: Props) => {
   const [suggestion, setSuggestion] =
     useState<[number[], number[], string][]>();
   const editor = useAIEditor((state) => state.editor_instance);
-  const [detectionResult, _setDetectionResult, _remove] =
-    useLocalStorage<IDetectionResult>(`detection_report_${id}`);
+
   const { mutateAsync: humanize, isPending } = useMutation({
     mutationFn: (params: string[]) => batchHumanize(params),
     onSuccess: async (data) => {
       let resultWithSuggestion: [number[], number[], string][] = [];
-      resultWithSuggestion = detectionResult!.highlight_sentences.map(
-        (item, index) => {
-          return [item[0], item[1], data[index]];
-        }
-      );
+      resultWithSuggestion = highlight_sentences.map((item, index) => {
+        return [item[0], item[1], data[index]];
+      });
       setSuggestion(resultWithSuggestion);
       toggleExpand(resultWithSuggestion[0], 0);
     },
@@ -47,13 +45,11 @@ const Suggestion = ({ t }: Props) => {
   });
 
   const handleHumanize = useCallback(async () => {
-    const text_array = detectionResult?.highlight_sentences.map(
-      (item) => item[2]
-    );
+    const text_array = highlight_sentences.map((item) => item[2]);
     if (!text_array) return;
     await humanize(text_array);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [detectionResult?.highlight_sentences]);
+  }, [highlight_sentences]);
 
   const toggleExpand = (item: [number[], number[], string], index: number) => {
     setExpanded(index);
@@ -117,7 +113,9 @@ const Suggestion = ({ t }: Props) => {
     <div className='flex flex-1 flex-col'>
       {membership?.subscription === 'basic' ? (
         <Unlock text={'Unlock humanize suggestions with the Unlimited Plan'} />
-      ) : !suggestion || suggestion.length === 0 ? (
+      ) : highlight_sentences.length === 0 ? (
+        <FullHuman t={t} />
+      ) : !suggestion ? (
         isPending ? (
           <div className='flex-center flex-1'>
             <Loader2 className='animate-spin text-violet-500' size={24} />
@@ -169,6 +167,7 @@ const Suggestion = ({ t }: Props) => {
     </div>
   );
 };
+
 const Recheck = memo(
   ({ t, recheck }: { t: EditorDictType; recheck: () => void }) => {
     return (
@@ -198,6 +197,25 @@ const Recheck = memo(
     );
   }
 );
+
+const FullHuman = memo(({ t }: { t: EditorDictType }) => {
+  return (
+    <div className='flex flex-1 flex-col'>
+      <div className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
+        <Image
+          src='/editor/FullHuman.png'
+          alt='Upgrade check'
+          width={200}
+          height={200}
+          className='size-44 self-center'
+        />
+        <p className='text-center text-sm font-normal text-zinc-600'>
+          {t.Detection.full_human_title}
+        </p>
+      </div>
+    </div>
+  );
+});
 
 const Starter = memo(
   ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
@@ -229,7 +247,7 @@ const Starter = memo(
   }
 );
 Recheck.displayName = 'Recheck';
-
+FullHuman.displayName = 'FullHuman';
 Starter.displayName = 'Starter';
 
 interface SentenceItemProps {
