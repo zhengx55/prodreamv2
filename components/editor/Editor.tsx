@@ -4,6 +4,7 @@ import { useUserTrackInfo } from '@/query/query';
 import { DocPageDicType } from '@/types';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
+import { memo } from 'react';
 import ChatTrigger from './ChatTrigger';
 import Procedure from './guide/Procedure';
 import useEditorInstance from './hooks/useEditorInstance';
@@ -46,4 +47,4 @@ const Editor = ({
   );
 };
 
-export default Editor;
+export default memo(Editor);

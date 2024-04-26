@@ -21,17 +21,13 @@ const CitationPreview = ({ item }: Props) => {
         <p className='subtle-regular text-shadow-100'>
           Authors: {item.publication}
         </p>
-        {item.publish_date.year &&
-          (item.publish_date.month && item.publish_date.month ? (
-            <p className='subtle-regular text-shadow-100'>
-              Published Date: {item.publish_date.day} {item.publish_date.month}{' '}
-              {item.publish_date.year}
-            </p>
-          ) : (
-            <p className='subtle-regular text-shadow-100'>
-              Published: {item.publish_date.year}
-            </p>
-          ))}
+        {item.publish_date
+          ? item.publish_date.year && (
+              <p className='subtle-regular text-shadow-100'>
+                Published: {item.publish_date.year}
+              </p>
+            )
+          : null}
         {item.journal_title && (
           <p className='subtle-regular text-shadow-100'>
             {item.journal_title}{' '}

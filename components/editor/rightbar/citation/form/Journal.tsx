@@ -76,14 +76,7 @@ const JournalForm = ({
   }, []);
 
   const onSubmit = async (values: IJournalCitation) => {
-    if (type === 'create') {
-      await handleCreate({
-        document_id: id as string,
-        citation_type: 'Journal',
-        citation_data: values,
-      });
-      updateShowCreateCitation(false);
-    } else {
+    if (type === 'edit') {
       if (!data) return;
       await handleUpdate({
         citation_type: 'Journal',
@@ -98,6 +91,13 @@ const JournalForm = ({
         },
         id: data.id,
       });
+    } else {
+      await handleCreate({
+        document_id: id as string,
+        citation_type: 'Journal',
+        citation_data: values,
+      });
+      updateShowCreateCitation(false);
     }
   };
 
