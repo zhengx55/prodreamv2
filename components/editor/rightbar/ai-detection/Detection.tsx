@@ -11,15 +11,13 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { memo, useCallback, useState } from 'react';
-import { useLocalStorage } from 'react-use';
 import Title from '../Title';
 const Result = dynamic(() => import('./Result'));
 
 const Detection = ({ t }: { t: EditorDictType }) => {
   const [generating, setGenerating] = useState(false);
   const { id } = useParams();
-  const [detectionResult, setDetectionResult, remove] =
-    useLocalStorage<IDetectionResult>(`detection_report_${id}`);
+  const [detectionResult, setDetectionResult] = useState<IDetectionResult>();
 
   const editor = useAIEditor((state) => state.editor_instance);
   const { mutateAsync: detection } = useMutation({
@@ -40,7 +38,7 @@ const Detection = ({ t }: { t: EditorDictType }) => {
       }
     },
     onMutate: () => {
-      if (detectionResult) remove();
+      if (detectionResult) setDetectionResult(undefined);
       setGenerating(true);
     },
     onError: async () => {
