@@ -66,7 +66,7 @@ const Result = ({ result, t }: Props) => {
         />
       </div>
       <Spacer y='16' />
-      <p className='flex-center text-sm text-zinc-600'>
+      <div className='flex-center text-sm text-zinc-600'>
         <em
           style={{
             color: primaryColor[result_index],
@@ -86,7 +86,7 @@ const Result = ({ result, t }: Props) => {
             ?
           </span>
         </Tooltip>
-      </p>
+      </div>
       <Spacer y='8' />
       <p className='self-center text-xs font-normal leading-tight text-zinc-500'>
         Powered by GPTZero
@@ -110,72 +110,80 @@ const Result = ({ result, t }: Props) => {
       <Spacer y='24' />
       <Separator orientation='horizontal' className='bg-gray-200' />
       <Spacer y='24' />
-      <Suggestion highlight_sentences={result.highlight_sentences} t={t} />
+      <Suggestion
+        highlight_sentences={result.highlight_sentences}
+        human_percent={human_percent}
+        t={t}
+      />
       <Spacer y='20' />
     </m.div>
   );
 };
 
-const Bar = ({
-  human_percent,
-  mixed_percent,
-  ai_percent,
-}: {
-  human_percent: number;
-  mixed_percent: number;
-  ai_percent: number;
-}) => {
-  return (
-    <>
-      <div className='relative flex h-2.5 w-full shrink-0 bg-transparent'>
-        <span
-          className='absolute left-0 z-20 h-full rounded-l-3xl rounded-r-3xl bg-emerald-100'
-          style={{
-            width: `${human_percent + 1}%`,
-          }}
-        />
-        <span
-          className='absolute z-10 h-full rounded-r-3xl bg-violet-200'
-          style={{
-            width: `${mixed_percent + 1}%`,
-            left: `${human_percent - 1}%`,
-          }}
-        />
-        <span
-          className='absolute z-0 h-full rounded-r-3xl bg-orange-100'
-          style={{
-            width: `${ai_percent + 1}%`,
-            left: `${human_percent + mixed_percent - 1}%`,
-          }}
-        />
-      </div>
-      <Spacer y='10' />
-      <div className='flex w-full items-center justify-between'>
-        <div className='flex flex-col gap-y-0.5'>
-          <p className='text-sm font-medium leading-tight text-green-500'>
-            human
-          </p>
-          <p className='small-regular text-zinc-600'>
-            {human_percent.toFixed(0)}%
-          </p>
+const Bar = memo(
+  ({
+    human_percent,
+    mixed_percent,
+    ai_percent,
+  }: {
+    human_percent: number;
+    mixed_percent: number;
+    ai_percent: number;
+  }) => {
+    return (
+      <>
+        <div className='relative flex h-2.5 w-full shrink-0 bg-transparent'>
+          <span
+            className='absolute left-0 z-20 h-full rounded-l-3xl rounded-r-3xl bg-emerald-100'
+            style={{
+              width: `${human_percent + 1}%`,
+            }}
+          />
+          <span
+            className='absolute z-10 h-full rounded-r-3xl bg-violet-200'
+            style={{
+              width: `${mixed_percent + 1}%`,
+              left: `${human_percent - 1}%`,
+            }}
+          />
+          <span
+            className='absolute z-0 h-full rounded-r-3xl bg-orange-100'
+            style={{
+              width: `${ai_percent + 1}%`,
+              left: `${human_percent + mixed_percent - 1}%`,
+            }}
+          />
         </div>
-        <div className='flex flex-col gap-y-0.5'>
-          <p className='text-sm font-medium leading-tight text-indigo-500'>
-            mixec
-          </p>
-          <p className='small-regular text-zinc-600'>
-            {mixed_percent.toFixed(0)}%
-          </p>
+        <Spacer y='10' />
+        <div className='flex w-full items-center justify-between'>
+          <div className='flex flex-col gap-y-0.5'>
+            <p className='text-sm font-medium leading-tight text-green-500'>
+              human
+            </p>
+            <p className='small-regular text-zinc-600'>
+              {human_percent.toFixed(0)}%
+            </p>
+          </div>
+          <div className='flex flex-col gap-y-0.5'>
+            <p className='text-sm font-medium leading-tight text-indigo-500'>
+              mixed
+            </p>
+            <p className='small-regular text-zinc-600'>
+              {mixed_percent.toFixed(0)}%
+            </p>
+          </div>
+          <div className='flex flex-col gap-y-0.5'>
+            <p className='text-sm font-medium leading-tight text-amber-600'>
+              ai
+            </p>
+            <p className='small-regular text-zinc-600'>
+              {ai_percent.toFixed(0)}%
+            </p>
+          </div>
         </div>
-        <div className='flex flex-col gap-y-0.5'>
-          <p className='text-sm font-medium leading-tight text-amber-600'>ai</p>
-          <p className='small-regular text-zinc-600'>
-            {ai_percent.toFixed(0)}%
-          </p>
-        </div>
-      </div>
-    </>
-  );
-};
-
+      </>
+    );
+  }
+);
+Bar.displayName = 'Bar';
 export default memo(Result);

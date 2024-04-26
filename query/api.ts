@@ -619,7 +619,6 @@ export async function batchHumanize(texts: string[]) {
     if (data.code !== 0) {
       throw new Error(data.msg as string);
     }
-
     return data.data;
   } catch (error) {
     throw new Error(error as string);
