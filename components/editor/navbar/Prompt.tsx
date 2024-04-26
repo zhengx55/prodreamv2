@@ -67,7 +67,7 @@ const PromptView = ({ t, prompt }: { t: EditorDictType; prompt: string }) => {
   });
 
   const handleSubmit = async () => {
-    if (!content) {
+    if (!content && !prompt) {
       setShow(false);
       return;
     }

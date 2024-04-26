@@ -13,7 +13,7 @@ import type { NodeViewProps } from '@tiptap/react';
 import { useAnimationFrame } from 'framer-motion';
 import { Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useUnmount } from 'react-use';
 
 const CitationPreview = dynamic(
@@ -23,13 +23,15 @@ const CitationPreview = dynamic(
   }
 );
 const IntextContent = (props: NodeViewProps) => {
-  const {
-    citationStyle,
-    updateCurrentInline,
-    inTextCitation,
-    updateShowEditCitation,
-    removeInTextCitationIds,
-  } = useCitation((state) => ({ ...state }));
+  const citationStyle = useCitation((state) => state.citationStyle);
+  const updateCurrentInline = useCitation((state) => state.updateCurrentInline);
+  const inTextCitation = useCitation((state) => state.inTextCitation);
+  const updateShowEditCitation = useCitation(
+    (state) => state.updateShowEditCitation
+  );
+  const removeInTextCitationIds = useCitation(
+    (state) => state.removeInTextCitationIds
+  );
 
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const current_citation = useMemo(() => {
@@ -38,6 +40,7 @@ const IntextContent = (props: NodeViewProps) => {
     );
     return foundCitation ? foundCitation.data : null;
   }, [inTextCitation, props.node.attrs.citation_id]);
+
   const handleDeleteCitation = () => {
     props.deleteNode();
   };
@@ -80,6 +83,7 @@ const IntextContent = (props: NodeViewProps) => {
               <APAAuthors contributors={current_citation?.contributors ?? []} />
             )}
             {props.node.attrs.show_year &&
+              current_citation?.publish_date &&
               ` ${current_citation?.publish_date?.year}`}
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
@@ -93,6 +97,7 @@ const IntextContent = (props: NodeViewProps) => {
               <MLAAuhors contributors={current_citation?.contributors ?? []} />
             )}
             {props.node.attrs.show_year &&
+              current_citation?.publish_date &&
               ` ${current_citation?.publish_date?.year}`}
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
@@ -111,7 +116,7 @@ const IntextContent = (props: NodeViewProps) => {
                 contributors={current_citation?.contributors ?? []}
               />
             )}
-            {props.node.attrs.show_year && (
+            {props.node.attrs.show_year && current_citation?.publish_date && (
               <span>{` ${current_citation?.publish_date?.year}`}</span>
             )}
             {props.node.attrs.show_page &&
@@ -133,9 +138,11 @@ const IntextContent = (props: NodeViewProps) => {
           </DialogTrigger>
           <CitationPreview item={current_citation as any} />
         </Dialog>
-        <p className='subtle-regular text-neutral-400'>
-          Year: {current_citation?.publish_date?.year}
-        </p>
+        {current_citation?.publish_date && (
+          <p className='subtle-regular text-neutral-400'>
+            Year: {current_citation?.publish_date?.year}
+          </p>
+        )}
         {current_citation?.contributors.length ? (
           <p className='subtle-regular text-neutral-400'>
             Authors:&nbsp;
@@ -263,4 +270,4 @@ const ChicagoAuthors = ({
   }
 };
 
-export default IntextContent;
+export default memo(IntextContent);
