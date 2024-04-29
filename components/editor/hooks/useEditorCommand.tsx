@@ -3,6 +3,25 @@ import type { Editor, FocusPosition } from '@tiptap/react';
 import { useCallback } from 'react';
 
 export const useEditorCommand = (editor: Editor) => {
+  const setSelection = useCallback(
+    (from: number, to: number) => {
+      editor.chain().focus().setTextSelection({ from, to }).run();
+    },
+    [editor]
+  );
+
+  const replaceSelection = useCallback(
+    (from: number, to: number, value: string) => {
+      editor
+        ?.chain()
+        .focus()
+        .setTextSelection({ from, to })
+        .insertContent(value)
+        .run();
+    },
+    [editor]
+  );
+
   const deleteRange = useCallback(
     (from: number, to: number) => {
       editor.chain().focus().deleteRange({ from, to }).run();
@@ -186,5 +205,7 @@ export const useEditorCommand = (editor: Editor) => {
     clearAllHightLight,
     grammarCheckReplace,
     insertAtPostion,
+    setSelection,
+    replaceSelection,
   };
 };

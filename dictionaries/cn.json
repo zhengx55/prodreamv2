@@ -299,6 +299,7 @@
       "Button": "开始AI检测",
       "Classification": "分类",
       "probability": "概率由AI生成",
+      "mix-ai": "概率由AI和真人混合",
       "breakdown": "概率细分",
       "Unlock": "通过无限套餐解锁AI检测",
       "Humanizer": "反AI检测",
