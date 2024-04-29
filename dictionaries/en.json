@@ -297,6 +297,7 @@
       "Button": "Start AI Detection",
       "Classification": "Classification",
       "probability": "Probability Al generated",
+      "mix-ai": "Probability mix of AI and human",
       "breakdown": "Probability breakdown",
       "Unlock": "Unlock AI Detection with the Unlimited Plan",
       "Humanizer": "Humanizer",

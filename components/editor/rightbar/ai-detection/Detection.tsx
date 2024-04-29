@@ -9,15 +9,15 @@ import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
 import { memo, useCallback, useState } from 'react';
 import Title from '../Title';
 const Result = dynamic(() => import('./Result'));
 
 const Detection = ({ t }: { t: EditorDictType }) => {
   const [generating, setGenerating] = useState(false);
-  const { id } = useParams();
-  const [detectionResult, setDetectionResult] = useState<IDetectionResult>();
+  const [detectionResult, setDetectionResult] = useState<
+    IDetectionResult | undefined
+  >();
 
   const editor = useAIEditor((state) => state.editor_instance);
   const { mutateAsync: detection } = useMutation({

@@ -9,6 +9,7 @@ import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { memo, useState } from 'react';
 import { v4 } from 'uuid';
+import { useEditorCommand } from '../../hooks/useEditorCommand';
 
 type MostHumanParagraphProps = {
   text: string;
@@ -31,8 +32,9 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [paragraph, setParagraph] = useState<MostHumanParagraphProps[]>([]);
   const [suggestion, setSuggestion] = useState<MostHumanSuggestionsProps[]>([]);
-
+  const { setSelection, replaceSelection } = useEditorCommand(editor!);
   const toggleItem = (item: MostHumanSuggestionsProps) => {
+    setSelection(item.nodePos, item.nodePos + item.nodeSize);
     setSuggestion((prev) =>
       prev.map((suggestion) =>
         suggestion.id === item.id
@@ -43,16 +45,37 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
   };
 
   const handleClickParagraph = (item: MostHumanParagraphProps) => {
-    console.log(item);
-    editor
-      ?.chain()
-      .focus()
-      .setTextSelection({
-        from: item.nodePos,
-        to: item.nodePos + item.nodeSize,
-      })
-      .run();
+    setSelection(item.nodePos, item.nodePos + item.nodeSize);
   };
+
+  const { mutateAsync: handleHumanizeAll } = useMutation({
+    mutationFn: (params: MostHumanParagraphProps[]) =>
+      batchHumanize(params.map((item) => item.text)),
+    onMutate: () => {
+      setParagraph((prev) => prev.map((item) => ({ ...item, loading: true })));
+    },
+    onSuccess: (data, variables) => {
+      const suggestion_array: MostHumanSuggestionsProps[] = [];
+      data.map((item, index) => {
+        let suggestion_item: MostHumanSuggestionsProps = {
+          id: v4(),
+          result: item,
+          nodePos: variables[index].nodePos,
+          nodeSize: variables[index].nodeSize,
+          text: variables[index].text,
+          expand: false,
+        };
+        suggestion_array.push(suggestion_item);
+      });
+      setSuggestion(suggestion_array);
+      setParagraph([]);
+    },
+    onError: async (error) => {
+      setParagraph((prev) => prev.map((item) => ({ ...item, loading: false })));
+      const { toast } = await import('sonner');
+      toast.error(error.message);
+    },
+  });
 
   const { mutateAsync: handleHumanize } = useMutation({
     mutationFn: (params: MostHumanParagraphProps) =>
@@ -63,9 +86,6 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
           item.id === variables.id ? { ...item, loading: true } : item
         )
       );
-    },
-    onSettled: () => {
-      setParagraph((prev) => prev.map((item) => ({ ...item, loading: false })));
     },
     onSuccess: (data, variables) => {
       let suggestion_item: MostHumanSuggestionsProps = {
@@ -80,6 +100,7 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
       setParagraph((prev) => prev.filter((item) => item.id !== variables.id));
     },
     onError: async (error) => {
+      setParagraph((prev) => prev.map((item) => ({ ...item, loading: false })));
       const { toast } = await import('sonner');
       toast.error(error.message);
     },
@@ -88,12 +109,7 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
   const handleAccept = (item: MostHumanSuggestionsProps) => {
     const from = item.nodePos;
     const to = from + item.nodeSize;
-    editor
-      ?.chain()
-      .focus()
-      .setTextSelection({ from, to })
-      .insertContent(item.result)
-      .run();
+    replaceSelection(from, to, item.result);
     setSuggestion((prev) =>
       prev.filter((suggestion) => suggestion.id !== item.id)
     );
@@ -109,19 +125,16 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
     suggestion.map((item) => {
       const from = item.nodePos;
       const to = from + item.nodeSize;
-      editor
-        ?.chain()
-        .focus()
-        .setTextSelection({ from, to })
-        .insertContent(item.result)
-        .run();
+      replaceSelection(from, to, item.result);
     });
     setSuggestion([]);
   };
   const handleDismissAll = () => {
     setSuggestion([]);
   };
-  const humanizeAll = () => {};
+  const humanizeAll = async () => {
+    await handleHumanizeAll(paragraph);
+  };
 
   const handleSingleHumanize = async (item: MostHumanParagraphProps) => {
     await handleHumanize(item);
@@ -148,7 +161,18 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
 
   return (
     <div className='flex flex-1 flex-col'>
-      <p className='base-medium'>{t.Detection.Humanizer}</p>
+      <div className='flex-between'>
+        <p className='base-medium'>{t.Detection.Humanizer}</p>
+        {suggestion.length === 0 && paragraph.length !== 0 && (
+          <Button
+            variant={'ghost'}
+            onClick={humanizeAll}
+            className='size-max p-0'
+          >
+            Humanize all
+          </Button>
+        )}
+      </div>
       <Spacer y='14' />
       {paragraph.length === 0 && suggestion.length === 0 ? (
         <div className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-6'>
@@ -202,7 +226,7 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
                 return (
                   <div
                     key={suggestion.id}
-                    className='flex flex-col rounded border border-gray-200 p-4'
+                    className='flex cursor-pointer flex-col rounded border border-gray-200 p-4'
                     onClick={() => toggleItem(suggestion)}
                   >
                     <p
@@ -253,7 +277,7 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
               <div
                 className='flex w-full cursor-pointer flex-col gap-y-4 rounded border border-gray-200 p-4 hover:bg-stone-50'
                 key={item.id}
-                onClick={() => handleClickParagraph}
+                onClick={() => handleClickParagraph(item)}
               >
                 <p className='small-regular line-clamp-3 text-zinc-600'>
                   {item.text}

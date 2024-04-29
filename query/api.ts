@@ -598,7 +598,7 @@ export async function batchParaphrase(texts: string[]) {
   }
 }
 
-export async function batchHumanize(texts: string[]) {
+export async function batchHumanize(texts: string[]): Promise<string[]> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(
