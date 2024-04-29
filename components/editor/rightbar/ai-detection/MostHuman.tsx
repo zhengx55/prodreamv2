@@ -1,6 +1,7 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { findNodePos } from '@/lib/tiptap/utils';
 import { batchHumanize } from '@/query/api';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
@@ -13,8 +14,6 @@ import { useEditorCommand } from '../../hooks/useEditorCommand';
 
 type MostHumanParagraphProps = {
   text: string;
-  nodePos: number;
-  nodeSize: number;
   loading: boolean;
   id: string;
 };
@@ -22,8 +21,6 @@ type MostHumanParagraphProps = {
 type MostHumanSuggestionsProps = {
   text: string;
   id: string;
-  nodePos: number;
-  nodeSize: number;
   result: string;
   expand: boolean;
 };
@@ -34,7 +31,8 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
   const [suggestion, setSuggestion] = useState<MostHumanSuggestionsProps[]>([]);
   const { setSelection, replaceSelection } = useEditorCommand(editor!);
   const toggleItem = (item: MostHumanSuggestionsProps) => {
-    setSelection(item.nodePos, item.nodePos + item.nodeSize);
+    const { nodePos, nodeSize } = findNodePos(editor!, item.text);
+    setSelection(nodePos, nodePos + nodeSize);
     setSuggestion((prev) =>
       prev.map((suggestion) =>
         suggestion.id === item.id
@@ -45,7 +43,8 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
   };
 
   const handleClickParagraph = (item: MostHumanParagraphProps) => {
-    setSelection(item.nodePos, item.nodePos + item.nodeSize);
+    const { nodePos, nodeSize } = findNodePos(editor!, item.text);
+    setSelection(nodePos, nodePos + nodeSize);
   };
 
   const { mutateAsync: handleHumanizeAll } = useMutation({
@@ -60,8 +59,6 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
         let suggestion_item: MostHumanSuggestionsProps = {
           id: v4(),
           result: item,
-          nodePos: variables[index].nodePos,
-          nodeSize: variables[index].nodeSize,
           text: variables[index].text,
           expand: false,
         };
@@ -91,8 +88,6 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
       let suggestion_item: MostHumanSuggestionsProps = {
         id: variables.id,
         result: data[0],
-        nodePos: variables.nodePos,
-        nodeSize: variables.nodeSize,
         text: variables.text,
         expand: false,
       };
@@ -107,8 +102,9 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
   });
 
   const handleAccept = (item: MostHumanSuggestionsProps) => {
-    const from = item.nodePos;
-    const to = from + item.nodeSize;
+    const { nodePos, nodeSize } = findNodePos(editor!, item.text);
+    const from = nodePos;
+    const to = from + nodeSize;
     replaceSelection(from, to, item.result);
     setSuggestion((prev) =>
       prev.filter((suggestion) => suggestion.id !== item.id)
@@ -123,8 +119,9 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
 
   const handelAcceptAll = () => {
     suggestion.map((item) => {
-      const from = item.nodePos;
-      const to = from + item.nodeSize;
+      const { nodePos, nodeSize } = findNodePos(editor!, item.text);
+      const from = nodePos;
+      const to = from + nodeSize;
       replaceSelection(from, to, item.result);
     });
     setSuggestion([]);
@@ -149,8 +146,6 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
           {
             id: v4(),
             text: node.textContent,
-            nodePos: pos,
-            nodeSize: node.nodeSize,
             loading: false,
           },
         ];
