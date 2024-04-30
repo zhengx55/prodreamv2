@@ -9,6 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { memo, useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 import { v4 } from 'uuid';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 
@@ -25,7 +26,13 @@ type MostHumanSuggestionsProps = {
   expand: boolean;
 };
 
-const MostHuman = ({ t }: { t: EditorDictType }) => {
+const MostHuman = ({
+  t,
+  showRecheck,
+}: {
+  t: EditorDictType;
+  showRecheck: () => void;
+}) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [paragraph, setParagraph] = useState<MostHumanParagraphProps[]>([]);
   const [suggestion, setSuggestion] = useState<MostHumanSuggestionsProps[]>([]);
@@ -116,6 +123,10 @@ const MostHuman = ({ t }: { t: EditorDictType }) => {
       prev.filter((suggestion) => suggestion.id !== item.id)
     );
   };
+
+  useUpdateEffect(() => {
+    if (suggestion.length === 0) showRecheck();
+  }, [suggestion]);
 
   const handelAcceptAll = () => {
     suggestion.map((item) => {

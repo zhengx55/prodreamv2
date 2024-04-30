@@ -20,8 +20,14 @@ type Props = {
   t: EditorDictType;
   highlight_sentences: [number[], number[], string][];
   human_percent: number;
+  onRecheck: () => Promise<void>;
 };
-const Suggestion = ({ t, highlight_sentences, human_percent }: Props) => {
+const Suggestion = ({
+  t,
+  highlight_sentences,
+  human_percent,
+  onRecheck,
+}: Props) => {
   const [expanded, setExpanded] = useState(-1);
   const { data: membership } = useMembershipInfo();
   const [showRecheck, setShowRecheck] = useState(false);
@@ -80,11 +86,11 @@ const Suggestion = ({ t, highlight_sentences, human_percent }: Props) => {
         <Unlock text={'Unlock humanize suggestions with the Unlimited Plan'} />
       );
     }
-    if (highlight_sentences.length === 0) {
+    if (highlight_sentences.length === 0 && !showRecheck) {
       if (human_percent > 95) {
         return <FullHuman t={t} />;
       } else {
-        return <MostHuman t={t} />;
+        return <MostHuman showRecheck={memoShowRecheck} t={t} />;
       }
     }
     if (!suggestion) {
@@ -96,7 +102,7 @@ const Suggestion = ({ t, highlight_sentences, human_percent }: Props) => {
         );
       }
       if (showRecheck) {
-        return <Recheck t={t} recheck={handleHumanize} />;
+        return <Recheck t={t} recheck={onRecheck} />;
       }
       return <Starter t={t} start={handleHumanize} />;
     }
