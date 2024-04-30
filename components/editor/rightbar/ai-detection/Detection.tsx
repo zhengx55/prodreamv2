@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { getDetectionResult, pdfSummary } from '@/query/api';
+import { getDetectionResult } from '@/query/api';
 import { IDetectionResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
@@ -66,7 +66,7 @@ const Detection = ({ t }: { t: EditorDictType }) => {
 
   return (
     <>
-      <Title t={t} showRecheck={!!pdfSummary} recheck={startDetection} />
+      <Title t={t} showRecheck={!!detectionResult} recheck={startDetection} />
       <AnimatePresence mode='wait'>
         {detectionResult ? (
           <Result t={t} result={detectionResult} />
