@@ -31,8 +31,9 @@ const Suggestion = ({
   const [expanded, setExpanded] = useState(-1);
   const { data: membership } = useMembershipInfo();
   const [showRecheck, setShowRecheck] = useState(false);
-  const [suggestion, setSuggestion] =
-    useState<[number[], number[], string][]>();
+  const [suggestion, setSuggestion] = useState<[number[], number[], string][]>(
+    []
+  );
   const editor = useAIEditor((state) => state.editor_instance);
   const memoShowRecheck = useCallback(() => setShowRecheck(true), []);
   const memoSetSuggestion = useCallback(
@@ -93,7 +94,7 @@ const Suggestion = ({
         return <MostHuman showRecheck={memoShowRecheck} t={t} />;
       }
     }
-    if (!suggestion) {
+    if (suggestion?.length === 0) {
       if (isPending) {
         return (
           <div className='flex-center flex-1'>
@@ -192,7 +193,6 @@ const SuggestionsList = memo(
           .run();
       });
       setSuggestion([]);
-      setShowRecheck(true);
     };
 
     const handleDismiss = (indexToRemove: number) => {
@@ -201,7 +201,6 @@ const SuggestionsList = memo(
       const updatedHighlightSentences = suggestion?.filter(
         (_, index) => index !== indexToRemove
       );
-      if (updatedHighlightSentences?.length === 0) setShowRecheck(true);
       setSuggestion(updatedHighlightSentences);
     };
 
@@ -214,7 +213,6 @@ const SuggestionsList = memo(
       const updatedHighlightSentences = suggestion?.filter(
         (_, index) => index !== indexToRemove
       );
-      if (updatedHighlightSentences?.length === 0) setShowRecheck(true);
       setSuggestion(updatedHighlightSentences);
     };
 
@@ -231,7 +229,7 @@ const SuggestionsList = memo(
               role='button'
               variant={'ghost'}
               onClick={handleAcceptAll}
-              className='w-max px-0 text-violet-400 hover:text-violet-500'
+              className='w-max px-0 text-neutral-400 hover:text-violet-500'
             >
               {t.Utility.AcceptAll}
             </Button>
