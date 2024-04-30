@@ -51,10 +51,13 @@ type CitationAction = {
     result: CitationState['inDocCitation'],
     id_array: string[]
   ) => void;
-  appendInTextCitationIds: (result: {
-    type: ICitationType;
-    data: ICitationData;
-  }) => Promise<void>;
+  appendInTextCitationIds: (
+    result: {
+      type: ICitationType;
+      data: ICitationData;
+    },
+    shouldUpdated: boolean
+  ) => Promise<void>;
   appendInDocCitationIds: (result: {
     type: ICitationType;
     data: ICitationData;
@@ -176,7 +179,7 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
       inDocCitationIds: id_array,
     })),
 
-  appendInTextCitationIds: async (result) => {
+  appendInTextCitationIds: async (result, shouldUpdated) => {
     const {
       inTextCitationIds,
       inDocCitationIds,
@@ -217,11 +220,13 @@ export const useCitationStore: StateCreator<CitationStore> = (set, get) => ({
         citation_candidate_ids: updatedInDocCitationIds,
       });
     }
-    await updateCitation({
-      citation_type: result.type,
-      id: result.data.id,
-      data: result.data,
-    });
+    if (shouldUpdated)
+      await updateCitation({
+        citation_type: result.type,
+        id: result.data.id,
+        data: result.data,
+      });
+
     updatedInTextCitation.sort(
       (a, b) => (a.data.in_text_pos ?? 0) - (b.data.in_text_pos ?? 0)
     );
