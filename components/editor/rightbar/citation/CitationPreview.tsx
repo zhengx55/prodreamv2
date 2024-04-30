@@ -12,15 +12,33 @@ const CitationPreview = ({ item }: Props) => {
   return (
     <DialogContent className='flex bg-white sm:rounded md:w-[650px]'>
       <div className='flex flex-col gap-y-4'>
-        <h1 className='h3-semibold w-4/5'>{item.article_title}</h1>
-        <DialogClose>
-          <span className='flex-center absolute right-6 top-6 size-6 rounded-full bg-red-500'>
+        <h1 className='w-4/5 text-xl'>{item.article_title}</h1>
+        <DialogClose className='absolute right-6 top-6 '>
+          <span className='flex-center size-6 rounded-full bg-red-500'>
             <X className='text-white' size={18} />
           </span>
         </DialogClose>
-        <p className='subtle-regular text-shadow-100'>
-          Authors: {item.publication}
-        </p>
+        {item.publication && (
+          <p className='subtle-regular text-shadow-100'>
+            Authors: {item.publication}
+          </p>
+        )}
+        {item.contributors && (
+          <p className='subtle-regular text-shadow-100'>
+            Authors:{' '}
+            {item.contributors.map((author, idx) => {
+              return (
+                <span key={`author-${idx}`}>
+                  {author.last_name ?? ''}&nbsp;
+                  {author.middle_name ?? ''}
+                  {author.first_name ?? ''}
+                  {idx !== item.contributors.length - 1 && ', '}
+                </span>
+              );
+            })}
+          </p>
+        )}
+
         {item.publish_date
           ? item.publish_date.year && (
               <p className='subtle-regular text-shadow-100'>
@@ -44,6 +62,9 @@ const CitationPreview = ({ item }: Props) => {
         )}
         {item.snippet && (
           <p className='text-[14px] leading-relaxed'>{item.snippet}</p>
+        )}
+        {item.abstract && (
+          <p className='text-[14px] leading-relaxed'>{item.abstract}</p>
         )}
         <div className='flex-between w-full pr-4'>
           <div className='flex items-center gap-x-2'>
