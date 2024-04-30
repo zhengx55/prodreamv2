@@ -5,7 +5,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { GenerateOptions } from '@/constant';
 import { OutlineTooltip } from '@/constant/enum';
-import { useMembershipInfo } from '@/query/query';
+import { useButtonTrack, useMembershipInfo } from '@/query/query';
 import { EditorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { ChevronUp, FileText } from 'lucide-react';
@@ -97,6 +97,7 @@ export const Generate = ({ t }: { t: EditorDictType }) => {
 const Unlock = () => {
   const { data: usage } = useMembershipInfo();
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
+  const { mutateAsync: buttonTrack } = useButtonTrack();
 
   return (
     <div className='mt-auto flex flex-col gap-y-0.5'>
@@ -116,7 +117,10 @@ const Unlock = () => {
         {usage?.free_times_detail.Generate}/5 weekly generate credits left;
         <Button
           role='dialog'
-          onClick={() => {
+          onClick={async () => {
+            await buttonTrack({
+              event: 'open payment at generate',
+            });
             updatePaymentModal(true);
           }}
           variant={'ghost'}
