@@ -161,7 +161,10 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
             {usage?.free_times_detail.Grammar}/100 weekly Grammar Checks left;
             <Button
               role='dialog'
-              onClick={() => {
+              onClick={async () => {
+                await ButtonTrack({
+                  event: 'open payment at grammar check',
+                });
                 updatePaymentModal(true);
               }}
               variant={'ghost'}

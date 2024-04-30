@@ -1,6 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { useMembershipInfo } from '@/query/query';
+import { useButtonTrack, useMembershipInfo } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { Download } from 'lucide-react';
@@ -12,6 +12,7 @@ type Props = { t: EditorDictType; report: PdfResult };
 const ReportPDF = ({ t, report }: Props) => {
   const { data: membership } = useMembershipInfo();
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
+  const { mutateAsync: buttonTrack } = useButtonTrack();
 
   return (
     <div className='flex flex-col'>
@@ -53,7 +54,12 @@ const ReportPDF = ({ t, report }: Props) => {
               role='button'
               className='rounded-lg'
               variant={'outline'}
-              onClick={() => updatePaymentModal(true)}
+              onClick={async () => {
+                await buttonTrack({
+                  event: 'open payment at plagiarism report',
+                });
+                updatePaymentModal(true);
+              }}
             >
               Unlock full report
             </Button>

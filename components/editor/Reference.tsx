@@ -1,4 +1,8 @@
-import { useGetReference, useMembershipInfo } from '@/query/query';
+import {
+  useButtonTrack,
+  useGetReference,
+  useMembershipInfo,
+} from '@/query/query';
 import { ReferenceType } from '@/query/type';
 import useAIEditor, { useCitation } from '@/zustand/store';
 import { Loader2 } from 'lucide-react';
@@ -18,6 +22,7 @@ const Reference = () => {
   const citationStyle = useCitation((state) => state.citationStyle);
   const inTextCitation = useCitation((state) => state.inTextCitation);
   const updateCitationStyle = useCitation((state) => state.updateCitationStyle);
+  const { mutateAsync: buttonTrack } = useButtonTrack();
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { data: usage } = useMembershipInfo();
   const referenceListRef = useRef<HTMLOListElement>(null);
@@ -72,7 +77,12 @@ const Reference = () => {
                 role='button'
                 variant={'ghost'}
                 className='subtle-regular h-max px-0 py-0'
-                onClick={() => updatePaymentModal(true)}
+                onClick={async () => {
+                  await buttonTrack({
+                    event: 'open payment at reference list',
+                  });
+                  updatePaymentModal(true);
+                }}
               >
                 Go unlimited
               </Button>

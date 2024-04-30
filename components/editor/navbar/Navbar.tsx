@@ -1,6 +1,10 @@
 import { Cloud, Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
-import { useMembershipInfo, useUserTrackInfo } from '@/query/query';
+import {
+  useButtonTrack,
+  useMembershipInfo,
+  useUserTrackInfo,
+} from '@/query/query';
 import { DocPageDicType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { ChevronLeft, Loader } from 'lucide-react';
@@ -16,6 +20,7 @@ type Props = {} & DocPageDicType;
 const DocNavbar = ({ t, lang }: Props) => {
   const isSaving = useAIEditor((state) => state.isSaving);
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
+  const { mutateAsync: buttonTrack } = useButtonTrack();
   const docTtile = useAIEditor((state) => state.doc_title);
   const prompt = useAIEditor((state) => state.essay_prompt);
   const { data: track } = useUserTrackInfo();
@@ -45,7 +50,12 @@ const DocNavbar = ({ t, lang }: Props) => {
         {['basic', 'free_trail'].includes(usage?.subscription ?? '') ? (
           <Button
             role='button'
-            onClick={() => updatePaymentModal(true)}
+            onClick={async () => {
+              await buttonTrack({
+                event: 'open payment at editor navbar',
+              });
+              updatePaymentModal(true);
+            }}
             className='h-max rounded px-2 py-1'
           >
             <Diamond /> {t.Utility.Upgrade}
