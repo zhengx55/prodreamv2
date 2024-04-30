@@ -224,10 +224,13 @@ export const useCiteToDoc = () => {
     onSuccess: async (data) => {
       const { selection } = editor!.state;
       const { from, to, anchor } = selection;
-      await appendInTextCitationIds({
-        type: 'Journal',
-        data,
-      });
+      await appendInTextCitationIds(
+        {
+          type: 'Journal',
+          data,
+        },
+        false
+      );
 
       insertCitation(data.id, anchor, from, to);
       const toast = (await import('sonner')).toast;
