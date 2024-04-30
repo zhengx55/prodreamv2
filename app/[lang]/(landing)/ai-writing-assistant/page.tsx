@@ -28,7 +28,6 @@ export default async function Page({
                 alt='gardient-bg'
                 className='absolute top-10'
                 fill
-                loading='eager'
                 src='/landing/heros/Mask_group.png'
               />
             </div>
@@ -38,7 +37,7 @@ export default async function Page({
                   AI Assistant Tailored for Academic Writing
                 </h1>
                 <Spacer y='64' />
-                <p className='text-xl text-neutral-500'>
+                <p className='text-xl leading-loose text-neutral-500'>
                   Enhance your paper with our advanced AI writing assistant!
                   Benefit from AI Editing and Paraphrasing for faster, superior
                   writing, with real-time improvements in academic language,
@@ -55,7 +54,7 @@ export default async function Page({
               <Image
                 alt='ai_assistant'
                 src='/landing/ai_editing/hero.png'
-                width={500}
+                width={600}
                 height={700}
                 className='h-auto w-[500px]'
                 priority
