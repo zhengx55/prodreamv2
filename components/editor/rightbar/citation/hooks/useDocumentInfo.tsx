@@ -14,7 +14,6 @@ export const useDocumentInfo = (id: string) => {
   const [essayContent, setEssayContent] = useState<IDocDetail>();
   const [loading, setLoading] = useState<boolean>(false); // Added loading state
   const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     async function fetchDocument(id: string) {
       setLoading(true); // Start loading
@@ -27,6 +26,7 @@ export const useDocumentInfo = (id: string) => {
           title,
           brief_description,
         } = data;
+
         updateTitle(title);
         updateEssayPrompt(brief_description ?? '');
         if (in_text_citations.length > 0) {

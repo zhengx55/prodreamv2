@@ -41,7 +41,6 @@ const CitationMenu = ({ editor }: Props) => {
       editor.chain().unsetHighlight().run();
     };
   }, [editor]);
-
   const { data: ciationResult, isPending } = useQuery({
     queryFn: ({ signal }) => searchCitation(text, signal),
     queryKey: ['search-citation-indoc', text],
