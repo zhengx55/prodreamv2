@@ -96,6 +96,15 @@ export interface ICitation {
   advanced_info: AdvancedInfo;
   area: null;
   article_title: string;
+  contributors: [
+    {
+      first_name: string;
+      last_name: string;
+      middle_name: string;
+      role: string;
+      suffix: string;
+    },
+  ];
   authors: Author[];
   bibtex: null;
   citation_count: number;

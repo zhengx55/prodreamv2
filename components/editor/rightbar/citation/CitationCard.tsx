@@ -223,7 +223,7 @@ export const MineCitationCard = memo(
     };
     return (
       <div className='mb-5 flex flex-col gap-y-2.5 p-2.5'>
-        {/* {!item.data.manual_create ? (
+        {!item.data.manual_create ? (
           <Dialog>
             <DialogTrigger asChild>
               <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-violet-500'>
@@ -232,13 +232,13 @@ export const MineCitationCard = memo(
             </DialogTrigger>
             <CitationPreview item={item.data as any} />
           </Dialog>
-        ) : ( */}
-        <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-violet-500'>
-          {item.data.article_title
-            ? item.data.article_title
-            : item.data.book_title}
-        </h1>
-        {/* )} */}
+        ) : (
+          <h1 className='base-semibold line-clamp-2 cursor-pointer hover:text-violet-500'>
+            {item.data.article_title
+              ? item.data.article_title
+              : item.data.book_title}
+          </h1>
+        )}
         {item.data.contributors?.length > 0 && (
           <p className='subtle-regular line-clamp-2 text-shadow-100'>
             Authors:{' '}
