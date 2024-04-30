@@ -16,9 +16,10 @@ const secondaryColor = ['#D5F9D8', '#F2F4FF', '#FFEACC'];
 
 type Props = {
   result: IDetectionResult;
+  recheck: () => Promise<void>;
   t: EditorDictType;
 };
-const Result = ({ result, t }: Props) => {
+const Result = ({ result, t, recheck }: Props) => {
   const ai_percent = result.class_probabilities.ai * 100;
   const human_percent = result.class_probabilities.human * 100;
   const mixed_percent = result.class_probabilities.mixed * 100;
@@ -113,7 +114,6 @@ const Result = ({ result, t }: Props) => {
         The probability this text has been entirely written by a human, AI or a
         mix of the two.
       </p>
-
       <Spacer y='16' />
       <Bar
         human_percent={human_percent}
@@ -124,6 +124,7 @@ const Result = ({ result, t }: Props) => {
       <Separator orientation='horizontal' className='bg-gray-200' />
       <Spacer y='24' />
       <Suggestion
+        onRecheck={recheck}
         highlight_sentences={result.highlight_sentences}
         human_percent={human_percent}
         t={t}
