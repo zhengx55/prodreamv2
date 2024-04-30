@@ -214,14 +214,14 @@ const MostHuman = ({
                   <Button
                     variant={'ghost'}
                     onClick={handelAcceptAll}
-                    className='size-max p-0'
+                    className='size-max p-0 text-neutral-400'
                   >
                     {t.Utility.AcceptAll}
                   </Button>
                   <Button
                     onClick={handleDismissAll}
                     variant={'ghost'}
-                    className='size-max p-0'
+                    className='size-max p-0 text-neutral-400'
                   >
                     {t.Utility.DismissAll}
                   </Button>
@@ -271,7 +271,10 @@ const MostHuman = ({
               {paragraph.length > 0 && (
                 <div className='flex-between mt-4'>
                   <p className='base-medium'>Remaining Paragraphs</p>
-                  <Button variant={'ghost'} className='size-max p-0'>
+                  <Button
+                    variant={'ghost'}
+                    className='size-max p-0 text-neutral-400'
+                  >
                     Humanize all
                   </Button>
                 </div>
