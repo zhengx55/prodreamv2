@@ -12,6 +12,9 @@ const PageViewTrack = ({ no_route_event }: { no_route_event?: string }) => {
   const firstCallDone = useRef(false);
 
   useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
     const getPageName = () => {
       if (no_route_event) return no_route_event;
 

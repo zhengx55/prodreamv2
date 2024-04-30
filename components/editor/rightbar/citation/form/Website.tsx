@@ -79,6 +79,7 @@ const WebsiteForm = ({
         },
         id: data.id,
       });
+      updateShowEditCitation(false);
     } else {
       await handleCreate({
         document_id: id as string,
