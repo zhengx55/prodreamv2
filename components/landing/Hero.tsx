@@ -20,14 +20,14 @@ const Hero = ({
           alt='gardient-bg'
           priority
           className='absolute top-10 h-[80%] w-full'
-          width={10}
-          height={10}
+          width={1000}
+          height={500}
           loading='eager'
           src='/landing/heros/Mask_group.png'
         />
       </div>
       <CaptureProvider event='ScreenI'>
-        <div className='sm:flex-center flex h-full w-full flex-col py-10 sm:w-[1200px] sm:flex-col sm:py-20'>
+        <div className='sm:flex-center flex h-full w-full flex-col py-10 sm:w-[1200px] sm:py-20'>
           {lang === 'en' ? (
             <TypeTitle t={t} />
           ) : (
