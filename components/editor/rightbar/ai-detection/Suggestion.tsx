@@ -11,6 +11,7 @@ import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
+
 const Unlock = dynamic(() => import('./Unlock'));
 const Recheck = dynamic(() => import('./Recheck'));
 const FullHuman = dynamic(() => import('./FullHuman'));

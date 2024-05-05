@@ -46,6 +46,7 @@ const CitationPreview = ({ item }: Props) => {
               </p>
             )
           : null}
+
         {item.journal_title && (
           <p className='subtle-regular text-shadow-100'>
             {item.journal_title}{' '}
@@ -60,12 +61,11 @@ const CitationPreview = ({ item }: Props) => {
             )}
           </p>
         )}
-        {item.snippet && (
+        {item.snippet ? (
           <p className='text-[14px] leading-relaxed'>{item.snippet}</p>
-        )}
-        {item.abstract && (
+        ) : item.abstract ? (
           <p className='text-[14px] leading-relaxed'>{item.abstract}</p>
-        )}
+        ) : null}
         <div className='flex-between w-full pr-4'>
           <div className='flex items-center gap-x-2'>
             {item.pdf_url && (
