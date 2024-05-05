@@ -1,12 +1,11 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { useButtonTrack, useMembershipInfo } from '@/query/query';
-import { EditorDictType } from '@/types';
+import { EditorDictType, PdfResult } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { Download } from 'lucide-react';
 import { Route } from 'next';
 import { memo } from 'react';
-import { PdfResult } from './Plagiarism';
 
 type Props = { t: EditorDictType; report: PdfResult };
 const ReportPDF = ({ t, report }: Props) => {

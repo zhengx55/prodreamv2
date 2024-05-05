@@ -1,3 +1,4 @@
+import { PdfResult } from '@/types';
 import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
@@ -22,6 +23,10 @@ const initialState: AIEditorState = {
   floatingMenuPos: null,
   essay_prompt: '',
   showPromptModal: false,
+  plagiarismResult: undefined,
+  plagiarismLoading: false,
+  plagiarismProgress: 0,
+  plagiarismTimer: null,
 };
 
 type AIEditorState = {
@@ -43,6 +48,10 @@ type AIEditorState = {
   floatingMenuPos: { top: number; left: number } | null;
   essay_prompt: string;
   showPromptModal: boolean;
+  plagiarismResult: PdfResult | undefined;
+  plagiarismLoading: boolean;
+  plagiarismProgress: number;
+  plagiarismTimer: NodeJS.Timeout | null;
 };
 
 type AIEditorAction = {
@@ -66,6 +75,12 @@ type AIEditorAction = {
   updateShowBubbleMenu: (result: AIEditorState['showBubbleMenu']) => void;
   updateEssayPrompt: (result: AIEditorState['essay_prompt']) => void;
   updatePromptModal: (result: boolean) => void;
+  updatePlagiarismResult: (result: PdfResult | undefined) => void;
+  updatePlagiarismLoading: (result: boolean) => void;
+  updatePlagiarismProgress: (result: number) => void;
+  incrementPlagiarismProgress: (result: number) => void;
+  startPlagiarismTimer: (result: NodeJS.Timeout) => void;
+  stopPlagiarismTimer: () => void;
 };
 
 export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
@@ -153,5 +168,27 @@ export const useAIEditorStore: StateCreator<AIEditiorStore> = (set, get) => ({
     set(() => ({
       showPromptModal: result,
     }));
+  },
+  updatePlagiarismResult: (result) => {
+    set({ plagiarismResult: result });
+  },
+  updatePlagiarismLoading: (result) => {
+    set({ plagiarismLoading: result });
+  },
+  updatePlagiarismProgress: (result) => {
+    set({ plagiarismProgress: result });
+  },
+  incrementPlagiarismProgress: (result) => {
+    set((state) => {
+      if (state.plagiarismProgress === 100) return state;
+      return { plagiarismProgress: state.plagiarismProgress + result };
+    });
+  },
+  startPlagiarismTimer: (result) => {
+    set({ plagiarismTimer: result });
+  },
+  stopPlagiarismTimer: () => {
+    clearInterval(get().plagiarismTimer!);
+    set({ plagiarismTimer: null });
   },
 });
