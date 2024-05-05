@@ -17,6 +17,8 @@ export default function useEditorInstance(essay_content: string | undefined) {
   const toogleIsSaving = useAIEditor((state) => state.toogleIsSaving);
   const disableContinue = useAIEditor((state) => state.disableContinue);
   const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
+  const stopPlagiarismTimer = useAIEditor((state) => state.stopPlagiarismTimer);
+
   const [showBottomBar, setShowBottomBar] = useState(true);
   const onWindowResize = useWindowResize();
   const { id }: { id: string } = useParams();
@@ -138,6 +140,7 @@ export default function useEditorInstance(essay_content: string | undefined) {
       debouncedUpdateText(title ?? '', html);
     },
     onDestroy: () => {
+      stopPlagiarismTimer();
       reset();
     },
   });

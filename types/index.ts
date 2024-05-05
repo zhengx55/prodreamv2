@@ -268,3 +268,11 @@ export type AIResearchMessageRef = {
   position: string;
   snippet: string;
 };
+
+export type PdfResult = {
+  prob: number;
+  link: string;
+  score: string;
+  results: string;
+  total_words: string;
+};

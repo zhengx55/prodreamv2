@@ -8,7 +8,7 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { useUpdateEffect } from 'react-use';
 import { v4 } from 'uuid';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
@@ -37,14 +37,15 @@ const MostHuman = ({
   const [paragraph, setParagraph] = useState<MostHumanParagraphProps[]>([]);
   const [suggestion, setSuggestion] = useState<MostHumanSuggestionsProps[]>([]);
   const { setSelection, replaceSelection } = useEditorCommand(editor!);
+
   const toggleItem = (item: MostHumanSuggestionsProps) => {
     const { nodePos, nodeSize } = findNodePos(editor!, item.text);
     setSelection(nodePos, nodePos + nodeSize);
     setSuggestion((prev) =>
       prev.map((suggestion) =>
         suggestion.id === item.id
-          ? { ...suggestion, expand: !suggestion.expand }
-          : suggestion
+          ? { ...suggestion, expand: true }
+          : { ...suggestion, expand: false }
       )
     );
   };
@@ -52,6 +53,10 @@ const MostHuman = ({
   const handleClickParagraph = (item: MostHumanParagraphProps) => {
     const { nodePos, nodeSize } = findNodePos(editor!, item.text);
     setSelection(nodePos, nodePos + nodeSize);
+    suggestion.length > 0 &&
+      setSuggestion((prev) =>
+        prev.map((suggestion) => ({ ...suggestion, expand: false }))
+      );
   };
 
   const { mutateAsync: handleHumanizeAll } = useMutation({
@@ -128,7 +133,7 @@ const MostHuman = ({
     if (suggestion.length === 0) showRecheck();
   }, [suggestion]);
 
-  const handelAcceptAll = () => {
+  const handelAcceptAll = useCallback(() => {
     suggestion.map((item) => {
       const { nodePos, nodeSize } = findNodePos(editor!, item.text);
       const from = nodePos;
@@ -136,19 +141,23 @@ const MostHuman = ({
       replaceSelection(from, to, item.result);
     });
     setSuggestion([]);
-  };
-  const handleDismissAll = () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor, suggestion]);
+
+  const handleDismissAll = useCallback(() => {
     setSuggestion([]);
-  };
-  const humanizeAll = async () => {
+  }, []);
+
+  const humanizeAll = useCallback(async () => {
     await handleHumanizeAll(paragraph);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paragraph]);
 
   const handleSingleHumanize = async (item: MostHumanParagraphProps) => {
     await handleHumanize(item);
   };
 
-  const handleParagraph = () => {
+  const handleParagraph = useCallback(() => {
     let array: MostHumanParagraphProps[] = [];
     editor?.state.doc.descendants((node, pos) => {
       if (node.type.name === 'paragraph') {
@@ -163,7 +172,7 @@ const MostHuman = ({
       }
     });
     setParagraph(array);
-  };
+  }, [editor]);
 
   return (
     <div className='flex flex-1 flex-col'>
@@ -181,52 +190,17 @@ const MostHuman = ({
       </div>
       <Spacer y='14' />
       {paragraph.length === 0 && suggestion.length === 0 ? (
-        <div className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-6'>
-          <p className='text-center text-sm font-medium text-violet-500'>
-            {t.Detection.most_human_title}
-          </p>
-          <Image
-            src='/editor/MostHuman.png'
-            alt='Upgrade check'
-            width={200}
-            height={200}
-            className='size-44 self-center'
-          />
-          <Separator orientation='horizontal' className='bg-gray-200' />
-          <p className='text-center text-sm font-normal text-zinc-600'>
-            {t.Detection.most_human_instruction}
-          </p>
-          <Button
-            onClick={handleParagraph}
-            className='base-regular size-max self-center rounded-lg px-8'
-            role='button'
-          >
-            {t.Detection.humanize_button}
-          </Button>
-        </div>
+        <ParagraphStarter t={t} handleParagraph={handleParagraph} />
       ) : (
         <div className='flex flex-col gap-2'>
           {suggestion.length > 0 && (
             <>
-              <div className='flex-between'>
-                <p className='base-medium'>{suggestion.length} Suggestions</p>
-                <div className='flex gap-x-2'>
-                  <Button
-                    variant={'ghost'}
-                    onClick={handelAcceptAll}
-                    className='size-max p-0 text-neutral-400'
-                  >
-                    {t.Utility.AcceptAll}
-                  </Button>
-                  <Button
-                    onClick={handleDismissAll}
-                    variant={'ghost'}
-                    className='size-max p-0 text-neutral-400'
-                  >
-                    {t.Utility.DismissAll}
-                  </Button>
-                </div>
-              </div>
+              <Header
+                t={t}
+                suggestion={suggestion}
+                handleAcceptAll={handelAcceptAll}
+                handleDismissAll={handleDismissAll}
+              />
               {suggestion.map((suggestion) => {
                 const isExpand = suggestion.expand;
                 return (
@@ -269,15 +243,7 @@ const MostHuman = ({
                 );
               })}
               {paragraph.length > 0 && (
-                <div className='flex-between mt-4'>
-                  <p className='base-medium'>Remaining Paragraphs</p>
-                  <Button
-                    variant={'ghost'}
-                    className='size-max p-0 text-neutral-400'
-                  >
-                    Humanize all
-                  </Button>
-                </div>
+                <RemainingHeader t={t} handler={humanizeAll} />
               )}
             </>
           )}
@@ -316,3 +282,96 @@ const MostHuman = ({
 };
 
 export default memo(MostHuman);
+
+const ParagraphStarter = memo(
+  ({
+    t,
+    handleParagraph,
+  }: {
+    t: EditorDictType;
+    handleParagraph: () => void;
+  }) => {
+    return (
+      <div className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-6'>
+        <p className='text-center text-sm font-medium text-violet-500'>
+          {t.Detection.most_human_title}
+        </p>
+        <Image
+          src='/editor/MostHuman.png'
+          alt='Humanizer'
+          width={200}
+          height={200}
+          className='size-44 self-center'
+        />
+        <Separator orientation='horizontal' className='bg-gray-200' />
+        <p className='text-center text-sm font-normal text-zinc-600'>
+          {t.Detection.most_human_instruction}
+        </p>
+        <Button
+          onClick={handleParagraph}
+          className='base-regular size-max self-center rounded-lg px-8'
+          role='button'
+        >
+          {t.Detection.humanize_button}
+        </Button>
+      </div>
+    );
+  }
+);
+
+const Header = memo(
+  ({
+    t,
+    suggestion,
+    handleAcceptAll,
+    handleDismissAll,
+  }: {
+    t: EditorDictType;
+    suggestion: any;
+    handleAcceptAll: () => void;
+    handleDismissAll: () => void;
+  }) => {
+    return (
+      <div className='flex-between'>
+        <p className='base-medium'>{suggestion.length} Suggestions</p>
+        <div className='flex gap-x-2'>
+          <Button
+            variant={'ghost'}
+            onClick={handleAcceptAll}
+            className='size-max p-0 text-neutral-400'
+          >
+            {t.Utility.AcceptAll}
+          </Button>
+          <Button
+            onClick={handleDismissAll}
+            variant={'ghost'}
+            className='size-max p-0 text-neutral-400'
+          >
+            {t.Utility.DismissAll}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+);
+
+const RemainingHeader = memo(
+  ({ t, handler }: { t: EditorDictType; handler: () => void }) => {
+    return (
+      <div className='flex-between mt-4'>
+        <p className='base-medium'>Remaining Paragraphs</p>
+        <Button
+          variant={'ghost'}
+          onClick={handler}
+          className='size-max p-0 text-neutral-400'
+        >
+          Humanize all
+        </Button>
+      </div>
+    );
+  }
+);
+
+ParagraphStarter.displayName = 'ParagraphStarter';
+Header.displayName = 'Header';
+RemainingHeader.displayName = 'RemainingHeader';

@@ -1,15 +1,16 @@
 import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
-import { EditorDictType } from '@/types';
+import { EditorDictType, PdfResult } from '@/types';
+import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import Chart from './Chart';
-import { PdfResult } from './Plagiarism';
 
 const ReportPDF = dynamic(() => import('./ReportPDF'));
 
 const Report = ({ report, t }: { report: PdfResult; t: EditorDictType }) => {
+  const plagiarismResult = useAIEditor((state) => state.plagiarismResult);
   return (
     <m.div
       key={'plagiarism-panel'}
@@ -20,7 +21,7 @@ const Report = ({ report, t }: { report: PdfResult; t: EditorDictType }) => {
       className='flex flex-1 flex-col overflow-y-auto'
     >
       <Spacer y='32' />
-      <Chart score={report.prob * 100} t={t} />
+      <Chart score={plagiarismResult!.prob * 100} t={t} />
       <Spacer y='32' />
       <Separator className='bg-gray-200' orientation='horizontal' />
       <Spacer y='32' />
