@@ -50,7 +50,17 @@ const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
       </div>
       <ul className='flex flex-col gap-y-2'>
         {FeedbackOptions.map((options, index) => {
-          return (
+          return index === 1 ? (
+            <li
+              role='link'
+              key={`feedback-${index}`}
+              className='w-full cursor-pointer rounded border border-stone-300 px-4 py-2.5 text-zinc-600 hover:bg-violet-50 hover:shadow-md'
+            >
+              <Link href={'https://tally.so/r/mJ2WJR'} target='_blanck'>
+                {options}
+              </Link>
+            </li>
+          ) : (
             <li
               role='button'
               onClick={() => handler(index)}
@@ -237,6 +247,7 @@ const Attachments = memo(
               src={imagePreview}
               className='rounded object-contain'
               fill
+              sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
             />
           </div>
         ) : (
