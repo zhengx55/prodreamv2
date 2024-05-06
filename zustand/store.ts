@@ -2,17 +2,24 @@ import { create, useStore } from 'zustand';
 import { AIEditiorStore, useAIEditorStore } from './slice/ai-editor';
 import { ChatBotStore, chatbotSlice } from './slice/chatbot';
 import { CitationStore, useCitationStore } from './slice/citation';
+import { ModalStore, useModalStore } from './slice/modal';
 import useUserStore, { UserStore } from './slice/user-info';
 import { UserTaskStore, useUserTaskStore } from './slice/user-task';
 
-const useRootStore = create<
-  AIEditiorStore & ChatBotStore & UserStore & UserTaskStore & CitationStore
->((...a) => ({
+type AppStore = AIEditiorStore &
+  ChatBotStore &
+  UserStore &
+  UserTaskStore &
+  CitationStore &
+  ModalStore;
+
+const useRootStore = create<AppStore>((...a) => ({
   ...useAIEditorStore(...a),
   ...useUserStore(...a),
   ...useUserTaskStore(...a),
   ...useCitationStore(...a),
   ...chatbotSlice(...a),
+  ...useModalStore(...a),
 }));
 
 export function useAIEditor<T>(selector?: (state: AIEditiorStore) => T) {
@@ -32,6 +39,10 @@ export function useCitation<T>(selector?: (state: CitationStore) => T) {
 }
 
 export function useChatbot<T>(selector?: (state: ChatBotStore) => T) {
+  return useStore(useRootStore, selector!);
+}
+
+export function useModal<Tab>(selector?: (state: ModalStore) => Tab) {
   return useStore(useRootStore, selector!);
 }
 
