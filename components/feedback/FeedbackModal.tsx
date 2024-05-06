@@ -3,11 +3,13 @@ import { FeedbackOptions } from '@/constant';
 import { feedbackAttachments, submitFeedback } from '@/query/api';
 import { useModal } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
+import { AnimatePresence, m } from 'framer-motion';
 import { ChevronLeft, Copy, Loader2, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo, useCallback, useRef, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
+import LazyMotionProvider from '../root/LazyMotionProvider';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
@@ -27,11 +29,15 @@ const FeedbackModal = () => {
         }}
         className='p-4 md:w-[544px] md:rounded-md'
       >
-        {option === -1 ? (
-          <Menu handler={memoUpdateOption} />
-        ) : (
-          <Submit option={option} handler={memoUpdateOption} />
-        )}
+        <LazyMotionProvider>
+          <AnimatePresence mode='wait'>
+            {option === -1 ? (
+              <Menu handler={memoUpdateOption} />
+            ) : (
+              <Submit option={option} handler={memoUpdateOption} />
+            )}
+          </AnimatePresence>
+        </LazyMotionProvider>
       </DialogContent>
     </Dialog>
   );
@@ -39,7 +45,13 @@ const FeedbackModal = () => {
 
 const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
   return (
-    <div className='flex flex-col gap-y-6'>
+    <m.div
+      key={'feedback-menu'}
+      initial={{ opacity: 0, x: 10 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -10 }}
+      className='flex flex-col gap-y-6'
+    >
       <div className='flex-between'>
         <h1 className='text-xl font-medium text-zinc-700'>
           Choose your support category
@@ -72,7 +84,7 @@ const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
           );
         })}
       </ul>
-    </div>
+    </m.div>
   );
 });
 
@@ -118,7 +130,13 @@ const Submit = memo(
       // send info
     };
     return (
-      <div className='flex flex-col gap-y-6'>
+      <m.div
+        key={'feedback-submit'}
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: 10 }}
+        className='flex flex-col gap-y-6'
+      >
         <div className='flex-between'>
           <div className='flex gap-x-2'>
             <Button
@@ -185,7 +203,7 @@ const Submit = memo(
             Submit
           </Button>
         </div>
-      </div>
+      </m.div>
     );
   }
 );
