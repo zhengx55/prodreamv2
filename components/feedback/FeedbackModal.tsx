@@ -148,7 +148,9 @@ const Submit = memo(
           {option !== 0 ? (
             <p className='text-base font-normal text-neutral-400'>
               Alternatively, you may email us at&nbsp;
-              <span className='text-violet-500'>support@prodream.ai</span>
+              <a href='mailto:support@prodream.ai' className='text-violet-500'>
+                support@prodream.ai
+              </a>
               &nbsp;or join our&nbsp;
               <Link
                 href={'https://discord.gg/xXSFXv5kPd'}
