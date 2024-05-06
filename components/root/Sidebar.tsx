@@ -2,7 +2,7 @@
 import { SidebarLinks } from '@/constant';
 import { Locale } from '@/i18n-config';
 import { useMembershipInfo } from '@/query/query';
-import { useUserInfo } from '@/zustand/store';
+import { useModal, useUserInfo } from '@/zustand/store';
 import type { Route } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
-import { Dialog, DialogTrigger } from '../ui/dialog';
 import { DropdownMenu } from '../ui/dropdown-menu';
 import Icon from './Icon';
 import Spacer from './Spacer';
@@ -20,7 +19,6 @@ import { UserSkeleton } from './User';
 const FeedbackModal = dynamic(() => import('../feedback/FeedbackModal'));
 const useSidebarElevation = (pathname: string) => {
   const [topValue, setTopValue] = useState<number | undefined>();
-
   const changeTopValue = useCallback((value: number) => {
     setTopValue(value);
   }, []);
@@ -53,6 +51,8 @@ const User = dynamic(() => import('./User'), {
 const Sidebar = ({ lang }: { lang: Locale }) => {
   const pathname = usePathname();
   const { topValue, changeTopValue } = useSidebarElevation(pathname);
+  const updateFeedbackModal = useModal((state) => state.updateFeedbackModal);
+
   const router = useRouter();
   const { isPending: memberShipPending, data: memberShip } =
     useMembershipInfo();
@@ -65,6 +65,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
 
   return (
     <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
+      <FeedbackModal />
       <Link passHref href={`/${lang}`}>
         <Image
           alt='prodream'
@@ -138,24 +139,20 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
           />
           <p className='base-regular text-zinc-600'>Discord</p>
         </Link>
-        <Dialog>
-          <DialogTrigger asChild>
-            <div
-              role='dialog'
-              className='z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2 hover:bg-slate-100'
-            >
-              <Icon
-                width={20}
-                height={20}
-                alt='contact support'
-                src='/nav/message.svg'
-                priority
-              />
-              <p className='base-regular text-zinc-600'>Contact Support</p>
-            </div>
-          </DialogTrigger>
-          <FeedbackModal />
-        </Dialog>
+        <div
+          role='dialog'
+          className='z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2 hover:bg-slate-100'
+          onClick={() => updateFeedbackModal(true)}
+        >
+          <Icon
+            width={20}
+            height={20}
+            alt='contact support'
+            src='/nav/message.svg'
+            priority
+          />
+          <p className='base-regular text-zinc-600'>Contact Support</p>
+        </div>
 
         {memberShipPending ? null : memberShip?.subscription === 'basic' ? (
           <Link href={'/pricing'} passHref>

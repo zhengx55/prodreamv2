@@ -1,5 +1,8 @@
-import { DialogClose, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent } from '@/components/ui/dialog';
 import { FeedbackOptions } from '@/constant';
+import { feedbackAttachments, submitFeedback } from '@/query/api';
+import { useModal } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import { ChevronLeft, Copy, Loader2, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,20 +17,23 @@ const FeedbackModal = () => {
   const memoUpdateOption = useCallback((index: number) => {
     setOption(index);
   }, []);
-
+  const show = useModal((state) => state.feedbackModal);
+  const setShow = useModal((state) => state.updateFeedbackModal);
   return (
-    <DialogContent
-      onPointerDownOutside={(e) => {
-        e.stopPropagation();
-      }}
-      className='p-4 md:w-[544px] md:rounded-md'
-    >
-      {option === -1 ? (
-        <Menu handler={memoUpdateOption} />
-      ) : (
-        <Submit option={option} handler={memoUpdateOption} />
-      )}
-    </DialogContent>
+    <Dialog open={show} onOpenChange={setShow}>
+      <DialogContent
+        onPointerDownOutside={(e) => {
+          e.stopPropagation();
+        }}
+        className='p-4 md:w-[544px] md:rounded-md'
+      >
+        {option === -1 ? (
+          <Menu handler={memoUpdateOption} />
+        ) : (
+          <Submit option={option} handler={memoUpdateOption} />
+        )}
+      </DialogContent>
+    </Dialog>
   );
 };
 
@@ -68,7 +74,28 @@ const Submit = memo(
     option: number;
     handler: (index: number) => void;
   }) => {
+    const setShow = useModal((state) => state.updateFeedbackModal);
+    const [attachments, setAttachments] = useState<string[]>([]);
     const infoRef = useRef<HTMLTextAreaElement>(null);
+
+    const { mutateAsync: submit, isPending } = useMutation({
+      mutationFn: (params: { description: string; attachments: string[] }) =>
+        submitFeedback(params),
+      onSuccess: async () => {
+        const { toast } = await import('sonner');
+        toast.success('Feedback submitted successfully');
+        setShow(false);
+      },
+      onError: async (error) => {
+        const { toast } = await import('sonner');
+        toast.error(error.message);
+      },
+    });
+
+    const memoUpdateAttachments = useCallback((attachment: string[]) => {
+      setAttachments(attachment);
+    }, []);
+
     const handleSubmit = async () => {
       const info = infoRef.current?.value;
       if (!info) {
@@ -76,6 +103,8 @@ const Submit = memo(
         toast.error('Please provide details');
         return;
       }
+      await submit({ description: info, attachments });
+
       // send info
     };
     return (
@@ -131,11 +160,16 @@ const Submit = memo(
               &nbsp;for direct chat support.
             </p>
           ) : (
-            <Attachments />
+            <Attachments handler={memoUpdateAttachments} />
           )}
           <Spacer y='24' />
 
-          <Button onClick={handleSubmit} role='button' className='rounded'>
+          <Button
+            disabled={isPending}
+            onClick={handleSubmit}
+            role='button'
+            className='rounded'
+          >
             Submit
           </Button>
         </div>
@@ -144,73 +178,90 @@ const Submit = memo(
   }
 );
 
-const Attachments = memo(() => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const onDrop = useCallback(
-    async (acceptedFile: File[], fileRejections: FileRejection[]) => {
-      if (fileRejections.length > 0) {
+const Attachments = memo(
+  ({ handler }: { handler: (attachment: string[]) => void }) => {
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const onDrop = useCallback(
+      async (acceptedFile: File[], fileRejections: FileRejection[]) => {
+        if (fileRejections.length > 0) {
+          const { toast } = await import('sonner');
+          const error_message = fileRejections[0].errors[0].message;
+          toast.error(error_message);
+          return;
+        }
+        await upload(acceptedFile[0]);
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      []
+    );
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      onDrop,
+      maxSize: 10 * 1024 * 1024,
+      accept: {
+        'image/*': [],
+      },
+    });
+
+    const { mutateAsync: upload, isPending } = useMutation({
+      mutationFn: (attachment: File) => feedbackAttachments(attachment),
+      onSuccess: async (data) => {
+        setImagePreview(data[0]);
+        handler([data[0]]);
+      },
+      onError: async (error) => {
         const { toast } = await import('sonner');
-        const error_message = fileRejections[0].errors[0].message;
-        toast.error(error_message);
-        return;
-      }
-      setImagePreview(URL.createObjectURL(acceptedFile[0]));
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    maxSize: 10 * 1024 * 1024,
-    accept: {
-      'image/*': [],
-    },
-  });
-  return (
-    <div className='flex flex-col'>
-      <h2 className='text-base font-normal text-neutral-400'>Attachments</h2>
-      <Spacer y='5' />
-      {imagePreview ? (
-        <div className='flex-center relative flex h-40 rounded border-2 border-dashed border-stone-300 p-4'>
-          <Button
-            role='button'
-            variant={'icon'}
-            className='absolute -right-2 -top-2 z-50 size-max bg-white p-0.5'
-            onClick={() => setImagePreview(null)}
+        toast.error(error.message);
+      },
+    });
+    return (
+      <div className='flex flex-col'>
+        <h2 className='text-base font-normal text-neutral-400'>Attachments</h2>
+        <Spacer y='5' />
+        {imagePreview ? (
+          <div className='flex-center relative flex h-40 rounded border-2 border-dashed border-stone-300 p-4'>
+            <Button
+              role='button'
+              variant={'icon'}
+              className='absolute -right-2 -top-2 z-50 size-max bg-white p-0.5'
+              onClick={() => {
+                setImagePreview(null);
+                handler([]);
+              }}
+            >
+              <XCircle size={18} className='text-neutral-400' />
+            </Button>
+            <Image
+              alt='user-attachment'
+              src={imagePreview}
+              className='rounded object-contain'
+              fill
+            />
+          </div>
+        ) : (
+          <div
+            {...getRootProps({
+              'aria-label': 'drag and drop area',
+            })}
+            className={`${isDragActive && 'bg-zinc-100'} ${
+              isPending && 'pointer-events-none'
+            } flex-center relative flex h-12 cursor-pointer flex-col rounded border-2 border-dashed border-stone-300 p-4 hover:bg-zinc-100`}
           >
-            <XCircle size={18} className='text-neutral-400' />
-          </Button>
-          <Image
-            alt='user-attachment'
-            src={imagePreview}
-            className='rounded object-contain'
-            fill
-          />
-        </div>
-      ) : (
-        <div
-          {...getRootProps({
-            'aria-label': 'drag and drop area',
-          })}
-          className={`${isDragActive && 'bg-zinc-100'} ${
-            false && 'pointer-events-none'
-          } flex-center relative flex h-12 cursor-pointer flex-col rounded border-2 border-dashed border-stone-300 p-4 hover:bg-zinc-100`}
-        >
-          {false && (
-            <div className='flex-center absolute inset-0 cursor-not-allowed backdrop-blur-sm'>
-              <Loader2 className='animate-spin text-violet-500' />
-            </div>
-          )}
-          <input {...getInputProps()} />
-          <p className='inline-flex items-center gap-x-2 text-xs font-normal text-neutral-400'>
-            <Copy size={14} />
-            Click to choose a file or drag here
-          </p>
-        </div>
-      )}
-    </div>
-  );
-});
+            {isPending && (
+              <div className='flex-center absolute inset-0 cursor-not-allowed backdrop-blur-sm'>
+                <Loader2 className='animate-spin text-violet-500' />
+              </div>
+            )}
+            <input {...getInputProps()} />
+            <p className='inline-flex items-center gap-x-2 text-xs font-normal text-neutral-400'>
+              <Copy size={14} />
+              Click to choose a file or drag here
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  }
+);
 
 Attachments.displayName = 'Attachments';
 Menu.displayName = 'Menu';

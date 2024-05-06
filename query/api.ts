@@ -1463,3 +1463,57 @@ export async function getRecommendQs(document_id: string): Promise<string[]> {
     throw new Error(error as string);
   }
 }
+
+// ----------------------------------------------------------------
+// Feedback
+// ----------------------------------------------------------------
+export async function submitFeedback(params: {
+  description: string;
+  attachments: string[];
+}): Promise<void> {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/feedback/`,
+      {
+        method: 'POST',
+        body: JSON.stringify(params),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function feedbackAttachments(attachment: File): Promise<string[]> {
+  try {
+    const token = Cookies.get('token');
+    const formData = new FormData();
+    formData.append('attachment', attachment);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/feedback/attachment`,
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error(data.msg as string);
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
