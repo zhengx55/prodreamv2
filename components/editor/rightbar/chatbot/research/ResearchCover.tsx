@@ -1,3 +1,4 @@
+import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
 import { emojis } from '@/constant';
 import { useRecommandQs } from '@/query/query';
@@ -24,6 +25,10 @@ const ResearchCover = ({ t }: Props) => {
     <div className='flex flex-1 flex-col gap-y-2'>
       <ResearchInput t={t} />
       <Spacer y='16' />
+      <div className='flex items-center gap-x-2'>
+        <Icon alt='' src={'/editor/chatbot/thumb.svg'} width={20} height={20} />
+        <h3 className='text-sm text-zinc-700 '>Try these</h3>
+      </div>
       {isError ? null : isPending || aiChatSending ? (
         <div className='flex-center flex-1 items-center'>
           <Loader2 size={30} className='animate-spin text-violet-500' />
