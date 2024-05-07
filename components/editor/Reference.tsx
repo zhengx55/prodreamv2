@@ -4,10 +4,9 @@ import { getReferenceType } from '@/query/api';
 import { ReferenceType } from '@/query/type';
 import useAIEditor, { useCitation } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
-import { Loader2 } from 'lucide-react';
+import { Copy, Loader2 } from 'lucide-react';
 import { memo, useMemo, useRef } from 'react';
 import Spacer from '../root/Spacer';
-import { Copy } from '../root/SvgComponents';
 import { Button } from '../ui/button';
 import {
   Select,
@@ -98,7 +97,7 @@ const Reference = () => {
               onClick={copyHtml}
               className='h-max px-2.5 py-1'
             >
-              <Copy size='18' color='white' />
+              <Copy size={18} className='text-white' />
             </Button>
           )}
           <Select
