@@ -62,6 +62,7 @@ const ResearchHistory = ({ t, closeHistory }: Props) => {
               return (
                 <ResearchHistoryItem
                   t={t}
+                  close={closeHistory}
                   key={`session-hitory-${index}`}
                   item={session}
                 />
