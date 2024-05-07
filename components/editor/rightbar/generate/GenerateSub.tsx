@@ -1,8 +1,8 @@
 import Loading from '@/components/root/CustomLoading';
 import { H1_regex, H2_regex } from '@/constant';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { findLastParagraph, findTitle } from '@/lib/tiptap/utils';
 import { copilot, outline } from '@/query/api';
-import { useMembershipInfo } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

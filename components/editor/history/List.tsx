@@ -4,10 +4,11 @@ import Spacer from '@/components/root/Spacer';
 import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { getDocs } from '@/query/api';
-import { useDocumentList, useMembershipInfo } from '@/query/query';
 import { IDocDetail } from '@/query/type';
 import { DocPageDicType, DocSortingMethods } from '@/types';
+import { useQuery } from '@tanstack/react-query';
 import { LayoutGrid, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
@@ -36,10 +37,21 @@ const DocumentList = (props: Props) => {
   const [sortingMethod, setSortingMethod] =
     useState<DocSortingMethods>('lastOpenedTime');
 
-  const { data, isPending, isError } = useDocumentList(
-    searchParams.get('query') as string,
-    sortingMethod
-  );
+  const { data, isPending, isError } = useQuery({
+    queryKey: ['document_history_list', searchParams.get('query')],
+    queryFn: () => getDocs(0, 15, searchParams.get('query') ?? undefined),
+    refetchOnMount: true,
+    select: (data) =>
+      sortingMethod === 'title'
+        ? {
+            ...data,
+            list: data.list.sort((a, b) => a.title.localeCompare(b.title)),
+          }
+        : {
+            ...data,
+            list: data.list.sort((a, b) => b.update_time - a.update_time),
+          },
+  });
 
   useEffect(() => {
     setList(data?.list || []);

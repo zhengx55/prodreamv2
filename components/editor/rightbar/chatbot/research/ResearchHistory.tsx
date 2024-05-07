@@ -1,10 +1,10 @@
 import Spacer from '@/components/root/Spacer';
-import { useChatBotSessions } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { m } from 'framer-motion';
 import { Loader2, XCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
+import { useChatBotSessions } from '../hooks/useHistory';
 import ResearchHistoryItem from './ResearchHistoryItem';
 
 type Props = { t: EditorDictType; closeHistory: () => void };

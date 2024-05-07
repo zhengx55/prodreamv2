@@ -5,7 +5,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { GenerateOptions } from '@/constant';
 import { OutlineTooltip } from '@/constant/enum';
-import { useButtonTrack, useMembershipInfo } from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { EditorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { ChevronUp, FileText } from 'lucide-react';

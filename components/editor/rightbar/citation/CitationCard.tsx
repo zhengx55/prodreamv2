@@ -2,13 +2,9 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CitationTooltip } from '@/constant/enum';
-import {
-  useButtonTrack,
-  useCiteToDoc,
-  useCreateCitation,
-  useMutateTrackInfo,
-  useUserTrackInfo,
-} from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
+import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { useAIEditor, useCitation, useUserTask } from '@/zustand/store';

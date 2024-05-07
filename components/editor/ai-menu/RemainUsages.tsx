@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
-import { useButtonTrack, useMembershipInfo } from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { useAIEditor } from '@/zustand/store';
 import { AlertTriangle } from 'lucide-react';
 import { memo } from 'react';

@@ -1,10 +1,8 @@
 import { Cloud, Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
-import {
-  useButtonTrack,
-  useMembershipInfo,
-  useUserTrackInfo,
-} from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
+import { useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { DocPageDicType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { ChevronLeft, Loader } from 'lucide-react';

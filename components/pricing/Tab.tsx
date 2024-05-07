@@ -5,7 +5,7 @@ import {
   PricingBasic,
   PricingUnlimited,
 } from '@/constant';
-import { useButtonTrack } from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
 import { IDiscount, ISubscription } from '@/types';
 import Spacer from '../root/Spacer';
 import Card from './Card';

@@ -148,7 +148,7 @@ const ChatInput = ({ t }: Props) => {
             value={value}
             disabled={sending || isSummarzing}
             onChange={handleValueChnage}
-            placeholder='Message Dream Cat AI...'
+            placeholder='Message Jessica...'
           />
           <Button
             onClick={submit}

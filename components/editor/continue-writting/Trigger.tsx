@@ -7,8 +7,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { copilot } from '@/query/api';
-import { useMembershipInfo } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

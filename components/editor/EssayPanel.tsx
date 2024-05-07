@@ -1,13 +1,14 @@
 'use client';
 import DocNavbar from '@/components/editor/navbar/Navbar';
-import { useMembershipInfo, useUserTrackInfo } from '@/query/query';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
+import { useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { DocPageDicType } from '@/types';
 import { useUserInfo } from '@/zustand/store';
 import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
 import LazyMotionProvider from '../root/LazyMotionProvider';
-import { useDocumentInfo } from './rightbar/citation/hooks/useDocumentInfo';
+import { useDocumentInfo } from './hooks/useDocumentInfo';
 
 const CheckList = dynamic(() => import('./checklist/CheckList'));
 const Editor = dynamic(() => import('./Editor'), {

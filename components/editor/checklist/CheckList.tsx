@@ -1,11 +1,8 @@
 import Spacer from '@/components/root/Spacer';
 import { Checkbox } from '@/components/ui/checkbox';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
-import {
-  useButtonTrack,
-  useMutateTrackInfo,
-  useUserTrackInfo,
-} from '@/query/query';
 import { EditorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
@@ -22,7 +19,6 @@ const variants: Variants = {
 const CheckList = ({ t }: { t: EditorDictType }) => {
   const [show, setShow] = useState(true);
   const { data: userTrack } = useUserTrackInfo();
-  const { mutateAsync: updateInfo } = useMutateTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
@@ -91,7 +87,7 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
             role='button'
             onClick={async (e) => {
               e.stopPropagation();
-              await updateInfo({ field: 'close_checkList', data: 'true' });
+              await updateTrack({ field: 'close_checkList', data: 'true' });
             }}
             className='cursor-pointer'
           />

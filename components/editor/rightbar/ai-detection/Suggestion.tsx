@@ -1,8 +1,8 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { findNodePos, findParagpraph } from '@/lib/tiptap/utils';
 import { batchHumanize } from '@/query/api';
-import { useMembershipInfo } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';

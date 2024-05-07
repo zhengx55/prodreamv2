@@ -1,5 +1,5 @@
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { ask, copilot, humanize } from '@/query/api';
-import { useMembershipInfo } from '@/query/query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MutableRefObject, useCallback, useState } from 'react';
 import { useUpdateEffect } from 'react-use';
