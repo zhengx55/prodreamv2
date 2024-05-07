@@ -264,7 +264,7 @@ export type AIResearchMessage = {
 export type AIResearchMessageRef = {
   title: string;
   link: string;
-  date: string;
+  date?: string;
   position: string;
   snippet: string;
 };

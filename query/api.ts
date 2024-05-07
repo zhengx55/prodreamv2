@@ -7,6 +7,7 @@ import {
 import { JSONContent } from '@tiptap/react';
 import Cookies from 'js-cookie';
 import {
+  AiResearchItemResponse,
   ChatResponse,
   ICitation,
   IDetectionResult,
@@ -1399,7 +1400,9 @@ export async function chatHistory(params: {
   }
 }
 
-export async function chatHistoryItem(session_id: string): Promise<any> {
+export async function chatHistoryItem(
+  session_id: string
+): Promise<AiResearchItemResponse> {
   try {
     const token = Cookies.get('token');
     const res = await fetch(

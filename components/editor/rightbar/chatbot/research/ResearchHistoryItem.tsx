@@ -3,14 +3,14 @@ import { Button } from '@/components/ui/button';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { chatHistoryItem } from '@/query/api';
 import { ChatResponse } from '@/query/type';
-import { EditorDictType } from '@/types';
+import { AIResearchMessage, EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
 import { memo } from 'react';
 
-type Props = { t: EditorDictType; item: ChatResponse };
-const ResearchHistoryItem = ({ t, item }: Props) => {
+type Props = { t: EditorDictType; item: ChatResponse; close: () => void };
+const ResearchHistoryItem = ({ t, item, close }: Props) => {
   const updateDeleteModal = useChatbot((state) => state.updateDeleteModal);
   const updateDeleteSession = useChatbot((state) => state.updateDeleteSession);
   const updateCurrentResearchSession = useChatbot(
@@ -21,6 +21,18 @@ const ResearchHistoryItem = ({ t, item }: Props) => {
     mutationFn: () => chatHistoryItem(item.id),
     onSuccess: (data) => {
       updateCurrentResearchSession(item.id);
+      const historyResearchList: AIResearchMessage[] = data.history
+        .filter((item) => item.role === 'assistant')
+        .map((item) => {
+          return {
+            id: item.id,
+            message: item.content,
+            query: data.title,
+            reference: item.contexts ?? [],
+          };
+        });
+      updateResearchList(historyResearchList);
+      close();
     },
     onError: async (error) => {
       const { toast } = await import('sonner');
@@ -34,11 +46,12 @@ const ResearchHistoryItem = ({ t, item }: Props) => {
 
   return (
     <div
+      role='button'
       onClick={historyDetail}
       className='flex cursor-pointer flex-col gap-y-2 rounded-lg p-2 hover:bg-stone-50'
     >
       <p className='small-regular self-end text-neutral-400'>
-        {formatTimestamphh_number(item.update_time)}
+        {formatTimestamphh_number(item.create_time)}
       </p>
       <p className='small-regular line-clamp-2 text-neutral-400'>
         {item.first_message}

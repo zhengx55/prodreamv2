@@ -1,3 +1,4 @@
+import { AIResearchMessageRef } from '@/types';
 import type { JSONContent } from '@tiptap/react';
 
 export interface LoginResponse {
@@ -199,4 +200,27 @@ export interface ChatResponse {
 export interface ResearchChatResponse {
   response: string;
   thread_id: string;
+}
+
+export type AiResearchItemResponse = {
+  id: string;
+  user_id: string;
+  title: string;
+  create_time: number;
+  update_time: number;
+  history: ItemHistory[];
+  _history: [string, string][];
+  attachments: any[];
+  document_id: string;
+};
+
+interface ItemHistory {
+  role: 'user' | 'assistant';
+  content: string;
+  create_time: number;
+  id: string;
+  attachment: null;
+  contexts: AIResearchMessageRef[] | null;
+  feedback: null;
+  favorite: boolean;
 }
