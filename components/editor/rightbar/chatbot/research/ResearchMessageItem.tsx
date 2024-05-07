@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { AIResearchMessage, EditorDictType } from '@/types';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Copy, Repeat, ThumbsDown, Triangle } from 'lucide-react';
+import { Copy, ThumbsDown, Triangle } from 'lucide-react';
 import { Route } from 'next';
 import Link from 'next/link';
 import { memo, useState } from 'react';
@@ -39,32 +39,24 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
           >
-            <h2 className='text-base font-normal text-black'>
-              {message.query}
-            </h2>
             <p className='text-sm font-normal text-zinc-600'>
               {message.message}
             </p>
             {message.reference.length > 0 && (
-              <div className='flex-between'>
-                <div className='gapx-3 flex items-center'>
-                  <Button
-                    role='button'
-                    variant={'icon'}
-                    className='size-max p-1'
-                  >
-                    <Repeat size={16} className='text-stone-400' />
-                    <p className='subtle-regular text-stone-400'>Rewrite</p>
-                  </Button>
-                  <Button
-                    role='button'
-                    variant={'icon'}
-                    className='size-max p-1'
-                  >
-                    <Copy size={16} className='text-stone-400' />
-                    <p className='subtle-regular text-stone-400'>Copy</p>
-                  </Button>
-                </div>
+              <div className='flex-between my-2'>
+                <Button
+                  onClick={async () => {
+                    navigator.clipboard.writeText(message.message);
+                    const { toast } = await import('sonner');
+                    toast.success('Copied to clipboard');
+                  }}
+                  role='button'
+                  variant={'icon'}
+                  className='size-max p-1'
+                >
+                  <Copy size={16} className='text-stone-400' />
+                  <p className='subtle-regular text-stone-400'>Copy</p>
+                </Button>
                 <Button role='button' variant={'icon'} className='size-max p-1'>
                   <ThumbsDown size={16} className='text-stone-400' />
                 </Button>
@@ -73,7 +65,7 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
             {message.reference.map((ref, idx) => {
               return (
                 <div
-                  className='flex flex-col gap-y-2 border-t border-gray-200 pt-4'
+                  className='flex flex-col gap-y-2 border-t border-gray-200 py-4'
                   key={`reference-${idx}-${index}`}
                 >
                   <div className='flex items-center gap-x-2'>
