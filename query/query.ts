@@ -135,7 +135,6 @@ export const useUpdateCitation = () => {
       data: any;
     }) => updateCitation(params),
     onSuccess: async (_data, variables) => {
-      console.log('🚀 ~ onSuccess: ~ _data:', _data);
       const toast = (await import('sonner')).toast;
       toast.success('Citation Updated successfully');
       updateCitationItem({
