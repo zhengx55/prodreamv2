@@ -1,6 +1,5 @@
 import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
-import { emojis } from '@/constant';
 import { getRecommendQs } from '@/query/api';
 import { EditorDictType } from '@/types';
 import { useQuery } from '@tanstack/react-query';
@@ -49,10 +48,7 @@ const ResearchCover = ({ t }: Props) => {
               key={`question-${index}`}
               className='w-full cursor-pointer rounded border border-gray-200 p-2 duration-200 animate-in fade-in-0 hover:bg-stone-50'
             >
-              <p className='small-regular text-zinc-600'>
-                {emojis[index]}&nbsp;
-                {item}
-              </p>
+              <p className='small-regular text-zinc-600'>{item}</p>
             </div>
           );
         })
