@@ -14,6 +14,7 @@ const UploadModal = ({ container }: Props) => {
   const showUploadModal = useChatbot((state) => state.showUploadModal);
   const updateCurrentFile = useChatbot((state) => state.updateCurrentFile);
   const updateFileUploading = useChatbot((state) => state.updateFileUploading);
+  const updateChatType = useChatbot((state) => state.updateChatType);
   const updateUploadModal = useChatbot((state) => state.updateUploadModal);
   const resetCurrentFile = useChatbot((state) => state.resetCurrentFile);
 
@@ -67,7 +68,7 @@ const UploadModal = ({ container }: Props) => {
           <DialogHeader>
             <Dialog.Title className='flex-between text-sm font-medium text-zinc-700'>
               Upload Essay
-              <DialogClose>
+              <DialogClose onClick={() => updateChatType(null)}>
                 <XCircle size={20} className='text-neutral-400' />
               </DialogClose>
             </Dialog.Title>
