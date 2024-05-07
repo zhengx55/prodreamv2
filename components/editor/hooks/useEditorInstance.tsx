@@ -1,7 +1,7 @@
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
-import { useAIEditor } from '@/zustand/store';
+import { useAIEditor, useChatbot } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor as EditorType, posToDOMRect, useEditor } from '@tiptap/react';
 import useWindowResize from 'beautiful-react-hooks/useWindowResize';
@@ -18,7 +18,7 @@ export default function useEditorInstance(essay_content: string | undefined) {
   const disableContinue = useAIEditor((state) => state.disableContinue);
   const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
   const stopPlagiarismTimer = useAIEditor((state) => state.stopPlagiarismTimer);
-
+  const resetChatbot = useChatbot((state) => state.resetChatbot);
   const [showBottomBar, setShowBottomBar] = useState(true);
   const onWindowResize = useWindowResize();
   const { id }: { id: string } = useParams();
@@ -142,6 +142,7 @@ export default function useEditorInstance(essay_content: string | undefined) {
     onDestroy: () => {
       stopPlagiarismTimer();
       reset();
+      resetChatbot();
     },
   });
   return { editor, showBottomBar };
