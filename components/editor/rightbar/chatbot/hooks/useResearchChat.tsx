@@ -27,19 +27,18 @@ export default function useResearchChat() {
       }) => researchChat(params),
       onSuccess: async (data: ReadableStream, variables) => {
         const new_id = v4();
+        setValue('');
         appendResearchItem({
           query: variables.query,
           id: new_id,
           message: value,
           reference: [],
         });
-        setValue('');
         const reader = data.pipeThrough(new TextDecoderStream()).getReader();
         while (true) {
           const { value, done } = await reader.read();
           if (done) {
             queryClient.invalidateQueries({ queryKey: ['session-history'] });
-
             break;
           }
           handleStreamData(value, new_id);
@@ -47,7 +46,7 @@ export default function useResearchChat() {
       },
       onError: async (error) => {
         const { toast } = await import('sonner');
-        toast.error('Failed to submit your, please try again later.');
+        toast.error(error.message);
       },
     }
   );
