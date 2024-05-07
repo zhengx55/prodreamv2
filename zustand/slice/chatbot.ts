@@ -53,6 +53,7 @@ type ChatBotAction = {
   appendResearchItem: (result: AIResearchMessage) => void;
   updateResearchMessage: (id: string, data: string[]) => void;
   updateResearchReference: (id: string, data: AIResearchMessageRef[]) => void;
+  resetChatbot: () => void;
 };
 
 const initialState: ChatBotState = {
@@ -72,6 +73,9 @@ const initialState: ChatBotState = {
 
 export const chatbotSlice: StateCreator<ChatBotStore> = (set, get) => ({
   ...initialState,
+  resetChatbot() {
+    set(initialState);
+  },
   updateDeleteSession(result) {
     set({ deleteSession: result });
   },
