@@ -1,15 +1,23 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { AIResearchMessage, EditorDictType } from '@/types';
+import { useChatbot } from '@/zustand/store';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Copy, ThumbsDown, Triangle } from 'lucide-react';
 import { Route } from 'next';
 import Link from 'next/link';
 import { memo, useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 type Props = { message: AIResearchMessage; t: EditorDictType; index: number };
 const ResearchMessageItem = ({ message, t, index }: Props) => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const researchList = useChatbot((state) => state.researchList);
+
+  useUpdateEffect(() => {
+    isExpanded && setIsExpanded(false);
+  }, [researchList.length]);
+
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded);
   };
