@@ -69,7 +69,10 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
                   key={`reference-${idx}-${index}`}
                 >
                   <div className='flex items-center gap-x-2'>
-                    <span className='h-4 w-4 rounded-full bg-zinc-300' />
+                    <span className='flex-center size-5 rounded-full bg-zinc-600 text-xs text-white'>
+                      {idx < 9 && 0}
+                      {idx + 1}
+                    </span>
                     <h3 className='small-regular line-clamp-1 max-w-[80%] text-zinc-600'>
                       {ref.link}
                     </h3>
