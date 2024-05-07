@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { DialogHeader } from '@/components/ui/dialog';
-import { useDeleteSession } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
 import * as Dialog from '@radix-ui/react-dialog';
 
 import { memo } from 'react';
+import { useDeleteSession } from '../../hooks/useHistory';
 
 type Props = {
   container: any;

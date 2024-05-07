@@ -1,7 +1,7 @@
 'use client';
 import { SidebarLinks } from '@/constant';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { Locale } from '@/i18n-config';
-import { useMembershipInfo } from '@/query/query';
 import { useModal, useUserInfo } from '@/zustand/store';
 import type { Route } from 'next';
 import dynamic from 'next/dynamic';

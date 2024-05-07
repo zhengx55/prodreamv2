@@ -1,5 +1,5 @@
+import { useUserTrackInfo } from '@/hooks/useTrackInfo';
 import '@/lib/tiptap/styles/index.css';
-import { useUserTrackInfo } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';

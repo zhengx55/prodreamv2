@@ -1,10 +1,9 @@
-import {
-  useButtonTrack,
-  useGetReference,
-  useMembershipInfo,
-} from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
+import { getReferenceType } from '@/query/api';
 import { ReferenceType } from '@/query/type';
 import useAIEditor, { useCitation } from '@/zustand/store';
+import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { memo, useMemo, useRef } from 'react';
 import Spacer from '../root/Spacer';
@@ -52,9 +51,15 @@ const Reference = () => {
     data: reference_data,
     isPending,
     isError,
-  } = useGetReference({
-    type: citationStyle,
-    bibtex: bibtext_ids,
+  } = useQuery({
+    queryFn: () =>
+      getReferenceType({
+        type: citationStyle,
+        bibtex: bibtext_ids,
+      }),
+    queryKey: ['reference', citationStyle, bibtext_ids],
+    enabled: bibtext_ids.length > 0,
+    staleTime: Infinity,
   });
 
   const copyHtml = async () => {

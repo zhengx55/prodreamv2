@@ -1,6 +1,6 @@
 import { Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
-import { useButtonTrack } from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
 import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
 import Image from 'next/image';

@@ -1,6 +1,7 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { useButtonTrack, useMembershipInfo } from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { EditorDictType, PdfResult } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { Download } from 'lucide-react';

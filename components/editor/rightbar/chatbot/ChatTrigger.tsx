@@ -1,8 +1,8 @@
 import '@/lib/tiptap/styles/index.css';
 import { useAIEditor } from '@/zustand/store';
 import { memo } from 'react';
-import Icon from '../root/Icon';
-import { Button } from '../ui/button';
+import Icon from '../../../root/Icon';
+import { Button } from '../../../ui/button';
 const ChatTrigger = () => {
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);

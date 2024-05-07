@@ -4,8 +4,10 @@ import {
   PricingBasic,
   PricingUnlimited,
 } from '@/constant';
-import { useDiscountInfo, useMembershipInfo } from '@/query/query';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
+import { getDiscountInfo } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
+import { useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { memo } from 'react';
 import Spacer from '../root/Spacer';
@@ -16,13 +18,19 @@ import Card from './Card';
 
 const MembershipModal = () => {
   const { data } = useMembershipInfo();
-  const { data: discountInfo } = useDiscountInfo();
   const open = useAIEditor((state) => state.paymentModalOpen);
   const setOpen = useAIEditor((state) => state.updatePaymentModal);
   const isBasic =
     data?.subscription === 'free_trail' || data?.subscription === 'basic';
   const isMonthly = data?.subscription_type === 'month';
   const isAnually = data?.subscription_type === 'year';
+
+  const { data: discountInfo } = useQuery({
+    queryKey: ['discount'],
+    queryFn: () => getDiscountInfo(),
+    staleTime: 1000 * 60 * 60 * 24,
+  });
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent

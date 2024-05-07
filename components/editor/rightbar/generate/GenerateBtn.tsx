@@ -1,7 +1,8 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
-import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMutateTrackInfo } from '@/hooks/useTrackInfo';
 import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import dynamic from 'next/dynamic';

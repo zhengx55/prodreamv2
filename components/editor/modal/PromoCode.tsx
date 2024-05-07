@@ -9,8 +9,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { useMutateTrackInfo } from '@/hooks/useTrackInfo';
 import { getCoupon } from '@/query/api';
-import { useMutateTrackInfo } from '@/query/query';
 import { useMutation } from '@tanstack/react-query';
 import { ReactNode, useRef, useState } from 'react';
 type Props = { children: ReactNode };

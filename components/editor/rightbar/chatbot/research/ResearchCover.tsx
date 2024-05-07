@@ -1,8 +1,9 @@
 import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
 import { emojis } from '@/constant';
-import { useRecommandQs } from '@/query/query';
+import { getRecommendQs } from '@/query/api';
 import { EditorDictType } from '@/types';
+import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
@@ -12,7 +13,11 @@ import ResearchInput from './ResearchInput';
 type Props = { t: EditorDictType };
 const ResearchCover = ({ t }: Props) => {
   const { id } = useParams();
-  const { data, isPending, isError } = useRecommandQs(id as string);
+  const { data, isPending, isError } = useQuery({
+    queryKey: ['airesearch-recommand', id],
+    queryFn: () => getRecommendQs(id as string),
+    staleTime: Infinity,
+  });
   const { aiResearchChat, aiChatSending } = useResearchChat();
   const handleRecommendClick = async (question: string) => {
     await aiResearchChat({

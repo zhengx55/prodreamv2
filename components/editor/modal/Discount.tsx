@@ -8,7 +8,8 @@ import {
   DialogFooter,
   DialogHeader,
 } from '@/components/ui/dialog';
-import { useMutateTrackInfo, useUserTrackInfo } from '@/query/query';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useUpdateEffect } from 'react-use';

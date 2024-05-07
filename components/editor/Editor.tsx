@@ -1,13 +1,13 @@
 import BottomBar from '@/components/editor/bottombar';
+import { useUserTrackInfo } from '@/hooks/useTrackInfo';
 import '@/lib/tiptap/styles/index.css';
-import { useUserTrackInfo } from '@/query/query';
 import { DocPageDicType } from '@/types';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
-import ChatTrigger from './ChatTrigger';
 import Procedure from './guide/Procedure';
 import useEditorInstance from './hooks/useEditorInstance';
+import ChatTrigger from './rightbar/chatbot/ChatTrigger';
 
 const TableOfContents = dynamic(
   () => import('./table-of-contents/TableOfContents')

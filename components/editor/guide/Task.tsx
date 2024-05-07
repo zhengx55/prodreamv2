@@ -1,6 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { useMutateTrackInfo } from '@/query/query';
+import { useMutateTrackInfo } from '@/hooks/useTrackInfo';
 import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';

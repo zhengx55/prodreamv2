@@ -1,5 +1,5 @@
 'use client';
-import { useRensendEmail } from '@/query/query';
+import useRensendEmail from '@/app/[lang]/verify/hooks/useResend';
 import { Button } from '../ui/button';
 const ResendButton = () => {
   const { mutate: handleResend } = useRensendEmail();

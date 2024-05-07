@@ -5,14 +5,11 @@ import { Separator } from '@/components/ui/separator';
 import { Surface } from '@/components/ui/surface';
 import { word_regex } from '@/constant';
 import { OperationType } from '@/constant/enum';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { getSelectedText } from '@/lib/tiptap/utils';
-import {
-  useButtonTrack,
-  useMembershipInfo,
-  useMutateTrackInfo,
-  useUserTrackInfo,
-} from '@/query/query';
 import { DocPageDicType, EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
