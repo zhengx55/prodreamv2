@@ -34,7 +34,7 @@ const ChatInput = ({ t }: Props) => {
   } = useChat();
 
   const { id } = useParams();
-  useAutoSizeTextArea(chatRef.current, value, 96);
+  useAutoSizeTextArea(chatRef.current, value, 72);
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateChatMessage(e.target.value);
   };
@@ -126,47 +126,39 @@ const ChatInput = ({ t }: Props) => {
           </Tooltip>
         </div>
       </div>
-      <div className='flex flex-col rounded-lg border border-gray-200 p-2'>
+      <div className='flex flex-col rounded-lg  border border-gray-200 px-2 pb-0 pt-2'>
         <FileDisplay
           sending={sending}
           isSummarizing={isSummarzing}
           summarizeFile={summarizeFile}
         />
-        <Textarea
-          ref={chatRef}
-          autoFocus
-          aria-label='chat-textarea'
-          onKeyDown={(e) => {
-            if (e.code === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              submit();
-            }
-          }}
-          className='small-regular min-h-14 w-full border-none py-2 pl-0 pr-5 focus-visible:ring-0'
-          id='chat-textarea'
-          value={value}
-          disabled={sending || isSummarzing}
-          onChange={handleValueChnage}
-          placeholder='Message Dream Cat AI...'
-        />
-        <Button
-          onClick={submit}
-          disabled={!value.trim() || sending || isSummarzing}
-          className='absolute bottom-2 right-2 h-max w-max p-0'
-          variant={'ghost'}
-          type='button'
-        >
-          <Icon
-            alt='messaging'
-            width={18}
-            height={18}
-            src={
-              !value.trim
-                ? '/editor/chatbot/Send_disable.svg'
-                : '/editor/chatbot/Send.svg'
-            }
+        <div className='relative'>
+          <Textarea
+            ref={chatRef}
+            autoFocus
+            aria-label='chat-textarea'
+            onKeyDown={(e) => {
+              if (e.code === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                submit();
+              }
+            }}
+            className='small-regular h-[42px] min-h-[42px] w-full border-none py-2 pl-0 pr-10 focus-visible:ring-0'
+            id='chat-textarea'
+            value={value}
+            disabled={sending || isSummarzing}
+            onChange={handleValueChnage}
+            placeholder='Message Dream Cat AI...'
           />
-        </Button>
+          <Button
+            onClick={submit}
+            disabled={!value.trim() || sending || fileUploading || isSummarzing}
+            className='absolute bottom-0 right-0 top-0 h-full w-max px-2.5 py-2'
+            type='button'
+          >
+            <Search className='text-white' />
+          </Button>
+        </div>
       </div>
     </div>
   );

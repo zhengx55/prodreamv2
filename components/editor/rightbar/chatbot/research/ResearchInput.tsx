@@ -38,7 +38,7 @@ const ResearchInput = ({ t }: Props) => {
     <m.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className='relative flex min-h-7 flex-col rounded-lg border border-gray-200 p-2'
+      className='relative flex flex-col rounded-lg border border-gray-200 p-2'
     >
       <Textarea
         ref={chatRef}
@@ -50,7 +50,7 @@ const ResearchInput = ({ t }: Props) => {
             await submit();
           }
         }}
-        className='small-regular h-[36px] min-h-[36px] border-none pl-0 pr-5 focus-visible:ring-0'
+        className='small-regular h-[36px] min-h-[36px] border-none pl-0 pr-10 focus-visible:ring-0'
         id='chat-textarea'
         value={value}
         disabled={aiChatSending}
