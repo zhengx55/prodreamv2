@@ -37,7 +37,7 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
             )}
             size={12}
           />
-          <h1 className='text-lg font-medium'>Question {index + 1}</h1>
+          <h1 className='text-base font-medium'>{message.query}</h1>
         </Button>
       </div>
       <AnimatePresence>
