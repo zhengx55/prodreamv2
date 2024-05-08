@@ -206,8 +206,7 @@ const Starter = ({
       priority
     />
     <p className='text-center text-sm font-normal text-zinc-600'>
-      {t.Plagiarism.Title} <br />
-      {t.Plagiarism.Waiting}
+      {t.Plagiarism.Title}
     </p>
 
     <Button
