@@ -121,14 +121,13 @@ const Trigger = ({ editor, t }: Props) => {
         <TooltipProvider>
           <Tooltip delayDuration={100}>
             <TooltipTrigger asChild>
-              <span className='rounded bg-violet-500'>
+              <span className='rounded bg-violet-500 p-0.5'>
                 <Icon
                   alt=''
                   src='/editor/continue.svg'
                   width={18}
                   height={18}
-                  className='size-[18px]'
-                  priority
+                  className='size-4'
                 />
               </span>
             </TooltipTrigger>

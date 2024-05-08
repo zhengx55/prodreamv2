@@ -2,12 +2,15 @@
 import DocNavbar from '@/components/editor/navbar/Navbar';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { useUserTrackInfo } from '@/hooks/useTrackInfo';
-import { DocPageDicType } from '@/types';
-import { useUserInfo } from '@/zustand/store';
+import type { DocPageDicType, EditorDictType } from '@/types';
+import { useModal, useUserInfo } from '@/zustand/store';
 import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { memo, useMemo } from 'react';
+import Icon from '../root/Icon';
 import LazyMotionProvider from '../root/LazyMotionProvider';
+import { Button } from '../ui/button';
 import { useDocumentInfo } from './hooks/useDocumentInfo';
 
 const CheckList = dynamic(() => import('./checklist/CheckList'));
@@ -43,7 +46,7 @@ const EssayPanel = ({ id, ...props }: Props) => {
     <LazyMotionProvider>
       <main className='relative flex h-full w-full flex-col'>
         <DocNavbar {...props} />
-        {showCheckList && <CheckList t={props.t} />}
+        {showCheckList ? <CheckListSection t={props.t} /> : <FeedbackSection />}
         <div className='relative flex h-full w-full justify-center overflow-hidden'>
           <Editor
             essay_content={essayContent ? essayContent.content : ''}
@@ -57,3 +60,53 @@ const EssayPanel = ({ id, ...props }: Props) => {
 };
 
 export default memo(EssayPanel);
+
+const FeedbackSection = memo(() => {
+  const updateFeedbackModal = useModal((state) => state.updateFeedbackModal);
+  return (
+    <div className='absolute bottom-[5%] left-5 z-10 flex flex-col gap-y-2'>
+      <Button variant='icon' className='size-max p-1' role='link'>
+        <Link href={'https://discord.gg/xXSFXv5kPd'} target='_blank'>
+          <Icon width={20} height={20} alt='discord' src='/nav/discord.svg' />
+        </Link>
+      </Button>
+      <Button
+        onClick={() => updateFeedbackModal(true)}
+        variant='icon'
+        className='size-max p-1'
+        role='link'
+      >
+        <Icon
+          width={20}
+          height={20}
+          alt='contact support'
+          src='/nav/message.svg'
+        />
+      </Button>
+    </div>
+  );
+});
+
+const CheckListSection = memo(({ t }: { t: EditorDictType }) => {
+  const updateFeedbackModal = useModal((state) => state.updateFeedbackModal);
+
+  return (
+    <div className='absolute bottom-[5%] left-5 z-10 flex flex-col gap-y-4'>
+      <CheckList t={t} />
+      <Button
+        onClick={() => updateFeedbackModal(true)}
+        variant='icon'
+        className='size-max rounded p-2'
+        role='link'
+      >
+        <Icon
+          width={20}
+          height={20}
+          alt='contact support'
+          src='/editor/message_violet.svg'
+        />
+        <p className='base-regular text-zinc-600'>Contact Support</p>
+      </Button>
+    </div>
+  );
+});

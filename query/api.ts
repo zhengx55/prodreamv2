@@ -1473,6 +1473,7 @@ export async function getRecommendQs(document_id: string): Promise<string[]> {
 export async function submitFeedback(params: {
   description: string;
   attachments: string[];
+  feedback_type: 'issue' | 'feature';
 }): Promise<void> {
   try {
     const token = Cookies.get('token');
