@@ -101,8 +101,11 @@ const Submit = memo(
     const infoRef = useRef<HTMLTextAreaElement>(null);
 
     const { mutateAsync: submit, isPending } = useMutation({
-      mutationFn: (params: { description: string; attachments: string[] }) =>
-        submitFeedback(params),
+      mutationFn: (params: {
+        description: string;
+        attachments: string[];
+        feedback_type: 'issue' | 'feature';
+      }) => submitFeedback(params),
       onSuccess: async () => {
         const { toast } = await import('sonner');
         toast.success('Feedback submitted successfully');
@@ -125,7 +128,11 @@ const Submit = memo(
         toast.error('Please provide details');
         return;
       }
-      await submit({ description: info, attachments });
+      await submit({
+        description: info,
+        attachments,
+        feedback_type: option === 0 ? 'issue' : 'feature',
+      });
 
       // send info
     };
