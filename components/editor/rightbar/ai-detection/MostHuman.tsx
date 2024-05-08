@@ -312,7 +312,7 @@ const ParagraphStarter = memo(
           className='base-regular size-max self-center rounded-lg px-8'
           role='button'
         >
-          {t.Detection.humanize_button}
+          {t.Detection.most_human_button}
         </Button>
       </div>
     );
