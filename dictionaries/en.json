@@ -307,8 +307,9 @@
       "recheck_title": "Check again for AI Detection",
       "recheck_button": "Re-check",
       "full_human_title": "Your essay is highly likely to be entirely written by a human, showing no signs of AI involvement to humanize",
-      "most_human_title": "Our detector found 0 sentence that is likely AI generated",
-      "most_human_instruction": "If you would like to do a flexible paragraph level humanize for the full text, click to proceed"
+      "most_human_title": "Our detector did not specifically identify any sentences as AI-generated.",
+      "most_human_instruction": "If you want to ensure your text maintains a human-like quality, you can use our Paragraph Humanizer. This tool allows you to review and adjust any paragraph to make your text sound more natural.",
+      "most_human_button": "Start Paragraph Humanize"
     },
     "Task": {
       "title": "Try AI Copilot for easy editing",
