@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { memo, useMemo } from 'react';
 import Icon from '../root/Icon';
 import LazyMotionProvider from '../root/LazyMotionProvider';
+import Tooltip from '../root/Tooltip';
 import { Button } from '../ui/button';
 import { useDocumentInfo } from './hooks/useDocumentInfo';
 
@@ -65,24 +66,29 @@ const FeedbackSection = memo(() => {
   const updateFeedbackModal = useModal((state) => state.updateFeedbackModal);
   return (
     <div className='absolute bottom-[5%] left-5 z-10 flex flex-col gap-y-2'>
-      <Button variant='icon' className='size-max p-1' role='link'>
-        <Link href={'https://discord.gg/xXSFXv5kPd'} target='_blank'>
-          <Icon width={20} height={20} alt='discord' src='/nav/discord.svg' />
-        </Link>
-      </Button>
-      <Button
-        onClick={() => updateFeedbackModal(true)}
-        variant='icon'
-        className='size-max p-1'
-        role='link'
-      >
-        <Icon
-          width={20}
-          height={20}
-          alt='contact support'
-          src='/nav/message.svg'
-        />
-      </Button>
+      <Tooltip tooltipContent='Join Discord' side='right'>
+        <Button variant='icon' className='size-max p-1' role='link'>
+          <Link href={'https://discord.gg/xXSFXv5kPd'} target='_blank'>
+            <Icon width={20} height={20} alt='discord' src='/nav/discord.svg' />
+          </Link>
+        </Button>
+      </Tooltip>
+
+      <Tooltip tooltipContent='Contact support' side='right'>
+        <Button
+          onClick={() => updateFeedbackModal(true)}
+          variant='icon'
+          className='size-max p-1'
+          role='link'
+        >
+          <Icon
+            width={20}
+            height={20}
+            alt='contact support'
+            src='/nav/message.svg'
+          />
+        </Button>
+      </Tooltip>
     </div>
   );
 });
