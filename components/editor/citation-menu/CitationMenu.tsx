@@ -89,10 +89,10 @@ const CitationMenu = ({ editor }: Props) => {
                   className='flex flex-col gap-y-2 bg-shadow-400 px-4 py-1.5'
                 >
                   <h1 className='base-semibold'>{item.article_title}</h1>
-                  <p className='small-regular flex flex-wrap items-center gap-x-2 text-zinc-600'>
+                  <p className='small-regular inline-flex flex-wrap items-center gap-x-2 text-zinc-600'>
                     {item.publication}
-                    <p className='italic'>{item.area ? item.area[0] : ''}</p>
-                    <p>{item.publish_date.year ?? ''}</p>
+                    <em>{item.area ? item.area[0] : ''}</em>
+                    <span>{item.publish_date.year ?? ''}</span>
                   </p>
                   <div className='flex flex-col gap-y-2 rounded border border-gray-200 p-3'>
                     <p className='small-regular line-clamp-3'>
