@@ -1,5 +1,5 @@
+import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
-import { Continue } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
@@ -122,7 +122,14 @@ const Trigger = ({ editor, t }: Props) => {
           <Tooltip delayDuration={100}>
             <TooltipTrigger asChild>
               <span className='rounded bg-violet-500'>
-                <Continue />
+                <Icon
+                  alt=''
+                  src='/editor/continue.svg'
+                  width={18}
+                  height={18}
+                  className='size-[18px]'
+                  priority
+                />
               </span>
             </TooltipTrigger>
             <TooltipContent className='py-2'>

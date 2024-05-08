@@ -1,5 +1,5 @@
 import { Toolbar } from '@/components/editor/ui/Toolbar';
-import { BookHalf, Redo, Undo } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -40,7 +40,14 @@ const BottomBar = ({
         onClick={showCitation}
         className='text-violet-500'
       >
-        <BookHalf size={'18'} />
+        <Icon
+          alt=''
+          src='/editor/book-half.svg'
+          width={18}
+          height={18}
+          className='size-[18px]'
+          priority
+        />
         {t.BubbleMenu.Citation}
       </MemoButton>
       <Toolbar.Divider />
@@ -65,7 +72,14 @@ const BottomBar = ({
         tooltipShortcut={['Mod', 'Z']}
         onClick={commands.onUndo}
       >
-        <Undo />
+        <Icon
+          alt=''
+          src='/editor/undo.svg'
+          width={18}
+          height={18}
+          className='size-[18px]'
+          priority
+        />
       </MemoButton>
       <MemoButton
         role='button'
@@ -73,7 +87,14 @@ const BottomBar = ({
         tooltipShortcut={['Mod', 'Y']}
         onClick={commands.onRedo}
       >
-        <Redo />
+        <Icon
+          alt=''
+          src='/editor/redo.svg'
+          width={18}
+          height={18}
+          className='size-[18px]'
+          priority
+        />
       </MemoButton>
       <Toolbar.Divider />
       <CountDropdown t={t} editor={editor} />

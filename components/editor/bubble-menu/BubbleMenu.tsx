@@ -1,6 +1,10 @@
 import { Toolbar } from '@/components/editor/ui/Toolbar';
+import Icon from '@/components/root/Icon';
+import { getDictionary } from '@/lib/get-dictionary';
+import useAIEditor, { useUserTask } from '@/zustand/store';
 import * as Popover from '@radix-ui/react-popover';
 import { Editor } from '@tiptap/react';
+import { m } from 'framer-motion';
 import {
   AlignCenter,
   AlignJustify,
@@ -13,17 +17,6 @@ import {
   Underline,
 } from 'lucide-react';
 import { memo } from 'react';
-
-import {
-  BookHalf,
-  Copilot,
-  Redo,
-  Synonym,
-  Undo,
-} from '@/components/root/SvgComponents';
-import { getDictionary } from '@/lib/get-dictionary';
-import useAIEditor, { useUserTask } from '@/zustand/store';
-import { m } from 'framer-motion';
 import { ContentTypePicker } from '../picker/content';
 import useEventListener from './hooks/useEventListener';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
@@ -92,7 +85,13 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
           {task_step === 0 && (
             <span className='absolute h-7 w-7 animate-ping rounded-full bg-violet-500/50' />
           )}
-          <Copilot />
+          <Icon
+            alt=''
+            src='/editor/stars.svg'
+            width={18}
+            height={18}
+            className='size-[18px]'
+          />
           {t.BubbleMenu.Copilot}
         </MemoButton>
         <Toolbar.Divider />
@@ -110,7 +109,13 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
             }}
             className='text-violet-500'
           >
-            <Synonym />
+            <Icon
+              alt=''
+              src='/editor/synonym.svg'
+              width={18}
+              height={18}
+              className='size-[18px]'
+            />
             {t.BubbleMenu.Synonym}
           </MemoButton>
         ) : (
@@ -133,7 +138,14 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
             }}
             className='text-violet-500'
           >
-            <BookHalf size={'18'} />
+            <Icon
+              alt=''
+              src='/editor/book-half.svg'
+              width={18}
+              height={18}
+              className='size-[18px]'
+              priority
+            />
             {t.BubbleMenu.Reference}
           </MemoButton>
         )}
@@ -145,7 +157,13 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
           tooltipShortcut={['Mod', 'Z']}
           onClick={commands.onUndo}
         >
-          <Undo />
+          <Icon
+            alt=''
+            src='/editor/undo.svg'
+            width={18}
+            height={18}
+            className='size-[18px]'
+          />
         </MemoButton>
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
@@ -153,7 +171,13 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
           tooltipShortcut={['Mod', 'Y']}
           onClick={commands.onRedo}
         >
-          <Redo />
+          <Icon
+            alt=''
+            src='/editor/redo.svg'
+            width={18}
+            height={18}
+            className='size-[18px]'
+          />
         </MemoButton>
         <Toolbar.Divider />
         <MemoButton
