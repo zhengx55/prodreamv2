@@ -3,13 +3,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { HomePageDicType } from '@/types';
+import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
 import { Button } from '../../ui/button';
-import LocaleDropdown from './LocaleDropdown';
-import MobileDropdown from './MobileDropdown';
+
+const MobileDropdown = dynamic(() => import('./MobileDropdown'), {
+  ssr: false,
+});
+const LocaleDropdown = dynamic(() => import('./LocaleDropdown'), {
+  ssr: false,
+});
 
 const NavBar = ({
   t,

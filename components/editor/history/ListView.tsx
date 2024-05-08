@@ -1,5 +1,5 @@
 'use client';
-import { FileIcon } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { IDocDetail } from '@/query/type';
 import { DocPageDicType } from '@/types';
@@ -21,7 +21,13 @@ const ListView = ({ list, t, lang }: Props) => {
         >
           <li className='flex-between cursor-pointer items-center rounded-lg py-2 hover:bg-nav-selected'>
             <span className='flex items-center gap-x-1.5'>
-              <FileIcon />
+              <Icon
+                alt='file'
+                src='/editor/file.svg'
+                width={24}
+                height={24}
+                className='size-6'
+              />
               <p className='small-regular capitalize'>
                 {item.title === 'Untitled' || !item.title
                   ? 'Untitled Document'

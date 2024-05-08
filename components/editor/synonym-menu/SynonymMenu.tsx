@@ -1,6 +1,6 @@
 import Loading from '@/components/root/CustomLoading';
+import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
-import { Synonym } from '@/components/root/SvgComponents';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import { synonym } from '@/query/api';
@@ -68,7 +68,13 @@ export const SynonymMenu = ({ editor }: Props) => {
       <div ref={elRef} className='relative flex flex-col bg-transparent'>
         <div className='flex h-60 w-full flex-col gap-x-2 rounded-t border border-gray-200 bg-white p-4 shadow-lg'>
           <div className='flex items-center gap-x-2'>
-            <Synonym size='24' />
+            <Icon
+              alt=''
+              src='/editor/synonym.svg'
+              width={24}
+              height={24}
+              className='size-6'
+            />
             <h1 className='base-semibold'>Synonyms for &quot;{text}&quot;</h1>
           </div>
           <Spacer y='14' />

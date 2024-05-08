@@ -1,5 +1,5 @@
 'use client';
-import { UploadGard } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -88,7 +88,14 @@ const SearchBar = ({ lang, t }: Props) => {
               variant={'outline'}
               className='size-max cursor-pointer rounded-lg border border-gray-200 px-8 py-4 hover:shadow'
             >
-              <UploadGard />
+              <Icon
+                alt='upload'
+                src='/editor/upload.svg'
+                width={24}
+                height={24}
+                priority
+                className='size-6'
+              />
               <p className='base-semibold'>Upload Essay</p>
             </Button>
           </DialogTrigger>

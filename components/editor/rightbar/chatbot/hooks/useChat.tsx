@@ -8,6 +8,7 @@ export default function useChat() {
   const queryClient = useQueryClient();
   const appendMessage = useChatbot((state) => state.appendMessage);
   const updateMessageItem = useChatbot((state) => state.updateMessageItem);
+  const updateCurrentFile = useChatbot((state) => state.updateCurrentFile);
   const updateCurrentSession = useChatbot(
     (state) => state.updateCurrentSession
   );
@@ -24,6 +25,7 @@ export default function useChat() {
       };
     }) => pdfSummary(params),
     onSuccess: async (data: ReadableStream, variables) => {
+      updateCurrentFile(null);
       const message_id = v4();
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       appendMessage({

@@ -14,9 +14,11 @@ import {
   Paperclip,
   Plus,
   Search,
+  XCircle,
 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo, useRef } from 'react';
+import { useHoverDirty } from 'react-use';
 import useChat from '../hooks/useChat';
 
 type Props = {
@@ -127,11 +129,13 @@ const ChatInput = ({ t }: Props) => {
         </div>
       </div>
       <div className='flex flex-col rounded-lg  border border-gray-200 px-2 pb-0 pt-2'>
-        <FileDisplay
-          sending={sending}
-          isSummarizing={isSummarzing}
-          summarizeFile={summarizeFile}
-        />
+        {(currentFile || fileUploading) && (
+          <FileDisplay
+            sending={sending}
+            isSummarizing={isSummarzing}
+            summarizeFile={summarizeFile}
+          />
+        )}
         <div className='relative'>
           <Textarea
             ref={chatRef}
@@ -184,7 +188,7 @@ type FileDisplayProps = {
   summarizeFile: () => void;
 };
 
-const FileIcon: React.FC<FileIconProps> = ({ uploading }) => (
+const FileIcon: React.FC<FileIconProps> = memo(({ uploading }) => (
   <span className='flex-center size-8 rounded bg-violet-500'>
     {uploading ? (
       <Loader2 className='animate-spin text-white' size={22} />
@@ -192,61 +196,74 @@ const FileIcon: React.FC<FileIconProps> = ({ uploading }) => (
       <FileText size={22} className='text-white' />
     )}
   </span>
-);
+));
 
-const FileInfo: React.FC<FileInfoProps> = ({ filename }) => (
+const FileInfo: React.FC<FileInfoProps> = memo(({ filename }) => (
   <div className='flex max-w-14 flex-col'>
     <h3 className='small-regular line-clamp-1 text-zinc-600'>{filename}</h3>
     <p className='subtle-regular text-zinc-500'>PDF</p>
   </div>
+));
+
+const SummarizeButton: React.FC<SummarizeButtonProps> = memo(
+  ({ onClick, disabled }) => (
+    <Button
+      onClick={onClick}
+      disabled={disabled}
+      variant='outline'
+      className='size-max rounded border-none bg-gray-200 px-2 py-2 text-zinc-600'
+      role='button'
+    >
+      <Icon
+        alt='summarize-pdf'
+        width={20}
+        height={20}
+        src='/editor/chatbot/Summarize.svg'
+      />
+      Summarize
+    </Button>
+  )
 );
 
-const SummarizeButton: React.FC<SummarizeButtonProps> = ({
-  onClick,
-  disabled,
-}) => (
-  <Button
-    onClick={onClick}
-    disabled={disabled}
-    variant='outline'
-    className='size-max rounded border-none bg-gray-200 px-2 py-2 text-zinc-600'
-    role='button'
-  >
-    <Icon
-      alt='summarize-pdf'
-      width={20}
-      height={20}
-      src='/editor/chatbot/Summarize.svg'
-    />
-    Summarize
-  </Button>
-);
+const FileDisplay: React.FC<FileDisplayProps> = memo(
+  ({ sending, isSummarizing, summarizeFile }) => {
+    const fileUploading = useChatbot((state) => state.fileUploading);
+    const currentFile = useChatbot((state) => state.currentFile);
+    const updateCurrentFile = useChatbot((state) => state.updateCurrentFile);
+    const ref = useRef<HTMLDivElement>(null);
+    const isHovering = useHoverDirty(ref, true);
+    const disableSummarizeButton = fileUploading || sending || isSummarizing;
+    return (
+      <>
+        <div
+          ref={ref}
+          className='flex-between relative cursor-pointer bg-stone-50 p-2'
+        >
+          {isHovering && (
+            <Button
+              role='button'
+              variant={'icon'}
+              onClick={() => {
+                updateCurrentFile(null);
+              }}
+              className='absolute -right-1 -top-1 z-50 size-max p-0'
+            >
+              <XCircle size={22} className='fill-black text-white' />
+            </Button>
+          )}
 
-const FileDisplay: React.FC<FileDisplayProps> = ({
-  sending,
-  isSummarizing,
-  summarizeFile,
-}) => {
-  const fileUploading = useChatbot((state) => state.fileUploading);
-  const currentFile = useChatbot((state) => state.currentFile);
-  if (!currentFile && !fileUploading) return null;
-
-  const disableSummarizeButton = fileUploading || sending || isSummarizing;
-
-  return (
-    <>
-      <div className='flex-between bg-stone-50 p-2'>
-        <div className='flex items-center gap-x-2'>
-          <FileIcon uploading={fileUploading} />
-          <FileInfo filename={currentFile?.filename || ''} />
+          <div className='flex items-center gap-x-2'>
+            <FileIcon uploading={fileUploading} />
+            <FileInfo filename={currentFile?.filename || ''} />
+          </div>
+          <SummarizeButton
+            onClick={summarizeFile}
+            disabled={disableSummarizeButton}
+          />
         </div>
-        <SummarizeButton
-          onClick={summarizeFile}
-          disabled={disableSummarizeButton}
-        />
-      </div>
-      <Spacer y='8' />
-      <Separator className='bg-gray-200' orientation='horizontal' />
-    </>
-  );
-};
+        <Spacer y='8' />
+        <Separator className='bg-gray-200' orientation='horizontal' />
+      </>
+    );
+  }
+);

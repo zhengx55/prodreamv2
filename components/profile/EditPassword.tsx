@@ -50,8 +50,8 @@ const EditPassModal = ({ children }: Props) => {
       await resetPasswordAction(formData);
       toast.success('password has been reset successfully!');
       setShow(false);
-    } catch (error) {
-      toast.error('An error occurred, please try again later!');
+    } catch (error: any) {
+      toast.error(error.message);
     }
   }
   return (

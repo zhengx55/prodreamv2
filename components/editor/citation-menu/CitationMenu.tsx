@@ -1,5 +1,5 @@
 import Loading from '@/components/root/CustomLoading';
-import { Book } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Surface } from '@/components/ui/surface';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
@@ -137,7 +137,13 @@ const CitationMenu = ({ editor }: Props) => {
               variant={'ghost'}
               className='small-regular gap-x-1 px-0 text-violet-500 hover:underline'
             >
-              <Book />
+              <Icon
+                alt=''
+                src={'/editor/rightbar/book.svg'}
+                width={20}
+                height={20}
+                className='size-[18px]'
+              />
               Add custom citation
             </Button>
           </div>

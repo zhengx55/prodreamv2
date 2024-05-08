@@ -1,7 +1,7 @@
 'use client';
 import { PageTrack } from '@/query/api';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
 const PageViewTrack = ({ no_route_event }: { no_route_event?: string }) => {
@@ -72,7 +72,7 @@ const PageViewTrack = ({ no_route_event }: { no_route_event?: string }) => {
     };
   }, [pathname]);
 
-  return <Suspense />;
+  return null;
 };
 
 export default PageViewTrack;

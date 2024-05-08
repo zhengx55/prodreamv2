@@ -1,4 +1,4 @@
-import { Copilot } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { EditorDictType } from '@/types';
@@ -25,7 +25,13 @@ const CustomPrompt = forwardRef<HTMLInputElement, Props>(
 
     return (
       <div className='flex-between h-12 w-full gap-x-2 rounded-t border border-gray-200 bg-white p-2 shadow-lg'>
-        <Copilot size='24' />
+        <Icon
+          alt=''
+          src='/editor/stars.svg'
+          width={24}
+          height={24}
+          className='size-[24px]'
+        />
         <Input
           type='text'
           ref={ref}
