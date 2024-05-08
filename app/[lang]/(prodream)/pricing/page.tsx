@@ -1,7 +1,6 @@
 import Tab from '@/components/pricing/Tab';
 import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
-import { Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { IDiscount, ISubscription } from '@/types';
 import dynamic from 'next/dynamic';
@@ -120,7 +119,14 @@ export default async function Page() {
 
 const HeaderSection = ({ text }: { text: string }) => (
   <div className='flex-center h-10 w-full shrink-0 gap-x-2 bg-zinc-700'>
-    <Diamond />
+    <Icon
+      width={18}
+      height={18}
+      className='size-4'
+      priority
+      alt='diamond'
+      src='/editor/gem.svg'
+    />
     <p className='subtle-regular text-white'>{text}</p>
   </div>
 );

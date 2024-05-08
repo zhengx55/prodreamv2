@@ -1,5 +1,4 @@
 import Icon from '@/components/root/Icon';
-import { Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import useButtonTrack from '@/hooks/useBtnTrack';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
@@ -68,7 +67,15 @@ const DocNavbar = ({ t, lang }: Props) => {
             }}
             className='h-max rounded px-2 py-1'
           >
-            <Diamond /> {t.Utility.Upgrade}
+            <Icon
+              width={18}
+              height={18}
+              className='size-4'
+              priority
+              alt='diamond'
+              src='/editor/gem.svg'
+            />
+            {t.Utility.Upgrade}
           </Button>
         ) : null}
         {/* <DropdownMenu>

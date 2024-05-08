@@ -10,8 +10,8 @@ import { useAIEditor } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { memo } from 'react';
+import Icon from '../root/Icon';
 import Spacer from '../root/Spacer';
-import { Diamond } from '../root/SvgComponents';
 import { Button } from '../ui/button';
 import { Dialog, DialogClose, DialogContent } from '../ui/dialog';
 import Card from './Card';
@@ -102,7 +102,14 @@ const MembershipModal = () => {
         </div>
         <Spacer y='30' />
         <div className='absolute bottom-0 flex h-10 w-full items-center gap-x-2 rounded-b-lg bg-black px-5'>
-          <Diamond />
+          <Icon
+            width={18}
+            height={18}
+            className='size-4'
+            priority
+            alt='diamond'
+            src='/editor/gem.svg'
+          />
           <p className='subtle-regular text-white'>
             Upgrade to Unlimited to unleash the full potential of your academic
             writing

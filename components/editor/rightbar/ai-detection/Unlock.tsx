@@ -1,4 +1,4 @@
-import { Diamond } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import useButtonTrack from '@/hooks/useBtnTrack';
 import { useAIEditor } from '@/zustand/store';
@@ -36,7 +36,14 @@ const Unlock = ({ text }: { text: String }) => {
         className='base-regular h-max w-max self-center rounded-full bg-violet-500 px-20'
         role='button'
       >
-        <Diamond />
+        <Icon
+          width={18}
+          height={18}
+          className='size-4'
+          priority
+          alt='diamond'
+          src='/editor/gem.svg'
+        />
         Upgrade
       </Button>
     </m.div>

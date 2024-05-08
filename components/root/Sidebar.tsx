@@ -13,7 +13,6 @@ import { Button } from '../ui/button';
 import { DropdownMenu } from '../ui/dropdown-menu';
 import Icon from './Icon';
 import Spacer from './Spacer';
-import { Diamond } from './SvgComponents';
 import { UserSkeleton } from './User';
 
 const FeedbackModal = dynamic(() => import('../feedback/FeedbackModal'));
@@ -156,7 +155,14 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
         {memberShipPending ? null : memberShip?.subscription === 'basic' ? (
           <Link href={'/pricing'} passHref>
             <Button className='w-full rounded-lg bg-violet-500'>
-              <Diamond size='22' />
+              <Icon
+                width={24}
+                height={24}
+                className='size-6'
+                priority
+                alt='diamond'
+                src='/editor/gem.svg'
+              />
               <p className='base-semibold'>Upgrade</p>
             </Button>
           </Link>
