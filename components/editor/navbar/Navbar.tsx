@@ -1,4 +1,5 @@
-import { Cloud, Diamond } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
+import { Diamond } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import useButtonTrack from '@/hooks/useBtnTrack';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
@@ -41,7 +42,18 @@ const DocNavbar = ({ t, lang }: Props) => {
               ? 'Untitled Document'
               : docTtile}
         </h1>
-        {isSaving ? <Loader className='animate-spin' /> : <Cloud />}
+        {isSaving ? (
+          <Loader className='animate-spin' />
+        ) : (
+          <Icon
+            alt=''
+            src='/editor/cloud.svg'
+            width={24}
+            height={24}
+            className='size-6'
+            priority
+          />
+        )}
       </div>
       <div className='flex items-center gap-x-4'>
         <Prompt key={prompt} prompt={prompt} t={t} />
