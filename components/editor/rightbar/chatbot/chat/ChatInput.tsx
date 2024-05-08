@@ -36,7 +36,7 @@ const ChatInput = ({ t }: Props) => {
   } = useChat();
 
   const { id } = useParams();
-  useAutoSizeTextArea(chatRef.current, value, 72);
+  useAutoSizeTextArea(chatRef.current, value, 96);
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateChatMessage(e.target.value);
   };
@@ -128,7 +128,7 @@ const ChatInput = ({ t }: Props) => {
           </Tooltip>
         </div>
       </div>
-      <div className='flex flex-col rounded-lg  border border-gray-200 px-2 pb-0 pt-2'>
+      <div className='flex flex-col rounded-lg border border-gray-200 px-2 pb-0 pt-2'>
         {(currentFile || fileUploading) && (
           <FileDisplay
             sending={sending}
@@ -147,7 +147,7 @@ const ChatInput = ({ t }: Props) => {
                 submit();
               }
             }}
-            className='small-regular h-[42px] min-h-[42px] w-full border-none py-2 pl-0 pr-10 focus-visible:ring-0'
+            className='small-regular min-h-14 w-full border-none py-2 pl-0 pr-10 focus-visible:ring-0'
             id='chat-textarea'
             value={value}
             disabled={sending || isSummarzing}
@@ -156,11 +156,21 @@ const ChatInput = ({ t }: Props) => {
           />
           <Button
             onClick={submit}
+            variant={'icon'}
             disabled={!value.trim() || sending || fileUploading || isSummarzing}
-            className='absolute bottom-0 right-0 top-0 h-full w-max px-2.5 py-2'
+            className='absolute bottom-2 right-2 size-max p-0'
             type='button'
           >
-            <Search className='text-white' />
+            <Icon
+              alt='messaging'
+              width={18}
+              height={18}
+              src={
+                !value.trim
+                  ? '/editor/chatbot/Send_disable.svg'
+                  : '/editor/chatbot/Send.svg'
+              }
+            />
           </Button>
         </div>
       </div>
