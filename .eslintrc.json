@@ -11,9 +11,6 @@
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-argument": "off",
-    "@typescript-eslint/no-misused-promises": "off",
-    "@typescript-eslint/no-floating-promises": "off",
-    "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
     "react/jsx-filename-extension": [
