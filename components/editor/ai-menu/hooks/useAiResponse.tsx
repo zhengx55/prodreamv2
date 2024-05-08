@@ -115,7 +115,7 @@ const useAiResponse = (tool: MutableRefObject<string | null>) => {
 
     const eventData = lines.reduce((acc, line, index) => {
       if (lines[index - 1]?.startsWith('event: session_id')) {
-        session = line.replace('data: "', '').replace('"', '').trim();
+        session = line.replace('data: ', '').replace('"', '').trim();
       }
       if (
         line.startsWith('data:') &&
