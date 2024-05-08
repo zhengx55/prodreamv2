@@ -1,5 +1,5 @@
 'use client';
-import { Book } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import {
@@ -158,7 +158,7 @@ const IntextContent = (props: NodeViewProps) => {
         <p className='small-regular line-clamp-3'>
           {current_citation?.abstract}
         </p>
-        <div className='flex-between gap-x-4'>
+        <div className='flex-between gap-x-2'>
           <PopoverClose asChild>
             <Button
               role='button'
@@ -166,7 +166,14 @@ const IntextContent = (props: NodeViewProps) => {
               className='h-8 w-full rounded border border-violet-500 py-1 text-violet-500'
               variant={'ghost'}
             >
-              <Book /> Edit
+              <Icon
+                alt=''
+                src={'/editor/rightbar/book.svg'}
+                width={20}
+                height={20}
+                className='size-[18px]'
+              />
+              Edit
             </Button>
           </PopoverClose>
           <Button
