@@ -6,6 +6,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
 import localFont from 'next/font/local';
+import { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import { i18n, type Locale } from '../../i18n-config';
 import './globals.css';
@@ -86,7 +87,9 @@ export default async function RootLayout({
         >
           <TanstackProvider>
             <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
-              <PageViewTrack />
+              <Suspense>
+                <PageViewTrack />
+              </Suspense>
               {children}
               <Toaster richColors visibleToasts={1} closeButton />
             </main>
