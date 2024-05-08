@@ -1,3 +1,4 @@
+'use client';
 import { Dialog, DialogClose, DialogContent } from '@/components/ui/dialog';
 import { FeedbackOptions } from '@/constant';
 import { feedbackAttachments, submitFeedback } from '@/query/api';

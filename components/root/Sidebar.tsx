@@ -15,7 +15,6 @@ import Icon from './Icon';
 import Spacer from './Spacer';
 import { UserSkeleton } from './User';
 
-const FeedbackModal = dynamic(() => import('../feedback/FeedbackModal'));
 const useSidebarElevation = (pathname: string) => {
   const [topValue, setTopValue] = useState<number | undefined>();
   const changeTopValue = useCallback((value: number) => {
@@ -64,7 +63,6 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
 
   return (
     <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
-      <FeedbackModal />
       <Link passHref href={`/${lang}`}>
         <Image
           alt='prodream'

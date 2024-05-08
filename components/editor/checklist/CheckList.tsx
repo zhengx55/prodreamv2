@@ -71,7 +71,7 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
     userTrack?.generate_tool_task;
 
   return (
-    <div className='absolute bottom-[5%] left-5 z-10 flex flex-col'>
+    <div className='flex flex-col'>
       <m.div
         initial={false}
         variants={variants}
