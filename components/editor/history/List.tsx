@@ -1,7 +1,7 @@
 'use client';
 import Loading from '@/components/root/CustomLoading';
+import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
-import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
@@ -108,7 +108,13 @@ const DocumentList = (props: Props) => {
                   onClick={() => setViewType('list')}
                   className='size-max p-1'
                 >
-                  <ListViewIcon />
+                  <Icon
+                    alt='list'
+                    src='/editor/listview.svg'
+                    width={20}
+                    height={20}
+                    className='size-6'
+                  />
                 </Button>
               </Tooltip>
             ) : (

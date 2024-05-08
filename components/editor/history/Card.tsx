@@ -1,5 +1,5 @@
+import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
-import { FileIcon } from '@/components/root/SvgComponents';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { IDocDetail } from '@/query/type';
 import { DocPageDicType } from '@/types';
@@ -24,7 +24,13 @@ const Card = ({ item, lang, t }: Props) => {
         onClick={() => router.push(`/${lang}/editor/${item.id}`)}
         className='h-4/5 w-full overflow-hidden rounded-t-lg bg-nav-selected px-3 py-2.5'
       >
-        <FileIcon />
+        <Icon
+          alt='file'
+          src='/editor/file.svg'
+          width={24}
+          height={24}
+          className='size-6'
+        />
         <Spacer y='5' />
         <h1 className='small-semibold line-clamp-2 capitalize'>
           {item.title === 'Untitled' || !item.title

@@ -153,7 +153,6 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
           />
           <p className='base-regular text-zinc-600'>Contact Support</p>
         </div>
-
         {memberShipPending ? null : memberShip?.subscription === 'basic' ? (
           <Link href={'/pricing'} passHref>
             <Button className='w-full rounded-lg bg-violet-500'>
