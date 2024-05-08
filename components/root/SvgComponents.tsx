@@ -1,24 +1,5 @@
 import { cn } from '@/lib/utils';
 
-export function Secure() {
-  return (
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      width='23'
-      height='24'
-      viewBox='0 0 23 24'
-      fill='none'
-    >
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M12.9375 1L2.875 5V11C2.875 16.55 7.16833 21.74 12.9375 23C18.7067 21.74 23 16.55 23 11V5L12.9375 1ZM10.7014 17.0001L6.22917 13.0001L7.80562 11.5901L10.7014 14.1701L18.0694 7.58008L19.6458 9.00008L10.7014 17.0001Z'
-        fill='#E46C6C'
-      />
-    </svg>
-  );
-}
-
 export function Download() {
   return (
     <svg
