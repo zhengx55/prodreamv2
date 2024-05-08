@@ -58,18 +58,13 @@ const NavBar = ({
           </Link>
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
-          <Link
-            prefetch={false}
-            href={token ? `/${lang}/editor` : `/${lang}/login`}
-            passHref
-          >
+          <Link href={token ? `/${lang}/editor` : `/${lang}/login`} passHref>
             <Button role='link' variant={'ghost'} className='text-violet-500'>
               {t.log_in}
             </Button>
           </Link>
 
           <Link
-            prefetch={false}
             href={
               search_param
                 ? `/${lang}/signup?from=${search_param}`

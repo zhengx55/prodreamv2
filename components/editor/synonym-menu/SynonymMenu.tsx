@@ -14,7 +14,7 @@ import { useClickAway, useUnmount } from 'react-use';
 import { useEditorCommand } from '../hooks/useEditorCommand';
 
 type Props = { editor: Editor };
-export const SynonymMenu = memo(({ editor }: Props) => {
+export const SynonymMenu = ({ editor }: Props) => {
   const updateSynonymMenu = useAIEditor((state) => state.updateSynonymMenu);
   const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
   const [text, setText] = useState('');
@@ -106,6 +106,6 @@ export const SynonymMenu = memo(({ editor }: Props) => {
       </div>
     </m.section>
   );
-});
+};
 
-SynonymMenu.displayName = 'SynonymMenu';
+export default memo(SynonymMenu);
