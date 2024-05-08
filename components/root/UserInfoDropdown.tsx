@@ -32,7 +32,7 @@ const UserInfoDropdown = ({ lang }: Props) => {
 
       <DropdownMenuItem
         onClick={logOut}
-        className='cursor-pointer gap-x-2.5  rounded text-zinc-600 hover:bg-slate-100 hover:text-violet-500'
+        className='cursor-pointer gap-x-2.5 rounded text-zinc-600 hover:bg-slate-100 hover:text-violet-500'
       >
         <LogOut size={20} />
         <span className='text-md font-[500]'>Log Out</span>
