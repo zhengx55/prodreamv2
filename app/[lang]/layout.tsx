@@ -88,7 +88,7 @@ export default async function RootLayout({
             <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
               <PageViewTrack />
               {children}
-              <Toaster richColors visibleToasts={1} />
+              <Toaster richColors visibleToasts={1} closeButton />
             </main>
           </TanstackProvider>
         </GoogleOAuthProvider>
