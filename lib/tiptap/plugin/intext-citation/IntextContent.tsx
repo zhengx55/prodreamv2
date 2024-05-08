@@ -83,7 +83,7 @@ const IntextContent = (props: NodeViewProps) => {
               <APAAuthors contributors={current_citation?.contributors ?? []} />
             )}
             {props.node.attrs.show_year &&
-              current_citation?.publish_date &&
+              current_citation?.publish_date?.year &&
               ` ${current_citation?.publish_date?.year}`}
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
@@ -97,7 +97,7 @@ const IntextContent = (props: NodeViewProps) => {
               <MLAAuhors contributors={current_citation?.contributors ?? []} />
             )}
             {props.node.attrs.show_year &&
-              current_citation?.publish_date &&
+              current_citation?.publish_date?.year &&
               ` ${current_citation?.publish_date?.year}`}
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
@@ -116,9 +116,10 @@ const IntextContent = (props: NodeViewProps) => {
                 contributors={current_citation?.contributors ?? []}
               />
             )}
-            {props.node.attrs.show_year && current_citation?.publish_date && (
-              <span>{` ${current_citation?.publish_date?.year}`}</span>
-            )}
+            {props.node.attrs.show_year &&
+              current_citation?.publish_date?.year && (
+                <span>{` ${current_citation?.publish_date?.year}`}</span>
+              )}
             {props.node.attrs.show_page &&
               props.node.attrs.page_number &&
               `, ${props.node.attrs.page_number}`}
