@@ -16,7 +16,7 @@ const Starter = (props: Props) => {
       animate={{ opacity: 1, y: 0 }}
       className='flex h-full w-full flex-col'
     >
-      <Spacer y='24' />
+      <Spacer y='14' />
       <p>👋</p>
       <Spacer y='8' />
       <h2 className='text-xl font-medium text-zinc-800'>Hi, {userName}</h2>
@@ -25,8 +25,8 @@ const Starter = (props: Props) => {
         Greetings! I&apos;m Jessica, your personal essay tutor. Explore AI
         Research, Chat PDF, or simply start a direct chat.
       </p>
-      <Spacer y='50' />
-      <div className='flex gap-x-3'>
+      <Spacer y='10' />
+      <div className='flex gap-x-2'>
         <div
           role='button'
           onClick={() => updateChatType('research')}
