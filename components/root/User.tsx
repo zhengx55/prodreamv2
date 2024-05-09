@@ -30,7 +30,7 @@ const User = ({ name, email, imgSrc, lang }: Props) => {
               {name.length > 10 ? `${name.slice(0, 10)}...` : name}
             </h2>
             <p className='subtle-semibold text-shadow-100'>
-              {email.length > 20 ? `${email.slice(0, 20)}...` : email}
+              {email.length > 15 ? `${email.slice(0, 15)}...` : email}
             </p>
           </div>
         </div>
