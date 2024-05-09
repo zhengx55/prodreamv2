@@ -63,12 +63,13 @@ export default function useEditorInstance(essay_content: string | undefined) {
           'intext-citation': ['citation_id', 'show_page', 'page_number'],
         },
       });
-      if (title === doc_title) {
+      if (title === doc_title && clean_text !== essay_content) {
         await saveDocument({
           id,
           content: clean_text,
         });
-      } else {
+      }
+      if (title !== doc_title) {
         updateTitle(title);
         await saveDocument({
           id,

@@ -21,9 +21,9 @@ const ChatSection = ({ t }: Props) => {
         return (
           <div key={message.id} className={'flex flex-col gap-y-1'}>
             {isMine ? (
-              <MineMessage text={message.text} />
+              <MineMessage text={message.text} filename={message.filename} />
             ) : (
-              <SystemMessage filename={message.filename} text={message.text} />
+              <SystemMessage text={message.text} />
             )}
           </div>
         );

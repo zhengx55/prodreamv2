@@ -25,6 +25,13 @@ export default function useChat() {
       };
     }) => pdfSummary(params),
     onSuccess: async (data: ReadableStream, variables) => {
+      const new_mine_id = v4();
+      appendMessage({
+        type: 'mine',
+        text: 'Summarize this file',
+        id: new_mine_id,
+        filename: variables.attachment.filename,
+      });
       updateCurrentFile(null);
       const message_id = v4();
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
@@ -32,7 +39,6 @@ export default function useChat() {
         type: 'system',
         text: '',
         id: message_id,
-        filename: variables.attachment.filename,
       });
 
       while (true) {
@@ -63,6 +69,7 @@ export default function useChat() {
     }) => chat(params),
 
     onSuccess: async (data: ReadableStream) => {
+      updateCurrentFile(null);
       const new_mine_id = v4();
       appendMessage({ type: 'mine', text: value, id: new_mine_id });
       setValue('');

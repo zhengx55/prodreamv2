@@ -12,6 +12,7 @@ import { FileRejection, useDropzone } from 'react-dropzone';
 type Props = { container: any; t: EditorDictType };
 const UploadModal = ({ container }: Props) => {
   const showUploadModal = useChatbot((state) => state.showUploadModal);
+  const currentSession = useChatbot((state) => state.currentSession);
   const updateCurrentFile = useChatbot((state) => state.updateCurrentFile);
   const updateFileUploading = useChatbot((state) => state.updateFileUploading);
   const updateChatType = useChatbot((state) => state.updateChatType);
@@ -68,7 +69,11 @@ const UploadModal = ({ container }: Props) => {
           <DialogHeader>
             <Dialog.Title className='flex-between text-sm font-medium text-zinc-700'>
               Upload Essay
-              <DialogClose onClick={() => updateChatType(null)}>
+              <DialogClose
+                onClick={() => {
+                  if (!currentSession) updateChatType(null);
+                }}
+              >
                 <XCircle size={20} className='text-neutral-400' />
               </DialogClose>
             </Dialog.Title>
