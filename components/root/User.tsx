@@ -42,11 +42,11 @@ const User = ({ name, email, imgSrc, lang }: Props) => {
 
 export const UserSkeleton = () => {
   return (
-    <div className='flex w-[185px] items-center gap-x-2'>
+    <div className='flex w-[180px] items-center gap-x-2'>
       <Skeleton className='h-10 w-10 shrink-0 rounded-full' />
       <div className='flex w-full flex-col gap-y-1'>
         <Skeleton className='h-6' />
-        <Skeleton className='h-3.5 w-full' />
+        <Skeleton className='h-4 w-full' />
       </div>
     </div>
   );
