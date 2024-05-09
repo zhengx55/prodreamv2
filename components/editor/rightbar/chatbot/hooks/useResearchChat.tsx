@@ -31,7 +31,7 @@ export default function useResearchChat() {
         appendResearchItem({
           query: variables.query,
           id: new_id,
-          message: value,
+          message: '',
           reference: [],
         });
         const reader = data.pipeThrough(new TextDecoderStream()).getReader();

@@ -178,6 +178,7 @@ export type UserTrackData = {
   has_referral_code?: string;
   show_referral_dialog?: string;
   close_checkList?: string;
+  notification_read?: string;
 };
 
 export type ReferenceType = 'mla' | 'apa' | 'ieee' | 'chicago';

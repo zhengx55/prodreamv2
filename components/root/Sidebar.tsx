@@ -9,8 +9,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { memo, useCallback, useEffect, useState } from 'react';
+import Trigger from '../notification/Trigger';
 import { Button } from '../ui/button';
-import { DropdownMenu } from '../ui/dropdown-menu';
 import Icon from './Icon';
 import Spacer from './Spacer';
 import { UserSkeleton } from './User';
@@ -41,7 +41,6 @@ const useSidebarElevation = (pathname: string) => {
   return { topValue, changeTopValue };
 };
 
-const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
 const User = dynamic(() => import('./User'), {
   loading: () => <UserSkeleton />,
 });
@@ -62,7 +61,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
   };
 
   return (
-    <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
+    <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-3 py-4'>
       <Link passHref href={`/${lang}`}>
         <Image
           alt='prodream'
@@ -74,18 +73,20 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
         />
       </Link>
       <Spacer y='40' />
-      <DropdownMenu>
+      <div className='flex-between w-full items-center'>
         {!user.first_name ? (
           <UserSkeleton />
         ) : (
           <User
+            lang={lang}
             name={user.first_name}
             email={user.email}
             imgSrc={user.avatar}
           />
         )}
-        <UserInfoDropdown lang={lang} />
-      </DropdownMenu>
+        <Trigger />
+      </div>
+
       <Spacer y='24' />
       <ul className='relative flex flex-col gap-2.5'>
         {topValue !== undefined ? (

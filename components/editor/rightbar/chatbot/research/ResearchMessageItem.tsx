@@ -23,7 +23,7 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
   };
   return (
     <div className='flex flex-col gap-y-4'>
-      <div className='flex items-center gap-x-2'>
+      <div className='flex items-start gap-x-2'>
         <Button
           role='button'
           onClick={toggleExpansion}
@@ -33,12 +33,12 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
           <Triangle
             className={cn(
               `${isExpanded ? 'rotate-180' : 'rotate-90'}`,
-              'fill-black'
+              'mt-1 fill-black'
             )}
             size={12}
           />
-          <h1 className='text-base font-medium'>{message.query}</h1>
         </Button>
+        <h1 className='text-base font-medium'>{message.query}</h1>
       </div>
       <AnimatePresence>
         {isExpanded && (

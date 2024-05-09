@@ -1,5 +1,5 @@
 import Icon from '@/components/root/Icon';
-import { useChatbot, useUserInfo } from '@/zustand/store';
+import { useUserInfo } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { FileText, Loader2 } from 'lucide-react';
 import { memo } from 'react';
@@ -23,14 +23,14 @@ export const MineMessage = memo(({ text }: MessageProps) => {
       <div className='flex items-center gap-x-2'>
         <Icon
           alt=''
-          className='rounded-full'
+          className='size-7 rounded-full'
           src={userInfo.avatar}
-          width={16}
-          height={16}
+          width={30}
+          height={30}
         />
         <p className='small-regular'>{userInfo.first_name}</p>
       </div>
-      <div className='min-h-9 rounded bg-stone-100 p-2'>
+      <div className='min-h-9 p-2'>
         <p className='small-regular text-zinc-600'>{text}</p>
       </div>
     </m.div>
@@ -39,7 +39,6 @@ export const MineMessage = memo(({ text }: MessageProps) => {
 
 export const SystemMessage = memo(
   ({ text, filename }: MessageProps & { filename?: string }) => {
-    const currentFile = useChatbot((state) => state.currentFile);
     return (
       <m.div
         initial={{
@@ -56,8 +55,9 @@ export const SystemMessage = memo(
           <Icon
             alt=''
             src={'/editor/chatbot/trigger.svg'}
-            width={16}
-            height={16}
+            width={30}
+            height={30}
+            className='size-7'
           />
           <p className='small-regular'>Jessica</p>
         </div>
@@ -76,7 +76,7 @@ export const SystemMessage = memo(
             </div>
           </div>
         )}
-        <div className='min-h-9 rounded bg-stone-100 p-2'>
+        <div className='min-h-9 p-2'>
           {!text ? (
             <Loader2 className='animate-spin text-zinc-600' size={18} />
           ) : (
