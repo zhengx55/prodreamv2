@@ -1,7 +1,6 @@
-import { Button } from '@/components/ui/button';
 import { DialogClose, DialogContent } from '@/components/ui/dialog';
 import { ICitation } from '@/query/type';
-import { Download, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import type { Route } from 'next';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -47,16 +46,16 @@ const CitationPreview = ({ item }: Props) => {
             )
           : null}
 
-        {item.journal_title && (
+        {item.pdf_url && item.publisher && (
           <p className='subtle-regular text-shadow-100'>
-            {item.journal_title}{' '}
-            {item.doi && (
+            {item.publisher}&nbsp;
+            {item.pdf_url && (
               <Link
                 className='text-violet-500'
-                href={`https://doi.org/${item.doi}`}
+                href={item.pdf_url as Route}
                 target='_blank'
               >
-                | {item.doi}
+                | {item.pdf_url}
               </Link>
             )}
           </p>
@@ -66,17 +65,7 @@ const CitationPreview = ({ item }: Props) => {
         ) : item.abstract ? (
           <p className='text-[14px] leading-relaxed'>{item.abstract}</p>
         ) : null}
-        <div className='flex-between w-full pr-4'>
-          <div className='flex items-center gap-x-2'>
-            {item.pdf_url && (
-              <Link passHref href={item.pdf_url as Route} target='_blank'>
-                <Button className='h-max rounded-xl bg-violet-500/10 text-violet-500 hover:bg-violet-500/20 active:bg-violet-500/20'>
-                  PDF
-                  <Download size={16} className='text-violet-500' />
-                </Button>
-              </Link>
-            )}
-          </div>
+        <div className='flex w-full justify-end pr-4'>
           <div className='flex flex-col items-center'>
             <p className='h3-bold text-shadow-100'>{item.citation_count}</p>
             <p className='subtle-regular text-shadow-100'>Cited by</p>
