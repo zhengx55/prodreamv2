@@ -79,25 +79,29 @@ const ChatInput = ({ t }: Props) => {
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
       <div className='flex-between'>
         <div className='flex items-center gap-x-2'>
-          <Button
-            role='button'
-            onClick={() => updateChatType('research')}
-            className='size-max px-1'
-            variant={'icon'}
-          >
-            <Search size={16} className='cursor-pointer' />
-          </Button>
-          <Button
-            onClick={() => {
-              updateUploadModal(true);
-              updateChatType('pdf');
-            }}
-            role='button'
-            className='size-max px-1'
-            variant={'icon'}
-          >
-            <Paperclip size={16} className='cursor-pointer' />
-          </Button>
+          <Tooltip side='top' tooltipContent='Research'>
+            <Button
+              role='button'
+              onClick={() => updateChatType('research')}
+              className='size-max px-1'
+              variant={'icon'}
+            >
+              <Search size={16} className='cursor-pointer' />
+            </Button>
+          </Tooltip>
+          <Tooltip side='top' tooltipContent='Upload file'>
+            <Button
+              onClick={() => {
+                updateUploadModal(true);
+                updateChatType('pdf');
+              }}
+              role='button'
+              className='size-max px-1'
+              variant={'icon'}
+            >
+              <Paperclip size={16} className='cursor-pointer' />
+            </Button>
+          </Tooltip>
         </div>
         <div className='flex items-center gap-x-2'>
           <Tooltip side='top' tooltipContent='History'>
@@ -105,7 +109,7 @@ const ChatInput = ({ t }: Props) => {
               onClick={openHistory}
               variant={'icon'}
               role='button'
-              className='p-2'
+              className='size-max p-1'
             >
               <History size={18} className='text-zinc-600' />
             </Button>
@@ -120,7 +124,7 @@ const ChatInput = ({ t }: Props) => {
                 updateMessageList([]);
                 updateCurrentSession(null);
               }}
-              className='p-2'
+              className='size-max p-1'
             >
               <Plus
                 size={18}
