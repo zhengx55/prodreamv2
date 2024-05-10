@@ -60,7 +60,13 @@ export default function useEditorInstance(essay_content: string | undefined) {
           'intext-citation',
         ],
         allowedAttributes: {
-          'intext-citation': ['citation_id', 'show_page', 'page_number'],
+          'intext-citation': [
+            'citation_id',
+            'show_year',
+            'show_author',
+            'show_page',
+            'page_number',
+          ],
         },
       });
       if (title === doc_title && clean_text !== essay_content) {

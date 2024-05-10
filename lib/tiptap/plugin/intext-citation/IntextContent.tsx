@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/popover';
 import useAIEditor, { useCitation } from '@/zustand/store';
 import type { NodeViewProps } from '@tiptap/react';
-import { useAnimationFrame } from 'framer-motion';
 import { Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useMemo } from 'react';
@@ -34,6 +33,7 @@ const IntextContent = (props: NodeViewProps) => {
   );
 
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+
   const current_citation = useMemo(() => {
     const foundCitation = inTextCitation.find(
       (item) => item.data.id === props.node.attrs.citation_id
@@ -45,9 +45,6 @@ const IntextContent = (props: NodeViewProps) => {
     props.deleteNode();
   };
 
-  useAnimationFrame(() => {
-    if (!current_citation) props.deleteNode();
-  });
   useUnmount(() => {
     if (!current_citation) return;
     let found: boolean = false;
@@ -82,12 +79,12 @@ const IntextContent = (props: NodeViewProps) => {
             {props.node.attrs.show_author && (
               <APAAuthors contributors={current_citation?.contributors ?? []} />
             )}
-            {props.node.attrs.show_year &&
-              current_citation?.publish_date?.year &&
-              ` ${current_citation?.publish_date?.year}`}
-            {props.node.attrs.show_page &&
-              props.node.attrs.page_number &&
-              `, p.${props.node.attrs.page_number}`}
+            {props.node.attrs.show_year
+              ? `${props.node.attrs.show_author ? ' ' : ''}${current_citation?.publish_date?.year}`
+              : ''}
+            {props.node.attrs.show_page
+              ? `${props.node.attrs.show_author || props.node.attrs.show_year ? ', ' : ''}p.${props.node.attrs.page_number}`
+              : ''}
             )
           </p>
         ) : citationStyle === 'mla' ? (
@@ -96,12 +93,12 @@ const IntextContent = (props: NodeViewProps) => {
             {props.node.attrs.show_author && (
               <MLAAuhors contributors={current_citation?.contributors ?? []} />
             )}
-            {props.node.attrs.show_year &&
-              current_citation?.publish_date?.year &&
-              ` ${current_citation?.publish_date?.year}`}
-            {props.node.attrs.show_page &&
-              props.node.attrs.page_number &&
-              `, ${props.node.attrs.page_number}`}
+            {props.node.attrs.show_year
+              ? `${props.node.attrs.show_author ? ' ' : ''}${current_citation?.publish_date?.year}`
+              : ''}
+            {props.node.attrs.show_page
+              ? `${props.node.attrs.show_author || props.node.attrs.show_year ? ', ' : ''}${props.node.attrs.page_number}`
+              : ''}
             )
           </p>
         ) : citationStyle === 'ieee' ? (
@@ -116,13 +113,12 @@ const IntextContent = (props: NodeViewProps) => {
                 contributors={current_citation?.contributors ?? []}
               />
             )}
-            {props.node.attrs.show_year &&
-              current_citation?.publish_date?.year && (
-                <span>{` ${current_citation?.publish_date?.year}`}</span>
-              )}
-            {props.node.attrs.show_page &&
-              props.node.attrs.page_number &&
-              `, ${props.node.attrs.page_number}`}
+            {props.node.attrs.show_year
+              ? `${props.node.attrs.show_author ? ' ' : ''}${current_citation?.publish_date?.year}`
+              : ''}
+            {props.node.attrs.show_page
+              ? `${props.node.attrs.show_author || props.node.attrs.show_year ? ', ' : ''}${props.node.attrs.page_number}`
+              : ''}
             )
           </p>
         )}
