@@ -1,8 +1,11 @@
 import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { memo } from 'react';
+import Icon from '../root/Icon';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
+import { Dialog, DialogTrigger } from '../ui/dialog';
 import { DropdownMenuContent } from '../ui/dropdown-menu';
+import Modal from './Modal';
 
 type Props = {};
 const Dropdown = (props: Props) => {
@@ -20,35 +23,59 @@ const Dropdown = (props: Props) => {
           role='button'
           className='size-max p-0 text-base text-indigo-500'
           variant={'text'}
-          onClick={async () => {}}
+          onClick={async () => {
+            await updateTrack({ data: 'true', field: 'notification_read' });
+          }}
         >
           Mark all as read
         </Button>
       </div>
-      <div className='flex flex-col border-t border-gray-200 px-3 py-4'>
-        <div className='flex-between'>
-          <h3 className='base-regular text-zinc-700'>
-            Your dream is now professionally supported
-          </h3>
-          {!trackInfo?.notification_read && (
-            <span className='size-2 rounded-full bg-red-400' />
-          )}
-        </div>
-        <Spacer y='6' />
-        <article className='text-xs font-normal text-zinc-500'>
-          Exciting news, we met a fortune teller who said changing our name
-          could help our users get into their dream schools. So, we switched
-          from &quot;QuickApply&quot; to &quot;ProDream&quot;! Just kidding
-        </article>
-        <Spacer y='24' />
-        <div className='flex-between'>
-          <div className='flex items-center gap-x-2'>
-            <span className='h-5 w-5 rounded-full bg-zinc-300' />
-            <p className='text-xs font-normal text-zinc-700'>ProDream</p>
+      <Dialog>
+        <DialogTrigger asChild>
+          <div
+            role='dialog'
+            className='flex cursor-pointer flex-col border-t border-gray-200 px-3 py-4 hover:bg-slate-50'
+          >
+            <div className='flex-between'>
+              <h3 className='base-regular text-zinc-700'>
+                📢 New Features Announcement! 📢
+              </h3>
+              {!trackInfo?.notification_read && (
+                <span className='size-2 rounded-full bg-red-400' />
+              )}
+            </div>
+            <Spacer y='6' />
+            <article className='text-xs font-normal text-zinc-500'>
+              We&apos;re pleased to inform you about the latest updates to our
+              platform:
+              <br />
+              <br />
+              <strong>1.Introducing Jessica,</strong> Your AI Research
+              Companion: We&apos;ve added a new AI Chatbot named Jessica to
+              assist with research and writing tasks. Jessica can provide
+              guidance on essay improvement strategies and offer explanations to
+              your readings...
+            </article>
+            <Spacer y='24' />
+            <div className='flex-between'>
+              <div className='flex items-center gap-x-2'>
+                <span className='flex-center h-5 w-5 rounded-full bg-purple-600'>
+                  <Icon
+                    className='size-4'
+                    alt='logo'
+                    width={15}
+                    height={15}
+                    src='/logo/Logo.svg'
+                  />
+                </span>
+                <p className='text-xs font-normal text-zinc-700'>ProDream</p>
+              </div>
+              <p className='text-xs font-normal text-zinc-700'>7 hr.ago</p>
+            </div>
           </div>
-          <p className='text-xs font-normal text-zinc-700'>7 hr.ago</p>
-        </div>
-      </div>
+        </DialogTrigger>
+        <Modal />
+      </Dialog>
     </DropdownMenuContent>
   );
 };
