@@ -1,4 +1,5 @@
 import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
+import { formatTimestamphh_number } from '@/lib/utils';
 import { memo } from 'react';
 import Icon from '../root/Icon';
 import Spacer from '../root/Spacer';
@@ -70,7 +71,9 @@ const Dropdown = (props: Props) => {
                 </span>
                 <p className='text-xs font-normal text-zinc-700'>ProDream</p>
               </div>
-              <p className='text-xs font-normal text-zinc-700'>7 hr.ago</p>
+              <p className='text-xs font-normal text-zinc-700'>
+                {formatTimestamphh_number(1715312029790 / 1000)}
+              </p>
             </div>
           </div>
         </DialogTrigger>
