@@ -37,6 +37,7 @@ const ResearchCover = ({ t }: Props) => {
             src={'/editor/chatbot/recommend.svg'}
             width={20}
             height={20}
+            className='size-5'
           />
           <h3 className='text-sm text-zinc-700 '>Try these</h3>
         </div>

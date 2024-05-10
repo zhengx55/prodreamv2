@@ -48,6 +48,9 @@ const ChatInput = ({ t }: Props) => {
   const openHistory = useChatbot((state) => state.openHistory);
   const chatType = useChatbot((state) => state.chatType);
   const updateMessageList = useChatbot((state) => state.updateMessageList);
+  const updateCurrentSession = useChatbot(
+    (state) => state.updateCurrentSession
+  );
 
   const summarizeFile = async () => {
     if (!currentFile) return;
@@ -115,6 +118,7 @@ const ChatInput = ({ t }: Props) => {
                 if (!chatType) return;
                 updateChatType(null);
                 updateMessageList([]);
+                updateCurrentSession(null);
               }}
               className='p-2'
             >
