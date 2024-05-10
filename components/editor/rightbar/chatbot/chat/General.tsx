@@ -1,5 +1,6 @@
 import Icon from '@/components/root/Icon';
 import Tooltip from '@/components/root/Tooltip';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { EditorRightBar } from '@/constant';
 import { CitationTooltip } from '@/constant/enum';
@@ -67,48 +68,59 @@ const Trigger = ({ t, lang }: DocPageDicType) => {
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
 
   return (
-    <m.ul
-      animate={{ right: rightbarOpen ? '408px' : '12px' }}
+    <m.aside
       initial={false}
-      className='absolute top-2 flex flex-col items-center gap-y-4 rounded border border-gray-200 bg-white px-1.5 py-2'
+      animate={{ right: rightbarOpen ? '408px' : '12px' }}
+      className='absolute top-2 flex flex-col gap-y-2'
     >
-      {EditorRightBar.map((item, index) => (
-        <Fragment key={item.id}>
-          {(index === 3 || index === 5) && (
-            <Separator orientation='horizontal' className='bg-gray-200' />
-          )}
-          {index === 4 ? (
-            citation_tooltip_step === 4 ? (
-              <Tiplayout
-                title={CitationTooltip.STEP4_TITLE}
-                content={CitationTooltip.STEP4_TEXT}
-                step={citation_tooltip_step}
-                side='top'
-                totalSteps={4}
-                buttonLabel='done'
-                onClickCallback={() => {
-                  resetCitationStep();
-                }}
-              >
-                <li
+      <ul className='flex flex-col items-center gap-y-4 rounded border border-gray-200 bg-white px-1.5 py-2'>
+        {EditorRightBar.map((item, index) => (
+          <Fragment key={item.id}>
+            {(index === 3 || index === 5) && (
+              <Separator orientation='horizontal' className='bg-gray-200' />
+            )}
+            {index === 4 ? (
+              citation_tooltip_step === 4 ? (
+                <Tiplayout
+                  title={CitationTooltip.STEP4_TITLE}
+                  content={CitationTooltip.STEP4_TEXT}
+                  step={citation_tooltip_step}
+                  side='top'
+                  totalSteps={4}
+                  buttonLabel='done'
+                  onClickCallback={() => {
+                    resetCitationStep();
+                  }}
+                >
+                  <li
+                    onClick={() => {
+                      updateRightbarTab(index);
+                    }}
+                    className='cursor-pointer hover:opacity-70'
+                  >
+                    <Icon
+                      alt=''
+                      src={
+                        rightbarTab === index && rightbarOpen
+                          ? item.active_icon
+                          : item.icon
+                      }
+                      priority
+                      width={24}
+                      height={24}
+                    />
+                  </li>
+                </Tiplayout>
+              ) : (
+                <TriggerItem
                   onClick={() => {
                     updateRightbarTab(index);
                   }}
-                  className='cursor-pointer hover:opacity-70'
-                >
-                  <Icon
-                    alt=''
-                    src={
-                      rightbarTab === index && rightbarOpen
-                        ? item.active_icon
-                        : item.icon
-                    }
-                    priority
-                    width={24}
-                    height={24}
-                  />
-                </li>
-              </Tiplayout>
+                  item={item}
+                  label={t.RightBar[item.title as keyof typeof t.RightBar]}
+                  isActive={rightbarTab === index && rightbarOpen}
+                />
+              )
             ) : (
               <TriggerItem
                 onClick={() => {
@@ -118,20 +130,27 @@ const Trigger = ({ t, lang }: DocPageDicType) => {
                 label={t.RightBar[item.title as keyof typeof t.RightBar]}
                 isActive={rightbarTab === index && rightbarOpen}
               />
-            )
-          ) : (
-            <TriggerItem
-              onClick={() => {
-                updateRightbarTab(index);
-              }}
-              item={item}
-              label={t.RightBar[item.title as keyof typeof t.RightBar]}
-              isActive={rightbarTab === index && rightbarOpen}
-            />
-          )}
-        </Fragment>
-      ))}
-    </m.ul>
+            )}
+          </Fragment>
+        ))}
+      </ul>
+
+      <Button
+        className='z-50 size-max cursor-pointer border border-gray-200 bg-transparent p-1'
+        role='button'
+        variant={'icon'}
+        onClick={() => updateRightbarTab(6)}
+      >
+        <Icon
+          src='/editor/chatbot/Jessica.png'
+          alt='trigger_chat'
+          height={28}
+          width={28}
+          priority
+          className='size-7'
+        />
+      </Button>
+    </m.aside>
   );
 };
 

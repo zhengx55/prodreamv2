@@ -196,6 +196,7 @@ export interface ChatResponse {
   update_time: number;
   document_id: string;
   first_message: string;
+  first_response: string;
 }
 
 export interface ResearchChatResponse {

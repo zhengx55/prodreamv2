@@ -25,6 +25,7 @@ export default function useChat() {
       };
     }) => pdfSummary(params),
     onSuccess: async (data: ReadableStream, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['session-history'] });
       const new_mine_id = v4();
       appendMessage({
         type: 'mine',
@@ -69,6 +70,7 @@ export default function useChat() {
     }) => chat(params),
 
     onSuccess: async (data: ReadableStream) => {
+      queryClient.invalidateQueries({ queryKey: ['session-history'] });
       updateCurrentFile(null);
       const new_mine_id = v4();
       appendMessage({ type: 'mine', text: value, id: new_mine_id });

@@ -7,7 +7,6 @@ import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import Procedure from './guide/Procedure';
 import useEditorInstance from './hooks/useEditorInstance';
-import ChatTrigger from './rightbar/chatbot/ChatTrigger';
 
 const TableOfContents = dynamic(
   () => import('./table-of-contents/TableOfContents')
@@ -31,7 +30,6 @@ const Editor = ({
   if (!editor) return null;
   return (
     <section className='relative flex w-full flex-col'>
-      <ChatTrigger />
       <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
         {Boolean(track?.guidence) && <EditorBlock {...props} editor={editor} />}
