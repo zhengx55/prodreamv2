@@ -10,11 +10,22 @@ const ResearchHistory = dynamic(() => import('./ResearchHistory'));
 type Props = { t: EditorDictType };
 const ReserchTitle = ({ t }: Props) => {
   const updateChatType = useChatbot((state) => state.updateChatType);
+  const researchList = useChatbot((state) => state.researchList);
+  const updateResearchList = useChatbot((state) => state.updateResearchList);
   const [showHistory, setShowHistory] = useState(false);
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
   const closeHistory = useCallback(() => {
     setShowHistory(false);
   }, []);
+
+  const back = () => {
+    if (researchList.length === 0) {
+      updateChatType(null);
+    } else {
+      updateResearchList([]);
+    }
+  };
+
   return (
     <div className='flex-between'>
       <AnimatePresence>
@@ -23,7 +34,7 @@ const ReserchTitle = ({ t }: Props) => {
       <div className='flex items-center gap-x-1'>
         <Button
           role='button'
-          onClick={() => updateChatType(null)}
+          onClick={back}
           variant={'icon'}
           className='size-max p-1'
         >

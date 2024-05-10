@@ -1,9 +1,10 @@
 import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
+import { Button } from '@/components/ui/button';
 import { getRecommendQs } from '@/query/api';
 import { EditorDictType } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import { Loader2 } from 'lucide-react';
+import { Loader2, RefreshCcw } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
 import useResearchChat from '../hooks/useResearchChat';
@@ -12,7 +13,7 @@ import ResearchInput from './ResearchInput';
 type Props = { t: EditorDictType };
 const ResearchCover = ({ t }: Props) => {
   const { id } = useParams();
-  const { data, isPending, isError } = useQuery({
+  const { data, isPending, isError, refetch, isRefetching } = useQuery({
     queryKey: ['airesearch-recommand', id],
     queryFn: () => getRecommendQs(id as string),
     staleTime: Infinity,
@@ -29,11 +30,27 @@ const ResearchCover = ({ t }: Props) => {
     <div className='flex flex-1 flex-col gap-y-2'>
       <ResearchInput t={t} />
       <Spacer y='16' />
-      <div className='flex items-center gap-x-2'>
-        <Icon alt='' src={'/editor/chatbot/thumb.svg'} width={20} height={20} />
-        <h3 className='text-sm text-zinc-700 '>Try these</h3>
+      <div className='flex-between'>
+        <div className='flex items-center gap-x-1'>
+          <Icon
+            alt=''
+            src={'/editor/chatbot/recommend.svg'}
+            width={20}
+            height={20}
+          />
+          <h3 className='text-sm text-zinc-700 '>Try these</h3>
+        </div>
+        <Button
+          role='button'
+          onClick={async () => await refetch()}
+          variant={'icon'}
+          className='size-max p-1'
+        >
+          <RefreshCcw size={18} className='text-zinc-600' />
+        </Button>
       </div>
-      {isError ? null : isPending || aiChatSending ? (
+
+      {isError ? null : isPending || isRefetching || aiChatSending ? (
         <div className='flex-center flex-1 items-center'>
           <Loader2 size={30} className='animate-spin text-violet-500' />
         </div>
