@@ -83,7 +83,6 @@ const ChatInput = ({ t }: Props) => {
             variant={'icon'}
           >
             <Search size={16} className='cursor-pointer' />
-            <p className='small-regular'>Research</p>
           </Button>
           <Button
             onClick={() => {
@@ -95,7 +94,6 @@ const ChatInput = ({ t }: Props) => {
             variant={'icon'}
           >
             <Paperclip size={16} className='cursor-pointer' />
-            <p className='small-regular'>Upload files</p>
           </Button>
         </div>
         <div className='flex items-center gap-x-2'>

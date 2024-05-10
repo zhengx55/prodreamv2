@@ -14,7 +14,7 @@ const UploadModal = dynamic(() => import('./chat/UploadModal'));
 type Props = { t: EditorDictType };
 const Chatbot = ({ t }: Props) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
-  const chatType = useChatbot((state) => state.chatType);
+  const currentSession = useChatbot((state) => state.currentSession);
   const showHistory = useChatbot((state) => state.showHistory);
 
   return (
@@ -26,7 +26,7 @@ const Chatbot = ({ t }: Props) => {
       <UploadModal t={t} container={container} />
       <DeleteModal t={t} container={container} />
       <ChatTitle t={t} />
-      {!chatType ? <Starter t={t} /> : <ChatSection t={t} />}
+      {!currentSession ? <Starter t={t} /> : <ChatSection t={t} />}
       <ChatInput t={t} />
     </div>
   );
