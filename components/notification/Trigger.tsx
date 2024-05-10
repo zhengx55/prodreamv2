@@ -11,7 +11,7 @@ const NotificationTrigger = (props: Props) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button role='button' className='size-max p-1' variant={'icon'}>
-          <Bell size={22} className='text-zinc-700' />
+          <Bell size={16} className='text-zinc-700' />
         </Button>
       </DropdownMenuTrigger>
       <NotificationMenu />

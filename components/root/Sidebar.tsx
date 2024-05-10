@@ -133,6 +133,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
             height={20}
             alt='discord'
             src='/nav/discord.svg'
+            className='size-5'
             priority
           />
           <p className='base-regular text-zinc-600'>Discord</p>
@@ -147,6 +148,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
             height={20}
             alt='contact support'
             src='/nav/message.svg'
+            className='size-5'
             priority
           />
           <p className='base-regular text-zinc-600'>Contact Support</p>
