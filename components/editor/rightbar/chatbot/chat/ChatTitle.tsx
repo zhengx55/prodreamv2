@@ -12,7 +12,7 @@ const ChatTitle = ({ t }: Props) => {
       <div className='flex items-center gap-x-2'>
         <Icon
           alt=''
-          className='h-8 w-8'
+          className='size-8'
           src='/editor/chatbot/trigger.svg'
           width={32}
           height={32}

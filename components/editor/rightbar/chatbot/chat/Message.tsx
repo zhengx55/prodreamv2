@@ -69,8 +69,8 @@ export const SystemMessage = memo(({ text }: MessageProps) => {
         <Icon
           alt=''
           src={'/editor/chatbot/trigger.svg'}
-          width={30}
-          height={30}
+          width={28}
+          height={28}
           className='size-7'
         />
         <p className='small-regular'>Jessica</p>
