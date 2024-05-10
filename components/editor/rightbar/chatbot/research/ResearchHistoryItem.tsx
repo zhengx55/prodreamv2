@@ -50,11 +50,16 @@ const ResearchHistoryItem = ({ t, item, close }: Props) => {
       onClick={historyDetail}
       className='flex cursor-pointer flex-col gap-y-2 rounded-lg p-2 hover:bg-stone-50'
     >
-      <p className='small-regular self-end text-neutral-400'>
-        {formatTimestamphh_number(item.create_time)}
-      </p>
-      <p className='small-regular line-clamp-2 text-neutral-400'>
-        {item.first_message}
+      <div className='flex-between'>
+        <h3 className='small-medium line-clamp-1 max-w-[50%] text-zinc-700'>
+          {item.first_message}
+        </h3>
+        <p className='small-regular text-neutral-400'>
+          {formatTimestamphh_number(item.create_time)}
+        </p>
+      </div>
+      <p className='small-regular line-clamp-3 text-neutral-400'>
+        {item.first_response}
       </p>
       <Tooltip tooltipContent='Delete' side='top'>
         <Button
