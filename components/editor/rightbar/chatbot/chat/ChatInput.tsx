@@ -48,6 +48,7 @@ const ChatInput = ({ t }: Props) => {
   const openHistory = useChatbot((state) => state.openHistory);
   const chatType = useChatbot((state) => state.chatType);
   const updateMessageList = useChatbot((state) => state.updateMessageList);
+  const updateCurrentFile = useChatbot((state) => state.updateCurrentFile);
   const updateCurrentSession = useChatbot(
     (state) => state.updateCurrentSession
   );
@@ -123,6 +124,7 @@ const ChatInput = ({ t }: Props) => {
                 updateChatType(null);
                 updateMessageList([]);
                 updateCurrentSession(null);
+                updateCurrentFile(null);
               }}
               className='size-max p-1'
             >
