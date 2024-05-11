@@ -7,6 +7,7 @@ import { v4 } from 'uuid';
 export default function useChat() {
   const queryClient = useQueryClient();
   const appendMessage = useChatbot((state) => state.appendMessage);
+  const currentFile = useChatbot((state) => state.currentFile);
   const updateMessageItem = useChatbot((state) => state.updateMessageItem);
   const updateCurrentFile = useChatbot((state) => state.updateCurrentFile);
   const updateCurrentSession = useChatbot(
@@ -25,7 +26,6 @@ export default function useChat() {
       };
     }) => pdfSummary(params),
     onSuccess: async (data: ReadableStream, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['session-history'] });
       const new_mine_id = v4();
       appendMessage({
         type: 'mine',
@@ -69,12 +69,15 @@ export default function useChat() {
       } | null;
     }) => chat(params),
 
-    onSuccess: async (data: ReadableStream) => {
-      queryClient.invalidateQueries({ queryKey: ['session-history'] });
-      updateCurrentFile(null);
+    onSuccess: async (data: ReadableStream, variables) => {
       const new_mine_id = v4();
-      appendMessage({ type: 'mine', text: value, id: new_mine_id });
-      setValue('');
+      appendMessage({
+        type: 'mine',
+        text: value,
+        id: new_mine_id,
+        filename: variables.attachment?.filename,
+      });
+
       const reader = data.pipeThrough(new TextDecoderStream()).getReader();
       const new_id = v4();
       appendMessage({ type: 'system', text: '', id: new_id });
@@ -82,6 +85,8 @@ export default function useChat() {
         const { value, done } = await reader.read();
         if (done) {
           queryClient.invalidateQueries({ queryKey: ['session-history'] });
+          updateCurrentFile(null);
+          setValue('');
           break;
         }
         handleStreamData(value, new_id);

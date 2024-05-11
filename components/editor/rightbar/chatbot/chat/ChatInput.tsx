@@ -63,15 +63,15 @@ const ChatInput = ({ t }: Props) => {
 
   const submit = async () => {
     if (!value.trim()) return;
-    if (!chatType || chatType === 'pdf') {
+    if (!chatType) {
       updateChatType('pdf');
-      await submitChat({
-        query: value,
-        session_id: currentSession,
-        document_id: id as string,
-        attachment: currentFile ?? null,
-      });
     }
+    await submitChat({
+      query: value,
+      session_id: currentSession,
+      document_id: id as string,
+      attachment: currentFile ?? null,
+    });
     chatRef.current?.focus();
   };
 
