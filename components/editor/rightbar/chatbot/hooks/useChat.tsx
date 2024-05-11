@@ -71,7 +71,6 @@ export default function useChat() {
 
     onSuccess: async (data: ReadableStream, variables) => {
       const new_mine_id = v4();
-      console.log(variables.attachment?.filename);
       appendMessage({
         type: 'mine',
         text: value,
