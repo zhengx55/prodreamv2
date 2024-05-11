@@ -15,6 +15,9 @@ const SessionItem = ({ item }: Props) => {
   const updateDeleteSession = useChatbot((state) => state.updateDeleteSession);
   const updateMessageList = useChatbot((state) => state.updateMessageList);
   const updateChatType = useChatbot((state) => state.updateChatType);
+  const updateCurrentSession = useChatbot(
+    (state) => state.updateCurrentSession
+  );
 
   const closeHistory = useChatbot((state) => state.closeHistory);
   const { mutateAsync: getSessionInfo } = useMutation({
@@ -34,6 +37,7 @@ const SessionItem = ({ item }: Props) => {
       });
       updateMessageList(messageList);
       updateChatType('pdf');
+      updateCurrentSession(item.id);
       closeHistory();
     },
     onError: async (error) => {
