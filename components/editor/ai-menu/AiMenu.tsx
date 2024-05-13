@@ -1,18 +1,15 @@
+import Icon from '@/components/root/Icon';
 import LoadingDot from '@/components/root/LoadingDot';
 import Spacer from '@/components/root/Spacer';
-import { Copilot } from '@/components/root/SvgComponents';
 import { Separator } from '@/components/ui/separator';
 import { Surface } from '@/components/ui/surface';
 import { word_regex } from '@/constant';
 import { OperationType } from '@/constant/enum';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { getSelectedText } from '@/lib/tiptap/utils';
-import {
-  useButtonTrack,
-  useMembershipInfo,
-  useMutateTrackInfo,
-  useUserTrackInfo,
-} from '@/query/query';
 import { DocPageDicType, EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
@@ -377,7 +374,13 @@ const Operation = ({
 const Loader = () => {
   return (
     <div className='flex h-12 w-full items-center gap-x-2 rounded-t border border-gray-200 bg-white p-2 shadow-lg'>
-      <Copilot size='24' />
+      <Icon
+        alt=''
+        src='/editor/stars.svg'
+        width={24}
+        height={24}
+        className='size-6'
+      />
       <p className='base-semibold text-violet-500'>
         Al is writing <LoadingDot label='' />
       </p>

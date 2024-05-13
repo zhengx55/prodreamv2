@@ -1,10 +1,10 @@
 'use client';
-import { UploadGard } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { createDoc } from '@/query/api';
-import { useMembershipInfo } from '@/query/query';
 import { DocPageDicType } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
@@ -26,7 +26,7 @@ const SearchBar = ({ lang, t }: Props) => {
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
     onSuccess: (data) => {
-      router.push(`/${lang}/editor/${data}`);
+      router.push(`/${lang}/editor/${data}?new=true`);
       queryClient.invalidateQueries({
         queryKey: ['membership'],
       });
@@ -76,21 +76,28 @@ const SearchBar = ({ lang, t }: Props) => {
         <button
           role='button'
           onClick={handleCreateScrath}
-          style={{
-            background:
-              'linear-gradient(132deg, #DC3DC1 1.6%, #9C2CF3 49.22%, #7A4EF6 91.53%)',
-          }}
-          className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg hover:opacity-50'
+          className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg bg-gradient-to-br from-fuchsia-600 via-purple-600 to-violet-500 hover:bg-violet-500 hover:bg-none'
         >
           <Plus className='text-white' size={20} />
           <p className='base-semibold text-white'>New Essay</p>
         </button>
         <Dialog>
           <DialogTrigger asChild>
-            <span className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg border border-gray-200 hover:opacity-50'>
-              <UploadGard />
+            <Button
+              role='dialog'
+              variant={'outline'}
+              className='size-max cursor-pointer rounded-lg border border-gray-200 px-8 py-4 hover:shadow'
+            >
+              <Icon
+                alt='upload'
+                src='/editor/upload.svg'
+                width={24}
+                height={24}
+                priority
+                className='size-6'
+              />
               <p className='base-semibold'>Upload Essay</p>
-            </span>
+            </Button>
           </DialogTrigger>
           <FileUploadModal t={t} lang={lang} />
         </Dialog>
@@ -102,8 +109,8 @@ const SearchBar = ({ lang, t }: Props) => {
           className={`${
             isTyping
               ? 'bg-violet-500 text-white'
-              : 'bg-shadow-border text-shadow'
-          } flex-center absolute right-2 h-10 w-10 rounded-lg p-1 `}
+              : 'bg-zinc-300 text-neutral-400'
+          } absolute right-2 h-10 w-10 rounded-xl p-1 `}
         >
           <Search size={22} />
         </Button>

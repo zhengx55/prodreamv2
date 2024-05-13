@@ -1,4 +1,5 @@
-import { useMutationMembership, useUserTrackInfo } from '@/query/query';
+import { useMutationMembership } from '@/hooks/useMemberShip';
+import { useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { IDiscount } from '@/types';
 import { memo } from 'react';
 import Spacer from '../root/Spacer';

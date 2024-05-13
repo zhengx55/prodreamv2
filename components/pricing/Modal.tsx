@@ -4,25 +4,33 @@ import {
   PricingBasic,
   PricingUnlimited,
 } from '@/constant';
-import { useDiscountInfo, useMembershipInfo } from '@/query/query';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
+import { getDiscountInfo } from '@/query/api';
 import { useAIEditor } from '@/zustand/store';
+import { useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { memo } from 'react';
+import Icon from '../root/Icon';
 import Spacer from '../root/Spacer';
-import { Diamond } from '../root/SvgComponents';
 import { Button } from '../ui/button';
 import { Dialog, DialogClose, DialogContent } from '../ui/dialog';
 import Card from './Card';
 
 const MembershipModal = () => {
   const { data } = useMembershipInfo();
-  const { data: discountInfo } = useDiscountInfo();
   const open = useAIEditor((state) => state.paymentModalOpen);
   const setOpen = useAIEditor((state) => state.updatePaymentModal);
   const isBasic =
     data?.subscription === 'free_trail' || data?.subscription === 'basic';
   const isMonthly = data?.subscription_type === 'month';
   const isAnually = data?.subscription_type === 'year';
+
+  const { data: discountInfo } = useQuery({
+    queryKey: ['discount'],
+    queryFn: () => getDiscountInfo(),
+    staleTime: 1000 * 60 * 60 * 24,
+  });
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
@@ -94,7 +102,14 @@ const MembershipModal = () => {
         </div>
         <Spacer y='30' />
         <div className='absolute bottom-0 flex h-10 w-full items-center gap-x-2 rounded-b-lg bg-black px-5'>
-          <Diamond />
+          <Icon
+            width={18}
+            height={18}
+            className='size-4'
+            priority
+            alt='diamond'
+            src='/editor/gem.svg'
+          />
           <p className='subtle-regular text-white'>
             Upgrade to Unlimited to unleash the full potential of your academic
             writing

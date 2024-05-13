@@ -1,10 +1,9 @@
 import Loading from '@/components/root/CustomLoading';
-import { Book } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Surface } from '@/components/ui/surface';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { getSelectedText } from '@/lib/tiptap/utils';
-import { ConvertCitationData } from '@/lib/utils';
 import { searchCitation } from '@/query/api';
 import { useCiteToDoc } from '@/query/query';
 import { ICitation } from '@/query/type';
@@ -42,7 +41,6 @@ const CitationMenu = ({ editor }: Props) => {
       editor.chain().unsetHighlight().run();
     };
   }, [editor]);
-
   const { data: ciationResult, isPending } = useQuery({
     queryFn: ({ signal }) => searchCitation(text, signal),
     queryKey: ['search-citation-indoc', text],
@@ -52,12 +50,14 @@ const CitationMenu = ({ editor }: Props) => {
   const { mutateAsync: handleCite } = useCiteToDoc();
 
   const handler = async (item: ICitation) => {
-    const converted_data = ConvertCitationData(item, false);
     editor.chain().unsetHighlight().run();
     await handleCite({
-      citation_data: converted_data,
-      citation_type: 'Journal',
       document_id: id as string,
+      url: item.pdf_url,
+      citation_id: item.citation_id,
+      snippet: item.snippet,
+      citation_count: item.citation_count,
+      in_text_pos: 0,
     });
     updateCitationMenu(false);
   };
@@ -89,19 +89,14 @@ const CitationMenu = ({ editor }: Props) => {
                   className='flex flex-col gap-y-2 bg-shadow-400 px-4 py-1.5'
                 >
                   <h1 className='base-semibold'>{item.article_title}</h1>
-                  <div className='small-regular flex flex-wrap items-center gap-x-2 text-zinc-600'>
-                    {item.contributors?.map((author, a_idx) => (
-                      <p key={`author-${a_idx}`}>
-                        {author.first_name} {author.middle_name}
-                        {author.last_name}
-                      </p>
-                    ))}
-                    <p className='italic'>{item.area ? item.area[0] : ''}</p>
-                    <p>{item.publish_date.year ?? ''}</p>
-                  </div>
+                  <p className='small-regular inline-flex flex-wrap items-center gap-x-2 text-zinc-600'>
+                    {item.publication}
+                    <em>{item.area ? item.area[0] : ''}</em>
+                    <span>{item.publish_date.year ?? ''}</span>
+                  </p>
                   <div className='flex flex-col gap-y-2 rounded border border-gray-200 p-3'>
                     <p className='small-regular line-clamp-3'>
-                      {item.abstract ?? 'No detail description available...'}
+                      {item.snippet ?? 'No detail description available...'}
                     </p>
                   </div>
                   <div className='flex gap-x-2'>
@@ -142,7 +137,13 @@ const CitationMenu = ({ editor }: Props) => {
               variant={'ghost'}
               className='small-regular gap-x-1 px-0 text-violet-500 hover:underline'
             >
-              <Book />
+              <Icon
+                alt=''
+                src={'/editor/rightbar/book.svg'}
+                width={20}
+                height={20}
+                className='size-[18px]'
+              />
               Add custom citation
             </Button>
           </div>

@@ -1,7 +1,7 @@
 import ExtensionKit from '@/lib/tiptap/extensions';
 import '@/lib/tiptap/styles/index.css';
 import { saveDoc } from '@/query/api';
-import { useAIEditor } from '@/zustand/store';
+import { useAIEditor, useChatbot } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { Editor as EditorType, posToDOMRect, useEditor } from '@tiptap/react';
 import useWindowResize from 'beautiful-react-hooks/useWindowResize';
@@ -17,6 +17,8 @@ export default function useEditorInstance(essay_content: string | undefined) {
   const toogleIsSaving = useAIEditor((state) => state.toogleIsSaving);
   const disableContinue = useAIEditor((state) => state.disableContinue);
   const updateshowContinue = useAIEditor((state) => state.updateshowContinue);
+  const stopPlagiarismTimer = useAIEditor((state) => state.stopPlagiarismTimer);
+  const resetChatbot = useChatbot((state) => state.resetChatbot);
   const [showBottomBar, setShowBottomBar] = useState(true);
   const onWindowResize = useWindowResize();
   const { id }: { id: string } = useParams();
@@ -58,15 +60,22 @@ export default function useEditorInstance(essay_content: string | undefined) {
           'intext-citation',
         ],
         allowedAttributes: {
-          'intext-citation': ['citation_id', 'show_page', 'page_number'],
+          'intext-citation': [
+            'citation_id',
+            'show_year',
+            'show_author',
+            'show_page',
+            'page_number',
+          ],
         },
       });
-      if (title === doc_title) {
+      if (title === doc_title && clean_text !== essay_content) {
         await saveDocument({
           id,
           content: clean_text,
         });
-      } else {
+      }
+      if (title !== doc_title) {
         updateTitle(title);
         await saveDocument({
           id,
@@ -138,7 +147,9 @@ export default function useEditorInstance(essay_content: string | undefined) {
       debouncedUpdateText(title ?? '', html);
     },
     onDestroy: () => {
+      stopPlagiarismTimer();
       reset();
+      resetChatbot();
     },
   });
   return { editor, showBottomBar };

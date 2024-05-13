@@ -3,13 +3,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { HomePageDicType } from '@/types';
+import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
 import { Button } from '../../ui/button';
-import LocaleDropdown from './LocaleDropdown';
-import MobileDropdown from './MobileDropdown';
+
+const MobileDropdown = dynamic(() => import('./MobileDropdown'), {
+  ssr: false,
+});
+const LocaleDropdown = dynamic(() => import('./LocaleDropdown'), {
+  ssr: false,
+});
 
 const NavBar = ({
   t,
@@ -58,18 +64,13 @@ const NavBar = ({
           </Link>
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
-          <Link
-            prefetch={false}
-            href={token ? `/${lang}/editor` : `/${lang}/login`}
-            passHref
-          >
+          <Link href={token ? `/${lang}/editor` : `/${lang}/login`} passHref>
             <Button role='link' variant={'ghost'} className='text-violet-500'>
               {t.log_in}
             </Button>
           </Link>
 
           <Link
-            prefetch={false}
             href={
               search_param
                 ? `/${lang}/signup?from=${search_param}`

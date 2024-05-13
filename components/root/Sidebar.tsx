@@ -1,24 +1,22 @@
 'use client';
 import { SidebarLinks } from '@/constant';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { Locale } from '@/i18n-config';
-import { useMembershipInfo } from '@/query/query';
-import { useUserInfo } from '@/zustand/store';
+import { useModal, useUserInfo } from '@/zustand/store';
 import type { Route } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { memo, useCallback, useEffect, useState } from 'react';
+import Trigger from '../notification/Trigger';
 import { Button } from '../ui/button';
-import { DropdownMenu } from '../ui/dropdown-menu';
-import { Skeleton } from '../ui/skeleton';
+import Icon from './Icon';
 import Spacer from './Spacer';
-import { Diamond } from './SvgComponents';
 import { UserSkeleton } from './User';
 
 const useSidebarElevation = (pathname: string) => {
   const [topValue, setTopValue] = useState<number | undefined>();
-
   const changeTopValue = useCallback((value: number) => {
     setTopValue(value);
   }, []);
@@ -43,7 +41,6 @@ const useSidebarElevation = (pathname: string) => {
   return { topValue, changeTopValue };
 };
 
-const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
 const User = dynamic(() => import('./User'), {
   loading: () => <UserSkeleton />,
 });
@@ -51,6 +48,8 @@ const User = dynamic(() => import('./User'), {
 const Sidebar = ({ lang }: { lang: Locale }) => {
   const pathname = usePathname();
   const { topValue, changeTopValue } = useSidebarElevation(pathname);
+  const updateFeedbackModal = useModal((state) => state.updateFeedbackModal);
+
   const router = useRouter();
   const { isPending: memberShipPending, data: memberShip } =
     useMembershipInfo();
@@ -62,7 +61,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
   };
 
   return (
-    <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-5 py-5'>
+    <aside className='relative flex w-[240px] shrink-0 flex-col border-r border-r-shadow-border bg-white px-3 py-4'>
       <Link passHref href={`/${lang}`}>
         <Image
           alt='prodream'
@@ -74,18 +73,20 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
         />
       </Link>
       <Spacer y='40' />
-      <DropdownMenu>
+      <div className='flex-between w-full items-center'>
         {!user.first_name ? (
           <UserSkeleton />
         ) : (
           <User
+            lang={lang}
             name={user.first_name}
             email={user.email}
             imgSrc={user.avatar}
           />
         )}
-        <UserInfoDropdown lang={lang} />
-      </DropdownMenu>
+        <Trigger />
+      </div>
+
       <Spacer y='24' />
       <ul className='relative flex flex-col gap-2.5'>
         {topValue !== undefined ? (
@@ -120,13 +121,49 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
           );
         })}
       </ul>
+
       <div className='mt-auto flex flex-col'>
-        {memberShipPending ? (
-          <Skeleton className='h-10 w-full rounded-lg' />
-        ) : memberShip?.subscription === 'basic' ? (
+        <Link
+          href={'https://discord.gg/xXSFXv5kPd'}
+          target='_blank'
+          className='z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2 hover:bg-slate-100'
+        >
+          <Icon
+            width={20}
+            height={20}
+            alt='discord'
+            src='/nav/discord.svg'
+            className='size-5'
+            priority
+          />
+          <p className='base-regular text-zinc-600'>Discord</p>
+        </Link>
+        <div
+          role='dialog'
+          className='z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2 hover:bg-slate-100'
+          onClick={() => updateFeedbackModal(true)}
+        >
+          <Icon
+            width={20}
+            height={20}
+            alt='contact support'
+            src='/nav/message.svg'
+            className='size-5'
+            priority
+          />
+          <p className='base-regular text-zinc-600'>Contact Support</p>
+        </div>
+        {memberShipPending ? null : memberShip?.subscription === 'basic' ? (
           <Link href={'/pricing'} passHref>
             <Button className='w-full rounded-lg bg-violet-500'>
-              <Diamond size='22' />
+              <Icon
+                width={24}
+                height={24}
+                className='size-6'
+                priority
+                alt='diamond'
+                src='/editor/gem.svg'
+              />
               <p className='base-semibold'>Upgrade</p>
             </Button>
           </Link>

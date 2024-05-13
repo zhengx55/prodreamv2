@@ -1,12 +1,11 @@
 import Loading from '@/components/root/CustomLoading';
 import { H1_regex, H2_regex } from '@/constant';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { findLastParagraph, findTitle } from '@/lib/tiptap/utils';
 import { copilot, outline } from '@/query/api';
-import { useMembershipInfo } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ChevronLeft } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useCallback, useRef, useState } from 'react';
 import { useUpdateEffect } from 'react-use';
@@ -190,15 +189,6 @@ const GenerateSub = ({ generateTab, label, t }: Props) => {
 
   return (
     <div className='flex h-full w-full flex-col overflow-hidden'>
-      <div
-        onClick={() => setGenerateTab(-1)}
-        className='flex cursor-pointer items-center gap-x-2 hover:underline'
-      >
-        <ChevronLeft size={20} className='text-zinc-600' />
-        <p className='base-regular capitalize text-zinc-600'>
-          {t.Generate[generateTab as keyof typeof t.Generate] as any}
-        </p>
-      </div>
       <div className='flex flex-1 flex-col overflow-y-auto'>
         {!generatedResult && !isGenerating ? (
           isOutline ? (

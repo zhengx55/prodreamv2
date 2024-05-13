@@ -1,3 +1,4 @@
+import { AIResearchMessageRef } from '@/types';
 import type { JSONContent } from '@tiptap/react';
 
 export interface LoginResponse {
@@ -92,22 +93,34 @@ export type IDocDetail = {
 };
 
 export interface ICitation {
-  abstract: string;
-  contributors: Author[];
+  abstract: null;
   advanced_info: AdvancedInfo;
-  area: string[];
+  area: null;
   article_title: string;
-  authors?: Author[];
+  contributors: [
+    {
+      first_name: string;
+      last_name: string;
+      middle_name: string;
+      role: string;
+      suffix: string;
+    },
+  ];
+  authors: Author[];
+  bibtex: null;
   citation_count: number;
+  citation_id: string;
   doi: null;
-  publisher: string;
-  tldr: string;
-  influential_citation_count: number;
-  journal_title: null | string;
+  influential_citation_count: null;
+  journal_title: null;
   page_info: PageInfo;
-  pdf_url: null | string;
+  pdf_url: string;
+  publication: string;
   publish_date: PublishDate;
-  reference_count: number;
+  publisher: null;
+  reference_count: null;
+  snippet: string;
+  tldr: null;
 }
 
 interface AdvancedInfo {
@@ -116,9 +129,18 @@ interface AdvancedInfo {
   volume: null | string;
 }
 
-interface Series {
-  end: null;
-  start: null;
+interface Author {
+  first_name: string;
+  last_name: string;
+  middle_name: string;
+  role: string;
+  suffix: string;
+}
+
+interface AdvancedInfo {
+  issue: null;
+  series: string | null;
+  volume: null | string;
 }
 
 interface Author {
@@ -156,6 +178,7 @@ export type UserTrackData = {
   has_referral_code?: string;
   show_referral_dialog?: string;
   close_checkList?: string;
+  notification_read?: string;
 };
 
 export type ReferenceType = 'mla' | 'apa' | 'ieee' | 'chicago';
@@ -166,7 +189,40 @@ export type UploadChatPdfResponse = {
   size: number;
 };
 
+export interface ChatResponse {
+  id: string;
+  title: string;
+  create_time: number;
+  update_time: number;
+  document_id: string;
+  first_message: string;
+  first_response: string;
+}
+
 export interface ResearchChatResponse {
   response: string;
   thread_id: string;
+}
+
+export type AiResearchItemResponse = {
+  id: string;
+  user_id: string;
+  title: string;
+  create_time: number;
+  update_time: number;
+  history: ItemHistory[];
+  _history: [string, string][];
+  attachments: any[];
+  document_id: string;
+};
+
+interface ItemHistory {
+  role: 'user' | 'assistant';
+  content: string;
+  create_time: number;
+  id: string;
+  attachment: null;
+  contexts: AIResearchMessageRef[] | null;
+  feedback: null;
+  favorite: boolean;
 }

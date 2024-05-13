@@ -1109,3 +1109,9 @@ export const ChatbotEngine = [
     icon: '/editor/chatbot/Tutor.svg',
   },
 ];
+
+export const FeedbackOptions = [
+  '🐞 Report a bug',
+  '🛠️ Submit a feature suggestion',
+  '👩‍💻️️ Access customer assistance',
+];

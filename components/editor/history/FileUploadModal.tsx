@@ -42,7 +42,7 @@ const FileUploadModal = ({ lang, t }: Props) => {
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    maxSize: 1024 * 1024,
+    maxSize: 10 * 1024 * 1024,
     accept: {
       'application/pdf': ['.pdf'],
       'application/msword': ['.doc'],

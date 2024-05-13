@@ -1,5 +1,5 @@
 'use client';
-import { Book } from '@/components/root/SvgComponents';
+import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import {
@@ -12,7 +12,7 @@ import useAIEditor, { useCitation } from '@/zustand/store';
 import type { NodeViewProps } from '@tiptap/react';
 import { Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useUnmount } from 'react-use';
 
 const CitationPreview = dynamic(
@@ -22,21 +22,25 @@ const CitationPreview = dynamic(
   }
 );
 const IntextContent = (props: NodeViewProps) => {
-  const {
-    citationStyle,
-    updateCurrentInline,
-    inTextCitation,
-    updateShowEditCitation,
-    removeInTextCitationIds,
-  } = useCitation((state) => ({ ...state }));
+  const citationStyle = useCitation((state) => state.citationStyle);
+  const updateCurrentInline = useCitation((state) => state.updateCurrentInline);
+  const inTextCitation = useCitation((state) => state.inTextCitation);
+  const updateShowEditCitation = useCitation(
+    (state) => state.updateShowEditCitation
+  );
+  const removeInTextCitationIds = useCitation(
+    (state) => state.removeInTextCitationIds
+  );
 
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+
   const current_citation = useMemo(() => {
     const foundCitation = inTextCitation.find(
       (item) => item.data.id === props.node.attrs.citation_id
     );
     return foundCitation ? foundCitation.data : null;
   }, [inTextCitation, props.node.attrs.citation_id]);
+
   const handleDeleteCitation = () => {
     props.deleteNode();
   };
@@ -75,9 +79,12 @@ const IntextContent = (props: NodeViewProps) => {
             {props.node.attrs.show_author && (
               <APAAuthors contributors={current_citation?.contributors ?? []} />
             )}
-            {props.node.attrs.show_year && (
-              <span>{current_citation?.publish_date?.year}</span>
-            )}
+            {props.node.attrs.show_year
+              ? `${props.node.attrs.show_author ? ' ' : ''}${current_citation?.publish_date?.year}`
+              : ''}
+            {props.node.attrs.show_page
+              ? `${props.node.attrs.show_author || props.node.attrs.show_year ? ', ' : ''}p.${props.node.attrs.page_number}`
+              : ''}
             )
           </p>
         ) : citationStyle === 'mla' ? (
@@ -86,11 +93,12 @@ const IntextContent = (props: NodeViewProps) => {
             {props.node.attrs.show_author && (
               <MLAAuhors contributors={current_citation?.contributors ?? []} />
             )}
-            {props.node.attrs.show_year &&
-              `, ${current_citation?.publish_date?.year}`}
-            {props.node.attrs.show_page &&
-              props.node.attrs.page_number &&
-              `, ${props.node.attrs.page_number}`}
+            {props.node.attrs.show_year
+              ? `${props.node.attrs.show_author ? ' ' : ''}${current_citation?.publish_date?.year}`
+              : ''}
+            {props.node.attrs.show_page
+              ? `${props.node.attrs.show_author || props.node.attrs.show_year ? ', ' : ''}${props.node.attrs.page_number}`
+              : ''}
             )
           </p>
         ) : citationStyle === 'ieee' ? (
@@ -105,12 +113,12 @@ const IntextContent = (props: NodeViewProps) => {
                 contributors={current_citation?.contributors ?? []}
               />
             )}
-            {props.node.attrs.show_year && (
-              <span>{` ${current_citation?.publish_date?.year}`}</span>
-            )}
-            {props.node.attrs.show_page &&
-              props.node.attrs.page_number &&
-              `, p. ${props.node.attrs.page_number}`}
+            {props.node.attrs.show_year
+              ? `${props.node.attrs.show_author ? ' ' : ''}${current_citation?.publish_date?.year}`
+              : ''}
+            {props.node.attrs.show_page
+              ? `${props.node.attrs.show_author || props.node.attrs.show_year ? ', ' : ''}${props.node.attrs.page_number}`
+              : ''}
             )
           </p>
         )}
@@ -127,9 +135,11 @@ const IntextContent = (props: NodeViewProps) => {
           </DialogTrigger>
           <CitationPreview item={current_citation as any} />
         </Dialog>
-        <p className='subtle-regular text-neutral-400'>
-          Year: {current_citation?.publish_date?.year}
-        </p>
+        {current_citation?.publish_date && (
+          <p className='subtle-regular text-neutral-400'>
+            Year: {current_citation?.publish_date?.year}
+          </p>
+        )}
         {current_citation?.contributors.length ? (
           <p className='subtle-regular text-neutral-400'>
             Authors:&nbsp;
@@ -145,7 +155,7 @@ const IntextContent = (props: NodeViewProps) => {
         <p className='small-regular line-clamp-3'>
           {current_citation?.abstract}
         </p>
-        <div className='flex-between gap-x-4'>
+        <div className='flex-between gap-x-2'>
           <PopoverClose asChild>
             <Button
               role='button'
@@ -153,7 +163,14 @@ const IntextContent = (props: NodeViewProps) => {
               className='h-8 w-full rounded border border-violet-500 py-1 text-violet-500'
               variant={'ghost'}
             >
-              <Book /> Edit
+              <Icon
+                alt=''
+                src={'/editor/rightbar/book.svg'}
+                width={20}
+                height={20}
+                className='size-[18px]'
+              />
+              Edit
             </Button>
           </PopoverClose>
           <Button
@@ -257,4 +274,4 @@ const ChicagoAuthors = ({
   }
 };
 
-export default IntextContent;
+export default memo(IntextContent);

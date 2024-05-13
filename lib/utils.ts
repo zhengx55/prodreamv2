@@ -1,5 +1,3 @@
-import { ICitation } from '@/query/type';
-import { IJournalCitation } from '@/types';
 import { clsx, type ClassValue } from 'clsx';
 import escapeStringRegExp from 'escape-string-regexp';
 import { twMerge } from 'tailwind-merge';
@@ -258,52 +256,6 @@ export function numberToMonth(number: number): string | null {
   }
 }
 
-export function ConvertCitationData(item: ICitation, manual: boolean) {
-  const converted_data = {} as IJournalCitation;
-  const {
-    advanced_info,
-    article_title,
-    contributors,
-    doi,
-    journal_title,
-    page_info,
-    publish_date,
-    abstract,
-    pdf_url,
-    reference_count,
-    influential_citation_count,
-    tldr,
-    publisher,
-    area,
-  } = item;
-  converted_data.publish_date = {
-    day: publish_date.day ?? '',
-    month: publish_date.month ? numberToMonth(publish_date.month) : '',
-    year: publish_date.year ?? '',
-  };
-  converted_data.contributors = contributors ?? [
-    { first_name: '', last_name: '', middle_name: '', role: '', suffix: '' },
-  ];
-  converted_data.manual_create = manual;
-  converted_data.reference_count = reference_count ?? 0;
-  converted_data.area = area ?? [];
-  converted_data.page_info = page_info ?? { start: '', end: '' };
-  converted_data.journal_title = journal_title ?? '';
-  converted_data.article_title = article_title ?? '';
-  converted_data.abstract = abstract ?? '';
-  converted_data.pdf_url = pdf_url ?? '';
-  converted_data.tldr = tldr;
-  converted_data.publisher = publisher ?? '';
-  converted_data.influential_citation_count = influential_citation_count;
-  converted_data.doi = doi ?? '';
-  converted_data.advanced_info = {
-    issue: advanced_info.issue ?? '',
-    volume: advanced_info.volume ?? '',
-    series: advanced_info.series ?? '',
-  };
-  return converted_data;
-}
-
 export function createRegex(str: string) {
   let substring_regex: RegExp;
   if (/[^\w\s]+/g.test(str)) {
@@ -312,25 +264,4 @@ export function createRegex(str: string) {
     substring_regex = new RegExp(`\\b${str}\\b`, 'g');
   }
   return substring_regex;
-}
-
-export function convertToBibtex(data: ICitation) {
-  const { article_title, contributors, publish_date, doi, publisher } = data;
-
-  const formattedAuthors = contributors
-    .map((contributor) => {
-      const { first_name, middle_name, last_name } = contributor;
-      return `${last_name}, ${first_name}${middle_name ? ` ${middle_name}` : ''}`;
-    })
-    .join(' and ');
-
-  let bibtex = `@article{${(doi ?? '').replace(/\//g, '')},
-    title={${article_title}},
-    author={${formattedAuthors}},
-    year={${publish_date.year}},
-    publisher={${publisher}},
-    doi={${doi}}
-  }`;
-
-  return bibtex;
 }

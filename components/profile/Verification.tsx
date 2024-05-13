@@ -1,4 +1,4 @@
-import { Secure } from '../root/SvgComponents';
+import Icon from '../root/Icon';
 import ResendButton from './ResendButton';
 
 const Verification = ({
@@ -11,11 +11,17 @@ const Verification = ({
   if (isGoogle || isVerified) return null;
   return (
     <div className='flex h-[140px] w-[700px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
-      <div className='flex gap-x-6'>
-        <Secure />
+      <div className='flex items-center gap-x-3'>
+        <Icon
+          src={'/profile/secure.svg'}
+          alt='secure'
+          width={24}
+          height={24}
+          className='size-6'
+        />
         <h1 className='title-semibold'>Secure Your Account</h1>
       </div>
-      <div className='flex-between flex gap-x-16 pl-12'>
+      <div className='flex-between flex gap-x-16 pl-9'>
         <p className='base-regular text-shadow-100'>
           To secure your account, please verify via the link we sent to your
           email address

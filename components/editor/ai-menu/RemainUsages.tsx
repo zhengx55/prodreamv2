@@ -1,10 +1,14 @@
 import { Button } from '@/components/ui/button';
-import { useMembershipInfo } from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { useAIEditor } from '@/zustand/store';
 import { AlertTriangle } from 'lucide-react';
+import { memo } from 'react';
 
 const RemainUsages = () => {
   const { data: usage } = useMembershipInfo();
+  const { mutateAsync: buttonTrack } = useButtonTrack();
+
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   return (
     <div className='flex-between w-[600px] rounded-b bg-gray-200 px-2 py-1'>
@@ -13,7 +17,10 @@ const RemainUsages = () => {
         <p className='subtle-regular text-shadow'>
           {usage?.free_times_detail.Copilot}/20 weekly AI prompts used;&nbsp;
           <Button
-            onClick={() => {
+            onClick={async () => {
+              await buttonTrack({
+                event: 'open payment at copiolt menu',
+              });
               updatePaymentModal(true);
             }}
             role='button'
@@ -27,4 +34,4 @@ const RemainUsages = () => {
     </div>
   );
 };
-export default RemainUsages;
+export default memo(RemainUsages);

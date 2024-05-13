@@ -1,10 +1,12 @@
-import { useGetReference, useMembershipInfo } from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
+import { getReferenceType } from '@/query/api';
 import { ReferenceType } from '@/query/type';
 import useAIEditor, { useCitation } from '@/zustand/store';
-import { Loader2 } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { Copy, Loader2 } from 'lucide-react';
 import { memo, useMemo, useRef } from 'react';
 import Spacer from '../root/Spacer';
-import { Copy } from '../root/SvgComponents';
 import { Button } from '../ui/button';
 import {
   Select,
@@ -18,6 +20,7 @@ const Reference = () => {
   const citationStyle = useCitation((state) => state.citationStyle);
   const inTextCitation = useCitation((state) => state.inTextCitation);
   const updateCitationStyle = useCitation((state) => state.updateCitationStyle);
+  const { mutateAsync: buttonTrack } = useButtonTrack();
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { data: usage } = useMembershipInfo();
   const referenceListRef = useRef<HTMLOListElement>(null);
@@ -47,9 +50,15 @@ const Reference = () => {
     data: reference_data,
     isPending,
     isError,
-  } = useGetReference({
-    type: citationStyle,
-    bibtex: bibtext_ids,
+  } = useQuery({
+    queryFn: () =>
+      getReferenceType({
+        type: citationStyle,
+        bibtex: bibtext_ids,
+      }),
+    queryKey: ['reference', citationStyle, bibtext_ids],
+    enabled: bibtext_ids.length > 0,
+    staleTime: Infinity,
   });
 
   const copyHtml = async () => {
@@ -72,7 +81,12 @@ const Reference = () => {
                 role='button'
                 variant={'ghost'}
                 className='subtle-regular h-max px-0 py-0'
-                onClick={() => updatePaymentModal(true)}
+                onClick={async () => {
+                  await buttonTrack({
+                    event: 'open payment at reference list',
+                  });
+                  updatePaymentModal(true);
+                }}
               >
                 Go unlimited
               </Button>
@@ -83,7 +97,7 @@ const Reference = () => {
               onClick={copyHtml}
               className='h-max px-2.5 py-1'
             >
-              <Copy size='18' color='white' />
+              <Copy size={18} className='text-white' />
             </Button>
           )}
           <Select

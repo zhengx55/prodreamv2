@@ -1,9 +1,9 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { ContinueTooltip, OutlineTooltipMain } from '@/constant/enum';
+import { useMutateTrackInfo } from '@/hooks/useTrackInfo';
 import { findFirstParagraph } from '@/lib/tiptap/utils';
 import { copilot } from '@/query/api';
-import { useMutateTrackInfo } from '@/query/query';
 import { useAIEditor, useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { posToDOMRect, type Editor } from '@tiptap/react';

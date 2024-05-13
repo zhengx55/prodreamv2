@@ -1,5 +1,5 @@
+import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
-import { Continue } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
@@ -7,8 +7,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { copilot } from '@/query/api';
-import { useMembershipInfo } from '@/query/query';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -121,8 +121,14 @@ const Trigger = ({ editor, t }: Props) => {
         <TooltipProvider>
           <Tooltip delayDuration={100}>
             <TooltipTrigger asChild>
-              <span className='rounded bg-violet-500'>
-                <Continue />
+              <span className='rounded bg-violet-500 p-0.5'>
+                <Icon
+                  alt=''
+                  src='/editor/continue.svg'
+                  width={18}
+                  height={18}
+                  className='size-4'
+                />
               </span>
             </TooltipTrigger>
             <TooltipContent className='py-2'>

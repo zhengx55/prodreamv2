@@ -5,6 +5,7 @@ import { DialogClose, DialogContent } from '@/components/ui/dialog';
 import { deleteDoc } from '@/query/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { XCircle } from 'lucide-react';
+import { memo } from 'react';
 
 type Props = {
   id: string;
@@ -77,4 +78,4 @@ const DeleteModal = ({ id, title }: Props) => {
   );
 };
 
-export default DeleteModal;
+export default memo(DeleteModal);

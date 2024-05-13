@@ -6,14 +6,15 @@ import { EditorContent, Editor as EditorType } from '@tiptap/react';
 import { AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
-import AiMenu from './ai-menu/AiMenu';
+import Reference from './Reference';
 import BubbleMenu from './bubble-menu/BubbleMenu';
-import CitationMenu from './citation-menu/CitationMenu';
-import { SynonymMenu } from './synonym-menu';
 
+const AiMenu = dynamic(() => import('./ai-menu/AiMenu'));
+const CitationMenu = dynamic(() => import('./citation-menu/CitationMenu'));
+const SynonymMenu = dynamic(() => import('./synonym-menu/SynonymMenu'));
 const Task = dynamic(() => import('./guide/Task'));
-const Reference = dynamic(() => import('./Reference'));
 const Trigger = dynamic(() => import('./continue-writting/Trigger'));
+
 type Props = { editor: EditorType } & DocPageDicType;
 
 const EditorBlock = ({ editor, ...props }: Props) => {

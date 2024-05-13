@@ -2,16 +2,14 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { plag_report_type } from '@/constant';
 import { plagiarismCheck, plagiarismQuery } from '@/query/api';
-import { EditorDictType } from '@/types';
+import { EditorDictType, PdfResult } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { memo, useCallback, useRef, useState } from 'react';
+import { memo, useCallback } from 'react';
 import { pdfjs } from 'react-pdf';
-import { useLocalStorage, useUnmount } from 'react-use';
 import Title from '../Title';
 import NoPlagiarismReport from './NoPlagiarismReport';
 
@@ -21,37 +19,40 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 const Report = dynamic(() => import('./Report'));
 
-export type PdfResult = {
-  prob: number;
-  link: string;
-  score: string;
-  results: string;
-  total_words: string;
-};
-
 type Props = { t: EditorDictType };
 const Plagiarism = ({ t }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
-  const { id } = useParams();
-  const [showLoading, setShowLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const timer = useRef<NodeJS.Timeout | null>(null);
-  const [pdfResult, setPdfResult, remove] = useLocalStorage<PdfResult>(
-    `plag_report_${id}`,
-    undefined
+  const plagiarismLoading = useAIEditor((state) => state.plagiarismLoading);
+  const plagiarismProgress = useAIEditor((state) => state.plagiarismProgress);
+  const plagiarismResult = useAIEditor((state) => state.plagiarismResult);
+  const updatePlagiarismResult = useAIEditor(
+    (state) => state.updatePlagiarismResult
   );
+  const updatePlagiarismLoading = useAIEditor(
+    (state) => state.updatePlagiarismLoading
+  );
+  const updatePlagiarismProgress = useAIEditor(
+    (state) => state.updatePlagiarismProgress
+  );
+  const startPlagiarismTimer = useAIEditor(
+    (state) => state.startPlagiarismTimer
+  );
+  const incrementPlagiarismProgress = useAIEditor(
+    (state) => state.incrementPlagiarismProgress
+  );
+  const stopPlagiarismTimer = useAIEditor((state) => state.stopPlagiarismTimer);
   const { mutateAsync: plagiarism } = useMutation({
     mutationFn: (params: string) => plagiarismCheck(params),
     onMutate: () => {
-      setProgress(0);
-      if (pdfResult) remove();
-      setShowLoading(true);
+      updatePlagiarismProgress(0);
+      if (plagiarismResult) updatePlagiarismResult(undefined);
+      updatePlagiarismLoading(true);
     },
     onSuccess: (data) => {
-      setProgress((prev) => prev + 10);
-      timer.current = setInterval(async () => {
+      incrementPlagiarismProgress(10);
+      let timer = setInterval(async () => {
         const res = await plagiarismQuery(data as string);
-        setProgress((prev) => prev + 2);
+        incrementPlagiarismProgress(2);
         if (res.status === 'done') {
           let updates: PdfResult = {
             prob: -1,
@@ -81,29 +82,20 @@ const Plagiarism = ({ t }: Props) => {
               }
             });
           }
-          setPdfResult(updates);
-          clearInterval(timer.current!);
-          setProgress(100);
-          setShowLoading(false);
+          updatePlagiarismResult(updates);
+          updatePlagiarismProgress(100);
+          stopPlagiarismTimer();
+          updatePlagiarismLoading(false);
         }
       }, 5000);
+      startPlagiarismTimer(timer);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
       toast.error(error.message);
-      setShowLoading(false);
+      updatePlagiarismLoading(false);
     },
   });
-
-  useUnmount(() => {
-    timer.current && clearInterval(timer.current);
-  });
-
-  const abortRequest = useCallback(() => {
-    setShowLoading(false);
-    timer.current && clearInterval(timer.current);
-    setProgress(0);
-  }, []);
 
   const handlePlagiarismCheck = useCallback(async () => {
     let editor_text: string | undefined;
@@ -120,15 +112,19 @@ const Plagiarism = ({ t }: Props) => {
 
   return (
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
-      <Title t={t} showRecheck={!!pdfResult} recheck={handlePlagiarismCheck} />
+      <Title
+        t={t}
+        showRecheck={!!plagiarismResult}
+        recheck={handlePlagiarismCheck}
+      />
       <AnimatePresence mode='wait'>
-        {showLoading ? (
-          <Waiting progress={progress} onAbort={abortRequest} />
-        ) : pdfResult ? (
-          pdfResult.prob === 0 ? (
+        {plagiarismLoading ? (
+          <Waiting progress={plagiarismProgress} />
+        ) : plagiarismResult ? (
+          plagiarismResult.prob === 0 ? (
             <NoPlagiarismReport t={t} />
           ) : (
-            <Report t={t} report={pdfResult} />
+            <Report t={t} report={plagiarismResult} />
           )
         ) : (
           <Starter t={t} start={handlePlagiarismCheck} />
@@ -138,13 +134,21 @@ const Plagiarism = ({ t }: Props) => {
   );
 };
 
-const Waiting = ({
-  progress,
-  onAbort,
-}: {
-  progress: number;
-  onAbort: () => void;
-}) => {
+const Waiting = ({ progress }: { progress: number }) => {
+  const updatePlagiarismLoading = useAIEditor(
+    (state) => state.updatePlagiarismLoading
+  );
+  const updatePlagiarismProgress = useAIEditor(
+    (state) => state.updatePlagiarismProgress
+  );
+
+  const stopPlagiarismTimer = useAIEditor((state) => state.stopPlagiarismTimer);
+  const abortRequest = () => {
+    updatePlagiarismLoading(false);
+    stopPlagiarismTimer();
+    updatePlagiarismProgress(0);
+  };
+
   return (
     <m.div
       initial={{ opacity: 0, y: -20 }}
@@ -168,7 +172,7 @@ const Waiting = ({
         for waiting
       </p>
       <Button
-        onClick={onAbort}
+        onClick={abortRequest}
         role='button'
         variant={'ghost'}
         className='w-max self-end rounded-lg border border-neutral-400 text-zinc-500'
@@ -202,8 +206,7 @@ const Starter = ({
       priority
     />
     <p className='text-center text-sm font-normal text-zinc-600'>
-      {t.Plagiarism.Title} <br />
-      {t.Plagiarism.Waiting}
+      {t.Plagiarism.Title}
     </p>
 
     <Button

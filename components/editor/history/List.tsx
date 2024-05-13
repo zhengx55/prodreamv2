@@ -1,11 +1,14 @@
 'use client';
 import Loading from '@/components/root/CustomLoading';
+import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
-import { ListView as ListViewIcon } from '@/components/root/SvgComponents';
+import Tooltip from '@/components/root/Tooltip';
+import { Button } from '@/components/ui/button';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { getDocs } from '@/query/api';
-import { useDocumentList, useMembershipInfo } from '@/query/query';
 import { IDocDetail } from '@/query/type';
 import { DocPageDicType, DocSortingMethods } from '@/types';
+import { useQuery } from '@tanstack/react-query';
 import { LayoutGrid, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
@@ -34,10 +37,21 @@ const DocumentList = (props: Props) => {
   const [sortingMethod, setSortingMethod] =
     useState<DocSortingMethods>('lastOpenedTime');
 
-  const { data, isPending, isError } = useDocumentList(
-    searchParams.get('query') as string,
-    sortingMethod
-  );
+  const { data, isPending, isError } = useQuery({
+    queryKey: ['document_history_list', searchParams.get('query')],
+    queryFn: () => getDocs(0, 15, searchParams.get('query') ?? undefined),
+    refetchOnMount: true,
+    select: (data) =>
+      sortingMethod === 'title'
+        ? {
+            ...data,
+            list: data.list.sort((a, b) => a.title.localeCompare(b.title)),
+          }
+        : {
+            ...data,
+            list: data.list.sort((a, b) => b.update_time - a.update_time),
+          },
+  });
 
   useEffect(() => {
     setList(data?.list || []);
@@ -85,21 +99,35 @@ const DocumentList = (props: Props) => {
           ) : (
             <span />
           )}
-          <div className='flex gap-x-4'>
+          <div className='flex gap-x-2'>
             {viewType === 'grid' ? (
-              <span
-                onClick={() => setViewType('list')}
-                className='cursor-pointer rounded-md bg-transparent p-1 hover:bg-shadow-border'
-              >
-                <ListViewIcon />
-              </span>
+              <Tooltip side='bottom' tooltipContent='List view'>
+                <Button
+                  role='button'
+                  variant={'icon'}
+                  onClick={() => setViewType('list')}
+                  className='size-max p-1'
+                >
+                  <Icon
+                    alt='list'
+                    src='/editor/listview.svg'
+                    width={20}
+                    height={20}
+                    className='size-6'
+                  />
+                </Button>
+              </Tooltip>
             ) : (
-              <span
-                onClick={() => setViewType('grid')}
-                className='cursor-pointer rounded-md bg-transparent p-1 hover:bg-shadow-border'
-              >
-                <LayoutGrid />
-              </span>
+              <Tooltip side='bottom' tooltipContent='Grid view'>
+                <Button
+                  role='button'
+                  variant={'icon'}
+                  onClick={() => setViewType('grid')}
+                  className='size-max p-1'
+                >
+                  <LayoutGrid />
+                </Button>
+              </Tooltip>
             )}
             <FilterDropdown
               setSortingMethod={memoSetSortingMethod}

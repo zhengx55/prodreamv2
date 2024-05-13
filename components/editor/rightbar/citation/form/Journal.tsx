@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { useCreateCitation, useUpdateCitation } from '@/query/query';
+import { useCreateCustomCitation, useUpdateCitation } from '@/query/query';
 import { IJournalCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
@@ -20,7 +20,7 @@ const JournalForm = ({
   data?: IJournalCitation;
 }) => {
   const { id } = useParams();
-  const { mutateAsync: handleCreate } = useCreateCitation();
+  const { mutateAsync: handleCreate } = useCreateCustomCitation();
   const { mutateAsync: handleUpdate } = useUpdateCitation();
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IJournalCitation>({
@@ -76,14 +76,7 @@ const JournalForm = ({
   }, []);
 
   const onSubmit = async (values: IJournalCitation) => {
-    if (type === 'create') {
-      await handleCreate({
-        document_id: id as string,
-        citation_type: 'Journal',
-        citation_data: values,
-      });
-      updateShowCreateCitation(false);
-    } else {
+    if (type === 'edit') {
       if (!data) return;
       await handleUpdate({
         citation_type: 'Journal',
@@ -98,6 +91,14 @@ const JournalForm = ({
         },
         id: data.id,
       });
+      updateShowEditCitation(false);
+    } else {
+      await handleCreate({
+        document_id: id as string,
+        citation_type: 'Journal',
+        citation_data: values,
+      });
+      updateShowCreateCitation(false);
     }
   };
 
@@ -311,14 +312,16 @@ const JournalForm = ({
       <Spacer y='120' />
       <div className='absolute bottom-0 flex w-full justify-end gap-x-2 border-t border-gray-200 bg-white py-1.5'>
         <Button
-          className='h-max rounded border border-violet-500 text-violet-500'
-          variant={'ghost'}
+          className='size-max rounded px-4 py-1'
+          variant={'outline'}
           type='button'
           onClick={handleCancel}
         >
           Cancel
         </Button>
-        <Button className='rounded bg-violet-500'>Save</Button>
+        <Button type='submit' className='size-max rounded px-4 py-1'>
+          Save
+        </Button>
       </div>
     </form>
   );

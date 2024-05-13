@@ -14,7 +14,7 @@ import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { PencilLine } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { ChangeEvent, memo, useReducer, useRef, useState } from 'react';
+import { ChangeEvent, memo, useReducer, useState } from 'react';
 
 interface State {
   content: string;
@@ -41,22 +41,13 @@ function reducer(state: State, action: Action) {
   }
 }
 
-const PromptView = ({ t }: { t: EditorDictType }) => {
-  const prompt = useAIEditor((state) => state.essay_prompt);
-  const promptRef = useRef<HTMLTextAreaElement>(null);
+const PromptView = ({ t, prompt }: { t: EditorDictType; prompt: string }) => {
   const updateEssayPrompt = useAIEditor((state) => state.updateEssayPrompt);
   const { id } = useParams();
-  const [saving, setSaving] = useState(false);
   const [show, setShow] = useState(false);
-  const { mutateAsync: savePrompt } = useMutation({
+  const { mutateAsync: savePrompt, isPending } = useMutation({
     mutationFn: (params: { brief_description: string; id: string }) =>
       saveDoc(params),
-    onMutate: () => {
-      setSaving(true);
-    },
-    onSettled: () => {
-      setSaving(false);
-    },
     onError: async () => {
       const { toast } = await import('sonner');
       toast.error(
@@ -72,11 +63,11 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
   const [{ content, wordCount }, dispatch] = useReducer(reducer, {
     ...initialState,
     content: prompt ?? '',
-    wordCount: prompt.trim().split(/\s+/).length,
+    wordCount: prompt ? prompt.trim().split(/\s+/).length : 0,
   });
 
   const handleSubmit = async () => {
-    if (!content) {
+    if (!content && !prompt) {
       setShow(false);
       return;
     }
@@ -139,10 +130,9 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
         <Textarea
           value={content}
           id='essay_prompt'
-          disabled={saving}
+          disabled={isPending}
           aria-label='essay prompt'
           onChange={onChangHandler}
-          ref={promptRef}
           className='small-regular h-[107px] w-full shrink-0 rounded border border-gray-200'
           placeholder='An argumentative essay discussing challenges and strategies of conserving biodiversity in the Amazon rainforest'
         />
@@ -184,7 +174,7 @@ const PromptView = ({ t }: { t: EditorDictType }) => {
             </PopoverClose>
             <PopoverClose asChild>
               <Button
-                disabled={saving}
+                disabled={isPending}
                 role='button'
                 onClick={handleSubmit}
                 className='base-regular h-max rounded px-4 py-1 '

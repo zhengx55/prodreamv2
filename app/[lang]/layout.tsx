@@ -1,5 +1,4 @@
 import PageViewTrack from '@/components/root/PageViewTrack';
-import SteyProvider from '@/components/root/SteyProvider';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import Hotjar from '@/htojar/Hotjar';
@@ -81,9 +80,7 @@ export default async function RootLayout({
       className={`${poppins.variable} ${inter.variable} ${liber.variable} ${cnFont.variable}`}
       suppressHydrationWarning
     >
-      {process.env.NODE_ENV === 'production' && (
-          <Hotjar />
-      )}
+      {process.env.NODE_ENV === 'production' && <Hotjar />}
       <body>
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
@@ -94,7 +91,7 @@ export default async function RootLayout({
                 <PageViewTrack />
               </Suspense>
               {children}
-              <Toaster richColors visibleToasts={1} />
+              <Toaster richColors visibleToasts={1} closeButton />
             </main>
           </TanstackProvider>
         </GoogleOAuthProvider>

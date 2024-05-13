@@ -1,8 +1,8 @@
 import Spacer from '@/components/root/Spacer';
-import { GenerateFill } from '@/components/root/SvgComponents';
 import { Button } from '@/components/ui/button';
 import { OutlineTooltipThrid } from '@/constant/enum';
-import { useButtonTrack, useMutateTrackInfo } from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMutateTrackInfo } from '@/hooks/useTrackInfo';
 import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import dynamic from 'next/dynamic';
@@ -18,14 +18,13 @@ type Props = {
 };
 const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  console.log('generateBtn');
-  const {
-    updateOutlineStep,
-    updateGenerateStep,
-    updateShowTaskDialog,
-    outline_step,
-    generate_step,
-  } = useUserTask((state) => ({ ...state }));
+  const outline_step = useUserTask((state) => state.outline_step);
+  const generate_step = useUserTask((state) => state.generate_step);
+  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
+  const updateGenerateStep = useUserTask((state) => state.updateGenerateStep);
+  const updateShowTaskDialog = useUserTask(
+    (state) => state.updateShowTaskDialog
+  );
   const { mutateAsync: ButtonTrack } = useButtonTrack();
 
   return (
@@ -91,9 +90,8 @@ const Btn = forwardRef<
   <Button
     ref={ref}
     onClick={onClick}
-    className='h-max w-max self-center rounded-full bg-violet-500 px-8 py-1'
+    className='size-max self-center rounded bg-violet-500 px-8 py-2'
   >
-    <GenerateFill fill='#fff' size='20' />
     {label}
   </Button>
 ));

@@ -2,14 +2,9 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CitationTooltip } from '@/constant/enum';
-import { ConvertCitationData } from '@/lib/utils';
-import {
-  useButtonTrack,
-  useCiteToDoc,
-  useCreateCitation,
-  useMutateTrackInfo,
-  useUserTrackInfo,
-} from '@/query/query';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
+import { useCiteToDoc, useCreateCitation } from '@/query/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { useAIEditor, useCitation, useUserTask } from '@/zustand/store';
@@ -50,20 +45,25 @@ export const SearchCitationCard = memo(
         });
         await ButtonTrack({ event: 'Onboarding task: add citation' });
       }
-      const converted_data = ConvertCitationData(item, false);
       const { selection } = editor!.state;
       const { anchor } = selection;
       if (action === 'collect') {
         await handleCollect({
-          citation_data: converted_data,
-          citation_type: 'Journal',
           document_id: id as string,
+          url: item.pdf_url,
+          citation_id: item.citation_id,
+          snippet: item.snippet,
+          citation_count: item.citation_count,
+          in_text_pos: 0,
         });
       } else {
         await handleCite({
-          citation_data: { ...converted_data, in_text_pos: anchor },
-          citation_type: 'Journal',
           document_id: id as string,
+          url: item.pdf_url,
+          citation_id: item.citation_id,
+          snippet: item.snippet,
+          citation_count: item.citation_count,
+          in_text_pos: anchor,
         });
       }
     };
@@ -79,91 +79,82 @@ export const SearchCitationCard = memo(
           <CitationPreview item={item} />
         </Dialog>
         <Spacer y='10' />
-        {item.contributors?.length > 0 && (
-          <p className='subtle-regular line-clamp-2 text-shadow-100'>
-            Authors:{' '}
-            {item.contributors.map((author, idx) => {
-              return (
-                <span key={`author-${idx}`}>
-                  {author.last_name ?? ''}&nbsp;
-                  {author.middle_name ?? ''}
-                  {author.first_name ?? ''}
-                  {idx !== item.contributors.length - 1 && ', '}
-                </span>
-              );
-            })}
-          </p>
-        )}
-
+        <p className='subtle-regular line-clamp-2 text-zinc-500'>
+          Authors: {item.publication}
+        </p>
         <Spacer y='10' />
-        {item.abstract && (
-          <p className='small-regular line-clamp-4'>{item.abstract}</p>
-        )}
+        <p className='small-regular line-clamp-3 text-zinc-600'>
+          {item.snippet}
+        </p>
         <Spacer y='15' />
-        <div className='flex items-center justify-end gap-x-2'>
-          {citation_tooltip_step === 2 && index === 0 ? (
-            <Tiplayout
-              title={CitationTooltip.STEP2_TITLE}
-              content={CitationTooltip.STEP2_TEXT}
-              step={citation_tooltip_step}
-              side='left'
-              totalSteps={4}
-              buttonLabel='next'
-              onClickCallback={() => {
-                updateCitationStep();
-              }}
-            >
+        <div className='flex items-center justify-between'>
+          <p className='small-regular text-violet-500'>
+            Cited by {item.citation_count}
+          </p>
+          <div className='flex items-center gap-x-2'>
+            {citation_tooltip_step === 3 && index === 0 ? (
+              <Tiplayout
+                title={CitationTooltip.STEP3_TITLE}
+                content={CitationTooltip.STEP3_TEXT}
+                step={citation_tooltip_step}
+                side='top'
+                totalSteps={4}
+                buttonLabel='next'
+                onClickCallback={() => {
+                  updateCitationStep();
+                }}
+              >
+                <Button
+                  className='size-max px-3 py-1'
+                  variant={'outline'}
+                  role='button'
+                  onClick={() => handler(item as any, 'collect')}
+                >
+                  <Plus size={18} /> Add to library
+                </Button>
+              </Tiplayout>
+            ) : (
               <Button
-                className='h-max w-max rounded bg-violet-500 px-4 py-1'
+                className='size-max px-3 py-1'
+                variant={'outline'}
+                role='button'
+                onClick={() => handler(item as any, 'collect')}
+              >
+                <Plus size={18} /> Add to library
+              </Button>
+            )}
+            {citation_tooltip_step === 2 && index === 0 ? (
+              <Tiplayout
+                title={CitationTooltip.STEP2_TITLE}
+                content={CitationTooltip.STEP2_TEXT}
+                step={citation_tooltip_step}
+                side='left'
+                totalSteps={4}
+                buttonLabel='next'
+                onClickCallback={() => {
+                  updateCitationStep();
+                }}
+              >
+                <Button
+                  className='size-max px-3 py-1'
+                  role='button'
+                  onClick={() => handler(item as any, 'cite')}
+                >
+                  <ReplyAll size={18} />
+                  Cite
+                </Button>
+              </Tiplayout>
+            ) : (
+              <Button
+                className='size-max px-3 py-1'
                 role='button'
                 onClick={() => handler(item as any, 'cite')}
               >
                 <ReplyAll size={18} />
                 Cite
               </Button>
-            </Tiplayout>
-          ) : (
-            <Button
-              className='h-max w-max rounded bg-violet-500 px-4 py-1'
-              role='button'
-              onClick={() => handler(item as any, 'cite')}
-            >
-              <ReplyAll size={18} />
-              Cite
-            </Button>
-          )}
-
-          {citation_tooltip_step === 3 && index === 0 ? (
-            <Tiplayout
-              title={CitationTooltip.STEP3_TITLE}
-              content={CitationTooltip.STEP3_TEXT}
-              step={citation_tooltip_step}
-              side='top'
-              totalSteps={4}
-              buttonLabel='next'
-              onClickCallback={() => {
-                updateCitationStep();
-              }}
-            >
-              <Button
-                className='h-max w-max rounded border border-violet-500 px-4 py-1 text-violet-500'
-                variant={'ghost'}
-                role='button'
-                onClick={() => handler(item as any, 'collect')}
-              >
-                <Plus size={18} className='text-violet-500' /> Add to library
-              </Button>
-            </Tiplayout>
-          ) : (
-            <Button
-              className='h-max w-max rounded border border-violet-500 px-4 py-1 text-violet-500'
-              variant={'ghost'}
-              role='button'
-              onClick={() => handler(item as any, 'collect')}
-            >
-              <Plus size={18} className='text-violet-500' /> Add to library
-            </Button>
-          )}
+            )}
+          </div>
         </div>
       </div>
     );
@@ -202,26 +193,25 @@ export const MineCitationCard = memo(
         updateCitationItem(new_data);
         insertCitation(item.data.id, anchor, from, to);
       } else {
-        updateCitationItem(new_data);
-        await appendInTextCitationIds(item);
+        await appendInTextCitationIds(new_data, true);
         insertCitation(item.data.id, anchor, from, to);
       }
     };
 
     const handleDeleteCitation = async () => {
-      if (type === 'inText') {
-        let counter = 0;
-        editor?.state.doc.descendants((node, pos) => {
-          if (node.type.name === 'IntextCitation') {
-            if (node.attrs.citation_id === item.data.id) {
-              editor.commands.deleteRange({
-                from: pos - counter,
-                to: pos + node.nodeSize - counter,
-              });
-              counter += node.nodeSize;
-            }
+      let counter = 0;
+      editor?.state.doc.descendants((node, pos) => {
+        if (node.type.name === 'IntextCitation') {
+          if (node.attrs.citation_id === item.data.id) {
+            editor.commands.deleteRange({
+              from: pos - counter,
+              to: pos + node.nodeSize - counter,
+            });
+            counter += node.nodeSize;
           }
-        });
+        }
+      });
+      if (type === 'inText') {
         await removeInTextCitationIds(item.data.id, item.data.document_id);
       } else {
         await removeInDocCitationIds(item.data.id, item.data.document_id);

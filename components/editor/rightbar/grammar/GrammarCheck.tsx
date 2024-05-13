@@ -1,12 +1,9 @@
 import { Button } from '@/components/ui/button';
+import useButtonTrack from '@/hooks/useBtnTrack';
+import { useMembershipInfo } from '@/hooks/useMemberShip';
+import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { highLightGrammar } from '@/lib/tiptap/utils';
 import { submitPolish } from '@/query/api';
-import {
-  useButtonTrack,
-  useMembershipInfo,
-  useMutateTrackInfo,
-  useUserTrackInfo,
-} from '@/query/query';
 import { IGrammarResponse, IGrammarResult } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
@@ -161,7 +158,10 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
             {usage?.free_times_detail.Grammar}/100 weekly Grammar Checks left;
             <Button
               role='dialog'
-              onClick={() => {
+              onClick={async () => {
+                await ButtonTrack({
+                  event: 'open payment at grammar check',
+                });
                 updatePaymentModal(true);
               }}
               variant={'ghost'}

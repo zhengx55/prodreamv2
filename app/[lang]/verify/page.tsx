@@ -1,8 +1,8 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { useRensendEmail } from '@/query/query';
 import Image from 'next/image';
 import Link from 'next/link';
+import useRensendEmail from './hooks/useResend';
 
 export default function Page({
   searchParams,
