@@ -869,36 +869,13 @@ export const task_gif = [
 
 export const sample_search_citation = [
   {
-    article_title:
-      'Fashion-MNIST: a Novel Image Dataset for Benchmarking Machine Learning Algorithms',
-    journal_title: 'ArXiv',
+    article_title: 'Machine learning has arrived!',
+    journal_title: null,
     abstract:
-      'We present Fashion-MNIST, a new dataset comprising of 28x28 grayscale images of 70,000 fashion products from 10 categories, with 7,000 images per category. The training set has 60,000 images and the test set has 10,000 images. Fashion-MNIST is intended to serve as a direct drop-in replacement for the original MNIST dataset for benchmarking machine learning algorithms, as it shares the same image size, data format and the structure of training and testing splits. The dataset is freely available at this https URL',
-    contributors: [
-      {
-        first_name: 'Han',
-        middle_name: null,
-        last_name: 'Xiao',
-        suffix: null,
-        role: 'author',
-      },
-      {
-        first_name: 'Kashif',
-        middle_name: null,
-        last_name: 'Rasul',
-        suffix: null,
-        role: 'author',
-      },
-      {
-        first_name: 'Roland',
-        middle_name: null,
-        last_name: 'Vollgraf',
-        suffix: null,
-        role: 'author',
-      },
-    ],
+      '… machine learning to play checkers, starting a tradition of using games as a testbed for machine learning … , was incorporated rapidly into speech recognition software by Google and, for …',
+    authors: [],
     publish_date: {
-      year: 2017,
+      year: null,
       month: null,
       day: null,
     },
@@ -908,22 +885,24 @@ export const sample_search_citation = [
     },
     doi: null,
     advanced_info: {
-      volume: 'abs/1708.07747',
+      volume: null,
       issue: null,
       series: null,
     },
-    area: ['Computer Science', 'Mathematics'],
-    reference_count: 6,
-    citation_count: 6967,
-    influential_citation_count: 1455,
-    pdf_url: null,
+    area: null,
+    reference_count: null,
+    citation_count: 127,
+    influential_citation_count: null,
+    pdf_url:
+      'https://www.aaojournal.org/article/S0161-6420(17)31563-4/abstract',
     tldr: null,
     bibtex: null,
-    publisher:
-      'https://www.semanticscholar.org/paper/f9c602cc436a9ea2f9e7db48c77d924e09ce3c32',
-    publication: null,
-    snippet: null,
-    citation_id: null,
+    publisher: null,
+    publication:
+      'A Lee, P Taylor, J Kalpathy-Cramer, A Tufail - Ophthalmology, 2017 - aaojournal.org',
+    snippet:
+      '… machine learning to play checkers, starting a tradition of using games as a testbed for machine learning … , was incorporated rapidly into speech recognition software by Google and, for …',
+    citation_id: '8IqNAOFhl8IJ',
   },
 ];
 
