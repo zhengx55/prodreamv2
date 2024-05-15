@@ -9,11 +9,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { memo, useCallback, useEffect, useState } from 'react';
-import Trigger from '../notification/Trigger';
 import { Button } from '../ui/button';
 import Icon from './Icon';
 import Spacer from './Spacer';
 import { UserSkeleton } from './User';
+const NotificationTrigger = dynamic(() => import('../notification/Trigger'));
 
 const useSidebarElevation = (pathname: string) => {
   const [topValue, setTopValue] = useState<number | undefined>();
@@ -84,7 +84,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
             imgSrc={user.avatar}
           />
         )}
-        <Trigger />
+        <NotificationTrigger />
       </div>
 
       <Spacer y='24' />
