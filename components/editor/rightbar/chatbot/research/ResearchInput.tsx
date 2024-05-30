@@ -6,6 +6,7 @@ import { useChatbot } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { memo, useRef } from 'react';
 import useResearchChat from '../hooks/useResearchChat';
 
@@ -13,6 +14,7 @@ type Props = { t: EditorDictType };
 const ResearchInput = ({ t }: Props) => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
   const { id } = useParams();
+  const trans = useTranslations('Editor');
   const { aiResearchChat, value, updateChatMessage, aiChatSending } =
     useResearchChat();
   const currentResearchSession = useChatbot(
@@ -55,7 +57,7 @@ const ResearchInput = ({ t }: Props) => {
         value={value}
         disabled={aiChatSending}
         onChange={handleValueChnage}
-        placeholder='Ask a research question or search for data'
+        placeholder={trans('Chat.ChatInput.Ask_a_research_question_or_search_for_data')}
       />
       <Button
         onClick={submit}

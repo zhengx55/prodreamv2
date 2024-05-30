@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { JSONContent } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
@@ -26,6 +27,7 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
   const { data: userTrack } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
   const queryClient = useQueryClient();
+  const trans = useTranslations('Editor');
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
   const updateGrammarResult = useCallback((value: IGrammarResult[]) => {
@@ -128,14 +130,14 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
               priority
             />
             <p className='text-center text-sm font-normal text-zinc-600'>
-              {t.Grammar.Title}
+              {trans('Grammar.Title')}
             </p>
             <Button
               className='base-medium h-max w-max self-center rounded-lg px-8'
               role='button'
               onClick={handleCheck}
             >
-              {t.Grammar.Button}
+              {trans('Grammar.Button')}
             </Button>
           </m.div>
         )}
@@ -155,7 +157,9 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
             )}
           </div>
           <p className='small-regular w-max px-0 text-neutral-400'>
-            {usage?.free_times_detail.Grammar}/100 weekly Grammar Checks left;
+            {trans('Grammar.GrammarCheckLeft', {
+              left: usage?.free_times_detail.Grammar,
+            })}
             <Button
               role='dialog'
               onClick={async () => {
@@ -167,7 +171,7 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
               variant={'ghost'}
               className='px-2'
             >
-              Go unlimited
+              {trans('Grammar.Go_unlimited')}
             </Button>
           </p>
         </div>

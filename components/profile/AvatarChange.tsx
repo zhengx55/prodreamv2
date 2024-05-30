@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { profileResetAvatar, refreshUserSession } from '@/query/api';
 import { useUserInfo } from '@/zustand/store';
+import { useTranslations } from 'next-intl';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -12,6 +13,7 @@ const EditName = dynamic(() => import('@/components/profile/EditName'), {
   ssr: false,
 });
 const AvatarChange = () => {
+  const t = useTranslations('Profile');
   const setUserAvatar = useUserInfo((state) => state.setUserAvatar);
   const uploadRef = useRef<HTMLInputElement>(null);
   const userInfo = useUserInfo((state) => state.user);
@@ -69,7 +71,7 @@ const AvatarChange = () => {
             className='hidden'
           />
         </div>
-        <p className='subtle-regular text-shadow-100'>Edit</p>
+        <p className='subtle-regular text-shadow-100'>{t('Setting.Edit')}</p>
       </div>
       <div className='flex flex-col gap-y-2 pl-4'>
         <h2 className='title-semibold'>
@@ -77,7 +79,7 @@ const AvatarChange = () => {
         </h2>
         <EditName>
           <Button variant={'ghost'} role='button' className='h-max p-0'>
-            Change name
+           {t('Setting.Change_name')}
           </Button>
         </EditName>
       </div>

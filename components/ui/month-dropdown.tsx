@@ -1,4 +1,6 @@
 import { memo } from 'react';
+import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 
 const MonthDropdown = ({
   setValue,
@@ -7,6 +9,9 @@ const MonthDropdown = ({
   setValue: (value: string) => void;
   value: string;
 }) => {
+  const t = useTranslations('Editor');
+  const { lang } = useParams();
+
   const months = [
     'January',
     'February',
@@ -21,7 +26,22 @@ const MonthDropdown = ({
     'November',
     'December',
   ];
+  const monthsCN = [
+    '一月',
+    '二月',
+    '三月',
+    '四月',
+    '五月',
+    '六月',
+    '七月',
+    '八月',
+    '九月',
+    '十月',
+    '十一月',
+    '十二月',
+  ];
   const seasons = ['Spring', 'Summer', 'Autumn', 'Winter'];
+  const seasonsCN = ['春', '夏', '秋', '冬'];
   const monthCombinations: string[] = [];
   for (let i = 0; i < months.length - 1; i += 1) {
     monthCombinations.push(`${months[i]} & ${months[i + 1]}`);
@@ -38,9 +58,9 @@ const MonthDropdown = ({
       onChange={handleMonthChange}
     >
       <option hidden value='' disabled>
-        Month
+        {t('CustomCitation.WebsiteMenu.Month')}
       </option>
-      {months.map((month) => (
+      {(lang === 'en' ? months : monthsCN).map((month) => (
         <option key={month} value={month}>
           {month}
         </option>
@@ -50,7 +70,7 @@ const MonthDropdown = ({
           {combination}
         </option>
       ))}
-      {seasons.map((season) => (
+      {(lang === 'en' ? seasons : seasonsCN).map((season) => (
         <option key={season} value={season}>
           {season}
         </option>

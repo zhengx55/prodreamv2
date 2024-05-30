@@ -10,11 +10,13 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useMutateTrackInfo } from '@/hooks/useTrackInfo';
+import { useTranslations } from 'next-intl';
 import { getCoupon } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { ReactNode, useRef, useState } from 'react';
 type Props = { children: ReactNode };
 const PromoCode = ({ children }: Props) => {
+  const t = useTranslations('Profile');
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -61,7 +63,7 @@ const PromoCode = ({ children }: Props) => {
             aria-label='promo code'
             className='text-xl font-medium leading-7 text-zinc-600'
           >
-            Promo Code
+            {t('Setting.Promo_code')}
           </h2>
         </DialogHeader>
         <div className='flex flex-col gap-y-0.5'>
@@ -85,11 +87,11 @@ const PromoCode = ({ children }: Props) => {
               variant={'ghost'}
               className='border border-neutral-400 text-zinc-400'
             >
-              Cancel
+              {t('Setting.Cancel')}
             </Button>
           </DialogClose>
           <Button disabled={submitting} role='button' onClick={redeem}>
-            Redeem
+            {t('Setting.Redeem')}
           </Button>
         </DialogFooter>
       </DialogContent>

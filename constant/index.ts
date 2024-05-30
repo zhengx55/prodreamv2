@@ -1,7 +1,9 @@
+
 export const SidebarLinks = [
   {
     id: 'sidebar-01',
     title: 'AI Editor',
+    cnTitle: 'AI 智能写作',
     image: '/nav/polish.svg',
     active_image: '/nav/polish_active.svg',
     link: '/editor',
@@ -1094,3 +1096,9 @@ export const FeedbackOptions = [
   '🛠️ Submit a feature suggestion',
   '👩‍💻️️ Access customer assistance',
 ];
+
+export const FeedbackOptionsCN = [
+  '🐞 产品体验问题',
+  '🛠️ 产品功能建议',
+  '👩‍💻️️ 客服人工反馈',
+]

@@ -9,6 +9,7 @@ import { AnimatePresence, m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { pdfjs } from 'react-pdf';
 import Title from '../Title';
 import NoPlagiarismReport from './NoPlagiarismReport';
@@ -25,6 +26,8 @@ const Plagiarism = ({ t }: Props) => {
   const plagiarismLoading = useAIEditor((state) => state.plagiarismLoading);
   const plagiarismProgress = useAIEditor((state) => state.plagiarismProgress);
   const plagiarismResult = useAIEditor((state) => state.plagiarismResult);
+  const trans = useTranslations('Editor');
+
   const updatePlagiarismResult = useAIEditor(
     (state) => state.updatePlagiarismResult
   );
@@ -103,7 +106,7 @@ const Plagiarism = ({ t }: Props) => {
     editor_text = editor?.getText()?.replace(title!, '').trimStart();
     if (!editor_text) {
       const toast = (await import('sonner')).toast;
-      toast.error('Please write something to check plagiarism');
+      toast.error(trans('Plagiarism.ErrorToast'));
       return;
     }
     await plagiarism(editor_text);
@@ -135,6 +138,7 @@ const Plagiarism = ({ t }: Props) => {
 };
 
 const Waiting = ({ progress }: { progress: number }) => {
+  const trans = useTranslations('Editor');
   const updatePlagiarismLoading = useAIEditor(
     (state) => state.updatePlagiarismLoading
   );
@@ -168,8 +172,7 @@ const Waiting = ({ progress }: { progress: number }) => {
       </div>
       <Progress value={progress} />
       <p className='text-center text-sm font-light text-neutral-400'>
-        Generating plagiarism check report. May take up to 5 minutes, thank you
-        for waiting
+        {trans('Plagiarism.Generating_plagiarism_check_report')}
       </p>
       <Button
         onClick={abortRequest}
@@ -177,7 +180,7 @@ const Waiting = ({ progress }: { progress: number }) => {
         variant={'ghost'}
         className='w-max self-end rounded-lg border border-neutral-400 text-zinc-500'
       >
-        Cancel
+        {trans('Plagiarism.Cancel')}
       </Button>
     </m.div>
   );
@@ -189,7 +192,9 @@ const Starter = ({
 }: {
   start: () => Promise<void>;
   t: EditorDictType;
-}) => (
+}) => {
+  const trans = useTranslations('Editor');
+  return (
   <m.div
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -206,7 +211,7 @@ const Starter = ({
       priority
     />
     <p className='text-center text-sm font-normal text-zinc-600'>
-      {t.Plagiarism.Title}
+      {trans('Plagiarism.Title')}
     </p>
 
     <Button
@@ -214,9 +219,10 @@ const Starter = ({
       role='button'
       onClick={start}
     >
-      {t.Plagiarism.Button}
+      {trans('Plagiarism.Button')}
     </Button>
-  </m.div>
-);
+    </m.div>
+  );
+};
 
 export default memo(Plagiarism);

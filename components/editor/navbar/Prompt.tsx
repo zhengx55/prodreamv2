@@ -9,9 +9,9 @@ import {
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { saveDoc } from '@/query/api';
-import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { PencilLine } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, memo, useReducer, useState } from 'react';
@@ -41,10 +41,11 @@ function reducer(state: State, action: Action) {
   }
 }
 
-const PromptView = ({ t, prompt }: { t: EditorDictType; prompt: string }) => {
+const PromptView = ({ prompt }: { prompt: string }) => {
   const updateEssayPrompt = useAIEditor((state) => state.updateEssayPrompt);
   const { id } = useParams();
   const [show, setShow] = useState(false);
+  const t = useTranslations('Editor');
   const { mutateAsync: savePrompt, isPending } = useMutation({
     mutationFn: (params: { brief_description: string; id: string }) =>
       saveDoc(params),
@@ -87,7 +88,7 @@ const PromptView = ({ t, prompt }: { t: EditorDictType; prompt: string }) => {
             className='h-max rounded px-2 py-1'
           >
             <PencilLine size={18} className='text-violet-500' />
-            <p className='small-regular text-violet-500'>{t.Prompt.Trigger}</p>
+            <p className='small-regular text-violet-500'>{t('Prompt.Trigger')}</p>
           </Button>
         ) : (
           <Button
@@ -95,7 +96,7 @@ const PromptView = ({ t, prompt }: { t: EditorDictType; prompt: string }) => {
             variant={'outline'}
             className='h-max rounded border border-gray-200 bg-transparent px-2 py-1  hover:text-violet-500'
           >
-            <p className='small-regular text-zinc-700'>{t.Prompt.Strength}</p>
+            <p className='small-regular text-zinc-700'>{t('Prompt.Strength')}</p>
             <div className='flex items-center gap-x-2'>
               {wordCount < 5 ? (
                 <span className='h-2 w-2 rounded-full bg-zinc-300' />
@@ -123,9 +124,9 @@ const PromptView = ({ t, prompt }: { t: EditorDictType; prompt: string }) => {
       >
         <div className='flex items-center gap-x-2'>
           <Icon alt='' src='/editor/prompt/Light.svg' width={24} height={24} />
-          <h1 className='base-medium '>{t.Prompt.Title}</h1>
+          <h1 className='base-medium '>{t('Prompt.Title')}</h1>
         </div>
-        <p className='small-regular text-neutral-400'>{t.Prompt.PlaceHolder}</p>
+        <p className='small-regular text-neutral-400'>{t('Prompt.PlaceHolder')}</p>
         <Spacer y='10' />
         <Textarea
           value={content}
@@ -134,13 +135,13 @@ const PromptView = ({ t, prompt }: { t: EditorDictType; prompt: string }) => {
           aria-label='essay prompt'
           onChange={onChangHandler}
           className='small-regular h-[107px] w-full shrink-0 rounded border border-gray-200'
-          placeholder='An argumentative essay discussing challenges and strategies of conserving biodiversity in the Amazon rainforest'
+          placeholder='An a rgumentative essay discussing challenges and strategies of conserving biodiversity in the Amazon rainforest'
         />
 
         <div className='mt-4 flex items-center justify-between'>
           <div className='flex items-center'>
             <p className='base-regular text-neutral-400'>
-              {t.Prompt.Strength} :
+              {t('Prompt.Strength')} :
             </p>
             &nbsp;&nbsp;
             <div className='flex items-center gap-x-0.5'>
@@ -169,7 +170,7 @@ const PromptView = ({ t, prompt }: { t: EditorDictType; prompt: string }) => {
                 variant={'outline'}
                 className='base-regular h-max rounded border px-4 py-1'
               >
-                {t.Utility.Cancel}
+                {t('Utility.Cancel')}
               </Button>
             </PopoverClose>
             <PopoverClose asChild>
@@ -179,7 +180,7 @@ const PromptView = ({ t, prompt }: { t: EditorDictType; prompt: string }) => {
                 onClick={handleSubmit}
                 className='base-regular h-max rounded px-4 py-1 '
               >
-                {t.Utility.Done}
+                {t('Utility.Done')}
               </Button>
             </PopoverClose>
           </div>

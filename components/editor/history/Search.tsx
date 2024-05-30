@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { createDoc } from '@/query/api';
 import { DocPageDicType } from '@/types';
+import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -22,6 +23,7 @@ const SearchBar = ({ lang, t }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const { data: usage } = useMembershipInfo();
+  const trans = useTranslations('Editor');
   const { mutateAsync: createNew } = useMutation({
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
@@ -79,7 +81,7 @@ const SearchBar = ({ lang, t }: Props) => {
           className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg bg-gradient-to-br from-fuchsia-600 via-purple-600 to-violet-500 hover:bg-violet-500 hover:bg-none'
         >
           <Plus className='text-white' size={20} />
-          <p className='base-semibold text-white'>New Essay</p>
+          <p className='base-semibold text-white'>{trans('TopBar.New_Essay')}</p>
         </button>
         <Dialog>
           <DialogTrigger asChild>
@@ -96,7 +98,7 @@ const SearchBar = ({ lang, t }: Props) => {
                 priority
                 className='size-6'
               />
-              <p className='base-semibold'>Upload Essay</p>
+              <p className='base-semibold'>{trans('TopBar.Upload_Essay')}</p>
             </Button>
           </DialogTrigger>
           <FileUploadModal t={t} lang={lang} />
@@ -123,7 +125,7 @@ const SearchBar = ({ lang, t }: Props) => {
           className='h-full w-full border-none pr-14 focus-visible:ring-0'
           name='search-essay'
           aria-label='Search'
-          placeholder='Search'
+          placeholder={trans('TopBar.Search')}
           onKeyDown={(e) => e.code === 'Enter' && handleSearch()}
         />
       </div>

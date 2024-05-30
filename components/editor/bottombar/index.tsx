@@ -10,6 +10,7 @@ import { Editor } from '@tiptap/react';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
+import { useTranslations } from 'next-intl';
 import { useTextmenuCommands } from '../bubble-menu/hooks/useTextMenuCommand';
 import CountDropdown from './CountDropdown';
 const MemoButton = memo(Toolbar.Button);
@@ -28,6 +29,8 @@ const BottomBar = ({
   const showCitation = () => {
     updateRightbarTab(3);
   };
+  const trans = useTranslations('Editor');
+
   return (
     <m.footer
       initial={{ opacity: 0, y: 10 }}
@@ -48,12 +51,12 @@ const BottomBar = ({
           className='size-[18px]'
           priority
         />
-        {t.BubbleMenu.Citation}
+        {trans('BubbleMenu.Citation')}
       </MemoButton>
       <Toolbar.Divider />
       <DropdownMenu>
         <div className='flex items-center'>
-          <p className='small-medium'>{t.BubbleMenu.citation_style}:</p>
+          <p className='small-medium'>{trans('BubbleMenu.citation_style')}:</p>
           <DropdownMenuTrigger asChild>
             <MemoButton
               role='button'
@@ -68,7 +71,7 @@ const BottomBar = ({
       <Toolbar.Divider />
       <MemoButton
         role='button'
-        tooltip='Undo'
+        tooltip={trans('BubbleMenu.Undo')}
         tooltipShortcut={['Mod', 'Z']}
         onClick={commands.onUndo}
       >
@@ -83,7 +86,7 @@ const BottomBar = ({
       </MemoButton>
       <MemoButton
         role='button'
-        tooltip='Redo'
+        tooltip={trans('BubbleMenu.Redo')}
         tooltipShortcut={['Mod', 'Y']}
         onClick={commands.onRedo}
       >

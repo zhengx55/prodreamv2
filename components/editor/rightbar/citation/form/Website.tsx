@@ -8,6 +8,7 @@ import { IWebsiteCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -20,6 +21,8 @@ const WebsiteForm = ({
   data?: IWebsiteCitation;
 }) => {
   const { id } = useParams();
+  const t = useTranslations('Editor');
+
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IWebsiteCitation>({
       defaultValues: !data
@@ -117,10 +120,10 @@ const WebsiteForm = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
       <Spacer y='20' />
-      <h1 className='base-semibold'>What I&apos;m citing</h1>
+      <h1 className='base-semibold'>{t('CustomCitation.What_I_am_citing')}</h1>
       <Spacer y='16' />
-      <label className='small-regular text-neutral-400' htmlFor='article_title'>
-        Article Title
+      <label className='small-regular text-neutral-4000' htmlFor='article_title'>
+        {t('CustomCitation.Article_Title')}
       </label>
       <Input
         type='text'
@@ -129,7 +132,7 @@ const WebsiteForm = ({
         {...register('article_title')}
       />
       <Spacer y='20' />
-      <h1 className='base-semibold'>Contributors</h1>
+      <h1 className='base-semibold'>{t('CustomCitation.WebsiteMenu.Contributors')}</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2'>
           {fields.map((contributor, index) => (
@@ -146,7 +149,7 @@ const WebsiteForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.first_name`}
                 >
-                  First Name
+                  {t('CustomCitation.WebsiteMenu.First_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.first_name`}
@@ -160,7 +163,7 @@ const WebsiteForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.middle_name`}
                 >
-                  MI/ Middle
+                  {t('CustomCitation.WebsiteMenu.Middle_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.middle_name`}
@@ -174,7 +177,7 @@ const WebsiteForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.last_name`}
                 >
-                  Last Name
+                  {t('CustomCitation.WebsiteMenu.Last_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.last_name`}
@@ -202,13 +205,13 @@ const WebsiteForm = ({
         onClick={appendContributor}
       >
         <PlusCircle className='fill-violet-500 text-white' size={22} />
-        <p className='text-violet-500'> Add Contributor</p>
+        <p className='text-violet-500'>{t('CustomCitation.WebsiteMenu.Add_Contributor')}</p>
       </Button>
       <Spacer y='20' />
-      <h1 className='base-semibold'>Online publication info</h1>
+      <h1 className='base-semibold'>{t('CustomCitation.WebsiteMenu.Online_publication_info')}</h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='publisher'>
-        Publisher
+        {t('CustomCitation.Publisher')}
       </label>
       <Input
         type='text'
@@ -218,7 +221,7 @@ const WebsiteForm = ({
       />
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='website_title'>
-        Website Title
+        {t('CustomCitation.Website_Title')}
       </label>
       <Input
         type='text'
@@ -228,7 +231,7 @@ const WebsiteForm = ({
       />
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='url'>
-        Website URL
+        {t('CustomCitation.Website_URL')}
       </label>
       <Input
         type='text'
@@ -237,13 +240,13 @@ const WebsiteForm = ({
         {...register('url')}
       />
       <Spacer y='16' />
-      <h2 className='small-regular text-neutral-400'>Date accessed</h2>
+      <h2 className='small-regular text-neutral-400'>{t('CustomCitation.Date_accessed')}</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
             id='access_date.day'
-            placeholder='Day'
+            placeholder={t('CustomCitation.WebsiteMenu.Day')}
             className='focus-visible:ring-0'
             {...register('access_date.day')}
           />
@@ -258,7 +261,7 @@ const WebsiteForm = ({
           <Input
             id='access_date.year'
             type='text'
-            placeholder='Year'
+            placeholder={t('CustomCitation.WebsiteMenu.Year')}
             className='focus-visible:ring-0'
             {...register('access_date.year')}
           />
@@ -272,10 +275,10 @@ const WebsiteForm = ({
           type='button'
           onClick={handleCancel}
         >
-          Cancel
+          {t('CustomCitation.Cancel')}
         </Button>
         <Button type='submit' className='size-max rounded px-4 py-1'>
-          Save
+          {t('CustomCitation.Save')}
         </Button>
       </div>
     </form>

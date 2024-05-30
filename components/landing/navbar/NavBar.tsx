@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getIpAddress } from '@/query/api';
 import { memo } from 'react';
 import { Button } from '../../ui/button';
 
@@ -17,12 +18,13 @@ const LocaleDropdown = dynamic(() => import('./LocaleDropdown'), {
   ssr: false,
 });
 
-const NavBar = ({
+const NavBar = async ({
   t,
   lang,
   search_param,
 }: HomePageDicType & { search_param: string }) => {
   const token = cookies().get('token')?.value;
+  const isInChina = await getIpAddress();
   return (
     <section className='z-50 flex h-16 w-full justify-center bg-white py-3'>
       <nav className='flex-between w-full px-4 sm:max-w-[1200px] sm:px-0'>
@@ -48,7 +50,7 @@ const NavBar = ({
             </DropdownMenuTrigger>
             <LocaleDropdown />
           </DropdownMenu>
-          <Link
+          {!isInChina && <Link
             prefetch={false}
             href={'https://prodream.ai/blog'}
             passHref
@@ -61,7 +63,7 @@ const NavBar = ({
             >
               Blogs
             </Button>
-          </Link>
+          </Link>}
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={token ? `/${lang}/editor` : `/${lang}/login`} passHref>

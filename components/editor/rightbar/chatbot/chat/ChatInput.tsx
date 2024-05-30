@@ -17,6 +17,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { memo, useRef } from 'react';
 import { useHoverDirty } from 'react-use';
 import useChat from '../hooks/useChat';
@@ -36,6 +37,7 @@ const ChatInput = ({ t }: Props) => {
   } = useChat();
 
   const { id } = useParams();
+  const trans = useTranslations('Editor');
   useAutoSizeTextArea(chatRef.current, value, 96);
   const handleValueChnage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateChatMessage(e.target.value);
@@ -80,7 +82,7 @@ const ChatInput = ({ t }: Props) => {
     <div className='relative mb-4 mt-auto flex w-full flex-col gap-y-2'>
       <div className='flex-between'>
         <div className='flex items-center gap-x-2'>
-          <Tooltip side='top' tooltipContent='Research'>
+          <Tooltip side='top' tooltipContent={trans('Chat.ChatInput.Research')}>
             <Button
               role='button'
               onClick={() => updateChatType('research')}
@@ -90,7 +92,7 @@ const ChatInput = ({ t }: Props) => {
               <Search size={16} className='cursor-pointer' />
             </Button>
           </Tooltip>
-          <Tooltip side='top' tooltipContent='Upload file'>
+          <Tooltip side='top' tooltipContent={trans('Chat.ChatInput.Upload_file')}>
             <Button
               onClick={() => {
                 updateUploadModal(true);
@@ -105,7 +107,7 @@ const ChatInput = ({ t }: Props) => {
           </Tooltip>
         </div>
         <div className='flex items-center gap-x-2'>
-          <Tooltip side='top' tooltipContent='History'>
+          <Tooltip side='top' tooltipContent={trans('Chat.ChatInput.History')}>
             <Button
               onClick={openHistory}
               variant={'icon'}
@@ -115,7 +117,7 @@ const ChatInput = ({ t }: Props) => {
               <History size={18} className='text-zinc-600' />
             </Button>
           </Tooltip>
-          <Tooltip side='top' tooltipContent='New Chat'>
+          <Tooltip side='top' tooltipContent={trans('Chat.ChatInput.New_Chat')}>
             <Button
               variant={'icon'}
               role='button'
@@ -224,7 +226,10 @@ const FileInfo: React.FC<FileInfoProps> = memo(({ filename }) => (
 ));
 
 const SummarizeButton: React.FC<SummarizeButtonProps> = memo(
-  ({ onClick, disabled }) => (
+  ({ onClick, disabled }) => {
+    const trans = useTranslations('Editor');
+
+    return (
     <Button
       onClick={onClick}
       disabled={disabled}
@@ -237,10 +242,11 @@ const SummarizeButton: React.FC<SummarizeButtonProps> = memo(
         width={20}
         height={20}
         src='/editor/chatbot/Summarize.svg'
-      />
-      Summarize
-    </Button>
-  )
+        />
+        {trans('Chat.ChatInput.Summarize')}
+      </Button>
+    );
+  }
 );
 
 const FileDisplay: React.FC<FileDisplayProps> = memo(

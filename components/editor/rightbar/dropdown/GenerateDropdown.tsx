@@ -4,6 +4,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
+import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 
 type Props = {
@@ -17,6 +18,8 @@ type Props = {
 
 const GenerateDropdown = ({ items, t }: Props) => {
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
+  const trans = useTranslations('Editor');
+
   return (
     <DropdownMenuContent hideWhenDetached className='w-[350px] rounded p-0'>
       {items.map((subItem) => (
@@ -25,7 +28,7 @@ const GenerateDropdown = ({ items, t }: Props) => {
           key={subItem.id}
           onClick={() => setGenerateTab(subItem.label)}
         >
-          {t.Generate[subItem.label as keyof typeof t.Generate] as any}
+          {trans(`Generate.${subItem.label}`)}
         </DropdownMenuItem>
       ))}
     </DropdownMenuContent>

@@ -3,6 +3,7 @@ import { EditorDictType } from '@/types';
 import { m } from 'framer-motion';
 import { Loader2, XCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 import { useChatBotSessions } from '../hooks/useHistory';
 import ResearchHistoryItem from './ResearchHistoryItem';
@@ -10,6 +11,7 @@ import ResearchHistoryItem from './ResearchHistoryItem';
 type Props = { t: EditorDictType; closeHistory: () => void };
 const ResearchHistory = ({ t, closeHistory }: Props) => {
   const { id } = useParams();
+  const trans = useTranslations('Editor');
   const {
     data: researchHistory,
     isPending,
@@ -44,7 +46,7 @@ const ResearchHistory = ({ t, closeHistory }: Props) => {
         className='absolute bottom-0 left-0 right-0 z-[99] flex flex-col rounded-t-lg border border-gray-200 bg-white p-4'
       >
         <div className='flex-between'>
-          <h2 className='base-medium text-zinc-700'>Search History</h2>
+          <h2 className='base-medium text-zinc-700'>{trans('Chat.ChatInput.Search_History')}</h2>
           <XCircle
             size={20}
             onClick={closeHistory}

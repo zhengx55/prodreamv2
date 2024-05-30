@@ -27,7 +27,7 @@ export default async function Home({
       <Introduction lang={lang} t={dict.Homepage} />
       <Comments lang={lang} t={dict.Homepage} />
       <Question lang={lang} t={dict.Homepage} />
-      <BottomBanner />
+      <BottomBanner  />
       <Footer />
     </main>
   );

@@ -10,6 +10,7 @@ import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
 import { useUpdateEffect } from 'react-use';
+import { useTranslations } from 'next-intl';
 import { v4 } from 'uuid';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 
@@ -37,6 +38,7 @@ const MostHuman = ({
   const [paragraph, setParagraph] = useState<MostHumanParagraphProps[]>([]);
   const [suggestion, setSuggestion] = useState<MostHumanSuggestionsProps[]>([]);
   const { setSelection, replaceSelection } = useEditorCommand(editor!);
+  const trans = useTranslations('Editor');
 
   const toggleItem = (item: MostHumanSuggestionsProps) => {
     const { nodePos, nodeSize } = findNodePos(editor!, item.text);
@@ -177,14 +179,14 @@ const MostHuman = ({
   return (
     <div className='flex flex-1 flex-col'>
       <div className='flex-between'>
-        <p className='base-medium'>{t.Detection.Humanizer}</p>
+        <p className='base-medium'>{trans('Detection.Humanizer')}</p>
         {suggestion.length === 0 && paragraph.length !== 0 && (
           <Button
             variant={'ghost'}
             onClick={humanizeAll}
             className='size-max p-0'
           >
-            Humanize all
+            {trans('Detection.Humanize_all')}
           </Button>
         )}
       </div>
@@ -224,7 +226,7 @@ const MostHuman = ({
                             handleAccept(suggestion);
                           }}
                         >
-                          {t.Utility.Accept}
+                          {trans('Utility.Accept')}
                         </Button>
                         <Button
                           role='button'
@@ -235,7 +237,7 @@ const MostHuman = ({
                           }}
                           className='size-max rounded border px-4 py-2'
                         >
-                          {t.Utility.Dismiss}
+                          {trans('Utility.Dismiss')}
                         </Button>
                       </div>
                     )}
@@ -269,7 +271,7 @@ const MostHuman = ({
                   {item.loading ? (
                     <Loader2 className='animate-spin text-white' />
                   ) : (
-                    t.Detection.humanize_button
+                    trans('Detection.humanize_button')
                   )}
                 </Button>
               </div>
@@ -291,10 +293,12 @@ const ParagraphStarter = memo(
     t: EditorDictType;
     handleParagraph: () => void;
   }) => {
+    const trans = useTranslations('Editor');
+
     return (
       <div className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-6'>
         <p className='text-center text-sm font-medium text-violet-500'>
-          {t.Detection.most_human_title}
+          {trans('Detection.most_human_title')}
         </p>
         <Image
           src='/editor/MostHuman.png'
@@ -305,14 +309,14 @@ const ParagraphStarter = memo(
         />
         <Separator orientation='horizontal' className='bg-gray-200' />
         <p className='text-center text-sm font-normal text-zinc-600'>
-          {t.Detection.most_human_instruction}
+          {trans('Detection.most_human_instruction')}
         </p>
         <Button
           onClick={handleParagraph}
           className='base-regular size-max self-center rounded-lg px-8'
           role='button'
         >
-          {t.Detection.most_human_button}
+          {trans('Detection.most_human_button')}
         </Button>
       </div>
     );
@@ -331,23 +335,25 @@ const Header = memo(
     handleAcceptAll: () => void;
     handleDismissAll: () => void;
   }) => {
+    const trans = useTranslations('Editor');
+
     return (
       <div className='flex-between'>
-        <p className='base-medium'>{suggestion.length} Suggestions</p>
+        <p className='base-medium'>{suggestion.length} {trans('Utility.Suggestions')}</p>
         <div className='flex gap-x-2'>
           <Button
             variant={'ghost'}
             onClick={handleAcceptAll}
             className='size-max p-0 text-neutral-400'
           >
-            {t.Utility.AcceptAll}
+            {trans('Utility.AcceptAll')}
           </Button>
           <Button
             onClick={handleDismissAll}
             variant={'ghost'}
             className='size-max p-0 text-neutral-400'
           >
-            {t.Utility.DismissAll}
+            {trans('Utility.DismissAll')}
           </Button>
         </div>
       </div>
@@ -357,15 +363,17 @@ const Header = memo(
 
 const RemainingHeader = memo(
   ({ t, handler }: { t: EditorDictType; handler: () => void }) => {
+    const trans = useTranslations('Editor');
+
     return (
       <div className='flex-between mt-4'>
-        <p className='base-medium'>Remaining Paragraphs</p>
+        <p className='base-medium'>{trans('Detection.Remaining_Paragraphs')}</p>
         <Button
           variant={'ghost'}
           onClick={handler}
           className='size-max p-0 text-neutral-400'
         >
-          Humanize all
+          {trans('Detection.Humanize_all')}
         </Button>
       </div>
     );

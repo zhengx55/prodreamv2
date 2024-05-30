@@ -9,7 +9,7 @@ import { cookies } from 'next/headers';
 const Plan = dynamic(() => import('@/components/pricing/Plan'));
 const QA = dynamic(() => import('@/components/pricing/QA'));
 async function getBalance() {
-  const token = cookies().get('token')?.value;
+  const token = cookies().get('token')?.value
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/balance`,
     {

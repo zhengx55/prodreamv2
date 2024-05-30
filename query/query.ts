@@ -2,6 +2,7 @@ import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
 import { ICitationType } from '@/types';
 import { useAIEditor, useCitation } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { createCitation, createGoogleCiation, updateCitation } from './api';
 
 export const useUpdateCitation = () => {
@@ -28,6 +29,8 @@ export const useUpdateCitation = () => {
 };
 
 export const useCreateCustomCitation = () => {
+  const { lang } = useParams();
+
   const appendInDocCitationIds = useCitation(
     (state) => state.appendInDocCitationIds
   );
@@ -45,7 +48,10 @@ export const useCreateCustomCitation = () => {
         },
       });
       const toast = (await import('sonner')).toast;
-      toast.success('Citation created successfully');
+
+      const toastInfo = lang === 'en' ? 'Citation created successfully' : '引用创建成功';
+
+      toast.success(toastInfo);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
@@ -55,6 +61,8 @@ export const useCreateCustomCitation = () => {
 };
 
 export const useCreateCitation = () => {
+  const { lang } = useParams();
+
   const appendInDocCitationIds = useCitation(
     (state) => state.appendInDocCitationIds
   );
@@ -75,7 +83,10 @@ export const useCreateCitation = () => {
         },
       });
       const toast = (await import('sonner')).toast;
-      toast.success('Citation created successfully');
+
+      const toastInfo = lang === 'en' ? 'Citation created successfully' : '引用创建成功';
+
+      toast.success(toastInfo);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;
@@ -85,6 +96,7 @@ export const useCreateCitation = () => {
 };
 
 export const useCiteToDoc = () => {
+  const { lang } = useParams();
   const editor = useAIEditor((state) => state.editor_instance);
   const { insertCitation } = useEditorCommand(editor!);
   const appendInTextCitationIds = useCitation(
@@ -112,7 +124,9 @@ export const useCiteToDoc = () => {
 
       insertCitation(data.id, anchor, from, to);
       const toast = (await import('sonner')).toast;
-      toast.success('Citation created successfully');
+      const toastInfo = lang === 'en' ? 'Citation created successfully' : '引用创建成功';
+      
+      toast.success(toastInfo);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

@@ -5,12 +5,14 @@ import { saveDoc } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { m } from 'framer-motion';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 
 type Props = { handleClose: () => Promise<void> };
 const Edit = ({ handleClose }: Props) => {
   const { id } = useParams();
+  const t = useTranslations('Editor');
   const introduction = useRef<HTMLTextAreaElement>(null);
   const { mutateAsync: start } = useMutation({
     mutationFn: (params: {
@@ -40,10 +42,10 @@ const Edit = ({ handleClose }: Props) => {
     >
       <div className='flex-between'>
         <h1 className='h2-semibold'>
-          And one more thing...
+          {t('TitleEditModal.And_one_more_thing')}
           <br />
           <span className='font-[300] text-violet-500'>
-            What are you looking for today?
+            {t('TitleEditModal.What_are_you_looking_for_today')}
           </span>
         </h1>
         <Button
@@ -52,12 +54,12 @@ const Edit = ({ handleClose }: Props) => {
           role='button'
           onClick={handleClose}
         >
-          Skip
+          {t('TitleEditModal.Skip')}
         </Button>
       </div>
       <div className='flex-between gap-x-8'>
         <div className='flex h-[380px] w-1/3 cursor-pointer flex-col items-center justify-evenly rounded-2xl border border-gray-200 py-4 hover:bg-[#F8F9FC]'>
-          <p className='title-semibold text-zinc-600'>Edit essays</p>
+          <p className='title-semibold text-zinc-600'>{t('TitleEditModal.Edit_essays')}</p>
           <div className='relative h-[250px] w-[90%] overflow-hidden'>
             <Image
               alt='start'
@@ -69,13 +71,13 @@ const Edit = ({ handleClose }: Props) => {
           </div>
         </div>
         <div className='flex h-full w-2/3 flex-col'>
-          <p className='title-medium'>Brief description of study</p>
+          <p className='title-medium'>{t('TitleEditModal.Brief_description_of_study')}</p>
           <Spacer y='10' />
           <Textarea
             id='idea'
             ref={introduction}
             className='small-regular'
-            placeholder='Describe your research briefly'
+            placeholder={t('TitleEditModal.Describe_your_research_briefly')}
           />
 
           <Button
@@ -83,7 +85,7 @@ const Edit = ({ handleClose }: Props) => {
             onClick={handleStart}
             className='mt-auto w-max rounded-md bg-violet-500 px-20'
           >
-            Start Writting
+            {t('TitleEditModal.Start_Writing')}
           </Button>
         </div>
       </div>

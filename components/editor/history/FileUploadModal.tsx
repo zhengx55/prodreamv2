@@ -8,6 +8,7 @@ import { createDoc } from '@/query/api';
 import { DocPageDicType } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { FileText, Loader2, XCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { memo, useCallback } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
@@ -16,6 +17,7 @@ type Props = DocPageDicType;
 
 const FileUploadModal = ({ lang, t }: Props) => {
   const router = useRouter();
+  const trans = useTranslations('Editor');
 
   const { mutateAsync: createNew, isPending: isUploading } = useMutation({
     mutationFn: (params: { file?: File }) =>
@@ -60,15 +62,14 @@ const FileUploadModal = ({ lang, t }: Props) => {
     >
       <DialogHeader>
         <DialogTitle className='title-medium flex-between text-zinc-700'>
-          Upload Essay
+          {trans('UploadModal.Upload_Essay')}
           <DialogClose>
             <XCircle size={20} className='text-neutral-400' />
           </DialogClose>
         </DialogTitle>
       </DialogHeader>
       <div className='text-base font-normal text-neutral-400'>
-        Upload a file to receive intelligent summaries andanswers to your
-        questions.
+        {trans('UploadModal.Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions')}
       </div>
       <div
         {...getRootProps({
@@ -87,7 +88,7 @@ const FileUploadModal = ({ lang, t }: Props) => {
         <FileText className='text-neutral-400' size={70} />
 
         <p className='text-xs font-normal text-neutral-400'>
-          Click or drag and drop here to upload
+          {trans('UploadModal.Click_or_drag_and_drop_here_to_upload')}
         </p>
       </div>
     </DialogContent>

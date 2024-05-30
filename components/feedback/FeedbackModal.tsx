@@ -1,6 +1,6 @@
 'use client';
 import { Dialog, DialogClose, DialogContent } from '@/components/ui/dialog';
-import { FeedbackOptions } from '@/constant';
+import { FeedbackOptions, FeedbackOptionsCN } from '@/constant';
 import { feedbackAttachments, submitFeedback } from '@/query/api';
 import { useModal } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -8,6 +8,8 @@ import { AnimatePresence, m } from 'framer-motion';
 import { ChevronLeft, Copy, Loader2, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import { memo, useCallback, useRef, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import LazyMotionProvider from '../root/LazyMotionProvider';
@@ -20,6 +22,8 @@ const FeedbackModal = () => {
   const memoUpdateOption = useCallback((index: number) => {
     setOption(index);
   }, []);
+
+
   const show = useModal((state) => state.feedbackModal);
   const setShow = useModal((state) => state.updateFeedbackModal);
   return (
@@ -45,6 +49,9 @@ const FeedbackModal = () => {
 };
 
 const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
+  const t = useTranslations('Editor');
+  const {lang} = useParams();
+
   return (
     <m.div
       key={'feedback-menu'}
@@ -55,14 +62,14 @@ const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
     >
       <div className='flex-between'>
         <h1 className='text-xl font-medium text-zinc-700'>
-          Choose your support category
+          {t('FeedBack.Choose_your_support_category')}
         </h1>
         <DialogClose>
           <XCircle size={20} className=' text-neutral-400' />
         </DialogClose>
       </div>
       <ul className='flex flex-col gap-y-2'>
-        {FeedbackOptions.map((options, index) => {
+        {(lang === 'en' ? FeedbackOptions : FeedbackOptionsCN).map((options, index) => {
           return index === 1 ? (
             <li
               role='link'
@@ -100,6 +107,8 @@ const Submit = memo(
     const setShow = useModal((state) => state.updateFeedbackModal);
     const [attachments, setAttachments] = useState<string[]>([]);
     const infoRef = useRef<HTMLTextAreaElement>(null);
+    const t = useTranslations('Editor');
+    const {lang} = useParams();
 
     const { mutateAsync: submit, isPending } = useMutation({
       mutationFn: (params: {
@@ -109,7 +118,7 @@ const Submit = memo(
       }) => submitFeedback(params),
       onSuccess: async () => {
         const { toast } = await import('sonner');
-        toast.success('Feedback submitted successfully');
+        toast.success(t('FeedBack.Feedback_submitted_successfully'));
         setShow(false);
       },
       onError: async (error) => {
@@ -156,7 +165,7 @@ const Submit = memo(
               <ChevronLeft size={20} />
             </Button>
             <h1 className='text-xl font-medium text-zinc-700'>
-              {FeedbackOptions[option]}
+              {(lang === 'en' ? FeedbackOptions : FeedbackOptionsCN)[option]}
             </h1>
           </div>
           <DialogClose>
@@ -169,8 +178,8 @@ const Submit = memo(
             htmlFor='detail'
           >
             {option === 0
-              ? 'Please describe the bug you encountered in detail '
-              : 'Please provide details for how you would like assistance'}
+              ? t('FeedBack.Please_describe_the_bug_you_encountered_in_detail')
+              : t('FeedBack.Please_provide_details_for_how_you_would_like_assistance')}
           </label>
           <Spacer y='5' />
           <Textarea
@@ -183,7 +192,7 @@ const Submit = memo(
           <Spacer y='16' />
           {option !== 0 ? (
             <p className='text-base font-normal text-neutral-400'>
-              Alternatively, you may email us at&nbsp;
+              {/* Alternatively, you may email us at&nbsp;
               <a href='mailto:support@prodream.ai' className='text-violet-500'>
                 support@prodream.ai
               </a>
@@ -195,7 +204,11 @@ const Submit = memo(
               >
                 Discord
               </Link>
-              &nbsp;for direct chat support.
+              &nbsp;for direct chat support. */}
+              {t.rich('FeedBack.AlternativeSupport', {
+                emailLink: (chunks: any) =>  <a href='mailto:support@prodream.ai' className='text-violet-500'>support@prodream.ai</a>,
+                contactToolLink: (chunks: any) =><Link href={'https://discord.gg/xXSFXv5kPd'} target='_blank' className='cursor-pointer text-violet-500 hover:underline'>Discord</Link>,
+              })}
             </p>
           ) : (
             <Attachments handler={memoUpdateAttachments} />
@@ -208,7 +221,7 @@ const Submit = memo(
             role='button'
             className='rounded'
           >
-            Submit
+            {t('FeedBack.Submit')}
           </Button>
         </div>
       </m.div>
@@ -219,6 +232,9 @@ const Submit = memo(
 const Attachments = memo(
   ({ handler }: { handler: (attachment: string[]) => void }) => {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const t = useTranslations('Editor');
+    const {lang} = useParams();
+
     const onDrop = useCallback(
       async (acceptedFile: File[], fileRejections: FileRejection[]) => {
         if (fileRejections.length > 0) {
@@ -253,7 +269,7 @@ const Attachments = memo(
     });
     return (
       <div className='flex flex-col'>
-        <h2 className='text-base font-normal text-neutral-400'>Attachments</h2>
+        <h2 className='text-base font-normal text-neutral-400'>{t('FeedBack.Attachments')}</h2>
         <Spacer y='5' />
         {imagePreview ? (
           <div className='flex-center relative flex h-40 rounded border-2 border-dashed border-stone-300 p-4'>
@@ -293,7 +309,7 @@ const Attachments = memo(
             <input {...getInputProps()} />
             <p className='inline-flex items-center gap-x-2 text-xs font-normal text-neutral-400'>
               <Copy size={14} />
-              Click to choose a file or drag here
+              {t('FeedBack.Click_to_choose_a_file_or_drag_here')}
             </p>
           </div>
         )}

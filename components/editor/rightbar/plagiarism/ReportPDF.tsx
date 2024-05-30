@@ -5,6 +5,7 @@ import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { EditorDictType, PdfResult } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { Download } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Route } from 'next';
 import { memo } from 'react';
 
@@ -13,11 +14,12 @@ const ReportPDF = ({ t, report }: Props) => {
   const { data: membership } = useMembershipInfo();
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { mutateAsync: buttonTrack } = useButtonTrack();
+  const trans = useTranslations('Editor');
 
   return (
     <div className='flex flex-col'>
       <h2 className='small-medium inline-flex items-center gap-x-2'>
-        {t.Plagiarism.Report}
+        {trans('Plagiarism.Report')}
       </h2>
       <Spacer y='32' />
       {membership?.subscription === 'basic' ? null : null}
@@ -28,7 +30,7 @@ const ReportPDF = ({ t, report }: Props) => {
               <h2 className='base-medium'>{report.score}</h2>
             </div>
             <p className='subtle-regular text-center text-neutral-400'>
-              Overall similarity score
+              {trans('Plagiarism.Overall_similarity_score')}
             </p>
           </div>
           <div className='flex w-1/3 flex-col items-center gap-y-2'>
@@ -36,7 +38,7 @@ const ReportPDF = ({ t, report }: Props) => {
               <h2 className='base-medium'>{report.results}</h2>
             </div>
             <p className='subtle-regular text-center text-neutral-400'>
-              Results found
+              {trans('Plagiarism.Results_found')}
             </p>
           </div>
           <div className='flex w-1/3 flex-col items-center gap-y-2'>
@@ -44,7 +46,7 @@ const ReportPDF = ({ t, report }: Props) => {
               <h2 className='base-medium text-center'>{report.total_words}</h2>
             </div>
             <p className='subtle-regular text-neutral-400'>
-              Total words in text
+              {trans('Plagiarism.Total_words_in_text')}
             </p>
           </div>
         </div>
@@ -61,7 +63,7 @@ const ReportPDF = ({ t, report }: Props) => {
                 updatePaymentModal(true);
               }}
             >
-              Unlock full report
+              {trans('Plagiarism.Unlock_full_report')}
             </Button>
           </div>
         ) : (
@@ -72,7 +74,7 @@ const ReportPDF = ({ t, report }: Props) => {
               target='_blank'
             >
               <Button role='button' className='rounded-lg' variant={'outline'}>
-                View full report
+                {trans('Plagiarism.View_full_report')}
               </Button>
             </a>
             <a href={report.link} download target='_blank'>

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { formatTimestampToDateString } from '@/lib/utils';
 import { ISubsciptionHistory, ISubscription } from '@/types';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
@@ -44,6 +45,7 @@ export default async function Page({
 }: {
   params: { id: string; lang: Locale };
 }) {
+  const t = useTranslations('Profile');
   const membership = await getMembership();
   const history = await getHistory();
   return (

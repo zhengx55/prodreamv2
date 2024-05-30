@@ -6,6 +6,7 @@ import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
+import { useTranslations } from 'next-intl';
 import { getIpAddress } from '@/query/api';
 import Link from 'next/link';
 
@@ -18,6 +19,7 @@ export default async function Page({
 }) {
   const dict = await getDictionary(lang);
   const cn_dict = await getDictionary('cn');
+  const t = useTranslations('Auth');
   const isInChina = await getIpAddress();
 
   if (!isInChina)
@@ -28,24 +30,24 @@ export default async function Page({
           <GoogleSignin
             searchParam={from}
             lang={lang}
-            label={dict.Auth.Login.Google}
+            label={t('Login.Google')}
           />
           <div className='flex-center relative my-10'>
             <Separator orientation='horizontal' className='bg-shadow-border' />
             <p className='small-regular absolute bg-white px-2 text-neutral-300'>
-              {dict.Auth.Signup.GoogleDivider}
+              {t('Signup.GoogleDivider')}
             </p>
           </div>
           <LoginForm t={dict.Auth} lang={lang} />
           <Spacer y='20' />
           <p className='base-regular text-neutral-400'>
-            {dict.Auth.Login.NotAccount}&nbsp;
+            {t('Login.NotAccount')}&nbsp;
             <Link
               href={`/${lang}/signup`}
               prefetch
               className='base-semibold text-violet-500 hover:underline'
             >
-              {dict.Auth.Signup.Button}
+              {t('Signup.Button')}
             </Link>
           </p>
         </div>

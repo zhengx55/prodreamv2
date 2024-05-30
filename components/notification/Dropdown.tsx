@@ -1,6 +1,8 @@
 import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { memo } from 'react';
+import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import Icon from '../root/Icon';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
@@ -8,10 +10,14 @@ import { Dialog, DialogTrigger } from '../ui/dialog';
 import { DropdownMenuContent } from '../ui/dropdown-menu';
 import Modal from './Modal';
 
-type Props = {};
-const Dropdown = (props: Props) => {
+
+const Dropdown = () => {
   const { data: trackInfo } = useUserTrackInfo();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
+  const t = useTranslations('Editor');
+  const {lang} = useParams();
+
+
   return (
     <DropdownMenuContent
       className='flex flex-col rounded border border-gray-200 bg-white shadow-lg md:w-[435px]'
@@ -19,7 +25,7 @@ const Dropdown = (props: Props) => {
       align='start'
     >
       <div className='flex-between px-2 py-1.5'>
-        <h2 className='base-semibold'>Notifications</h2>
+        <h2 className='base-semibold'>{t('SideBar.Notifications')}</h2>
         <Button
           role='button'
           className='size-max p-0 text-base text-indigo-500'
@@ -28,7 +34,7 @@ const Dropdown = (props: Props) => {
             await updateTrack({ data: 'true', field: 'notification_read' });
           }}
         >
-          Mark all as read
+          {t('SideBar.Mark_all_as_read')}
         </Button>
       </div>
       <Dialog>
@@ -39,7 +45,9 @@ const Dropdown = (props: Props) => {
           >
             <div className='flex-between'>
               <h3 className='base-regular text-zinc-700'>
-                📢 New Features Announcement! 📢
+                {t.rich('Announcement.Title', {
+                  strong: () => <strong className='font-bold' />,
+                })}
               </h3>
               {!trackInfo?.notification_read && (
                 <span className='size-2 rounded-full bg-red-400' />
@@ -47,15 +55,14 @@ const Dropdown = (props: Props) => {
             </div>
             <Spacer y='6' />
             <article className='text-xs font-normal text-zinc-500'>
-              We&apos;re pleased to inform you about the latest updates to our
-              platform:
+              {t.rich('Announcement.Sub_title', {
+                strong: (chunks) => <strong className='font-bold'>{chunks}</strong>,
+              })}
               <br />
               <br />
-              <strong>1.Introducing Jessica,</strong> Your AI Research
-              Companion: We&apos;ve added a new AI Chatbot named Jessica to
-              assist with research and writing tasks. Jessica can provide
-              guidance on essay improvement strategies and offer explanations to
-              your readings...
+              {t.rich('Announcement.Content_1', {
+                strong: (chunks) => <strong className='font-bold'>{chunks}</strong>,
+              })}
             </article>
             <Spacer y='24' />
             <div className='flex-between'>
@@ -72,7 +79,7 @@ const Dropdown = (props: Props) => {
                 <p className='text-xs font-normal text-zinc-700'>ProDream</p>
               </div>
               <p className='text-xs font-normal text-zinc-700'>
-                {formatTimestamphh_number(1715312029790 / 1000)}
+                {formatTimestamphh_number(1715312029790 / 1000, lang as string )}
               </p>
             </div>
           </div>
@@ -82,4 +89,14 @@ const Dropdown = (props: Props) => {
     </DropdownMenuContent>
   );
 };
+
+export async function getServerSideProps({ req }) {
+  const lang = req.headers.get('x-next-intl-locale');
+
+  return {
+    props: {
+      lang
+    },
+  };
+}
 export default memo(Dropdown);

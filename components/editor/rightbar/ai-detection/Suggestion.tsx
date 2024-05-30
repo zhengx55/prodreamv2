@@ -7,6 +7,7 @@ import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { m } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -29,6 +30,7 @@ const Suggestion = ({
   human_percent,
   onRecheck,
 }: Props) => {
+  const trans = useTranslations('Editor');
   const [expanded, setExpanded] = useState(-1);
   const { data: membership } = useMembershipInfo();
   const [showRecheck, setShowRecheck] = useState(false);
@@ -85,7 +87,7 @@ const Suggestion = ({
   const RenderContent = () => {
     if (membership?.subscription === 'basic') {
       return (
-        <Unlock text={'Unlock humanize suggestions with the Unlimited Plan'} />
+        <Unlock text={trans('RightBar.Unlock_humanize_suggestions_with_the_Unlimited_Plan')} />
       );
     }
     if (highlight_sentences.length === 0 && !showRecheck) {
@@ -130,6 +132,7 @@ const Suggestion = ({
 
 const Starter = memo(
   ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
+    
     return (
       <div className='flex flex-1 flex-col'>
         <p className='base-medium'>{t.Detection.Humanizer}</p>
@@ -177,6 +180,7 @@ const SuggestionsList = memo(
     toggleExpand: (item: [number[], number[], string], index: number) => void;
   }) => {
     const editor = useAIEditor((state) => state.editor_instance);
+    const trans = useTranslations('Editor');
 
     const handleAcceptAll = () => {
       const editor_block = editor?.getJSON().content ?? [];
@@ -224,7 +228,7 @@ const SuggestionsList = memo(
     return (
       <div className='flex flex-col gap-y-2'>
         <div className='flex-between'>
-          <p className='base-medium'>{t.Detection.Humanizer}</p>
+          <p className='base-medium'>{trans('Detection.Humanizer')}</p>
           <div className='flex gap-x-3'>
             <Button
               role='button'
@@ -232,7 +236,7 @@ const SuggestionsList = memo(
               onClick={handleAcceptAll}
               className='w-max px-0 text-neutral-400 hover:text-violet-500'
             >
-              {t.Utility.AcceptAll}
+              {trans('Utility.AcceptAll')}
             </Button>
             <Button
               role='button'
@@ -240,7 +244,7 @@ const SuggestionsList = memo(
               onClick={handleRejectAll}
               className='w-max px-0 text-neutral-400 hover:text-violet-500'
             >
-              {t.Utility.DismissAll}
+              {trans('Utility.DismissAll')}
             </Button>
           </div>
         </div>
@@ -282,7 +286,9 @@ const SuggestItem = ({
   onDismiss,
   onAccept,
   t,
-}: SentenceItemProps) => (
+}: SentenceItemProps) => { 
+  const trans = useTranslations('Editor');
+  return (
   <m.div
     initial={false}
     animate={isExpand ? 'expand' : 'collapse'}
@@ -310,7 +316,7 @@ const SuggestItem = ({
           }}
           className='size-max rounded border px-4 py-1'
         >
-          {t.Utility.Dismiss}
+          {trans('Utility.Dismiss')}
         </Button>
         <Button
           role='button'
@@ -320,11 +326,12 @@ const SuggestItem = ({
             onAccept();
           }}
         >
-          {t.Utility.Accept}
+          {trans('Utility.Accept')}
         </Button>
       </div>
     )}
-  </m.div>
-);
+    </m.div>
+  );
+};
 
 export default memo(Suggestion);

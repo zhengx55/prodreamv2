@@ -16,12 +16,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
 const ResetForm = ({ t, lang }: AuthPageDicType) => {
+  const trans = useTranslations('Auth');
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
   const [verifyWait, setVerifyWait] = useState(false);
@@ -60,7 +62,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
   const { mutateAsync: handleReset } = useMutation({
     mutationFn: (param: IResetParams) => userReset(param),
     onSuccess: (_data) => {
-      toast.success('Successfully Reset Password');
+      toast.success(trans('ForgotPassword.Successfully_Reset_Password'));
       router.replace('/login');
     },
     onError: (error) => {
@@ -71,7 +73,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
   const { mutateAsync: handleSendVerification } = useMutation({
     mutationFn: (params: { email: string }) => sendVerificationEmail(params),
     onSuccess: () => {
-      toast.success('Checked your email');
+      toast.success(trans('ForgotPassword.Checked_your_email'));
       setVerifyWait(true);
       setCountdown(60);
     },
@@ -83,7 +85,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
   async function handleSentVerificationEmail() {
     const { email } = form.getValues();
     if (!email) {
-      toast.error('Please enter your email address');
+      toast.error(trans("ForgetPassword.Please_enter_your_email_address"));
       return;
     }
     await handleSendVerification({ email });
@@ -113,7 +115,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
                 <Input
                   autoComplete='email'
                   id='email'
-                  placeholder={t.ForgotPassword.FormEmail}
+                  placeholder={trans('ForgotPassword.FormEmail')}
                   type='email'
                   className='base-regular h-12 rounded-md border'
                   {...field}
@@ -146,7 +148,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
                   autoComplete='current-password'
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
-                  placeholder={t.ForgotPassword.FormPassword}
+                  placeholder={trans('ForgotPassword.FormPassword')}
                   className='base-regular h-12 rounded-md border'
                   {...field}
                 />
@@ -178,7 +180,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
                   autoComplete='current-password'
                   id='confirm'
                   type={hideConfirm ? 'password' : 'text'}
-                  placeholder={t.ForgotPassword.FormConfirm}
+                  placeholder={trans('ForgotPassword.FormConfirm')}
                   className='base-regular h-12 rounded-md border'
                   {...field}
                 />
@@ -198,7 +200,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
                     autoComplete='current-password'
                     id='verification_code'
                     type='text'
-                    placeholder={t.ForgotPassword.Verification}
+                    placeholder={trans('ForgotPassword.Verification')}
                     className='base-regular h-12 rounded-md border'
                     {...field}
                   />
@@ -210,7 +212,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
                   type='button'
                   className='base-regularw-[150px] h-12 shrink-0 rounded-md border border-violet-500 text-violet-500'
                 >
-                  {verifyWait ? countdown : t.ForgotPassword.VerificationBtn}
+                  {verifyWait ? countdown : trans('ForgotPassword.VerificationBtn')}
                 </Button>
               </div>
               <FormMessage className='text-xs text-red-400' />
@@ -218,7 +220,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
           )}
         />
         <Button className='w-full rounded bg-violet-500' type='submit'>
-          {t.ForgotPassword.Button}
+          {trans('ForgotPassword.Button')}
         </Button>
       </form>
     </Form>

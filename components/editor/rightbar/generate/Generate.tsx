@@ -10,6 +10,7 @@ import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { EditorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { ChevronUp, FileText } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import { forwardRef, memo, useRef } from 'react';
 import GenerateTitle from './GenerateTitle';
@@ -29,6 +30,7 @@ export const Generate = ({ t }: { t: EditorDictType }) => {
   const outline_step = useUserTask((state) => state.outline_step);
   const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const { data: usage } = useMembershipInfo();
+  const trans = useTranslations('Editor');
 
   return (
     <>
@@ -99,6 +101,7 @@ const Unlock = () => {
   const { data: usage } = useMembershipInfo();
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { mutateAsync: buttonTrack } = useButtonTrack();
+  const trans = useTranslations('Editor');
 
   return (
     <div className='mt-auto flex flex-col gap-y-0.5'>
@@ -115,7 +118,9 @@ const Unlock = () => {
         )}
       </div>
       <p className='small-regular w-max px-0 text-zinc-600'>
-        {usage?.free_times_detail.Generate}/5 weekly generate credits left;
+        {trans('Generate.Generate_credits_left', {
+          used: usage?.free_times_detail.Generate,
+        })}
         <Button
           role='dialog'
           onClick={async () => {
@@ -127,7 +132,7 @@ const Unlock = () => {
           variant={'ghost'}
           className='px-2'
         >
-          Go unlimited
+          {trans('Generate.Go_unlimited')}
         </Button>
       </p>
     </div>
@@ -136,6 +141,8 @@ const Unlock = () => {
 
 const Submenu = forwardRef<HTMLDivElement, { item: any; t: EditorDictType }>(
   ({ item, t }, ref) => {
+    const trans = useTranslations('Editor');
+
     return (
       <>
         <DropdownMenuTrigger asChild>
@@ -149,7 +156,7 @@ const Submenu = forwardRef<HTMLDivElement, { item: any; t: EditorDictType }>(
                 size={20}
               />
               <p className='base-regular text-zinc-600 group-hover:text-violet-500'>
-                {t.Generate[item.title as keyof typeof t.Generate] as any}
+                {trans(`Generate.${item.title}`)}
               </p>
             </div>
             <ChevronUp

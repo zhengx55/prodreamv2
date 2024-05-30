@@ -1,6 +1,7 @@
 import { formatTimestampToDateString } from '@/lib/utils';
 import { DocPageDicType, ISubscription } from '@/types';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import PromoCode from '../editor/modal/PromoCode';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
@@ -11,20 +12,28 @@ const Membership = ({
   lang,
   t,
 }: { membership: ISubscription } & DocPageDicType) => {
+  const trans = useTranslations('Profile');
+
+  const Basic = trans('Setting.Basic');
+  const Unlimited = trans('Setting.Unlimited');
+
   return (
     <>
-      <h2 className='title-medium'>Membership</h2>
+      <h2 className='title-medium'>{trans('Setting.Membership')}</h2>
       <Spacer y='5' />
       {membership.subscription === 'basic' ||
       membership.subscription === 'free_trail' ? (
         <div className='flex w-max flex-col'>
           <div className='flex items-center gap-x-4'>
             <p className='text-neutral-400'>
-              You are on the <strong>Basic</strong> plan
+              {trans.rich('Setting.Your_current_plan', { 
+                CurrentPlan: Basic,
+                strong: (chunks: any) => <strong>{chunks}</strong>
+              })}
             </p>
             <Link passHref href={`/${lang}/pricing`}>
               <Button role='dialog' className='px-0' variant={'ghost'}>
-                Go unlimited
+               {trans('Setting.Go_unlimited')}
               </Button>
             </Link>
           </div>
@@ -36,13 +45,13 @@ const Membership = ({
                 className='rounded-lg border border-neutral-400 text-zinc-600'
                 variant={'ghost'}
               >
-                Promo Code
+                {trans('Setting.Promo_code')}
               </Button>
             </PromoCode>
 
             <Link passHref href={`/${lang}/profile/subscription`}>
               <Button role='button' className='base-regular rounded-lg'>
-                Manage subscription
+                {trans('Setting.Manage_subscription')}
               </Button>
             </Link>
           </div>
@@ -92,7 +101,7 @@ const Membership = ({
           <Spacer y='10' />
           <Link passHref href={`/${lang}/profile/subscription`}>
             <Button role='button' className='base-regular rounded-lg'>
-              Manage subscription
+              {trans('Setting.Manage_subscription')}
             </Button>
           </Link>
         </>

@@ -5,12 +5,15 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { HomePageDicType } from '@/types';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+
 const MobileDropdown = ({
   lang,
-  t,
   search_param,
 }: HomePageDicType & { search_param: string }) => {
+  const t = useTranslations('Homepage');
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -45,7 +48,7 @@ const MobileDropdown = ({
                 role='link'
                 className='w-[340px] border-[2px] border-violet-500 text-violet-500'
               >
-                {t.log_in}
+                {t('log_in')}
               </Button>
             </Link>
             <Link
@@ -62,8 +65,8 @@ const MobileDropdown = ({
                 role='link'
                 className='w-[340px] bg-violet-500 hover:bg-violet-500'
               >
-                <strong>{t.start_writing}</strong>
-                {t.It_s_free}
+                <strong>{t('start_writing')}</strong>
+                {t('It_s_free')}
               </Button>
             </Link>
           </div>

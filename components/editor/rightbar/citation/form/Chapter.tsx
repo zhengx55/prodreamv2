@@ -7,6 +7,7 @@ import { IChapterCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 const ChapterForm = ({
@@ -19,6 +20,7 @@ const ChapterForm = ({
   const { id } = useParams();
   const { mutateAsync: handleCreate } = useCreateCustomCitation();
   const { mutateAsync: handleUpdate } = useUpdateCitation();
+  const t = useTranslations('Editor');
 
   const { register, handleSubmit, control } = useForm<IChapterCitation>({
     defaultValues: !data
@@ -105,10 +107,10 @@ const ChapterForm = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
-      <h1 className='base-semibold'>What I&apos;m citing</h1>
+      <h1 className='base-semibold'>{t('CustomCitation.What_I_am_citing')}</h1>
       <Spacer y='16' />
-      <label className='small-regular text-neutral-400' htmlFor='section_title'>
-        Chapter/Section title
+      <label className='small-regular text-neutral-4000' htmlFor='section_title'>
+        {t('CustomCitation.BookMenu.Chapter')}/{t('CustomCitation.BookMenu.Section_Title')}
       </label>
       <Input
         type='text'
@@ -118,7 +120,7 @@ const ChapterForm = ({
         aria-label='section_title'
       />
       <Spacer y='20' />
-      <h1 className='base-semibold'>Contributors</h1>
+      <h1 className='base-semibold'>{t('CustomCitation.BookMenu.Contributors')}</h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2 '>
           {fields.map((contributor, index) => (
@@ -135,7 +137,7 @@ const ChapterForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.first_name`}
                 >
-                  First Name
+                  {t('CustomCitation.BookMenu.First_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.first_name`}
@@ -150,7 +152,7 @@ const ChapterForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.middle_name`}
                 >
-                  MI/ Middle
+                  {t('CustomCitation.BookMenu.Middle_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.middle_name`}
@@ -166,7 +168,7 @@ const ChapterForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.last_name`}
                 >
-                  Last Name
+                  {t('CustomCitation.BookMenu.Last_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.last_name`}
@@ -195,13 +197,13 @@ const ChapterForm = ({
         onClick={appendContributor}
       >
         <PlusCircle className='fill-violet-500 text-white' size={22} />
-        <p className='text-violet-500'> Add Contributor</p>
+        <p className='text-violet-500'>{t('CustomCitation.BookMenu.Add_Contributor')}</p>
       </Button>
       <Spacer y='20' />
-      <h1 className='base-semibold'>In print publication info</h1>
+      <h1 className='base-semibold'>{t('CustomCitation.BookMenu.In_print_publication_info')}</h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='journal_title'>
-        Source title
+        {t('CustomCitation.BookMenu.Source_Title')}
       </label>
       <Input
         type='text'
@@ -211,13 +213,13 @@ const ChapterForm = ({
         aria-label='journal_title'
       />
       <Spacer y='16' />
-      <h2 className='small-regular text-neutral-400'>Advanced info</h2>
+      <h2 className='small-regular text-neutral-400'>{t('CustomCitation.BookMenu.Advanced_Info')}</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
             id='advanced_info.volum'
-            placeholder='Volume'
+            placeholder={t('CustomCitation.BookMenu.Volume')}
             className='focus-visible:ring-0'
             {...register('advanced_info.vol')}
             aria-label='advanced_info.vol'
@@ -226,7 +228,7 @@ const ChapterForm = ({
         <div className='flex flex-col'>
           <Input
             id='advanced_info.issue'
-            placeholder='Edition'
+            placeholder={t('CustomCitation.BookMenu.Edition')}
             type='text'
             className='focus-visible:ring-0'
             {...register('advanced_info.edition')}
@@ -237,7 +239,7 @@ const ChapterForm = ({
           <Input
             id='advanced_info.series'
             type='Series'
-            placeholder='Series'
+            placeholder={t('CustomCitation.BookMenu.Series')}
             className='focus-visible:ring-0'
             {...register('advanced_info.series')}
             aria-label='advanced_info.series'
@@ -245,12 +247,12 @@ const ChapterForm = ({
         </div>
       </div>
       <Spacer y='16' />
-      <h2 className='small-regular text-neutral-400'>Publication info</h2>
+      <h2 className='small-regular text-neutral-400'>{t('CustomCitation.BookMenu.Publication_Info')}</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder='Publisher'
+            placeholder={t('CustomCitation.BookMenu.Publisher')}
             className='focus-visible:ring-0'
             {...register('publication_info.publisher')}
             aria-label='publication_info.publisher'
@@ -259,7 +261,7 @@ const ChapterForm = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder='City'
+            placeholder={t('CustomCitation.BookMenu.City')}
             className='focus-visible:ring-0'
             {...register('publication_info.city')}
             aria-label='publication_info.city'
@@ -268,7 +270,7 @@ const ChapterForm = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder='State'
+            placeholder={t('CustomCitation.BookMenu.State')}
             className='focus-visible:ring-0'
             {...register('publication_info.state')}
             aria-label='publication_info.state'
@@ -277,7 +279,7 @@ const ChapterForm = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder='Year'
+            placeholder={t('CustomCitation.BookMenu.Year')}
             className='focus-visible:ring-0'
             {...register('publication_info.publish_year')}
             aria-label='publication_info.publish_year'
@@ -285,12 +287,12 @@ const ChapterForm = ({
         </div>
       </div>
       <Spacer y='16' />
-      <h2 className='small-regular text-neutral-400'>Pages</h2>
+      <h2 className='small-regular text-neutral-400'>{t('CustomCitation.BookMenu.Pages')}</h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder='Start'
+            placeholder={t('CustomCitation.BookMenu.Start')}
             className='focus-visible:ring-0'
             {...register('page_info.start')}
             aria-label='page_info.start'
@@ -298,7 +300,7 @@ const ChapterForm = ({
         </div>
         <div className='flex flex-col'>
           <Input
-            placeholder='End'
+            placeholder={t('CustomCitation.BookMenu.End')}
             type='text'
             className='focus-visible:ring-0'
             {...register('page_info.end')}
@@ -314,10 +316,10 @@ const ChapterForm = ({
           type='button'
           onClick={handleCancel}
         >
-          Cancel
+          {t('CustomCitation.Cancel')}
         </Button>
         <Button type='submit' className='size-max rounded px-4 py-1'>
-          Save
+          {t('CustomCitation.Save')}
         </Button>
       </div>
     </form>

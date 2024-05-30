@@ -3,6 +3,7 @@ import Spacer from '@/components/root/Spacer';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { IDocDetail } from '@/query/type';
 import { DocPageDicType } from '@/types';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { memo, useMemo } from 'react';
 import HistoryDropDown from './HistoryDropDown';
@@ -10,7 +11,8 @@ import HistoryDropDown from './HistoryDropDown';
 type Props = {
   item: IDocDetail;
 } & DocPageDicType;
-const Card = ({ item, lang, t }: Props) => {
+const Card = ({ item, lang }: Props) => {
+  const t = useTranslations('Editor');
   const previewContent = useMemo(async () => {
     return item.content
       .replace(/<h1[^>]*>.*?<\/h1>/, '')
@@ -34,7 +36,7 @@ const Card = ({ item, lang, t }: Props) => {
         <Spacer y='5' />
         <h1 className='small-semibold line-clamp-2 capitalize'>
           {item.title === 'Untitled' || !item.title
-            ? 'Untitled Document'
+            ? t('Card.Untitled_Document')
             : item.title}
         </h1>
         <Spacer y='5' />
@@ -45,7 +47,7 @@ const Card = ({ item, lang, t }: Props) => {
       <div className='flex h-1/5 w-full flex-col justify-between rounded-b-lg px-2 py-2'>
         <div className='flex-between'>
           <p className='subtle-regular text-shadow'>
-            Opened {formatTimestamphh_number(item.update_time)}
+            {t('Card.Opened')} {formatTimestamphh_number(item.update_time)}
           </p>
           <HistoryDropDown item={item} />
         </div>

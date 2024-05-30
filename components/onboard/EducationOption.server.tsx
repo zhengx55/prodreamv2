@@ -1,6 +1,7 @@
 'use client';
 
 import { getDictionary } from '@/lib/get-dictionary';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 type Props = {
@@ -9,6 +10,8 @@ type Props = {
   onClick: (index: number) => Promise<void>;
 };
 const EducationOption = ({ index, dict, onClick }: Props) => {
+  const t = useTranslations('Onboard');
+
   return (
     <div
       onClick={() => onClick(index)}
@@ -17,21 +20,17 @@ const EducationOption = ({ index, dict, onClick }: Props) => {
     >
       <Image
         src={`/onboard/education/education0${index + 1}.png`}
-        alt={(dict.Onboard.Education as any)['Option' + (index + 1)]}
+        alt={t(`Education_Option_${index + 1}`)}
         width={150}
         height={150}
         priority
         className='h-[72px]  w-[60px] object-cover sm:h-[115px] sm:w-[95px]'
       />
       <h2 className='text-lg font-medium text-slate-600 sm:text-2xl'>
-        {(dict.Onboard.Education as any)['Option' + (index + 1)]}
+        {t(`Education_Option_${index + 1}`)}
       </h2>
       {/* <p className='small-regular sm:base-regular text-center leading-loose text-neutral-600'>
-        {
-          (dict.Onboard.Education as any)[
-            'Option' + (index + 1) + 'Description'
-          ]
-        }
+        {t(`Education_Option_${index + 1}Description`)}
       </p> */}
     </div>
   );

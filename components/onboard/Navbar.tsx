@@ -4,6 +4,7 @@ import { getDictionary } from '@/lib/get-dictionary';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Button } from '../ui/button';
+import { useTranslations } from 'next-intl';
 import { toDocument } from './_action';
 
 type Props = {
@@ -11,7 +12,9 @@ type Props = {
 };
 const Navbar = ({ dict }: Props) => {
   const pathName = usePathname();
+  const t = useTranslations('Onboard');
   const isBaseOnboard = pathName.split('/').pop() === 'onboard';
+  
   return (
     <nav className='flex-between h-14 w-full shrink-0 bg-slate-100 px-4 sm:h-20'>
       <Image
@@ -29,7 +32,7 @@ const Navbar = ({ dict }: Props) => {
           className='bg-transparent'
           variant={'ghost'}
         >
-          {dict.Onboard.SkipButton}
+          {t('SkipButton')}
         </Button>
       )}
     </nav>

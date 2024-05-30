@@ -3,29 +3,29 @@
     "log_in": "登 录",
     "start_writing": "开启写作之旅",
     "It_s_free": "限时免费",
-    "transform": "重新定义",
-    "your": "你的",
-    "academic": "学术",
-    "writing": "写作",
-    "journey": "体验",
-    "looking_for_a_tool_meeting": "",
-    "all_your_needs": "",
-    "in_academic_paper": "",
-    "discover_the": "",
-    "ultimate_solution": "",
-    "for_your_academic_paper_requirements_with_pro_dream": "",
-    "save_you_hours": "",
-    "in": "",
-    "academic_research_and_writing": "",
-    "pro_dreams ": "",
-    "one_stop_solution": "",
-    "helps_you_write": "",
-    "better": "",
-    "and": "",
-    "faster": "",
-    "with_confidence": "",
-    "generate_a_strong_paper": "",
-    "in_minutes": "",
+    "transform": "让你的学术写作之旅",
+    "your": "",
+    "academic": "",
+    "writing": "",
+    "journey": "焕然一新",
+    "looking_for_a_tool_meeting": "需要一款满足你",
+    "all_your_needs": "所有学术论文需求",
+    "in_academic_paper": "的工具吗？",
+    "discover_the": "ProDream，",
+    "ultimate_solution": "你的学术论文写作",
+    "for_your_academic_paper_requirements_with_pro_dream": "一站式解决方案",
+    "save_you_hours": "告别繁琐的",
+    "in": "学术研究和写作",
+    "academic_research_and_writing": "节省宝贵时间",
+    "pro_dreams ": "ProDream的",
+    "one_stop_solution": "一站式解决方案",
+    "helps_you_write": "助你",
+    "better": "自信",
+    "and": "高效地",
+    "faster": "完成",
+    "with_confidence": "写作",
+    "generate_a_strong_paper": "几分钟内生成",
+    "in_minutes": "高质量论文！",
     "experience_the": "与ProDream同行，开启学术写作的全新篇章",
     "one_stop": "一个助你",
     "that_enhances_writing": "提高写作效率、 ",
@@ -107,9 +107,8 @@
     "FormEmail": "邮箱",
     "FormPassword": "密码",
     "FormName": "姓名",
-
     "Login": {
-      "Foget": "忘记密码?",
+      "Forget": "忘记密码?",
       "Button": "登录",
       "NotAccount": "还没有账号?",
       "Google": "使用谷歌登录",
@@ -129,7 +128,10 @@
       "FormPassword": "设置密码",
       "FormConfirm": "确认密码",
       "Verification": "验证码",
-      "VerificationBtn": "获取验证码"
+      "VerificationBtn": "获取验证码",
+      "Successfully_Reset_Password": "重置密码成功",
+      "Checked_your_email": "请检查您的邮箱",
+      "Please_enter_your_email_address": "请输入您的邮箱地址"
     }
   },
   "Onboard": {
@@ -140,6 +142,7 @@
     "FormCode": "邀请码",
     "Option": "**邀请码为选填项，没有可以不填",
     "Button": "下一步",
+    "An_error_occurred_while_setting_language_info": "设置语言信息时发生错误，请重试。",
     "Education": {
       "Title": "您目前处于哪个学生阶段？了解这一信息我们可以更好地满足您的写作需求",
       "Option1": "高中生",
@@ -157,6 +160,155 @@
     }
   },
   "Editor": {
+    "Announcement": {
+      "Title": "📢 新功能公告！📢",
+      "Sub_title": "我们十分高兴地通知您有关我们平台的最新更新：",
+      "Content_1": "<strong>Jessica：您的AI研究助手：</strong>我们新增了一款名为Jessica的AI聊天机器人，专门协助进行研究和写作任务。Jessica可以提供论文改进策略指导，并为您的研究阅读材料提供解释。",
+      "Content_2": "<strong>引用搜索稳定性提升：</strong>我们升级了引用搜索系统，以增强其在高峰时段的稳定性。此次更新包括更新后的数据库和搜索系统，确保更准确的参考文献和零API停机时间。请注意，此次切换可能会导致现有引用功能中断。如果遇到任何问题，请重新尝试搜索并引用参考文献或联系我们客服邮箱：support@prodream.ai。",
+      "Content_3": "<strong>AI研究工具：</strong>平台现新增一款AI驱动的研究工具，旨在帮助您回答研究问题并有效地总结研究成果。",
+      "Content_4": "<strong>更有效的反馈中心：</strong>我们引入了全新的反馈中心，您可以在此报告产品bug、寻求技术支持并提交功能相关请求。您的反馈对我们非常重要，我们将不断努力提升我们的服务质量。"
+    },
+    "SideBar": {
+      "AI_Editor": "AI 智能助手",
+      "Discord": "Discord",
+      "Notifications": "通知",
+      "Mark_all_as_read": "全部标记已读",
+      "Contact_Support": "联系我们",
+      "View_Profile": "查看个人资料",
+      "Log_out": "退出登录",
+      "Contact_Channel": "微信",
+      "Upgrade": "升级"
+    },
+    "TopBar": {
+      "New_Essay": "新建文档",
+      "Upload_Essay": "上传已有论文",
+      "Search": "搜索"
+    },
+    "BottomBar": {
+      "Undo": "撤销",
+      "Redo": "重置",
+      "Words": "字数",
+      "Characters": "字符数",
+      "Paragraph": "段落",
+      "Heading_1": "一级标题",
+      "Heading_2": "二级标题",
+      "Heading_3": "三级标题",
+      "Heading_4": "四级标题",
+      "Heading_5": "五级标题",
+      "Heading_6": "六级标题",
+      "Bullet_list": "无序列表",
+      "Numbered_list": "有序列表",
+      "Bold": "加粗",
+      "Italic": "斜体",
+      "Underline": "下划线",
+      "Strikethrough": "删除线",
+      "Highlight": "高亮",
+      "Code": "代码",
+      "More_options": "更多选项",
+      "Align_Left": "左对齐",
+      "Align_Center": "居中",
+      "Align_Right": "右对齐",
+      "Justify": "两端对齐"
+    },
+    "RemainUsages": {
+      "WeeklyPromptsUsed": "每周AI提示已用{used}/20次",
+      "Go_unlimited": "升级至 Pro 版可无限使用"
+    },
+    "MembershipBar": {
+      "MaxHistoricalLimitHint": "免费用户最多可保留3个历史文档。如需解锁更多文档，请升级到 <UnlimitedLink> { Unlimited }</UnlimitedLink> 套餐",
+      "Unlimited": "Pro",
+      "Upgrade_now": "立即升级",
+      "Unlimited_Free_Trial_ends_in": "免费试用期结束于{expireTimeString}"
+    },
+    "Chat": {
+      "Starter": {
+        "Hi": "你好",
+        "Greetings": "我是Jessica，你的私人论文导师。欢迎使用AI检索以及ChatPDF功能，或直接开始与我对话！",
+        "AI Research": "AI 检索",
+        "Ask_a_research_question_and_get_supporting_sources": "提出学术检索相关问题并获取香港文献资料",
+        "Chat_PDF": "Chat PDF",
+        "Click_or_drag_to_upload_Chat_with_file_and_get_summaries": "点击或拖拽上传文件并获取摘要"
+      },
+      "ChatInput": {
+        "Research": "学术检索",
+        "Upload_file": "上传文件",
+        "History": "历史对话",
+        "New_Chat": "开始新对话",
+        "Ask_a_research_question_or_search_for_data": "提出学术研究相关问题或搜索数据",
+        "Try_these": "试试这些问题",
+        "Search_History": "搜索历史",
+        "Copy": "复制",
+        "Summarize": "总结文件"
+      }
+    },
+    "Hooks": {
+      "useChat": {
+        "Summarize_this_file": "总结此文件",
+        "Failed_to_summarize_pdf": "无法总结此PDF，请稍后再试",
+        "Failed_to_send_message": "无法发送消息，请稍后再试"
+      }
+    },
+    "TitleEditModal": {
+      "And_one_more_thing": "再来一个小提示...",
+      "What_are_you_looking_for_today": "你今天在找什么？",
+      "Skip": "跳过",
+      "Edit_essays": "编辑论文",
+      "Brief_description_of_study": "简短的研究描述",
+      "Describe_your_research_briefly": "简短描述你的研究",
+      "Start_Writing": "开始写作"
+    },
+    "StartModal": {
+      "And_one_more_thing": "再来一个小提示...",
+      "What_are_you_looking_for_today": "你今天在找什么？",
+      "Skip": "跳过",
+      "Edit_essays": "编辑论文",
+      "Start_writing_an_essay": "开始写作",
+      "Brief_description_of_what_you_are_writing": "简短描述你正在写什么",
+      "Describe_your_research_topic_or_essay_prompt": "请描述你的研究主题或论文提示。添加更多信息可以大大提高我们的生成质量 :)",
+      "Generate_outline": "生成大纲",
+      "YES": "是",
+      "NO": "否",
+      "Field_of_study": "研究领域",
+      "E_G_Natural_History": "比如：自然历史",
+      "Essay_Type": "论文类型",
+      "Argumentative": "论证性",
+      "Analytical": "分析性",
+      "Scientific": "科学性",
+      "Start_Writing": "开始写作"
+    },
+    "UploadModal": {
+      "Upload_Essay": "上传已有论文",
+      "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "上传文件以获取文章智能摘要和相关问题解答",
+      "Click_or_drag_and_drop_here_to_upload": "点击或将文件拖拽到此处上传"
+    },
+    "DocumentList": {
+      "My_documents": "我的文档",
+      "Last_opened": "最近打开的文档",
+      "Title": "标题",
+      "List_View": "列表视图",
+      "Grid_View": "网格视图",
+      "Sort_by": "排序方式"
+    },
+    "FeedBack": {
+      "Choose_your_support_category": "选择您所遇的问题类型",
+      "Report_a_bug": "报告 bug",
+      "Submit_a_feature_suggestion": "提交功能建议",
+      "Access_customer_assistance": "获取客户支持",
+      "Please_describe_the_bug_you_encountered_in_detail": "请详细描述您遇到的产品体验相关问题",
+      "Please_provide_details_for_how_you_would_like_assistance": "请提供您希望获得帮助的详细信息",
+      "Attachments": "附件",
+      "Click_to_choose_a_file_or_drag_here": "点击选择文件或拖拽到此处",
+      "Feedback_submitted_successfully": "反馈已提交成功",
+      "AlternativeSupport": "或者，您也可以发送电子邮件至 <emailLink>support@prodream.ai</emailLink> 或加入我们的 <contactToolLink>微信群</contactToolLink> 以获得直接聊天支持。",
+      "Submit": "提交"
+    },
+    "HistoryDropDown": {
+      "Delete": "删除"
+    },
+    "Card": {
+      "Untitled_Document": "无标题文档",
+      "Opened": "已打开"
+    },
     "Utility": {
       "Enter": "确认",
       "Cancel": "取消",
@@ -167,13 +319,16 @@
       "AcceptAll": "全部接受",
       "DismissAll": "全部忽略",
       "Upgrade": "一键升级",
-      "Generate": "一键生成"
+      "Generate": "一键生成",
+      "Suggestions": "建议"
     },
     "Prompt": {
       "Title": "请用英语输入写作主题",
       "PlaceHolder": "添加个性化主题可以大幅度提高AI生成的质量",
+      "An_argumentative_essay_discussing_challenges_and_strategies_of_conserving_biodiversity_in_the_Amazon_rainforest": "讨论亚马逊雨林保护生物多样性的挑战和策略的论证性论文",
       "Strength": "主题强度",
-      "Trigger": "文章主题"
+      "Trigger": "文章主题",
+      "Start_Writing": "开始写作"
     },
     "Copilot": {
       "Format_1": "编辑语言",
@@ -201,7 +356,9 @@
     "Grammar": {
       "Title": "点击开始检查您的写作中的语法、拼写和标点问题",
       "Button": "开始语法检测",
-      "suggestions": "条语法修改建议"
+      "suggestions": "条语法修改建议",
+      "GrammarCheckLeft": "每周语法检查功能已用 {left}/100次",
+      "Go_unlimited": "升级至 Pro 版可无限使用"
     },
     "Citation": {
       "search": "文献搜索",
@@ -209,7 +366,12 @@
       "all": "全部文献",
       "in_this_doc": "本文引用",
       "my_library": "我的图书馆",
-      "empty": "您的图书馆当前为空，尝试添加更多引用。"
+      "empty": "您的图书馆当前为空，尝试添加更多引用。",
+      "In_text_citation_will_be_append_to_the_position_of_your_cursor": "文本引用将追加到光标位置。",
+      "Cited_by": "引用次数：",
+      "Authors": "作者",
+      "Add_to_library": "添加到我的图书馆",
+      "Cite": "引用"
     },
     "Generate": {
       "Write Introduction": "撰写引言",
@@ -227,7 +389,12 @@
         "Write Introduction": "点击生成基于整篇写作的引言部分",
         "Write Conclusion": "点击生成基于整篇写作的结论部分",
         "Generate Title": "点击生成文章标题"
-      }
+      },
+      "Generate_credits_left": "每周生成功能已用 {used}/5次",
+      "Go_unlimited": "升级至 Pro 版可无限使用",
+      "Al_responses_can_be_inaccurate_or_misleading": "AI给出的信息可能存在不准确或误导的情况。",
+      "Dismiss": "取消",
+      "Insert": "插入"
     },
     "RightBar": {
       "Grammar_Check": "语法检测",
@@ -246,7 +413,138 @@
       "citation_style": "检索样式",
       "words": "单词",
       "characters": "字符",
-      "tooltip_citation": "找寻相关文献"
+      "tooltip_citation": "找寻相关文献",
+      "Undo": "撤销",
+      "Redo": "重置",
+      "Paragraph": "段落",
+      "Heading_1": "一级标题",
+      "Heading_2": "二级标题",
+      "Heading_3": "三级标题",
+      "Heading_4": "四级标题",
+      "Heading_5": "五级标题",
+      "Heading_6": "六级标题",
+      "Bullet_list": "无序列表",
+      "Numbered_list": "有序列表",
+      "Bold": "加粗",
+      "Italic": "斜体",
+      "Underline": "下划线",
+      "Strikethrough": "删除线",
+      "Highlight": "高亮",
+      "Code": "代码",
+      "More_options": "更多选项",
+      "Align_Left": "左对齐",
+      "Align_Center": "居中",
+      "Align_Right": "右对齐",
+      "Justify": "两端对齐"
+    },
+    "AiMenu": {
+      "AI_is_writing": "AI 正在写作"
+    },
+    "CitationMenu": {
+      "Search_Results": "搜索结果",
+      "No_detail_description_available": "没有详细描述...",
+      "Add_citation": "添加引用",
+      "View_in_new_tab": "在新标签页中查看",
+      "Not_finding_what_you_want": "没找到想要的文献？",
+      "Add_customized_citation": "手动添加文献"
+    },
+    "CustomCitation": {
+      "Add_Customized_Citations": "手动添加文献",
+      "Website": "网站",
+      "Book": "书籍",
+      "Journal": "期刊",
+      "Cancel": "取消",
+      "Save": "保存",
+      "IntroductionMenu": {
+        "Introduction_title": "引言标题",
+        "Type": "类型",
+        "Introduction": "引言",
+        "Foreword": "前言",
+        "Preface": "序言",
+        "Afterword": "后记",
+        "Contributors": "作者",
+        "First_Name": "名",
+        "Middle_Name": "中间名",
+        "Last_Name": "姓",
+        "Add_Contributor": "添加作者",
+        "In_print_publication_info": "印刷出版信息",
+        "Source_title": "资源标题",
+        "Advanced_info": "高级信息",
+        "Volume": "卷",
+        "Total_vols": "总卷数",
+        "Edition": "版次",
+        "Series": "丛书系列",
+        "Publication_info": "出版信息",
+        "Publisher": "出版社",
+        "City": "初版城市",
+        "State": "州",
+        "Year": "初版年份",
+        "Pages": "页码",
+        "Start": "起始页",
+        "End": "结束页"
+      },
+      "WebsiteMenu": {
+        "What_I_am_citing": "我正在引用的内容",
+        "Article_Title": "文章标题",
+        "Contributors": "作者",
+        "First_Name": "名",
+        "Middle_Name": "中间名",
+        "Last_Name": "姓",
+        "Add_Contributor": "添加作者",
+        "Online_publication_info": "在线出版信息",
+        "Publisher": "出版机构",
+        "Website_Title": "网站标题",
+        "Website_URL": "网站链接",
+        "Date_accessed": "访问日期",
+        "Day": "日",
+        "Month": "月",
+        "Year": "年"
+      },
+      "BookMenu": {
+        "Chapter": "章节",
+        "Section_Title": "部分标题",
+        "Book_Type": "书籍类型",
+        "The_whole_book": "整本书",
+        "Chapter_or_section": "章节或部分",
+        "Preface_of_introduction": "引言",
+        "In_print_publication_info": "印刷出版信息",
+        "Source_title": "资源标题",
+        "Advanced_info": "高级信息",
+        "Volume": "卷",
+        "Total_vols": "总卷数",
+        "Edition": "版次",
+        "Series": "丛书系列",
+        "Publication_info": "出版信息",
+        "Publisher": "出版社",
+        "City": "初版城市",
+        "State": "州",
+        "Year": "初版年份",
+        "Pages": "页码",
+        "Start": "起始页",
+        "End": "结束页"
+      },
+      "JournalMenu": {
+        "Article_Title": "文章标题",
+        "Contributors": "作者",
+        "First_Name": "名",
+        "Middle_Name": "中间名",
+        "Last_Name": "姓",
+        "Add_Contributor": "添加作者",
+        "Journal_publication_info": "期刊出版信息",
+        "Journal_title": "期刊标题",
+        "Advanced_info": "详细信息",
+        "Volume": "卷号",
+        "Issue": "期号",
+        "Year_published": "年份",
+        "Date_published": "出版日期",
+        "Day": "日",
+        "Month": "月",
+        "Year": "年",
+        "Pages": "页码",
+        "Start": "起始页",
+        "End": "结束页",
+        "DOI": "DOI"
+      }
     },
     "Onboard": {
       "question": "您需要帮助修改文章还是从头开始写一篇新的文章？",
@@ -280,7 +578,15 @@
       "Report": "查重报告",
       "view_full": "查看完整报告",
       "score": "可能为重复内容",
-      "non-plagiarized": "未发现重复内容"
+      "non-plagiarized": "未发现重复内容",
+      "ErrorToast": "请输入查重内容",
+      "Generating_plagiarism_check_report": "正在生成查重报告。生成时间可能需要5分钟，感谢您的耐心等待",
+      "Cancel": "取消",
+      "Overall_similarity_score": "整体相似度",
+      "Results_found": "找到的结果",
+      "Total_words_in_text": "文本中的总字数",
+      "Unlock_full_report": "解锁完整报告",
+      "View_full_report": "查看完整报告"
     },
     "CheckList": {
       "Show": "点击试用",
@@ -291,7 +597,7 @@
       "format_1": "基础功能",
       "format_2": "高级功能 🚀",
       "title": "新手任务",
-      "describtion": "学习如何使用ProDream来帮助您写作和研究！"
+      "description": "学习如何使用ProDream来帮助您写作和研究！"
     },
     "Detection": {
       "Title": "识别AI生成的内容，帮助保持原创性",
@@ -302,6 +608,8 @@
       "breakdown": "概率细分",
       "Unlock": "通过无限套餐解锁AI检测",
       "Humanizer": "反AI检测",
+      "Remaining_Paragraphs": "剩余段落",
+      "Humanize_all": "一键反AI",
       "mixed": "我们对这段文本完全是有一定的信心",
       "humanize_title": "点击查看反AI详细建议",
       "humanize_button": "开始一键反AI",
@@ -310,7 +618,13 @@
       "full_human_title": "您的文章很可能完全由人类撰写，没有显示出AI参与的迹象",
       "most_human_title": "我们的检测器发现0个句子很可能是由AI生成的",
       "most_human_instruction": "如果您想对整篇文本进行灵活的段落级反AI处理，请点击继续",
-      "most_human_button": "继续分段反AI检测"
+      "most_human_button": "继续分段反AI检测",
+      "Powered_by_GPTZero": "由GPTZero提供支持",
+      "AI_Generated_alert": "该论文完全由人类、AI或两者结合生成的概率为：",
+      "Bar_human": "人类",
+      "Bar_mixed": "两者结合",
+      "Bar_ai": "AI",
+      "Result_Tool_Tip_Content": "此概率表示根据深度学习模型，文本整体是由AI生成而非人类撰写的可能性。它不代表文本中AI生成内容的百分比。"
     },
     "Task": {
       "title": "尝试AI Copilot进行轻松编辑",
@@ -328,6 +642,34 @@
     "Continue": {
       "title": "续写",
       "description": "快捷键 cmd/ctrl  + \"/\""
+    }
+  },
+  "Profile": {
+    "Setting": {
+      "My_Profile": "我的资料",
+      "Edit": "编辑头像",
+      "Change_name": "更改姓名",
+      "Email_Address": "邮箱地址",
+      "Change_email": "更改邮箱",
+      "Enter_your_new_email": "输入您的新邮箱",
+      "Enter_your_password":"输入您的密码",
+      "Password": "密码",
+      "Change_password": "更改密码",
+      "Enter_your_old_password": "输入您的旧密码",
+      "Enter_your_new_password": "输入您的新密码",
+      "Membership": "会员信息",
+      "Your_current_plan": "您正在使用 <strong>{ CurrentPlan }</strong> 套餐",
+      "Basic": "免费",
+      "Unlimited": "Pro",
+      "Go_unlimited": "升级套餐",
+      "Promo_code": "优惠码",
+      "Manage_subscription": "会员管理",
+      "Cancel": "取消",
+      "Save": "保存",
+      "Redeem": "兑换",
+      "Secure_Your_Account": "账户安全",
+      "Secure_Account_Message": "为了保护您的账户，请通过我们发送到您邮箱的链接进行验证",
+      "Resend_Link": "重新发送验证链接"
     }
   }
 }

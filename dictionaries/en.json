@@ -108,7 +108,7 @@
     "FormPassword": "Psssword",
     "FormName": "Name",
     "Login": {
-      "Foget": "Forgot Password?",
+      "Forget": "Forgot Password?",
       "Button": "Log in",
       "Google": "Sign in with Google",
       "NotAccount": "Don't have an account?",
@@ -128,7 +128,10 @@
       "FormPassword": "Enter New Password",
       "FormConfirm": "Confirm New Password",
       "Verification": "Verification",
-      "VerificationBtn": "Send Verification"
+      "VerificationBtn": "Send Verification",
+      "Successfully_Reset_Password": "Successfully Reset Password",
+      "Checked_your_email": "Checked your email",
+      "Please_enter_your_email_address": "Please enter your email address"
     }
   },
   "Onboard": {
@@ -139,6 +142,7 @@
     "FormCode": "Invitation Code",
     "Option": "*Optional: leave blank if you don't have an invitation code.",
     "Button": "Next",
+    "An_error_occurred_while_setting_language_info": "An error occurred while setting language info. Please try again.",
     "Education": {
       "Title": "Which of the following best describes your current educational or professional stage",
       "Option1": "High School",
@@ -156,6 +160,161 @@
     }
   },
   "Editor": {
+    "Announcement": {
+      "Title": "📢 New Features Announcement! 📢",
+      "Sub_title": "We're pleased to inform you about the latest updates to our platform",
+      "Content_1": "<strong>1.Introducing Jessica,</strong> Your AI Research Companion: We've added a new AI Chatbot named Jessica to assist with research and writing tasks. Jessica can provide guidance on essay improvement strategies and offer explanations to your readings.",
+      "Content_2": "<strong>2.Improved Stability in Citation Search: </strong>We've upgraded our citation search system to enhance stability, especially during peak hours. This update includes an updated database and search system, ensuring more accurate references and zero API downtime. Please note that this switch may lead to disruptions in existing citations. If encountering any issues, consider re-searching and citing the reference or contacting our customer support at support@prodream.ai.",
+      "Content_3": "<strong>3.AI Research Tool: </strong>Our platform now features an AI-powered research tool designed to help find answers to research questions and summarize findings effectively.",
+      "Content_4": "<strong>4.Enhanced Feedback Center: </strong>We've introduced a new feedback center where you can report bugs, seek support, and submit feature requests. Your feedback is valuable to us as we strive to improve our services continuously."
+    },
+    "SideBar": {
+      "AI_Editor": "AI Editor",
+      "Discord": "Discord",
+      "Notifications": "Notifications",
+      "Mark_all_as_read": "Mark all as read",
+      "Contact_Support": "Contact Support",
+      "View_Profile": "View Profile",
+      "Log_out": "Log out",
+      "Contact_Channel": "Discord",
+      "Upgrade": "Upgrade"
+    },
+    "TopBar": {
+      "New_Essay": "New Essay",
+      "Upload_Essay": "Upload Essay",
+      "Search": "Search"
+    },
+    "BottomBar": {
+      "Undo": "Undo",
+      "Redo": "Redo",
+      "Words": "Words",
+      "Characters": "Characters",
+      "Paragraph": "Paragraph",
+      "Heading_1": "Heading 1",
+      "Heading_2": "Heading 2",
+      "Heading_3": "Heading 3",
+      "Heading_4": "Heading 4",
+      "Heading_5": "Heading 5",
+      "Heading_6": "Heading 6",
+      "Bullet_list": "Bullet list",
+      "Numbered_list": "Numbered list",
+      "Bold": "Bold",
+      "Italic": "Italic",
+      "Underline": "Underline",
+      "Strikethrough": "Strikethrough",
+      "Highlight": "Highlight",
+      "Code": "Code",
+      "More_options": "More options",
+      "Align_Left": "Align Left",
+      "Align_Center": "Align Center",
+      "Align_Right": "Align Right",
+      "Justify": "Justify"
+    },
+    "BottomBanner": {
+      "You_have_come_this_far": "You've come this far.",
+      "Let_s_make_your_essay_unforgettable": "Let's make your essay unforgettable!",
+      "Start_Writing_Now": "Start Writing Now"
+    },
+    "RemainUsages": {
+      "WeeklyPromptsUsed": "{used}/20 weekly AI prompts used",
+      "Go_unlimited": "Go unlimited"
+    },
+    "MembershipBar": {
+      "MaxHistoricalLimitHint": "Max {FilledBarsNumber}/3 historical documents; upgrade to <UnlimitedLink> { Unlimited } </UnlimitedLink> for more",
+      "Unlimited": "Unlimited",
+      "Upgrade_now": "Upgrade now",
+      "Unlimited_Free_Trial_ends_in": "Unlimited Free Trial ends in {expireTimeString}"
+    },
+    "Chat": {
+      "Starter": {
+        "Hi": "Hi",
+        "Greetings": "Greetings! I'm Jessica, your personal essay tutor. Explore AI Research, Chat PDF, or simply start a direct chat.",
+        "AI Research": "AI Research",
+        "Ask_a_research_question_and_get_supporting_sources": "Ask a research question and get supporting sources",
+        "Chat_PDF": "Chat PDF",
+        "Click_or_drag_to_upload_Chat_with_file_and_get_summaries": "Click or drag to upload Chat with file & get summaries"
+      },
+      "ChatInput": {
+        "Research": "Research",
+        "Upload_file": "Upload file",
+        "History": "History",
+        "New_Chat": "New Chat",
+        "Ask_a_research_question_or_search_for_data": "Ask a research question or search for data",
+        "Try_these": "Try these",
+        "Search_History": "Search History",
+        "Copy": "Copy",
+        "Summarize": "Summarize"
+      }
+    },
+    "Hooks": {
+      "useChat": {
+        "Summarize_this_file": "Summarize this file",
+        "Failed_to_summarize_pdf": "Failed to summarize pdf, please try again later.",
+        "Failed_to_send_message": "Failed to send message, please try again later."
+      }
+    },
+    "TitleEditModal": {
+      "And_one_more_thing": "And one more thing...",
+      "What_are_you_looking_for_today": "What are you looking for today?",
+      "Skip": "Skip",
+      "Edit_essays": "Edit essays",
+      "Field_of_study": "Field of study",
+      "Brief_description_of_study": "Brief description of study",
+      "Describe_your_research_briefly": "Describe your research briefly",
+      "Start_Writing": "Start Writing"
+    },
+    "StartModal": {
+      "And_one_more_thing": "And one more thing...",
+      "What_are_you_looking_for_today": "What are you looking for today?",
+      "Skip": "Skip",
+      "Edit_essays": "Edit essays",
+      "Start_writing_an_essay": "Start writing an essay",
+      "Brief_description_of_what_you_are_writing": "Brief description of what you are writing",
+      "Describe_your_research_topic_or_essay_prompt": "Describe your research topic or essay prompt. Adding more information can greatly increase the quality of our generations :)",
+      "Generate_outline": "Generate outline",
+      "YES": "YES",
+      "NO": "NO",
+      "Field_of_study": "Field of study",
+      "E_G_Natural_History": "e.g. Natural History",
+      "Essay_Type": "Essay Type",
+      "Argumentative": "Argumentative",
+      "Analytical": "Analytical",
+      "Scientific": "Scientific",
+      "Start_Writing": "Start Writing"
+    },
+    "UploadModal": {
+      "Upload_Essay": "Upload Essay",
+      "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "Upload a file to receive intelligent summaries and answers to your questions.",
+      "Click_or_drag_and_drop_here_to_upload": "Click or drag and drop here to upload"
+    },
+    "DocumentList": {
+      "My_documents": "My documents",
+      "Last_opened": "Last opened",
+      "Title": "title",
+      "List_View": "List View",
+      "Grid_View": "Grid View",
+      "Sort_by": "Sort by"
+    },
+    "FeedBack": {
+      "Choose_your_support_category": "Choose your support category",
+      "Report_a_bug": "Report a bug",
+      "Submit_a_feature_suggestion": "Submit a feature suggestion",
+      "Access_customer_assistance": "Access customer assistance",
+      "Please_describe_the_bug_you_encountered_in_detail": "Please describe the bug you encountered in detail",
+      "Please_provide_details_for_how_you_would_like_assistance": "Please provide details for how you would like assistance",
+      "Attachments": "Attachments",
+      "Click_to_choose_a_file_or_drag_here": "Click to choose a file or drag here",
+      "Feedback_submitted_successfully": "Feedback submitted successfully",
+      "AlternativeSupport": "Alternatively, you may email us at <emailLink>support@prodream.ai</emailLink> or join our <contactToolLink>Discord</contactToolLink> for direct chat support.",
+      "Submit": "Submit"
+    },
+    "HistoryDropDown": {
+      "Delete": "Delete"
+    },
+    "Card": {
+      "Untitled_Document": "Untitled Document",
+      "Opened": "Opened"
+    },
     "Utility": {
       "Enter": "Enter",
       "Cancel": "Cancel",
@@ -166,13 +325,16 @@
       "AcceptAll": "Accept all",
       "DismissAll": "Dismiss all",
       "Upgrade": "Upgrade",
-      "Generate": "Generate"
+      "Generate": "Generate",
+      "Suggestions": "Suggestions"
     },
     "Prompt": {
       "Title": "Please input your prompt below",
       "PlaceHolder": "Adding an essay prompt can greatly enhance the quality of AI generations",
+      "An_argumentative_essay_discussing_challenges_and_strategies_of_conserving_biodiversity_in_the_Amazon_rainforest": "An argumentative essay discussing challenges and strategies of conserving biodiversity in the Amazon rainforest",
       "Strength": "Prompt Strength",
-      "Trigger": "Writing Booster"
+      "Trigger": "Writing Booster",
+      "Start_Writing": "Start Writing"
     },
     "Copilot": {
       "Format_1": "Edit language",
@@ -200,7 +362,9 @@
     "Grammar": {
       "Title": "Click to start checking for any grammar, spelling, and punctuation issues in your writing",
       "Button": "Start Grammar Check",
-      "suggestions": "Suggestions"
+      "suggestions": "Suggestions",
+      "GrammarCheckLeft": "{left}/100 weekly Grammar Checks left",
+      "Go_unlimited": "Go unlimited"
     },
     "Citation": {
       "search": "Search publications",
@@ -208,7 +372,12 @@
       "all": "All",
       "in_this_doc": "In this doc",
       "my_library": "All",
-      "empty": "Your library is currently empty. Try adding more citations. "
+      "empty": "Your library is currently empty. Try adding more citations. ",
+      "In_text_citation_will_be_append_to_the_position_of_your_cursor": "In text citation will be append to the position of your cursor!",
+      "Cited_by": "Cited by",
+      "Authors": "Authors",
+      "Add_to_library": "Add to library",
+      "Cite": "Cite"
     },
     "Generate": {
       "Write Introduction": "Write Introduction",
@@ -226,7 +395,12 @@
         "Write Introduction": "Click to generate the Introduction section based on the entire writing",
         "Write Conclusion": "Click to generate the Conclusion section based on the entire writing",
         "Generate Title": "Click to generate a title for your essay"
-      }
+      },
+      "Generate_credits_left": "{used}/5 weekly generate credits left",
+      "Go_unlimited": "Go unlimited",
+      "Al_responses_can_be_inaccurate_or_misleading": "Al responses can be inaccurate or misleading.",
+      "Dismiss": "Dismiss",
+      "Insert": "Insert"
     },
     "RightBar": {
       "Grammar_Check": "Grammar Check",
@@ -235,7 +409,8 @@
       "Generate": "Generate",
       "Plagiarism_Check": "Plagiarism Check",
       "AI_Detection": "AI Detection",
-      "Essay_Prompt": "Essay Prompt"
+      "Essay_Prompt": "Essay Prompt",
+      "Unlock_humanize_suggestions_with_the_Unlimited_Plan": "Unlock humanize suggestions with the Unlimited Plan"
     },
     "BubbleMenu": {
       "Copilot": "AI Copilot",
@@ -245,7 +420,138 @@
       "citation_style": "Citation Style",
       "words": "Words",
       "characters": "Characters",
-      "tooltip_citation": "Find Supporting Sources"
+      "tooltip_citation": "Find Supporting Sources",
+      "Undo": "Undo",
+      "Redo": "Redo",
+      "Paragraph": "Paragraph",
+      "Heading_1": "Heading 1",
+      "Heading_2": "Heading 2",
+      "Heading_3": "Heading 3",
+      "Heading_4": "Heading 4",
+      "Heading_5": "Heading 5",
+      "Heading_6": "Heading 6",
+      "Bullet_list": "Bullet list",
+      "Numbered_list": "Numbered list",
+      "Bold": "Bold",
+      "Italic": "Italic",
+      "Underline": "Underline",
+      "Strikethrough": "Strikethrough",
+      "Highlight": "Highlight",
+      "Code": "Code",
+      "More_options": "More options",
+      "Align_Left": "Align Left",
+      "Align_Center": "Align Center",
+      "Align_Right": "Align Right",
+      "Justify": "Justify"
+    },
+    "AiMenu": {
+      "AI_is_writing": "AI is writing"
+    },
+    "CitationMenu": {
+      "Search_Results": "Search Results",
+      "No_detail_description_available": "No detail description available...",
+      "Add_citation": "Add citation",
+      "View_in_new_tab": "View in new tab",
+      "Not_finding_what_you_want": "Not finding what you want?",
+      "Add_customized_citation": "Add customized citation"
+    },
+    "CustomCitation": {
+      "Add_Customized_Citations": "Add Customized Citations",
+      "What_I_am_citing": "What I'm citing",
+      "Website": "Website",
+      "Book": "Book",
+      "Journal": "Journal",
+      "Cancel": "Cancel",
+      "Save": "Save",
+      "IntroductionMenu": {
+        "Introduction_title": "Introduction title",
+        "Type": "Type",
+        "Introduction": "Introduction",
+        "Foreword": "Foreword",
+        "Preface": "Preface",
+        "Afterword": "Afterword",
+        "Contributors": "Contributors",
+        "First_Name": "First Name",
+        "Middle_Name": "Middle Name",
+        "Last_Name": "Last Name",
+        "Add_Contributor": "Add Contributor",
+        "In_print_publication_info": "In print publication info",
+        "Source_title": "Source title",
+        "Advanced_info": "Advanced info",
+        "Volume": "Volume",
+        "Total_vols": "Total vols.",
+        "Edition": "Edition",
+        "Series": "Series",
+        "Publication_info": "Publication info",
+        "Publisher": "Publisher",
+        "City": "City",
+        "State": "State",
+        "Year": "Year",
+        "Pages": "Pages",
+        "Start": "Start",
+        "End": "End"
+      },
+      "WebsiteMenu": {
+        "Article_Title": "Article Title",
+        "Contributors": "Contributors",
+        "First_Name": "First Name",
+        "Middle_Name": "Middle Name",
+        "Last_Name": "Last Name",
+        "Add_Contributor": "Add Contributor",
+        "Online_publication_info": "Online publication info",
+        "Publisher": "Publisher",
+        "Website_Title": "Website Title",
+        "Website_URL": "Website URL",
+        "Date_accessed": "Date accessed",
+        "Day": "Day",
+        "Month": "Month",
+        "Year": "Year"
+      },
+      "BookMenu": {
+        "Chapter": "Chapter",
+        "Section_Title": "Section Title",
+        "Book_Type": "Book Type",
+        "The_whole_book": "The whole book",
+        "Chapter_or_section": "Chapter or section",
+        "Preface_of_introduction": "Preface of introduction",
+        "In_print_publication_info": "In print publication info",
+        "Source_title": "Source title",
+        "Advanced_info": "Advanced info",
+        "Volume": "Volume",
+        "Total_vols": "Total vols.",
+        "Edition": "Edition",
+        "Series": "Series",
+        "Publication_info": "Publication info",
+        "Publisher": "Publisher",
+        "City": "City",
+        "State": "State",
+        "Year": "Year",
+        "Pages": "Pages",
+        "Start": "Start",
+        "End": "End"
+      },
+      "JournalMenu": {
+        "Article_Title": "Article Title",
+        "Contributors": "Contributors",
+        "First_Name": "First Name",
+        "Middle_Name": "Middle Name",
+        "Last_Name": "Last Name",
+        "Add_Contributor": "Add Contributor",
+        "Journal_publication_info": "Journal publication info",
+        "Journal_title": "Journal title",
+        "Advanced_info": "Advanced info",
+        "Volume": "Volume",
+        "Issue": "Issue",
+        "Year_published": "Year",
+        "Date_published": "Date published",
+        "Day": "Day",
+        "Month": "Month",
+        "Year": "Year",
+        "Pages": "Pages",
+        "Start": "Start",
+        "End": "End",
+        "DOI": "DOI"
+      }
     },
     "Onboard": {
       "question": "Do you need help editing an essay or writing a new one from scratch?",
@@ -278,7 +584,15 @@
       "Report": "Plagiarism Report",
       "view_full": "View Full Report",
       "score": "May be plagiarized",
-      "non-plagiarized": "Overall Similarity Score"
+      "non-plagiarized": "Overall Similarity Score",
+      "ErrorToast": "Please write something to check plagiarism",
+      "Generating_plagiarism_check_report": "Generating plagiarism check report. May take up to 5 minutes, thank you for waiting",
+      "Cancel": "Cancel",
+      "Overall_similarity_score": "Overall similarity score",
+      "Results_found": "Results found",
+      "Total_words_in_text": "Total words in text",
+      "Unlock_full_report": "Unlock full report",
+      "View_full_report": "View full report"
     },
     "CheckList": {
       "Show": "Show me",
@@ -289,7 +603,7 @@
       "format_1": "Building the foundation",
       "format_2": "Up and beyond 🚀",
       "title": "Onboarding Checklist",
-      "describtion": "Learn how to use ProDream to help you write & research!"
+      "description": "Learn how to use ProDream to help you write & research!"
     },
     "Detection": {
       "Title": "Identify AI-generated content and help maintain originality in your work",
@@ -300,6 +614,8 @@
       "breakdown": "Probability breakdown",
       "Unlock": "Unlock AI Detection with the Unlimited Plan",
       "Humanizer": "Humanizer",
+      "Remaining_Paragraphs": "Remaining Paragraphs",
+      "Humanize_all": "Humanize all",
       "mixed": "We are moderately confident this text is entirely",
       "humanize_title": "Click to see humanize suggestions",
       "humanize_button": "Start Humanize",
@@ -308,7 +624,13 @@
       "full_human_title": "Your essay is highly likely to be entirely written by a human, showing no signs of AI involvement to humanize",
       "most_human_title": "Our detector did not specifically identify any sentences as AI-generated.",
       "most_human_instruction": "If you want to ensure your text maintains a human-like quality, you can use our Paragraph Humanizer. This tool allows you to review and adjust any paragraph to make your text sound more natural.",
-      "most_human_button": "Start Paragraph Humanize"
+      "most_human_button": "Start Paragraph Humanize",
+      "Powered_by_GPTZero": "Powered by GPTZero",
+      "AI_Generated_alert": "The probability this text has been entirely written by a human, AI or a mix of the two.",
+      "Bar_human": "Human",
+      "Bar_mixed": "Mixed",
+      "Bar_ai": "AI",
+      "Result_Tool_Tip_Content": "This probability indicates the likelihood that the overall text was entirely generated by AI according to the deep learning model. It does not represent the percentage of AI-generated content within the text."
     },
     "Task": {
       "title": "Try AI Copilot for easy editing",
@@ -326,6 +648,34 @@
     "Continue": {
       "title": "Continue Writing",
       "description": "cmd/ctrl + '/' for shortcut"
+    }
+  },
+  "Profile": {
+    "Setting": {
+      "My_Profile": "My Profile",
+      "Edit": "Edit",
+      "Change_name": "Change name",
+      "Email_Address": "Email Address",
+      "Change_email": "Change email",
+      "Enter_your_new_email": "Enter_your_new_email",
+      "Enter_your_password":"Enter your password",
+      "Password": "Password",
+      "Change_password": "Change password",
+      "Enter_your_old_password": "Enter your old password",
+      "Enter_your_new_password": "Enter your new password",
+      "Membership": "Membership",
+      "Your_current_plan": "You are on the <strong>{ CurrentPlan }</strong> plan",
+      "Basic": "Basic",
+      "Unlimited": "Unlimited",
+      "Go_unlimited": "Go unlimited",
+      "Promo_code": "Promo code",
+      "Manage_subscription": "Manage subscription",
+      "Cancel": "Cancel",
+      "Save": "Save",
+      "Redeem": "Redeem",
+      "Secure_Your_Account": "Secure Your Account",
+      "Secure_Account_Message": "To secure your account, please verify via the link we sent to your email address",
+      "Resend_Link": "Resend Link"
     }
   }
 }

@@ -13,6 +13,7 @@ import { AuthPageDicType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -20,6 +21,7 @@ import useUserLogin from './hooks/useUserLogin';
 
 const LoginForm = ({ t, lang }: AuthPageDicType) => {
   const [hidePassword, setHidePassword] = useState(true);
+  const trans = useTranslations('Auth');
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -47,7 +49,7 @@ const LoginForm = ({ t, lang }: AuthPageDicType) => {
                 <Input
                   autoComplete='email'
                   id='username'
-                  placeholder={t.FormEmail}
+                  placeholder={trans('FormEmail')}
                   className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
@@ -79,7 +81,7 @@ const LoginForm = ({ t, lang }: AuthPageDicType) => {
                   autoComplete='current-password'
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
-                  placeholder={t.FormPassword}
+                  placeholder={trans('FormPassword')}
                   className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
@@ -92,10 +94,10 @@ const LoginForm = ({ t, lang }: AuthPageDicType) => {
           href={`/${lang}/reset-password`}
           className='small-semibold cursor-pointer self-end text-violet-500 hover:underline'
         >
-          {t.Login.Foget}
+          {trans('Login.Forget')}
         </Link>
         <Button className='w-full rounded bg-violet-500' type='submit'>
-          {t.Login.Button}
+          {trans('Login.Button')}
         </Button>
       </form>
     </Form>

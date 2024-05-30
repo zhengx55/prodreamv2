@@ -2,6 +2,7 @@ import LanguageOptions from '@/components/onboard/LanguageOpts.server';
 import Progress from '@/components/onboard/Progress';
 import Spacer from '@/components/root/Spacer';
 import { languange_info } from '@/constant';
+import { useTranslations } from 'next-intl';
 import { SampleEssay } from '@/constant/enum';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
@@ -15,6 +16,10 @@ export default async function Page({
 }) {
   const dict = await getDictionary(lang);
   const token = cookies().get('token')?.value;
+  const trans = useTranslations('Onboard');
+
+  const errorMessage = trans('An_error_occurred_while_setting_language_info');
+
   async function setLanguageInfo(index: number) {
     'use server';
     const formData = new FormData();
@@ -48,14 +53,11 @@ export default async function Page({
         );
         doc_id = (await new_doc_res.json()).data;
         if (!doc_id)
-          throw new Error(
-            'An error occurred while setting language info. Please try again.'
-          );
+          
+          throw new Error(errorMessage);
       }
     } catch (error) {
-      throw new Error(
-        'An error occurred while setting language info. Please try again.'
-      );
+      throw new Error(errorMessage);
     }
     redirect(`/${lang}/editor/${doc_id}`, RedirectType.replace);
   }
@@ -64,10 +66,10 @@ export default async function Page({
     <div className='flex h-full w-full flex-col items-center px-6 pt-12 sm:px-0 sm:pt-20'>
       <div className='flex w-full max-w-full flex-col items-center sm:max-w-[900px]'>
         <h1 className='text-[20px] font-medium sm:text-[42px]'>
-          {dict.Onboard.Title}
+          {trans('Onboard.Title')}
         </h1>
         <p className='small-regular sm:base-regular text-center text-neutral-600 sm:text-center'>
-          {dict.Onboard.Language.Title}
+          {trans('Onboard.Language.Title')}
         </p>
       </div>
       <Spacer y='50' className='hidden sm:block' />

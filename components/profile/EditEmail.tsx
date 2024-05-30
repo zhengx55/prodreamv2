@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/form';
 import { resetEmail } from '@/lib/validation';
 import { useUserInfo } from '@/zustand/store';
+import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { ReactNode, memo, useState } from 'react';
@@ -33,6 +34,7 @@ const EditEmailModal = ({ children }: Props) => {
   const [show, setShow] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
   const updateUserEmail = useUserInfo((state) => state.setUserEmail);
+  const t = useTranslations('Profile');
   const form = useForm<z.infer<typeof resetEmail>>({
     resolver: zodResolver(resetEmail),
     defaultValues: {
@@ -67,7 +69,7 @@ const EditEmailModal = ({ children }: Props) => {
       >
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
-            <p className='h2-bold mt-2 text-center'>Change Email</p>
+            <p className='h2-bold mt-2 text-center'>{t('Setting.Change_email')}</p>
             <DialogClose>
               <X className='self-end text-shadow' />
             </DialogClose>
@@ -87,7 +89,7 @@ const EditEmailModal = ({ children }: Props) => {
                     <Input
                       autoComplete='email'
                       id='email'
-                      placeholder='Enter your new email'
+                      placeholder={t('Setting.Enter_your_new_email')}
                       type='email'
                       className='h-14'
                       {...field}
@@ -118,7 +120,7 @@ const EditEmailModal = ({ children }: Props) => {
                   <FormControl>
                     <Input
                       autoComplete='current-password'
-                      placeholder='Enter your password'
+                      placeholder={t('Setting.Enter_your_password')}
                       className='h-14'
                       type={hidePassword ? 'password' : 'text'}
                       {...field}
@@ -131,10 +133,10 @@ const EditEmailModal = ({ children }: Props) => {
             <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
               <DialogClose asChild>
                 <Button variant={'ghost'} className=' text-violet-500'>
-                  Cancel
+                  {t('Setting.Cancel')}
                 </Button>
               </DialogClose>
-              <Button type='submit'>Save</Button>
+              <Button type='submit'>{t('Setting.Save')}</Button>
             </div>
           </form>
         </Form>

@@ -2,6 +2,7 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Frown, RotateCw, Smile } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { clearTimeout, setTimeout } from 'worker-timers';
 
 type Props = {
@@ -20,6 +21,7 @@ const Result = ({
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeout = useRef<number>();
+  const trans = useTranslations('Editor');
 
   useEffect(() => {
     if (currentIndex < generatedResult.length) {
@@ -59,14 +61,14 @@ const Result = ({
                 className='h-max w-max rounded px-6 py-1'
                 onClick={handleDismiss}
               >
-                Dismiss
+                {trans('Generate.Dismiss')}
               </Button>
               <Button
                 variant={'outline'}
                 onClick={handleInsert}
                 className='h-max w-max rounded border-violet-500 px-6 py-1 text-violet-500'
               >
-                Insert
+                {trans('Generate.Insert')}
               </Button>
             </div>
           </div>
@@ -75,7 +77,7 @@ const Result = ({
             <div className='flex gap-x-2'>
               <AlertTriangle className='text-shadow' size={15} />
               <p className='subtle-regular text-shadow'>
-                Al responses can be inaccurate or misleading.
+                {trans('Generate.Al_responses_can_be_inaccurate_or_misleading')}
               </p>
             </div>
             <div className='flex gap-x-2'>

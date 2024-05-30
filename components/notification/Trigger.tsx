@@ -1,5 +1,6 @@
 import { useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import { GetServerSideProps } from 'next';
 import { Bell } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
@@ -9,6 +10,7 @@ const NotificationMenu = dynamic(() => import('./Dropdown'));
 type Props = {};
 const NotificationTrigger = (props: Props) => {
   const { data: trackInfo } = useUserTrackInfo();
+
 
   return (
     <DropdownMenu>
@@ -29,4 +31,5 @@ const NotificationTrigger = (props: Props) => {
     </DropdownMenu>
   );
 };
+
 export default memo(NotificationTrigger);

@@ -4,14 +4,16 @@ import Link from 'next/link';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import CaptureProvider from './CaptureProvider';
+import { useTranslations } from 'next-intl';
 import { HeroClientSection } from './LandingCarousel';
 import TypeTitle from './TypeTitle';
 
 const Hero = ({
-  t,
   lang,
   search_param,
 }: HomePageDicType & { search_param: string }) => {
+  const t = useTranslations('Homepage');
+
   return (
     <section className='relative flex w-full justify-center px-4 sm:mt-0 sm:px-0'>
       <div className='absolute -z-10 hidden h-full w-full sm:block'>
@@ -32,11 +34,11 @@ const Hero = ({
             <TypeTitle t={t} />
           ) : (
             <h1 className='text-center font-custom text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
-              {t.transform}
-              <br /> {t.your}
-              {t.academic}
-              {t.writing}
-              {t.journey}
+              {t('transform')}
+              <br /> {t('your')}
+              {t('academic')}
+              {t('writing')}
+              {t('journey')}
             </h1>
           )}
           <Spacer y='40' />
@@ -56,8 +58,8 @@ const Hero = ({
                 role='button'
                 className='h-max w-52 rounded-lg bg-violet-500 px-5 sm:w-max sm:px-8 sm:py-2.5'
               >
-                <strong>{t.start_writing}</strong>
-                {t.It_s_free}
+                <strong>{t('start_writing')}</strong>
+                {t('It_s_free')}
               </Button>
             </Link>
             <Link
@@ -71,13 +73,13 @@ const Hero = ({
                 variant={'outline'}
                 role='button'
               >
-                {t.join_community}
+                {t('join_community')}
               </Button>
             </Link>
           </div>
           <Spacer y='90' className='hidden sm:block' />
           <Spacer y='20' className='block sm:hidden' />
-          <HeroClientSection t={t} />
+          <HeroClientSection />
         </div>
       </CaptureProvider>
     </section>
