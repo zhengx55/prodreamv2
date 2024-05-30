@@ -207,7 +207,7 @@ const Submit = memo(
               &nbsp;for direct chat support. */}
               {t.rich('FeedBack.AlternativeSupport', {
                 emailLink: (chunks: any) =>  <a href='mailto:support@prodream.ai' className='text-violet-500'>support@prodream.ai</a>,
-                contactToolLink: (chunks: any) =><Link href={'https://discord.gg/xXSFXv5kPd'} target='_blank' className='cursor-pointer text-violet-500 hover:underline'>Discord</Link>,
+                contactToolLink: (chunks: any) => <p></p>,
               })}
             </p>
           ) : (

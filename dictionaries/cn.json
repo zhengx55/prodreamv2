@@ -120,7 +120,7 @@
       "GoogleDivider": "或者使用邮箱地址登录"
     },
     "Signup": {
-      "Button": "注册并登录",
+      "Button": "注册",
       "Term": "《ProDream用户协议》",
       "Privacy": "《ProDream隐私政策》",
       "Google": "使用谷歌注册",
@@ -166,8 +166,8 @@
   },
   "Editor": {
     "Announcement": {
-      "Title": "📢 新功能公告！📢",
-      "Sub_title": "我们十分高兴地通知您有关我们平台的最新更新：",
+      "Title": "📢 更新通知！📢",
+      "Sub_title": "最新功能更新来啦：",
       "Content_1": "<strong>Jessica：您的AI研究助手：</strong>我们新增了一款名为Jessica的AI聊天机器人，专门协助进行研究和写作任务。Jessica可以提供论文改进策略指导，并为您的研究阅读材料提供解释。",
       "Content_2": "<strong>引用搜索稳定性提升：</strong>我们升级了引用搜索系统，以增强其在高峰时段的稳定性。此次更新包括更新后的数据库和搜索系统，确保更准确的参考文献和零API停机时间。请注意，此次切换可能会导致现有引用功能中断。如果遇到任何问题，请重新尝试搜索并引用参考文献或联系我们客服邮箱：support@prodream.ai。",
       "Content_3": "<strong>AI研究工具：</strong>平台现新增一款AI驱动的研究工具，旨在帮助您回答研究问题并有效地总结研究成果。",
@@ -186,7 +186,7 @@
     },
     "TopBar": {
       "New_Essay": "新建文档",
-      "Upload_Essay": "上传已有论文",
+      "Upload_Essay": "上传论文",
       "Search": "搜索"
     },
     "BottomBar": {
@@ -201,8 +201,8 @@
       "Heading_4": "四级标题",
       "Heading_5": "五级标题",
       "Heading_6": "六级标题",
-      "Bullet_list": "无序列表",
-      "Numbered_list": "有序列表",
+      "Bullet_list": "项目符号",
+      "Numbered_list": "数字编号",
       "Bold": "加粗",
       "Italic": "斜体",
       "Underline": "下划线",
@@ -216,8 +216,8 @@
       "Justify": "两端对齐"
     },
     "BottomBanner": {
-      "You_have_come_this_far": "你已经走了这么远了。",
-      "Let_s_make_your_essay_unforgettable": "让我们使你的论文变得令人难忘！",
+      "You_have_come_this_far": "你已跋涉千山万水，历尽艰辛至此地。",
+      "Let_s_make_your_essay_unforgettable": "让我们共同挥洒笔墨，将你的论文铸就成一篇隽永的华章！",
       "Start_Writing_Now": "现在开始写作"
     },
     "RemainUsages": {
@@ -287,8 +287,8 @@
       "Start_Writing": "开始写作"
     },
     "UploadModal": {
-      "Upload_Essay": "上传已有论文",
-      "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "上传文件以获取文章智能摘要和相关问题解答",
+      "Upload_Essay": "上传文件",
+      "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "上传文件进行 AI 智能化体验",
       "Click_or_drag_and_drop_here_to_upload": "点击或将文件拖拽到此处上传"
     },
     "DocumentList": {
@@ -309,7 +309,7 @@
       "Attachments": "附件",
       "Click_to_choose_a_file_or_drag_here": "点击选择文件或拖拽到此处",
       "Feedback_submitted_successfully": "反馈已提交成功",
-      "AlternativeSupport": "或者，您也可以发送电子邮件至 <emailLink>support@prodream.ai</emailLink> 或加入我们的 <contactToolLink>微信群</contactToolLink> 以获得直接聊天支持。",
+      "AlternativeSupport": "或者，您也可以发送电子邮件至 <emailLink>support@prodream.ai</emailLink> <contactToolLink></contactToolLink> ",
       "Submit": "提交"
     },
     "HistoryDropDown": {
@@ -317,7 +317,7 @@
     },
     "Card": {
       "Untitled_Document": "无标题文档",
-      "Opened": "已打开"
+      "Opened": ""
     },
     "Utility": {
       "Enter": "确认",
@@ -333,11 +333,11 @@
       "Suggestions": "建议"
     },
     "Prompt": {
-      "Title": "请用英语输入写作主题",
+      "Title": "输入写作主题",
       "PlaceHolder": "添加个性化主题可以大幅度提高AI生成的质量",
       "Successfully_set_essay_prompt": "成功设置论文提示",
       "Something_went_wrong_when_setting_essay_prompt": "设置论文提示时出错，请稍后再试",
-      "An_argumentative_essay_discussing_challenges_and_strategies_of_conserving_biodiversity_in_the_Amazon_rainforest": "讨论亚马逊雨林保护生物多样性的挑战和策略的论证性论文",
+      "An_argumentative_essay_discussing_challenges_and_strategies_of_conserving_biodiversity_in_the_Amazon_rainforest": "例如：讨论亚马逊雨林保护生物多样性的挑战和策略的论证性论文",
       "Strength": "主题强度",
       "Trigger": "文章主题",
       "Start_Writing": "开始写作"
@@ -346,12 +346,12 @@
       "Selected_text_should_not_exceed_500_words": "选中的文本不应超过500个字",
       "Format_1": "编辑语言",
       "Format_2": "基于文本生成",
-      "Paraphrase": "重述表达",
+      "Paraphrase": "重新表述",
       "Make_academic": "增加学术性",
       "Improve_fluency": "提高流畅度",
       "Simplify_language": "简化表达",
       "Translate_to_english": "翻译成英语",
-      "Humanize": "反AI检测",
+      "Humanize": "人性化描述",
       "Edit_length": "调整长度",
       "Write_opposing_argument": "对立观点",
       "Write_with_more_depth": "加深论述",
@@ -410,12 +410,12 @@
       "Insert": "插入"
     },
     "RightBar": {
-      "Grammar_Check": "语法检测",
-      "Citation": "添加引用",
-      "My_Citation_Library": "我的图书馆",
+      "Grammar_Check": "AI语法检查",
+      "Citation": "引用查询",
+      "My_Citation_Library": "我的引用",
       "Generate": "一键生成",
-      "Plagiarism_Check": "查重检测",
-      "AI_Detection": "AI检测",
+      "Plagiarism_Check": "智能查重",
+      "AI_Detection": "智能检测",
       "Essay_Prompt": "个性化写作"
     },
     "BubbleMenu": {
@@ -436,8 +436,8 @@
       "Heading_4": "四级标题",
       "Heading_5": "五级标题",
       "Heading_6": "六级标题",
-      "Bullet_list": "无序列表",
-      "Numbered_list": "有序列表",
+      "Bullet_list": "项目符号",
+      "Numbered_list": "数字编号",
       "Bold": "加粗",
       "Italic": "斜体",
       "Underline": "下划线",
@@ -620,18 +620,18 @@
       "mix-ai": "概率由AI和真人混合",
       "breakdown": "概率细分",
       "Unlock": "通过无限套餐解锁AI检测",
-      "Humanizer": "反AI检测",
+      "Humanizer": "人性化描述",
       "Remaining_Paragraphs": "剩余段落",
       "Humanize_all": "一键反AI",
       "mixed": "我们对这段文本完全是有一定的信心",
       "humanize_title": "点击查看反AI详细建议",
       "humanize_button": "开始一键反AI",
-      "recheck_title": "重新进行反AI检测",
+      "recheck_title": "重新进行人性化描述",
       "recheck_button": "重新检测",
       "full_human_title": "您的文章很可能完全由人类撰写，没有显示出AI参与的迹象",
       "most_human_title": "我们的检测器发现0个句子很可能是由AI生成的",
       "most_human_instruction": "如果您想对整篇文本进行灵活的段落级反AI处理，请点击继续",
-      "most_human_button": "继续分段反AI检测",
+      "most_human_button": "继续分段人性化描述",
       "Powered_by_GPTZero": "由GPTZero提供支持",
       "AI_Generated_alert": "该论文完全由人类、AI或两者结合生成的概率为：",
       "Bar_human": "人类",
@@ -688,7 +688,7 @@
       "Monthly": "月费",
       "Membership": "会员信息",
       "Your_current_plan": "您正在使用 <strong>{ CurrentPlan }</strong> 套餐",
-      "Next_billing_date": "下次计费日期",
+      "Next_billing_date": "会员有效期至",
       "Active_Until": "有效期至",
       "Basic": "免费",
       "Unlimited": "Pro",
@@ -706,7 +706,7 @@
       "Membership_Details": "会员详情",
       "Current_Plan": "当前套餐",
       "Your_current_plan": "您当前使用的是 <strong>{ CurrentPlan }</strong> 套餐",
-      "Next_billing_date": "下次计费日期",
+      "Next_billing_date": "会员有效期至",
       "Active_Until": "有效期至",
       "Basic": "免费",
       "Unlimited": "Pro",
