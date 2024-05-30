@@ -10,6 +10,7 @@ import { outline } from '@/query/api';
 import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { type Editor } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
@@ -22,6 +23,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
   const draftRef = useRef<HTMLTextAreaElement | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const resultString = useRef<string>('');
+  const trans = useTranslations('Editor');
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const { mutateAsync: ButtonTrack } = useButtonTrack();
   const updateShowOutlineLoadingDialog = useUserTask(
@@ -190,7 +192,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
       <div className='mx-auto flex w-[700px] flex-col'>
         <Spacer y='24' />
         <h1 className='text-[28px] font-semibold leading-normal'>
-          {t.Onboard.question}
+          {trans('Onboard.question')}
         </h1>
         <Spacer y='24' />
         <ul className='flex flex-col gap-y-6 self-start'>
@@ -204,7 +206,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
               htmlFor='have-draft'
               className={`text-sm font-medium leading-none ${check === 0 ? 'text-violet-500' : 'text-zinc-600'}`}
             >
-              {t.Onboard.Option1.Title}
+              {trans('Onboard.Option1.Title')}
             </label>
           </li>
           <li className='inline-flex items-center gap-x-2'>
@@ -219,7 +221,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
               htmlFor='start-outline'
               className={`text-sm font-medium leading-none ${check === 1 ? 'text-violet-500' : 'text-zinc-600'}`}
             >
-              {t.Onboard.Option2.Title}
+              {trans('Onboard.Option2.Title')}
             </label>
           </li>
           <li className='inline-flex items-center gap-x-2'>
@@ -234,7 +236,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
               htmlFor='just-exploring'
               className={`text-sm font-medium leading-none ${check === 2 ? 'text-violet-500' : 'text-zinc-600'}`}
             >
-              {t.Onboard.Option3.Title}
+              {trans('Onboard.Option3.Title')}
             </label>
           </li>
         </ul>
@@ -249,13 +251,13 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
               className='flex flex-col gap-y-4'
             >
               <h2 className='text-[28px] font-semibold leading-normal'>
-                {t.Onboard.Option1.Subtitle}
+                {trans('Onboard.Option1.Subtitle')}
               </h2>
               <Textarea
                 className='h-24 rounded shadow-lg'
                 name='outline-description'
                 ref={draftRef}
-                placeholder={t.Onboard.Option1.PlaceHolder}
+                placeholder={trans('Onboard.Option1.PlaceHolder')}
               />
               <Button
                 role='button'
@@ -263,7 +265,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
                 className='rounded'
                 id='guidence-generate'
               >
-                {t.Utility.Enter}
+                {trans('Utility.Enter')}
               </Button>
             </m.div>
           ) : check === 1 ? (
@@ -275,14 +277,14 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
               key={'terms-2'}
             >
               <h2 className='text-[28px] font-semibold leading-normal'>
-                {t.Onboard.Option2.Subtitle}
+                {trans('Onboard.Option2.Subtitle')}
               </h2>
-              <p className='base-semibold'>{t.Onboard.Option2.Question}</p>
+              <p className='base-semibold'>{trans('Onboard.Option2.Question')}</p>
               <Textarea
                 className='h-24 rounded shadow-lg'
                 name='outline-description'
                 ref={ideaRef}
-                placeholder={t.Onboard.Option2.PlaceHolder}
+                placeholder={trans('Onboard.Option2.PlaceHolder')}
               />
               <div className='flex gap-x-2'>
                 <Button
@@ -292,7 +294,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
                   className='w-max rounded bg-violet-500'
                   id='guidence-generate'
                 >
-                  {t.Utility.Generate}
+                  {trans('Utility.Generate')}
                   {isGenerating && (
                     <Loader2 size={18} className='animate-spin text-white' />
                   )}
@@ -304,7 +306,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
                   disabled={isGenerating}
                   onClick={handleClickSample}
                 >
-                  {t.Onboard.Option2.Sample}
+                  {trans('Onboard.Option2.Sample')}
                 </Button>
               </div>
             </m.div>
@@ -316,7 +318,7 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
               exit={{ opacity: 0, y: 10 }}
               className='text-[28px] font-semibold leading-normal'
             >
-              {t.Onboard.Option3.Subtitle}
+              {trans('Onboard.Option3.Subtitle')}
             </m.p>
           ) : null}
         </AnimatePresence>

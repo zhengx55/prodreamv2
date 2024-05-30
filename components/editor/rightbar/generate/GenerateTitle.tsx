@@ -1,11 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { EditorDictType } from '@/types';
+import { useTranslations } from 'next-intl';
+
 import { useAIEditor } from '@/zustand/store';
 import { ChevronLeft, XCircle } from 'lucide-react';
 import { memo } from 'react';
 
 type Props = { t: EditorDictType };
 const GenerateTitle = ({ t }: Props) => {
+  const trans = useTranslations('Editor');
   const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
   const generateTab = useAIEditor((state) => state.generateTab);
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
@@ -24,11 +27,11 @@ const GenerateTitle = ({ t }: Props) => {
               <ChevronLeft size={20} />
             </Button>
             <h2 className='title-medium capitalize'>
-              {t.Generate[generateTab as keyof typeof t.Generate].toString()}
+              {trans(`Generate.${generateTab}`)}
             </h2>
           </div>
         ) : (
-          <h2 className='title-medium'>{t.RightBar.Generate}</h2>
+          <h2 className='title-medium'>{trans('RightBar.Generate')}</h2>
         )}
       </div>
 

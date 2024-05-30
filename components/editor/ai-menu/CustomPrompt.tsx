@@ -2,12 +2,14 @@ import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { EditorDictType } from '@/types';
+import { useTranslations } from 'next-intl';
 import { ChangeEvent, KeyboardEvent, forwardRef, memo, useState } from 'react';
 
 type Props = { submit: () => void; t: EditorDictType; currentResult: number };
 const CustomPrompt = forwardRef<HTMLInputElement, Props>(
   ({ submit, t, currentResult }, ref) => {
     const [isTyping, setIsTyping] = useState(false);
+    const trans = useTranslations('Editor');
 
     const handleKeyEnter = (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.code === 'Enter') {
@@ -41,8 +43,8 @@ const CustomPrompt = forwardRef<HTMLInputElement, Props>(
           className='small-regular h-8 border-none px-0 py-0 shadow-none focus-visible:right-0 focus-visible:ring-0'
           placeholder={
             currentResult === -1
-              ? t.Copilot.PlaceHolder_1
-              : t.Copilot.PlaceHolder_2
+              ? trans('Copilot.PlaceHolder_1')
+              : trans('Copilot.PlaceHolder_2')
           }
         />
         <Button
@@ -50,7 +52,7 @@ const CustomPrompt = forwardRef<HTMLInputElement, Props>(
           disabled={!isTyping}
           className='h-7 rounded bg-violet-500 disabled:bg-zinc-600'
         >
-          {t.Utility.Enter}
+          {trans('Utility.Enter')}
         </Button>
       </div>
     );

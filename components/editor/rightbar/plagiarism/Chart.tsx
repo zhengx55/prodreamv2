@@ -2,11 +2,13 @@ import Spacer from '@/components/root/Spacer';
 import { EditorDictType } from '@/types';
 import { memo } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
+import { useTranslations } from 'next-intl';
 
 type Props = { score: number; t: EditorDictType };
 const primaryColor = ['#48B251', '#E58600', '#E55245'];
 const secondaryColor = ['#D5F9D8', '#FFEACC', '#FFF3F2'];
 const Chart = ({ score, t }: Props) => {
+  const trans = useTranslations('Editor');
   const result_index = score < 10 ? 0 : score < 71 ? 1 : 2;
   return (
     <div className='flex w-full flex-col items-center'>
@@ -32,7 +34,7 @@ const Chart = ({ score, t }: Props) => {
           {score.toFixed(0)}%
         </span>
         &nbsp;
-        {t.Plagiarism.score}
+        {trans('Plagiarism.score')}
       </p>
     </div>
   );

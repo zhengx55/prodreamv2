@@ -24,6 +24,7 @@
     "and": "高效地",
     "faster": "完成",
     "with_confidence": "写作",
+    "Blogs": "博客",
     "generate_a_strong_paper": "几分钟内生成",
     "in_minutes": "高质量论文！",
     "experience_the": "与ProDream同行，开启学术写作的全新篇章",
@@ -331,6 +332,7 @@
       "Start_Writing": "开始写作"
     },
     "Copilot": {
+      "Selected_text_should_not_exceed_500_words": "选中的文本不应超过500个字",
       "Format_1": "编辑语言",
       "Format_2": "基于文本生成",
       "Paraphrase": "重述表达",
@@ -637,7 +639,10 @@
       "step_2_prefix": "点击",
       "step_2_middle": "AI Copilot",
       "step_2_suffix": "按钮",
-      "step_3": "尝试任何编辑或生成工具"
+      "step_3": "尝试任何编辑或生成工具",
+      "Close": "关闭",
+      "You_ve_just_discovered_key_ways_to_interact_with_our_AI": "您刚刚发现了与AI互动的关键方式！",
+      "Continue_to_the_onboarding_checklist_to_learn_how_to_use_our_features_designed_for_you": "继续了解如何使用为您设计的功能。"
     },
     "Continue": {
       "title": "续写",

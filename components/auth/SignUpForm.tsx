@@ -139,7 +139,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
               }
               className='text-violet-500'
             >
-              {t.Signup.Term}
+              {trans('Signup.Term')}
             </Link>
             &nbsp; and
             <Link
@@ -149,7 +149,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
               }
               className='text-violet-500'
             >
-              &nbsp;{t.Signup.Privacy}
+              &nbsp;{trans('Signup.Privacy')}
             </Link>
           </p>
         )} */}

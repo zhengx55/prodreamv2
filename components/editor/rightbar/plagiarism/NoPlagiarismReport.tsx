@@ -1,9 +1,11 @@
 import { EditorDictType } from '@/types';
 import { m } from 'framer-motion';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 type Props = { t: EditorDictType };
 const NoPlagiarismReport = ({ t }: Props) => {
+  const trans = useTranslations('Editor');
   return (
     <m.div
       key={'non-plagiarism-panel'}
@@ -22,7 +24,7 @@ const NoPlagiarismReport = ({ t }: Props) => {
       />
       <p className='text-center text-sm font-normal text-zinc-600'>
         <span className='title-medium text-indigo-500'>0%</span>&nbsp;
-        {t.Plagiarism['non-plagiarized']}
+        {trans('Plagiarism.non-plagiarized')}
       </p>
     </m.div>
   );

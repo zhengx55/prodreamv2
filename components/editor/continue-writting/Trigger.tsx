@@ -11,6 +11,7 @@ import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { copilot } from '@/query/api';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
+import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type Editor } from '@tiptap/react';
 import { Loader2 } from 'lucide-react';
@@ -25,6 +26,7 @@ const Trigger = ({ editor, t }: Props) => {
   const [generating, setGenerating] = useState(false);
   const queryClient = useQueryClient();
   const { data: usage } = useMembershipInfo();
+  const trans = useTranslations('Editor');
 
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
@@ -132,9 +134,9 @@ const Trigger = ({ editor, t }: Props) => {
               </span>
             </TooltipTrigger>
             <TooltipContent className='py-2'>
-              <p>{t.Continue.title}</p>
+              <p>{trans('Continue.title')}</p>
               <Spacer y='5' />
-              <p className='text-[#939393]'>{t.Continue.description}</p>
+              <p className='text-[#939393]'>{trans('Continue.description')}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

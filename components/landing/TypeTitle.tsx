@@ -1,6 +1,7 @@
 'use client';
 import { getDictionary } from '@/lib/get-dictionary';
 import ReactTyped from 'react-typed';
+import { useTranslations } from 'next-intl';
 import Spacer from '../root/Spacer';
 
 const TypeTitle = ({
@@ -8,6 +9,7 @@ const TypeTitle = ({
 }: {
   t: Awaited<ReturnType<typeof getDictionary>>['Homepage'];
 }) => {
+  const trans = useTranslations('Homepage');
   return (
     <>
       <h1 className='text-center font-baskerville text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
@@ -33,11 +35,11 @@ const TypeTitle = ({
       </h1>
       <Spacer y='30' />
       <p className='text-center text-[18px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-        {`ProDream's`} <span className='font-bold'>{t.one_stop_solution}</span>
+        {`ProDream's`} <span className='font-bold'>{trans('one_stop_solution')}</span>
         &nbsp;
-        {t.helps_you_write} <span className='font-bold'>{t.better}</span>&nbsp;
-        {t.and} <span className='font-bold'>{t.faster}</span>&nbsp;
-        {t.with_confidence}
+        {trans('helps_you_write')} <span className='font-bold'>{trans('better')}</span>&nbsp;
+        {trans('and')} <span className='font-bold'>{trans('faster')}</span>&nbsp;
+        {trans('with_confidence')}
       </p>
     </>
   );

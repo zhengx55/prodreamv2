@@ -4,6 +4,7 @@ import { useMutateTrackInfo } from '@/hooks/useTrackInfo';
 import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
@@ -11,9 +12,11 @@ import { memo } from 'react';
 type Props = { t: EditorDictType };
 
 const Task = ({ t }: Props) => {
+  const trans = useTranslations('Editor');
   const updateShowTaskDialog = useUserTask(
     (state) => state.updateShowTaskDialog
   );
+
   return (
     <m.div
       initial={{ opacity: 0, y: -10 }}
@@ -24,7 +27,7 @@ const Task = ({ t }: Props) => {
     >
       <div className='flex-between'>
         <p className='text-xl font-medium leading-normal text-zinc-600'>
-          {t.Task.title}
+          {trans('Task.title')}
         </p>
         <XCircle
           className='cursor-pointer text-neutral-400'
@@ -34,34 +37,34 @@ const Task = ({ t }: Props) => {
       </div>
       <Spacer y='5' />
       <p className='small-regular text-neutral-400'>
-        {t.Task.feature}:&nbsp;
+        {trans('Task.feature')}:&nbsp;
         <span className='inline-flex rounded bg-white px-1.5 text-neutral-400'>
-          {t.Task.paraphrase}
+          {trans('Task.paraphrase')}
         </span>
         &nbsp;
         <span className='inline-flex rounded bg-white px-1.5 text-neutral-400'>
-          {t.Task.academic}
+          {trans('Task.academic')}
         </span>
         &nbsp;
         <span className='inline-flex rounded bg-white px-1.5 text-neutral-400'>
-          {t.Task.length}
+          {trans('Task.length')}
         </span>
       </p>
       <Spacer y='32' />
       <div className='flex-between'>
         <div className='flex flex-col gap-y-2'>
           <p className='text-base font-medium text-zinc-600'>
-            {t.Task.Step} 1 : {t.Task.step_1}
+            {trans('Task.Step')} 1 : {trans('Task.step_1')}
           </p>
-          <p className='text-base font-medium text-zinc-600'>
-            {t.Task.Step} 2 : {t.Task.step_2_prefix} &nbsp;
+          <p className='text-base font-medium text-zinc-6000'>
+            {trans('Task.Step')} 2 : {trans('Task.step_2_prefix')} &nbsp;
             <span className='inline-flex rounded bg-violet-100 px-1 text-base font-normal text-violet-500'>
-              {t.Task.step_2_middle}
+              {trans('Task.step_2_middle')}
             </span>
-            &nbsp; {t.Task.step_2_suffix}
+            &nbsp; {trans('Task.step_2_suffix')}
           </p>
           <p className='text-base font-medium text-zinc-600'>
-            {t.Task.Step} 3 : {t.Task.step_3}
+            {trans('Task.Step')} 3 : {trans('Task.step_3')}
           </p>
         </div>
         <Image
@@ -78,6 +81,7 @@ const Task = ({ t }: Props) => {
 };
 
 export const Finish = memo(() => {
+  const trans = useTranslations('Editor');
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
 
   return (
@@ -105,10 +109,9 @@ export const Finish = memo(() => {
           className='absolute bottom-0 left-[calc(50%_-80px)] z-10 h-24 w-24'
         />
         <h1 className='base-semibold z-20 text-white'>
-          You&apos;ve just discovered key ways to interact with our AI!
+          {trans('Task.You_ve_just_discovered_key_ways_to_interact_with_our_AI')}
           <br />
-          Continue to the onboarding checklist to learn how to use
-          <br /> our features, designed for you.
+          {trans('Task.Continue_to_the_onboarding_checklist_to_learn_how_to_use_our_features_designed_for_you')}
         </h1>
         <Button
           onClick={async () => {
@@ -120,7 +123,7 @@ export const Finish = memo(() => {
           variant={'secondary'}
           role='button'
         >
-          Close
+          {trans('Task.Close')}
         </Button>
       </div>
       <Spacer y='20' />

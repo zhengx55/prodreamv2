@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { getIpAddress } from '@/query/api';
 import { memo } from 'react';
 import { Button } from '../../ui/button';
@@ -23,6 +24,7 @@ const NavBar = async ({
   lang,
   search_param,
 }: HomePageDicType & { search_param: string }) => {
+  const trans = useTranslations('Homepage');
   const token = cookies().get('token')?.value;
   const isInChina = await getIpAddress();
   return (
@@ -61,14 +63,14 @@ const NavBar = async ({
               className='hidden w-max px-1 sm:block'
               variant={'ghost'}
             >
-              Blogs
+              {trans('Blogs')}
             </Button>
           </Link>}
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={token ? `/${lang}/editor` : `/${lang}/login`} passHref>
             <Button role='link' variant={'ghost'} className='text-violet-500'>
-              {t.log_in}
+              {trans('log_in')}
             </Button>
           </Link>
 
@@ -83,8 +85,8 @@ const NavBar = async ({
             passHref
           >
             <Button className='rounded-lg'>
-              <strong>{t.start_writing}</strong>
-              {t.It_s_free}
+              <strong>{trans('start_writing')}</strong>
+              {trans('It_s_free')}
             </Button>
           </Link>
         </div>

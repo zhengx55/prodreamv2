@@ -6,6 +6,7 @@ import { useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { DocPageDicType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { ChevronLeft, Loader } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -16,6 +17,7 @@ const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
 type Props = {} & DocPageDicType;
 
 const DocNavbar = ({ t, lang }: Props) => {
+  const trans = useTranslations('Editor');
   const isSaving = useAIEditor((state) => state.isSaving);
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { mutateAsync: buttonTrack } = useButtonTrack();
@@ -75,7 +77,7 @@ const DocNavbar = ({ t, lang }: Props) => {
               alt='diamond'
               src='/editor/gem.svg'
             />
-            {t.Utility.Upgrade}
+            {trans('Utility.Upgrade')}
           </Button>
         ) : null}
         {/* <DropdownMenu>

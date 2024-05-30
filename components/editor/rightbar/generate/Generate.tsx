@@ -78,7 +78,7 @@ export const Generate = ({ t }: { t: EditorDictType }) => {
                     size={20}
                   />
                   <p className='base-regular text-zinc-600 group-hover:text-violet-500'>
-                    {t.Generate[item.title as keyof typeof t.Generate] as any}
+                    {trans(`Generate.${item.title}`)}
                   </p>
                 </div>
               </div>

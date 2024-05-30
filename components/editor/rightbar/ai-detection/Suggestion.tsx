@@ -132,10 +132,11 @@ const Suggestion = ({
 
 const Starter = memo(
   ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
+    const trans = useTranslations('Editor');
     
     return (
       <div className='flex flex-1 flex-col'>
-        <p className='base-medium'>{t.Detection.Humanizer}</p>
+        <p className='base-medium'>{trans('Detection.Humanizer')}</p>
         <Spacer y='14' />
         <div className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
           <Image
@@ -146,14 +147,14 @@ const Starter = memo(
             className='h-44 w-60 self-center'
           />
           <p className='text-center text-sm font-normal text-zinc-600'>
-            {t.Detection.humanize_title}
+            {trans('Detection.humanize_title')}
           </p>
           <Button
             className='base-regular size-max self-center rounded-lg px-8'
             role='button'
             onClick={start}
           >
-            {t.Detection.humanize_button}
+            {trans('Detection.humanize_button')}
           </Button>
         </div>
       </div>
