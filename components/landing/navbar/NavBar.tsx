@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server'
 import { getIpAddress } from '@/query/api';
 import { memo } from 'react';
 import { Button } from '../../ui/button';
@@ -24,7 +24,9 @@ const NavBar = async ({
   lang,
   search_param,
 }: HomePageDicType & { search_param: string }) => {
-  const trans = useTranslations('Homepage');
+
+  const trans = await getTranslations('Homepage');
+
   const token = cookies().get('token')?.value;
   const isInChina = await getIpAddress();
   return (
@@ -85,8 +87,8 @@ const NavBar = async ({
             passHref
           >
             <Button className='rounded-lg'>
-              <strong>{trans('start_writing')}</strong>
-              {trans('It_s_free')}
+             <strong>{trans('start_writing')}</strong>
+              {trans('It_s_free')} 
             </Button>
           </Link>
         </div>

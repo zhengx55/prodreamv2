@@ -2,7 +2,7 @@ import LanguageOptions from '@/components/onboard/LanguageOpts.server';
 import Progress from '@/components/onboard/Progress';
 import Spacer from '@/components/root/Spacer';
 import { languange_info } from '@/constant';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { SampleEssay } from '@/constant/enum';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
@@ -15,8 +15,10 @@ export default async function Page({
   params: { lang: Locale };
 }) {
   const dict = await getDictionary(lang);
+  const trans = await getTranslations('Onboard');
+  
   const token = cookies().get('token')?.value;
-  const trans = useTranslations('Onboard');
+
 
   const errorMessage = trans('An_error_occurred_while_setting_language_info');
 

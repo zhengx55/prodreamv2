@@ -6,7 +6,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
 import {NextIntlClientProvider} from 'next-intl';
-import {getMessages} from 'next-intl/server';
+import {getMessages, getTranslations} from 'next-intl/server';
 import localFont from 'next/font/local';
 import { Suspense } from 'react';
 import { Toaster } from 'sonner';
@@ -66,6 +66,7 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
+  
   return locales.map((locale) => ({ lang: locale }));
 }
 
@@ -74,7 +75,7 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { lang: Locale };
+  params: { lang: string };
 }) {
 
   const messages = await getMessages();

@@ -3,7 +3,10 @@ import Spacer from '@/components/root/Spacer';
 import type { Locale } from '@/i18n-config';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 import { ReactNode } from 'react';
+
+
 const FeedbackModal = dynamic(
   () => import('@/components/feedback/FeedbackModal')
 );
@@ -14,6 +17,9 @@ export default async function WrittingpalLayout({
   children: ReactNode;
   params: { lang: Locale };
 }) {
+
+  const trans = await getTranslations("Homepage");
+
   return (
     <>
       <main className='hidden h-full w-full overflow-x-auto overflow-y-hidden md:flex'>

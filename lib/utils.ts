@@ -180,6 +180,7 @@ export function addRandomToDuplicates(array: string[]) {
 }
 
 export function formatTimestampToDateString(timestamp: number, times = true,  lang: string = 'en') {
+  console.log('lang', lang);
   const date = new Date(timestamp * 1000);
   const isCN = lang === 'cn';
   const monthNames = [

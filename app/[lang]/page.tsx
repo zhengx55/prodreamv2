@@ -17,6 +17,7 @@ export default async function Home({
   params: { lang: Locale };
   searchParams: { from: string };
 }) {
+
   const dict = await getDictionary(lang);
   return (
     <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>

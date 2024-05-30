@@ -10,12 +10,14 @@ import { Separator } from '../ui/separator';
 const Membership = ({
   membership,
   lang,
-  t,
+  t
 }: { membership: ISubscription } & DocPageDicType) => {
   const trans = useTranslations('Profile');
 
   const Basic = trans('Setting.Basic');
   const Unlimited = trans('Setting.Unlimited');
+  const Annual = trans('Setting.Annual');
+  const Monthly = trans('Setting.Monthly');
 
   return (
     <>
@@ -60,24 +62,29 @@ const Membership = ({
         <>
           <div className='flex items-center gap-x-4'>
             <p className='text-neutral-400'>
-              You are on the&nbsp;
-              <strong>
-                Unlimited&nbsp;
-                {membership.subscription_type === 'year' ? 'Annual' : 'Monthly'}
-                &nbsp; Plan
-              </strong>
+                {/* You are on the&nbsp;
+                <strong>
+                  Unlimited&nbsp;
+                  {membership.subscription_type === 'year' ? Annual : Monthly}
+                  &nbsp; Plan
+                </strong> */}
+
+                {trans.rich('Setting.Your_current_plan', { 
+                  CurrentPlan: membership.subscription_type === 'year' ? Annual : Monthly,
+                  strong: (chunks: any) => <strong>{chunks}</strong>
+                })}
             </p>
           </div>
           <Spacer y='5' />
           {membership.subscription_id ? (
             <p className='text-neutral-400'>
-              Next billing date:&nbsp;
-              {formatTimestampToDateString(membership.expire_time, false)}
+              {trans('Setting.Next_billing_date')}:&nbsp;
+              {formatTimestampToDateString(membership.expire_time, false, lang as string)}
             </p>
           ) : (
             <p className='text-neutral-400'>
-              Active Until:&nbsp;
-              {formatTimestampToDateString(membership.expire_time, false)}
+              {trans('Setting.Active_Until')}:&nbsp;
+              {formatTimestampToDateString(membership.expire_time, false, lang as string)}
             </p>
           )}
 

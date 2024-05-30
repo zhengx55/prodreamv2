@@ -6,7 +6,7 @@ import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server'
 import { getIpAddress } from '@/query/api';
 import Link from 'next/link';
 
@@ -19,7 +19,7 @@ export default async function Page({
 }) {
   const dict = await getDictionary(lang);
   const cn_dict = await getDictionary('cn');
-  const t = useTranslations('Auth');
+  const t = await getTranslations('Auth');
   const isInChina = await getIpAddress();
 
   if (!isInChina)

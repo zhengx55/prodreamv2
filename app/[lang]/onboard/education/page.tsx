@@ -4,7 +4,7 @@ import Spacer from '@/components/root/Spacer';
 import { education_info } from '@/constant';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -14,7 +14,7 @@ export default async function Page({
   params: { lang: Locale };
 }) {
   const dict = await getDictionary(lang);
-  const t = useTranslations('Onboard');
+  const t = await getTranslations('Onboard');
   const token = cookies().get('token')?.value;
   async function setEducationInfo(index: number) {
     'use server';

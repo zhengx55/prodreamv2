@@ -668,8 +668,12 @@
       "Change_password": "Change password",
       "Enter_your_old_password": "Enter your old password",
       "Enter_your_new_password": "Enter your new password",
+      "Annual": "Annual",
+      "Monthly": "Monthly",
       "Membership": "Membership",
       "Your_current_plan": "You are on the <strong>{ CurrentPlan }</strong> plan",
+      "Next_billing_date": "Next billing date",
+      "Active_Until": "Active Until",
       "Basic": "Basic",
       "Unlimited": "Unlimited",
       "Go_unlimited": "Go unlimited",
@@ -681,6 +685,40 @@
       "Secure_Your_Account": "Secure Your Account",
       "Secure_Account_Message": "To secure your account, please verify via the link we sent to your email address",
       "Resend_Link": "Resend Link"
+    },
+    "Subscription": {
+      "Membership_Details": "Membership Details",
+      "Current_Plan": "Current Plan",
+      "Your_current_plan": "You are on the <strong>{ CurrentPlan }</strong> plan",
+      "Next_billing_date": "Next billing date",
+      "Active_Until": "Active Until",
+      "Basic": "Basic",
+      "Unlimited": "Unlimited",
+      "Go_unlimited": "Go unlimited",
+      "Annual": "Annual",
+      "Monthly": "Monthly",
+      "Unsubscribe": "Unsubscribe",
+      "Save_$10_every_month_by_switching_to_the_annual_plan": "Save $10 every month by switching to the annual plan",
+      "Go_annual_now": "Go annual now",
+      "Failed_to_fetch_balance": "Failed to fetch balance"
+    },
+    "MembershipHistory": {
+      "Billing_History": "Billing History",
+      "Plan_Name": "Plan Name",
+      "Start_Date": "Start Date",
+      "End_Date": "End Date",
+      "Paid_amount": "Paid amount",
+      "Membership_status": "Membership status",
+      "Canceled": "Canceled",
+      "Active": "Active",
+      "Expired": "Expired"
+    },
+    "UnsubscribeModal": {
+      "Unsubscribe": "Unsubscribe",
+      "Stay_Subscribed": "Stay Subscribed",
+      "Successfully_unsubscribed": "Successfully unsubscribed",
+      "Are_you_sure_you_want_to_leave": "Are you sure you want to leave?",
+      "You_will_lose_benefits_to_unlimited_AI_generations_grammar_check_and_originality_checks_Reconsider_to_keep_enhancing_your_writing_effortlessly": "You will lose benefits to unlimited AI generations, grammar check and originality checks. Reconsider to keep enhancing your writing effortlessly."
     }
   }
 }

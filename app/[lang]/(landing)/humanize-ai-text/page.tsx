@@ -5,6 +5,7 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 
 export default async function Page({
@@ -15,6 +16,7 @@ export default async function Page({
   searchParams: { from: string };
 }) {
   const dict = await getDictionary(lang);
+  const trans = await getTranslations("Homepage");
 
   return (
     <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>

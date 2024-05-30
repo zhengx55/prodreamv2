@@ -4,6 +4,7 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { IDiscount, ISubscription } from '@/types';
 import dynamic from 'next/dynamic';
+import { getTranslations } from 'next-intl/server';
 import { cookies } from 'next/headers';
 
 const Plan = dynamic(() => import('@/components/pricing/Plan'));
@@ -39,6 +40,7 @@ async function getDiscountInfo() {
 export default async function Page() {
   const membership: ISubscription = await getBalance();
   const discount_info: IDiscount = await getDiscountInfo();
+  const trans = await getTranslations("Homepage");
   // const isInChina = await getIpAddress();
 
   return (

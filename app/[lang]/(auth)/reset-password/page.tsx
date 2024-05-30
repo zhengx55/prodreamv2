@@ -2,6 +2,7 @@ import Panel from '@/components/auth/Panel';
 import ResetForm from '@/components/auth/RestForm';
 import Spacer from '@/components/root/Spacer';
 import type { Locale } from '@/i18n-config';
+import { getTranslations } from 'next-intl/server'
 import { getDictionary } from '@/lib/get-dictionary';
 import Link from 'next/link';
 
@@ -10,6 +11,7 @@ export default async function Page({
 }: {
   params: { lang: Locale };
 }) {
+  const t = await getTranslations('Auth');
   const dict = await getDictionary(lang);
   return (
     <Panel lang={lang}>

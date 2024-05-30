@@ -211,6 +211,11 @@
       "Align_Right": "右对齐",
       "Justify": "两端对齐"
     },
+    "BottomBanner": {
+      "You_have_come_this_far": "你已经走了这么远了。",
+      "Let_s_make_your_essay_unforgettable": "让我们使你的论文变得令人难忘！",
+      "Start_Writing_Now": "现在开始写作"
+    },
     "RemainUsages": {
       "WeeklyPromptsUsed": "每周AI提示已用{used}/20次",
       "Go_unlimited": "升级至 Pro 版可无限使用"
@@ -662,8 +667,12 @@
       "Change_password": "更改密码",
       "Enter_your_old_password": "输入您的旧密码",
       "Enter_your_new_password": "输入您的新密码",
+      "Annual": "年费",
+      "Monthly": "月费",
       "Membership": "会员信息",
       "Your_current_plan": "您正在使用 <strong>{ CurrentPlan }</strong> 套餐",
+      "Next_billing_date": "下次计费日期",
+      "Active_Until": "有效期至",
       "Basic": "免费",
       "Unlimited": "Pro",
       "Go_unlimited": "升级套餐",
@@ -675,6 +684,40 @@
       "Secure_Your_Account": "账户安全",
       "Secure_Account_Message": "为了保护您的账户，请通过我们发送到您邮箱的链接进行验证",
       "Resend_Link": "重新发送验证链接"
+    },
+    "Subscription": {
+      "Membership_Details": "会员详情",
+      "Current_Plan": "当前套餐",
+      "Your_current_plan": "您当前使用的是 <strong>{ CurrentPlan }</strong> 套餐",
+      "Next_billing_date": "下次计费日期",
+      "Active_Until": "有效期至",
+      "Basic": "免费",
+      "Unlimited": "Pro",
+      "Go_unlimited": "升级套餐",
+      "Annual": "年费",
+      "Monthly": "月费",
+      "Unsubscribe": "取消订阅",
+      "Save_$10_every_month_by_switching_to_the_annual_plan": "通过切换到年费套餐，每月节省$10",
+      "Go_annual_now": "立即升级",
+      "Failed_to_fetch_balance": "获取余额失败"
+    },
+    "MembershipHistory": {
+      "Billing_History": "计费历史",
+      "Plan_Name": "套餐名称",
+      "Start_Date": "开始日期",
+      "End_Date": "结束日期",
+      "Paid_amount": "支付金额",
+      "Membership_status": "会员状态",
+      "Canceled": "已取消",
+      "Active": "已激活",
+      "Expired": "已过期"
+    },
+    "UnsubscribeModal": {
+      "Unsubscribe": "取消订阅",
+      "Stay_Subscribed": "继续订阅",
+      "Successfully_unsubscribed": "成功取消订阅",
+      "Are_you_sure_you_want_to_leave": "您确定要离开吗？",
+      "You_will_lose_benefits_to_unlimited_AI_generations_grammar_check_and_originality_checks_Reconsider_to_keep_enhancing_your_writing_effortlessly": "您将失去无限AI生成、语法检查和原创性检查的权益。为了继续提高您的写作效率，请谨慎考虑。"
     }
   }
 }
