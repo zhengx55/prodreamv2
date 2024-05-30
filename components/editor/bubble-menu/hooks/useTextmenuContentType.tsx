@@ -7,10 +7,13 @@ import {
   ListOrdered,
   Type,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 import { ContentPickerOptions } from '../../picker/content';
 
 export const useTextmenuContentTypes = (editor: Editor) => {
+  const t = useTranslations('Editor');
+
   const options = useMemo<ContentPickerOptions>(() => {
     return [
       {
@@ -29,7 +32,7 @@ export const useTextmenuContentTypes = (editor: Editor) => {
           !editor.isActive('orderedList') &&
           !editor.isActive('bulletList') &&
           !editor.isActive('taskList'),
-        label: 'Paragraph',
+        label: t('BubbleMenu.Paragraph'),
         type: 'option',
       },
       {
@@ -44,7 +47,7 @@ export const useTextmenuContentTypes = (editor: Editor) => {
         id: 'heading1',
         disabled: () => !editor.can().setHeading({ level: 2 }),
         isActive: () => editor.isActive('heading', { level: 2 }),
-        label: 'Heading 1',
+        label: t('BubbleMenu.Heading_1'),
         type: 'option',
       },
       {
@@ -59,7 +62,7 @@ export const useTextmenuContentTypes = (editor: Editor) => {
         id: 'heading2',
         disabled: () => !editor.can().setHeading({ level: 3 }),
         isActive: () => editor.isActive('heading', { level: 3 }),
-        label: 'Heading 2',
+        label: t('BubbleMenu.Heading_2'),
         type: 'option',
       },
       {
@@ -74,7 +77,7 @@ export const useTextmenuContentTypes = (editor: Editor) => {
         id: 'heading3',
         disabled: () => !editor.can().setHeading({ level: 4 }),
         isActive: () => editor.isActive('heading', { level: 4 }),
-        label: 'Heading 3',
+        label: t('BubbleMenu.Heading_3'),
         type: 'option',
       },
       {
@@ -88,7 +91,7 @@ export const useTextmenuContentTypes = (editor: Editor) => {
         id: 'bulletList',
         disabled: () => !editor.can().toggleBulletList(),
         isActive: () => editor.isActive('bulletList'),
-        label: 'Bullet list',
+        label: t('BubbleMenu.Bullet_list'),
         type: 'option',
       },
       {
@@ -97,7 +100,7 @@ export const useTextmenuContentTypes = (editor: Editor) => {
         id: 'orderedList',
         disabled: () => !editor.can().toggleOrderedList(),
         isActive: () => editor.isActive('orderedList'),
-        label: 'Numbered list',
+        label: t('BubbleMenu.Numbered_list'),
         type: 'option',
       },
     ];

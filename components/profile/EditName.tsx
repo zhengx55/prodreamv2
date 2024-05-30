@@ -19,6 +19,7 @@ import { profileResetName } from '@/query/api';
 import { useUserInfo } from '@/zustand/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
 import { ReactNode, memo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -32,6 +33,7 @@ type Props = {
 };
 
 const EditNameModal = ({ children }: Props) => {
+  const trans = useTranslations('Profile');
   const updateUserFirstName = useUserInfo((state) => state.setUserFirstName);
   const updateUserLastName = useUserInfo((state) => state.setUserLastName);
   const form = useForm<z.infer<typeof resetName>>({
@@ -72,7 +74,7 @@ const EditNameModal = ({ children }: Props) => {
       >
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
-            <p className='h2-bold mt-2 text-center'>Change Name </p>
+            <p className='h2-bold mt-2 text-center'>{trans('Setting.Change_name')}</p>
             <DialogClose>
               <X className='self-end text-shadow' />
             </DialogClose>
@@ -91,7 +93,7 @@ const EditNameModal = ({ children }: Props) => {
                   <FormControl>
                     <Input
                       autoComplete='firstname'
-                      placeholder='Enter your first name'
+                      placeholder={trans('Setting.Enter_your_first_name')}
                       type='text'
                       className='h-14'
                       {...field}
@@ -110,7 +112,7 @@ const EditNameModal = ({ children }: Props) => {
                   <FormControl>
                     <Input
                       autoComplete='lastname'
-                      placeholder='Enter your last name'
+                      placeholder={trans('Setting.Enter_your_last_name')}
                       className='h-14'
                       type={'text'}
                       {...field}
@@ -123,12 +125,12 @@ const EditNameModal = ({ children }: Props) => {
             <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
               <DialogClose asChild>
                 <Button variant={'ghost'} className='text-violet-500'>
-                  Cancel
+                  {trans('Setting.Cancel')}
                 </Button>
               </DialogClose>
               <DialogClose asChild>
                 <Button className='bg-violet-500' type='submit'>
-                  Save
+                  {trans('Setting.Save')}
                 </Button>
               </DialogClose>
             </div>

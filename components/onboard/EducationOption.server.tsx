@@ -20,17 +20,17 @@ const EducationOption = ({ index, dict, onClick }: Props) => {
     >
       <Image
         src={`/onboard/education/education0${index + 1}.png`}
-        alt={t(`Education_Option_${index + 1}`)}
+        alt={t(`Education.Option${index + 1}`)}
         width={150}
         height={150}
         priority
         className='h-[72px]  w-[60px] object-cover sm:h-[115px] sm:w-[95px]'
       />
       <h2 className='text-lg font-medium text-slate-600 sm:text-2xl'>
-        {t(`Education_Option_${index + 1}`)}
+        {t(`Education.Option${index + 1}`)}
       </h2>
       {/* <p className='small-regular sm:base-regular text-center leading-loose text-neutral-600'>
-        {t(`Education_Option_${index + 1}Description`)}
+        {t(`EducationOption${index + 1}Description`)}
       </p> */}
     </div>
   );

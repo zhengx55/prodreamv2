@@ -201,7 +201,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         </MemoButton>
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip='Underline'
+          tooltip={t('BubbleMenu.Underline')}
           tooltipShortcut={['Mod', 'U']}
           onClick={commands.onUnderline}
           active={states.isUnderline}

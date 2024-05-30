@@ -68,10 +68,10 @@ export default async function Page({
     <div className='flex h-full w-full flex-col items-center px-6 pt-12 sm:px-0 sm:pt-20'>
       <div className='flex w-full max-w-full flex-col items-center sm:max-w-[900px]'>
         <h1 className='text-[20px] font-medium sm:text-[42px]'>
-          {trans('Onboard.Title')}
+          {trans('Title')}
         </h1>
         <p className='small-regular sm:base-regular text-center text-neutral-600 sm:text-center'>
-          {trans('Onboard.Language.Title')}
+          {trans('Language.Title')}
         </p>
       </div>
       <Spacer y='50' className='hidden sm:block' />

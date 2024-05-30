@@ -655,11 +655,20 @@
       "description": "cmd/ctrl + '/' for shortcut"
     }
   },
+  "Verify": {
+    "Congratulations_Your_email_is_successfully_verified": "Congratulations! Your email is successfully verified.",
+    "Back_to_log_in": "Back to log in",
+    "Verification_timed_out_please_resend_verification_link": "Verification timed out, please resend verification link.",
+    "Return": "Return",
+    "Resend_Link": "Resend Link"
+  },
   "Profile": {
     "Setting": {
       "My_Profile": "My Profile",
       "Edit": "Edit",
       "Change_name": "Change name",
+      "Enter_your_first_name": "Enter your first name",
+      "Enter_your_last_name": "Enter your last name",
       "Email_Address": "Email Address",
       "Change_email": "Change email",
       "Enter_your_new_email": "Enter_your_new_email",

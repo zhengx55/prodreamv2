@@ -47,7 +47,7 @@ const Card = ({ item, lang }: Props) => {
       <div className='flex h-1/5 w-full flex-col justify-between rounded-b-lg px-2 py-2'>
         <div className='flex-between'>
           <p className='subtle-regular text-shadow'>
-            {t('Card.Opened')} {formatTimestamphh_number(item.update_time)}
+            {t('Card.Opened')} {formatTimestamphh_number(item.update_time, lang)}
           </p>
           <HistoryDropDown item={item} />
         </div>
