@@ -45,7 +45,7 @@ const Detection = () => {
     },
     onError: async () => {
       const { toast } = await import('sonner');
-      toast.error('Something went wrong, please try again later');
+      toast.error(t('Detection.Something_went_wrong_please_try_again_later'));
     },
     onSettled: () => {
       setGenerating(false);
@@ -59,7 +59,7 @@ const Detection = () => {
     editor_text = editor?.getText()?.replace(title!, '').trimStart();
     if (!editor_text) {
       const { toast } = await import('sonner');
-      toast.error('Please write something first');
+      toast.error(t('Detection.Please_write_something_first'));
       return;
     }
     await detection({ text: editor_block });

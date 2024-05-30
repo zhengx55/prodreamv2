@@ -57,14 +57,12 @@ const PromptView = ({ show }: { show: boolean }) => {
       saveDoc(params),
     onError: async () => {
       const { toast } = await import('sonner');
-      toast.error(
-        'Something went wrong when setting essay prompt, please try again later'
-      );
+      toast.error(t('Prompt.Something_went_wrong_when_setting_essay_prompt'));
     },
     onSuccess: async (_data, variables) => {
       const { toast } = await import('sonner');
       updateEssayPrompt(variables.brief_description);
-      toast.success('Successfully set essay prompt');
+      toast.success(t('Prompt.Successfully_set_essay_prompt'));
     },
   });
 
