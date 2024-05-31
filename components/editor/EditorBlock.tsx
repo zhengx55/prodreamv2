@@ -37,7 +37,7 @@ const EditorBlock = ({ editor, ...props }: Props) => {
       {showCopilotMenu && <AiMenu {...props} editor={editor} />}
       {showCitiationMenu && <CitationMenu editor={editor} />}
       {showContinue && <Trigger t={props.t} editor={editor} />}
-      <BubbleMenu t={props.t} editor={editor} />
+      <BubbleMenu editor={editor} />
       <EditorContent spellCheck={false} editor={editor} />
       <Reference />
     </div>

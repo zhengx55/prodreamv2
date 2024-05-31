@@ -95,7 +95,7 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
   };
   return (
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
-      <Title t={t} />
+      <Title />
       <AnimatePresence mode='wait'>
         {isChecking ? (
           <m.div

@@ -90,12 +90,11 @@ const HeroShowCaseCarousel = () => {
 
 const HeroCarousel = ({
   clickCallback,
-  t,
 }: {
   clickCallback: (index: number) => void;
-  t: HomePageDicType['t'];
 }) => {
   const [api, setApi] = React.useState<CarouselApi>();
+  const t = useTranslations('Homepage');
 
   api?.on('select', (value) => {
     clickCallback(value.selectedScrollSnap());
@@ -135,10 +134,10 @@ const HeroCarousel = ({
                 priority={index === 0 ? true : false}
               />
               <h2 className='small-regular'>
-                {t[`HeroInfo_title_${index + 1}` as keyof typeof t]}
+                {t(`HeroInfo_title_${index + 1}`)}
               </h2>
               <p className='subtle-regular text-shadow-100'>
-                {t[`HeroInfo_text_${index + 1}` as keyof typeof t]}
+                {t(`HeroInfo_text_${index + 1}`)}
               </p>
             </CarouselItem>
           );

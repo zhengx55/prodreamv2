@@ -3,16 +3,18 @@ import { useQueryClient } from '@tanstack/react-query';
 import { LogOut, User2 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { memo } from 'react';
 import { useCookies } from 'react-cookie';
 import { DropdownMenuContent, DropdownMenuItem } from '../ui/dropdown-menu';
 type Props = {
   lang: Locale;
 };
-const UserInfoDropdown = ({ lang }: Props) => {
+const UserInfoDropdown = () => {
   const [_cookies, _setCookie, removeCookie] = useCookies(['token']);
   const router = useRouter();
+  const { lang } = useParams();
+  const isInCN = lang === 'cn';
   const queryClient = useQueryClient();
   const t = useTranslations('Editor');
   const logOut = () => {

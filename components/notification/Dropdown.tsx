@@ -90,8 +90,8 @@ const Dropdown = () => {
   );
 };
 
-export async function getServerSideProps({ req }) {
-  const lang = req.headers.get('x-next-intl-locale');
+export async function getServerSideProps({ req }: { req: any }) {
+  const lang = req.headers['x-next-intl-locale'];
 
   return {
     props: {

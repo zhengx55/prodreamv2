@@ -18,9 +18,8 @@ const secondaryColor = ['#D5F9D8', '#F2F4FF', '#FFEACC'];
 type Props = {
   result: IDetectionResult;
   recheck: () => Promise<void>;
-  t: EditorDictType;
 };
-const Result = ({ result, t, recheck }: Props) => {
+const Result = ({ result, recheck }: Props) => {
   const trans = useTranslations('Editor');
   const ai_percent = result.class_probabilities.ai * 100;
   const human_percent = result.class_probabilities.human * 100;

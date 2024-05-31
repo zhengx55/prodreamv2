@@ -48,7 +48,7 @@ const SearchList = ({ t }: { t: EditorDictType }) => {
 
   return (
     <>
-      <Title t={t} />
+      <Title />
       <section className='relative flex flex-1 flex-col overflow-visible overflow-y-auto'>
         <Spacer y='10' />
         <SearchBar
