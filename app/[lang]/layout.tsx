@@ -5,10 +5,12 @@ import Hotjar from '@/htojar/Hotjar';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
+import {NextIntlClientProvider} from 'next-intl';
+import {getMessages, getTranslations} from 'next-intl/server';
 import localFont from 'next/font/local';
 import { Suspense } from 'react';
 import { Toaster } from 'sonner';
-import { i18n, type Locale } from '../../i18n-config';
+import { locales } from '../../i18n';
 import './globals.css';
 
 const poppins = Poppins({
@@ -64,7 +66,8 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
-  return i18n.locales.map((locale) => ({ lang: locale }));
+  
+  return locales.map((locale) => ({ lang: locale }));
 }
 
 export default async function RootLayout({
@@ -72,8 +75,11 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { lang: Locale };
+  params: { lang: string };
 }) {
+
+  const messages = await getMessages();
+
   return (
     <html
       lang={params.lang}
@@ -82,18 +88,23 @@ export default async function RootLayout({
     >
       {process.env.NODE_ENV === 'production' && <Hotjar />}
       <body>
+        
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
         >
-          <TanstackProvider>
-            <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
-              <Suspense>
-                <PageViewTrack />
-              </Suspense>
-              {children}
-              <Toaster richColors visibleToasts={1} closeButton />
-            </main>
-          </TanstackProvider>
+            
+            <TanstackProvider>
+              <NextIntlClientProvider messages={messages}>
+                <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
+                  <Suspense>
+                    <PageViewTrack />
+                  </Suspense>
+                  {children}
+                  <Toaster richColors visibleToasts={1} closeButton />
+                </main>
+              </NextIntlClientProvider>
+            </TanstackProvider>
+
         </GoogleOAuthProvider>
       </body>
     </html>

@@ -2,6 +2,7 @@ import { chat, pdfSummary } from '@/query/api';
 import { useChatbot } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { v4 } from 'uuid';
 
 export default function useChat() {
@@ -14,6 +15,7 @@ export default function useChat() {
     (state) => state.updateCurrentSession
   );
   const [value, setValue] = useState<string>('');
+  const trans = useTranslations('Editor');
 
   const { mutateAsync: summary, isPending: isSummarzing } = useMutation({
     mutationFn: (params: {
@@ -29,7 +31,7 @@ export default function useChat() {
       const new_mine_id = v4();
       appendMessage({
         type: 'mine',
-        text: 'Summarize this file',
+        text: trans('Hooks.useChat.Summarize_this_file'),
         id: new_mine_id,
         filename: variables.attachment.filename,
       });
@@ -53,7 +55,8 @@ export default function useChat() {
     },
     onError: async (error) => {
       const { toast } = await import('sonner');
-      toast.error('Failed to summarize pdf, please try again later.');
+      const errorMessage = trans('Hooks.useChat.Failed_to_summarize_pdf');
+      toast.error(errorMessage);
     },
   });
 
@@ -94,7 +97,8 @@ export default function useChat() {
     },
     onError: async (error) => {
       const { toast } = await import('sonner');
-      toast.error('Failed to send message, please try again later.');
+      const errorMessage = trans('Hooks.useChat.Failed_to_send_message');
+      toast.error(errorMessage);
     },
   });
 

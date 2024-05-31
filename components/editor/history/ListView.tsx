@@ -2,6 +2,7 @@
 import Icon from '@/components/root/Icon';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { IDocDetail } from '@/query/type';
+import { useTranslations } from 'next-intl';
 import { DocPageDicType } from '@/types';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -10,6 +11,8 @@ type Props = {
   list: IDocDetail[];
 } & DocPageDicType;
 const ListView = ({ list, t, lang }: Props) => {
+  const trans = useTranslations('Editor');
+
   return (
     <ul role='list' className='flex w-[1100px] flex-col gap-y-2'>
       {list.map((item) => (
@@ -30,13 +33,13 @@ const ListView = ({ list, t, lang }: Props) => {
               />
               <p className='small-regular capitalize'>
                 {item.title === 'Untitled' || !item.title
-                  ? 'Untitled Document'
+                  ? trans('Card.Untitled_Document')
                   : item.title}
               </p>
             </span>
             <div className='flex-between w-1/3'>
               <p className='small-regular text-shadow'>
-                Opened {formatTimestamphh_number(item.update_time)}
+                {trans('Card.Opened')} {formatTimestamphh_number(item.update_time, lang)}
               </p>
               <HistoryDropDown item={item} />
             </div>

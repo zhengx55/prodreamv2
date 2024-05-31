@@ -6,8 +6,11 @@ import {
   Copilot_Try,
 } from '@/components/root/SvgComponents';
 import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 
 export const useAiOptions = () => {
+  const trans = useTranslations('Editor');
+
   const options = useMemo(() => {
     return [
       {

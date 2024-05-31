@@ -26,6 +26,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 
 # vercel
 .vercel
@@ -35,3 +36,4 @@ yarn-error.log*
 next-env.d.ts
 
 /_archived_
+

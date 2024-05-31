@@ -7,6 +7,7 @@ import { EditorDictType } from '@/types';
 import useAIEditor, { useUserTask } from '@/zustand/store';
 import { AnimatePresence, Variants, m } from 'framer-motion';
 import { ChevronDown, ChevronUp, XCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { memo, useState } from 'react';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
@@ -20,6 +21,7 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
   const [show, setShow] = useState(true);
   const { data: userTrack } = useUserTrackInfo();
   const editor = useAIEditor((state) => state.editor_instance);
+  const trans = useTranslations('Editor');
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const closeRightbar = useAIEditor((state) => state.closeRightbar);
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
@@ -80,7 +82,7 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
         className='flex-between rounded-lg bg-violet-500 p-2 text-white'
         onClick={() => setShow((prev) => !prev)}
       >
-        <p className='small-medium'>{t.CheckList.title}</p>
+        <p className='small-medium'>{trans('CheckList.title')}</p>
         {Finsh ? (
           <XCircle
             size={18}
@@ -133,37 +135,37 @@ const CheckList = ({ t }: { t: EditorDictType }) => {
             className='flex w-[300px] flex-col rounded-b-lg bg-white px-4 shadow-lg'
           >
             <Spacer y='12' />
-            <p className='small-regular'>{t.CheckList.describtion}</p>
+            <p className='small-regular'>{trans('CheckList.description')}</p>
             <Spacer y='12' />
-            <h2 className='base-medium'>{t.CheckList.format_1}</h2>
+            <h2 className='base-medium'>{trans('CheckList.format_1')}</h2>
             <Spacer y='12' />
             <ul className='flex flex-col gap-y-2.5'>
               <TaskItem
                 taskCompleted={!!userTrack?.ai_copilot_task}
-                label={t.CheckList.copilot}
+                label={trans('CheckList.copilot')}
                 onClickHandler={() => selectHandler(0)}
                 t={t}
               />
               <TaskItem
                 taskCompleted={!!userTrack?.citation_task}
-                label={t.CheckList.citation}
+                label={trans('CheckList.citation')}
                 onClickHandler={() => selectHandler(3)}
                 t={t}
               />
             </ul>
             <Spacer y='12' />
-            <h2 className='base-medium'>{t.CheckList.format_2}</h2>
+            <h2 className='base-medium'>{trans('CheckList.format_2')}</h2>
             <Spacer y='12' />
             <ul className='flex flex-col gap-y-2.5'>
               <TaskItem
                 taskCompleted={!!userTrack?.continue_writing_task}
-                label={t.CheckList.continue}
+                label={trans('CheckList.continue')}
                 onClickHandler={() => selectHandler(1)}
                 t={t}
               />
               <TaskItem
                 taskCompleted={!!userTrack?.generate_tool_task}
-                label={t.CheckList.generate}
+                label={trans('CheckList.generate')}
                 onClickHandler={() => selectHandler(2)}
                 t={t}
               />
@@ -187,28 +189,32 @@ const TaskItem = ({
   label: string;
   onClickHandler: () => void;
   t: EditorDictType;
-}) => (
-  <li className='flex-between'>
-    <div className='flex items-center gap-x-2'>
-      <Checkbox
-        disabled
-        checked={taskCompleted}
-        className='border-black-400 h-4 w-4 rounded-full'
-      />
-      <label
-        className={`subtle-regular ${taskCompleted ? 'text-neutral-400 line-through' : ''}`}
-      >
-        {label}
-      </label>
-    </div>
-    {!taskCompleted && (
-      <span
-        role='button'
-        onClick={onClickHandler}
-        className='subtle-regular min-w-14 cursor-pointer text-violet-500'
-      >
-        {t.CheckList.Show}
-      </span>
-    )}
-  </li>
-);
+}) => {
+  const trans = useTranslations('Editor');
+
+  return (
+    <li className='flex-between'>
+      <div className='flex items-center gap-x-2'>
+        <Checkbox
+          disabled
+          checked={taskCompleted}
+          className='border-black-400 h-4 w-4 rounded-full'
+        />
+        <label
+          className={`subtle-regular ${taskCompleted ? 'text-neutral-400 line-through' : ''}`}
+        >
+          {label}
+        </label>
+      </div>
+      {!taskCompleted && (
+        <span
+          role='button'
+          onClick={onClickHandler}
+          className='subtle-regular min-w-14 cursor-pointer text-violet-500'
+        >
+          {trans('CheckList.Show')}
+        </span>
+      )}
+    </li>
+  );
+} 

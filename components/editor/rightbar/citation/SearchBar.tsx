@@ -5,6 +5,7 @@ import { CitationTooltip } from '@/constant/enum';
 import { ICitation } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
+import { useTranslations } from 'next-intl';
 import { Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
@@ -21,6 +22,7 @@ type Props = {
 const SearchBar = ({ setKeyword, setResult, t }: Props) => {
   const citation_tooltip_step = useUserTask((state) => state.citation_step);
   const updateCitationStep = useUserTask((state) => state.updateCitationStep);
+  const trans = useTranslations('Editor');
   const [searchTerm, setSearchTerm] = useState('');
   return (
     <div className='flex-between h-12 w-full rounded border border-gray-200 px-1.5'>
@@ -43,7 +45,7 @@ const SearchBar = ({ setKeyword, setResult, t }: Props) => {
             onChange={(e) => setSearchTerm(e.currentTarget.value)}
             type='text'
             id='search-citation'
-            placeholder={t.Citation.search}
+            placeholder={trans('Citation.search')}
             className='rounded border-none px-2 shadow-none outline-none focus-visible:ring-0'
           />
         </Tiplayout>
@@ -58,7 +60,7 @@ const SearchBar = ({ setKeyword, setResult, t }: Props) => {
           }
           type='text'
           id='search-citation'
-          placeholder={t.Citation.search}
+          placeholder={trans('Citation.search')}
           className='rounded border-none px-2 shadow-none outline-none focus-visible:ring-0'
         />
       )}

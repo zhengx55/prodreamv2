@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { EditorDictType } from '@/types';
 import { useCitation } from '@/zustand/store';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import Title from '../../Title';
@@ -10,6 +11,7 @@ import LibraryList from './LibraryList';
 const InTextList = dynamic(() => import('./InTextList'));
 
 const CitationLibrary = ({ t }: { t: EditorDictType }) => {
+  const trans = useTranslations('Editor');
   const IndocCitationIds = useCitation((state) => state.inDocCitationIds);
   const InTextCitationIds = useCitation((state) => state.inTextCitationIds);
   return (
@@ -21,13 +23,13 @@ const CitationLibrary = ({ t }: { t: EditorDictType }) => {
             value='library'
             className='border-b-[3px] border-transparent data-[state=active]:border-violet-500 data-[state=active]:text-violet-500'
           >
-            {t.Citation.my_library}
+            {trans('Citation.my_library')}
           </TabsTrigger>
           <TabsTrigger
             value='doc'
             className='border-b-[3px] border-transparent data-[state=active]:border-violet-500 data-[state=active]:text-violet-500'
           >
-            {t.Citation.in_this_doc}
+            {trans('Citation.in_this_doc')}
           </TabsTrigger>
         </TabsList>
 

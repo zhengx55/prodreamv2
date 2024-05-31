@@ -6,14 +6,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getDictionary } from '@/lib/get-dictionary';
 import type { Editor } from '@tiptap/react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 type Props = {
   editor: Editor;
-  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
 };
-const CountDropdown = ({ editor, t }: Props) => {
+const CountDropdown = ({ editor }: Props) => {
   const [type, setType] = useState('word');
+  const trans = useTranslations('Editor');
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,14 +23,14 @@ const CountDropdown = ({ editor, t }: Props) => {
           <span className='flex h-full cursor-pointer items-center px-2 hover:bg-gray-200'>
             <p className='small-regular text-shadow'>
               {editor.storage.characterCount.words()}
-              &nbsp;{t.BubbleMenu.words}
+              &nbsp;{trans('BubbleMenu.words')}
             </p>
           </span>
         ) : (
           <span className='flex h-full cursor-pointer items-center px-2 hover:bg-gray-200'>
             <p className='small-regular text-shadow'>
               {editor.storage.characterCount.characters()}
-              &nbsp;{t.BubbleMenu.characters}
+              &nbsp;{trans('BubbleMenu.characters')}
             </p>
           </span>
         )}
@@ -43,7 +45,7 @@ const CountDropdown = ({ editor, t }: Props) => {
         >
           <span className='small-regular text-shadow'>
             {editor.storage.characterCount.words()}
-            &nbsp;Words
+            &nbsp;{trans('BubbleMenu.words')}
           </span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -53,7 +55,7 @@ const CountDropdown = ({ editor, t }: Props) => {
         >
           <span className='small-regular text-shadow'>
             {editor.storage.characterCount.characters()}
-            &nbsp;Characters
+            &nbsp;{trans('BubbleMenu.characters')}
           </span>
         </DropdownMenuItem>
       </DropdownMenuContent>

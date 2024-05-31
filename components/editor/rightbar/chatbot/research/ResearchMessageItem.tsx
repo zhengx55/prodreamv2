@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Copy, ThumbsDown, Triangle } from 'lucide-react';
 import { Route } from 'next';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { memo, useState } from 'react';
 import { useUpdateEffect } from 'react-use';
 
@@ -13,6 +14,7 @@ type Props = { message: AIResearchMessage; t: EditorDictType; index: number };
 const ResearchMessageItem = ({ message, t, index }: Props) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const researchList = useChatbot((state) => state.researchList);
+  const trans = useTranslations('Editor');
 
   useUpdateEffect(() => {
     isExpanded && setIsExpanded(false);
@@ -63,7 +65,7 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
                   className='size-max p-1'
                 >
                   <Copy size={16} className='text-stone-400' />
-                  <p className='subtle-regular text-stone-400'>Copy</p>
+                  <p className='subtle-regular text-stone-400'>{trans('Chat.ChatInput.Copy')}</p>
                 </Button>
                 <Button role='button' variant={'icon'} className='size-max p-1'>
                   <ThumbsDown size={16} className='text-stone-400' />

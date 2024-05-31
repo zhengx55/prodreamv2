@@ -6,6 +6,7 @@ import { contributorAnimation } from '@/constant';
 import { useCreateCustomCitation, useUpdateCitation } from '@/query/query';
 import { IJournalCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
+import { useTranslations } from 'next-intl';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -22,6 +23,8 @@ const JournalForm = ({
   const { id } = useParams();
   const { mutateAsync: handleCreate } = useCreateCustomCitation();
   const { mutateAsync: handleUpdate } = useUpdateCitation();
+  const t = useTranslations('Editor');
+
   const { register, handleSubmit, control, setValue, getValues } =
     useForm<IJournalCitation>({
       defaultValues: !data
@@ -118,10 +121,10 @@ const JournalForm = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
       <Spacer y='20' />
-      <h1 className='base-semibold'>What I&apos;m citing</h1>
+      <h1 className='base-semibold'>{t('CustomCitation.What_I_am_citing')}</h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='article_title'>
-        Article Title
+        {t('CustomCitation.JournalMenu.Article_Title')}
       </label>
       <Input
         type='text'
@@ -130,7 +133,9 @@ const JournalForm = ({
         {...register('article_title')}
       />
       <Spacer y='20' />
-      <h1 className='base-semibold'>Contributors</h1>
+      <h1 className='base-semibold'>
+        {t('CustomCitation.JournalMenu.Contributors')}
+      </h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2 '>
           {fields.map((contributor, index) => (
@@ -147,7 +152,7 @@ const JournalForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.first_name`}
                 >
-                  First Name
+                  {t('CustomCitation.JournalMenu.First_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.first_name`}
@@ -161,7 +166,7 @@ const JournalForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.middle_name`}
                 >
-                  MI/ Middle
+                  {t('CustomCitation.JournalMenu.Middle_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.middle_name`}
@@ -176,7 +181,7 @@ const JournalForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.last_name`}
                 >
-                  Last Name
+                  {t('CustomCitation.JournalMenu.Last_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.last_name`}
@@ -204,13 +209,17 @@ const JournalForm = ({
         onClick={appendContributor}
       >
         <PlusCircle className='fill-violet-500 text-white' size={22} />
-        <p className='text-violet-500'> Add Contributor</p>
+        <p className='text-violet-500'>
+          {t('CustomCitation.JournalMenu.Add_Contributor')}
+        </p>
       </Button>
       <Spacer y='20' />
-      <h1 className='base-semibold'>Journal publication info</h1>
+      <h1 className='base-semibold'>
+        {t('CustomCitation.JournalMenu.Journal_Publication_Info')}
+      </h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='journal_title'>
-        Journal title
+        {t('CustomCitation.JournalMenu.Journal_Title')}
       </label>
       <Input
         type='text'
@@ -219,13 +228,15 @@ const JournalForm = ({
         {...register('journal_title')}
       />
       <Spacer y='16' />
-      <h2 className='small-regular text-neutral-400'>Advanced info</h2>
+      <h2 className='small-regular text-neutral-400'>
+        {t('CustomCitation.JournalMenu.Advanced_Info')}
+      </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
             id='advanced_info.volum'
-            placeholder='Volume'
+            placeholder={t('CustomCitation.JournalMenu.Volume')}
             className='focus-visible:ring-0'
             {...register('advanced_info.volume')}
           />
@@ -233,7 +244,7 @@ const JournalForm = ({
         <div className='flex flex-col'>
           <Input
             id='advanced_info.issue'
-            placeholder='Issue'
+            placeholder={t('CustomCitation.JournalMenu.Issue')}
             type='text'
             className='focus-visible:ring-0'
             {...register('advanced_info.issue')}
@@ -243,20 +254,22 @@ const JournalForm = ({
           <Input
             id='advanced_info.series'
             type='Series'
-            placeholder='Year'
+            placeholder={t('CustomCitation.JournalMenu.Year')}
             className='focus-visible:ring-0'
             {...register('advanced_info.series')}
           />
         </div>
       </div>
       <Spacer y='16' />
-      <h2 className='small-regular text-neutral-400'>Date published</h2>
+      <h2 className='small-regular text-neutral-400'>
+        {t('CustomCitation.JournalMenu.Date_Published')}
+      </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
             id='publish_date.day'
-            placeholder='Day'
+            placeholder={t('CustomCitation.JournalMenu.Day')}
             className='focus-visible:ring-0'
             {...register('publish_date.day')}
           />
@@ -271,20 +284,22 @@ const JournalForm = ({
           <Input
             id='publish_date.year'
             type='text'
-            placeholder='Year'
+            placeholder={t('CustomCitation.JournalMenu.Year')}
             className='focus-visible:ring-0'
             {...register('publish_date.year')}
           />
         </div>
       </div>
       <Spacer y='16' />
-      <h2 className='small-regular text-neutral-400'>Pages</h2>
+      <h2 className='small-regular text-neutral-400'>
+        {t('CustomCitation.JournalMenu.Pages')}
+      </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
             id='page_info.start'
-            placeholder='Start'
+            placeholder={t('CustomCitation.JournalMenu.Start')}
             className='focus-visible:ring-0'
             {...register('page_info.start')}
           />
@@ -292,7 +307,7 @@ const JournalForm = ({
         <div className='flex flex-col'>
           <Input
             id='page_info.end'
-            placeholder='End'
+            placeholder={t('CustomCitation.JournalMenu.End')}
             type='text'
             className='focus-visible:ring-0'
             {...register('page_info.end')}
@@ -301,7 +316,7 @@ const JournalForm = ({
       </div>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='doi'>
-        DOI
+        {t('CustomCitation.JournalMenu.DOI')}
       </label>
       <Input
         type='text'
@@ -317,10 +332,10 @@ const JournalForm = ({
           type='button'
           onClick={handleCancel}
         >
-          Cancel
+          {t('CustomCitation.Cancel')}
         </Button>
         <Button type='submit' className='size-max rounded px-4 py-1'>
-          Save
+          {t('CustomCitation..Save')}
         </Button>
       </div>
     </form>

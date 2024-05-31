@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { EditorDictType } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { ChevronLeft } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 import Book from './form/Book';
 import Journal from './form/Journal';
@@ -13,6 +14,8 @@ const CustomCitation = ({ t }: { t: EditorDictType }) => {
   const updateShowCreateCitation = useCitation(
     (state) => state.updateShowCreateCitation
   );
+  const trans = useTranslations('Editor');
+
   return (
     <section className='relative flex h-full w-full flex-col overflow-hidden'>
       <div className='flex items-center gap-x-2'>
@@ -24,7 +27,7 @@ const CustomCitation = ({ t }: { t: EditorDictType }) => {
         >
           <ChevronLeft size={20} />
         </Button>
-        <h2 className='title-medium'>Add Customzied Citaitons</h2>
+        <h2 className='title-medium'>{trans('CustomCitation.Add_Customized_Citations')}</h2>
       </div>
       <Spacer y='20' />
       <Tabs defaultValue='Website' className='h-full w-full overflow-y-auto'>
@@ -33,19 +36,19 @@ const CustomCitation = ({ t }: { t: EditorDictType }) => {
             className='border-b-[3px] border-transparent data-[state=active]:border-violet-500 data-[state=active]:text-violet-500'
             value='Website'
           >
-            Website
+            {trans('CustomCitation.Website')}
           </TabsTrigger>
           <TabsTrigger
             className='border-b-[3px] border-transparent data-[state=active]:border-violet-500 data-[state=active]:text-violet-500'
             value='Book'
           >
-            Book
+            {trans('CustomCitation.Book')}
           </TabsTrigger>
           <TabsTrigger
             className='border-b-[3px] border-transparent data-[state=active]:border-violet-500 data-[state=active]:text-violet-500'
             value='Journal'
           >
-            Journal
+            {trans('CustomCitation.Journal')}
           </TabsTrigger>
         </TabsList>
         <TabsContent value='Website'>

@@ -10,11 +10,11 @@ import {
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { saveDoc } from '@/query/api';
-import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { useMutation } from '@tanstack/react-query';
 import { XCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Route } from 'next';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { ChangeEvent, useReducer, useState } from 'react';
@@ -42,13 +42,14 @@ function reducer(state: State, action: Action) {
       throw new Error(`Unhandled action type: ${action.type}`);
   }
 }
-const PromptView = ({ t, show }: { t: EditorDictType; show: boolean }) => {
+const PromptView = ({ show }: { show: boolean }) => {
   const [{ content, wordCount }, dispatch] = useReducer(reducer, {
     ...initialState,
     content: '',
     wordCount: 0,
   });
   const { id } = useParams();
+  const t = useTranslations('Editor');
   const router = useRouter();
   const pathName = usePathname();
   const { mutateAsync: savePrompt, isPending } = useMutation({
@@ -56,14 +57,12 @@ const PromptView = ({ t, show }: { t: EditorDictType; show: boolean }) => {
       saveDoc(params),
     onError: async () => {
       const { toast } = await import('sonner');
-      toast.error(
-        'Something went wrong when setting essay prompt, please try again later'
-      );
+      toast.error(t('Prompt.Something_went_wrong_when_setting_essay_prompt'));
     },
     onSuccess: async (_data, variables) => {
       const { toast } = await import('sonner');
       updateEssayPrompt(variables.brief_description);
-      toast.success('Successfully set essay prompt');
+      toast.success(t('Prompt.Successfully_set_essay_prompt'));
     },
   });
 
@@ -96,10 +95,10 @@ const PromptView = ({ t, show }: { t: EditorDictType; show: boolean }) => {
       >
         <DialogHeader>
           <DialogTitle className='text-2xl font-medium leading-[160%] '>
-            {t.Prompt.Title}
+            {t('Prompt.Title')}
           </DialogTitle>
           <DialogDescription className='h-[25px] w-[579px] text-sm font-normal leading-[160%] text-zinc-500 '>
-            {t.Prompt.PlaceHolder}
+            {t('Prompt.PlaceHolder')}
           </DialogDescription>
           <DialogClose
             onClick={removeSearchParams}
@@ -115,11 +114,11 @@ const PromptView = ({ t, show }: { t: EditorDictType; show: boolean }) => {
           aria-label='essay prompt'
           id='essay-prompt'
           className='h-[107px] w-full rounded border border-solid border-gray-200 bg-white '
-          placeholder='An argumentative essay discussing challenges and strategies of conserving biodiversity in the Amazon rainforest'
+          placeholder={t('Prompt.An_argumentative_essay_discussing_challenges_and_strategies_of_conserving_biodiversity_in_the_Amazon_rainforest')}
         />
         <DialogFooter className='sm:justify-between'>
           <div className='flex items-center'>
-            <p className='base-regular'>{t.Prompt.Strength} :</p>&nbsp;&nbsp;
+            <p className='base-regular'>{t('Prompt.Strength')} :</p>&nbsp;&nbsp;
             <div className='flex items-center gap-x-0.5'>
               {wordCount < 5 ? (
                 <span className='h-2 w-20 rounded-[41px] bg-slate-200' />
@@ -143,7 +142,7 @@ const PromptView = ({ t, show }: { t: EditorDictType; show: boolean }) => {
             disabled={isPending}
             className='w-99 inline-flex h-8 items-center gap-2.5 rounded bg-purple-700 px-4 py-2 text-white'
           >
-            Start Writing
+            {t('Prompt.Start_Writing')}
           </Button>
         </DialogFooter>
       </DialogContent>

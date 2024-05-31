@@ -5,6 +5,7 @@ import useButtonTrack from '@/hooks/useBtnTrack';
 import { useMutateTrackInfo } from '@/hooks/useTrackInfo';
 import { EditorDictType } from '@/types';
 import { useUserTask } from '@/zustand/store';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { forwardRef, memo } from 'react';
@@ -17,6 +18,7 @@ type Props = {
   t: EditorDictType;
 };
 const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
+  const trans = useTranslations('Editor');
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const outline_step = useUserTask((state) => state.outline_step);
   const generate_step = useUserTask((state) => state.generate_step);
@@ -40,7 +42,7 @@ const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
           className='h-auto w-auto object-contain'
         />
         <p className='base-regular text-center text-neutral-400'>
-          {t.Generate.SubTitle[type as keyof typeof t.Generate.SubTitle]}
+          {trans(`Generate.SubTitle.${type}`)}
         </p>
         {outline_step === 3 || generate_step === 1 ? (
           <Tiplayout
@@ -71,10 +73,10 @@ const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
               }
             }}
           >
-            <Btn label={t.Utility.Generate} onClick={handleGenerate} />
+            <Btn label={trans('Utility.Generate')} onClick={handleGenerate} />
           </Tiplayout>
         ) : (
-          <Btn label={t.Utility.Generate} onClick={handleGenerate} />
+          <Btn label={trans('Utility.Generate')} onClick={handleGenerate} />
         )}
       </div>
     </div>

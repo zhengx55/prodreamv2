@@ -18,6 +18,7 @@ import { resetPass } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { ReactNode, memo, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
@@ -32,6 +33,7 @@ const EditPassModal = ({ children }: Props) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [hideNewPassword, setHideNewPassword] = useState(true);
   const [show, setShow] = useState(false);
+  const t = useTranslations('Profile');
 
   const form = useForm<z.infer<typeof resetPass>>({
     resolver: zodResolver(resetPass),
@@ -65,7 +67,7 @@ const EditPassModal = ({ children }: Props) => {
       >
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
-            <p className='h2-bold mt-2 text-center'>Change Password</p>
+            <p className='h2-bold mt-2 text-center'>{t('Setting.Change_password')}</p>
             <DialogClose>
               <X className='self-end text-shadow' />
             </DialogClose>
@@ -97,7 +99,7 @@ const EditPassModal = ({ children }: Props) => {
                   <FormControl>
                     <Input
                       autoComplete='current-password'
-                      placeholder='Enter your old password'
+                      placeholder={t('Setting.Enter_your_old_password')}
                       className='h-14'
                       type={hidePassword ? 'password' : 'text'}
                       {...field}
@@ -128,7 +130,7 @@ const EditPassModal = ({ children }: Props) => {
                   <FormControl>
                     <Input
                       autoComplete='current-password'
-                      placeholder='Enter your new password'
+                      placeholder={t('Setting.Enter_your_new_password')}
                       className='h-14'
                       type={hideNewPassword ? 'password' : 'text'}
                       {...field}
@@ -141,11 +143,11 @@ const EditPassModal = ({ children }: Props) => {
             <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
               <DialogClose asChild>
                 <Button variant={'ghost'} className=' text-violet-500'>
-                  Cancel
+                  {t('Setting.Cancel')}
                 </Button>
               </DialogClose>
 
-              <Button type='submit'>Save</Button>
+              <Button type='submit'>{t('Setting.Save')}</Button>
             </div>
           </form>
         </Form>

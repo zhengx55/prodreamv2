@@ -5,6 +5,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 import Spacer from '../root/Spacer';
+import { useTranslations } from 'next-intl';
 import {
   Carousel,
   CarouselApi,
@@ -15,6 +16,8 @@ import {
 } from '../ui/carousel';
 
 const UniversityCarousel = () => {
+  const t = useTranslations('Homepage');
+
   return (
     <Carousel
       plugins={[
@@ -49,6 +52,8 @@ const UniversityCarousel = () => {
 };
 
 const HeroShowCaseCarousel = () => {
+  const t = useTranslations('Homepage');
+
   return (
     <Carousel
       plugins={[
@@ -145,8 +150,9 @@ const HeroCarousel = ({
   );
 };
 
-const HeroClientSection = ({ t }: { t: HomePageDicType['t'] }) => {
+const HeroClientSection = () => {
   const [selected, setSelected] = useState<number>(0);
+  const t = useTranslations('Homepage');
   const memoSetSelected = useCallback((index: number) => {
     setSelected(index);
   }, []);
@@ -173,10 +179,10 @@ const HeroClientSection = ({ t }: { t: HomePageDicType['t'] }) => {
                 priority={index === 0 ? true : false}
               />
               <h2 className='title-regular 2xl:h3-regular'>
-                {t[`HeroInfo_title_${index + 1}` as keyof typeof t]}
+                {t(`HeroInfo_title_${index + 1}`)}
               </h2>
               <p className='text-[12px] leading-relaxed text-shadow-100 2xl:text-xs'>
-                {t[`HeroInfo_text_${index + 1}` as keyof typeof t]}
+                {t(`HeroInfo_text_${index + 1}`)}
               </p>
             </span>
           );

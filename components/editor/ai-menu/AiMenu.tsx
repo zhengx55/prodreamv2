@@ -10,6 +10,7 @@ import { useMembershipInfo } from '@/hooks/useMemberShip';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { getSelectedText } from '@/lib/tiptap/utils';
+import { useTranslations } from 'next-intl';
 import { DocPageDicType, EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
@@ -48,6 +49,8 @@ const AiMenu = ({ editor, t }: Props) => {
   const elRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
+  const trans = useTranslations('Editor');
+
   const {
     hoverItem,
     setHoverItem,
@@ -72,7 +75,7 @@ const AiMenu = ({ editor, t }: Props) => {
     const selectedText = getSelectedText(editor);
     const words = selectedText.match(word_regex);
     if ((words?.length ?? 0) > 500) {
-      return toast.warning('Selected text should not exceed 500 words');
+      return toast.warning(trans('Copilot.Selected_text_should_not_exceed_500_words'));
     }
     if (!track?.ai_copilot_task) {
       await updateTrack({
@@ -247,7 +250,7 @@ const AiMenu = ({ editor, t }: Props) => {
                       )}
                       <Spacer y='5' />
                       <h3 className='small-semibold px-2.5 text-neutral-400'>
-                        {t.Copilot[item.format as keyof typeof t.Copilot]}
+                        {trans(`Copilot.${item.format}`)}
                       </h3>
                       <Spacer y='5' />
                       {item.options.map((option, option_idx) => {
@@ -266,11 +269,7 @@ const AiMenu = ({ editor, t }: Props) => {
                             <div className='flex items-center gap-x-2'>
                               {cloneElement(option.icon)}
                               <p className='small-regular'>
-                                {
-                                  t.Copilot[
-                                    option.name as keyof typeof t.Copilot
-                                  ]
-                                }
+                                {trans(`Copilot.${option.name}`)}
                               </p>
                             </div>
                             {option.submenu ? <ChevronRight size={18} /> : null}
@@ -292,11 +291,7 @@ const AiMenu = ({ editor, t }: Props) => {
                                     key={subitem.id}
                                   >
                                     <p className='small-regular'>
-                                      {
-                                        t.Copilot[
-                                          subitem.name as keyof typeof t.Copilot
-                                        ]
-                                      }
+                                      {trans(`Copilot.${subitem.name}`)}
                                     </p>
                                   </div>
                                 ))}
@@ -349,6 +344,8 @@ const Operation = ({
   isTyping,
   item,
 }: OperationProps) => {
+  const trans = useTranslations('Editor');
+
   return (
     <div
       className={` ${
@@ -364,7 +361,7 @@ const Operation = ({
           ? cloneElement(item.icon, { color: '#774EBB' })
           : cloneElement(item.icon)}
         <p className='small-regular group-hover:text-violet-500'>
-          {t.Copilot[item.name as keyof typeof t.Copilot]}
+          {trans(`Copilot.${item.name}`)}
         </p>
       </div>
     </div>
@@ -372,6 +369,8 @@ const Operation = ({
 };
 
 const Loader = () => {
+  const trans = useTranslations('Editor');
+  
   return (
     <div className='flex h-12 w-full items-center gap-x-2 rounded-t border border-gray-200 bg-white p-2 shadow-lg'>
       <Icon
@@ -382,7 +381,7 @@ const Loader = () => {
         className='size-6'
       />
       <p className='base-semibold text-violet-500'>
-        Al is writing <LoadingDot label='' />
+        {trans('AiMenu.AI_is_writing')} <LoadingDot label='' />
       </p>
     </div>
   );

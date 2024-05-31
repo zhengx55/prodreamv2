@@ -11,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { generateOutlineSchema } from '@/lib/validation';
+import { useTranslations } from 'next-intl';
 import { EditorDictType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -20,6 +21,7 @@ type Props = {
   t: EditorDictType;
 };
 const OutlineBtn = ({ handleGenerate, t }: Props) => {
+  const trans = useTranslations('Editor');
   const form = useForm<z.infer<typeof generateOutlineSchema>>({
     resolver: zodResolver(generateOutlineSchema),
     defaultValues: {
@@ -44,7 +46,7 @@ const OutlineBtn = ({ handleGenerate, t }: Props) => {
             render={({ field }) => (
               <FormItem className='relative'>
                 <FormLabel className='small-regular text-black' htmlFor='area'>
-                  {t.Generate.outline_form1}
+                  {trans('Generate.outline_form1')}
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -65,12 +67,12 @@ const OutlineBtn = ({ handleGenerate, t }: Props) => {
             render={({ field }) => (
               <FormItem className='relative'>
                 <FormLabel className='small-regular text-black' htmlFor='idea'>
-                  {t.Generate.outline_form2}
+                  {trans('Generate.outline_form2')}
                 </FormLabel>
                 <FormControl>
                   <Textarea
                     id='idea'
-                    placeholder={t.Generate.outline_placeholder}
+                    placeholder={trans('Generate.outline_placeholder')}
                     className='small-regular rounded focus-visible:ring-0'
                     {...field}
                   />
@@ -83,7 +85,7 @@ const OutlineBtn = ({ handleGenerate, t }: Props) => {
             type='submit'
             className='size-max self-center rounded px-8 py-2'
           >
-            {t.Utility.Generate}
+            {trans('Utility.Generate')}
           </Button>
         </form>
       </Form>

@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { IDocDetail } from '@/query/type';
 import { MoreVertical, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 const DeleteModal = dynamic(() => import('./DeleteModal'));
 
@@ -15,6 +16,8 @@ type Props = {
 };
 
 const HistoryDropDown = ({ item }: Props) => {
+  const t = useTranslations('Editor');
+
   return (
     <Dialog>
       <DropdownMenu>
@@ -31,7 +34,7 @@ const HistoryDropDown = ({ item }: Props) => {
         >
           <DialogTrigger asChild onClick={(e) => e.stopPropagation()}>
             <DropdownMenuItem className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'>
-              <Trash2 size={16} /> Delete
+              <Trash2 size={16} /> {t('HistoryDropDown.Delete')}
             </DropdownMenuItem>
           </DialogTrigger>
 

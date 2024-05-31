@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { RefreshCcw, XCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 
 const OPTIONS = [
@@ -14,19 +15,19 @@ const OPTIONS = [
 ];
 
 type Props = {
-  t: EditorDictType;
   showRecheck?: boolean;
   recheck?: () => Promise<void>;
 };
-const Title = ({ t, showRecheck, recheck }: Props) => {
+const Title = ({ showRecheck, recheck }: Props) => {
   const toggleRightbar = useAIEditor((state) => state.toggleRightbar);
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
+  const trans = useTranslations('Editor');
 
   return (
     <div className='flex-between mb-4'>
       <div className='flex items-center gap-x-3'>
         <h2 className='title-medium'>
-          {t.RightBar[OPTIONS[rightbarTab] as keyof typeof t.RightBar]}
+          {trans(`RightBar.${OPTIONS[rightbarTab]}`)}
         </h2>
         {showRecheck && (
           <Button
@@ -36,7 +37,7 @@ const Title = ({ t, showRecheck, recheck }: Props) => {
             onClick={recheck}
           >
             <RefreshCcw size={14} />
-            <p className='subtle-regular'>{t.Plagiarism.recheck}</p>
+            <p className='subtle-regular'>{trans('Plagiarism.recheck')}</p>
           </Button>
         )}
       </div>

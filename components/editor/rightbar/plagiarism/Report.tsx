@@ -4,6 +4,7 @@ import { EditorDictType, PdfResult } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 import Chart from './Chart';
 
@@ -11,6 +12,8 @@ const ReportPDF = dynamic(() => import('./ReportPDF'));
 
 const Report = ({ report, t }: { report: PdfResult; t: EditorDictType }) => {
   const plagiarismResult = useAIEditor((state) => state.plagiarismResult);
+  const trans = useTranslations('Editor');
+
   return (
     <m.div
       key={'plagiarism-panel'}

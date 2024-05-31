@@ -9,6 +9,7 @@ import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { useAIEditor, useCitation, useUserTask } from '@/zustand/store';
 import { Plus, ReplyAll, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
@@ -33,6 +34,8 @@ export const SearchCitationCard = memo(
     const { mutateAsync: handleCollect } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
     const { mutateAsync: ButtonTrack } = useButtonTrack();
+    const trans = useTranslations('Editor');
+
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
         const { toast } = await import('sonner');
@@ -80,7 +83,7 @@ export const SearchCitationCard = memo(
         </Dialog>
         <Spacer y='10' />
         <p className='subtle-regular line-clamp-2 text-zinc-500'>
-          Authors: {item.publication}
+          {trans('Citation.Authors')}: {item.publication}
         </p>
         <Spacer y='10' />
         <p className='small-regular line-clamp-3 text-zinc-600'>
@@ -89,7 +92,7 @@ export const SearchCitationCard = memo(
         <Spacer y='15' />
         <div className='flex items-center justify-between'>
           <p className='small-regular text-violet-500'>
-            Cited by {item.citation_count}
+            {trans('Citation.Cited_by')} {item.citation_count}
           </p>
           <div className='flex items-center gap-x-2'>
             {citation_tooltip_step === 3 && index === 0 ? (
@@ -110,7 +113,7 @@ export const SearchCitationCard = memo(
                   role='button'
                   onClick={() => handler(item as any, 'collect')}
                 >
-                  <Plus size={18} /> Add to library
+                  <Plus size={18} /> {trans('Citation.Add_to_library')}
                 </Button>
               </Tiplayout>
             ) : (
@@ -120,7 +123,7 @@ export const SearchCitationCard = memo(
                 role='button'
                 onClick={() => handler(item as any, 'collect')}
               >
-                <Plus size={18} /> Add to library
+                <Plus size={18} /> {trans('Citation.Add_to_library')}
               </Button>
             )}
             {citation_tooltip_step === 2 && index === 0 ? (
@@ -141,7 +144,7 @@ export const SearchCitationCard = memo(
                   onClick={() => handler(item as any, 'cite')}
                 >
                   <ReplyAll size={18} />
-                  Cite
+                  {trans('Citation.Cite')}
                 </Button>
               </Tiplayout>
             ) : (
@@ -151,7 +154,7 @@ export const SearchCitationCard = memo(
                 onClick={() => handler(item as any, 'cite')}
               >
                 <ReplyAll size={18} />
-                Cite
+                {trans('Citation.Cite')}
               </Button>
             )}
           </div>

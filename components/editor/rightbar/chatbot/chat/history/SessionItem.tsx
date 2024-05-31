@@ -3,6 +3,8 @@ import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { chatHistoryItem } from '@/query/api';
+import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { ChatResponse } from '@/query/type';
 import { useChatbot } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -11,6 +13,8 @@ import { memo } from 'react';
 
 type Props = { item: ChatResponse };
 const SessionItem = ({ item }: Props) => {
+  const { lang } = useParams();
+  const t = useTranslations();
   const updateDeleteModal = useChatbot((state) => state.updateDeleteModal);
   const updateDeleteSession = useChatbot((state) => state.updateDeleteSession);
   const updateMessageList = useChatbot((state) => state.updateMessageList);
@@ -70,7 +74,7 @@ const SessionItem = ({ item }: Props) => {
           {item.first_message}
         </h3>
         <p className='small-regular self-end text-neutral-400'>
-          {formatTimestamphh_number(item.update_time)}
+          {formatTimestamphh_number(item.update_time, lang as string)}
         </p>
       </div>
       <p className='small-regular line-clamp-3 text-neutral-400'>

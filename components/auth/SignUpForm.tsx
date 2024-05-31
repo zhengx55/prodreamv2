@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-
+import { useTranslations } from 'next-intl';
 import {
   Form,
   FormControl,
@@ -32,6 +32,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
   const searchParam = useSearchParams().get('from');
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
+  const trans = useTranslations('Auth');
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -95,7 +96,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
                   autoComplete='email'
                   type='email'
                   id='username'
-                  placeholder={t.FormEmail}
+                  placeholder={trans('FormEmail')}
                   className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
@@ -119,7 +120,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
                   autoComplete='current-password'
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
-                  placeholder={t.FormPassword}
+                  placeholder={trans('FormPassword')}
                   className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
@@ -138,7 +139,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
               }
               className='text-violet-500'
             >
-              {t.Signup.Term}
+              {trans('Signup.Term')}
             </Link>
             &nbsp; and
             <Link
@@ -148,7 +149,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
               }
               className='text-violet-500'
             >
-              &nbsp;{t.Signup.Privacy}
+              &nbsp;{trans('Signup.Privacy')}
             </Link>
           </p>
         )} */}
@@ -161,7 +162,7 @@ const SignUpForm = ({ t, lang }: AuthPageDicType) => {
           {isSignupPending && (
             <Loader2 className='animate-spin text-white' size={22} />
           )}
-          {t.Signup.Button}
+          {trans('Signup.Button')}
         </Button>
       </form>
     </Form>

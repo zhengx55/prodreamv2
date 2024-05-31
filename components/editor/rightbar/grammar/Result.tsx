@@ -11,6 +11,7 @@ import { useAIEditor } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { memo, useCallback } from 'react';
 import { useUnmount } from 'react-use';
+import { useTranslations } from 'next-intl';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 import SentenceFragment from './SentenceFragment';
 
@@ -21,6 +22,7 @@ type Props = {
 };
 const Result = ({ grammarResults, update, t }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
+  const trans = useTranslations('Editor');
 
   const handleDismiss = (index: number, group_index: number) => {
     const array = [...grammarResults];
@@ -131,7 +133,7 @@ const Result = ({ grammarResults, update, t }: Props) => {
         <div className='flex items-center gap-x-2'>
           <h2 className='small-semibold'>
             {grammarResults.length}&nbsp;
-            {t.Grammar.suggestions}
+            {trans('Grammar.suggestions')}
           </h2>
         </div>
         <div className='flex items-center'>
@@ -140,14 +142,14 @@ const Result = ({ grammarResults, update, t }: Props) => {
             variant={'secondary'}
             className='border-none text-violet-500'
           >
-            {t.Utility.AcceptAll}
+            {trans('Utility.AcceptAll')}
           </Button>
           <Button
             onClick={() => update([])}
             variant={'ghost'}
             className='text-zinc-600'
           >
-            {t.Utility.DismissAll}
+            {trans('Utility.DismissAll')}
           </Button>
         </div>
       </div>
@@ -199,7 +201,7 @@ const Result = ({ grammarResults, update, t }: Props) => {
                       }}
                       className='subtle-regular h-max w-max rounded px-6 py-1.5'
                     >
-                      {t.Utility.Accept}
+                      {trans('Utility.Accept')}
                     </Button>
                     <Button
                       role='button'
@@ -210,7 +212,7 @@ const Result = ({ grammarResults, update, t }: Props) => {
                       variant={'outline'}
                       className='subtle-regular h-max w-max rounded px-6 py-1.5'
                     >
-                      {t.Utility.Dismiss}
+                      {trans('Utility.Dismiss')}
                     </Button>
                   </div>
                 )}

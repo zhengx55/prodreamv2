@@ -1,4 +1,5 @@
 import AvatarChange from '@/components/profile/AvatarChange';
+import { useTranslations } from 'next-intl';
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -17,6 +18,7 @@ const EditPassword = dynamic(
 );
 
 const Setting = ({ userInfo }: { userInfo: LoginData }) => {
+  const t = useTranslations('Profile');
   return (
     <>
       <h1 className='title-medium'>My Profile</h1>
@@ -25,18 +27,18 @@ const Setting = ({ userInfo }: { userInfo: LoginData }) => {
       <Spacer y='40' />
       <AvatarChange />
       <Spacer y='32' />
-      <h2 className='title-semibold'>Email Address</h2>
+      <h2 className='title-semibold'>{t('Setting.Email_Address')}</h2>
       <Spacer y='10' />
       <div className='flex items-center gap-x-4'>
         <h2 className='base-regular text-shadow-100'>{userInfo.email}</h2>
         <EditEmail>
           <Button variant={'ghost'} className='h-max p-0'>
-            Change email
+            {t('Setting.Change_email')}
           </Button>
         </EditEmail>
       </div>
       <Spacer y='32' />
-      <h2 className='title-semibold'>Password</h2>
+      <h2 className='title-semibold'>{t('Setting.Password')}</h2>
       <Spacer y='10' />
       <div className='flex items-center gap-x-4'>
         <h2 className='base-regular text-shadow-100'>
@@ -44,7 +46,7 @@ const Setting = ({ userInfo }: { userInfo: LoginData }) => {
         </h2>
         <EditPassword>
           <Button variant={'ghost'} className='h-max p-0'>
-            Change password
+            {t('Setting.Change_password')}
           </Button>
         </EditPassword>
       </div>

@@ -2,6 +2,7 @@ import Spacer from '@/components/root/Spacer';
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
 import { getIpAddress } from '@/query/api';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import { ReactNode } from 'react';
 
@@ -14,6 +15,7 @@ export default async function AuthLayout({
 }) {
   const dict = await getDictionary(lang);
   const isInChina = await getIpAddress();
+  const t = await getTranslations('Auth');
 
   return isInChina ? (
     <div className='relative flex h-full w-full overflow-auto sm:min-h-[800px] sm:flex-row'>
@@ -22,7 +24,7 @@ export default async function AuthLayout({
         <h1
           className={`w-[85%] font-custom font-[400] sm:text-[40px] 2xl:text-[64px]`}
         >
-          前所未有的写作体验
+          {t('Slogan')}
         </h1>
         <Spacer y='80' />
         <Image
@@ -42,7 +44,7 @@ export default async function AuthLayout({
         <h1
           className={`w-[85%] ${lang === 'en' ? 'font-baskerville 2xl:text-[48px]' : 'font-custom 2xl:text-[64px]'} font-[400] sm:text-[40px]`}
         >
-          {dict.Auth.Slogan}
+          {t('Slogan')}
         </h1>
         <Spacer y='80' />
         <Image

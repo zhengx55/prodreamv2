@@ -6,6 +6,7 @@ import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
+import { getTranslations } from 'next-intl/server';
 import { getIpAddress } from '@/query/api';
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -20,6 +21,8 @@ export default async function Page({
   const dict = await getDictionary(lang);
   const cn_dict = await getDictionary('cn');
   const isInChina = await getIpAddress();
+  const t = await getTranslations('Auth');
+
   if (!isInChina)
     return (
       <Panel lang={lang}>
@@ -28,24 +31,24 @@ export default async function Page({
           <GoogleSignin
             searchParam={from}
             lang={lang}
-            label={dict.Auth.Signup.Google}
+            label={t('Signup.Google')}
           />
           <div className='flex-center relative my-10'>
             <Separator orientation='horizontal' className='bg-shadow-border' />
             <p className='small-regular absolute bg-white px-2 text-neutral-300'>
-              {dict.Auth.Login.GoogleDivider}
+              {t('Login.GoogleDivider')}
             </p>
           </div>
           <Suspense fallback={<div>Loading...</div>}>
             <SignUpForm t={dict.Auth} lang={lang} />
           </Suspense>
           <p className='base-regular mt-4 text-neutral-400'>
-            {dict.Auth.Signup.AlreadyLogged}&nbsp;
+            {t('Signup.AlreadyLogged')}&nbsp;
             <Link
               href={`/${lang}/login`}
               className='base-semibold text-violet-500 hover:underline'
             >
-              {dict.Auth.Login.Button}&nbsp;
+              {t('Login.Button')}&nbsp;
             </Link>
           </p>
         </div>

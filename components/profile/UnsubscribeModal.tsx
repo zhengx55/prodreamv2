@@ -2,6 +2,7 @@
 import { unSubscripeMembership } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { ReactNode } from 'react';
 import { Button } from '../ui/button';
 import {
@@ -22,13 +23,14 @@ const UnsubscribeModal = ({
   subscription_id: string;
 }) => {
   const router = useRouter();
+  const trans = useTranslations('Profile');
   const { mutateAsync: unsubscribe } = useMutation({
     mutationFn: (params: { subscription_id: string }) =>
       unSubscripeMembership(params),
     onSuccess: async () => {
       router.refresh();
       const { toast } = await import('sonner');
-      toast.success('Successfully unsubscribed');
+      toast.success(trans('UnsubscribeModal.Successfully_unsubscribed'));
     },
   });
 
@@ -42,12 +44,10 @@ const UnsubscribeModal = ({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='bg-white md:w-[600px] md:rounded-lg'>
         <DialogTitle className='h3-semibold'>
-          Are you sure you want to leave?
+          {trans('UnsubscribeModal.Are_you_sure_you_want_to_leave')}
         </DialogTitle>
         <DialogDescription className='base-regular text-neutral-400'>
-          You will lose benefits to unlimited AI generations, grammar check and
-          originality checks. Reconsider to keep enhancing your writing
-          effortlessly.
+          {trans('UnsubscribeModal.You_will_lose_benefits_to_unlimited_AI_generations_grammar_check_and_originality_checks_Reconsider_to_keep_enhancing_your_writing_effortlessly')}
         </DialogDescription>
         <DialogFooter>
           <DialogClose asChild>
@@ -57,12 +57,12 @@ const UnsubscribeModal = ({
               className='h-max border border-violet-500 py-1.5'
               onClick={handleUnsubscribe}
             >
-              Unsubscribe
+              {trans('UnsubscribeModal.Unsubscribe')}
             </Button>
           </DialogClose>
           <DialogClose asChild>
             <Button role='button' className='h-max py-1.5'>
-              Stay Subscribed
+              {trans('UnsubscribeModal.Stay_Subscribed')}
             </Button>
           </DialogClose>
         </DialogFooter>

@@ -2,15 +2,18 @@ import { HomePageDicType } from '@/types';
 import Image from 'next/image';
 import { memo } from 'react';
 import Spacer from '../root/Spacer';
+import { useTranslations } from 'next-intl';
 import CaptureProvider from './CaptureProvider';
 import { UniversityCarousel } from './LandingCarousel';
 
-const Banner = ({ t, lang }: HomePageDicType) => {
+const Banner = ({ lang }: HomePageDicType) => {
+  const t = useTranslations('Homepage');
+
   return (
     <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
       <Spacer y='20' />
       <CaptureProvider event='ScreenII'>
-        <p className='base-regular text-center'>{t.BannerInfo_sub_title}</p>
+        <p className='base-regular text-center'>{t('BannerInfo_sub_title')}</p>
       </CaptureProvider>
 
       <Spacer y='20' />
@@ -21,7 +24,7 @@ const Banner = ({ t, lang }: HomePageDicType) => {
       <div className='flex-center w-full flex-col px-4 sm:max-w-[1200px] sm:px-0 '>
         <div className='flex flex-col gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
           <div className='relative w-full rounded-2xl bg-violet-500 p-7 sm:w-[47%] '>
-            <h2 className='title-regular text-white'>{t.BannerInfo_title_1}</h2>
+            <h2 className='title-regular text-white'>{t('BannerInfo_title_1')}</h2>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               width='170'
@@ -38,7 +41,7 @@ const Banner = ({ t, lang }: HomePageDicType) => {
             </svg>
             <Spacer y='20' />
             <p className='text-xs leading-6 text-white'>
-              {t.BannerInfo_detail_1}
+              {t('BannerInfo_detail_1')}
             </p>
           </div>
           <div className='relative w-full rounded-2xl bg-blue-500 p-7 sm:w-[47%]'>
@@ -56,10 +59,10 @@ const Banner = ({ t, lang }: HomePageDicType) => {
                 fill='white'
               />
             </svg>
-            <h2 className='title-regular text-white'>{t.BannerInfo_title_2}</h2>
+            <h2 className='title-regular text-white'>{t('BannerInfo_title_2')}</h2>
             <Spacer y='20' />
             <p className='text-xs leading-6 text-white'>
-              {t.BannerInfo_detail_2}
+              {t('BannerInfo_detail_2')}
             </p>
           </div>
         </div>
@@ -68,13 +71,13 @@ const Banner = ({ t, lang }: HomePageDicType) => {
           <div className='flex w-full flex-col sm:max-w-[1200px] sm:flex-row sm:justify-between'>
             {lang === 'en' ? (
               <h1 className='text-center text-[16px] font-[500] sm:text-left sm:text-[18px]'>
-                {t.BannerInfo_footer}
-                <br className='hidden sm:block' /> {t.BannerInfo_footer_form}
+                {t('BannerInfo_footer')}
+                <br className='hidden sm:block' /> {t('BannerInfo_footer_form')}
               </h1>
             ) : (
               <h1 className='flex items-center justify-center text-center text-[16px] font-[500] sm:justify-start sm:text-left sm:text-[18px]'>
-                {t.BannerInfo_footer}
-                {t.BannerInfo_footer_form}
+                {t('BannerInfo_footer')}
+                {t('BannerInfo_footer_form')}
               </h1>
             )}
 

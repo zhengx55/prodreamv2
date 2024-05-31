@@ -1,9 +1,15 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 
+
 const BottomBanner = () => {
+  const t = useTranslations('Editor');
+
+
   return (
     <section className='relative flex w-full justify-center bg-shadow-400 py-10 sm:py-20'>
       <div className='flex-center w-full flex-col gap-y-3 px-5 sm:w-[1200px] sm:px-0'>
@@ -15,10 +21,10 @@ const BottomBanner = () => {
             sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
           />
           <h2 className='sm:h2-bold text-center text-[22px] font-[600] text-white'>
-            You&apos;ve come this far.
+            {t('BottomBanner.You_have_come_this_far')}
             <br />
             <span className=' font-baskerville'>
-              Let&apos;s make your essay unforgettable!
+              {t('BottomBanner.Let_s_make_your_essay_unforgettable')}
             </span>
           </h2>
           <Spacer y='14' />
@@ -27,7 +33,7 @@ const BottomBanner = () => {
               className='self-center rounded-xl border border-white bg-transparent text-white'
               variant={'ghost'}
             >
-              Start Writing Now
+              {t('BottomBanner.Start_Writing_Now')}
             </Button>
           </Link>
         </div>

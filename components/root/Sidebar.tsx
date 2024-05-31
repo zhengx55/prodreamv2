@@ -2,6 +2,7 @@
 import { SidebarLinks } from '@/constant';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { Locale } from '@/i18n-config';
+import { useTranslations } from 'next-intl';
 import { useModal, useUserInfo } from '@/zustand/store';
 import type { Route } from 'next';
 import dynamic from 'next/dynamic';
@@ -9,17 +10,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { memo, useCallback, useEffect, useState } from 'react';
-import Trigger from '../notification/Trigger';
 import { Button } from '../ui/button';
 import Icon from './Icon';
 import Spacer from './Spacer';
 import { UserSkeleton } from './User';
+const NotificationTrigger = dynamic(() => import('../notification/Trigger'));
 
 const useSidebarElevation = (pathname: string) => {
   const [topValue, setTopValue] = useState<number | undefined>();
   const changeTopValue = useCallback((value: number) => {
     setTopValue(value);
   }, []);
+  const t = useTranslations('Editor');
 
   useEffect(() => {
     const currentroute = pathname.split('/').pop();
@@ -46,6 +48,8 @@ const User = dynamic(() => import('./User'), {
 });
 
 const Sidebar = ({ lang }: { lang: Locale }) => {
+  const t = useTranslations('Editor');
+  
   const pathname = usePathname();
   const { topValue, changeTopValue } = useSidebarElevation(pathname);
   const updateFeedbackModal = useModal((state) => state.updateFeedbackModal);
@@ -84,7 +88,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
             imgSrc={user.avatar}
           />
         )}
-        <Trigger />
+        <NotificationTrigger />
       </div>
 
       <Spacer y='24' />
@@ -115,7 +119,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
                   isActive ? 'text-violet-500' : 'text-zinc-600'
                 } base-regular`}
               >
-                {item.title}
+                {t('SideBar.AI_Editor')}
               </span>
             </li>
           );
@@ -136,7 +140,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
             className='size-5'
             priority
           />
-          <p className='base-regular text-zinc-600'>Discord</p>
+          <p className='base-regular text-zinc-600'>{t('SideBar.Discord')}</p>
         </Link>
         <div
           role='dialog'
@@ -151,7 +155,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
             className='size-5'
             priority
           />
-          <p className='base-regular text-zinc-600'>Contact Support</p>
+          <p className='base-regular text-zinc-600'>{t('SideBar.Contact_Support')}</p>
         </div>
         {memberShipPending ? null : memberShip?.subscription === 'basic' ? (
           <Link href={'/pricing'} passHref>
@@ -164,7 +168,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
                 alt='diamond'
                 src='/editor/gem.svg'
               />
-              <p className='base-semibold'>Upgrade</p>
+              <p className='base-semibold'>{t('SideBar.Upgrade')}</p>
             </Button>
           </Link>
         ) : null}

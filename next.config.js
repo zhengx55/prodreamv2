@@ -2,6 +2,7 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
+const withNextIntl = require('next-intl/plugin')();
 const withPlugins = require('next-compose-plugins');
 
 const nextConfig = {
@@ -30,4 +31,4 @@ const nextConfig = {
   // poweredByHeader: false,
 };
 
-module.exports = withPlugins([withBundleAnalyzer], nextConfig);
+module.exports = withPlugins([withBundleAnalyzer, withNextIntl], nextConfig);

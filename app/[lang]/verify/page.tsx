@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import useRensendEmail from './hooks/useResend';
 
 export default function Page({
@@ -10,6 +11,7 @@ export default function Page({
   searchParams: { status: string };
 }) {
   const { mutateAsync: handleResend } = useRensendEmail();
+  const trans = useTranslations('Verify');
   async function resend() {
     await handleResend();
   }
@@ -26,7 +28,7 @@ export default function Page({
             className='h-auto w-auto self-center'
           />
           <p className='base-regular text-neutral-400'>
-            Congratulations! Your email is successfully verified.
+            {trans('Congratulations_Your_email_is_successfully_verified')}
           </p>
           <Link passHref href={'/login'} className='self-center'>
             <Button
@@ -34,7 +36,7 @@ export default function Page({
               className='w-max self-center border border-violet-500'
               variant={'ghost'}
             >
-              Back to log in
+              {trans('Back_to_log_in')}
             </Button>
           </Link>
         </div>
@@ -49,7 +51,7 @@ export default function Page({
             className='h-auto w-auto self-center'
           />
           <p className='base-regular text-neutral-400'>
-            Verification timed out, please resend verification link.
+            {trans('Verification_timed_out_please_resend_verification_link')}
           </p>
           <div className='flex gap-x-3 self-center'>
             <Link passHref href={'/login'} className='self-center'>
@@ -58,7 +60,7 @@ export default function Page({
                 className='w-max self-center border border-violet-500'
                 variant={'ghost'}
               >
-                Return
+                {trans('Return')}
               </Button>
             </Link>
             <Button
@@ -66,7 +68,7 @@ export default function Page({
               role='button'
               className='w-max self-center'
             >
-              Resend Link
+              {trans('Resend_Link')}
             </Button>
           </div>
         </div>

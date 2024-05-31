@@ -8,11 +8,13 @@ import { Loader2, RefreshCcw } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { memo } from 'react';
 import useResearchChat from '../hooks/useResearchChat';
+import { useTranslations } from 'next-intl';
 import ResearchInput from './ResearchInput';
 
 type Props = { t: EditorDictType };
 const ResearchCover = ({ t }: Props) => {
   const { id } = useParams();
+  const trans = useTranslations('Editor');
   const { data, isPending, isError, refetch, isRefetching } = useQuery({
     queryKey: ['airesearch-recommand', id],
     queryFn: () => getRecommendQs(id as string),
@@ -39,7 +41,7 @@ const ResearchCover = ({ t }: Props) => {
             height={20}
             className='size-5'
           />
-          <h3 className='text-sm text-zinc-700 '>Try these</h3>
+          <h3 className='text-sm text-zinc-700 '>{trans('Chat.ChatInput.Try_these')}</h3>
         </div>
         <Button
           role='button'

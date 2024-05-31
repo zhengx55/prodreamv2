@@ -9,6 +9,7 @@ import { useAIEditor, useChatbot, useUserTask } from '@/zustand/store';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { Fragment } from 'react';
+import { useTranslations } from 'next-intl';
 import Tiplayout from '../../../guide/tips/Tiplayout';
 import ResearchChat from '../research/ResearchChat';
 const Detection = dynamic(() => import('../../ai-detection/Detection'));
@@ -36,6 +37,7 @@ const tabComponents: { [key: number]: React.ComponentType<any> } = {
 };
 
 const General = ({ t, lang }: DocPageDicType) => {
+  const trans = useTranslations('Editor');
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
   const chatType = useChatbot((state) => state.chatType);
   const TabContent =
@@ -61,6 +63,7 @@ const General = ({ t, lang }: DocPageDicType) => {
 };
 
 const Trigger = ({ t, lang }: DocPageDicType) => {
+  const trans = useTranslations('Editor');
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
   const rightbarTab = useAIEditor((state) => state.rightbarTab);
   const rightbarOpen = useAIEditor((state) => state.rightbarOpen);
@@ -117,7 +120,7 @@ const Trigger = ({ t, lang }: DocPageDicType) => {
                     updateRightbarTab(index);
                   }}
                   item={item}
-                  label={t.RightBar[item.title as keyof typeof t.RightBar]}
+                  label={trans(`RightBar.${item.title}`)}
                   isActive={rightbarTab === index && rightbarOpen}
                 />
               )
@@ -127,7 +130,7 @@ const Trigger = ({ t, lang }: DocPageDicType) => {
                   updateRightbarTab(index);
                 }}
                 item={item}
-                label={t.RightBar[item.title as keyof typeof t.RightBar]}
+                label={trans(`RightBar.${item.title}`)}
                 isActive={rightbarTab === index && rightbarOpen}
               />
             )}

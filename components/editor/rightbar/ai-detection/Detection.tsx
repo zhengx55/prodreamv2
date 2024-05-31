@@ -7,13 +7,15 @@ import { useMutation } from '@tanstack/react-query';
 import { JSONContent } from '@tiptap/react';
 import { AnimatePresence, m } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
 import Title from '../Title';
 const Result = dynamic(() => import('./Result'));
 
-const Detection = ({ t }: { t: EditorDictType }) => {
+const Detection = () => {
+  const t = useTranslations('Editor');
   const [generating, setGenerating] = useState(false);
   const [detectionResult, setDetectionResult] = useState<
     IDetectionResult | undefined
@@ -43,7 +45,7 @@ const Detection = ({ t }: { t: EditorDictType }) => {
     },
     onError: async () => {
       const { toast } = await import('sonner');
-      toast.error('Something went wrong, please try again later');
+      toast.error(t('Detection.Something_went_wrong_please_try_again_later'));
     },
     onSettled: () => {
       setGenerating(false);
@@ -57,7 +59,7 @@ const Detection = ({ t }: { t: EditorDictType }) => {
     editor_text = editor?.getText()?.replace(title!, '').trimStart();
     if (!editor_text) {
       const { toast } = await import('sonner');
-      toast.error('Please write something first');
+      toast.error(t('Detection.Please_write_something_first'));
       return;
     }
     await detection({ text: editor_block });
@@ -66,7 +68,7 @@ const Detection = ({ t }: { t: EditorDictType }) => {
 
   return (
     <>
-      <Title t={t} showRecheck={!!detectionResult} recheck={startDetection} />
+      <Title showRecheck={!!detectionResult} recheck={startDetection} />
       <AnimatePresence mode='wait'>
         {detectionResult ? (
           <Result t={t} result={detectionResult} recheck={startDetection} />
@@ -90,6 +92,8 @@ const Detection = ({ t }: { t: EditorDictType }) => {
 
 const Starter = memo(
   ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
+    const trans = useTranslations('Editor');
+
     return (
       <m.div
         initial={{ opacity: 0, y: -20 }}
@@ -107,14 +111,14 @@ const Starter = memo(
           priority
         />
         <p className='text-center text-sm font-normal text-zinc-600'>
-          {t.Detection.Title}
+          {trans('Detection.Title')}
         </p>
         <Button
           className='base-medium h-max w-max self-center rounded-lg px-8'
           role='button'
           onClick={start}
         >
-          {t.Detection.Button}
+          {trans('Detection.Button')}
         </Button>
       </m.div>
     );

@@ -9,6 +9,7 @@ import { getDocs } from '@/query/api';
 import { IDocDetail } from '@/query/type';
 import { DocPageDicType, DocSortingMethods } from '@/types';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { LayoutGrid, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
@@ -29,6 +30,7 @@ const DocumentList = (props: Props) => {
     isPending: isMebershipPending,
     isError: isMembershipError,
   } = useMembershipInfo();
+  const t = useTranslations('Editor');
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const [list, setList] = useState<IDocDetail[]>([]);
   const [page, setPage] = useState(1);
@@ -92,16 +94,16 @@ const DocumentList = (props: Props) => {
   return (
     <>
       <div className='flex-between w-[1100px]'>
-        <h1 className='title-semibold'>My documents</h1>
+        <h1 className='title-semibold'>{t('DocumentList.My_documents')}</h1>
         <div className='flex-between w-1/3'>
           {viewType === 'list' ? (
-            <p className='title-regular'>Last opened </p>
+            <p className='title-regular'>{t('DocumentList.Last_opened')}</p>
           ) : (
             <span />
           )}
           <div className='flex gap-x-2'>
             {viewType === 'grid' ? (
-              <Tooltip side='bottom' tooltipContent='List view'>
+              <Tooltip side='bottom' tooltipContent={t('DocumentList.List_View')}>
                 <Button
                   role='button'
                   variant={'icon'}
@@ -118,7 +120,7 @@ const DocumentList = (props: Props) => {
                 </Button>
               </Tooltip>
             ) : (
-              <Tooltip side='bottom' tooltipContent='Grid view'>
+              <Tooltip side='bottom' tooltipContent={t('DocumentList.Grid_View')}>
                 <Button
                   role='button'
                   variant={'icon'}

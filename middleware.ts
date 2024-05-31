@@ -1,7 +1,13 @@
 import { match as matchLocale } from '@formatjs/intl-localematcher';
+import createIntlMiddleware from 'next-intl/middleware';
 import Negotiator from 'negotiator';
 import { NextRequest, NextResponse } from 'next/server';
 import { i18n } from './i18n-config';
+
+const nextIntlMiddleware = createIntlMiddleware({
+  locales: i18n.locales,
+  defaultLocale: i18n.defaultLocale
+});
 
 function getLocale(request: NextRequest): string | undefined {
   const negotiatorHeaders: Record<string, string> = {};
@@ -16,6 +22,9 @@ function getLocale(request: NextRequest): string | undefined {
 }
 
 export function middleware(req: NextRequest) {
+  const response = nextIntlMiddleware(req);
+  if (response) return response;
+
   const pathname = req.nextUrl.pathname;
   const search = req.nextUrl.search;
   const isBase =

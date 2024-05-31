@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DocSortingMethods } from '@/types';
 import { ArrowUpNarrowWide, CheckCircle2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 
 type Props = {
@@ -15,9 +16,11 @@ type Props = {
   setSortingMethod: (value: DocSortingMethods) => void;
 };
 const FilterDropdown = ({ sortingMethod, setSortingMethod }: Props) => {
+  const t = useTranslations('Editor');
+
   return (
     <DropdownMenu>
-      <Tooltip side='bottom' tooltipContent='Sort by'>
+      <Tooltip side='bottom' tooltipContent={t('DocumentList.Sort_by')}>
         <DropdownMenuTrigger asChild>
           <Button role='button' variant={'icon'} className='size-max p-1'>
             <ArrowUpNarrowWide />
@@ -50,7 +53,7 @@ const FilterDropdown = ({ sortingMethod, setSortingMethod }: Props) => {
                 : 'text-shadow'
             } small-regular`}
           >
-            Last opened
+            {t('DocumentList.Last_opened')}
           </p>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -71,7 +74,7 @@ const FilterDropdown = ({ sortingMethod, setSortingMethod }: Props) => {
               sortingMethod === 'title' ? 'text-violet-500' : 'text-shadow'
             } small-regular`}
           >
-            Title
+            {t('DocumentList.Title')}
           </p>
         </DropdownMenuItem>
       </DropdownMenuContent>

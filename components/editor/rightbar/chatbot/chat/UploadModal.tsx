@@ -4,7 +4,7 @@ import { EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useMutation } from '@tanstack/react-query';
-
+import { useTranslations } from 'next-intl';
 import { FileText, Loader2, XCircle } from 'lucide-react';
 import { memo, useCallback } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
@@ -18,6 +18,7 @@ const UploadModal = ({ container }: Props) => {
   const updateChatType = useChatbot((state) => state.updateChatType);
   const updateUploadModal = useChatbot((state) => state.updateUploadModal);
   const resetCurrentFile = useChatbot((state) => state.resetCurrentFile);
+  const trans = useTranslations('Editor');
 
   const { mutateAsync: createPdf } = useMutation({
     mutationFn: (params: { file: File }) => createPdfChat(params),
@@ -68,7 +69,7 @@ const UploadModal = ({ container }: Props) => {
         <Dialog.Content className='absolute left-1/2 top-1/2 flex w-[332px] -translate-x-1/2 -translate-y-1/2 flex-col gap-y-3 rounded-lg bg-white p-4 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] focus-visible:outline-none'>
           <DialogHeader>
             <Dialog.Title className='flex-between text-sm font-medium text-zinc-700'>
-              Upload Essay
+              {trans('UploadModal.Upload_Essay')}
               <DialogClose
                 onClick={() => {
                   if (!currentSession) updateChatType(null);
@@ -79,8 +80,7 @@ const UploadModal = ({ container }: Props) => {
             </Dialog.Title>
           </DialogHeader>
           <div className='text-xs font-normal text-neutral-400'>
-            Upload a file to receive intelligent summaries and answers to your
-            questions.
+            {trans('UploadModal.Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions')}
           </div>
           <div
             {...getRootProps({
@@ -98,7 +98,7 @@ const UploadModal = ({ container }: Props) => {
             <input {...getInputProps()} />
             <FileText className='text-neutral-400' size={70} />
             <p className='text-xs font-normal text-neutral-400'>
-              Click or drag and drop here to upload
+              {trans('UploadModal.Click_or_drag_and_drop_here_to_upload')}
             </p>
           </div>
         </Dialog.Content>

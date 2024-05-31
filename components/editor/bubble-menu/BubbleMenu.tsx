@@ -19,6 +19,7 @@ import {
 import { memo } from 'react';
 import { ContentTypePicker } from '../picker/content';
 import useEventListener from './hooks/useEventListener';
+import { useTranslations } from 'next-intl';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
 import { useTextmenuStates } from './hooks/useTextmenuStates';
@@ -28,10 +29,9 @@ const MemoContentTypePicker = memo(ContentTypePicker);
 
 export type TextMenuProps = {
   editor: Editor;
-  t: Awaited<ReturnType<typeof getDictionary>>['Editor'];
 };
 
-const BubbleMenu = ({ editor, t }: TextMenuProps) => {
+const BubbleMenu = ({ editor }: TextMenuProps) => {
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
   const commands = useTextmenuCommands(editor);
@@ -42,6 +42,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
   const updateCitationMenu = useAIEditor((state) => state.updateCitationMenu);
   const updateSynonymMenu = useAIEditor((state) => state.updateSynonymMenu);
   const showBubbleMenu = useAIEditor((state) => state.showBubbleMenu);
+  const t = useTranslations('Editor');
   const updateShowBubbleMenu = useAIEditor(
     (state) => state.updateShowBubbleMenu
   );
@@ -92,7 +93,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
             height={18}
             className='size-[18px]'
           />
-          {t.BubbleMenu.Copilot}
+          {t('BubbleMenu.Copilot')}
         </MemoButton>
         <Toolbar.Divider />
         {isWord ? (
@@ -116,11 +117,11 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
               height={18}
               className='size-[18px]'
             />
-            {t.BubbleMenu.Synonym}
+            {t('BubbleMenu.Synonym')}
           </MemoButton>
         ) : (
           <MemoButton
-            tooltip={t.BubbleMenu.tooltip_citation}
+            tooltip={t('BubbleMenu.tooltip_citation')}
             onMouseDown={(e) => e.preventDefault()}
             onClick={async () => {
               if (selectedLength >= 160) {
@@ -146,14 +147,14 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
               className='size-[18px]'
               priority
             />
-            {t.BubbleMenu.Reference}
+            {t('BubbleMenu.Reference')}
           </MemoButton>
         )}
         <Toolbar.Divider />
         <MemoContentTypePicker options={blockOptions} />
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip='Undo'
+          tooltip={t('BubbleMenu.Undo')}
           tooltipShortcut={['Mod', 'Z']}
           onClick={commands.onUndo}
         >
@@ -167,7 +168,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
         </MemoButton>
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip='Redo'
+          tooltip={t('BubbleMenu.Redo')}
           tooltipShortcut={['Mod', 'Y']}
           onClick={commands.onRedo}
         >
@@ -182,7 +183,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
         <Toolbar.Divider />
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip='Bold'
+          tooltip={t('BubbleMenu.Bold')}
           tooltipShortcut={['Mod', 'B']}
           onClick={commands.onBold}
           active={states.isBold}
@@ -191,7 +192,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
         </MemoButton>
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip='Italic'
+          tooltip={t('BubbleMenu.Italic')}
           tooltipShortcut={['Mod', 'I']}
           onClick={commands.onItalic}
           active={states.isItalic}
@@ -200,7 +201,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
         </MemoButton>
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip='Underline'
+          tooltip={t('BubbleMenu.Underline')}
           tooltipShortcut={['Mod', 'U']}
           onClick={commands.onUnderline}
           active={states.isUnderline}
@@ -209,7 +210,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
         </MemoButton>
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip='Strikehrough'
+          tooltip={t('BubbleMenu.Strikethrough')}
           tooltipShortcut={['Mod', 'X']}
           onClick={commands.onStrike}
           active={states.isStrike}
@@ -220,7 +221,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
           <Popover.Trigger asChild>
             <MemoButton
               onMouseDown={(e) => e.preventDefault()}
-              tooltip='More options'
+              tooltip={t('BubbleMenu.More_options')}
             >
               <MoreVertical size={16} />
             </MemoButton>
@@ -232,7 +233,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
           >
             <Toolbar.Wrapper>
               <MemoButton
-                tooltip='Align left'
+                tooltip={t('BubbleMenu.Align_Left')}
                 tooltipShortcut={['Shift', 'Mod', 'L']}
                 onClick={commands.onAlignLeft}
                 active={states.isAlignLeft}
@@ -240,7 +241,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
                 <AlignLeft size={16} />
               </MemoButton>
               <MemoButton
-                tooltip='Align center'
+                tooltip={t('BubbleMenu.Align_Center')}
                 tooltipShortcut={['Shift', 'Mod', 'E']}
                 onClick={commands.onAlignCenter}
                 active={states.isAlignCenter}
@@ -248,7 +249,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
                 <AlignCenter size={16} />
               </MemoButton>
               <MemoButton
-                tooltip='Align right'
+                tooltip={t('BubbleMenu.Align_Right')}
                 tooltipShortcut={['Shift', 'Mod', 'R']}
                 onClick={commands.onAlignRight}
                 active={states.isAlignRight}
@@ -256,7 +257,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
                 <AlignRight size={16} />
               </MemoButton>
               <MemoButton
-                tooltip='Justify'
+                tooltip={t('BubbleMenu.Justify')}
                 tooltipShortcut={['Shift', 'Mod', 'J']}
                 onClick={commands.onAlignJustify}
                 active={states.isAlignJustify}
@@ -269,7 +270,7 @@ const BubbleMenu = ({ editor, t }: TextMenuProps) => {
         <span className='flex h-full items-center px-2'>
           <p className='small-regular text-shadow'>
             {selectedLength}
-            &nbsp;{t.BubbleMenu.words}
+            &nbsp;{t('BubbleMenu.words')}
           </p>
         </span>
       </Toolbar.Wrapper>
