@@ -116,7 +116,6 @@ const Plagiarism = ({ t }: Props) => {
   return (
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
       <Title
-        t={t}
         showRecheck={!!plagiarismResult}
         recheck={handlePlagiarismCheck}
       />

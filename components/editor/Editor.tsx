@@ -35,7 +35,7 @@ const Editor = ({
         {Boolean(track?.guidence) && <EditorBlock {...props} editor={editor} />}
         <Procedure t={props.t} editor={editor} />
         <PaymentModal />
-        <PromptView t={props.t} show={isNew} />
+        <PromptView show={isNew} />
         <OutlineWaitingModal />
       </div>
       <AnimatePresence>

@@ -31,7 +31,7 @@ const Hero = ({
       <CaptureProvider event='ScreenI'>
         <div className='sm:flex-center flex h-full w-full flex-col py-10 sm:w-[1200px] sm:py-20'>
           {lang === 'en' ? (
-            <TypeTitle t={t} />
+            <TypeTitle />
           ) : (
             <h1 className='text-center font-custom text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
               {t('transform')}

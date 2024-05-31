@@ -71,7 +71,7 @@ const Detection = () => {
       <Title showRecheck={!!detectionResult} recheck={startDetection} />
       <AnimatePresence mode='wait'>
         {detectionResult ? (
-          <Result t={t} result={detectionResult} recheck={startDetection} />
+          <Result result={detectionResult} recheck={startDetection} />
         ) : generating ? (
           <m.div
             initial={{ opacity: 0, y: -20 }}
@@ -91,7 +91,7 @@ const Detection = () => {
 };
 
 const Starter = memo(
-  ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
+  ({ start }: { start: () => Promise<void> }) => {
     const trans = useTranslations('Editor');
 
     return (

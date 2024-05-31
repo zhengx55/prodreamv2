@@ -16,7 +16,7 @@ const CitationLibrary = ({ t }: { t: EditorDictType }) => {
   const InTextCitationIds = useCitation((state) => state.inTextCitationIds);
   return (
     <div className='flex h-full w-full flex-col'>
-      <Title t={t} />
+      <Title />
       <Tabs defaultValue='library' className='h-full w-full'>
         <TabsList className='h-8 w-full justify-start gap-x-2 rounded-none border-b border-gray-200 p-0'>
           <TabsTrigger

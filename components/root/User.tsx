@@ -6,12 +6,16 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Locale } from '@/i18n-config';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
+import { useParams } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 const UserInfoDropdown = dynamic(() => import('./UserInfoDropdown'));
 
 type Props = { name: string; email: string; imgSrc: string; lang: Locale };
 
-const User = ({ name, email, imgSrc, lang }: Props) => {
+const User = ({ name, email, imgSrc }: Props) => {
+  const { lang } = useParams();
+  const isInCN = lang === 'cn';
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,7 +39,7 @@ const User = ({ name, email, imgSrc, lang }: Props) => {
           </div>
         </div>
       </DropdownMenuTrigger>
-      <UserInfoDropdown lang={lang} />
+      <UserInfoDropdown />
     </DropdownMenu>
   );
 };

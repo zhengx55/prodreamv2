@@ -100,7 +100,7 @@ const BottomBar = ({
         />
       </MemoButton>
       <Toolbar.Divider />
-      <CountDropdown t={t} editor={editor} />
+      <CountDropdown editor={editor} />
     </m.footer>
   );
 };

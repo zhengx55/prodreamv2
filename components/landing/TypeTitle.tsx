@@ -1,14 +1,9 @@
 'use client';
-import { getDictionary } from '@/lib/get-dictionary';
 import ReactTyped from 'react-typed';
 import { useTranslations } from 'next-intl';
 import Spacer from '../root/Spacer';
 
-const TypeTitle = ({
-  t,
-}: {
-  t: Awaited<ReturnType<typeof getDictionary>>['Homepage'];
-}) => {
+const TypeTitle = () => {
   const trans = useTranslations('Homepage');
   return (
     <>

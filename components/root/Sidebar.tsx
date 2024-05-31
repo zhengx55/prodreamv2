@@ -8,7 +8,7 @@ import type { Route } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useParams } from 'next/navigation';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import Icon from './Icon';
@@ -22,6 +22,7 @@ const useSidebarElevation = (pathname: string) => {
     setTopValue(value);
   }, []);
   const t = useTranslations('Editor');
+  const { lang } = useParams();
 
   useEffect(() => {
     const currentroute = pathname.split('/').pop();
@@ -47,8 +48,10 @@ const User = dynamic(() => import('./User'), {
   loading: () => <UserSkeleton />,
 });
 
-const Sidebar = ({ lang }: { lang: Locale }) => {
+const Sidebar = () => {
   const t = useTranslations('Editor');
+  const { lang } = useParams();
+  const isInCN = lang === 'cn';
   
   const pathname = usePathname();
   const { topValue, changeTopValue } = useSidebarElevation(pathname);
@@ -82,7 +85,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
           <UserSkeleton />
         ) : (
           <User
-            lang={lang}
+            lang={lang as Locale}
             name={user.first_name}
             email={user.email}
             imgSrc={user.avatar}
@@ -127,7 +130,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
       </ul>
 
       <div className='mt-auto flex flex-col'>
-        <Link
+        {isInCN ? null : <Link
           href={'https://discord.gg/xXSFXv5kPd'}
           target='_blank'
           className='z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2 hover:bg-slate-100'
@@ -141,7 +144,7 @@ const Sidebar = ({ lang }: { lang: Locale }) => {
             priority
           />
           <p className='base-regular text-zinc-600'>{t('SideBar.Discord')}</p>
-        </Link>
+        </Link>}
         <div
           role='dialog'
           className='z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2 hover:bg-slate-100'
