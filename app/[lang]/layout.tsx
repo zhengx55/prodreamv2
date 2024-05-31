@@ -6,11 +6,11 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations } from 'next-intl/server';
+import { getMessages, getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import localFont from 'next/font/local';
 import { Suspense } from 'react';
 import { Toaster } from 'sonner';
-import { locales } from '../../i18n';
+import { locales } from '@/i18n';
 import './globals.css';
 
 const poppins = Poppins({
@@ -76,6 +76,8 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { lang: string };
 }) {
+  unstable_setRequestLocale(params.lang);
+
   const messages = await getMessages();
 
   return (

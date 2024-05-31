@@ -3,14 +3,14 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import useRensendEmail from './hooks/useResend';
+import useResendEmail from './hooks/useResend';
 
 export default function Page({
   searchParams,
 }: {
   searchParams: { status: string };
 }) {
-  const { mutateAsync: handleResend } = useRensendEmail();
+  const { mutateAsync: handleResend } = useResendEmail();
   const trans = useTranslations('Verify');
   async function resend() {
     await handleResend();
