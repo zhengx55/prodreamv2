@@ -42,7 +42,9 @@ const Starter = (props: Props) => {
             {trans('Chat.Starter.AI_Research')}
           </h2>
           <p className='subtle-regular text-center text-neutral-400'>
-            {trans('Chat.Starter.Ask_a_research_question_and_get_supporting_sources')}
+            {trans(
+              'Chat.Starter.Ask_a_research_question_and_get_supporting_sources'
+            )}
           </p>
         </div>
         <div
@@ -59,7 +61,9 @@ const Starter = (props: Props) => {
             {trans('Chat.Starter.Chat_PDF')}
           </h2>
           <p className='subtle-regular text-center text-neutral-400'>
-            {trans('Chat.Starter.Click_or_drag_to_upload_Chat_with_file_and_get_summaries')}
+            {trans(
+              'Chat.Starter.Click_or_drag_to_upload_Chat_with_file_and_get_summaries'
+            )}
           </p>
         </div>
       </div>

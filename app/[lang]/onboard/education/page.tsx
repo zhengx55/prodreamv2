@@ -41,9 +41,7 @@ export default async function Page({
   return (
     <div className='flex w-full flex-col items-center px-6 pt-12 sm:px-0 sm:pt-20'>
       <div className='flex w-full max-w-full flex-col items-center sm:max-w-[900px]'>
-        <h1 className='text-[20px] font-medium sm:text-[42px]'>
-          {t('Title')}
-        </h1>
+        <h1 className='text-[20px] font-medium sm:text-[42px]'>{t('Title')}</h1>
         <p className='small-regular sm:base-regular text-center text-neutral-600'>
           {t('Education.Title')}
         </p>

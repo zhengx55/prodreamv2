@@ -17,7 +17,10 @@ const RemainUsages = () => {
       <div className='flex items-center gap-x-2'>
         <AlertTriangle className='text-shadow' size={15} />
         <p className='subtle-regular text-shadow'>
-          {t('RemainUsages.WeeklyPromptsUsed', { used: usage?.free_times_detail.Copilot })} &nbsp;
+          {t('RemainUsages.WeeklyPromptsUsed', {
+            used: usage?.free_times_detail.Copilot,
+          })}{' '}
+          &nbsp;
           <Button
             onClick={async () => {
               await buttonTrack({

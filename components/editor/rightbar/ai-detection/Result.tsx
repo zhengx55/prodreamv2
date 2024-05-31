@@ -128,7 +128,6 @@ const Result = ({ result, recheck }: Props) => {
         onRecheck={recheck}
         highlight_sentences={result.highlight_sentences}
         human_percent={human_percent}
-        t={t}
       />
       <Spacer y='20' />
     </m.div>

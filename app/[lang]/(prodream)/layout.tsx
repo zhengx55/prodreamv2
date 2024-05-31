@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { ReactNode } from 'react';
 
-
 const FeedbackModal = dynamic(
   () => import('@/components/feedback/FeedbackModal')
 );
@@ -17,8 +16,7 @@ export default async function WrittingpalLayout({
   children: ReactNode;
   params: { lang: Locale };
 }) {
-
-  const trans = await getTranslations("Homepage");
+  const trans = await getTranslations('Homepage');
 
   return (
     <>

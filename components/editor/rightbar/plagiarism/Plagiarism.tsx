@@ -115,10 +115,7 @@ const Plagiarism = ({ t }: Props) => {
 
   return (
     <div className='flex w-full flex-1 flex-col overflow-hidden'>
-      <Title
-        showRecheck={!!plagiarismResult}
-        recheck={handlePlagiarismCheck}
-      />
+      <Title showRecheck={!!plagiarismResult} recheck={handlePlagiarismCheck} />
       <AnimatePresence mode='wait'>
         {plagiarismLoading ? (
           <Waiting progress={plagiarismProgress} />
@@ -194,32 +191,32 @@ const Starter = ({
 }) => {
   const trans = useTranslations('Editor');
   return (
-  <m.div
-    initial={{ opacity: 0, y: -20 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -20 }}
-    key={'plagiarism-check'}
-    className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
-  >
-    <Image
-      src='/editor/Plaglarism.png'
-      alt='plagiarism check'
-      width={180}
-      height={180}
-      className='size-44 self-center'
-      priority
-    />
-    <p className='text-center text-sm font-normal text-zinc-600'>
-      {trans('Plagiarism.Title')}
-    </p>
-
-    <Button
-      className='base-medium h-max w-max self-center rounded-lg px-8'
-      role='button'
-      onClick={start}
+    <m.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      key={'plagiarism-check'}
+      className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
     >
-      {trans('Plagiarism.Button')}
-    </Button>
+      <Image
+        src='/editor/Plaglarism.png'
+        alt='plagiarism check'
+        width={180}
+        height={180}
+        className='size-44 self-center'
+        priority
+      />
+      <p className='text-center text-sm font-normal text-zinc-600'>
+        {trans('Plagiarism.Title')}
+      </p>
+
+      <Button
+        className='base-medium h-max w-max self-center rounded-lg px-8'
+        role='button'
+        onClick={start}
+      >
+        {trans('Plagiarism.Button')}
+      </Button>
     </m.div>
   );
 };

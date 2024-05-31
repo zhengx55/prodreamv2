@@ -51,9 +51,7 @@ const PromptView = ({ prompt }: { prompt: string }) => {
       saveDoc(params),
     onError: async () => {
       const { toast } = await import('sonner');
-      toast.error(
-        t('Prompt.Something_went_wrong_when_setting_essay_prompt')
-      );
+      toast.error(t('Prompt.Something_went_wrong_when_setting_essay_prompt'));
     },
     onSuccess: async (_data, variables) => {
       const { toast } = await import('sonner');
@@ -88,7 +86,9 @@ const PromptView = ({ prompt }: { prompt: string }) => {
             className='h-max rounded px-2 py-1'
           >
             <PencilLine size={18} className='text-violet-500' />
-            <p className='small-regular text-violet-500'>{t('Prompt.Trigger')}</p>
+            <p className='small-regular text-violet-500'>
+              {t('Prompt.Trigger')}
+            </p>
           </Button>
         ) : (
           <Button
@@ -96,7 +96,9 @@ const PromptView = ({ prompt }: { prompt: string }) => {
             variant={'outline'}
             className='h-max rounded border border-gray-200 bg-transparent px-2 py-1  hover:text-violet-500'
           >
-            <p className='small-regular text-zinc-700'>{t('Prompt.Strength')}</p>
+            <p className='small-regular text-zinc-700'>
+              {t('Prompt.Strength')}
+            </p>
             <div className='flex items-center gap-x-2'>
               {wordCount < 5 ? (
                 <span className='h-2 w-2 rounded-full bg-zinc-300' />
@@ -126,7 +128,9 @@ const PromptView = ({ prompt }: { prompt: string }) => {
           <Icon alt='' src='/editor/prompt/Light.svg' width={24} height={24} />
           <h1 className='base-medium '>{t('Prompt.Title')}</h1>
         </div>
-        <p className='small-regular text-neutral-400'>{t('Prompt.PlaceHolder')}</p>
+        <p className='small-regular text-neutral-400'>
+          {t('Prompt.PlaceHolder')}
+        </p>
         <Spacer y='10' />
         <Textarea
           value={content}

@@ -27,7 +27,9 @@ const CustomCitation = ({ t }: { t: EditorDictType }) => {
         >
           <ChevronLeft size={20} />
         </Button>
-        <h2 className='title-medium'>{trans('CustomCitation.Add_Customized_Citations')}</h2>
+        <h2 className='title-medium'>
+          {trans('CustomCitation.Add_Customized_Citations')}
+        </h2>
       </div>
       <Spacer y='20' />
       <Tabs defaultValue='Website' className='h-full w-full overflow-y-auto'>

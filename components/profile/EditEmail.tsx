@@ -69,7 +69,9 @@ const EditEmailModal = ({ children }: Props) => {
       >
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
-            <p className='h2-bold mt-2 text-center'>{t('Setting.Change_email')}</p>
+            <p className='h2-bold mt-2 text-center'>
+              {t('Setting.Change_email')}
+            </p>
             <DialogClose>
               <X className='self-end text-shadow' />
             </DialogClose>

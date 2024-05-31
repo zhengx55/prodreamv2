@@ -74,7 +74,9 @@ const EditNameModal = ({ children }: Props) => {
       >
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
-            <p className='h2-bold mt-2 text-center'>{trans('Setting.Change_name')}</p>
+            <p className='h2-bold mt-2 text-center'>
+              {trans('Setting.Change_name')}
+            </p>
             <DialogClose>
               <X className='self-end text-shadow' />
             </DialogClose>

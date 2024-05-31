@@ -85,7 +85,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
   async function handleSentVerificationEmail() {
     const { email } = form.getValues();
     if (!email) {
-      toast.error(trans("ForgetPassword.Please_enter_your_email_address"));
+      toast.error(trans('ForgetPassword.Please_enter_your_email_address'));
       return;
     }
     await handleSendVerification({ email });
@@ -212,7 +212,9 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
                   type='button'
                   className='base-regularw-[150px] h-12 shrink-0 rounded-md border border-violet-500 text-violet-500'
                 >
-                  {verifyWait ? countdown : trans('ForgotPassword.VerificationBtn')}
+                  {verifyWait
+                    ? countdown
+                    : trans('ForgotPassword.VerificationBtn')}
                 </Button>
               </div>
               <FormMessage className='text-xs text-red-400' />

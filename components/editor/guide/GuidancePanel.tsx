@@ -279,7 +279,9 @@ const Guidance = ({ editor, t }: { editor: Editor; t: EditorDictType }) => {
               <h2 className='text-[28px] font-semibold leading-normal'>
                 {trans('Onboard.Option2.Subtitle')}
               </h2>
-              <p className='base-semibold'>{trans('Onboard.Option2.Question')}</p>
+              <p className='base-semibold'>
+                {trans('Onboard.Option2.Question')}
+              </p>
               <Textarea
                 className='h-24 rounded shadow-lg'
                 name='outline-description'

@@ -49,7 +49,8 @@ export const useCreateCustomCitation = () => {
       });
       const toast = (await import('sonner')).toast;
 
-      const toastInfo = lang === 'en' ? 'Citation created successfully' : '引用创建成功';
+      const toastInfo =
+        lang === 'en' ? 'Citation created successfully' : '引用创建成功';
 
       toast.success(toastInfo);
     },
@@ -84,7 +85,8 @@ export const useCreateCitation = () => {
       });
       const toast = (await import('sonner')).toast;
 
-      const toastInfo = lang === 'en' ? 'Citation created successfully' : '引用创建成功';
+      const toastInfo =
+        lang === 'en' ? 'Citation created successfully' : '引用创建成功';
 
       toast.success(toastInfo);
     },
@@ -124,8 +126,9 @@ export const useCiteToDoc = () => {
 
       insertCitation(data.id, anchor, from, to);
       const toast = (await import('sonner')).toast;
-      const toastInfo = lang === 'en' ? 'Citation created successfully' : '引用创建成功';
-      
+      const toastInfo =
+        lang === 'en' ? 'Citation created successfully' : '引用创建成功';
+
       toast.success(toastInfo);
     },
     onError: async (error) => {

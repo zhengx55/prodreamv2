@@ -69,7 +69,9 @@ const FileUploadModal = ({ lang, t }: Props) => {
         </DialogTitle>
       </DialogHeader>
       <div className='text-base font-normal text-neutral-400'>
-        {trans('UploadModal.Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions')}
+        {trans(
+          'UploadModal.Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions'
+        )}
       </div>
       <div
         {...getRootProps({

@@ -16,7 +16,7 @@ export default async function Page({
   params: { id: string; lang: Locale };
 }) {
   const t = (await getDictionary(params.lang)).Editor;
-  const trans = await getTranslations("Homepage");
+  const trans = await getTranslations('Homepage');
 
   return (
     <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>

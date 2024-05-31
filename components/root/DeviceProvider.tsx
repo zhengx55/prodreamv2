@@ -9,7 +9,6 @@ import Sidebar from './Sidebar';
 
 const DeviceProvider = ({
   children,
-  lang,
 }: {
   children: ReactNode;
   lang: Locale;
@@ -32,7 +31,7 @@ const DeviceProvider = ({
 
   return (
     <>
-      {!isEssayDetail && <Sidebar lang={lang} />}
+      {!isEssayDetail && <Sidebar />}
       {children}
     </>
   );

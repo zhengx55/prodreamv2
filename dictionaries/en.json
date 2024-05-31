@@ -643,7 +643,6 @@
       "Successfully_set_essay_prompt": "Successfully set essay prompt",
       "Something_went_wrong_please_try_again_later": "Something went wrong, please try again later",
       "Please_write_something_first": "Please write something first"
-      
     },
     "Task": {
       "title": "Try AI Copilot for easy editing",
@@ -683,7 +682,7 @@
       "Email_Address": "Email Address",
       "Change_email": "Change email",
       "Enter_your_new_email": "Enter_your_new_email",
-      "Enter_your_password":"Enter your password",
+      "Enter_your_password": "Enter your password",
       "Password": "Password",
       "Change_password": "Change password",
       "Enter_your_old_password": "Enter your old password",

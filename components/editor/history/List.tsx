@@ -103,7 +103,10 @@ const DocumentList = (props: Props) => {
           )}
           <div className='flex gap-x-2'>
             {viewType === 'grid' ? (
-              <Tooltip side='bottom' tooltipContent={t('DocumentList.List_View')}>
+              <Tooltip
+                side='bottom'
+                tooltipContent={t('DocumentList.List_View')}
+              >
                 <Button
                   role='button'
                   variant={'icon'}
@@ -120,7 +123,10 @@ const DocumentList = (props: Props) => {
                 </Button>
               </Tooltip>
             ) : (
-              <Tooltip side='bottom' tooltipContent={t('DocumentList.Grid_View')}>
+              <Tooltip
+                side='bottom'
+                tooltipContent={t('DocumentList.Grid_View')}
+              >
                 <Button
                   role='button'
                   variant={'icon'}

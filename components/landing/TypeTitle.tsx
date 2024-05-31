@@ -30,10 +30,13 @@ const TypeTitle = () => {
       </h1>
       <Spacer y='30' />
       <p className='text-center text-[18px] leading-relaxed tracking-normal text-[#64626A] sm:text-center sm:text-[18px]'>
-        {`ProDream's`} <span className='font-bold'>{trans('one_stop_solution')}</span>
+        {`ProDream's`}{' '}
+        <span className='font-bold'>{trans('one_stop_solution')}</span>
         &nbsp;
-        {trans('helps_you_write')} <span className='font-bold'>{trans('better')}</span>&nbsp;
-        {trans('and')} <span className='font-bold'>{trans('faster')}</span>&nbsp;
+        {trans('helps_you_write')}{' '}
+        <span className='font-bold'>{trans('better')}</span>&nbsp;
+        {trans('and')} <span className='font-bold'>{trans('faster')}</span>
+        &nbsp;
         {trans('with_confidence')}
       </p>
     </>

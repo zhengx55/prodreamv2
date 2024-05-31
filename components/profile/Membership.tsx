@@ -10,7 +10,7 @@ import { Separator } from '../ui/separator';
 const Membership = ({
   membership,
   lang,
-  t
+  t,
 }: { membership: ISubscription } & DocPageDicType) => {
   const trans = useTranslations('Profile');
 
@@ -28,14 +28,14 @@ const Membership = ({
         <div className='flex w-max flex-col'>
           <div className='flex items-center gap-x-4'>
             <p className='text-neutral-400'>
-              {trans.rich('Setting.Your_current_plan', { 
+              {trans.rich('Setting.Your_current_plan', {
                 CurrentPlan: Basic,
-                strong: (chunks: any) => <strong>{chunks}</strong>
+                strong: (chunks: any) => <strong>{chunks}</strong>,
               })}
             </p>
             <Link passHref href={`/${lang}/pricing`}>
               <Button role='dialog' className='px-0' variant={'ghost'}>
-               {trans('Setting.Go_unlimited')}
+                {trans('Setting.Go_unlimited')}
               </Button>
             </Link>
           </div>
@@ -62,29 +62,38 @@ const Membership = ({
         <>
           <div className='flex items-center gap-x-4'>
             <p className='text-neutral-400'>
-                {/* You are on the&nbsp;
+              {/* You are on the&nbsp;
                 <strong>
                   Unlimited&nbsp;
                   {membership.subscription_type === 'year' ? Annual : Monthly}
                   &nbsp; Plan
                 </strong> */}
 
-                {trans.rich('Setting.Your_current_plan', { 
-                  CurrentPlan: membership.subscription_type === 'year' ? Annual : Monthly,
-                  strong: (chunks: any) => <strong>{chunks}</strong>
-                })}
+              {trans.rich('Setting.Your_current_plan', {
+                CurrentPlan:
+                  membership.subscription_type === 'year' ? Annual : Monthly,
+                strong: (chunks: any) => <strong>{chunks}</strong>,
+              })}
             </p>
           </div>
           <Spacer y='5' />
           {membership.subscription_id ? (
             <p className='text-neutral-400'>
               {trans('Setting.Next_billing_date')}:&nbsp;
-              {formatTimestampToDateString(membership.expire_time, false, lang as string)}
+              {formatTimestampToDateString(
+                membership.expire_time,
+                false,
+                lang as string
+              )}
             </p>
           ) : (
             <p className='text-neutral-400'>
               {trans('Setting.Active_Until')}:&nbsp;
-              {formatTimestampToDateString(membership.expire_time, false, lang as string)}
+              {formatTimestampToDateString(
+                membership.expire_time,
+                false,
+                lang as string
+              )}
             </p>
           )}
 

@@ -65,7 +65,7 @@ const TableOfContents = ({ editor }: TableOfContentsProps) => {
                   href={`#${item.id}`}
                   style={{ marginLeft: `${1 * item.level - 1}rem` }}
                   className={cn(
-                    'hover:bg-black subtle-semibold block w-full truncate rounded  bg-opacity-10 text-neutral-300 transition-all hover:bg-opacity-5 hover:text-neutral-800',
+                    'subtle-semibold block w-full truncate rounded bg-opacity-10  text-neutral-300 transition-all hover:bg-black hover:bg-opacity-5 hover:text-neutral-800',
                     item.isActive && 'bg-neutral-100 text-neutral-800'
                   )}
                 >

@@ -6,7 +6,7 @@ import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import type { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
-import { getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server';
 import { getIpAddress } from '@/query/api';
 import Link from 'next/link';
 

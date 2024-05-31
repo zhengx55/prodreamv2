@@ -75,7 +75,9 @@ const AiMenu = ({ editor, t }: Props) => {
     const selectedText = getSelectedText(editor);
     const words = selectedText.match(word_regex);
     if ((words?.length ?? 0) > 500) {
-      return toast.warning(trans('Copilot.Selected_text_should_not_exceed_500_words'));
+      return toast.warning(
+        trans('Copilot.Selected_text_should_not_exceed_500_words')
+      );
     }
     if (!track?.ai_copilot_task) {
       await updateTrack({
@@ -370,7 +372,7 @@ const Operation = ({
 
 const Loader = () => {
   const trans = useTranslations('Editor');
-  
+
   return (
     <div className='flex h-12 w-full items-center gap-x-2 rounded-t border border-gray-200 bg-white p-2 shadow-lg'>
       <Icon

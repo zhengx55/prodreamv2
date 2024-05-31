@@ -2,7 +2,6 @@ import { clsx, type ClassValue } from 'clsx';
 import escapeStringRegExp from 'escape-string-regexp';
 import { twMerge } from 'tailwind-merge';
 
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -137,7 +136,10 @@ export function formatTimestamphh(timestampString: string) {
   }
 }
 
-export function formatTimestamphh_number(timestamp: number, lang: string = 'en') {
+export function formatTimestamphh_number(
+  timestamp: number,
+  lang: string = 'en'
+) {
   const isCN = lang === 'cn';
 
   const currentTime = new Date().getTime();
@@ -179,7 +181,11 @@ export function addRandomToDuplicates(array: string[]) {
   return newArray;
 }
 
-export function formatTimestampToDateString(timestamp: number, times = true,  lang: string = 'en') {
+export function formatTimestampToDateString(
+  timestamp: number,
+  times = true,
+  lang: string = 'en'
+) {
   console.log('lang', lang);
   const date = new Date(timestamp * 1000);
   const isCN = lang === 'cn';
@@ -211,7 +217,9 @@ export function formatTimestampToDateString(timestamp: number, times = true,  la
     '十一月',
     '十二月',
   ];
-  const month = isCN ? monthNamesCN[date.getMonth()] : monthNames[date.getMonth()];
+  const month = isCN
+    ? monthNamesCN[date.getMonth()]
+    : monthNames[date.getMonth()];
   const day = date.getDate();
   const year = date.getFullYear();
   const hours = date.getHours();

@@ -41,7 +41,9 @@ const ResearchCover = ({ t }: Props) => {
             height={20}
             className='size-5'
           />
-          <h3 className='text-sm text-zinc-700 '>{trans('Chat.ChatInput.Try_these')}</h3>
+          <h3 className='text-sm text-zinc-700 '>
+            {trans('Chat.ChatInput.Try_these')}
+          </h3>
         </div>
         <Button
           role='button'

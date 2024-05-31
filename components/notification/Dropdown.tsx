@@ -10,13 +10,11 @@ import { Dialog, DialogTrigger } from '../ui/dialog';
 import { DropdownMenuContent } from '../ui/dropdown-menu';
 import Modal from './Modal';
 
-
 const Dropdown = () => {
   const { data: trackInfo } = useUserTrackInfo();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const t = useTranslations('Editor');
-  const {lang} = useParams();
-
+  const { lang } = useParams();
 
   return (
     <DropdownMenuContent
@@ -56,12 +54,16 @@ const Dropdown = () => {
             <Spacer y='6' />
             <article className='text-xs font-normal text-zinc-500'>
               {t.rich('Announcement.Sub_title', {
-                strong: (chunks) => <strong className='font-bold'>{chunks}</strong>,
+                strong: (chunks) => (
+                  <strong className='font-bold'>{chunks}</strong>
+                ),
               })}
               <br />
               <br />
               {t.rich('Announcement.Content_1', {
-                strong: (chunks) => <strong className='font-bold'>{chunks}</strong>,
+                strong: (chunks) => (
+                  <strong className='font-bold'>{chunks}</strong>
+                ),
               })}
             </article>
             <Spacer y='24' />
@@ -79,7 +81,7 @@ const Dropdown = () => {
                 <p className='text-xs font-normal text-zinc-700'>ProDream</p>
               </div>
               <p className='text-xs font-normal text-zinc-700'>
-                {formatTimestamphh_number(1715312029790 / 1000, lang as string )}
+                {formatTimestamphh_number(1715312029790 / 1000, lang as string)}
               </p>
             </div>
           </div>
@@ -95,7 +97,7 @@ export async function getServerSideProps({ req }: { req: any }) {
 
   return {
     props: {
-      lang
+      lang,
     },
   };
 }

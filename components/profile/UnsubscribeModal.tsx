@@ -47,7 +47,9 @@ const UnsubscribeModal = ({
           {trans('UnsubscribeModal.Are_you_sure_you_want_to_leave')}
         </DialogTitle>
         <DialogDescription className='base-regular text-neutral-400'>
-          {trans('UnsubscribeModal.You_will_lose_benefits_to_unlimited_AI_generations_grammar_check_and_originality_checks_Reconsider_to_keep_enhancing_your_writing_effortlessly')}
+          {trans(
+            'UnsubscribeModal.You_will_lose_benefits_to_unlimited_AI_generations_grammar_check_and_originality_checks_Reconsider_to_keep_enhancing_your_writing_effortlessly'
+          )}
         </DialogDescription>
         <DialogFooter>
           <DialogClose asChild>

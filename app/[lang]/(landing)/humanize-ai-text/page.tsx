@@ -16,7 +16,7 @@ export default async function Page({
   searchParams: { from: string };
 }) {
   const dict = await getDictionary(lang);
-  const trans = await getTranslations("Homepage");
+  const trans = await getTranslations('Homepage');
 
   return (
     <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>

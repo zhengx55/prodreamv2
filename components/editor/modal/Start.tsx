@@ -147,13 +147,13 @@ const Start = ({ handleClose }: Props) => {
             id='idea'
             ref={ideaRef}
             className='small-regular'
-            placeholder={t('StartModal.Describe_your_research_topic_or_essay_prompt')}
+            placeholder={t(
+              'StartModal.Describe_your_research_topic_or_essay_prompt'
+            )}
           />
           <Spacer y='20' />
           <div className='flex items-center gap-x-4'>
-            <p className='title-medium'>
-              {t('StartModal.Generate_outline')}
-            </p>
+            <p className='title-medium'>{t('StartModal.Generate_outline')}</p>
             <Spacer y='10' />
             <div className='flex gap-x-2'>
               <Toggle
@@ -206,9 +206,7 @@ const Start = ({ handleClose }: Props) => {
                 <Spacer y='20' />
 
                 <div className='flex items-center gap-x-2'>
-                  <h2 className='title-medium'>
-                    {t('StartModal.Essay_Type')}
-                  </h2>
+                  <h2 className='title-medium'>{t('StartModal.Essay_Type')}</h2>
                   <Spacer y='10' />
                   <div className='flex gap-x-2'>
                     <Toggle

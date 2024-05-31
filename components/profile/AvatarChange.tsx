@@ -79,7 +79,7 @@ const AvatarChange = () => {
         </h2>
         <EditName>
           <Button variant={'ghost'} role='button' className='h-max p-0'>
-           {t('Setting.Change_name')}
+            {t('Setting.Change_name')}
           </Button>
         </EditName>
       </div>

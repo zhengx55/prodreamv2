@@ -79,7 +79,9 @@ const CitationMenu = ({ editor }: Props) => {
           withBorder
         >
           <div className='flex-between px-2'>
-            <p className='base-medium text-zinc-600'>{t('CitationMenu.Search_Results')}</p>
+            <p className='base-medium text-zinc-600'>
+              {t('CitationMenu.Search_Results')}
+            </p>
           </div>
           {isPending ? (
             <Loading />
@@ -98,7 +100,8 @@ const CitationMenu = ({ editor }: Props) => {
                   </p>
                   <div className='flex flex-col gap-y-2 rounded border border-gray-200 p-3'>
                     <p className='small-regular line-clamp-3'>
-                      {item.snippet ?? t('CitationMenu.No_detail_description_available')}
+                      {item.snippet ??
+                        t('CitationMenu.No_detail_description_available')}
                     </p>
                   </div>
                   <div className='flex gap-x-2'>
@@ -121,7 +124,8 @@ const CitationMenu = ({ editor }: Props) => {
                         }
                       }}
                     >
-                      <ArrowUpRightFromSquare size={20} /> {t('CitationMenu.View_in_new_tab')}
+                      <ArrowUpRightFromSquare size={20} />{' '}
+                      {t('CitationMenu.View_in_new_tab')}
                     </Button>
                   </div>
                 </div>
@@ -129,7 +133,9 @@ const CitationMenu = ({ editor }: Props) => {
             })
           )}
           <div className='flex-center h-11 w-full gap-x-2'>
-            <p className='small-regular'>{t('CitationMenu.Not_finding_what_you_want')}</p>
+            <p className='small-regular'>
+              {t('CitationMenu.Not_finding_what_you_want')}
+            </p>
             <Button
               role='button'
               onClick={() => {

@@ -57,7 +57,7 @@ const DocNavbar = ({ t, lang }: Props) => {
         )}
       </div>
       <div className='flex items-center gap-x-4'>
-        <Prompt key={prompt} prompt={prompt} t={t} />
+        <Prompt key={prompt} prompt={prompt} />
         {['basic', 'free_trail'].includes(usage?.subscription ?? '') ? (
           <Button
             role='button'

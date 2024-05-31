@@ -30,7 +30,9 @@ const UserInfoDropdown = () => {
       <Link href={`/${lang}/profile/setting`} passHref>
         <DropdownMenuItem className='cursor-pointer gap-x-2.5 rounded text-zinc-600 hover:bg-slate-100 hover:text-violet-500'>
           <User2 size={20} />
-          <span className='text-md font-[500]'>{t('SideBar.View_Profile')}</span>
+          <span className='text-md font-[500]'>
+            {t('SideBar.View_Profile')}
+          </span>
         </DropdownMenuItem>
       </Link>
 

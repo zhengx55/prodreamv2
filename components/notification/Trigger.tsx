@@ -11,7 +11,6 @@ type Props = {};
 const NotificationTrigger = (props: Props) => {
   const { data: trackInfo } = useUserTrackInfo();
 
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

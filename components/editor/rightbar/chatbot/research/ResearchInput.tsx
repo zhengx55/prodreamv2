@@ -57,7 +57,9 @@ const ResearchInput = ({ t }: Props) => {
         value={value}
         disabled={aiChatSending}
         onChange={handleValueChnage}
-        placeholder={trans('Chat.ChatInput.Ask_a_research_question_or_search_for_data')}
+        placeholder={trans(
+          'Chat.ChatInput.Ask_a_research_question_or_search_for_data'
+        )}
       />
       <Button
         onClick={submit}

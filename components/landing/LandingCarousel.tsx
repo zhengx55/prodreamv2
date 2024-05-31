@@ -161,7 +161,7 @@ const HeroClientSection = () => {
   };
   return (
     <>
-      <HeroCarousel clickCallback={memoSetSelected} t={t} />
+      <HeroCarousel clickCallback={memoSetSelected} />
       <div className='hidden w-full justify-between gap-x-4 sm:flex'>
         {HeroInfo.map((item, index) => {
           return (

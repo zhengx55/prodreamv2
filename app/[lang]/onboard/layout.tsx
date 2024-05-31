@@ -12,8 +12,8 @@ export default async function OnboardLayout({
   params: { lang: Locale };
 }) {
   const dict = await getDictionary(lang);
-  const trans = await getTranslations("Homepage");
-  
+  const trans = await getTranslations('Homepage');
+
   return (
     <main className='relative flex h-full w-full flex-col overflow-auto '>
       <Navbar dict={dict} />
