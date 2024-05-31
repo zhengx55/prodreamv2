@@ -24,9 +24,13 @@ const TrialEnds = ({ expireTime }: { expireTime: number }) => {
       </Link>
     </div>
   );
-} 
+};
 
-const BasicMembership = ({ freeTimesDetail }: { freeTimesDetail: FreeTimesDetail }) => {
+const BasicMembership = ({
+  freeTimesDetail,
+}: {
+  freeTimesDetail: FreeTimesDetail;
+}) => {
   const document_count = Math.max(0, freeTimesDetail?.Document ?? 0);
   const filledBars = Array(3 - document_count).fill(0);
   const emptyBars = Array(document_count).fill(0);
@@ -42,8 +46,7 @@ const BasicMembership = ({ freeTimesDetail }: { freeTimesDetail: FreeTimesDetail
     >
       {Unlimited}
     </Link>
-  )
-
+  );
 
   return (
     <div className='flex flex-col gap-y-2'>
@@ -59,10 +62,10 @@ const BasicMembership = ({ freeTimesDetail }: { freeTimesDetail: FreeTimesDetail
         ))}
       </div>
       <p className='base-medium text-zinc-500'>
-        {t.rich('MembershipBar.MaxHistoricalLimitHint', { 
-            FilledBarsNumber: filledBars.length,
-            UnlimitedLink: () => unlimitedLink,
-            Unlimited: Unlimited
+        {t.rich('MembershipBar.MaxHistoricalLimitHint', {
+          FilledBarsNumber: filledBars.length,
+          UnlimitedLink: () => unlimitedLink,
+          Unlimited: Unlimited,
         })}
       </p>
     </div>
@@ -81,11 +84,12 @@ const MembershipBar = ({ membership }: { membership: ISubscription }) => {
     <div
       className={`mt-auto flex w-full shrink-0 items-center px-6 py-5 ${justifyClass}`}
     >
-      {membership.subscription === 'free_trail' &&
-        <TrialEnds expireTime={membership.expire_time} />  
-      }
-      {membership.subscription === 'basic' &&
-        <BasicMembership freeTimesDetail={membership.free_times_detail} />}
+      {membership.subscription === 'free_trail' && (
+        <TrialEnds expireTime={membership.expire_time} />
+      )}
+      {membership.subscription === 'basic' && (
+        <BasicMembership freeTimesDetail={membership.free_times_detail} />
+      )}
     </div>
   );
 };

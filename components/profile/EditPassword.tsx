@@ -67,7 +67,9 @@ const EditPassModal = ({ children }: Props) => {
       >
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
-            <p className='h2-bold mt-2 text-center'>{t('Setting.Change_password')}</p>
+            <p className='h2-bold mt-2 text-center'>
+              {t('Setting.Change_password')}
+            </p>
             <DialogClose>
               <X className='self-end text-shadow' />
             </DialogClose>

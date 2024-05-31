@@ -19,13 +19,11 @@ const FullHuman = dynamic(() => import('./FullHuman'));
 const MostHuman = dynamic(() => import('./MostHuman'));
 
 type Props = {
-  t: EditorDictType;
   highlight_sentences: [number[], number[], string][];
   human_percent: number;
   onRecheck: () => Promise<void>;
 };
 const Suggestion = ({
-  t,
   highlight_sentences,
   human_percent,
   onRecheck,
@@ -87,14 +85,18 @@ const Suggestion = ({
   const RenderContent = () => {
     if (membership?.subscription === 'basic') {
       return (
-        <Unlock text={trans('RightBar.Unlock_humanize_suggestions_with_the_Unlimited_Plan')} />
+        <Unlock
+          text={trans(
+            'RightBar.Unlock_humanize_suggestions_with_the_Unlimited_Plan'
+          )}
+        />
       );
     }
     if (highlight_sentences.length === 0 && !showRecheck) {
       if (human_percent > 95) {
-        return <FullHuman t={t} />;
+        return <FullHuman />;
       } else {
-        return <MostHuman showRecheck={memoShowRecheck} t={t} />;
+        return <MostHuman showRecheck={memoShowRecheck} />;
       }
     }
     if (suggestion?.length === 0) {
@@ -106,13 +108,12 @@ const Suggestion = ({
         );
       }
       if (showRecheck) {
-        return <Recheck t={t} recheck={onRecheck} />;
+        return <Recheck recheck={onRecheck} />;
       }
-      return <Starter t={t} start={handleHumanize} />;
+      return <Starter start={handleHumanize} />;
     }
     return (
       <SuggestionsList
-        t={t}
         setShowRecheck={memoShowRecheck}
         setSuggestion={memoSetSuggestion}
         suggestion={suggestion}
@@ -130,41 +131,38 @@ const Suggestion = ({
   );
 };
 
-const Starter = memo(
-  ({ start, t }: { start: () => Promise<void>; t: EditorDictType }) => {
-    const trans = useTranslations('Editor');
-    
-    return (
-      <div className='flex flex-1 flex-col'>
-        <p className='base-medium'>{trans('Detection.Humanizer')}</p>
-        <Spacer y='14' />
-        <div className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
-          <Image
-            src='/editor/Start.png'
-            alt='Upgrade check'
-            width={450}
-            height={270}
-            className='h-44 w-60 self-center'
-          />
-          <p className='text-center text-sm font-normal text-zinc-600'>
-            {trans('Detection.humanize_title')}
-          </p>
-          <Button
-            className='base-regular size-max self-center rounded-lg px-8'
-            role='button'
-            onClick={start}
-          >
-            {trans('Detection.humanize_button')}
-          </Button>
-        </div>
+const Starter = memo(({ start }: { start: () => Promise<void> }) => {
+  const trans = useTranslations('Editor');
+
+  return (
+    <div className='flex flex-1 flex-col'>
+      <p className='base-medium'>{trans('Detection.Humanizer')}</p>
+      <Spacer y='14' />
+      <div className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'>
+        <Image
+          src='/editor/Start.png'
+          alt='Upgrade check'
+          width={450}
+          height={270}
+          className='h-44 w-60 self-center'
+        />
+        <p className='text-center text-sm font-normal text-zinc-600'>
+          {trans('Detection.humanize_title')}
+        </p>
+        <Button
+          className='base-regular size-max self-center rounded-lg px-8'
+          role='button'
+          onClick={start}
+        >
+          {trans('Detection.humanize_button')}
+        </Button>
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 const SuggestionsList = memo(
   ({
-    t,
     suggestion,
     setSuggestion,
     setShowRecheck,
@@ -172,7 +170,6 @@ const SuggestionsList = memo(
     setExpanded,
     toggleExpand,
   }: {
-    t: EditorDictType;
     expanded: number;
     suggestion: [number[], number[], string][];
     setSuggestion: (suggestion: [number[], number[], string][]) => void;
@@ -253,7 +250,6 @@ const SuggestionsList = memo(
           if (!suggestion[2]) return null;
           return (
             <SuggestItem
-              t={t}
               key={`suggestion-${idx}`}
               item={suggestion}
               isExpand={expanded === idx}
@@ -277,7 +273,6 @@ interface SentenceItemProps {
   onToggleExpand: () => void;
   onDismiss: () => void;
   onAccept: () => void;
-  t: EditorDictType;
 }
 
 const SuggestItem = ({
@@ -286,51 +281,50 @@ const SuggestItem = ({
   onToggleExpand,
   onDismiss,
   onAccept,
-  t,
-}: SentenceItemProps) => { 
+}: SentenceItemProps) => {
   const trans = useTranslations('Editor');
   return (
-  <m.div
-    initial={false}
-    animate={isExpand ? 'expand' : 'collapse'}
-    variants={{
-      expand: { height: 'auto' },
-      collapse: { height: '86px' },
-    }}
-    transition={{ duration: 0.3 }}
-    onClick={onToggleExpand}
-    className='cursor-pointer overflow-hidden rounded border border-gray-200 px-4 py-2 hover:shadow-md'
-  >
-    <p
-      className={`small-regular text-zinc-600 ${isExpand ? '' : 'line-clamp-3'}`}
+    <m.div
+      initial={false}
+      animate={isExpand ? 'expand' : 'collapse'}
+      variants={{
+        expand: { height: 'auto' },
+        collapse: { height: '86px' },
+      }}
+      transition={{ duration: 0.3 }}
+      onClick={onToggleExpand}
+      className='cursor-pointer overflow-hidden rounded border border-gray-200 px-4 py-2 hover:shadow-md'
     >
-      {item[2]}
-    </p>
-    {isExpand && (
-      <div className='my-4 flex justify-end gap-x-2'>
-        <Button
-          role='button'
-          variant={'outline'}
-          onClick={(e) => {
-            e.stopPropagation();
-            onDismiss();
-          }}
-          className='size-max rounded border px-4 py-1'
-        >
-          {trans('Utility.Dismiss')}
-        </Button>
-        <Button
-          role='button'
-          className='size-max rounded border border-transparent px-4 py-1'
-          onClick={(e) => {
-            e.stopPropagation();
-            onAccept();
-          }}
-        >
-          {trans('Utility.Accept')}
-        </Button>
-      </div>
-    )}
+      <p
+        className={`small-regular text-zinc-600 ${isExpand ? '' : 'line-clamp-3'}`}
+      >
+        {item[2]}
+      </p>
+      {isExpand && (
+        <div className='my-4 flex justify-end gap-x-2'>
+          <Button
+            role='button'
+            variant={'outline'}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDismiss();
+            }}
+            className='size-max rounded border px-4 py-1'
+          >
+            {trans('Utility.Dismiss')}
+          </Button>
+          <Button
+            role='button'
+            className='size-max rounded border border-transparent px-4 py-1'
+            onClick={(e) => {
+              e.stopPropagation();
+              onAccept();
+            }}
+          >
+            {trans('Utility.Accept')}
+          </Button>
+        </div>
+      )}
     </m.div>
   );
 };

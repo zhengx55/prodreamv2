@@ -81,7 +81,9 @@ const SearchBar = ({ lang, t }: Props) => {
           className='flex-center h-14 w-52 cursor-pointer gap-x-2 rounded-lg bg-gradient-to-br from-fuchsia-600 via-purple-600 to-violet-500 hover:bg-violet-500 hover:bg-none'
         >
           <Plus className='text-white' size={20} />
-          <p className='base-semibold text-white'>{trans('TopBar.New_Essay')}</p>
+          <p className='base-semibold text-white'>
+            {trans('TopBar.New_Essay')}
+          </p>
         </button>
         <Dialog>
           <DialogTrigger asChild>

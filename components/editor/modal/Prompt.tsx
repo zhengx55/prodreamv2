@@ -114,7 +114,9 @@ const PromptView = ({ show }: { show: boolean }) => {
           aria-label='essay prompt'
           id='essay-prompt'
           className='h-[107px] w-full rounded border border-solid border-gray-200 bg-white '
-          placeholder={t('Prompt.An_argumentative_essay_discussing_challenges_and_strategies_of_conserving_biodiversity_in_the_Amazon_rainforest')}
+          placeholder={t(
+            'Prompt.An_argumentative_essay_discussing_challenges_and_strategies_of_conserving_biodiversity_in_the_Amazon_rainforest'
+          )}
         />
         <DialogFooter className='sm:justify-between'>
           <div className='flex items-center'>

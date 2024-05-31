@@ -20,7 +20,6 @@ const InfoForm = ({ dict, name, lang }: Props) => {
   const [errorMessage, setErrorMessage] = useState('');
   const t = useTranslations('Onboard');
 
-
   async function updateInfo(formData: FormData) {
     const result = await setOnboardNameAndCode(formData, lang);
     if (result.error) {

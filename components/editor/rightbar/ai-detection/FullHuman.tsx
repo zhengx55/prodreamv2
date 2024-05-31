@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 
-const FullHuman = ({ t }: { t: EditorDictType }) => {
+const FullHuman = () => {
   const trans = useTranslations('Editor');
 
   return (

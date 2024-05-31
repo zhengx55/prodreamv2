@@ -39,7 +39,8 @@ const ListView = ({ list, t, lang }: Props) => {
             </span>
             <div className='flex-between w-1/3'>
               <p className='small-regular text-shadow'>
-                {trans('Card.Opened')} {formatTimestamphh_number(item.update_time, lang)}
+                {trans('Card.Opened')}{' '}
+                {formatTimestamphh_number(item.update_time, lang)}
               </p>
               <HistoryDropDown item={item} />
             </div>

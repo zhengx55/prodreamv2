@@ -122,7 +122,10 @@ const WebsiteForm = ({
       <Spacer y='20' />
       <h1 className='base-semibold'>{t('CustomCitation.What_I_am_citing')}</h1>
       <Spacer y='16' />
-      <label className='small-regular text-neutral-4000' htmlFor='article_title'>
+      <label
+        className='small-regular text-neutral-4000'
+        htmlFor='article_title'
+      >
         {t('CustomCitation.Article_Title')}
       </label>
       <Input
@@ -132,7 +135,9 @@ const WebsiteForm = ({
         {...register('article_title')}
       />
       <Spacer y='20' />
-      <h1 className='base-semibold'>{t('CustomCitation.WebsiteMenu.Contributors')}</h1>
+      <h1 className='base-semibold'>
+        {t('CustomCitation.WebsiteMenu.Contributors')}
+      </h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2'>
           {fields.map((contributor, index) => (
@@ -205,10 +210,14 @@ const WebsiteForm = ({
         onClick={appendContributor}
       >
         <PlusCircle className='fill-violet-500 text-white' size={22} />
-        <p className='text-violet-500'>{t('CustomCitation.WebsiteMenu.Add_Contributor')}</p>
+        <p className='text-violet-500'>
+          {t('CustomCitation.WebsiteMenu.Add_Contributor')}
+        </p>
       </Button>
       <Spacer y='20' />
-      <h1 className='base-semibold'>{t('CustomCitation.WebsiteMenu.Online_publication_info')}</h1>
+      <h1 className='base-semibold'>
+        {t('CustomCitation.WebsiteMenu.Online_publication_info')}
+      </h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='publisher'>
         {t('CustomCitation.Publisher')}
@@ -240,7 +249,9 @@ const WebsiteForm = ({
         {...register('url')}
       />
       <Spacer y='16' />
-      <h2 className='small-regular text-neutral-400'>{t('CustomCitation.Date_accessed')}</h2>
+      <h2 className='small-regular text-neutral-400'>
+        {t('CustomCitation.Date_accessed')}
+      </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input

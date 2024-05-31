@@ -22,7 +22,8 @@ const Introduction = ({ t, lang }: HomePageDicType) => {
           </h2>
         ) : (
           <h2 className='text-center font-custom  text-[24px] leading-relaxed sm:text-[48px]'>
-            {trans('IntroductionInfo_theme_1')} {trans('IntroductionInfo_theme_2')}
+            {trans('IntroductionInfo_theme_1')}{' '}
+            {trans('IntroductionInfo_theme_2')}
           </h2>
         )}
 
@@ -52,9 +53,7 @@ const Introduction = ({ t, lang }: HomePageDicType) => {
                   <div className='relative h-full w-full overflow-hidden'>
                     <Image
                       src={item.image}
-                      alt={
-                        trans(`IntroductionInfo_title_${idx + 1}`)
-                      }
+                      alt={trans(`IntroductionInfo_title_${idx + 1}`)}
                       className='object-contain'
                       fill
                       sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'

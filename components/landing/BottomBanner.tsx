@@ -1,14 +1,11 @@
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 
-
 const BottomBanner = () => {
   const t = useTranslations('Editor');
-
 
   return (
     <section className='relative flex w-full justify-center bg-shadow-400 py-10 sm:py-20'>

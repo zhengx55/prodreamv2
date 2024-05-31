@@ -23,7 +23,8 @@ async function getMembership(): Promise<ISubscription> {
   );
   if (!res.ok) throw new Error(trans('Subscription.Failed_to_fetch_balance'));
   const data = await res.json();
-  if (data.code !== 0) throw new Error(trans('Subscription.Failed_to_fetch_balance'));
+  if (data.code !== 0)
+    throw new Error(trans('Subscription.Failed_to_fetch_balance'));
   return data.data;
 }
 
@@ -38,7 +39,8 @@ async function getHistory(): Promise<ISubsciptionHistory[]> {
   );
   if (!res.ok) throw new Error(trans('Subscription.Failed_to_fetch_balance'));
   const data = await res.json();
-  if (data.code !== 0) throw new Error(trans('Subscription.Failed_to_fetch_balance'));
+  if (data.code !== 0)
+    throw new Error(trans('Subscription.Failed_to_fetch_balance'));
   return data.data;
 }
 
@@ -59,7 +61,9 @@ export default async function Page({
 
   return (
     <main className='flex h-full w-full flex-col overflow-y-auto px-10 py-5'>
-      <h1 className='title-medium'>{trans('Subscription.Membership_Details')}</h1>
+      <h1 className='title-medium'>
+        {trans('Subscription.Membership_Details')}
+      </h1>
       <Spacer y='20' />
       <Separator orientation='horizontal' className='bg-shadow-border' />
       <Spacer y='40' />
@@ -83,10 +87,11 @@ export default async function Page({
           <Spacer y='5' />
           <div className='flex items-center gap-x-4'>
             <p className='text-neutral-400'>
-                {trans.rich('Setting.Your_current_plan', { 
-                  CurrentPlan: membership.subscription_type === 'year' ? Annual : Monthly,
-                  strong: (chunks: any) => <strong>{chunks}</strong>
-                })}
+              {trans.rich('Setting.Your_current_plan', {
+                CurrentPlan:
+                  membership.subscription_type === 'year' ? Annual : Monthly,
+                strong: (chunks: any) => <strong>{chunks}</strong>,
+              })}
             </p>
             {membership.subscription_id && (
               <UnsubscribeModal subscription_id={membership.subscription_id}>
@@ -116,12 +121,11 @@ export default async function Page({
                   !
                 </span>
                 <p className='small-regular text-neutral-4000'>
-                  {trans('Subscription.Save_$10_every_month_by_switching_to_the_annual_plan')}
+                  {trans(
+                    'Subscription.Save_$10_every_month_by_switching_to_the_annual_plan'
+                  )}
                   <br />
-                  <Link
-                    href={`/${lang}/pricing`}
-                    className='text-violet-500'
-                  >
+                  <Link href={`/${lang}/pricing`} className='text-violet-500'>
                     {trans('Subscription.Go_annual_now')}
                   </Link>
                 </p>

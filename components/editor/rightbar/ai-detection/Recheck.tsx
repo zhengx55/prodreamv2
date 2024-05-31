@@ -5,13 +5,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { memo } from 'react';
 
-const Recheck = ({
-  t,
-  recheck,
-}: {
-  t: EditorDictType;
-  recheck: () => void;
-}) => {
+const Recheck = ({ recheck }: { recheck: () => void }) => {
   const trans = useTranslations('Editor');
 
   return (

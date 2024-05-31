@@ -52,7 +52,7 @@ const Sidebar = () => {
   const t = useTranslations('Editor');
   const { lang } = useParams();
   const isInCN = lang === 'cn';
-  
+
   const pathname = usePathname();
   const { topValue, changeTopValue } = useSidebarElevation(pathname);
   const updateFeedbackModal = useModal((state) => state.updateFeedbackModal);
@@ -130,21 +130,23 @@ const Sidebar = () => {
       </ul>
 
       <div className='mt-auto flex flex-col'>
-        {isInCN ? null : <Link
-          href={'https://discord.gg/xXSFXv5kPd'}
-          target='_blank'
-          className='z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2 hover:bg-slate-100'
-        >
-          <Icon
-            width={20}
-            height={20}
-            alt='discord'
-            src='/nav/discord.svg'
-            className='size-5'
-            priority
-          />
-          <p className='base-regular text-zinc-600'>{t('SideBar.Discord')}</p>
-        </Link>}
+        {isInCN ? null : (
+          <Link
+            href={'https://discord.gg/xXSFXv5kPd'}
+            target='_blank'
+            className='z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2 hover:bg-slate-100'
+          >
+            <Icon
+              width={20}
+              height={20}
+              alt='discord'
+              src='/nav/discord.svg'
+              className='size-5'
+              priority
+            />
+            <p className='base-regular text-zinc-600'>{t('SideBar.Discord')}</p>
+          </Link>
+        )}
         <div
           role='dialog'
           className='z-50 flex h-12 cursor-pointer items-center gap-x-2 rounded-md pl-2 hover:bg-slate-100'
@@ -158,7 +160,9 @@ const Sidebar = () => {
             className='size-5'
             priority
           />
-          <p className='base-regular text-zinc-600'>{t('SideBar.Contact_Support')}</p>
+          <p className='base-regular text-zinc-600'>
+            {t('SideBar.Contact_Support')}
+          </p>
         </div>
         {memberShipPending ? null : memberShip?.subscription === 'basic' ? (
           <Link href={'/pricing'} passHref>

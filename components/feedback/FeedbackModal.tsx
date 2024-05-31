@@ -23,7 +23,6 @@ const FeedbackModal = () => {
     setOption(index);
   }, []);
 
-
   const show = useModal((state) => state.feedbackModal);
   const setShow = useModal((state) => state.updateFeedbackModal);
   return (
@@ -50,7 +49,7 @@ const FeedbackModal = () => {
 
 const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
   const t = useTranslations('Editor');
-  const {lang} = useParams();
+  const { lang } = useParams();
 
   return (
     <m.div
@@ -69,28 +68,30 @@ const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
         </DialogClose>
       </div>
       <ul className='flex flex-col gap-y-2'>
-        {(lang === 'en' ? FeedbackOptions : FeedbackOptionsCN).map((options, index) => {
-          return index === 1 ? (
-            <li
-              role='link'
-              key={`feedback-${index}`}
-              className='w-full cursor-pointer rounded border border-stone-300 px-4 py-2.5 text-zinc-600 hover:bg-violet-50 hover:shadow-md'
-            >
-              <Link href={'https://tally.so/r/mJ2WJR'} target='_blanck'>
+        {(lang === 'en' ? FeedbackOptions : FeedbackOptionsCN).map(
+          (options, index) => {
+            return index === 1 ? (
+              <li
+                role='link'
+                key={`feedback-${index}`}
+                className='w-full cursor-pointer rounded border border-stone-300 px-4 py-2.5 text-zinc-600 hover:bg-violet-50 hover:shadow-md'
+              >
+                <Link href={'https://tally.so/r/mJ2WJR'} target='_blanck'>
+                  {options}
+                </Link>
+              </li>
+            ) : (
+              <li
+                role='button'
+                onClick={() => handler(index)}
+                key={`feedback-${index}`}
+                className='w-full cursor-pointer rounded border border-stone-300 px-4 py-2.5 text-zinc-600 hover:bg-violet-50 hover:shadow-md'
+              >
                 {options}
-              </Link>
-            </li>
-          ) : (
-            <li
-              role='button'
-              onClick={() => handler(index)}
-              key={`feedback-${index}`}
-              className='w-full cursor-pointer rounded border border-stone-300 px-4 py-2.5 text-zinc-600 hover:bg-violet-50 hover:shadow-md'
-            >
-              {options}
-            </li>
-          );
-        })}
+              </li>
+            );
+          }
+        )}
       </ul>
     </m.div>
   );
@@ -108,7 +109,7 @@ const Submit = memo(
     const [attachments, setAttachments] = useState<string[]>([]);
     const infoRef = useRef<HTMLTextAreaElement>(null);
     const t = useTranslations('Editor');
-    const {lang} = useParams();
+    const { lang } = useParams();
 
     const { mutateAsync: submit, isPending } = useMutation({
       mutationFn: (params: {
@@ -179,7 +180,9 @@ const Submit = memo(
           >
             {option === 0
               ? t('FeedBack.Please_describe_the_bug_you_encountered_in_detail')
-              : t('FeedBack.Please_provide_details_for_how_you_would_like_assistance')}
+              : t(
+                  'FeedBack.Please_provide_details_for_how_you_would_like_assistance'
+                )}
           </label>
           <Spacer y='5' />
           <Textarea
@@ -206,7 +209,14 @@ const Submit = memo(
               </Link>
               &nbsp;for direct chat support. */}
               {t.rich('FeedBack.AlternativeSupport', {
-                emailLink: (chunks: any) =>  <a href='mailto:support@prodream.ai' className='text-violet-500'>support@prodream.ai</a>,
+                emailLink: (chunks: any) => (
+                  <a
+                    href='mailto:support@prodream.ai'
+                    className='text-violet-500'
+                  >
+                    support@prodream.ai
+                  </a>
+                ),
                 contactToolLink: (chunks: any) => <p></p>,
               })}
             </p>
@@ -233,7 +243,7 @@ const Attachments = memo(
   ({ handler }: { handler: (attachment: string[]) => void }) => {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const t = useTranslations('Editor');
-    const {lang} = useParams();
+    const { lang } = useParams();
 
     const onDrop = useCallback(
       async (acceptedFile: File[], fileRejections: FileRejection[]) => {
@@ -269,7 +279,9 @@ const Attachments = memo(
     });
     return (
       <div className='flex flex-col'>
-        <h2 className='text-base font-normal text-neutral-400'>{t('FeedBack.Attachments')}</h2>
+        <h2 className='text-base font-normal text-neutral-400'>
+          {t('FeedBack.Attachments')}
+        </h2>
         <Spacer y='5' />
         {imagePreview ? (
           <div className='flex-center relative flex h-40 rounded border-2 border-dashed border-stone-300 p-4'>

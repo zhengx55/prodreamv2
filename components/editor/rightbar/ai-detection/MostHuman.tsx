@@ -27,13 +27,7 @@ type MostHumanSuggestionsProps = {
   expand: boolean;
 };
 
-const MostHuman = ({
-  t,
-  showRecheck,
-}: {
-  t: EditorDictType;
-  showRecheck: () => void;
-}) => {
+const MostHuman = ({ showRecheck }: { showRecheck: () => void }) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const [paragraph, setParagraph] = useState<MostHumanParagraphProps[]>([]);
   const [suggestion, setSuggestion] = useState<MostHumanSuggestionsProps[]>([]);
@@ -192,13 +186,12 @@ const MostHuman = ({
       </div>
       <Spacer y='14' />
       {paragraph.length === 0 && suggestion.length === 0 ? (
-        <ParagraphStarter t={t} handleParagraph={handleParagraph} />
+        <ParagraphStarter handleParagraph={handleParagraph} />
       ) : (
         <div className='flex flex-col gap-2'>
           {suggestion.length > 0 && (
             <>
               <Header
-                t={t}
                 suggestion={suggestion}
                 handleAcceptAll={handelAcceptAll}
                 handleDismissAll={handleDismissAll}
@@ -245,7 +238,7 @@ const MostHuman = ({
                 );
               })}
               {paragraph.length > 0 && (
-                <RemainingHeader t={t} handler={humanizeAll} />
+                <RemainingHeader handler={humanizeAll} />
               )}
             </>
           )}
@@ -286,13 +279,7 @@ const MostHuman = ({
 export default memo(MostHuman);
 
 const ParagraphStarter = memo(
-  ({
-    t,
-    handleParagraph,
-  }: {
-    t: EditorDictType;
-    handleParagraph: () => void;
-  }) => {
+  ({ handleParagraph }: { handleParagraph: () => void }) => {
     const trans = useTranslations('Editor');
 
     return (
@@ -325,13 +312,11 @@ const ParagraphStarter = memo(
 
 const Header = memo(
   ({
-    t,
     suggestion,
     handleAcceptAll,
     handleDismissAll,
   }: {
-    t: EditorDictType;
-    suggestion: any;
+    suggestion: MostHumanSuggestionsProps[];
     handleAcceptAll: () => void;
     handleDismissAll: () => void;
   }) => {
@@ -339,7 +324,9 @@ const Header = memo(
 
     return (
       <div className='flex-between'>
-        <p className='base-medium'>{suggestion.length} {trans('Utility.Suggestions')}</p>
+        <p className='base-medium'>
+          {suggestion.length} {trans('Utility.Suggestions')}
+        </p>
         <div className='flex gap-x-2'>
           <Button
             variant={'ghost'}
@@ -361,24 +348,22 @@ const Header = memo(
   }
 );
 
-const RemainingHeader = memo(
-  ({ t, handler }: { t: EditorDictType; handler: () => void }) => {
-    const trans = useTranslations('Editor');
+const RemainingHeader = memo(({ handler }: { handler: () => void }) => {
+  const trans = useTranslations('Editor');
 
-    return (
-      <div className='flex-between mt-4'>
-        <p className='base-medium'>{trans('Detection.Remaining_Paragraphs')}</p>
-        <Button
-          variant={'ghost'}
-          onClick={handler}
-          className='size-max p-0 text-neutral-400'
-        >
-          {trans('Detection.Humanize_all')}
-        </Button>
-      </div>
-    );
-  }
-);
+  return (
+    <div className='flex-between mt-4'>
+      <p className='base-medium'>{trans('Detection.Remaining_Paragraphs')}</p>
+      <Button
+        variant={'ghost'}
+        onClick={handler}
+        className='size-max p-0 text-neutral-400'
+      >
+        {trans('Detection.Humanize_all')}
+      </Button>
+    </div>
+  );
+});
 
 ParagraphStarter.displayName = 'ParagraphStarter';
 Header.displayName = 'Header';

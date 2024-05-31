@@ -46,7 +46,9 @@ const ResearchHistory = ({ t, closeHistory }: Props) => {
         className='absolute bottom-0 left-0 right-0 z-[99] flex flex-col rounded-t-lg border border-gray-200 bg-white p-4'
       >
         <div className='flex-between'>
-          <h2 className='base-medium text-zinc-700'>{trans('Chat.ChatInput.Search_History')}</h2>
+          <h2 className='base-medium text-zinc-700'>
+            {trans('Chat.ChatInput.Search_History')}
+          </h2>
           <XCircle
             size={20}
             onClick={closeHistory}

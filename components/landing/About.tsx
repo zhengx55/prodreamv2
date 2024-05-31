@@ -28,7 +28,8 @@ const About = ({ lang }: HomePageDicType) => {
         <CaptureProvider event='ScreenIII'>
           <p className='subtle-regular sm:base-regular text-center text-shadow-100'>
             {t('AboutInfo_CaptureProvider_1')}
-            <br className='hidden sm:block' /> {t('AboutInfo_CaptureProvider_2')}
+            <br className='hidden sm:block' />{' '}
+            {t('AboutInfo_CaptureProvider_2')}
           </p>
         </CaptureProvider>
         <Spacer y='40' />

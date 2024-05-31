@@ -6,7 +6,7 @@ import { i18n } from './i18n-config';
 
 const nextIntlMiddleware = createIntlMiddleware({
   locales: i18n.locales,
-  defaultLocale: i18n.defaultLocale
+  defaultLocale: i18n.defaultLocale,
 });
 
 function getLocale(request: NextRequest): string | undefined {

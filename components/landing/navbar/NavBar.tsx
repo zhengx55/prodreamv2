@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server';
 import { getIpAddress } from '@/query/api';
 import { memo } from 'react';
 import { Button } from '../../ui/button';
@@ -24,7 +24,6 @@ const NavBar = async ({
   lang,
   search_param,
 }: HomePageDicType & { search_param: string }) => {
-
   const trans = await getTranslations('Homepage');
 
   const token = cookies().get('token')?.value;
@@ -54,20 +53,22 @@ const NavBar = async ({
             </DropdownMenuTrigger>
             <LocaleDropdown />
           </DropdownMenu>
-          {!isInChina && <Link
-            prefetch={false}
-            href={'https://prodream.ai/blog'}
-            passHref
-            target='_blank'
-          >
-            <Button
-              role='link'
-              className='hidden w-max px-1 sm:block'
-              variant={'ghost'}
+          {!isInChina && (
+            <Link
+              prefetch={false}
+              href={'https://prodream.ai/blog'}
+              passHref
+              target='_blank'
             >
-              {trans('Blogs')}
-            </Button>
-          </Link>}
+              <Button
+                role='link'
+                className='hidden w-max px-1 sm:block'
+                variant={'ghost'}
+              >
+                {trans('Blogs')}
+              </Button>
+            </Link>
+          )}
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={token ? `/${lang}/editor` : `/${lang}/login`} passHref>
@@ -87,8 +88,8 @@ const NavBar = async ({
             passHref
           >
             <Button className='rounded-lg'>
-             <strong>{trans('start_writing')}</strong>
-              {trans('It_s_free')} 
+              <strong>{trans('start_writing')}</strong>
+              {trans('It_s_free')}
             </Button>
           </Link>
         </div>

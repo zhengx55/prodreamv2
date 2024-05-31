@@ -16,9 +16,8 @@ export default async function Page({
 }) {
   const dict = await getDictionary(lang);
   const trans = await getTranslations('Onboard');
-  
-  const token = cookies().get('token')?.value;
 
+  const token = cookies().get('token')?.value;
 
   const errorMessage = trans('An_error_occurred_while_setting_language_info');
 
@@ -54,9 +53,7 @@ export default async function Page({
           }
         );
         doc_id = (await new_doc_res.json()).data;
-        if (!doc_id)
-          
-          throw new Error(errorMessage);
+        if (!doc_id) throw new Error(errorMessage);
       }
     } catch (error) {
       throw new Error(errorMessage);

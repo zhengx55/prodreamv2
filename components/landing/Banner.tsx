@@ -24,7 +24,9 @@ const Banner = ({ lang }: HomePageDicType) => {
       <div className='flex-center w-full flex-col px-4 sm:max-w-[1200px] sm:px-0 '>
         <div className='flex flex-col gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
           <div className='relative w-full rounded-2xl bg-violet-500 p-7 sm:w-[47%] '>
-            <h2 className='title-regular text-white'>{t('BannerInfo_title_1')}</h2>
+            <h2 className='title-regular text-white'>
+              {t('BannerInfo_title_1')}
+            </h2>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               width='170'
@@ -59,7 +61,9 @@ const Banner = ({ lang }: HomePageDicType) => {
                 fill='white'
               />
             </svg>
-            <h2 className='title-regular text-white'>{t('BannerInfo_title_2')}</h2>
+            <h2 className='title-regular text-white'>
+              {t('BannerInfo_title_2')}
+            </h2>
             <Spacer y='20' />
             <p className='text-xs leading-6 text-white'>
               {t('BannerInfo_detail_2')}

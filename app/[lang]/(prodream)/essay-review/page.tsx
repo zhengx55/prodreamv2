@@ -11,7 +11,7 @@ import Link from 'next/link';
 const Modal = dynamic(() => import('@/components/review/Modal'));
 
 export default async function Page() {
-  const trans = await getTranslations("Homepage");
+  const trans = await getTranslations('Homepage');
   const token = cookies().get('token')?.value;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/redeem/essay_review`,

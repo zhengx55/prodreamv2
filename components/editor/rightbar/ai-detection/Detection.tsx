@@ -83,47 +83,45 @@ const Detection = () => {
             <Loader2 className='animate-spin text-violet-500' />
           </m.div>
         ) : (
-          <Starter t={t} start={startDetection} />
+          <Starter start={startDetection} />
         )}
       </AnimatePresence>
     </>
   );
 };
 
-const Starter = memo(
-  ({ start }: { start: () => Promise<void> }) => {
-    const trans = useTranslations('Editor');
+const Starter = memo(({ start }: { start: () => Promise<void> }) => {
+  const trans = useTranslations('Editor');
 
-    return (
-      <m.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        key={'detection-check'}
-        className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
+  return (
+    <m.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      key={'detection-check'}
+      className='flex h-max w-full flex-col gap-y-4 overflow-hidden rounded border border-gray-200 px-4 py-4'
+    >
+      <Image
+        src='/editor/Start.png'
+        alt='Upgrade check'
+        width={450}
+        height={270}
+        className='h-44 w-60 self-center'
+        priority
+      />
+      <p className='text-center text-sm font-normal text-zinc-600'>
+        {trans('Detection.Title')}
+      </p>
+      <Button
+        className='base-medium h-max w-max self-center rounded-lg px-8'
+        role='button'
+        onClick={start}
       >
-        <Image
-          src='/editor/Start.png'
-          alt='Upgrade check'
-          width={450}
-          height={270}
-          className='h-44 w-60 self-center'
-          priority
-        />
-        <p className='text-center text-sm font-normal text-zinc-600'>
-          {trans('Detection.Title')}
-        </p>
-        <Button
-          className='base-medium h-max w-max self-center rounded-lg px-8'
-          role='button'
-          onClick={start}
-        >
-          {trans('Detection.Button')}
-        </Button>
-      </m.div>
-    );
-  }
-);
+        {trans('Detection.Button')}
+      </Button>
+    </m.div>
+  );
+});
 
 Starter.displayName = 'Starter';
 

@@ -59,7 +59,9 @@ const Edit = ({ handleClose }: Props) => {
       </div>
       <div className='flex-between gap-x-8'>
         <div className='flex h-[380px] w-1/3 cursor-pointer flex-col items-center justify-evenly rounded-2xl border border-gray-200 py-4 hover:bg-[#F8F9FC]'>
-          <p className='title-semibold text-zinc-600'>{t('TitleEditModal.Edit_essays')}</p>
+          <p className='title-semibold text-zinc-600'>
+            {t('TitleEditModal.Edit_essays')}
+          </p>
           <div className='relative h-[250px] w-[90%] overflow-hidden'>
             <Image
               alt='start'
@@ -71,7 +73,9 @@ const Edit = ({ handleClose }: Props) => {
           </div>
         </div>
         <div className='flex h-full w-2/3 flex-col'>
-          <p className='title-medium'>{t('TitleEditModal.Brief_description_of_study')}</p>
+          <p className='title-medium'>
+            {t('TitleEditModal.Brief_description_of_study')}
+          </p>
           <Spacer y='10' />
           <Textarea
             id='idea'

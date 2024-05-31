@@ -65,7 +65,9 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
                   className='size-max p-1'
                 >
                   <Copy size={16} className='text-stone-400' />
-                  <p className='subtle-regular text-stone-400'>{trans('Chat.ChatInput.Copy')}</p>
+                  <p className='subtle-regular text-stone-400'>
+                    {trans('Chat.ChatInput.Copy')}
+                  </p>
                 </Button>
                 <Button role='button' variant={'icon'} className='size-max p-1'>
                   <ThumbsDown size={16} className='text-stone-400' />

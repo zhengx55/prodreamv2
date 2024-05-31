@@ -92,7 +92,10 @@ const ChatInput = ({ t }: Props) => {
               <Search size={16} className='cursor-pointer' />
             </Button>
           </Tooltip>
-          <Tooltip side='top' tooltipContent={trans('Chat.ChatInput.Upload_file')}>
+          <Tooltip
+            side='top'
+            tooltipContent={trans('Chat.ChatInput.Upload_file')}
+          >
             <Button
               onClick={() => {
                 updateUploadModal(true);
@@ -230,18 +233,18 @@ const SummarizeButton: React.FC<SummarizeButtonProps> = memo(
     const trans = useTranslations('Editor');
 
     return (
-    <Button
-      onClick={onClick}
-      disabled={disabled}
-      variant='outline'
-      className='size-max rounded border-none bg-gray-200 px-2 py-2 text-zinc-600'
-      role='button'
-    >
-      <Icon
-        alt='summarize-pdf'
-        width={20}
-        height={20}
-        src='/editor/chatbot/Summarize.svg'
+      <Button
+        onClick={onClick}
+        disabled={disabled}
+        variant='outline'
+        className='size-max rounded border-none bg-gray-200 px-2 py-2 text-zinc-600'
+        role='button'
+      >
+        <Icon
+          alt='summarize-pdf'
+          width={20}
+          height={20}
+          src='/editor/chatbot/Summarize.svg'
         />
         {trans('Chat.ChatInput.Summarize')}
       </Button>

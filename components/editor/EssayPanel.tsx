@@ -118,7 +118,9 @@ const CheckListSection = memo(({ t }: { t: EditorDictType }) => {
           alt={trans('SideBar.Contact_Support')}
           src='/editor/message_violet.svg'
         />
-        <p className='base-regular text-zinc-600'>{trans('SideBar.Contact_Support')}</p>
+        <p className='base-regular text-zinc-600'>
+          {trans('SideBar.Contact_Support')}
+        </p>
       </Button>
     </div>
   );

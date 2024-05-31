@@ -56,7 +56,7 @@ const Task = ({ t }: Props) => {
           <p className='text-base font-medium text-zinc-600'>
             {trans('Task.Step')} 1 : {trans('Task.step_1')}
           </p>
-          <p className='text-base font-medium text-zinc-6000'>
+          <p className='text-zinc-6000 text-base font-medium'>
             {trans('Task.Step')} 2 : {trans('Task.step_2_prefix')} &nbsp;
             <span className='inline-flex rounded bg-violet-100 px-1 text-base font-normal text-violet-500'>
               {trans('Task.step_2_middle')}
@@ -109,9 +109,13 @@ export const Finish = memo(() => {
           className='absolute bottom-0 left-[calc(50%_-80px)] z-10 h-24 w-24'
         />
         <h1 className='base-semibold z-20 text-white'>
-          {trans('Task.You_ve_just_discovered_key_ways_to_interact_with_our_AI')}
+          {trans(
+            'Task.You_ve_just_discovered_key_ways_to_interact_with_our_AI'
+          )}
           <br />
-          {trans('Task.Continue_to_the_onboarding_checklist_to_learn_how_to_use_our_features_designed_for_you')}
+          {trans(
+            'Task.Continue_to_the_onboarding_checklist_to_learn_how_to_use_our_features_designed_for_you'
+          )}
         </h1>
         <Button
           onClick={async () => {
