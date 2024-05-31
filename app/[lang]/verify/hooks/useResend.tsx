@@ -1,7 +1,7 @@
 import { resendEmail } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 
-export default function useRensendEmail() {
+export default function useResendEmail() {
   return useMutation({
     mutationFn: () => resendEmail(),
     onSuccess: async () => {

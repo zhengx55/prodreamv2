@@ -4,7 +4,7 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { IDiscount, ISubscription } from '@/types';
 import dynamic from 'next/dynamic';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { cookies } from 'next/headers';
 
 const Plan = dynamic(() => import('@/components/pricing/Plan'));
@@ -37,7 +37,9 @@ async function getDiscountInfo() {
   return data.data;
 }
 
-export default async function Page() {
+export default async function Page({params}: {params: {lang: string}}) {
+  unstable_setRequestLocale(params.lang);
+  
   const membership: ISubscription = await getBalance();
   const discount_info: IDiscount = await getDiscountInfo();
   const trans = await getTranslations('Homepage');

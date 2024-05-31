@@ -1,7 +1,7 @@
 import Membership from '@/components/profile/Membership';
 import Setting from '@/components/profile/Setting';
 import Verification from '@/components/profile/Verification';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
 import { LoginData } from '@/query/type';
@@ -40,6 +40,7 @@ export default async function Page({
 }: {
   params: { id: string; lang: Locale };
 }) {
+  unstable_setRequestLocale(params.lang);
   const t = await getTranslations('Homepage');
   const userInfo: LoginData = await getUserInfo();
   const memberInfo: ISubscription = await getMembership();

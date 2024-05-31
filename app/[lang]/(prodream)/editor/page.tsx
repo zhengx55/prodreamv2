@@ -3,7 +3,7 @@ import Search from '@/components/editor/history/Search';
 import Spacer from '@/components/root/Spacer';
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 const DiscountModal = dynamic(
@@ -15,6 +15,7 @@ export default async function Page({
 }: {
   params: { id: string; lang: Locale };
 }) {
+  unstable_setRequestLocale(params.lang);
   const t = (await getDictionary(params.lang)).Editor;
   const trans = await getTranslations('Homepage');
 

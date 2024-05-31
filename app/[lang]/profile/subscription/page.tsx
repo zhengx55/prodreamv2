@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { formatTimestampToDateString } from '@/lib/utils';
 import { ISubsciptionHistory, ISubscription } from '@/types';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
@@ -49,6 +49,7 @@ export default async function Page({
 }: {
   params: { id: string; lang: string };
 }) {
+  unstable_setRequestLocale(params.lang);
   const { id, lang } = params;
   const trans = await getTranslations('Profile');
   const membership = await getMembership();

@@ -4,13 +4,15 @@ import { Button } from '@/components/ui/button';
 import { ReviewReasons, ReviewSteps } from '@/constant';
 import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const Modal = dynamic(() => import('@/components/review/Modal'));
 
-export default async function Page() {
+export default async function Page({params}: {params: {lang: string}}) {
+  unstable_setRequestLocale(params.lang);
+
   const trans = await getTranslations('Homepage');
   const token = cookies().get('token')?.value;
   const res = await fetch(
