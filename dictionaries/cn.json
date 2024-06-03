@@ -105,7 +105,7 @@
     "QuestionInfo_title_4": "使用ProDream需要支付费用吗？",
     "QuestionInfo_desc_4": "目前，在我们的BETA测试阶段，ProDream是免费提供给用户的，您现在的参与可以使您在未来享受到专属折扣。",
     "QuestionInfo_title_5": "如何反馈ProDream使用中的问题？",
-    "QuestionInfo_desc_5": "我们极为重视您的反馈，并致力于帮助您解决使用ProDream时遇到的任何问题。请通过support@prodream.ai随时联系我们，或加入我们的Discord服务器，获取即时的支持与帮助。"
+    "QuestionInfo_desc_5": "我们极为重视您的反馈，并致力于帮助您解决使用ProDream时遇到的任何问题。请通过support@prodream.ai随时联系我们。"
   },
   "Auth": {
     "Slogan": "前所未有的写作体验 ",
@@ -293,8 +293,8 @@
     },
     "UploadModal": {
       "Upload_Essay": "上传文档",
-      "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "上传文档进行 AI 智能化体验",
-      "Click_or_drag_and_drop_here_to_upload": "点击或将文档拖拽到此处上传"
+      "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "上传文档进行 AI 智能化体验（支持pdf、doc、docx及dot格式）",
+      "Click_or_drag_and_drop_here_to_upload": "上传文件进行AI智能化体验"
     },
     "DeleteModal": {
       "Move_to_trash": "确认删除？",
@@ -349,7 +349,7 @@
       "PlaceHolder": "添加个性化主题可以大幅度提高AI生成的质量",
       "Successfully_set_essay_prompt": "成功设置论文提示",
       "Something_went_wrong_when_setting_essay_prompt": "设置论文提示时出错，请稍后再试",
-      "An_argumentative_essay_discussing_challenges_and_strategies_of_conserving_biodiversity_in_the_Amazon_rainforest": "例如：讨论亚马逊雨林保护生物多样性的挑战和策略的论证性论文",
+      "An_argumentative_essay_discussing_challenges_and_strategies_of_conserving_biodiversity_in_the_Amazon_rainforest": "讨论亚马逊……论文",
       "Strength": "主题强度",
       "Trigger": "文章主题",
       "Start_Writing": "开始写作"
@@ -423,12 +423,12 @@
       "Insert": "插入"
     },
     "RightBar": {
-      "Grammar_Check": "AI语法检查",
+      "Grammar_Check": "语法校对",
       "Citation": "引用查询",
       "My_Citation_Library": "我的引用",
       "Generate": "一键生成",
-      "Plagiarism_Check": "智能查重",
-      "AI_Detection": "智能检测",
+      "Plagiarism_Check": "查重",
+      "AI_Detection": "检测AI",
       "Essay_Prompt": "个性化写作"
     },
     "BubbleMenu": {

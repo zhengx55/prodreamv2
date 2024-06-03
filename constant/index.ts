@@ -1097,7 +1097,7 @@ export const FeedbackOptions = [
 ];
 
 export const FeedbackOptionsCN = [
-  '🐞 产品体验问题',
-  '🛠️ 产品功能建议',
-  '👩‍💻️️ 客服人工反馈',
+  '🐞 产品体验',
+  '🛠️ 功能建议',
+  '👩‍💻️️ 人工反馈',
 ];

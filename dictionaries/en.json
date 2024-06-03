@@ -294,7 +294,7 @@
     },
     "UploadModal": {
       "Upload_Essay": "Upload Essay",
-      "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "Upload a file to receive intelligent summaries and answers to your questions.",
+      "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "Upload a file to receive intelligent summaries and answers to your questions (pdf, doc, docx, dot supported).",
       "Click_or_drag_and_drop_here_to_upload": "Click or drag and drop here to upload"
     },
     "DeleteModal": {
