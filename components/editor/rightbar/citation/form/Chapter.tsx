@@ -113,8 +113,8 @@ const ChapterForm = ({
         className='small-regular text-neutral-4000'
         htmlFor='section_title'
       >
-        {t('CustomCitation.BookMenu.Chapter')}/
-        {t('CustomCitation.BookMenu.Section_Title')}
+        {t('WebsiteMenu.BookMenu.Chapter')}/
+        {t('WebsiteMenu.BookMenu.Section_Title')}
       </label>
       <Input
         type='text'
@@ -125,7 +125,7 @@ const ChapterForm = ({
       />
       <Spacer y='20' />
       <h1 className='base-semibold'>
-        {t('CustomCitation.BookMenu.Contributors')}
+        {t('CustomCitation.WebsiteMenu.BookMenu.Contributors')}
       </h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2 '>

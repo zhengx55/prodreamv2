@@ -1,12 +1,15 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { useAIEditor } from '@/zustand/store';
+import { useTranslations } from 'next-intl';
 import { AnimatePresence, m } from 'framer-motion';
 import Image from 'next/image';
 import { memo } from 'react';
 
 const Empty = () => {
+  const trans = useTranslations('Editor');
   const updateRightbarTab = useAIEditor((state) => state.updateRightbarTab);
+
   return (
     <AnimatePresence>
       <m.div
@@ -23,8 +26,7 @@ const Empty = () => {
           className='h-auto w-3/5'
         />
         <p className='small-regular text-center text-zinc-600'>
-          Your library is currently empty.
-          <br /> Try search for citations 😊
+          {trans('Citation.empty')}
         </p>
         <Spacer y='14' />
         <Button
@@ -33,7 +35,7 @@ const Empty = () => {
           className='h-max w-full border border-violet-500 py-1 text-violet-500'
           variant={'ghost'}
         >
-          Add Citation
+          {trans('Citation.Add_Citation')}
         </Button>
       </m.div>
     </AnimatePresence>

@@ -14,13 +14,14 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { resetName } from '@/lib/validation';
+import { resetName, resetNameCN } from '@/lib/validation';
 import { profileResetName } from '@/query/api';
 import { useUserInfo } from '@/zustand/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { ReactNode, memo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -33,11 +34,13 @@ type Props = {
 };
 
 const EditNameModal = ({ children }: Props) => {
+  const { lang } = useParams();
+  const isCN = lang === 'cn';
   const trans = useTranslations('Profile');
   const updateUserFirstName = useUserInfo((state) => state.setUserFirstName);
   const updateUserLastName = useUserInfo((state) => state.setUserLastName);
   const form = useForm<z.infer<typeof resetName>>({
-    resolver: zodResolver(resetName),
+    resolver: zodResolver(isCN ? resetNameCN : resetName),
     defaultValues: {
       firstname: '',
       lastname: '',

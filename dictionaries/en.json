@@ -137,6 +137,11 @@
       "Successfully_Reset_Password": "Successfully Reset Password",
       "Checked_your_email": "Checked your email",
       "Please_enter_your_email_address": "Please enter your email address"
+    },
+    "ResetPassword": {
+      "Switch_to": "Switch to",
+      "Log_in": "Log in",
+      "Sign_up": "Sign up"
     }
   },
   "Onboard": {
@@ -234,7 +239,7 @@
       "Starter": {
         "Hi": "Hi",
         "Greetings": "Greetings! I'm Jessica, your personal essay tutor. Explore AI Research, Chat PDF, or simply start a direct chat.",
-        "AI Research": "AI Research",
+        "AI_Research": "AI Research",
         "Ask_a_research_question_and_get_supporting_sources": "Ask a research question and get supporting sources",
         "Chat_PDF": "Chat PDF",
         "Click_or_drag_to_upload_Chat_with_file_and_get_summaries": "Click or drag to upload Chat with file & get summaries"
@@ -291,6 +296,13 @@
       "Upload_Essay": "Upload Essay",
       "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "Upload a file to receive intelligent summaries and answers to your questions.",
       "Click_or_drag_and_drop_here_to_upload": "Click or drag and drop here to upload"
+    },
+    "DeleteModal": {
+      "Move_to_trash": "Move to trash?",
+      "Untitled_Document": "'Untitled Document'",
+      "Are_you_sure_you_want_to_delete_this_document": "Are you sure you want to delete {documentTitle}? This action cannot be undone.",
+      "Cancel": "Cancel",
+      "Delete_document": "Delete document"
     },
     "DocumentList": {
       "My_documents": "My documents",
@@ -385,7 +397,8 @@
       "Cited_by": "Cited by",
       "Authors": "Authors",
       "Add_to_library": "Add to library",
-      "Cite": "Cite"
+      "Cite": "Cite",
+      "Add_Citation": "Add Citation"
     },
     "Generate": {
       "Write Introduction": "Write Introduction",
@@ -466,6 +479,7 @@
     "CustomCitation": {
       "Add_Customized_Citations": "Add Customized Citations",
       "What_I_am_citing": "What I'm citing",
+      "Article_Title": "Article Title",
       "Website": "Website",
       "Book": "Book",
       "Journal": "Journal",
@@ -500,7 +514,6 @@
         "End": "End"
       },
       "WebsiteMenu": {
-        "Article_Title": "Article Title",
         "Contributors": "Contributors",
         "First_Name": "First Name",
         "Middle_Name": "Middle Name",
@@ -522,6 +535,11 @@
         "The_whole_book": "The whole book",
         "Chapter_or_section": "Chapter or section",
         "Preface_of_introduction": "Preface of introduction",
+        "Contributors": "Contributors",
+        "First_Name": "First Name",
+        "Middle_Name": "Middle Name",
+        "Last_Name": "Last Name",
+        "Add_Contributor": "Add Contributor",
         "In_print_publication_info": "In print publication info",
         "Source_title": "Source title",
         "Advanced_info": "Advanced info",
@@ -612,6 +630,11 @@
       "format_2": "Up and beyond 🚀",
       "title": "Onboarding Checklist",
       "description": "Learn how to use ProDream to help you write & research!"
+    },
+    "ChatHistory": {
+      "Conversation_History": "Conversation History",
+      "Search": "Search",
+      "Chat": "Chat"
     },
     "Detection": {
       "Title": "Identify AI-generated content and help maintain originality in your work",

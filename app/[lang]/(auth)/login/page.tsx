@@ -39,7 +39,7 @@ export default async function Page({
               {t('Signup.GoogleDivider')}
             </p>
           </div>
-          <LoginForm t={dict.Auth} lang={lang} />
+          <LoginForm />
           <Spacer y='20' />
           <p className='base-regular text-neutral-400'>
             {t('Login.NotAccount')}&nbsp;
@@ -57,7 +57,7 @@ export default async function Page({
   return (
     <CNPanel>
       <div className='flex w-full flex-col sm:w-[500px]'>
-        <LoginForm t={cn_dict.Auth} lang={'cn'} />
+        <LoginForm />
       </div>
     </CNPanel>
   );

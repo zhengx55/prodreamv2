@@ -14,12 +14,13 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { resetPass } from '@/lib/validation';
+import { resetPass, resetPassCN } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { ReactNode, memo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'next/navigation';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -34,9 +35,10 @@ const EditPassModal = ({ children }: Props) => {
   const [hideNewPassword, setHideNewPassword] = useState(true);
   const [show, setShow] = useState(false);
   const t = useTranslations('Profile');
-
+  const { lang } = useParams();
+  const isCN = lang === 'cn';
   const form = useForm<z.infer<typeof resetPass>>({
-    resolver: zodResolver(resetPass),
+    resolver: zodResolver(isCN ? resetPassCN : resetPass),
     defaultValues: {
       old_password: '',
       new_password: '',

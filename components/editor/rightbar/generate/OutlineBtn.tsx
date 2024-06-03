@@ -10,8 +10,9 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { generateOutlineSchema } from '@/lib/validation';
+import { generateOutlineSchema, generateOutlineSchemaCN } from '@/lib/validation';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import { EditorDictType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -20,16 +21,19 @@ type Props = {
   handleGenerate: (idea: string, area: string) => Promise<void>;
   t: EditorDictType;
 };
-const OutlineBtn = ({ handleGenerate, t }: Props) => {
+const OutlineBtn = ({ handleGenerate }: Props) => {
   const trans = useTranslations('Editor');
-  const form = useForm<z.infer<typeof generateOutlineSchema>>({
-    resolver: zodResolver(generateOutlineSchema),
+  const { lang } = useParams();
+  const isCN = lang === 'cn';
+  const schemaUsed = isCN ? generateOutlineSchemaCN : generateOutlineSchema;
+  const form = useForm<z.infer<typeof schemaUsed>>({
+    resolver: zodResolver(schemaUsed),
     defaultValues: {
       idea: '',
       area: '',
     },
   });
-  const onSubmit = async (values: z.infer<typeof generateOutlineSchema>) => {
+  const onSubmit = async (values: z.infer<typeof schemaUsed>) => {
     await handleGenerate(values.idea, values.area);
   };
   return (

@@ -14,7 +14,8 @@ import { memo } from 'react';
 type Props = { item: ChatResponse };
 const SessionItem = ({ item }: Props) => {
   const { lang } = useParams();
-  const t = useTranslations();
+  const trans = useTranslations('Editor');
+  
   const updateDeleteModal = useChatbot((state) => state.updateDeleteModal);
   const updateDeleteSession = useChatbot((state) => state.updateDeleteSession);
   const updateMessageList = useChatbot((state) => state.updateMessageList);

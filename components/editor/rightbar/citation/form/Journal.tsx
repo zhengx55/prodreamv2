@@ -124,7 +124,7 @@ const JournalForm = ({
       <h1 className='base-semibold'>{t('CustomCitation.What_I_am_citing')}</h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='article_title'>
-        {t('CustomCitation.JournalMenu.Article_Title')}
+        {t('CustomCitation.Article_Title')}
       </label>
       <Input
         type='text'
@@ -215,11 +215,11 @@ const JournalForm = ({
       </Button>
       <Spacer y='20' />
       <h1 className='base-semibold'>
-        {t('CustomCitation.JournalMenu.Journal_Publication_Info')}
+        {t('CustomCitation.JournalMenu.Journal_publication_info')}
       </h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='journal_title'>
-        {t('CustomCitation.JournalMenu.Journal_Title')}
+        {t('CustomCitation.JournalMenu.Journal_title')}
       </label>
       <Input
         type='text'
@@ -229,7 +229,7 @@ const JournalForm = ({
       />
       <Spacer y='16' />
       <h2 className='small-regular text-neutral-400'>
-        {t('CustomCitation.JournalMenu.Advanced_Info')}
+        {t('CustomCitation.JournalMenu.Advanced_info')}
       </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
@@ -262,7 +262,7 @@ const JournalForm = ({
       </div>
       <Spacer y='16' />
       <h2 className='small-regular text-neutral-400'>
-        {t('CustomCitation.JournalMenu.Date_Published')}
+        {t('CustomCitation.JournalMenu.Date_published')}
       </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>

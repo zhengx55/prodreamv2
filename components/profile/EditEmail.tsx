@@ -14,13 +14,14 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { resetEmail } from '@/lib/validation';
+import { resetEmail, resetEmailCN } from '@/lib/validation';
 import { useUserInfo } from '@/zustand/store';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { ReactNode, memo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'next/navigation';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -35,8 +36,10 @@ const EditEmailModal = ({ children }: Props) => {
   const [hidePassword, setHidePassword] = useState(true);
   const updateUserEmail = useUserInfo((state) => state.setUserEmail);
   const t = useTranslations('Profile');
+  const { lang } = useParams();
+  const isCN = lang === 'cn';
   const form = useForm<z.infer<typeof resetEmail>>({
-    resolver: zodResolver(resetEmail),
+    resolver: zodResolver(isCN ? resetEmailCN : resetEmail),
     defaultValues: {
       email: '',
       password: '',

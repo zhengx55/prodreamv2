@@ -3,7 +3,6 @@ import ResetForm from '@/components/auth/RestForm';
 import Spacer from '@/components/root/Spacer';
 import type { Locale } from '@/i18n-config';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
-import { getDictionary } from '@/lib/get-dictionary';
 import Link from 'next/link';
 
 export default async function Page({
@@ -12,29 +11,29 @@ export default async function Page({
   params: { lang: Locale };
 }) {
   unstable_setRequestLocale(lang);
-  const t = await getTranslations('Auth');
-  const dict = await getDictionary(lang);
+  const trans = await getTranslations('Auth');
+
   return (
     <Panel lang={lang}>
       <div className='flex w-full flex-col sm:w-[500px]'>
-        <ResetForm t={dict.Auth} lang={lang} />
+        <ResetForm />
         <Spacer y='20' />
         {lang === 'en' ? (
           <p className='base-regular text-neutral-400'>
-            Switch to&nbsp;
+            {trans('ResetPassword.Switch_to')}&nbsp;
             <Link href={`/${lang}/login`} className='text-violet-500'>
-              Log in
+              {trans('ResetPassword.Log_in')}
             </Link>
             &nbsp;or&nbsp;
             <Link href={`/${lang}/signup`} className='text-violet-500'>
-              Sign up
+              {trans('ResetPassword.Sign_up')}
             </Link>
           </p>
         ) : (
           <p className='base-medium text-neutral-400'>
-            已有账号&nbsp;
+            {trans('ResetPassword.Switch_to')}&nbsp;
             <Link href={`/${lang}/login`} className='text-violet-500'>
-              马上登陆
+              {trans('ResetPassword.Log_in')}
             </Link>
           </p>
         )}

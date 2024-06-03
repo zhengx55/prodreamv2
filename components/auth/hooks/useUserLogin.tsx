@@ -1,10 +1,10 @@
-import { Locale } from '@/i18n-config';
+import { LocaleType } from '@/i18n';
 import { userLogin } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 
-export default function useUserLogin(lang: Locale) {
+export default function useUserLogin(lang: LocaleType) { 
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
   return useMutation({

@@ -116,7 +116,7 @@
       "Forget": "忘记密码?",
       "Button": "登录",
       "NotAccount": "还没有账号?",
-      "Google": "使用谷歌登录",
+      "Google": "使用谷歌账号登录",
       "GoogleDivider": "或者使用邮箱地址登录"
     },
     "Signup": {
@@ -137,6 +137,11 @@
       "Successfully_Reset_Password": "重置密码成功",
       "Checked_your_email": "请检查您的邮箱",
       "Please_enter_your_email_address": "请输入您的邮箱地址"
+    },
+    "ResetPassword": {
+      "Switch_to": "已有账号",
+      "Log_in": "马上登陆",
+      "Sign_up": "马上注册"
     }
   },
   "Onboard": {
@@ -174,19 +179,19 @@
       "Content_4": "<strong>更有效的反馈中心：</strong>我们引入了全新的反馈中心，您可以在此报告产品bug、寻求技术支持并提交功能相关请求。您的反馈对我们非常重要，我们将不断努力提升我们的服务质量。"
     },
     "SideBar": {
-      "AI_Editor": "AI 智能助手",
+      "AI_Editor": "智能写作",
       "Discord": "Discord",
       "Notifications": "通知",
       "Mark_all_as_read": "全部标记已读",
       "Contact_Support": "联系我们",
-      "View_Profile": "查看个人资料",
+      "View_Profile": "账号管理",
       "Log_out": "退出登录",
       "Contact_Channel": "微信",
-      "Upgrade": "升级"
+      "Upgrade": "升级会员"
     },
     "TopBar": {
       "New_Essay": "新建文档",
-      "Upload_Essay": "上传论文",
+      "Upload_Essay": "导入文档",
       "Search": "搜索"
     },
     "BottomBar": {
@@ -222,38 +227,38 @@
     },
     "RemainUsages": {
       "WeeklyPromptsUsed": "每周AI提示已用{used}/20次",
-      "Go_unlimited": "升级至 Pro 版可无限使用"
+      "Go_unlimited": "升级至Pro版可无限使用"
     },
     "MembershipBar": {
-      "MaxHistoricalLimitHint": "免费用户最多可保留3个历史文档。如需解锁更多文档，请升级到 <UnlimitedLink> { Unlimited }</UnlimitedLink> 套餐",
+      "MaxHistoricalLimitHint": "免费用户最多可保留3个历史文档。如需解锁更多文档，请升级到<UnlimitedLink>{ Unlimited }</UnlimitedLink>版",
       "Unlimited": "Pro",
       "Upgrade_now": "立即升级",
-      "Unlimited_Free_Trial_ends_in": "免费试用期结束于{expireTimeString}"
+      "Unlimited_Free_Trial_ends_in": "免费试用期{expireTimeString}后结束"
     },
     "Chat": {
       "Starter": {
         "Hi": "你好",
         "Greetings": "我是Jessica，你的私人论文导师。欢迎使用AI检索以及ChatPDF功能，或直接开始与我对话！",
-        "AI Research": "AI 检索",
+        "AI_Research": "AI 检索",
         "Ask_a_research_question_and_get_supporting_sources": "提出学术检索相关问题并获取香港文献资料",
         "Chat_PDF": "Chat PDF",
-        "Click_or_drag_to_upload_Chat_with_file_and_get_summaries": "点击或拖拽上传文件并获取摘要"
+        "Click_or_drag_to_upload_Chat_with_file_and_get_summaries": "点击或拖拽上传文档并获取摘要"
       },
       "ChatInput": {
         "Research": "学术检索",
-        "Upload_file": "上传文件",
+        "Upload_file": "导入文档",
         "History": "历史对话",
         "New_Chat": "开始新对话",
         "Ask_a_research_question_or_search_for_data": "提出学术研究相关问题或搜索数据",
         "Try_these": "试试这些问题",
         "Search_History": "搜索历史",
         "Copy": "复制",
-        "Summarize": "总结文件"
+        "Summarize": "总结文档"
       }
     },
     "Hooks": {
       "useChat": {
-        "Summarize_this_file": "总结此文件",
+        "Summarize_this_file": "总结此文档",
         "Failed_to_summarize_pdf": "无法总结此PDF，请稍后再试",
         "Failed_to_send_message": "无法发送消息，请稍后再试"
       }
@@ -287,13 +292,20 @@
       "Start_Writing": "开始写作"
     },
     "UploadModal": {
-      "Upload_Essay": "上传文件",
-      "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "上传文件进行 AI 智能化体验",
-      "Click_or_drag_and_drop_here_to_upload": "点击或将文件拖拽到此处上传"
+      "Upload_Essay": "上传文档",
+      "Upload_a_file_to_receive_intelligent_summaries_and_answers_to_your_questions": "上传文档进行 AI 智能化体验",
+      "Click_or_drag_and_drop_here_to_upload": "点击或将文档拖拽到此处上传"
+    },
+    "DeleteModal": {
+      "Move_to_trash": "确认删除？",
+      "Untitled_Document": "无标题文档",
+      "Are_you_sure_you_want_to_delete_this_document": "确定要删除{documentTitle}吗？此操作无法撤销。",
+      "Cancel": "取消",
+      "Delete_document": "删除文档"
     },
     "DocumentList": {
       "My_documents": "我的文档",
-      "Last_opened": "最近打开的文档",
+      "Last_opened": "最近打开",
       "Title": "标题",
       "List_View": "列表视图",
       "Grid_View": "网格视图",
@@ -307,7 +319,7 @@
       "Please_describe_the_bug_you_encountered_in_detail": "请详细描述您遇到的产品体验相关问题",
       "Please_provide_details_for_how_you_would_like_assistance": "请提供您希望获得帮助的详细信息",
       "Attachments": "附件",
-      "Click_to_choose_a_file_or_drag_here": "点击选择文件或拖拽到此处",
+      "Click_to_choose_a_file_or_drag_here": "点击选择文档或拖拽到此处",
       "Feedback_submitted_successfully": "反馈已提交成功",
       "AlternativeSupport": "或者，您也可以发送电子邮件至 <emailLink>support@prodream.ai</emailLink> <contactToolLink></contactToolLink> ",
       "Submit": "提交"
@@ -371,7 +383,7 @@
       "Button": "开始语法检测",
       "suggestions": "条语法修改建议",
       "GrammarCheckLeft": "每周语法检查功能已用 {left}/100次",
-      "Go_unlimited": "升级至 Pro 版可无限使用"
+      "Go_unlimited": "升级至Pro版可无限使用"
     },
     "Citation": {
       "search": "文献搜索",
@@ -384,7 +396,8 @@
       "Cited_by": "引用次数：",
       "Authors": "作者",
       "Add_to_library": "添加到我的图书馆",
-      "Cite": "引用"
+      "Cite": "引用",
+      "Add_Citation": "添加引用"
     },
     "Generate": {
       "Write Introduction": "撰写引言",
@@ -403,8 +416,8 @@
         "Write Conclusion": "点击生成基于整篇写作的结论部分",
         "Generate Title": "点击生成文章标题"
       },
-      "Generate_credits_left": "每周生成功能已用 {used}/5次",
-      "Go_unlimited": "升级至 Pro 版可无限使用",
+      "Generate_credits_left": "每周生成功能已用{used}/5次",
+      "Go_unlimited": "升级至Pro版可无限使用",
       "Al_responses_can_be_inaccurate_or_misleading": "AI给出的信息可能存在不准确或误导的情况。",
       "Dismiss": "取消",
       "Insert": "插入"
@@ -463,6 +476,8 @@
     },
     "CustomCitation": {
       "Add_Customized_Citations": "手动添加文献",
+      "What_I_am_citing": "我正在引用的内容",
+      "Article_Title": "文章标题",
       "Website": "网站",
       "Book": "书籍",
       "Journal": "期刊",
@@ -489,15 +504,14 @@
         "Series": "丛书系列",
         "Publication_info": "出版信息",
         "Publisher": "出版社",
-        "City": "初版城市",
+        "City": "出版城市",
         "State": "州",
-        "Year": "初版年份",
+        "Year": "出版年份",
         "Pages": "页码",
         "Start": "起始页",
         "End": "结束页"
       },
       "WebsiteMenu": {
-        "What_I_am_citing": "我正在引用的内容",
         "Article_Title": "文章标题",
         "Contributors": "作者",
         "First_Name": "名",
@@ -520,6 +534,11 @@
         "The_whole_book": "整本书",
         "Chapter_or_section": "章节或部分",
         "Preface_of_introduction": "引言",
+        "Contributors": "作者",
+        "First_Name": "名",
+        "Middle_Name": "中间名",
+        "Last_Name": "姓",
+        "Add_Contributor": "添加作者",
         "In_print_publication_info": "印刷出版信息",
         "Source_title": "资源标题",
         "Advanced_info": "高级信息",
@@ -529,9 +548,9 @@
         "Series": "丛书系列",
         "Publication_info": "出版信息",
         "Publisher": "出版社",
-        "City": "初版城市",
+        "City": "出版城市",
         "State": "州",
-        "Year": "初版年份",
+        "Year": "出版年份",
         "Pages": "页码",
         "Start": "起始页",
         "End": "结束页"
@@ -571,7 +590,7 @@
         "Title": "我想从头开始写一篇文章",
         "Subtitle": "文章的逻辑非常重要，我们先构思一下大纲吧。",
         "Question": "你想写一篇关于什么的文章？",
-        "PlaceHolder": "E.g. Importance of religion in East Asian culture",
+        "PlaceHolder": "例如：宗教在东亚文化中的重要性",
         "Button": "生成",
         "Sample": "展示示例大纲"
       },
@@ -584,7 +603,7 @@
       "Title": "使用我们的深度相似性检测工具确保您作品的原创性",
       "recheck": "重新检查",
       "Button": "开始查重检测",
-      "Unlock": "购买无限套餐即可解锁一键降重建议",
+      "Unlock": "购买高级会员即可解锁一键降重建议",
       "Result": "可能为重复内容",
       "Result_good": "未发现重复内容",
       "Suggestions": "条降重建议",
@@ -611,6 +630,11 @@
       "format_2": "高级功能 🚀",
       "title": "新手任务",
       "description": "学习如何使用ProDream来帮助您写作和研究！"
+    },
+    "ChatHistory": {
+      "Conversation_History": "对话记录",
+      "Search": "搜索",
+      "Chat": "聊天"
     },
     "Detection": {
       "Title": "识别AI生成的内容，帮助保持原创性",
@@ -687,12 +711,12 @@
       "Annual": "年费",
       "Monthly": "月费",
       "Membership": "会员信息",
-      "Your_current_plan": "您正在使用 <strong>{ CurrentPlan }</strong> 套餐",
+      "Your_current_plan": "您现在是<strong>{ CurrentPlan }</strong>版",
       "Next_billing_date": "会员有效期至",
       "Active_Until": "有效期至",
       "Basic": "免费",
       "Unlimited": "Pro",
-      "Go_unlimited": "升级套餐",
+      "Go_unlimited": "开通会员",
       "Promo_code": "优惠码",
       "Manage_subscription": "会员管理",
       "Cancel": "取消",
@@ -704,23 +728,23 @@
     },
     "Subscription": {
       "Membership_Details": "会员详情",
-      "Current_Plan": "当前套餐",
-      "Your_current_plan": "您当前使用的是 <strong>{ CurrentPlan }</strong> 套餐",
+      "Current_Plan": "我的会员",
+      "Your_current_plan": "您现在是<strong>{ CurrentPlan }</strong>版",
       "Next_billing_date": "会员有效期至",
       "Active_Until": "有效期至",
       "Basic": "免费",
       "Unlimited": "Pro",
-      "Go_unlimited": "升级套餐",
+      "Go_unlimited": "开通会员",
       "Annual": "年费",
       "Monthly": "月费",
       "Unsubscribe": "取消订阅",
-      "Save_$10_every_month_by_switching_to_the_annual_plan": "通过切换到年费套餐，每月节省$10",
+      "Save_$10_every_month_by_switching_to_the_annual_plan": "通过切换到年费会员，每月节省$10",
       "Go_annual_now": "立即升级",
       "Failed_to_fetch_balance": "获取余额失败"
     },
     "MembershipHistory": {
-      "Billing_History": "计费历史",
-      "Plan_Name": "套餐名称",
+      "Billing_History": "订单记录",
+      "Plan_Name": "会员类型",
       "Start_Date": "开始日期",
       "End_Date": "结束日期",
       "Paid_amount": "支付金额",
