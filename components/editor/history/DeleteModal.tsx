@@ -5,6 +5,7 @@ import { DialogClose, DialogContent } from '@/components/ui/dialog';
 import { deleteDoc } from '@/query/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { XCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 
 type Props = {
@@ -14,6 +15,10 @@ type Props = {
 
 const DeleteModal = ({ id, title }: Props) => {
   const queryClient = useQueryClient();
+  const trans = useTranslations('Editor');
+
+  const defaultTitle = trans('DeleteModal.Untitled_Document');
+
   const { mutateAsync: deleteDocument } = useMutation({
     mutationFn: (doc_id: string) => deleteDoc(doc_id),
     onSuccess: async () => {
@@ -46,15 +51,15 @@ const DeleteModal = ({ id, title }: Props) => {
     >
       <div className='flex flex-col gap-y-2'>
         <div className='flex-between'>
-          <h1 className='h3-bold'>Move to trash?</h1>
+          <h1 className='h3-bold'>{trans('DeleteModal.Move_to_trash')}</h1>
           <DialogClose>
             <XCircle size={20} className=' text-neutral-400' />
           </DialogClose>
         </div>
         <p className='title-regular text-shadow-100'>
-          Are you sure you want to delete &quot;
-          {title !== 'Untitled' ? title : 'Untitled Document'}
-          &quot;? Note: This action cannot be undone.
+          {trans('DeleteModal.Are_you_sure_you_want_to_delete_this_document', {
+            documentTitle: title !== 'Untitled' ? title : defaultTitle,
+          })}
         </p>
         <Spacer y='20' />
         <div className='flex items-center justify-end gap-x-2'>
@@ -64,12 +69,12 @@ const DeleteModal = ({ id, title }: Props) => {
               variant={'outline'}
               className='w-max'
             >
-              Cancel
+              {trans('DeleteModal.Cancel')}
             </Button>
           </DialogClose>
           <DialogClose asChild>
             <Button onClick={handleDelete} className='w-max'>
-              Delete document
+              {trans('DeleteModal.Delete_document')}
             </Button>
           </DialogClose>
         </div>

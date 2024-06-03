@@ -220,7 +220,7 @@ const WebsiteForm = ({
       </h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='publisher'>
-        {t('CustomCitation.Publisher')}
+        {t('CustomCitation.WebsiteMenu.Publisher')}
       </label>
       <Input
         type='text'
@@ -230,7 +230,7 @@ const WebsiteForm = ({
       />
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='website_title'>
-        {t('CustomCitation.Website_Title')}
+        {t('CustomCitation.WebsiteMenu.Website_Title')}
       </label>
       <Input
         type='text'
@@ -240,7 +240,7 @@ const WebsiteForm = ({
       />
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='url'>
-        {t('CustomCitation.Website_URL')}
+        {t('CustomCitation.WebsiteMenu.Website_URL')}
       </label>
       <Input
         type='text'
@@ -250,7 +250,7 @@ const WebsiteForm = ({
       />
       <Spacer y='16' />
       <h2 className='small-regular text-neutral-400'>
-        {t('CustomCitation.Date_accessed')}
+        {t('CustomCitation.WebsiteMenu.Date_accessed')}
       </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>

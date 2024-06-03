@@ -7,10 +7,11 @@ import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
+import { useParams } from 'next/navigation';
 import { memo, useCallback, useRef, useState } from 'react';
 import { useUpdateEffect } from 'react-use';
 import { z } from 'zod';
-import { generateOutlineSchema } from '../../../../lib/validation';
+import { generateOutlineSchema, generateOutlineSchemaCN } from '@/lib/validation';
 import { useEditorCommand } from '../../hooks/useEditorCommand';
 
 const GenerateBtn = dynamic(() => import('./GenerateBtn'));
@@ -28,15 +29,16 @@ type Props = { generateTab: string; label: string | null; t: EditorDictType };
 const GenerateSub = ({ generateTab, label, t }: Props) => {
   const isOutline =
     typeof generateTab !== 'number' && OutlineTypes.includes(generateTab);
+  const { lang } = useParams();
+  const isCN = lang === 'cn';
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResult, setGeneratedResult] = useState('');
   const editor = useAIEditor((state) => state.editor_instance);
   const setGenerateTab = useAIEditor((state) => state.updateGenerateTab);
   const { data: membership } = useMembershipInfo();
   const { insertGenerated, deleteRange } = useEditorCommand(editor!);
-  const outLineInfo = useRef<z.infer<typeof generateOutlineSchema> | null>(
-    null
-  );
+  const schemaUsed = isCN ? generateOutlineSchemaCN : generateOutlineSchema;
+  const outLineInfo = useRef<z.infer<typeof schemaUsed> | null>(null);
   const queryClient = useQueryClient();
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { tool: string; text: string }) => copilot(params),

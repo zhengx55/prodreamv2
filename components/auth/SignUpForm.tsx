@@ -13,12 +13,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { getReferralSource } from '@/lib/utils';
-import { signUpSchema } from '@/lib/validation';
+import { signUpSchema, signUpSchemaCN } from '@/lib/validation';
 import { userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
 import { AuthPageDicType } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -27,15 +28,17 @@ import Spacer from '../root/Spacer';
 
 const defaultValues = { password: '', email: '' };
 
-const SignUpForm = ({ t, lang }: AuthPageDicType) => {
+const SignUpForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const searchParam = useSearchParams().get('from');
+  const { lang } = useParams();
+  const isCN = lang === 'cn';
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
   const trans = useTranslations('Auth');
 
   const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+    resolver: zodResolver(isCN ? signUpSchemaCN : signUpSchema),
     defaultValues,
   });
   const { mutateAsync: handleSignup, isPending: isSignupPending } = useMutation(

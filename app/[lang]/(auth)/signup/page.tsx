@@ -41,7 +41,7 @@ export default async function Page({
             </p>
           </div>
           <Suspense fallback={<div>Loading...</div>}>
-            <SignUpForm t={dict.Auth} lang={lang} />
+            <SignUpForm />
           </Suspense>
           <p className='base-regular mt-4 text-neutral-400'>
             {t('Signup.AlreadyLogged')}&nbsp;
@@ -59,7 +59,7 @@ export default async function Page({
     <CNPanel>
       <div className='flex w-full flex-col sm:w-[500px]'>
         <Suspense fallback={<div>Loading...</div>}>
-          <SignUpForm t={cn_dict.Auth} lang={'cn'} />
+          <SignUpForm />
         </Suspense>
       </div>
     </CNPanel>

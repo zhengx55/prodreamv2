@@ -8,12 +8,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { resetSchema } from '@/lib/validation';
+import { resetSchema, resetSchemaCN } from '@/lib/validation';
 import { sendVerificationEmail, userReset } from '@/query/api';
 import { IResetParams } from '@/query/type';
-import { AuthPageDicType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -22,8 +22,10 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
-const ResetForm = ({ t, lang }: AuthPageDicType) => {
+const ResetForm = () => {
   const trans = useTranslations('Auth');
+  const { lang } = useParams();
+  const isCN = lang === 'cn';
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
   const [verifyWait, setVerifyWait] = useState(false);
@@ -51,7 +53,7 @@ const ResetForm = ({ t, lang }: AuthPageDicType) => {
 
   const router = useRouter();
   const form = useForm<z.infer<typeof resetSchema>>({
-    resolver: zodResolver(resetSchema),
+    resolver: zodResolver(isCN ? resetSchemaCN : resetSchema),
     defaultValues: {
       email: '',
       password: '',

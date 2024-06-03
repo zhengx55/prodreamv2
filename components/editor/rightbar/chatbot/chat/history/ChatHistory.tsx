@@ -4,6 +4,7 @@ import { useChatbot } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { Loader2, XCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { memo, useCallback, useState } from 'react';
 import { useDebounce } from 'react-use';
 import { useChatBotSessions } from '../../hooks/useHistory';
@@ -13,6 +14,7 @@ import SessionItem from './SessionItem';
 type Props = { t: EditorDictType };
 const ChatHistory = ({ t }: Props) => {
   const { id } = useParams();
+  const trans = useTranslations('Editor');
   const [query, setQuery] = useState('');
   const updateQuery = useCallback((value: string) => {
     setQuery(value);
@@ -63,7 +65,7 @@ const ChatHistory = ({ t }: Props) => {
         className='absolute bottom-0 left-0 right-0 z-[99] flex flex-col rounded-t-lg border border-gray-200 bg-white p-4'
       >
         <div className='flex-between'>
-          <h2 className='base-medium text-zinc-700'>Conversation History</h2>
+          <h2 className='base-medium text-zinc-700'>{trans('ChatHistory.Conversation_History')}</h2>
           <XCircle
             onClick={closeHistory}
             className='cursor-pointer text-stone-300'
@@ -82,7 +84,7 @@ const ChatHistory = ({ t }: Props) => {
                 : 'border-transparent text-neutral-400'
             } small-regular border-b-2`}
           >
-            Chat
+            {trans('ChatHistory.Chat')}
           </button>
           {/* <button
             role='tab'

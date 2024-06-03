@@ -8,28 +8,31 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginSchema } from '@/lib/validation';
-import { AuthPageDicType } from '@/types';
+import { loginSchema, loginSchemaCN } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
+import { LocaleType } from '@/i18n';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import useUserLogin from './hooks/useUserLogin';
 
-const LoginForm = ({ t, lang }: AuthPageDicType) => {
+const LoginForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const trans = useTranslations('Auth');
+  const { lang } = useParams();
+  const isCN = lang === 'cn';
   const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(isCN ? loginSchemaCN : loginSchema),
     defaultValues: {
       username: '',
       password: '',
     },
   });
-  const { mutateAsync: handleLogin } = useUserLogin(lang);
+  const { mutateAsync: handleLogin } = useUserLogin(lang as LocaleType);
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     await handleLogin(values);
