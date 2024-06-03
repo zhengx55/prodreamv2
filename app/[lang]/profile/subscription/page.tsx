@@ -74,7 +74,10 @@ export default async function Page({
         <div className='flex w-max flex-col'>
           <div className='flex items-center gap-x-4'>
             <p className='text-neutral-400'>
-              {trans('Subscription.Your_current_plan', { CurrentPlan: Basic })}
+              {trans.rich('Subscription.Your_current_plan', {
+                CurrentPlan: Basic,
+                strong: (chunks: any) => <strong>{chunks}</strong>,
+              })}
             </p>
             <Link passHref href={`/${lang}/pricing`}>
               <Button role='dialog' className='px-0' variant={'ghost'}>

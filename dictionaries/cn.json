@@ -729,7 +729,7 @@
     "Subscription": {
       "Membership_Details": "会员详情",
       "Current_Plan": "我的会员",
-      "Your_current_plan": "您现在是<strong>{ CurrentPlan }</strong>版",
+      "Your_current_plan": "您现在是<strong>{ CurrentPlan }</strong>会员",
       "Next_billing_date": "会员有效期至",
       "Active_Until": "有效期至",
       "Basic": "免费",
