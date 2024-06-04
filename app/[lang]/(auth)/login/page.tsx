@@ -5,9 +5,7 @@ import CNPanel from '@/components/auth/cn/CnPanel';
 import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
 import type { Locale } from '@/i18n-config';
-import { getDictionary } from '@/lib/get-dictionary';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
-import { getIpAddress } from '@/query/api';
 import Link from 'next/link';
 
 export default async function Page({
@@ -18,10 +16,9 @@ export default async function Page({
   searchParams: { from: string };
 }) {
   unstable_setRequestLocale(lang);
-  const dict = await getDictionary(lang);
-  const cn_dict = await getDictionary('cn');
+
   const t = await getTranslations('Auth');
-  const isInChina = await getIpAddress();
+  const isInChina = lang === 'cn';
 
   if (!isInChina)
     return (
