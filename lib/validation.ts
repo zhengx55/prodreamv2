@@ -1,151 +1,66 @@
 import * as z from 'zod';
 
-// loginSchema
-export const loginSchema = z.object({
-  username: z.string().email({ message: 'Invalid email address' }),
+
+export const createLoginSchema = (t: (id: string) => string) => z.object({
+  username: z.string().email({ message: t('Schema.LoginSchema.Invalid_email_address') }),
   password: z
     .string()
-    .min(2, { message: 'Password must be at least 8 characters' })
-    .max(50, { message: 'Password cannot exceed 50 characters' }),
+    .min(8, { message: t('Schema.LoginSchema.Password_must_be_at_least_8_characters') })
+    .max(50, { message: t('Schema.LoginSchema.Password_cannot_exceed_50_characters') }),
 });
 
-export const loginSchemaCN = z.object({
-  username: z.string().email({ message: '请输入有效的邮箱地址' }),
+export const createSignUpSchema = (t: (id: string) => string) => z.object({
   password: z
     .string()
-    .min(2, { message: '密码必须至少包含2个字符' })
-    .max(50, { message: '密码不能超过50个字符' }),
+    .min(8, { message: t('Schema.SignUpSchema.Password_must_be_at_least_8_characters') })
+    .max(50, { message: t('Schema.SignUpSchema.Password_cannot_exceed_50_characters') }),
+  email: z.string().email({ message: t('Schema.SignUpSchema.Invalid_email_address') }),
 });
 
-// signUpSchema
-export const signUpSchema = z.object({
+
+export const createResetSchema = (t: (id: string) => string) => z.object({
+  email: z.string().email({ message: t('Schema.ResetSchema.Invalid_email_address') }),
   password: z
     .string()
-    .min(8, { message: 'Password must be at least 8 characters' })
-    .max(50, { message: 'Password cannot exceed 50 characters' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-});
-
-export const signUpSchemaCN = z.object({
-  password: z
+    .min(6, { message: t('Schema.ResetSchema.Password_must_be_at_least_6_characters') })
+    .max(50, { message: t('Schema.ResetSchema.Password_cannot_exceed_50_characters') }),
+  confirm: z
     .string()
-    .min(8, { message: '密码必须至少包含8个字符' })
-    .max(50, { message: '密码不能超过50个字符' }),
-  email: z.string().email({ message: '请输入有效的邮箱地址' }),
+    .min(6, { message: t('Schema.ResetSchema.Password_must_be_at_least_6_characters') })
+    .max(50, { message: t('Schema.ResetSchema.Password_cannot_exceed_50_characters') }),
+  verification_code: z.string().min(6).max(6, {
+    message: t('Schema.ResetSchema.Verification_code_must_be_a_6_digit'),
+  }),
 });
 
-// resetSchema
-export const resetSchema = z
-  .object({
-    email: z.string().email({ message: 'Invalid email address' }),
-    password: z
-      .string()
-      .min(6, { message: 'Password must be at least 6 characters' })
-      .max(50, { message: 'Password cannot exceed 50 characters' }),
-    confirm: z
-      .string()
-      .min(6, { message: 'Password must be at least 6 characters' })
-      .max(50, { message: 'Password cannot exceed 50 characters' }),
-    verification_code: z.string().min(6).max(6, {
-      message: 'Verification code must be a 6-digit',
-    }),
-  })
-  .refine((data) => data.password === data.confirm, {
-    message: "Passwords don't match",
-    path: ['confirm'],
-  });
-
-  export const resetSchemaCN = z
-  .object({
-    email: z.string().email({ message: '请输入有效的邮箱地址' }),
-    password: z
-      .string()
-      .min(6, { message: '密码必须至少包含6个字符' })
-      .max(50, { message: '密码不能超过50个字符' }),
-    confirm: z
-      .string()
-      .min(6, { message: '密码必须至少包含6个字符' })
-      .max(50, { message: '密码不能超过50个字符' }),
-    verification_code: z.string().min(6).max(6, {
-      message: '验证码必须是6位数字',
-    }),
-  })
-  .refine((data) => data.password === data.confirm, {
-    message: "Passwords don't match",
-    path: ['confirm'],
-  });
-
-// resetEmail
-export const resetEmail = z.object({
-  email: z.string().email({ message: 'Invalid email address' }),
+export const createResetEmailSchema = (t: (id: string) => string) => z.object({
+  email: z.string().email({ message: t('Schema.ResetSchema.Invalid_email_address') }),
   password: z.string().min(2).max(50),
 });
 
-export const resetEmailCN = z.object({
-  email: z.string().email({ message: '请输入有效的邮箱地址' }),
-  password: z.string().min(2).max(50),
-});
-
-
-// resetPass
-export const resetPass = z.object({
+export const createResetPasswordSchema = (t: (id: string) => string) => z.object({
   new_password: z
     .string()
-    .min(6, { message: 'Password must be at least 6 characters' })
-    .max(50, { message: 'Password cannot exceed 50 characters' }),
+    .min(6, { message: t('Schema.ResetSchema.Password_must_be_at_least_6_characters') })
+    .max(50, { message: t('Schema.ResetSchema.Password_cannot_exceed_50_characters') }),
   old_password: z
     .string()
-    .min(6, { message: 'Password must be at least 6 characters' })
-    .max(50, { message: 'Password cannot exceed 50 characters' }),
+    .min(6, { message: t('Schema.ResetSchema.Password_must_be_at_least_6_characters') })
+    .max(50, { message: t('Schema.ResetSchema.Password_cannot_exceed_50_characters') }),
 });
 
-export const resetPassCN = z.object({
-  new_password: z
-    .string()
-    .min(6, { message: '密码必须至少包含6个字符' })
-    .max(50, { message: '密码不能超过50个字符' }),
-  old_password: z
-    .string()
-    .min(6, { message: '密码必须至少包含6个字符' })
-    .max(50, { message: '密码不能超过50个字符' }),
-});
-
-// resetName
-export const resetName = z.object({
+export const createResetNameSchema = (t: (id: string) => string) => z.object({
   firstname: z
     .string()
-    .min(2, { message: 'First name must be at least 2 characters' })
-    .max(50, { message: 'First name cannot exceed 50 characters' }),
+    .min(2, { message: t('Schema.ResetSchema.First_name_must_be_at_least_2_characters') })
+    .max(50, { message: t('Schema.ResetSchema.First_name_cannot_exceed_50_characters') }),
   lastname: z
     .string()
-    .min(2, { message: 'Last name must be at least 2 characters' })
-    .max(50, { message: 'Last name cannot exceed 50 characters' }),
+    .min(2, { message: t('Schema.ResetSchema.Last_name_must_be_at_least_2_characters') })
+    .max(50, { message: t('Schema.ResetSchema.Last_name_cannot_exceed_50_characters') }),
 });
 
-export const resetNameCN = z.object({
-  firstname: z
-    .string()
-    .min(2, { message: '名字必须至少包含2个字符' })
-    .max(50, { message: '名字不能超过50个字符' }),
-  lastname: z
-    .string()
-    .min(2, { message: '姓氏必须至少包含2个字符' })
-    .max(50, { message: '姓氏不能超过50个字符' }),
-});
-
-
-
-// generateOutlineSchema 
-export const generateOutlineSchema = z.object({
-  area: z.string().min(1, { message: 'Area must be at least 1 character' }),
-  idea: z
-    .string()
-    .min(1, { message: 'Description must be at least 1 character' }),
-});
-
-export const generateOutlineSchemaCN = z.object({
-  area: z.string().min(1, { message: '领域必须至少包含1个字符' }),
-  idea: z
-    .string()
-    .min(1, { message: '描述必须至少包含1个字符' }),
+export const createGenerateOutlineSchema = (t: (id: string) => string) => z.object({
+  area: z.string().min(1, { message: t('Schema.GenerateOutlineSchema.Area_must_be_at_least_1_character') }),
+  idea: z.string().min(1, { message: t('Schema.GenerateOutlineSchema.Description_must_be_at_least_1_character') }),
 });

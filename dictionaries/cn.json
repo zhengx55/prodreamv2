@@ -1,7 +1,60 @@
 {
+  "CommonSense": {
+    "Month": {
+      "January": "一月",
+      "February": "二月",
+      "March": "三月",
+      "April": "四月",
+      "May": "五月",
+      "June": "六月",
+      "July": "七月",
+      "August": "八月",
+      "September": "九月",
+      "October": "十月",
+      "November": "十一月",
+      "December": "十二月"
+    },
+    "Season": {
+      "Spring": "春季",
+      "Summer": "夏季",
+      "Autumn": "秋季",
+      "Winter": "冬季"
+    }
+  },
   "Error": {
     "Something_went_wrong": "出错了！",
-    "Try_again": "再试一次"
+    "Try_again": "再试一次",
+    "Email_sent_error_please_try_again_later": "邮件发送错误，请稍后再试",
+    "Please_enter_a_custom_prompt": "请输入自定义提示",
+    "Selected_text_should_not_exceed_500_words": "选中的文本不应超过500个字",
+    "You_have_reached_the_limit_of_creating_new_documents": "您创建的文档数量已达上限",
+    "Please_fill_in_the_idea": "请填写您的想法",
+    "Failed_to_create_PDF_chat_please_try_again_later": "创建 PDF 聊天失败，请稍后再试",
+    "Please_enter_a_page_number": "请输入页码",
+    "Please_provide_details": "请提供详细信息",
+    "Please_enter_a_valid_email": "请输入有效的邮箱",
+    "File_is_larger_than_200KB": "文件大小超过200KB",
+    "An_error_occurred_please_try_again_later": "发生错误，请稍后再试",
+    "Invalid_Coupon_Code": "无效的优惠券代码",
+    "Coupon_Code_required": "请填写优惠券代码"
+  },
+  "Info": {
+    "In_text_citation_will_be_append_to_the_postion_of_your_cursor": "文本引用将追加到光标位置！",
+    "enter_your_code": "请输入您的代码..."
+  },
+  "Success": {
+    "Email_sent_successfully": "邮件发送成功",
+    "Successfully_signed_up": "注册成功",
+    "Successfully_logged_in": "登录成功",
+    "Copied_to_clipboard": "复制到剪贴板",
+    "Document_deleted_successfully": "文档删除成功",
+    "Session_deleted_successfully": "会话删除成功",
+    "Coupon_successfully_applied": "优惠券应用成功",
+    "Avatar_has_been_reset_successfully": "头像重置成功！",
+    "Email_has_been_reset_successfully": "邮箱重置成功！",
+    "Name_has_been_reset_successfully": "姓名重置成功！",
+    "Password_has_been_reset_successfully": "密码重置成功！",
+    "Citation_Updated_successfully": "引用更新成功"
   },
   "Homepage": {
     "log_in": "登 录",
@@ -107,11 +160,20 @@
     "QuestionInfo_title_5": "如何反馈ProDream使用中的问题？",
     "QuestionInfo_desc_5": "我们极为重视您的反馈，并致力于帮助您解决使用ProDream时遇到的任何问题。请通过support@prodream.ai随时联系我们。"
   },
+  "Footer": {
+    "Shape_your_academic_future": "塑造学术未来",
+    "masterful_writing_from_application_to_graduation": "从申请到毕业，写作无止境",
+    "Newsletter": "订阅",
+    "Submit": "提交",
+    "Terms_Conditions": "条款与条件",
+    "Privacy_Policy": "隐私政策"
+  },
   "Auth": {
     "Slogan": "前所未有的写作体验 ",
     "FormEmail": "邮箱",
     "FormPassword": "密码",
     "FormName": "姓名",
+    "Login_using_a_third_party_account": "使用第三方账号登录",
     "Login": {
       "Forget": "忘记密码?",
       "Button": "登录",
@@ -142,6 +204,47 @@
       "Switch_to": "已有账号",
       "Log_in": "马上登陆",
       "Sign_up": "马上注册"
+    },
+    "Privacy": {
+      "Privacy_Policy": "《ProDream隐私政策》",
+      "Terms_of_Service": "《ProDream用户协议》",
+      "By_Continuing_you_agree_to_Applify_AI_s": "注册登录即代表同意"
+    },
+    "Schema": {
+      "LoginSchema": {
+        "Invalid_email_address": "请输入有效的邮箱地址",
+        "Password_must_be_at_least_8_characters": "密码必须至少包含8个字符",
+        "Password_cannot_exceed_50_characters": "密码不能超过50个字符"
+      },
+      "SignUpSchema": {
+        "Invalid_email_address": "请输入有效的邮箱地址",
+        "Password_must_be_at_least_8_characters": "密码必须至少包含8个字符",
+        "Password_cannot_exceed_50_characters": "密码不能超过50个字符"
+      },
+      "ResetSchema": {
+        "Invalid_email_address": "请输入有效的邮箱地址",
+        "Password_must_be_at_least_8_characters": "密码必须至少包含8个字符",
+        "Password_cannot_exceed_50_characters": "密码不能超过50个字符",
+        "Verification_code_must_be_a_6-digit": "验证码必须是6位数字",
+        "Passwords_dont_match": "密码不一致"
+      },
+      "ResetEmailSchema": {
+        "Invalid_email_address": "请输入有效的邮箱地址"
+      },
+      "ResetPasswordSchema": {
+        "Password_must_be_at_least_8_characters": "密码必须至少包含8个字符",
+        "Password_cannot_exceed_50_characters": "密码不能超过50个字符"
+      },
+      "ResetNameSchema": {
+        "First_name_must_be_at_least_2_characters": "名字必须至少包含2个字符",
+        "First_name_cannot_exceed_50_characters": "名字不能超过50个字符",
+        "Last_name_must_be_at_least_2_characters": "姓氏必须至少包含2个字符",
+        "Last_name_cannot_exceed_50_characters": "姓氏不能超过50个字符"
+      },
+      "GenerateOutlineSchema": {
+        "Area_must_be_at_least_1_character": "领域必须至少包含1个字符",
+        "Description_must_be_at_least_1_character": "描述必须至少包含1个字符"
+      }
     }
   },
   "Onboard": {
@@ -397,7 +500,8 @@
       "Authors": "作者",
       "Add_to_library": "添加到我的图书馆",
       "Cite": "引用",
-      "Add_Citation": "添加引用"
+      "Add_Citation": "添加引用",
+      "Citation_created_successfully": "引用创建成功"
     },
     "Generate": {
       "Write Introduction": "撰写引言",
@@ -429,7 +533,9 @@
       "Generate": "一键生成",
       "Plagiarism_Check": "查重",
       "AI_Detection": "检测AI",
-      "Essay_Prompt": "个性化写作"
+      "Essay_Prompt": "个性化写作",
+      "Authors": "作者",
+      "Cite": "引用"
     },
     "BubbleMenu": {
       "Copilot": "AI助手",
@@ -576,6 +682,16 @@
         "Start": "起始页",
         "End": "结束页",
         "DOI": "DOI"
+      },
+      "EditIntext": {
+        "No_authors_founded": "未找到作者",
+        "Authors": "作者",
+        "Year": "年份",
+        "Page_number": "页码"
+      },
+      "GrammarCheck": {
+        "No_text_found": "未找到文本",
+        "No_grammar_issues_found": "未找到语法问题"
       }
     },
     "Onboard": {
@@ -643,7 +759,7 @@
       "probability": "概率由AI生成",
       "mix-ai": "概率由AI和真人混合",
       "breakdown": "概率细分",
-      "Unlock": "通过无限套餐解锁AI检测",
+      "Unlock": "加入 Pro 会员解锁AI检测",
       "Humanizer": "人性化描述",
       "Remaining_Paragraphs": "剩余段落",
       "Humanize_all": "一键反AI",
@@ -684,6 +800,12 @@
     "Continue": {
       "title": "续写",
       "description": "快捷键 cmd/ctrl  + \"/\""
+    },
+    "Reference": {
+      "References": "引用",
+      "Upgrade_to_unlimted_to_export_citations": "升级到 Pro 会员以导出引用",
+      "Go_unlimited": "立即升级",
+      "Chicago": "芝加哥"
     }
   },
   "Verify": {
@@ -760,5 +882,10 @@
       "Are_you_sure_you_want_to_leave": "您确定要离开吗？",
       "You_will_lose_benefits_to_unlimited_AI_generations_grammar_check_and_originality_checks_Reconsider_to_keep_enhancing_your_writing_effortlessly": "您将失去无限AI生成、语法检查和原创性检查的权益。为了继续提高您的写作效率，请谨慎考虑。"
     }
+  },
+  "Pricing": {
+    "Upgrade_to_Unlimited_to_unlock_unlimited_possibilities": "升级到 Pro 会员以解锁无限可能性",
+    "Plans_And_Pricing": "会员与定价",
+    "Select_the_perfect_plan_to_enhance_your_academic_writing_journey": "选择适合您的学术写作旅程的会员"
   }
 }

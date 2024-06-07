@@ -6,6 +6,7 @@ import useAIEditor, { useCitation } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
 import { Copy, Loader2 } from 'lucide-react';
 import { memo, useMemo, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import {
@@ -17,6 +18,8 @@ import {
 } from '../ui/select';
 
 const Reference = () => {
+  const transSuccess = useTranslations('Success');
+  const transEditor = useTranslations('Editor');
   const citationStyle = useCitation((state) => state.citationStyle);
   const inTextCitation = useCitation((state) => state.inTextCitation);
   const updateCitationStyle = useCitation((state) => state.updateCitationStyle);
@@ -65,18 +68,19 @@ const Reference = () => {
     const htmlNode = referenceListRef.current;
     navigator.clipboard.writeText(htmlNode?.innerText ?? '');
     const { toast } = await import('sonner');
-    toast.success('Copied to clipboard');
+    const successInfo = transSuccess('Copied_to_clipboard');
+    toast.success(successInfo);
   };
 
   if (inTextCitation.length === 0) return null;
   return (
     <div className='mx-auto flex w-[700px] select-none flex-col pb-[10vh]'>
       <div className='flex-between'>
-        <h3 className='text-xl font-[600]'>References</h3>
+        <h3 className='text-xl font-[600]'>{transEditor('References.References')}</h3>
         <div className='flex gap-x-4'>
           {usage?.subscription === 'basic' ? (
             <p className='subtle-regular inline-flex items-center gap-x-2 text-neutral-400'>
-              Upgrade to unlimted to export citations
+              {transEditor('Upgrade_to_unlimted_to_export_citations')}
               <Button
                 role='button'
                 variant={'ghost'}
@@ -88,7 +92,7 @@ const Reference = () => {
                   updatePaymentModal(true);
                 }}
               >
-                Go unlimited
+                {transEditor('References.Go_unlimited')}
               </Button>
             </p>
           ) : (
@@ -113,7 +117,9 @@ const Reference = () => {
               <SelectItem value='mla'>MLA</SelectItem>
               <SelectItem value='apa'>APA</SelectItem>
               <SelectItem value='ieee'>IEEE</SelectItem>
-              <SelectItem value='chicago'>Chicago</SelectItem>
+              <SelectItem value='chicago'>
+                {transEditor('References.Chicago')}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>

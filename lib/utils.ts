@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import escapeStringRegExp from 'escape-string-regexp';
 import { twMerge } from 'tailwind-merge';
+import { useTranslations } from 'next-intl';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -170,10 +171,10 @@ export function addRandomToDuplicates(array: string[]) {
     countMap[element] = count + 1;
 
     if (count > 0) {
-      // 如果元素已经出现过，添加随机数
+      // If the element has already appeared, add a random number
       newArray.push(`${element}+${Math.floor(Math.random() * 100)}`);
     } else {
-      // 否则直接添加元素
+      // Otherwise, directly add the element
       newArray.push(element);
     }
   }

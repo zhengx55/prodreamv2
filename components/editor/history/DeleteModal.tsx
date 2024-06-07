@@ -16,6 +16,7 @@ type Props = {
 const DeleteModal = ({ id, title }: Props) => {
   const queryClient = useQueryClient();
   const trans = useTranslations('Editor');
+  const transSuccess = useTranslations('Success');
 
   const defaultTitle = trans('DeleteModal.Untitled_Document');
 
@@ -23,7 +24,8 @@ const DeleteModal = ({ id, title }: Props) => {
     mutationFn: (doc_id: string) => deleteDoc(doc_id),
     onSuccess: async () => {
       const { toast } = await import('sonner');
-      toast.success('Document deleted successfully');
+      const toastInfo = transSuccess('Document_deleted_successfully');
+      toast.success(toastInfo);
       queryClient.invalidateQueries({
         queryKey: ['document_history_list'],
       });

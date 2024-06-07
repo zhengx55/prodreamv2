@@ -24,6 +24,7 @@ const SearchBar = ({ lang, t }: Props) => {
   const queryClient = useQueryClient();
   const { data: usage } = useMembershipInfo();
   const trans = useTranslations('Editor');
+  const transError = useTranslations('Error');
   const { mutateAsync: createNew } = useMutation({
     mutationFn: (params: { text?: string; title?: string; file?: File }) =>
       createDoc(params.text, params.title, params.file),
@@ -66,7 +67,8 @@ const SearchBar = ({ lang, t }: Props) => {
   const handleCreateScrath = async () => {
     if (usage?.free_times_detail.Document === 0) {
       const toast = (await import('sonner')).toast;
-      toast.error('You have reached the limit of creating new documents');
+      const toastInfo = transError('You_have_reached_the_limit_of_creating_new_documents');
+      toast.error(toastInfo);
       return;
     }
     await createNew({});

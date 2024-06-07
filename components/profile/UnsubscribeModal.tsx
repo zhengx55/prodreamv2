@@ -30,7 +30,8 @@ const UnsubscribeModal = ({
     onSuccess: async () => {
       router.refresh();
       const { toast } = await import('sonner');
-      toast.success(trans('UnsubscribeModal.Successfully_unsubscribed'));
+      const toastInfo = tSuccess('UnsubscribeModal.Successfully_unsubscribed');
+      toast.success(toastInfo);
     },
   });
 

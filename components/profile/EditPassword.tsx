@@ -14,13 +14,12 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { resetPass, resetPassCN } from '@/lib/validation';
+import { createResetPasswordSchema } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { ReactNode, memo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'next/navigation';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -34,25 +33,27 @@ const EditPassModal = ({ children }: Props) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [hideNewPassword, setHideNewPassword] = useState(true);
   const [show, setShow] = useState(false);
-  const t = useTranslations('Profile');
-  const { lang } = useParams();
-  const isCN = lang === 'cn';
-  const form = useForm<z.infer<typeof resetPass>>({
-    resolver: zodResolver(isCN ? resetPassCN : resetPass),
+  const tProfile = useTranslations('Profile');
+  const tAuth = useTranslations('Auth');
+  const tSuccess = useTranslations('Success');
+  const resetPasswordSchema = createResetPasswordSchema(tAuth);
+  const form = useForm<z.infer<typeof resetPasswordSchema>>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       old_password: '',
       new_password: '',
     },
   });
 
-  async function onSubmit(values: z.infer<typeof resetPass>) {
+  async function onSubmit(values: z.infer<typeof resetPasswordSchema>) {
     const toast = (await import('sonner')).toast;
     try {
       const formData = new FormData();
       formData.append('old_password', values.old_password);
       formData.append('password', values.new_password);
       await resetPasswordAction(formData);
-      toast.success('password has been reset successfully!');
+      const toastInfo = tSuccess('Password_has_been_reset_successfully');
+      toast.success(toastInfo);
       setShow(false);
     } catch (error: any) {
       toast.error(error.message);
@@ -70,7 +71,7 @@ const EditPassModal = ({ children }: Props) => {
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
             <p className='h2-bold mt-2 text-center'>
-              {t('Setting.Change_password')}
+              {tProfile('Setting.Change_password')}
             </p>
             <DialogClose>
               <X className='self-end text-shadow' />
@@ -103,7 +104,7 @@ const EditPassModal = ({ children }: Props) => {
                   <FormControl>
                     <Input
                       autoComplete='current-password'
-                      placeholder={t('Setting.Enter_your_old_password')}
+                      placeholder={tProfile('Setting.Enter_your_old_password')}
                       className='h-14'
                       type={hidePassword ? 'password' : 'text'}
                       {...field}
@@ -134,7 +135,7 @@ const EditPassModal = ({ children }: Props) => {
                   <FormControl>
                     <Input
                       autoComplete='current-password'
-                      placeholder={t('Setting.Enter_your_new_password')}
+                      placeholder={tProfile('Setting.Enter_your_new_password')}
                       className='h-14'
                       type={hideNewPassword ? 'password' : 'text'}
                       {...field}
@@ -147,11 +148,11 @@ const EditPassModal = ({ children }: Props) => {
             <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
               <DialogClose asChild>
                 <Button variant={'ghost'} className=' text-violet-500'>
-                  {t('Setting.Cancel')}
+                  {tProfile('Setting.Cancel')}
                 </Button>
               </DialogClose>
 
-              <Button type='submit'>{t('Setting.Save')}</Button>
+              <Button type='submit'>{tProfile('Setting.Save')}</Button>
             </div>
           </form>
         </Form>

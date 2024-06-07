@@ -14,7 +14,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { resetEmail, resetEmailCN } from '@/lib/validation';
+import { createResetEmailSchema } from '@/lib/validation';
 import { useUserInfo } from '@/zustand/store';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,29 +35,34 @@ const EditEmailModal = ({ children }: Props) => {
   const [show, setShow] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
   const updateUserEmail = useUserInfo((state) => state.setUserEmail);
-  const t = useTranslations('Profile');
-  const { lang } = useParams();
-  const isCN = lang === 'cn';
-  const form = useForm<z.infer<typeof resetEmail>>({
-    resolver: zodResolver(isCN ? resetEmailCN : resetEmail),
+  const tProfile = useTranslations('Profile');
+  const tAuth = useTranslations('Auth');
+  const tError = useTranslations('Error');
+  const tSuccess = useTranslations('Success');
+  const resetEmailSchema = createResetEmailSchema(tAuth);
+
+  const form = useForm<z.infer<typeof resetEmailSchema>>({
+    resolver: zodResolver(resetEmailSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  async function onSubmit(values: z.infer<typeof resetEmail>) {
+  async function onSubmit(values: z.infer<typeof resetEmailSchema>) {
     const toast = (await import('sonner')).toast;
     try {
       const formData = new FormData();
       formData.append('email', values.email);
       formData.append('password', values.password);
       resetEmailAction(formData);
-      toast.success('Email has been reset successfully!');
+      const toastInfo = tSuccess('Email_has_been_reset_successfully');
+      toast.success(toastInfo);
       updateUserEmail(form.getValues().email);
       setShow(false);
     } catch (error) {
-      toast.error('An error occurred, please try again later!');
+      const toastInfo = tError('An_error_occurred_please_try_again_later');
+      toast.error(toastInfo);
     }
   }
 
@@ -73,7 +78,7 @@ const EditEmailModal = ({ children }: Props) => {
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
             <p className='h2-bold mt-2 text-center'>
-              {t('Setting.Change_email')}
+              {tProfile('Setting.Change_email')}
             </p>
             <DialogClose>
               <X className='self-end text-shadow' />
@@ -94,7 +99,7 @@ const EditEmailModal = ({ children }: Props) => {
                     <Input
                       autoComplete='email'
                       id='email'
-                      placeholder={t('Setting.Enter_your_new_email')}
+                      placeholder={tProfile('Setting.Enter_your_new_email')}
                       type='email'
                       className='h-14'
                       {...field}
@@ -125,7 +130,7 @@ const EditEmailModal = ({ children }: Props) => {
                   <FormControl>
                     <Input
                       autoComplete='current-password'
-                      placeholder={t('Setting.Enter_your_password')}
+                      placeholder={tProfile('Setting.Enter_your_password')}
                       className='h-14'
                       type={hidePassword ? 'password' : 'text'}
                       {...field}
@@ -138,10 +143,10 @@ const EditEmailModal = ({ children }: Props) => {
             <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
               <DialogClose asChild>
                 <Button variant={'ghost'} className=' text-violet-500'>
-                  {t('Setting.Cancel')}
+                  {tProfile('Setting.Cancel')}
                 </Button>
               </DialogClose>
-              <Button type='submit'>{t('Setting.Save')}</Button>
+              <Button type='submit'>{tProfile('Setting.Save')}</Button>
             </div>
           </form>
         </Form>

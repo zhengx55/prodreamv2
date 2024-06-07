@@ -14,14 +14,13 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { resetName, resetNameCN } from '@/lib/validation';
+import { createResetNameSchema } from '@/lib/validation';
 import { profileResetName } from '@/query/api';
 import { useUserInfo } from '@/zustand/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
-import { useParams } from 'next/navigation';
 import { ReactNode, memo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -34,13 +33,15 @@ type Props = {
 };
 
 const EditNameModal = ({ children }: Props) => {
-  const { lang } = useParams();
-  const isCN = lang === 'cn';
-  const trans = useTranslations('Profile');
+  const tProfile = useTranslations('Profile');
+  const tAuth = useTranslations('Auth');
+  const tSuccess = useTranslations('Success');
+  const resetNameSchema = createResetNameSchema(tAuth);
   const updateUserFirstName = useUserInfo((state) => state.setUserFirstName);
   const updateUserLastName = useUserInfo((state) => state.setUserLastName);
-  const form = useForm<z.infer<typeof resetName>>({
-    resolver: zodResolver(isCN ? resetNameCN : resetName),
+
+  const form = useForm<z.infer<typeof resetNameSchema>>({
+    resolver: zodResolver(resetNameSchema),
     defaultValues: {
       firstname: '',
       lastname: '',
@@ -51,7 +52,8 @@ const EditNameModal = ({ children }: Props) => {
     mutationFn: (params: { first_name: string; last_name: string }) =>
       profileResetName(params),
     onSuccess: () => {
-      toast.success('Name has been reset successfully!');
+      const toastInfo = tSuccess('Name_has_been_reset_successfully');
+      toast.success(toastInfo);
       updateUserFirstName(form.getValues().firstname);
       updateUserLastName(form.getValues().lastname);
     },
@@ -60,7 +62,7 @@ const EditNameModal = ({ children }: Props) => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof resetName>) {
+  async function onSubmit(values: z.infer<typeof resetNameSchema>) {
     resetNameAction({
       first_name: values.firstname,
       last_name: values.lastname,
@@ -78,7 +80,7 @@ const EditNameModal = ({ children }: Props) => {
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
             <p className='h2-bold mt-2 text-center'>
-              {trans('Setting.Change_name')}
+              {tProfile('Setting.Change_name')}
             </p>
             <DialogClose>
               <X className='self-end text-shadow' />
@@ -98,7 +100,7 @@ const EditNameModal = ({ children }: Props) => {
                   <FormControl>
                     <Input
                       autoComplete='firstname'
-                      placeholder={trans('Setting.Enter_your_first_name')}
+                      placeholder={tProfile('Setting.Enter_your_first_name')}
                       type='text'
                       className='h-14'
                       {...field}
@@ -117,7 +119,7 @@ const EditNameModal = ({ children }: Props) => {
                   <FormControl>
                     <Input
                       autoComplete='lastname'
-                      placeholder={trans('Setting.Enter_your_last_name')}
+                      placeholder={tProfile('Setting.Enter_your_last_name')}
                       className='h-14'
                       type={'text'}
                       {...field}
@@ -130,12 +132,12 @@ const EditNameModal = ({ children }: Props) => {
             <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
               <DialogClose asChild>
                 <Button variant={'ghost'} className='text-violet-500'>
-                  {trans('Setting.Cancel')}
+                  {tProfile('Setting.Cancel')}
                 </Button>
               </DialogClose>
               <DialogClose asChild>
                 <Button className='bg-violet-500' type='submit'>
-                  {trans('Setting.Save')}
+                  {tProfile('Setting.Save')}
                 </Button>
               </DialogClose>
             </div>

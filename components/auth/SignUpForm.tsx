@@ -13,10 +13,9 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { getReferralSource } from '@/lib/utils';
-import { signUpSchema, signUpSchemaCN } from '@/lib/validation';
+import { createSignUpSchema } from '@/lib/validation';
 import { userLogin, userSignUp } from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
-import { AuthPageDicType } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -32,13 +31,14 @@ const SignUpForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const searchParam = useSearchParams().get('from');
   const { lang } = useParams();
-  const isCN = lang === 'cn';
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
   const trans = useTranslations('Auth');
+  const transSuccess = useTranslations('Success');
+  const signUpSchema = createSignUpSchema(trans);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(isCN ? signUpSchemaCN : signUpSchema),
+    resolver: zodResolver(signUpSchema),
     defaultValues,
   });
   const { mutateAsync: handleSignup, isPending: isSignupPending } = useMutation(
@@ -47,7 +47,8 @@ const SignUpForm = () => {
       onSuccess: async (_, variables, _contex) => {
         try {
           const toast = (await import('sonner')).toast;
-          toast.success('Successfully signed up');
+          const successInfo = transSuccess('Successfully_signed_up');
+          toast.success(successInfo);
           const login_data = await userLogin({
             username: variables.email,
             password: variables.password,

@@ -10,9 +10,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { generateOutlineSchema, generateOutlineSchemaCN } from '@/lib/validation';
+import { createGenerateOutlineSchema } from '@/lib/validation';
 import { useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
 import { EditorDictType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -22,18 +21,18 @@ type Props = {
   t: EditorDictType;
 };
 const OutlineBtn = ({ handleGenerate }: Props) => {
-  const trans = useTranslations('Editor');
-  const { lang } = useParams();
-  const isCN = lang === 'cn';
-  const schemaUsed = isCN ? generateOutlineSchemaCN : generateOutlineSchema;
-  const form = useForm<z.infer<typeof schemaUsed>>({
-    resolver: zodResolver(schemaUsed),
+  const tEditor = useTranslations('Editor');
+  const tAuth = useTranslations('Auth');
+  const generateOutlineSchema = createGenerateOutlineSchema(tAuth);
+
+  const form = useForm<z.infer<typeof generateOutlineSchema>>({
+    resolver: zodResolver(generateOutlineSchema),
     defaultValues: {
       idea: '',
       area: '',
     },
   });
-  const onSubmit = async (values: z.infer<typeof schemaUsed>) => {
+  const onSubmit = async (values: z.infer<typeof generateOutlineSchema>) => {
     await handleGenerate(values.idea, values.area);
   };
   return (
@@ -50,7 +49,7 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
             render={({ field }) => (
               <FormItem className='relative'>
                 <FormLabel className='small-regular text-black' htmlFor='area'>
-                  {trans('Generate.outline_form1')}
+                  {tEditor('Generate.outline_form1')}
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -71,12 +70,12 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
             render={({ field }) => (
               <FormItem className='relative'>
                 <FormLabel className='small-regular text-black' htmlFor='idea'>
-                  {trans('Generate.outline_form2')}
+                  {tEditor('Generate.outline_form2')}
                 </FormLabel>
                 <FormControl>
                   <Textarea
                     id='idea'
-                    placeholder={trans('Generate.outline_placeholder')}
+                    placeholder={tEditor('Generate.outline_placeholder')}
                     className='small-regular rounded focus-visible:ring-0'
                     {...field}
                   />
@@ -89,7 +88,7 @@ const OutlineBtn = ({ handleGenerate }: Props) => {
             type='submit'
             className='size-max self-center rounded px-8 py-2'
           >
-            {trans('Utility.Generate')}
+            {tEditor('Utility.Generate')}
           </Button>
         </form>
       </Form>

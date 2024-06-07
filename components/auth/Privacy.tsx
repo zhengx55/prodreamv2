@@ -1,11 +1,13 @@
-import { Locale } from '@/i18n-config';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { memo } from 'react';
 
-const Privacy = ({ lang }: { lang: Locale }) => {
-  return lang === 'cn' ? (
+const Privacy = () => {
+  const t = useTranslations('Auth');
+
+  return (
     <p className='subtle-regular md:small-regular mb-10 mt-auto w-full cursor-pointer text-neutral-400 md:mb-0 md:mt-10 md:w-[500px]'>
-      注册登录即代表同意&nbsp;
+      {t('Privacy.By_Continuing_you_agree_to_Applify_AI_s')}&nbsp;
       <Link
         target='_blank'
         href={
@@ -13,7 +15,7 @@ const Privacy = ({ lang }: { lang: Locale }) => {
         }
         className='text-violet-500'
       >
-        《ProDream用户协议》
+        {t('Privacy.Terms_of_Service')}
       </Link>
       <Link
         target='_blank'
@@ -22,33 +24,10 @@ const Privacy = ({ lang }: { lang: Locale }) => {
         }
         className='text-violet-500'
       >
-        《ProDream隐私政策》
+        {t('Privacy.Privacy_Policy')}
       </Link>
     </p>
-  ) : (
-    <p className='subtle-regular md:small-regular mb-10 mt-auto w-full cursor-pointer text-neutral-400 md:mb-0 md:mt-10 md:w-[500px]'>
-      By Continuing, you agree to&nbsp;Applify AI&apos;s&nbsp;
-      <Link
-        target='_blank'
-        href={
-          'https://applifyai.notion.site/Applify-AI-Subscription-Agreement-eef0b3cfdab6496dbe0fa04a3c9a0d3e?pvs=4'
-        }
-        className='text-violet-500'
-      >
-        Term of Service
-      </Link>
-      &nbsp; and
-      <Link
-        target='_blank'
-        href={
-          'https://applifyai.notion.site/Applify-AI-Privacy-Policy-e350e311e90c48608b4e85a8c7982e77'
-        }
-        className='text-violet-500'
-      >
-        &nbsp;Privacy Policy
-      </Link>
-    </p>
-  );
+  ) 
 };
 
 export default memo(Privacy);

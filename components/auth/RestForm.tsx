@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { resetSchema, resetSchemaCN } from '@/lib/validation';
+import { createResetSchema } from '@/lib/validation';
 import { sendVerificationEmail, userReset } from '@/query/api';
 import { IResetParams } from '@/query/type';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,8 +24,7 @@ import * as z from 'zod';
 
 const ResetForm = () => {
   const trans = useTranslations('Auth');
-  const { lang } = useParams();
-  const isCN = lang === 'cn';
+  const resetSchema = createResetSchema(trans);
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
   const [verifyWait, setVerifyWait] = useState(false);
@@ -34,7 +33,7 @@ const ResetForm = () => {
   useEffect(() => {
     let timer: string | number | NodeJS.Timeout | undefined;
     if (verifyWait && countdown > 0) {
-      // 启动倒计时
+      // start count down
       timer = setInterval(() => {
         setCountdown((prevCountdown) => prevCountdown - 1);
       }, 1000);
@@ -53,7 +52,7 @@ const ResetForm = () => {
 
   const router = useRouter();
   const form = useForm<z.infer<typeof resetSchema>>({
-    resolver: zodResolver(isCN ? resetSchemaCN : resetSchema),
+    resolver: zodResolver(resetSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -64,7 +63,8 @@ const ResetForm = () => {
   const { mutateAsync: handleReset } = useMutation({
     mutationFn: (param: IResetParams) => userReset(param),
     onSuccess: (_data) => {
-      toast.success(trans('ForgotPassword.Successfully_Reset_Password'));
+      const toastInfo = trans('ForgotPassword.Successfully_Reset_Password');
+      toast.success(toastInfo);
       router.replace('/login');
     },
     onError: (error) => {
@@ -75,7 +75,8 @@ const ResetForm = () => {
   const { mutateAsync: handleSendVerification } = useMutation({
     mutationFn: (params: { email: string }) => sendVerificationEmail(params),
     onSuccess: () => {
-      toast.success(trans('ForgotPassword.Checked_your_email'));
+      const toastInfo = trans('ForgotPassword.Checked_your_email');
+      toast.success(toastInfo);
       setVerifyWait(true);
       setCountdown(60);
     },
@@ -87,7 +88,8 @@ const ResetForm = () => {
   async function handleSentVerificationEmail() {
     const { email } = form.getValues();
     if (!email) {
-      toast.error(trans('ForgetPassword.Please_enter_your_email_address'));
+      const toastInfo = trans('ForgotPassword.Please_enter_your_email_address');
+      toast.error(toastInfo);
       return;
     }
     await handleSendVerification({ email });

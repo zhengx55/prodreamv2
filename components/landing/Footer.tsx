@@ -2,14 +2,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChangeEvent, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 const Footer = () => {
+  const tError = useTranslations('Error');
+  const tSuccess = useTranslations('Success');
+  const tFooter = useTranslations('Footer');
   const [email, setEmail] = useState('');
   const handleEmailSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email) {
-      toast.error('Please enter a valid email');
+      const toastError = tError('Please_enter_a_valid_email');
+      toast.error(toastError);
       return;
     }
     // const response = await fetch(
@@ -25,7 +30,8 @@ const Footer = () => {
     //   }
     // );
     // if (response.ok) {
-    //   toast.success('You have successfully subscribed!!!');
+    //   const toastInfo = tSuccess('You_have_successfully_subscribed');
+    //   toast.success(toastInfo);
     // }
   };
   return (
@@ -41,12 +47,13 @@ const Footer = () => {
               className='h-auto w-52'
             />
             <p className='body-regular '>
-              Shape your academic future:
-              <br /> masterful writing from application to graduation.
+              {tFooter('Shape_your_academic_future')}
+              <br />
+              {tFooter('masterful_writing_from_application_to_graduation')}
             </p>
           </div>
           <div className='flex flex-col'>
-            <p className='base-medium text-black '>Newsletter</p>
+            <p className='base-medium text-black '>{tFooter('Newsletter')}</p>
             <form
               onSubmit={handleEmailSubmit}
               className='mt-3 flex items-center gap-x-4'
@@ -65,7 +72,7 @@ const Footer = () => {
                   'submit-button h-11 rounded bg-violet-500 hover:bg-violet-500'
                 }
               >
-                Submit
+                {tFooter('Submit')}
               </Button>
             </form>
           </div>
@@ -82,7 +89,7 @@ const Footer = () => {
               target='_blank'
               className='sm:base-regular text-[12px] hover:underline'
             >
-              Terms & Conditions
+              {tFooter('Terms_Conditions')}
             </Link>
             <Link
               href={
@@ -91,7 +98,7 @@ const Footer = () => {
               target='_blank'
               className='sm:base-regular text-[12px] hover:underline'
             >
-              Privacy Policy
+              {tFooter('Privacy_Policy')}
             </Link>
           </div>
         </section>

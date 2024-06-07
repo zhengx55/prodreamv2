@@ -14,6 +14,8 @@ const EditName = dynamic(() => import('@/components/profile/EditName'), {
 });
 const AvatarChange = () => {
   const t = useTranslations('Profile');
+  const tError = useTranslations('Error');
+  const tSuccess = useTranslations('Success');
   const setUserAvatar = useUserInfo((state) => state.setUserAvatar);
   const uploadRef = useRef<HTMLInputElement>(null);
   const userInfo = useUserInfo((state) => state.user);
@@ -22,7 +24,8 @@ const AvatarChange = () => {
     onSuccess: async () => {
       const data = await refreshUserSession();
       setUserAvatar(data.avatar);
-      toast.success('avatar has been reset successfully!');
+      const toastInfo = tSuccess('Avatar_has_been_reset_successfully');
+      toast.success(toastInfo);
     },
 
     onError: (error) => {
@@ -33,7 +36,8 @@ const AvatarChange = () => {
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && file.size > 200 * 1024) {
-      toast.error('File is larger than 200KB');
+      const toastInfo = tError('File_is_larger_than_200KB');
+      toast.error(toastInfo);
       return;
     }
     if (file) {

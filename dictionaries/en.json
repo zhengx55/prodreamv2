@@ -1,7 +1,61 @@
 {
+  "CommonSense": {
+    "Month": {
+      "January": "January",
+      "February": "February",
+      "March": "March",
+      "April": "April",
+      "May": "May",
+      "June": "June",
+      "July": "July",
+      "August": "August",
+      "September": "September",
+      "October": "October",
+      "November": "November",
+      "December": "December"
+    },
+    "Season": {
+      "Spring": "Spring",
+      "Summer": "Summer",
+      "Autumn": "Autumn",
+      "Winter": "Winter"
+    }
+  },
   "Error": {
     "Something_went_wrong": "Something went wrong!",
-    "Try_again": "Try again"
+    "Try_again": "Try again",
+    "Email_sent_error_please_try_again_later": "Email sent error, please try again later",
+    "Please_enter_a_custom_prompt": "Please enter a custom prompt",
+    "Selected_text_should_not_exceed_500_words": "Selected text should not exceed 500 words",
+    "You_have_reached_the_limit_of_creating_new_documents": "You have reached the limit of creating new documents",
+    "Please_fill_in_the_idea": "Please fill in the idea",
+    "Failed_to_create_PDF_chat_please_try_again_later": "Failed to create PDF chat, please try again later.",
+    "Please_enter_a_page_number": "Please enter a page number",
+    "Please_provide_details": "Please provide details",
+    "Please_enter_a_valid_email": "Please enter a valid email",
+    "File_is_larger_than_200KB": "File is larger than 200KB",
+    "An_error_occurred_please_try_again_later": "An error occurred, please try again later!",
+    "Invalid_Coupon_Code": "Invalid Coupon Code",
+    "Coupon_Code_required": "Coupon Code required"
+  },
+  "Info": {
+    "In_text_citation_will_be_append_to_the_postion_of_your_cursor": "In text citation will be append to the postion of your cursor!",
+    "enter_your_code": "enter your code..."
+  },
+  "Success": {
+    "Email_sent_successfully": "Email sent successfully",
+    "Successfully_signed_up": "Successfully signed up",
+    "Successfully_logged_in": "Successfully logged in",
+    "Copied_to_clipboard": "Copied to clipboard",
+    "Document_deleted_successfully": "Document deleted successfully",
+    "Session_deleted_successfully": "Session deleted successfully",
+    "Coupon_successfully_applied": "Coupon successfully applied",
+    "You_have_successfully_subscribed": "You have successfully subscribed!!!",
+    "Avatar_has_been_reset_successfully": "Avatar has been reset successfully!",
+    "Email_has_been_reset_successfully": "Email has been reset successfully!",
+    "Name_has_been_reset_successfully": "Name has been reset successfully!",
+    "Password_has_been_reset_successfully": "Password has been reset successfully!",
+    "Citation_Updated_successfully": "Citation Updated successfully"
   },
   "Homepage": {
     "log_in": "Log in",
@@ -107,11 +161,20 @@
     "QuestionInfo_title_5": "How can I report an issue with ProDream?",
     "QuestionInfo_desc_5": "We greatly value your feedback and are here to help resolve any issues you encounter with ProDream. Please don't hesitate to reach out to us at support@prodream.ai or join our Discord server for direct support and assistance."
   },
+  "Footer": {
+    "Shape_your_academic_future": "Shape your academic future",
+    "masterful_writing_from_application_to_graduation": "masterful writing from application to graduation",
+    "Newsletter": "Newsletter",
+    "Submit": "Submit",
+    "Terms_Conditions": "Terms & Conditions",
+    "Privacy_Policy": "Privacy Policy"
+  },
   "Auth": {
     "Slogan": "Transform your academic writing journey",
     "FormEmail": "Email Address",
-    "FormPassword": "Psssword",
+    "FormPassword": "Password",
     "FormName": "Name",
+    "Login_using_a_third_party_account": "Login using a third-party account",
     "Login": {
       "Forget": "Forgot Password?",
       "Button": "Log in",
@@ -142,6 +205,47 @@
       "Switch_to": "Switch to",
       "Log_in": "Log in",
       "Sign_up": "Sign up"
+    },
+    "Privacy": {
+      "Privacy_Policy": "Privacy Policy",
+      "Terms_of_Service": "Terms of Service",
+      "By_Continuing_you_agree_to_Applify_AI_s": "By Continuing, you agree to Applify AI's"
+    },
+    "Schema": {
+      "LoginSchema": {
+        "Invalid_email_address": "Invalid email address",
+        "Password_must_be_at_least_8_characters": "Password must be at least 8 characters",
+        "Password_cannot_exceed_50_characters": "Password cannot exceed 50 characters"
+      },
+      "SignUpSchema": {
+        "Invalid_email_address": "Invalid email address",
+        "Password_must_be_at_least_8_characters": "Password must be at least 8 characters",
+        "Password_cannot_exceed_50_characters": "Password cannot exceed 50 characters"
+      },
+      "ResetSchema": {
+        "Invalid_email_address": "Invalid email address",
+        "Password_must_be_at_least_8_characters": "Password must be at least 8 characters",
+        "Password_cannot_exceed_50_characters": "Password cannot exceed 50 characters",
+        "Verification_code_must_be_a_6-digit": "Verification code must be a 6-digit",
+        "Passwords_dont_match": "Passwords don't match"
+      },
+      "ResetEmailSchema": {
+        "Invalid_email_address": "Invalid email address"
+      },
+      "ResetPasswordSchema": {
+        "Password_must_be_at_least_8_characters": "Password must be at least 8 characters",
+        "Password_cannot_exceed_50_characters": "Password cannot exceed 50 characters"
+      },
+      "ResetNameSchema": {
+        "First_name_must_be_at_least_2_characters": "First name must be at least 2 characters",
+        "First_name_cannot_exceed_50_characters": "First name cannot exceed 50 characters",
+        "Last_name_must_be_at_least_2_characters": "Last name must be at least 2 characters",
+        "Last_name_cannot_exceed_50_characters": "Last name cannot exceed 50 characters"
+      },
+      "GenerateOutlineSchema": {
+        "Area_must_be_at_least_1_character": "Area must be at least 1 character",
+        "Description_must_be_at_least_1_character": "Description must be at least 1 character"
+      }
     }
   },
   "Onboard": {
@@ -398,7 +502,8 @@
       "Authors": "Authors",
       "Add_to_library": "Add to library",
       "Cite": "Cite",
-      "Add_Citation": "Add Citation"
+      "Add_Citation": "Add Citation",
+      "Citation_created_successfully": "Citation created successfully"
     },
     "Generate": {
       "Write Introduction": "Write Introduction",
@@ -431,7 +536,9 @@
       "Plagiarism_Check": "Plagiarism Check",
       "AI_Detection": "AI Detection",
       "Essay_Prompt": "Essay Prompt",
-      "Unlock_humanize_suggestions_with_the_Unlimited_Plan": "Unlock humanize suggestions with the Unlimited Plan"
+      "Unlock_humanize_suggestions_with_the_Unlimited_Plan": "Unlock humanize suggestions with the Unlimited Plan",
+      "Authors": "Authors",
+      "Cite": "Cite"
     },
     "BubbleMenu": {
       "Copilot": "AI Copilot",
@@ -577,6 +684,16 @@
         "Start": "Start",
         "End": "End",
         "DOI": "DOI"
+      },
+      "EditIntext": {
+        "No_authors_founded": "No authors founded",
+        "Authors": "Authors",
+        "Year": "Year",
+        "Page_number": "Page number"
+      },
+      "GrammarCheck": {
+        "No_text_found": "No text found",
+        "No_grammar_issues_found": "No grammar issues found"
       }
     },
     "Onboard": {
@@ -686,6 +803,12 @@
     "Continue": {
       "title": "Continue Writing",
       "description": "cmd/ctrl + '/' for shortcut"
+    },
+    "Reference": {
+      "References": "References",
+      "Upgrade_to_unlimted_to_export_citations": "Upgrade to unlimted to export citations",
+      "Go_unlimited": "Go unlimited",
+      "Chicago": "Chicago"
     }
   },
   "Verify": {
@@ -762,5 +885,10 @@
       "Are_you_sure_you_want_to_leave": "Are you sure you want to leave?",
       "You_will_lose_benefits_to_unlimited_AI_generations_grammar_check_and_originality_checks_Reconsider_to_keep_enhancing_your_writing_effortlessly": "You will lose benefits to unlimited AI generations, grammar check and originality checks. Reconsider to keep enhancing your writing effortlessly."
     }
+  },
+  "Pricing": {
+    "Upgrade_to_Unlimited_to_unlock_unlimited_possibilities": "Upgrade to Unlimited to unlock unlimited possibilities",
+    "Plans_And_Pricing": "Plans & Pricing",
+    "Select_the_perfect_plan_to_enhance_your_academic_writing_journey": "Select the perfect plan to enhance your academic writing journey"
   }
 }

@@ -109,6 +109,7 @@ const Submit = memo(
     const [attachments, setAttachments] = useState<string[]>([]);
     const infoRef = useRef<HTMLTextAreaElement>(null);
     const t = useTranslations('Editor');
+    const tError = useTranslations('Error');
     const { lang } = useParams();
 
     const { mutateAsync: submit, isPending } = useMutation({
@@ -119,7 +120,8 @@ const Submit = memo(
       }) => submitFeedback(params),
       onSuccess: async () => {
         const { toast } = await import('sonner');
-        toast.success(t('FeedBack.Feedback_submitted_successfully'));
+        const toastInfo = t('FeedBack.Feedback_submitted_successfully');
+        toast.success(toastInfo);
         setShow(false);
       },
       onError: async (error) => {
@@ -136,7 +138,7 @@ const Submit = memo(
       const info = infoRef.current?.value;
       if (!info) {
         const { toast } = await import('sonner');
-        toast.error('Please provide details');
+        toast.error(tError('Error.Please_provide_details'));
         return;
       }
       await submit({

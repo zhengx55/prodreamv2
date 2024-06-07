@@ -1,5 +1,5 @@
 'use client';
-import { SidebarLinks } from '@/constant';
+import { createSidebarLinks } from '@/constant';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { Locale } from '@/i18n-config';
 import { useTranslations } from 'next-intl';
@@ -21,8 +21,7 @@ const useSidebarElevation = (pathname: string) => {
   const changeTopValue = useCallback((value: number) => {
     setTopValue(value);
   }, []);
-  const t = useTranslations('Editor');
-  const { lang } = useParams();
+
 
   useEffect(() => {
     const currentroute = pathname.split('/').pop();
@@ -49,7 +48,9 @@ const User = dynamic(() => import('./User'), {
 });
 
 const Sidebar = () => {
-  const t = useTranslations('Editor');
+
+  const tEditor = useTranslations('Editor');
+  const SidebarLinks = createSidebarLinks(tEditor);
   const { lang } = useParams();
   const isInCN = lang === 'cn';
 
@@ -122,7 +123,7 @@ const Sidebar = () => {
                   isActive ? 'text-violet-500' : 'text-zinc-600'
                 } base-regular`}
               >
-                {t('SideBar.AI_Editor')}
+                {tEditor('SideBar.AI_Editor')}
               </span>
             </li>
           );
@@ -144,7 +145,7 @@ const Sidebar = () => {
               className='size-5'
               priority
             />
-            <p className='base-regular text-zinc-600'>{t('SideBar.Discord')}</p>
+            <p className='base-regular text-zinc-600'>{tEditor('SideBar.Discord')}</p>
           </Link>
         )}
         <div
@@ -161,7 +162,7 @@ const Sidebar = () => {
             priority
           />
           <p className='base-regular text-zinc-600'>
-            {t('SideBar.Contact_Support')}
+            {tEditor('SideBar.Contact_Support')}
           </p>
         </div>
         {memberShipPending ? null : memberShip?.subscription === 'basic' ? (
@@ -175,7 +176,7 @@ const Sidebar = () => {
                 alt='diamond'
                 src='/editor/gem.svg'
               />
-              <p className='base-semibold'>{t('SideBar.Upgrade')}</p>
+              <p className='base-semibold'>{tEditor('SideBar.Upgrade')}</p>
             </Button>
           </Link>
         ) : null}

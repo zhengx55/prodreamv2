@@ -5,6 +5,7 @@ import { getUserInfo, googleLogin, refreshUserSession } from '@/query/api';
 import { useGoogleLogin } from '@react-oauth/google';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
@@ -20,6 +21,7 @@ const GoogleSignin = ({
 }) => {
   const [_cookies, setCookie] = useCookies(['token']);
   const router = useRouter();
+  const trans = useTranslations('Error');
 
   const googleAuth = useGoogleLogin({
     onSuccess: async (codeResponse) => {
@@ -47,7 +49,8 @@ const GoogleSignin = ({
         }
       } catch (error) {
         const toast = (await import('sonner')).toast;
-        toast.error('Opps! Something went wrong');
+        const toastInfo = trans('Something_went_wrong');
+        toast.error(toastInfo);
       }
     },
     onError: async (errorResponse) => {

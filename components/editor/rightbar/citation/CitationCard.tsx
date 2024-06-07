@@ -35,13 +35,13 @@ export const SearchCitationCard = memo(
     const { mutateAsync: handleCite } = useCiteToDoc();
     const { mutateAsync: ButtonTrack } = useButtonTrack();
     const trans = useTranslations('Editor');
+    const transInfo = useTranslations('Info');
 
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
         const { toast } = await import('sonner');
-        toast.info(
-          'In text citation will be append to the postion of your cursor!'
-        );
+        const toastInfo = transInfo('In_text_citation_will_be_append_to_the_postion_of_your_cursor');
+        toast.info(toastInfo);
         await updateTrack({
           field: 'citation_task',
           data: true,
@@ -172,6 +172,7 @@ export const MineCitationCard = memo(
     item: { type: ICitationType; data: ICitationData };
     type: 'inText' | 'library';
   }) => {
+    const transEditor = useTranslations('Editor');
     const editor = useAIEditor((state) => state.editor_instance);
     const removeInTextCitationIds = useCitation(
       (state) => state.removeInTextCitationIds
@@ -240,7 +241,7 @@ export const MineCitationCard = memo(
         )}
         {item.data.contributors?.length > 0 && (
           <p className='subtle-regular line-clamp-2 text-shadow-100'>
-            Authors:{' '}
+            {transEditor('RightBar.Authors')}:{' '}
             {item.data.contributors.map((author, idx) => {
               return (
                 <span key={`author-${idx}`}>
@@ -265,7 +266,7 @@ export const MineCitationCard = memo(
             onClick={handleCite}
           >
             <ReplyAll size={18} />
-            Cite
+            {transEditor('RightBar.Cite')}
           </Button>
           <Button
             className='h-7 rounded bg-zinc-600/20 px-1 text-zinc-600 hover:bg-red-400 hover:text-white'

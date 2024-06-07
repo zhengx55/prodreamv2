@@ -2,10 +2,11 @@ import { useEditorCommand } from '@/components/editor/hooks/useEditorCommand';
 import { ICitationType } from '@/types';
 import { useAIEditor, useCitation } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { createCitation, createGoogleCiation, updateCitation } from './api';
 
 export const useUpdateCitation = () => {
+  const tSuccess = useTranslations('Success');
   const updateCitationItem = useCitation((state) => state.updateCitationItem);
   return useMutation({
     mutationFn: (params: {
@@ -15,7 +16,8 @@ export const useUpdateCitation = () => {
     }) => updateCitation(params),
     onSuccess: async (_data, variables) => {
       const toast = (await import('sonner')).toast;
-      toast.success('Citation Updated successfully');
+      const toastInfo = tSuccess('Citation_Updated_successfully');
+      toast.success(toastInfo);
       updateCitationItem({
         type: variables.citation_type,
         data: variables.data,
@@ -29,7 +31,7 @@ export const useUpdateCitation = () => {
 };
 
 export const useCreateCustomCitation = () => {
-  const { lang } = useParams();
+  const trans = useTranslations("Editor");
 
   const appendInDocCitationIds = useCitation(
     (state) => state.appendInDocCitationIds
@@ -49,8 +51,7 @@ export const useCreateCustomCitation = () => {
       });
       const toast = (await import('sonner')).toast;
 
-      const toastInfo =
-        lang === 'en' ? 'Citation created successfully' : '引用创建成功';
+      const toastInfo = trans("Citation.Citation_created_successfully");
 
       toast.success(toastInfo);
     },
@@ -62,7 +63,7 @@ export const useCreateCustomCitation = () => {
 };
 
 export const useCreateCitation = () => {
-  const { lang } = useParams();
+  const trans = useTranslations("Editor");
 
   const appendInDocCitationIds = useCitation(
     (state) => state.appendInDocCitationIds
@@ -85,8 +86,7 @@ export const useCreateCitation = () => {
       });
       const toast = (await import('sonner')).toast;
 
-      const toastInfo =
-        lang === 'en' ? 'Citation created successfully' : '引用创建成功';
+      const toastInfo = trans("Citation.Citation_created_successfully");
 
       toast.success(toastInfo);
     },
@@ -98,7 +98,7 @@ export const useCreateCitation = () => {
 };
 
 export const useCiteToDoc = () => {
-  const { lang } = useParams();
+  const trans = useTranslations("Editor");
   const editor = useAIEditor((state) => state.editor_instance);
   const { insertCitation } = useEditorCommand(editor!);
   const appendInTextCitationIds = useCitation(
@@ -126,8 +126,7 @@ export const useCiteToDoc = () => {
 
       insertCitation(data.id, anchor, from, to);
       const toast = (await import('sonner')).toast;
-      const toastInfo =
-        lang === 'en' ? 'Citation created successfully' : '引用创建成功';
+      const toastInfo = trans("Citation.Citation_created_successfully");
 
       toast.success(toastInfo);
     },
