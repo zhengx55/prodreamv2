@@ -15,7 +15,8 @@ type Props = { item: ChatResponse };
 const SessionItem = ({ item }: Props) => {
   const { lang } = useParams();
   const trans = useTranslations('Editor');
-  
+  const tCommonSense = useTranslations('CommonSense');
+
   const updateDeleteModal = useChatbot((state) => state.updateDeleteModal);
   const updateDeleteSession = useChatbot((state) => state.updateDeleteSession);
   const updateMessageList = useChatbot((state) => state.updateMessageList);
@@ -75,7 +76,7 @@ const SessionItem = ({ item }: Props) => {
           {item.first_message}
         </h3>
         <p className='small-regular self-end text-neutral-400'>
-          {formatTimestamphh_number(item.update_time, lang as string)}
+          {formatTimestamphh_number(item.update_time, tCommonSense)}
         </p>
       </div>
       <p className='small-regular line-clamp-3 text-neutral-400'>

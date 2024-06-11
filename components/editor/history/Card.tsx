@@ -13,6 +13,8 @@ type Props = {
 } & DocPageDicType;
 const Card = ({ item, lang }: Props) => {
   const t = useTranslations('Editor');
+  const tCommonSense = useTranslations('CommonSense');
+
   const previewContent = useMemo(async () => {
     return item.content
       .replace(/<h1[^>]*>.*?<\/h1>/, '')
@@ -48,7 +50,7 @@ const Card = ({ item, lang }: Props) => {
         <div className='flex-between'>
           <p className='subtle-regular text-shadow'>
             {t('Card.Opened')}{' '}
-            {formatTimestamphh_number(item.update_time, lang)}
+            {formatTimestamphh_number(item.update_time, tCommonSense)}
           </p>
           <HistoryDropDown item={item} />
         </div>

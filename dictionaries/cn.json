@@ -19,6 +19,12 @@
       "Summer": "夏季",
       "Autumn": "秋季",
       "Winter": "冬季"
+    },
+    "TimesAgo": {
+      "Days_Ago": "{days} 天前",
+      "Hours_Ago": "{hours} 小时前",
+      "Minutes_Ago": "{minutes} 分钟前",
+      "Seconds_Ago": "{seconds} 秒前"
     }
   },
   "Error": {
@@ -280,6 +286,11 @@
       "Content_2": "<strong>引用搜索稳定性提升：</strong>我们升级了引用搜索系统，以增强其在高峰时段的稳定性。此次更新包括更新后的数据库和搜索系统，确保更准确的参考文献和零API停机时间。请注意，此次切换可能会导致现有引用功能中断。如果遇到任何问题，请重新尝试搜索并引用参考文献或联系我们客服邮箱：support@prodream.ai。",
       "Content_3": "<strong>AI研究工具：</strong>平台现新增一款AI驱动的研究工具，旨在帮助您回答研究问题并有效地总结研究成果。",
       "Content_4": "<strong>更有效的反馈中心：</strong>我们引入了全新的反馈中心，您可以在此报告产品bug、寻求技术支持并提交功能相关请求。您的反馈对我们非常重要，我们将不断努力提升我们的服务质量。"
+    },
+    "FeedbackOptions": {
+      "Report_a_bug": "🐞 产品体验",
+      "Submit_a_feature_suggestion": "🚀 功能建议",
+      "Access_customer_assistance": "👩‍💻 联系我们"
     },
     "SideBar": {
       "AI_Editor": "智能写作",

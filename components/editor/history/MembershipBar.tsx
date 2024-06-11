@@ -3,15 +3,14 @@ import { Button } from '@/components/ui/button';
 import { format_hour_diff } from '@/lib/utils';
 import { FreeTimesDetail, ISubscription } from '@/types';
 import { useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { memo } from 'react';
 
 const TrialEnds = ({ expireTime }: { expireTime: number }) => {
   const t = useTranslations('Editor');
-  const { lang } = useParams();
+  const tCommonSense = useTranslations('CommonSense');
 
-  const expireTimeString = format_hour_diff(expireTime, lang as string);
+  const expireTimeString = format_hour_diff(expireTime, tCommonSense);
   return (
     <div className='flex items-center gap-x-4'>
       <p className='text-[18px] font-medium text-neutral-400'>

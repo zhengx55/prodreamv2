@@ -1,6 +1,6 @@
 'use client';
 import { Dialog, DialogClose, DialogContent } from '@/components/ui/dialog';
-import { FeedbackOptions, FeedbackOptionsCN } from '@/constant';
+import { createFeedbackOptions } from '@/constant';
 import { feedbackAttachments, submitFeedback } from '@/query/api';
 import { useModal } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -49,7 +49,7 @@ const FeedbackModal = () => {
 
 const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
   const t = useTranslations('Editor');
-  const { lang } = useParams();
+  const FeedbackOptions = createFeedbackOptions(t);
 
   return (
     <m.div
@@ -68,7 +68,7 @@ const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
         </DialogClose>
       </div>
       <ul className='flex flex-col gap-y-2'>
-        {(lang === 'en' ? FeedbackOptions : FeedbackOptionsCN).map(
+        {FeedbackOptions.map(
           (options, index) => {
             return index === 1 ? (
               <li
@@ -110,7 +110,7 @@ const Submit = memo(
     const infoRef = useRef<HTMLTextAreaElement>(null);
     const t = useTranslations('Editor');
     const tError = useTranslations('Error');
-    const { lang } = useParams();
+    const FeedbackOptions = createFeedbackOptions(t);
 
     const { mutateAsync: submit, isPending } = useMutation({
       mutationFn: (params: {
@@ -168,7 +168,7 @@ const Submit = memo(
               <ChevronLeft size={20} />
             </Button>
             <h1 className='text-xl font-medium text-zinc-700'>
-              {(lang === 'en' ? FeedbackOptions : FeedbackOptionsCN)[option]}
+              {FeedbackOptions[option]}
             </h1>
           </div>
           <DialogClose>
@@ -245,7 +245,6 @@ const Attachments = memo(
   ({ handler }: { handler: (attachment: string[]) => void }) => {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const t = useTranslations('Editor');
-    const { lang } = useParams();
 
     const onDrop = useCallback(
       async (acceptedFile: File[], fileRejections: FileRejection[]) => {

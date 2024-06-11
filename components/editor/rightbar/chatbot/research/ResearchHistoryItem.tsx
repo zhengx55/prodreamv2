@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { formatTimestamphh_number } from '@/lib/utils';
 import { chatHistoryItem } from '@/query/api';
 import { ChatResponse } from '@/query/type';
+import { useTranslations } from 'next-intl';
 import { AIResearchMessage, EditorDictType } from '@/types';
 import { useChatbot } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
@@ -11,6 +12,7 @@ import { memo } from 'react';
 
 type Props = { t: EditorDictType; item: ChatResponse; close: () => void };
 const ResearchHistoryItem = ({ t, item, close }: Props) => {
+  const tCommonSense = useTranslations('CommonSense');
   const updateDeleteModal = useChatbot((state) => state.updateDeleteModal);
   const updateDeleteSession = useChatbot((state) => state.updateDeleteSession);
   const updateCurrentResearchSession = useChatbot(
@@ -55,7 +57,7 @@ const ResearchHistoryItem = ({ t, item, close }: Props) => {
           {item.first_message}
         </h3>
         <p className='small-regular text-neutral-400'>
-          {formatTimestamphh_number(item.create_time)}
+          {formatTimestamphh_number(item.create_time, tCommonSense)}
         </p>
       </div>
       <p className='small-regular line-clamp-3 text-neutral-400'>

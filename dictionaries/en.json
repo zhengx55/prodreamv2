@@ -19,6 +19,12 @@
       "Summer": "Summer",
       "Autumn": "Autumn",
       "Winter": "Winter"
+    },
+    "TimesAgo": {
+      "Days_Ago": "{days} Days Ago",
+      "Hours_Ago": "{hours} Hours Ago",
+      "Minutes_Ago": "{minutes} Minutes Ago",
+      "Seconds_Ago": "{seconds} Seconds Ago"
     }
   },
   "Error": {
@@ -36,7 +42,8 @@
     "File_is_larger_than_200KB": "File is larger than 200KB",
     "An_error_occurred_please_try_again_later": "An error occurred, please try again later!",
     "Invalid_Coupon_Code": "Invalid Coupon Code",
-    "Coupon_Code_required": "Coupon Code required"
+    "Coupon_Code_required": "Coupon Code required",
+    "Failed_to_fetch_coupon": "Failed to fetch coupon"
   },
   "Info": {
     "In_text_citation_will_be_append_to_the_postion_of_your_cursor": "In text citation will be append to the postion of your cursor!",
@@ -281,6 +288,11 @@
       "Content_2": "<strong>2.Improved Stability in Citation Search: </strong>We've upgraded our citation search system to enhance stability, especially during peak hours. This update includes an updated database and search system, ensuring more accurate references and zero API downtime. Please note that this switch may lead to disruptions in existing citations. If encountering any issues, consider re-searching and citing the reference or contacting our customer support at support@prodream.ai.",
       "Content_3": "<strong>3.AI Research Tool: </strong>Our platform now features an AI-powered research tool designed to help find answers to research questions and summarize findings effectively.",
       "Content_4": "<strong>4.Enhanced Feedback Center: </strong>We've introduced a new feedback center where you can report bugs, seek support, and submit feature requests. Your feedback is valuable to us as we strive to improve our services continuously."
+    },
+    "FeedbackOptions": {
+      "Report_a_bug": "🐞 Report a bug",
+      "Submit_a_feature_suggestion": "🚀 Submit a feature suggestion",
+      "Access_customer_assistance": "👩‍💻 Access customer assistance"
     },
     "SideBar": {
       "AI_Editor": "AI Editor",

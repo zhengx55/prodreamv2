@@ -25,30 +25,7 @@ export const createSidebarLinks = (t: (id: string) => string) => {
   ];
 }
 
-export const SidebarLinks = [
-  {
-    id: 'sidebar-01',
-    title: 'AI Editor',
-    cnTitle: 'AI 智能写作',
-    image: '/nav/polish.svg',
-    active_image: '/nav/polish_active.svg',
-    link: '/editor',
-  },
-  // {
-  //   id: 'sidebar-02',
-  //   title: 'Essay Review',
-  //   image: '/nav/review.svg',
-  //   active_image: '/nav/review_active.svg',
-  //   link: '/essay-review',
-  // },
-  // {
-  //   id: 'sidebar-03',
-  //   title: 'ProPDF',
-  //   image: '/nav/pdf.svg',
-  //   active_image: '/nav/pdf_active.svg',
-  //   link: '/pdf-chat',
-  // },
-];
+
 
 export const CitationOptions = ['mla', 'apa', 'ieee', 'chicago'];
 
@@ -1117,14 +1094,11 @@ export const ChatbotEngine = [
   },
 ];
 
-export const FeedbackOptions = [
-  '🐞 Report a bug',
-  '🛠️ Submit a feature suggestion',
-  '👩‍💻️️ Access customer assistance',
-];
+export const createFeedbackOptions = (t: (id: string) => string) => {
+  return [
+    t('FeedbackOptions.Report_a_bug'),
+    t('FeedbackOptions.Submit_a_feature_suggestion'),
+    t('FeedbackOptions.Access_customer_assistance'),
+  ];
+};
 
-export const FeedbackOptionsCN = [
-  '🐞 产品体验',
-  '🛠️ 功能建议',
-  '👩‍💻️️ 人工反馈',
-];

@@ -12,6 +12,7 @@ type Props = {
 } & DocPageDicType;
 const ListView = ({ list, t, lang }: Props) => {
   const trans = useTranslations('Editor');
+  const tCommonSense = useTranslations('CommonSense');
 
   return (
     <ul role='list' className='flex w-[1100px] flex-col gap-y-2'>
@@ -40,7 +41,7 @@ const ListView = ({ list, t, lang }: Props) => {
             <div className='flex-between w-1/3'>
               <p className='small-regular text-shadow'>
                 {trans('Card.Opened')}{' '}
-                {formatTimestamphh_number(item.update_time, lang)}
+                {formatTimestamphh_number(item.update_time, tCommonSense)}
               </p>
               <HistoryDropDown item={item} />
             </div>

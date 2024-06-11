@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import escapeStringRegExp from 'escape-string-regexp';
 import { twMerge } from 'tailwind-merge';
-import { useTranslations } from 'next-intl';
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -139,10 +139,8 @@ export function formatTimestamphh(timestampString: string) {
 
 export function formatTimestamphh_number(
   timestamp: number,
-  lang: string = 'en'
+  trans: (key: string, params: { [key: string]: any }) => string
 ) {
-  const isCN = lang === 'cn';
-
   const currentTime = new Date().getTime();
   const timeDifference = currentTime - timestamp * 1000;
 
@@ -152,13 +150,13 @@ export function formatTimestamphh_number(
   const days = Math.floor(hours / 24);
 
   if (days > 1) {
-    return isCN ? `${days} 天前` : `${days} days ago`;
+    return trans('TimesAgo.Days_Ago', { days: days });
   } else if (hours > 1) {
-    return isCN ? `${days} 小时前` : `${hours} hours ago`;
+    return trans('TimesAgo.Hours_Ago', { hours: hours });
   } else if (minutes > 1) {
-    return isCN ? `${days} 分前` : `${minutes} mins ago`;
+    return trans('TimesAgo.Minutes_Ago', { minutes: minutes });
   } else {
-    return isCN ? `${days} 秒前` : `${seconds} seconds ago`;
+    return trans('TimesAgo.Seconds_Ago', { seconds: seconds });
   }
 }
 
@@ -185,42 +183,12 @@ export function addRandomToDuplicates(array: string[]) {
 export function formatTimestampToDateString(
   timestamp: number,
   times = true,
-  lang: string = 'en'
+  monthNames: string[] = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
 ) {
-  console.log('lang', lang);
+
   const date = new Date(timestamp * 1000);
-  const isCN = lang === 'cn';
-  const monthNames = [
-    'Jan.',
-    'Feb.',
-    'Mar.',
-    'Apr.',
-    'May',
-    'Jun.',
-    'Jul.',
-    'Aug.',
-    'Sep.',
-    'Oct.',
-    'Nov.',
-    'Dec.',
-  ];
-  const monthNamesCN = [
-    '一月',
-    '二月',
-    '三月',
-    '四月',
-    '五月',
-    '六月',
-    '七月',
-    '八月',
-    '九月',
-    '十月',
-    '十一月',
-    '十二月',
-  ];
-  const month = isCN
-    ? monthNamesCN[date.getMonth()]
-    : monthNames[date.getMonth()];
+
+  const month = [date.getMonth()]
   const day = date.getDate();
   const year = date.getFullYear();
   const hours = date.getHours();
@@ -241,8 +209,8 @@ export function format_table_time(timestamp: number) {
   return `${month}-${day}-${year}`;
 }
 
-export function format_hour_diff(timestamp: number, lang: string = 'en') {
-  const isCN = lang === 'cn';
+export function format_hour_diff(timestamp: number, trans: (key: string, params: { [key: string]: any }) => string) {
+
   const currentTimestamp = Date.now();
   const givenTimestamp = timestamp * 1000;
   const timeDifference = givenTimestamp - currentTimestamp;
@@ -250,9 +218,9 @@ export function format_hour_diff(timestamp: number, lang: string = 'en') {
 
   if (hourDifference < 1) {
     const minuteDifference = timeDifference / (1000 * 60);
-    return `${Math.ceil(minuteDifference)} ${isCN ? '分钟' : 'minutes'}`;
+    return trans('TimesAgo.Minutes_Ago', { minutes: Math.ceil(minuteDifference) });
   } else {
-    return `${Math.ceil(hourDifference)} ${isCN ? '小时' : 'hours'}`;
+    return trans('TimesAgo.Hours_Ago', { hours: Math.ceil(hourDifference) });
   }
 }
 
@@ -280,7 +248,7 @@ export function numberToMonth(number: number): string | null {
   if (number >= 1 && number <= 12) {
     return months[number - 1];
   } else {
-    // 不在有效范围内返回 null 或者其他默认值
+
     return null;
   }
 }
