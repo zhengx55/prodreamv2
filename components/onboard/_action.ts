@@ -3,11 +3,12 @@
 import { SampleEssay } from '@/constant/enum';
 import type { Locale } from '@/i18n-config';
 import { cookies } from 'next/headers';
+import { getTranslations } from 'next-intl/server';
 import { RedirectType, redirect } from 'next/navigation';
 
 export async function setOnboardNameAndCode(formData: FormData, lang: Locale) {
   const token = cookies().get('token')?.value;
-
+  const transError = await getTranslations('Error');
   const nameForm = new FormData();
   const codeForm = new FormData();
   nameForm.append('first_name', formData.get('first_name') as string);
@@ -33,8 +34,9 @@ export async function setOnboardNameAndCode(formData: FormData, lang: Locale) {
       );
       const data = await code_res.json();
       if (data.code !== 0) {
+        const errorMsg = transError('Invalid_referral_code_Please_try_again');
         return {
-          error: 'Invalid referral code. Please try again.',
+          error: errorMsg,
         };
       } else {
         await fetch(
@@ -62,6 +64,7 @@ export async function setOnboardNameAndCode(formData: FormData, lang: Locale) {
 export async function toDocument() {
   'use server';
   const token = cookies().get('token')?.value;
+  const transError = await getTranslations('Error');
   const docData = new FormData();
   docData.append('content', SampleEssay.TEXT);
   docData.append('title', SampleEssay.TITLE);
@@ -80,8 +83,9 @@ export async function toDocument() {
     );
     doc_id = (await new_doc_res.json()).data;
   } catch (error) {
+    const errorMsg = transError('An_error_occurred_while_setting_language_info_Please_try_again');
     throw new Error(
-      'An error occurred while setting language info. Please try again.'
+      errorMsg
     );
   }
   redirect(`/editor/${doc_id}`, RedirectType.replace);
