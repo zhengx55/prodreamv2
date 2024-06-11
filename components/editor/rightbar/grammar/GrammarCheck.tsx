@@ -27,7 +27,7 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
   const { data: userTrack } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
   const queryClient = useQueryClient();
-  const trans = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
   const updateGrammarResult = useCallback((value: IGrammarResult[]) => {
@@ -45,7 +45,8 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
       let grammar_result: IGrammarResult[] = [];
       if (data.length === 0) {
         const toast = (await import('sonner')).toast;
-        return toast.success('No grammar issues found!');
+        const toastInfo = transEditor('CustomCitation.GrammarCheck.No_grammar_issues_found');
+        return toast.success(toastInfo);
       }
       grammar_result = data.map((item) => {
         return {
@@ -60,7 +61,7 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
             ),
         };
       });
-      // 将第一个suggestion 展开并划线
+      // Expand and underline the first suggestion
       const expand_head_array = [...grammar_result];
       expand_head_array[0].diff[0].expand = true;
       highLightGrammar(editor!, expand_head_array[0], 0);
@@ -84,7 +85,8 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
     }
     if (editor?.getText().trim() === '') {
       const toast = (await import('sonner')).toast;
-      toast.error('No text found!');
+      const toastInfo = transEditor('CustomCitation.GrammarCheck.No_text_found');
+      toast.error(toastInfo);
       return;
     }
     const block_content = editor?.getJSON();
@@ -123,21 +125,21 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
           >
             <Image
               src='/editor/Start.png'
-              alt='grammar check'
+              alt={transEditor('Grammar.Title')}
               width={450}
               height={270}
               className='h-44 w-60 self-center'
               priority
             />
             <p className='text-center text-sm font-normal text-zinc-600'>
-              {trans('Grammar.Title')}
+              {transEditor('Grammar.Title')}
             </p>
             <Button
               className='base-medium h-max w-max self-center rounded-lg px-8'
               role='button'
               onClick={handleCheck}
             >
-              {trans('Grammar.Button')}
+              {transEditor('Grammar.Button')}
             </Button>
           </m.div>
         )}
@@ -157,7 +159,7 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
             )}
           </div>
           <p className='small-regular w-max px-0 text-neutral-400'>
-            {trans('Grammar.GrammarCheckLeft', {
+            {transEditor('GrammarCheck.GrammarCheckLeft', {
               left: usage?.free_times_detail.Grammar,
             })}
             <Button
@@ -171,7 +173,7 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
               variant={'ghost'}
               className='px-2'
             >
-              {trans('Grammar.Go_unlimited')}
+              {transEditor('Grammar.Go_unlimited')}
             </Button>
           </p>
         </div>

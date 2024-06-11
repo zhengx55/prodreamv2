@@ -42,17 +42,17 @@ export default async function Page({params}: {params: {lang: string}}) {
   
   const membership: ISubscription = await getBalance();
   const discount_info: IDiscount = await getDiscountInfo();
-  const trans = await getTranslations('Homepage');
-  // const isInChina = await getIpAddress();
+  const trans = await getTranslations('Pricing');
+
 
   return (
     <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
-      <HeaderSection text='Upgrade to Unlimited to unlock unlimited possibilities' />
+      <HeaderSection text={trans('Pricing.Upgrade_to_Unlimited_to_unlock_unlimited_possibilities')} />
       <Spacer y='40' />
-      <h1 className='text-center text-[40px] font-medium'>Plans & Pricing</h1>
+      <h1 className='text-center text-[40px] font-medium'>{trans('Pricing.Plans_And_Pricing')}</h1>
       <Spacer y='10' />
       <p className='base-regular text-center text-neutral-400'>
-        Select the perfect plan to enhance your academic writing journey
+        {trans('Pricing.Select_the_perfect_plan_to_enhance_your_academic_writing_journey')}
       </p>
       <Spacer y='10' />
       <Tab membership={membership} discount={discount_info} />

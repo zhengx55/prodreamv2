@@ -15,6 +15,7 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const researchList = useChatbot((state) => state.researchList);
   const trans = useTranslations('Editor');
+  const transSuccess = useTranslations('Success');
 
   useUpdateEffect(() => {
     isExpanded && setIsExpanded(false);
@@ -58,7 +59,8 @@ const ResearchMessageItem = ({ message, t, index }: Props) => {
                   onClick={async () => {
                     navigator.clipboard.writeText(message.message);
                     const { toast } = await import('sonner');
-                    toast.success('Copied to clipboard');
+                    const toastInfo = transSuccess('Copied_to_clipboard');
+                    toast.success(toastInfo);
                   }}
                   role='button'
                   variant={'icon'}

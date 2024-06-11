@@ -2,11 +2,16 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { useTranslations } from 'next-intl';
 import { TabsContent } from '@/components/ui/tabs';
 import { useCitation } from '@/zustand/store';
 import { useMemo, useRef, useState } from 'react';
 
 const EditIntext = () => {
+  const transError = useTranslations('Error');
+  const transCustomCitation = useTranslations('CustomCitation');
+  const transEditor = useTranslations('Editor');
+
   const updateShowEditCitation = useCitation(
     (state) => state.updateShowEditCitation
   );
@@ -41,7 +46,8 @@ const EditIntext = () => {
     if (pageCheck) {
       if (!pageRef.current?.value) {
         const { toast } = await import('sonner');
-        return toast.error('Please enter a page number');
+        const toastInfo = transError('Please_enter_a_page_number');
+        return toast.error(toastInfo);
       }
       currentInline?.updateAttributes({
         show_page: true,
@@ -59,7 +65,8 @@ const EditIntext = () => {
   const contributorsLength = contributors?.length;
 
   const renderContributors = () => {
-    if (!contributors) return <span>No authors founded</span>;
+    if (!contributors)
+      return <span>{transEditor('EditIntext.No_authors_founded')}</span>;
     if (contributorsLength === 2) {
       return (
         <span>
@@ -91,7 +98,7 @@ const EditIntext = () => {
               id='autors'
             />
             <label className='subtle-regular text-neutral-400' htmlFor='autors'>
-              Authors:
+              {transEditor('EditIntext.Authors')}
             </label>
             <span className='subtle-regular flex-center rounded bg-violet-500/20 px-2 py-0.5 text-violet-500'>
               {renderContributors()}
@@ -105,7 +112,7 @@ const EditIntext = () => {
               id='year'
             />
             <label className='subtle-regular text-neutral-400' htmlFor='year'>
-              Year:
+              {transEditor('EditIntext.Year')}
             </label>
             <span className='subtle-regular flex-center rounded bg-violet-500/20 px-2 py-0.5 text-violet-500'>
               {current_citation?.publish_date?.year}
@@ -120,7 +127,7 @@ const EditIntext = () => {
               id='pages'
             />
             <label className='subtle-regular text-neutral-400' htmlFor='pages'>
-              Page number:
+              {transEditor('EditIntext.Page_number')}
             </label>
             <Input
               ref={pageRef}
@@ -142,7 +149,7 @@ const EditIntext = () => {
             updateShowEditCitation(false);
           }}
         >
-          Cancel
+          {transCustomCitation('Cancel')}
         </Button>
         <Button
           onClick={handleSave}
@@ -150,7 +157,7 @@ const EditIntext = () => {
           role='button'
           className='h-max rounded'
         >
-          Save
+          {transCustomCitation('Save')}
         </Button>
       </div>
     </TabsContent>

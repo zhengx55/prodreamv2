@@ -13,6 +13,21 @@ const Membership = ({
   t,
 }: { membership: ISubscription } & DocPageDicType) => {
   const trans = useTranslations('Profile');
+  const transCommonSense = useTranslations('CommonSense');
+  const monthNames = [
+    transCommonSense('Month.Jan'),
+    transCommonSense('Month.Feb'),
+    transCommonSense('Month.Mar'),
+    transCommonSense('Month.Apr'),
+    transCommonSense('Month.May'),
+    transCommonSense('Month.Jun'),
+    transCommonSense('Month.Jul'),
+    transCommonSense('Month.Aug'),
+    transCommonSense('Month.Sep'),
+    transCommonSense('Month.Oct'),
+    transCommonSense('Month.Nov'),
+    transCommonSense('Month.Dec'),
+  ];
 
   const Basic = trans('Setting.Basic');
   const Unlimited = trans('Setting.Unlimited');
@@ -83,7 +98,7 @@ const Membership = ({
               {formatTimestampToDateString(
                 membership.expire_time,
                 false,
-                lang as string
+                monthNames
               )}
             </p>
           ) : (
@@ -92,7 +107,7 @@ const Membership = ({
               {formatTimestampToDateString(
                 membership.expire_time,
                 false,
-                lang as string
+                monthNames
               )}
             </p>
           )}

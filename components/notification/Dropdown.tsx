@@ -14,6 +14,7 @@ const Dropdown = () => {
   const { data: trackInfo } = useUserTrackInfo();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
   const t = useTranslations('Editor');
+  const tCommonSense = useTranslations('CommonSense');
   const { lang } = useParams();
 
   return (
@@ -81,7 +82,7 @@ const Dropdown = () => {
                 <p className='text-xs font-normal text-zinc-700'>ProDream</p>
               </div>
               <p className='text-xs font-normal text-zinc-700'>
-                {formatTimestamphh_number(1715312029790 / 1000, lang as string)}
+                {formatTimestamphh_number(1715312029790 / 1000, tCommonSense)}
               </p>
             </div>
           </div>

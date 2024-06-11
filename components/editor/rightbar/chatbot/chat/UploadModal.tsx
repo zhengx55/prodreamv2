@@ -19,6 +19,7 @@ const UploadModal = ({ container }: Props) => {
   const updateUploadModal = useChatbot((state) => state.updateUploadModal);
   const resetCurrentFile = useChatbot((state) => state.resetCurrentFile);
   const trans = useTranslations('Editor');
+  const transError = useTranslations('Error');
 
   const { mutateAsync: createPdf } = useMutation({
     mutationFn: (params: { file: File }) => createPdfChat(params),
@@ -34,7 +35,8 @@ const UploadModal = ({ container }: Props) => {
     },
     onError: async (error) => {
       const { toast } = await import('sonner');
-      toast.error('Failed to create PDF chat, please try again later.');
+      const toastInfo = transError('Failed_to_create_PDF_chat_please_try_again_later');
+      toast.error(toastInfo);
       resetCurrentFile();
     },
   });

@@ -1,10 +1,12 @@
 import Spacer from '@/components/root/Spacer';
 import Image from 'next/image';
 import { ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import Privacy from '../Privacy';
 import SwitchTab from './SwitchTab';
 
 const CNPanel = ({ children }: { children: ReactNode }) => {
+  const t = useTranslations('Auth');
   return (
     <div className='relative flex h-full w-full flex-col bg-white px-4 md:w-1/2 md:items-center md:justify-center md:px-0'>
       <div className='absolute top-4 flex w-full md:top-16 md:w-[500px]'>
@@ -24,7 +26,7 @@ const CNPanel = ({ children }: { children: ReactNode }) => {
       {children}
       <div className='mt-5 flex w-full items-center gap-x-2 md:mt-5 md:w-[500px]'>
         <p className='subtle-regular md:small-regular text-neutral-400 '>
-          使用第三方账号登录
+          {t('Login_using_a_third_party_account')}
         </p>
         <span className='relative h-6 w-6 overflow-hidden rounded-full bg-neutral-300 p-0.5'>
           <Image
@@ -36,7 +38,7 @@ const CNPanel = ({ children }: { children: ReactNode }) => {
           />
         </span>
       </div>
-      <Privacy lang={'cn'} />
+      <Privacy />
     </div>
   );
 };

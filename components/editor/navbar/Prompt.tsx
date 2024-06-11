@@ -51,12 +51,14 @@ const PromptView = ({ prompt }: { prompt: string }) => {
       saveDoc(params),
     onError: async () => {
       const { toast } = await import('sonner');
-      toast.error(t('Prompt.Something_went_wrong_when_setting_essay_prompt'));
+      const toastInfo = t('Prompt.Something_went_wrong_when_setting_essay_prompt');
+      toast.error(toastInfo);
     },
     onSuccess: async (_data, variables) => {
       const { toast } = await import('sonner');
       updateEssayPrompt(variables.brief_description);
-      toast.success(t('Prompt.Successfully_set_essay_prompt'));
+      const toastInfo = t('Prompt.Successfully_set_essay_prompt');
+      toast.success(toastInfo);
     },
   });
   const [{ content, wordCount }, dispatch] = useReducer(reducer, {

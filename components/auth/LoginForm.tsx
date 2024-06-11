@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginSchema, loginSchemaCN } from '@/lib/validation';
+import { createLoginSchema } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
@@ -23,10 +23,11 @@ import useUserLogin from './hooks/useUserLogin';
 const LoginForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const trans = useTranslations('Auth');
+  const loginSchema = createLoginSchema(trans);
   const { lang } = useParams();
-  const isCN = lang === 'cn';
+  
   const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(isCN ? loginSchemaCN : loginSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       username: '',
       password: '',

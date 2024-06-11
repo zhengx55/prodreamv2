@@ -49,7 +49,8 @@ const AiMenu = ({ editor, t }: Props) => {
   const elRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { mutateAsync: ButtonTrack } = useButtonTrack();
-  const trans = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
+  const transError = useTranslations('Error');
 
   const {
     hoverItem,
@@ -76,7 +77,7 @@ const AiMenu = ({ editor, t }: Props) => {
     const words = selectedText.match(word_regex);
     if ((words?.length ?? 0) > 500) {
       return toast.warning(
-        trans('Copilot.Selected_text_should_not_exceed_500_words')
+        transEditor('Copilot.Selected_text_should_not_exceed_500_words')
       );
     }
     if (!track?.ai_copilot_task) {
@@ -120,10 +121,13 @@ const AiMenu = ({ editor, t }: Props) => {
     const selectedText = getSelectedText(editor);
     const words = selectedText.match(word_regex);
     if ((words?.length ?? 0) > 500) {
-      return toast.warning('Selected text should not exceed 500 words');
+      const toastInfo = transError('Selected_text_should_not_exceed_500_words');
+      return toast.warning(toastInfo);
     }
-    if (promptRef.current && !promptRef.current.value.trim())
-      return toast.error('please enter a custom prompt');
+    if (promptRef.current && !promptRef.current.value.trim()) {
+      const toastInfo = transError('Please_enter_a_custom_prompt');
+      return toast.error(toastInfo);
+    }
 
     setCurrentResult((prev) => prev + 1);
     await handleAsk({
@@ -252,7 +256,7 @@ const AiMenu = ({ editor, t }: Props) => {
                       )}
                       <Spacer y='5' />
                       <h3 className='small-semibold px-2.5 text-neutral-400'>
-                        {trans(`Copilot.${item.format}`)}
+                        {transEditor(`Copilot.${item.format}`)}
                       </h3>
                       <Spacer y='5' />
                       {item.options.map((option, option_idx) => {
@@ -271,7 +275,7 @@ const AiMenu = ({ editor, t }: Props) => {
                             <div className='flex items-center gap-x-2'>
                               {cloneElement(option.icon)}
                               <p className='small-regular'>
-                                {trans(`Copilot.${option.name}`)}
+                                {transEditor(`Copilot.${option.name}`)}
                               </p>
                             </div>
                             {option.submenu ? <ChevronRight size={18} /> : null}
@@ -293,7 +297,7 @@ const AiMenu = ({ editor, t }: Props) => {
                                     key={subitem.id}
                                   >
                                     <p className='small-regular'>
-                                      {trans(`Copilot.${subitem.name}`)}
+                                      {transEditor(`Copilot.${subitem.name}`)}
                                     </p>
                                   </div>
                                 ))}

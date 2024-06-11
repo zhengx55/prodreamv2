@@ -242,7 +242,7 @@ const ChicagoAuthors = ({
   }[];
 }) => {
   if (contributors.length === 1) {
-    // 单一作者
+    // Single author
     return (
       <span>
         {contributors[0].last_name}
@@ -252,7 +252,7 @@ const ChicagoAuthors = ({
       </span>
     );
   } else if (contributors.length === 2) {
-    // 两位作者
+    // Two authors
     return (
       <span>
         {contributors[0].last_name}, {contributors[0].first_name}
@@ -267,10 +267,10 @@ const ChicagoAuthors = ({
       </span>
     );
   } else if (contributors.length > 2) {
-    // 三位或更多作者，只显示第一位作者加et al.
+    // Three or more authors, only show the first author and et al.
     return <span>{contributors[0].last_name} et al.</span>;
   } else {
-    return null; // 没有作者信息
+    return null; // No author information
   }
 };
 

@@ -1,5 +1,6 @@
 import { chatHistory, deleteHistory } from '@/query/api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 
 export const useChatBotSessions = ({
   document_id,
@@ -10,6 +11,7 @@ export const useChatBotSessions = ({
   document_id: string;
   history_type: 'chat' | 'research';
 }) => {
+
   return useQuery({
     queryKey: ['session-history', document_id, history_type, query],
     queryFn: () =>
@@ -20,12 +22,14 @@ export const useChatBotSessions = ({
 
 export const useDeleteSession = () => {
   const queryClient = useQueryClient();
+  const transSuccess = useTranslations('Success');
 
   return useMutation({
     mutationFn: (session_id: string) => deleteHistory(session_id),
     onSuccess: async () => {
       const toast = (await import('sonner')).toast;
-      toast.success('Session deleted successfully');
+      const toastInfo = transSuccess('Session_deleted_successfully');
+      toast.success(toastInfo);
       queryClient.invalidateQueries({ queryKey: ['session-history'] });
     },
     onError: async (error) => {

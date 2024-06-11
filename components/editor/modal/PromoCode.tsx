@@ -17,6 +17,10 @@ import { ReactNode, useRef, useState } from 'react';
 type Props = { children: ReactNode };
 const PromoCode = ({ children }: Props) => {
   const t = useTranslations('Profile');
+  const tSuccess = useTranslations('Success');
+  const tError = useTranslations('Error');
+  const tInfo = useTranslations('Info');
+
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -30,10 +34,12 @@ const PromoCode = ({ children }: Props) => {
     onSuccess: async (_data, variables) => {
       await updateTrack({ field: 'current_coupon_code', data: variables });
       const { toast } = await import('sonner');
-      toast.success('Coupon successfully applied');
+      const toastInfo = tSuccess('Coupon_successfully_applied');
+      toast.success(toastInfo);
     },
     onError: () => {
-      setError('Invalid Coupon Code');
+      const toastInfo = tError('Invalid_Coupon_Code');
+      setError(toastInfo);
     },
     onSettled: () => {
       setSubmitting(false);
@@ -42,7 +48,8 @@ const PromoCode = ({ children }: Props) => {
 
   const redeem = async () => {
     if (!couponRef.current?.value) {
-      setError('Coupon Code required');
+      const toastInfo = tError('Coupon_Code_required');
+      setError(toastInfo);
       return;
     }
     await setCoupon(couponRef.current.value);
@@ -68,7 +75,7 @@ const PromoCode = ({ children }: Props) => {
         </DialogHeader>
         <div className='flex flex-col gap-y-0.5'>
           <Input
-            placeholder='enter your code...'
+            placeholder={t('enter_your_code')}
             id='promo-code'
             onChange={() => setError('')}
             ref={couponRef}

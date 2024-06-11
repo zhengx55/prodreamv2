@@ -18,6 +18,7 @@ const Start = ({ handleClose }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const { id } = useParams();
   const t = useTranslations('Editor');
+  const tError = useTranslations('Error');
   const [selection, setSelection] = useState<number | null>(null);
   const [essayType, setEssayType] = useState<number | null>(null);
   const [isGenrating, setIsGenerating] = useState(false);
@@ -81,7 +82,8 @@ const Start = ({ handleClose }: Props) => {
     }
     if (!ideaRef.current?.value) {
       const toast = (await import('sonner')).toast;
-      toast.error('Please fill in the idea');
+      const toastInfo = tError('Please_fill_in_the_idea');
+      toast.error(toastInfo);
       return;
     }
     await handleStart({

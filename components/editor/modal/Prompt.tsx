@@ -62,7 +62,8 @@ const PromptView = ({ show }: { show: boolean }) => {
     onSuccess: async (_data, variables) => {
       const { toast } = await import('sonner');
       updateEssayPrompt(variables.brief_description);
-      toast.success(t('Prompt.Successfully_set_essay_prompt'));
+      const toastInfo = t('Prompt.Successfully_set_essay_prompt');
+      toast.success(toastInfo);
     },
   });
 
