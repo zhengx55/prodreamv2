@@ -43,7 +43,9 @@
     "An_error_occurred_please_try_again_later": "An error occurred, please try again later!",
     "Invalid_Coupon_Code": "Invalid Coupon Code",
     "Coupon_Code_required": "Coupon Code required",
-    "Failed_to_fetch_coupon": "Failed to fetch coupon"
+    "Failed_to_fetch_coupon": "Failed to fetch coupon",
+    "Invalid_referral_code_Please_try_again": "Invalid referral code. Please try again.",
+    "An_error_occurred_while_setting_language_info_Please_try_again": "An error occurred while setting language info. Please try again."
   },
   "Info": {
     "In_text_citation_will_be_append_to_the_postion_of_your_cursor": "In text citation will be append to the postion of your cursor!",

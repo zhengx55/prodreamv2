@@ -42,7 +42,9 @@
     "File_is_larger_than_200KB": "文件大小超过200KB",
     "An_error_occurred_please_try_again_later": "发生错误，请稍后再试",
     "Invalid_Coupon_Code": "无效的优惠券代码",
-    "Coupon_Code_required": "请填写优惠券代码"
+    "Coupon_Code_required": "请填写优惠券代码",
+    "Invalid_referral_code_Please_try_again": "认证码无效，请再试一次",
+    "An_error_occurred_while_setting_language_info_Please_try_again": "设置语言信息时发生错误，请再试一次"
   },
   "Info": {
     "In_text_citation_will_be_append_to_the_postion_of_your_cursor": "文本引用将追加到光标位置！",
