@@ -1,5 +1,6 @@
 import GoogleSignin from '@/components/auth/GoogleSignin';
 import LoginForm from '@/components/auth/LoginForm';
+import LoginFormCN from '@/components/auth/LoginFormCN';
 import Panel from '@/components/auth/Panel';
 import CNPanel from '@/components/auth/cn/CnPanel';
 import Spacer from '@/components/root/Spacer';
@@ -52,9 +53,9 @@ export default async function Page({
       </Panel>
     );
   return (
-    <CNPanel>
-      <div className='flex w-full flex-col sm:w-[500px]'>
-        <LoginForm />
+    <CNPanel from={from}>
+      <div className='flex w-full flex-col sm:w-[600px]'>
+        <LoginFormCN />
       </div>
     </CNPanel>
   );

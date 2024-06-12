@@ -1,6 +1,7 @@
 import GoogleSignin from '@/components/auth/GoogleSignin';
 import Panel from '@/components/auth/Panel';
 import SignUpForm from '@/components/auth/SignUpForm';
+import SignUpFormCN from '@/components/auth/SignUpFormCN';
 import CNPanel from '@/components/auth/cn/CnPanel';
 import Spacer from '@/components/root/Spacer';
 import { Separator } from '@/components/ui/separator';
@@ -37,7 +38,7 @@ export default async function Page({
               {t('Login.GoogleDivider')}
             </p>
           </div>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>{'Loading...'}</div>}>
             <SignUpForm />
           </Suspense>
           <p className='base-regular mt-4 text-neutral-400'>
@@ -53,10 +54,10 @@ export default async function Page({
       </Panel>
     );
   return (
-    <CNPanel>
-      <div className='flex w-full flex-col sm:w-[500px]'>
-        <Suspense fallback={<div>Loading...</div>}>
-          <SignUpForm />
+    <CNPanel from={from}>
+      <div className='flex w-full flex-col sm:w-[600px]'>
+        <Suspense fallback={<div>{'正在加载...'}</div>}>
+          <SignUpFormCN />
         </Suspense>
       </div>
     </CNPanel>

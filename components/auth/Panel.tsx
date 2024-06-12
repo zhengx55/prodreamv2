@@ -17,7 +17,7 @@ const Panel = ({ children, lang }: { children: ReactNode; lang?: Locale }) => {
         />
       </div>
       {children}
-      {lang && <Privacy lang={lang} />}
+      {lang !== 'cn' && <Privacy />}
     </div>
   );
 };

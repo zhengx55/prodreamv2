@@ -181,7 +181,7 @@
     "FormEmail": "邮箱",
     "FormPassword": "密码",
     "FormName": "姓名",
-    "Login_using_a_third_party_account": "使用第三方账号登录",
+    "Login_using_a_third_party_account": "第三方账号登录",
     "Login": {
       "Forget": "忘记密码?",
       "Button": "登录",
