@@ -93,7 +93,7 @@ export default async function RootLayout({
         >
           <TanstackProvider>
             <NextIntlClientProvider messages={messages}>
-              <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
+              <main className='flex min-h-screen w-full overflow-auto sm:min-w-[1440px]'>
                 <Suspense>
                   <PageViewTrack />
                 </Suspense>
