@@ -14,10 +14,12 @@ const GoogleSignin = ({
   label,
   lang,
   searchParam,
+  minimalStyle = false,
 }: {
-  label: string;
+  label?: string;
   lang: Locale;
   searchParam?: string;
+  minimalStyle?: boolean;
 }) => {
   const [_cookies, setCookie] = useCookies(['token']);
   const router = useRouter();
@@ -59,11 +61,12 @@ const GoogleSignin = ({
     },
   });
 
+  const buttonClass = minimalStyle
+    ? 'flex-center w-12 h-12 rounded-full border-none'
+    : 'flex-center w-full cursor-pointer gap-x-2 self-center rounded border border-gray-200 py-4 transition-transform hover:-translate-y-1';
+
   return (
-    <button
-      onClick={() => googleAuth()}
-      className='flex-center w-full cursor-pointer gap-x-2 self-center rounded border border-gray-200 py-4 transition-transform hover:-translate-y-1'
-    >
+    <button onClick={() => googleAuth()} className={buttonClass}>
       <Image
         src='/auth/google.svg'
         alt='google'
@@ -72,7 +75,9 @@ const GoogleSignin = ({
         priority
         className='h-auto w-auto'
       />
-      <h1 className='base-medium 2xl:title-medium text-black'>{label}</h1>
+      {label && (
+        <h1 className='base-medium 2xl:title-medium text-black'>{label}</h1>
+      )}
     </button>
   );
 };

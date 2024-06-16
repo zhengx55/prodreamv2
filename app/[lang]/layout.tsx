@@ -6,7 +6,11 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations, unstable_setRequestLocale } from 'next-intl/server';
+import {
+  getMessages,
+  getTranslations,
+  unstable_setRequestLocale,
+} from 'next-intl/server';
 import localFont from 'next/font/local';
 import { Suspense } from 'react';
 import { Toaster } from 'sonner';
@@ -93,7 +97,7 @@ export default async function RootLayout({
         >
           <TanstackProvider>
             <NextIntlClientProvider messages={messages}>
-              <main className='flex h-screen w-screen overflow-auto sm:min-w-[1440px]'>
+              <main className='flex min-h-screen w-full overflow-auto sm:min-w-[1440px]'>
                 <Suspense>
                   <PageViewTrack />
                 </Suspense>

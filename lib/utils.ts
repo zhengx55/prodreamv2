@@ -2,7 +2,6 @@ import { clsx, type ClassValue } from 'clsx';
 import escapeStringRegExp from 'escape-string-regexp';
 import { twMerge } from 'tailwind-merge';
 
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -183,12 +182,24 @@ export function addRandomToDuplicates(array: string[]) {
 export function formatTimestampToDateString(
   timestamp: number,
   times = true,
-  monthNames: string[] = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
+  monthNames: string[] = [
+    'Jan.',
+    'Feb.',
+    'Mar.',
+    'Apr.',
+    'May',
+    'Jun.',
+    'Jul.',
+    'Aug.',
+    'Sep.',
+    'Oct.',
+    'Nov.',
+    'Dec.',
+  ]
 ) {
-
   const date = new Date(timestamp * 1000);
 
-  const month = [date.getMonth()]
+  const month = [date.getMonth()];
   const day = date.getDate();
   const year = date.getFullYear();
   const hours = date.getHours();
@@ -209,8 +220,10 @@ export function format_table_time(timestamp: number) {
   return `${month}-${day}-${year}`;
 }
 
-export function format_hour_diff(timestamp: number, trans: (key: string, params: { [key: string]: any }) => string) {
-
+export function format_hour_diff(
+  timestamp: number,
+  trans: (key: string, params: { [key: string]: any }) => string
+) {
   const currentTimestamp = Date.now();
   const givenTimestamp = timestamp * 1000;
   const timeDifference = givenTimestamp - currentTimestamp;
@@ -218,7 +231,9 @@ export function format_hour_diff(timestamp: number, trans: (key: string, params:
 
   if (hourDifference < 1) {
     const minuteDifference = timeDifference / (1000 * 60);
-    return trans('TimesAgo.Minutes_Ago', { minutes: Math.ceil(minuteDifference) });
+    return trans('TimesAgo.Minutes_Ago', {
+      minutes: Math.ceil(minuteDifference),
+    });
   } else {
     return trans('TimesAgo.Hours_Ago', { hours: Math.ceil(hourDifference) });
   }
@@ -248,7 +263,6 @@ export function numberToMonth(number: number): string | null {
   if (number >= 1 && number <= 12) {
     return months[number - 1];
   } else {
-
     return null;
   }
 }

@@ -15,6 +15,7 @@ module.exports = {
         inter: ['var(--inter-font)'],
         baskerville: ['var(--liber-font)'],
         custom: ['var(--cn-font)'],
+        pingfang: ['PingFang SC', 'sans-serif'],
       },
       colors: {
         shadow: '#797979',
@@ -28,7 +29,11 @@ module.exports = {
         nav: '#A0A8B0',
         'shadow-border': '#DADADA',
         dot: '#CFD0D0',
+        'light-purple': '#E6C5FF',
+        'white-60': 'rgba(255, 255, 255, 0.60)',
         disabled: '#DADADA',
+        'dark-gray': '#403F44',
+        'light-gray': '#A3A3A3',
       },
       boxShadow: {
         input: '0px 1px 0px 0px rgba(0, 0, 0, 0.05)',

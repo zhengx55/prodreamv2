@@ -4,25 +4,23 @@
 
 @layer base {
   * {
-    @apply box-border p-0 m-0 appearance-none scroll-smooth scrollbar-track-transparent scrollbar-thumb-slate-200;
+    @apply m-0 box-border appearance-none scroll-smooth p-0 scrollbar-track-transparent scrollbar-thumb-slate-200;
   }
 
   body {
-    @apply min-h-screen antialiased select-text font-poppins;
+    @apply min-h-screen select-text font-poppins antialiased;
     text-rendering: optimizeLegibility;
     font-synthesis-weight: none;
   }
-
 }
 
 @layer utilities {
-
   .scale-down {
-    zoom: 0.85
+    zoom: 0.85;
   }
 
   .scale-initial {
-    zoom: unset
+    zoom: unset;
   }
 
   /* TYPOGRAPHY */
@@ -124,7 +122,7 @@
 
   /* UTILITIES */
   .invert-white {
-    @apply transition invert brightness-0;
+    @apply brightness-0 invert transition;
   }
 
   .flex-center {
@@ -140,28 +138,24 @@
   }
 
   .form-input-group {
-    @apply flex flex-col items-start gap-y-2
+    @apply flex flex-col items-start gap-y-2;
   }
 
   .tool {
-    @apply cursor-pointer rounded-[4px] bg-transparent p-1 hover:bg-gray-200 flex gap-x-1 small-semibold items-center disabled:pointer-events-none disabled:opacity-20
+    @apply small-semibold flex cursor-pointer items-center gap-x-1 rounded-[4px] bg-transparent p-1 hover:bg-gray-200 disabled:pointer-events-none disabled:opacity-20;
   }
 
   .common-container {
-    @apply flex flex-col items-center flex-1 gap-10 px-5 py-10 overflow-scroll md:px-8 lg:p-14;
+    @apply flex flex-1 flex-col items-center gap-10 overflow-scroll px-5 py-10 md:px-8 lg:p-14;
   }
-
 }
-
 
 :root {
   --top-nav-bar-height: 3.5rem;
-
 }
 
-
 .bulletpoints::before {
-  content: "2022";
+  content: '2022';
   margin-right: 10px;
   color: #333;
   font-weight: bold;
@@ -169,7 +163,6 @@
 }
 
 @keyframes fade {
-
   0%,
   100% {
     opacity: 0;

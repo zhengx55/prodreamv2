@@ -31,7 +31,7 @@ export const useUpdateCitation = () => {
 };
 
 export const useCreateCustomCitation = () => {
-  const trans = useTranslations("Editor");
+  const trans = useTranslations('Editor');
 
   const appendInDocCitationIds = useCitation(
     (state) => state.appendInDocCitationIds
@@ -51,7 +51,7 @@ export const useCreateCustomCitation = () => {
       });
       const toast = (await import('sonner')).toast;
 
-      const toastInfo = trans("Citation.Citation_created_successfully");
+      const toastInfo = trans('Citation.Citation_created_successfully');
 
       toast.success(toastInfo);
     },
@@ -63,7 +63,7 @@ export const useCreateCustomCitation = () => {
 };
 
 export const useCreateCitation = () => {
-  const trans = useTranslations("Editor");
+  const trans = useTranslations('Editor');
 
   const appendInDocCitationIds = useCitation(
     (state) => state.appendInDocCitationIds
@@ -86,7 +86,7 @@ export const useCreateCitation = () => {
       });
       const toast = (await import('sonner')).toast;
 
-      const toastInfo = trans("Citation.Citation_created_successfully");
+      const toastInfo = trans('Citation.Citation_created_successfully');
 
       toast.success(toastInfo);
     },
@@ -98,7 +98,7 @@ export const useCreateCitation = () => {
 };
 
 export const useCiteToDoc = () => {
-  const trans = useTranslations("Editor");
+  const trans = useTranslations('Editor');
   const editor = useAIEditor((state) => state.editor_instance);
   const { insertCitation } = useEditorCommand(editor!);
   const appendInTextCitationIds = useCitation(
@@ -126,7 +126,7 @@ export const useCiteToDoc = () => {
 
       insertCitation(data.id, anchor, from, to);
       const toast = (await import('sonner')).toast;
-      const toastInfo = trans("Citation.Citation_created_successfully");
+      const toastInfo = trans('Citation.Citation_created_successfully');
 
       toast.success(toastInfo);
     },

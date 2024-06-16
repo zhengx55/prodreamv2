@@ -51,7 +51,9 @@ const PromptView = ({ prompt }: { prompt: string }) => {
       saveDoc(params),
     onError: async () => {
       const { toast } = await import('sonner');
-      const toastInfo = t('Prompt.Something_went_wrong_when_setting_essay_prompt');
+      const toastInfo = t(
+        'Prompt.Something_went_wrong_when_setting_essay_prompt'
+      );
       toast.error(toastInfo);
     },
     onSuccess: async (_data, variables) => {
