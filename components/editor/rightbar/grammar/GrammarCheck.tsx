@@ -45,7 +45,9 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
       let grammar_result: IGrammarResult[] = [];
       if (data.length === 0) {
         const toast = (await import('sonner')).toast;
-        const toastInfo = transEditor('CustomCitation.GrammarCheck.No_grammar_issues_found');
+        const toastInfo = transEditor(
+          'CustomCitation.GrammarCheck.No_grammar_issues_found'
+        );
         return toast.success(toastInfo);
       }
       grammar_result = data.map((item) => {
@@ -85,7 +87,9 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
     }
     if (editor?.getText().trim() === '') {
       const toast = (await import('sonner')).toast;
-      const toastInfo = transEditor('CustomCitation.GrammarCheck.No_text_found');
+      const toastInfo = transEditor(
+        'CustomCitation.GrammarCheck.No_text_found'
+      );
       toast.error(toastInfo);
       return;
     }

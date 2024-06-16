@@ -11,7 +11,6 @@ export const useChatBotSessions = ({
   document_id: string;
   history_type: 'chat' | 'research';
 }) => {
-
   return useQuery({
     queryKey: ['session-history', document_id, history_type, query],
     queryFn: () =>

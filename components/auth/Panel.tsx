@@ -5,7 +5,7 @@ import Privacy from './Privacy';
 
 const Panel = ({ children, lang }: { children: ReactNode; lang?: Locale }) => {
   return (
-    <div className='relative flex h-full w-full flex-col bg-white px-4 md:w-1/2 md:items-center md:justify-center md:px-0'>
+    <div className='relative flex h-full min-h-screen w-full flex-col bg-white px-4 md:w-1/2 md:items-center md:justify-center md:px-0'>
       <div className='absolute top-4 flex w-full md:top-16 md:w-[500px]'>
         <Image
           src='/logo/Prodream.png'

@@ -22,7 +22,6 @@ const useSidebarElevation = (pathname: string) => {
     setTopValue(value);
   }, []);
 
-
   useEffect(() => {
     const currentroute = pathname.split('/').pop();
     switch (currentroute) {
@@ -48,7 +47,6 @@ const User = dynamic(() => import('./User'), {
 });
 
 const Sidebar = () => {
-
   const tEditor = useTranslations('Editor');
   const SidebarLinks = createSidebarLinks(tEditor);
   const { lang } = useParams();
@@ -145,7 +143,9 @@ const Sidebar = () => {
               className='size-5'
               priority
             />
-            <p className='base-regular text-zinc-600'>{tEditor('SideBar.Discord')}</p>
+            <p className='base-regular text-zinc-600'>
+              {tEditor('SideBar.Discord')}
+            </p>
           </Link>
         )}
         <div

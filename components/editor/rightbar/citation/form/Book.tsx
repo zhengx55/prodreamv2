@@ -22,7 +22,9 @@ const BookForm = () => {
   return (
     <div className='flex flex-1 flex-col overflow-y-auto'>
       <Spacer y='20' />
-      <h1 className='base-semibold'>{trans("CustomCitation.BookMenu.Book_Type")}</h1>
+      <h1 className='base-semibold'>
+        {trans('CustomCitation.BookMenu.Book_Type')}
+      </h1>
       <Spacer y='16' />
       <Select onValueChange={setBookType as any} defaultValue='The whole book'>
         <SelectTrigger>
@@ -30,22 +32,22 @@ const BookForm = () => {
         </SelectTrigger>
         <SelectContent className='rounded bg-white'>
           <SelectItem
-            value={trans("CustomCitation.BookMenu.The_whole_book")}
+            value={trans('CustomCitation.BookMenu.The_whole_book')}
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >
-            {trans("CustomCitation.BookMenu.The_whole_book")}
+            {trans('CustomCitation.BookMenu.The_whole_book')}
           </SelectItem>
           <SelectItem
-            value={trans("CustomCitation.BookMenu.Chapter_or_section")}
+            value={trans('CustomCitation.BookMenu.Chapter_or_section')}
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >
-            {trans("CustomCitation.BookMenu.Chapter_or_section")}
+            {trans('CustomCitation.BookMenu.Chapter_or_section')}
           </SelectItem>
           <SelectItem
-            value={trans("CustomCitation.BookMenu.Preface_of_introduction")}
+            value={trans('CustomCitation.BookMenu.Preface_of_introduction')}
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >
-            {trans("CustomCitation.BookMenu.Preface_of_introduction")}
+            {trans('CustomCitation.BookMenu.Preface_of_introduction')}
           </SelectItem>
         </SelectContent>
       </Select>

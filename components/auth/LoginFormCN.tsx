@@ -12,7 +12,10 @@ import { createVerificationCodeLoginSchema } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useMutation } from '@tanstack/react-query';
-import { sendVerificationEmail, userReset } from '@/query/api';
+import {
+  sendVerificationCodeByPhoneCN,
+  registerUserWithPhoneNumberCN,
+} from '@/query/api';
 import { LocaleType } from '@/i18n';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
@@ -21,7 +24,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import Spacer from '../root/Spacer';
 import * as z from 'zod';
-import useUserLogin from './hooks/useUserLogin';
 
 // !该组件为CN独有的验证码登录
 const LoginFormCN = () => {
@@ -34,7 +36,8 @@ const LoginFormCN = () => {
   const [countdown, setCountdown] = useState(60);
 
   const { mutateAsync: handleSendVerification } = useMutation({
-    mutationFn: (params: { phone: string }) => sendVerificationEmail(params),
+    mutationFn: (params: { phone_number: string }) =>
+      sendVerificationCodeByPhoneCN(params),
     onSuccess: () => {
       const toastInfo = '验证码已发送';
       toast.success(toastInfo);
@@ -61,7 +64,7 @@ const LoginFormCN = () => {
       toast.error(toastInfo);
       return;
     }
-    await handleSendVerification({ phone });
+    await handleSendVerification({ phone_number: phone });
   }
 
   useEffect(() => {
@@ -83,12 +86,15 @@ const LoginFormCN = () => {
       setVerifyWait(false);
     }
   }, [countdown]);
-  
 
-  const { mutateAsync: handleLogin } = useUserLogin(lang as LocaleType);
+  const { mutateAsync: handleRegister } = useMutation({
+    mutationFn: (params: { phone_number: string; code: string }) =>
+      registerUserWithPhoneNumberCN(params),
+  });
 
   async function onSubmit(values: z.infer<typeof VerificationCodeLoginSchema>) {
-    await handleLogin(values);
+    const { phone, verification_code } = values;
+    await handleRegister({ phone_number: phone, code: verification_code });
   }
   return (
     <Form {...form}>
@@ -134,11 +140,9 @@ const LoginFormCN = () => {
                   disabled={verifyWait}
                   onClick={handleSentVerificationPhoneNumber}
                   type='button'
-                  className='base-regular w-[150px] h-12 shrink-0 rounded-md border'
+                  className='base-regular h-12 w-[150px] shrink-0 rounded-md border'
                 >
-                  {verifyWait
-                    ? countdown
-                    : '发送验证码'}
+                  {verifyWait ? countdown : '发送验证码'}
                 </Button>
               </div>
               <FormMessage className='text-xs text-red-400' />
@@ -146,18 +150,38 @@ const LoginFormCN = () => {
           )}
         />
         <Spacer y='20' />
-        <div className='flex gap-x-2 items-center'>
-            <Checkbox
-                checked={readAndAgree}
-                onCheckedChange={(e: boolean) => setReadAndAgree(e)}
-                className='h-4 w-4 border-violet-500'
-                id='readAndAgree'
-            />
-            <label className='subtle-regular text-neutral-400' htmlFor='readAndAgree'>
-                我已阅读并同意 <a href="https://prodream.larksuite.com/docx/QrxPdV4PRoR1G6xAIpUu9rL3srh" className="text-blue-600">服务协议</a> 和 <a href="https://prodream.larksuite.com/docx/RGZCda4XkosGSkxcz2xua4PxsSc" className="text-blue-600">隐私协议</a>
-            </label>
+        <div className='flex items-center gap-x-2'>
+          <Checkbox
+            checked={readAndAgree}
+            onCheckedChange={(e: boolean) => setReadAndAgree(e)}
+            className='h-4 w-4 border-violet-500'
+            id='readAndAgree'
+          />
+          <label
+            className='subtle-regular text-neutral-400'
+            htmlFor='readAndAgree'
+          >
+            我已阅读并同意{' '}
+            <a
+              href='https://prodream.larksuite.com/docx/QrxPdV4PRoR1G6xAIpUu9rL3srh'
+              className='text-blue-600'
+            >
+              服务协议
+            </a>{' '}
+            和{' '}
+            <a
+              href='https://prodream.larksuite.com/docx/RGZCda4XkosGSkxcz2xua4PxsSc'
+              className='text-blue-600'
+            >
+              隐私协议
+            </a>
+          </label>
         </div>
-        <Button className='w-full rounded bg-violet-500' type='submit' disabled={!readAndAgree}>
+        <Button
+          className='w-full rounded bg-violet-500'
+          type='submit'
+          disabled={!readAndAgree}
+        >
           {'登录/注册'}
         </Button>
       </form>

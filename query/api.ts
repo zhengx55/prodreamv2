@@ -354,6 +354,129 @@ export async function userReset(params: IResetParams) {
   }
 }
 
+export async function updatePhoneNumber(params: { phone_number: string }) {
+  try {
+    const token = Cookies.get('token');
+    const formData = new FormData();
+    formData.append('phone_number', params.phone_number);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/phone_number`,
+      {
+        method: 'PUT',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function loginWithPhoneNumberAndCodeCN(params: {
+  phone_number: string;
+  code: string;
+}) {
+  try {
+    const formData = new FormData();
+    formData.append('phone_number', params.phone_number);
+    formData.append('verification_code', params.code);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/login_with_sms_code`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function loginWithPhoneNumberAndPasswordCN(params: {
+  password: string;
+  email: string;
+  phone_number: string;
+}) {
+  try {
+    const formData = new FormData();
+    formData.append('password', params.password);
+    formData.append('email', params.email);
+    formData.append('phone_number', params.phone_number);
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/login`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function sendVerificationCodeByPhoneCN(params: {
+  phone_number: string;
+}) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/verification_code_sms?phone_number=${params.phone_number}`,
+      {
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function registerUserWithPhoneNumberCN(params: {
+  phone_number: string;
+  code: string;
+}) {
+  try {
+    const formData = new FormData();
+    formData.append('phone_number', params.phone_number);
+    formData.append('verification_code', params.code);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/register_phone_number`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
 export async function sendVerificationEmail(params: { email: string }) {
   try {
     const formData = new FormData();
@@ -675,7 +798,6 @@ export async function submitPolish(params: IPolishParams) {
     throw new Error(error as string);
   }
 }
-
 
 // ----------------------------------------------------------------
 // Profile

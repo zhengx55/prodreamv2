@@ -37,22 +37,29 @@ async function getDiscountInfo() {
   return data.data;
 }
 
-export default async function Page({params}: {params: {lang: string}}) {
+export default async function Page({ params }: { params: { lang: string } }) {
   unstable_setRequestLocale(params.lang);
-  
+
   const membership: ISubscription = await getBalance();
   const discount_info: IDiscount = await getDiscountInfo();
   const trans = await getTranslations('Pricing');
 
-
   return (
     <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
-      <HeaderSection text={trans('Pricing.Upgrade_to_Unlimited_to_unlock_unlimited_possibilities')} />
+      <HeaderSection
+        text={trans(
+          'Pricing.Upgrade_to_Unlimited_to_unlock_unlimited_possibilities'
+        )}
+      />
       <Spacer y='40' />
-      <h1 className='text-center text-[40px] font-medium'>{trans('Pricing.Plans_And_Pricing')}</h1>
+      <h1 className='text-center text-[40px] font-medium'>
+        {trans('Pricing.Plans_And_Pricing')}
+      </h1>
       <Spacer y='10' />
       <p className='base-regular text-center text-neutral-400'>
-        {trans('Pricing.Select_the_perfect_plan_to_enhance_your_academic_writing_journey')}
+        {trans(
+          'Pricing.Select_the_perfect_plan_to_enhance_your_academic_writing_journey'
+        )}
       </p>
       <Spacer y='10' />
       <Tab membership={membership} discount={discount_info} />

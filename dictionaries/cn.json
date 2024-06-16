@@ -356,7 +356,7 @@
         "Hi": "你好",
         "Greetings": "我是Jessica，你的私人论文导师。欢迎使用AI检索以及ChatPDF功能，或直接开始与我对话！",
         "AI_Research": "AI 检索",
-        "Ask_a_research_question_and_get_supporting_sources": "提出学术检索相关问题并获取香港文献资料",
+        "Ask_a_research_question_and_get_supporting_sources": "提出学术检索相关问题并获取相关文献资料",
         "Chat_PDF": "Chat PDF",
         "Click_or_drag_to_upload_Chat_with_file_and_get_summaries": "点击或拖拽上传文档并获取摘要"
       },
@@ -547,6 +547,7 @@
       "Plagiarism_Check": "查重",
       "AI_Detection": "检测AI",
       "Essay_Prompt": "个性化写作",
+      "Unlock_humanize_suggestions_with_the_Unlimited_Plan": "解锁人性化建议",
       "Authors": "作者",
       "Cite": "引用"
     },
@@ -782,7 +783,7 @@
       "recheck_title": "重新进行人性化描述",
       "recheck_button": "重新检测",
       "full_human_title": "您的文章很可能完全由人类撰写，没有显示出AI参与的迹象",
-      "most_human_title": "我们的检测器发现0个句子很可能是由AI生成的",
+      "most_human_title": "我们的检测器没有具体识别出任何人工智能生成的句子",
       "most_human_instruction": "如果您想对整篇文本进行灵活的段落级反AI处理，请点击继续",
       "most_human_button": "继续分段人性化描述",
       "Powered_by_GPTZero": "由GPTZero提供支持",

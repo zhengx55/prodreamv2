@@ -15,7 +15,11 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getReferralSource } from '@/lib/utils';
 import { createSignUpSchema } from '@/lib/validation';
-import { userLogin, userSignUp } from '@/query/api';
+import {
+  loginWithPhoneNumberAndPasswordCN,
+  userLogin,
+  userSignUp,
+} from '@/query/api';
 import { ISigunUpRequest } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
@@ -128,7 +132,7 @@ const SignUpForm = () => {
                   autoComplete='current-password'
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
-                  placeholder={"请输入密码"}
+                  placeholder={'请输入密码'}
                   className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
@@ -139,23 +143,43 @@ const SignUpForm = () => {
         />
         <Link
           href={`/${lang}/reset-password`}
-          className='cursor-pointer self-end text-violet-500 text-sm -mt-4'
+          className='-mt-4 cursor-pointer self-end text-sm text-violet-500'
         >
           {trans('Login.Forget')}
         </Link>
         <Spacer y='4' />
-        <div className='flex gap-x-2 items-center'>
+        <div className='flex items-center gap-x-2'>
           <Checkbox
             checked={readAndAgree}
             onCheckedChange={(e: boolean) => setReadAndAgree(e)}
             className='h-4 w-4 border-violet-500'
             id='readAndAgree'
           />
-          <label className='subtle-regular text-neutral-400' htmlFor='readAndAgree'>
-              我已阅读并同意 <a href="https://prodream.larksuite.com/docx/QrxPdV4PRoR1G6xAIpUu9rL3srh" className="text-blue-600">服务协议</a> 和 <a href="https://prodream.larksuite.com/docx/RGZCda4XkosGSkxcz2xua4PxsSc" className="text-blue-600">隐私协议</a>
+          <label
+            className='subtle-regular text-neutral-400'
+            htmlFor='readAndAgree'
+          >
+            我已阅读并同意{' '}
+            <a
+              href='https://prodream.larksuite.com/docx/QrxPdV4PRoR1G6xAIpUu9rL3srh'
+              className='text-blue-600'
+            >
+              服务协议
+            </a>{' '}
+            和{' '}
+            <a
+              href='https://prodream.larksuite.com/docx/RGZCda4XkosGSkxcz2xua4PxsSc'
+              className='text-blue-600'
+            >
+              隐私协议
+            </a>
           </label>
         </div>
-        <Button className='w-full rounded bg-violet-500' type='submit' disabled={!readAndAgree || isSignupPending}>
+        <Button
+          className='w-full rounded bg-violet-500'
+          type='submit'
+          disabled={!readAndAgree || isSignupPending}
+        >
           {isSignupPending && (
             <Loader2 className='animate-spin text-white' size={22} />
           )}

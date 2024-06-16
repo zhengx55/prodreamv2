@@ -35,7 +35,9 @@ const UploadModal = ({ container }: Props) => {
     },
     onError: async (error) => {
       const { toast } = await import('sonner');
-      const toastInfo = transError('Failed_to_create_PDF_chat_please_try_again_later');
+      const toastInfo = transError(
+        'Failed_to_create_PDF_chat_please_try_again_later'
+      );
       toast.error(toastInfo);
       resetCurrentFile();
     },

@@ -40,7 +40,9 @@ export const SearchCitationCard = memo(
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
       if (!track?.citation_task) {
         const { toast } = await import('sonner');
-        const toastInfo = transInfo('In_text_citation_will_be_append_to_the_postion_of_your_cursor');
+        const toastInfo = transInfo(
+          'In_text_citation_will_be_append_to_the_postion_of_your_cursor'
+        );
         toast.info(toastInfo);
         await updateTrack({
           field: 'citation_task',

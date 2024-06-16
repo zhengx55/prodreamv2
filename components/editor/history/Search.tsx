@@ -67,7 +67,9 @@ const SearchBar = ({ lang, t }: Props) => {
   const handleCreateScrath = async () => {
     if (usage?.free_times_detail.Document === 0) {
       const toast = (await import('sonner')).toast;
-      const toastInfo = transError('You_have_reached_the_limit_of_creating_new_documents');
+      const toastInfo = transError(
+        'You_have_reached_the_limit_of_creating_new_documents'
+      );
       toast.error(toastInfo);
       return;
     }

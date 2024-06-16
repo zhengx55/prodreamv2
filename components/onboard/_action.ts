@@ -83,10 +83,10 @@ export async function toDocument() {
     );
     doc_id = (await new_doc_res.json()).data;
   } catch (error) {
-    const errorMsg = transError('An_error_occurred_while_setting_language_info_Please_try_again');
-    throw new Error(
-      errorMsg
+    const errorMsg = transError(
+      'An_error_occurred_while_setting_language_info_Please_try_again'
     );
+    throw new Error(errorMsg);
   }
   redirect(`/editor/${doc_id}`, RedirectType.replace);
 }

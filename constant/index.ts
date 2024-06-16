@@ -1,5 +1,4 @@
 export const createSidebarLinks = (t: (id: string) => string) => {
-
   return [
     {
       id: 'sidebar-01',
@@ -23,9 +22,7 @@ export const createSidebarLinks = (t: (id: string) => string) => {
     //   link: '/pdf-chat',
     // },
   ];
-}
-
-
+};
 
 export const CitationOptions = ['mla', 'apa', 'ieee', 'chicago'];
 
@@ -1101,4 +1098,3 @@ export const createFeedbackOptions = (t: (id: string) => string) => {
     t('FeedbackOptions.Access_customer_assistance'),
   ];
 };
-

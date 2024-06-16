@@ -76,7 +76,9 @@ const Reference = () => {
   return (
     <div className='mx-auto flex w-[700px] select-none flex-col pb-[10vh]'>
       <div className='flex-between'>
-        <h3 className='text-xl font-[600]'>{transEditor('References.References')}</h3>
+        <h3 className='text-xl font-[600]'>
+          {transEditor('References.References')}
+        </h3>
         <div className='flex gap-x-4'>
           {usage?.subscription === 'basic' ? (
             <p className='subtle-regular inline-flex items-center gap-x-2 text-neutral-400'>

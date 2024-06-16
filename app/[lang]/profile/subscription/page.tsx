@@ -54,6 +54,21 @@ export default async function Page({
   const trans = await getTranslations('Profile');
   const membership = await getMembership();
   const history = await getHistory();
+  const transCommonSense = await getTranslations('CommonSense');
+  const monthNames = [
+    transCommonSense('Month.Jan'),
+    transCommonSense('Month.Feb'),
+    transCommonSense('Month.Mar'),
+    transCommonSense('Month.Apr'),
+    transCommonSense('Month.May'),
+    transCommonSense('Month.Jun'),
+    transCommonSense('Month.Jul'),
+    transCommonSense('Month.Aug'),
+    transCommonSense('Month.Sep'),
+    transCommonSense('Month.Oct'),
+    transCommonSense('Month.Nov'),
+    transCommonSense('Month.Dec'),
+  ];
 
   const Basic = trans('Setting.Basic');
   const Unlimited = trans('Setting.Unlimited');
@@ -109,12 +124,20 @@ export default async function Page({
           {membership.subscription_id ? (
             <p className='text-neutral-400'>
               {trans('Subscription.Next_billing_date')}:&nbsp;
-              {formatTimestampToDateString(membership.expire_time, false, lang)}
+              {formatTimestampToDateString(
+                membership.expire_time,
+                false,
+                monthNames
+              )}
             </p>
           ) : (
             <p className='text-neutral-400'>
               {trans('Subscription.Active_Until')}:&nbsp;
-              {formatTimestampToDateString(membership.expire_time, false, lang)}
+              {formatTimestampToDateString(
+                membership.expire_time,
+                false,
+                monthNames
+              )}
             </p>
           )}
           <Spacer y='10' />

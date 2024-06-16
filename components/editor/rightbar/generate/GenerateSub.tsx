@@ -38,7 +38,9 @@ const GenerateSub = ({ generateTab, label, t }: Props) => {
   const { data: membership } = useMembershipInfo();
   const { insertGenerated, deleteRange } = useEditorCommand(editor!);
 
-  const outLineInfo = useRef<z.infer<typeof generateOutlineSchema> | null>(null);
+  const outLineInfo = useRef<z.infer<typeof generateOutlineSchema> | null>(
+    null
+  );
   const queryClient = useQueryClient();
   const { mutateAsync: handleCopilot } = useMutation({
     mutationFn: (params: { tool: string; text: string }) => copilot(params),

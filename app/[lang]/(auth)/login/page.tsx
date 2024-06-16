@@ -24,7 +24,7 @@ export default async function Page({
   if (!isInChina)
     return (
       <Panel lang={lang}>
-        <div className='flex w-full flex-col sm:w-[500px]'>
+        <div className='flex w-full flex-col justify-center sm:w-[500px]'>
           <Spacer y='120' className='block md:hidden' />
           <GoogleSignin
             searchParam={from}
@@ -54,7 +54,7 @@ export default async function Page({
     );
   return (
     <CNPanel from={from}>
-      <div className='flex w-full flex-col sm:w-[600px]'>
+      <div className='flex h-full w-full flex-col sm:w-[600px]'>
         <LoginFormCN />
       </div>
     </CNPanel>

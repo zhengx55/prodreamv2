@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 const Modal = dynamic(() => import('@/components/review/Modal'));
 
-export default async function Page({params}: {params: {lang: string}}) {
+export default async function Page({ params }: { params: { lang: string } }) {
   unstable_setRequestLocale(params.lang);
 
   const trans = await getTranslations('Homepage');

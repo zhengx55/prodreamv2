@@ -27,7 +27,7 @@ const Privacy = () => {
         {t('Privacy.Privacy_Policy')}
       </Link>
     </p>
-  ) 
+  );
 };
 
 export default memo(Privacy);

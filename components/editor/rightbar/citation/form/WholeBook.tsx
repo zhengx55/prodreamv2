@@ -107,7 +107,9 @@ const WholeBook = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
       <Spacer y='20' />
-      <h1 className='base-semibold'>{trans("CustomCitation.BookMenu.Contributors")}</h1>
+      <h1 className='base-semibold'>
+        {trans('CustomCitation.BookMenu.Contributors')}
+      </h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2'>
           {fields.map((contributor, index) => (
@@ -124,7 +126,7 @@ const WholeBook = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.first_name`}
                 >
-                  {trans("CustomCitation.BookMenu.First_Name")}
+                  {trans('CustomCitation.BookMenu.First_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.first_name`}
@@ -139,7 +141,7 @@ const WholeBook = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.middle_name`}
                 >
-                  {trans("CustomCitation.BookMenu.Middle_Name")}
+                  {trans('CustomCitation.BookMenu.Middle_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.middle_name`}
@@ -154,7 +156,7 @@ const WholeBook = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.last_name`}
                 >
-                  {trans("CustomCitation.BookMenu.Last_Name")}
+                  {trans('CustomCitation.BookMenu.Last_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.last_name`}
@@ -184,16 +186,16 @@ const WholeBook = ({
       >
         <PlusCircle className='fill-violet-500 text-white' size={22} />
         <p className='text-violet-500'>
-          {trans("CustomCitation.BookMenu.Add_Contributor")}
+          {trans('CustomCitation.BookMenu.Add_Contributor')}
         </p>
       </Button>
       <Spacer y='20' />
       <h1 className='base-semibold'>
-        {trans("CustomCitation.BookMenu.In_print_publication_info")}
+        {trans('CustomCitation.BookMenu.In_print_publication_info')}
       </h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='Source title'>
-        {trans("CustomCitation.BookMenu.Source_title")}
+        {trans('CustomCitation.BookMenu.Source_title')}
       </label>
       <Input
         type='text'
@@ -204,14 +206,14 @@ const WholeBook = ({
       />
       <Spacer y='16' />
       <h2 className='small-regular text-neutral-400'>
-        {trans("CustomCitation.BookMenu.Advanced_info")}
+        {trans('CustomCitation.BookMenu.Advanced_info')}
       </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
             className='focus-visible:ring-0'
-            placeholder={trans("CustomCitation.BookMenu.Volume")}
+            placeholder={trans('CustomCitation.BookMenu.Volume')}
             {...register('advanced_info.vol')}
             aria-label='advanced_info.vol'
           />
@@ -220,7 +222,7 @@ const WholeBook = ({
           <Input
             type='text'
             className='focus-visible:ring-0'
-            placeholder={trans("CustomCitation.BookMenu.Total_vols")}
+            placeholder={trans('CustomCitation.BookMenu.Total_vols')}
             {...register('advanced_info.total_vol')}
             aria-label='advanced_info.total_vol'
           />
@@ -228,7 +230,7 @@ const WholeBook = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={trans("CustomCitation.BookMenu.Edition")}
+            placeholder={trans('CustomCitation.BookMenu.Edition')}
             className='focus-visible:ring-0'
             {...register('advanced_info.edition')}
             aria-label='advanced_info.edition'
@@ -237,7 +239,7 @@ const WholeBook = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={trans("CustomCitation.BookMenu.Series")}
+            placeholder={trans('CustomCitation.BookMenu.Series')}
             className='focus-visible:ring-0'
             {...register('advanced_info.series')}
             aria-label='advanced_info.series'
@@ -246,13 +248,13 @@ const WholeBook = ({
       </div>
       <Spacer y='16' />
       <h2 className='small-regular text-neutral-400'>
-        {trans("CustomCitation.BookMenu.Publication_info")}
+        {trans('CustomCitation.BookMenu.Publication_info')}
       </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={trans("CustomCitation.BookMenu.Publisher")}
+            placeholder={trans('CustomCitation.BookMenu.Publisher')}
             className='focus-visible:ring-0'
             {...register('publication_info.publisher')}
             aria-label='publication_info.publisher'
@@ -261,7 +263,7 @@ const WholeBook = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={trans("CustomCitation.BookMenu.City")}
+            placeholder={trans('CustomCitation.BookMenu.City')}
             className='focus-visible:ring-0'
             {...register('publication_info.city')}
             aria-label='publication_info.city'
@@ -270,7 +272,7 @@ const WholeBook = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={trans("CustomCitation.BookMenu.State")}
+            placeholder={trans('CustomCitation.BookMenu.State')}
             className='focus-visible:ring-0'
             {...register('publication_info.state')}
             aria-label='publication_info.state'
@@ -279,7 +281,7 @@ const WholeBook = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={trans("CustomCitation.BookMenu.Year")}
+            placeholder={trans('CustomCitation.BookMenu.Year')}
             className='focus-visible:ring-0'
             {...register('publication_info.publish_year')}
             aria-label='publication_info.publish_year'
@@ -295,10 +297,10 @@ const WholeBook = ({
           type='button'
           onClick={handleCancel}
         >
-          {trans("CustomCitation.Cancel")}
+          {trans('CustomCitation.Cancel')}
         </Button>
         <Button type='submit' className='size-max rounded px-4 py-1'>
-          {trans("CustomCitation.Save")}
+          {trans('CustomCitation.Save')}
         </Button>
       </div>
     </form>
