@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import CopyDialog from '@/components/landing/h5-cn-mobile/CopyDialog';
 
-export default function Page({}) {
+export default function Page({ }) {
   const [open, setOpen] = useState(false);
 
   const h5TopBgUrl = '/landing/h5_cn_mobile/h5_top_bg.png';
@@ -35,8 +35,8 @@ export default function Page({}) {
           <Image
             src='/logo/Prodream.png'
             alt='ProDream Logo'
-            width={170}
-            height={33}
+            width={120}
+            height={19}
             className='mb-4  w-auto'
           />
           <h1 className='mb-2 mt-20 text-center font-poppins text-4xl font-bold leading-[52px]'>
@@ -210,8 +210,8 @@ export default function Page({}) {
           <div className='flex items-center space-x-2'>
             <div className='w-full max-w-full overflow-x-hidden rounded-lg bg-white p-5'>
               <div className='flex items-center space-x-2'>
-                <div className='rounded-22 my-auto h-6 w-1 bg-purple-500'></div>
-                <h2 className='my-2 font-poppins text-3xl font-normal leading-10 text-black'>
+                <div className='rounded-22 my-auto h-5 w-1 bg-purple-500 rounded-lg'></div>
+                <h2 className='my-2 font-poppins text-xl font-seminormal leading-10 text-black'>
                   我们的团队
                 </h2>
               </div>
