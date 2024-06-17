@@ -45,7 +45,7 @@ export default async function Page({ params }: { params: { lang: string } }) {
   const trans = await getTranslations('Pricing');
 
   return (
-    <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
+    <main className='relative flex h-full min-h-screen w-full flex-col items-center overflow-y-auto'>
       <HeaderSection
         text={trans(
           'Pricing.Upgrade_to_Unlimited_to_unlock_unlimited_possibilities'

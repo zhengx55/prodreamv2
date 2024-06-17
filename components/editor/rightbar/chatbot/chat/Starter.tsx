@@ -4,6 +4,7 @@ import { useChatbot, useUserInfo } from '@/zustand/store';
 import { m } from 'framer-motion';
 import { FileText, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import { memo } from 'react';
 
 type Props = { t: EditorDictType };
@@ -12,6 +13,8 @@ const Starter = (props: Props) => {
   const updateChatType = useChatbot((state) => state.updateChatType);
   const updateUploadModal = useChatbot((state) => state.updateUploadModal);
   const trans = useTranslations('Editor');
+  const { lang } = useParams();
+  const isInCN = lang === 'cn';
 
   return (
     <m.div
@@ -23,7 +26,7 @@ const Starter = (props: Props) => {
       <p>👋</p>
       <Spacer y='8' />
       <h2 className='text-xl font-medium text-zinc-800'>
-        {trans('Chat.Starter.Hi')}, {userName}
+        {trans('Chat.Starter.Hi')}, {isInCN ? '' : userName}
       </h2>
       <Spacer y='8' />
       <p className='text-sm font-normal text-zinc-600'>

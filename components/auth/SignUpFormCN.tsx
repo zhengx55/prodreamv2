@@ -13,14 +13,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { getReferralSource } from '@/lib/utils';
-import { createSignUpSchema } from '@/lib/validation';
+import { createSignUpSchemaCN } from '@/lib/validation';
 import {
   loginWithPhoneNumberAndPasswordCN,
   userLogin,
   userSignUp,
 } from '@/query/api';
-import { ISigunUpRequest } from '@/query/type';
+import { ILoginWithPhoneNumberAndPasswordCN } from '@/query/type';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -34,16 +33,15 @@ import Spacer from '../root/Spacer';
 const defaultValues = { password: '', email: '' };
 
 // !该组件为CN独有的密码登录
-const SignUpForm = () => {
+const SignUpFormCN = () => {
   const [readAndAgree, setReadAndAgree] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
-  const searchParam = useSearchParams().get('from');
   const { lang } = useParams();
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
   const trans = useTranslations('Auth');
   const transSuccess = useTranslations('Success');
-  const signUpSchema = createSignUpSchema(trans);
+  const signUpSchema = createSignUpSchemaCN(trans);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -51,14 +49,25 @@ const SignUpForm = () => {
   });
   const { mutateAsync: handleSignup, isPending: isSignupPending } = useMutation(
     {
-      mutationFn: (param: ISigunUpRequest) => userSignUp(param),
+      mutationFn: (param: ILoginWithPhoneNumberAndPasswordCN) => {
+        const { emailOrPhone, password } = param;
+        const isEmail = emailOrPhone.includes('@');
+        if (isEmail) {
+          return userSignUp({ email: emailOrPhone, password });
+        }
+        return loginWithPhoneNumberAndPasswordCN({
+          email: '',
+          password,
+          phone_number: emailOrPhone,
+        });
+      },
       onSuccess: async (_, variables, _contex) => {
         try {
           const toast = (await import('sonner')).toast;
           const successInfo = transSuccess('Successfully_signed_up');
           toast.success(successInfo);
           const login_data = await userLogin({
-            username: variables.email,
+            username: variables.emailOrPhone,
             password: variables.password,
           });
           setCookie('token', login_data.access_token, {
@@ -80,13 +89,9 @@ const SignUpForm = () => {
   );
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
-    const referral = getReferralSource();
     await handleSignup({
-      email: values.email,
+      emailOrPhone: values.emailOrPhone,
       password: values.password,
-      is_mobile: isMobile,
-      referral,
-      traffic_source: searchParam ?? undefined,
     });
   }
 
@@ -100,13 +105,13 @@ const SignUpForm = () => {
       >
         <FormField
           control={form.control}
-          name='email'
+          name='emailOrPhone'
           render={({ field }) => (
             <FormItem className='relative'>
               <FormControl>
                 <Input
                   autoComplete='email'
-                  type='email'
+                  type='emailOrPhone'
                   id='username'
                   placeholder={'请输入邮箱或手机号'}
                   className='placeholder:base-regular h-12 rounded-md border'
@@ -189,4 +194,4 @@ const SignUpForm = () => {
     </Form>
   );
 };
-export default SignUpForm;
+export default SignUpFormCN;

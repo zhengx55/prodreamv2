@@ -226,6 +226,7 @@
       },
       "SignUpSchema": {
         "Invalid_email_address": "请输入有效的邮箱地址",
+        "Invalid_phone_number": "请输入正确的手机号",
         "Password_must_be_at_least_8_characters": "密码必须至少包含8个字符",
         "Password_cannot_exceed_50_characters": "密码不能超过50个字符"
       },

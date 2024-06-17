@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { createResetSchema } from '@/lib/validation';
+import { createResetSchemaCN } from '@/lib/validation';
 import { sendVerificationEmail, userReset } from '@/query/api';
 import { IResetParams } from '@/query/type';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,7 +26,7 @@ import * as z from 'zod';
 // !该组件为CN独有的重置密码
 const ResetFormCN = () => {
   const trans = useTranslations('Auth');
-  const resetSchema = createResetSchema(trans);
+  const resetSchema = createResetSchemaCN(trans);
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
   const [verifyWait, setVerifyWait] = useState(false);
@@ -56,7 +56,7 @@ const ResetFormCN = () => {
   const form = useForm<z.infer<typeof resetSchema>>({
     resolver: zodResolver(resetSchema),
     defaultValues: {
-      email: '',
+      emailOrPhone: '',
       password: '',
       confirm: '',
       verification_code: '',
@@ -88,19 +88,19 @@ const ResetFormCN = () => {
   });
 
   async function handleSentVerificationEmail() {
-    const { email } = form.getValues();
-    if (!email) {
+    const { emailOrPhone } = form.getValues();
+    if (!emailOrPhone) {
       const toastInfo = trans('ForgotPassword.Please_enter_your_email_address');
       toast.error(toastInfo);
       return;
     }
-    await handleSendVerification({ email });
+    await handleSendVerification({ email: emailOrPhone });
   }
 
   async function onSubmit(values: z.infer<typeof resetSchema>) {
     try {
       await handleReset({
-        email: values.email,
+        email: values.emailOrPhone,
         password: values.password,
         verification_code: values.verification_code,
       });
@@ -122,7 +122,7 @@ const ResetFormCN = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col'>
           <FormField
             control={form.control}
-            name='email'
+            name='emailOrPhone'
             render={({ field }) => (
               <FormItem className='mt-20'>
                 <FormControl>
