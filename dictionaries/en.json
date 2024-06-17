@@ -228,6 +228,7 @@
       },
       "SignUpSchema": {
         "Invalid_email_address": "Invalid email address",
+        "Invalid_phone_number": "Invalid phone number",
         "Password_must_be_at_least_8_characters": "Password must be at least 8 characters",
         "Password_cannot_exceed_50_characters": "Password cannot exceed 50 characters"
       },

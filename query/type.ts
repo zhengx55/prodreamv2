@@ -29,6 +29,11 @@ export interface ISigunUpRequest {
   traffic_source?: string;
 }
 
+export interface ILoginWithPhoneNumberAndPasswordCN {
+  emailOrPhone: string;
+  password: string;
+}
+
 export interface IResetParams {
   email: string;
   password: string;

@@ -8,18 +8,19 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { createVerificationCodeLoginSchema } from '@/lib/validation';
+import { createVerificationCodeLoginSchemaCN } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter, useParams } from 'next/navigation';
 import {
   sendVerificationCodeByPhoneCN,
+  loginWithPhoneNumberAndCodeCN,
   registerUserWithPhoneNumberCN,
 } from '@/query/api';
-import { LocaleType } from '@/i18n';
 import { useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import Spacer from '../root/Spacer';
@@ -28,9 +29,11 @@ import * as z from 'zod';
 // !该组件为CN独有的验证码登录
 const LoginFormCN = () => {
   const trans = useTranslations('Auth');
-  const VerificationCodeLoginSchema = createVerificationCodeLoginSchema(trans);
+  const router = useRouter();
+  const VerificationCodeLoginSchema =
+    createVerificationCodeLoginSchemaCN(trans);
+  const [_cookies, setCookie] = useCookies(['token']);
   const { lang } = useParams();
-
   const [readAndAgree, setReadAndAgree] = useState(false);
   const [verifyWait, setVerifyWait] = useState(false);
   const [countdown, setCountdown] = useState(60);
@@ -88,13 +91,51 @@ const LoginFormCN = () => {
   }, [countdown]);
 
   const { mutateAsync: handleRegister } = useMutation({
-    mutationFn: (params: { phone_number: string; code: string }) =>
-      registerUserWithPhoneNumberCN(params),
+    mutationFn: (params: {
+      phone_number: string;
+      verification_code: string;
+    }) => {
+      const paramObj = {
+        phone_number: `+86${params.phone_number}`,
+        code: params.verification_code,
+      };
+      return registerUserWithPhoneNumberCN(paramObj);
+    },
+    onSuccess: (loginData) => {
+      setCookie('token', loginData.access_token, {
+        path: '/',
+        maxAge: 604800,
+        secure: true,
+        sameSite: 'lax',
+      });
+      router.push(`/${lang}/onboard`);
+    },
+    onError: async (error) => {
+      if (error.message === 'User already exists') {
+        const { phone, verification_code } = form.getValues();
+        const loginData = await loginWithPhoneNumberAndCodeCN({
+          phone_number: phone,
+          code: verification_code,
+        });
+        setCookie('token', loginData.access_token, {
+          path: '/',
+          maxAge: 604800,
+          secure: true,
+          sameSite: 'lax',
+        });
+        router.push('/editor');
+      } else {
+        toast.error(error.message);
+      }
+    },
   });
 
   async function onSubmit(values: z.infer<typeof VerificationCodeLoginSchema>) {
     const { phone, verification_code } = values;
-    await handleRegister({ phone_number: phone, code: verification_code });
+    await handleRegister({
+      phone_number: phone,
+      verification_code: verification_code,
+    });
   }
   return (
     <Form {...form}>

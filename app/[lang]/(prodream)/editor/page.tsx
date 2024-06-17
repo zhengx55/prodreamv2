@@ -20,7 +20,7 @@ export default async function Page({
   const trans = await getTranslations('Homepage');
 
   return (
-    <main className='relative flex h-full w-full flex-col items-center overflow-y-auto'>
+    <main className='relative flex h-full min-h-screen w-full flex-col items-center overflow-y-auto'>
       <DiscountModal />
       <Spacer y='75' />
       <Suspense>

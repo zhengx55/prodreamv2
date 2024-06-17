@@ -20,7 +20,7 @@ export default async function WrittingpalLayout({
 
   return (
     <>
-      <main className='hidden h-full w-full overflow-x-auto overflow-y-hidden md:flex'>
+      <main className='hidden h-full min-h-screen w-full overflow-x-auto overflow-y-hidden md:flex'>
         <DeviceProvider lang={lang}>
           <FeedbackModal />
 

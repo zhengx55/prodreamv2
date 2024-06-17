@@ -17,7 +17,7 @@ export default function ProfileLayout({
 }) {
   return (
     <>
-      <main className='hidden h-full w-full overflow-x-auto overflow-y-hidden md:flex'>
+      <main className='hidden h-full min-h-screen w-full overflow-x-auto overflow-y-hidden md:flex'>
         <DeviceProvider lang={lang}>
           <div className='relative flex h-full w-full flex-col '>
             {children}

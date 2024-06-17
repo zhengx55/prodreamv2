@@ -15,14 +15,45 @@ export const createLoginSchema = (t: (id: string) => string) =>
       }),
   });
 
-export const createVerificationCodeLoginSchema = (t: (id: string) => string) =>
+export const createVerificationCodeLoginSchemaCN = (
+  t: (id: string) => string
+) =>
   z.object({
     phone: z.string().regex(/^1[3-9]\d{9}$/, {
       message: '请输入正确的手机号',
     }),
-    verification_code: z.string().min(6).max(6, {
-      message: '请输入正确的验证码',
-    }),
+    verification_code: z
+      .string()
+      .min(6, {
+        message: '请输入正确的验证码',
+      })
+      .max(6, {
+        message: '请输入正确的验证码',
+      }),
+  });
+
+export const createSignUpSchemaCN = (t: (id: string) => string) =>
+  z.object({
+    password: z
+      .string()
+      .min(8, {
+        message: t(
+          'Schema.SignUpSchema.Password_must_be_at_least_8_characters'
+        ),
+      })
+      .max(50, {
+        message: t('Schema.SignUpSchema.Password_cannot_exceed_50_characters'),
+      }),
+    emailOrPhone: z
+      .string()
+      .email({ message: t('Schema.SignUpSchema.Invalid_email_address') })
+      .or(
+        z
+          .string()
+          .regex(/^1[3-9]\d{9}$/, {
+            message: t('Schema.SignUpSchema.Invalid_phone_number'),
+          })
+      ),
   });
 
 export const createSignUpSchema = (t: (id: string) => string) =>
@@ -40,6 +71,44 @@ export const createSignUpSchema = (t: (id: string) => string) =>
     email: z
       .string()
       .email({ message: t('Schema.SignUpSchema.Invalid_email_address') }),
+  });
+
+export const createResetSchemaCN = (t: (id: string) => string) =>
+  z.object({
+    emailOrPhone: z
+      .string()
+      .email({ message: t('Schema.SignUpSchema.Invalid_email_address') })
+      .or(
+        z
+          .string()
+          .regex(/^1[3-9]\d{9}$/, {
+            message: t('Schema.SignUpSchema.Invalid_phone_number'),
+          })
+      ),
+    password: z
+      .string()
+      .min(6, {
+        message: t('Schema.ResetSchema.Password_must_be_at_least_8_characters'),
+      })
+      .max(50, {
+        message: t('Schema.ResetSchema.Password_cannot_exceed_50_characters'),
+      }),
+    confirm: z
+      .string()
+      .min(6, {
+        message: t('Schema.ResetSchema.Password_must_be_at_least_8_characters'),
+      })
+      .max(50, {
+        message: t('Schema.ResetSchema.Password_cannot_exceed_50_characters'),
+      }),
+    verification_code: z
+      .string()
+      .min(6, {
+        message: t('Schema.ResetSchema.Verification_code_must_be_a_6-digit'),
+      })
+      .max(6, {
+        message: t('Schema.ResetSchema.Verification_code_must_be_a_6-digit'),
+      }),
   });
 
 export const createResetSchema = (t: (id: string) => string) =>
@@ -125,18 +194,14 @@ export const createResetNameSchema = (t: (id: string) => string) =>
 
 export const createGenerateOutlineSchema = (t: (id: string) => string) =>
   z.object({
-    area: z
-      .string()
-      .min(1, {
-        message: t(
-          'Schema.GenerateOutlineSchema.Area_must_be_at_least_1_character'
-        ),
-      }),
-    idea: z
-      .string()
-      .min(1, {
-        message: t(
-          'Schema.GenerateOutlineSchema.Description_must_be_at_least_1_character'
-        ),
-      }),
+    area: z.string().min(1, {
+      message: t(
+        'Schema.GenerateOutlineSchema.Area_must_be_at_least_1_character'
+      ),
+    }),
+    idea: z.string().min(1, {
+      message: t(
+        'Schema.GenerateOutlineSchema.Description_must_be_at_least_1_character'
+      ),
+    }),
   });

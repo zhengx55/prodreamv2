@@ -77,8 +77,8 @@ export default function Page({}) {
               className='mr-6 w-1/3 rounded-lg'
             />
             <div className='w-2/3'>
-              <h2 className='text-xl font-semibold'>快速文书生成体验</h2>
-              <p className='text-sm'>续写/润色/提纲生成多功能支持</p>
+              <h2 className='text-lg font-semibold'>快速文书生成体验</h2>
+              <p className='text-xs'>续写/润色/提纲生成多功能支持</p>
             </div>
           </div>
           <div
@@ -93,8 +93,8 @@ export default function Page({}) {
               className='ml-6 w-1/3 rounded-lg'
             />
             <div className='w-2/3'>
-              <h2 className='text-xl font-semibold'>专业学术写作支持</h2>
-              <p className='text-sm'>文献引用/AI检测降重专业可靠</p>
+              <h2 className='text-lg font-semibold'>专业学术写作支持</h2>
+              <p className='text-xs'>文献引用/AI检测降重专业可靠</p>
             </div>
           </div>
           <div className='mx-4 flex items-center justify-center py-4'>
@@ -106,8 +106,8 @@ export default function Page({}) {
               className='mr-6 w-1/3 rounded-lg'
             />
             <div className='w-2/3'>
-              <h2 className='text-xl font-semibold'>MEET JESSICA</h2>
-              <p className='text-sm'>AI对话，随时答疑解惑</p>
+              <h2 className='text-lg font-semibold'>MEET JESSICA</h2>
+              <p className='text-xs'>AI对话，随时答疑解惑</p>
             </div>
           </div>
           <div className='pb-4 pt-4 text-center'>
