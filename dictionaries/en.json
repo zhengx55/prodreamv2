@@ -351,6 +351,7 @@
     "MembershipBar": {
       "MaxHistoricalLimitHint": "Max {FilledBarsNumber}/3 historical documents; upgrade to <UnlimitedLink> { Unlimited } </UnlimitedLink> for more",
       "Unlimited": "Unlimited",
+      "Current_Plan": "Current Plan",
       "Upgrade_now": "Upgrade now",
       "Unlimited_Free_Trial_ends_in": "Unlimited Free Trial ends in {expireTimeString}"
     },
@@ -904,6 +905,8 @@
   "Pricing": {
     "Upgrade_to_Unlimited_to_unlock_unlimited_possibilities": "Upgrade to Unlimited to unlock unlimited possibilities",
     "Plans_And_Pricing": "Plans & Pricing",
-    "Select_the_perfect_plan_to_enhance_your_academic_writing_journey": "Select the perfect plan to enhance your academic writing journey"
+    "Select_the_perfect_plan_to_enhance_your_academic_writing_journey": "Select the perfect plan to enhance your academic writing journey",
+    "Current_Plan": "Current Plan",
+    "Upgrade_now": "Upgrade now"
   }
 }
