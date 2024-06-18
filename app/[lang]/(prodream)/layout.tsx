@@ -24,7 +24,7 @@ export default async function WrittingpalLayout({
         <DeviceProvider lang={lang}>
           <FeedbackModal />
 
-          <div className='relative flex h-full w-full flex-col '>
+          <div className='relative min-h-screen flex h-full w-full flex-col '>
             {children}
           </div>
         </DeviceProvider>

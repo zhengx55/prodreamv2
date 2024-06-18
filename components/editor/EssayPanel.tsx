@@ -48,7 +48,7 @@ const EssayPanel = ({ id, ...props }: Props) => {
     );
   return (
     <LazyMotionProvider>
-      <main className='relative flex h-full w-full flex-col'>
+      <main className='relative flex min-h-screen h-full w-full flex-col'>
         <DocNavbar {...props} />
         {showCheckList ? <CheckListSection t={props.t} /> : <FeedbackSection />}
         <div className='relative flex h-full w-full justify-center overflow-hidden'>
