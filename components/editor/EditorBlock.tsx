@@ -28,6 +28,7 @@ const EditorBlock = ({ editor, ...props }: Props) => {
       aria-label='editor-parent'
       id='editor-parent'
       className='relative flex w-full flex-col overflow-y-auto'
+      style={{ minHeight: 'calc(100vh - var(--top-nav-bar-height))' }}
     >
       <Spacer y='20' />
       <AnimatePresence>
