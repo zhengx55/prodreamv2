@@ -349,6 +349,7 @@
     "MembershipBar": {
       "MaxHistoricalLimitHint": "免费用户最多可保留3个历史文档。如需解锁更多文档，请升级到<UnlimitedLink>{ Unlimited }</UnlimitedLink>版",
       "Unlimited": "Pro",
+      "Current_Plan": "当前会员",
       "Upgrade_now": "立即升级",
       "Unlimited_Free_Trial_ends_in": "免费试用期{expireTimeString}后结束"
     },
@@ -901,6 +902,8 @@
   "Pricing": {
     "Upgrade_to_Unlimited_to_unlock_unlimited_possibilities": "升级到 Pro 会员以解锁无限可能性",
     "Plans_And_Pricing": "会员与定价",
-    "Select_the_perfect_plan_to_enhance_your_academic_writing_journey": "选择适合您的学术写作旅程的会员"
+    "Select_the_perfect_plan_to_enhance_your_academic_writing_journey": "选择适合您的学术写作旅程的会员",
+    "Current_Plan": "当前会员",
+    "Upgrade_now": "立即升级"
   }
 }

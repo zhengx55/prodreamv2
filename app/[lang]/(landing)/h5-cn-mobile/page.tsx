@@ -211,7 +211,7 @@ export default function Page({ }) {
             <div className='w-full max-w-full overflow-x-hidden rounded-lg bg-white p-5'>
               <div className='flex items-center space-x-2'>
                 <div className='rounded-22 my-auto h-5 w-1 bg-purple-500 rounded-lg'></div>
-                <h2 className='my-2 font-poppins text-xl font-seminormal leading-10 text-black'>
+                <h2 className='my-2 font-poppins text-xl font-semibold leading-10 text-black'>
                   我们的团队
                 </h2>
               </div>

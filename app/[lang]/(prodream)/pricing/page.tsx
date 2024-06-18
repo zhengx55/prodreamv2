@@ -48,17 +48,17 @@ export default async function Page({ params }: { params: { lang: string } }) {
     <main className='relative flex h-full min-h-screen w-full flex-col items-center overflow-y-auto'>
       <HeaderSection
         text={trans(
-          'Pricing.Upgrade_to_Unlimited_to_unlock_unlimited_possibilities'
+          'Upgrade_to_Unlimited_to_unlock_unlimited_possibilities'
         )}
       />
       <Spacer y='40' />
       <h1 className='text-center text-[40px] font-medium'>
-        {trans('Pricing.Plans_And_Pricing')}
+        {trans('Plans_And_Pricing')}
       </h1>
       <Spacer y='10' />
       <p className='base-regular text-center text-neutral-400'>
         {trans(
-          'Pricing.Select_the_perfect_plan_to_enhance_your_academic_writing_journey'
+          'Select_the_perfect_plan_to_enhance_your_academic_writing_journey'
         )}
       </p>
       <Spacer y='10' />
