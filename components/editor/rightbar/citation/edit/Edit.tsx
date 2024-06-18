@@ -18,7 +18,7 @@ const Edit = () => {
     updateCurrentInline(null);
   });
   return (
-    <div className='relative flex h-full w-full flex-col overflow-hidden'>
+    <div className='relative flex min-h-screen h-full w-full flex-col overflow-hidden'>
       <div className='flex items-center gap-x-2'>
         <Button
           role='button'
