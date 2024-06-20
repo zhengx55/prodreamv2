@@ -35,33 +35,32 @@ export default async function Home({
 
   return (
     <>
-      {
-        isInChina ? (
-          <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>
-            <NavBarCN search_param={from} lang={lang} t={dict.Homepage} />
-            <SloganCN lang={lang} search_param={from} t={dict.Homepage} />
-            <BannerCN />
-            <HeroCN lang={lang} search_param={from} t={dict.Homepage} />
-            <AboutCN lang={lang} t={dict.Homepage} />
-            <IntroductionCN lang={lang} t={dict.Homepage} />
-            <CommentsCN lang={lang} t={dict.Homepage} />
-            <BannerPlusCN lang={lang} t={dict.Homepage} />
-            <BottomBannerCN />
-            <FooterCN />
-          </main>
-        ) : (
-          <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>
-            <NavBar search_param={from} lang={lang} t={dict.Homepage} />
-            <Hero lang={lang} search_param={from} t={dict.Homepage} />
-            <Banner lang={lang} t={dict.Homepage} />
-            <About lang={lang} t={dict.Homepage} />
-            <Introduction lang={lang} t={dict.Homepage} />
-            <Comments lang={lang} t={dict.Homepage} />
-            <Question lang={lang} t={dict.Homepage} />
-            <BottomBanner />
-            <Footer />
-          </main>)
-      }
+      {isInChina ? (
+        <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>
+          <NavBarCN search_param={from} lang={lang} t={dict.Homepage} />
+          <SloganCN lang={lang} search_param={from} t={dict.Homepage} />
+          <BannerCN />
+          <HeroCN lang={lang} search_param={from} t={dict.Homepage} />
+          <AboutCN lang={lang} t={dict.Homepage} />
+          <IntroductionCN lang={lang} t={dict.Homepage} />
+          <CommentsCN lang={lang} t={dict.Homepage} />
+          <BannerPlusCN lang={lang} t={dict.Homepage} />
+          <BottomBannerCN />
+          <FooterCN />
+        </main>
+      ) : (
+        <main className='relative flex w-full touch-pan-y flex-col overflow-x-hidden sm:overflow-x-auto'>
+          <NavBar search_param={from} lang={lang} t={dict.Homepage} />
+          <Hero lang={lang} search_param={from} t={dict.Homepage} />
+          <Banner lang={lang} t={dict.Homepage} />
+          <About lang={lang} t={dict.Homepage} />
+          <Introduction lang={lang} t={dict.Homepage} />
+          <Comments lang={lang} t={dict.Homepage} />
+          <Question lang={lang} t={dict.Homepage} />
+          <BottomBanner />
+          <Footer />
+        </main>
+      )}
     </>
   );
 }

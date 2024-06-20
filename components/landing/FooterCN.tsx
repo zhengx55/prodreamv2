@@ -46,7 +46,7 @@ const Footer = () => {
               alt='logo'
               className='h-auto w-52'
             />
-            <p className='body-regular text-[#525252] font-normal text-[18px] leading-6'>
+            <p className='body-regular text-[18px] font-normal leading-6 text-[#525252]'>
               {tFooter('Shape_your_academic_future')}
               <br />
               {tFooter('masterful_writing_from_application_to_graduation')}

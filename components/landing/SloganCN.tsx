@@ -6,10 +6,7 @@ import { Button } from '../ui/button';
 import CaptureProvider from './CaptureProvider';
 import { useTranslations } from 'next-intl';
 
-
-const SloganCN = ({
-  lang,
-}: HomePageDicType & { search_param: string }) => {
+const SloganCN = ({ lang }: HomePageDicType & { search_param: string }) => {
   const transHomepage = useTranslations('Homepage');
 
   return (
@@ -28,20 +25,20 @@ const SloganCN = ({
       </div>
       <CaptureProvider event='ScreenI'>
         <div className='sm:flex-center flex h-full w-full flex-col py-10 sm:w-[1200px] sm:py-20'>
-          <h1 className='text-center md:text-[72px] font-[600] leading-[1.6] sm:text-center sm:text-[48px]'>
-            {"一站式 AI 服务平台"}
+          <h1 className='text-center font-[600] leading-[1.6] sm:text-center sm:text-[48px] md:text-[72px]'>
+            {'一站式 AI 服务平台'}
           </h1>
-          <h2 className='text-center md:text-[72px] font-[200] leading-[1.6] sm:text-center sm:text-[48px]'>{'智能写作   轻松留学'}</h2>
-          <p className='text-neutral-400 text-center text-[22px] font-[400] leading-[1.7] pt-[36px] sm:text-center sm:text-[22px]'>{'与 ProDream 同行，塑造学术未来'}</p>
+          <h2 className='text-center font-[200] leading-[1.6] sm:text-center sm:text-[48px] md:text-[72px]'>
+            {'智能写作   轻松留学'}
+          </h2>
+          <p className='pt-[36px] text-center text-[22px] font-[400] leading-[1.7] text-neutral-400 sm:text-center sm:text-[22px]'>
+            {'与 ProDream 同行，塑造学术未来'}
+          </p>
           <Spacer y='40' />
           <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
-            <Link
-              prefetch={false}
-              passHref
-              href={`/${lang}/signup?from=cn`}
-            >
-              <Button className='rounded-lg py-3 px-8 text-sm font-medium'>
-                <p>{"免费使用"}</p>
+            <Link prefetch={false} passHref href={`/${lang}/signup?from=cn`}>
+              <Button className='rounded-lg px-8 py-3 text-sm font-medium'>
+                <p>{'免费使用'}</p>
               </Button>
             </Link>
           </div>

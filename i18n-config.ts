@@ -7,7 +7,7 @@ export const i18n = {
 export const langObjCN = {
   cn: '中',
   en: '英',
-}
+};
 
 export type Locale = (typeof i18n)['locales'][number];
 export type LocaleCN = (typeof i18n)['localesCN'][number];

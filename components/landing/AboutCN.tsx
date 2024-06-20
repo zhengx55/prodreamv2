@@ -26,7 +26,7 @@ const AboutCN = ({ lang }: HomePageDicType) => {
 
         <Spacer y='10' />
         <CaptureProvider event='ScreenIII'>
-          <p className='text-[18px] leading-relaxed text-center text-shadow-100'>
+          <p className='text-center text-[18px] leading-relaxed text-shadow-100'>
             {t('AboutInfo_CaptureProvider_3')}
           </p>
         </CaptureProvider>
@@ -42,7 +42,7 @@ const AboutCN = ({ lang }: HomePageDicType) => {
                   <h3 className='w-[360px]leading-relaxed sm:text-[24px]'>
                     {t(`AboutInfo_title_${index + 1}`)}
                   </h3>
-                  <p className='text-[18px] leading- text-shadow-100'>
+                  <p className='leading- text-[18px] text-shadow-100'>
                     {t(`AboutInfo_description_${index + 1}`)}
                   </p>
                 </div>

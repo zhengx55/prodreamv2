@@ -12,7 +12,6 @@ const IntroductionCN = ({ t, lang }: HomePageDicType) => {
   return (
     <section className='relative flex w-full justify-center px-4 py-10 sm:px-0 sm:py-20'>
       <div className='flex-center w-full flex-col sm:max-w-[1200px]'>
-
         <h2 className='text-center font-custom text-[24px] leading-relaxed sm:text-[48px]'>
           {trans('IntroductionInfo_theme_1')}{' '}
           {trans('IntroductionInfo_theme_2')}
@@ -20,7 +19,7 @@ const IntroductionCN = ({ t, lang }: HomePageDicType) => {
 
         <Spacer y='10' />
         <CaptureProvider event='ScreenIV'>
-          <p className='text-center text-shadow-100 text-[18px]'>
+          <p className='text-center text-[18px] text-shadow-100'>
             {trans('IntroductionInfo_CaptureProvider')}
           </p>
         </CaptureProvider>

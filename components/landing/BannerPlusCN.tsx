@@ -15,7 +15,7 @@ const BannerPlusCN = ({ lang }: HomePageDicType) => {
       <div className='flex-center w-full flex-col px-4 sm:max-w-[1200px] sm:px-0 '>
         <div className='flex flex-col gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
           <div className='relative w-full rounded-2xl bg-violet-500 p-11 sm:w-[53%] '>
-            <h2 className='text-white text-[30px] font-[500]'>
+            <h2 className='text-[30px] font-[500] text-white'>
               {t('BannerInfo_title_1')}
             </h2>
             <svg
@@ -52,7 +52,7 @@ const BannerPlusCN = ({ lang }: HomePageDicType) => {
                 fill='white'
               />
             </svg>
-            <h2 className='text-white text-[30px] font-[500]'>
+            <h2 className='text-[30px] font-[500] text-white'>
               {t('BannerInfo_title_2')}
             </h2>
             <Spacer y='20' />

@@ -3,8 +3,7 @@ import CaptureProvider from './CaptureProvider';
 import { useTranslations } from 'next-intl';
 import { HeroClientSectionCN } from './LandingCarouselCN';
 
-const HeroCN = ({
-}: HomePageDicType & { search_param: string }) => {
+const HeroCN = ({}: HomePageDicType & { search_param: string }) => {
   const t = useTranslations('Homepage');
 
   return (

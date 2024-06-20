@@ -98,7 +98,7 @@ const ResetForm = () => {
   async function onSubmit(values: z.infer<typeof resetSchema>) {
     try {
       await handleReset({
-        email: values.email,
+        emailOrPhone: values.email,
         password: values.password,
         verification_code: values.verification_code,
       });

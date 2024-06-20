@@ -98,7 +98,6 @@ const ResetFormCN = () => {
   }
 
   async function onSubmit(values: z.infer<typeof resetSchema>) {
-
     try {
       await handleReset({
         emailOrPhone: values.emailOrPhone,
@@ -114,7 +113,7 @@ const ResetFormCN = () => {
     <>
       {/* I don't know why but the sm:mt-20 is not working on mobile */}
       <div
-        className='relative flex w-full items-center gap-x-8 border-b-[2px] border-neutral-2000 sm:w-[600px]'
+        className='border-neutral-2000 relative flex w-full items-center gap-x-8 border-b-[2px] sm:w-[600px]'
         style={{ marginTop: isMobile ? '5rem' : '0' }}
       >
         <Button

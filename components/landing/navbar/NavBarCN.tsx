@@ -22,10 +22,9 @@ const NavBarCN = async ({
   lang,
   search_param,
 }: HomePageDicType & { search_param: string }) => {
-
   return (
     <section className='z-50 flex h-16 w-full justify-center bg-white py-3'>
-      <nav className='flex justify-between w-full px-4 sm:max-w-[1200px] sm:px-0'>
+      <nav className='flex w-full justify-between px-4 sm:max-w-[1200px] sm:px-0'>
         <div className='flex items-center gap-x-10'>
           <Image
             src='/logo/Prodream.png'
@@ -43,12 +42,17 @@ const NavBarCN = async ({
             <DropdownMenuTrigger asChild>
               <Button
                 role='button'
-                className='hidden w-max px-1 sm:block hover:no-underline'
+                className='hidden w-max px-1 hover:no-underline sm:block'
                 variant={'ghost'}
               >
                 <p className='flex items-center gap-x-2 text-sm font-medium'>
                   {langObjCN[lang]}
-                  <Image src={'/nav/chevron-compact-down.svg'} alt='chevron-compact-down' width={16} height={16} />
+                  <Image
+                    src={'/nav/chevron-compact-down.svg'}
+                    alt='chevron-compact-down'
+                    width={16}
+                    height={16}
+                  />
                 </p>
               </Button>
             </DropdownMenuTrigger>
@@ -57,8 +61,8 @@ const NavBarCN = async ({
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={`/${lang}/signup?from=cn`} passHref>
-            <Button className='rounded-lg py-3 px-8 text-sm font-medium'>
-              <p>{"免费使用"}</p>
+            <Button className='rounded-lg px-8 py-3 text-sm font-medium'>
+              <p>{'免费使用'}</p>
             </Button>
           </Link>
         </div>

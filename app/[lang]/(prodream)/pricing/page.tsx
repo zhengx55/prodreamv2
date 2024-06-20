@@ -47,9 +47,7 @@ export default async function Page({ params }: { params: { lang: string } }) {
   return (
     <main className='relative flex h-full min-h-screen w-full flex-col items-center overflow-y-auto'>
       <HeaderSection
-        text={trans(
-          'Upgrade_to_Unlimited_to_unlock_unlimited_possibilities'
-        )}
+        text={trans('Upgrade_to_Unlimited_to_unlock_unlimited_possibilities')}
       />
       <Spacer y='40' />
       <h1 className='text-center text-[40px] font-medium'>
