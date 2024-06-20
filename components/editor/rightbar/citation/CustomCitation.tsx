@@ -17,7 +17,7 @@ const CustomCitation = ({ t }: { t: EditorDictType }) => {
   const trans = useTranslations('Editor');
 
   return (
-    <section className='relative flex min-h-screen h-full w-full flex-col overflow-hidden'>
+    <section className='relative flex h-full min-h-screen w-full flex-col overflow-hidden'>
       <div className='flex items-center gap-x-2'>
         <Button
           role='button'

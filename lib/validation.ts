@@ -48,11 +48,9 @@ export const createSignUpSchemaCN = (t: (id: string) => string) =>
       .string()
       .email({ message: t('Schema.SignUpSchema.Invalid_email_address') })
       .or(
-        z
-          .string()
-          .regex(/^1[3-9]\d{9}$/, {
-            message: t('Schema.SignUpSchema.Invalid_phone_number'),
-          })
+        z.string().regex(/^1[3-9]\d{9}$/, {
+          message: t('Schema.SignUpSchema.Invalid_phone_number'),
+        })
       ),
   });
 
@@ -79,11 +77,9 @@ export const createResetSchemaCN = (t: (id: string) => string) =>
       .string()
       .email({ message: t('Schema.SignUpSchema.Invalid_email_address') })
       .or(
-        z
-          .string()
-          .regex(/^1[3-9]\d{9}$/, {
-            message: t('Schema.SignUpSchema.Invalid_phone_number'),
-          })
+        z.string().regex(/^1[3-9]\d{9}$/, {
+          message: t('Schema.SignUpSchema.Invalid_phone_number'),
+        })
       ),
     password: z
       .string()
@@ -134,7 +130,9 @@ export const createResetSchema = (t: (id: string) => string) =>
       }),
     verification_code: z
       .string()
-      .min(6)
+      .min(6, {
+        message: t('Schema.ResetSchema.Verification_code_must_be_a_6-digit'),
+      })
       .max(6, {
         message: t('Schema.ResetSchema.Verification_code_must_be_a_6-digit'),
       }),

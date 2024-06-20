@@ -335,7 +335,12 @@ export async function userSignUp(signUpParam: ISigunUpRequest) {
 export async function userReset(params: IResetParams) {
   try {
     const formData = new FormData();
-    formData.append('email', params.email);
+    const isEmail = params.emailOrPhone.includes('@');
+    if (isEmail) {
+      formData.append('email', params.emailOrPhone);
+    } else {
+      formData.append('phone_number', `+86${params.emailOrPhone}`);
+    }
     formData.append('password', params.password);
     formData.append('verification_code', params.verification_code);
 

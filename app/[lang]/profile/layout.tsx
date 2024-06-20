@@ -19,7 +19,7 @@ export default function ProfileLayout({
     <>
       <main className='hidden h-full min-h-screen w-full overflow-x-auto overflow-y-hidden md:flex'>
         <DeviceProvider lang={lang}>
-          <div className='relative flex min-h-screen h-full w-full flex-col '>
+          <div className='relative flex h-full min-h-screen w-full flex-col '>
             {children}
           </div>
         </DeviceProvider>
