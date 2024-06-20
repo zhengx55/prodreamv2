@@ -35,7 +35,7 @@ export interface ILoginWithPhoneNumberAndPasswordCN {
 }
 
 export interface IResetParams {
-  email: string;
+  emailOrPhone: string;
   password: string;
   verification_code: string;
 }

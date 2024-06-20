@@ -20,7 +20,7 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import Link from 'next/link';
+import { isMobile } from 'react-device-detect';
 import * as z from 'zod';
 
 // !该组件为CN独有的重置密码
@@ -98,21 +98,28 @@ const ResetFormCN = () => {
   }
 
   async function onSubmit(values: z.infer<typeof resetSchema>) {
+
     try {
       await handleReset({
-        email: values.emailOrPhone,
+        emailOrPhone: values.emailOrPhone,
         password: values.password,
         verification_code: values.verification_code,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
     <>
-      <div className='relative flex w-full items-center gap-x-8 border-b-[2px] border-neutral-200 sm:w-[600px]'>
+      {/* I don't know why but the sm:mt-20 is not working on mobile */}
+      <div
+        className='relative flex w-full items-center gap-x-8 border-b-[2px] border-neutral-2000 sm:w-[600px]'
+        style={{ marginTop: isMobile ? '5rem' : '0' }}
+      >
         <Button
           disabled
-          className={` relative z-10  -mb-[2px] h-max w-max cursor-pointer rounded-none border-b-[2px] border-violet-500 px-0.5 py-1 pb-4 text-xl font-medium text-violet-500 no-underline hover:no-underline disabled:opacity-100 sm:text-[24px]`}
+          className={`relative z-10 -mb-[2px] h-max w-max cursor-pointer rounded-none border-b-[2px] border-violet-500 px-0.5 py-1 pb-4 text-xl font-medium text-violet-500 no-underline hover:no-underline disabled:opacity-100 sm:text-[24px]`}
           variant={'ghost'}
         >
           {'重置密码'}
@@ -128,9 +135,9 @@ const ResetFormCN = () => {
                 <FormControl>
                   <Input
                     autoComplete='email'
-                    id='email'
+                    id='emailOrPhone'
                     placeholder={'输入邮箱或手机号'}
-                    type='email'
+                    type='text'
                     className='base-regular h-12 rounded-md border'
                     {...field}
                   />
