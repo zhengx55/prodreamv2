@@ -151,18 +151,18 @@ export const createResetPasswordSchema = (t: (id: string) => string) =>
     new_password: z
       .string()
       .min(6, {
-        message: t('Schema.ResetSchema.Password_must_be_at_least_6_characters'),
+        message: t('Schema.ResetPasswordSchema.Password_must_be_at_least_8_characters'),
       })
       .max(50, {
-        message: t('Schema.ResetSchema.Password_cannot_exceed_50_characters'),
+        message: t('Schema.ResetPasswordSchema.Password_cannot_exceed_50_characters'),
       }),
     old_password: z
       .string()
       .min(6, {
-        message: t('Schema.ResetSchema.Password_must_be_at_least_6_characters'),
+        message: t('Schema.ResetPasswordSchema.Password_must_be_at_least_8_characters'),
       })
       .max(50, {
-        message: t('Schema.ResetSchema.Password_cannot_exceed_50_characters'),
+        message: t('Schema.ResetPasswordSchema.Password_cannot_exceed_50_characters'),
       }),
   });
 
@@ -172,21 +172,21 @@ export const createResetNameSchema = (t: (id: string) => string) =>
       .string()
       .min(2, {
         message: t(
-          'Schema.ResetSchema.First_name_must_be_at_least_2_characters'
+          'Schema.ResetNameSchema.First_name_must_be_at_least_2_characters'
         ),
       })
       .max(50, {
-        message: t('Schema.ResetSchema.First_name_cannot_exceed_50_characters'),
+        message: t('Schema.ResetNameSchema.First_name_cannot_exceed_50_characters'),
       }),
     lastname: z
       .string()
       .min(2, {
         message: t(
-          'Schema.ResetSchema.Last_name_must_be_at_least_2_characters'
+          'Schema.ResetNameSchema.Last_name_must_be_at_least_2_characters'
         ),
       })
       .max(50, {
-        message: t('Schema.ResetSchema.Last_name_cannot_exceed_50_characters'),
+        message: t('Schema.ResetNameSchema.Last_name_cannot_exceed_50_characters'),
       }),
   });
 

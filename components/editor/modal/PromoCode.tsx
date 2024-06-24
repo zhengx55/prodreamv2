@@ -75,7 +75,7 @@ const PromoCode = ({ children }: Props) => {
         </DialogHeader>
         <div className='flex flex-col gap-y-0.5'>
           <Input
-            placeholder={t('enter_your_code')}
+            placeholder={tInfo('enter_your_code')}
             id='promo-code'
             onChange={() => setError('')}
             ref={couponRef}
