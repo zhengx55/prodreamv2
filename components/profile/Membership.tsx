@@ -15,18 +15,18 @@ const Membership = ({
   const trans = useTranslations('Profile');
   const transCommonSense = useTranslations('CommonSense');
   const monthNames = [
-    transCommonSense('Month.Jan'),
-    transCommonSense('Month.Feb'),
-    transCommonSense('Month.Mar'),
-    transCommonSense('Month.Apr'),
+    transCommonSense('Month.January'),
+    transCommonSense('Month.February'),
+    transCommonSense('Month.March'),
+    transCommonSense('Month.April'),
     transCommonSense('Month.May'),
-    transCommonSense('Month.Jun'),
-    transCommonSense('Month.Jul'),
-    transCommonSense('Month.Aug'),
-    transCommonSense('Month.Sep'),
-    transCommonSense('Month.Oct'),
-    transCommonSense('Month.Nov'),
-    transCommonSense('Month.Dec'),
+    transCommonSense('Month.June'),
+    transCommonSense('Month.July'),
+    transCommonSense('Month.August'),
+    transCommonSense('Month.September'),
+    transCommonSense('Month.October'),
+    transCommonSense('Month.November'),
+    transCommonSense('Month.December'),
   ];
 
   const Basic = trans('Setting.Basic');
@@ -39,7 +39,7 @@ const Membership = ({
       <h2 className='title-medium'>{trans('Setting.Membership')}</h2>
       <Spacer y='5' />
       {membership.subscription === 'basic' ||
-      membership.subscription === 'free_trail' ? (
+        membership.subscription === 'free_trail' ? (
         <div className='flex w-max flex-col'>
           <div className='flex items-center gap-x-4'>
             <p className='text-neutral-400'>
