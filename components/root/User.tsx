@@ -31,10 +31,10 @@ const User = ({ name, email, imgSrc }: Props) => {
           </Avatar>
           <div className='flex flex-col'>
             <h2 className='title-semibold'>
-              {name.length > 10 ? `${name.slice(0, 10)}...` : name}
+              {name?.length > 10 ? `${name.slice(0, 10)}...` : name ?? ''}
             </h2>
             <p className='subtle-semibold text-shadow-100'>
-              {email.length > 15 ? `${email.slice(0, 15)}...` : email}
+              {email?.length > 15 ? `${email.slice(0, 15)}...` : email ?? ''}
             </p>
           </div>
         </div>

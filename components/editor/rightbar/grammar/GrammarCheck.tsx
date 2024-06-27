@@ -164,7 +164,7 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
           </div>
           <p className='small-regular w-max px-0 text-neutral-400'>
             {transEditor('Grammar.GrammarCheckLeft', {
-              left: usage?.free_times_detail.Grammar,
+              left: usage?.free_times_detail?.Grammar ? 100 - usage?.free_times_detail?.Grammar : 0,
             })}
             <Button
               role='dialog'

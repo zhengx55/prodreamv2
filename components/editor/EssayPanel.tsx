@@ -48,12 +48,12 @@ const EssayPanel = ({ id, ...props }: Props) => {
     );
   return (
     <LazyMotionProvider>
-      <main className='relative flex h-full min-h-screen w-full flex-col'>
+      <main className='relative flex h-full w-full flex-col'>
         <DocNavbar {...props} />
         {showCheckList ? <CheckListSection t={props.t} /> : <FeedbackSection />}
         <div
-          className='relative flex h-full min-h-screen w-full justify-center overflow-hidden'
-          style={{ minHeight: 'calc(100vh - var(--top-nav-bar-height))' }}
+          className='relative flex h-full w-full justify-center overflow-hidden'
+        // style={{ minHeight: 'calc(100vh - var(--top-nav-bar-height))' }}
         >
           <Editor
             essay_content={essayContent ? essayContent.content : ''}

@@ -52,6 +52,7 @@ export default async function Page({
             },
           }
         );
+
         doc_id = (await new_doc_res.json()).data;
         if (!doc_id) throw new Error(errorMessage);
       }

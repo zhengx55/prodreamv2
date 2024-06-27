@@ -10,6 +10,10 @@ const DiscountModal = dynamic(
   () => import('@/components/editor/modal/Discount')
 );
 
+const WelcomeModalCN = dynamic(
+  () => import('@/components/editor/modal/WelcomeCN')
+);
+
 export default async function Page({
   params,
 }: {
@@ -18,9 +22,11 @@ export default async function Page({
   unstable_setRequestLocale(params.lang);
   const t = (await getDictionary(params.lang)).Editor;
   const trans = await getTranslations('Homepage');
+  const isInChina = params.lang === 'cn';
 
   return (
     <main className='relative flex h-full min-h-screen w-full flex-col items-center overflow-y-auto'>
+      {isInChina ? <WelcomeModalCN /> : null}
       <DiscountModal />
       <Spacer y='75' />
       <Suspense>

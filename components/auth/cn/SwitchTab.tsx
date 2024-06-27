@@ -11,11 +11,11 @@ const SwitchTab = ({ lang }: { lang: Locale }) => {
   const isLogin = path.includes('login');
 
   return (
-    <div className='relative flex w-full items-center gap-x-8 border-b-[2px] border-neutral-200 sm:w-[600px]'>
+    <div className='relative flex w-full items-center gap-x-8 sm:w-[600px]'>
       <Button
         role='link'
         disabled={isLogin}
-        className={`${isLogin ? 'border-violet-500 text-violet-500' : 'border-neutral-200 text-neutral-400'} relative z-10 -mb-[2px] h-max w-max cursor-pointer rounded-none border-b-[2px] px-0.5 py-1 pb-4 text-xl font-medium no-underline hover:no-underline disabled:opacity-100 sm:text-[24px]`}
+        className={`${isLogin ? 'border-violet-500 text-violet-500' : 'border-transparent text-neutral-400'} relative z-10 -mb-[2px] h-max w-max cursor-pointer rounded-none border-b-[2px] px-0.5 py-1 pb-4 text-xl font-medium no-underline hover:no-underline disabled:opacity-100 sm:text-[24px]`}
         variant={'ghost'}
       >
         <Link className='' href={`/${lang}/login`}>
@@ -26,7 +26,7 @@ const SwitchTab = ({ lang }: { lang: Locale }) => {
       <Button
         role='link'
         disabled={isSignup}
-        className={`${isSignup ? ' border-violet-500 text-violet-500' : 'border-neutral-200 text-neutral-400'} relative z-10 -mb-[2px] h-max w-max cursor-pointer rounded-none border-b-[2px] px-0.5 py-1 pb-4 text-xl font-medium no-underline hover:no-underline disabled:opacity-100 sm:text-[24px]`}
+        className={`${isSignup ? ' border-violet-500 text-violet-500' : 'border-transparent text-neutral-400'} relative z-10 -mb-[2px] h-max w-max cursor-pointer rounded-none border-b-[2px] px-0.5 py-1 pb-4 text-xl font-medium no-underline hover:no-underline disabled:opacity-100 sm:text-[24px]`}
         variant={'ghost'}
       >
         <Link href={`/${lang}/signup`}>{'密码登录'}</Link>

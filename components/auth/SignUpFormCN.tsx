@@ -11,6 +11,13 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { createSignUpSchemaCN } from '@/lib/validation';
@@ -20,6 +27,7 @@ import {
   userSignUp,
 } from '@/query/api';
 import { ILoginWithPhoneNumberAndPasswordCN } from '@/query/type';
+import { getCountryPhonePrefixList } from '@/lib/aboutPhonenumber/getCountryPhonePrefixList';
 import { useMutation } from '@tanstack/react-query';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -36,12 +44,14 @@ const defaultValues = { password: '', email: '' };
 const SignUpFormCN = () => {
   const [readAndAgree, setReadAndAgree] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
+  const [selectedPrefix, setSelectedPrefix] = useState('CN +86');
   const { lang } = useParams();
   const router = useRouter();
   const [_cookies, setCookie] = useCookies(['token']);
-  const trans = useTranslations('Auth');
+  const transAuth = useTranslations('Auth');
   const transSuccess = useTranslations('Success');
-  const signUpSchema = createSignUpSchemaCN(trans);
+  const signUpSchema = createSignUpSchemaCN(transAuth, selectedPrefix.split(' ')[0]);
+  const countryPhonePrefixList = getCountryPhonePrefixList(false, true);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -58,7 +68,7 @@ const SignUpFormCN = () => {
         return loginWithPhoneNumberAndPasswordCN({
           email: '',
           password,
-          phone_number: emailOrPhone,
+          phone_number: `${selectedPrefix.split(' ')[1]}${emailOrPhone}`,
         });
       },
       onSuccess: async (_, variables, _contex) => {
@@ -76,9 +86,9 @@ const SignUpFormCN = () => {
             secure: true,
             sameSite: 'lax',
           });
-          router.push(`/${lang}/onboard`);
+          router.push(`/${lang}/editor`);
         } catch (error) {
-          router.push('/editor');
+          router.push(`/${lang}/editor`);
         }
       },
       onError: async (error) => {
@@ -103,25 +113,43 @@ const SignUpFormCN = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className='flex flex-col gap-y-5'
       >
-        <FormField
-          control={form.control}
-          name='emailOrPhone'
-          render={({ field }) => (
-            <FormItem className='relative'>
-              <FormControl>
-                <Input
-                  autoComplete='email'
-                  type='emailOrPhone'
-                  id='username'
-                  placeholder={'请输入邮箱或手机号'}
-                  className='placeholder:base-regular h-12 rounded-md border'
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
-            </FormItem>
-          )}
-        />
+        <div className='flex items-center gap-x-2'>
+          <Select
+            value={selectedPrefix}
+            onValueChange={(value) => setSelectedPrefix(value)}
+          >
+            <SelectTrigger className='w-[116px] h-max gap-x-2 rounded-lg px-4 py-3.5'>
+              <SelectValue placeholder={selectedPrefix} />
+            </SelectTrigger>
+            <SelectContent className='bg-white'>
+              {Object.entries(countryPhonePrefixList).map(([code, prefix]) => (
+                <SelectItem key={code} value={`${code} ${prefix}`}>
+                  {code} {prefix}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <FormField
+            control={form.control}
+            name='emailOrPhone'
+            render={({ field }) => (
+              <FormItem className='relative flex-grow'>
+                <FormControl>
+                  <Input
+                    autoComplete='email'
+                    type='emailOrPhone'
+                    id='username'
+                    placeholder={transAuth('Schema.Please_Input_Email_or_Phone_Number')}
+                    className='placeholder:base-regular h-12 rounded-md border'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormField
           control={form.control}
           name='password'
@@ -137,7 +165,7 @@ const SignUpFormCN = () => {
                   autoComplete='current-password'
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
-                  placeholder={'请输入密码'}
+                  placeholder={transAuth('Schema.Please_Input_Password')}
                   className='placeholder:base-regular h-12 rounded-md border'
                   {...field}
                 />
@@ -150,7 +178,7 @@ const SignUpFormCN = () => {
           href={`/${lang}/reset-password`}
           className='-mt-4 cursor-pointer self-end text-sm text-violet-500'
         >
-          {trans('Login.Forget')}
+          {transAuth('Login.Forget')}
         </Link>
         <Spacer y='4' />
         <div className='flex items-center gap-x-2'>
@@ -164,19 +192,19 @@ const SignUpFormCN = () => {
             className='subtle-regular text-neutral-400'
             htmlFor='readAndAgree'
           >
-            我已阅读并同意{' '}
+            {transAuth('Schema.I_have_read_and_agree_to_the')}{' '}
             <a
               href='https://prodream.larksuite.com/docx/QrxPdV4PRoR1G6xAIpUu9rL3srh'
               className='text-blue-600'
             >
-              服务协议
+              {transAuth('Schema.Terms_of_Service')}
             </a>{' '}
-            和{' '}
+            {transAuth('Schema.And')}{' '}
             <a
               href='https://prodream.larksuite.com/docx/RGZCda4XkosGSkxcz2xua4PxsSc'
               className='text-blue-600'
             >
-              隐私协议
+              {transAuth('Schema.Privacy_Policy')}
             </a>
           </label>
         </div>
@@ -188,7 +216,7 @@ const SignUpFormCN = () => {
           {isSignupPending && (
             <Loader2 className='animate-spin text-white' size={22} />
           )}
-          {'登录/注册'}
+          {transAuth('Schema.Login_Signup')}
         </Button>
       </form>
     </Form>

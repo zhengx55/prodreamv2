@@ -339,7 +339,7 @@ export async function userReset(params: IResetParams) {
     if (isEmail) {
       formData.append('email', params.emailOrPhone);
     } else {
-      formData.append('phone_number', `+86${params.emailOrPhone}`);
+      formData.append('phone_number', `${params.emailOrPhone.replace('+','')}`);
     }
     formData.append('password', params.password);
     formData.append('verification_code', params.verification_code);
@@ -361,11 +361,12 @@ export async function userReset(params: IResetParams) {
   }
 }
 
-export async function updatePhoneNumber(params: { phone_number: string }) {
+export async function updatePhoneNumber(params: { phone_number: string, code: string }) {
   try {
     const token = Cookies.get('token');
     const formData = new FormData();
-    formData.append('phone_number', params.phone_number);
+    formData.append('phone_number', params.phone_number.replace('+',''));
+    formData.append('code', params.code);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/phone_number`,
       {
@@ -392,7 +393,7 @@ export async function loginWithPhoneNumberAndCodeCN(params: {
 }) {
   try {
     const formData = new FormData();
-    formData.append('phone_number', `+86${params.phone_number}`);
+    formData.append('phone_number', `${params.phone_number.replace('+','')}`);
     formData.append('code', params.code);
 
     const res = await fetch(
@@ -421,7 +422,7 @@ export async function loginWithPhoneNumberAndPasswordCN(params: {
     const formData = new FormData();
     formData.append('password', params.password);
     formData.append('email', params.email);
-    formData.append('phone_number', `+86${params.phone_number}`);
+    formData.append('phone_number', `${params.phone_number.replace('+','')}`);
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/login`,
@@ -444,10 +445,8 @@ export async function sendVerificationCodeByPhoneCN(params: {
   phone_number: string;
 }) {
   try {
-    const ifTest = false;
-    const preCodeForTest = ifTest ? '+14' : '';
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/verification_code_sms?phone_number=${preCodeForTest}${params.phone_number}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/verification_code_sms?phone_number=${params.phone_number.replace('+','')}`,
       {
         method: 'GET',
       }
@@ -468,7 +467,7 @@ export async function registerUserWithPhoneNumberCN(params: {
 }) {
   try {
     const formData = new FormData();
-    formData.append('phone_number', params.phone_number);
+    formData.append('phone_number', params.phone_number.replace('+',''));
     formData.append('code', params.code);
 
     const res = await fetch(

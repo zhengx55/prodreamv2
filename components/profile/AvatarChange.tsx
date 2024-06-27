@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { profileResetAvatar, refreshUserSession } from '@/query/api';
 import { useUserInfo } from '@/zustand/store';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -16,6 +17,8 @@ const AvatarChange = () => {
   const t = useTranslations('Profile');
   const tError = useTranslations('Error');
   const tSuccess = useTranslations('Success');
+  const { lang } = useParams();
+  const isInChina = lang === 'cn';
   const setUserAvatar = useUserInfo((state) => state.setUserAvatar);
   const uploadRef = useRef<HTMLInputElement>(null);
   const userInfo = useUserInfo((state) => state.user);
@@ -75,14 +78,20 @@ const AvatarChange = () => {
             className='hidden'
           />
         </div>
-        <p className='subtle-regular text-shadow-100'>{t('Setting.Edit')}</p>
+        <p className='subtle-regular text-shadow-100'>
+          {isInChina ? null : t('Setting.Edit')}
+        </p>
       </div>
       <div className='flex flex-col gap-y-2 pl-4'>
         <h2 className='title-semibold'>
           {userInfo.first_name} {userInfo.last_name}
         </h2>
         <EditName>
-          <Button variant={'ghost'} role='button' className='h-max p-0'>
+          <Button
+            variant={'ghost'}
+            role='button'
+            className={`h-max p-0 ${isInChina ? 'justify-start' : 'justify-center'}`}
+          >
             {t('Setting.Change_name')}
           </Button>
         </EditName>
