@@ -7,6 +7,8 @@ import { ISubsciptionHistory, ISubscription } from '@/types';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
+import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 const UnsubscribeModal = dynamic(
   () => import('@/components/profile/UnsubscribeModal'),
@@ -75,10 +77,14 @@ export default async function Page({
   const Annual = trans('Setting.Annual');
   const Monthly = trans('Setting.Monthly');
 
+  // const goBack = () => {
+  //   router.back();
+  // }
+
   return (
     <main className='flex h-full w-full flex-col overflow-y-auto px-10 py-5'>
       <h1 className='title-medium'>
-        {trans('Subscription.Membership_Details')}
+        <span className='flex items-center gap-x-2'>{trans('Subscription.Membership_Details')}</span>
       </h1>
       <Spacer y='20' />
       <Separator orientation='horizontal' className='bg-shadow-border' />

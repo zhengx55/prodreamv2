@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import CopyDialog from '@/components/landing/h5-cn-mobile/CopyDialog';
 
-export default function Page({}) {
+export default function Page({ }) {
   const [open, setOpen] = useState(false);
 
   const h5TopBgUrl = '/landing/h5_cn_mobile/h5_top_bg.png';

@@ -1,14 +1,9 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Input } from '@/components/ui/input';
-import { createVerificationCodeLoginSchemaCN } from '@/lib/validation';
+import { createVerificationCodeLoginSchema } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useMutation } from '@tanstack/react-query';
@@ -18,6 +13,7 @@ import {
   loginWithPhoneNumberAndCodeCN,
   registerUserWithPhoneNumberCN,
 } from '@/query/api';
+import { getCountryPhonePrefixList } from '@/lib/aboutPhonenumber/getCountryPhonePrefixList';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
@@ -26,23 +22,27 @@ import { toast } from 'sonner';
 import Spacer from '../root/Spacer';
 import * as z from 'zod';
 
+
 // !该组件为CN独有的验证码登录
 const LoginFormCN = () => {
-  const trans = useTranslations('Auth');
+  const transAuth = useTranslations('Auth');
   const router = useRouter();
+  const [selectedPrefix, setSelectedPrefix] = useState('CN +86');
   const VerificationCodeLoginSchema =
-    createVerificationCodeLoginSchemaCN(trans);
+    createVerificationCodeLoginSchema(transAuth, selectedPrefix.split(' ')[0]);
   const [_cookies, setCookie] = useCookies(['token']);
   const { lang } = useParams();
   const [readAndAgree, setReadAndAgree] = useState(false);
   const [verifyWait, setVerifyWait] = useState(false);
   const [countdown, setCountdown] = useState(60);
 
+  const countryPhonePrefixList = getCountryPhonePrefixList(false, true);
+
   const { mutateAsync: handleSendVerification } = useMutation({
     mutationFn: (params: { phone_number: string }) =>
       sendVerificationCodeByPhoneCN(params),
     onSuccess: () => {
-      const toastInfo = '验证码已发送';
+      const toastInfo = transAuth('Schema.Verification_code_sent');
       toast.success(toastInfo);
       setVerifyWait(true);
       setCountdown(60);
@@ -62,12 +62,14 @@ const LoginFormCN = () => {
 
   async function handleSentVerificationPhoneNumber() {
     const { phone } = form.getValues();
+
     if (!phone) {
-      const toastInfo = '请输入手机号';
+      const toastInfo = transAuth('Schema.Please_Input_Phone_Number');
       toast.error(toastInfo);
       return;
     }
-    await handleSendVerification({ phone_number: phone });
+    // console.log('selectedPrefix', selectedPrefix.split(' ')[1]);
+    await handleSendVerification({ phone_number: `${selectedPrefix.split(' ')[1]}${phone}` });
   }
 
   useEffect(() => {
@@ -96,7 +98,7 @@ const LoginFormCN = () => {
       verification_code: string;
     }) => {
       const paramObj = {
-        phone_number: `+86${params.phone_number}`,
+        phone_number: `${selectedPrefix.split(' ')[1]}${params.phone_number}`,
         code: params.verification_code,
       };
       return registerUserWithPhoneNumberCN(paramObj);
@@ -108,7 +110,8 @@ const LoginFormCN = () => {
         secure: true,
         sameSite: 'lax',
       });
-      router.push(`/${lang}/onboard`);
+      // TODO: 登录成功后暂时先跳转到编辑页面，等待新用户确认字段后再跳转到对应页面，然后弹窗确认
+      router.push(`/${lang}/editor`);
     },
     onError: async (error) => {
       if (error.message === 'User already exists') {
@@ -123,7 +126,7 @@ const LoginFormCN = () => {
           secure: true,
           sameSite: 'lax',
         });
-        router.push('/editor');
+        router.push(`/${lang}/editor`);
       } else {
         toast.error(error.message);
       }
@@ -143,24 +146,42 @@ const LoginFormCN = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className='flex flex-col gap-y-6'
       >
-        <FormField
-          control={form.control}
-          name='phone'
-          render={({ field }) => (
-            <FormItem className='relative'>
-              <FormControl>
-                <Input
-                  autoComplete=''
-                  id='phone'
-                  placeholder={'请输入手机号'}
-                  className='placeholder:base-regular h-12 rounded-md border'
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
-            </FormItem>
-          )}
-        />
+        <div className='flex items-center gap-x-2'>
+          <Select
+            value={selectedPrefix}
+            onValueChange={(value) => setSelectedPrefix(value)}
+          >
+            <SelectTrigger className='w-[116px] h-max gap-x-2 rounded-lg px-4 py-3.5'>
+              <SelectValue placeholder={selectedPrefix} />
+            </SelectTrigger>
+            <SelectContent className='bg-white'>
+              {Object.entries(countryPhonePrefixList).map(([code, prefix]) => (
+                <SelectItem key={code} value={`${code} ${prefix}`}>
+                  {code} {prefix}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <FormField
+            control={form.control}
+            name='phone'
+            render={({ field }) => (
+              <FormItem className='relative flex-grow'>
+                <FormControl>
+                  <Input
+                    autoComplete=''
+                    id='phone'
+                    placeholder={transAuth('Schema.Please_Input_Phone_Number')}
+                    className='placeholder:base-regular h-12 rounded-md border w-full'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormField
           control={form.control}
           name='verification_code'
@@ -172,7 +193,7 @@ const LoginFormCN = () => {
                     autoComplete='current-password'
                     id='verification_code'
                     type='text'
-                    placeholder={'请输入验证码'}
+                    placeholder={transAuth('Schema.Please_Input_Verification_Code')}
                     className='base-regular h-12 rounded-md border'
                     {...field}
                   />
@@ -183,7 +204,7 @@ const LoginFormCN = () => {
                   type='button'
                   className='base-regular h-12 w-[150px] shrink-0 rounded-md border'
                 >
-                  {verifyWait ? countdown : '发送验证码'}
+                  {verifyWait ? countdown : transAuth('Schema.Send_Verification_Code')}
                 </Button>
               </div>
               <FormMessage className='text-xs text-red-400' />
@@ -202,19 +223,19 @@ const LoginFormCN = () => {
             className='subtle-regular text-neutral-400'
             htmlFor='readAndAgree'
           >
-            我已阅读并同意{' '}
+            {transAuth('Schema.I_have_read_and_agree_to_the')}{' '}
             <a
               href='https://prodream.larksuite.com/docx/QrxPdV4PRoR1G6xAIpUu9rL3srh'
               className='text-blue-600'
             >
-              服务协议
+              {transAuth('Schema.Terms_of_Service')}
             </a>{' '}
-            和{' '}
+            {transAuth('Schema.And')}{' '}
             <a
               href='https://prodream.larksuite.com/docx/RGZCda4XkosGSkxcz2xua4PxsSc'
               className='text-blue-600'
             >
-              隐私协议
+              {transAuth('Schema.Privacy_Policy')}
             </a>
           </label>
         </div>
@@ -223,7 +244,7 @@ const LoginFormCN = () => {
           type='submit'
           disabled={!readAndAgree}
         >
-          {'登录/注册'}
+          {transAuth('Schema.Login_Signup')}
         </Button>
       </form>
     </Form>

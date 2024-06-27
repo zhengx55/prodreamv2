@@ -1,15 +1,11 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Input } from '@/components/ui/input';
 import { createResetSchemaCN } from '@/lib/validation';
-import { sendVerificationEmail, userReset } from '@/query/api';
+import { sendVerificationEmail, sendVerificationCodeByPhoneCN, userReset } from '@/query/api';
+import { getCountryPhonePrefixList } from '@/lib/aboutPhonenumber/getCountryPhonePrefixList';
 import { IResetParams } from '@/query/type';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -25,12 +21,14 @@ import * as z from 'zod';
 
 // !该组件为CN独有的重置密码
 const ResetFormCN = () => {
-  const trans = useTranslations('Auth');
-  const resetSchema = createResetSchemaCN(trans);
+  const transAuth = useTranslations('Auth');
+  const [selectedPrefix, setSelectedPrefix] = useState('CN +86');
+  const resetSchema = createResetSchemaCN(transAuth, selectedPrefix.split(' ')[0]);
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
   const [verifyWait, setVerifyWait] = useState(false);
   const [countdown, setCountdown] = useState(60);
+  const countryPhonePrefixList = getCountryPhonePrefixList(false, true);
 
   useEffect(() => {
     let timer: string | number | NodeJS.Timeout | undefined;
@@ -65,7 +63,7 @@ const ResetFormCN = () => {
   const { mutateAsync: handleReset } = useMutation({
     mutationFn: (param: IResetParams) => userReset(param),
     onSuccess: (_data) => {
-      const toastInfo = trans('ForgotPassword.Successfully_Reset_Password');
+      const toastInfo = transAuth('ForgotPassword.Successfully_Reset_Password');
       toast.success(toastInfo);
       router.replace('/login');
     },
@@ -74,10 +72,10 @@ const ResetFormCN = () => {
     },
   });
 
-  const { mutateAsync: handleSendVerification } = useMutation({
+  const { mutateAsync: handleSendVerificationEmail } = useMutation({
     mutationFn: (params: { email: string }) => sendVerificationEmail(params),
     onSuccess: () => {
-      const toastInfo = trans('ForgotPassword.Checked_your_email');
+      const toastInfo = transAuth('ForgotPassword.Checked_your_email');
       toast.success(toastInfo);
       setVerifyWait(true);
       setCountdown(60);
@@ -87,14 +85,31 @@ const ResetFormCN = () => {
     },
   });
 
-  async function handleSentVerificationEmail() {
+  const { mutateAsync: handleSendVerificationPhone } = useMutation({
+    mutationFn: (params: { phone_number: string }) =>
+      sendVerificationCodeByPhoneCN(params),
+    onSuccess: () => {
+      const toastInfo = transAuth('Schema.Verification_code_sent');
+      toast.success(toastInfo);
+      setVerifyWait(true);
+      setCountdown(60);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  async function handleSentVerification() {
     const { emailOrPhone } = form.getValues();
     if (!emailOrPhone) {
-      const toastInfo = trans('ForgotPassword.Please_enter_your_email_address');
+      const toastInfo = transAuth('ForgotPassword.Please_enter_your_email_address');
       toast.error(toastInfo);
       return;
+    } else if (emailOrPhone.includes('@')) {
+      await handleSendVerificationEmail({ email: emailOrPhone });
+    } else {
+      await handleSendVerificationPhone({ phone_number: `${selectedPrefix.split(' ')[1]}${emailOrPhone}` });
     }
-    await handleSendVerification({ email: emailOrPhone });
   }
 
   async function onSubmit(values: z.infer<typeof resetSchema>) {
@@ -121,30 +136,47 @@ const ResetFormCN = () => {
           className={`relative z-10 -mb-[2px] h-max w-max cursor-pointer rounded-none border-b-[2px] border-violet-500 px-0.5 py-1 pb-4 text-xl font-medium text-violet-500 no-underline hover:no-underline disabled:opacity-100 sm:text-[24px]`}
           variant={'ghost'}
         >
-          {'重置密码'}
+          {transAuth('ForgotPassword.Reset_Password')}
         </Button>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col'>
-          <FormField
-            control={form.control}
-            name='emailOrPhone'
-            render={({ field }) => (
-              <FormItem className='mt-20'>
-                <FormControl>
-                  <Input
-                    autoComplete='email'
-                    id='emailOrPhone'
-                    placeholder={'输入邮箱或手机号'}
-                    type='text'
-                    className='base-regular h-12 rounded-md border'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className='text-xs text-red-400' />
-              </FormItem>
-            )}
-          />
+          <div className='flex items-center gap-x-2 mt-20'>
+            <Select
+              value={selectedPrefix}
+              onValueChange={(value) => setSelectedPrefix(value)}
+            >
+              <SelectTrigger className='w-[116px] h-max gap-x-2 rounded-lg px-4 py-3.5'>
+                <SelectValue placeholder={selectedPrefix} />
+              </SelectTrigger>
+              <SelectContent className='bg-white'>
+                {Object.entries(countryPhonePrefixList).map(([code, prefix]) => (
+                  <SelectItem key={code} value={`${code} ${prefix}`}>
+                    {code} {prefix}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FormField
+              control={form.control}
+              name='emailOrPhone'
+              render={({ field }) => (
+                <FormItem className='relative flex-grow'>
+                  <FormControl>
+                    <Input
+                      autoComplete='email'
+                      type='emailOrPhone'
+                      id='username'
+                      placeholder={transAuth('ForgotPassword.Input_Email_or_Phone_Number')}
+                      className='placeholder:base-regular h-12 rounded-md border'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className='absolute -bottom-5 text-xs text-red-400' />
+                </FormItem>
+              )}
+            />
+          </div>
           <Spacer y='6' />
           <FormField
             control={form.control}
@@ -169,7 +201,7 @@ const ResetFormCN = () => {
                     autoComplete='current-password'
                     id='password'
                     type={hidePassword ? 'password' : 'text'}
-                    placeholder={'请输入新的密码'}
+                    placeholder={transAuth('ForgotPassword.Input_New_Password')}
                     className='base-regular h-12 rounded-md border'
                     {...field}
                   />
@@ -202,7 +234,7 @@ const ResetFormCN = () => {
                     autoComplete='current-password'
                     id='confirm'
                     type={hideConfirm ? 'password' : 'text'}
-                    placeholder={'请再次输入密码'}
+                    placeholder={transAuth('ForgotPassword.Please_input_password_again')}
                     className='base-regular h-12 rounded-md border'
                     {...field}
                   />
@@ -223,7 +255,7 @@ const ResetFormCN = () => {
                       autoComplete='current-password'
                       id='verification_code'
                       type='text'
-                      placeholder={'请输入验证码'}
+                      placeholder={transAuth('ForgotPassword.Please_input_verification_code')}
                       className='base-regular h-12 rounded-md border'
                       {...field}
                     />
@@ -231,11 +263,11 @@ const ResetFormCN = () => {
                   <Button
                     disabled={verifyWait}
                     // variant={'ghost'}
-                    onClick={handleSentVerificationEmail}
+                    onClick={handleSentVerification}
                     type='button'
                     className='base-regular h-12 w-[197px] shrink-0 rounded-md border'
                   >
-                    {verifyWait ? countdown : '发送验证码'}
+                    {verifyWait ? countdown : transAuth('ForgotPassword.Send_Verification_Code')}
                   </Button>
                 </div>
                 <FormMessage className='text-xs text-red-400' />
@@ -244,13 +276,13 @@ const ResetFormCN = () => {
           />
           <Spacer y='70' />
           <p className='text-[14px] text-neutral-400'>
-            {'切换至'}{' '}
+            {transAuth('ForgotPassword.Switch_to')}{' '}
             <a href={`/cn/login`} className='text-blue-600'>
-              {'登录/注册'}
+              {transAuth('ForgotPassword.Login_Signup')}
             </a>
           </p>
           <Button className='mt-2 w-full rounded bg-violet-500' type='submit'>
-            {'重置密码'}
+            {transAuth('ForgotPassword.Reset_Password')}
           </Button>
         </form>
       </Form>

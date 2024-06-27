@@ -63,6 +63,7 @@
     "embla-carousel-react": "^8.0.0-rc22",
     "escape-string-regexp": "^5.0.0",
     "framer-motion": "10.9.1",
+    "google-libphonenumber": "^3.2.35",
     "immer": "^10.0.3",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.314.0",
@@ -99,6 +100,7 @@
   "devDependencies": {
     "@builder.io/partytown": "^0.8.2",
     "@tanstack/eslint-plugin-query": "^5.0.5",
+    "@types/google-libphonenumber": "^7.4.30",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.14.202",
     "@types/negotiator": "^0.6.2",

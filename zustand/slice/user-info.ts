@@ -22,6 +22,7 @@ const initialState: LoginData = {
   user_id: '',
   is_google: false,
   is_verified: false,
+  phone_number: '',
 };
 
 const useUserStore: StateCreator<UserStore> = (set) => ({

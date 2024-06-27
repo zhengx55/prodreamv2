@@ -1,3 +1,4 @@
+"use client"
 import AvatarChange from '@/components/profile/AvatarChange';
 import { useTranslations } from 'next-intl';
 import Spacer from '@/components/root/Spacer';
@@ -6,6 +7,8 @@ import { Separator } from '@/components/ui/separator';
 import dynamic from 'next/dynamic';
 import { LoginData } from '../../query/type';
 import { Skeleton } from '../ui/skeleton';
+import { ChevronLeft } from 'lucide-react';
+import { useRouter, useParams } from 'next/navigation';
 
 const EditEmail = dynamic(() => import('@/components/profile/EditEmail'), {
   ssr: false,
@@ -19,9 +22,21 @@ const EditPassword = dynamic(
 
 const Setting = ({ userInfo }: { userInfo: LoginData }) => {
   const t = useTranslations('Profile');
+  const router = useRouter();
+  const { lang } = useParams();
+
+  const ToEditor = () => {
+    router.push(`/${lang}/editor`);
+  }
+
   return (
     <>
-      <h1 className='title-medium'>My Profile</h1>
+      <h1 className='title-medium'>
+        <span className='flex items-center gap-x-2'>
+          <ChevronLeft size={24} className='cursor-pointer' onClick={ToEditor} />
+          {t('Setting.My_Profile')}
+        </span>
+      </h1>
       <Spacer y='20' />
       <Separator orientation='horizontal' className='bg-shadow-border' />
       <Spacer y='40' />
