@@ -18,7 +18,7 @@ type Props = {
 };
 const InfoForm = ({ dict, name, lang }: Props) => {
   const [errorMessage, setErrorMessage] = useState('');
-  const t = useTranslations('Onboard');
+  const tOnboard = useTranslations('Onboard');
 
   async function updateInfo(formData: FormData) {
     const result = await setOnboardNameAndCode(formData, lang);
@@ -36,7 +36,7 @@ const InfoForm = ({ dict, name, lang }: Props) => {
         name='first_name'
         aria-placeholder='name'
         className='base-regular sm:title-regular h-14'
-        placeholder={t('FormName')}
+        placeholder={tOnboard('FormName')}
       />
       <Spacer y='20' />
       <Input
@@ -44,15 +44,15 @@ const InfoForm = ({ dict, name, lang }: Props) => {
         name='code'
         aria-placeholder='code'
         className={`base-regular sm:title-regular h-14 ${errorMessage ? ' border-red-400 bg-red-50' : ''}`}
-        placeholder={t('FormCode')}
+        placeholder={tOnboard('FormCode')}
       />
       <div className='flex w-full justify-end'>
         <p className='small-medium text-red-400'>{errorMessage}</p>
       </div>
       <Spacer y='10' />
-      <p className='subtle-regular text-neutral-400'>{t('Option')}</p>
+      <p className='subtle-regular text-neutral-400'>{tOnboard('Option')}</p>
       <Spacer y='80' />
-      <SubmitBtn label={t('Button')} />
+      <SubmitBtn label={tOnboard('Button')} />
     </form>
   );
 };

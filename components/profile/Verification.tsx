@@ -9,7 +9,7 @@ const Verification = ({
   isGoogle: boolean;
   isVerified: boolean;
 }) => {
-  const t = useTranslations('Profile');
+  const tProfile = useTranslations('Profile');
   if (isGoogle || isVerified) return null;
   return (
     <div className='flex h-[140px] w-[700px] flex-col justify-evenly gap-y-0 rounded-lg bg-shadow-50 p-4'>
@@ -21,11 +21,13 @@ const Verification = ({
           height={24}
           className='size-6'
         />
-        <h1 className='title-semibold'>{t('Setting.Secure_Your_Account')}</h1>
+        <h1 className='title-semibold'>
+          {tProfile('Setting.Secure_Your_Account')}
+        </h1>
       </div>
       <div className='flex-between flex gap-x-16 pl-9'>
         <p className='base-regular text-shadow-100'>
-          {t('Setting.Secure_Account_Message')}
+          {tProfile('Setting.Secure_Account_Message')}
         </p>
         <ResendButton />
       </div>

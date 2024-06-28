@@ -2,11 +2,12 @@
 import { useTranslations } from 'next-intl';
 
 export default function Error({ reset }: { reset: () => void }) {
-  const t = useTranslations('Error');
+  const transError = useTranslations('Error');
+
   return (
     <div>
-      <h2>{t('Something_went_wrong')}</h2>
-      <button onClick={() => reset()}>{t('Try_again')}</button>
+      <h2>{transError('Something_went_wrong')}</h2>
+      <button onClick={() => reset()}>{transError('Try_again')}</button>
     </div>
   );
 }

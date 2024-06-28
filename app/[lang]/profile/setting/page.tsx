@@ -46,7 +46,7 @@ export default async function Page({
 }) {
   unstable_setRequestLocale(params.lang);
 
-  const t = await getTranslations('Homepage');
+  const transHomepage = await getTranslations('Homepage');
   const userInfo: LoginData = await getUserInfo();
   const memberInfo: ISubscription = await getMembership();
   const dict = (await getDictionary(params.lang)).Editor;
@@ -55,9 +55,27 @@ export default async function Page({
 
   return (
     <main className='flex h-full w-full flex-col overflow-y-auto px-10 py-5'>
-      {isInChina ? <SettingCN userInfo={userInfo} /> : <Setting userInfo={userInfo} />}
-      {isInChina ? <MembershipCN lang={params.lang} t={dict} membership={memberInfo} /> : <Membership lang={params.lang} t={dict} membership={memberInfo} />}
-      {isInChina ? <VerificationCN isGoogle={userInfo.is_google} isVerified={userInfo.is_verified} /> : <Verification isGoogle={userInfo.is_google} isVerified={userInfo.is_verified} />}
+      {isInChina ? (
+        <SettingCN userInfo={userInfo} />
+      ) : (
+        <Setting userInfo={userInfo} />
+      )}
+      {isInChina ? (
+        <MembershipCN lang={params.lang} t={dict} membership={memberInfo} />
+      ) : (
+        <Membership lang={params.lang} t={dict} membership={memberInfo} />
+      )}
+      {isInChina ? (
+        <VerificationCN
+          isGoogle={userInfo.is_google}
+          isVerified={userInfo.is_verified}
+        />
+      ) : (
+        <Verification
+          isGoogle={userInfo.is_google}
+          isVerified={userInfo.is_verified}
+        />
+      )}
       {isInChina ? <LogoutLinkCN /> : null}
     </main>
   );

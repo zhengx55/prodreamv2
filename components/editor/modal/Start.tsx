@@ -17,7 +17,7 @@ type Props = { handleClose: () => Promise<void> };
 const Start = ({ handleClose }: Props) => {
   const editor = useAIEditor((state) => state.editor_instance);
   const { id } = useParams();
-  const t = useTranslations('Editor');
+  const tEditor = useTranslations('Editor');
   const tError = useTranslations('Error');
   const [selection, setSelection] = useState<number | null>(null);
   const [essayType, setEssayType] = useState<number | null>(null);
@@ -112,10 +112,10 @@ const Start = ({ handleClose }: Props) => {
       )}
       <div className='flex-between'>
         <h1 className='h2-semibold'>
-          {t('StartModal.And_one_more_thing')}
+          {tEditor('StartModal.And_one_more_thing')}
           <br />
           <span className='font-[300] text-violet-500'>
-            {t('StartModal.What_are_you_looking_for_today')}
+            {tEditor('StartModal.What_are_you_looking_for_today')}
           </span>
         </h1>
         <Button
@@ -123,13 +123,13 @@ const Start = ({ handleClose }: Props) => {
           variant={'ghost'}
           onClick={handleClose}
         >
-          {t('StartModal.Skip')}
+          {tEditor('StartModal.Skip')}
         </Button>
       </div>
       <div className='flex-between gap-x-4'>
         <div className='flex h-[380px] w-1/3 cursor-pointer flex-col items-center justify-evenly rounded-2xl border border-gray-200 py-4 hover:bg-[#F8F9FC]'>
           <p className='title-semibold text-zinc-600'>
-            {t('StartModal.Start_writing_an_essay')}
+            {tEditor('StartModal.Start_writing_an_essay')}
           </p>
           <div className='relative h-[250px] w-[90%] overflow-hidden'>
             <Image
@@ -142,20 +142,22 @@ const Start = ({ handleClose }: Props) => {
         </div>
         <div className='flex h-full w-2/3 flex-col'>
           <p className='title-medium'>
-            {t('StartModal.Brief_description_of_what_you_are_writing')}
+            {tEditor('StartModal.Brief_description_of_what_you_are_writing')}
           </p>
           <Spacer y='10' />
           <Textarea
             id='idea'
             ref={ideaRef}
             className='small-regular'
-            placeholder={t(
+            placeholder={tEditor(
               'StartModal.Describe_your_research_topic_or_essay_prompt'
             )}
           />
           <Spacer y='20' />
           <div className='flex items-center gap-x-4'>
-            <p className='title-medium'>{t('StartModal.Generate_outline')}</p>
+            <p className='title-medium'>
+              {tEditor('StartModal.Generate_outline')}
+            </p>
             <Spacer y='10' />
             <div className='flex gap-x-2'>
               <Toggle
@@ -164,7 +166,7 @@ const Start = ({ handleClose }: Props) => {
                   pressed ? setSelection(0) : setSelection(null);
                 }}
               >
-                {t('StartModal.YES')}
+                {tEditor('StartModal.YES')}
               </Toggle>
               <Toggle
                 pressed={selection === 1}
@@ -172,7 +174,7 @@ const Start = ({ handleClose }: Props) => {
                   pressed ? setSelection(1) : setSelection(null);
                 }}
               >
-                {t('StartModal.NO')}
+                {tEditor('StartModal.NO')}
               </Toggle>
             </div>
           </div>
@@ -195,20 +197,22 @@ const Start = ({ handleClose }: Props) => {
               >
                 <Spacer y='10' />
                 <h2 className='title-medium'>
-                  {t('StartModal.Field_of_study')}
+                  {tEditor('StartModal.Field_of_study')}
                 </h2>
                 <Spacer y='5' />
                 <Input
                   type='text'
                   id='area'
-                  placeholder={t('StartModal.E_G_Natural_History')}
+                  placeholder={tEditor('StartModal.E_G_Natural_History')}
                   className='small-regular'
                   ref={areaRef}
                 />
                 <Spacer y='20' />
 
                 <div className='flex items-center gap-x-2'>
-                  <h2 className='title-medium'>{t('StartModal.Essay_Type')}</h2>
+                  <h2 className='title-medium'>
+                    {tEditor('StartModal.Essay_Type')}
+                  </h2>
                   <Spacer y='10' />
                   <div className='flex gap-x-2'>
                     <Toggle
@@ -217,7 +221,7 @@ const Start = ({ handleClose }: Props) => {
                         pressed ? setEssayType(0) : setEssayType(null);
                       }}
                     >
-                      {t('StartModal.Argumentative')}
+                      {tEditor('StartModal.Argumentative')}
                     </Toggle>
                     <Toggle
                       pressed={essayType === 1}
@@ -225,7 +229,7 @@ const Start = ({ handleClose }: Props) => {
                         pressed ? setEssayType(1) : setEssayType(null);
                       }}
                     >
-                      {t('StartModal.Analytical')}
+                      {tEditor('StartModal.Analytical')}
                     </Toggle>
                     <Toggle
                       pressed={essayType === 2}
@@ -233,7 +237,7 @@ const Start = ({ handleClose }: Props) => {
                         pressed ? setEssayType(2) : setEssayType(null);
                       }}
                     >
-                      {t('StartModal.Scientific')}
+                      {tEditor('StartModal.Scientific')}
                     </Toggle>
                   </div>
                 </div>
@@ -246,7 +250,7 @@ const Start = ({ handleClose }: Props) => {
             onClick={handleStartWritting}
             className='mt-auto w-max rounded-md bg-violet-500 px-20'
           >
-            {t('StartModal.Start_Writing')}
+            {tEditor('StartModal.Start_Writing')}
           </Button>
         </div>
       </div>

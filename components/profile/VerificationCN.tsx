@@ -14,7 +14,7 @@ const VerificationCN = ({
   isGoogle: boolean;
   isVerified: boolean;
 }) => {
-  const t = useTranslations('Profile');
+  const tProfile = useTranslations('Profile');
   const { lang } = useParams();
   const isInChina = lang === 'cn';
   if (isGoogle || isVerified) return null;
@@ -28,11 +28,13 @@ const VerificationCN = ({
           height={24}
           className='size-6'
         />
-        <h1 className='text-base font-normal leading-normal'>{t('Setting.Secure_Your_Account')}</h1>
+        <h1 className='text-base font-normal leading-normal'>
+          {tProfile('Setting.Secure_Your_Account')}
+        </h1>
       </div>
       <div className='flex-between flex gap-x-16 pl-9'>
-        <p className='base-regular text-shadow-100'>
-          {t('Setting.Secure_Account_Message')}
+        <p className='base-regular text-shadow-1000'>
+          {tProfile('Setting.Secure_Account_Message')}
         </p>
         {isInChina ? <ResendButtonCN /> : <ResendButton />}
       </div>

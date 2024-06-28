@@ -45,13 +45,14 @@ const PromptView = ({ prompt }: { prompt: string }) => {
   const updateEssayPrompt = useAIEditor((state) => state.updateEssayPrompt);
   const { id } = useParams();
   const [show, setShow] = useState(false);
-  const t = useTranslations('Editor');
+  const tEditor = useTranslations('Editor');
+
   const { mutateAsync: savePrompt, isPending } = useMutation({
     mutationFn: (params: { brief_description: string; id: string }) =>
       saveDoc(params),
     onError: async () => {
       const { toast } = await import('sonner');
-      const toastInfo = t(
+      const toastInfo = tEditor(
         'Prompt.Something_went_wrong_when_setting_essay_prompt'
       );
       toast.error(toastInfo);
@@ -59,7 +60,7 @@ const PromptView = ({ prompt }: { prompt: string }) => {
     onSuccess: async (_data, variables) => {
       const { toast } = await import('sonner');
       updateEssayPrompt(variables.brief_description);
-      const toastInfo = t('Prompt.Successfully_set_essay_prompt');
+      const toastInfo = tEditor('Prompt.Successfully_set_essay_prompt');
       toast.success(toastInfo);
     },
   });
@@ -91,7 +92,7 @@ const PromptView = ({ prompt }: { prompt: string }) => {
           >
             <PencilLine size={18} className='text-violet-500' />
             <p className='small-regular text-violet-500'>
-              {t('Prompt.Trigger')}
+              {tEditor('Prompt.Trigger')}
             </p>
           </Button>
         ) : (
@@ -101,7 +102,7 @@ const PromptView = ({ prompt }: { prompt: string }) => {
             className='h-max rounded border border-gray-200 bg-transparent px-2 py-1  hover:text-violet-500'
           >
             <p className='small-regular text-zinc-700'>
-              {t('Prompt.Strength')}
+              {tEditor('Prompt.Strength')}
             </p>
             <div className='flex items-center gap-x-2'>
               {wordCount < 5 ? (
@@ -130,10 +131,10 @@ const PromptView = ({ prompt }: { prompt: string }) => {
       >
         <div className='flex items-center gap-x-2'>
           <Icon alt='' src='/editor/prompt/Light.svg' width={24} height={24} />
-          <h1 className='base-medium '>{t('Prompt.Title')}</h1>
+          <h1 className='base-medium '>{tEditor('Prompt.Title')}</h1>
         </div>
-        <p className='small-regular text-neutral-400'>
-          {t('Prompt.PlaceHolder')}
+        <p className='small-regular text-neutral-4000'>
+          {tEditor('Prompt.PlaceHolder')}
         </p>
         <Spacer y='10' />
         <Textarea
@@ -148,8 +149,8 @@ const PromptView = ({ prompt }: { prompt: string }) => {
 
         <div className='mt-4 flex items-center justify-between'>
           <div className='flex items-center'>
-            <p className='base-regular text-neutral-400'>
-              {t('Prompt.Strength')} :
+            <p className='base-regular text-neutral-4000'>
+              {tEditor('Prompt.Strength')} :
             </p>
             &nbsp;&nbsp;
             <div className='flex items-center gap-x-0.5'>
@@ -178,7 +179,7 @@ const PromptView = ({ prompt }: { prompt: string }) => {
                 variant={'outline'}
                 className='base-regular h-max rounded border px-4 py-1'
               >
-                {t('Utility.Cancel')}
+                {tEditor('Utility.Cancel')}
               </Button>
             </PopoverClose>
             <PopoverClose asChild>
@@ -188,7 +189,7 @@ const PromptView = ({ prompt }: { prompt: string }) => {
                 onClick={handleSubmit}
                 className='base-regular h-max rounded px-4 py-1 '
               >
-                {t('Utility.Done')}
+                {tEditor('Utility.Done')}
               </Button>
             </PopoverClose>
           </div>

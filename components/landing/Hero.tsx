@@ -12,7 +12,7 @@ const Hero = ({
   lang,
   search_param,
 }: HomePageDicType & { search_param: string }) => {
-  const t = useTranslations('Homepage');
+  const tHomepage = useTranslations('Homepage');
 
   return (
     <section className='relative flex w-full justify-center px-4 sm:mt-0 sm:px-0'>
@@ -34,11 +34,11 @@ const Hero = ({
             <TypeTitle />
           ) : (
             <h1 className='text-center font-custom text-[32px] font-[400] leading-normal sm:text-center sm:text-[48px]'>
-              {t('transform')}
-              <br /> {t('your')}
-              {t('academic')}
-              {t('writing')}
-              {t('journey')}
+              {tHomepage('transform')}
+              <br /> {tHomepage('your')}
+              {tHomepage('academic')}
+              {tHomepage('writing')}
+              {tHomepage('journey')}
             </h1>
           )}
           <Spacer y='40' />
@@ -58,8 +58,8 @@ const Hero = ({
                 role='button'
                 className='h-max w-52 rounded-lg bg-violet-500 px-5 sm:w-max sm:px-8 sm:py-2.5'
               >
-                <strong>{t('start_writing')}</strong>
-                {t('It_s_free')}
+                <strong>{tHomepage('start_writing')}</strong>
+                {tHomepage('It_s_free')}
               </Button>
             </Link>
             <Link
@@ -73,7 +73,7 @@ const Hero = ({
                 variant={'outline'}
                 role='button'
               >
-                {t('join_community')}
+                {tHomepage('join_community')}
               </Button>
             </Link>
           </div>

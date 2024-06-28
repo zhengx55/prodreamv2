@@ -12,7 +12,7 @@ const MobileDropdown = ({
   lang,
   search_param,
 }: HomePageDicType & { search_param: string }) => {
-  const t = useTranslations('Homepage');
+  const tHomepage = useTranslations('Homepage');
 
   return (
     <DropdownMenu>
@@ -48,7 +48,7 @@ const MobileDropdown = ({
                 role='link'
                 className='w-[340px] border-[2px] border-violet-500 text-violet-500'
               >
-                {t('log_in')}
+                {tHomepage('log_in')}
               </Button>
             </Link>
             <Link
@@ -65,8 +65,8 @@ const MobileDropdown = ({
                 role='link'
                 className='w-[340px] bg-violet-500 hover:bg-violet-500'
               >
-                <strong>{t('start_writing')}</strong>
-                {t('It_s_free')}
+                <strong>{tHomepage('start_writing')}</strong>
+                {tHomepage('It_s_free')}
               </Button>
             </Link>
           </div>

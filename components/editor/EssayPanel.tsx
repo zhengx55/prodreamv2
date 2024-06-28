@@ -53,7 +53,7 @@ const EssayPanel = ({ id, ...props }: Props) => {
         {showCheckList ? <CheckListSection t={props.t} /> : <FeedbackSection />}
         <div
           className='relative flex h-full w-full justify-center overflow-hidden'
-        // style={{ minHeight: 'calc(100vh - var(--top-nav-bar-height))' }}
+          // style={{ minHeight: 'calc(100vh - var(--top-nav-bar-height))' }}
         >
           <Editor
             essay_content={essayContent ? essayContent.content : ''}
@@ -70,7 +70,7 @@ export default memo(EssayPanel);
 
 const FeedbackSection = memo(() => {
   const updateFeedbackModal = useModal((state) => state.updateFeedbackModal);
-  const t = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
 
   return (
     <div className='absolute bottom-[5%] left-5 z-10 flex flex-col gap-y-2'>
@@ -82,7 +82,10 @@ const FeedbackSection = memo(() => {
         </Button>
       </Tooltip>
 
-      <Tooltip tooltipContent={t('SideBar.Contact_Support')} side='right'>
+      <Tooltip
+        tooltipContent={transEditor('SideBar.Contact_Support')}
+        side='right'
+      >
         <Button
           onClick={() => updateFeedbackModal(true)}
           variant='icon'
@@ -92,7 +95,7 @@ const FeedbackSection = memo(() => {
           <Icon
             width={20}
             height={20}
-            alt={t('SideBar.Contact_Support')}
+            alt={transEditor('SideBar.Contact_Support')}
             src='/nav/message.svg'
           />
         </Button>
@@ -104,7 +107,7 @@ const FeedbackSection = memo(() => {
 const CheckListSection = memo(({ t }: { t: EditorDictType }) => {
   const updateFeedbackModal = useModal((state) => state.updateFeedbackModal);
 
-  const trans = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
 
   return (
     <div className='absolute bottom-[5%] left-5 z-10 flex flex-col gap-y-4'>
@@ -118,11 +121,11 @@ const CheckListSection = memo(({ t }: { t: EditorDictType }) => {
         <Icon
           width={20}
           height={20}
-          alt={trans('SideBar.Contact_Support')}
+          alt={transEditor('SideBar.Contact_Support')}
           src='/editor/message_violet.svg'
         />
         <p className='base-regular text-zinc-600'>
-          {trans('SideBar.Contact_Support')}
+          {transEditor('SideBar.Contact_Support')}
         </p>
       </Button>
     </div>

@@ -16,7 +16,7 @@ const UserInfoDropdown = () => {
   const { lang } = useParams();
   const isInCN = lang === 'cn';
   const queryClient = useQueryClient();
-  const t = useTranslations('Editor');
+  const tEditor = useTranslations('Editor');
   const logOut = () => {
     queryClient.removeQueries();
     removeCookie('token', { path: '/' });
@@ -31,7 +31,7 @@ const UserInfoDropdown = () => {
         <DropdownMenuItem className='cursor-pointer gap-x-2.5 rounded text-zinc-600 hover:bg-slate-100 hover:text-violet-500'>
           <User2 size={20} />
           <span className='text-md font-[500]'>
-            {t('SideBar.View_Profile')}
+            {tEditor('SideBar.View_Profile')}
           </span>
         </DropdownMenuItem>
       </Link>
@@ -41,7 +41,7 @@ const UserInfoDropdown = () => {
         className='cursor-pointer gap-x-2.5 rounded text-zinc-600 hover:bg-slate-100 hover:text-violet-500'
       >
         <LogOut size={20} />
-        <span className='text-md font-[500]'>{t('SideBar.Log_out')}</span>
+        <span className='text-md font-[500]'>{tEditor('SideBar.Log_out')}</span>
       </DropdownMenuItem>
     </DropdownMenuContent>
   );

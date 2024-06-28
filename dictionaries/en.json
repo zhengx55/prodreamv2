@@ -201,6 +201,7 @@
       "GoogleDivider": "Or log in with"
     },
     "ForgotPassword": {
+      "Loading": "Loading...",
       "Reset_Password": "Reset Password",
       "Input_Email_or_Phone_Number": "Input Email or Phone Number",
       "Input_New_Password": "Please input new password",

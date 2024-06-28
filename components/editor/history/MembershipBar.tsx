@@ -7,18 +7,20 @@ import Link from 'next/link';
 import { memo } from 'react';
 
 const TrialEnds = ({ expireTime }: { expireTime: number }) => {
-  const t = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
   const tCommonSense = useTranslations('CommonSense');
 
   const expireTimeString = format_hour_diff(expireTime, tCommonSense);
   return (
     <div className='flex items-center gap-x-4'>
       <p className='text-[18px] font-medium text-neutral-400'>
-        {t('MembershipBar.Unlimited_Free_Trial_ends_in', { expireTimeString })}
+        {transEditor('MembershipBar.Unlimited_Free_Trial_ends_in', {
+          expireTimeString,
+        })}
       </p>
       <Link href='/pricing' passHref>
         <Button role='button' className='h-max rounded bg-violet-500 px-4'>
-          {t('MembershipBar.Upgrade_now')}
+          {transEditor('MembershipBar.Upgrade_now')}
         </Button>
       </Link>
     </div>
@@ -33,9 +35,9 @@ const BasicMembership = ({
   const document_count = Math.max(0, freeTimesDetail?.Document ?? 0);
   const filledBars = Array(3 - document_count).fill(0);
   const emptyBars = Array(document_count).fill(0);
-  const t = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
 
-  const Unlimited = t('MembershipBar.Unlimited');
+  const Unlimited = transEditor('MembershipBar.Unlimited');
 
   const unlimitedLink = (
     <Link
@@ -61,7 +63,7 @@ const BasicMembership = ({
         ))}
       </div>
       <p className='base-medium text-zinc-500'>
-        {t.rich('MembershipBar.MaxHistoricalLimitHint', {
+        {transEditor.rich('MembershipBar.MaxHistoricalLimitHint', {
           FilledBarsNumber: filledBars.length,
           UnlimitedLink: () => unlimitedLink,
           Unlimited: Unlimited,

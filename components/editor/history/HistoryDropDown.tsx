@@ -16,7 +16,7 @@ type Props = {
 };
 
 const HistoryDropDown = ({ item }: Props) => {
-  const t = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
 
   return (
     <Dialog>
@@ -34,7 +34,7 @@ const HistoryDropDown = ({ item }: Props) => {
         >
           <DialogTrigger asChild onClick={(e) => e.stopPropagation()}>
             <DropdownMenuItem className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'>
-              <Trash2 size={16} /> {t('HistoryDropDown.Delete')}
+              <Trash2 size={16} /> {transEditor('HistoryDropDown.Delete')}
             </DropdownMenuItem>
           </DialogTrigger>
 

@@ -16,11 +16,14 @@ type Props = {
   setSortingMethod: (value: DocSortingMethods) => void;
 };
 const FilterDropdown = ({ sortingMethod, setSortingMethod }: Props) => {
-  const t = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
 
   return (
     <DropdownMenu>
-      <Tooltip side='bottom' tooltipContent={t('DocumentList.Sort_by')}>
+      <Tooltip
+        side='bottom'
+        tooltipContent={transEditor('DocumentList.Sort_by')}
+      >
         <DropdownMenuTrigger asChild>
           <Button role='button' variant={'icon'} className='size-max p-1'>
             <ArrowUpNarrowWide />
@@ -53,7 +56,7 @@ const FilterDropdown = ({ sortingMethod, setSortingMethod }: Props) => {
                 : 'text-shadow'
             } small-regular`}
           >
-            {t('DocumentList.Last_opened')}
+            {transEditor('DocumentList.Last_opened')}
           </p>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -74,7 +77,7 @@ const FilterDropdown = ({ sortingMethod, setSortingMethod }: Props) => {
               sortingMethod === 'title' ? 'text-violet-500' : 'text-shadow'
             } small-regular`}
           >
-            {t('DocumentList.Title')}
+            {transEditor('DocumentList.Title')}
           </p>
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -4,15 +4,15 @@ import { Button } from '../ui/button';
 import { useTranslations } from 'next-intl';
 const ResendButtonCN = () => {
   const { mutate: handleResend } = useRensendEmail();
-  const t = useTranslations('Profile');
+  const tProfile = useTranslations('Profile');
 
   return (
     <Button
       role='button'
       onClick={() => handleResend()}
-      className='h-max rounded-lg px-4 -translate-y-3'
+      className='h-max -translate-y-3 rounded-lg px-4'
     >
-      {t('Setting.Resend_Link')}
+      {tProfile('Setting.Resend_Link')}
     </Button>
   );
 };

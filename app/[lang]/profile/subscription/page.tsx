@@ -84,14 +84,16 @@ export default async function Page({
   return (
     <main className='flex h-full w-full flex-col overflow-y-auto px-10 py-5'>
       <h1 className='title-medium'>
-        <span className='flex items-center gap-x-2'>{trans('Subscription.Membership_Details')}</span>
+        <span className='flex items-center gap-x-2'>
+          {trans('Subscription.Membership_Details')}
+        </span>
       </h1>
       <Spacer y='20' />
       <Separator orientation='horizontal' className='bg-shadow-border' />
       <Spacer y='40' />
       <h2 className='title-medium'>{trans('Subscription.Current_Plan')}</h2>
       {membership.subscription === 'basic' ||
-        membership.subscription === 'free_trail' ? (
+      membership.subscription === 'free_trail' ? (
         <div className='flex w-max flex-col'>
           <div className='flex items-center gap-x-4'>
             <p className='text-neutral-400'>

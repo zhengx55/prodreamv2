@@ -13,14 +13,16 @@ export default async function Page({
   searchParams: { name?: string };
 }) {
   const dict = await getDictionary(lang);
-  const t = await getTranslations('Onboard');
+  const transOnboard = await getTranslations('Onboard');
 
   return (
     <div className='flex h-full w-full flex-col items-center px-6 pt-12 sm:px-0 sm:pt-20'>
       <div className='flex w-full max-w-full flex-col items-center sm:max-w-[900px]'>
-        <h1 className='text-[20px] font-medium sm:text-[42px]'>{t('Title')}</h1>
+        <h1 className='text-[20px] font-medium sm:text-[42px]'>
+          {transOnboard('Title')}
+        </h1>
         <p className='small-regular sm:title-regular text-center text-neutral-600 sm:text-left'>
-          {t('SubTitle')}
+          {transOnboard('SubTitle')}
         </p>
       </div>
       <Spacer y='150' className='hidden sm:block' />

@@ -13,7 +13,7 @@ import Modal from './Modal';
 const Dropdown = () => {
   const { data: trackInfo } = useUserTrackInfo();
   const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const t = useTranslations('Editor');
+  const tEditor = useTranslations('Editor');
   const tCommonSense = useTranslations('CommonSense');
   const { lang } = useParams();
 
@@ -24,7 +24,7 @@ const Dropdown = () => {
       align='start'
     >
       <div className='flex-between px-2 py-1.5'>
-        <h2 className='base-semibold'>{t('SideBar.Notifications')}</h2>
+        <h2 className='base-semibold'>{tEditor('SideBar.Notifications')}</h2>
         <Button
           role='button'
           className='size-max p-0 text-base text-indigo-500'
@@ -33,7 +33,7 @@ const Dropdown = () => {
             await updateTrack({ data: 'true', field: 'notification_read' });
           }}
         >
-          {t('SideBar.Mark_all_as_read')}
+          {tEditor('SideBar.Mark_all_as_read')}
         </Button>
       </div>
       <Dialog>
@@ -44,7 +44,7 @@ const Dropdown = () => {
           >
             <div className='flex-between'>
               <h3 className='base-regular text-zinc-700'>
-                {t.rich('Announcement.Title', {
+                {tEditor.rich('Announcement.Title', {
                   strong: () => <strong className='font-bold' />,
                 })}
               </h3>
@@ -54,14 +54,14 @@ const Dropdown = () => {
             </div>
             <Spacer y='6' />
             <article className='text-xs font-normal text-zinc-500'>
-              {t.rich('Announcement.Sub_title', {
+              {tEditor.rich('Announcement.Sub_title', {
                 strong: (chunks) => (
                   <strong className='font-bold'>{chunks}</strong>
                 ),
               })}
               <br />
               <br />
-              {t.rich('Announcement.Content_1', {
+              {tEditor.rich('Announcement.Content_1', {
                 strong: (chunks) => (
                   <strong className='font-bold'>{chunks}</strong>
                 ),

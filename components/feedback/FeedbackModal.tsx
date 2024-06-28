@@ -48,8 +48,8 @@ const FeedbackModal = () => {
 };
 
 const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
-  const t = useTranslations('Editor');
-  const FeedbackOptions = createFeedbackOptions(t);
+  const tEditor = useTranslations('Editor');
+  const FeedbackOptions = createFeedbackOptions(tEditor);
 
   return (
     <m.div
@@ -60,8 +60,8 @@ const Menu = memo(({ handler }: { handler: (index: number) => void }) => {
       className='flex flex-col gap-y-6'
     >
       <div className='flex-between'>
-        <h1 className='text-xl font-medium text-zinc-700'>
-          {t('FeedBack.Choose_your_support_category')}
+        <h1 className='text-zinc-7000 text-xl font-medium'>
+          {tEditor('FeedBack.Choose_your_support_category')}
         </h1>
         <DialogClose>
           <XCircle size={20} className=' text-neutral-400' />
@@ -106,9 +106,9 @@ const Submit = memo(
     const setShow = useModal((state) => state.updateFeedbackModal);
     const [attachments, setAttachments] = useState<string[]>([]);
     const infoRef = useRef<HTMLTextAreaElement>(null);
-    const t = useTranslations('Editor');
+    const tEditor = useTranslations('Editor');
     const tError = useTranslations('Error');
-    const FeedbackOptions = createFeedbackOptions(t);
+    const FeedbackOptions = createFeedbackOptions(tEditor);
 
     const { mutateAsync: submit, isPending } = useMutation({
       mutationFn: (params: {
@@ -118,7 +118,7 @@ const Submit = memo(
       }) => submitFeedback(params),
       onSuccess: async () => {
         const { toast } = await import('sonner');
-        const toastInfo = t('FeedBack.Feedback_submitted_successfully');
+        const toastInfo = tEditor('FeedBack.Feedback_submitted_successfully');
         toast.success(toastInfo);
         setShow(false);
       },
@@ -179,8 +179,10 @@ const Submit = memo(
             htmlFor='detail'
           >
             {option === 0
-              ? t('FeedBack.Please_describe_the_bug_you_encountered_in_detail')
-              : t(
+              ? tEditor(
+                  'FeedBack.Please_describe_the_bug_you_encountered_in_detail'
+                )
+              : tEditor(
                   'FeedBack.Please_provide_details_for_how_you_would_like_assistance'
                 )}
           </label>
@@ -208,7 +210,7 @@ const Submit = memo(
                 Discord
               </Link>
               &nbsp;for direct chat support. */}
-              {t.rich('FeedBack.AlternativeSupport', {
+              {tEditor.rich('FeedBack.AlternativeSupport', {
                 emailLink: (chunks: any) => (
                   <a
                     href='mailto:support@prodream.ai'
@@ -231,7 +233,7 @@ const Submit = memo(
             role='button'
             className='rounded'
           >
-            {t('FeedBack.Submit')}
+            {tEditor('FeedBack.Submit')}
           </Button>
         </div>
       </m.div>
@@ -242,7 +244,7 @@ const Submit = memo(
 const Attachments = memo(
   ({ handler }: { handler: (attachment: string[]) => void }) => {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
-    const t = useTranslations('Editor');
+    const tEditor = useTranslations('Editor');
 
     const onDrop = useCallback(
       async (acceptedFile: File[], fileRejections: FileRejection[]) => {
@@ -279,7 +281,7 @@ const Attachments = memo(
     return (
       <div className='flex flex-col'>
         <h2 className='text-base font-normal text-neutral-400'>
-          {t('FeedBack.Attachments')}
+          {tEditor('FeedBack.Attachments')}
         </h2>
         <Spacer y='5' />
         {imagePreview ? (
@@ -320,7 +322,7 @@ const Attachments = memo(
             <input {...getInputProps()} />
             <p className='inline-flex items-center gap-x-2 text-xs font-normal text-neutral-400'>
               <Copy size={14} />
-              {t('FeedBack.Click_to_choose_a_file_or_drag_here')}
+              {tEditor('FeedBack.Click_to_choose_a_file_or_drag_here')}
             </p>
           </div>
         )}
