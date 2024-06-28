@@ -30,7 +30,7 @@ const DocumentList = (props: Props) => {
     isPending: isMebershipPending,
     isError: isMembershipError,
   } = useMembershipInfo();
-  const t = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const [list, setList] = useState<IDocDetail[]>([]);
   const [page, setPage] = useState(1);
@@ -94,10 +94,14 @@ const DocumentList = (props: Props) => {
   return (
     <>
       <div className='flex-between w-[1100px]'>
-        <h1 className='title-semibold'>{t('DocumentList.My_documents')}</h1>
+        <h1 className='title-semibold'>
+          {transEditor('DocumentList.My_documents')}
+        </h1>
         <div className='flex-between w-1/3'>
           {viewType === 'list' ? (
-            <p className='title-regular'>{t('DocumentList.Last_opened')}</p>
+            <p className='title-regular'>
+              {transEditor('DocumentList.Last_opened')}
+            </p>
           ) : (
             <span />
           )}
@@ -105,7 +109,7 @@ const DocumentList = (props: Props) => {
             {viewType === 'grid' ? (
               <Tooltip
                 side='bottom'
-                tooltipContent={t('DocumentList.List_View')}
+                tooltipContent={transEditor('DocumentList.List_View')}
               >
                 <Button
                   role='button'
@@ -125,7 +129,7 @@ const DocumentList = (props: Props) => {
             ) : (
               <Tooltip
                 side='bottom'
-                tooltipContent={t('DocumentList.Grid_View')}
+                tooltipContent={transEditor('DocumentList.Grid_View')}
               >
                 <Button
                   role='button'

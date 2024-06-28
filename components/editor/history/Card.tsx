@@ -12,7 +12,7 @@ type Props = {
   item: IDocDetail;
 } & DocPageDicType;
 const Card = ({ item, lang }: Props) => {
-  const t = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
   const tCommonSense = useTranslations('CommonSense');
 
   const previewContent = useMemo(async () => {
@@ -38,7 +38,7 @@ const Card = ({ item, lang }: Props) => {
         <Spacer y='5' />
         <h1 className='small-semibold line-clamp-2 capitalize'>
           {item.title === 'Untitled' || !item.title
-            ? t('Card.Untitled_Document')
+            ? transEditor('Card.Untitled_Document')
             : item.title}
         </h1>
         <Spacer y='5' />
@@ -49,7 +49,7 @@ const Card = ({ item, lang }: Props) => {
       <div className='flex h-1/5 w-full flex-col justify-between rounded-b-lg px-2 py-2'>
         <div className='flex-between'>
           <p className='subtle-regular text-shadow'>
-            {t('Card.Opened')}{' '}
+            {transEditor('Card.Opened')}{' '}
             {formatTimestamphh_number(item.update_time, tCommonSense)}
           </p>
           <HistoryDropDown item={item} />

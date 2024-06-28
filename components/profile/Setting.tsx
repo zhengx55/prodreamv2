@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import AvatarChange from '@/components/profile/AvatarChange';
 import { useTranslations } from 'next-intl';
 import Spacer from '@/components/root/Spacer';
@@ -21,20 +21,24 @@ const EditPassword = dynamic(
 );
 
 const Setting = ({ userInfo }: { userInfo: LoginData }) => {
-  const t = useTranslations('Profile');
+  const tProfile = useTranslations('Profile');
   const router = useRouter();
   const { lang } = useParams();
 
   const ToEditor = () => {
     router.push(`/${lang}/editor`);
-  }
+  };
 
   return (
     <>
       <h1 className='title-medium'>
         <span className='flex items-center gap-x-2'>
-          <ChevronLeft size={24} className='cursor-pointer' onClick={ToEditor} />
-          {t('Setting.My_Profile')}
+          <ChevronLeft
+            size={24}
+            className='cursor-pointer'
+            onClick={ToEditor}
+          />
+          {tProfile('Setting.My_Profile')}
         </span>
       </h1>
       <Spacer y='20' />
@@ -42,18 +46,18 @@ const Setting = ({ userInfo }: { userInfo: LoginData }) => {
       <Spacer y='40' />
       <AvatarChange />
       <Spacer y='32' />
-      <h2 className='title-semibold'>{t('Setting.Email_Address')}</h2>
+      <h2 className='title-semibold'>{tProfile('Setting.Email_Address')}</h2>
       <Spacer y='10' />
       <div className='flex items-center gap-x-4'>
         <h2 className='base-regular text-shadow-100'>{userInfo.email}</h2>
         <EditEmail>
           <Button variant={'ghost'} className='h-max p-0'>
-            {t('Setting.Change_email')}
+            {tProfile('Setting.Change_email')}
           </Button>
         </EditEmail>
       </div>
       <Spacer y='32' />
-      <h2 className='title-semibold'>{t('Setting.Password')}</h2>
+      <h2 className='title-semibold'>{tProfile('Setting.Password')}</h2>
       <Spacer y='10' />
       <div className='flex items-center gap-x-4'>
         <h2 className='base-regular text-shadow-100'>
@@ -61,7 +65,7 @@ const Setting = ({ userInfo }: { userInfo: LoginData }) => {
         </h2>
         <EditPassword>
           <Button variant={'ghost'} className='h-max p-0'>
-            {t('Setting.Change_password')}
+            {tProfile('Setting.Change_password')}
           </Button>
         </EditPassword>
       </div>

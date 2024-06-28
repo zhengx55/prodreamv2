@@ -36,20 +36,24 @@ const MembershipCN = ({
 
   return (
     <>
-      <h2 className='text-base font-normal text-[#202020] flex items-center'>
+      <h2 className='flex items-center text-base font-normal text-[#202020]'>
         <span>{trans('Setting.Membership')}</span>
 
         <Link passHref href={`/${lang}/pricing`}>
-          <Button role='dialog' className='px-6 text-sm font-normal leading-normal' variant={'ghost'}>
+          <Button
+            role='dialog'
+            className='px-6 text-sm font-normal leading-normal'
+            variant={'ghost'}
+          >
             {trans('Setting.Go_unlimited')}
           </Button>
         </Link>
       </h2>
       <Spacer y='5' />
       {membership.subscription === 'basic' ||
-        membership.subscription === 'free_trail' ? (
+      membership.subscription === 'free_trail' ? (
         <div className='flex w-2/3 items-center'>
-          <div className='flex w-full items-center gap-x-4 justify-between'>
+          <div className='flex w-full items-center justify-between gap-x-4'>
             <div className='flex items-center gap-x-4'>
               <p className='text-neutral-400'>
                 {trans.rich('Setting.Your_current_plan', {
@@ -59,11 +63,11 @@ const MembershipCN = ({
               </p>
             </div>
 
-            <div className='flex gap-x-2 items-center -translate-y-5'>
+            <div className='flex -translate-y-5 items-center gap-x-2'>
               <PromoCode>
                 <Button
                   role='dialog'
-                  className='inline-flex px-8 py-2 justify-center items-center gap-2 rounded-lg border border-neutral-400 text-[#ADA9AE] text-center text-sm font-normal leading-normal tracking-[0.175px] no-underline'
+                  className='inline-flex items-center justify-center gap-2 rounded-lg border border-neutral-400 px-8 py-2 text-center text-sm font-normal leading-normal tracking-[0.175px] text-[#ADA9AE] no-underline'
                   variant={'ghost'}
                 >
                   {trans('Setting.Promo_code')}
@@ -71,7 +75,10 @@ const MembershipCN = ({
               </PromoCode>
 
               <Link passHref href={`/${lang}/profile/subscription`}>
-                <Button role='button' className='inline-flex px-8 py-2 justify-center items-center gap-2 rounded-lg border border-[#8551F3] bg-[#8551F3] text-white'>
+                <Button
+                  role='button'
+                  className='inline-flex items-center justify-center gap-2 rounded-lg border border-[#8551F3] bg-[#8551F3] px-8 py-2 text-white'
+                >
                   {trans('Setting.Manage_subscription')}
                 </Button>
               </Link>
@@ -119,7 +126,7 @@ const MembershipCN = ({
         </>
       )}
       <Spacer y='25' />
-      <Separator orientation='horizontal' className='bg-shadow-border w-2/3' />
+      <Separator orientation='horizontal' className='w-2/3 bg-shadow-border' />
       <Spacer y='32' />
     </>
   );

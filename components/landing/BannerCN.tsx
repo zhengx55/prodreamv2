@@ -5,14 +5,14 @@ import CaptureProvider from './CaptureProvider';
 import { UniversityCarousel } from './LandingCarousel';
 
 const BannerCN = () => {
-  const t = useTranslations('Homepage');
+  const tHomepage = useTranslations('Homepage');
 
   return (
     <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
       <Spacer y='20' />
       <CaptureProvider event='ScreenII'>
         <p className='text-center font-custom text-[48px] leading-relaxed'>
-          {t('BannerInfo_sub_title')}
+          {tHomepage('BannerInfo_sub_title')}
         </p>
       </CaptureProvider>
 

@@ -42,7 +42,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
   const updateCitationMenu = useAIEditor((state) => state.updateCitationMenu);
   const updateSynonymMenu = useAIEditor((state) => state.updateSynonymMenu);
   const showBubbleMenu = useAIEditor((state) => state.showBubbleMenu);
-  const t = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
   const updateShowBubbleMenu = useAIEditor(
     (state) => state.updateShowBubbleMenu
   );
@@ -93,7 +93,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
             height={18}
             className='size-[18px]'
           />
-          {t('BubbleMenu.Copilot')}
+          {transEditor('BubbleMenu.Copilot')}
         </MemoButton>
         <Toolbar.Divider />
         {isWord ? (
@@ -117,11 +117,11 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
               height={18}
               className='size-[18px]'
             />
-            {t('BubbleMenu.Synonym')}
+            {transEditor('BubbleMenu.Synonym')}
           </MemoButton>
         ) : (
           <MemoButton
-            tooltip={t('BubbleMenu.tooltip_citation')}
+            tooltip={transEditor('BubbleMenu.tooltip_citation')}
             onMouseDown={(e) => e.preventDefault()}
             onClick={async () => {
               if (selectedLength >= 160) {
@@ -147,14 +147,14 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
               className='size-[18px]'
               priority
             />
-            {t('BubbleMenu.Reference')}
+            {transEditor('BubbleMenu.Reference')}
           </MemoButton>
         )}
         <Toolbar.Divider />
         <MemoContentTypePicker options={blockOptions} />
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip={t('BubbleMenu.Undo')}
+          tooltip={transEditor('BubbleMenu.Undo')}
           tooltipShortcut={['Mod', 'Z']}
           onClick={commands.onUndo}
         >
@@ -168,7 +168,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         </MemoButton>
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip={t('BubbleMenu.Redo')}
+          tooltip={transEditor('BubbleMenu.Redo')}
           tooltipShortcut={['Mod', 'Y']}
           onClick={commands.onRedo}
         >
@@ -183,7 +183,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         <Toolbar.Divider />
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip={t('BubbleMenu.Bold')}
+          tooltip={transEditor('BubbleMenu.Bold')}
           tooltipShortcut={['Mod', 'B']}
           onClick={commands.onBold}
           active={states.isBold}
@@ -192,7 +192,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         </MemoButton>
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip={t('BubbleMenu.Italic')}
+          tooltip={transEditor('BubbleMenu.Italic')}
           tooltipShortcut={['Mod', 'I']}
           onClick={commands.onItalic}
           active={states.isItalic}
@@ -201,7 +201,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         </MemoButton>
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip={t('BubbleMenu.Underline')}
+          tooltip={transEditor('BubbleMenu.Underline')}
           tooltipShortcut={['Mod', 'U']}
           onClick={commands.onUnderline}
           active={states.isUnderline}
@@ -210,7 +210,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         </MemoButton>
         <MemoButton
           onMouseDown={(e) => e.preventDefault()}
-          tooltip={t('BubbleMenu.Strikethrough')}
+          tooltip={transEditor('BubbleMenu.Strikethrough')}
           tooltipShortcut={['Mod', 'X']}
           onClick={commands.onStrike}
           active={states.isStrike}
@@ -221,7 +221,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           <Popover.Trigger asChild>
             <MemoButton
               onMouseDown={(e) => e.preventDefault()}
-              tooltip={t('BubbleMenu.More_options')}
+              tooltip={transEditor('BubbleMenu.More_options')}
             >
               <MoreVertical size={16} />
             </MemoButton>
@@ -233,7 +233,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           >
             <Toolbar.Wrapper>
               <MemoButton
-                tooltip={t('BubbleMenu.Align_Left')}
+                tooltip={transEditor('BubbleMenu.Align_Left')}
                 tooltipShortcut={['Shift', 'Mod', 'L']}
                 onClick={commands.onAlignLeft}
                 active={states.isAlignLeft}
@@ -241,7 +241,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
                 <AlignLeft size={16} />
               </MemoButton>
               <MemoButton
-                tooltip={t('BubbleMenu.Align_Center')}
+                tooltip={transEditor('BubbleMenu.Align_Center')}
                 tooltipShortcut={['Shift', 'Mod', 'E']}
                 onClick={commands.onAlignCenter}
                 active={states.isAlignCenter}
@@ -249,7 +249,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
                 <AlignCenter size={16} />
               </MemoButton>
               <MemoButton
-                tooltip={t('BubbleMenu.Align_Right')}
+                tooltip={transEditor('BubbleMenu.Align_Right')}
                 tooltipShortcut={['Shift', 'Mod', 'R']}
                 onClick={commands.onAlignRight}
                 active={states.isAlignRight}
@@ -257,7 +257,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
                 <AlignRight size={16} />
               </MemoButton>
               <MemoButton
-                tooltip={t('BubbleMenu.Justify')}
+                tooltip={transEditor('BubbleMenu.Justify')}
                 tooltipShortcut={['Shift', 'Mod', 'J']}
                 onClick={commands.onAlignJustify}
                 active={states.isAlignJustify}
@@ -270,7 +270,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
         <span className='flex h-full items-center px-2'>
           <p className='small-regular text-shadow'>
             {selectedLength}
-            &nbsp;{t('BubbleMenu.words')}
+            &nbsp;{transEditor('BubbleMenu.words')}
           </p>
         </span>
       </Toolbar.Wrapper>

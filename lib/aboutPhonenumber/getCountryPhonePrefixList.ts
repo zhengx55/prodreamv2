@@ -18,7 +18,10 @@ export function getCountryPhonePrefixList(
     }
 
     const exampleNumber = phoneUtil.getExampleNumber(region);
-    const formattedNumber = phoneUtil.format(exampleNumber, PhoneNumberFormat.INTERNATIONAL);
+    const formattedNumber = phoneUtil.format(
+      exampleNumber,
+      PhoneNumberFormat.INTERNATIONAL
+    );
     const prefix = formattedNumber.split(' ')[0];
     prefixList[region] = prefix;
     prefixArray.push(prefix);
@@ -26,4 +29,3 @@ export function getCountryPhonePrefixList(
 
   return returnAsArray ? prefixArray : prefixList;
 }
-

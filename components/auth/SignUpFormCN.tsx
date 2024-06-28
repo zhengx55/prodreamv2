@@ -50,7 +50,10 @@ const SignUpFormCN = () => {
   const [_cookies, setCookie] = useCookies(['token']);
   const transAuth = useTranslations('Auth');
   const transSuccess = useTranslations('Success');
-  const signUpSchema = createSignUpSchemaCN(transAuth, selectedPrefix.split(' ')[0]);
+  const signUpSchema = createSignUpSchemaCN(
+    transAuth,
+    selectedPrefix.split(' ')[0]
+  );
   const countryPhonePrefixList = getCountryPhonePrefixList(false, true);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -118,7 +121,7 @@ const SignUpFormCN = () => {
             value={selectedPrefix}
             onValueChange={(value) => setSelectedPrefix(value)}
           >
-            <SelectTrigger className='w-[116px] h-max gap-x-2 rounded-lg px-4 py-3.5'>
+            <SelectTrigger className='h-max w-[116px] gap-x-2 rounded-lg px-4 py-3.5'>
               <SelectValue placeholder={selectedPrefix} />
             </SelectTrigger>
             <SelectContent className='bg-white'>
@@ -139,7 +142,9 @@ const SignUpFormCN = () => {
                     autoComplete='email'
                     type='emailOrPhone'
                     id='username'
-                    placeholder={transAuth('Schema.Please_Input_Email_or_Phone_Number')}
+                    placeholder={transAuth(
+                      'Schema.Please_Input_Email_or_Phone_Number'
+                    )}
                     className='placeholder:base-regular h-12 rounded-md border'
                     {...field}
                   />

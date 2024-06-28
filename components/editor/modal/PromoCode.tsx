@@ -16,7 +16,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ReactNode, useRef, useState } from 'react';
 type Props = { children: ReactNode };
 const PromoCode = ({ children }: Props) => {
-  const t = useTranslations('Profile');
+  const tProfile = useTranslations('Profile');
   const tSuccess = useTranslations('Success');
   const tError = useTranslations('Error');
   const tInfo = useTranslations('Info');
@@ -70,7 +70,7 @@ const PromoCode = ({ children }: Props) => {
             aria-label='promo code'
             className='text-xl font-medium leading-7 text-zinc-600'
           >
-            {t('Setting.Promo_code')}
+            {tProfile('Setting.Promo_code')}
           </h2>
         </DialogHeader>
         <div className='flex flex-col gap-y-0.5'>
@@ -94,11 +94,11 @@ const PromoCode = ({ children }: Props) => {
               variant={'ghost'}
               className='border border-neutral-400 text-zinc-400'
             >
-              {t('Setting.Cancel')}
+              {tProfile('Setting.Cancel')}
             </Button>
           </DialogClose>
           <Button disabled={submitting} role='button' onClick={redeem}>
-            {t('Setting.Redeem')}
+            {tProfile('Setting.Redeem')}
           </Button>
         </DialogFooter>
       </DialogContent>

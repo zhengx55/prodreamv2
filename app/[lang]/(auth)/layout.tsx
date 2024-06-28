@@ -15,7 +15,7 @@ export default async function AuthLayout({
   unstable_setRequestLocale(lang);
 
   const isInChina = await getIpAddress();
-  const t = await getTranslations('Auth');
+  const transAuth = await getTranslations('Auth');
 
   return isInChina ? (
     <div className='relative flex h-full w-full overflow-auto sm:flex-row'>
@@ -24,7 +24,7 @@ export default async function AuthLayout({
         <h1
           className={`w-[85%] font-custom font-[400] sm:text-[40px] 2xl:text-[64px]`}
         >
-          {t('Slogan')}
+          {transAuth('Slogan')}
         </h1>
         <Spacer y='80' />
         <Image
@@ -44,7 +44,7 @@ export default async function AuthLayout({
         <h1
           className={`w-[85%] ${lang === 'en' ? 'font-baskerville 2xl:text-[48px]' : 'font-custom 2xl:text-[64px]'} font-[400] sm:text-[40px]`}
         >
-          {t('Slogan')}
+          {transAuth('Slogan')}
         </h1>
         <Spacer y='80' />
         <Image

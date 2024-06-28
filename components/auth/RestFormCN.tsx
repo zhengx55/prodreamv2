@@ -1,10 +1,26 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 import { Input } from '@/components/ui/input';
 import { createResetSchemaCN } from '@/lib/validation';
-import { sendVerificationEmail, sendVerificationCodeByPhoneCN, userReset } from '@/query/api';
+import {
+  sendVerificationEmail,
+  sendVerificationCodeByPhoneCN,
+  userReset,
+} from '@/query/api';
 import { getCountryPhonePrefixList } from '@/lib/aboutPhonenumber/getCountryPhonePrefixList';
 import { IResetParams } from '@/query/type';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,11 +39,15 @@ import * as z from 'zod';
 const ResetFormCN = () => {
   const transAuth = useTranslations('Auth');
   const [selectedPrefix, setSelectedPrefix] = useState('CN +86');
-  const resetSchema = createResetSchemaCN(transAuth, selectedPrefix.split(' ')[0]);
+  const resetSchema = createResetSchemaCN(
+    transAuth,
+    selectedPrefix.split(' ')[0]
+  );
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
   const [verifyWait, setVerifyWait] = useState(false);
   const [countdown, setCountdown] = useState(60);
+  const router = useRouter();
   const countryPhonePrefixList = getCountryPhonePrefixList(false, true);
 
   useEffect(() => {
@@ -50,7 +70,6 @@ const ResetFormCN = () => {
     }
   }, [countdown]);
 
-  const router = useRouter();
   const form = useForm<z.infer<typeof resetSchema>>({
     resolver: zodResolver(resetSchema),
     defaultValues: {
@@ -60,7 +79,7 @@ const ResetFormCN = () => {
       verification_code: '',
     },
   });
-  const { mutateAsync: handleReset } = useMutation({
+  const { mutateAsync: handleReset, isPending: isResetting } = useMutation({
     mutationFn: (param: IResetParams) => userReset(param),
     onSuccess: (_data) => {
       const toastInfo = transAuth('ForgotPassword.Successfully_Reset_Password');
@@ -72,7 +91,10 @@ const ResetFormCN = () => {
     },
   });
 
-  const { mutateAsync: handleSendVerificationEmail } = useMutation({
+  const {
+    mutateAsync: handleSendVerificationEmail,
+    isPending: isSendingVerificationEmail,
+  } = useMutation({
     mutationFn: (params: { email: string }) => sendVerificationEmail(params),
     onSuccess: () => {
       const toastInfo = transAuth('ForgotPassword.Checked_your_email');
@@ -85,7 +107,10 @@ const ResetFormCN = () => {
     },
   });
 
-  const { mutateAsync: handleSendVerificationPhone } = useMutation({
+  const {
+    mutateAsync: handleSendVerificationPhone,
+    isPending: isSendingVerificationSMS,
+  } = useMutation({
     mutationFn: (params: { phone_number: string }) =>
       sendVerificationCodeByPhoneCN(params),
     onSuccess: () => {
@@ -102,13 +127,17 @@ const ResetFormCN = () => {
   async function handleSentVerification() {
     const { emailOrPhone } = form.getValues();
     if (!emailOrPhone) {
-      const toastInfo = transAuth('ForgotPassword.Please_enter_your_email_address');
+      const toastInfo = transAuth(
+        'ForgotPassword.Please_enter_your_email_address'
+      );
       toast.error(toastInfo);
       return;
     } else if (emailOrPhone.includes('@')) {
       await handleSendVerificationEmail({ email: emailOrPhone });
     } else {
-      await handleSendVerificationPhone({ phone_number: `${selectedPrefix.split(' ')[1]}${emailOrPhone}` });
+      await handleSendVerificationPhone({
+        phone_number: `${selectedPrefix.split(' ')[1]}${emailOrPhone}`,
+      });
     }
   }
 
@@ -141,20 +170,22 @@ const ResetFormCN = () => {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col'>
-          <div className='flex items-center gap-x-2 mt-20'>
+          <div className='mt-20 flex items-center gap-x-2'>
             <Select
               value={selectedPrefix}
               onValueChange={(value) => setSelectedPrefix(value)}
             >
-              <SelectTrigger className='w-[116px] h-max gap-x-2 rounded-lg px-4 py-3.5'>
+              <SelectTrigger className='h-max w-[116px] gap-x-2 rounded-lg px-4 py-3.5'>
                 <SelectValue placeholder={selectedPrefix} />
               </SelectTrigger>
               <SelectContent className='bg-white'>
-                {Object.entries(countryPhonePrefixList).map(([code, prefix]) => (
-                  <SelectItem key={code} value={`${code} ${prefix}`}>
-                    {code} {prefix}
-                  </SelectItem>
-                ))}
+                {Object.entries(countryPhonePrefixList).map(
+                  ([code, prefix]) => (
+                    <SelectItem key={code} value={`${code} ${prefix}`}>
+                      {code} {prefix}
+                    </SelectItem>
+                  )
+                )}
               </SelectContent>
             </Select>
             <FormField
@@ -167,7 +198,9 @@ const ResetFormCN = () => {
                       autoComplete='email'
                       type='emailOrPhone'
                       id='username'
-                      placeholder={transAuth('ForgotPassword.Input_Email_or_Phone_Number')}
+                      placeholder={transAuth(
+                        'ForgotPassword.Input_Email_or_Phone_Number'
+                      )}
                       className='placeholder:base-regular h-12 rounded-md border'
                       {...field}
                     />
@@ -234,7 +267,9 @@ const ResetFormCN = () => {
                     autoComplete='current-password'
                     id='confirm'
                     type={hideConfirm ? 'password' : 'text'}
-                    placeholder={transAuth('ForgotPassword.Please_input_password_again')}
+                    placeholder={transAuth(
+                      'ForgotPassword.Please_input_password_again'
+                    )}
                     className='base-regular h-12 rounded-md border'
                     {...field}
                   />
@@ -255,7 +290,9 @@ const ResetFormCN = () => {
                       autoComplete='current-password'
                       id='verification_code'
                       type='text'
-                      placeholder={transAuth('ForgotPassword.Please_input_verification_code')}
+                      placeholder={transAuth(
+                        'ForgotPassword.Please_input_verification_code'
+                      )}
                       className='base-regular h-12 rounded-md border'
                       {...field}
                     />
@@ -267,7 +304,9 @@ const ResetFormCN = () => {
                     type='button'
                     className='base-regular h-12 w-[197px] shrink-0 rounded-md border'
                   >
-                    {verifyWait ? countdown : transAuth('ForgotPassword.Send_Verification_Code')}
+                    {verifyWait
+                      ? countdown
+                      : transAuth('ForgotPassword.Send_Verification_Code')}
                   </Button>
                 </div>
                 <FormMessage className='text-xs text-red-400' />
@@ -282,7 +321,9 @@ const ResetFormCN = () => {
             </a>
           </p>
           <Button className='mt-2 w-full rounded bg-violet-500' type='submit'>
-            {transAuth('ForgotPassword.Reset_Password')}
+            {isResetting
+              ? transAuth('ForgotPassword.Loading')
+              : transAuth('ForgotPassword.Reset_Password')}
           </Button>
         </form>
       </Form>

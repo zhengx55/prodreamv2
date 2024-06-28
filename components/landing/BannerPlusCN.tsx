@@ -7,7 +7,7 @@ import CaptureProvider from './CaptureProvider';
 import { UniversityCarousel } from './LandingCarousel';
 
 const BannerPlusCN = ({ lang }: HomePageDicType) => {
-  const t = useTranslations('Homepage');
+  const tHomepage = useTranslations('Homepage');
 
   return (
     <section className='relative flex w-full flex-col items-center justify-center sm:px-0 sm:py-20'>
@@ -16,7 +16,7 @@ const BannerPlusCN = ({ lang }: HomePageDicType) => {
         <div className='flex flex-col gap-y-4 sm:flex-row sm:justify-between sm:gap-y-0'>
           <div className='relative w-full rounded-2xl bg-violet-500 p-11 sm:w-[53%] '>
             <h2 className='text-[30px] font-[500] text-white'>
-              {t('BannerInfo_title_1')}
+              {tHomepage('BannerInfo_title_1')}
             </h2>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -34,7 +34,7 @@ const BannerPlusCN = ({ lang }: HomePageDicType) => {
             </svg>
             <Spacer y='20' />
             <p className='text-[18px] leading-relaxed text-white'>
-              {t('BannerInfo_detail_1')}
+              {tHomepage('BannerInfo_detail_1')}
             </p>
           </div>
           <div className='relative w-full rounded-2xl bg-blue-500 p-11 sm:w-[44%]'>
@@ -53,11 +53,11 @@ const BannerPlusCN = ({ lang }: HomePageDicType) => {
               />
             </svg>
             <h2 className='text-[30px] font-[500] text-white'>
-              {t('BannerInfo_title_2')}
+              {tHomepage('BannerInfo_title_2')}
             </h2>
             <Spacer y='20' />
             <p className='text-[18px] leading-relaxed text-white'>
-              {t('BannerInfo_detail_2')}
+              {tHomepage('BannerInfo_detail_2')}
             </p>
           </div>
         </div>
@@ -65,8 +65,8 @@ const BannerPlusCN = ({ lang }: HomePageDicType) => {
         <div className='flex-center h-[174px] w-full flex-col rounded-2xl bg-violet-500/10 p-8 sm:h-[130px]'>
           <div className='flex w-full flex-col sm:max-w-[1200px] sm:flex-row sm:justify-between'>
             <h1 className='flex items-center justify-center text-center text-[16px] font-[500] sm:justify-start sm:text-left sm:text-[18px]'>
-              {t('BannerInfo_footer')}
-              {t('BannerInfo_footer_form')}
+              {tHomepage('BannerInfo_footer')}
+              {tHomepage('BannerInfo_footer_form')}
             </h1>
             <Spacer y='14' className='block sm:hidden' />
             <div className='flex items-center justify-center gap-x-10 sm:justify-start'>

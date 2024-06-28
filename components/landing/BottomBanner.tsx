@@ -5,7 +5,7 @@ import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 
 const BottomBanner = () => {
-  const t = useTranslations('Editor');
+  const tEditor = useTranslations('Editor');
 
   return (
     <section className='relative flex w-full justify-center bg-shadow-400 py-10 sm:py-20'>
@@ -18,10 +18,10 @@ const BottomBanner = () => {
             sizes='(max-width: 768px) 100vw, (max-width: 180px) 50vw, 180px'
           />
           <h2 className='sm:h2-bold text-center text-[22px] font-[600] text-white'>
-            {t('BottomBanner.You_have_come_this_far')}
+            {tEditor('BottomBanner.You_have_come_this_far')}
             <br />
             <span className=' font-baskerville'>
-              {t('BottomBanner.Let_s_make_your_essay_unforgettable')}
+              {tEditor('BottomBanner.Let_s_make_your_essay_unforgettable')}
             </span>
           </h2>
           <Spacer y='14' />
@@ -30,7 +30,7 @@ const BottomBanner = () => {
               className='self-center rounded-xl border border-white bg-transparent text-white'
               variant={'ghost'}
             >
-              {t('BottomBanner.Start_Writing_Now')}
+              {tEditor('BottomBanner.Start_Writing_Now')}
             </Button>
           </Link>
         </div>

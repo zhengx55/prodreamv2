@@ -30,7 +30,7 @@ const CitationMenu = ({ editor }: Props) => {
   );
   const menuRef = useRef<HTMLDivElement>(null);
   const scrollRef = useScrollIntoView();
-  const t = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
   useClickAway(menuRef, () => {
     editor.chain().unsetHighlight().run();
     updateCitationMenu(false);
@@ -80,7 +80,7 @@ const CitationMenu = ({ editor }: Props) => {
         >
           <div className='flex-between px-2'>
             <p className='base-medium text-zinc-600'>
-              {t('CitationMenu.Search_Results')}
+              {transEditor('CitationMenu.Search_Results')}
             </p>
           </div>
           {isPending ? (
@@ -101,7 +101,9 @@ const CitationMenu = ({ editor }: Props) => {
                   <div className='flex flex-col gap-y-2 rounded border border-gray-200 p-3'>
                     <p className='small-regular line-clamp-3'>
                       {item.snippet ??
-                        t('CitationMenu.No_detail_description_available')}
+                        transEditor(
+                          'CitationMenu.No_detail_description_available'
+                        )}
                     </p>
                   </div>
                   <div className='flex gap-x-2'>
@@ -111,7 +113,7 @@ const CitationMenu = ({ editor }: Props) => {
                       className='rounded bg-violet-500'
                     >
                       <Plus size={20} />
-                      {t('CitationMenu.Add_citation')}
+                      {transEditor('CitationMenu.Add_citation')}
                     </Button>
                     <Button
                       disabled={!Boolean(item.pdf_url)}
@@ -125,7 +127,7 @@ const CitationMenu = ({ editor }: Props) => {
                       }}
                     >
                       <ArrowUpRightFromSquare size={20} />{' '}
-                      {t('CitationMenu.View_in_new_tab')}
+                      {transEditor('CitationMenu.View_in_new_tab')}
                     </Button>
                   </div>
                 </div>
@@ -134,7 +136,7 @@ const CitationMenu = ({ editor }: Props) => {
           )}
           <div className='flex-center h-11 w-full gap-x-2'>
             <p className='small-regular'>
-              {t('CitationMenu.Not_finding_what_you_want')}
+              {transEditor('CitationMenu.Not_finding_what_you_want')}
             </p>
             <Button
               role='button'
@@ -152,7 +154,7 @@ const CitationMenu = ({ editor }: Props) => {
                 height={20}
                 className='size-[18px]'
               />
-              {t('CitationMenu.Add_customized_citation')}
+              {transEditor('CitationMenu.Add_customized_citation')}
             </Button>
           </div>
         </Surface>

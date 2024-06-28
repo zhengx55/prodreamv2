@@ -14,7 +14,7 @@ const EditName = dynamic(() => import('@/components/profile/EditName'), {
   ssr: false,
 });
 const AvatarChange = () => {
-  const t = useTranslations('Profile');
+  const tProfile = useTranslations('Profile');
   const tError = useTranslations('Error');
   const tSuccess = useTranslations('Success');
   const { lang } = useParams();
@@ -79,7 +79,7 @@ const AvatarChange = () => {
           />
         </div>
         <p className='subtle-regular text-shadow-100'>
-          {isInChina ? null : t('Setting.Edit')}
+          {isInChina ? null : tProfile('Setting.Edit')}
         </p>
       </div>
       <div className='flex flex-col gap-y-2 pl-4'>
@@ -92,7 +92,7 @@ const AvatarChange = () => {
             role='button'
             className={`h-max p-0 ${isInChina ? 'justify-start' : 'justify-center'}`}
           >
-            {t('Setting.Change_name')}
+            {tProfile('Setting.Change_name')}
           </Button>
         </EditName>
       </div>

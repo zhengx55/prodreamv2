@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { memo } from 'react';
 
 const Privacy = () => {
-  const t = useTranslations('Auth');
+  const transAuth = useTranslations('Auth');
 
   return (
     <p className='subtle-regular md:small-regular mb-10 mt-auto w-full cursor-pointer text-neutral-400 md:mb-0 md:mt-10 md:w-[500px]'>
-      {t('Privacy.By_Continuing_you_agree_to_Applify_AI_s')}&nbsp;
+      {transAuth('Privacy.By_Continuing_you_agree_to_Applify_AI_s')}&nbsp;
       <Link
         target='_blank'
         href={
@@ -15,7 +15,7 @@ const Privacy = () => {
         }
         className='text-violet-500'
       >
-        {t('Privacy.Terms_of_Service')}
+        {transAuth('Privacy.Terms_of_Service')}
       </Link>
       <Link
         target='_blank'
@@ -24,7 +24,7 @@ const Privacy = () => {
         }
         className='text-violet-500'
       >
-        {t('Privacy.Privacy_Policy')}
+        {transAuth('Privacy.Privacy_Policy')}
       </Link>
     </p>
   );

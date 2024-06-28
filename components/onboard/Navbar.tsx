@@ -12,7 +12,7 @@ type Props = {
 };
 const Navbar = ({ dict }: Props) => {
   const pathName = usePathname();
-  const t = useTranslations('Onboard');
+  const tOnboard = useTranslations('Onboard');
   const isBaseOnboard = pathName.split('/').pop() === 'onboard';
 
   return (
@@ -32,7 +32,7 @@ const Navbar = ({ dict }: Props) => {
           className='bg-transparent'
           variant={'ghost'}
         >
-          {t('SkipButton')}
+          {tOnboard('SkipButton')}
         </Button>
       )}
     </nav>

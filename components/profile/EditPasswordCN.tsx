@@ -1,12 +1,35 @@
 'use client';
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 import { createResetSchemaCN } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
-import { sendVerificationEmail, sendVerificationCodeByPhoneCN, userReset } from '@/query/api';
+import {
+  sendVerificationEmail,
+  sendVerificationCodeByPhoneCN,
+  userReset,
+} from '@/query/api';
 import { getCountryPhonePrefixList } from '@/lib/aboutPhonenumber/getCountryPhonePrefixList';
 import { ReactNode, memo, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
@@ -16,6 +39,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { toast } from 'sonner';
 import { IResetParams } from '@/query/type';
+import { useRouter } from 'next/navigation';
 import { resetPasswordAction } from './_action';
 import Spacer from '@/components/root/Spacer';
 import { LoginData } from '../../query/type';
@@ -35,6 +59,7 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
   const [verifyWait, setVerifyWait] = useState(false);
+  const router = useRouter();
   const [countdown, setCountdown] = useState(60);
 
   useEffect(() => {
@@ -66,11 +91,12 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
       verification_code: '',
     },
   });
-  const { mutateAsync: handleReset } = useMutation({
+  const { mutateAsync: handleReset, isPending: isResetting } = useMutation({
     mutationFn: (param: IResetParams) => userReset(param),
     onSuccess: (_data) => {
       const toastInfo = tAuth('ForgotPassword.Successfully_Reset_Password');
       toast.success(toastInfo);
+      router.replace('/login');
     },
     onError: (error) => {
       toast.error(error.message);
@@ -113,16 +139,18 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
     } else if (emailOrPhone.includes('@')) {
       await handleSendVerificationEmail({ email: emailOrPhone });
     } else {
-      await handleSendVerificationPhone({ phone_number: `${selectedPrefix.split(' ')[1]}${emailOrPhone}` });
+      await handleSendVerificationPhone({
+        phone_number: `${selectedPrefix.split(' ')[1]}${emailOrPhone}`,
+      });
     }
   }
 
   async function onSubmit(values: z.infer<typeof resetSchema>) {
-    let emailOrPhoneNeed = ''
+    let emailOrPhoneNeed = '';
     if (values.emailOrPhone.includes('@')) {
-      emailOrPhoneNeed = values.emailOrPhone
+      emailOrPhoneNeed = values.emailOrPhone;
     } else {
-      emailOrPhoneNeed = `${selectedPrefix.split(' ')[1]}${values.emailOrPhone}`
+      emailOrPhoneNeed = `${selectedPrefix.split(' ')[1]}${values.emailOrPhone}`;
     }
 
     try {
@@ -147,7 +175,7 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
       >
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
-            <p className='text-[#4B454D] text-center text-xl font-normal leading-6'>
+            <p className='text-center text-xl font-normal leading-6 text-[#4B454D]'>
               {tProfile('Setting.Change_password')}
             </p>
             <DialogClose>
@@ -157,21 +185,26 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
         </DialogHeader>
         <Spacer y='24' />
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col'>
-            <div className='flex items-center gap-x-2 mt-5'>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='flex flex-col'
+          >
+            <div className='mt-5 flex items-center gap-x-2'>
               <Select
                 value={selectedPrefix}
                 onValueChange={(value) => setSelectedPrefix(value)}
               >
-                <SelectTrigger className='w-[116px] h-max gap-x-2 rounded-lg px-4 py-3.5'>
+                <SelectTrigger className='h-max w-[116px] gap-x-2 rounded-lg px-4 py-3.5'>
                   <SelectValue placeholder={selectedPrefix} />
                 </SelectTrigger>
                 <SelectContent className='bg-white'>
-                  {Object.entries(countryPhonePrefixList).map(([code, prefix]) => (
-                    <SelectItem key={code} value={`${code} ${prefix}`}>
-                      {code} {prefix}
-                    </SelectItem>
-                  ))}
+                  {Object.entries(countryPhonePrefixList).map(
+                    ([code, prefix]) => (
+                      <SelectItem key={code} value={`${code} ${prefix}`}>
+                        {code} {prefix}
+                      </SelectItem>
+                    )
+                  )}
                 </SelectContent>
               </Select>
               <FormField
@@ -184,7 +217,9 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
                         autoComplete='email'
                         type='emailOrPhone'
                         id='username'
-                        placeholder={tAuth('ForgotPassword.Input_Email_or_Phone_Number')}
+                        placeholder={tAuth(
+                          'ForgotPassword.Input_Email_or_Phone_Number'
+                        )}
                         className='placeholder:base-regular h-12 rounded-md border'
                         {...field}
                       />
@@ -204,13 +239,13 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
                     <EyeOff
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={20}
-                      className='absolute top-6 right-2 cursor-pointer text-neutral-400'
+                      className='absolute right-2 top-6 cursor-pointer text-neutral-400'
                     />
                   ) : (
                     <Eye
                       onClick={() => setHidePassword((prev) => !prev)}
                       size={20}
-                      className='absolute top-6 right-2 cursor-pointer text-neutral-400'
+                      className='absolute right-2 top-6 cursor-pointer text-neutral-400'
                     />
                   )}
                   <FormControl>
@@ -237,13 +272,13 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
                     <EyeOff
                       onClick={() => setHideConfirm((prev) => !prev)}
                       size={20}
-                      className='absolute top-6 right-2 cursor-pointer text-neutral-400'
+                      className='absolute right-2 top-6 cursor-pointer text-neutral-400'
                     />
                   ) : (
                     <Eye
                       onClick={() => setHideConfirm((prev) => !prev)}
                       size={20}
-                      className='absolute top-6 right-2 cursor-pointer text-neutral-400'
+                      className='absolute right-2 top-6 cursor-pointer text-neutral-400'
                     />
                   )}
                   <FormControl>
@@ -251,7 +286,9 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
                       autoComplete='current-password'
                       id='confirm'
                       type={hideConfirm ? 'password' : 'text'}
-                      placeholder={tAuth('ForgotPassword.Please_input_password_again')}
+                      placeholder={tAuth(
+                        'ForgotPassword.Please_input_password_again'
+                      )}
                       className='base-regular h-12 rounded-md border'
                       {...field}
                     />
@@ -272,7 +309,9 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
                         autoComplete='current-password'
                         id='verification_code'
                         type='text'
-                        placeholder={tAuth('ForgotPassword.Please_input_verification_code')}
+                        placeholder={tAuth(
+                          'ForgotPassword.Please_input_verification_code'
+                        )}
                         className='base-regular h-12 rounded-md border'
                         {...field}
                       />
@@ -282,9 +321,11 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
                       variant={'ghost'}
                       onClick={handleSentVerification}
                       type='button'
-                      className='flex w-[134px] h-12 px-3.5 py-1.5 justify-center items-center gap-2.5 rounded-md border border-[#8652DB]'
+                      className='flex h-12 w-[134px] items-center justify-center gap-2.5 rounded-md border border-[#8652DB] px-3.5 py-1.5'
                     >
-                      {verifyWait ? countdown : tAuth('ForgotPassword.Send_Verification_Code')}
+                      {verifyWait
+                        ? countdown
+                        : tAuth('ForgotPassword.Send_Verification_Code')}
                     </Button>
                   </div>
                   <FormMessage className='text-xs text-red-400' />
@@ -292,8 +333,14 @@ const EditPassModalCN = ({ children, userInfo }: Props) => {
               )}
             />
             <Spacer y='24' />
-            <Button className='w-full rounded bg-[#8652DB]' type='submit'>
-              {tAuth('ForgotPassword.Reset_Password')}
+            <Button
+              className='w-full rounded bg-[#8652DB]'
+              type='submit'
+              disabled={isResetting}
+            >
+              {isResetting
+                ? tAuth('ForgotPassword.Loading')
+                : tAuth('ForgotPassword.Reset_Password')}
             </Button>
           </form>
         </Form>

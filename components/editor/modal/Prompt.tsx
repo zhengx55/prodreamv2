@@ -49,7 +49,7 @@ const PromptView = ({ show }: { show: boolean }) => {
     wordCount: 0,
   });
   const { id } = useParams();
-  const t = useTranslations('Editor');
+  const tEditor = useTranslations('Editor');
   const router = useRouter();
   const pathName = usePathname();
   const { mutateAsync: savePrompt, isPending } = useMutation({
@@ -57,12 +57,14 @@ const PromptView = ({ show }: { show: boolean }) => {
       saveDoc(params),
     onError: async () => {
       const { toast } = await import('sonner');
-      toast.error(t('Prompt.Something_went_wrong_when_setting_essay_prompt'));
+      toast.error(
+        tEditor('Prompt.Something_went_wrong_when_setting_essay_prompt')
+      );
     },
     onSuccess: async (_data, variables) => {
       const { toast } = await import('sonner');
       updateEssayPrompt(variables.brief_description);
-      const toastInfo = t('Prompt.Successfully_set_essay_prompt');
+      const toastInfo = tEditor('Prompt.Successfully_set_essay_prompt');
       toast.success(toastInfo);
     },
   });
@@ -96,10 +98,10 @@ const PromptView = ({ show }: { show: boolean }) => {
       >
         <DialogHeader>
           <DialogTitle className='text-2xl font-medium leading-[160%] '>
-            {t('Prompt.Title')}
+            {tEditor('Prompt.Title')}
           </DialogTitle>
           <DialogDescription className='h-[25px] w-[579px] text-sm font-normal leading-[160%] text-zinc-500 '>
-            {t('Prompt.PlaceHolder')}
+            {tEditor('Prompt.PlaceHolder')}
           </DialogDescription>
           <DialogClose
             onClick={removeSearchParams}
@@ -115,13 +117,14 @@ const PromptView = ({ show }: { show: boolean }) => {
           aria-label='essay prompt'
           id='essay-prompt'
           className='h-[107px] w-full rounded border border-solid border-gray-200 bg-white '
-          placeholder={t(
+          placeholder={tEditor(
             'Prompt.An_argumentative_essay_discussing_challenges_and_strategies_of_conserving_biodiversity_in_the_Amazon_rainforest'
           )}
         />
         <DialogFooter className='sm:justify-between'>
           <div className='flex items-center'>
-            <p className='base-regular'>{t('Prompt.Strength')} :</p>&nbsp;&nbsp;
+            <p className='base-regular'>{tEditor('Prompt.Strength')} :</p>
+            &nbsp;&nbsp;
             <div className='flex items-center gap-x-0.5'>
               {wordCount < 5 ? (
                 <span className='h-2 w-20 rounded-[41px] bg-slate-200' />
@@ -145,7 +148,7 @@ const PromptView = ({ show }: { show: boolean }) => {
             disabled={isPending}
             className='w-99 inline-flex h-8 items-center gap-2.5 rounded bg-purple-700 px-4 py-2 text-white'
           >
-            {t('Prompt.Start_Writing')}
+            {tEditor('Prompt.Start_Writing')}
           </Button>
         </DialogFooter>
       </DialogContent>

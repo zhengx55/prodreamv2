@@ -80,8 +80,10 @@ const EditEmailModalCN = ({ children, userInfo }: Props) => {
       >
         <DialogHeader>
           <DialogTitle className='flex-between p-0'>
-            <p className='text-[#4B454D] text-center text-xl font-normal leading-6'>
-              {userInfo.email ? tProfile('Setting.Change_email') : tProfile('Setting.Bind_email')}
+            <p className='text-center text-xl font-normal leading-6 text-[#4B454D]'>
+              {userInfo.email
+                ? tProfile('Setting.Change_email')
+                : tProfile('Setting.Bind_email')}
             </p>
             <DialogClose>
               <X className='self-end text-shadow' />
@@ -144,7 +146,9 @@ const EditEmailModalCN = ({ children, userInfo }: Props) => {
               )}
             />
             <div className='mb-8 mt-6 flex items-center justify-end gap-x-2'>
-              <Button type='submit' size="expand" className='w-full'>{tProfile('Setting.Confirm')}</Button>
+              <Button type='submit' size='expand' className='w-full'>
+                {tProfile('Setting.Confirm')}
+              </Button>
             </div>
           </form>
         </Form>

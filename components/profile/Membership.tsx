@@ -39,7 +39,7 @@ const Membership = ({
       <h2 className='title-medium'>{trans('Setting.Membership')}</h2>
       <Spacer y='5' />
       {membership.subscription === 'basic' ||
-        membership.subscription === 'free_trail' ? (
+      membership.subscription === 'free_trail' ? (
         <div className='flex w-max flex-col'>
           <div className='flex items-center gap-x-4'>
             <p className='text-neutral-400'>

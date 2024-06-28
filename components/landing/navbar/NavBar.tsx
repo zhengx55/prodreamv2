@@ -41,7 +41,7 @@ const NavBar = async ({
             priority
           />
 
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 role='button'
@@ -68,7 +68,7 @@ const NavBar = async ({
                 {trans('Blogs')}
               </Button>
             </Link>
-          )}
+          )} */}
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
           <Link href={token ? `/${lang}/editor` : `/${lang}/login`} passHref>

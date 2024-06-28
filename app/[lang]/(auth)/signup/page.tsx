@@ -20,7 +20,7 @@ export default async function Page({
   unstable_setRequestLocale(lang);
 
   const isInChina = lang === 'cn';
-  const t = await getTranslations('Auth');
+  const transAuth = await getTranslations('Auth');
 
   if (!isInChina)
     return (
@@ -30,24 +30,24 @@ export default async function Page({
           <GoogleSignin
             searchParam={from}
             lang={lang}
-            label={t('Signup.Google')}
+            label={transAuth('Signup.Google')}
           />
           <div className='flex-center relative my-10'>
             <Separator orientation='horizontal' className='bg-shadow-border' />
             <p className='small-regular absolute bg-white px-2 text-neutral-300'>
-              {t('Login.GoogleDivider')}
+              {transAuth('Login.GoogleDivider')}
             </p>
           </div>
           <Suspense fallback={<div>{'Loading...'}</div>}>
             <SignUpForm />
           </Suspense>
           <p className='base-regular mt-4 text-neutral-400'>
-            {t('Signup.AlreadyLogged')}&nbsp;
+            {transAuth('Signup.AlreadyLogged')}&nbsp;
             <Link
               href={`/${lang}/login`}
               className='base-semibold text-violet-500 hover:underline'
             >
-              {t('Login.Button')}&nbsp;
+              {transAuth('Login.Button')}&nbsp;
             </Link>
           </p>
         </div>

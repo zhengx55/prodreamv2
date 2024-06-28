@@ -1,7 +1,19 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 import { Input } from '@/components/ui/input';
 import { createVerificationCodeLoginSchema } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,14 +34,15 @@ import { toast } from 'sonner';
 import Spacer from '../root/Spacer';
 import * as z from 'zod';
 
-
 // !该组件为CN独有的验证码登录
 const LoginFormCN = () => {
   const transAuth = useTranslations('Auth');
   const router = useRouter();
   const [selectedPrefix, setSelectedPrefix] = useState('CN +86');
-  const VerificationCodeLoginSchema =
-    createVerificationCodeLoginSchema(transAuth, selectedPrefix.split(' ')[0]);
+  const VerificationCodeLoginSchema = createVerificationCodeLoginSchema(
+    transAuth,
+    selectedPrefix.split(' ')[0]
+  );
   const [_cookies, setCookie] = useCookies(['token']);
   const { lang } = useParams();
   const [readAndAgree, setReadAndAgree] = useState(false);
@@ -69,7 +82,9 @@ const LoginFormCN = () => {
       return;
     }
     // console.log('selectedPrefix', selectedPrefix.split(' ')[1]);
-    await handleSendVerification({ phone_number: `${selectedPrefix.split(' ')[1]}${phone}` });
+    await handleSendVerification({
+      phone_number: `${selectedPrefix.split(' ')[1]}${phone}`,
+    });
   }
 
   useEffect(() => {
@@ -151,7 +166,7 @@ const LoginFormCN = () => {
             value={selectedPrefix}
             onValueChange={(value) => setSelectedPrefix(value)}
           >
-            <SelectTrigger className='w-[116px] h-max gap-x-2 rounded-lg px-4 py-3.5'>
+            <SelectTrigger className='h-max w-[116px] gap-x-2 rounded-lg px-4 py-3.5'>
               <SelectValue placeholder={selectedPrefix} />
             </SelectTrigger>
             <SelectContent className='bg-white'>
@@ -172,7 +187,7 @@ const LoginFormCN = () => {
                     autoComplete=''
                     id='phone'
                     placeholder={transAuth('Schema.Please_Input_Phone_Number')}
-                    className='placeholder:base-regular h-12 rounded-md border w-full'
+                    className='placeholder:base-regular h-12 w-full rounded-md border'
                     {...field}
                   />
                 </FormControl>
@@ -193,7 +208,9 @@ const LoginFormCN = () => {
                     autoComplete='current-password'
                     id='verification_code'
                     type='text'
-                    placeholder={transAuth('Schema.Please_Input_Verification_Code')}
+                    placeholder={transAuth(
+                      'Schema.Please_Input_Verification_Code'
+                    )}
                     className='base-regular h-12 rounded-md border'
                     {...field}
                   />
@@ -204,7 +221,9 @@ const LoginFormCN = () => {
                   type='button'
                   className='base-regular h-12 w-[150px] shrink-0 rounded-md border'
                 >
-                  {verifyWait ? countdown : transAuth('Schema.Send_Verification_Code')}
+                  {verifyWait
+                    ? countdown
+                    : transAuth('Schema.Send_Verification_Code')}
                 </Button>
               </div>
               <FormMessage className='text-xs text-red-400' />

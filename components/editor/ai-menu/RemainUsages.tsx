@@ -9,7 +9,7 @@ import { memo } from 'react';
 const RemainUsages = () => {
   const { data: usage } = useMembershipInfo();
   const { mutateAsync: buttonTrack } = useButtonTrack();
-  const t = useTranslations('Editor');
+  const transEditor = useTranslations('Editor');
 
   const updatePaymentModal = useAIEditor((state) => state.updatePaymentModal);
   return (
@@ -17,7 +17,7 @@ const RemainUsages = () => {
       <div className='flex items-center gap-x-2'>
         <AlertTriangle className='text-shadow' size={15} />
         <p className='subtle-regular text-shadow'>
-          {t('RemainUsages.WeeklyPromptsUsed', {
+          {transEditor('RemainUsages.WeeklyPromptsUsed', {
             used: usage?.free_times_detail.Copilot,
           })}{' '}
           &nbsp;
@@ -32,7 +32,7 @@ const RemainUsages = () => {
             variant={'ghost'}
             className='subtle-regular h-max w-max cursor-pointer bg-transparent p-0 text-violet-500'
           >
-            {t('RemainUsages.Go_unlimited')}
+            {transEditor('RemainUsages.Go_unlimited')}
           </Button>
         </p>
       </div>

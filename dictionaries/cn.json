@@ -199,6 +199,7 @@
       "GoogleDivider": "或者使用邮箱地址注册"
     },
     "ForgotPassword": {
+      "Loading": "正在加载",
       "Reset_Password": "重置密码",
       "Input_Email_or_Phone_Number": "输入邮箱或手机号",
       "Input_New_Password": "请输入新的密码",

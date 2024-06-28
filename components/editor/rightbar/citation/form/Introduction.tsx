@@ -27,7 +27,7 @@ const IntroductionForm = ({
   const { id } = useParams();
   const { mutateAsync: handleCreate } = useCreateCustomCitation();
   const { mutateAsync: handleUpdate } = useUpdateCitation();
-  const t = useTranslations('Editor');
+  const tEditor = useTranslations('Editor');
 
   const { register, handleSubmit, control, setValue } =
     useForm<IIntroductionCitation>({
@@ -117,10 +117,12 @@ const IntroductionForm = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
-      <h1 className='base-semibold'>{t('CustomCitation.What_I_am_citing')}</h1>
+      <h1 className='base-semibold'>
+        {tEditor('CustomCitation.What_I_am_citing')}
+      </h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='section_title'>
-        {t('CustomCitation.IntroductionMenu.Introduction_title')}
+        {tEditor('CustomCitation.IntroductionMenu.Introduction_title')}
       </label>
       <Input
         type='text'
@@ -131,7 +133,7 @@ const IntroductionForm = ({
       />
       <Spacer y='16' />
       <h2 className='small-regular text-neutral-4000'>
-        {t('CustomCitation.IntroductionMenu.Type')}
+        {tEditor('CustomCitation.IntroductionMenu.Type')}
       </h2>
       <Select
         onValueChange={(value: string) => {
@@ -147,31 +149,31 @@ const IntroductionForm = ({
             value='introduction'
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >
-            {t('CustomCitation.IntroductionMenu.Introduction')}
+            {tEditor('CustomCitation.IntroductionMenu.Introduction')}
           </SelectItem>
           <SelectItem
             value='foreword'
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >
-            {t('CustomCitation.IntroductionMenu.Foreword')}
+            {tEditor('CustomCitation.IntroductionMenu.Foreword')}
           </SelectItem>
           <SelectItem
             value='preface'
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >
-            {t('CustomCitation.IntroductionMenu.Preface')}
+            {tEditor('CustomCitation.IntroductionMenu.Preface')}
           </SelectItem>
           <SelectItem
             value='afterword'
             className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
           >
-            {t('CustomCitation.IntroductionMenu.Afterword')}
+            {tEditor('CustomCitation.IntroductionMenu.Afterword')}
           </SelectItem>
         </SelectContent>
       </Select>
       <Spacer y='20' />
       <h1 className='base-semibold'>
-        {t('CustomCitation.IntroductionMenu.Contributors')}
+        {tEditor('CustomCitation.IntroductionMenu.Contributors')}
       </h1>
       <AnimatePresence initial={false}>
         <div className='flex flex-col gap-y-2 '>
@@ -189,7 +191,7 @@ const IntroductionForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.first_name`}
                 >
-                  {t('CustomCitation.IntroductionMenu.First_Name')}
+                  {tEditor('CustomCitation.IntroductionMenu.First_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.first_name`}
@@ -204,7 +206,7 @@ const IntroductionForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.middle_name`}
                 >
-                  {t('CustomCitation.IntroductionMenu.Middle_Name')}
+                  {tEditor('CustomCitation.IntroductionMenu.Middle_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.middle_name`}
@@ -220,7 +222,7 @@ const IntroductionForm = ({
                   className='small-regular text-neutral-400'
                   htmlFor={`contributors.${index}.last_name`}
                 >
-                  {t('CustomCitation.IntroductionMenu.Last_Name')}
+                  {tEditor('CustomCitation.IntroductionMenu.Last_Name')}
                 </label>
                 <Input
                   id={`contributors.${index}.last_name`}
@@ -250,16 +252,16 @@ const IntroductionForm = ({
       >
         <PlusCircle className='fill-violet-500 text-white' size={22} />
         <p className='text-violet-500'>
-          {t('CustomCitation.IntroductionMenu.Add_Contributor')}
+          {tEditor('CustomCitation.IntroductionMenu.Add_Contributor')}
         </p>
       </Button>
       <Spacer y='20' />
       <h1 className='base-semibold'>
-        {t('CustomCitation.IntroductionMenu.In_print_publication_info')}
+        {tEditor('CustomCitation.IntroductionMenu.In_print_publication_info')}
       </h1>
       <Spacer y='16' />
       <label className='small-regular text-neutral-400' htmlFor='journal_title'>
-        {t('CustomCitation.IntroductionMenu.Source_title')}
+        {tEditor('CustomCitation.IntroductionMenu.Source_title')}
       </label>
       <Input
         type='text'
@@ -270,14 +272,14 @@ const IntroductionForm = ({
       />
       <Spacer y='16' />
       <h2 className='small-regular text-neutral-400'>
-        {t('CustomCitation.IntroductionMenu.Advanced_info')}
+        {tEditor('CustomCitation.IntroductionMenu.Advanced_info')}
       </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
             id='advanced_info.volum'
-            placeholder={t('CustomCitation.IntroductionMenu.Volume')}
+            placeholder={tEditor('CustomCitation.IntroductionMenu.Volume')}
             className='focus-visible:ring-0'
             {...register('advanced_info.vol')}
             aria-label='advanced_info.vol'
@@ -286,7 +288,7 @@ const IntroductionForm = ({
         <div className='flex flex-col'>
           <Input
             id='advanced_info.issue'
-            placeholder={t('CustomCitation.IntroductionMenu.Edition')}
+            placeholder={tEditor('CustomCitation.IntroductionMenu.Edition')}
             type='text'
             className='focus-visible:ring-0'
             {...register('advanced_info.edition')}
@@ -297,7 +299,7 @@ const IntroductionForm = ({
           <Input
             id='advanced_info.series'
             type='Series'
-            placeholder={t('CustomCitation.IntroductionMenu.Series')}
+            placeholder={tEditor('CustomCitation.IntroductionMenu.Series')}
             className='focus-visible:ring-0'
             {...register('advanced_info.series')}
             aria-label='advanced_info.series'
@@ -306,13 +308,13 @@ const IntroductionForm = ({
       </div>
       <Spacer y='16' />
       <h2 className='small-regular text-neutral-400'>
-        {t('CustomCitation.IntroductionMenu.Publication_info')}
+        {tEditor('CustomCitation.IntroductionMenu.Publication_info')}
       </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={t('CustomCitation.IntroductionMenu.Publisher')}
+            placeholder={tEditor('CustomCitation.IntroductionMenu.Publisher')}
             className='focus-visible:ring-0'
             {...register('publication_info.publisher')}
             aria-label='publication_info.publisher'
@@ -321,7 +323,7 @@ const IntroductionForm = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={t('CustomCitation.IntroductionMenu.City')}
+            placeholder={tEditor('CustomCitation.IntroductionMenu.City')}
             className='focus-visible:ring-0'
             {...register('publication_info.city')}
             aria-label='publication_info.city'
@@ -330,7 +332,7 @@ const IntroductionForm = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={t('CustomCitation.IntroductionMenu.State')}
+            placeholder={tEditor('CustomCitation.IntroductionMenu.State')}
             className='focus-visible:ring-0'
             {...register('publication_info.state')}
             aria-label='publication_info.state'
@@ -339,7 +341,7 @@ const IntroductionForm = ({
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={t('CustomCitation.IntroductionMenu.Year')}
+            placeholder={tEditor('CustomCitation.IntroductionMenu.Year')}
             className='focus-visible:ring-0'
             {...register('publication_info.publish_year')}
             aria-label='publication_info.publish_year'
@@ -348,13 +350,13 @@ const IntroductionForm = ({
       </div>
       <Spacer y='16' />
       <h2 className='small-regular text-neutral-400'>
-        {t('CustomCitation.IntroductionMenu.Pages')}
+        {tEditor('CustomCitation.IntroductionMenu.Pages')}
       </h2>
       <div className='flex gap-x-2'>
         <div className='flex flex-col'>
           <Input
             type='text'
-            placeholder={t('CustomCitation.IntroductionMenu.Start')}
+            placeholder={tEditor('CustomCitation.IntroductionMenu.Start')}
             className='focus-visible:ring-0'
             {...register('page_info.start')}
             aria-label='page_info.start'
@@ -362,7 +364,7 @@ const IntroductionForm = ({
         </div>
         <div className='flex flex-col'>
           <Input
-            placeholder={t('CustomCitation.IntroductionMenu.End')}
+            placeholder={tEditor('CustomCitation.IntroductionMenu.End')}
             type='text'
             className='focus-visible:ring-0'
             {...register('page_info.end')}
@@ -378,10 +380,10 @@ const IntroductionForm = ({
           type='button'
           onClick={handleCancel}
         >
-          {t('CustomCitation.Cancel')}
+          {tEditor('CustomCitation.Cancel')}
         </Button>
         <Button type='submit' className='size-max rounded px-4 py-1'>
-          {t('CustomCitation.Save')}
+          {tEditor('CustomCitation.Save')}
         </Button>
       </div>
     </form>
