@@ -1,7 +1,6 @@
 import { Toolbar } from '@/components/editor/ui/Toolbar';
 import Icon from '@/components/root/Icon';
-import { getDictionary } from '@/lib/get-dictionary';
-import useAIEditor, { useUserTask } from '@/zustand/store';
+import useAIEditor from '@/zustand/store';
 import * as Popover from '@radix-ui/react-popover';
 import { Editor } from '@tiptap/react';
 import { m } from 'framer-motion';
@@ -16,10 +15,10 @@ import {
   Strikethrough,
   Underline,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 import { ContentTypePicker } from '../picker/content';
 import useEventListener from './hooks/useEventListener';
-import { useTranslations } from 'next-intl';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
 import { useTextmenuStates } from './hooks/useTextmenuStates';
@@ -56,8 +55,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
     menuXOffside,
     menuYOffside,
   } = useEventListener(editor);
-  const task_step = useUserTask((state) => state.task_step);
-  const updateTaskStep = useUserTask((state) => state.updateTaskStep);
   if (!showBubbleMenu) return null;
   return (
     <m.div
@@ -72,7 +69,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           id='copilot-button'
           onMouseDown={(e) => e.preventDefault()}
           onClick={async (e) => {
-            task_step === 0 && updateTaskStep(-1);
             updateCopilotMenu(true);
             updateFloatingMenuPos({
               top: menuYOffside.current ?? 0,
@@ -83,9 +79,6 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           }}
           className='text-violet-500'
         >
-          {task_step === 0 && (
-            <span className='absolute h-7 w-7 animate-ping rounded-full bg-violet-500/50' />
-          )}
           <Icon
             alt=''
             src='/editor/stars.svg'

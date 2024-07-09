@@ -4,11 +4,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { GenerateOptions } from '@/constant';
-import { OutlineTooltip } from '@/constant/enum';
 import useButtonTrack from '@/hooks/useBtnTrack';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { EditorDictType } from '@/types';
-import useAIEditor, { useUserTask } from '@/zustand/store';
+import useAIEditor from '@/zustand/store';
 import { ChevronUp, FileText } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
@@ -17,18 +16,12 @@ import GenerateTitle from './GenerateTitle';
 
 const GenerateSub = dynamic(() => import('./GenerateSub'));
 
-const Tiplayout = dynamic(
-  () => import('@/components/editor/guide/tips/Tiplayout')
-);
-
 const GenerateDropdown = dynamic(() => import('../dropdown/GenerateDropdown'));
 
 export const Generate = ({ t }: { t: EditorDictType }) => {
   const generateTab = useAIEditor((state) => state.generateTab);
   const updateGenerateTab = useAIEditor((state) => state.updateGenerateTab);
   const copilot_option = useRef<string | null>(null);
-  const outline_step = useUserTask((state) => state.outline_step);
-  const updateOutlineStep = useUserTask((state) => state.updateOutlineStep);
   const { data: usage } = useMembershipInfo();
   const trans = useTranslations('Editor');
 
@@ -41,25 +34,7 @@ export const Generate = ({ t }: { t: EditorDictType }) => {
             if (item.submenu)
               return (
                 <DropdownMenu key={item.id}>
-                  {outline_step === 2 ? (
-                    <Tiplayout
-                      title={OutlineTooltip.TITLE}
-                      content={OutlineTooltip.TEXT}
-                      side='left'
-                      buttonLabel='Next'
-                      step={2}
-                      totalSteps={3}
-                      onClickCallback={() => {
-                        updateOutlineStep(3);
-                        copilot_option.current = 'write_introduction';
-                        updateGenerateTab('Write Introduction');
-                      }}
-                    >
-                      <Submenu item={item} t={t} />
-                    </Tiplayout>
-                  ) : (
-                    <Submenu item={item} t={t} />
-                  )}
+                  <Submenu item={item} t={t} />
                 </DropdownMenu>
               );
             return (
