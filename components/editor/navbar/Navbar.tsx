@@ -2,13 +2,11 @@ import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import useButtonTrack from '@/hooks/useBtnTrack';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
-import { useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { DocPageDicType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
-import { ChevronLeft, Loader } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { memo } from 'react';
 import Prompt from './Prompt';
 
@@ -23,25 +21,13 @@ const DocNavbar = ({ t, lang }: Props) => {
   const { mutateAsync: buttonTrack } = useButtonTrack();
   const docTtile = useAIEditor((state) => state.doc_title);
   const prompt = useAIEditor((state) => state.essay_prompt);
-  const { data: track } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
 
   return (
     <nav className='flex-between z-50 h-[var(--top-nav-bar-height)] w-full shrink-0 border-b border-gray-200 bg-white px-5 py-3'>
       <div className='flex h-full items-center gap-x-3'>
-        {track?.guidence && (
-          <Link passHref href={`/${lang}/editor`}>
-            <span className='cursor-pointer rounded-md hover:bg-shadow-border hover:opacity-50'>
-              <ChevronLeft className='text-zinc-600' />
-            </span>
-          </Link>
-        )}
         <h1 className='line-clamp-1 max-w-xl text-base font-medium'>
-          {!track?.guidence
-            ? 'Welcome To Prodream'
-            : !docTtile
-              ? 'Untitled Document'
-              : docTtile}
+          {!docTtile ? 'Untitled Document' : docTtile}
         </h1>
         {isSaving ? (
           <Loader className='animate-spin' />

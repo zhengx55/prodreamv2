@@ -6,8 +6,8 @@ import { ICitation } from '@/query/type';
 import { EditorDictType } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { useQuery } from '@tanstack/react-query';
-import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { memo, useEffect, useState } from 'react';
 import Title from '../Title';
 import { SearchCitationCard } from './CitationCard';
 import SearchBar from './SearchBar';
@@ -19,10 +19,7 @@ const SearchList = ({ t }: { t: EditorDictType }) => {
   const trans = useTranslations('Editor');
   const [keyword, setKeyword] = useState('');
   const [searchResult, setSearchResult] = useState<ICitation[]>([]);
-  const memopSetSearchResult = useCallback(
-    (value: ICitation[]) => setSearchResult(value),
-    []
-  );
+
   const {
     data: citationResult,
     isPending,
@@ -51,11 +48,7 @@ const SearchList = ({ t }: { t: EditorDictType }) => {
       <Title />
       <section className='relative flex flex-1 flex-col overflow-visible overflow-y-auto'>
         <Spacer y='10' />
-        <SearchBar
-          t={t}
-          setResult={memopSetSearchResult}
-          setKeyword={setKeyword}
-        />
+        <SearchBar t={t} setKeyword={setKeyword} />
         <Button
           className='w-max bg-transparent px-2 text-violet-500 hover:underline'
           variant={'ghost'}
