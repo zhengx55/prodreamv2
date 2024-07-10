@@ -4,13 +4,11 @@ import { ChatBotStore, chatbotSlice } from './slice/chatbot';
 import { CitationStore, useCitationStore } from './slice/citation';
 import { ModalStore, useModalStore } from './slice/modal';
 import useUserStore, { UserStore } from './slice/user-info';
-import { UserTaskStore, useUserTaskStore } from './slice/user-task';
 import { OnboardingStore, useOnboardingStore } from './slice/onboarding';
 
 type AppStore = AIEditiorStore &
   ChatBotStore &
   UserStore &
-  UserTaskStore &
   CitationStore &
   ModalStore &
   OnboardingStore;
@@ -18,7 +16,6 @@ type AppStore = AIEditiorStore &
 const useRootStore = create<AppStore>((...a) => ({
   ...useAIEditorStore(...a),
   ...useUserStore(...a),
-  ...useUserTaskStore(...a),
   ...useCitationStore(...a),
   ...chatbotSlice(...a),
   ...useModalStore(...a),
@@ -30,10 +27,6 @@ export function useAIEditor<T>(selector?: (state: AIEditiorStore) => T) {
 }
 
 export function useUserInfo<T>(selector?: (state: UserStore) => T) {
-  return useStore(useRootStore, selector!);
-}
-
-export function useUserTask<T>(selector?: (state: UserTaskStore) => T) {
   return useStore(useRootStore, selector!);
 }
 
