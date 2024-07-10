@@ -307,6 +307,26 @@
       "Option2": "非英语母语者"
     }
   },
+  "Onboarding": {
+    "Input_Placeholder": "请输入您的名字",
+    "Question_1": "我是Dreami。很高兴见到你。我想了解更多关于你的信息来帮助你。你能告诉我你的名字吗？",
+    "Question_2": "{name}，现在告诉我你在",
+    "Question_3": "{education}，明白了。那么你想做什么呢？在下面选一选吧。",
+    "Question_2_Option_1": "高中生",
+    "Question_2_Option_2": "本科生",
+    "Question_2_Option_3": "研究生或MBA",
+    "Question_2_Option_4": "博士及科研人员",
+    "Question_2_Option_5": "其他",
+    "Question_3_Option_1": "写大纲",
+    "Question_3_Option_2": "头脑风暴",
+    "Question_3_Option_3": "写个人陈述",
+    "Question_3_Option_4": "学术写作",
+    "Question_3_Option_5": "论文检测",
+    "Question_3_Option_6": "经验代理",
+    "Question_3_Option_7": "写作作业",
+    "Question_3_Option_8": "其他",
+    "Question_3_Option_9": "引用"
+  },
   "Editor": {
     "Announcement": {
       "Title": "📢 更新通知！📢",

@@ -309,6 +309,26 @@
       "Option2": "International student"
     }
   },
+  "Onboarding": {
+    "Input_Placeholder": "Please enter your name",
+    "Question_1": "Hl.i'm Dreami.happy to see you.I would like to know more about you to help you.Can you tell me your name?",
+    "Question_2": "Hello {name},now tell me you are in the",
+    "Question_3": "{education}, Got it.what do you want to do, you can choose as more as you need",
+    "Question_2_Option_1": "High School",
+    "Question_2_Option_2": "Undergrad",
+    "Question_2_Option_3": "Masters or MBA",
+    "Question_2_Option_4": "PhD & Researcher",
+    "Question_2_Option_5": "Others",
+    "Question_3_Option_1": "Write outline",
+    "Question_3_Option_2": "Brainstorming",
+    "Question_3_Option_3": "Write personal statement",
+    "Question_3_Option_4": "Academic writing",
+    "Question_3_Option_5": "Al detection",
+    "Question_3_Option_6": "Experience agents",
+    "Question_3_Option_7": "Writing assignments",
+    "Question_3_Option_8": "Others",
+    "Question_3_Option_9": "Citation"
+  },
   "Editor": {
     "Announcement": {
       "Title": "📢 New Features Announcement! 📢",
