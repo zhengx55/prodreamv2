@@ -2,21 +2,35 @@ import { StateCreator } from 'zustand';
 
 const initialState: OnboardingState = {
   currentQuestionIndex: 0,
-  answers: [],
+  questionTwoAnswers: [],
+  questionThreeAnswers: [],
   name: '',
 };
 
 type OnboardingState = {
   currentQuestionIndex: number;
-  answers: string[];
+  questionTwoAnswers: string[];
+  questionThreeAnswers: string[];
   name: string;
 };
 
 type OnboardingAction = {
-    setName: (name: OnboardingState['name']) => void;
-    setCurrentQuestionIndex: (index: OnboardingState['currentQuestionIndex']) => void;
-    addAnswer: (answer: OnboardingState['answers'][number]) => void;
-    removeAnswer: (answer: OnboardingState['answers'][number]) => void;
+  setName: (name: OnboardingState['name']) => void;
+  setCurrentQuestionIndex: (
+    index: OnboardingState['currentQuestionIndex']
+  ) => void;
+  addQuestionTwoAnswer: (
+    answer: OnboardingState['questionTwoAnswers'][number]
+  ) => void;
+  removeQuestionTwoAnswer: (
+    answer: OnboardingState['questionTwoAnswers'][number]
+  ) => void;
+  addQuestionThreeAnswer: (
+    answer: OnboardingState['questionThreeAnswers'][number]
+  ) => void;
+  removeQuestionThreeAnswer: (
+    answer: OnboardingState['questionThreeAnswers'][number]
+  ) => void;
 };
 
 export type OnboardingStore = OnboardingState & OnboardingAction;
@@ -25,6 +39,22 @@ export const useOnboardingStore: StateCreator<OnboardingStore> = (set) => ({
   ...initialState,
   setName: (name) => set({ name }),
   setCurrentQuestionIndex: (index) => set({ currentQuestionIndex: index }),
-  addAnswer: (answer) => set((state) => ({ answers: [...state.answers, answer] })),
-  removeAnswer: (answer) => set((state) => ({ answers: state.answers.filter(a => a !== answer) })),
+  addQuestionTwoAnswer: (answer) =>
+    set((state) => ({
+      questionTwoAnswers: [...state.questionTwoAnswers, answer],
+    })),
+  removeQuestionTwoAnswer: (answer) =>
+    set((state) => ({
+      questionTwoAnswers: state.questionTwoAnswers.filter((a) => a !== answer),
+    })),
+  addQuestionThreeAnswer: (answer) =>
+    set((state) => ({
+      questionThreeAnswers: [...state.questionThreeAnswers, answer],
+    })),
+  removeQuestionThreeAnswer: (answer) =>
+    set((state) => ({
+      questionThreeAnswers: state.questionThreeAnswers.filter(
+        (a) => a !== answer
+      ),
+    })),
 });

@@ -77,12 +77,12 @@ const Reference = () => {
     <div className='mx-auto flex w-[700px] select-none flex-col pb-[10vh]'>
       <div className='flex-between'>
         <h3 className='text-xl font-[600]'>
-          {transEditor('References.References')}
+          {transEditor('Reference.References')}
         </h3>
         <div className='flex gap-x-4'>
           {usage?.subscription === 'basic' ? (
             <p className='subtle-regular inline-flex items-center gap-x-2 text-neutral-400'>
-              {transEditor('Upgrade_to_unlimted_to_export_citations')}
+              {transEditor('Reference.Upgrade_to_unlimted_to_export_citations')}
               <Button
                 role='button'
                 variant={'ghost'}
@@ -94,7 +94,7 @@ const Reference = () => {
                   updatePaymentModal(true);
                 }}
               >
-                {transEditor('References.Go_unlimited')}
+                {transEditor('Reference.Go_unlimited')}
               </Button>
             </p>
           ) : (
@@ -120,7 +120,7 @@ const Reference = () => {
               <SelectItem value='apa'>APA</SelectItem>
               <SelectItem value='ieee'>IEEE</SelectItem>
               <SelectItem value='chicago'>
-                {transEditor('References.Chicago')}
+                {transEditor('Reference.Chicago')}
               </SelectItem>
             </SelectContent>
           </Select>
