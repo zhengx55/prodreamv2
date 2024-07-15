@@ -1,4 +1,3 @@
-import Spacer from '@/components/root/Spacer';
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
 import { unstable_setRequestLocale } from 'next-intl/server';
@@ -21,10 +20,10 @@ export default async function Page({
   const isInChina = params.lang === 'cn';
 
   return (
-    <main className='relative flex h-full min-h-screen w-full flex-col items-center overflow-y-auto'>
+    <main className='relative h-screen w-full py-6 pr-6'>
       {isInChina ? <WelcomeModalCN /> : null}
       <DiscountModal />
-      <Spacer y='75' />
+      <section className='flex size-full overflow-y-auto rounded-2xl border border-white/60 bg-white/60 shadow'></section>
     </main>
   );
 }
