@@ -2,13 +2,13 @@
 import { createSidebarLinks } from '@/constant';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
 import { Locale } from '@/i18n-config';
-import { useTranslations } from 'next-intl';
 import { useModal, useUserInfo } from '@/zustand/store';
 import type { Route } from 'next';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter, useParams } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import Icon from './Icon';
@@ -27,12 +27,6 @@ const useSidebarElevation = (pathname: string) => {
     switch (currentroute) {
       case 'editor':
         setTopValue(0);
-        break;
-      case 'essay-review':
-        setTopValue(48 + 10);
-        break;
-      case 'pdf-chat':
-        setTopValue(2 * (48 + 10));
         break;
       default:
         setTopValue(undefined);
