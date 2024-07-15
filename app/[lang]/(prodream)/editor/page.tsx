@@ -1,11 +1,8 @@
-import DocumentList from '@/components/editor/history/List';
-import Search from '@/components/editor/history/Search';
 import Spacer from '@/components/root/Spacer';
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/get-dictionary';
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
+import { unstable_setRequestLocale } from 'next-intl/server';
 import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
 const DiscountModal = dynamic(
   () => import('@/components/editor/modal/Discount')
 );
@@ -21,7 +18,6 @@ export default async function Page({
 }) {
   unstable_setRequestLocale(params.lang);
   const t = (await getDictionary(params.lang)).Editor;
-  const trans = await getTranslations('Homepage');
   const isInChina = params.lang === 'cn';
 
   return (
@@ -29,13 +25,6 @@ export default async function Page({
       {isInChina ? <WelcomeModalCN /> : null}
       <DiscountModal />
       <Spacer y='75' />
-      <Suspense>
-        <Search t={t} lang={params.lang} />
-      </Suspense>
-      <Spacer y='30' />
-      <Suspense>
-        <DocumentList t={t} lang={params.lang} />
-      </Suspense>
     </main>
   );
 }
