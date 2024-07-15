@@ -186,3 +186,34 @@
 .primary-gradient {
   background: linear-gradient(57deg, #D5E8F8 1.5%, #ABA3DF 80.7%);
 }
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.shadow-error {
+  box-shadow: 0 0 10px 4px rgba(255, 0, 0, 0.2);
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 1.5s infinite ease-in-out;
+}
