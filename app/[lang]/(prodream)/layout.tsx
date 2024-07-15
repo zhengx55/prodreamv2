@@ -1,9 +1,9 @@
 import DeviceProvider from '@/components/root/DeviceProvider';
 import Spacer from '@/components/root/Spacer';
 import type { Locale } from '@/i18n-config';
+import { getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
 import { ReactNode } from 'react';
 
 const FeedbackModal = dynamic(
@@ -20,10 +20,9 @@ export default async function WrittingpalLayout({
 
   return (
     <>
-      <main className='hidden h-full min-h-screen w-full overflow-x-auto overflow-y-hidden md:flex'>
+      <main className='primary-gradient hidden h-full min-h-screen w-full overflow-x-auto overflow-y-hidden md:flex'>
         <DeviceProvider lang={lang}>
           <FeedbackModal />
-
           <div className='relative flex h-full min-h-screen w-full flex-col '>
             {children}
           </div>

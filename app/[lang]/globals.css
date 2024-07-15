@@ -163,6 +163,7 @@
 }
 
 @keyframes fade {
+
   0%,
   100% {
     opacity: 0;
@@ -182,6 +183,9 @@
   display: inline-block;
 }
 
+.primary-gradient {
+  background: linear-gradient(57deg, #D5E8F8 1.5%, #ABA3DF 80.7%);
+}
 @keyframes float {
   0%,
   100% {
