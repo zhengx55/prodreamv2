@@ -5,6 +5,7 @@ const initialState: OnboardingState = {
   questionTwoAnswers: [],
   questionThreeAnswers: [],
   name: '',
+  selectedAssistant: '',
 };
 
 type OnboardingState = {
@@ -12,6 +13,7 @@ type OnboardingState = {
   questionTwoAnswers: string[];
   questionThreeAnswers: string[];
   name: string;
+  selectedAssistant: string;
 };
 
 type OnboardingAction = {
@@ -30,6 +32,9 @@ type OnboardingAction = {
   ) => void;
   removeQuestionThreeAnswer: (
     answer: OnboardingState['questionThreeAnswers'][number]
+  ) => void;
+  setSelectedAssistant: (
+    assistant: OnboardingState['selectedAssistant']
   ) => void;
 };
 
@@ -57,4 +62,5 @@ export const useOnboardingStore: StateCreator<OnboardingStore> = (set) => ({
         (a) => a !== answer
       ),
     })),
+  setSelectedAssistant: (assistant) => set({ selectedAssistant: assistant }),
 });

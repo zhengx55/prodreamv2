@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export default async function OnboardingLayout({
+export default async function StartWithLayout({
   children,
   params: { lang },
 }: {
@@ -11,7 +11,7 @@ export default async function OnboardingLayout({
     <main
       className='relative flex h-full min-h-screen w-full flex-col overflow-auto'
       style={{
-        backgroundImage: "url('/onboarding/onBoardingBG.png')",
+        backgroundImage: "url('/onboarding/startwithBG.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
