@@ -370,6 +370,13 @@
       "Personality_4": "Inspiring"
     }
   },
+  "ChatFeature": {
+    "Chat": "Chat",
+    "Brainstorming": "Brainstorming",
+    "Personal_Statement": "Personal Statement",
+    "Writing": "Writing",
+    "Proofread": "Proofread"
+  },
   "Editor": {
     "Announcement": {
       "Title": "📢 New Features Announcement! 📢",

@@ -1,30 +1,11 @@
-import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
-const NavItem = ({ icon, label }: { icon: string; label: string }) => (
-  <div className='flex cursor-pointer items-center space-x-2'>
-    <Image src={icon} alt={`${label} Icon`} width={24} height={24} />
-    <span>{label}</span>
-  </div>
-);
-
-const TopBar = () => (
-  <div className='bg-secondary flex justify-center space-x-4 p-4'>
-    <div className='bg-secondary text-secondary-foreground flex justify-center space-x-4 rounded-3xl border border-white bg-white bg-opacity-60 p-3 shadow-md'>
-      <NavItem icon='/logo/Logo.svg' label='Chat' />
-      <NavItem icon='/logo/Logo.svg' label='Brainstorming' />
-      <NavItem icon='/logo/Logo.svg' label='Personal Statement' />
-      <NavItem icon='/logo/Logo.svg' label='Writing' />
-      <NavItem icon='/logo/Logo.svg' label='Proofread' />
-    </div>
-  </div>
-);
+const TopBar = dynamic(() => import('./TopBar'), { ssr: false });
 
 const RightSidebar = () => (
   <div className='text-muted-foreground mx-6 mb-6 flex w-1/3 flex-col rounded-lg border border-white bg-white bg-opacity-60 p-4'>
     <div className='bg-card text-card-foreground mb-4 flex-grow rounded-lg p-4'></div>
     <div className='flex flex-col space-y-4'>
-      <NavItem icon='/logo/Logo.svg' label='Search' />
-      <NavItem icon='/logo/Logo.svg' label='Upload Files' />
       <div className='mt-auto flex items-center space-x-2'>
         <input
           type='text'

@@ -6,6 +6,8 @@ const initialState: OnboardingState = {
   questionThreeAnswers: [],
   name: '',
   selectedAssistant: '',
+  isSideBarVisible: true,
+  selectedNavItem: '',
 };
 
 type OnboardingState = {
@@ -14,6 +16,8 @@ type OnboardingState = {
   questionThreeAnswers: string[];
   name: string;
   selectedAssistant: string;
+  isSideBarVisible: boolean;
+  selectedNavItem: string;
 };
 
 type OnboardingAction = {
@@ -36,6 +40,10 @@ type OnboardingAction = {
   setSelectedAssistant: (
     assistant: OnboardingState['selectedAssistant']
   ) => void;
+  setIsSideBarVisible: (
+    isSideBarVisible: OnboardingState['isSideBarVisible']
+  ) => void;
+  setSelectedNavItem: (navItem: OnboardingState['selectedNavItem']) => void;
 };
 
 export type OnboardingStore = OnboardingState & OnboardingAction;
@@ -63,4 +71,6 @@ export const useOnboardingStore: StateCreator<OnboardingStore> = (set) => ({
       ),
     })),
   setSelectedAssistant: (assistant) => set({ selectedAssistant: assistant }),
+  setIsSideBarVisible: (isSideBarVisible) => set({ isSideBarVisible }),
+  setSelectedNavItem: (navItem) => set({ selectedNavItem: navItem }),
 });

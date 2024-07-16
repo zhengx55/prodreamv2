@@ -22,7 +22,7 @@ const GradientButton = ({ children }: { children: React.ReactNode }) => {
     >
       <div
         className={
-          ' flex items-center justify-center gap-4 bg-gradient-to-r from-[#9359F2] to-[#7784FA] bg-clip-text text-center text-2xl font-normal capitalize tracking-[0.24px] text-transparent'
+          ' flex items-center justify-center gap-4 bg-gradient-to-r from-[#9359F2] to-[#7784FA] bg-clip-text text-center text-2xl font-semibold capitalize tracking-[0.24px] text-transparent'
         }
       >
         {children}
