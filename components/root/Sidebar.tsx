@@ -6,14 +6,13 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { FC, memo, useMemo } from 'react';
+import { FC, memo, useMemo, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Separator } from '../ui/separator';
 import { Skeleton } from '../ui/skeleton';
 import Icon from './Icon';
 import Spacer from './Spacer';
 
-// Types
 interface EngineItemProps {
   item: {
     id: string;
@@ -41,72 +40,79 @@ interface UserProfileItemProps {
   };
 }
 
-const EngineItem: FC<EngineItemProps> = ({ item }) => (
-  <Popover key={item.id}>
-    <PopoverTrigger asChild>
-      <div className='flex-center w-full cursor-pointer flex-col gap-y-2 rounded-lg border border-white bg-white/30 py-4 shadow hover:bg-white/60'>
-        <Image
-          src={item.image}
-          alt={item.name}
-          priority
-          width={60}
-          height={60}
-          className='h-auto w-14'
-        />
-        <h2>{item.name}</h2>
-      </div>
-    </PopoverTrigger>
-    <PopoverContent
-      side='right'
-      align='start'
-      className='flex w-[357px] flex-col rounded-lg border border-white bg-white/60 px-4 py-4 shadow backdrop-blur-lg'
-    >
-      <div className='flex items-center gap-x-4 rounded-lg bg-white p-2'>
-        <Image
-          src={item.image}
-          alt={item.name}
-          width={60}
-          height={60}
-          className='h-auto w-14'
-        />
-        <div className='flex flex-col gap-y-1'>
-          <h2 className='text-lg font-medium text-zinc-800'>{item.name}</h2>
-          <p className='text-xs leading-tight text-zinc-600'>{item.intro}</p>
+const EngineItem: FC<EngineItemProps> = ({ item }) => {
+  const [isHovering, setisHovering] = useState(false);
+  return (
+    <Popover open={isHovering} onOpenChange={setisHovering} key={item.id}>
+      <PopoverTrigger onClickCapture={(e) => e.preventDefault()} asChild>
+        <div
+          onMouseEnter={() => setisHovering(true)}
+          onMouseLeave={() => setisHovering(false)}
+          className='flex-center w-full cursor-pointer flex-col gap-y-2 rounded-lg border border-transparent bg-white/30 py-4 hover:border-white hover:bg-white/60 hover:shadow'
+        >
+          <Image
+            src={item.image}
+            alt={item.name}
+            priority
+            width={60}
+            height={60}
+            className='h-auto w-14'
+          />
+          <h2>{item.name}</h2>
         </div>
-      </div>
-      <Spacer y='16' />
-      <h2 className='text-sm font-medium text-zinc-800'>Background</h2>
-      <Spacer y='4' />
-      <p className='text-xs leading-tight text-zinc-600'>{item.background}</p>
-      <Spacer y='16' />
-      <h2 className='text-sm font-medium text-zinc-800'>Skills</h2>
-      <Spacer y='4' />
-      <ul className='flex flex-wrap gap-x-2 gap-y-1'>
-        {item.skills.map((skill) => (
-          <li
-            key={skill}
-            className='rounded-full bg-white px-2 py-1 text-xs leading-tight text-violet-600'
-          >
-            {skill}
-          </li>
-        ))}
-      </ul>
-      <Spacer y='16' />
-      <h2 className='text-sm font-medium text-zinc-800'>Personalities</h2>
-      <Spacer y='4' />
-      <ul className='flex flex-wrap gap-x-2 gap-y-1'>
-        {item.personalities.map((personality) => (
-          <li
-            key={personality}
-            className='rounded-full bg-white px-2 py-1 text-xs leading-tight text-indigo-500'
-          >
-            {personality}
-          </li>
-        ))}
-      </ul>
-    </PopoverContent>
-  </Popover>
-);
+      </PopoverTrigger>
+      <PopoverContent
+        side='right'
+        align='start'
+        className='flex w-[357px] flex-col rounded-lg border border-white bg-white/60 px-4 py-4 shadow backdrop-blur-lg'
+      >
+        <div className='flex items-center gap-x-4 rounded-lg bg-white p-2'>
+          <Image
+            src={item.image}
+            alt={item.name}
+            width={60}
+            height={60}
+            className='h-auto w-14'
+          />
+          <div className='flex flex-col gap-y-1'>
+            <h2 className='text-lg font-medium text-zinc-800'>{item.name}</h2>
+            <p className='text-xs leading-tight text-zinc-600'>{item.intro}</p>
+          </div>
+        </div>
+        <Spacer y='16' />
+        <h2 className='text-sm font-medium text-zinc-800'>Background</h2>
+        <Spacer y='4' />
+        <p className='text-xs leading-tight text-zinc-600'>{item.background}</p>
+        <Spacer y='16' />
+        <h2 className='text-sm font-medium text-zinc-800'>Skills</h2>
+        <Spacer y='4' />
+        <ul className='flex flex-wrap gap-x-2 gap-y-1'>
+          {item.skills.map((skill) => (
+            <li
+              key={skill}
+              className='rounded-full bg-white px-2 py-1 text-xs leading-tight text-violet-600'
+            >
+              {skill}
+            </li>
+          ))}
+        </ul>
+        <Spacer y='16' />
+        <h2 className='text-sm font-medium text-zinc-800'>Personalities</h2>
+        <Spacer y='4' />
+        <ul className='flex flex-wrap gap-x-2 gap-y-1'>
+          {item.personalities.map((personality) => (
+            <li
+              key={personality}
+              className='rounded-full bg-white px-2 py-1 text-xs leading-tight text-indigo-500'
+            >
+              {personality}
+            </li>
+          ))}
+        </ul>
+      </PopoverContent>
+    </Popover>
+  );
+};
 
 const NavItem: FC<NavItemProps> = ({ item }) => (
   <li
@@ -133,7 +139,7 @@ const UserProfileItem: FC<UserProfileItemProps> = ({ user }) => (
         alt={user.first_name}
         width={25}
         height={25}
-        className='size-6'
+        className='size-6 rounded-full'
         priority
       />
     ) : (
