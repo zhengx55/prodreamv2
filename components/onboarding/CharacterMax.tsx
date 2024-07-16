@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { useOnboarding } from '@/zustand/store';
 import { useTranslations } from 'next-intl';
+import { motion, AnimatePresence } from 'framer-motion';
 import ProfileCard from '@/components/onboarding/ProfileCard';
 
 export const CharacterMax = () => {
@@ -41,15 +42,45 @@ export const CharacterMax = () => {
 
   return (
     <>
-      <ProfileCard
-        avatarSrc={MaxProfile.avatarSrc}
-        avatarAlt={MaxProfile.avatarAlt}
-        name={MaxProfile.name}
-        description={MaxProfile.description}
-        background={MaxProfile.background}
-        skills={MaxProfile.skills}
-        personality={MaxProfile.personality}
-      />
+      <AnimatePresence>
+        {selectedAssistant === 'Max' && (
+          <>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+              style={{ position: 'relative', top: '13%', left: '-15%' }}
+            >
+              <ProfileCard
+                avatarSrc={MaxProfile.avatarSrc}
+                avatarAlt={MaxProfile.avatarAlt}
+                name={MaxProfile.name}
+                description={MaxProfile.description}
+                background={MaxProfile.background}
+                skills={MaxProfile.skills}
+                personality={MaxProfile.personality}
+                positionStyles={{}}
+              />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+              style={{ position: 'absolute', top: '25%', left: '23%' }}
+            >
+              <Image
+                src='/onboarding/MaxIndicatorLine.svg'
+                alt='Max'
+                width={121.3}
+                height={57.3}
+                className='z-10'
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
       <Image
         src={
           selectedAssistant === 'Max'

@@ -328,6 +328,9 @@
     "Question_3_Option_7": "Writing assignments",
     "Question_3_Option_8": "Others",
     "Question_3_Option_9": "Citation",
+    "Start_With": "Start With {name}",
+    "Confirm": "Confirm",
+    "Next": "Next",
     "Max": {
       "Name": "Max",
       "AvatarAlt": "Max Avatar",

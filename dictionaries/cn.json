@@ -326,6 +326,9 @@
     "Question_3_Option_7": "写作作业",
     "Question_3_Option_8": "其他",
     "Question_3_Option_9": "引用",
+    "Start_With": "和{name}一起开始吧",
+    "Confirm": "确认",
+    "Next": "下一步",
     "Max": {
       "Name": "麦克斯",
       "AvatarAlt": "麦克斯头像",

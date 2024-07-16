@@ -29,7 +29,7 @@ const Section = ({
 // Badge Component
 const Badge = ({ text, color }: { text: string; color: string }) => (
   <span
-    className={`${color} rounded-md bg-white px-3 py-1 text-sm font-medium`}
+    className={`${color} rounded-md bg-white px-3 py-1 text-xs font-medium`}
   >
     {text}
   </span>
@@ -44,6 +44,7 @@ const ProfileCard = ({
   background,
   skills,
   personality,
+  positionStyles,
 }: {
   avatarSrc: string;
   avatarAlt: string;
@@ -52,12 +53,14 @@ const ProfileCard = ({
   background: string;
   skills: { text: string; color: string }[];
   personality: { text: string; color: string }[];
+  positionStyles: React.CSSProperties;
 }) => {
   return (
     <div
       className={
-        'absolute left-[-200px] z-30 mx-auto max-w-md rounded-md border border-white bg-white/50 p-6 backdrop-blur-lg backdrop-filter'
+        'absolute mx-auto max-w-md rounded-md border border-white bg-white/50 p-6 backdrop-blur-lg backdrop-filter'
       }
+      style={positionStyles}
     >
       <div className={`mb-6 flex items-center`}>
         <Avatar src={avatarSrc} alt={avatarAlt} />
