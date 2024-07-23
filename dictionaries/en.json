@@ -371,6 +371,8 @@
     }
   },
   "ChatFeature": {
+    "HideSideBar": "Hide Sidebar",
+    "ShowSideBar": "Show Sidebar",
     "Chat": "Chat",
     "Brainstorming": "Brainstorming",
     "Personal_Statement": "Personal Statement",

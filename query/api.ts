@@ -1385,6 +1385,34 @@ export async function ButtonTrack(event: string, mobile: number) {
 }
 
 // ----------------------------------------------------------------
+// Onboarding
+// ----------------------------------------------------------------
+export async function setFeaturePreferences(params: {
+  features: string[];
+}): Promise<void> {
+  try {
+    const token = Cookies.get('token');
+    const formdata = new FormData();
+    formdata.append('features', params.features.join(','));
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/feature_preference`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'PUT',
+        body: formdata,
+      }
+    );
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw data.msg;
+    }
+    return data.data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+// ----------------------------------------------------------------
 // CHAT
 // ----------------------------------------------------------------
 export async function chat(params: {

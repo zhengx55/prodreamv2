@@ -3,11 +3,17 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
 import { ChevronRight } from 'lucide-react';
+import { profileResetName, setFeaturePreferences } from '@/query/api';
 import { useOnboarding } from '@/zustand/store';
 import Image from 'next/image';
+import { useRouter, useParams } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
+import { toast } from 'sonner';
 
 const InteractBlock = () => {
+  const router = useRouter();
+  const { lang } = useParams();
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -38,6 +44,29 @@ const InteractBlock = () => {
   const removeQuestionThreeAnswer = useOnboarding(
     (state) => state.removeQuestionThreeAnswer
   );
+
+  const { mutateAsync: setYourPreferences } = useMutation({
+    mutationFn: (params: { features: string[] }) =>
+      setFeaturePreferences(params),
+    onSuccess: async () => {
+      router.push(`/${lang}/onboarding/startwith`);
+    },
+
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { mutateAsync: setUserName } = useMutation({
+    mutationFn: (params: { first_name: string; last_name: string }) =>
+      profileResetName(params),
+    onSuccess: async () => {
+      console.log('设置姓名成功');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const questions: { [key: number]: string } = {
     0: transOnboarding('Question_1'),
@@ -79,7 +108,8 @@ const InteractBlock = () => {
 
   const handleNextClick = () => {
     if (currentQuestionIndex === 2 && questionThreeAnswers.length > 0) {
-      console.log('去下一个页面');
+      const features = questionTwoAnswers.concat(questionThreeAnswers);
+      setYourPreferences({ features });
       return;
     }
 
@@ -89,6 +119,7 @@ const InteractBlock = () => {
         return;
       } else {
         setName(inputValue);
+        setUserName({ first_name: inputValue, last_name: '' });
       }
     } else if (currentQuestionIndex === 1 && questionTwoAnswers.length === 0) {
       return;

@@ -368,6 +368,15 @@
       "Personality_4": "鼓舞人心"
     }
   },
+  "ChatFeature": {
+    "HideSideBar": "隐藏侧边栏",
+    "ShowSideBar": "显示侧边栏",
+    "Chat": "聊天",
+    "Brainstorming": "头脑风暴",
+    "Personal_Statement": "个人陈述",
+    "Writing": "写作",
+    "Proofread": "校对"
+  },
   "Editor": {
     "Announcement": {
       "Title": "📢 更新通知！📢",
