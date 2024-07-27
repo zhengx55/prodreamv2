@@ -11,7 +11,7 @@ export default async function OnboardLayout({
     <main
       className='relative flex h-full min-h-screen w-full flex-col overflow-auto'
       style={{
-        background: 'linear-gradient(57deg, #D5E8F8 1.5%, #ABA3DF 80.7%)',
+        background: 'linear-gradient(180deg, #C9D8F8 0%, #F2F1FF 100%)',
       }}
     >
       {children}

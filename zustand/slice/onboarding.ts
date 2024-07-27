@@ -7,7 +7,7 @@ const initialState: OnboardingState = {
   name: '',
   selectedAssistant: '',
   isSideBarVisible: true,
-  selectedNavItem: '',
+  selectedNavItem: 'Chat',
 };
 
 type OnboardingState = {

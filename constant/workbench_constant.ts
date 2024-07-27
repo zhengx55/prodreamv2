@@ -53,23 +53,27 @@ export const workbench_nav = [
     title: 'Home',
     link: '',
     icon: '/workbench/home.svg',
+    icon_white: '/workbench/home_white.svg',
   },
   {
     id: 'workbench_nav_2',
     title: 'History',
     link: '',
     icon: '/workbench/history.svg',
+    icon_white: '/workbench/history_white.svg',
   },
   {
     id: 'workbench_nav_3',
     title: 'Features',
     link: '',
     icon: '/workbench/features.svg',
+    icon_white: '/workbench/features_white.svg',
   },
   {
     id: 'workbench_nav_4',
     title: 'Memory',
     link: '',
     icon: '/workbench/memory.svg',
+    icon_white: '/workbench/memory_white.svg',
   },
 ];

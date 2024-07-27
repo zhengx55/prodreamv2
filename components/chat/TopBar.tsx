@@ -12,10 +12,10 @@ const NavItem = ({ icon, label }: { icon: string; label: string }) => {
 
   return (
     <div
-      className={`flex cursor-pointer items-center space-x-2 rounded-[29px] px-6 ${
+      className={`flex cursor-pointer items-center space-x-2 rounded-[8px] px-6 py-2 ${
         isSelected
-          ? 'bg-white bg-opacity-60 px-6 py-1 shadow-md'
-          : 'hover:bg-white hover:bg-opacity-60 hover:px-6 hover:py-1 hover:shadow-md'
+          ? 'bg-white bg-opacity-60 px-6 shadow-md'
+          : 'hover:bg-white hover:bg-opacity-60 hover:px-6 hover:shadow-md'
       }`}
       onClick={() => setSelectedNavItem(label)}
     >
@@ -34,14 +34,16 @@ const NavItem = ({ icon, label }: { icon: string; label: string }) => {
 };
 
 const TopBar = () => (
-  <div className='bg-secondary flex justify-center py-4 pr-5'>
-    <div className='flex h-12 w-full flex-shrink-0 flex-col items-center justify-center gap-2 rounded-lg border border-white bg-white bg-opacity-60 p-3 shadow-md'>
+  <div className='bg-secondary flex justify-center py-6 pr-5'>
+    <div className='flex h-12 w-full flex-shrink-0 flex-col items-center justify-center gap-2 rounded-lg'>
       <div className='flex w-full justify-center space-x-4'>
-        <NavItem icon='/logo/Logo.svg' label='Chat' />
-        <NavItem icon='/logo/Logo.svg' label='Brainstorming' />
-        <NavItem icon='/logo/Logo.svg' label='Personal Statement' />
-        <NavItem icon='/logo/Logo.svg' label='Writing' />
-        <NavItem icon='/logo/Logo.svg' label='Proofread' />
+        <NavItem icon='/workbench/nav_chat.svg' label='Chat' />
+        <NavItem
+          icon='/workbench/nav_brainstorming.svg'
+          label='Brainstorming'
+        />
+        <NavItem icon='/workbench/nav_outline.svg' label='Outline' />
+        <NavItem icon='/workbench/nav_draftproofread.svg' label='Proofread' />
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex gap-x-2 items-center justify-center whitespace-nowrap rounded text-sm font-medium ring-offset-background transition-colors transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
+  'inline-flex items-center justify-center whitespace-nowrap rounded text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
   {
     variants: {
       variant: {
@@ -19,6 +19,10 @@ const buttonVariants = cva(
           'bg-white hover:text-[#9A66FF] hover:underline active:text-[#7B52CC] text-violet-500',
         text: 'text-zinc-600 text-2xl font-normal hover:text-violet-500 active:text-violet-600',
         icon: 'p-1 hover:bg-zinc-100 text-zinc-600 gap-1 rounded',
+        question:
+          'bg-[#7270E8] text-white border border-[#7270E8] hover:bg-[#5F5DD0] active:bg-[#4C4AB8]',
+        questionOutline:
+          'bg-white text-[#7270E8] border border-[#7270E8] hover:bg-[#F0F0FF] active:bg-[#E0E0FF]',
       },
       size: {
         default: 'h-10 px-4 py-2',
@@ -26,6 +30,7 @@ const buttonVariants = cva(
         lg: 'h-11 px-8',
         expand: 'h-9 px-8',
         icon: 'h-10 w-10',
+        question: 'h-[38px] px-8 py-2',
       },
     },
     defaultVariants: {
@@ -46,7 +51,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          'text-transform-capitalize font-poppins text-sm font-normal leading-[22px]',
+          variant === 'questionOutline' ? 'text-[#7270E8]' : 'text-white',
+          'gap-2'
+        )}
         ref={ref}
         {...props}
       />
