@@ -77,3 +77,20 @@ export const workbench_nav = [
     icon_white: '/workbench/memory_white.svg',
   },
 ];
+
+export const workbench_profile = [
+  {
+    id: 'workbench_profile_1',
+    title: 'Profile',
+    link: '',
+    icon: '/workbench/profile.svg',
+    icon_white: '/workbench/profile_white.svg',
+  },
+  {
+    id: 'workbench_profile_2',
+    title: 'Logout',
+    link: '',
+    icon: '/workbench/logout.svg',
+    icon_white: '/workbench/logout_white.svg',
+  },
+];

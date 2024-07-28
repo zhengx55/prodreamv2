@@ -1,5 +1,9 @@
 'use client';
-import { workbench_engine, workbench_nav } from '@/constant/workbench_constant';
+import {
+  workbench_engine,
+  workbench_nav,
+  workbench_profile,
+} from '@/constant/workbench_constant';
 import { useUserInfo } from '@/zustand/store';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
@@ -145,24 +149,46 @@ const NavItem: FC<NavItemProps> = ({ item }) => {
   );
 };
 
-const UserProfileItem: FC<UserProfileItemProps> = ({ user }) => (
-  <li className='group inline-flex w-full cursor-pointer items-center gap-x-2 rounded-lg border border-transparent px-2 py-1.5 hover:border-white hover:bg-[#6866E2] hover:shadow'>
-    {user.avatar ? (
-      <Icon
-        src={user.avatar}
-        alt={user.first_name}
-        width={25}
-        height={25}
-        className='size-6 rounded-full'
-        priority
-      />
-    ) : (
-      <Skeleton className='size-6 rounded-full' />
-    )}
-    <p className='text-zinc-600 group-hover:text-white'>{user.first_name}</p>
-    <ChevronRight className='ml-auto' size={16} />
-  </li>
-);
+const UserProfileItem: FC<UserProfileItemProps> = ({ user }) => {
+  const router = useRouter();
+  const renderedProfileItems = useMemo(
+    () =>
+      workbench_profile.map((item) => <NavItem key={item.id} item={item} />),
+    []
+  );
+
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <li className='group inline-flex w-full cursor-pointer items-center gap-x-2 rounded-lg border border-transparent px-2 py-1.5 hover:border-white  hover:bg-[#6866E2] hover:text-white hover:shadow'>
+          {user.avatar ? (
+            <Icon
+              src={user.avatar}
+              alt={user.first_name}
+              width={25}
+              height={25}
+              className='size-6 rounded-full'
+              priority
+            />
+          ) : (
+            <Skeleton className='size-6 rounded-full' />
+          )}
+          <p className='text-zinc-600 group-hover:text-white'>
+            {user.first_name}
+          </p>
+          <ChevronRight className='ml-auto' size={16} />
+        </li>
+      </PopoverTrigger>
+      <PopoverContent
+        className='custom-popover-content w-[180px] backdrop-blur-lg backdrop-filter hover:bg-white hover:bg-opacity-60'
+        side='right'
+        align='end'
+      >
+        <div className='flex flex-col gap-y-2'>{renderedProfileItems}</div>
+      </PopoverContent>
+    </Popover>
+  );
+};
 
 const LeftTopMenu = () => {
   const router = useRouter();
@@ -216,7 +242,11 @@ const LeftTopMenu = () => {
             </div>
           </Tooltip>
         </PopoverTrigger>
-        <PopoverContent className='custom-popover-content w-[260px]'>
+        <PopoverContent
+          className='custom-popover-content w-[180px] translate-x-2 backdrop-blur-lg backdrop-filter'
+          side='bottom'
+          align='end'
+        >
           <div className='flex h-[1000px] shrink-0 flex-col'>
             <div className='flex flex-col gap-y-2'>{renderedEngineItems}</div>
             <ul className='mt-auto flex flex-col gap-y-2'>
