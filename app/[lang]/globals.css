@@ -162,8 +162,15 @@
   display: block;
 }
 
-@keyframes fade {
+.custom-popover-content {
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 1px solid #fff;
+  filter: drop-shadow(0px 11px 25px rgba(87, 84, 94, 0.07))
+    drop-shadow(0px 7px 17px rgba(87, 84, 94, 0.12));
+  backdrop-filter: blur(12px);
+}
 
+@keyframes fade {
   0%,
   100% {
     opacity: 0;
@@ -184,7 +191,7 @@
 }
 
 .primary-gradient {
-  background: linear-gradient(57deg, #D5E8F8 1.5%, #ABA3DF 80.7%);
+  background: linear-gradient(57deg, #d5e8f8 1.5%, #aba3df 80.7%);
 }
 @keyframes float {
   0%,
@@ -216,4 +223,15 @@
 
 .animate-twinkle {
   animation: twinkle 1.5s infinite ease-in-out;
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

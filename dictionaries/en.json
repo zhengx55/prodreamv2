@@ -327,7 +327,57 @@
     "Question_3_Option_6": "Experience agents",
     "Question_3_Option_7": "Writing assignments",
     "Question_3_Option_8": "Others",
-    "Question_3_Option_9": "Citation"
+    "Question_3_Option_9": "Citation",
+    "Start_With": "Start With {name}",
+    "Confirm": "Confirm",
+    "Next": "Next",
+    "Max": {
+      "Name": "Max",
+      "AvatarAlt": "Max Avatar",
+      "Description": "Hey, I'm here to help you discover your talents and get a dream offer!",
+      "Background": "A cheerful and empathetic college admissions advisor and entrepreneur, is dedicated to using AI to help students succeed academically.",
+      "Skill_1": "College Admissions Advising",
+      "Skill_2": "Personal statement",
+      "Skill_3": "AI Technology Integration",
+      "Personality_1": "Open-minded",
+      "Personality_2": "Friendly",
+      "Personality_3": "Problem-solving Oriented"
+    },
+    "Jessica": {
+      "Name": "Jessica",
+      "AvatarAlt": "Jessica Avatar",
+      "Description": "Hello! Ready to tackle your writing challenges and elevate your skills?",
+      "Background": "A dedicated academic author, always striving to assist others in improving their academic writing and research skills.",
+      "Skill_1": "Academic Research",
+      "Skill_2": "Writing and Editing",
+      "Skill_3": "Critical Thinking",
+      "Skill_4": "Problem-solving",
+      "Personality_1": "Helpful",
+      "Personality_2": "Logical",
+      "Personality_3": "Analytical"
+    },
+    "Dreami": {
+      "Name": "Dreami",
+      "AvatarAlt": "Dreami Avatar",
+      "Description": "Hi there! Let's explore your potential and solve any questions together!",
+      "Background": "Dreami, a gentle and wise guiding spirit, is dedicated to helping individuals discover their true potential and achieve their dreams.",
+      "Skill_1": "Guidance and Mentoring",
+      "Skill_2": "Psychological Insight",
+      "Skill_3": "Intuition and Wisdom",
+      "Personality_1": "Gentle",
+      "Personality_2": "Curious",
+      "Personality_3": "Supportive",
+      "Personality_4": "Inspiring"
+    }
+  },
+  "ChatFeature": {
+    "HideSideBar": "Hide Sidebar",
+    "ShowSideBar": "Show Sidebar",
+    "Chat": "Chat",
+    "Brainstorming": "Brainstorming",
+    "Personal_Statement": "Personal Statement",
+    "Writing": "Writing",
+    "Proofread": "Proofread"
   },
   "Editor": {
     "Announcement": {
