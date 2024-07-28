@@ -3,10 +3,17 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
 import { ChevronRight } from 'lucide-react';
+import { profileResetName, setFeaturePreferences } from '@/query/api';
 import { useOnboarding } from '@/zustand/store';
+import Image from 'next/image';
+import { useRouter, useParams } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
+import { toast } from 'sonner';
 
 const InteractBlock = () => {
+  const router = useRouter();
+  const { lang } = useParams();
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -37,6 +44,29 @@ const InteractBlock = () => {
   const removeQuestionThreeAnswer = useOnboarding(
     (state) => state.removeQuestionThreeAnswer
   );
+
+  const { mutateAsync: setYourPreferences } = useMutation({
+    mutationFn: (params: { features: string[] }) =>
+      setFeaturePreferences(params),
+    onSuccess: async () => {
+      router.push(`/${lang}/onboarding/startwith`);
+    },
+
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { mutateAsync: setUserName } = useMutation({
+    mutationFn: (params: { first_name: string; last_name: string }) =>
+      profileResetName(params),
+    onSuccess: async () => {
+      console.log('设置姓名成功');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const questions: { [key: number]: string } = {
     0: transOnboarding('Question_1'),
@@ -78,7 +108,8 @@ const InteractBlock = () => {
 
   const handleNextClick = () => {
     if (currentQuestionIndex === 2 && questionThreeAnswers.length > 0) {
-      console.log('去下一个页面');
+      const features = questionTwoAnswers.concat(questionThreeAnswers);
+      setYourPreferences({ features });
       return;
     }
 
@@ -88,6 +119,7 @@ const InteractBlock = () => {
         return;
       } else {
         setName(inputValue);
+        setUserName({ first_name: inputValue, last_name: '' });
       }
     } else if (currentQuestionIndex === 1 && questionTwoAnswers.length === 0) {
       return;
@@ -141,20 +173,39 @@ const InteractBlock = () => {
       </p>
       <div className='mb-6 flex justify-center'>
         {currentQuestionIndex === 0 && (
-          <div
-            className={`relative w-1/2 rounded-lg ${isFocused ? 'shadow-white' : ''} ${isError ? 'shadow-error' : ''}`}
-          >
-            <Input
-              type='text'
-              id='area'
-              placeholder={transOnboarding('Input_Placeholder')}
-              value={inputValue}
-              onChange={handleInputChange}
-              onFocus={whenFocus}
-              onBlur={() => setIsFocused(false)}
-              className='small-regular w-full focus-visible:shadow-white focus-visible:outline-none focus-visible:ring-0'
-            />
-          </div>
+          <>
+            <div
+              className={`relative w-1/3 rounded-lg ${isFocused ? 'shadow-white' : ''} ${isError ? 'shadow-error' : ''}`}
+            >
+              <Input
+                type='text'
+                id='area'
+                placeholder={transOnboarding('Input_Placeholder')}
+                value={inputValue}
+                onChange={handleInputChange}
+                onFocus={whenFocus}
+                onBlur={() => setIsFocused(false)}
+                className='small-regular w-full focus-visible:shadow-white focus-visible:outline-none focus-visible:ring-0'
+              />
+            </div>
+            <button
+              className='ml-2 flex items-center justify-center gap-2 rounded-md border-4 border-white/20 bg-gradient-to-r from-[#6680FF] to-[#3D4D99] px-4 py-1 text-white'
+              style={{
+                boxShadow:
+                  '0px 7px 17px -2px rgba(87, 84, 94, 0.12), 0px 11px 25px 4px rgba(87, 84, 94, 0.07)',
+                backgroundClip: 'padding-box',
+              }}
+              onClick={handleNextClick}
+            >
+              {transOnboarding('Confirm')}
+              <Image
+                src='/onboarding/star.svg'
+                alt='Star'
+                width={25}
+                height={24}
+              />
+            </button>
+          </>
         )}
         {currentQuestionIndex === 1 && (
           <div className='relative flex flex-wrap gap-4'>
@@ -183,15 +234,22 @@ const InteractBlock = () => {
           </div>
         )}
       </div>
-      <div className='flex items-center justify-end text-right'>
-        <button
-          className='text-primary flex cursor-pointer items-center justify-start font-poppins text-2xl font-semibold leading-[36px] text-white'
-          onClick={handleNextClick}
-        >
-          <span className='flex-grow'>Next</span>
-          <ChevronRight size={24} className='ml-auto h-6 w-6' />
-        </button>
-      </div>
+      {currentQuestionIndex !== 0 && (
+        <div className='flex items-center justify-end text-right'>
+          <button
+            className={`text-primary flex cursor-pointer items-center justify-start font-poppins text-2xl font-semibold leading-[36px] ${
+              (currentQuestionIndex === 1 && questionTwoAnswers.length === 0) ||
+              (currentQuestionIndex === 2 && questionThreeAnswers.length === 0)
+                ? 'text-white/40'
+                : 'text-white'
+            }`}
+            onClick={handleNextClick}
+          >
+            <span className='flex-grow'>{transOnboarding('Next')}</span>
+            <ChevronRight size={24} className='ml-auto h-6 w-6' />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

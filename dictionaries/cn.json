@@ -325,7 +325,57 @@
     "Question_3_Option_6": "经验代理",
     "Question_3_Option_7": "写作作业",
     "Question_3_Option_8": "其他",
-    "Question_3_Option_9": "引用"
+    "Question_3_Option_9": "引用",
+    "Start_With": "和{name}一起开始吧",
+    "Confirm": "确认",
+    "Next": "下一步",
+    "Max": {
+      "Name": "麦克斯",
+      "AvatarAlt": "麦克斯头像",
+      "Description": "你好，我是麦克斯，我会帮助你发现你的才能，并为你提供一个梦想的Offer！",
+      "Background": "一个快乐而感性的学院招生顾问和企业家，致力于使用AI帮助学生成功。",
+      "Skill_1": "学院招生咨询",
+      "Skill_2": "个人陈述",
+      "Skill_3": "AI技术集成",
+      "Personality_1": "开放思维",
+      "Personality_2": "友好",
+      "Personality_3": "问题解决导向"
+    },
+    "Jessica": {
+      "Name": "Jessica",
+      "AvatarAlt": "Jessica头像",
+      "Description": "你好！准备好迎接你的写作挑战并提高你的技能了吗？",
+      "Background": "一个专注于学术写作和研究的作者，总是致力于帮助他人提高他们的学术写作和研究技能。",
+      "Skill_1": "学术研究",
+      "Skill_2": "写作和编辑",
+      "Skill_3": "批判性思维",
+      "Skill_4": "解决问题",
+      "Personality_1": "乐于助人",
+      "Personality_2": "逻辑性",
+      "Personality_3": "分析性"
+    },
+    "Dreami": {
+      "Name": "Dreami",
+      "AvatarAlt": "Dreami头像",
+      "Description": "你好！让我们一起探索你的潜力，解决所有问题！",
+      "Background": "Dreami，一个温和而智慧的引导者，致力于帮助人们发现他们的真实潜力，实现梦想。",
+      "Skill_1": "指导和辅导",
+      "Skill_2": "心理学洞察",
+      "Skill_3": "直觉和智慧",
+      "Personality_1": "温和",
+      "Personality_2": "好奇心",
+      "Personality_3": "支持感",
+      "Personality_4": "鼓舞人心"
+    }
+  },
+  "ChatFeature": {
+    "HideSideBar": "隐藏侧边栏",
+    "ShowSideBar": "显示侧边栏",
+    "Chat": "聊天",
+    "Brainstorming": "头脑风暴",
+    "Personal_Statement": "个人陈述",
+    "Writing": "写作",
+    "Proofread": "校对"
   },
   "Editor": {
     "Announcement": {

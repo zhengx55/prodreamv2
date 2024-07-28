@@ -10,6 +10,7 @@ module.exports = {
   safelist: ['ProseMirror'],
   theme: {
     extend: {
+      scrollbar: ['rounded'],
       fontFamily: {
         poppins: ['var(--poppins-font)'],
         inter: ['var(--inter-font)'],
