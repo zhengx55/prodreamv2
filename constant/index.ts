@@ -7,20 +7,6 @@ export const createSidebarLinks = (t: (id: string) => string) => {
       active_image: '/nav/polish_active.svg',
       link: '/editor',
     },
-    // {
-    //   id: 'sidebar-02',
-    //   title: 'Essay Review',
-    //   image: '/nav/review.svg',
-    //   active_image: '/nav/review_active.svg',
-    //   link: '/essay-review',
-    // },
-    // {
-    //   id: 'sidebar-03',
-    //   title: 'ProPDF',
-    //   image: '/nav/pdf.svg',
-    //   active_image: '/nav/pdf_active.svg',
-    //   link: '/pdf-chat',
-    // },
   ];
 };
 

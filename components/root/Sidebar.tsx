@@ -7,7 +7,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC, memo, useMemo, useState } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '../ui/hover-card';
 import { Separator } from '../ui/separator';
 import { Skeleton } from '../ui/skeleton';
 import Icon from './Icon';
@@ -43,12 +47,16 @@ interface UserProfileItemProps {
 const EngineItem: FC<EngineItemProps> = ({ item }) => {
   const [isHovering, setisHovering] = useState(false);
   return (
-    <Popover open={isHovering} onOpenChange={setisHovering} key={item.id}>
-      <PopoverTrigger onClickCapture={(e) => e.preventDefault()} asChild>
+    <HoverCard
+      openDelay={50}
+      closeDelay={50}
+      open={isHovering}
+      onOpenChange={setisHovering}
+      key={item.id}
+    >
+      <HoverCardTrigger asChild>
         <div
-          onMouseEnter={() => setisHovering(true)}
-          onMouseLeave={() => setisHovering(false)}
-          className='flex-center w-full cursor-pointer flex-col gap-y-2 rounded-lg border border-transparent bg-white/30 py-4 hover:border-white hover:bg-white/60 hover:shadow'
+          className={`${isHovering && 'border-white bg-white/60 shadow'} flex-center w-full cursor-pointer flex-col gap-y-2 rounded-lg border border-transparent bg-white/30 py-4`}
         >
           <Image
             src={item.image}
@@ -60,8 +68,8 @@ const EngineItem: FC<EngineItemProps> = ({ item }) => {
           />
           <h2>{item.name}</h2>
         </div>
-      </PopoverTrigger>
-      <PopoverContent
+      </HoverCardTrigger>
+      <HoverCardContent
         side='right'
         align='start'
         className='flex w-[357px] flex-col rounded-lg border border-white bg-white/60 px-4 py-4 shadow backdrop-blur-lg'
@@ -109,8 +117,8 @@ const EngineItem: FC<EngineItemProps> = ({ item }) => {
             </li>
           ))}
         </ul>
-      </PopoverContent>
-    </Popover>
+      </HoverCardContent>
+    </HoverCard>
   );
 };
 
