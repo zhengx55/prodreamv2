@@ -24,10 +24,11 @@ const QuestionBtn: React.FC<QuestionBtnProps> = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        className,
-        'rounded-lg',
+        'text-transform-capitalize gap-2 rounded-lg font-poppins text-sm font-normal leading-[22px]',
+        outline ? 'text-[#7270E8]' : 'text-white',
         disabled &&
-          'border-[#DFE2EA] bg-[#DFE2EA] text-white hover:bg-[#DFE2EA] hover:text-white'
+          'border-[#DFE2EA] bg-[#DFE2EA] text-white hover:bg-[#DFE2EA] hover:text-white',
+        className
       )}
     >
       {children}
