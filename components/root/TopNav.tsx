@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { memo } from 'react';
+import LeftTopMenu from '../chat/LeftTopMenu';
 
 type Props = {
   lang: Locale;
@@ -12,19 +13,18 @@ type Props = {
 
 const TopNav = ({ lang }: Props) => {
   return (
-    <div className='bg-secondary flex justify-center py-2'>
-      <div className='flex h-12 w-full shrink-0 flex-col items-center justify-center gap-2 rounded-lg'>
-        <div className='flex w-full justify-center space-x-4'>
-          {Navigation.map((nav) => (
-            <NavItem
-              key={nav.id}
-              icon={nav.image}
-              label={nav.title}
-              link={`/${lang}/${nav.link}`}
-            />
-          ))}
-        </div>
+    <div className='relative flex shrink-0 justify-center gap-x-4 py-2'>
+      <div className='absolute left-[8px] top-[8px]'>
+        <LeftTopMenu />
       </div>
+      {Navigation.map((nav) => (
+        <NavItem
+          key={nav.id}
+          icon={nav.image}
+          label={nav.title}
+          link={`/${lang}/${nav.link}`}
+        />
+      ))}
     </div>
   );
 };
