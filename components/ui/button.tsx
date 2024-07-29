@@ -5,18 +5,16 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
+  'inline-flex items-center justify-center whitespace-nowrap rounded text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none gap-x-2',
   {
     variants: {
       variant: {
-        default:
-          'bg-violet-500 text-white active:bg-violet-600 hover:bg-[#9966FF]',
+        default: 'bg-[#726fe7] text-white',
         secondary:
           'bg-transparent border border-violet-500 bg-transparent hover:bg-violet-50 hover:shadow-lg',
         outline:
           'border border-neutral-400 text-zinc-600 active:bg-violet-50 hover:bg-violet-50 active:text-zinc-800 ',
-        ghost:
-          'bg-white hover:text-[#9A66FF] hover:underline active:text-[#7B52CC] text-violet-500',
+        ghost: 'bg-white hover:text-[#726fe7] hover:underline text-violet-500',
         text: 'text-zinc-600 text-2xl font-normal hover:text-violet-500 active:text-violet-600',
         icon: 'p-1 hover:bg-zinc-100 text-zinc-600 gap-1 rounded',
         question:

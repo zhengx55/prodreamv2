@@ -1,6 +1,6 @@
 'use client';
-import Image from 'next/image';
 import { useOnboarding } from '@/zustand/store';
+import Image from 'next/image';
 
 const NavItem = ({ icon, label }: { icon: string; label: string }) => {
   const { selectedNavItem, setSelectedNavItem } = useOnboarding((state) => ({

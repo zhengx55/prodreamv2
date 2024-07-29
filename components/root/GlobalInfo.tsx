@@ -3,22 +3,12 @@ import useMount from '@/hooks/useMount';
 import { Locale } from '@/i18n-config';
 import { refreshUserSession } from '@/query/api';
 import { useUserInfo } from '@/zustand/store';
-import { useParams, usePathname, useRouter } from 'next/navigation';
-import { ReactNode } from 'react';
-import Sidebar from './Sidebar';
+import { useRouter } from 'next/navigation';
 
-const DeviceProvider = ({
-  children,
-  lang,
-}: {
-  children: ReactNode;
-  lang: Locale;
-}) => {
-  const path = usePathname();
-  const param = useParams();
-  const isEssayDetail = param['id'] && path.includes('/editor');
+const GlobalInfo = ({ lang }: { lang: Locale }) => {
   const router = useRouter();
   const updateUserInfo = useUserInfo((state) => state.setUser);
+
   useMount(() => {
     async function refreshUserInfo() {
       try {
@@ -31,11 +21,6 @@ const DeviceProvider = ({
     refreshUserInfo();
   });
 
-  return (
-    <>
-      {!isEssayDetail && <Sidebar />}
-      {children}
-    </>
-  );
+  return null;
 };
-export default DeviceProvider;
+export default GlobalInfo;

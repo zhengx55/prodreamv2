@@ -2,19 +2,15 @@ import PageViewTrack from '@/components/root/PageViewTrack';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import Hotjar from '@/htojar/Hotjar';
+import { locales } from '@/i18n';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
-import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import {
-  getMessages,
-  getTranslations,
-  unstable_setRequestLocale,
-} from 'next-intl/server';
+import { getMessages, unstable_setRequestLocale } from 'next-intl/server';
+import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
 import localFont from 'next/font/local';
 import { Suspense } from 'react';
 import { Toaster } from 'sonner';
-import { locales } from '@/i18n';
 import './globals.css';
 
 const poppins = Poppins({
@@ -97,7 +93,7 @@ export default async function RootLayout({
         >
           <TanstackProvider>
             <NextIntlClientProvider messages={messages}>
-              <main className='flex h-full w-full overflow-auto sm:min-w-[1440px]'>
+              <main className='h-screen overflow-x-auto sm:min-w-[1440px]'>
                 <Suspense>
                   <PageViewTrack />
                 </Suspense>
