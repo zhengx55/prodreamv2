@@ -2,12 +2,14 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PlusCircle, Search } from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { memo } from 'react';
 
 const SearchSection = () => {
   const { replace } = useRouter();
   const pathName = usePathname();
+  const searchParam = useSearchParams();
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const params = new URLSearchParams();
     if (e.target.value) {
@@ -28,12 +30,15 @@ const SearchSection = () => {
           name='search_materials'
           className='h-10 border-none pl-2 pr-0 focus-visible:ring-0'
           placeholder='Search materials'
+          defaultValue={searchParam.get('query') ?? ''}
         />
       </div>
-      <Button className='size-max rounded-lg px-4 py-2' role='button'>
-        <PlusCircle size={24} />
-        Add Material
-      </Button>
+      <Link passHref href={`brainstorming/create`}>
+        <Button className='size-max rounded-lg px-4 py-2' role='button'>
+          <PlusCircle size={24} />
+          Add Material
+        </Button>
+      </Link>
     </div>
   );
 };
