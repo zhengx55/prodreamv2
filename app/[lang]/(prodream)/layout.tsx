@@ -1,14 +1,10 @@
-import DeviceProvider from '@/components/root/DeviceProvider';
+import GlobalInfo from '@/components/root/GlobalInfo';
 import Spacer from '@/components/root/Spacer';
+import TopNav from '@/components/root/TopNav';
 import type { Locale } from '@/i18n-config';
-import { getTranslations } from 'next-intl/server';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { ReactNode } from 'react';
 
-const FeedbackModal = dynamic(
-  () => import('@/components/feedback/FeedbackModal')
-);
 export default async function WrittingpalLayout({
   children,
   params: { lang },
@@ -16,18 +12,13 @@ export default async function WrittingpalLayout({
   children: ReactNode;
   params: { lang: Locale };
 }) {
-  const trans = await getTranslations('Homepage');
-
   return (
     <>
-      <main className='primary-gradient hidden h-full min-h-screen w-full overflow-x-auto overflow-y-hidden md:flex'>
-        <DeviceProvider lang={lang}>
-          <FeedbackModal />
-          <div className='relative flex h-full min-h-screen w-full flex-col '>
-            {children}
-          </div>
-        </DeviceProvider>
-      </main>
+      <div className='hidden size-full bg-gradient-to-b from-[#c9d7f7] to-[#f2f0ff] md:flex md:flex-col'>
+        <GlobalInfo lang={lang} />
+        <TopNav lang={lang} />
+        {children}
+      </div>
       <div className='flex flex-1 flex-col items-center bg-[#F6F4FF] md:hidden'>
         <div className='relative h-[70%] w-full overflow-hidden'>
           <Image
