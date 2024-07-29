@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import MaterialGrid from '@/components/workbench/brainstorming/MaterialGrid';
-import { List, PlusCircle, Search, SortAsc } from 'lucide-react';
+import MaterialSection from '@/components/workbench/brainstorming/MaterialSection';
+import { PlusCircle, Search } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Page() {
@@ -35,20 +35,7 @@ export default function Page() {
             </Button>
           </div>
         </div>
-        <div className='flex flex-col gap-y-4 p-4'>
-          <div className='flex-between'>
-            <h3 className='text-xl text-zinc-500'>Recently</h3>
-            <div className='flex gap-x-2'>
-              <Button role='button' className='size-max p-1' variant={'icon'}>
-                <List size={24} />
-              </Button>
-              <Button role='button' className='size-max p-1' variant={'icon'}>
-                <SortAsc size={24} />
-              </Button>
-            </div>
-          </div>
-          <MaterialGrid />
-        </div>
+        <MaterialSection />
       </div>
     </section>
   );
