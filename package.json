@@ -2,6 +2,9 @@
   "name": "prodream",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "please-use-yarn"
+  },
   "scripts": {
     "dev": "next dev --port 8000",
     "build": "ANALYZE=false next build",
