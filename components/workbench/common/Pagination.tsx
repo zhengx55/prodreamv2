@@ -35,11 +35,12 @@ const PaginationSection = (props: Props) => {
         {Array.from({ length: PAGENUMBER }).map((_, index) => (
           <PaginationItem
             key={index}
-            className={`${index + 1 === Number(page) && 'rounded-lg bg-indigo-500 '} inline-flex size-8 items-center justify-center`}
+            className={`${index + 1 === Number(page) && 'bg-indigo-500 '} size-8 cursor-pointer rounded-lg hover:bg-slate-50`}
           >
             <PaginationLink
               href={createPageLink(index + 1)}
               isActive={index + 1 === Number(page)}
+              className='inline-flex size-full items-center justify-center'
             >
               {index + 1}
             </PaginationLink>

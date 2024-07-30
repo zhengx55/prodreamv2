@@ -4400,6 +4400,11 @@ next-intl@^3.14.1:
     negotiator "^0.6.3"
     use-intl "^3.17.2"
 
+next-safe-action@^7.4.3:
+  version "7.4.3"
+  resolved "https://registry.yarnpkg.com/next-safe-action/-/next-safe-action-7.4.3.tgz#dc745ce87b844750ca871ffad20bf379e93ab0d2"
+  integrity sha512-wUVs5Leh6GWR4vnQuSdJDIJFAuz9YWuCYo7S4px1bofu+Pfg9Em/1zZxZvwaFmIqu+TJssOM5rsq64Og2owagQ==
+
 next@latest:
   version "14.2.5"
   resolved "https://registry.yarnpkg.com/next/-/next-14.2.5.tgz#afe4022bb0b752962e2205836587a289270efbea"

@@ -29,6 +29,11 @@ const CreateMaterial = () => {
   return (
     <form className='flex flex-1 flex-col gap-y-6 pt-4'>
       <div className='relative flex flex-col gap-y-2 px-4'>
+        <label htmlFor='theme' className='text-xl font-medium text-zinc-600'>
+          Theme
+        </label>
+      </div>
+      <div className='relative flex flex-col gap-y-2 px-4'>
         <p
           className={`${titleError ? 'text-red-500' : 'text-zinc-500'} small-regular absolute bottom-2 right-6`}
         >
@@ -75,7 +80,6 @@ const CreateMaterial = () => {
           className={`small-regular h-96 w-full border ${contentError ? 'border-red-400' : 'border-zinc-300'} pb-6 pr-6 focus-visible:ring-0`}
         />
       </div>
-
       <div className='mt-auto flex w-full justify-end gap-x-2 bg-white py-3 pr-4'>
         <Link passHref href={'/brainstorming'}>
           <Button role='button' className='px-8' variant={'secondary'}>

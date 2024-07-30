@@ -47,7 +47,7 @@ const PaginationLink = ({
 }: PaginationLinkProps) => (
   <Link
     aria-current={isActive ? 'page' : undefined}
-    className={cn(isActive ? 'text-white' : '', className)}
+    className={cn(isActive ? 'text-white' : 'text-zinc-500', className)}
     {...props}
   />
 );
