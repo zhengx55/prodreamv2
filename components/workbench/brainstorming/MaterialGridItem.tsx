@@ -1,11 +1,8 @@
-import Icon from '@/components/root/Icon';
-import Tooltip from '@/components/root/Tooltip';
-import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
 import { formatTimestamphh } from '@/lib/utils';
 import { MaterialItem } from '@/types/brainstorm/types';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import DeleteButton from '../common/DeleteButton';
+import EditButton from '../common/EditButton';
 
 const DeleteModal = dynamic(() => import('./DeleteModal'), { ssr: false });
 
@@ -24,38 +21,9 @@ const MaterialGridItem = ({ item }: Props) => {
         <p className='text-xs text-neutral-400'>
           Opened {formatTimestamphh(item.update_time)}
         </p>
-        <div className='flex gap-x-2'>
-          <Tooltip tooltipContent='Edit'>
-            <Link passHref href={`/brainstorming/${item.id}/edit`}>
-              <Button className='size-max p-0' role='button' variant={'icon'}>
-                <Icon
-                  className='size-4'
-                  width={20}
-                  height={20}
-                  alt='edit'
-                  src='/workbench/edit.svg'
-                />
-              </Button>
-            </Link>
-          </Tooltip>
-          <AlertDialog>
-            <Tooltip tooltipContent='Delete'>
-              <Button className='size-max p-0' role='button' variant={'icon'}>
-                <AlertDialogTrigger asChild>
-                  <span>
-                    <Icon
-                      className='size-4'
-                      width={20}
-                      height={20}
-                      alt='edit'
-                      src='/workbench/delete.svg'
-                    />
-                  </span>
-                </AlertDialogTrigger>
-              </Button>
-            </Tooltip>
-            <DeleteModal id={item.id} />
-          </AlertDialog>
+        <div className='flex items-center gap-x-2'>
+          <EditButton id={item.id} />
+          <DeleteButton id={item.id} />
         </div>
       </footer>
     </div>
