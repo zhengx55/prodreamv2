@@ -5,6 +5,7 @@ import { CitationStore, useCitationStore } from './slice/citation';
 import { ModalStore, useModalStore } from './slice/modal';
 import useUserStore, { UserStore } from './slice/user-info';
 import { OnboardingStore, useOnboardingStore } from './slice/onboarding';
+import { chatAgentSlice } from './slice/chatagent';
 
 type AppStore = AIEditiorStore &
   ChatBotStore &

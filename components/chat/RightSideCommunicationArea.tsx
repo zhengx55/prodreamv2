@@ -1,5 +1,7 @@
 'use client';
+import { useState, useEffect } from 'react';
 import { useOnboarding } from '@/zustand/store';
+import { useMutation } from '@tanstack/react-query';
 import Icon from '@/components/root/Icon';
 import RobotMessage from './widgets/RobotMessage';
 import UserMessage from './widgets/UserMessage';
@@ -10,11 +12,68 @@ import QuestionRadioGroup from './widgets/QuestionRadioGroup';
 import EmphasizeText from './widgets/EmphasizeText';
 import ChatInput from './widgets/ChatInput';
 import FeatureTag from './widgets/FeatureTag';
+import { SendChatAgent } from '@/query/api';
 
 const RightSidebar = () => {
   const { selectedNavItem } = useOnboarding((state) => ({
     selectedNavItem: state.selectedNavItem,
   }));
+  const [messages, setMessages] = useState<string[]>([]);
+
+  const sendChatAgentMutation = useMutation({
+    mutationFn: SendChatAgent,
+    onMutate: () => {
+      // 可以在这里设置一些初始状态
+      setMessages([]);
+    },
+    onSuccess: async (streamCallback) => {
+      await streamCallback((chunk) => {
+        const lines = chunk.split('\n');
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            setMessages((prev) => [...prev, data]);
+          } else if (line.startsWith('event: ')) {
+            const event = line.slice(7);
+            // 处理不同的事件类型
+            switch (event) {
+              case 'session_id':
+                // 处理 session_id
+                break;
+              case 'data_end':
+                // 处理数据结束
+                break;
+              case 'option_list_start':
+                // 处理选项列表开始
+                break;
+              case 'option':
+                // 处理选项
+                break;
+              case 'option_list_end':
+                // 处理选项列表结束
+                break;
+              case 'new_message':
+                // 处理新消息
+                break;
+              // ... 其他事件类型
+            }
+          }
+        }
+      });
+    },
+    onError: (error) => {
+      console.error('Error:', error);
+      // 处理错误
+    },
+  });
+
+  useEffect(() => {
+    sendChatAgentMutation.mutate({
+      session_id: null,
+      response: null,
+      agent: 'Max',
+    });
+  }, []);
 
   // Example Data
   const example_step_message = () => {
@@ -113,7 +172,12 @@ const RightSidebar = () => {
   const ChatComponent = () => {
     const handleSend = (message: string) => {
       console.log('Sending message:', message);
-      // 在这里处理发送消息的逻辑
+
+      sendChatAgentMutation.mutate({
+        session_id: null,
+        response: null,
+        agent: 'Max',
+      });
     };
 
     // 假设这是你的标签列表
@@ -165,13 +229,16 @@ const RightSidebar = () => {
         </div>
       </div>
       <div
-        className='mx-auto mb-4'
+        className='mx-auto mb-4 h-full'
         style={{
           width: `${selectedNavItem === 'Chat' ? '800px' : '420px'}`,
           // backgroundColor: '#F2F4FF',
         }}
       >
-        <RobotMessage
+        {messages.map((message, index) => {
+          return <div key={index}>{message}</div>;
+        })}
+        {/* <RobotMessage
           avatarProps={{
             src: '/editor/chatbot/max_chat_avatar.png',
           }}
@@ -218,7 +285,7 @@ const RightSidebar = () => {
             src: '/editor/chatbot/max_chat_avatar.png',
           }}
           content={<ExampleEmphasizeText />}
-        />
+        /> */}
       </div>
 
       <div className='sticky bottom-0 left-0 right-0 z-10 flex flex-col space-y-4 bg-white px-2 py-2'>
