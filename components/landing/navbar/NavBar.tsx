@@ -1,14 +1,10 @@
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { getIpAddress } from '@/query/api';
 import { HomePageDicType } from '@/types';
+import { getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server';
-import { getIpAddress } from '@/query/api';
 import { memo } from 'react';
 import { Button } from '../../ui/button';
 
@@ -71,7 +67,10 @@ const NavBar = async ({
           )} */}
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
-          <Link href={token ? `/${lang}/editor` : `/${lang}/login`} passHref>
+          <Link
+            href={token ? `/${lang}/brainstorming` : `/${lang}/login`}
+            passHref
+          >
             <Button role='link' variant={'ghost'} className='text-violet-500'>
               {trans('log_in')}
             </Button>
