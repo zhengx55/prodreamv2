@@ -48,9 +48,9 @@ export default async function Page({
               height={24}
               className='size-6'
             />
-            <h2 className='text-xl font-medium text-zinc-500'>Know yourself</h2>
+            <h2 className='text-xl font-medium text-zinc-500'>Brainstorm</h2>
           </div>
-          <SearchSection />
+          <SearchSection showButton />
         </div>
         <MaterialSection pageCount={data.total_page_count} list={data.data} />
       </div>

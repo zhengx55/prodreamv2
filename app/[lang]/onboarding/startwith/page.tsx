@@ -1,8 +1,9 @@
 import { BoxAndShadow } from '@/components/onboarding/BoxAndShadow';
-import { CharacterMax } from '@/components/onboarding/CharacterMax';
-import { CharacterJessica } from '@/components/onboarding/CharacterJessica';
 import { CharacterDreami } from '@/components/onboarding/CharacterDreami';
+import { CharacterJessica } from '@/components/onboarding/CharacterJessica';
+import { CharacterMax } from '@/components/onboarding/CharacterMax';
 import StartWithButton from '@/components/onboarding/StartWithButton';
+import { Locale } from '@/i18n-config';
 
 export default async function Page({
   params: { lang },

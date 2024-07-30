@@ -7,20 +7,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Info } from 'lucide-react';
+import { Info, Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { memo } from 'react';
 import { deleteMaterial } from './server_actions/actions';
 
-type Props = { id: string };
+type Props = { id: string; setShow: () => void };
 
-const DeleteModal = ({ id }: Props) => {
-  const { execute } = useAction(deleteMaterial, {
+const DeleteModal = ({ id, setShow }: Props) => {
+  const { execute, isExecuting } = useAction(deleteMaterial, {
     onError: async () => {
       const { toast } = await import('sonner');
       toast.error('Failed to delete material');
     },
     onSuccess: async ({ data }) => {
+      setShow();
       const { toast } = await import('sonner');
       toast.success(data?.message);
     },
@@ -37,13 +38,22 @@ const DeleteModal = ({ id }: Props) => {
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogCancel disabled={isExecuting}>Cancel</AlertDialogCancel>
         <AlertDialogAction
-          onClick={() => {
+          disabled={isExecuting}
+          onClick={(e) => {
+            e.preventDefault();
             execute({ material_id: id });
           }}
         >
-          Continue
+          {isExecuting ? (
+            <span className='inline-flex items-center gap-x-2'>
+              <Loader2 className='animate-spin text-white' size={20} />
+              Deleting...
+            </span>
+          ) : (
+            'Confirm'
+          )}
         </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>

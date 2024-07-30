@@ -7,7 +7,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { memo } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
-const SearchSection = () => {
+type Props = {
+  showButton?: boolean;
+};
+const SearchSection = ({ showButton }: Props) => {
   const { replace } = useRouter();
   const debounced = useDebouncedCallback((value) => {
     const params = new URLSearchParams();
@@ -34,12 +37,14 @@ const SearchSection = () => {
           defaultValue={searchParam.get('query') ?? ''}
         />
       </div>
-      <Link passHref href={`brainstorming/create`}>
-        <Button className='size-max rounded-lg px-4 py-2' role='button'>
-          <PlusCircle size={24} />
-          Add Material
-        </Button>
-      </Link>
+      {showButton && (
+        <Link passHref href={`brainstorming/create`}>
+          <Button className='size-max rounded-lg px-4 py-2' role='button'>
+            <PlusCircle size={24} />
+            Add Material
+          </Button>
+        </Link>
+      )}
     </div>
   );
 };

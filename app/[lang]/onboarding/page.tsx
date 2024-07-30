@@ -1,6 +1,7 @@
 import { CenteredImage } from '@/components/onboarding/CenteredImage';
 import InteractBlock from '@/components/onboarding/InteractBlock';
 import { ShiningStar } from '@/components/onboarding/ShiningStar';
+import { Locale } from '@/i18n-config';
 
 export default async function Page({
   params: { lang },

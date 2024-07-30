@@ -3,7 +3,7 @@
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import { MaterialItem } from '@/types/brainstorm/types';
-import { List, SortAsc } from 'lucide-react';
+import { Layout, List, SortAsc } from 'lucide-react';
 import { memo, useState } from 'react';
 import Pagination from '../common/Pagination';
 import MaterialGrid from './MaterialGrid';
@@ -21,11 +21,29 @@ const MaterialSection = ({ list, pageCount }: Props) => {
       <div className='flex-between'>
         <h3 className='text-xl text-zinc-500'>Recently</h3>
         <div className='flex gap-x-2'>
-          <Tooltip tooltipContent='List View'>
-            <Button role='button' className='size-max p-1' variant={'icon'}>
-              <List size={24} />
-            </Button>
-          </Tooltip>
+          {viewTyep === 'grid' ? (
+            <Tooltip tooltipContent='List View'>
+              <Button
+                role='button'
+                onClick={() => setViewType('list')}
+                className='size-max p-1'
+                variant={'icon'}
+              >
+                <List size={24} />
+              </Button>
+            </Tooltip>
+          ) : (
+            <Tooltip tooltipContent='List View'>
+              <Button
+                onClick={() => setViewType('grid')}
+                role='button'
+                className='size-max p-1'
+                variant={'icon'}
+              >
+                <Layout size={24} />
+              </Button>
+            </Tooltip>
+          )}
           <Tooltip tooltipContent='Sort'>
             <Button role='button' className='size-max p-1' variant={'icon'}>
               <SortAsc size={24} />
