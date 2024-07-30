@@ -3,8 +3,11 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useAction } from 'next-safe-action/hooks';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { memo, useState } from 'react';
+import { createMaterial } from './server_actions/actions';
 
 const CreateMaterial = () => {
   const [title, setTitle] = useState('');
@@ -13,21 +16,25 @@ const CreateMaterial = () => {
   const [contentError, setContentError] = useState('');
   const titleLenght = title.trim().split(/\s+/).filter(Boolean).length;
   const contentLenght = content.trim().split(/\s+/).filter(Boolean).length;
-
+  const router = useRouter();
+  const { execute, isExecuting } = useAction(createMaterial, {
+    onSuccess: async ({ data }) => {
+      const { toast } = await import('sonner');
+      toast.success(data?.message);
+      router.back();
+    },
+  });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!title) {
-      setTitleError('Title is required');
-    }
     if (!content) {
       setContentError('Content is required');
     }
     if (title && content && !titleError && !contentError) {
-      //
+      execute({ title, content });
     }
   };
   return (
-    <form className='flex flex-1 flex-col gap-y-6 pt-4'>
+    <form onSubmit={handleSubmit} className='flex flex-1 flex-col gap-y-6 pt-4'>
       <div className='relative flex flex-col gap-y-2 px-4'>
         <label htmlFor='theme' className='text-xl font-medium text-zinc-600'>
           Theme
@@ -82,11 +89,21 @@ const CreateMaterial = () => {
       </div>
       <div className='mt-auto flex w-full justify-end gap-x-2 bg-white py-3 pr-4'>
         <Link passHref href={'/brainstorming'}>
-          <Button role='button' className='px-8' variant={'secondary'}>
+          <Button
+            disabled={isExecuting}
+            role='button'
+            className='px-8'
+            variant={'secondary'}
+          >
             Cancel
           </Button>
         </Link>
-        <Button type='submit' role='button' className='px-8'>
+        <Button
+          disabled={isExecuting}
+          type='submit'
+          role='button'
+          className='px-8'
+        >
           Create
         </Button>
       </div>

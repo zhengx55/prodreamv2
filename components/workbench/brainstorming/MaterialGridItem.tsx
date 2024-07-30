@@ -49,7 +49,7 @@ const MaterialGridItem = ({ item }: Props) => {
               </Button>
             </Tooltip>
 
-            <DeleteModal />
+            <DeleteModal id={item.id} />
           </AlertDialog>
         </div>
       </footer>

@@ -22,9 +22,6 @@ function getLocale(request: NextRequest): string | undefined {
 }
 
 export function middleware(req: NextRequest) {
-  const response = nextIntlMiddleware(req);
-  // if (response) return response;
-
   const pathname = req.nextUrl.pathname;
   const search = req.nextUrl.search;
   const isBase = [
@@ -64,6 +61,8 @@ export function middleware(req: NextRequest) {
   if (!token) {
     return NextResponse.redirect(new URL(`/${locale}/login`, req.url));
   }
+  const response = nextIntlMiddleware(req);
+  if (response) return response;
 }
 
 export const config = {

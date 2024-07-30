@@ -8,10 +8,24 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Info } from 'lucide-react';
+import { useAction } from 'next-safe-action/hooks';
+import { memo } from 'react';
+import { deleteMaterial } from './server_actions/actions';
 
-type Props = {};
+type Props = { id: string };
 
-const DeleteModal = (props: Props) => {
+const DeleteModal = ({ id }: Props) => {
+  const { execute } = useAction(deleteMaterial, {
+    onError: async () => {
+      const { toast } = await import('sonner');
+      toast.error('Failed to delete material');
+    },
+    onSuccess: async ({ data }) => {
+      const { toast } = await import('sonner');
+      toast.success(data?.message);
+    },
+  });
+
   return (
     <AlertDialogContent className='bg-white md:w-[400px] md:p-4'>
       <AlertDialogHeader>
@@ -24,10 +38,16 @@ const DeleteModal = (props: Props) => {
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction>Continue</AlertDialogAction>
+        <AlertDialogAction
+          onClick={() => {
+            execute({ material_id: id });
+          }}
+        >
+          Continue
+        </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   );
 };
 
-export default DeleteModal;
+export default memo(DeleteModal);
