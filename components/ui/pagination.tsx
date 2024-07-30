@@ -38,11 +38,13 @@ PaginationItem.displayName = 'PaginationItem';
 type PaginationLinkProps = {
   isActive?: boolean;
   showText?: boolean;
+  disabled?: boolean;
 } & React.ComponentProps<typeof Link>;
 
 const PaginationLink = ({
   className,
   isActive,
+
   ...props
 }: PaginationLinkProps) => (
   <Link
@@ -62,7 +64,12 @@ const PaginationPrevious = ({
     className={cn('gap-1 pl-2.5', className)}
     {...props}
   >
-    <Button role='button' variant={'icon'} className='size-max p-1'>
+    <Button
+      disabled={props.disabled}
+      role='button'
+      variant={'icon'}
+      className='size-max p-1'
+    >
       <ChevronLeft size={20} />
       {props.showText && <span>Previous</span>}
     </Button>
@@ -79,7 +86,12 @@ const PaginationNext = ({
     className={cn('gap-1 pr-2.5', className)}
     {...props}
   >
-    <Button role='button' variant={'icon'} className='size-max p-1'>
+    <Button
+      disabled={props.disabled}
+      role='button'
+      variant={'icon'}
+      className='size-max p-1'
+    >
       {props.showText && <span>Next</span>} <ChevronRight size={20} />
     </Button>
   </PaginationLink>

@@ -10,10 +10,11 @@ import MaterialGrid from './MaterialGrid';
 import MaterialList from './MaterialList';
 
 type Props = {
+  pageCount: number;
   list: MaterialItem[];
 };
 
-const MaterialSection = ({ list }: Props) => {
+const MaterialSection = ({ list, pageCount }: Props) => {
   const [viewTyep, setViewType] = useState('grid');
   return (
     <div className='flex flex-1 flex-col gap-y-4 overflow-y-auto p-4'>
@@ -33,7 +34,7 @@ const MaterialSection = ({ list }: Props) => {
         </div>
       </div>
       {viewTyep === 'grid' ? <MaterialGrid list={list} /> : <MaterialList />}
-      <Pagination />
+      <Pagination totalPage={pageCount} />
     </div>
   );
 };

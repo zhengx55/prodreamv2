@@ -1,7 +1,11 @@
 import Icon from '@/components/root/Icon';
 import Tooltip from '@/components/root/Tooltip';
+import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { MaterialItem } from '@/types/brainstorm/types';
+import dynamic from 'next/dynamic';
+
+const DeleteModal = dynamic(() => import('./DeleteModal'), { ssr: false });
 
 type Props = { item: MaterialItem };
 
@@ -28,17 +32,25 @@ const MaterialGridItem = ({ item }: Props) => {
               />
             </Button>
           </Tooltip>
-          <Tooltip tooltipContent='Delete'>
-            <Button className='size-max p-0' role='button' variant={'icon'}>
-              <Icon
-                className='size-4'
-                width={20}
-                height={20}
-                alt='edit'
-                src='/workbench/delete.svg'
-              />
-            </Button>
-          </Tooltip>
+          <AlertDialog>
+            <Tooltip tooltipContent='Delete'>
+              <Button className='size-max p-0' role='button' variant={'icon'}>
+                <AlertDialogTrigger asChild>
+                  <span>
+                    <Icon
+                      className='size-4'
+                      width={20}
+                      height={20}
+                      alt='edit'
+                      src='/workbench/delete.svg'
+                    />
+                  </span>
+                </AlertDialogTrigger>
+              </Button>
+            </Tooltip>
+
+            <DeleteModal />
+          </AlertDialog>
         </div>
       </footer>
     </div>

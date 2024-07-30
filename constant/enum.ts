@@ -48,5 +48,5 @@ export enum SampleEssay {
 }
 
 export enum PAGESIZE {
-  MATERIAL_PAGE_SIZE = 15,
+  MATERIAL_PAGE_SIZE = 20,
 }
