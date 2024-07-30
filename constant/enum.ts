@@ -46,3 +46,7 @@ export enum SampleEssay {
   TITLE = 'My First Essay',
   TEXT = '<h1>My First Essay</h1>',
 }
+
+export enum PAGESIZE {
+  MATERIAL_PAGE_SIZE = 20,
+}

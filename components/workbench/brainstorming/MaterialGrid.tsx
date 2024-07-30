@@ -1,14 +1,15 @@
+import { MaterialItem } from '@/types/brainstorm/types';
 import { memo } from 'react';
 import MaterialGridItem from './MaterialGridItem';
 
-type Props = {};
+type Props = { list: MaterialItem[] };
 
-const MaterialGrid = (props: Props) => {
+const MaterialGrid = ({ list }: Props) => {
   return (
     <div className='flex-1'>
       <div className='flex flex-wrap gap-4'>
-        {Array.from({ length: 25 }).map((_, index) => (
-          <MaterialGridItem key={index} />
+        {list.map((material) => (
+          <MaterialGridItem key={material.id} item={material} />
         ))}
       </div>
     </div>

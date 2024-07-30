@@ -18,7 +18,7 @@ export default function useUserLogin(lang: LocaleType) {
       toast.success(successInfo);
       setCookie('token', data.access_token, {
         path: '/',
-        maxAge: 604800,
+        maxAge: 7 * 24 * 60 * 60,
         secure: true,
         sameSite: 'lax',
       });
