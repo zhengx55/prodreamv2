@@ -2,15 +2,18 @@
 
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
+import { MaterialItem } from '@/types/brainstorm/types';
 import { List, SortAsc } from 'lucide-react';
 import { memo, useState } from 'react';
 import Pagination from '../common/Pagination';
 import MaterialGrid from './MaterialGrid';
 import MaterialList from './MaterialList';
 
-type Props = {};
+type Props = {
+  list: MaterialItem[];
+};
 
-const MaterialSection = () => {
+const MaterialSection = ({ list }: Props) => {
   const [viewTyep, setViewType] = useState('grid');
   return (
     <div className='flex flex-1 flex-col gap-y-4 overflow-y-auto p-4'>
@@ -29,7 +32,7 @@ const MaterialSection = () => {
           </Tooltip>
         </div>
       </div>
-      {viewTyep === 'grid' ? <MaterialGrid /> : <MaterialList />}
+      {viewTyep === 'grid' ? <MaterialGrid list={list} /> : <MaterialList />}
       <Pagination />
     </div>
   );

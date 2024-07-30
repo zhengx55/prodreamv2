@@ -1,6 +1,6 @@
 import { match as matchLocale } from '@formatjs/intl-localematcher';
-import createIntlMiddleware from 'next-intl/middleware';
 import Negotiator from 'negotiator';
+import createIntlMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
 import { i18n } from './i18n-config';
 
@@ -23,31 +23,22 @@ function getLocale(request: NextRequest): string | undefined {
 
 export function middleware(req: NextRequest) {
   const response = nextIntlMiddleware(req);
-  if (response) return response;
+  // if (response) return response;
 
   const pathname = req.nextUrl.pathname;
   const search = req.nextUrl.search;
-  const isBase =
-    [
-      '/',
-      '/onboard',
-      '/onboard/language',
-      '/onboard/education',
-      '/login',
-      '/signup',
-      '/reset-password',
-      '/editor',
-      '/profile/setting',
-      '/profile/subscription',
-      '/pricing',
-      '/essay-review',
-    ].includes(pathname) || pathname.startsWith(`/editor/`);
+  const isBase = [
+    '/',
+    '/login',
+    '/signup',
+    '/reset-password',
+    '/pricing',
+  ].includes(pathname);
 
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
   const locale = 'en';
-
   const alreadyOnLoginPage = i18n.locales.some(
     (locale) =>
       pathname === `/${locale}` ||

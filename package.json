@@ -73,6 +73,7 @@
     "google-libphonenumber": "^3.2.35",
     "immer": "^10.0.3",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.314.0",
     "marked": "^11.1.1",
     "next": "latest",
