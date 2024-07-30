@@ -17,25 +17,25 @@ export const Navigation = [
     id: 'nav-01',
     title: 'Chat',
     image: '/workbench/nav_chat.svg',
-    link: '/chat',
+    link: 'chat',
   },
   {
     id: 'nav-02',
     title: 'Brainstorming',
     image: '/workbench/nav_brainstorming.svg',
-    link: '/brainstorming',
+    link: 'brainstorming',
   },
   {
     id: 'nav-03',
     title: 'Outline',
     image: '/workbench/nav_outline.svg',
-    link: '/outline',
+    link: 'outline',
   },
   {
     id: 'nav-04',
     title: 'Draft&proofread',
     image: '/workbench/nav_draftproofread.svg',
-    link: '/draft',
+    link: 'draft',
   },
 ];
 
