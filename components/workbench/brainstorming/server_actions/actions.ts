@@ -2,14 +2,16 @@
 
 import { actionClient } from '@/lib/actions/client';
 import { getUserIdFromToken } from '@/lib/utils';
-import { revalidatePath } from 'next/cache';
+import { flattenValidationErrors } from 'next-safe-action';
+import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import { zfd } from 'zod-form-data';
 
-const createMaterialSchema = z.object({
-  title: z.string().max(50).optional(),
-  content: z.string().max(1000),
+const createMaterialSchema = zfd.formData({
+  title: zfd.text(z.string().max(50).optional()),
+  content: zfd.text(z.string().max(1000)),
 });
 const updateMaterialSchema = z.object({
   title: z.string().max(50).optional(),
@@ -17,7 +19,10 @@ const updateMaterialSchema = z.object({
 });
 
 export const createMaterial = actionClient
-  .schema(createMaterialSchema)
+  .schema(createMaterialSchema, {
+    handleValidationErrorsShape: (ve) =>
+      flattenValidationErrors(ve).fieldErrors,
+  })
   .action(async ({ parsedInput: { title, content } }) => {
     const token = cookies().get('token')?.value;
     const user_id = getUserIdFromToken(token ?? '');
@@ -33,8 +38,8 @@ export const createMaterial = actionClient
         student_id: user_id,
       }),
     });
-    revalidatePath('/brainstorming');
-    return { message: 'Material created successfully' };
+    revalidateTag('materials');
+    redirect('/brainstorming');
   });
 
 export const deleteMaterial = actionClient
@@ -50,12 +55,11 @@ export const deleteMaterial = actionClient
         },
       }
     );
-    revalidatePath('/brainstorming');
+    revalidateTag('materials');
     return { message: 'Material deleted successfully' };
   });
 export const updateMaterial = actionClient
   .schema(updateMaterialSchema)
   .action(async () => {
-    revalidatePath('/brainstorming');
-    redirect('/brainstorming');
+    revalidateTag('materials');
   });

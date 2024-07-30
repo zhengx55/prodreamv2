@@ -15,6 +15,7 @@ async function getMaterials(
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}/${user_id}/material?page=${page}&page_size=${PAGESIZE.MATERIAL_PAGE_SIZE}&query=${keyword}`,
     {
+      next: { tags: ['materials'] },
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,

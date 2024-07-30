@@ -2,6 +2,7 @@ import Icon from '@/components/root/Icon';
 import Tooltip from '@/components/root/Tooltip';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { formatTimestamphh } from '@/lib/utils';
 import { MaterialItem } from '@/types/brainstorm/types';
 import dynamic from 'next/dynamic';
 
@@ -19,7 +20,9 @@ const MaterialGridItem = ({ item }: Props) => {
         </p>
       </div>
       <footer className='flex-between bg-slate-50 px-4 py-2.5'>
-        <p className='text-xs text-neutral-400'>Opened 2 Days ago</p>
+        <p className='text-xs text-neutral-400'>
+          Opened {formatTimestamphh(item.update_time)}
+        </p>
         <div className='flex gap-x-2'>
           <Tooltip tooltipContent='Edit'>
             <Button className='size-max p-0' role='button' variant={'icon'}>
@@ -48,7 +51,6 @@ const MaterialGridItem = ({ item }: Props) => {
                 </AlertDialogTrigger>
               </Button>
             </Tooltip>
-
             <DeleteModal id={item.id} />
           </AlertDialog>
         </div>
