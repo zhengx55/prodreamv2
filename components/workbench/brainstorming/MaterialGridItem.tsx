@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { formatTimestamphh } from '@/lib/utils';
 import { MaterialItem } from '@/types/brainstorm/types';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
 const DeleteModal = dynamic(() => import('./DeleteModal'), { ssr: false });
 
@@ -25,15 +26,17 @@ const MaterialGridItem = ({ item }: Props) => {
         </p>
         <div className='flex gap-x-2'>
           <Tooltip tooltipContent='Edit'>
-            <Button className='size-max p-0' role='button' variant={'icon'}>
-              <Icon
-                className='size-4'
-                width={20}
-                height={20}
-                alt='edit'
-                src='/workbench/edit.svg'
-              />
-            </Button>
+            <Link passHref href={`/brainstorming/${item.id}/edit`}>
+              <Button className='size-max p-0' role='button' variant={'icon'}>
+                <Icon
+                  className='size-4'
+                  width={20}
+                  height={20}
+                  alt='edit'
+                  src='/workbench/edit.svg'
+                />
+              </Button>
+            </Link>
           </Tooltip>
           <AlertDialog>
             <Tooltip tooltipContent='Delete'>

@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import CreateMaterial from '@/components/workbench/brainstorming/CreateMaterial';
+import MaterialForm from '@/components/workbench/brainstorming/MaterialForm';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -18,7 +18,7 @@ export default function Page() {
           </h2>
         </div>
         <div className='flex flex-1 overflow-y-auto bg-slate-100'>
-          <CreateMaterial />
+          <MaterialForm type='create' />
         </div>
       </div>
     </section>
