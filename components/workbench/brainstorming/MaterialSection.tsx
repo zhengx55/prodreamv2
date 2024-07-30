@@ -34,7 +34,7 @@ const MaterialSection = ({ list, pageCount }: Props) => {
         </div>
       </div>
       {viewTyep === 'grid' ? <MaterialGrid list={list} /> : <MaterialList />}
-      <Pagination totalPage={pageCount} />
+      {pageCount > 0 && <Pagination totalPage={pageCount} />}
     </div>
   );
 };

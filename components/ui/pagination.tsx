@@ -1,8 +1,9 @@
-import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import Icon from '../root/Icon';
 import { Button } from './button';
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
@@ -70,7 +71,13 @@ const PaginationPrevious = ({
       variant={'icon'}
       className='size-max p-1'
     >
-      <ChevronLeft size={20} />
+      <Icon
+        alt='prev'
+        src='/workbench/left.svg'
+        width={20}
+        height={20}
+        className='size-5'
+      />
       {props.showText && <span>Previous</span>}
     </Button>
   </PaginationLink>
@@ -92,7 +99,14 @@ const PaginationNext = ({
       variant={'icon'}
       className='size-max p-1'
     >
-      {props.showText && <span>Next</span>} <ChevronRight size={20} />
+      {props.showText && <span>Next</span>}
+      <Icon
+        alt='next'
+        src='/workbench/right.svg'
+        width={20}
+        height={20}
+        className='size-5'
+      />
     </Button>
   </PaginationLink>
 );

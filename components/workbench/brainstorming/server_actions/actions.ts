@@ -13,9 +13,10 @@ const createMaterialSchema = zfd.formData({
   title: zfd.text(z.string().max(50).optional()),
   content: zfd.text(z.string().max(1000)),
 });
-const updateMaterialSchema = z.object({
-  title: z.string().max(50).optional(),
-  content: z.string().max(1000).optional(),
+
+const updateMaterialSchema = zfd.formData({
+  title: zfd.text(z.string().max(50).optional()),
+  content: zfd.text(z.string().max(1000)),
 });
 
 export const createMaterial = actionClient
@@ -58,8 +59,31 @@ export const deleteMaterial = actionClient
     revalidateTag('materials');
     return { message: 'Material deleted successfully' };
   });
+
 export const updateMaterial = actionClient
-  .schema(updateMaterialSchema)
-  .action(async () => {
-    revalidateTag('materials');
-  });
+  .schema(updateMaterialSchema, {
+    handleValidationErrorsShape: (ve) =>
+      flattenValidationErrors(ve).fieldErrors,
+  })
+  .bindArgsSchemas<[id: z.ZodString]>([z.string()])
+  .action(
+    async ({ parsedInput: { title, content }, bindArgsParsedInputs: [id] }) => {
+      const token = cookies().get('token')?.value;
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material/${id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title,
+            content,
+          }),
+        }
+      );
+      revalidateTag('materials');
+      redirect('/brainstorming');
+    }
+  );
