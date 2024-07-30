@@ -1,7 +1,7 @@
+import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import MaterialForm from '@/components/workbench/brainstorming/MaterialForm';
 import { MaterialItem } from '@/types/brainstorm/types';
-import { ChevronLeft } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 async function getMaterialDetails(
@@ -29,7 +29,14 @@ export default async function Page({ params }: { params: { id: string } }) {
         <div className='flex items-center gap-x-2 border-b px-4 py-2.5'>
           <Button role='button' className='size-max p-1' variant={'icon'}>
             <Link passHref href={'/brainstorming'}>
-              <ChevronLeft />
+              <Icon
+                alt='back'
+                src='/workbench/left.svg'
+                width={20}
+                height={20}
+                className='size-5'
+                priority
+              />
             </Link>
           </Button>
           <h2 className='text-xl font-medium text-zinc-600'>{data.title}</h2>

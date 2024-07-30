@@ -1,6 +1,6 @@
+import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import MaterialForm from '@/components/workbench/brainstorming/MaterialForm';
-import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Page() {
@@ -10,7 +10,14 @@ export default function Page() {
         <div className='flex items-center gap-x-2 border-b px-4 py-2.5'>
           <Button role='button' className='size-max p-1' variant={'icon'}>
             <Link passHref href={'/brainstorming'}>
-              <ChevronLeft />
+              <Icon
+                alt='back'
+                src='/workbench/left.svg'
+                width={20}
+                height={20}
+                className='size-5'
+                priority
+              />
             </Link>
           </Button>
           <h2 className='text-xl font-medium text-zinc-600'>
