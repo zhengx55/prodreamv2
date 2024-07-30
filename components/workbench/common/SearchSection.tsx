@@ -5,20 +5,21 @@ import { PlusCircle, Search } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { memo } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
 const SearchSection = () => {
   const { replace } = useRouter();
-  const pathName = usePathname();
-  const searchParam = useSearchParams();
-  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const debounced = useDebouncedCallback((value) => {
     const params = new URLSearchParams();
-    if (e.target.value) {
-      params.set('query', e.target.value);
+    if (value) {
+      params.set('query', value);
     } else {
       params.delete('query');
     }
     replace(`${pathName}?${params.toString()}`);
-  };
+  }, 200);
+  const pathName = usePathname();
+  const searchParam = useSearchParams();
 
   return (
     <div className='flex items-center gap-x-2'>
@@ -26,7 +27,7 @@ const SearchSection = () => {
         <Search color='#726fe7' size={16} />
         <Input
           type='search'
-          onChange={handleQueryChange}
+          onChange={(e) => debounced(e.target.value)}
           name='search_materials'
           className='h-10 border-none pl-2 pr-0 focus-visible:ring-0'
           placeholder='Search materials'
