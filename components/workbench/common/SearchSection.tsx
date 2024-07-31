@@ -1,17 +1,15 @@
 'use client';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { PlusCircle, Search } from 'lucide-react';
-import Link from 'next/link';
+import { Search } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { memo } from 'react';
+import { memo, ReactNode } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 type Props = {
-  showButton?: boolean;
   searchParams: { [key: string]: string | string[] | undefined };
+  children?: ReactNode;
 };
-const SearchSection = ({ showButton, searchParams }: Props) => {
+const SearchSection = ({ searchParams, children }: Props) => {
   const { replace } = useRouter();
   const debounced = useDebouncedCallback((value) => {
     const params = new URLSearchParams();
@@ -33,18 +31,11 @@ const SearchSection = ({ showButton, searchParams }: Props) => {
           onChange={(e) => debounced(e.target.value)}
           name='search_materials'
           className='h-10 border-none pl-2 pr-0 focus-visible:ring-0'
-          placeholder='Search materials'
+          placeholder='Search...'
           defaultValue={searchParams.query ?? ''}
         />
       </div>
-      {showButton && (
-        <Link passHref href={`brainstorming/create`}>
-          <Button className='size-max rounded-lg px-4 py-2' role='button'>
-            <PlusCircle size={24} />
-            Add Material
-          </Button>
-        </Link>
-      )}
+      {children}
     </div>
   );
 };

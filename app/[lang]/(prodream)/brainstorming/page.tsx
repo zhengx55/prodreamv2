@@ -1,10 +1,13 @@
+import { Button } from '@/components/ui/button';
 import MaterialSection from '@/components/workbench/brainstorming/MaterialSection';
 import SearchSection from '@/components/workbench/common/SearchSection';
 import { PAGESIZE } from '@/constant/enum';
 import { getUserIdFromToken } from '@/lib/utils';
 import { MaterialListRes } from '@/types/brainstorm/types';
+import { PlusCircle } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
+import Link from 'next/link';
 
 async function getMaterials(
   page: number,
@@ -50,7 +53,14 @@ export default async function Page({
             />
             <h2 className='text-xl font-medium text-zinc-500'>Brainstorm</h2>
           </div>
-          <SearchSection showButton searchParams={searchParams} />
+          <SearchSection searchParams={searchParams}>
+            <Link passHref href={`brainstorming/create`}>
+              <Button className='size-max rounded-lg px-4 py-2' role='button'>
+                <PlusCircle size={24} />
+                Add Material
+              </Button>
+            </Link>
+          </SearchSection>
         </div>
         <MaterialSection pageCount={data.total_page_count} list={data.data} />
       </div>
