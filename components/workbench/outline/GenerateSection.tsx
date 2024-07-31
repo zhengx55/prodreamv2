@@ -1,10 +1,7 @@
-import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { memo } from 'react';
-import GenerateModal from './GenerateModal';
+import GenerateOutlineButton from './GenerateOutlineButton';
 
 type Props = {};
 
@@ -26,23 +23,7 @@ const Step = ({
 const GenerateSection = (props: Props) => {
   return (
     <div className='flex h-full w-72 flex-col overflow-y-auto rounded-bl-lg border-r border-zinc-200 px-4 py-6'>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button role='button'>
-            <Icon
-              alt='stars'
-              src='/workbench/stars.svg'
-              width={20}
-              height={20}
-              className='size-4'
-              priority
-            />
-            Generate Outline
-          </Button>
-        </DialogTrigger>
-        <GenerateModal />
-      </Dialog>
-
+      <GenerateOutlineButton />
       <Spacer y='16' />
       <div className='w-full rounded-[10px] bg-slate-50 p-2'>
         <Image
