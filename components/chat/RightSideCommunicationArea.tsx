@@ -1,69 +1,168 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useOnboarding } from '@/zustand/store';
+import { useEffect, ReactNode } from 'react';
+import { useOnboarding, useChatAgent } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import Icon from '@/components/root/Icon';
 import RobotMessage from './widgets/RobotMessage';
 import UserMessage from './widgets/UserMessage';
-import StepCard from './widgets/StepCard';
-import QuestionBtn from './widgets/QuestionBtn';
 import QuestionCheckBox from './widgets/QuestionCheckBox';
 import QuestionRadioGroup from './widgets/QuestionRadioGroup';
-import EmphasizeText from './widgets/EmphasizeText';
 import ChatInput from './widgets/ChatInput';
-import FeatureTag from './widgets/FeatureTag';
 import { SendChatAgent } from '@/query/api';
 
 const RightSidebar = () => {
   const { selectedNavItem } = useOnboarding((state) => ({
     selectedNavItem: state.selectedNavItem,
   }));
-  const [messages, setMessages] = useState<string[]>([]);
+  const {
+    messages,
+    currentAgent,
+    addMessage,
+    updateLastRobotMessage,
+    clearMessages
+  } = useChatAgent((state) => ({
+    messages: state.messages,
+    currentAgent: state.currentAgent,
+    addMessage: state.addMessage,
+    updateLastRobotMessage: state.updateLastRobotMessage,
+    clearMessages: state.clearMessages,
+  }));
+
+  const handleSessionId = (data: string) => {
+    const sessionId = data.trim();
+    console.log('Session ID:', sessionId); // Log the session ID
+    addMessage({
+      sessionId,
+      type: 'robot',
+      contents: [],
+      avatarSrc: '/editor/chatbot/max_chat_avatar.png',
+    });
+  };
+
+  const handleData = (data: string, currentTextContent: string) => {
+    const trimmedData = data.trim(); // Trim whitespace
+    console.log('Data:', trimmedData); // Log the data content
+
+    currentTextContent += trimmedData; // Append data to currentTextContent
+
+    return currentTextContent;
+  };
+
+  const handleDataEnd = (currentTextContent: string) => {
+    if (currentTextContent) {
+      console.log('Text content:', currentTextContent); // Log the text content
+      addMessage({
+        sessionId: '',
+        type: 'robot',
+        contents: [{ type: 'text', content: currentTextContent }],
+        avatarSrc: '/editor/chatbot/max_chat_avatar.png',
+      });
+      currentTextContent = '';
+    }
+    return currentTextContent;
+  };
+
+  const handleHtml = (data: string) => {
+    const htmlContent = JSON.parse(data.trim()); // Parse JSON content
+    console.log('HTML content:', htmlContent); // Log the HTML content
+    addMessage({
+      sessionId: '',
+      type: 'robot',
+      contents: [{ type: 'html', content: htmlContent }],
+      avatarSrc: '/editor/chatbot/max_chat_avatar.png',
+    });
+  };
+
+  const handleOptionListStart = (data: string) => {
+    const currentSelectionType = data.trim() as 'single_selection' | 'multi_selection';
+    console.log('Option list start:', currentSelectionType); // Log the option list start
+    return currentSelectionType;
+  };
+
+  const handleOption = (data: string) => {
+    const currentOptionAction = data.trim();
+    console.log('Option action:', currentOptionAction); // Log the option action
+    return currentOptionAction;
+  };
+
+  const handleOptionListEnd = (currentOptions: any[], currentSelectionType: 'single_selection' | 'multi_selection' | null) => {
+    console.log('Option list end. Options:', currentOptions); // Log the option list end and all options
+    addMessage({
+      sessionId: '',
+      type: 'robot',
+      contents: [{ type: 'options', options: currentOptions, selectionType: currentSelectionType }],
+      avatarSrc: '/editor/chatbot/max_chat_avatar.png',
+    });
+    return { currentOptions: [], currentSelectionType: null };
+  };
 
   const sendChatAgentMutation = useMutation({
     mutationFn: SendChatAgent,
     onMutate: () => {
-      // 可以在这里设置一些初始状态
-      setMessages([]);
+      clearMessages();
     },
-    onSuccess: async (streamCallback) => {
-      await streamCallback((chunk) => {
-        const lines = chunk.split('\n');
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const data = line.slice(6);
-            setMessages((prev) => [...prev, data]);
-          } else if (line.startsWith('event: ')) {
-            const event = line.slice(7);
-            // 处理不同的事件类型
-            switch (event) {
-              case 'session_id':
-                // 处理 session_id
-                break;
-              case 'data_end':
-                // 处理数据结束
-                break;
-              case 'option_list_start':
-                // 处理选项列表开始
-                break;
-              case 'option':
-                // 处理选项
-                break;
-              case 'option_list_end':
-                // 处理选项列表结束
-                break;
-              case 'new_message':
-                // 处理新消息
-                break;
-              // ... 其他事件类型
+    onSuccess: async (stream) => {
+      let sessionId = '';
+      let currentTextContent = '';
+      let currentOptions: { id: string; label: string; action: string }[] = [];
+      let currentSelectionType: 'single_selection' | 'multi_selection' | null = null;
+      let isCollectingOption = false;
+      let currentOptionAction = '';
+
+      const reader = stream.pipeThrough(new TextDecoderStream()).getReader();
+
+      try {
+        let eventType = '';
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const lines = value.split('\n');
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue; // Ignore empty lines
+
+            if (line.startsWith('event:')) {
+              eventType = line.split(':')[1].trim();
+              if (eventType === 'new_message') {
+                addMessage({
+                  sessionId,
+                  type: 'robot',
+                  contents: [],
+                  avatarSrc: '/editor/chatbot/max_chat_avatar.png',
+                });
+              }
+            } else if (line.startsWith('data:')) {
+              const data = line.slice('data:'.length).trim();
+              if (eventType === 'session_id') {
+                handleSessionId(data);
+              } else if (eventType === 'data') {
+                currentTextContent = handleData(data, currentTextContent);
+              } else if (eventType === 'data_end') {
+                currentTextContent = handleDataEnd(currentTextContent);
+              } else if (eventType === 'html') {
+                handleHtml(data);
+              } else if (eventType === 'option_list_start') {
+                currentSelectionType = handleOptionListStart(data);
+              } else if (eventType === 'option') {
+                currentOptionAction = handleOption(data);
+                isCollectingOption = true;
+              } else if (eventType === 'option_list_end') {
+                ({ currentOptions, currentSelectionType } = handleOptionListEnd(currentOptions, currentSelectionType));
+              }
+            } else if (isCollectingOption && eventType === 'data') {
+              // Collect options data
+              currentOptions.push({
+                id: `option-${currentOptions.length}`,
+                label: line.slice('data:'.length).trim(),
+                action: currentOptionAction
+              });
             }
           }
         }
-      });
-    },
-    onError: (error) => {
-      console.error('Error:', error);
-      // 处理错误
+      } finally {
+        reader.releaseLock();
+      }
     },
   });
 
@@ -71,154 +170,89 @@ const RightSidebar = () => {
     sendChatAgentMutation.mutate({
       session_id: null,
       response: null,
-      agent: 'Max',
+      agent: currentAgent,
     });
-  }, []);
+  }, [currentAgent, sendChatAgentMutation]);
 
-  // Example Data
-  const example_step_message = () => {
+  const handleSend = (message: string) => {
+    addMessage({
+      sessionId: '',
+      type: 'user',
+      contents: [{ type: 'text', content: message }],
+      avatarSrc: '/path/to/user/avatar.png',
+    });
+
+    sendChatAgentMutation.mutate({
+      session_id: messages[messages.length - 1].sessionId,
+      response: message,
+      agent: currentAgent,
+    });
+  };
+
+  const renderTextContent = (content: any, contentIndex: number) => {
+    return <p key={contentIndex}>{content.content}</p>;
+  };
+
+  const renderHtmlContent = (content: any, contentIndex: number) => {
+    return <div key={contentIndex} dangerouslySetInnerHTML={{ __html: content.content }} />;
+  };
+
+  const renderOptionsContent = (content: any, contentIndex: number) => {
+    if (content.selectionType === 'single_selection') {
+      return (
+        <QuestionRadioGroup
+          key={contentIndex}
+          options={content.options}
+          onConfirm={(selectedOption) => {
+            const selectedOptionObj = content.options.find((opt: any) => opt.id === selectedOption);
+            sendChatAgentMutation.mutate({
+              session_id: messages[messages.length - 1].sessionId,
+              response: selectedOptionObj?.label,
+              agent: currentAgent,
+            });
+          }}
+        />
+      );
+    } else if (content.selectionType === 'multi_selection') {
+      return (
+        <QuestionCheckBox
+          key={contentIndex}
+          options={content.options}
+          onConfirm={(selectedOptions) => {
+            const selectedOptionLabels = selectedOptions.map((option: any) => option.label);
+            sendChatAgentMutation.mutate({
+              session_id: messages[messages.length - 1].sessionId,
+              response: selectedOptionLabels.join(','),
+              agent: currentAgent,
+            });
+          }}
+        />
+      );
+    }
+    return null;
+  };
+
+  const renderRobotMessageContent = (contents: any[]): ReactNode => {
     return (
       <>
-        <p>
-          I&apos;m here to help you effortlessly craft your application essays
-          with three simple steps, all backed by my professional expertise.
-        </p>
-        <StepCard
-          iconSrc='/workbench/nav_brainstorming.svg'
-          title='Brainstorming'
-          titleColor='#1a1a1a'
-          step='Step 1'
-          description='Uncover your most compelling stories, experiences, and strengths. This generates ideas and key themes to make your personal statement stand out.'
-          stepBgColor='#FFFAF2'
-          stepTextColor='#FF9500'
-        />
-        <StepCard
-          iconSrc='/workbench/nav_outline.svg'
-          title='Outline'
-          titleColor='#1a1a1a'
-          step='Step 2'
-          description='Uncover your most compelling stories, experiences, and strengths. This generates ideas and key themes to make your personal statement stand out.'
-          stepBgColor='#F2F4FF'
-          stepTextColor='#5C73E5'
-        />
-        <StepCard
-          iconSrc='/workbench/nav_draftproofread.svg'
-          title='Draft&proofread'
-          titleColor='#1a1a1a'
-          step='Step 3'
-          description='Uncover your most compelling stories, experiences, and strengths. This generates ideas and key themes to make your personal statement stand out.'
-          stepBgColor='#F2FFF3'
-          stepTextColor='#52CC5C'
-        />
-        <p>
-          With my guidance, these three steps will make the essay-writing
-          process manageable and empowering, paving the way for your academic
-          success.
-        </p>
-        <p>
-          Also,You can also use the navigation above to quickly start each
-          stage.
-        </p>
+        {contents.map((content, contentIndex) => {
+          if (content.type === 'text') {
+            return renderTextContent(content, contentIndex);
+          } else if (content.type === 'html') {
+            return renderHtmlContent(content, contentIndex);
+          } else if (content.type === 'options') {
+            return renderOptionsContent(content, contentIndex);
+          }
+          return null;
+        })}
       </>
     );
-  };
-
-  const ExampleCheckbox = () => {
-    const options = [
-      { id: '1', label: 'Common Application essay' },
-      { id: '2', label: 'UC Personal Insight Questions' },
-      { id: '3', label: 'Another type of application' },
-    ];
-
-    const handleConfirm = (selectedOptions: string[]) => {
-      console.log('Checkbox Selected options:', selectedOptions);
-    };
-
-    return <QuestionCheckBox options={options} onConfirm={handleConfirm} />;
-  };
-
-  const ExampleRadioGroup = () => {
-    const options = [
-      { id: '1', label: 'Start from scratch, begin with brainstorming' },
-      { id: '2', label: 'Start from outline' },
-      { id: '3', label: 'Start from draft&proofread' },
-    ];
-
-    const handleConfirm = (selectedOption: string) => {
-      console.log('Radio Selected option:', selectedOption);
-    };
-
-    return <QuestionRadioGroup options={options} onConfirm={handleConfirm} />;
-  };
-
-  const ExampleEmphasizeText = () => {
-    return (
-      <>
-        <div>
-          <p>
-            This is normal text.{' '}
-            <EmphasizeText>This is emphasized text.</EmphasizeText> And this is
-            normal again.
-          </p>
-          <div className='mt-2 flex items-center justify-end space-x-2'>
-            <QuestionBtn outline>No</QuestionBtn>
-            <QuestionBtn>Yes</QuestionBtn>
-          </div>
-        </div>
-      </>
-    );
-  };
-
-  const ChatComponent = () => {
-    const handleSend = (message: string) => {
-      console.log('Sending message:', message);
-
-      sendChatAgentMutation.mutate({
-        session_id: null,
-        response: null,
-        agent: 'Max',
-      });
-    };
-
-    // 假设这是你的标签列表
-    const tags = [
-      {
-        icon: '/workbench/tag_guidance.svg',
-        text: 'Common guidance',
-        onClick: () => {
-          console.log('Common guidance clicked');
-        },
-      },
-      // 添加更多标签...
-    ];
-
-    return (
-      <div className='flex w-full flex-col space-y-4'>
-        <div className='flex flex-wrap gap-2'>
-          {tags.map((tag, index) => (
-            <FeatureTag
-              key={index}
-              icon={tag.icon}
-              text={tag.text}
-              onClick={tag.onClick}
-            />
-          ))}
-        </div>
-        <ChatInput onSend={handleSend} />
-      </div>
-    );
-  };
-
-  const toggleCommunicationArea = () => {
-    console.log('clicked');
   };
 
   return (
-    <div
-      className={`scrollbar-hide relative mx-2 mb-2 flex  h-[calc(100vh-106px)] flex-col overflow-hidden overflow-y-auto rounded-lg border border-white bg-white ${selectedNavItem === 'Chat' ? 'w-full' : 'w-[600px]'}`}
-    >
+    <div className={`scrollbar-hide relative mx-2 mb-2 flex  h-[calc(100vh-106px)] flex-col overflow-hidden overflow-y-auto rounded-lg border border-white bg-white ${selectedNavItem === 'Chat' ? 'w-full' : 'w-[600px]'}`}>
       <div className='sticky left-0 right-0 top-0 z-10 flex items-center justify-end border-b border-[#E5E5E5] bg-white bg-opacity-60 px-2 py-2 backdrop-blur-lg backdrop-filter'>
-        <div onClick={toggleCommunicationArea}>
+        <div>
           <Icon
             alt=''
             src='/editor/rightbar/layout-sidebar-ihset-reverse.svg'
@@ -232,71 +266,37 @@ const RightSidebar = () => {
         className='mx-auto mb-4 h-full'
         style={{
           width: `${selectedNavItem === 'Chat' ? '800px' : '420px'}`,
-          // backgroundColor: '#F2F4FF',
         }}
       >
-        {messages.map((message, index) => {
-          return <div key={index}>{message}</div>;
+        {messages.map((message: any, index: number) => {
+          if (message.type === 'robot') {
+            return (
+              <RobotMessage
+                key={index}
+                avatarProps={{ src: message.avatarSrc }}
+                content={renderRobotMessageContent(message.contents)}
+              />
+            );
+          } else {
+            return (
+              <UserMessage
+                key={index}
+                avatarProps={{ src: message.avatarSrc }}
+                content={message.contents[0].content}
+              />
+            );
+          }
         })}
-        {/* <RobotMessage
-          avatarProps={{
-            src: '/editor/chatbot/max_chat_avatar.png',
-          }}
-          content="Hello, I'm Max, an admissions advisor and entrepreneur, and a graduate of UCLA and Harvard University. I am dedicated to helping students uncover their unique strengths and achieve success in their academic and application journeys, particularly for undergraduate admissions. With my patient and professional guidance, I aim to provide comprehensive support in preparing application materials and planning for the future. Together, we can ensure a bright and successful path ahead."
-        />
-
-        <UserMessage
-          avatarProps={{
-            src: '/path/to/user/avatar.png',
-          }}
-          content='This is a user message.'
-        />
-
-        <RobotMessage
-          avatarProps={{
-            src: '/editor/chatbot/max_chat_avatar.png',
-          }}
-          content={example_step_message()}
-        />
-
-        <RobotMessage
-          avatarProps={{
-            src: '/editor/chatbot/max_chat_avatar.png',
-          }}
-          content={<ExampleCheckbox />}
-        />
-
-        <RobotMessage
-          avatarProps={{
-            src: '/editor/chatbot/max_chat_avatar.png',
-          }}
-          content={<ExampleRadioGroup />}
-        />
-
-        <UserMessage
-          avatarProps={{
-            src: '/path/to/user/avatar.png',
-          }}
-          content='Start from scratch, begin with brainstorming'
-        />
-
-        <RobotMessage
-          avatarProps={{
-            src: '/editor/chatbot/max_chat_avatar.png',
-          }}
-          content={<ExampleEmphasizeText />}
-        /> */}
       </div>
 
-      <div className='sticky bottom-0 left-0 right-0 z-10 flex flex-col space-y-4 bg-white px-2 py-2'>
+      <div className='fixed bottom-0 left-0 right-0 z-10 flex flex-col space-y-4 bg-white px-2 py-2'>
         <div
           className='mx-auto flex w-full items-center'
           style={{
             width: `${selectedNavItem === 'Chat' ? '800px' : '420px'}`,
-            // backgroundColor: '#F2F4FF',
           }}
         >
-          <ChatComponent />
+          <ChatInput onSend={handleSend} />
         </div>
       </div>
     </div>

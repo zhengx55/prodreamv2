@@ -1,6 +1,6 @@
 import LeftTopMenu from '@/components/chat/LeftTopMenu';
 import MainContent from '@/components/chat/MainContent';
-
+import { Locale } from '@/i18n-config';
 export default async function Page({
   params: { lang },
 }: {

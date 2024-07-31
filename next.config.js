@@ -23,7 +23,6 @@ const nextConfig = {
   experimental: {
     nextScriptWorkers: true,
     optimizePackageImports: ['lucide-react', 'react-use'],
-    typedRoutes: true,
   },
   reactStrictMode: false,
   output: 'standalone',

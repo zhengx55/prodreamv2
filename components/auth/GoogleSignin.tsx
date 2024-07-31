@@ -3,9 +3,9 @@ import { Locale } from '@/i18n-config';
 import { getReferralSource } from '@/lib/utils';
 import { getUserInfo, googleLogin, refreshUserSession } from '@/query/api';
 import { useGoogleLogin } from '@react-oauth/google';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 import { useCookies } from 'react-cookie';
 import { isMobile } from 'react-device-detect';
@@ -38,13 +38,13 @@ const GoogleSignin = ({
         });
         setCookie('token', login_data.access_token, {
           path: '/',
-          maxAge: 604800,
+          maxAge: 7 * 24 * 60 * 60,
           secure: true,
           sameSite: 'lax',
         });
         const user_track = await getUserInfo();
         if (Boolean(user_track)) {
-          router.push(`/${lang}/editor`);
+          router.push(`/${lang}/brainstorming`);
         } else {
           const name = (await refreshUserSession()).first_name;
           router.push(`/${lang}/onboard`);

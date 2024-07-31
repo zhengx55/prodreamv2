@@ -2,7 +2,10 @@ import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { contributorAnimation } from '@/constant';
-import { useCreateCustomCitation, useUpdateCitation } from '@/query/query';
+import {
+  useCreateCustomCitation,
+  useUpdateCitation,
+} from '@/query/citation/query';
 import { IChapterCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';

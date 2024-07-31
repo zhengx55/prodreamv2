@@ -206,9 +206,8 @@ const LeftTopMenu = () => {
     () => workbench_nav.map((item) => <NavItem key={item.id} item={item} />),
     []
   );
-
-  const toHome = () => {
-    router.push(`/${lang}`);
+  const toProfile = () => {
+    router.push(`/${lang}/profile` as any);
   };
 
   const showMenu = () => {
@@ -220,7 +219,7 @@ const LeftTopMenu = () => {
       <Tooltip tooltipContent={'ProDream Home'} side='bottom'>
         <div
           className='flex h-7 cursor-pointer items-center justify-center rounded-lg px-2 transition-all duration-200 hover:bg-white hover:bg-opacity-60'
-          onClick={toHome}
+          onClick={toProfile}
         >
           <Image src='/logo/Prodream.png' alt='Logo' width={94} height={15} />
         </div>

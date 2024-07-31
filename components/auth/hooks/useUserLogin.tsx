@@ -1,8 +1,8 @@
 import { LocaleType } from '@/i18n';
 import { userLogin } from '@/query/api';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 
 export default function useUserLogin(lang: LocaleType) {
@@ -18,11 +18,11 @@ export default function useUserLogin(lang: LocaleType) {
       toast.success(successInfo);
       setCookie('token', data.access_token, {
         path: '/',
-        maxAge: 604800,
+        maxAge: 7 * 24 * 60 * 60,
         secure: true,
         sameSite: 'lax',
       });
-      router.push(`/${lang}/editor`);
+      router.push(`/${lang}/brainstorming`);
     },
     onError: async (error) => {
       const toast = (await import('sonner')).toast;

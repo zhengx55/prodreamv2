@@ -7,24 +7,37 @@ export const createSidebarLinks = (t: (id: string) => string) => {
       active_image: '/nav/polish_active.svg',
       link: '/editor',
     },
-    // {
-    //   id: 'sidebar-02',
-    //   title: 'Essay Review',
-    //   image: '/nav/review.svg',
-    //   active_image: '/nav/review_active.svg',
-    //   link: '/essay-review',
-    // },
-    // {
-    //   id: 'sidebar-03',
-    //   title: 'ProPDF',
-    //   image: '/nav/pdf.svg',
-    //   active_image: '/nav/pdf_active.svg',
-    //   link: '/pdf-chat',
-    // },
   ];
 };
 
 export const CitationOptions = ['mla', 'apa', 'ieee', 'chicago'];
+
+export const Navigation = [
+  {
+    id: 'nav-01',
+    title: 'Chat',
+    image: '/workbench/nav_chat.svg',
+    link: 'chat',
+  },
+  {
+    id: 'nav-02',
+    title: 'Brainstorming',
+    image: '/workbench/nav_brainstorming.svg',
+    link: 'brainstorming',
+  },
+  {
+    id: 'nav-03',
+    title: 'Outline',
+    image: '/workbench/nav_outline.svg',
+    link: 'outline',
+  },
+  {
+    id: 'nav-04',
+    title: 'Draft&proofread',
+    image: '/workbench/nav_draftproofread.svg',
+    link: 'draft',
+  },
+];
 
 export const CNPayments = [
   {

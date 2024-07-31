@@ -1,3 +1,4 @@
+import { Locale } from '@/i18n-config';
 import { ReactNode } from 'react';
 
 export default async function OnboardingLayout({
