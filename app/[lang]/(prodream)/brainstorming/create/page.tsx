@@ -1,9 +1,27 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import MaterialForm from '@/components/workbench/brainstorming/MaterialForm';
+import { ThemeType } from '@/types/brainstorm/types';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
+async function getThemesData(token: string): Promise<ThemeType[]> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}/material_themes?page=0&page_size=10`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const data = await res.json();
+  return data.data.data;
+}
 
-export default function Page() {
+export default async function Page() {
+  const token = cookies().get('token')?.value;
+  const themes = await getThemesData(token!);
+
   return (
     <section className='flex flex-1 overflow-y-hidden px-2 pb-2'>
       <div className='flex flex-1 flex-col rounded-lg bg-white'>
@@ -25,7 +43,7 @@ export default function Page() {
           </h2>
         </div>
         <div className='flex flex-1 overflow-y-auto bg-slate-100'>
-          <MaterialForm type='create' />
+          <MaterialForm themes={themes} type='create' />
         </div>
       </div>
     </section>
