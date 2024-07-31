@@ -6,6 +6,8 @@ import { EssayItem } from '@/types/outline/types';
 import { Layout, List, SortAsc } from 'lucide-react';
 import { memo, useState } from 'react';
 import Pagination from '../common/Pagination';
+import OutlineGrid from './OutlineGrid';
+import OutlineList from './OutlineList';
 type Props = {
   pageCount: number;
   list: EssayItem[];
@@ -49,7 +51,7 @@ const OutlineSection = ({ pageCount, list }: Props) => {
           </Tooltip>
         </div>
       </div>
-      {/* {viewTyep === 'grid' ? <MaterialGrid list={list} /> : <MaterialList />} */}
+      {viewTyep === 'grid' ? <OutlineGrid list={list} /> : <OutlineList />}
       {pageCount > 0 && <Pagination totalPage={pageCount} />}
     </div>
   );

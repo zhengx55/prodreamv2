@@ -5,13 +5,20 @@ import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import dynamic from 'next/dynamic';
 import { memo, useCallback, useState } from 'react';
-const DeleteModal = dynamic(() => import('../brainstorming/DeleteModal'), {
+const MaterialDeleteModal = dynamic(
+  () => import('../brainstorming/DeleteModal'),
+  {
+    ssr: false,
+  }
+);
+
+const OutlineDeleteModal = dynamic(() => import('../outline/DeleteModal'), {
   ssr: false,
 });
 
-type Props = { id: string };
+type Props = { id: string; type: 'material' | 'outline' | 'draft' };
 
-const DeleteButton = ({ id }: Props) => {
+const DeleteButton = ({ id, type }: Props) => {
   const [show, setShow] = useState(false);
   const toggle = useCallback(() => setShow((prev) => !prev), []);
   return (
@@ -31,7 +38,11 @@ const DeleteButton = ({ id }: Props) => {
           </AlertDialogTrigger>
         </Button>
       </Tooltip>
-      <DeleteModal setShow={toggle} id={id} />
+      {type === 'material' ? (
+        <MaterialDeleteModal setShow={toggle} id={id} />
+      ) : type === 'outline' ? (
+        <OutlineDeleteModal setShow={toggle} id={id} />
+      ) : null}
     </AlertDialog>
   );
 };

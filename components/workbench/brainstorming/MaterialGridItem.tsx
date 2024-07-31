@@ -1,10 +1,7 @@
 import { formatTimestamphh } from '@/lib/utils';
 import { MaterialItem } from '@/types/brainstorm/types';
-import dynamic from 'next/dynamic';
 import DeleteButton from '../common/DeleteButton';
 import EditButton from '../common/EditButton';
-
-const DeleteModal = dynamic(() => import('./DeleteModal'), { ssr: false });
 
 type Props = { item: MaterialItem };
 
@@ -22,8 +19,8 @@ const MaterialGridItem = ({ item }: Props) => {
           Opened {formatTimestamphh(item.update_time)}
         </p>
         <div className='flex items-center gap-x-2'>
-          <EditButton id={item.id} />
-          <DeleteButton id={item.id} />
+          <EditButton href={`/brainstorming/${item.id}/edit`} id={item.id} />
+          <DeleteButton id={item.id} type='material' />
         </div>
       </footer>
     </div>

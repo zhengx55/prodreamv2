@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { memo } from 'react';
 
-type Props = { id: string };
+type Props = { id: string; href: string };
 
-const EditButton = ({ id }: Props) => {
+const EditButton = ({ id, href }: Props) => {
   return (
     <Tooltip tooltipContent='Edit'>
       <Button className='size-max p-0' role='button' variant={'icon'}>
