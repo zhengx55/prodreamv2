@@ -26,8 +26,6 @@ import { Loader2, SearchIcon } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
-type Props = {};
-
 const Step = memo(({ number, title }: { number: number; title: string }) => (
   <div className='flex items-center gap-x-4'>
     <span className='flex-center size-[42px] rounded-full bg-indigo-500/20'>
@@ -57,14 +55,15 @@ const MaterialCard = memo(
       key={id}
       role='button'
       onClick={() => onSelect(id)}
-      className={`${isSelected ? 'border-indigo-500' : 'border-transparent'} flex h-[138px] w-full cursor-pointer flex-col justify-between rounded-lg border bg-white px-4 py-2.5 hover:opacity-70`}
+      className={`${isSelected ? 'border-indigo-500' : 'border-transparent'} flex h-[138px] w-full cursor-pointer flex-col rounded-lg border bg-white px-4 py-2.5 hover:opacity-70`}
     >
       <div className='flex-between'>
         <h3 className='base-semibold line-clamp-1 max-w-[60%] text-zinc-800'>
           {title}
         </h3>
-        <Checkbox name={title} checked={isSelected} className='rounded-md' />
+        <Checkbox name={title} checked={isSelected} className='rounded' />
       </div>
+      <Spacer y='8' />
       <p className='line-clamp-4 text-sm leading-normal text-zinc-600'>
         {content}
       </p>
@@ -102,7 +101,7 @@ const MaterialPagination = memo(
   )
 );
 
-const GenerateModal = (props: Props) => {
+const GenerateModal = () => {
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState('');
   const debounced = useDebouncedCallback((value) => {

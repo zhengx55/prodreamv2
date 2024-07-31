@@ -4,10 +4,12 @@ type Props = {};
 
 const OutlineContent = (props: Props) => {
   return (
-    <div className='flex-1 bg-slate-100'>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae deserunt in
-      consequatur sapiente minima eum? Quasi at, non cum, reprehenderit nesciunt
-      eligendi quisquam magni tempore autem ea doloribus, dolor iure.
+    <div className='flex-center flex-1 bg-slate-100 pt-6'>
+      <div className='h-full w-[70%] overflow-y-auto bg-white px-8 py-6'>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos excepturi
+        enim quibusdam, ipsum hic autem a eum harum natus reprehenderit ducimus
+        veniam voluptatem ea pariatur quas fuga incidunt velit cumque.
+      </div>
     </div>
   );
 };

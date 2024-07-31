@@ -1,6 +1,6 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
-import GenerateSection from '@/components/workbench/outline/GenerateSection';
+import GenerateOutlineSidebar from '@/components/workbench/outline/GenerateOutlineSidebar';
 import OutlineContent from '@/components/workbench/outline/OutlineContent';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
@@ -27,7 +27,7 @@ export default function Page() {
           </div>
           <div className='flex items-center gap-x-2'>
             <Button role='button' variant={'icon'} className='size-max p-1'>
-              <Download size={20} />
+              <Download size={18} />
             </Button>
             <Button role='button'>
               <Icon
@@ -43,7 +43,7 @@ export default function Page() {
           </div>
         </div>
         <div className='flex flex-1 overflow-hidden'>
-          <GenerateSection />
+          <GenerateOutlineSidebar />
           <OutlineContent />
         </div>
       </div>

@@ -20,7 +20,7 @@ const Step = ({
   </div>
 );
 
-const GenerateSection = (props: Props) => {
+const GenerateOutlineSidebar = (props: Props) => {
   return (
     <div className='flex h-full w-72 flex-col overflow-y-auto rounded-bl-lg border-r border-zinc-200 px-4 py-6'>
       <GenerateOutlineButton />
@@ -54,4 +54,4 @@ const GenerateSection = (props: Props) => {
   );
 };
 
-export default memo(GenerateSection);
+export default memo(GenerateOutlineSidebar);
