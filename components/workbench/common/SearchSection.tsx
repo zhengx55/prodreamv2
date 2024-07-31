@@ -3,14 +3,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PlusCircle, Search } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { memo } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 type Props = {
   showButton?: boolean;
+  searchParams: { [key: string]: string | string[] | undefined };
 };
-const SearchSection = ({ showButton }: Props) => {
+const SearchSection = ({ showButton, searchParams }: Props) => {
   const { replace } = useRouter();
   const debounced = useDebouncedCallback((value) => {
     const params = new URLSearchParams();
@@ -22,7 +23,6 @@ const SearchSection = ({ showButton }: Props) => {
     replace(`${pathName}?${params.toString()}`);
   }, 200);
   const pathName = usePathname();
-  const searchParam = useSearchParams();
 
   return (
     <div className='flex items-center gap-x-2'>
@@ -34,7 +34,7 @@ const SearchSection = ({ showButton }: Props) => {
           name='search_materials'
           className='h-10 border-none pl-2 pr-0 focus-visible:ring-0'
           placeholder='Search materials'
-          defaultValue={searchParam.get('query') ?? ''}
+          defaultValue={searchParams.query ?? ''}
         />
       </div>
       {showButton && (
