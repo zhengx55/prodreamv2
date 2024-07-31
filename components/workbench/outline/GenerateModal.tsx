@@ -23,7 +23,8 @@ import {
 } from '@/components/ui/select';
 import { useGetMaterials, useGetPrompts } from '@/query/outline/query';
 import { Loader2, SearchIcon } from 'lucide-react';
-import { ChangeEvent, memo, useState } from 'react';
+import { memo, useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
 type Props = {};
 
@@ -104,15 +105,15 @@ const MaterialPagination = memo(
 const GenerateModal = (props: Props) => {
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState('');
+  const debounced = useDebouncedCallback((value) => {
+    setQuery(value);
+  }, 500);
   const { data: materials, isLoading: materialLoading } = useGetMaterials(
     query,
     page
   );
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const { data: prompts, isLoading: promptLoading } = useGetPrompts();
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  };
 
   return (
     <DialogContent
@@ -145,9 +146,10 @@ const GenerateModal = (props: Props) => {
           <Input
             type='search'
             name='search'
+            defaultValue={query}
             placeholder='Search Material...'
             className='border-none focus-visible:ring-0'
-            onChange={handleSearchChange}
+            onChange={(e) => debounced(e.target.value)}
           />
         </div>
       </div>
@@ -158,6 +160,10 @@ const GenerateModal = (props: Props) => {
         {materialLoading ? (
           <div className='flex-center h-[284px] w-full'>
             <Loader2 className='animate-spin text-indigo-500' size={24} />
+          </div>
+        ) : materials?.data.length === 0 ? (
+          <div className='flex-center h-[284px] w-full'>
+            <p className='title-medium'>No materials found.</p>
           </div>
         ) : (
           <div className='grid grid-cols-3 grid-rows-2 gap-2'>
@@ -190,7 +196,7 @@ const GenerateModal = (props: Props) => {
             totalPage={materials?.total_page_count ?? 0}
           />
         ) : (
-          <span className='h-8' />
+          <span className='flex h-8 shrink-0' />
         )}
         <Spacer y='16' />
       </div>
