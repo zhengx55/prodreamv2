@@ -3,7 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { useCreateCustomCitation, useUpdateCitation } from '@/query/query';
+import {
+  useCreateCustomCitation,
+  useUpdateCitation,
+} from '@/query/citation/query';
 import { IWebsiteCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';

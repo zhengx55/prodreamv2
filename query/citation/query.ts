@@ -3,7 +3,7 @@ import { ICitationType } from '@/types';
 import { useAIEditor, useCitation } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { createCitation, createGoogleCiation, updateCitation } from './api';
+import { createCitation, createGoogleCiation, updateCitation } from '../api';
 
 export const useUpdateCitation = () => {
   const tSuccess = useTranslations('Success');
@@ -136,5 +136,3 @@ export const useCiteToDoc = () => {
     },
   });
 };
-
-// ------------------ Chatbot ------------------

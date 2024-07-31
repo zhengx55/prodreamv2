@@ -3,12 +3,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MonthDropdown from '@/components/ui/month-dropdown';
 import { contributorAnimation } from '@/constant';
-import { useCreateCustomCitation, useUpdateCitation } from '@/query/query';
+import {
+  useCreateCustomCitation,
+  useUpdateCitation,
+} from '@/query/citation/query';
 import { IJournalCitation } from '@/types';
 import { useCitation } from '@/zustand/store';
-import { useTranslations } from 'next-intl';
 import { AnimatePresence, m } from 'framer-motion';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';

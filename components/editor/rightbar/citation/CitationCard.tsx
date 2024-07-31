@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import useButtonTrack from '@/hooks/useBtnTrack';
 import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
-import { useCiteToDoc, useCreateCitation } from '@/query/query';
+import { useCiteToDoc, useCreateCitation } from '@/query/citation/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
 import { useAIEditor, useCitation } from '@/zustand/store';
