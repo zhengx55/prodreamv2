@@ -1,5 +1,7 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
+import GenerateSection from '@/components/workbench/outline/GenerateSection';
+import OutlineContent from '@/components/workbench/outline/OutlineContent';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
 
@@ -39,6 +41,10 @@ export default function Page() {
               Generate Draft
             </Button>
           </div>
+        </div>
+        <div className='flex flex-1 overflow-hidden'>
+          <GenerateSection />
+          <OutlineContent />
         </div>
       </div>
     </section>

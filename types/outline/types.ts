@@ -16,3 +16,9 @@ export type EssaysRes = {
   data: [EssayItem];
   total_page_count: number;
 };
+
+export type Prompt = {
+  id: string;
+  title: string;
+  content: string;
+};
