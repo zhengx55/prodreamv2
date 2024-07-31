@@ -25,7 +25,11 @@ async function getEssays(
   return data.data;
 }
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   return (
     <section className='flex flex-1 overflow-y-hidden px-2 pb-2'>
       <div className='flex flex-1 flex-col rounded-lg bg-white'>
@@ -40,7 +44,7 @@ export default async function Page() {
             />
             <h2 className='text-xl font-medium text-zinc-500'>Outline</h2>
           </div>
-          <SearchSection />
+          <SearchSection searchParams={searchParams} />
         </div>
         <OutlineSection />
       </div>
