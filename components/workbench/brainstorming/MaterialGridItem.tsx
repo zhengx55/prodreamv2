@@ -19,7 +19,7 @@ const MaterialGridItem = ({ item }: Props) => {
           Opened {formatTimestamphh(item.update_time)}
         </p>
         <div className='flex items-center gap-x-2'>
-          <EditButton href={`/brainstorming/${item.id}/edit`} id={item.id} />
+          <EditButton href={`/brainstorming/${item.id}/edit`} />
           <DeleteButton id={item.id} type='material' />
         </div>
       </footer>

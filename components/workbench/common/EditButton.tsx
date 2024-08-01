@@ -4,13 +4,13 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { memo } from 'react';
 
-type Props = { id: string; href: string };
+type Props = { href: string };
 
-const EditButton = ({ id, href }: Props) => {
+const EditButton = ({ href }: Props) => {
   return (
     <Tooltip tooltipContent='Edit'>
       <Button className='size-max p-0' role='button' variant={'icon'}>
-        <Link passHref href={`/brainstorming/${id}/edit`}>
+        <Link passHref href={href}>
           <Icon
             className='size-4'
             width={20}

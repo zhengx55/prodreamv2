@@ -19,7 +19,7 @@ const OutlineGridItem = ({ item }: Props) => {
           Opened {formatTimestamphh(item.update_time)}
         </p>
         <div className='flex items-center gap-x-2'>
-          <EditButton href={`/outline/${item.id}`} id={item.id} />
+          <EditButton href={`/outline/${item.id}`} />
           <DeleteButton type='outline' id={item.id} />
         </div>
       </footer>
