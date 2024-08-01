@@ -17,12 +17,16 @@ const RightSidebar = () => {
   const {
     messages,
     currentAgent,
+    currentSessionId,
+    setCurrentSessionId,
     addMessage,
     updateLastRobotMessage,
     clearMessages
   } = useChatAgent((state) => ({
     messages: state.messages,
     currentAgent: state.currentAgent,
+    currentSessionId: state.currentSessionId,
+    setCurrentSessionId: state.setCurrentSessionId,
     addMessage: state.addMessage,
     updateLastRobotMessage: state.updateLastRobotMessage,
     clearMessages: state.clearMessages,
@@ -31,12 +35,7 @@ const RightSidebar = () => {
   const handleSessionId = (data: string) => {
     const sessionId = data.trim();
     console.log('Session ID:', sessionId); // Log the session ID
-    addMessage({
-      sessionId,
-      type: 'robot',
-      contents: [],
-      avatarSrc: '/editor/chatbot/max_chat_avatar.png',
-    });
+    setCurrentSessionId(sessionId);
   };
 
   const handleData = (data: string, currentTextContent: string) => {
@@ -45,21 +44,15 @@ const RightSidebar = () => {
 
     currentTextContent += trimmedData; // Append data to currentTextContent
 
+    updateLastRobotMessage({ type: 'text', content: currentTextContent });
+
     return currentTextContent;
   };
 
   const handleDataEnd = (currentTextContent: string) => {
-    console.log('handleDataEnd', currentTextContent)
-    if (currentTextContent) {
-      console.log('Text content:', currentTextContent); // Log the text content
-      addMessage({
-        sessionId: '',
-        type: 'robot',
-        contents: [{ type: 'text', content: currentTextContent }],
-        avatarSrc: '/editor/chatbot/max_chat_avatar.png',
-      });
-      currentTextContent = '';
-    }
+    console.log('handleDataEnd', currentTextContent);
+    updateLastRobotMessage({ type: 'text', content: currentTextContent });
+    currentTextContent = '';
     return currentTextContent;
   };
 
@@ -67,12 +60,7 @@ const RightSidebar = () => {
     const htmlContent = JSON.parse(data.trim()); // Parse JSON content
     console.log('HTML content:', htmlContent); // Log the HTML content
 
-    addMessage({
-      sessionId: '',
-      type: 'robot',
-      contents: [{ type: 'html', content: htmlContent }],
-      avatarSrc: '/editor/chatbot/max_chat_avatar.png',
-    });
+    updateLastRobotMessage({ type: 'html', content: htmlContent });
   };
 
   const handleOptionListStart = (data: string) => {
@@ -81,20 +69,16 @@ const RightSidebar = () => {
     return currentSelectionType;
   };
 
-  const handleOption = (data: string) => {
-    const currentOptionAction = data.trim();
-    console.log('Option action:', currentOptionAction); // Log the option action
-    return currentOptionAction;
+  const handleOption = (data: string, currentOptions: any[]) => {
+    const optionData = JSON.parse(data.trim());
+    currentOptions.push(optionData);
+    console.log('Option:', optionData); // Log the option
+    return currentOptions;
   };
 
   const handleOptionListEnd = (currentOptions: any[], currentSelectionType: 'single_selection' | 'multi_selection' | null) => {
     console.log('Option list end. Options:', currentOptions); // Log the option list end and all options
-    addMessage({
-      sessionId: '',
-      type: 'robot',
-      contents: [{ type: 'options', options: currentOptions, selectionType: currentSelectionType }],
-      avatarSrc: '/editor/chatbot/max_chat_avatar.png',
-    });
+    updateLastRobotMessage({ type: 'options', content: '', options: currentOptions, selectionType: currentSelectionType });
     return { currentOptions: [], currentSelectionType: null };
   };
 
@@ -104,13 +88,10 @@ const RightSidebar = () => {
       clearMessages();
     },
     onSuccess: async (stream) => {
-      let sessionId = '';
       let currentTextContent = '';
       let currentOptions: { id: string; label: string; action: string }[] = [];
       let currentSelectionType: 'single_selection' | 'multi_selection' | null = null;
       let isCollectingOption = false;
-      let currentOptionAction = '';
-
 
       const reader = stream.pipeThrough(new TextDecoderStream()).getReader();
 
@@ -128,42 +109,48 @@ const RightSidebar = () => {
             if (!line) continue; // Ignore empty lines
 
             if (line.startsWith('event:')) {
-              eventType = line.split(':')[1].trim();
-              console.log('eventType', eventType)
-              if (eventType === 'new_message') {
-                addMessage({
-                  sessionId,
-                  type: 'robot',
-                  contents: [],
-                  avatarSrc: '/editor/chatbot/max_chat_avatar.png',
-                });
-              }
-              if (eventType === 'data_end') {
-                currentTextContent = handleDataEnd(currentTextContent);
-              }
+              eventType = line.replace('event: ', '').trim();
             } else if (line.startsWith('data:')) {
-              const data = line.slice('data:'.length).trim();
-              if (eventType === 'session_id') {
-                handleSessionId(data);
-              } else if (eventType === 'data') {
-                currentTextContent = handleData(data, currentTextContent);
-              } else if (eventType === 'html') {
-                handleHtml(data);
-              } else if (eventType === 'option_list_start') {
-                currentSelectionType = handleOptionListStart(data);
-              } else if (eventType === 'option') {
-                currentOptionAction = handleOption(data);
-                isCollectingOption = true;
-              } else if (eventType === 'option_list_end') {
-                ({ currentOptions, currentSelectionType } = handleOptionListEnd(currentOptions, currentSelectionType));
+              const data = line.replace('data: ', '').trim();
+
+              switch (eventType) {
+                case 'session_id':
+                  handleSessionId(data);
+                  break;
+                case 'data':
+                  currentTextContent = handleData(data, currentTextContent);
+                  break;
+                case 'html':
+                  handleHtml(data);
+                  break;
+                case 'option_list_start':
+                  currentSelectionType = handleOptionListStart(data);
+                  isCollectingOption = true;
+                  break;
+                case 'option':
+                  currentOptions = handleOption(data, currentOptions);
+                  break;
+                case 'option_list_end':
+                  ({ currentOptions, currentSelectionType } = handleOptionListEnd(currentOptions, currentSelectionType));
+                  isCollectingOption = false;
+                  break;
+                case 'data_end':
+                  currentTextContent = handleDataEnd(currentTextContent);
+                  break;
+                case 'new_message':
+                  addMessage({
+                    sessionId: currentSessionId,
+                    type: 'robot',
+                    contents: [],
+                    avatarSrc: '/editor/chatbot/max_chat_avatar.png',
+                  });
+                  break;
+                case 'session_end':
+                  // Handle session end if needed
+                  break;
+                default:
+                  break;
               }
-            } else if (isCollectingOption && eventType === 'data') {
-              // Collect options data
-              currentOptions.push({
-                id: `option-${currentOptions.length}`,
-                label: line.slice('data:'.length).trim(),
-                action: currentOptionAction
-              });
             }
           }
         }
@@ -183,14 +170,14 @@ const RightSidebar = () => {
 
   const handleSend = (message: string) => {
     addMessage({
-      sessionId: '',
+      sessionId: currentSessionId,
       type: 'user',
       contents: [{ type: 'text', content: message }],
       avatarSrc: '/path/to/user/avatar.png',
     });
 
     sendChatAgentMutation.mutate({
-      session_id: messages[messages.length - 1].sessionId,
+      session_id: currentSessionId,
       response: message,
       agent: currentAgent,
     });
@@ -213,7 +200,7 @@ const RightSidebar = () => {
           onConfirm={(selectedOption) => {
             const selectedOptionObj = content.options.find((opt: any) => opt.id === selectedOption);
             sendChatAgentMutation.mutate({
-              session_id: messages[messages.length - 1].sessionId,
+              session_id: currentSessionId,
               response: selectedOptionObj?.label,
               agent: currentAgent,
             });
@@ -228,7 +215,7 @@ const RightSidebar = () => {
           onConfirm={(selectedOptions) => {
             const selectedOptionLabels = selectedOptions.map((option: any) => option.label);
             sendChatAgentMutation.mutate({
-              session_id: messages[messages.length - 1].sessionId,
+              session_id: currentSessionId,
               response: selectedOptionLabels.join(','),
               agent: currentAgent,
             });

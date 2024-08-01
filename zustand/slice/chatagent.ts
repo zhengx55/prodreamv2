@@ -23,7 +23,9 @@ export interface Option {
 interface ChatAgentState {
   messages: Message[];
   currentAgent: string;
+  currentSessionId: string;
   setCurrentAgent: (agent: string) => void;
+  setCurrentSessionId: (sessionId: string) => void;
   addMessage: (message: Message) => void;
   updateLastRobotMessage: (content: MessageContent) => void;
   clearMessages: () => void;
@@ -32,11 +34,13 @@ interface ChatAgentState {
 const initialState = {
   messages: [],
   currentAgent: "Max",
+  currentSessionId: "",
 };
 
 export const chatAgentSlice: StateCreator<ChatAgentState> = (set) => ({
   ...initialState,
   setCurrentAgent: (agent: string) => set({ currentAgent: agent }),
+  setCurrentSessionId: (sessionId: string) => set({ currentSessionId: sessionId }),
   addMessage: (message: Message) => set((state) => ({
     messages: [...state.messages, message]
   })),
