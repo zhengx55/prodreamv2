@@ -1,0 +1,725 @@
+event: session_id
+data: 66a99e381015b46dbf72476f
+
+event: new_message
+
+event: data
+data: ""
+
+event: data
+data: "Hello"
+
+event: data
+data: " everyone"
+
+event: data
+data: ",\n\n"
+
+event: data
+data: "My"
+
+event: data
+data: " name"
+
+event: data
+data: " is"
+
+event: data
+data: " Max"
+
+event: data
+data: ","
+
+event: data
+data: " and"
+
+event: data
+data: " I"
+
+event: data
+data: " am"
+
+event: data
+data: " thrilled"
+
+event: data
+data: " to"
+
+event: data
+data: " be"
+
+event: data
+data: " here"
+
+event: data
+data: " with"
+
+event: data
+data: " you"
+
+event: data
+data: " today"
+
+event: data
+data: "."
+
+event: data
+data: " With"
+
+event: data
+data: " a"
+
+event: data
+data: " background"
+
+event: data
+data: " that"
+
+event: data
+data: " spans"
+
+event: data
+data: " from"
+
+event: data
+data: " being"
+
+event: data
+data: " an"
+
+event: data
+data: " international"
+
+event: data
+data: " high"
+
+event: data
+data: " school"
+
+event: data
+data: " exchange"
+
+event: data
+data: " student"
+
+event: data
+data: " to"
+
+event: data
+data: " earning"
+
+event: data
+data: " degrees"
+
+event: data
+data: " from"
+
+event: data
+data: " UCLA"
+
+event: data
+data: " and"
+
+event: data
+data: " Harvard"
+
+event: data
+data: ","
+
+event: data
+data: " I"
+
+event: data
+data: " have"
+
+event: data
+data: " navig"
+
+event: data
+data: "ated"
+
+event: data
+data: " the"
+
+event: data
+data: " complexities"
+
+event: data
+data: " of"
+
+event: data
+data: " the"
+
+event: data
+data: " college"
+
+event: data
+data: " application"
+
+event: data
+data: " process"
+
+event: data
+data: " firsthand"
+
+event: data
+data: "."
+
+event: data
+data: " Currently"
+
+event: data
+data: ","
+
+event: data
+data: " I"
+
+event: data
+data: " serve"
+
+event: data
+data: " as"
+
+event: data
+data: " a"
+
+event: data
+data: " College"
+
+event: data
+data: " Admissions"
+
+event: data
+data: " Counselor"
+
+event: data
+data: " and"
+
+event: data
+data: " the"
+
+event: data
+data: " CEO"
+
+event: data
+data: " of"
+
+event: data
+data: " Pro"
+
+event: data
+data: "Dream"
+
+event: data
+data: " AI"
+
+event: data
+data: ","
+
+event: data
+data: " where"
+
+event: data
+data: " my"
+
+event: data
+data: " mission"
+
+event: data
+data: " is"
+
+event: data
+data: " to"
+
+event: data
+data: " help"
+
+event: data
+data: " students"
+
+event: data
+data: " like"
+
+event: data
+data: " you"
+
+event: data
+data: " achieve"
+
+event: data
+data: " your"
+
+event: data
+data: " academic"
+
+event: data
+data: " dreams"
+
+event: data
+data: ".\n\n"
+
+event: data
+data: "Over"
+
+event: data
+data: " the"
+
+event: data
+data: " years"
+
+event: data
+data: ","
+
+event: data
+data: " I"
+
+event: data
+data: " have"
+
+event: data
+data: " developed"
+
+event: data
+data: " a"
+
+event: data
+data: " deep"
+
+event: data
+data: " understanding"
+
+event: data
+data: " of"
+
+event: data
+data: " what"
+
+event: data
+data: " makes"
+
+event: data
+data: " a"
+
+event: data
+data: " compelling"
+
+event: data
+data: " college"
+
+event: data
+data: " application"
+
+event: data
+data: " and"
+
+event: data
+data: " essay"
+
+event: data
+data: "."
+
+event: data
+data: " My"
+
+event: data
+data: " approach"
+
+event: data
+data: " emphasizes"
+
+event: data
+data: " not"
+
+event: data
+data: " just"
+
+event: data
+data: " your"
+
+event: data
+data: " academic"
+
+event: data
+data: " achievements"
+
+event: data
+data: " but"
+
+event: data
+data: " your"
+
+event: data
+data: " unique"
+
+event: data
+data: " story"
+
+event: data
+data: ","
+
+event: data
+data: " passions"
+
+event: data
+data: ","
+
+event: data
+data: " and"
+
+event: data
+data: " potential"
+
+event: data
+data: " for"
+
+event: data
+data: " growth"
+
+event: data
+data: "."
+
+event: data
+data: " I"
+
+event: data
+data: " believe"
+
+event: data
+data: " that"
+
+event: data
+data: " every"
+
+event: data
+data: " student"
+
+event: data
+data: " has"
+
+event: data
+data: " a"
+
+event: data
+data: " unique"
+
+event: data
+data: " voice"
+
+event: data
+data: ","
+
+event: data
+data: " and"
+
+event: data
+data: " my"
+
+event: data
+data: " goal"
+
+event: data
+data: " is"
+
+event: data
+data: " to"
+
+event: data
+data: " help"
+
+event: data
+data: " you"
+
+event: data
+data: " express"
+
+event: data
+data: " yours"
+
+event: data
+data: " in"
+
+event: data
+data: " the"
+
+event: data
+data: " most"
+
+event: data
+data: " impactful"
+
+event: data
+data: " way"
+
+event: data
+data: " possible"
+
+event: data
+data: ".\n\n"
+
+event: data
+data: "Let's"
+
+event: data
+data: " work"
+
+event: data
+data: " together"
+
+event: data
+data: " to"
+
+event: data
+data: " craft"
+
+event: data
+data: " essays"
+
+event: data
+data: " that"
+
+event: data
+data: " not"
+
+event: data
+data: " only"
+
+event: data
+data: " highlight"
+
+event: data
+data: " your"
+
+event: data
+data: " accomplishments"
+
+event: data
+data: " but"
+
+event: data
+data: " also"
+
+event: data
+data: " convey"
+
+event: data
+data: " your"
+
+event: data
+data: " personality"
+
+event: data
+data: " and"
+
+event: data
+data: " aspirations"
+
+event: data
+data: "."
+
+event: data
+data: " I'm"
+
+event: data
+data: " here"
+
+event: data
+data: " to"
+
+event: data
+data: " support"
+
+event: data
+data: " you"
+
+event: data
+data: " every"
+
+event: data
+data: " step"
+
+event: data
+data: " of"
+
+event: data
+data: " the"
+
+event: data
+data: " way"
+
+event: data
+data: ","
+
+event: data
+data: " ensuring"
+
+event: data
+data: " that"
+
+event: data
+data: " your"
+
+event: data
+data: " application"
+
+event: data
+data: " stands"
+
+event: data
+data: " out"
+
+event: data
+data: " in"
+
+event: data
+data: " a"
+
+event: data
+data: " competitive"
+
+event: data
+data: " landscape"
+
+event: data
+data: ".\n\n"
+
+event: data
+data: "You"
+
+event: data
+data: " know"
+
+event: data
+data: " what"
+
+event: data
+data: "?"
+
+event: data
+data: " With"
+
+event: data
+data: " dedication"
+
+event: data
+data: " and"
+
+event: data
+data: " the"
+
+event: data
+data: " right"
+
+event: data
+data: " guidance"
+
+event: data
+data: ","
+
+event: data
+data: " I"
+
+event: data
+data: " believe"
+
+event: data
+data: " you"
+
+event: data
+data: " can"
+
+event: data
+data: " achieve"
+
+event: data
+data: " anything"
+
+event: data
+data: "."
+
+event: data
+data: " Let's"
+
+event: data
+data: " get"
+
+event: data
+data: " started"
+
+event: data
+data: " on"
+
+event: data
+data: " this"
+
+event: data
+data: " exciting"
+
+event: data
+data: " journey"
+
+event: data
+data: " to"
+
+event: data
+data: " your"
+
+event: data
+data: " future"
+
+event: data
+data: "!\n\n"
+
+event: data
+data: "Best"
+
+event: data
+data: " regards"
+
+event: data
+data: ",\n"
+
+event: data
+data: "Max"
+
+event: data
+data: ""
+
+event: data_end
+
+event: new_message
+
+event: html
+data: "<div style=\"margin-top: 10px; margin-bottom: 10px; border-radius: 10px; background-color: white; padding: 16px;\">\n  <div style=\"margin-bottom: 8px; display: flex; width: 100%; align-items: flex-start; justify-content: space-between;\">\n    <div style=\"display: flex; flex-grow: 1; align-items: center;\">\n      <div style=\"height: 24px; width: 24px; flex-shrink: 0; border-radius: 9999px; background-color: transparent; background-image: url('https://quickapply.blob.core.windows.net/statics/images/nav_brainstorming.svg'); background-size: cover; background-position: center; background-repeat: no-repeat;\"></div>\n      <div style=\"margin-left: 16px; display: flex; flex-grow: 1; align-items: center; justify-content: space-between;\">\n        <p style=\"max-width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: Poppins, sans-serif; font-size: 16px; font-weight: 500; line-height: 28px; color: #1a1a1a;\">Brainstorming</p>\n        <span style=\"display: flex; align-items: center; justify-content: center; border-radius: 4px; padding: 2px 10px; font-size: 14px; background-color: #FFFAF2; color: #FF9500;\">Step 1</span>\n      </div>\n    </div>\n  </div>\n  <p style=\"margin-top: 8px; font-family: Poppins, sans-serif; font-size: 14px; line-height: 24px; color: #666;\">Uncover your most compelling stories, experiences, and strengths. This generates ideas and key themes to make your personal statement stand out.</p>\n</div>\n\n<div style=\"margin-top: 10px; margin-bottom: 10px; border-radius: 10px; background-color: white; padding: 16px;\">\n  <div style=\"margin-bottom: 8px; display: flex; width: 100%; align-items: flex-start; justify-content: space-between;\">\n    <div style=\"display: flex; flex-grow: 1; align-items: center;\">\n      <div style=\"height: 24px; width: 24px; flex-shrink: 0; border-radius: 9999px; background-color: transparent; background-image: url('https://quickapply.blob.core.windows.net/statics/images/nav_outline.svg'); background-size: cover; background-position: center; background-repeat: no-repeat;\"></div>\n      <div style=\"margin-left: 16px; display: flex; flex-grow: 1; align-items: center; justify-content: space-between;\">\n        <p style=\"max-width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: Poppins, sans-serif; font-size: 16px; font-weight: 500; line-height: 28px; color: #1a1a1a;\">Outline</p>\n        <span style=\"display: flex; align-items: center; justify-content: center; border-radius: 4px; padding: 2px 10px; font-size: 14px; background-color: #F2F4FF; color: #5C73E5;\">Step 2</span>\n      </div>\n    </div>\n  </div>\n  <p style=\"margin-top: 8px; font-family: Poppins, sans-serif; font-size: 14px; line-height: 24px; color: #666;\">Uncover your most compelling stories, experiences, and strengths. This generates ideas and key themes to make your personal statement stand out.</p>\n</div>\n\n<div style=\"margin-top: 10px; margin-bottom: 10px; border-radius: 10px; background-color: white; padding: 16px;\">\n  <div style=\"margin-bottom: 8px; display: flex; width: 100%; align-items: flex-start; justify-content: space-between;\">\n    <div style=\"display: flex; flex-grow: 1; align-items: center;\">\n      <div style=\"height: 24px; width: 24px; flex-shrink: 0; border-radius: 9999px; background-color: transparent; background-image: url('https://quickapply.blob.core.windows.net/statics/images/nav_draftproofread.svg'); background-size: cover; background-position: center; background-repeat: no-repeat;\"></div>\n      <div style=\"margin-left: 16px; display: flex; flex-grow: 1; align-items: center; justify-content: space-between;\">\n        <p style=\"max-width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: Poppins, sans-serif; font-size: 16px; font-weight: 500; line-height: 28px; color: #1a1a1a;\">Draft&proofread</p>\n        <span style=\"display: flex; align-items: center; justify-content: center; border-radius: 4px; padding: 2px 10px; font-size: 14px; background-color: #F2FFF3; color: #52CC5C;\">Step 3</span>\n      </div>\n    </div>\n  </div>\n  <p style=\"margin-top: 8px; font-family: Poppins, sans-serif; font-size: 14px; line-height: 24px; color: #666;\">Uncover your most compelling stories, experiences, and strengths. This generates ideas and key themes to make your personal statement stand out.</p>\n</div>"
+
+event: data_end
+
+event: new_message
+
+event: data
+data: "Let me understand what you're working on. Which type of essay are you writing."
+
+event: option_list_start
+data: multi_selection
+
+event: option
+data: agent
+
+event: data
+data: "Common Application essay"
+
+event: option
+data: agent
+
+event: data
+data: "UC Personal Insight Questions"
+
+event: option
+data: agent
+
+event: data
+data: "Another type of application"
+
+event: option_list_end
+
+event: data_end
+

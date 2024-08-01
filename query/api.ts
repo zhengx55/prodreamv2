@@ -1413,6 +1413,43 @@ export async function setFeaturePreferences(params: {
 }
 
 // ----------------------------------------------------------------
+// CHAT AGENT
+// ----------------------------------------------------------------
+export async function SendChatAgent({
+  session_id,
+  response,
+  agent,
+}: {
+  session_id: string | null;
+  response: string | null;
+  agent: string | null;
+}): Promise<ReadableStream> {
+  try {
+    const token = Cookies.get('token');
+    const body = JSON.stringify({ session_id, response, agent });
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/agent`,
+      {
+        method: 'POST',
+        body,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'text/event-stream',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!res.ok || !res.body) throw new Error('Oops something went wrong');
+
+    return res.body;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : String(error));
+  }
+}
+
+// ----------------------------------------------------------------
 // CHAT
 // ----------------------------------------------------------------
 export async function chat(params: {
