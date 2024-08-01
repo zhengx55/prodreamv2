@@ -49,6 +49,7 @@ const RightSidebar = () => {
   };
 
   const handleDataEnd = (currentTextContent: string) => {
+    console.log('handleDataEnd', currentTextContent)
     if (currentTextContent) {
       console.log('Text content:', currentTextContent); // Log the text content
       addMessage({
@@ -65,6 +66,7 @@ const RightSidebar = () => {
   const handleHtml = (data: string) => {
     const htmlContent = JSON.parse(data.trim()); // Parse JSON content
     console.log('HTML content:', htmlContent); // Log the HTML content
+
     addMessage({
       sessionId: '',
       type: 'robot',
@@ -109,6 +111,7 @@ const RightSidebar = () => {
       let isCollectingOption = false;
       let currentOptionAction = '';
 
+
       const reader = stream.pipeThrough(new TextDecoderStream()).getReader();
 
       try {
@@ -117,13 +120,16 @@ const RightSidebar = () => {
           const { done, value } = await reader.read();
           if (done) break;
 
-          const lines = value.split('\n');
+          let lines = value.split('\n');
+
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i].trim();
+
             if (!line) continue; // Ignore empty lines
 
             if (line.startsWith('event:')) {
               eventType = line.split(':')[1].trim();
+              console.log('eventType', eventType)
               if (eventType === 'new_message') {
                 addMessage({
                   sessionId,
@@ -132,14 +138,15 @@ const RightSidebar = () => {
                   avatarSrc: '/editor/chatbot/max_chat_avatar.png',
                 });
               }
+              if (eventType === 'data_end') {
+                currentTextContent = handleDataEnd(currentTextContent);
+              }
             } else if (line.startsWith('data:')) {
               const data = line.slice('data:'.length).trim();
               if (eventType === 'session_id') {
                 handleSessionId(data);
               } else if (eventType === 'data') {
                 currentTextContent = handleData(data, currentTextContent);
-              } else if (eventType === 'data_end') {
-                currentTextContent = handleDataEnd(currentTextContent);
               } else if (eventType === 'html') {
                 handleHtml(data);
               } else if (eventType === 'option_list_start') {
@@ -172,7 +179,7 @@ const RightSidebar = () => {
       response: null,
       agent: currentAgent,
     });
-  }, [currentAgent, sendChatAgentMutation]);
+  }, []);
 
   const handleSend = (message: string) => {
     addMessage({
@@ -251,7 +258,18 @@ const RightSidebar = () => {
 
   return (
     <div className={`scrollbar-hide relative mx-2 mb-2 flex  h-[calc(100vh-106px)] flex-col overflow-hidden overflow-y-auto rounded-lg border border-white bg-white ${selectedNavItem === 'Chat' ? 'w-full' : 'w-[600px]'}`}>
-      <div className='sticky left-0 right-0 top-0 z-10 flex items-center justify-end border-b border-[#E5E5E5] bg-white bg-opacity-60 px-2 py-2 backdrop-blur-lg backdrop-filter'>
+      <div className='sticky left-0 right-0 top-0 z-10 flex items-center justify-between border-b border-[#E5E5E5] bg-white bg-opacity-60 px-4 py-4 backdrop-blur-lg backdrop-filter'>
+        <div className='flex items-center gap-2'>
+          <Icon
+            alt=''
+            src='/workbench/nav_chat.svg'
+            width={20}
+            height={20}
+            className='size-[20px] cursor-pointer'
+          />
+          <span>{currentAgent}</span>
+        </div>
+
         <div>
           <Icon
             alt=''

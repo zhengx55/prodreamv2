@@ -1,6 +1,8 @@
 event: session_id
 data: 66a99e381015b46dbf72476f
 
+event: new_message
+
 event: data
 data: ""
 
