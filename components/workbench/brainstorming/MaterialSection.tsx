@@ -16,7 +16,7 @@ type Props = {
 };
 
 const MaterialSection = ({ list, pageCount }: Props) => {
-  const [viewType, setViewType] = useState<'list' | 'grid'>('list');
+  const [viewType, setViewType] = useState<'list' | 'grid'>('grid');
 
   const handleViewChange = useCallback((type: 'list' | 'grid') => {
     setViewType(type);
