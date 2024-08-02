@@ -65,7 +65,12 @@ const MaterialSection = ({ list, pageCount }: Props) => {
     <>
       <div className='flex-1 overflow-y-auto bg-slate-50 px-6 pb-10 pt-6'>
         <div className='flex-between'>
-          <h3 className='text-base font-medium text-zinc-800'>Recently</h3>
+          <h3 className='w-[200px] text-base font-medium text-zinc-800'>
+            Recently
+          </h3>
+          {viewType === 'list' ? (
+            <p className='text-base text-zinc-600'>Last Opened</p>
+          ) : null}
           <div className='flex gap-x-2'>
             {renderViewToggleButton()}
             <Tooltip tooltipContent='Sort'>
