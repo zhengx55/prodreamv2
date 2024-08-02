@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { memo } from 'react';
-import LeftTopMenu from '../chat/LeftTopMenu';
+import LeftTopMenu from '../workbench/common/LeftTopMenu';
 
 type Props = {
   lang: Locale;

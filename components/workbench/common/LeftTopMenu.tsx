@@ -2,6 +2,14 @@
 import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
 import Tooltip from '@/components/root/Tooltip';
+import { Button } from '@/components/ui/button';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   workbench_engine,
   workbench_nav,
@@ -12,10 +20,6 @@ import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { FC, memo, useMemo, useState } from 'react';
-import { Button } from '../ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { Separator } from '../ui/separator';
-import { Skeleton } from '../ui/skeleton';
 
 interface EngineItemProps {
   item: {
