@@ -16,7 +16,7 @@ async function getMaterials(
 ): Promise<MaterialListRes> {
   const user_id = getUserIdFromToken(token);
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}/${user_id}/material?page=${page}&page_size=${PAGESIZE.MATERIAL_PAGE_SIZE}&keyword=${keyword}`,
+    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}${user_id}/material?page=${page}&page_size=${PAGESIZE.MATERIAL_PAGE_SIZE}&keyword=${keyword}`,
     {
       next: { tags: ['materials'] },
       method: 'GET',
@@ -38,7 +38,6 @@ export default async function Page({
   const keyword = searchParams.query ? (searchParams.query as string) : '';
   const token = cookies().get('token')?.value;
   const data = await getMaterials(page, keyword, token!);
-
   return (
     <section className='flex flex-1 overflow-y-hidden px-2 pb-2'>
       <div className='flex flex-1 flex-col rounded-lg bg-white'>

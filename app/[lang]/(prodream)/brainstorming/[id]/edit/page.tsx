@@ -9,7 +9,7 @@ async function getMaterialDetails(
   token: string
 ): Promise<MaterialItem> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}/material/${id}`,
+    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material/${id}`,
     {
       method: 'GET',
       headers: {
@@ -23,7 +23,7 @@ async function getMaterialDetails(
 
 async function getThemesData(token: string): Promise<ThemeType[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}/material_themes?page=0&page_size=10`,
+    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material_themes?page=0&page_size=10`,
     {
       method: 'GET',
       headers: {

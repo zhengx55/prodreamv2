@@ -76,7 +76,7 @@ const MaterialForm = ({
       className='flex flex-1 flex-col gap-y-6 pt-4'
     >
       <div className='relative flex flex-col gap-y-2 px-4'>
-        <label htmlFor='theme' className='text-xl font-medium text-zinc-600'>
+        <label htmlFor='theme' className='text-base font-medium text-zinc-600'>
           Theme
         </label>
         <Select value={theme} name='theme' onValueChange={setTheme}>
@@ -111,7 +111,7 @@ const MaterialForm = ({
         >
           {titleLenght}/50
         </p>
-        <label htmlFor='title' className='text-xl font-medium text-zinc-600'>
+        <label htmlFor='title' className='text-base font-medium text-zinc-600'>
           Title
         </label>
         <Input
@@ -133,7 +133,10 @@ const MaterialForm = ({
         >
           {contentLenght}/1000
         </p>
-        <label htmlFor='content' className='text-xl font-medium text-zinc-600'>
+        <label
+          htmlFor='content'
+          className='text-base font-medium text-zinc-600'
+        >
           Content
         </label>
         <Textarea

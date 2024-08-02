@@ -21,7 +21,7 @@ const PaginationSection = ({ totalPage }: Props) => {
     return `?${params.toString()}`;
   };
   return (
-    <Pagination>
+    <Pagination className='h-8'>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
