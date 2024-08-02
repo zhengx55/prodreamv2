@@ -5,11 +5,12 @@ import Spacer from '@/components/root/Spacer';
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import { MaterialItem } from '@/types/brainstorm/types';
+import dynamic from 'next/dynamic';
 import { memo, useCallback, useState } from 'react';
-import Pagination from '../common/Pagination';
 import MaterialGrid from './MaterialGrid';
 import MaterialList from './MaterialList';
-
+const Empty = dynamic(() => import('../common/Empty'));
+const Pagination = dynamic(() => import('../common/Pagination'));
 type Props = {
   pageCount: number;
   list: MaterialItem[];
@@ -63,7 +64,7 @@ const MaterialSection = ({ list, pageCount }: Props) => {
 
   return (
     <>
-      <div className='flex-1 overflow-y-auto bg-slate-50 px-6 pb-10 pt-6'>
+      <div className='flex flex-1 flex-col overflow-y-auto bg-slate-50 px-6 pb-10 pt-6'>
         <div className='flex-between'>
           <h3 className='w-[200px] text-base font-medium text-zinc-800'>
             Recently
@@ -88,7 +89,13 @@ const MaterialSection = ({ list, pageCount }: Props) => {
           </div>
         </div>
         <Spacer y='16' />
-        {viewType === 'grid' ? (
+        {list.length === 0 ? (
+          <Empty
+            label='Add Material'
+            href='/brainstorming/create'
+            message='You can add it proactively or with the assistance of agents'
+          />
+        ) : viewType === 'grid' ? (
           <MaterialGrid list={list} />
         ) : (
           <MaterialList list={list} />
