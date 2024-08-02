@@ -38,7 +38,6 @@ export default async function Page({
   const keyword = searchParams.query ? (searchParams.query as string) : '';
   const token = cookies().get('token')?.value;
   const data = await getMaterials(page, keyword, token!);
-
   return (
     <section className='flex flex-1 overflow-y-hidden px-2 pb-2'>
       <div className='flex flex-1 flex-col rounded-lg bg-white'>

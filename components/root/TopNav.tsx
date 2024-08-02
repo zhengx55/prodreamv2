@@ -13,7 +13,7 @@ type Props = {
 
 const TopNav = ({ lang }: Props) => {
   return (
-    <div className='relative flex shrink-0 justify-center gap-x-4 py-2'>
+    <div className='relative flex shrink-0 justify-center gap-x-2 py-6'>
       <div className='absolute left-[8px] top-[8px]'>
         <LeftTopMenu />
       </div>
@@ -47,9 +47,7 @@ const NavItem = ({
       href={link}
       passHref
       className={`flex cursor-pointer items-center gap-x-2 rounded-lg px-6 py-2 ${
-        isSelected
-          ? 'bg-white bg-opacity-60 shadow-md'
-          : 'hover:bg-white hover:bg-opacity-60 hover:shadow-md'
+        isSelected ? 'bg-white' : 'bg-white/40 hover:bg-white'
       }`}
     >
       <Image
@@ -61,10 +59,10 @@ const NavItem = ({
         priority
       />
       <p
-        className={`small-regular capitalize leading-5 tracking-[0.16px] text-[#57545E] ${
+        className={`text-base ${
           isSelected
-            ? 'font-medium leading-6 text-[#272330]'
-            : 'group-hover:font-medium group-hover:leading-6 group-hover:text-[#272330]'
+            ? 'font-medium text-indigo-500'
+            : 'font-normal text-zinc-600'
         }`}
       >
         {label}

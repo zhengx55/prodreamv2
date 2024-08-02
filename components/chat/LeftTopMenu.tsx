@@ -1,4 +1,7 @@
 'use client';
+import Icon from '@/components/root/Icon';
+import Spacer from '@/components/root/Spacer';
+import Tooltip from '@/components/root/Tooltip';
 import {
   workbench_engine,
   workbench_nav,
@@ -7,14 +10,12 @@ import {
 import { useUserInfo } from '@/zustand/store';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
-import Tooltip from '@/components/root/Tooltip';
-import { useRouter, useParams } from 'next/navigation';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { useParams, useRouter } from 'next/navigation';
 import { FC, memo, useMemo, useState } from 'react';
+import { Button } from '../ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Separator } from '../ui/separator';
 import { Skeleton } from '../ui/skeleton';
-import Icon from '@/components/root/Icon';
-import Spacer from '@/components/root/Spacer';
 
 interface EngineItemProps {
   item: {
@@ -216,34 +217,45 @@ const LeftTopMenu = () => {
   };
 
   return (
-    <div className='flex items-center justify-center'>
+    <div className='flex items-center justify-center gap-x-2'>
       <Tooltip tooltipContent={'ProDream Home'} side='bottom'>
         <div
           className='flex h-7 cursor-pointer items-center justify-center rounded-lg px-2 transition-all duration-200 hover:bg-white hover:bg-opacity-60'
           onClick={toHome}
         >
-          <Image src='/logo/Prodream.png' alt='Logo' width={94} height={15} />
+          <Image
+            src='/logo/Prodream.png'
+            alt='Logo'
+            width={130}
+            height={20}
+            priority
+            className='h-5 w-[130px]'
+          />
         </div>
       </Tooltip>
-      <div className='mx-2 h-5 w-px bg-[#C9CFDC]' />
+      <Separator className='h-5 bg-zinc-400' orientation='vertical' />
       <Popover>
-        <PopoverTrigger>
-          <Tooltip tooltipContent={'Menu'} side='bottom'>
-            <div
-              className='flex h-7 cursor-pointer items-center justify-center rounded-lg px-1 transition-all duration-200 hover:bg-white hover:bg-opacity-60'
+        <Tooltip tooltipContent={'Menu'} side='bottom'>
+          <PopoverTrigger asChild>
+            <Button
+              role='button'
+              variant={'icon'}
               onClick={showMenu}
+              className='size-max p-0.5'
             >
               <Image
                 src='/workbench/menu_icon.svg'
                 alt='Menu Icon'
-                width={20}
-                height={20}
+                width={24}
+                height={24}
+                className='size-6'
+                priority
               />
-            </div>
-          </Tooltip>
-        </PopoverTrigger>
+            </Button>
+          </PopoverTrigger>
+        </Tooltip>
         <PopoverContent
-          className='custom-popover-content w-[180px] translate-x-2 backdrop-blur-lg backdrop-filter'
+          className='custom-popover-content w-[220px] translate-x-2 backdrop-blur-lg backdrop-filter'
           side='bottom'
           align='end'
         >
@@ -261,4 +273,4 @@ const LeftTopMenu = () => {
   );
 };
 
-export default LeftTopMenu;
+export default memo(LeftTopMenu);
