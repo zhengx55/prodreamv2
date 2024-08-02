@@ -5,7 +5,7 @@ const DeleteButton = () => {
   return (
     <button className='inline-flex w-full items-center gap-x-1 rounded-lg px-2 py-1 hover:bg-slate-200'>
       <Icon
-        className='size-6'
+        className='size-5'
         width={24}
         height={24}
         alt='edit'

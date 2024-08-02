@@ -15,11 +15,11 @@ const MaterialGridItem = ({ item }: Props) => {
           </p>
         </div>
       </div>
-      <footer className='flex-between border-t border-gray-100 px-4 py-2.5'>
+      <footer className='flex-between border-t bg-white px-4 py-2.5'>
         <div className='space-y-1'>
           <div className='flex items-center gap-x-2'>
             <Icon
-              src='/workbench/material_filel.svg'
+              src='/workbench/material_file.svg'
               alt={item.title}
               width={24}
               height={24}
