@@ -28,18 +28,20 @@ const DeleteModal = ({ id, setShow }: Props) => {
   });
 
   return (
-    <AlertDialogContent className='bg-white md:w-[400px] md:p-4'>
+    <AlertDialogContent className='bg-white md:w-[600px] md:p-8'>
       <AlertDialogHeader>
         <AlertDialogTitle className='inline-flex items-center gap-x-2 text-xl font-medium'>
           <Info size={20} className='text-red-500' /> Delete Material
         </AlertDialogTitle>
-        <AlertDialogDescription className='base-regular text-neutral-400'>
-          Are you sure to delete? This action cannot be undone
+        <AlertDialogDescription className='base-regular text-zinc-600'>
+          The Material cannot be retrieved after deletion. Are you sure youwant
+          to delete it
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel disabled={isExecuting}>Cancel</AlertDialogCancel>
         <AlertDialogAction
+          className='bg-rose-500 hover:bg-rose-600 active:bg-rose-500'
           disabled={isExecuting}
           onClick={(e) => {
             e.preventDefault();

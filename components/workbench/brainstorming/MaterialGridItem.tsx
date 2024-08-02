@@ -7,7 +7,7 @@ type Props = { item: MaterialItem };
 
 const MaterialGridItem = ({ item }: Props) => {
   return (
-    <div className='flex w-[334px] flex-col justify-between rounded-lg border'>
+    <div className='flex w-[330px] flex-col justify-between rounded-lg border'>
       <div className='h-[164px] bg-gray-100 px-2 pt-2'>
         <div className='size-full bg-white p-2'>
           <p className='small-regular line-clamp-3 leading-tight text-zinc-600'>
