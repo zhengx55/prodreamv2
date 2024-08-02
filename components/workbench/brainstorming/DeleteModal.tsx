@@ -7,7 +7,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Info, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Info, Loader2, X } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { memo } from 'react';
 import { deleteMaterial } from './server_actions/actions';
@@ -28,18 +29,33 @@ const DeleteModal = ({ id, setShow }: Props) => {
   });
 
   return (
-    <AlertDialogContent className='bg-white md:w-[400px] md:p-4'>
+    <AlertDialogContent className='gap-y-6 bg-white md:w-[600px] md:p-8'>
       <AlertDialogHeader>
-        <AlertDialogTitle className='inline-flex items-center gap-x-2 text-xl font-medium'>
-          <Info size={20} className='text-red-500' /> Delete Material
-        </AlertDialogTitle>
-        <AlertDialogDescription className='base-regular text-neutral-400'>
-          Are you sure to delete? This action cannot be undone
+        <div className='flex-between'>
+          <AlertDialogTitle className='inline-flex items-center gap-x-2 text-xl font-medium'>
+            <Info size={20} className='text-red-500' /> Delete Material
+          </AlertDialogTitle>
+          <AlertDialogCancel asChild>
+            <Button
+              variant={'icon'}
+              className='size-max border-gray-200 p-1'
+              role='button'
+            >
+              <X size={16} className='text-zinc-500' />
+            </Button>
+          </AlertDialogCancel>
+        </div>
+        <AlertDialogDescription className='text-base text-neutral-400'>
+          The Material cannot be retrieved after deletion. Are you sure you want
+          to delete it
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel disabled={isExecuting}>Cancel</AlertDialogCancel>
+        <AlertDialogCancel className='px-8' disabled={isExecuting}>
+          Cancel
+        </AlertDialogCancel>
         <AlertDialogAction
+          className='bg-rose-500 px-8 hover:bg-rose-600 active:bg-rose-500'
           disabled={isExecuting}
           onClick={(e) => {
             e.preventDefault();

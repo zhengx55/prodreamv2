@@ -33,9 +33,9 @@ export const Navigation = [
   },
   {
     id: 'nav-04',
-    title: 'Draft&proofread',
+    title: 'Draft&Feedback',
     image: '/workbench/nav_draftproofread.svg',
-    link: 'draft',
+    link: 'draft&feedback',
   },
 ];
 

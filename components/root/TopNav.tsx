@@ -59,10 +59,8 @@ const NavItem = ({
         priority
       />
       <p
-        className={`text-base ${
-          isSelected
-            ? 'font-medium text-indigo-500'
-            : 'font-normal text-zinc-600'
+        className={`text-base font-medium ${
+          isSelected ? 'text-indigo-500' : 'text-zinc-600'
         }`}
       >
         {label}

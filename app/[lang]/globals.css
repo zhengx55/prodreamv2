@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    @apply m-0 box-border appearance-none scroll-smooth p-0 scrollbar-track-transparent scrollbar-thumb-slate-200;
+    @apply m-0 box-border scrollbar-thin appearance-none scroll-smooth p-0 scrollbar-track-transparent scrollbar-thumb-slate-200;
   }
 
   body {
@@ -15,13 +15,6 @@
 }
 
 @layer utilities {
-  .scale-down {
-    zoom: 0.85;
-  }
-
-  .scale-initial {
-    zoom: unset;
-  }
 
   /* TYPOGRAPHY */
   .h1-bold {

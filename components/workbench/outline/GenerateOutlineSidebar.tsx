@@ -9,14 +9,19 @@ const Step = ({
   number,
   colorClass,
   text,
+  description,
 }: {
   number: number;
   colorClass: string;
   text: string;
+  description: string;
 }) => (
-  <div className='flex items-center gap-x-2 rounded-[10px] bg-white p-2'>
-    <div className={`flex-center size-7 rounded ${colorClass}`}>{number}</div>
-    <h2 className='base-medium text-zinc-800'>{text}</h2>
+  <div className='space-y-2 rounded-lg bg-white p-2'>
+    <div className='flex items-center gap-x-2'>
+      <div className={`flex-center size-7 rounded ${colorClass}`}>{number}</div>
+      <h2 className='base-medium text-zinc-800'>{text}</h2>
+    </div>
+    <p className='small-regular text-zinc-600'>{description}</p>
   </div>
 );
 
@@ -35,20 +40,27 @@ const GenerateOutlineSidebar = (props: Props) => {
           className='h-auto w-[224px]'
         />
         <p className='small-regular text-center text-zinc-600'>
-          I&apos;m here to help you effortlessly
+          Quickly Generate Your Personalized Outline
         </p>
         <Spacer y='16' />
         <Step
           number={1}
           colorClass='bg-orange-50 text-amber-500'
           text='Select Prompt'
+          description='Select the topic you want to write about. Max will generate it for you based on the latest topics.'
         />
         <Spacer y='8' />
         <Step
           number={2}
           colorClass='bg-violet-50 text-indigo-500'
           text='Selected Materials'
+          description='Choose your personal experience materials. These materials will be used as sources to generate the outline.'
         />
+        <Spacer y='16' />
+        <p className='small-regular text-center text-zinc-600'>
+          Click&nbsp;<span className='text-indigo-500'>Generate Outline</span>
+          &nbsp;to quickly create your Outline!
+        </p>
       </div>
     </div>
   );
