@@ -133,7 +133,8 @@ export function formatTimestamphh(timestampString: string) {
     const hoursAgo = Math.floor(differenceInHours);
     return `${hoursAgo} hours ago`;
   } else {
-    return timestampString;
+    const daysAgo = Math.floor(differenceInHours / 24);
+    return `${daysAgo} days ago`;
   }
 }
 

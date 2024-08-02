@@ -1,27 +1,43 @@
+import Icon from '@/components/root/Icon';
 import { formatTimestamphh } from '@/lib/utils';
 import { MaterialItem } from '@/types/brainstorm/types';
-import DeleteButton from '../common/DeleteButton';
-import EditButton from '../common/EditButton';
+import Menu from '../common/Menu';
 
 type Props = { item: MaterialItem };
 
 const MaterialGridItem = ({ item }: Props) => {
   return (
-    <div className='flex h-[200px] w-[318px] flex-col justify-between rounded-lg border'>
-      <div className='cursor-pointer space-y-2.5 p-4'>
-        <h2 className='base-medium line-clamp-1 text-zinc-600'>{item.title}</h2>
-        <p className='small-regular line-clamp-4 text-zinc-600'>
-          {item.content}
-        </p>
-      </div>
-      <footer className='flex-between bg-slate-50 px-4 py-2.5'>
-        <p className='text-xs text-neutral-400'>
-          Opened {formatTimestamphh(item.update_time)}
-        </p>
-        <div className='flex items-center gap-x-2'>
-          <EditButton href={`/brainstorming/${item.id}/edit`} />
-          <DeleteButton id={item.id} type='material' />
+    <div className='flex w-[334px] flex-col justify-between rounded-lg border'>
+      <div className='h-[164px] bg-gray-100 px-2 pt-2'>
+        <div className='size-full bg-white p-2'>
+          <p className='small-regular line-clamp-3 leading-tight text-zinc-600'>
+            {item.content}
+          </p>
         </div>
+      </div>
+      <footer className='flex-between border-t border-gray-100 px-4 py-2.5'>
+        <div className='space-y-1'>
+          <div className='flex items-center gap-x-2'>
+            <Icon
+              src='/workbench/material_filel.svg'
+              alt={item.title}
+              width={24}
+              height={24}
+              className='size-6'
+            />
+            <h2 className='base-medium line-clamp-1 max-w-[70%] text-zinc-600'>
+              {item.title}
+            </h2>
+          </div>
+          <p className='text-xs text-neutral-400'>
+            Opened {formatTimestamphh(item.update_time)}
+          </p>
+        </div>
+        <Menu
+          type='material'
+          id={item.id}
+          href={`/brainstorming/${item.id}/edit`}
+        />
       </footer>
     </div>
   );

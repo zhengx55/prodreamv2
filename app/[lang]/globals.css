@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply min-h-screen select-text font-poppins antialiased;
+    @apply min-h-screen select-text font-inter antialiased;
     text-rendering: optimizeLegibility;
     font-synthesis-weight: none;
   }
