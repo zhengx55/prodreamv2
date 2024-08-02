@@ -1,8 +1,6 @@
 import { formatTimestamphh } from '@/lib/utils';
 import { EssayItem } from '@/types/outline/types';
 import { memo } from 'react';
-import DeleteButton from '../common/DeleteButton';
-import EditButton from '../common/EditButton';
 type Props = { item: EssayItem };
 
 const OutlineGridItem = ({ item }: Props) => {
@@ -18,10 +16,10 @@ const OutlineGridItem = ({ item }: Props) => {
         <p className='text-xs text-neutral-400'>
           Opened {formatTimestamphh(item.update_time)}
         </p>
-        <div className='flex items-center gap-x-2'>
+        {/* <div className='flex items-center gap-x-2'>
           <EditButton href={`/outline/${item.id}`} />
           <DeleteButton type='outline' id={item.id} />
-        </div>
+        </div> */}
       </footer>
     </div>
   );
