@@ -25,7 +25,7 @@ export default async function Page() {
   return (
     <section className='flex flex-1 overflow-y-hidden px-2 pb-2'>
       <div className='flex flex-1 flex-col rounded-lg bg-white'>
-        <div className='flex items-center gap-x-2 border-b px-4 py-2.5'>
+        <div className='flex h-[63px] items-center gap-x-2 border-b px-4'>
           <Button role='button' className='size-max p-1' variant={'icon'}>
             <Link passHref href={'/brainstorming'}>
               <Icon

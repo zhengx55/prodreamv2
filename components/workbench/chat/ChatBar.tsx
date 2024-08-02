@@ -20,7 +20,7 @@ const ChatBar = (props: Props) => {
         role='button'
         variant={'icon'}
         onClick={onClick}
-        className='size-max bg-slate-200 p-2'
+        className='size-max p-2'
       >
         <Icon
           alt={alt}
