@@ -181,7 +181,7 @@ const UserProfileItem: FC<UserProfileItemProps> = ({ user }) => {
         </li>
       </PopoverTrigger>
       <PopoverContent
-        className='custom-popover-content w-[180px] backdrop-blur-lg backdrop-filter hover:bg-white hover:bg-opacity-60'
+        className='custom-popover-content w-[180px]'
         side='right'
         align='end'
       >
