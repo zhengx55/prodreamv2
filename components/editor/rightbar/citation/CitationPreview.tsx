@@ -18,12 +18,12 @@ const CitationPreview = ({ item }: Props) => {
           </span>
         </DialogClose>
         {item.publication && (
-          <p className='subtle-regular text-shadow-100'>
+          <p className='subtle-regular text-neutral-400-100'>
             Authors: {item.publication}
           </p>
         )}
         {item.contributors && (
-          <p className='subtle-regular text-shadow-100'>
+          <p className='subtle-regular text-neutral-400-100'>
             Authors:{' '}
             {item.contributors.map((author, idx) => {
               return (
@@ -40,14 +40,14 @@ const CitationPreview = ({ item }: Props) => {
 
         {item.publish_date
           ? item.publish_date.year && (
-              <p className='subtle-regular text-shadow-100'>
+              <p className='subtle-regular text-neutral-400-100'>
                 Published: {item.publish_date.year}
               </p>
             )
           : null}
 
         {item.pdf_url && item.publisher && (
-          <p className='subtle-regular text-shadow-100'>
+          <p className='subtle-regular text-neutral-400-100'>
             {item.publisher}&nbsp;
             {item.pdf_url && (
               <Link
@@ -67,8 +67,10 @@ const CitationPreview = ({ item }: Props) => {
         ) : null}
         <div className='flex w-full justify-end pr-4'>
           <div className='flex flex-col items-center'>
-            <p className='h3-bold text-shadow-100'>{item.citation_count}</p>
-            <p className='subtle-regular text-shadow-100'>Cited by</p>
+            <p className='h3-bold text-neutral-400-100'>
+              {item.citation_count}
+            </p>
+            <p className='subtle-regular text-neutral-400-100'>Cited by</p>
           </div>
         </div>
       </div>

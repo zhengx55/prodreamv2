@@ -50,7 +50,7 @@ const ChatBar = (props: Props) => {
           expanded
             ? 'w-[400px] rounded-bl-lg rounded-tl-lg'
             : 'w-0 rounded-bl-lg rounded-tl-lg'
-        } flex flex-1 overflow-hidden bg-slate-50`}
+        } flex flex-1 overflow-hidden bg-slate-100`}
       >
         {expanded && (
           <div className='flex flex-1 flex-col'>

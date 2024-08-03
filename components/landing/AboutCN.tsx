@@ -1,8 +1,8 @@
 import { AboutInfo } from '@/constant';
 import { HomePageDicType } from '@/types';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
-import { useTranslations } from 'next-intl';
 import CaptureProvider from './CaptureProvider';
 
 const AboutCN = ({ lang }: HomePageDicType) => {
@@ -26,7 +26,7 @@ const AboutCN = ({ lang }: HomePageDicType) => {
 
         <Spacer y='10' />
         <CaptureProvider event='ScreenIII'>
-          <p className='text-center text-[18px] leading-relaxed text-shadow-100'>
+          <p className='text-neutral-400-100 text-center text-[18px] leading-relaxed'>
             {tHomepage('AboutInfo_CaptureProvider_3')}
           </p>
         </CaptureProvider>
@@ -42,7 +42,7 @@ const AboutCN = ({ lang }: HomePageDicType) => {
                   <h3 className='w-[360px]leading-relaxed sm:text-[24px]'>
                     {tHomepage(`AboutInfo_title_${index + 1}`)}
                   </h3>
-                  <p className='leading- text-[18px] text-shadow-100'>
+                  <p className='leading- text-neutral-400-100 text-[18px]'>
                     {tHomepage(`AboutInfo_description_${index + 1}`)}
                   </p>
                 </div>

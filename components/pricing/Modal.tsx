@@ -43,7 +43,7 @@ const MembershipModal = () => {
               className='absolute right-0 h-max w-max rounded-full border border-gray-200 p-0.5'
               variant={'ghost'}
             >
-              <X size={18} className='text-shadow-border' />
+              <X size={18} className='text-gray-300' />
             </Button>
           </DialogClose>
           <h1 className='text-center text-[40px] font-medium'>

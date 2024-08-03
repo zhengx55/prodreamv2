@@ -1,9 +1,9 @@
 import { CommentsInfo } from '@/constant';
 import { HomePageDicType } from '@/types';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
-import { useTranslations } from 'next-intl';
 const CaptureProvider = dynamic(() => import('./CaptureProvider'));
 const Comments = ({ t, lang }: HomePageDicType) => {
   const trans = useTranslations('Homepage');
@@ -45,7 +45,7 @@ const Comments = ({ t, lang }: HomePageDicType) => {
                 <p className='base-medium'>
                   {trans(`ShowCase_name_${index + 1}`)}
                 </p>
-                <p className='subtle-regular text-shadow-100'>
+                <p className='subtle-regular text-neutral-400-100'>
                   {trans(`ShowCase_form_${index + 1}`)}
                 </p>
               </div>

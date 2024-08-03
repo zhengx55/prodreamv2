@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import { EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { RefreshCcw, XCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -45,7 +44,7 @@ const Title = ({ showRecheck, recheck }: Props) => {
       <XCircle
         size={20}
         onClick={toggleRightbar}
-        className='shrink-0 cursor-pointer text-shadow hover:opacity-50'
+        className='shrink-0 cursor-pointer text-neutral-400 hover:opacity-50'
       />
     </div>
   );

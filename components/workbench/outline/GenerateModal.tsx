@@ -123,7 +123,7 @@ const GenerateModal = () => {
       <DialogDescription className='hidden' />
       <Step number={1} title='Select Prompt' />
       <Spacer y='8' />
-      <div className='w-[856px] self-end rounded-lg bg-slate-50 p-2'>
+      <div className='w-[856px] self-end rounded-lg bg-slate-100 p-2'>
         <Select>
           <SelectTrigger className='h-11 bg-white'>
             <SelectValue placeholder='Select a prompt' />
@@ -155,7 +155,7 @@ const GenerateModal = () => {
 
       <Spacer y='8' />
 
-      <div className='w-[856px] self-end rounded-lg bg-slate-50 px-2 pt-2'>
+      <div className='w-[856px] self-end rounded-lg bg-slate-100 px-2 pt-2'>
         {materialLoading ? (
           <div className='flex-center h-[284px] w-full'>
             <Loader2 className='animate-spin text-indigo-500' size={24} />

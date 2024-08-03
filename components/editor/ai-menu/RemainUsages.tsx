@@ -15,8 +15,8 @@ const RemainUsages = () => {
   return (
     <div className='flex-between w-[600px] rounded-b bg-gray-200 px-2 py-1'>
       <div className='flex items-center gap-x-2'>
-        <AlertTriangle className='text-shadow' size={15} />
-        <p className='subtle-regular text-shadow'>
+        <AlertTriangle className='text-neutral-400' size={15} />
+        <p className='subtle-regular text-neutral-400'>
           {transEditor('RemainUsages.WeeklyPromptsUsed', {
             used: usage?.free_times_detail.Copilot,
           })}{' '}

@@ -34,7 +34,7 @@ const PaginationSection = ({ totalPage }: Props) => {
         {Array.from({ length: totalPage }).map((_, index) => (
           <PaginationItem
             key={index}
-            className={`${index === Number(page) ? 'bg-indigo-500' : 'hover:bg-slate-50'} size-8 cursor-pointer rounded-lg `}
+            className={`${index === Number(page) ? 'bg-indigo-500' : 'hover:bg-slate-100'} size-8 cursor-pointer rounded-lg `}
           >
             <PaginationLink
               href={createPageLink(index)}

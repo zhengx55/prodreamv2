@@ -26,7 +26,7 @@ const OutlineSection = ({ pageCount, list }: Props) => {
   };
 
   return (
-    <div className='flex flex-1 flex-col overflow-y-auto bg-slate-50 px-6 pb-10 pt-6'>
+    <div className='flex flex-1 flex-col overflow-y-auto bg-slate-100 px-6 pb-10 pt-6'>
       <div className='flex items-center justify-between'>
         <h3 className='text-base font-medium text-zinc-800'>Recently</h3>
         <div className='flex gap-x-2'>

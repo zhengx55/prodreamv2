@@ -65,7 +65,7 @@ const WelcomeCN = () => {
             <div className='flex items-center justify-between gap-x-2'>
               <p className='text-xl font-semibold'>欢迎来到 ProDream</p>
               <DialogClose asChild className='cursor-pointer'>
-                <X className='self-end text-shadow' />
+                <X className='self-end text-neutral-400' />
               </DialogClose>
             </div>
           </DialogTitle>

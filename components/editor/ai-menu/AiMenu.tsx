@@ -249,7 +249,7 @@ const AiMenu = ({ editor, t }: Props) => {
                           <Spacer y='5' />
                           <Separator
                             orientation='horizontal'
-                            className=' bg-shadow-border'
+                            className=' bg-gray-300'
                           />
                           <Spacer y='5' />
                         </>

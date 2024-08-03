@@ -121,7 +121,7 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
         {props.items.map((group, groupIndex: number) => (
           <React.Fragment key={`${group.title}-wrapper`}>
             <div
-              className='subtle-semibold mx-2 select-none uppercase tracking-wider text-shadow first:mt-0.5'
+              className='subtle-semibold mx-2 select-none uppercase tracking-wider text-neutral-400 first:mt-0.5'
               key={`${group.title}`}
             >
               {group.title}

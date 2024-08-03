@@ -6,9 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 import WholeBook from './WholeBook';
 
 const Introduction = dynamic(() => import('./Introduction'));
@@ -33,19 +33,19 @@ const BookForm = () => {
         <SelectContent className='rounded bg-white'>
           <SelectItem
             value={trans('CustomCitation.BookMenu.The_whole_book')}
-            className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
+            className='flex cursor-pointer gap-x-2 text-neutral-400 hover:bg-shadow-50'
           >
             {trans('CustomCitation.BookMenu.The_whole_book')}
           </SelectItem>
           <SelectItem
             value={trans('CustomCitation.BookMenu.Chapter_or_section')}
-            className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
+            className='flex cursor-pointer gap-x-2 text-neutral-400 hover:bg-shadow-50'
           >
             {trans('CustomCitation.BookMenu.Chapter_or_section')}
           </SelectItem>
           <SelectItem
             value={trans('CustomCitation.BookMenu.Preface_of_introduction')}
-            className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
+            className='flex cursor-pointer gap-x-2 text-neutral-400 hover:bg-shadow-50'
           >
             {trans('CustomCitation.BookMenu.Preface_of_introduction')}
           </SelectItem>

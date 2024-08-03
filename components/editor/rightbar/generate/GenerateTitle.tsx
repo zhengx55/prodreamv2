@@ -38,7 +38,7 @@ const GenerateTitle = ({ t }: Props) => {
       <XCircle
         size={20}
         onClick={toggleRightbar}
-        className='shrink-0 cursor-pointer text-shadow hover:opacity-50'
+        className='shrink-0 cursor-pointer text-neutral-400 hover:opacity-50'
       />
     </div>
   );

@@ -79,8 +79,8 @@ export const SynonymMenu = ({ editor }: Props) => {
           </div>
           <Spacer y='14' />
           <div className='flex items-center gap-x-1'>
-            <Info size={10} className='text-shadow' />
-            <p className='tiny-medium text-shadow'>
+            <Info size={10} className='text-neutral-400' />
+            <p className='tiny-medium text-neutral-400'>
               Synonyms are ranked by how often they occur inpublished science
               literature.
             </p>

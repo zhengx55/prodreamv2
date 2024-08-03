@@ -22,7 +22,7 @@ const ChatTitle = ({ t }: Props) => {
       <XCircle
         size={20}
         onClick={closeRightbar}
-        className='shrink-0 cursor-pointer text-shadow hover:opacity-50'
+        className='shrink-0 cursor-pointer text-neutral-400 hover:opacity-50'
       />
     </div>
   );

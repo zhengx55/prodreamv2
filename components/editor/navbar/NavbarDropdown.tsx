@@ -20,7 +20,7 @@ const NavbarDropdown = () => {
           e.stopPropagation();
           handleExportPdf();
         }}
-        className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
+        className='flex cursor-pointer gap-x-2 text-neutral-400 hover:bg-shadow-50'
       >
         <FileOutput size={16} />
         Export

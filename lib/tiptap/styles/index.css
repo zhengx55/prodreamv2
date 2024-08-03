@@ -11,7 +11,7 @@
 }
 
 .tooltip {
-  @apply flex-center fixed z-30 rounded-lg bg-black p-2 text-center text-[14px] font-[500] leading-[140%] text-shadow opacity-100;
+  @apply flex-center fixed z-30 rounded-lg bg-black p-2 text-center text-[14px] font-[500] leading-[140%] text-neutral-400 opacity-100;
 
   &.hidden {
     opacity: 0;

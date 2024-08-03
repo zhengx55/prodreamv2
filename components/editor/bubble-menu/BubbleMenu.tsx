@@ -261,7 +261,7 @@ const BubbleMenu = ({ editor }: TextMenuProps) => {
           </Popover.Content>
         </Popover.Root>
         <span className='flex h-full items-center px-2'>
-          <p className='small-regular text-shadow'>
+          <p className='small-regular text-neutral-400'>
             {selectedLength}
             &nbsp;{transEditor('BubbleMenu.words')}
           </p>
