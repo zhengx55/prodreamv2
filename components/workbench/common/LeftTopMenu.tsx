@@ -61,15 +61,13 @@ const EngineItem: FC<EngineItemProps> = ({ item }) => {
           className='group flex cursor-pointer flex-col items-start gap-2.5 rounded-lg bg-white/60 p-2 transition-all duration-200 hover:bg-[#6866E2]'
         >
           <div className='flex w-full items-center gap-2'>
-            <div className='relative h-10 w-[35.714px]'>
-              <Image
-                src={item.image}
-                alt={item.name}
-                layout='fill'
-                objectFit='cover'
-                className='transition-all duration-200'
-              />
-            </div>
+            <Image
+              src={item.image}
+              alt={item.name}
+              width={40}
+              height={40}
+              className='size-10'
+            />
             <h2 className='flex-1 truncate font-poppins text-base font-normal leading-7 text-[#57545E] transition-all duration-200 group-hover:text-white'>
               {item.name}
             </h2>
@@ -131,11 +129,10 @@ const EngineItem: FC<EngineItemProps> = ({ item }) => {
 
 const NavItem: FC<NavItemProps> = ({ item }) => {
   const [isHovered, setIsHovered] = useState(false);
-
   return (
     <li
       key={item.id}
-      className='group inline-flex w-full cursor-pointer items-center gap-x-2 rounded-lg border border-transparent px-2 py-1.5 hover:border-white hover:bg-[#6866E2] hover:shadow'
+      className='group inline-flex w-full cursor-pointer items-center gap-x-2 rounded-lg px-2 py-1.5 hover:bg-indigo-500 hover:shadow'
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -155,7 +152,6 @@ const NavItem: FC<NavItemProps> = ({ item }) => {
 };
 
 const UserProfileItem: FC<UserProfileItemProps> = ({ user }) => {
-  const router = useRouter();
   const renderedProfileItems = useMemo(
     () =>
       workbench_profile.map((item) => <NavItem key={item.id} item={item} />),
@@ -244,7 +240,7 @@ const LeftTopMenu = () => {
               role='button'
               variant={'icon'}
               onClick={showMenu}
-              className='size-max p-0.5'
+              className='p-0.5'
             >
               <Image
                 src='/workbench/menu_icon.svg'
@@ -258,18 +254,16 @@ const LeftTopMenu = () => {
           </PopoverTrigger>
         </Tooltip>
         <PopoverContent
-          className='custom-popover-content w-[220px] translate-x-2 backdrop-blur-lg backdrop-filter'
+          className='custom-popover-content flex h-[calc(100vh_-3rem)] w-[220px] flex-col justify-between backdrop-blur-lg backdrop-filter'
           side='bottom'
           align='end'
         >
-          <div className='flex h-[1000px] shrink-0 flex-col'>
-            <div className='flex flex-col gap-y-2'>{renderedEngineItems}</div>
-            <ul className='mt-auto flex flex-col gap-y-2'>
-              {renderedNavItems}
-              <Separator className='bg-zinc-500' orientation='horizontal' />
-              <UserProfileItem user={user} />
-            </ul>
-          </div>
+          <div className='flex flex-col gap-y-2'>{renderedEngineItems}</div>
+          <ul className='mt-auto flex flex-col gap-y-2'>
+            {renderedNavItems}
+            <Separator className='bg-zinc-500' orientation='horizontal' />
+            <UserProfileItem user={user} />
+          </ul>
         </PopoverContent>
       </Popover>
     </div>

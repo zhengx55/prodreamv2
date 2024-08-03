@@ -2,6 +2,7 @@
 
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { useCallback, useState } from 'react';
 import ChatFooter from './ChatFooter';
@@ -11,18 +12,23 @@ type Props = {};
 
 const ChatBar = (props: Props) => {
   const [expanded, setExpanded] = useState(false);
-
   const toggleExpanded = useCallback(() => {
     setExpanded((prev) => !prev);
   }, []);
 
   const renderButton = useCallback(
-    (alt: string, src: string, className: string, onClick: () => void) => (
+    (
+      alt: string,
+      src: string,
+      className: string,
+      onClick: () => void,
+      buttonClass?: string
+    ) => (
       <Button
         role='button'
         variant={'icon'}
         onClick={onClick}
-        className='size-max p-2'
+        className={cn(buttonClass, 'size-max p-2')}
       >
         <Icon
           alt={alt}
@@ -80,11 +86,16 @@ const ChatBar = (props: Props) => {
       >
         {renderButton(
           'min_agent',
-          '/workbench/chat_trigger.svg',
+          `${expanded ? '/workbench/chat_trigger.svg' : '/workbench/chat_trigger_unselected.svg'}`,
           'size-6',
-          toggleExpanded
+          toggleExpanded,
+          `${!expanded ? '' : 'bg-slate-200'}`
         )}
-        <p className='small-regular text-center text-indigo-500'>Chat</p>
+        <p
+          className={`${expanded ? 'text-indigo-500' : 'text-zinc-600'} small-regular text-center`}
+        >
+          Chat
+        </p>
       </div>
     </div>
   );
