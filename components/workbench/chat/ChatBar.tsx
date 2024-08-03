@@ -4,6 +4,8 @@ import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { useCallback, useState } from 'react';
+import ChatFooter from './ChatFooter';
+import ChatMessageList from './ChatMessageList';
 
 type Props = {};
 
@@ -42,26 +44,30 @@ const ChatBar = (props: Props) => {
           expanded
             ? 'w-[400px] rounded-bl-lg rounded-tl-lg'
             : 'w-0 rounded-bl-lg rounded-tl-lg'
-        } h-full overflow-hidden bg-slate-50`}
+        } flex flex-1 overflow-hidden bg-slate-50`}
       >
         {expanded && (
-          <div className='flex-between h-[63px] rounded-tl-lg border-b border-gray-200 bg-white px-4'>
-            <div className='flex items-center gap-x-2'>
-              <Image
-                src='/workbench/nav_chat.svg'
-                alt='agent'
-                width={24}
-                height={24}
-                className='size-6'
-              />
-              <h2 className='text-xl font-medium text-zinc-800'>Max</h2>
+          <div className='flex flex-1 flex-col'>
+            <div className='flex-between h-[63px] rounded-tl-lg border-b border-gray-200 bg-white px-4'>
+              <div className='flex items-center gap-x-2'>
+                <Image
+                  src='/workbench/nav_chat.svg'
+                  alt='agent'
+                  width={24}
+                  height={24}
+                  className='size-6'
+                />
+                <h2 className='text-xl font-medium text-zinc-800'>Max</h2>
+              </div>
+              {renderButton(
+                'collapse',
+                '/workbench/collapse.svg',
+                'size-5',
+                toggleExpanded
+              )}
             </div>
-            {renderButton(
-              'collapse',
-              '/workbench/collapse.svg',
-              'size-5',
-              toggleExpanded
-            )}
+            <ChatMessageList />
+            <ChatFooter />
           </div>
         )}
       </div>

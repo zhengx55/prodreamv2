@@ -13,7 +13,6 @@ type Props = { totalPage: number };
 const PaginationSection = ({ totalPage }: Props) => {
   const searchParams = useSearchParams();
   const page = searchParams.get('page') ?? '0';
-  const query = searchParams.get('query') ?? '';
 
   const createPageLink = (newPage: number) => {
     const params = new URLSearchParams(searchParams.toString());
