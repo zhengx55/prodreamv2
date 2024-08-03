@@ -20,15 +20,45 @@ export const useAgentChat = () => {
           body: JSON.stringify(params),
         }
       );
-      const data = await res.json();
-      if (data.code !== 0) {
-        throw new Error(data.msg as string);
+      const body = res.body;
+      if (!res.ok) {
+        throw new Error('An error occurred while sending the message');
+      }
+      if (body === null) {
+        throw new Error('An error occurred while sending the message');
+      }
+      return body;
+    },
+    onSuccess: async (body: ReadableStream<Uint8Array>) => {
+      const reader = body?.pipeThrough(new TextDecoderStream()).getReader();
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          break;
+        }
+        handleStreamData(value);
       }
     },
-    onSuccess: () => {},
     onError: async (error) => {
       const { toast } = await import('sonner');
       toast.error(error.message);
     },
   });
+};
+
+const handleStreamData = (value: string | undefined) => {
+  // console.log(value);
+  if (!value) return;
+  let session: string | undefined;
+  const lines = value.split('\n');
+  const datas = lines.reduce((acc, line, index) => {
+    if (lines[index - 1]?.startsWith('event: session_id')) {
+      session = line.replace('data: ', '').replace('"', '').trim();
+    } else if (lines[index - 1]?.startsWith('event: data')) {
+      console.log(JSON.parse(line.slice(5)));
+      // acc.push(JSON.parse(line.slice(5)));
+    }
+    return acc;
+  }, [] as any[]);
+  console.log(datas);
 };

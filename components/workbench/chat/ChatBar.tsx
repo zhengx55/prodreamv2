@@ -11,7 +11,7 @@ import ChatMessageList from './ChatMessageList';
 type Props = {};
 
 const ChatBar = (props: Props) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const toggleExpanded = useCallback(() => {
     setExpanded((prev) => !prev);
   }, []);

@@ -1,4 +1,3 @@
-import GlobalInfo from '@/components/root/GlobalInfo';
 import Spacer from '@/components/root/Spacer';
 import TopNav from '@/components/root/TopNav';
 import type { Locale } from '@/i18n-config';
@@ -15,7 +14,6 @@ export default async function WrittingpalLayout({
   return (
     <>
       <div className='hidden size-full bg-gradient-to-b from-[#c9d7f7] to-[#f2f0ff] md:flex md:flex-col'>
-        <GlobalInfo lang={lang} />
         <TopNav lang={lang} />
         {children}
       </div>
