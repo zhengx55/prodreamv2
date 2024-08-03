@@ -24,13 +24,9 @@ function getLocale(request: NextRequest): string | undefined {
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   const search = req.nextUrl.search;
-  const isBase = [
-    '/',
-    '/login',
-    '/signup',
-    '/reset-password',
-    '/pricing',
-  ].includes(pathname);
+  const isBase = ['/', '/login', '/signup', '/reset-password'].includes(
+    pathname
+  );
 
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
