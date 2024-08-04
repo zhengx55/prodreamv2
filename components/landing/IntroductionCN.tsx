@@ -1,7 +1,7 @@
 import { IntroductionInfo } from '@/constant';
 import { HomePageDicType } from '@/types';
-import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Spacer from '../root/Spacer';
 const CaptureProvider = dynamic(() => import('./CaptureProvider'));
@@ -19,7 +19,7 @@ const IntroductionCN = ({ t, lang }: HomePageDicType) => {
 
         <Spacer y='10' />
         <CaptureProvider event='ScreenIV'>
-          <p className='text-center text-[18px] text-shadow-100'>
+          <p className='text-neutral-400-100 text-center text-[18px]'>
             {trans('IntroductionInfo_CaptureProvider')}
           </p>
         </CaptureProvider>
@@ -37,7 +37,7 @@ const IntroductionCN = ({ t, lang }: HomePageDicType) => {
                   <h3 className='text-[24px] leading-snug'>
                     {trans(`IntroductionInfo_title_${idx === 0 ? 1 : 3}`)}
                   </h3>
-                  <p className='text-xs leading-relaxed text-shadow-100 sm:text-[18px]'>
+                  <p className='text-neutral-400-100 text-xs leading-relaxed sm:text-[18px]'>
                     {trans(`IntroductionInfo_description_${idx === 0 ? 1 : 3}`)}
                   </p>
                   <div className='relative h-full w-full overflow-hidden'>
@@ -65,7 +65,7 @@ const IntroductionCN = ({ t, lang }: HomePageDicType) => {
                   <h3 className='text-[24px] leading-snug'>
                     {trans(`IntroductionInfo_title_${idx === 0 ? 2 : 4}`)}
                   </h3>
-                  <p className='text-xs leading-relaxed text-shadow-100 sm:text-[18px]'>
+                  <p className='text-neutral-400-100 text-xs leading-relaxed sm:text-[18px]'>
                     {trans(`IntroductionInfo_description_${idx === 0 ? 2 : 4}`)}
                   </p>
                   <div className='relative h-full w-full overflow-hidden'>

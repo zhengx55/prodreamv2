@@ -30,7 +30,7 @@ const GenerateOutlineSidebar = (props: Props) => {
     <div className='flex h-full w-72 flex-col overflow-y-auto rounded-bl-lg border-r border-zinc-200 px-4 py-6'>
       <GenerateOutlineButton />
       <Spacer y='16' />
-      <div className='w-full rounded-[10px] bg-slate-50 p-2'>
+      <div className='w-full rounded-[10px] bg-slate-100 p-2'>
         <Image
           priority
           src='/workbench/generate_outline.png'

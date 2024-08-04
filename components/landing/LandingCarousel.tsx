@@ -1,11 +1,10 @@
 'use client';
 import { HeroInfo, HeroMainInfo, Universitys } from '@/constant';
-import { HomePageDicType } from '@/types';
 import Autoplay from 'embla-carousel-autoplay';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 import Spacer from '../root/Spacer';
-import { useTranslations } from 'next-intl';
 import {
   Carousel,
   CarouselApi,
@@ -136,7 +135,7 @@ const HeroCarousel = ({
               <h2 className='small-regular'>
                 {t(`HeroInfo_title_${index + 1}`)}
               </h2>
-              <p className='subtle-regular text-shadow-100'>
+              <p className='subtle-regular text-neutral-400-100'>
                 {t(`HeroInfo_text_${index + 1}`)}
               </p>
             </CarouselItem>
@@ -180,7 +179,7 @@ const HeroClientSection = () => {
               <h2 className='title-regular 2xl:h3-regular'>
                 {t(`HeroInfo_title_${index + 1}`)}
               </h2>
-              <p className='text-[12px] leading-relaxed text-shadow-100 2xl:text-xs'>
+              <p className='text-neutral-400-100 text-[12px] leading-relaxed 2xl:text-xs'>
                 {t(`HeroInfo_text_${index + 1}`)}
               </p>
             </span>

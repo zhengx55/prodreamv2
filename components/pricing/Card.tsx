@@ -77,7 +77,7 @@ const Card = ({ info, current, purchase_type, basic, discount }: Props) => {
             onClick={handlePurchase}
             role='button'
             disabled={current || basic}
-            className={`h-max rounded disabled:opacity-100 ${current || basic ? 'border border-gray-200 bg-white text-shadow-border' : 'bg-violet-500'}`}
+            className={`h-max rounded disabled:opacity-100 ${current || basic ? 'border border-gray-200 bg-white text-gray-300' : 'bg-violet-500'}`}
           >
             {current || basic ? 'Current Plan' : 'Upgrade Now'}
           </Button>

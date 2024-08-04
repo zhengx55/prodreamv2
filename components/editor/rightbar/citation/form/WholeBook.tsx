@@ -171,7 +171,7 @@ const WholeBook = ({
               </div>
               <Button
                 type='button'
-                className='self-end bg-shadow-border px-2 hover:bg-red-400'
+                className='self-end bg-gray-300 px-2 hover:bg-red-400'
                 onClick={() => removeContributor(index)}
               >
                 <Trash2 size={16} />

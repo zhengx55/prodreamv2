@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import ChatBar from '@/components/workbench/chat/ChatBar';
 import SearchSection from '@/components/workbench/common/SearchSection';
 import OutlineSection from '@/components/workbench/outline/OutlineSection';
 import { PAGESIZE } from '@/constant/enum';
@@ -39,7 +40,7 @@ export default async function Page({
   const token = cookies().get('token')?.value;
   const data = await getEssays(page, keyword, token!);
   return (
-    <section className='flex flex-1 overflow-y-hidden px-2 pb-2'>
+    <section className='flex flex-1 gap-x-2 overflow-y-hidden px-2 pb-2'>
       <div className='flex flex-1 flex-col rounded-lg bg-white'>
         <div className='flex-between border-b px-6 py-2.5'>
           <div className='flex items-center gap-x-2'>
@@ -63,6 +64,7 @@ export default async function Page({
         </div>
         <OutlineSection pageCount={data.total_page_count} list={data.data} />
       </div>
+      <ChatBar />
     </section>
   );
 }

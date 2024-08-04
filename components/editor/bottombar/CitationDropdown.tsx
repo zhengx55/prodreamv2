@@ -9,7 +9,7 @@ import { memo } from 'react';
 import { cn } from '../../../lib/utils';
 
 const ItemClassName =
-  'flex cursor-pointer justify-center text-shadow hover:bg-gray-200';
+  'flex cursor-pointer justify-center text-neutral-400 hover:bg-gray-200';
 
 const NavbarDropdown = () => {
   const setCitationStyle = useCitation((state) => state.updateCitationStyle);

@@ -85,7 +85,7 @@ const MaterialForm = ({
               {themes.find((t) => t.id === theme)?.title}
             </SelectTrigger>
             <Separator orientation='horizontal' className='bg-slate-300' />
-            <div className='space-y-1 rounded-lg bg-slate-50 p-2.5'>
+            <div className='space-y-1 rounded-lg bg-slate-100 p-2.5'>
               <p className='small-regular text-neutral-400'>
                 {themes.find((t) => t.id === theme)?.description}
               </p>

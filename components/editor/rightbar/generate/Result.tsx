@@ -1,8 +1,8 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Frown, RotateCw, Smile } from 'lucide-react';
-import { memo, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { memo, useEffect, useRef, useState } from 'react';
 import { clearTimeout, setTimeout } from 'worker-timers';
 
 type Props = {
@@ -75,18 +75,18 @@ const Result = ({
           <Spacer y='12' />
           <div className='flex-between h-7 w-full rounded-b bg-gray-200 px-2 py-1'>
             <div className='flex gap-x-2'>
-              <AlertTriangle className='text-shadow' size={15} />
-              <p className='subtle-regular text-shadow'>
+              <AlertTriangle className='text-neutral-400' size={15} />
+              <p className='subtle-regular text-neutral-400'>
                 {trans('Generate.Al_responses_can_be_inaccurate_or_misleading')}
               </p>
             </div>
             <div className='flex gap-x-2'>
               <Smile
-                className='cursor-pointer text-shadow hover:opacity-50'
+                className='cursor-pointer text-neutral-400 hover:opacity-50'
                 size={15}
               />
               <Frown
-                className='cursor-pointer text-shadow hover:opacity-50'
+                className='cursor-pointer text-neutral-400 hover:opacity-50'
                 size={15}
               />
             </div>

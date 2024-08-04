@@ -33,7 +33,7 @@ export default async function Page({
             label={transAuth('Signup.Google')}
           />
           <div className='flex-center relative my-10'>
-            <Separator orientation='horizontal' className='bg-shadow-border' />
+            <Separator orientation='horizontal' className='bg-gray-300' />
             <p className='small-regular absolute bg-white px-2 text-neutral-300'>
               {transAuth('Login.GoogleDivider')}
             </p>

@@ -190,7 +190,7 @@ export const MineCitationCard = memo(
           </h1>
         )}
         {item.data.contributors?.length > 0 && (
-          <p className='subtle-regular line-clamp-2 text-shadow-100'>
+          <p className='subtle-regular text-neutral-400-100 line-clamp-2'>
             {transEditor('RightBar.Authors')}:{' '}
             {item.data.contributors.map((author, idx) => {
               return (

@@ -90,7 +90,7 @@ const CitationMenu = ({ editor }: Props) => {
               return (
                 <div
                   key={index}
-                  className='flex flex-col gap-y-2 bg-shadow-400 px-4 py-1.5'
+                  className='flex flex-col gap-y-2 bg-gray-50 px-4 py-1.5'
                 >
                   <h1 className='base-semibold'>{item.article_title}</h1>
                   <p className='small-regular inline-flex flex-wrap items-center gap-x-2 text-zinc-600'>

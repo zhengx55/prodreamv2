@@ -26,7 +26,7 @@ export const DropdownButton = ({
   className?: string;
 }) => {
   const buttonClass = cn(
-    'flex items-center gap-2 p-1.5 text-sm font-medium text-shadow dark:text-neutral-400 text-left bg-transparent w-full rounded',
+    'flex items-center gap-2 p-1.5 text-sm font-medium text-neutral-400 dark:text-neutral-400 text-left bg-transparent w-full rounded',
     !isActive && !disabled,
     'hover:bg-neutral-100 hover:text-neutral-800 dark:hover:bg-neutral-900 dark:hover:text-neutral-200',
     isActive &&

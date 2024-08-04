@@ -150,25 +150,25 @@ const IntroductionForm = ({
         <SelectContent className='rounded bg-white'>
           <SelectItem
             value='introduction'
-            className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
+            className='flex cursor-pointer gap-x-2 text-neutral-400 hover:bg-shadow-50'
           >
             {tEditor('CustomCitation.IntroductionMenu.Introduction')}
           </SelectItem>
           <SelectItem
             value='foreword'
-            className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
+            className='flex cursor-pointer gap-x-2 text-neutral-400 hover:bg-shadow-50'
           >
             {tEditor('CustomCitation.IntroductionMenu.Foreword')}
           </SelectItem>
           <SelectItem
             value='preface'
-            className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
+            className='flex cursor-pointer gap-x-2 text-neutral-400 hover:bg-shadow-50'
           >
             {tEditor('CustomCitation.IntroductionMenu.Preface')}
           </SelectItem>
           <SelectItem
             value='afterword'
-            className='flex cursor-pointer gap-x-2 text-shadow hover:bg-shadow-50'
+            className='flex cursor-pointer gap-x-2 text-neutral-400 hover:bg-shadow-50'
           >
             {tEditor('CustomCitation.IntroductionMenu.Afterword')}
           </SelectItem>
@@ -237,7 +237,7 @@ const IntroductionForm = ({
               </div>
               <Button
                 type='button'
-                className='self-end bg-shadow-border px-2 hover:bg-red-400'
+                className='self-end bg-gray-300 px-2 hover:bg-red-400'
                 onClick={() => removeContributor(index)}
               >
                 <Trash2 size={16} />

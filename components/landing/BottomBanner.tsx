@@ -1,6 +1,6 @@
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 
@@ -8,7 +8,7 @@ const BottomBanner = () => {
   const tEditor = useTranslations('Editor');
 
   return (
-    <section className='relative flex w-full justify-center bg-shadow-400 py-10 sm:py-20'>
+    <section className='relative flex w-full justify-center bg-gray-50 py-10 sm:py-20'>
       <div className='flex-center w-full flex-col gap-y-3 px-5 sm:w-[1200px] sm:px-0'>
         <div className='relative flex w-full flex-col gap-y-4 overflow-hidden rounded-3xl bg-violet-500 py-[22px] sm:rounded-[32px] sm:py-12'>
           <Image

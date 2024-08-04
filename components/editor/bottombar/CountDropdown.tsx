@@ -21,14 +21,14 @@ const CountDropdown = ({ editor }: Props) => {
       <DropdownMenuTrigger asChild>
         {type === 'word' ? (
           <span className='flex h-full cursor-pointer items-center px-2 hover:bg-gray-200'>
-            <p className='small-regular text-shadow'>
+            <p className='small-regular text-neutral-400'>
               {editor.storage.characterCount.words()}
               &nbsp;{trans('BubbleMenu.words')}
             </p>
           </span>
         ) : (
           <span className='flex h-full cursor-pointer items-center px-2 hover:bg-gray-200'>
-            <p className='small-regular text-shadow'>
+            <p className='small-regular text-neutral-400'>
               {editor.storage.characterCount.characters()}
               &nbsp;{trans('BubbleMenu.characters')}
             </p>
@@ -40,20 +40,20 @@ const CountDropdown = ({ editor }: Props) => {
         className='border border-gray-200 bg-white'
       >
         <DropdownMenuItem
-          className='flex cursor-pointer text-shadow hover:bg-gray-200'
+          className='flex cursor-pointer text-neutral-400 hover:bg-gray-200'
           onClick={() => setType('word')}
         >
-          <span className='small-regular text-shadow'>
+          <span className='small-regular text-neutral-400'>
             {editor.storage.characterCount.words()}
             &nbsp;{trans('BubbleMenu.words')}
           </span>
         </DropdownMenuItem>
         <DropdownMenuItem
           aria-label='character'
-          className='flex cursor-pointer text-shadow hover:bg-gray-200'
+          className='flex cursor-pointer text-neutral-400 hover:bg-gray-200'
           onClick={() => setType('character')}
         >
-          <span className='small-regular text-shadow'>
+          <span className='small-regular text-neutral-400'>
             {editor.storage.characterCount.characters()}
             &nbsp;{trans('BubbleMenu.characters')}
           </span>

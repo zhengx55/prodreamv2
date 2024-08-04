@@ -1,5 +1,3 @@
-import { match as matchLocale } from '@formatjs/intl-localematcher';
-import Negotiator from 'negotiator';
 import createIntlMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
 import { i18n } from './i18n-config';
@@ -8,18 +6,6 @@ const nextIntlMiddleware = createIntlMiddleware({
   locales: i18n.locales,
   defaultLocale: i18n.defaultLocale,
 });
-
-function getLocale(request: NextRequest): string | undefined {
-  const negotiatorHeaders: Record<string, string> = {};
-  request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
-  // @ts-ignore
-  const locales: string[] = i18n.locales;
-  let languages = new Negotiator({ headers: negotiatorHeaders }).languages(
-    locales
-  );
-  const locale = matchLocale(languages, locales, i18n.defaultLocale);
-  return locale;
-}
 
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
