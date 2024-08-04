@@ -1,5 +1,6 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
+import ChatBar from '@/components/workbench/chat/ChatBar';
 import GenerateOutlineSidebar from '@/components/workbench/outline/GenerateOutlineSidebar';
 import OutlineContent from '@/components/workbench/outline/OutlineContent';
 import { Download } from 'lucide-react';
@@ -7,7 +8,7 @@ import Link from 'next/link';
 
 export default function Page() {
   return (
-    <section className='flex flex-1 overflow-y-hidden px-2 pb-2'>
+    <section className='flex flex-1 gap-x-2 overflow-y-hidden px-2 pb-2'>
       <div className='flex flex-1 flex-col rounded-lg bg-white'>
         <div className='flex-between h-[63px] border-b px-4'>
           <div className='flex items-center gap-x-2'>
@@ -47,6 +48,7 @@ export default function Page() {
           <OutlineContent />
         </div>
       </div>
+      <ChatBar />
     </section>
   );
 }

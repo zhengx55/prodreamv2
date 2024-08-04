@@ -36,11 +36,7 @@ const MaterialGridItem = ({ item }: Props) => {
           </div>
           <p className='text-xs text-neutral-400'>Opened {lastOpenTime}</p>
         </div>
-        <Menu
-          type='material'
-          id={item.id}
-          href={`/brainstorming/${item.id}/edit`}
-        />
+        <Menu type='material' id={item.id} href={`/brainstorming/${item.id}`} />
       </footer>
     </div>
   );
