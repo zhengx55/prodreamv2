@@ -7,7 +7,6 @@ type Props = { href: string };
 const EditButton = ({ href }: Props) => {
   return (
     <Link
-      passHref
       href={href}
       className='inline-flex w-full items-center gap-x-1 rounded-lg px-2 py-1 hover:bg-slate-200'
     >

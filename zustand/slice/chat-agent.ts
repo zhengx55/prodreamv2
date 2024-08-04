@@ -10,6 +10,7 @@ export type Message = {
   options_type?: 'single' | 'multi';
   options_selected?: number[];
   html_content?: string;
+  selection_done?: boolean;
 };
 
 type State = {
@@ -47,6 +48,7 @@ type Action = {
     type: StoreTypes,
     option_index: number
   ) => void;
+  setAgentMessageSelectionDone: (id: string, type: StoreTypes) => void;
   setSessionId: (type: StoreTypes, session_id: string) => void;
   getMessages: (type: StoreTypes) => Message[];
   getSessionId: (type: StoreTypes) => string | null;
@@ -233,5 +235,15 @@ export const useChatAgent: StateCreator<ChatAgentStore> = (set, get) => ({
       default:
         break;
     }
+  },
+
+  setAgentMessageSelectionDone: (id, type) => {
+    set((state) =>
+      updateMessages(state, type, (messages) =>
+        messages.map((msg) =>
+          msg.id === id ? { ...msg, selection_done: true } : msg
+        )
+      )
+    );
   },
 });
