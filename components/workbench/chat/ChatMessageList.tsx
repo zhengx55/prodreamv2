@@ -6,8 +6,6 @@ import Message from './ChatMessageItem';
 const ChatMessageList = () => {
   const { storeType } = useAgentType();
   const messageList = useAgent((state) => state.getMessages(storeType));
-  console.log('🚀 ~ ChatMessageList ~ messageList:', messageList);
-
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,14 +20,7 @@ const ChatMessageList = () => {
         if (message.role === 'user') {
           return <Message.User key={message.id} text={message.text} />;
         }
-        return (
-          <Message.Agent
-            key={message.id}
-            text={message.text}
-            options={message.options}
-            options_type={message.options_type}
-          />
-        );
+        return <Message.Agent key={message.id} message={message} />;
       })}
       <div ref={bottomRef} />
     </div>

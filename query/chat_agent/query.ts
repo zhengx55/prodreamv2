@@ -7,7 +7,7 @@ import { v4 } from 'uuid';
 interface MutationParams {
   session_id: string | null;
   agent: 'Brainstorm' | 'Outline' | 'Draft';
-  response: string;
+  response: string | number | number[];
 }
 
 export const useAgentChat = (storeType: StoreTypes) => {
@@ -20,6 +20,9 @@ export const useAgentChat = (storeType: StoreTypes) => {
   );
   const appendAgentMessageOptions = useAgent(
     (state) => state.appendAgentMessageOptions
+  );
+  const setAgentMessageHTMLContent = useAgent(
+    (state) => state.setAgentMessageHTMLContent
   );
 
   const fetchChatResponse = async (
@@ -55,7 +58,8 @@ export const useAgentChat = (storeType: StoreTypes) => {
     variables: MutationParams
   ) => {
     const userMessageId = v4();
-    addUserMessage(userMessageId, storeType, variables.response);
+    if (typeof variables.response === 'string')
+      addUserMessage(userMessageId, storeType, variables.response);
 
     const reader = body.pipeThrough(new TextDecoderStream()).getReader();
     let agentMessageId = '';
@@ -63,6 +67,7 @@ export const useAgentChat = (storeType: StoreTypes) => {
     let isOptionListStart = false;
 
     const processLine = (line: string, previousLine: string | undefined) => {
+      console.log(line);
       if (isNewAgentMessage) {
         agentMessageId = v4();
         addAgentMessage(agentMessageId, storeType, '');
@@ -89,7 +94,7 @@ export const useAgentChat = (storeType: StoreTypes) => {
         isNewAgentMessage = true;
       } else if (previousLine?.startsWith('event: option_list_start')) {
         isOptionListStart = true;
-        const listType = line.slice(5);
+        const listType = line.slice(5).trim();
         setAgentMessageOption(
           agentMessageId,
           storeType,
@@ -97,6 +102,9 @@ export const useAgentChat = (storeType: StoreTypes) => {
         );
       } else if (line.startsWith('event: option_list_end')) {
         isOptionListStart = false;
+      } else if (previousLine?.startsWith('event: html')) {
+        const parsedData = JSON.parse(line.slice(5));
+        setAgentMessageHTMLContent(agentMessageId, storeType, parsedData);
       }
     };
 

@@ -2,12 +2,13 @@ import { StateCreator } from 'zustand';
 
 export type StoreTypes = 'brainstorming' | 'outline' | 'draft' | 'chat';
 
-type Message = {
+export type Message = {
   id: string;
   role: 'user' | 'agent';
   text: string;
   options?: { label: string; id: string }[];
   options_type?: 'single' | 'multi';
+  options_selected?: number[];
   html_content?: string;
 };
 
@@ -21,6 +22,7 @@ type State = {
   outLineMessages: Message[];
   draftMessages: Message[];
 };
+
 type Action = {
   addUserMessage: (id: string, type: StoreTypes, message: string) => void;
   addAgentMessage: (id: string, type: StoreTypes, message: string) => void;
@@ -35,11 +37,24 @@ type Action = {
     type: StoreTypes,
     option: { label: string; id: string }
   ) => void;
+  setAgentMessageHTMLContent: (
+    id: string,
+    type: StoreTypes,
+    html_content: string
+  ) => void;
+  setAgentMessageOptionsSelected: (
+    id: string,
+    type: StoreTypes,
+    option_index: number
+  ) => void;
   setSessionId: (type: StoreTypes, session_id: string) => void;
   getMessages: (type: StoreTypes) => Message[];
+  getSessionId: (type: StoreTypes) => string | null;
+  clearSession: (type: StoreTypes) => void;
 };
 
 export type ChatAgentStore = State & Action;
+
 const initialState: State = {
   sessionId: null,
   messages: [],
@@ -50,61 +65,108 @@ const initialState: State = {
   outLineMessages: [],
   draftMessages: [],
 };
+
+const updateMessages = (
+  state: State,
+  type: StoreTypes,
+  updateFn: (messages: Message[]) => Message[]
+): State => {
+  switch (type) {
+    case 'brainstorming':
+      return {
+        ...state,
+        brainstormingMessages: updateFn(state.brainstormingMessages),
+      };
+    case 'outline':
+      return { ...state, outLineMessages: updateFn(state.outLineMessages) };
+    case 'draft':
+      return { ...state, draftMessages: updateFn(state.draftMessages) };
+    case 'chat':
+      return { ...state, messages: updateFn(state.messages) };
+    default:
+      return state;
+  }
+};
+
 export const useChatAgent: StateCreator<ChatAgentStore> = (set, get) => ({
   ...initialState,
   addUserMessage: (id, type, message) => {
     const newMessage: Message = { id, role: 'user', text: message };
-    switch (type) {
-      case 'brainstorming':
-        set((state) => ({
-          brainstormingMessages: [...state.brainstormingMessages, newMessage],
-        }));
-        break;
-      case 'outline':
-        set((state) => ({
-          outLineMessages: [...state.outLineMessages, newMessage],
-        }));
-        break;
-      case 'draft':
-        set((state) => ({
-          draftMessages: [...state.draftMessages, newMessage],
-        }));
-        break;
-      case 'chat':
-        set((state) => ({
-          messages: [...state.messages, newMessage],
-        }));
-        break;
-      default:
-        break;
-    }
+    set((state) =>
+      updateMessages(state, type, (messages) => [...messages, newMessage])
+    );
   },
   addAgentMessage: (id, type, message) => {
     const newMessage: Message = { id, role: 'agent', text: message };
-    switch (type) {
-      case 'brainstorming':
-        set((state) => ({
-          brainstormingMessages: [...state.brainstormingMessages, newMessage],
-        }));
-        break;
-      case 'outline':
-        set((state) => ({
-          outLineMessages: [...state.outLineMessages, newMessage],
-        }));
-        break;
-      case 'draft':
-        set((state) => ({
-          draftMessages: [...state.draftMessages, newMessage],
-        }));
-        break;
-      case 'chat':
-        set((state) => ({
-          messages: [...state.messages, newMessage],
-        }));
-        break;
-      default:
-        break;
-    }
+    set((state) =>
+      updateMessages(state, type, (messages) => [...messages, newMessage])
+    );
+  },
+  appendAgentMessage: (id, type, segment) => {
+    set((state) =>
+      updateMessages(state, type, (messages) =>
+        messages.map((msg) =>
+          msg.id === id ? { ...msg, text: msg.text + segment } : msg
+        )
+      )
+    );
+  },
+  setAgentMessageOption: (id, type, options_type) => {
+    set((state) =>
+      updateMessages(state, type, (messages) =>
+        messages.map((msg) => (msg.id === id ? { ...msg, options_type } : msg))
+      )
+    );
+  },
+
+  setAgentMessageHTMLContent: (id, type, html_content) => {
+    set((state) =>
+      updateMessages(state, type, (messages) =>
+        messages.map((msg) => (msg.id === id ? { ...msg, html_content } : msg))
+      )
+    );
+  },
+
+  appendAgentMessageOptions: (id, type, option) => {
+    set((state) =>
+      updateMessages(state, type, (messages) =>
+        messages.map((msg) =>
+          msg.id === id
+            ? {
+                ...msg,
+                options: msg.options ? [...msg.options, option] : [option],
+              }
+            : msg
+        )
+      )
+    );
+  },
+  setAgentMessageOptionsSelected: (id, type, option_index) => {
+    set((state) =>
+      updateMessages(state, type, (messages) =>
+        messages.map((msg) => {
+          if (
+            msg.id === id &&
+            msg.options &&
+            msg.options[option_index] !== undefined
+          ) {
+            let newOptionsSelected;
+            if (msg.options_type === 'single') {
+              newOptionsSelected = [option_index];
+            } else {
+              newOptionsSelected = msg.options_selected?.includes(option_index)
+                ? msg.options_selected.filter((index) => index !== option_index)
+                : [...(msg.options_selected || []), option_index];
+            }
+            return {
+              ...msg,
+              options_selected: newOptionsSelected,
+            };
+          }
+          return msg;
+        })
+      )
+    );
   },
   setSessionId: (type, session_id) => {
     switch (type) {
@@ -124,142 +186,6 @@ export const useChatAgent: StateCreator<ChatAgentStore> = (set, get) => ({
         break;
     }
   },
-
-  setAgentMessageOption: (id, type, options_type) => {
-    const state = get();
-    const message = state.brainstormingMessages.find((msg) => msg.id === id);
-    if (message) {
-      const newMessage = { ...message, options_type };
-      switch (type) {
-        case 'brainstorming':
-          set((state) => ({
-            brainstormingMessages: [
-              ...state.brainstormingMessages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        case 'outline':
-          set((state) => ({
-            outLineMessages: [
-              ...state.outLineMessages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        case 'draft':
-          set((state) => ({
-            draftMessages: [
-              ...state.draftMessages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        case 'chat':
-          set((state) => ({
-            messages: [
-              ...state.messages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        default:
-          break;
-      }
-    }
-  },
-
-  appendAgentMessageOptions: (id, type, option) => {
-    const state = get();
-    const message = state.brainstormingMessages.find((msg) => msg.id === id);
-    if (message) {
-      const newMessage = {
-        ...message,
-        options: message.options ? [...message.options, option] : [option],
-      };
-      switch (type) {
-        case 'brainstorming':
-          set((state) => ({
-            brainstormingMessages: [
-              ...state.brainstormingMessages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        case 'outline':
-          set((state) => ({
-            outLineMessages: [
-              ...state.outLineMessages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        case 'draft':
-          set((state) => ({
-            draftMessages: [
-              ...state.draftMessages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        case 'chat':
-          set((state) => ({
-            messages: [
-              ...state.messages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        default:
-          break;
-      }
-    }
-  },
-
-  appendAgentMessage: (id, type, segment) => {
-    const state = get();
-    const message = state.brainstormingMessages.find((msg) => msg.id === id);
-    if (message) {
-      const newMessage = { ...message, text: message.text + segment };
-      switch (type) {
-        case 'brainstorming':
-          set((state) => ({
-            brainstormingMessages: [
-              ...state.brainstormingMessages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        case 'outline':
-          set((state) => ({
-            outLineMessages: [
-              ...state.outLineMessages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        case 'draft':
-          set((state) => ({
-            draftMessages: [
-              ...state.draftMessages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        case 'chat':
-          set((state) => ({
-            messages: [
-              ...state.messages.filter((msg) => msg.id !== id),
-              newMessage,
-            ],
-          }));
-          break;
-        default:
-          break;
-      }
-    }
-  },
-
   getMessages: (type) => {
     const state = get();
     switch (type) {
@@ -273,6 +199,39 @@ export const useChatAgent: StateCreator<ChatAgentStore> = (set, get) => ({
         return state.messages;
       default:
         return [];
+    }
+  },
+  getSessionId: (type) => {
+    const state = get();
+    switch (type) {
+      case 'brainstorming':
+        return state.brainstormingSessionId;
+      case 'outline':
+        return state.outLineSessionId;
+      case 'draft':
+        return state.draftSessionId;
+      case 'chat':
+        return state.sessionId;
+      default:
+        return null;
+    }
+  },
+  clearSession: (type) => {
+    switch (type) {
+      case 'brainstorming':
+        set({ brainstormingMessages: [], brainstormingSessionId: null });
+        break;
+      case 'outline':
+        set({ outLineMessages: [], outLineSessionId: null });
+        break;
+      case 'draft':
+        set({ draftMessages: [], draftSessionId: null });
+        break;
+      case 'chat':
+        set({ messages: [], sessionId: null });
+        break;
+      default:
+        break;
     }
   },
 });

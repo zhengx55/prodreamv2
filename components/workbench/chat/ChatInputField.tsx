@@ -2,6 +2,7 @@ import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAgentChat } from '@/query/chat_agent/query';
+import { useAgent } from '@/zustand/store';
 import { memo, useState } from 'react';
 import useAgentType from '../hookes/getChatAgentType';
 
@@ -11,10 +12,9 @@ const ChatInputField = () => {
     setInputMessage(e.target.value);
   };
   const { storeType } = useAgentType();
-
   const { mutateAsync: send, isPending: isMessageSending } =
     useAgentChat(storeType);
-
+  const getSessionId = useAgent((state) => state.getSessionId);
   const handleSend = async () => {
     setInputMessage('');
     await send({
@@ -27,7 +27,7 @@ const ChatInputField = () => {
             : storeType === 'draft'
               ? 'Draft'
               : 'Brainstorm',
-      session_id: null,
+      session_id: getSessionId(storeType),
     });
   };
 

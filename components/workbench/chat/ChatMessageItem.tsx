@@ -1,16 +1,20 @@
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAgentChat } from '@/query/chat_agent/query';
 import { useUserSession } from '@/query/session/query';
+import { Message as MessageProps } from '@/zustand/slice/chat-agent';
+import { useAgent } from '@/zustand/store';
 import Image from 'next/image';
 import { memo } from 'react';
 import Markdown from 'react-markdown';
+import useAgentType from '../hookes/getChatAgentType';
 
 type UserMessageProps = {
   text: string;
 };
 type AgentMessageProps = {
-  text: string;
-  options_type?: 'single' | 'multi';
-  options?: { label: string; id: string }[];
+  message: MessageProps;
 };
 
 const User = ({ text }: UserMessageProps) => {
@@ -36,7 +40,30 @@ const User = ({ text }: UserMessageProps) => {
   );
 };
 
-const Agent = ({ text, options, options_type }: AgentMessageProps) => {
+const Agent = ({ message }: AgentMessageProps) => {
+  const { storeType } = useAgentType();
+  const setOptionsSelected = useAgent(
+    (state) => state.setAgentMessageOptionsSelected
+  );
+  const getSessionId = useAgent((state) => state.getSessionId);
+  const { mutateAsync: select } = useAgentChat(storeType);
+  const handleConfirmSelection = async () => {
+    await select({
+      response:
+        message.options_type === 'multi'
+          ? message.options_selected!
+          : message.options_selected![0],
+      agent:
+        storeType === 'brainstorming'
+          ? 'Brainstorm'
+          : storeType === 'outline'
+            ? 'Outline'
+            : storeType === 'draft'
+              ? 'Draft'
+              : 'Brainstorm',
+      session_id: getSessionId(storeType),
+    });
+  };
   return (
     <div className='flex gap-x-2'>
       <Image
@@ -46,26 +73,52 @@ const Agent = ({ text, options, options_type }: AgentMessageProps) => {
         height={40}
         className='size-10'
       />
-      <div className='h-max space-y-4 rounded-lg bg-white px-4 py-2'>
-        <Markdown className='prose prose-base prose-p:my-1 prose-p:text-zinc-800'>
-          {text}
+      <div className='h-max rounded-lg bg-white px-4 py-2'>
+        <Markdown className='prose prose-base prose-p:my-1 prose-p:text-zinc-800 prose-strong:text-indigo-500 prose-ol:my-1'>
+          {message.text}
         </Markdown>
-        <ul className='space-y-2.5'>
-          {options && options?.length > 0
-            ? options.map((item) => {
+        {message.html_content && (
+          <span dangerouslySetInnerHTML={{ __html: message.html_content }} />
+        )}
+        {message.options && message.options?.length > 0 ? (
+          <div className='flex flex-col items-end gap-y-2.5'>
+            <ul className='mt-2.5 size-full space-y-2.5'>
+              {message.options.map((item, index) => {
+                const isSelected = message.options_selected?.includes(index);
                 return (
                   <li
+                    onClick={() => {
+                      setOptionsSelected(message.id, storeType, index);
+                    }}
                     key={item.id}
-                    className='flex-center gap-x-2 rounded-[10px] border border-transparent px-4 py-2.5'
+                    className={`${isSelected ? 'border-indigo-500 bg-violet-50' : 'border-transparent hover:bg-violet-50'} t group flex cursor-pointer items-center gap-x-2 rounded-[10px] border px-4 py-2.5`}
                   >
-                    <span className='small-regular text-zinc-600'>
+                    <Checkbox
+                      onClick={(e) => e.preventDefault()}
+                      checked={isSelected}
+                      className='rounded group-hover:border-indigo-500'
+                    />
+                    <span
+                      className={`${isSelected ? 'text-indigo-500' : 'text-zinc-600 group-hover:text-indigo-500'} small-regular`}
+                    >
                       {item.label}
                     </span>
                   </li>
                 );
-              })
-            : null}
-        </ul>
+              })}
+            </ul>
+            <Button
+              onClick={handleConfirmSelection}
+              disabled={
+                message.options_selected?.length === 0 ||
+                !message.options_selected
+              }
+              role='button'
+            >
+              Confirm
+            </Button>
+          </div>
+        ) : null}
       </div>
     </div>
   );
