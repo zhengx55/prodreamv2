@@ -25,7 +25,7 @@ const BottomBanner = () => {
             </span>
           </h2>
           <Spacer y='14' />
-          <Link href={'/signup'} passHref className='z-[100] self-center'>
+          <Link href={'/signup'} className='z-[100] self-center'>
             <Button
               className='self-center rounded-xl border border-white bg-transparent text-white'
               variant={'ghost'}

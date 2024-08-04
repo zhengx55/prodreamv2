@@ -17,7 +17,7 @@ const Empty = ({ href, label, message }: Props) => {
         className='h-[80px] w-[110px]'
       />
       <p className='small-regular text-neutral-400'>{message}</p>
-      <Link passHref href={href}>
+      <Link href={href}>
         <Button role='button'>
           <PlusCircle size={16} />
           {label}

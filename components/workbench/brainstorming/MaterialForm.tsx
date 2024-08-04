@@ -152,7 +152,7 @@ const MaterialForm = ({
         />
       </div>
       <div className='mt-auto flex w-full justify-end gap-x-2 rounded-b-lg bg-white py-3 pr-4'>
-        <Link passHref href={'/brainstorming'}>
+        <Link href={'/brainstorming'}>
           <Button
             disabled={isPending}
             role='button'

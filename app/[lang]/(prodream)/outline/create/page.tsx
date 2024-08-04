@@ -12,7 +12,7 @@ export default function Page() {
         <div className='flex-between h-[63px] border-b px-4'>
           <div className='flex items-center gap-x-2'>
             <Button role='button' className='size-max p-1' variant={'icon'}>
-              <Link passHref href={'/outline'}>
+              <Link href={'/outline'}>
                 <Icon
                   alt='back'
                   src='/workbench/left.svg'

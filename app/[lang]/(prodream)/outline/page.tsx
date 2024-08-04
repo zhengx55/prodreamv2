@@ -54,7 +54,7 @@ export default async function Page({
             <h2 className='text-xl font-medium text-zinc-500'>Outline</h2>
           </div>
           <SearchSection searchParams={searchParams}>
-            <Link passHref href={`outline/create`}>
+            <Link href={`outline/create`}>
               <Button className='size-max rounded-lg px-4 py-2' role='button'>
                 <PlusCircle size={24} />
                 Add Outline
