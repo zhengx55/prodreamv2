@@ -1,9 +1,6 @@
 import { create, useStore } from 'zustand';
 import { AIEditiorStore, useAIEditorStore } from './slice/ai-editor';
-import {
-  BrainstormingChatAgent,
-  useBrainstormingChat,
-} from './slice/chat-agent/brainstorming';
+import { ChatAgentStore, useChatAgent } from './slice/chat-agent';
 import { ChatBotStore, chatbotSlice } from './slice/chatbot';
 import { CitationStore, useCitationStore } from './slice/citation';
 import { ModalStore, useModalStore } from './slice/modal';
@@ -16,7 +13,7 @@ type AppStore = AIEditiorStore &
   CitationStore &
   ModalStore &
   OnboardingStore &
-  BrainstormingChatAgent;
+  ChatAgentStore;
 
 const useRootStore = create<AppStore>((...a) => ({
   ...useAIEditorStore(...a),
@@ -25,7 +22,7 @@ const useRootStore = create<AppStore>((...a) => ({
   ...chatbotSlice(...a),
   ...useModalStore(...a),
   ...useOnboardingStore(...a),
-  ...useBrainstormingChat(...a),
+  ...useChatAgent(...a),
 }));
 
 export function useAIEditor<T>(selector?: (state: AIEditiorStore) => T) {
@@ -52,9 +49,7 @@ export function useOnboarding<T>(selector?: (state: OnboardingStore) => T) {
   return useStore(useRootStore, selector!);
 }
 
-export function useBrainstormingChatAgent<T>(
-  selector?: (state: BrainstormingChatAgent) => T
-) {
+export function useAgent<T>(selector?: (state: ChatAgentStore) => T) {
   return useStore(useRootStore, selector!);
 }
 

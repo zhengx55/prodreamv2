@@ -3,19 +3,30 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAgentChat } from '@/query/chat_agent/query';
 import { memo, useState } from 'react';
+import useAgentType from '../hookes/getChatAgentType';
 
 const ChatInputField = () => {
   const [inputMessage, setInputMessage] = useState('');
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
   };
-  const { mutateAsync: send, isPending: isMessageSending } = useAgentChat();
+  const { storeType } = useAgentType();
+
+  const { mutateAsync: send, isPending: isMessageSending } =
+    useAgentChat(storeType);
 
   const handleSend = async () => {
     setInputMessage('');
     await send({
       response: inputMessage,
-      agent: 'Brainstorm',
+      agent:
+        storeType === 'brainstorming'
+          ? 'Brainstorm'
+          : storeType === 'outline'
+            ? 'Outline'
+            : storeType === 'draft'
+              ? 'Draft'
+              : 'Brainstorm',
       session_id: null,
     });
   };
@@ -30,6 +41,7 @@ const ChatInputField = () => {
     <div className='relative mt-auto flex h-16 w-full items-center gap-x-2 rounded-lg border border-gray-300 bg-white p-2.5'>
       <Input
         type='text'
+        disabled={isMessageSending}
         onKeyUp={handleKeyboardSend}
         value={inputMessage}
         onChange={handleInputChange}

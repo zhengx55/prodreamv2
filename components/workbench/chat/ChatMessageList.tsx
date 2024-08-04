@@ -1,15 +1,37 @@
-import { useUserSession } from '@/query/session/query';
-import { memo } from 'react';
+import { useAgent } from '@/zustand/store';
+import { memo, useEffect, useRef } from 'react';
+import useAgentType from '../hookes/getChatAgentType';
 import Message from './ChatMessageItem';
 
-type Props = {};
+const ChatMessageList = () => {
+  const { storeType } = useAgentType();
+  const messageList = useAgent((state) => state.getMessages(storeType));
+  console.log('🚀 ~ ChatMessageList ~ messageList:', messageList);
 
-const ChatMessageList = (props: Props) => {
-  const { data } = useUserSession();
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messageList]);
+
   return (
     <div className='flex flex-1 flex-col gap-y-8 overflow-y-auto px-4 pb-4 pt-6'>
-      <Message.Agent />
-      <Message.User />
+      {messageList.map((message) => {
+        if (message.role === 'user') {
+          return <Message.User key={message.id} text={message.text} />;
+        }
+        return (
+          <Message.Agent
+            key={message.id}
+            text={message.text}
+            options={message.options}
+            options_type={message.options_type}
+          />
+        );
+      })}
+      <div ref={bottomRef} />
     </div>
   );
 };
