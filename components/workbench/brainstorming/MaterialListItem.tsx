@@ -21,11 +21,7 @@ const MaterialListItem = ({ item }: Props) => {
       <p className='text-xs text-neutral-400'>
         Opened {formatTimestamphh(item.update_time)}
       </p>
-      <Menu
-        type='material'
-        id={item.id}
-        href={`/brainstorming/${item.id}/edit`}
-      />
+      <Menu type='material' id={item.id} href={`/brainstorming/${item.id}`} />
     </div>
   );
 };

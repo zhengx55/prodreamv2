@@ -45,7 +45,6 @@ const NavItem = ({
   return (
     <Link
       href={link}
-      passHref
       className={`flex cursor-pointer items-center gap-x-2 rounded-lg px-6 py-2 ${
         isSelected ? 'bg-white' : 'bg-white/40 hover:bg-white'
       }`}

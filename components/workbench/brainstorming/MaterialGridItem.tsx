@@ -1,11 +1,16 @@
 import Icon from '@/components/root/Icon';
 import { formatTimestamphh } from '@/lib/utils';
 import { MaterialItem } from '@/types/brainstorm/types';
+import { useMemo } from 'react';
 import Menu from '../common/Menu';
 
 type Props = { item: MaterialItem };
 
 const MaterialGridItem = ({ item }: Props) => {
+  const lastOpenTime = useMemo(
+    () => formatTimestamphh(item.update_time),
+    [item.update_time]
+  );
   return (
     <div className='flex w-[330px] flex-col justify-between rounded-lg border'>
       <div className='h-[164px] bg-gray-100 px-2 pt-2'>
@@ -29,15 +34,9 @@ const MaterialGridItem = ({ item }: Props) => {
               {item.title}
             </h2>
           </div>
-          <p className='text-xs text-neutral-400'>
-            Opened {formatTimestamphh(item.update_time)}
-          </p>
+          <p className='text-xs text-neutral-400'>Opened {lastOpenTime}</p>
         </div>
-        <Menu
-          type='material'
-          id={item.id}
-          href={`/brainstorming/${item.id}/edit`}
-        />
+        <Menu type='material' id={item.id} href={`/brainstorming/${item.id}`} />
       </footer>
     </div>
   );

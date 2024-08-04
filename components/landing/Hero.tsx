@@ -1,10 +1,10 @@
 import { HomePageDicType } from '@/types';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 import CaptureProvider from './CaptureProvider';
-import { useTranslations } from 'next-intl';
 import { HeroClientSection } from './LandingCarousel';
 import TypeTitle from './TypeTitle';
 
@@ -45,7 +45,6 @@ const Hero = ({
           <div className='relative flex w-full flex-col items-center justify-center gap-x-0 gap-y-4 pl-2 sm:flex-row sm:items-start sm:gap-x-6 sm:gap-y-0'>
             <Link
               prefetch={false}
-              passHref
               href={
                 search_param
                   ? `/${lang}/signup?from=${search_param}`
@@ -65,7 +64,6 @@ const Hero = ({
             <Link
               prefetch={false}
               href={'https://discord.gg/xXSFXv5kPd'}
-              passHref
               target='_blank'
             >
               <Button

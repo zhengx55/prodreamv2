@@ -2,11 +2,11 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { langObjCN } from '@/i18n-config';
 import { HomePageDicType } from '@/types';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { langObjCN } from '@/i18n-config';
 import { memo } from 'react';
 import { Button } from '../../ui/button';
 
@@ -60,7 +60,7 @@ const NavBarCN = async ({
           </DropdownMenu>
         </div>
         <div className='hidden items-center gap-x-8 sm:flex'>
-          <Link href={`/${lang}/signup?from=cn`} passHref>
+          <Link href={`/${lang}/signup?from=cn`}>
             <Button className='rounded-lg px-8 py-3 text-sm font-medium'>
               <p>{'免费使用'}</p>
             </Button>

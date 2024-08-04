@@ -177,7 +177,7 @@ const Sidebar: FC = () => {
 
   return (
     <aside className='relative flex w-[200px] shrink-0 flex-col px-6 py-9'>
-      <Link passHref href={`/${lang}`}>
+      <Link href={`/${lang}`}>
         <Image
           alt='prodream'
           src='/logo/Prodream.png'

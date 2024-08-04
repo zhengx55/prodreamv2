@@ -46,7 +46,11 @@ const Agent = ({ message }: AgentMessageProps) => {
     (state) => state.setAgentMessageOptionsSelected
   );
   const getSessionId = useAgent((state) => state.getSessionId);
-  const { mutateAsync: select } = useAgentChat(storeType);
+  const { mutateAsync: select, isPending: isSelecting } =
+    useAgentChat(storeType);
+  const setAgentMessageSelectionDone = useAgent(
+    (state) => state.setAgentMessageSelectionDone
+  );
   const handleConfirmSelection = async () => {
     await select({
       response:
@@ -63,6 +67,7 @@ const Agent = ({ message }: AgentMessageProps) => {
               : 'Brainstorm',
       session_id: getSessionId(storeType),
     });
+    setAgentMessageSelectionDone(message.id, storeType);
   };
   return (
     <div className='flex gap-x-2'>
@@ -88,6 +93,7 @@ const Agent = ({ message }: AgentMessageProps) => {
                 return (
                   <li
                     onClick={() => {
+                      if (message.selection_done) return;
                       setOptionsSelected(message.id, storeType, index);
                     }}
                     key={item.id}
@@ -96,7 +102,7 @@ const Agent = ({ message }: AgentMessageProps) => {
                     <Checkbox
                       onClick={(e) => e.preventDefault()}
                       checked={isSelected}
-                      className='rounded group-hover:border-indigo-500'
+                      className={`${message.options_type === 'single' ? 'rounded-full' : 'rounded'} group-hover:border-indigo-500`}
                     />
                     <span
                       className={`${isSelected ? 'text-indigo-500' : 'text-zinc-600 group-hover:text-indigo-500'} small-regular`}
@@ -111,7 +117,9 @@ const Agent = ({ message }: AgentMessageProps) => {
               onClick={handleConfirmSelection}
               disabled={
                 message.options_selected?.length === 0 ||
-                !message.options_selected
+                !message.options_selected ||
+                isSelecting ||
+                message.selection_done
               }
               role='button'
             >

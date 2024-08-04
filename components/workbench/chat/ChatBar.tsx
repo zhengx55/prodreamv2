@@ -3,14 +3,14 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useCallback, useState } from 'react';
-import ChatFooter from './ChatFooter';
-import ChatMessageList from './ChatMessageList';
 
-type Props = {};
+const ChatMessageList = dynamic(() => import('./ChatMessageList'));
+const ChatFooter = dynamic(() => import('./ChatFooter'));
 
-const ChatBar = (props: Props) => {
+const ChatBar = () => {
   const [expanded, setExpanded] = useState(true);
   const toggleExpanded = useCallback(() => {
     setExpanded((prev) => !prev);

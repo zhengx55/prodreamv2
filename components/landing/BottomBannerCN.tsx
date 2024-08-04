@@ -1,6 +1,6 @@
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 import Spacer from '../root/Spacer';
 import { Button } from '../ui/button';
 
@@ -30,7 +30,7 @@ const BottomBannerCN = () => {
             </span>
           </h2>
           <Spacer y='14' />
-          <Link href={'/signup'} passHref className='z-[100] self-center'>
+          <Link href={'/signup'} className='z-[100] self-center'>
             <Button
               className='self-center rounded-xl border border-white bg-transparent px-8 py-4 text-white'
               variant={'ghost'}
