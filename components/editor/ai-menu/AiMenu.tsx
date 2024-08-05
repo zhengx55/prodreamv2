@@ -5,10 +5,8 @@ import { Separator } from '@/components/ui/separator';
 import { Surface } from '@/components/ui/surface';
 import { word_regex } from '@/constant';
 import { OperationType } from '@/constant/enum';
-import useButtonTrack from '@/hooks/useBtnTrack';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
-import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { getSelectedText } from '@/lib/tiptap/utils';
 import { DocPageDicType, EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
@@ -37,8 +35,6 @@ type Props = { editor: Editor } & DocPageDicType;
 
 const AiMenu = ({ editor, t }: Props) => {
   const { options, operations } = useAiOptions();
-  const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const { data: track } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
   const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
   const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
@@ -48,7 +44,6 @@ const AiMenu = ({ editor, t }: Props) => {
   const ref = useScrollIntoView();
   const elRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { mutateAsync: ButtonTrack } = useButtonTrack();
   const transEditor = useTranslations('Editor');
   const transError = useTranslations('Error');
 
@@ -79,13 +74,6 @@ const AiMenu = ({ editor, t }: Props) => {
       return toast.warning(
         transEditor('Copilot.Selected_text_should_not_exceed_500_words')
       );
-    }
-    if (!track?.ai_copilot_task) {
-      await updateTrack({
-        field: 'ai_copilot_task',
-        data: true,
-      });
-      await ButtonTrack({ event: 'Onboarding task: editing tool' });
     }
     setCurrentResult((prev) => prev + 1);
     if (tool === 'humanize') {

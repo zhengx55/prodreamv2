@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import useButtonTrack from '@/hooks/useBtnTrack';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
-import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { highLightGrammar } from '@/lib/tiptap/utils';
 import { submitPolish } from '@/query/api';
 import { IGrammarResponse, IGrammarResult } from '@/query/type';
@@ -23,8 +22,6 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
   const [isChecking, setIsChecking] = useState(false);
   const [grammarResults, setGrammarResults] = useState<IGrammarResult[]>([]);
   const editor = useAIEditor((state) => state.editor_instance);
-  const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const { data: userTrack } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
   const queryClient = useQueryClient();
   const transEditor = useTranslations('Editor');
@@ -78,13 +75,6 @@ export const GrammarCheck = ({ t }: { t: EditorDictType }) => {
     },
   });
   const handleCheck = async () => {
-    if (!Boolean(userTrack?.grammar_task)) {
-      await updateTrack({
-        field: 'grammar_task',
-        data: 'true',
-      });
-      await ButtonTrack({ event: 'Basic task: grammar check' });
-    }
     if (editor?.getText().trim() === '') {
       const toast = (await import('sonner')).toast;
       const toastInfo = transEditor(
