@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import ChatBar from '@/components/workbench/chat/ChatBar';
+import ChatBar from '@/components/workbench/chat_bar/ChatBar';
 import SearchSection from '@/components/workbench/common/SearchSection';
 import OutlineSection from '@/components/workbench/outline/OutlineSection';
 import { PAGESIZE } from '@/constant/enum';

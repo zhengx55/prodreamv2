@@ -5,17 +5,15 @@ import { Separator } from '@/components/ui/separator';
 import { Surface } from '@/components/ui/surface';
 import { word_regex } from '@/constant';
 import { OperationType } from '@/constant/enum';
-import useButtonTrack from '@/hooks/useBtnTrack';
 import { useMembershipInfo } from '@/hooks/useMemberShip';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
-import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { getSelectedText } from '@/lib/tiptap/utils';
-import { useTranslations } from 'next-intl';
 import { DocPageDicType, EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
 import { m } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import {
   Fragment,
@@ -37,8 +35,6 @@ type Props = { editor: Editor } & DocPageDicType;
 
 const AiMenu = ({ editor, t }: Props) => {
   const { options, operations } = useAiOptions();
-  const { mutateAsync: updateTrack } = useMutateTrackInfo();
-  const { data: track } = useUserTrackInfo();
   const { data: usage } = useMembershipInfo();
   const floatingMenuPos = useAIEditor((state) => state.floatingMenuPos);
   const updateCopilotMenu = useAIEditor((state) => state.updateCopilotMenu);
@@ -48,7 +44,6 @@ const AiMenu = ({ editor, t }: Props) => {
   const ref = useScrollIntoView();
   const elRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { mutateAsync: ButtonTrack } = useButtonTrack();
   const transEditor = useTranslations('Editor');
   const transError = useTranslations('Error');
 
@@ -79,13 +74,6 @@ const AiMenu = ({ editor, t }: Props) => {
       return toast.warning(
         transEditor('Copilot.Selected_text_should_not_exceed_500_words')
       );
-    }
-    if (!track?.ai_copilot_task) {
-      await updateTrack({
-        field: 'ai_copilot_task',
-        data: true,
-      });
-      await ButtonTrack({ event: 'Onboarding task: editing tool' });
     }
     setCurrentResult((prev) => prev + 1);
     if (tool === 'humanize') {
@@ -267,7 +255,7 @@ const AiMenu = ({ editor, t }: Props) => {
                             } group flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5`}
                             key={option.id}
                             onClick={() => {
-                              !option.submenu && handleEditTools(option.label);
+                              !option.submenu && handleEditTools(option.label!);
                             }}
                             onMouseEnter={() => setHoverItem(option.id)}
                             onMouseLeave={() => setHoverItem(null)}

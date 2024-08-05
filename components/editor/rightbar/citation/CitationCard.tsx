@@ -1,8 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import useButtonTrack from '@/hooks/useBtnTrack';
-import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { useCiteToDoc, useCreateCitation } from '@/query/citation/query';
 import { ICitation } from '@/query/type';
 import { ICitationData, ICitationType } from '@/types';
@@ -22,27 +20,11 @@ export const SearchCitationCard = memo(
   ({ item, index }: { item: ICitation; index: number }) => {
     const { id } = useParams();
     const editor = useAIEditor((state) => state.editor_instance);
-    const { mutateAsync: updateTrack } = useMutateTrackInfo();
-    const { data: track } = useUserTrackInfo();
     const { mutateAsync: handleCollect } = useCreateCitation();
     const { mutateAsync: handleCite } = useCiteToDoc();
-    const { mutateAsync: ButtonTrack } = useButtonTrack();
     const trans = useTranslations('Editor');
-    const transInfo = useTranslations('Info');
 
     const handler = async (item: ICitation, action: 'cite' | 'collect') => {
-      if (!track?.citation_task) {
-        const { toast } = await import('sonner');
-        const toastInfo = transInfo(
-          'In_text_citation_will_be_append_to_the_postion_of_your_cursor'
-        );
-        toast.info(toastInfo);
-        await updateTrack({
-          field: 'citation_task',
-          data: true,
-        });
-        await ButtonTrack({ event: 'Onboarding task: add citation' });
-      }
       const { selection } = editor!.state;
       const { anchor } = selection;
       if (action === 'collect') {

@@ -33,10 +33,16 @@ type Action = {
     type: StoreTypes,
     options_type?: 'single' | 'multi'
   ) => void;
-  appendAgentMessageOptions: (
+  addAgentMessageOptions: (
     id: string,
     type: StoreTypes,
     option: { label: string; id: string }
+  ) => void;
+  appendAgentMessageOption: (
+    id: string,
+    option_id: string,
+    type: StoreTypes,
+    segment: string
   ) => void;
   setAgentMessageHTMLContent: (
     id: string,
@@ -129,7 +135,7 @@ export const useChatAgent: StateCreator<ChatAgentStore> = (set, get) => ({
     );
   },
 
-  appendAgentMessageOptions: (id, type, option) => {
+  addAgentMessageOptions: (id, type, option) => {
     set((state) =>
       updateMessages(state, type, (messages) =>
         messages.map((msg) =>
@@ -137,6 +143,25 @@ export const useChatAgent: StateCreator<ChatAgentStore> = (set, get) => ({
             ? {
                 ...msg,
                 options: msg.options ? [...msg.options, option] : [option],
+              }
+            : msg
+        )
+      )
+    );
+  },
+
+  appendAgentMessageOption: (id, option_id, type, segment) => {
+    set((state) =>
+      updateMessages(state, type, (messages) =>
+        messages.map((msg) =>
+          msg.id === id
+            ? {
+                ...msg,
+                options: msg.options?.map((option) =>
+                  option.id === option_id
+                    ? { ...option, label: option.label + segment }
+                    : option
+                ),
               }
             : msg
         )

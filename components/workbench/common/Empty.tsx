@@ -12,9 +12,10 @@ const Empty = ({ href, label, message }: Props) => {
       <Image
         src='/workbench/empty.png'
         alt='empty'
-        width={120}
+        width={200}
         height={80}
-        className='h-[80px] w-[110px]'
+        className='h-auto w-[120px]'
+        priority
       />
       <p className='small-regular text-neutral-400'>{message}</p>
       <Link href={href}>

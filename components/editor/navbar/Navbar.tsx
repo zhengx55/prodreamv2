@@ -6,11 +6,8 @@ import { DocPageDicType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import { Loader } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import Prompt from './Prompt';
-
-const NavbarDropdown = dynamic(() => import('./NavbarDropdown'));
 
 type Props = {} & DocPageDicType;
 
@@ -66,14 +63,6 @@ const DocNavbar = ({ t, lang }: Props) => {
             {trans('Utility.Upgrade')}
           </Button>
         ) : null}
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className='p-2 bg-transparent text-black hover:bg-slate-100 hover:text-violet-500'>
-              <MoreHorizontal size={18} />
-            </Button>
-          </DropdownMenuTrigger>
-          <NavbarDropdown />
-        </DropdownMenu> */}
       </div>
     </nav>
   );

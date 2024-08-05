@@ -5,15 +5,16 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
 
-const GenerateModal = dynamic(() => import('./GenerateModal'), { ssr: false });
-type Props = {};
+const GenerateModal = dynamic(() => import('./modal/GenerateModal'), {
+  ssr: false,
+});
 
-const GenerateButton = (props: Props) => {
+const GenerateButton = () => {
   const [show, setShow] = useState(false);
   return (
     <Dialog open={show} onOpenChange={setShow}>
       <DialogTrigger asChild>
-        <Button role='button'>
+        <Button className='w-full'>
           <Icon
             alt='stars'
             src='/workbench/stars.svg'

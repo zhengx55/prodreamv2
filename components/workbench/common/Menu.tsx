@@ -18,9 +18,12 @@ const MaterialDeleteModal = dynamic(
   }
 );
 
-const OutlineDeleteModal = dynamic(() => import('../outline/DeleteModal'), {
-  ssr: false,
-});
+const OutlineDeleteModal = dynamic(
+  () => import('../outline/modal/DeleteModal'),
+  {
+    ssr: false,
+  }
+);
 type Props = {
   href: string;
   id: string;

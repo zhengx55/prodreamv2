@@ -3,8 +3,6 @@ import Image from 'next/image';
 import { memo } from 'react';
 import GenerateOutlineButton from './GenerateOutlineButton';
 
-type Props = {};
-
 const Step = ({
   number,
   colorClass,
@@ -21,11 +19,11 @@ const Step = ({
       <div className={`flex-center size-7 rounded ${colorClass}`}>{number}</div>
       <h2 className='base-medium text-zinc-800'>{text}</h2>
     </div>
-    <p className='small-regular text-zinc-600'>{description}</p>
+    <p className='text-sm leading-relaxed text-zinc-600'>{description}</p>
   </div>
 );
 
-const GenerateOutlineSidebar = (props: Props) => {
+const GenerateOutlineSidebar = () => {
   return (
     <div className='flex h-full w-72 flex-col overflow-y-auto rounded-bl-lg border-r border-zinc-200 px-4 py-6'>
       <GenerateOutlineButton />
