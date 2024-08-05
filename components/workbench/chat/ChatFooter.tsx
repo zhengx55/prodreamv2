@@ -15,16 +15,33 @@ const ChatFooter = (props: Props) => {
     <div className='space-y-2 px-4 pb-4'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-x-1'>
-          <ActionButton
-            alt='history'
-            src='/chat_agent/brainstorming/guide.svg'
-            text='Guided Input'
-          />
-          <ActionButton
-            alt='explore'
-            src='/chat_agent/brainstorming/explore.svg'
-            text='In-depth Exploration'
-          />
+          {storeType === 'brainstorming' ? (
+            <>
+              <ActionButton
+                alt='history'
+                src='/chat_agent/brainstorming/guide.svg'
+                text='Guided Input'
+              />
+              <ActionButton
+                alt='explore'
+                src='/chat_agent/brainstorming/explore.svg'
+                text='In-depth Exploration'
+              />
+            </>
+          ) : storeType === 'outline' ? (
+            <>
+              <ActionButton
+                alt='history'
+                src='/chat_agent/brainstorming/guide.svg'
+                text='Generate Outline'
+              />
+              <ActionButton
+                alt='explore'
+                src='/chat_agent/brainstorming/explore.svg'
+                text='Polish Outline'
+              />
+            </>
+          ) : null}
         </div>
         <div className='flex gap-x-2'>
           <IconButton alt='history' src='/chat_agent/common/history.svg' />

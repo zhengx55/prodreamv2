@@ -152,9 +152,7 @@ const GenerateModal = () => {
           />
         </div>
       </div>
-
       <Spacer y='8' />
-
       <div className='w-[856px] self-end rounded-lg bg-slate-100 px-2 pt-2'>
         {materialLoading ? (
           <div className='flex-center h-[284px] w-full'>
