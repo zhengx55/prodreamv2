@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import MaterialSection from '@/components/workbench/brainstorming/MaterialSection';
-import ChatBar from '@/components/workbench/chat/ChatBar';
+import ChatBar from '@/components/workbench/chat_bar/ChatBar';
+
 import SearchSection from '@/components/workbench/common/SearchSection';
 import { PAGESIZE } from '@/constant/enum';
 import { getUserIdFromToken } from '@/lib/utils';
