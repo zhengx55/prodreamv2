@@ -21,7 +21,6 @@ const nextConfig = {
     ],
   },
   experimental: {
-    nextScriptWorkers: true,
     optimizePackageImports: ['lucide-react', 'react-use'],
   },
   reactStrictMode: false,

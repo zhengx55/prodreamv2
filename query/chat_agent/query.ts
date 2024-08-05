@@ -18,11 +18,14 @@ export const useAgentChat = (storeType: StoreTypes) => {
   const setAgentMessageOption = useAgent(
     (state) => state.setAgentMessageOption
   );
-  const appendAgentMessageOptions = useAgent(
-    (state) => state.appendAgentMessageOptions
+  const addAgentMessageOptions = useAgent(
+    (state) => state.addAgentMessageOptions
   );
   const setAgentMessageHTMLContent = useAgent(
     (state) => state.setAgentMessageHTMLContent
+  );
+  const appendAgentMessageOption = useAgent(
+    (state) => state.appendAgentMessageOption
   );
 
   const fetchChatResponse = async (
@@ -65,6 +68,7 @@ export const useAgentChat = (storeType: StoreTypes) => {
     let agentMessageId = '';
     let isNewAgentMessage = false;
     let isOptionListStart = false;
+    let optionId = '';
 
     const processLine = (line: string, previousLine: string | undefined) => {
       console.log(line);
@@ -82,10 +86,12 @@ export const useAgentChat = (storeType: StoreTypes) => {
         if (data) {
           const parsedData = JSON.parse(data);
           if (isOptionListStart) {
-            appendAgentMessageOptions(agentMessageId, storeType, {
-              label: parsedData,
-              id: v4(),
-            });
+            appendAgentMessageOption(
+              agentMessageId,
+              optionId,
+              storeType,
+              parsedData
+            );
           } else {
             appendAgentMessage(agentMessageId, storeType, parsedData);
           }
@@ -100,6 +106,12 @@ export const useAgentChat = (storeType: StoreTypes) => {
           storeType,
           listType === 'multi_selection' ? 'multi' : 'single'
         );
+      } else if (line.trim() === 'event: option') {
+        optionId = v4();
+        addAgentMessageOptions(agentMessageId, storeType, {
+          label: '',
+          id: optionId,
+        });
       } else if (line.startsWith('event: option_list_end')) {
         isOptionListStart = false;
       } else if (previousLine?.startsWith('event: html')) {
