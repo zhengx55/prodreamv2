@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ActionButtonType, ICONS } from '@/constant/chat_agent_constant';
 import { useAgent } from '@/zustand/store';
 import { memo } from 'react';
-import useAgentType from '../hookes/getChatAgentType';
+import useAgentType from '../hooks/getChatAgentType';
 import ChatInputField from './ChatInputField';
 
 const ChatFooter = () => {

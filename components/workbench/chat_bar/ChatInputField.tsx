@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { useAgentChat } from '@/query/chat_agent/query';
 import { useAgent } from '@/zustand/store';
 import { memo, useState } from 'react';
-import useAgentType from '../hookes/getChatAgentType';
+import useAgentType from '../hooks/getChatAgentType';
 
 const ChatInputField = () => {
   const [inputMessage, setInputMessage] = useState('');

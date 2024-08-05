@@ -8,7 +8,7 @@ import { useAgent } from '@/zustand/store';
 import Image from 'next/image';
 import { memo } from 'react';
 import Markdown from 'react-markdown';
-import useAgentType from '../hookes/getChatAgentType';
+import useAgentType from '../hooks/getChatAgentType';
 
 type UserMessageProps = {
   text: string;
