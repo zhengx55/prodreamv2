@@ -10,12 +10,12 @@ import { useMembershipInfo } from '@/hooks/useMemberShip';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { useMutateTrackInfo, useUserTrackInfo } from '@/hooks/useTrackInfo';
 import { getSelectedText } from '@/lib/tiptap/utils';
-import { useTranslations } from 'next-intl';
 import { DocPageDicType, EditorDictType } from '@/types';
 import { useAIEditor } from '@/zustand/store';
 import type { Editor } from '@tiptap/react';
 import { m } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import {
   Fragment,
@@ -267,7 +267,7 @@ const AiMenu = ({ editor, t }: Props) => {
                             } group flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5`}
                             key={option.id}
                             onClick={() => {
-                              !option.submenu && handleEditTools(option.label);
+                              !option.submenu && handleEditTools(option.label!);
                             }}
                             onMouseEnter={() => setHoverItem(option.id)}
                             onMouseLeave={() => setHoverItem(null)}

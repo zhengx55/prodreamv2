@@ -12,15 +12,15 @@ const MaterialGridItem = ({ item }: Props) => {
     [item.update_time]
   );
   return (
-    <div className='flex w-[330px] flex-col justify-between rounded-lg border'>
-      <div className='h-[164px] bg-gray-100 px-2 pt-2'>
+    <div className='flex w-[330px] flex-col justify-between rounded-lg border border-gray-300'>
+      <div className='h-[164px] rounded-t-lg bg-gray-100 px-2 pt-2'>
         <div className='size-full bg-white p-2'>
           <p className='small-regular line-clamp-3 leading-tight text-zinc-600'>
             {item.content}
           </p>
         </div>
       </div>
-      <footer className='flex-between border-t bg-white px-4 py-2.5'>
+      <footer className='flex-between rounded-b-lg border-t border-gray-300 bg-white px-4 py-2.5'>
         <div className='space-y-1'>
           <div className='flex items-center gap-x-2'>
             <Icon
