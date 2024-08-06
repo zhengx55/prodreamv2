@@ -1,12 +1,14 @@
 'use client';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
-const EditorBlock = dynamic(() => import('./editor/EditorBlock'), {
+const EditorBlock = dynamic(() => import('./EditorBlock'), {
   ssr: false,
 });
-type Props = {};
+type Props = {
+  defaultHTML?: string;
+};
 
-const OutlineContent = (props: Props) => {
+const OutlineContent = ({ defaultHTML }: Props) => {
   return (
     <div className='flex-center flex-1 bg-slate-100 pt-6'>
       <EditorBlock />

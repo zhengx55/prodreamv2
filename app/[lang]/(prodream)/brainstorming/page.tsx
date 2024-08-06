@@ -4,7 +4,6 @@ import ChatBar from '@/components/workbench/chat_bar/ChatBar';
 
 import SearchSection from '@/components/workbench/common/SearchSection';
 import { PAGESIZE } from '@/constant/enum';
-import { getUserIdFromToken } from '@/lib/utils';
 import { MaterialListRes } from '@/types/brainstorm/types';
 import { PlusCircle } from 'lucide-react';
 import { cookies } from 'next/headers';
@@ -16,7 +15,6 @@ async function getMaterials(
   keyword: string,
   token: string
 ): Promise<MaterialListRes> {
-  const user_id = getUserIdFromToken(token);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material?page=${page}&page_size=${PAGESIZE.MATERIAL_PAGE_SIZE}&keyword=${keyword}`,
     {

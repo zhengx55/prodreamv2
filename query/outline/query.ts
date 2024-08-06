@@ -4,6 +4,7 @@ import { MaterialListRes } from '@/types/brainstorm/types';
 import { Prompt } from '@/types/outline/types';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
+import { useState } from 'react';
 
 export const useGetMaterials = (keyword: string, page: number) => {
   return useQuery<MaterialListRes>({
@@ -82,8 +83,10 @@ export const useDownloadOutline = () => {
 };
 
 export const useCreateOutline = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleStream = async (body: ReadableStream<Uint8Array>) => {
     const reader = body.pipeThrough(new TextDecoderStream()).getReader();
+    setIsSubmitting(false);
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
@@ -92,7 +95,7 @@ export const useCreateOutline = () => {
     }
   };
 
-  return useMutation({
+  const { mutateAsync, status } = useMutation({
     mutationFn: async (params: {
       title: string;
       material_ids: string[];
@@ -125,5 +128,9 @@ export const useCreateOutline = () => {
       toast.error(error.message);
     },
     onSuccess: handleStream,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
   });
+  return { mutateAsync, isSubmitting, status };
 };
