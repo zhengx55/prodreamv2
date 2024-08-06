@@ -1,3 +1,4 @@
+import { useOutline } from '@/zustand/store';
 import Document from '@tiptap/extension-document';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
@@ -8,6 +9,8 @@ const CustomDocument = Document.extend({
 });
 
 export default function useOutlineEditor() {
+  const setEditor = useOutline((state) => state.setEditor);
+  const clearStore = useOutline((state) => state.clearStore);
   return useEditor({
     extensions: [
       CustomDocument,
@@ -38,9 +41,17 @@ export default function useOutlineEditor() {
         autocomplete: 'off',
         autocorrect: 'off',
         autocapitalize: 'off',
+        spellcheck: 'false',
         class: 'min-h-full prose prose-p:my-2 prose-base focus:outline-none',
       },
     },
     content: '<h1>Enter Title</h1><p>Enter Content</p>',
+    onCreate: ({ editor }) => {
+      editor.commands.focus();
+      setEditor(editor as any);
+    },
+    onDestroy: () => {
+      clearStore();
+    },
   });
 }

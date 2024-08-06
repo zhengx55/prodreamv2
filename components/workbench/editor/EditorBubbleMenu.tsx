@@ -1,5 +1,4 @@
 import Icon from '@/components/root/Icon';
-import { Button } from '@/components/ui/button';
 import { useTextmenuCommands } from '@/components/workbench/editor/hooks/useTextMenuCommand';
 import * as Popover from '@radix-ui/react-popover';
 import { BubbleMenu, Editor } from '@tiptap/react';
@@ -37,7 +36,7 @@ const EditorBubbleMenu = ({ editor }: Props) => {
       className='flex size-max items-center gap-x-2 rounded-lg border border-gray-300 bg-white p-1 shadow'
       tippyOptions={{ duration: 100 }}
     >
-      <Button variant={'icon'}>
+      <MemoButton>
         <Icon
           alt=''
           src='/editor/stars.svg'
@@ -46,7 +45,7 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           className='size-[18px]'
         />
         <span className='text-indigo-500'>AI Copilot</span>
-      </Button>
+      </MemoButton>
       <Toolbar.Divider />
       <ContentTypePicker options={blockOptions} />
       <MemoButton
