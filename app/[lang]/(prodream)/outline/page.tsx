@@ -3,19 +3,31 @@ import ChatBar from '@/components/workbench/chat_bar/ChatBar';
 import SearchSection from '@/components/workbench/common/SearchSection';
 import OutlineSection from '@/components/workbench/outline/OutlineSection';
 import { PAGESIZE } from '@/constant/enum';
-import { getUserIdFromToken } from '@/lib/utils';
-import { EssaysRes } from '@/types/outline/types';
+import { OutlineRes, Prompt } from '@/types/outline/types';
 import { PlusCircle } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 
-async function getEssays(
+async function getPromptsData(token: string): Promise<Prompt[]> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}/prompt?page=0&page_size=10`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const data = await res.json();
+  return data.data;
+}
+
+async function getOutlines(
   page: number,
   keyword: string,
   token: string
-): Promise<EssaysRes> {
-  const user_id = getUserIdFromToken(token);
+): Promise<OutlineRes> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}outline?page=${page}&page_size=${PAGESIZE.MATERIAL_PAGE_SIZE}&keyword=${keyword}`,
     {
@@ -38,7 +50,8 @@ export default async function Page({
   const page = searchParams.page ? parseInt(searchParams.page as string) : 0;
   const keyword = searchParams.query ? (searchParams.query as string) : '';
   const token = cookies().get('token')?.value;
-  const data = await getEssays(page, keyword, token!);
+  const data = await getOutlines(page, keyword, token!);
+  const prompts = await getPromptsData(token!);
   return (
     <section className='flex flex-1 gap-x-2 overflow-y-hidden px-2 pb-2'>
       <div className='flex flex-1 flex-col rounded-lg bg-white'>
@@ -62,7 +75,11 @@ export default async function Page({
             </Link>
           </SearchSection>
         </div>
-        <OutlineSection pageCount={data.total_page_count} list={data.data} />
+        <OutlineSection
+          prompts={prompts}
+          pageCount={data.total_page_count}
+          list={data.data}
+        />
       </div>
       <ChatBar />
     </section>
