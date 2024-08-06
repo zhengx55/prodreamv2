@@ -80,3 +80,50 @@ export const useDownloadOutline = () => {
     },
   });
 };
+
+export const useCreateOutline = () => {
+  const handleStream = async (body: ReadableStream<Uint8Array>) => {
+    const reader = body.pipeThrough(new TextDecoderStream()).getReader();
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      const lines = value.split('\n');
+      console.log(lines);
+    }
+  };
+
+  return useMutation({
+    mutationFn: async (params: {
+      title: string;
+      material_ids: string[];
+      prompt_id: string;
+      connect_ideas?: string;
+    }) => {
+      const token = Cookies.get('token');
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}outline`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(params),
+        }
+      );
+      if (!res.ok) {
+        throw new Error('An error occurred while sending the message');
+      }
+      const body = res.body;
+      if (!body) {
+        throw new Error('An error occurred while sending the message');
+      }
+      return body;
+    },
+    onError: async (error) => {
+      const { toast } = await import('sonner');
+      toast.error(error.message);
+    },
+    onSuccess: handleStream,
+  });
+};

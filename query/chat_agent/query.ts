@@ -71,7 +71,6 @@ export const useAgentChat = (storeType: StoreTypes) => {
     let optionId = '';
 
     const processLine = (line: string, previousLine: string | undefined) => {
-      console.log(line);
       if (isNewAgentMessage) {
         agentMessageId = v4();
         addAgentMessage(agentMessageId, storeType, '');

@@ -5,8 +5,8 @@ export type MaterialItem = {
   title: string;
   content: string;
   deleted: boolean;
-  create_time: string;
-  update_time: string;
+  create_time: number;
+  update_time: number;
   theme: ThemeType;
 };
 

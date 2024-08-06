@@ -34,6 +34,7 @@ const GenerateBtn = ({ handleGenerate, type, t }: Props) => {
     </div>
   );
 };
+
 const Btn = forwardRef<
   HTMLButtonElement,
   {

@@ -117,18 +117,16 @@ export function findSwappedElements(
   }
 }
 
-export function formatTimestamphh(timestampString: string) {
+export function formatTimestamphh(timestamp: number) {
   const currentLocalTime = new Date();
-  const utcTimeString = currentLocalTime
-    .toISOString()
-    .replace('T', ' ')
-    .slice(0, 19);
-
-  const targetTimestamp = new Date(timestampString).getTime();
-  const differenceInMilliseconds =
-    new Date(utcTimeString).getTime() - targetTimestamp;
+  const currentTimestamp = currentLocalTime.getTime();
+  const differenceInMilliseconds = currentTimestamp - timestamp * 1000;
   const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
-
+  const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
+  if (differenceInMinutes < 60) {
+    const minutesAgo = Math.floor(differenceInMinutes);
+    return `${minutesAgo} minutes ago`;
+  }
   if (differenceInHours < 24) {
     const hoursAgo = Math.floor(differenceInHours);
     return `${hoursAgo} hours ago`;

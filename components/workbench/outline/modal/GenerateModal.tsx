@@ -21,7 +21,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useGetMaterials, useGetPrompts } from '@/query/outline/query';
+import {
+  useCreateOutline,
+  useGetMaterials,
+  useGetPrompts,
+} from '@/query/outline/query';
 import { Loader2, SearchIcon } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
@@ -101,7 +105,7 @@ const MaterialPagination = memo(
   )
 );
 
-const GenerateModal = () => {
+const GenerateModal = ({ close }: { close: () => void }) => {
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState('');
   const debounced = useDebouncedCallback((value) => {
@@ -112,7 +116,16 @@ const GenerateModal = () => {
     page
   );
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
-  const { data: prompts, isLoading: promptLoading } = useGetPrompts();
+  const [selectedPrompt, setSelectedPrompt] = useState<string>('');
+  const { data: prompts } = useGetPrompts();
+  const { mutateAsync: create, status } = useCreateOutline();
+  const handleSubmit = async () => {
+    await create({
+      prompt_id: selectedPrompt,
+      title: 'Untitled',
+      material_ids: selectedMaterials,
+    });
+  };
 
   return (
     <DialogContent
@@ -125,7 +138,7 @@ const GenerateModal = () => {
       <Spacer y='8' />
       <div className='relative w-[856px] self-end rounded-lg bg-slate-100 p-2'>
         <span className='absolute -left-8 top-0 h-[70px] w-0 border border-dashed border-indigo-100' />
-        <Select>
+        <Select value={selectedPrompt} onValueChange={setSelectedPrompt}>
           <SelectTrigger className='h-11 bg-white'>
             <SelectValue placeholder='Select a prompt' />
           </SelectTrigger>
@@ -205,7 +218,16 @@ const GenerateModal = () => {
             Cancel
           </Button>
         </DialogClose>
-        <Button type='submit' role='button' className='px-8'>
+        <Button
+          disabled={
+            !selectedPrompt ||
+            selectedMaterials.length < 1 ||
+            status === 'pending'
+          }
+          onClick={handleSubmit}
+          role='button'
+          className='px-8'
+        >
           Create
         </Button>
       </div>

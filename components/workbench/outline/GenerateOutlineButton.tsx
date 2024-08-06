@@ -11,6 +11,7 @@ const GenerateModal = dynamic(() => import('./modal/GenerateModal'), {
 
 const GenerateButton = () => {
   const [show, setShow] = useState(false);
+  const closeModal = () => setShow(false);
   return (
     <Dialog open={show} onOpenChange={setShow}>
       <DialogTrigger asChild>
@@ -26,7 +27,7 @@ const GenerateButton = () => {
           Generate Outline
         </Button>
       </DialogTrigger>
-      <GenerateModal />
+      <GenerateModal close={closeModal} />
     </Dialog>
   );
 };
