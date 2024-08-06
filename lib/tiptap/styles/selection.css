@@ -1,6 +1,0 @@
-.ProseMirror {
-  .selection,
-  *::selection {
-    @apply bg-[#D4D7FF];
-  }
-}

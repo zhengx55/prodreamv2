@@ -7,6 +7,7 @@ import Menu from '../common/Menu';
 type Props = { item: OutlineItem; prompts: Prompt[] };
 
 const OutlineGridItem = ({ item, prompts }: Props) => {
+  console.log('🚀 ~ OutlineGridItem ~ item:', item);
   const lastOpenTime = useMemo(
     () => formatTimestamphh(item.update_time),
     [item.update_time]
