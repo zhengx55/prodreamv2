@@ -10,9 +10,7 @@ const TableOfContents = dynamic(
   () => import('./table-of-contents/TableOfContents')
 );
 const EditorBlock = dynamic(() => import('./EditorBlock'));
-const PaymentModal = dynamic(() => import('@/components/pricing/Modal'), {
-  ssr: false,
-});
+
 const PromptView = dynamic(() => import('./modal/Prompt'), { ssr: false });
 
 const Editor = ({
@@ -27,7 +25,6 @@ const Editor = ({
       <div className='flex h-full w-full'>
         <TableOfContents editor={editor} />
         <EditorBlock {...props} editor={editor} />
-        <PaymentModal />
         <PromptView show={isNew} />
       </div>
       <AnimatePresence>
