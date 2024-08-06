@@ -1,8 +1,8 @@
 import { ButtonHTMLAttributes, HTMLProps, forwardRef } from 'react';
 
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Surface } from '../../ui/surface';
-import { Button, ButtonProps } from './Button';
 import Tooltip from './Tooltip';
 
 export type ToolbarWrapperProps = {
@@ -64,35 +64,17 @@ export type ToolbarButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   activeClassname?: string;
   tooltip?: string;
   tooltipShortcut?: string[];
-  buttonSize?: ButtonProps['buttonSize'];
-  variant?: ButtonProps['variant'];
 };
 
 const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
   (
-    {
-      children,
-      buttonSize = 'icon',
-      variant = 'ghost',
-      className,
-      tooltip,
-      tooltipShortcut,
-      activeClassname,
-      ...rest
-    },
+    { children, className, tooltip, tooltipShortcut, activeClassname, ...rest },
     ref
   ) => {
     const buttonClass = cn('gap-1 min-w-[2rem] px-1 w-auto', className);
 
     const content = (
-      <Button
-        activeClassname={activeClassname}
-        className={buttonClass}
-        variant={variant}
-        buttonSize={buttonSize}
-        ref={ref}
-        {...rest}
-      >
+      <Button className={buttonClass} variant={'icon'} ref={ref} {...rest}>
         {children}
       </Button>
     );
