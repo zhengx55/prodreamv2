@@ -7,10 +7,11 @@ import { Button } from '@/components/ui/button';
 import { MaterialItem } from '@/types/brainstorm/types';
 import dynamic from 'next/dynamic';
 import { memo, useCallback, useState } from 'react';
+import Pagination from '../common/Pagination';
 import MaterialGrid from './MaterialGrid';
-import MaterialList from './MaterialList';
+const MaterialList = dynamic(() => import('./MaterialList'));
 const Empty = dynamic(() => import('../common/Empty'));
-const Pagination = dynamic(() => import('../common/Pagination'));
+
 type Props = {
   pageCount: number;
   list: MaterialItem[];

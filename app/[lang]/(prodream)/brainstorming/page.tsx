@@ -18,7 +18,7 @@ async function getMaterials(
 ): Promise<MaterialListRes> {
   const user_id = getUserIdFromToken(token);
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}${user_id}/material?page=${page}&page_size=${PAGESIZE.MATERIAL_PAGE_SIZE}&keyword=${keyword}`,
+    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material?page=${page}&page_size=${PAGESIZE.MATERIAL_PAGE_SIZE}&keyword=${keyword}`,
     {
       next: { tags: ['materials'] },
       method: 'GET',

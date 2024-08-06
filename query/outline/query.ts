@@ -13,7 +13,7 @@ export const useGetMaterials = (keyword: string, page: number) => {
       const token = Cookies.get('token');
       const user_id = getUserIdFromToken(token!);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}${user_id}/material?page=${page}&page_size=${PAGESIZE.MATERIAL_MODAL_PAGE_SIZE}&keyword=${keyword}`,
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material?page=${page}&page_size=${PAGESIZE.MATERIAL_MODAL_PAGE_SIZE}&keyword=${keyword}`,
         {
           method: 'GET',
           headers: {

@@ -17,7 +17,7 @@ async function getEssays(
 ): Promise<EssaysRes> {
   const user_id = getUserIdFromToken(token);
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}${user_id}/essay?page=${page}&page_size=${PAGESIZE.MATERIAL_PAGE_SIZE}&keyword=${keyword}`,
+    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}outline?page=${page}&page_size=${PAGESIZE.MATERIAL_PAGE_SIZE}&keyword=${keyword}`,
     {
       next: { tags: ['outlines'] },
       method: 'GET',
