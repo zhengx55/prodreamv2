@@ -21,7 +21,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useGetMaterials, useGetPrompts } from '@/query/outline/query';
+import {
+  useCreateOutline,
+  useGetMaterials,
+  useGetPrompts,
+} from '@/query/outline/query';
 import { Loader2, SearchIcon } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
@@ -37,7 +41,7 @@ const Step = memo(({ number, title }: { number: number; title: string }) => (
   </div>
 ));
 
-const MaterialCard = memo(
+export const MaterialCard = memo(
   ({
     id,
     title,
@@ -55,7 +59,7 @@ const MaterialCard = memo(
       key={id}
       role='button'
       onClick={() => onSelect(id)}
-      className={`${isSelected ? 'border-indigo-500' : 'border-transparent'} flex h-[138px] w-full cursor-pointer flex-col rounded-lg border bg-white px-4 py-2.5 hover:opacity-70`}
+      className={`${isSelected ? 'border-indigo-500' : 'border-zinc-200'} flex h-[138px] w-full cursor-pointer flex-col rounded-lg border bg-white px-4 py-2.5 hover:opacity-70`}
     >
       <div className='flex-between'>
         <h3 className='base-semibold line-clamp-1 max-w-[60%] text-zinc-800'>
@@ -71,7 +75,7 @@ const MaterialCard = memo(
   )
 );
 
-const MaterialPagination = memo(
+export const MaterialPagination = memo(
   ({
     page,
     setPage,
@@ -101,7 +105,7 @@ const MaterialPagination = memo(
   )
 );
 
-const GenerateModal = () => {
+const GenerateModal = ({ close }: { close: () => void }) => {
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState('');
   const debounced = useDebouncedCallback((value) => {
@@ -112,7 +116,17 @@ const GenerateModal = () => {
     page
   );
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
-  const { data: prompts, isLoading: promptLoading } = useGetPrompts();
+  const [selectedPrompt, setSelectedPrompt] = useState<string>('');
+  const { data: prompts } = useGetPrompts();
+  const { mutateAsync: create, isSubmitting } = useCreateOutline(close);
+  const handleSubmit = async () => {
+    await create({
+      prompt_id: selectedPrompt,
+      title: 'Untitled',
+      material_ids: selectedMaterials,
+    });
+    close();
+  };
 
   return (
     <DialogContent
@@ -125,7 +139,7 @@ const GenerateModal = () => {
       <Spacer y='8' />
       <div className='relative w-[856px] self-end rounded-lg bg-slate-100 p-2'>
         <span className='absolute -left-8 top-0 h-[70px] w-0 border border-dashed border-indigo-100' />
-        <Select>
+        <Select value={selectedPrompt} onValueChange={setSelectedPrompt}>
           <SelectTrigger className='h-11 bg-white'>
             <SelectValue placeholder='Select a prompt' />
           </SelectTrigger>
@@ -205,8 +219,15 @@ const GenerateModal = () => {
             Cancel
           </Button>
         </DialogClose>
-        <Button type='submit' role='button' className='px-8'>
-          Create
+        <Button
+          disabled={
+            !selectedPrompt || selectedMaterials.length < 1 || isSubmitting
+          }
+          onClick={handleSubmit}
+          role='button'
+          className='px-8'
+        >
+          {isSubmitting ? 'Creating Outline' : `Create`}
         </Button>
       </div>
     </DialogContent>

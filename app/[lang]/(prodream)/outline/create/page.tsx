@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import ChatBar from '@/components/workbench/chat_bar/ChatBar';
 import GenerateOutlineSidebar from '@/components/workbench/outline/GenerateOutlineSidebar';
 import OutlineContent from '@/components/workbench/outline/OutlineContent';
-import { Download } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Page() {
@@ -25,22 +24,6 @@ export default function Page() {
               </Link>
             </Button>
             <h2 className='text-xl font-medium text-zinc-600'>Add Outline</h2>
-          </div>
-          <div className='flex items-center gap-x-2'>
-            <Button role='button' variant={'icon'} className='size-max p-1'>
-              <Download size={18} />
-            </Button>
-            <Button role='button'>
-              <Icon
-                alt='draft'
-                src='/workbench/draft.svg'
-                width={20}
-                height={20}
-                className='size-4'
-                priority
-              />
-              Generate Draft
-            </Button>
           </div>
         </div>
         <div className='flex flex-1 overflow-hidden'>

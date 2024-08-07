@@ -6,7 +6,10 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useCallback, useState } from 'react';
 
-const ChatMessageList = dynamic(() => import('./ChatMessageList'));
+const ChatMessageList = dynamic(() => import('./ChatMessageList'), {
+  ssr: false,
+  loading: () => <div className='flex-1' />,
+});
 const ChatFooter = dynamic(() => import('./ChatFooter'));
 
 const ChatBar = () => {

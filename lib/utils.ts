@@ -117,18 +117,16 @@ export function findSwappedElements(
   }
 }
 
-export function formatTimestamphh(timestampString: string) {
+export function formatTimestamphh(timestamp: number) {
   const currentLocalTime = new Date();
-  const utcTimeString = currentLocalTime
-    .toISOString()
-    .replace('T', ' ')
-    .slice(0, 19);
-
-  const targetTimestamp = new Date(timestampString).getTime();
-  const differenceInMilliseconds =
-    new Date(utcTimeString).getTime() - targetTimestamp;
+  const currentTimestamp = currentLocalTime.getTime();
+  const differenceInMilliseconds = currentTimestamp - timestamp * 1000;
   const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
-
+  const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
+  if (differenceInMinutes < 60) {
+    const minutesAgo = Math.floor(differenceInMinutes);
+    return `${minutesAgo} minutes ago`;
+  }
   if (differenceInHours < 24) {
     const hoursAgo = Math.floor(differenceInHours);
     return `${hoursAgo} hours ago`;
@@ -179,66 +177,6 @@ export function addRandomToDuplicates(array: string[]) {
   }
 
   return newArray;
-}
-
-export function formatTimestampToDateString(
-  timestamp: number,
-  times = true,
-  monthNames: string[] = [
-    'Jan.',
-    'Feb.',
-    'Mar.',
-    'Apr.',
-    'May',
-    'Jun.',
-    'Jul.',
-    'Aug.',
-    'Sep.',
-    'Oct.',
-    'Nov.',
-    'Dec.',
-  ]
-) {
-  const date = new Date(timestamp * 1000);
-
-  const month = [date.getMonth()];
-  const day = date.getDate();
-  const year = date.getFullYear();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-  if (times) {
-    return `${month} ${day}, ${year} ${hours}:${minutes}:${seconds}`;
-  } else return `${month} ${day}, ${year}`;
-}
-
-export function format_table_time(timestamp: number) {
-  const date = new Date(timestamp * 1000);
-
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  const year = date.getFullYear();
-
-  return `${month}-${day}-${year}`;
-}
-
-export function format_hour_diff(
-  timestamp: number,
-  trans: (key: string, params: { [key: string]: any }) => string
-) {
-  const currentTimestamp = Date.now();
-  const givenTimestamp = timestamp * 1000;
-  const timeDifference = givenTimestamp - currentTimestamp;
-  const hourDifference = timeDifference / (1000 * 60 * 60);
-
-  if (hourDifference < 1) {
-    const minuteDifference = timeDifference / (1000 * 60);
-    return trans('TimesAgo.Minutes_Ago', {
-      minutes: Math.ceil(minuteDifference),
-    });
-  } else {
-    return trans('TimesAgo.Hours_Ago', { hours: Math.ceil(hourDifference) });
-  }
 }
 
 export function removeHtmlTags(input: string): string {

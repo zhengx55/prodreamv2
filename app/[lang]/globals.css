@@ -134,26 +134,10 @@
     @apply flex flex-col items-start gap-y-2;
   }
 
-  .tool {
-    @apply small-semibold flex cursor-pointer items-center gap-x-1 rounded-[4px] bg-transparent p-1 hover:bg-gray-200 disabled:pointer-events-none disabled:opacity-20;
-  }
 
-  .common-container {
-    @apply flex flex-1 flex-col items-center gap-10 overflow-scroll px-5 py-10 md:px-8 lg:p-14;
-  }
+
 }
 
-:root {
-  --top-nav-bar-height: 3.5rem;
-}
-
-.bulletpoints::before {
-  content: '2022';
-  margin-right: 10px;
-  color: #333;
-  font-weight: bold;
-  display: block;
-}
 
 .custom-popover-content {
   background-color: rgba(255, 255, 255, 0.4);
@@ -184,26 +168,6 @@
 }
 
 
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.shadow-error {
-  box-shadow: 0 0 10px 4px rgba(255, 0, 0, 0.2);
-}
-
 @keyframes twinkle {
 
   0%,
@@ -220,13 +184,40 @@
   animation: twinkle 1.5s infinite ease-in-out;
 }
 
-@layer utilities {
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+.ProseMirror {
+
+  p.empty-node:nth-child(2):before,
+  .empty-node:first-child::before {
+    color: #E7E7E8;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
   }
 
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .bubble-menu {
+    background-color: var(--white);
+    border: 1px solid var(--gray-1);
+    border-radius: 0.7rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    padding: 0.2rem;
+
+    button {
+      background-color: unset;
+
+      &:hover {
+        background-color: var(--gray-3);
+      }
+
+      &.is-active {
+        background-color: var(--purple);
+
+        &:hover {
+          background-color: var(--purple-contrast);
+        }
+      }
+    }
   }
+
 }

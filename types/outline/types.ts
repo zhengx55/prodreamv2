@@ -1,19 +1,19 @@
-export type EssayItem = {
-  id: string;
+export type OutlineItem = {
+  create_time: number; // Unix timestamp
+  update_time: number; // Unix timestamp
   user_id: string;
-  student_id: string;
+  material_ids: string[];
   prompt_id: string;
-  material_ids: [string];
   title: string;
-  results: [string];
-  state: string;
-  deleted: true;
-  create_time: string;
-  update_time: string;
+  content: string;
+  connect_idea: string | null;
+  id: string;
+  status: number;
+  html: string;
 };
 
-export type EssaysRes = {
-  data: [EssayItem];
+export type OutlineRes = {
+  data: [OutlineItem];
   total_page_count: number;
 };
 

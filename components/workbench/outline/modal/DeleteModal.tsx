@@ -11,12 +11,12 @@ import { Button } from '@/components/ui/button';
 import { Info, Loader2, X } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { memo } from 'react';
-import { deleteMaterial } from '../../brainstorming/server_actions/actions';
+import { deleteOutline } from '../server_actions/actions';
 
 type Props = { id: string; setShow: () => void };
 
 const DeleteModal = ({ id, setShow }: Props) => {
-  const { execute, isExecuting } = useAction(deleteMaterial, {
+  const { execute, isExecuting } = useAction(deleteOutline.bind(null, id), {
     onError: async () => {
       const { toast } = await import('sonner');
       toast.error('Failed to delete material');
@@ -59,7 +59,7 @@ const DeleteModal = ({ id, setShow }: Props) => {
           disabled={isExecuting}
           onClick={(e) => {
             e.preventDefault();
-            execute({ material_id: id });
+            execute();
           }}
         >
           {isExecuting ? (

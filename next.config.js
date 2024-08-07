@@ -6,6 +6,19 @@ const withNextIntl = require('next-intl/plugin')();
 const withPlugins = require('next-compose-plugins');
 
 const nextConfig = {
+  headers: async () => {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+        ],
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
@@ -26,7 +39,6 @@ const nextConfig = {
   reactStrictMode: false,
   output: 'standalone',
   compress: true,
-  // poweredByHeader: false,
 };
 
 module.exports = withPlugins([withBundleAnalyzer, withNextIntl], nextConfig);

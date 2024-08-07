@@ -1,15 +1,22 @@
+'use client';
+import { OutlineItem } from '@/types/outline/types';
+import dynamic from 'next/dynamic';
 import { memo } from 'react';
+const EditorBlock = dynamic(() => import('../editor/EditorBlock'), {
+  ssr: false,
+});
 
-type Props = {};
+const GeneratingBar = dynamic(() => import('./GeneratingBar'), { ssr: false });
 
-const OutlineContent = (props: Props) => {
+type Props = {
+  data?: OutlineItem;
+};
+
+const OutlineContent = ({ data }: Props) => {
   return (
-    <div className='flex-center flex-1 bg-slate-100 pt-6'>
-      <div className='h-full w-[80%] overflow-y-auto bg-white px-8 py-6'>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos excepturi
-        enim quibusdam, ipsum hic autem a eum harum natus reprehenderit ducimus
-        veniam voluptatem ea pariatur quas fuga incidunt velit cumque.
-      </div>
+    <div className='flex-center relative flex-1 bg-slate-100 pt-6'>
+      <EditorBlock data={data} />
+      <GeneratingBar />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 'use client';
-import ReactTyped from 'react-typed';
 import { useTranslations } from 'next-intl';
+import { ReactTyped } from 'react-typed';
 import Spacer from '../root/Spacer';
 
 const TypeTitle = () => {

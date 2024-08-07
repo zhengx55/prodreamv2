@@ -6,61 +6,20 @@ import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
 import { MaterialItem } from '@/types/brainstorm/types';
 import dynamic from 'next/dynamic';
-import { memo, useCallback, useState } from 'react';
+import { memo } from 'react';
+import Pagination from '../common/Pagination';
+import useViewType from '../hooks/useViewTypes';
 import MaterialGrid from './MaterialGrid';
-import MaterialList from './MaterialList';
+const MaterialList = dynamic(() => import('./MaterialList'));
 const Empty = dynamic(() => import('../common/Empty'));
-const Pagination = dynamic(() => import('../common/Pagination'));
+
 type Props = {
   pageCount: number;
   list: MaterialItem[];
 };
 
 const MaterialSection = ({ list, pageCount }: Props) => {
-  const [viewType, setViewType] = useState<'list' | 'grid'>('grid');
-
-  const handleViewChange = useCallback((type: 'list' | 'grid') => {
-    setViewType(type);
-  }, []);
-
-  const renderViewToggleButton = useCallback(() => {
-    return viewType === 'grid' ? (
-      <Tooltip tooltipContent='List View'>
-        <Button
-          role='button'
-          onClick={() => handleViewChange('list')}
-          className='size-max p-1'
-          variant={'icon'}
-        >
-          <Icon
-            alt='list'
-            src='/workbench/list_view.svg'
-            width={20}
-            priority
-            className='size-4'
-            height={20}
-          />
-        </Button>
-      </Tooltip>
-    ) : (
-      <Tooltip tooltipContent='Grid View'>
-        <Button
-          onClick={() => handleViewChange('grid')}
-          role='button'
-          className='size-max p-1'
-          variant={'icon'}
-        >
-          <Icon
-            alt='grid'
-            src='/workbench/grid_view.svg'
-            width={20}
-            className='size-4'
-            height={20}
-          />
-        </Button>
-      </Tooltip>
-    );
-  }, [viewType, handleViewChange]);
+  const { viewType, renderViewToggleButton } = useViewType();
 
   return (
     <>

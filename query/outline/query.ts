@@ -1,9 +1,18 @@
+import { revalidateOutlines } from '@/components/workbench/outline/server_actions/actions';
 import { PAGESIZE } from '@/constant/enum';
 import { getUserIdFromToken } from '@/lib/utils';
-import { MaterialListRes } from '@/types/brainstorm/types';
+import { MaterialItem, MaterialListRes } from '@/types/brainstorm/types';
 import { Prompt } from '@/types/outline/types';
-import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
+import { useEditor, useOutline } from '@/zustand/store';
+import {
+  keepPreviousData,
+  useMutation,
+  useQueries,
+  useQuery,
+} from '@tanstack/react-query';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export const useGetMaterials = (keyword: string, page: number) => {
   return useQuery<MaterialListRes>({
@@ -13,7 +22,7 @@ export const useGetMaterials = (keyword: string, page: number) => {
       const token = Cookies.get('token');
       const user_id = getUserIdFromToken(token!);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}${user_id}/material?page=${page}&page_size=${PAGESIZE.MATERIAL_MODAL_PAGE_SIZE}&keyword=${keyword}`,
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material?page=${page}&page_size=${PAGESIZE.MATERIAL_MODAL_PAGE_SIZE}&keyword=${keyword}`,
         {
           method: 'GET',
           headers: {
@@ -25,6 +34,37 @@ export const useGetMaterials = (keyword: string, page: number) => {
       return data.data;
     },
     staleTime: Infinity,
+  });
+};
+
+export const useGetMaterialsByIds = (ids: string[]) => {
+  return useQueries({
+    queries: ids.map((id) => ({
+      queryKey: ['getMaterialById', id],
+      queryFn: async () => {
+        const token = Cookies.get('token');
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material/${id}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await res.json();
+        return data.data;
+      },
+      staleTime: Infinity,
+    })),
+
+    combine: (results) => {
+      return {
+        data: results.map((result) => result.data) as MaterialItem[],
+        isLoading: results.some((result) => result.isLoading),
+        isError: results.some((result) => result.isError),
+      };
+    },
   });
 };
 
@@ -79,4 +119,98 @@ export const useDownloadOutline = () => {
       toast.error('Failed to download outline');
     },
   });
+};
+
+export const useCreateOutline = (closeModal: () => void) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const editor = useEditor((state) => state.editor);
+  const { push } = useRouter();
+  const setOutlineGenerateing = useOutline(
+    (state) => state.setOutlineGenerateing
+  );
+  const handleStream = async (body: ReadableStream<Uint8Array>) => {
+    try {
+      const reader = body.pipeThrough(new TextDecoderStream()).getReader();
+      const { parse } = await import('marked');
+      let outline_result = '';
+      let generated_outline_id = '';
+      editor?.commands.clearContent();
+      setIsSubmitting(false);
+      closeModal();
+      setOutlineGenerateing(true);
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        const lines = value.split('\n');
+        for (const [index, line] of lines.entries()) {
+          if (
+            line.startsWith('data:') &&
+            lines[index - 1]?.startsWith('event: data')
+          ) {
+            const data = line.slice(5).trim();
+            if (data) {
+              const parsedData = JSON.parse(data);
+              outline_result += parsedData;
+              editor?.commands.setContent(
+                `<h1>Untitled</h1> ${parse(outline_result)}`
+              );
+            }
+          } else if (
+            line.startsWith('data:') &&
+            lines[index - 1]?.startsWith('event: outline_id')
+          ) {
+            generated_outline_id = line.slice(5).trim();
+          }
+        }
+      }
+      await revalidateOutlines();
+      setOutlineGenerateing(false);
+      push(`/outline/${generated_outline_id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const mutation = useMutation({
+    mutationFn: async (params: {
+      title: string;
+      material_ids: string[];
+      prompt_id: string;
+      connect_ideas?: string;
+    }) => {
+      const token = Cookies.get('token');
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}outline`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(params),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error('An error occurred while sending the message');
+      }
+
+      const body = res.body;
+      if (!body) {
+        throw new Error('Response body is empty');
+      }
+
+      return body;
+    },
+    onError: async (error) => {
+      const { toast } = await import('sonner');
+      toast.error(error.message);
+    },
+    onSuccess: handleStream,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+  });
+
+  return { ...mutation, isSubmitting };
 };

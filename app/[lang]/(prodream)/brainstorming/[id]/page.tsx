@@ -5,6 +5,7 @@ import ChatBar from '@/components/workbench/chat_bar/ChatBar';
 import { MaterialItem, ThemeType } from '@/types/brainstorm/types';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+
 async function getMaterialDetails(
   id: string,
   token: string
@@ -24,7 +25,7 @@ async function getMaterialDetails(
 
 async function getThemesData(token: string): Promise<ThemeType[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material_themes?page=0&page_size=10`,
+    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material/themes?page=0&page_size=10`,
     {
       method: 'GET',
       headers: {
