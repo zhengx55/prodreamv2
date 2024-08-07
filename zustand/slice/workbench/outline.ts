@@ -1,27 +1,22 @@
-import { Editor } from '@tiptap/react';
 import { StateCreator } from 'zustand';
 
 type State = {
-  editor: Editor | null;
+  outlineGenerateing: boolean;
 };
 
 type Action = {
-  setEditor: (editor: Editor) => void;
-  clearStore: () => void;
+  setOutlineGenerateing: (outlineGenerateing: boolean) => void;
 };
 
 export type OutlineStore = State & Action;
 
 const initalState: State = {
-  editor: null,
+  outlineGenerateing: false,
 };
 
 export const useOutlineStore: StateCreator<OutlineStore> = (set, get) => ({
   ...initalState,
-  setEditor: (editor) => {
-    set({ editor });
-  },
-  clearStore: () => {
-    set(initalState);
+  setOutlineGenerateing: (outlineGenerateing) => {
+    set({ outlineGenerateing });
   },
 });

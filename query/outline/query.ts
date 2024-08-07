@@ -2,9 +2,10 @@ import { PAGESIZE } from '@/constant/enum';
 import { getUserIdFromToken } from '@/lib/utils';
 import { MaterialListRes } from '@/types/brainstorm/types';
 import { Prompt } from '@/types/outline/types';
-import { useOutline } from '@/zustand/store';
+import { useEditor, useOutline } from '@/zustand/store';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export const useGetMaterials = (keyword: string, page: number) => {
@@ -85,39 +86,55 @@ export const useDownloadOutline = () => {
 
 export const useCreateOutline = (closeModal: () => void) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const editor = useOutline((state) => state.editor);
+  const editor = useEditor((state) => state.editor);
+  const { push } = useRouter();
+  const setOutlineGenerateing = useOutline(
+    (state) => state.setOutlineGenerateing
+  );
   const handleStream = async (body: ReadableStream<Uint8Array>) => {
-    const reader = body.pipeThrough(new TextDecoderStream()).getReader();
-    setIsSubmitting(false);
-    closeModal();
-    const marked = await import('marked');
-    let outline_result = '';
-    editor?.commands.clearContent();
-    editor?.setEditable(false);
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) {
-        editor?.setEditable(true);
-        break;
-      }
-      const lines = value.split('\n');
-      lines.forEach((line, index) => {
-        const previousLine = lines[index - 1];
-        if (previousLine?.startsWith('event: data')) {
-          const data = line.slice(5);
-          if (data) {
-            const parsedData = JSON.parse(data);
-            outline_result += parsedData;
-            editor?.commands.setContent(
-              `<h1>Untitled</h1> ${marked.parse(outline_result)}`
-            );
+    try {
+      const reader = body.pipeThrough(new TextDecoderStream()).getReader();
+      const { parse } = await import('marked');
+      let outline_result = '';
+      let generated_outline_id = '';
+      editor?.commands.clearContent();
+      setIsSubmitting(false);
+      closeModal();
+      setOutlineGenerateing(true);
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        const lines = value.split('\n');
+        for (const [index, line] of lines.entries()) {
+          if (
+            line.startsWith('data:') &&
+            lines[index - 1]?.startsWith('event: data')
+          ) {
+            const data = line.slice(5).trim();
+            if (data) {
+              const parsedData = JSON.parse(data);
+              outline_result += parsedData;
+              editor?.commands.setContent(
+                `<h1>Untitled</h1> ${parse(outline_result)}`
+              );
+            }
+          } else if (
+            line.startsWith('data:') &&
+            lines[index - 1]?.startsWith('event: outline_id')
+          ) {
+            generated_outline_id = line.slice(5).trim();
           }
         }
-      });
+      }
+
+      setOutlineGenerateing(false);
+      push(`/outline/${generated_outline_id}`);
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  const { mutateAsync, status } = useMutation({
+  const mutation = useMutation({
     mutationFn: async (params: {
       title: string;
       material_ids: string[];
@@ -136,13 +153,16 @@ export const useCreateOutline = (closeModal: () => void) => {
           body: JSON.stringify(params),
         }
       );
+
       if (!res.ok) {
         throw new Error('An error occurred while sending the message');
       }
+
       const body = res.body;
       if (!body) {
-        throw new Error('An error occurred while sending the message');
+        throw new Error('Response body is empty');
       }
+
       return body;
     },
     onError: async (error) => {
@@ -154,5 +174,6 @@ export const useCreateOutline = (closeModal: () => void) => {
       setIsSubmitting(true);
     },
   });
-  return { mutateAsync, isSubmitting, status };
+
+  return { ...mutation, isSubmitting };
 };

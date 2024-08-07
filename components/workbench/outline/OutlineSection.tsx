@@ -7,13 +7,12 @@ import { Button } from '@/components/ui/button';
 import { OutlineItem, Prompt } from '@/types/outline/types';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
+import Pagination from '../common/Pagination';
 import useViewType from '../hooks/useViewTypes';
 import OutlineGrid from './OutlineGrid';
 import OutlineList from './OutlineList';
 
-const ListView = dynamic(() => import('./OutlineList'));
 const Empty = dynamic(() => import('../common/Empty'));
-const Pagination = dynamic(() => import('../common/Pagination'));
 
 type Props = {
   prompts: Prompt[];

@@ -4,14 +4,19 @@ import { memo } from 'react';
 const EditorBlock = dynamic(() => import('../editor/EditorBlock'), {
   ssr: false,
 });
+
+const GeneratingBar = dynamic(() => import('./GeneratingBar'), { ssr: false });
+
 type Props = {
   defaultHTML?: string;
+  defaultContent?: string;
 };
 
-const OutlineContent = ({ defaultHTML }: Props) => {
+const OutlineContent = ({ defaultHTML, defaultContent }: Props) => {
   return (
-    <div className='flex-center flex-1 bg-slate-100 pt-6'>
-      <EditorBlock defaultHTML={defaultHTML} />
+    <div className='flex-center relative flex-1 bg-slate-100 pt-6'>
+      <EditorBlock defaultHTML={defaultHTML} defaultContent={defaultContent} />
+      <GeneratingBar />
     </div>
   );
 };

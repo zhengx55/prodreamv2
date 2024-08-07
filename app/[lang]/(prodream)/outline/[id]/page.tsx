@@ -42,7 +42,6 @@ async function getPromptsData(token: string): Promise<Prompt[]> {
 export default async function Page({ params }: { params: { id: string } }) {
   const token = cookies().get('token')?.value;
   const data = await getOutlineDetails(params.id, token!);
-  console.log('🚀 ~ Page ~ data:', data);
   const prompts = await getPromptsData(token!);
 
   return (
@@ -83,7 +82,10 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
         <div className='flex flex-1 overflow-hidden'>
           <RegenerateOutlineSidebar prompts={prompts} />
-          <OutlineContent defaultHTML={data.content} />
+          <OutlineContent
+            defaultHTML={data.html}
+            defaultContent={data.content}
+          />
         </div>
       </div>
       <ChatBar />

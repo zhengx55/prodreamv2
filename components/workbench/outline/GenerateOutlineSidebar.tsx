@@ -17,8 +17,8 @@ const Step = memo(
   }) => (
     <div className='space-y-2 rounded-lg bg-white p-2'>
       <div className='flex items-center gap-x-2'>
-        <div className={`flex-center size-7 rounded ${colorClass}`}>
-          {number}
+        <div className={`small-regular rounded px-2.5 py-1 ${colorClass}`}>
+          Step {number}
         </div>
         <h2 className='base-medium text-zinc-800'>{text}</h2>
       </div>
@@ -29,9 +29,7 @@ const Step = memo(
 
 const GenerateOutlineSidebar = () => {
   return (
-    <div className='flex h-full w-72 flex-col overflow-y-auto rounded-bl-lg border-r border-zinc-200 px-4 py-6'>
-      <GenerateOutlineButton />
-      <Spacer y='16' />
+    <div className='flex h-full w-[272px] flex-col justify-between overflow-y-auto rounded-bl-lg border-r border-zinc-200 p-2'>
       <div className='w-full rounded-[10px] bg-slate-100 p-2'>
         <Image
           priority
@@ -39,10 +37,11 @@ const GenerateOutlineSidebar = () => {
           width={250}
           height={250}
           alt='generate_outline'
-          className='h-auto w-[224px]'
+          className='mx-auto size-[180px]'
         />
         <p className='small-regular text-center text-zinc-600'>
-          Quickly Generate Your Personalized Outline
+          Quickly Generate Your
+          <br /> Personalized Outline
         </p>
         <Spacer y='16' />
         <Step
@@ -59,11 +58,15 @@ const GenerateOutlineSidebar = () => {
           description='Choose your personal experience materials. These materials will be used as sources to generate the outline.'
         />
         <Spacer y='16' />
+      </div>
+      <footer className='space-y-4'>
         <p className='small-regular text-center text-zinc-600'>
-          Click&nbsp;<span className='text-indigo-500'>Generate Outline</span>
+          Click&nbsp;
+          <strong className='text-indigo-500'>Generate Outline</strong>
           &nbsp;to quickly create your Outline!
         </p>
-      </div>
+        <GenerateOutlineButton />
+      </footer>
     </div>
   );
 };

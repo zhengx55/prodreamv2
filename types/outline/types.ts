@@ -9,6 +9,7 @@ export type OutlineItem = {
   connect_idea: string | null;
   id: string;
   status: number;
+  html: string;
 };
 
 export type OutlineRes = {
