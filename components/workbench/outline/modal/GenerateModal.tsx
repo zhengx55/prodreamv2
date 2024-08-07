@@ -41,7 +41,7 @@ const Step = memo(({ number, title }: { number: number; title: string }) => (
   </div>
 ));
 
-const MaterialCard = memo(
+export const MaterialCard = memo(
   ({
     id,
     title,
@@ -59,7 +59,7 @@ const MaterialCard = memo(
       key={id}
       role='button'
       onClick={() => onSelect(id)}
-      className={`${isSelected ? 'border-indigo-500' : 'border-transparent'} flex h-[138px] w-full cursor-pointer flex-col rounded-lg border bg-white px-4 py-2.5 hover:opacity-70`}
+      className={`${isSelected ? 'border-indigo-500' : 'border-zinc-200'} flex h-[138px] w-full cursor-pointer flex-col rounded-lg border bg-white px-4 py-2.5 hover:opacity-70`}
     >
       <div className='flex-between'>
         <h3 className='base-semibold line-clamp-1 max-w-[60%] text-zinc-800'>
@@ -75,7 +75,7 @@ const MaterialCard = memo(
   )
 );
 
-const MaterialPagination = memo(
+export const MaterialPagination = memo(
   ({
     page,
     setPage,

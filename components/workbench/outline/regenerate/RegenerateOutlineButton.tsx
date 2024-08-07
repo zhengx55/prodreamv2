@@ -1,10 +1,10 @@
 import Icon from '@/components/root/Icon';
+import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import dynamic from 'next/dynamic';
 import { memo, useState } from 'react';
 
-const RegenerateModal = dynamic(() => import('./modal/RegenerateModal'), {
+const RegenerateModal = dynamic(() => import('../modal/RegenerateModal'), {
   ssr: false,
 });
 
@@ -12,8 +12,8 @@ const RegenerateOutlineButton = () => {
   const [show, setShow] = useState(false);
   const closeModal = () => setShow(false);
   return (
-    <Dialog open={show} onOpenChange={setShow}>
-      <DialogTrigger asChild>
+    <AlertDialog open={show} onOpenChange={setShow}>
+      <AlertDialogTrigger asChild>
         <Button className='w-full'>
           <Icon
             alt='regenerate_outline'
@@ -25,9 +25,9 @@ const RegenerateOutlineButton = () => {
           />
           Regenerate Outline
         </Button>
-      </DialogTrigger>
+      </AlertDialogTrigger>
       <RegenerateModal close={closeModal} />
-    </Dialog>
+    </AlertDialog>
   );
 };
 

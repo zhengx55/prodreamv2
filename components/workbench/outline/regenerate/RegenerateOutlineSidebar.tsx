@@ -1,11 +1,12 @@
 'use client';
 
 import Spacer from '@/components/root/Spacer';
-import { Button } from '@/components/ui/button';
 import { useGetMaterialsByIds } from '@/query/outline/query';
 import { OutlineItem, Prompt } from '@/types/outline/types';
+import { Loader2 } from 'lucide-react';
 import { memo, useMemo } from 'react';
 import RegenerateOutlineButton from './RegenerateOutlineButton';
+import SelectOtherButton from './SelectOtherButton';
 
 type Props = { prompts: Prompt[]; data: OutlineItem };
 
@@ -31,14 +32,14 @@ const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
         <Spacer y='16' />
         <div className='flex items-center justify-between'>
           <h2 className='base-medium'>Materials</h2>
-          <Button variant={'ghost'} className='p-0'>
-            Select Other
-          </Button>
+          <SelectOtherButton prompts={prompts} />
         </div>
         <Spacer y='16' />
         <div className='flex flex-1 flex-col gap-y-1 overflow-y-auto'>
           {isLoading ? (
-            <span className='text-center text-zinc-600'>Loading...</span>
+            <span className='flex-center flex-1'>
+              <Loader2 className='animate-spin text-indigo-500' />
+            </span>
           ) : (
             selectedMaterials?.map((material) => (
               <div
