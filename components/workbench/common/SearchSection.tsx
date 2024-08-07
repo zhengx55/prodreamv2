@@ -19,7 +19,7 @@ const SearchSection = ({ searchParams, children }: Props) => {
       params.delete('query');
     }
     replace(`${pathName}?${params.toString()}`);
-  }, 200);
+  }, 100);
   const pathName = usePathname();
 
   return (

@@ -2,6 +2,7 @@ import { PAGESIZE } from '@/constant/enum';
 import { getUserIdFromToken } from '@/lib/utils';
 import { MaterialListRes } from '@/types/brainstorm/types';
 import { Prompt } from '@/types/outline/types';
+import { useOutline } from '@/zustand/store';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { useState } from 'react';
@@ -82,16 +83,37 @@ export const useDownloadOutline = () => {
   });
 };
 
-export const useCreateOutline = () => {
+export const useCreateOutline = (closeModal: () => void) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const editor = useOutline((state) => state.editor);
   const handleStream = async (body: ReadableStream<Uint8Array>) => {
     const reader = body.pipeThrough(new TextDecoderStream()).getReader();
     setIsSubmitting(false);
+    closeModal();
+    const marked = await import('marked');
+    let outline_result = '';
+    editor?.commands.clearContent();
+    editor?.setEditable(false);
     while (true) {
       const { value, done } = await reader.read();
-      if (done) break;
+      if (done) {
+        editor?.setEditable(true);
+        break;
+      }
       const lines = value.split('\n');
-      console.log(lines);
+      lines.forEach((line, index) => {
+        const previousLine = lines[index - 1];
+        if (previousLine?.startsWith('event: data')) {
+          const data = line.slice(5);
+          if (data) {
+            const parsedData = JSON.parse(data);
+            outline_result += parsedData;
+            editor?.commands.setContent(
+              `<h1>Untitled</h1> ${marked.parse(outline_result)}`
+            );
+          }
+        }
+      });
     }
   };
 

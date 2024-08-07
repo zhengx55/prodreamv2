@@ -1,8 +1,10 @@
 import { memo } from 'react';
 
-type Props = {};
+type Props = {
+  close: () => void;
+};
 
-const RegenerateModal = (props: Props) => {
+const RegenerateModal = ({ close }: Props) => {
   return <div>RegenerateModal</div>;
 };
 

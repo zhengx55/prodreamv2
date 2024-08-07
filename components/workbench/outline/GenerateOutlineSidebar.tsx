@@ -3,24 +3,28 @@ import Image from 'next/image';
 import { memo } from 'react';
 import GenerateOutlineButton from './GenerateOutlineButton';
 
-const Step = ({
-  number,
-  colorClass,
-  text,
-  description,
-}: {
-  number: number;
-  colorClass: string;
-  text: string;
-  description: string;
-}) => (
-  <div className='space-y-2 rounded-lg bg-white p-2'>
-    <div className='flex items-center gap-x-2'>
-      <div className={`flex-center size-7 rounded ${colorClass}`}>{number}</div>
-      <h2 className='base-medium text-zinc-800'>{text}</h2>
+const Step = memo(
+  ({
+    number,
+    colorClass,
+    text,
+    description,
+  }: {
+    number: number;
+    colorClass: string;
+    text: string;
+    description: string;
+  }) => (
+    <div className='space-y-2 rounded-lg bg-white p-2'>
+      <div className='flex items-center gap-x-2'>
+        <div className={`flex-center size-7 rounded ${colorClass}`}>
+          {number}
+        </div>
+        <h2 className='base-medium text-zinc-800'>{text}</h2>
+      </div>
+      <p className='text-sm leading-relaxed text-zinc-600'>{description}</p>
     </div>
-    <p className='text-sm leading-relaxed text-zinc-600'>{description}</p>
-  </div>
+  )
 );
 
 const GenerateOutlineSidebar = () => {

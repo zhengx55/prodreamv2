@@ -118,13 +118,14 @@ const GenerateModal = ({ close }: { close: () => void }) => {
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [selectedPrompt, setSelectedPrompt] = useState<string>('');
   const { data: prompts } = useGetPrompts();
-  const { mutateAsync: create, status } = useCreateOutline();
+  const { mutateAsync: create, status, isSubmitting } = useCreateOutline(close);
   const handleSubmit = async () => {
     await create({
       prompt_id: selectedPrompt,
       title: 'Untitled',
       material_ids: selectedMaterials,
     });
+    close();
   };
 
   return (
@@ -220,15 +221,13 @@ const GenerateModal = ({ close }: { close: () => void }) => {
         </DialogClose>
         <Button
           disabled={
-            !selectedPrompt ||
-            selectedMaterials.length < 1 ||
-            status === 'pending'
+            !selectedPrompt || selectedMaterials.length < 1 || isSubmitting
           }
           onClick={handleSubmit}
           role='button'
           className='px-8'
         >
-          Create
+          {isSubmitting ? 'Creating Outline' : `Create`}
         </Button>
       </div>
     </DialogContent>

@@ -5,6 +5,7 @@ import ChatBar from '@/components/workbench/chat_bar/ChatBar';
 import { MaterialItem, ThemeType } from '@/types/brainstorm/types';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+
 async function getMaterialDetails(
   id: string,
   token: string

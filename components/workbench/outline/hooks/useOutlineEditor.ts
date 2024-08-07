@@ -8,7 +8,7 @@ const CustomDocument = Document.extend({
   content: 'heading block*',
 });
 
-export default function useOutlineEditor() {
+export default function useOutlineEditor(defaultContent?: string) {
   const setEditor = useOutline((state) => state.setEditor);
   const clearStore = useOutline((state) => state.clearStore);
   return useEditor({
@@ -36,18 +36,19 @@ export default function useOutlineEditor() {
       }),
     ],
     immediatelyRender: false,
+    autofocus: 'end',
     editorProps: {
       attributes: {
         autocomplete: 'off',
         autocorrect: 'off',
         autocapitalize: 'off',
         spellcheck: 'false',
-        class: 'min-h-full prose prose-p:my-2 prose-base focus:outline-none',
+        class:
+          'min-h-full prose prose-p:my-2 !max-w-none prose-base focus:outline-none',
       },
     },
-    content: '<h1>Enter Title</h1><p>Enter Content</p>',
+    content: defaultContent,
     onCreate: ({ editor }) => {
-      editor.commands.focus();
       setEditor(editor as any);
     },
     onDestroy: () => {

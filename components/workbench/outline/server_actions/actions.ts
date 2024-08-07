@@ -1,3 +1,4 @@
+'use server';
 import { actionClient } from '@/lib/actions/client';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
