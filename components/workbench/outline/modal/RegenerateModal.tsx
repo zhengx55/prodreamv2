@@ -5,7 +5,7 @@ type Props = {
 };
 
 const RegenerateModal = ({ close }: Props) => {
-  return <div>RegenerateModal</div>;
+  return null;
 };
 
 export default memo(RegenerateModal);

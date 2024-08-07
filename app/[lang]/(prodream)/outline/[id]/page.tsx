@@ -36,7 +36,7 @@ async function getPromptsData(token: string): Promise<Prompt[]> {
     }
   );
   const data = await res.json();
-  return data.data.data;
+  return data.data;
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -81,7 +81,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
         </div>
         <div className='flex flex-1 overflow-hidden'>
-          <RegenerateOutlineSidebar prompts={prompts} />
+          <RegenerateOutlineSidebar data={data} prompts={prompts} />
           <OutlineContent
             defaultHTML={data.html}
             defaultContent={data.content}

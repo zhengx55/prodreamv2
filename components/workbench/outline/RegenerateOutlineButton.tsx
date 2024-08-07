@@ -23,7 +23,7 @@ const RegenerateOutlineButton = () => {
             className='size-4'
             priority
           />
-          Generate Outline
+          Regenerate Outline
         </Button>
       </DialogTrigger>
       <RegenerateModal close={closeModal} />

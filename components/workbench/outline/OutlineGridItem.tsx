@@ -7,7 +7,6 @@ import Menu from '../common/Menu';
 type Props = { item: OutlineItem; prompts: Prompt[] };
 
 const OutlineGridItem = ({ item, prompts }: Props) => {
-  console.log('🚀 ~ OutlineGridItem ~ item:', item);
   const lastOpenTime = useMemo(
     () => formatTimestamphh(item.update_time),
     [item.update_time]
@@ -37,7 +36,7 @@ const OutlineGridItem = ({ item, prompts }: Props) => {
               alt={item.title}
               width={24}
               height={24}
-              className='size-6'
+              className='size-5'
             />
             <h2 className='base-medium line-clamp-1 max-w-[70%] text-zinc-600'>
               {item.title}

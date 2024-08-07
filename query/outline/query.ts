@@ -1,9 +1,14 @@
 import { PAGESIZE } from '@/constant/enum';
 import { getUserIdFromToken } from '@/lib/utils';
-import { MaterialListRes } from '@/types/brainstorm/types';
+import { MaterialItem, MaterialListRes } from '@/types/brainstorm/types';
 import { Prompt } from '@/types/outline/types';
 import { useEditor, useOutline } from '@/zustand/store';
-import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useMutation,
+  useQueries,
+  useQuery,
+} from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -28,6 +33,37 @@ export const useGetMaterials = (keyword: string, page: number) => {
       return data.data;
     },
     staleTime: Infinity,
+  });
+};
+
+export const useGetMaterialsByIds = (ids: string[]) => {
+  return useQueries({
+    queries: ids.map((id) => ({
+      queryKey: ['getMaterialById', id],
+      queryFn: async () => {
+        const token = Cookies.get('token');
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material/${id}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await res.json();
+        return data.data;
+      },
+      staleTime: Infinity,
+    })),
+
+    combine: (results) => {
+      return {
+        data: results.map((result) => result.data) as MaterialItem[],
+        isLoading: results.some((result) => result.isLoading),
+        isError: results.some((result) => result.isError),
+      };
+    },
   });
 };
 

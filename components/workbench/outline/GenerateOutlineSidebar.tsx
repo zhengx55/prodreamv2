@@ -29,7 +29,7 @@ const Step = memo(
 
 const GenerateOutlineSidebar = () => {
   return (
-    <div className='flex h-full w-[272px] flex-col justify-between overflow-y-auto rounded-bl-lg border-r border-zinc-200 p-2'>
+    <aside className='flex h-full w-[272px] flex-col justify-between overflow-y-auto rounded-bl-lg border-r border-zinc-200 p-2'>
       <div className='w-full rounded-[10px] bg-slate-100 p-2'>
         <Image
           priority
@@ -67,7 +67,7 @@ const GenerateOutlineSidebar = () => {
         </p>
         <GenerateOutlineButton />
       </footer>
-    </div>
+    </aside>
   );
 };
 
