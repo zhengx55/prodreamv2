@@ -1,12 +1,22 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Prompt } from '@/types/outline/types';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import SelectModal from './SelectModal';
 
-const SelectOtherButton = ({ prompts }: { prompts: Prompt[] }) => {
-  const [show, setShow] = useState(false);
-  const handleShow = () => setShow(!show);
+const SelectOtherButton = ({
+  prompts,
+  defaultMaterials,
+  defaultPrompt,
+  setMaterials,
+  setPrompt,
+}: {
+  prompts: Prompt[];
+  defaultPrompt: string;
+  defaultMaterials: string[];
+  setMaterials: (material: string[]) => void;
+  setPrompt: (prompt_id: string) => void;
+}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -14,7 +24,13 @@ const SelectOtherButton = ({ prompts }: { prompts: Prompt[] }) => {
           Select Other
         </Button>
       </DialogTrigger>
-      <SelectModal prompts={prompts} setShow={handleShow} />
+      <SelectModal
+        defaultMaterials={defaultMaterials}
+        defaultPrompt={defaultPrompt}
+        prompts={prompts}
+        setPrompt={setPrompt}
+        setMaterials={setMaterials}
+      />
     </Dialog>
   );
 };

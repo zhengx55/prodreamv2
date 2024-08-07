@@ -21,13 +21,26 @@ import { memo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { MaterialCard, MaterialPagination } from '../modal/GenerateModal';
 
-type Props = { prompts: Prompt[]; setShow: () => void };
+type Props = {
+  prompts: Prompt[];
+  defaultPrompt: string;
+  defaultMaterials: string[];
+  setMaterials: (material: string[]) => void;
+  setPrompt: (prompt_id: string) => void;
+};
 
-const SelectModal = ({ prompts, setShow }: Props) => {
+const SelectModal = ({
+  prompts,
+  defaultPrompt,
+  defaultMaterials,
+  setMaterials,
+  setPrompt,
+}: Props) => {
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState('');
-  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
-  const [selectedPrompt, setSelectedPrompt] = useState<string>('');
+  const [selectedMaterials, setSelectedMaterials] =
+    useState<string[]>(defaultMaterials);
+  const [selectedPrompt, setSelectedPrompt] = useState<string>(defaultPrompt);
   const { data: materials, isLoading: materialLoading } = useGetMaterials(
     query,
     page
@@ -124,16 +137,18 @@ const SelectModal = ({ prompts, setShow }: Props) => {
             Cancel
           </Button>
         </DialogClose>
-        <Button
-          //   disabled={
-          //     !selectedPrompt || selectedMaterials.length < 1 || isSubmitting
-          //   }
-          //   onClick={handleSubmit}
-          role='button'
-          className='px-8'
-        >
-          {1 ? 'Creating Outline' : `Create`}
-        </Button>
+        <DialogClose asChild>
+          <Button
+            onClick={() => {
+              setMaterials(selectedMaterials);
+              setPrompt(selectedPrompt);
+            }}
+            role='button'
+            className='px-8'
+          >
+            Confirm
+          </Button>
+        </DialogClose>
       </div>
     </DialogContent>
   );

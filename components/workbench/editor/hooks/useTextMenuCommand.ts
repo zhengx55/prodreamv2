@@ -43,16 +43,6 @@ export const useTextmenuCommands = (editor: Editor) => {
     [editor]
   );
 
-  const onSetFontSize = useCallback(
-    (fontSize: string) => {
-      if (!fontSize || fontSize.length === 0) {
-        return editor.chain().focus().unsetFontSize().run();
-      }
-      return editor.chain().focus().setFontSize(fontSize).run();
-    },
-    [editor]
-  );
-
   return {
     onBold,
     onItalic,
@@ -62,7 +52,6 @@ export const useTextmenuCommands = (editor: Editor) => {
     onAlignCenter,
     onAlignRight,
     onAlignJustify,
-    onSetFontSize,
     onRedo,
     onUndo,
   };

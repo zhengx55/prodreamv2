@@ -2,6 +2,7 @@ import { useEditor as useEditorStore } from '@/zustand/store';
 import Document from '@tiptap/extension-document';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
+import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { marked } from 'marked';
@@ -18,6 +19,7 @@ export default function useOutlineEditor(
   return useEditor({
     extensions: [
       CustomDocument,
+      Underline,
       TextAlign.extend({
         addKeyboardShortcuts() {
           return {};
@@ -40,7 +42,6 @@ export default function useOutlineEditor(
       }),
     ],
     immediatelyRender: false,
-    autofocus: 'end',
     editorProps: {
       attributes: {
         autocomplete: 'off',

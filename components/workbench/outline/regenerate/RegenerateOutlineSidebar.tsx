@@ -4,22 +4,30 @@ import Spacer from '@/components/root/Spacer';
 import { useGetMaterialsByIds } from '@/query/outline/query';
 import { OutlineItem, Prompt } from '@/types/outline/types';
 import { Loader2 } from 'lucide-react';
-import { memo, useMemo } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import RegenerateOutlineButton from './RegenerateOutlineButton';
 import SelectOtherButton from './SelectOtherButton';
 
 type Props = { prompts: Prompt[]; data: OutlineItem };
 
 const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
-  const { data: selectedMaterials, isLoading } = useGetMaterialsByIds(
-    data.material_ids
-  );
+  const [materials, setMaterials] = useState<string[]>(data.material_ids);
+  const [prompt, setPrompt] = useState<string>(data.prompt_id);
+  const { data: selectedMaterials, isLoading } =
+    useGetMaterialsByIds(materials);
 
   const promptTitle = useMemo(
-    () => prompts.find((item) => item.id === data.prompt_id)?.title,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data.prompt_id]
+    () => prompts.find((item) => item.id === prompt)?.title,
+    [prompt]
   );
+
+  const updateMaterials = useCallback((materials: string[]) => {
+    setMaterials(materials);
+  }, []);
+
+  const updatePrompt = useCallback((prompt_id: string) => {
+    setPrompt(prompt_id);
+  }, []);
 
   return (
     <aside className='flex h-full w-[272px] flex-col rounded-bl-lg border-r border-zinc-200 p-4'>
@@ -32,7 +40,13 @@ const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
         <Spacer y='16' />
         <div className='flex items-center justify-between'>
           <h2 className='base-medium'>Materials</h2>
-          <SelectOtherButton prompts={prompts} />
+          <SelectOtherButton
+            prompts={prompts}
+            defaultPrompt={data.prompt_id}
+            defaultMaterials={data.material_ids}
+            setPrompt={updatePrompt}
+            setMaterials={updateMaterials}
+          />
         </div>
         <Spacer y='16' />
         <div className='flex flex-1 flex-col gap-y-1 overflow-y-auto'>
