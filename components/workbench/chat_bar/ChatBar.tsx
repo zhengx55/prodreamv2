@@ -50,7 +50,7 @@ const ChatBar = () => {
       <div
         className={`transition-all duration-300 ease-in-out ${
           expanded
-            ? 'w-[400px] rounded-bl-lg rounded-tl-lg'
+            ? 'w:-[350px] rounded-bl-lg rounded-tl-lg 2xl:w-[400px]'
             : 'w-0 rounded-bl-lg rounded-tl-lg'
         } flex flex-1 overflow-hidden bg-slate-100`}
       >
