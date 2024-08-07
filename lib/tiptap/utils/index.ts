@@ -25,7 +25,7 @@ export const findTitle = (editor: Editor) => {
     size: 0,
   };
   editor.state.doc.descendants((node, pos) => {
-    if (node.type.name === 'title') {
+    if (node.type.name === 'heading') {
       title = {
         pos,
         content: node.textContent,

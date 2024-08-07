@@ -8,8 +8,6 @@ import { memo } from 'react';
 
 const GeneratingBar = () => {
   const outlineGenerateing = useOutline((state) => state.outlineGenerateing);
-  console.log('🚀 ~ GeneratingBar ~ outlineGenerateing:', outlineGenerateing);
-
   return (
     <LazyMotionProvider>
       <AnimatePresence>

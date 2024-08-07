@@ -30,11 +30,9 @@ const OutlineListItem = ({ item, prompts }: Props) => {
         <h2 className='base-medium line-clamp-1 text-zinc-600'>{item.title}</h2>
       </div>
       <p className='w-[200px] text-xs text-neutral-400'> {prompt}</p>
-
       <p className='w-[200px] text-xs text-neutral-400'>
         Opened {lastOpenTime}
       </p>
-
       <Menu type='material' id={item.id} href={`/outline/${item.id}`} />
     </div>
   );

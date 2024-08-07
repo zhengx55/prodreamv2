@@ -1,3 +1,4 @@
+import { revalidateOutlines } from '@/components/workbench/outline/server_actions/actions';
 import { PAGESIZE } from '@/constant/enum';
 import { getUserIdFromToken } from '@/lib/utils';
 import { MaterialItem, MaterialListRes } from '@/types/brainstorm/types';
@@ -162,7 +163,7 @@ export const useCreateOutline = (closeModal: () => void) => {
           }
         }
       }
-
+      await revalidateOutlines();
       setOutlineGenerateing(false);
       push(`/outline/${generated_outline_id}`);
     } catch (error) {

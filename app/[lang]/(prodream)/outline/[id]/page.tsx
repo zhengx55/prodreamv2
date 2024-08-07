@@ -19,6 +19,7 @@ async function getOutlineDetails(
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      next: { tags: [`outline-${id}`] },
     }
   );
   const data = await res.json();
@@ -82,10 +83,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
         <div className='flex flex-1 overflow-hidden'>
           <RegenerateOutlineSidebar data={data} prompts={prompts} />
-          <OutlineContent
-            defaultHTML={data.html}
-            defaultContent={data.content}
-          />
+          <OutlineContent data={data} />
         </div>
       </div>
       <ChatBar />
