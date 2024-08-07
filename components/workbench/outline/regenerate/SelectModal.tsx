@@ -139,6 +139,9 @@ const SelectModal = ({
         </DialogClose>
         <DialogClose asChild>
           <Button
+            disabled={
+              selectedMaterials.length === 0 || selectedMaterials.length > 5
+            }
             onClick={() => {
               setMaterials(selectedMaterials);
               setPrompt(selectedPrompt);

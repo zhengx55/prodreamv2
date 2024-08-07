@@ -8,7 +8,12 @@ const RegenerateModal = dynamic(() => import('../modal/RegenerateModal'), {
   ssr: false,
 });
 
-const RegenerateOutlineButton = () => {
+type Props = {
+  materials: string[];
+  prompt: string;
+};
+
+const RegenerateOutlineButton = ({ materials, prompt }: Props) => {
   const [show, setShow] = useState(false);
   const closeModal = () => setShow(false);
   return (
@@ -26,7 +31,11 @@ const RegenerateOutlineButton = () => {
           Regenerate Outline
         </Button>
       </AlertDialogTrigger>
-      <RegenerateModal close={closeModal} />
+      <RegenerateModal
+        close={closeModal}
+        materials={materials}
+        prompt={prompt}
+      />
     </AlertDialog>
   );
 };

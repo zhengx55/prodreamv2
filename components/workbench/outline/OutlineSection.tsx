@@ -31,7 +31,10 @@ const OutlineSection = ({ pageCount, list, prompts }: Props) => {
             Recently
           </h3>
           {viewType === 'list' ? (
-            <p className='text-base text-zinc-600'>Last Opened</p>
+            <>
+              <p className='w-[200px] text-base text-zinc-600'>Prompt</p>
+              <p className='w-[200px] text-base text-zinc-600'>Last Opened</p>
+            </>
           ) : null}
           <div className='flex gap-x-2'>
             {renderViewToggleButton()}
@@ -59,7 +62,7 @@ const OutlineSection = ({ pageCount, list, prompts }: Props) => {
         ) : viewType === 'grid' ? (
           <OutlineGrid prompts={prompts} list={list} />
         ) : (
-          <OutlineList />
+          <OutlineList prompts={prompts} list={list} />
         )}
       </div>
       <Spacer y='16' />

@@ -72,7 +72,7 @@ const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
         </div>
         <Spacer y='16' />
       </div>
-      <RegenerateOutlineButton />
+      <RegenerateOutlineButton materials={materials} prompt={prompt} />
     </aside>
   );
 };

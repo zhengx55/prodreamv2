@@ -118,7 +118,7 @@ const GenerateModal = ({ close }: { close: () => void }) => {
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [selectedPrompt, setSelectedPrompt] = useState<string>('');
   const { data: prompts } = useGetPrompts();
-  const { mutateAsync: create, status, isSubmitting } = useCreateOutline(close);
+  const { mutateAsync: create, isSubmitting } = useCreateOutline(close);
   const handleSubmit = async () => {
     await create({
       prompt_id: selectedPrompt,
