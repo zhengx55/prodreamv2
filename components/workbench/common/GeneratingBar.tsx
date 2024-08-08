@@ -24,7 +24,7 @@ const GeneratingBar = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 10, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className='flex-between absolute bottom-2 h-11 w-[70%] rounded-lg border border-zinc-200 bg-slate-50 px-2.5'
+            className='flex-between absolute bottom-2 h-11 w-[60%] rounded-lg border border-zinc-200 bg-slate-50 px-2.5'
           >
             <div className='flex items-center gap-x-2'>
               <Icon
