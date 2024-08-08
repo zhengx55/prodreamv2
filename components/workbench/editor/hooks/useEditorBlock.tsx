@@ -78,6 +78,7 @@ export default function useEditorBlock(
     2000
   );
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       Title,
       CustomDocument,
@@ -99,7 +100,7 @@ export default function useEditorBlock(
       Placeholder.configure({
         emptyNodeClass: 'empty-node',
         placeholder: ({ node }) => {
-          if (node.type.name === 'heading') {
+          if (node.type.name === 'title') {
             return 'Enter Title';
           }
           return 'Enter Content';
