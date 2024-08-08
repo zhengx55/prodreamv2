@@ -6,15 +6,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { useGetOutlines } from '@/query/draft';
-import { Prompt } from '@/types/outline';
 import { Loader2 } from 'lucide-react';
 import { memo, useState } from 'react';
 import ModalOptionsCard from '../../common/ModalOptionsCard';
@@ -22,25 +14,15 @@ import ModalPaginations from '../../common/ModalPaginations';
 import ModalSearch from '../../common/ModalSearch';
 
 type Props = {
-  prompts: Prompt[];
-  defaultPrompt: string;
   defaultOutline: string;
   setOutline: (outline: string) => void;
-  setPrompt: (prompt_id: string) => void;
 };
 
-const SelectModal = ({
-  prompts,
-  defaultPrompt,
-  defaultOutline,
-  setOutline,
-  setPrompt,
-}: Props) => {
+const SelectModal = ({ defaultOutline, setOutline }: Props) => {
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState('');
   const [selectedOutline, setSelectedOutline] =
     useState<string>(defaultOutline);
-  const [selectedPrompt, setSelectedPrompt] = useState<string>(defaultPrompt);
   const { data: outlines, isLoading: outlineLoading } = useGetOutlines(
     query,
     page
@@ -53,21 +35,7 @@ const SelectModal = ({
     >
       <DialogTitle className='hidden' />
       <DialogDescription className='hidden' />
-      <h2 className='text-xl font-medium'>Select Prompt</h2>
       <Spacer y='8' />
-      <Select value={selectedPrompt} onValueChange={setSelectedPrompt}>
-        <SelectTrigger className='h-11 border-none bg-slate-50'>
-          <SelectValue placeholder='Select a prompt' />
-        </SelectTrigger>
-        <SelectContent className='bg-white'>
-          {prompts?.map((prompt) => (
-            <SelectItem key={prompt.id} value={prompt.id}>
-              {prompt.title}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Spacer y='16' />
       <ModalSearch query={query} setQuery={setQuery} label='Search Outlines' />
       <Spacer y='8' />
       <div className='rounded-lg bg-slate-100 px-2 pt-2'>
@@ -123,7 +91,6 @@ const SelectModal = ({
             disabled={!selectedOutline}
             onClick={() => {
               setOutline(selectedOutline);
-              setPrompt(selectedPrompt);
             }}
             role='button'
             className='px-8'

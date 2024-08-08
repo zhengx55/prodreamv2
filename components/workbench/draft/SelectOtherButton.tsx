@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { Prompt } from '@/types/outline';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 const SelectModal = dynamic(() => import('./modal/SelectModal'), {
@@ -8,17 +7,11 @@ const SelectModal = dynamic(() => import('./modal/SelectModal'), {
 });
 
 const SelectOtherButton = ({
-  prompts,
   defaultOutline,
-  defaultPrompt,
   setOutline,
-  setPrompt,
 }: {
-  prompts: Prompt[];
-  defaultPrompt: string;
   defaultOutline: string;
   setOutline: (outline: string) => void;
-  setPrompt: (prompt_id: string) => void;
 }) => {
   return (
     <Dialog>
@@ -27,13 +20,7 @@ const SelectOtherButton = ({
           Select Other
         </Button>
       </DialogTrigger>
-      <SelectModal
-        defaultOutline={defaultOutline}
-        defaultPrompt={defaultPrompt}
-        prompts={prompts}
-        setPrompt={setPrompt}
-        setOutline={setOutline}
-      />
+      <SelectModal defaultOutline={defaultOutline} setOutline={setOutline} />
     </Dialog>
   );
 };
