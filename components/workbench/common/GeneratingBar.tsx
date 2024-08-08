@@ -4,7 +4,12 @@ import { Button } from '@/components/ui/button';
 import { useEditor } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { RotateCw, StopCircle } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { memo } from 'react';
+const ReactTyped = dynamic(
+  () => import('react-typed').then((mod) => mod.ReactTyped),
+  { ssr: false }
+);
 
 const GeneratingBar = () => {
   const editorContentGenerating = useEditor(
@@ -29,9 +34,14 @@ const GeneratingBar = () => {
                 height={20}
                 className='size-[18px]'
               />
-              <span className='small-regular text-indigo-500'>
-                AI is writing...
-              </span>
+              <ReactTyped
+                strings={['AI is writing...']}
+                typeSpeed={30}
+                backSpeed={30}
+                backDelay={200}
+                loop
+                className='small-regular text-indigo-500'
+              />
             </div>
             <div className='flex items-center gap-x-2'>
               <Button variant={'icon'} className='px-2 text-neutral-400'>
