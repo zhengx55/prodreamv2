@@ -14,7 +14,8 @@ const OutlineListItem = ({ item, prompts }: Props) => {
 
   const prompt = useMemo(
     () => prompts.find((el) => el.id === item.prompt_id)?.title.split(':')[0],
-    []
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [item.prompt_id]
   );
 
   return (
