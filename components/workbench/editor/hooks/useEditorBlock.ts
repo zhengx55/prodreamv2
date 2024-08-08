@@ -1,5 +1,5 @@
 import { findTitle } from '@/lib/tiptap/utils';
-import { useGetDraftStream, useSaveDraft } from '@/query/draft';
+import { getDraftSteam, useSaveDraft } from '@/query/draft';
 import { useSaveOutline } from '@/query/outline';
 import { useEditor as useEditorStore } from '@/zustand/store';
 import {
@@ -18,6 +18,7 @@ import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { marked } from 'marked';
 import { useParams, usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 import TurndownService from 'turndown';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -38,12 +39,13 @@ export default function useEditorBlock(
 ) {
   const setEditor = useEditorStore((state) => state.setEditor);
   const clearStore = useEditorStore((state) => state.clearStore);
+  const setEditorContentGenerating = useEditorStore(
+    (state) => state.setEditorContentGenerating
+  );
   const { id } = useParams();
   const path = usePathname();
   const shouldTriggerDraftStream =
     path.includes('draft&feedback') && Boolean(id) && !defaultContent;
-
-  useGetDraftStream(id as string, shouldTriggerDraftStream);
   const { mutateAsync: saveDraftFile } = useSaveDraft();
   const { mutateAsync: saveOutlineFile } = useSaveOutline();
   const debouncedCallback = useDebouncedCallback(
@@ -75,8 +77,7 @@ export default function useEditorBlock(
     },
     2000
   );
-
-  return useEditor({
+  const editor = useEditor({
     extensions: [
       Title,
       CustomDocument,
@@ -105,14 +106,13 @@ export default function useEditorBlock(
         },
       }),
     ],
-    immediatelyRender: false,
     editorProps: {
       attributes: {
         autocomplete: 'off',
         autocorrect: 'off',
         autocapitalize: 'off',
         spellcheck: 'false',
-        class: 'min-h-full focus:outline-none',
+        class: 'min-h-full focus:outline-none prose prose-base !max-w-none',
       },
     },
     content: defaultHTML
@@ -120,7 +120,7 @@ export default function useEditorBlock(
       : defaultContent
         ? `<h1>Untitled</h1> ${marked.parse(defaultContent)}`
         : '',
-    onCreate: ({ editor }) => {
+    onCreate: async ({ editor }) => {
       setEditor(editor as any);
     },
     onUpdate: debouncedCallback,
@@ -128,4 +128,17 @@ export default function useEditorBlock(
       clearStore();
     },
   });
+
+  useEffect(() => {
+    async function getStream() {
+      if (shouldTriggerDraftStream && editor) {
+        setEditorContentGenerating(true);
+        await getDraftSteam(id as string, editor as any);
+        setEditorContentGenerating(false);
+      }
+    }
+    getStream();
+  }, [shouldTriggerDraftStream, editor]);
+
+  return { editor };
 }

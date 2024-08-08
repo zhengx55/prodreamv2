@@ -8,7 +8,7 @@ type Props = {
 };
 
 const EditorBlock = ({ title, content, html }: Props) => {
-  const editor = useOutlineEditor(content, html, title);
+  const { editor } = useOutlineEditor(content, html, title);
   if (!editor) return null;
   return (
     <>

@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ThemeType } from '@/types/brainstorm';
 import { useAction } from 'next-safe-action/hooks';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { memo, useState } from 'react';
 import { createMaterial, updateMaterial } from './server_actions/actions';
 type Props = {
@@ -34,6 +35,7 @@ const MaterialForm = ({
 }: Props) => {
   const [title, setTitle] = useState(defaultTitle || '');
   const [theme, setTheme] = useState(defaultTheme || themes[0].id);
+  const { push } = useRouter();
   const [content, setContent] = useState(defaultContent || '');
   const titleLenght = title.trim().split(/\s+/).filter(Boolean).length;
   const contentLenght = content.trim().split(/\s+/).filter(Boolean).length;
@@ -46,6 +48,7 @@ const MaterialForm = ({
     onSuccess: async () => {
       const { toast } = await import('sonner');
       toast.success('Material created successfully');
+      push('/brainstorming');
     },
   });
   const boundUpdateMaterial = updateMaterial.bind(null, id ?? '', theme);
@@ -57,6 +60,7 @@ const MaterialForm = ({
     onSuccess: async () => {
       const { toast } = await import('sonner');
       toast.success('Material updated successfully');
+      push('/brainstorming');
     },
   });
 

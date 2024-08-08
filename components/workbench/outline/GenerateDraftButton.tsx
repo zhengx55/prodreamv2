@@ -3,10 +3,16 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { useAction } from 'next-safe-action/hooks';
+import { useRouter } from 'next/navigation';
 import { generateDraft } from './server_actions/actions';
 
 const GenerateDraftButton = ({ id }: { id: string }) => {
-  const { execute, isExecuting } = useAction(generateDraft.bind(null, id));
+  const { push } = useRouter();
+  const { execute, isExecuting } = useAction(generateDraft.bind(null, id), {
+    onSuccess: ({ data }) => {
+      push(`/draft&feedback/${data}`);
+    },
+  });
   return (
     <Button disabled={isExecuting} onClick={() => execute()}>
       <Icon

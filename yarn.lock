@@ -975,7 +975,7 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-code/-/extension-code-2.5.9.tgz#93c4433eca8b2aa239ea7f408b90f152b7fc4603"
   integrity sha512-Q1PL3DUXiEe5eYUwOug1haRjSaB0doAKwx7KFVI+kSGbDwCV6BdkKAeYf3us/O2pMP9D0im8RWX4dbSnatgwBA==
 
-"@tiptap/extension-color@^2.1.16":
+"@tiptap/extension-color@^2.5.9":
   version "2.5.9"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-color/-/extension-color-2.5.9.tgz#98edd7191c6aba00d6bd9a49bb58f1eb340e1002"
   integrity sha512-VUGCT9iqD/Ni9arLIxkCbykAElRMFyew7uk2kbbNvttzdwzmZkbslEgCiaEZQTqKr8w4wjuQL14YOtXc6iwEww==
