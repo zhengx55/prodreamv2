@@ -1,4 +1,3 @@
-'use client';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 const EditorBlock = dynamic(() => import('../editor/EditorBlock'), {

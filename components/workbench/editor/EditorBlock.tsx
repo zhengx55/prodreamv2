@@ -1,3 +1,4 @@
+'use client';
 import { EditorContent } from '@tiptap/react';
 import EditorBubbleMenu from './EditorBubbleMenu';
 import useOutlineEditor from './hooks/useEditorBlock';
