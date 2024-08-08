@@ -78,6 +78,7 @@ export default function useEditorBlock(
     2000
   );
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       Title,
       CustomDocument,
