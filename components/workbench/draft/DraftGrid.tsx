@@ -1,7 +1,19 @@
-type Props = {};
+import { Draft } from '@/types/draft';
+import { Prompt } from '@/types/outline';
+import DraftGridItem from './DraftGridItem';
 
-const DraftGrid = (props: Props) => {
-  return <div>DraftGrid</div>;
+type Props = { list: Draft[]; prompts: Prompt[] };
+
+const DraftGrid = ({ list, prompts }: Props) => {
+  return (
+    <div className='flex-1'>
+      <div className='flex flex-wrap gap-4'>
+        {list.map((material) => (
+          <DraftGridItem prompts={prompts} key={material.id} item={material} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default DraftGrid;

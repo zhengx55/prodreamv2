@@ -10,8 +10,8 @@ import { memo } from 'react';
 import Pagination from '../common/Pagination';
 import useViewType from '../hooks/useViewTypes';
 import OutlineGrid from './OutlineGrid';
-import OutlineList from './OutlineList';
 
+const OutlineList = dynamic(() => import('./OutlineList'));
 const Empty = dynamic(() => import('../common/Empty'));
 
 type Props = {
