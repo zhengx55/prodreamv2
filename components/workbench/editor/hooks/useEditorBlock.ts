@@ -1,9 +1,15 @@
 import { findTitle } from '@/lib/tiptap/utils';
-import { useGetDraftStream } from '@/query/draft';
+import { useGetDraftStream, useSaveDraft } from '@/query/draft';
+import { useSaveOutline } from '@/query/outline';
 import { useEditor as useEditorStore } from '@/zustand/store';
+import {
+  getHierarchicalIndexes,
+  TableOfContents,
+} from '@tiptap-pro/extension-table-of-contents';
 import type { Editor } from '@tiptap/core';
 import CharacterCount from '@tiptap/extension-character-count';
 import Document from '@tiptap/extension-document';
+import Heading from '@tiptap/extension-heading';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
 import Underline from '@tiptap/extension-underline';
@@ -11,15 +17,18 @@ import type { Transaction } from '@tiptap/pm/state';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { marked } from 'marked';
-import { useAction } from 'next-safe-action/hooks';
 import { useParams, usePathname } from 'next/navigation';
 import TurndownService from 'turndown';
 import { useDebouncedCallback } from 'use-debounce';
-import { updateDraft } from '../draft/server_actions/actions';
-import { updateOutline } from '../outline/server_actions/actions';
+
+const Title = Heading.extend({
+  name: 'title',
+  group: 'title',
+  parseHTML: () => [{ tag: 'h1:first-child' }],
+}).configure({ levels: [1] });
 
 const CustomDocument = Document.extend({
-  content: 'heading block*',
+  content: 'title block*',
 });
 
 export default function useEditorBlock(
@@ -35,9 +44,8 @@ export default function useEditorBlock(
     path.includes('draft&feedback') && Boolean(id) && !defaultContent;
 
   useGetDraftStream(id as string, shouldTriggerDraftStream);
-
-  const { execute: saveOutlineFile } = useAction(updateOutline);
-  const { execute: saveDraftFile } = useAction(updateDraft);
+  const { mutateAsync: saveDraftFile } = useSaveDraft();
+  const { mutateAsync: saveOutlineFile } = useSaveOutline();
   const debouncedCallback = useDebouncedCallback(
     ({ editor }: { editor: Editor; transaction: Transaction }) => {
       if (!id) return;
@@ -65,14 +73,18 @@ export default function useEditorBlock(
         });
       }
     },
-    1000
+    2000
   );
 
   return useEditor({
     extensions: [
+      Title,
       CustomDocument,
       Underline,
       CharacterCount,
+      TableOfContents.configure({
+        getIndex: getHierarchicalIndexes,
+      }),
       TextAlign.extend({
         addKeyboardShortcuts() {
           return {};
@@ -100,8 +112,7 @@ export default function useEditorBlock(
         autocorrect: 'off',
         autocapitalize: 'off',
         spellcheck: 'false',
-        class:
-          'min-h-full prose prose-p:my-2 !max-w-none prose-base focus:outline-none',
+        class: 'min-h-full focus:outline-none',
       },
     },
     content: defaultHTML
