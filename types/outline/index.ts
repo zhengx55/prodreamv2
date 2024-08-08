@@ -13,7 +13,7 @@ export type OutlineItem = {
 };
 
 export type OutlineRes = {
-  data: [OutlineItem];
+  data: OutlineItem[];
   total_page_count: number;
 };
 

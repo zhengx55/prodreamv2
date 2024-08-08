@@ -1,9 +1,10 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import ChatBar from '@/components/workbench/chat_bar/ChatBar';
+import GenerateDraftButton from '@/components/workbench/outline/GenerateDraftButton';
 import OutlineContent from '@/components/workbench/outline/OutlineContent';
 import RegenerateOutlineSidebar from '@/components/workbench/outline/regenerate/RegenerateOutlineSidebar';
-import { OutlineItem, Prompt } from '@/types/outline/types';
+import { OutlineItem, Prompt } from '@/types/outline';
 import { Download } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
@@ -65,25 +66,19 @@ export default async function Page({ params }: { params: { id: string } }) {
             <h2 className='text-xl font-medium text-zinc-600'>{data.title}</h2>
           </div>
           <div className='flex items-center gap-x-2'>
-            <Button role='button' variant={'icon'} className='size-max p-1'>
+            <Button variant={'icon'} className='size-max p-1'>
               <Download size={18} />
             </Button>
-            <Button role='button'>
-              <Icon
-                alt='draft'
-                src='/workbench/draft.svg'
-                width={20}
-                height={20}
-                className='size-4'
-                priority
-              />
-              Generate Draft
-            </Button>
+            <GenerateDraftButton id={params.id} />
           </div>
         </div>
         <div className='flex flex-1 overflow-hidden'>
           <RegenerateOutlineSidebar data={data} prompts={prompts} />
-          <OutlineContent data={data} />
+          <OutlineContent
+            title={data.title}
+            content={data.content}
+            html={data.html}
+          />
         </div>
       </div>
       <ChatBar />

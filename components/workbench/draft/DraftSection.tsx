@@ -1,26 +1,26 @@
 'use client';
-
 import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
-import { OutlineItem, Prompt } from '@/types/outline';
+import { Draft } from '@/types/draft';
+import { Prompt } from '@/types/outline';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
+import Empty from '../common/Empty';
 import Pagination from '../common/Pagination';
 import useViewType from '../hooks/useViewTypes';
-import OutlineGrid from './OutlineGrid';
+import DraftGrid from './DraftGrid';
 
-const OutlineList = dynamic(() => import('./OutlineList'));
-const Empty = dynamic(() => import('../common/Empty'));
+const DraftList = dynamic(() => import('./DraftList'));
 
 type Props = {
-  prompts: Prompt[];
+  list: Draft[];
   pageCount: number;
-  list: OutlineItem[];
+  prompts: Prompt[];
 };
 
-const OutlineSection = ({ pageCount, list, prompts }: Props) => {
+const DraftSection = ({ list, pageCount, prompts }: Props) => {
   const { viewType, renderViewToggleButton } = useViewType();
 
   return (
@@ -55,14 +55,14 @@ const OutlineSection = ({ pageCount, list, prompts }: Props) => {
         <Spacer y='16' />
         {list.length === 0 ? (
           <Empty
-            label='Add Outline'
-            href='/outline/create'
+            label='Add Draft'
+            href='/draft&feedback/create'
             message='You can add it proactively or with the assistance of agents'
           />
         ) : viewType === 'grid' ? (
-          <OutlineGrid prompts={prompts} list={list} />
+          <DraftGrid prompts={prompts} list={list} />
         ) : (
-          <OutlineList prompts={prompts} list={list} />
+          <DraftList prompts={prompts} list={list} />
         )}
       </div>
       <Spacer y='16' />
@@ -72,4 +72,4 @@ const OutlineSection = ({ pageCount, list, prompts }: Props) => {
   );
 };
 
-export default memo(OutlineSection);
+export default memo(DraftSection);

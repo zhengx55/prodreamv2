@@ -4,7 +4,7 @@ import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
-import { MaterialItem } from '@/types/brainstorm/types';
+import { MaterialItem } from '@/types/brainstorm';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import Pagination from '../common/Pagination';

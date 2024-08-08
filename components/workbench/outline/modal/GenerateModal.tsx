@@ -1,19 +1,12 @@
 'use client';
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from '@/components/ui/pagination';
 import {
   Select,
   SelectContent,
@@ -25,10 +18,13 @@ import {
   useCreateOutline,
   useGetMaterials,
   useGetPrompts,
-} from '@/query/outline/query';
-import { Loader2, SearchIcon } from 'lucide-react';
+} from '@/query/outline';
+import { Loader2 } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+import ModalOptionsCard from '../../common/ModalOptionsCard';
+import ModalPaginations from '../../common/ModalPaginations';
+import ModalSearch from '../../common/ModalSearch';
 
 const Step = memo(({ number, title }: { number: number; title: string }) => (
   <div className='flex items-center gap-x-4'>
@@ -40,70 +36,6 @@ const Step = memo(({ number, title }: { number: number; title: string }) => (
     <h2 className='text-xl font-medium'>{title}</h2>
   </div>
 ));
-
-export const MaterialCard = memo(
-  ({
-    id,
-    title,
-    content,
-    isSelected,
-    onSelect,
-  }: {
-    id: string;
-    title: string;
-    content: string;
-    isSelected: boolean;
-    onSelect: (id: string) => void;
-  }) => (
-    <div
-      key={id}
-      role='button'
-      onClick={() => onSelect(id)}
-      className={`${isSelected ? 'border-indigo-500' : 'border-zinc-200'} flex h-[138px] w-full cursor-pointer flex-col rounded-lg border bg-white px-4 py-2.5 hover:opacity-70`}
-    >
-      <div className='flex-between'>
-        <h3 className='base-semibold line-clamp-1 max-w-[60%] text-zinc-800'>
-          {title}
-        </h3>
-        <Checkbox name={title} checked={isSelected} className='rounded' />
-      </div>
-      <Spacer y='8' />
-      <p className='line-clamp-4 text-sm leading-normal text-zinc-600'>
-        {content}
-      </p>
-    </div>
-  )
-);
-
-export const MaterialPagination = memo(
-  ({
-    page,
-    setPage,
-    totalPage,
-  }: {
-    page: number;
-    setPage: (page: number) => void;
-    totalPage: number;
-  }) => (
-    <Pagination>
-      <PaginationContent>
-        {Array.from({ length: totalPage }).map((_, i) => (
-          <PaginationItem
-            key={i}
-            onClick={() => setPage(i)}
-            className={`${
-              page === i
-                ? 'bg-indigo-500 text-white'
-                : 'bg-transparent text-zinc-600 hover:bg-slate-100'
-            } flex-center size-8 cursor-pointer rounded-lg`}
-          >
-            {i + 1}
-          </PaginationItem>
-        ))}
-      </PaginationContent>
-    </Pagination>
-  )
-);
 
 const GenerateModal = ({ close }: { close: () => void }) => {
   const [page, setPage] = useState(0);
@@ -140,7 +72,7 @@ const GenerateModal = ({ close }: { close: () => void }) => {
       <div className='relative w-[856px] self-end rounded-lg bg-slate-100 p-2'>
         <span className='absolute -left-8 top-0 h-[70px] w-0 border border-dashed border-indigo-100' />
         <Select value={selectedPrompt} onValueChange={setSelectedPrompt}>
-          <SelectTrigger className='h-11 bg-white'>
+          <SelectTrigger className='h-11 bg-white text-base'>
             <SelectValue placeholder='Select a prompt' />
           </SelectTrigger>
           <SelectContent className='bg-white'>
@@ -153,20 +85,9 @@ const GenerateModal = ({ close }: { close: () => void }) => {
         </Select>
       </div>
       <Spacer y='16' />
-      <div className='flex-between w-full'>
+      <ModalSearch query={query} setQuery={debounced}>
         <Step number={2} title='Selected Materials' />
-        <div className='relative flex w-72 items-center rounded-lg border border-zinc-200 px-2.5'>
-          <SearchIcon size={18} color='#726fe7' />
-          <Input
-            type='search'
-            name='search'
-            defaultValue={query}
-            placeholder='Search Material...'
-            className='border-none focus-visible:ring-0'
-            onChange={(e) => debounced(e.target.value)}
-          />
-        </div>
-      </div>
+      </ModalSearch>
       <Spacer y='8' />
       <div className='w-[856px] self-end rounded-lg bg-slate-100 px-2 pt-2'>
         {materialLoading ? (
@@ -182,7 +103,7 @@ const GenerateModal = ({ close }: { close: () => void }) => {
             {materials?.data.map((material) => {
               const isSelected = selectedMaterials.includes(material.id);
               return (
-                <MaterialCard
+                <ModalOptionsCard
                   key={material.id}
                   id={material.id}
                   title={material.title}
@@ -202,7 +123,7 @@ const GenerateModal = ({ close }: { close: () => void }) => {
         )}
         <Spacer y='16' />
         {(materials?.total_page_count ?? 0) > 0 ? (
-          <MaterialPagination
+          <ModalPaginations
             page={page}
             setPage={setPage}
             totalPage={materials?.total_page_count ?? 0}
@@ -221,7 +142,10 @@ const GenerateModal = ({ close }: { close: () => void }) => {
         </DialogClose>
         <Button
           disabled={
-            !selectedPrompt || selectedMaterials.length < 1 || isSubmitting
+            !selectedPrompt ||
+            selectedMaterials.length === 0 ||
+            selectedMaterials.length > 5 ||
+            isSubmitting
           }
           onClick={handleSubmit}
           role='button'

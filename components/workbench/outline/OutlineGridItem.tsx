@@ -1,6 +1,6 @@
 import Icon from '@/components/root/Icon';
 import { formatTimestamphh } from '@/lib/utils';
-import { OutlineItem, Prompt } from '@/types/outline/types';
+import { OutlineItem, Prompt } from '@/types/outline';
 import { memo, useMemo } from 'react';
 import Markdown from 'react-markdown';
 import Menu from '../common/Menu';

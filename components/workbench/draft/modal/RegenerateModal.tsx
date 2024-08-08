@@ -15,17 +15,16 @@ import { memo } from 'react';
 type Props = {
   close: () => void;
   prompt: string;
-  materials: string[];
 };
 
-const RegenerateModal = ({ close, prompt, materials }: Props) => {
+const RegenerateModal = ({ close, prompt }: Props) => {
   const { mutateAsync: create, isSubmitting } = useCreateOutline(close);
   const handleSubmit = async () => {
-    await create({
-      prompt_id: prompt,
-      title: 'Untitled',
-      material_ids: materials,
-    });
+    // await create({
+    //   prompt_id: prompt,
+    //   title: 'Untitled',
+    //   material_ids: materials,
+    // });
     close();
   };
   return (
@@ -41,7 +40,7 @@ const RegenerateModal = ({ close, prompt, materials }: Props) => {
               className='size-5'
               priority
             />
-            Regenerate Outline
+            Regenerate Draft
           </AlertDialogTitle>
           <AlertDialogCancel asChild>
             <Button
@@ -54,7 +53,7 @@ const RegenerateModal = ({ close, prompt, materials }: Props) => {
           </AlertDialogCancel>
         </div>
         <AlertDialogDescription className='text-base text-neutral-400'>
-          Regenerating will generate a new outline,and historical drafts willbe
+          Regenerating will generate a new draft,and historical drafts willbe
           saved by default
         </AlertDialogDescription>
       </AlertDialogHeader>

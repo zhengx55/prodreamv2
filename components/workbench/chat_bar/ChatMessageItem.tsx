@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useAgentChat } from '@/query/chat_agent/query';
-import { useUserSession } from '@/query/session/query';
+import { useAgentChat } from '@/query/chat_agent';
+import { useUserSession } from '@/query/session';
 import { Message as MessageProps } from '@/zustand/slice/chat-agent';
 import { useAgent } from '@/zustand/store';
 import Image from 'next/image';

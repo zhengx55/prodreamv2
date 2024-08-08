@@ -15,7 +15,7 @@ type Props = {
   html?: string;
 };
 
-const OutlineContent = (props: Props) => {
+const DraftContent = (props: Props) => {
   return (
     <div className='flex-center relative flex-1 bg-slate-100 pt-6'>
       <EditorBlock {...props} />
@@ -24,4 +24,4 @@ const OutlineContent = (props: Props) => {
   );
 };
 
-export default memo(OutlineContent);
+export default memo(DraftContent);

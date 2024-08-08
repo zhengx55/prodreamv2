@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator';
-import { OutlineItem, Prompt } from '@/types/outline/types';
+import { OutlineItem, Prompt } from '@/types/outline';
 import { memo } from 'react';
 import OutlineListItem from './OutlineListItem';
 

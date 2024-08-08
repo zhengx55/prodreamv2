@@ -1,9 +1,8 @@
 import { revalidateOutlines } from '@/components/workbench/outline/server_actions/actions';
 import { PAGESIZE } from '@/constant/enum';
-import { getUserIdFromToken } from '@/lib/utils';
-import { MaterialItem, MaterialListRes } from '@/types/brainstorm/types';
-import { Prompt } from '@/types/outline/types';
-import { useEditor, useOutline } from '@/zustand/store';
+import { MaterialItem, MaterialListRes } from '@/types/brainstorm';
+import { Prompt } from '@/types/outline';
+import { useEditor } from '@/zustand/store';
 import {
   keepPreviousData,
   useMutation,
@@ -20,7 +19,6 @@ export const useGetMaterials = (keyword: string, page: number) => {
     placeholderData: keepPreviousData,
     queryFn: async () => {
       const token = Cookies.get('token');
-      const user_id = getUserIdFromToken(token!);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material?page=${page}&page_size=${PAGESIZE.MATERIAL_MODAL_PAGE_SIZE}&keyword=${keyword}`,
         {
@@ -125,8 +123,8 @@ export const useCreateOutline = (closeModal: () => void) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const editor = useEditor((state) => state.editor);
   const { push } = useRouter();
-  const setOutlineGenerateing = useOutline(
-    (state) => state.setOutlineGenerateing
+  const setEditorContentGenerating = useEditor(
+    (state) => state.setEditorContentGenerating
   );
   const handleStream = async (body: ReadableStream<Uint8Array>) => {
     try {
@@ -137,7 +135,7 @@ export const useCreateOutline = (closeModal: () => void) => {
       editor?.commands.clearContent();
       setIsSubmitting(false);
       closeModal();
-      setOutlineGenerateing(true);
+      setEditorContentGenerating(true);
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
@@ -164,7 +162,7 @@ export const useCreateOutline = (closeModal: () => void) => {
         }
       }
       await revalidateOutlines();
-      setOutlineGenerateing(false);
+      setEditorContentGenerating(false);
       push(`/outline/${generated_outline_id}`);
     } catch (error) {
       console.error(error);

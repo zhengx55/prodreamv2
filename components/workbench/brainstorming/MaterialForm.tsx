@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { ThemeType } from '@/types/brainstorm/types';
+import { ThemeType } from '@/types/brainstorm';
 import { useAction } from 'next-safe-action/hooks';
 import Link from 'next/link';
 import { memo, useState } from 'react';

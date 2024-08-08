@@ -1,34 +1,43 @@
 import Icon from '@/components/root/Icon';
 import { formatTimestamphh } from '@/lib/utils';
-import { MaterialItem } from '@/types/brainstorm';
-import { useMemo } from 'react';
+import { Draft } from '@/types/draft';
+import { Prompt } from '@/types/outline';
+import { memo, useMemo } from 'react';
+import Markdown from 'react-markdown';
 import Menu from '../common/Menu';
+type Props = { item: Draft; prompts: Prompt[] };
 
-type Props = { item: MaterialItem };
-
-const MaterialGridItem = ({ item }: Props) => {
+const DraftGridItem = ({ item, prompts }: Props) => {
   const lastOpenTime = useMemo(
     () => formatTimestamphh(item.update_time),
     [item.update_time]
   );
+
   return (
     <div className='flex w-[330px] flex-col justify-between rounded-lg border border-gray-300'>
       <div className='h-[164px] rounded-t-lg bg-gray-100 px-2 pt-2'>
-        <div className='size-full bg-white p-2'>
-          <p className='small-regular line-clamp-3 leading-tight text-zinc-600'>
-            {item.content}
-          </p>
+        <div className='size-full space-y-2.5 bg-white p-2'>
+          <span className='small-regular rounded bg-green-50 px-2.5 py-0.5 text-green-500'>
+            {
+              prompts
+                ?.find((prompt) => prompt.id === item.prompt_id)
+                ?.title.split(':')[0]
+            }
+          </span>
+          <Markdown className='prose prose-sm line-clamp-3 text-zinc-600 prose-p:mb-0 prose-ul:my-0'>
+            {item.content.slice(0, 100)}
+          </Markdown>
         </div>
       </div>
       <footer className='flex-between rounded-b-lg border-t border-gray-300 bg-white px-4 py-2.5'>
         <div className='space-y-1'>
           <div className='flex items-center gap-x-2'>
             <Icon
-              src='/workbench/material_file.svg'
+              src='/workbench/draft_file.svg'
               alt={item.title}
               width={24}
               height={24}
-              className='size-6'
+              className='size-5'
             />
             <h2 className='base-medium line-clamp-1 max-w-[70%] text-zinc-600'>
               {item.title}
@@ -36,10 +45,10 @@ const MaterialGridItem = ({ item }: Props) => {
           </div>
           <p className='text-xs text-neutral-400'>Opened {lastOpenTime}</p>
         </div>
-        <Menu type='material' id={item.id} href={`/brainstorming/${item.id}`} />
+        <Menu type='draft' id={item.id} href={`/draft&feedback/${item.id}`} />
       </footer>
     </div>
   );
 };
 
-export default MaterialGridItem;
+export default memo(DraftGridItem);

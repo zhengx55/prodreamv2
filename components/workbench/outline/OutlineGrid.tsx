@@ -1,4 +1,4 @@
-import { OutlineItem, Prompt } from '@/types/outline/types';
+import { OutlineItem, Prompt } from '@/types/outline';
 import OutlineGridItem from './OutlineGridItem';
 
 type Props = { list: OutlineItem[]; prompts: Prompt[] };

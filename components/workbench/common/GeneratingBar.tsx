@@ -1,17 +1,19 @@
 import Icon from '@/components/root/Icon';
 import LazyMotionProvider from '@/components/root/LazyMotionProvider';
 import { Button } from '@/components/ui/button';
-import { useOutline } from '@/zustand/store';
+import { useEditor } from '@/zustand/store';
 import { AnimatePresence, m } from 'framer-motion';
 import { RotateCw, StopCircle } from 'lucide-react';
 import { memo } from 'react';
 
 const GeneratingBar = () => {
-  const outlineGenerateing = useOutline((state) => state.outlineGenerateing);
+  const editorContentGenerating = useEditor(
+    (state) => state.editorContentGenerating
+  );
   return (
     <LazyMotionProvider>
       <AnimatePresence>
-        {outlineGenerateing && (
+        {editorContentGenerating && (
           <m.div
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

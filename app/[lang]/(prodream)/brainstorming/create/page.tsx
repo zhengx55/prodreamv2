@@ -2,7 +2,7 @@ import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import MaterialForm from '@/components/workbench/brainstorming/MaterialForm';
 import ChatBar from '@/components/workbench/chat_bar/ChatBar';
-import { ThemeType } from '@/types/brainstorm/types';
+import { ThemeType } from '@/types/brainstorm';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 async function getThemesData(token: string): Promise<ThemeType[]> {
