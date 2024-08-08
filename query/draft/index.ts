@@ -1,8 +1,11 @@
+import { revalidateOutlines } from '@/components/workbench/outline/server_actions/actions';
 import { PAGESIZE } from '@/constant/enum';
 import { OutlineItem, OutlineRes } from '@/types/outline';
 import { useEditor } from '@/zustand/store';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export const useGetDraftStream = (
   draft_id: string,
@@ -100,4 +103,85 @@ export const useGetOutlines = (keyword: string, page: number) => {
     },
     staleTime: Infinity,
   });
+};
+
+export const useCreateDraft = (closeModal: () => void) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const editor = useEditor((state) => state.editor);
+  const { push } = useRouter();
+  const setEditorContentGenerating = useEditor(
+    (state) => state.setEditorContentGenerating
+  );
+
+  const mutation = useMutation({
+    mutationFn: async (params: { outline_id: string }) => {
+      const token = Cookies.get('token');
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}draft`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(params),
+        }
+      );
+
+      const data = await res.json();
+      return data.data.draft_id;
+    },
+    onError: async (error) => {
+      const { toast } = await import('sonner');
+      toast.error(error.message);
+    },
+    onSuccess: async (data: string) => {
+      const token = Cookies.get('token');
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}draft/${data}/generation`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const body = res.body;
+      if (!body) return;
+      const reader = body.pipeThrough(new TextDecoderStream()).getReader();
+      const { parse } = await import('marked');
+      let draft_result = '';
+      editor?.commands.clearContent();
+      setIsSubmitting(false);
+      closeModal();
+      setEditorContentGenerating(true);
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        const lines = value.split('\n');
+        for (const [index, line] of lines.entries()) {
+          if (
+            line.startsWith('data:') &&
+            lines[index - 1]?.startsWith('event: data')
+          ) {
+            const data = line.slice(5).trim();
+            if (data) {
+              const parsedData = JSON.parse(data);
+              draft_result += parsedData;
+              editor?.commands.setContent(
+                `<h1>Untitled</h1> ${parse(draft_result)}`
+              );
+            }
+          }
+        }
+      }
+      await revalidateOutlines();
+      setEditorContentGenerating(false);
+      push(`/draft&feedback/${data}`);
+    },
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+  });
+  return { ...mutation, isSubmitting };
 };

@@ -40,3 +40,7 @@ export const updateDraft = actionClient
     revalidateTag(`draft-${draft_id}`);
     revalidateTag('drafts');
   });
+
+export async function revalidateDrafts() {
+  revalidateTag('drafts');
+}

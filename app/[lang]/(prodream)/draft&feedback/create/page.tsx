@@ -1,8 +1,8 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import ChatBar from '@/components/workbench/chat_bar/ChatBar';
-import Sidebar from '@/components/workbench/draft/CreateDraftSidebar';
 import DraftContent from '@/components/workbench/draft/DraftContent';
+import GenerateDraftSidebar from '@/components/workbench/draft/GenerateDraftSidebar';
 import Link from 'next/link';
 
 export default function Page() {
@@ -27,7 +27,7 @@ export default function Page() {
           </div>
         </div>
         <div className='flex flex-1 overflow-hidden'>
-          <Sidebar />
+          <GenerateDraftSidebar />
           <DraftContent />
         </div>
       </div>

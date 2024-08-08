@@ -86,7 +86,7 @@ const GenerateModal = ({ close }: { close: () => void }) => {
       </div>
       <Spacer y='16' />
       <ModalSearch query={query} setQuery={debounced}>
-        <Step number={2} title='Selected Materials' />
+        <Step number={2} title='Select Materials' />
       </ModalSearch>
       <Spacer y='8' />
       <div className='w-[856px] self-end rounded-lg bg-slate-100 px-2 pt-2'>
