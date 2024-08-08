@@ -100,7 +100,7 @@ export default function useEditorBlock(
       Placeholder.configure({
         emptyNodeClass: 'empty-node',
         placeholder: ({ node }) => {
-          if (node.type.name === 'heading') {
+          if (node.type.name === 'title') {
             return 'Enter Title';
           }
           return 'Enter Content';

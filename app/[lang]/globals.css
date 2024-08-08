@@ -168,6 +168,20 @@
 }
 
 
+.ProseMirror {
+
+  p.empty-node:nth-child(2):before,
+  .empty-node:first-child::before {
+    color: #E7E7E8;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
+}
+
+
 @keyframes twinkle {
 
   0%,
