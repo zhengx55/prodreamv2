@@ -1,8 +1,8 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import ChatBar from '@/components/workbench/chat_bar/ChatBar';
+import Sidebar from '@/components/workbench/draft/CreateDraftSidebar';
 import DraftContent from '@/components/workbench/draft/DraftContent';
-import Sidebar from '@/components/workbench/draft/Sidebar';
 import Link from 'next/link';
 
 export default function Page() {

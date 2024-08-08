@@ -1,4 +1,5 @@
 import { findTitle } from '@/lib/tiptap/utils';
+import { useGetDraftStream } from '@/query/draft';
 import { useEditor as useEditorStore } from '@/zustand/store';
 import type { Editor } from '@tiptap/core';
 import CharacterCount from '@tiptap/extension-character-count';
@@ -14,13 +15,14 @@ import { useAction } from 'next-safe-action/hooks';
 import { useParams, usePathname } from 'next/navigation';
 import TurndownService from 'turndown';
 import { useDebouncedCallback } from 'use-debounce';
-import { updateOutline } from '../server_actions/actions';
+import { updateDraft } from '../draft/server_actions/actions';
+import { updateOutline } from '../outline/server_actions/actions';
 
 const CustomDocument = Document.extend({
   content: 'heading block*',
 });
 
-export default function useOutlineEditor(
+export default function useEditorBlock(
   defaultContent?: string,
   defaultHTML?: string,
   defaultTitle?: string
@@ -29,7 +31,13 @@ export default function useOutlineEditor(
   const clearStore = useEditorStore((state) => state.clearStore);
   const { id } = useParams();
   const path = usePathname();
-  const { execute } = useAction(updateOutline);
+  const shouldTriggerDraftStream =
+    path.includes('draft&feedback') && Boolean(id) && !defaultContent;
+
+  useGetDraftStream(id as string, shouldTriggerDraftStream);
+
+  const { execute: saveOutlineFile } = useAction(updateOutline);
+  const { execute: saveDraftFile } = useAction(updateDraft);
   const debouncedCallback = useDebouncedCallback(
     ({ editor }: { editor: Editor; transaction: Transaction }) => {
       if (!id) return;
@@ -42,8 +50,15 @@ export default function useOutlineEditor(
         ? turnDownService.turndown(currentHTML.replace(/<h1>.*?<\/h1>/, ''))
         : null;
       if (path.includes('outline')) {
-        execute({
+        saveOutlineFile({
           outline_id: id as string,
+          title: updatedTitle,
+          content: updatedContent,
+          html: updatedHTML,
+        });
+      } else if (path.includes('draft')) {
+        saveDraftFile({
+          draft_id: id as string,
           title: updatedTitle,
           content: updatedContent,
           html: updatedHTML,

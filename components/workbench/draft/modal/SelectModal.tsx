@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useGetMaterials } from '@/query/outline';
+import { useGetOutlines } from '@/query/draft';
 import { Prompt } from '@/types/outline';
 import { Loader2 } from 'lucide-react';
 import { memo, useState } from 'react';
@@ -24,24 +24,24 @@ import ModalSearch from '../../common/ModalSearch';
 type Props = {
   prompts: Prompt[];
   defaultPrompt: string;
-  defaultMaterials: string[];
-  setMaterials: (material: string[]) => void;
+  defaultOutline: string;
+  setOutline: (outline: string) => void;
   setPrompt: (prompt_id: string) => void;
 };
 
 const SelectModal = ({
   prompts,
   defaultPrompt,
-  defaultMaterials,
-  setMaterials,
+  defaultOutline,
+  setOutline,
   setPrompt,
 }: Props) => {
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState('');
-  const [selectedMaterials, setSelectedMaterials] =
-    useState<string[]>(defaultMaterials);
+  const [selectedOutline, setSelectedOutline] =
+    useState<string>(defaultOutline);
   const [selectedPrompt, setSelectedPrompt] = useState<string>(defaultPrompt);
-  const { data: materials, isLoading: materialLoading } = useGetMaterials(
+  const { data: outlines, isLoading: outlineLoading } = useGetOutlines(
     query,
     page
   );
@@ -68,34 +68,31 @@ const SelectModal = ({
         </SelectContent>
       </Select>
       <Spacer y='16' />
-      <ModalSearch query={query} setQuery={setQuery} label='Search Materials' />
+      <ModalSearch query={query} setQuery={setQuery} label='Search Outlines' />
       <Spacer y='8' />
       <div className='rounded-lg bg-slate-100 px-2 pt-2'>
-        {materialLoading ? (
+        {outlineLoading ? (
           <div className='flex-center h-[284px] w-full'>
             <Loader2 className='animate-spin text-indigo-500' size={24} />
           </div>
-        ) : materials?.data.length === 0 ? (
+        ) : outlines?.data.length === 0 ? (
           <div className='flex-center h-[284px] w-full'>
-            <p className='title-medium'>No materials found.</p>
+            <p className='title-medium'>No outlines found.</p>
           </div>
         ) : (
           <div className='grid grid-cols-3 grid-rows-2 gap-2'>
-            {materials?.data.map((material) => {
-              const isSelected = selectedMaterials.includes(material.id);
+            {outlines?.data.map((outline) => {
+              const isSelected = selectedOutline === outline.id;
               return (
                 <ModalOptionsCard
-                  key={material.id}
-                  id={material.id}
-                  title={material.title}
-                  content={material.content}
+                  key={outline.id}
+                  id={outline.id}
+                  title={outline.title}
+                  content={outline.content}
                   isSelected={isSelected}
+                  isMarkdown
                   onSelect={(id: string) => {
-                    setSelectedMaterials((prev) =>
-                      isSelected
-                        ? prev.filter((id) => id !== material.id)
-                        : [...prev, material.id]
-                    );
+                    setSelectedOutline(id);
                   }}
                 />
               );
@@ -103,11 +100,11 @@ const SelectModal = ({
           </div>
         )}
         <Spacer y='16' />
-        {(materials?.total_page_count ?? 0) > 0 ? (
+        {(outlines?.total_page_count ?? 0) > 0 ? (
           <ModalPaginations
             page={page}
             setPage={setPage}
-            totalPage={materials?.total_page_count ?? 0}
+            totalPage={outlines?.total_page_count ?? 0}
           />
         ) : (
           <span className='flex h-8 shrink-0' />
@@ -123,11 +120,9 @@ const SelectModal = ({
         </DialogClose>
         <DialogClose asChild>
           <Button
-            disabled={
-              selectedMaterials.length === 0 || selectedMaterials.length > 5
-            }
+            disabled={!selectedOutline}
             onClick={() => {
-              setMaterials(selectedMaterials);
+              setOutline(selectedOutline);
               setPrompt(selectedPrompt);
             }}
             role='button'

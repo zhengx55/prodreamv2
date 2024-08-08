@@ -1,7 +1,7 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useAgentChat } from '@/query/chat_agent/query';
+import { useAgentChat } from '@/query/chat_agent';
 import { useAgent } from '@/zustand/store';
 import { memo, useState } from 'react';
 import useAgentType from '../hooks/getChatAgentType';

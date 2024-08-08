@@ -24,6 +24,11 @@ const OutlineDeleteModal = dynamic(
     ssr: false,
   }
 );
+
+const DraftDeleteModal = dynamic(() => import('../draft/modal/DeleteModal'), {
+  ssr: false,
+});
+
 type Props = {
   href: string;
   id: string;
@@ -58,7 +63,9 @@ const Menu = ({ href, id, type }: Props) => {
           <MaterialDeleteModal setShow={setShow} id={id} />
         ) : type === 'outline' ? (
           <OutlineDeleteModal setShow={setShow} id={id} />
-        ) : null}
+        ) : (
+          <DraftDeleteModal setShow={setShow} id={id} />
+        )}
       </AlertDialog>
     </>
   );

@@ -1,4 +1,3 @@
-import Icon from '@/components/root/Icon';
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -9,39 +8,32 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { useCreateOutline } from '@/query/outline';
-import { Loader2, X } from 'lucide-react';
+import { Info, Loader2, X } from 'lucide-react';
+import { useAction } from 'next-safe-action/hooks';
 import { memo } from 'react';
-type Props = {
-  close: () => void;
-  prompt: string;
-  materials: string[];
-};
+import { deleteDraft } from '../server_actions/actions';
 
-const RegenerateModal = ({ close, prompt, materials }: Props) => {
-  const { mutateAsync: create, isSubmitting } = useCreateOutline(close);
-  const handleSubmit = async () => {
-    await create({
-      prompt_id: prompt,
-      title: 'Untitled',
-      material_ids: materials,
-    });
-    close();
-  };
+type Props = { id: string; setShow: () => void };
+
+const DeleteModal = ({ id, setShow }: Props) => {
+  const { execute, isExecuting } = useAction(deleteDraft.bind(null, id), {
+    onError: async () => {
+      const { toast } = await import('sonner');
+      toast.error('Failed to delete material');
+    },
+    onSuccess: async ({ data }) => {
+      setShow();
+      const { toast } = await import('sonner');
+      toast.success(data?.message);
+    },
+  });
+
   return (
     <AlertDialogContent className='gap-y-6 bg-white md:w-[600px] md:p-8'>
       <AlertDialogHeader>
         <div className='flex-between'>
           <AlertDialogTitle className='inline-flex items-center gap-x-2 text-xl font-medium'>
-            <Icon
-              alt='regenerate_outline'
-              src='/workbench/regenerate_outline_active.svg'
-              width={20}
-              height={20}
-              className='size-5'
-              priority
-            />
-            Regenerate Outline
+            <Info size={20} className='text-red-500' /> Delete Draft
           </AlertDialogTitle>
           <AlertDialogCancel asChild>
             <Button
@@ -54,26 +46,29 @@ const RegenerateModal = ({ close, prompt, materials }: Props) => {
           </AlertDialogCancel>
         </div>
         <AlertDialogDescription className='text-base text-neutral-400'>
-          Regenerating will generate a new outline,and historical drafts willbe
-          saved by default
+          The Draft cannot be retrieved after deletion. Are you sure you want to
+          delete it
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel className='px-8'>Cancel</AlertDialogCancel>
+        <AlertDialogCancel className='px-8' disabled={isExecuting}>
+          Cancel
+        </AlertDialogCancel>
         <AlertDialogAction
-          disabled={isSubmitting}
+          className='bg-rose-500 px-8 hover:bg-rose-600 active:bg-rose-500'
+          disabled={isExecuting}
           onClick={(e) => {
             e.preventDefault();
-            handleSubmit();
+            execute();
           }}
         >
-          {isSubmitting ? (
+          {isExecuting ? (
             <span className='inline-flex items-center gap-x-2'>
               <Loader2 className='animate-spin text-white' size={20} />
-              Generating...
+              Deleting...
             </span>
           ) : (
-            'Regenerate'
+            'Confirm'
           )}
         </AlertDialogAction>
       </AlertDialogFooter>
@@ -81,4 +76,4 @@ const RegenerateModal = ({ close, prompt, materials }: Props) => {
   );
 };
 
-export default memo(RegenerateModal);
+export default memo(DeleteModal);

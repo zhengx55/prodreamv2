@@ -1,12 +1,14 @@
-import { OutlineItem } from '@/types/outline';
 import { EditorContent } from '@tiptap/react';
-import useOutlineEditor from '../outline/hooks/useOutlineEditor';
+import useOutlineEditor from '../hooks/useEditorBlock';
 import EditorBubbleMenu from './EditorBubbleMenu';
 type Props = {
-  data?: OutlineItem;
+  title?: string;
+  content?: string;
+  html?: string;
 };
-const EditorBlock = ({ data }: Props) => {
-  const editor = useOutlineEditor(data?.content, data?.html, data?.title);
+
+const EditorBlock = ({ title, content, html }: Props) => {
+  const editor = useOutlineEditor(content, html, title);
   if (!editor) return null;
   return (
     <div className='h-full w-[80%] overflow-y-auto bg-white px-8 py-6'>
