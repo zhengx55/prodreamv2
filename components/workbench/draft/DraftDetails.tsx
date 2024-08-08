@@ -1,5 +1,4 @@
 'use client';
-
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import DraftContent from '@/components/workbench/draft/DraftContent';
@@ -12,6 +11,7 @@ type Props = { draft_id: string; prompts: Prompt[] };
 
 const DraftDetails = ({ draft_id, prompts }: Props) => {
   const { data, isPending, isError } = useGetDraftContent(draft_id);
+
   if (isError) return null;
   if (isPending)
     return (

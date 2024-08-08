@@ -138,7 +138,8 @@ export default function useEditorBlock(
       }
     }
     getStream();
-  }, [shouldTriggerDraftStream, editor]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldTriggerDraftStream, editor, id]);
 
   return { editor };
 }
