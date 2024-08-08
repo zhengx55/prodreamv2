@@ -212,3 +212,56 @@ export const useCreateOutline = (closeModal: () => void) => {
 
   return { ...mutation, isSubmitting };
 };
+
+export const useGetOutlineContent = (outline_id: string) => {
+  return useQuery({
+    staleTime: 0,
+    gcTime: 0,
+    queryKey: ['getOutlineContent', outline_id],
+    queryFn: async () => {
+      const token = Cookies.get('token');
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}outline/${outline_id}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      return data.data;
+    },
+    enabled: Boolean(outline_id),
+  });
+};
+
+export const useSaveOutline = () => {
+  return useMutation({
+    mutationFn: async (params: {
+      outline_id: string;
+      title: string | null;
+      content: string | null;
+      html: string | null;
+    }) => {
+      const token = Cookies.get('token');
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}outline/${params.outline_id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(params),
+        }
+      );
+    },
+    onSuccess: async () => {
+      revalidateOutlines();
+    },
+    onError: (error) => {
+      console.error(error.message);
+    },
+  });
+};

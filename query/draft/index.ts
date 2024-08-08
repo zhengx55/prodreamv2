@@ -1,5 +1,7 @@
+import { revalidateDrafts } from '@/components/workbench/draft/server_actions/actions';
 import { revalidateOutlines } from '@/components/workbench/outline/server_actions/actions';
 import { PAGESIZE } from '@/constant/enum';
+import { Draft } from '@/types/draft';
 import { OutlineItem, OutlineRes } from '@/types/outline';
 import { useEditor } from '@/zustand/store';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
@@ -184,4 +186,57 @@ export const useCreateDraft = (closeModal: () => void) => {
     },
   });
   return { ...mutation, isSubmitting };
+};
+
+export const useGetDraftContent = (draft_id: string) => {
+  return useQuery<Draft>({
+    staleTime: 0,
+    gcTime: 0,
+    queryKey: ['getDraftContent', draft_id],
+    queryFn: async () => {
+      const token = Cookies.get('token');
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}draft/${draft_id}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      return data.data;
+    },
+    enabled: Boolean(draft_id),
+  });
+};
+
+export const useSaveDraft = () => {
+  return useMutation({
+    mutationFn: async (params: {
+      draft_id: string;
+      title: string | null;
+      content: string | null;
+      html: string | null;
+    }) => {
+      const token = Cookies.get('token');
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}draft/${params.draft_id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(params),
+        }
+      );
+    },
+    onSuccess: async () => {
+      revalidateDrafts();
+    },
+    onError: (error) => {
+      console.error(error.message);
+    },
+  });
 };

@@ -13,7 +13,7 @@ const ChatMessageList = dynamic(() => import('./ChatMessageList'), {
 const ChatFooter = dynamic(() => import('./ChatFooter'));
 
 const ChatBar = () => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const toggleExpanded = useCallback(() => {
     setExpanded((prev) => !prev);
   }, []);
@@ -50,7 +50,7 @@ const ChatBar = () => {
       <div
         className={`transition-all duration-300 ease-in-out ${
           expanded
-            ? 'w:-[350px] rounded-bl-lg rounded-tl-lg 2xl:w-[400px]'
+            ? 'w-[400px] rounded-bl-lg rounded-tl-lg'
             : 'w-0 rounded-bl-lg rounded-tl-lg'
         } flex flex-1 overflow-hidden bg-slate-100`}
       >

@@ -82,21 +82,18 @@ export const updateMaterial = actionClient
       bindArgsParsedInputs: [id, theme_id],
     }) => {
       const token = cookies().get('token')?.value;
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material/${id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            title,
-            content,
-            theme_id: theme_id,
-          }),
-        }
-      );
+      await fetch(`${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material/${id}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title,
+          content,
+          theme_id: theme_id,
+        }),
+      });
       revalidateTag('materials');
       redirect('/brainstorming');
     }
