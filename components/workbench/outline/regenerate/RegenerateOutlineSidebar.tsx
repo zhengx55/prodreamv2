@@ -49,7 +49,7 @@ const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
         />
       </div>
       <Spacer y='16' />
-      <div className='flex flex-1 flex-col gap-y-1 overflow-y-auto'>
+      <div className='flex flex-1 flex-col gap-y-2 overflow-y-auto'>
         {isLoading ? (
           <span className='flex-center flex-1'>
             <Loader2 className='animate-spin text-indigo-500' />

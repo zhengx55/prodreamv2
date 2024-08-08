@@ -5,7 +5,6 @@ import { getUserIdFromToken } from '@/lib/utils';
 import { flattenValidationErrors } from 'next-safe-action';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { zfd } from 'zod-form-data';
 
@@ -46,7 +45,6 @@ export const createMaterial = actionClient
         }),
       });
       revalidateTag('materials');
-      redirect('/brainstorming');
     }
   );
 
@@ -95,6 +93,5 @@ export const updateMaterial = actionClient
         }),
       });
       revalidateTag('materials');
-      redirect('/brainstorming');
     }
   );

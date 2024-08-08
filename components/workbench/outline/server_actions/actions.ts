@@ -2,7 +2,6 @@
 import { actionClient } from '@/lib/actions/client';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 export const deleteOutline = actionClient
@@ -39,5 +38,5 @@ export const generateDraft = actionClient
       body: JSON.stringify({ outline_id }),
     });
     const data = await res.json();
-    redirect(`/draft&feedback/${data.data.draft_id}`);
+    return data.data.draft_id;
   });
