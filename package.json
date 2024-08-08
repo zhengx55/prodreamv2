@@ -60,7 +60,6 @@
     "@tiptap/react": "^2.5.8",
     "@tiptap/starter-kit": "^2.5.8",
     "@tiptap/suggestion": "^2.5.8",
-    "@types/dompurify": "^3.0.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dompurify": "^3.1.6",
@@ -102,7 +101,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@builder.io/partytown": "^0.10.2",
+    "@types/dompurify": "^3.0.5",
     "@tanstack/eslint-plugin-query": "^5.0.5",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/js-cookie": "^3.0.6",
@@ -110,7 +109,6 @@
     "@types/node": "^22.1.0",
     "@types/react": "^18.3.2",
     "@types/react-dom": "latest",
-    "@types/sanitize-html": "^2.11.0",
     "@types/turndown": "^5.0.5",
     "@types/uuid": "^10.0.0",
     "autoprefixer": "latest",
