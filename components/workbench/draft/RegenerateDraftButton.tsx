@@ -10,10 +10,9 @@ const RegenerateModal = dynamic(() => import('./modal/RegenerateModal'), {
 
 type Props = {
   outline: string;
-  prompt: string;
 };
 
-const RegenerateDraftButton = ({ outline, prompt }: Props) => {
+const RegenerateDraftButton = ({ outline }: Props) => {
   const [show, setShow] = useState(false);
   const closeModal = () => setShow(false);
   return (
@@ -31,7 +30,7 @@ const RegenerateDraftButton = ({ outline, prompt }: Props) => {
           Regenerate Draft
         </Button>
       </AlertDialogTrigger>
-      <RegenerateModal close={closeModal} prompt={prompt} />
+      <RegenerateModal outline={outline} close={closeModal} />
     </AlertDialog>
   );
 };

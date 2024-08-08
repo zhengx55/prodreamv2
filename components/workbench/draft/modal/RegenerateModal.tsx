@@ -9,22 +9,20 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { useCreateOutline } from '@/query/outline';
+import { useCreateDraft } from '@/query/draft';
 import { Loader2, X } from 'lucide-react';
 import { memo } from 'react';
 type Props = {
   close: () => void;
-  prompt: string;
+  outline: string;
 };
 
-const RegenerateModal = ({ close, prompt }: Props) => {
-  const { mutateAsync: create, isSubmitting } = useCreateOutline(close);
+const RegenerateModal = ({ close, outline }: Props) => {
+  const { mutateAsync: create, isSubmitting } = useCreateDraft(close);
   const handleSubmit = async () => {
-    // await create({
-    //   prompt_id: prompt,
-    //   title: 'Untitled',
-    //   material_ids: materials,
-    // });
+    await create({
+      outline_id: outline,
+    });
     close();
   };
   return (

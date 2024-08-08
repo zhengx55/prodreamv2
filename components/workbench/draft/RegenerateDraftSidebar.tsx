@@ -16,20 +16,15 @@ type Props = { prompts: Prompt[]; data: Draft };
 
 const RegenerateDraftSidebar = ({ prompts, data }: Props) => {
   const [newOutline, setNewOutline] = useState<string>(data.outline_id);
-  const [newPrompt, setNewPrompt] = useState<string>(data.prompt_id);
-  const { data: outline, isPending } = useGetDraftOutline(data.outline_id);
+  const { data: outline, isPending } = useGetDraftOutline(newOutline);
   const promptTitle = useMemo(
-    () => prompts.find((item) => item.id === newPrompt)?.title,
+    () => prompts.find((item) => item.id === data.prompt_id)?.title,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [prompt]
+    [data.prompt_id]
   );
 
   const updateOutline = useCallback((outline_id: string) => {
     setNewOutline(outline_id);
-  }, []);
-
-  const updatePrompt = useCallback((prompt_id: string) => {
-    setNewPrompt(prompt_id);
   }, []);
 
   return (
@@ -43,10 +38,7 @@ const RegenerateDraftSidebar = ({ prompts, data }: Props) => {
       <div className='flex items-center justify-between'>
         <h2 className='base-medium'>Outlines</h2>
         <SelectOtherButton
-          prompts={prompts}
-          defaultPrompt={data.prompt_id}
           defaultOutline={data.outline_id}
-          setPrompt={updatePrompt}
           setOutline={updateOutline}
         />
       </div>
@@ -64,7 +56,7 @@ const RegenerateDraftSidebar = ({ prompts, data }: Props) => {
         )}
       </div>
       <Spacer y='16' />
-      <RegenerateDraftButton outline={newOutline} prompt={newPrompt} />
+      <RegenerateDraftButton outline={newOutline} />
     </aside>
   );
 };

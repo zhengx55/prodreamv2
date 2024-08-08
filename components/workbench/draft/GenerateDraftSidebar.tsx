@@ -2,9 +2,9 @@ import Spacer from '@/components/root/Spacer';
 import Image from 'next/image';
 import { memo } from 'react';
 import { Step } from '../common/SidebarStep';
-import GenerateOutlineButton from './GenerateOutlineButton';
+import GenerateDraftButton from './GenerateDraftButton';
 
-const GenerateOutlineSidebar = () => {
+const GenerateDraftSidebar = () => {
   return (
     <aside className='flex h-full w-[272px] flex-col justify-between overflow-y-auto rounded-bl-lg border-r border-zinc-200 p-2'>
       <div className='w-full rounded-[10px] bg-slate-100 p-2'>
@@ -17,35 +17,27 @@ const GenerateOutlineSidebar = () => {
           className='mx-auto size-[180px]'
         />
         <p className='small-regular text-center text-zinc-600'>
-          Quickly Generate Your
-          <br /> Personalized Outline
+          Generate Your Personal <br /> Statement and Secure Your Desired Offer
         </p>
         <Spacer y='16' />
         <Step
           number={1}
-          colorClass='bg-orange-50 text-amber-500'
-          text='Select Prompt'
-          description='Select the topic you want to write about. Max will generate it for you based on the latest topics.'
-        />
-        <Spacer y='8' />
-        <Step
-          number={2}
           colorClass='bg-violet-50 text-indigo-500'
-          text='Select Materials'
-          description='Choose your personal experience materials. These materials will be used as sources to generate the outline.'
+          text='Select Outline'
+          description='Select the outline you want to expand and refine. Your personal statement will be developed based on this outline.'
         />
         <Spacer y='16' />
       </div>
       <footer className='space-y-4'>
         <p className='small-regular text-center text-zinc-600'>
           Click&nbsp;
-          <strong className='text-indigo-500'>Generate Outline</strong>
-          &nbsp;to quickly create your Outline!
+          <strong className='text-indigo-500'>Generate</strong>
+          &nbsp;to quickly create your personal statement!
         </p>
-        <GenerateOutlineButton />
+        <GenerateDraftButton />
       </footer>
     </aside>
   );
 };
 
-export default memo(GenerateOutlineSidebar);
+export default memo(GenerateDraftSidebar);
