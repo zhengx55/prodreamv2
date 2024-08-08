@@ -4,7 +4,7 @@ import Icon from '@/components/root/Icon';
 import Spacer from '@/components/root/Spacer';
 import Tooltip from '@/components/root/Tooltip';
 import { Button } from '@/components/ui/button';
-import { OutlineItem, Prompt } from '@/types/outline/types';
+import { OutlineItem, Prompt } from '@/types/outline';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 import Pagination from '../common/Pagination';

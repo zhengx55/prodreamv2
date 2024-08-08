@@ -1,6 +1,7 @@
 import { findTitle } from '@/lib/tiptap/utils';
 import { useEditor as useEditorStore } from '@/zustand/store';
 import type { Editor } from '@tiptap/core';
+import CharacterCount from '@tiptap/extension-character-count';
 import Document from '@tiptap/extension-document';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
@@ -56,6 +57,7 @@ export default function useOutlineEditor(
     extensions: [
       CustomDocument,
       Underline,
+      CharacterCount,
       TextAlign.extend({
         addKeyboardShortcuts() {
           return {};

@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useGetMaterials } from '@/query/outline/query';
-import { Prompt } from '@/types/outline/types';
+import { Prompt } from '@/types/outline';
 import { Loader2, SearchIcon } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';

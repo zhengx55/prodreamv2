@@ -49,8 +49,6 @@
     "@tiptap/extension-character-count": "^2.5.8",
     "@tiptap/extension-color": "^2.1.16",
     "@tiptap/extension-document": "^2.5.8",
-    "@tiptap/extension-focus": "^2.5.8",
-    "@tiptap/extension-hard-break": "^2.5.8",
     "@tiptap/extension-highlight": "^2.5.8",
     "@tiptap/extension-placeholder": "^2.5.8",
     "@tiptap/extension-text-align": "^2.5.8",
@@ -101,8 +99,8 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@types/dompurify": "^3.0.5",
     "@tanstack/eslint-plugin-query": "^5.0.5",
+    "@types/dompurify": "^3.0.5",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/js-cookie": "^3.0.6",
     "@types/negotiator": "^0.6.2",

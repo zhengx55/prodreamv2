@@ -1059,17 +1059,12 @@
   dependencies:
     tippy.js "^6.3.7"
 
-"@tiptap/extension-focus@^2.5.8":
-  version "2.5.9"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-focus/-/extension-focus-2.5.9.tgz#31d3e3e3395fde2b9a16f8c517048b6d3f7168e8"
-  integrity sha512-vHpWsNbeHT44iiLkehHCvZiwU3eRkI7+X4M+HE6Bb4FHxZtha6xTnFX3kqZHFsWQTE8vAeTH/5/eAGn5gbS2rw==
-
 "@tiptap/extension-gapcursor@^2.5.9":
   version "2.5.9"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-gapcursor/-/extension-gapcursor-2.5.9.tgz#68b9e227cd7876aac353a8ac029995b4c092a763"
   integrity sha512-yW7V2ebezsa7mWEDWCg4A1ZGsmSV5bEHKse9wzHCDkb7TutSVhLZxGo72U6hNN9PnAksv+FJQk03NuZNYvNyRQ==
 
-"@tiptap/extension-hard-break@^2.5.8", "@tiptap/extension-hard-break@^2.5.9":
+"@tiptap/extension-hard-break@^2.5.9":
   version "2.5.9"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-hard-break/-/extension-hard-break-2.5.9.tgz#4f38f06dbeb5fb3e58ff7fc0c48b9db9c4ee4ecd"
   integrity sha512-8hQ63SgZRG4BqHOeSfeaowG2eMr2beced018pOGbpHbE3XSYoISkMVuFz4Z8UEVR3W9dTbKo4wxNufSTducocQ==

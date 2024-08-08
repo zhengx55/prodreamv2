@@ -3,7 +3,7 @@ import ChatBar from '@/components/workbench/chat_bar/ChatBar';
 
 import SearchSection from '@/components/workbench/common/SearchSection';
 import { PAGESIZE } from '@/constant/enum';
-import { MaterialListRes } from '@/types/brainstorm/types';
+import { MaterialListRes } from '@/types/brainstorm';
 import { PlusCircle } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Image from 'next/image';

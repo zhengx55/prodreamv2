@@ -2,7 +2,7 @@
 
 import Spacer from '@/components/root/Spacer';
 import { useGetMaterialsByIds } from '@/query/outline/query';
-import { OutlineItem, Prompt } from '@/types/outline/types';
+import { OutlineItem, Prompt } from '@/types/outline';
 import { Loader2 } from 'lucide-react';
 import { memo, useCallback, useMemo, useState } from 'react';
 import RegenerateOutlineButton from './RegenerateOutlineButton';

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import ChatBar from '@/components/workbench/chat_bar/ChatBar';
 import OutlineContent from '@/components/workbench/outline/OutlineContent';
 import RegenerateOutlineSidebar from '@/components/workbench/outline/regenerate/RegenerateOutlineSidebar';
-import { OutlineItem, Prompt } from '@/types/outline/types';
+import { OutlineItem, Prompt } from '@/types/outline';
 import { Download } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';

@@ -1,8 +1,8 @@
 import { revalidateOutlines } from '@/components/workbench/outline/server_actions/actions';
 import { PAGESIZE } from '@/constant/enum';
 import { getUserIdFromToken } from '@/lib/utils';
-import { MaterialItem, MaterialListRes } from '@/types/brainstorm/types';
-import { Prompt } from '@/types/outline/types';
+import { MaterialItem, MaterialListRes } from '@/types/brainstorm';
+import { Prompt } from '@/types/outline';
 import { useEditor, useOutline } from '@/zustand/store';
 import {
   keepPreviousData,

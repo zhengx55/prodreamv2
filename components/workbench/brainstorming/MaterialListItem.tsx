@@ -1,6 +1,6 @@
 import Icon from '@/components/root/Icon';
 import { formatTimestamphh } from '@/lib/utils';
-import { MaterialItem } from '@/types/brainstorm/types';
+import { MaterialItem } from '@/types/brainstorm';
 import { useMemo } from 'react';
 import Menu from '../common/Menu';
 

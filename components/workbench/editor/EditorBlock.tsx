@@ -1,4 +1,4 @@
-import { OutlineItem } from '@/types/outline/types';
+import { OutlineItem } from '@/types/outline';
 import { EditorContent } from '@tiptap/react';
 import useOutlineEditor from '../outline/hooks/useOutlineEditor';
 import EditorBubbleMenu from './EditorBubbleMenu';

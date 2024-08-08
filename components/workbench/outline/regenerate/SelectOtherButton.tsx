@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { Prompt } from '@/types/outline/types';
+import { Prompt } from '@/types/outline';
 import { memo } from 'react';
 import SelectModal from './SelectModal';
 

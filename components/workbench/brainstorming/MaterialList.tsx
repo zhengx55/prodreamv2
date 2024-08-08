@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator';
-import { MaterialItem } from '@/types/brainstorm/types';
+import { MaterialItem } from '@/types/brainstorm';
 import { memo } from 'react';
 import MaterialListItem from './MaterialListItem';
 
