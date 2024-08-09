@@ -11,7 +11,6 @@ type Props = { draft_id: string; prompts: Prompt[] };
 
 const DraftDetails = ({ draft_id, prompts }: Props) => {
   const { data, isPending, isError } = useGetDraftContent(draft_id);
-
   if (isError) return null;
   if (isPending)
     return (
@@ -37,11 +36,13 @@ const DraftDetails = ({ draft_id, prompts }: Props) => {
           </Button>
           <h2 className='text-xl font-medium text-zinc-600'>{data.title}</h2>
         </div>
-        <div className='flex items-center gap-x-2'>
-          <Button variant={'icon'} className='size-max p-1'>
-            <Download size={18} />
-          </Button>
-        </div>
+        <Button
+          onClick={async () => {}}
+          variant={'icon'}
+          className='size-max p-1'
+        >
+          <Download size={18} />
+        </Button>
       </div>
       <div className='flex flex-1 overflow-hidden'>
         <RegenerateDraftSidebar data={data} prompts={prompts} />

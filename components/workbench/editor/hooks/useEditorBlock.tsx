@@ -84,6 +84,7 @@ export default function useEditorBlock(
       CustomDocument,
       Underline,
       CharacterCount,
+
       TableOfContents.configure({
         getIndex: getHierarchicalIndexes,
       }),
