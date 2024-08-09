@@ -1,10 +1,11 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { CHATAGENT_TYPE } from '@/constant/enum';
 import { useAgentChat } from '@/query/chat_agent';
 import { useAgent } from '@/zustand/store';
 import { memo, useState } from 'react';
-import useAgentType from '../hooks/getChatAgentType';
+import useAgentType from '../../../hooks/getChatAgentType';
 
 const ChatInputField = () => {
   const [inputMessage, setInputMessage] = useState('');
@@ -21,12 +22,10 @@ const ChatInputField = () => {
       response: inputMessage,
       agent:
         storeType === 'brainstorming'
-          ? 'Brainstorm'
+          ? CHATAGENT_TYPE.BS
           : storeType === 'outline'
-            ? 'Outline'
-            : storeType === 'draft'
-              ? 'Draft'
-              : 'Brainstorm',
+            ? CHATAGENT_TYPE.OL
+            : CHATAGENT_TYPE.DR,
       session_id: getSessionId(storeType),
     });
   };

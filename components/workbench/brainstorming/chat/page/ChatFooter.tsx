@@ -5,7 +5,7 @@ import ChatInputField from './ChatInputField';
 
 const ChatFooter = () => {
   return (
-    <footer className='w-[800px] space-y-2.5 self-center'>
+    <footer className='w-[900px] space-y-2.5 self-center'>
       <Button role='button' className='px-2 text-sm' variant='outline'>
         <Layers size={20} className='text-indigo-500' />
         Common guidance

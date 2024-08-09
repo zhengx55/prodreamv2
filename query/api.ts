@@ -1,15 +1,7 @@
-import {
-  ICitationData,
-  ICitationType,
-  IDiscount,
-  ISubscription,
-} from '@/types';
+import { IDiscount, ISubscription } from '@/types';
 import { JSONContent } from '@tiptap/react';
 import Cookies from 'js-cookie';
 import {
-  AiResearchItemResponse,
-  ChatResponse,
-  ICitation,
   IDetectionResult,
   IDocDetail,
   IPlagiarismData,
@@ -18,8 +10,6 @@ import {
   ISigunUpRequest,
   IVerifyEmail,
   LoginData,
-  ReferenceType,
-  UploadChatPdfResponse,
   UserTrackData,
 } from './type';
 
@@ -148,51 +138,6 @@ export async function unSubscripeMembership(params: {
   }
 }
 
-export async function setLanguageInfo(params: { language_background: string }) {
-  try {
-    const token = Cookies.get('token');
-    const formdata = new FormData();
-    formdata.append('language_background', params.language_background);
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/language_background`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        method: 'PUT',
-        body: formdata,
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw data.msg;
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function setEduInfo(params: { educational_background: string }) {
-  try {
-    const token = Cookies.get('token');
-    const formdata = new FormData();
-    formdata.append('educational_background', params.educational_background);
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/educational_background`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        method: 'PUT',
-        body: formdata,
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw data.msg;
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
 export async function getUserInfo(): Promise<UserTrackData> {
   try {
     const token = Cookies.get('token');
@@ -1112,211 +1057,6 @@ export async function getDocDetail(doc_id: string): Promise<IDocDetail> {
 }
 
 // ----------------------------------------------------------------
-// Citation
-// ----------------------------------------------------------------
-
-export async function getReferenceType(params: {
-  type: ReferenceType;
-  bibtex: string[];
-}): Promise<string[]> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/format/${params.type}`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          bibtex: params.bibtex,
-        }),
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function createGoogleCiation(parmas: {
-  url: string;
-  citation_id: string;
-  snippet: string;
-  citation_count: number;
-  in_text_pos: number;
-  document_id: string;
-}) {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/google_scholar`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          document_id: parmas.document_id,
-          data: {
-            url: parmas.url,
-            citation_id: parmas.citation_id,
-            snippet: parmas.snippet,
-            citation_count: parmas.citation_count,
-            in_text_pos: parmas.in_text_pos,
-          },
-        }),
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function createCitation(params: {
-  citation_type: ICitationType;
-  citation_data: any;
-  document_id: string;
-}) {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/${params.citation_type}`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          document_id: params.document_id,
-          data: params.citation_data,
-        }),
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    if (!res.ok) throw new Error('Opps something went wrong');
-    const data = await res.json();
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function updateCitation(params: {
-  citation_type: ICitationType;
-  id: string;
-  data: ICitationData;
-}) {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/${params.citation_type}/${params.id}`,
-      {
-        method: 'PUT',
-        body: JSON.stringify(params.data),
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    if (!res.ok) throw new Error('Opps something went wrong');
-    const data = await res.json();
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function getCitationDetail(params: {
-  citation_type: ICitationType;
-  citation_id: string;
-}) {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/editor/citation/${params.citation_type}/${params.citation_id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok) throw new Error('Opps something went wrong');
-    const data = await res.json();
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function getCitations(params: { citation_ids: string[] }) {
-  try {
-    const token = Cookies.get('token');
-    const queryString = params.citation_ids
-      .map((item) => `citation_ids=${encodeURIComponent(item)}`)
-      .join('&');
-
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation?${queryString}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok) throw new Error('Opps something went wrong');
-    const data = await res.json();
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function searchCitation(
-  searchTerm: string,
-  signal: AbortSignal
-): Promise<ICitation[]> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/editor/citation/google_scholar_search?query=${searchTerm}`,
-      {
-        signal,
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(
-        'Citation machine is not available for now, please try again later'
-      );
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(
-      'Citation machine is not available for now, please try again later'
-    );
-  }
-}
-
-// ----------------------------------------------------------------
 // AI-Detection
 // ----------------------------------------------------------------
 export async function getDetectionResult(params: {
@@ -1450,224 +1190,6 @@ export async function SendChatAgent({
 }
 
 // ----------------------------------------------------------------
-// CHAT
-// ----------------------------------------------------------------
-export async function chat(params: {
-  session_id: string | null;
-  query: string;
-  document_id: string;
-  attachment: {
-    id: string;
-    size: number;
-    filename: string;
-  } | null;
-}): Promise<ReadableStream> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/`, {
-      method: 'POST',
-      body: JSON.stringify({
-        session_id: params.session_id,
-        query: params.query,
-        document_id: params.document_id,
-        attachment: params.attachment,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
-    return res.body;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function createPdfChat(params: {
-  file: File;
-}): Promise<UploadChatPdfResponse> {
-  try {
-    const token = Cookies.get('token');
-    const body = new FormData();
-    if (params.file) body.append('attachment', params.file);
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/attachment`,
-      {
-        method: 'POST',
-        body,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function researchChat(params: {
-  session_id: string | null;
-  query: string;
-  document_id: string;
-}): Promise<ReadableStream> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/research`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          assistant_id: params.session_id,
-          query: params.query,
-          document_id: params.document_id,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
-    return res.body;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function pdfSummary(params: {
-  session_id: string | null;
-  document_id: string;
-  attachment: {
-    id: string;
-    size: number;
-  };
-}): Promise<ReadableStream> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/attachment/tldr`,
-      {
-        body: JSON.stringify({
-          session_id: params.session_id,
-          document_id: params.document_id,
-          attachment: params.attachment,
-        }),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok || !res.body) throw new Error('Opps something went wrong');
-    return res.body;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function chatHistory(params: {
-  page: number;
-  page_size: number;
-  query?: string;
-  document_id: string;
-  history_type: 'chat' | 'research';
-}): Promise<ChatResponse[]> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/?page=${params.page}&page_size=${params.page_size}&query=${params.query ?? ''}&document_id=${params.document_id}&history_type=${params.history_type}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data[0];
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function chatHistoryItem(
-  session_id: string
-): Promise<AiResearchItemResponse> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/${session_id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function deleteHistory(session_id: string): Promise<void> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/${session_id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function getRecommendQs(document_id: string): Promise<string[]> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/research/recommend_questions?document_id=${document_id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw new Error(data.msg as string);
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-// ----------------------------------------------------------------
 // Feedback
 // ----------------------------------------------------------------
 export async function submitFeedback(params: {
@@ -1719,5 +1241,22 @@ export async function feedbackAttachments(attachment: File): Promise<string[]> {
     return data.data;
   } catch (error) {
     throw new Error(error as string);
+  }
+}
+
+// ----------------------------------------------------------------
+// Generate Tiptap export JWT
+// ----------------------------------------------------------------
+export async function generateToken() {
+  const response = await fetch('/api/generate-jwt', {
+    method: 'POST',
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    console.log('JWT:', data.token);
+  } else {
+    console.error('Error generating JWT:', data.message);
   }
 }

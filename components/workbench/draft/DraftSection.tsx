@@ -56,7 +56,7 @@ const DraftSection = ({ list, pageCount, prompts }: Props) => {
         {list.length === 0 ? (
           <Empty
             label='Add Draft'
-            href='/draft&feedback/create'
+            href='/draft/create'
             message='You can add it proactively or with the assistance of agents'
           />
         ) : viewType === 'grid' ? (

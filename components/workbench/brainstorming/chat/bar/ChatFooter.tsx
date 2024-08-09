@@ -1,19 +1,46 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { ActionButtonType, ICONS } from '@/constant/chat_agent_constant';
+import { CHATAGENT_TYPE } from '@/constant/enum';
+import { useAgentChat } from '@/query/chat_agent';
 import { useAgent } from '@/zustand/store';
 import { memo } from 'react';
-import useAgentType from '../hooks/getChatAgentType';
+import useAgentType from '../../../hooks/getChatAgentType';
 import ChatInputField from './ChatInputField';
 
 const ChatFooter = () => {
   const { storeType } = useAgentType();
   const clearChatSession = useAgent((state) => state.clearSession);
+  const { mutate, isPending } = useAgentChat(storeType);
+  const actionMap: { [key: string]: CHATAGENT_TYPE } = {
+    'Guided Input': CHATAGENT_TYPE.BSBASE,
+    'In-depth Exploration': CHATAGENT_TYPE.BSADVANCE,
+    'Generate Outline': CHATAGENT_TYPE.OLGEN,
+    'Polish Outline': CHATAGENT_TYPE.PLPOL,
+  };
+
+  const handleActionClick = (text: string) => {
+    const agentType = actionMap[text];
+    if (agentType) {
+      mutate({
+        response: null,
+        agent: agentType,
+        session_id: null,
+      });
+    }
+  };
 
   const renderActionButtons = () => {
     return (ICONS[storeType] as ActionButtonType[])?.map(
       ({ alt, src, text }) => (
-        <ActionButton key={alt} alt={alt} src={src} text={text} />
+        <ActionButton
+          disabled={isPending}
+          key={alt}
+          onClick={() => handleActionClick(text)}
+          alt={alt}
+          src={src}
+          text={text}
+        />
       )
     );
   };
@@ -45,6 +72,7 @@ type ActionButtonProps = {
   src: string;
   text: string;
   onClick?: () => void;
+  disabled?: boolean;
 };
 
 const ActionButton = ({
@@ -52,8 +80,10 @@ const ActionButton = ({
   src,
   text,
   onClick = () => {},
+  disabled = false,
 }: ActionButtonProps) => (
   <Button
+    disabled={disabled}
     onClick={onClick}
     role='button'
     className='px-1 text-xs'

@@ -21,7 +21,7 @@ const ButtonCard: React.FC<ButtonCardProps> = ({
   <Link href={href}>
     <div
       role='button'
-      className='space-y-2 rounded-lg border border-zinc-200 p-4 hover:bg-slate-50 active:bg-zinc-200'
+      className='space-y-2 rounded-lg border border-zinc-200 bg-white p-4 hover:bg-slate-50 active:bg-zinc-200'
     >
       <div className='flex items-center gap-x-2'>
         <Image
@@ -33,14 +33,14 @@ const ButtonCard: React.FC<ButtonCardProps> = ({
         />
         <h3 className='text-base font-medium text-zinc-800'>{title}</h3>
       </div>
-      <p className='text-xs leading-tight text-zinc-600'>{description}</p>
+      <p className='text-sm leading-normal text-zinc-600'>{description}</p>
     </div>
   </Link>
 );
 
 const ChatCover = () => {
   return (
-    <div className='flex-center w-[800px] flex-1 flex-col self-center'>
+    <div className='flex-center w-[900px] flex-1 flex-col self-center'>
       <Image
         width={100}
         height={100}
@@ -61,24 +61,24 @@ const ChatCover = () => {
       <div className='flex gap-x-4'>
         <ButtonCard
           iconSrc='/workbench/nav_brainstorming.svg'
-          iconAlt='Brainstorming Icon'
+          iconAlt='Brainstorming'
           title='Brainstorm'
           description='Uncover your most compelling stories, experiences, and strengths'
-          href='?option=brainstorming'
+          href='/brainstorming'
         />
         <ButtonCard
           iconSrc='/workbench/nav_outline.svg'
-          iconAlt='Outline Icon'
+          iconAlt='Outline'
           title='Outline'
           description='Uncover your most compelling stories, experiences, and strengths'
-          href='?option=outline'
+          href='/outline'
         />
         <ButtonCard
           iconSrc='/workbench/nav_draft.svg'
-          iconAlt='Draft Icon'
+          iconAlt='Draft'
           title='Draft'
           description='Uncover your most compelling stories, experiences, and strengths'
-          href='?option=draft'
+          href='/draft'
         />
       </div>
     </div>

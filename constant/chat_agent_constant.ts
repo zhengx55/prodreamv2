@@ -34,6 +34,13 @@ export const ICONS: Record<string, ActionButtonType[] | IconButtonType[]> = {
       text: 'Polish Outline',
     },
   ],
+  draft: [
+    {
+      alt: 'draft',
+      src: '/chat_agent/outline/generate.svg',
+      text: 'Generate Draft',
+    },
+  ],
   common: [
     { alt: 'history', src: '/chat_agent/common/history.svg' },
     { alt: 'new', src: '/chat_agent/common/new.svg' },

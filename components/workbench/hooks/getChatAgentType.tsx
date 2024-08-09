@@ -1,5 +1,5 @@
 import { NAVGATION_LINK } from '@/constant/enum';
-import { StoreTypes } from '@/zustand/slice/chat-agent';
+import { StoreTypes } from '@/zustand/slice/workbench/chat-agent';
 import { usePathname } from 'next/navigation';
 
 export default function useAgentType(): { storeType: StoreTypes } {

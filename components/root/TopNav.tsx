@@ -41,7 +41,8 @@ const NavItem = ({
   link: string;
 }) => {
   const pathname = usePathname();
-  const isSelected = pathname.includes(`/${label.toLowerCase()}`);
+
+  const isSelected = pathname.includes(link);
   return (
     <Link
       href={link}

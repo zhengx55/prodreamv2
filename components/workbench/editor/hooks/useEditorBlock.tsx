@@ -45,7 +45,7 @@ export default function useEditorBlock(
   const { id } = useParams();
   const path = usePathname();
   const shouldTriggerDraftStream =
-    path.includes('draft&feedback') && Boolean(id) && !defaultContent;
+    path.includes('draft') && Boolean(id) && !defaultContent;
   const { mutateAsync: saveDraftFile } = useSaveDraft();
   const { mutateAsync: saveOutlineFile } = useSaveOutline();
   const debouncedCallback = useDebouncedCallback(
@@ -84,6 +84,7 @@ export default function useEditorBlock(
       CustomDocument,
       Underline,
       CharacterCount,
+
       TableOfContents.configure({
         getIndex: getHierarchicalIndexes,
       }),

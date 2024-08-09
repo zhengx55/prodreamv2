@@ -10,7 +10,7 @@ const GenerateDraftButton = ({ id }: { id: string }) => {
   const { push } = useRouter();
   const { execute, isExecuting } = useAction(generateDraft.bind(null, id), {
     onSuccess: ({ data }) => {
-      push(`/draft&feedback/${data}`);
+      push(`/draft/${data}`);
     },
   });
   return (

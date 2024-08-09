@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import ChatBar from '@/components/workbench/chat_bar/ChatBar';
+import ChatBar from '@/components/workbench/brainstorming/chat/bar/ChatBar';
 
 import SearchSection from '@/components/workbench/common/SearchSection';
 import DraftSection from '@/components/workbench/draft/DraftSection';
@@ -72,7 +72,7 @@ export default async function Page({
             </h2>
           </div>
           <SearchSection searchParams={searchParams}>
-            <Link href={`draft&feedback/create`}>
+            <Link href={`draft/create`}>
               <Button className='size-max rounded-lg px-4 py-2' role='button'>
                 <PlusCircle size={24} />
                 Add Draft

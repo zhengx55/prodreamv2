@@ -1,14 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Skeleton } from '@/components/ui/skeleton';
+import { CHATAGENT_TYPE } from '@/constant/enum';
 import { useAgentChat } from '@/query/chat_agent';
 import { useUserSession } from '@/query/session';
-import { Message as MessageProps } from '@/zustand/slice/chat-agent';
+import { Message as MessageProps } from '@/zustand/slice/workbench/chat-agent';
 import { useAgent } from '@/zustand/store';
 import Image from 'next/image';
 import { memo } from 'react';
 import Markdown from 'react-markdown';
-import useAgentType from '../hooks/getChatAgentType';
+import useAgentType from '../../../hooks/getChatAgentType';
 
 type UserMessageProps = {
   text: string;
@@ -21,8 +22,8 @@ const User = ({ text }: UserMessageProps) => {
   const { data, status: userStatus } = useUserSession();
   return (
     <div className='flex gap-x-2 self-end'>
-      <div className='h-max space-y-4 rounded-lg bg-indigo-500 px-4 py-2'>
-        <p className='base-regular text-white'>{text}</p>
+      <div className='h-max space-y-4 rounded-lg bg-slate-200 px-4 py-2'>
+        <p className='base-regular text-zinc-800'>{text}</p>
       </div>
       {userStatus !== 'success' ? (
         <Skeleton className='size-10 shrink-0 rounded-full' />
@@ -59,12 +60,12 @@ const Agent = ({ message }: AgentMessageProps) => {
           : message.options_selected![0],
       agent:
         storeType === 'brainstorming'
-          ? 'Brainstorm'
+          ? CHATAGENT_TYPE.BS
           : storeType === 'outline'
-            ? 'Outline'
+            ? CHATAGENT_TYPE.OL
             : storeType === 'draft'
-              ? 'Draft'
-              : 'Brainstorm',
+              ? CHATAGENT_TYPE.DR
+              : CHATAGENT_TYPE.REGULAR,
       session_id: getSessionId(storeType),
     });
     setAgentMessageSelectionDone(message.id, storeType);
@@ -79,7 +80,7 @@ const Agent = ({ message }: AgentMessageProps) => {
         className='size-10'
       />
       <div className='h-max rounded-lg bg-white px-4 py-2'>
-        <Markdown className='prose prose-base prose-p:my-1 prose-p:text-zinc-800 prose-strong:text-indigo-500 prose-ol:my-1'>
+        <Markdown className='prose prose-base prose-p:my-1 prose-p:leading-normal prose-p:text-zinc-800 prose-strong:text-indigo-500 prose-ol:my-1'>
           {message.text}
         </Markdown>
         {message.html_content && (
@@ -104,11 +105,11 @@ const Agent = ({ message }: AgentMessageProps) => {
                       checked={isSelected}
                       className={`${message.options_type === 'single' ? 'rounded-full' : 'rounded'} group-hover:border-indigo-500`}
                     />
-                    <span
-                      className={`${isSelected ? 'text-indigo-500' : 'text-zinc-600 group-hover:text-indigo-500'} small-regular`}
+                    <Markdown
+                      className={`${isSelected ? 'text-indigo-500' : 'text-zinc-600 group-hover:text-indigo-500'} prose prose-sm`}
                     >
                       {item.label}
-                    </span>
+                    </Markdown>
                   </li>
                 );
               })}
