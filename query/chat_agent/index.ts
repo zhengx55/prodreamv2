@@ -1,4 +1,5 @@
-import { StoreTypes } from '@/zustand/slice/chat-agent';
+import { CHATAGENT_TYPE } from '@/constant/enum';
+import { StoreTypes } from '@/zustand/slice/workbench/chat-agent';
 import { useAgent } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
@@ -6,8 +7,8 @@ import { v4 } from 'uuid';
 
 interface MutationParams {
   session_id: string | null;
-  agent: 'Brainstorm' | 'Outline' | 'Draft';
-  response: string | number | number[];
+  agent: (typeof CHATAGENT_TYPE)[keyof typeof CHATAGENT_TYPE];
+  response: string | number | number[] | null;
 }
 
 export const useAgentChat = (storeType: StoreTypes) => {
@@ -32,17 +33,14 @@ export const useAgentChat = (storeType: StoreTypes) => {
     params: MutationParams
   ): Promise<ReadableStream<Uint8Array>> => {
     const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/chat/agent`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(params),
-      }
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}v2/agent`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    });
 
     if (!res.ok) {
       throw new Error('An error occurred while sending the message');
@@ -76,7 +74,7 @@ export const useAgentChat = (storeType: StoreTypes) => {
         addAgentMessage(agentMessageId, storeType, '');
         isNewAgentMessage = false;
       }
-
+      console.log(previousLine);
       if (previousLine?.startsWith('event: session_id')) {
         const sessionId = line.replace('data: ', '').replace(/"/g, '').trim();
         setSessionId(storeType, sessionId);

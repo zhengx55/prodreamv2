@@ -1,6 +1,6 @@
 import { create, useStore } from 'zustand';
-import { ChatAgentStore, useChatAgent } from './slice/chat-agent';
 import useUserStore, { UserStore } from './slice/user-info';
+import { ChatAgentStore, useChatAgent } from './slice/workbench/chat-agent';
 import { EditorStore, useEditorStore } from './slice/workbench/editor';
 
 type AppStore = UserStore & ChatAgentStore & EditorStore;

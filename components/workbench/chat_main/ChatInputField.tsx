@@ -3,14 +3,25 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { CHATAGENT_TYPE } from '@/constant/enum';
+import { useAgentChat } from '@/query/chat_agent';
+import { useAgent } from '@/zustand/store';
 import { memo, useState } from 'react';
 
 const ChatInputField = () => {
   const [inputMessage, setInputMessage] = useState('');
+  const { mutateAsync: chat, isPending } = useAgentChat('chat');
+  const getSessionId = useAgent((state) => state.getSessionId);
 
   const handleSend = async () => {
     setInputMessage('');
+    await chat({
+      response: inputMessage,
+      agent: CHATAGENT_TYPE.REGULAR,
+      session_id: getSessionId('chat'),
+    });
   };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
   };
@@ -40,8 +51,8 @@ const ChatInputField = () => {
         <Icon
           alt='send'
           src='/chat/send.svg'
-          width={24}
-          height={24}
+          width={30}
+          height={30}
           priority
           className='size-6'
         />
