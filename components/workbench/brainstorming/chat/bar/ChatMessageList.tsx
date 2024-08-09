@@ -1,17 +1,21 @@
 import { useAgent } from '@/zustand/store';
 import { memo, useEffect, useRef } from 'react';
-import Message from '../chat_bar/ChatMessageItem';
+import useAgentType from '../../../hooks/getChatAgentType';
+import Message from '../common/ChatMessageItem';
 
 const ChatMessageList = () => {
-  const messageList = useAgent((state) => state.getMessages('chat'));
+  const { storeType } = useAgentType();
+  const messageList = useAgent((state) => state.getMessages(storeType));
   const bottomRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messageList]);
+
   return (
-    <div className='flex w-[800px] flex-1 flex-col gap-y-8 self-center overflow-y-auto py-8'>
+    <div className='flex flex-1 flex-col gap-y-8 overflow-y-auto px-4 pb-4 pt-6'>
       {messageList.map((message) => {
         if (message.role === 'user') {
           return <Message.User key={message.id} text={message.text} />;

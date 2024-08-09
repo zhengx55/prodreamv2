@@ -1,5 +1,5 @@
-import ChatFooter from '@/components/workbench/chat_main/ChatFooter';
-import ChatSection from '@/components/workbench/chat_main/ChatSection';
+import ChatFooter from '@/components/workbench/brainstorming/chat/page/ChatFooter';
+import ChatSection from '@/components/workbench/brainstorming/chat/page/ChatSection';
 import Image from 'next/image';
 
 export default function Page({

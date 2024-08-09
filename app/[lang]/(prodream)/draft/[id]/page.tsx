@@ -1,4 +1,4 @@
-import ChatBar from '@/components/workbench/chat_bar/ChatBar';
+import ChatBar from '@/components/workbench/brainstorming/chat/bar/ChatBar';
 import DraftDetails from '@/components/workbench/draft/DraftDetails';
 import { Prompt } from '@/types/outline';
 import { cookies } from 'next/headers';

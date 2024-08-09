@@ -1,6 +1,6 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
-import ChatBar from '@/components/workbench/chat_bar/ChatBar';
+import ChatBar from '@/components/workbench/brainstorming/chat/bar/ChatBar';
 import DraftContent from '@/components/workbench/draft/DraftContent';
 import GenerateDraftSidebar from '@/components/workbench/draft/GenerateDraftSidebar';
 import Link from 'next/link';
