@@ -45,7 +45,7 @@ const DraftGridItem = ({ item, prompts }: Props) => {
           </div>
           <p className='text-xs text-neutral-400'>Opened {lastOpenTime}</p>
         </div>
-        <Menu type='draft' id={item.id} href={`/draft&feedback/${item.id}`} />
+        <Menu type='draft' id={item.id} href={`/draft/${item.id}`} />
       </footer>
     </div>
   );

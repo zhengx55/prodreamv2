@@ -164,7 +164,7 @@ export const useCreateDraft = (closeModal: () => void) => {
       }
       await revalidateOutlines();
       setEditorContentGenerating(false);
-      push(`/draft&feedback/${data}`);
+      push(`/draft/${data}`);
     },
     onMutate: () => {
       setIsSubmitting(true);

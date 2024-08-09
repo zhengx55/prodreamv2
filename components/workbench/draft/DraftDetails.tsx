@@ -23,7 +23,7 @@ const DraftDetails = ({ draft_id, prompts }: Props) => {
       <div className='flex-between h-[63px] border-b px-4'>
         <div className='flex items-center gap-x-2'>
           <Button role='button' className='size-max p-1' variant={'icon'}>
-            <Link href={'/draft&feedback'}>
+            <Link href={'/draft'}>
               <Icon
                 alt='back'
                 src='/workbench/left.svg'

@@ -35,7 +35,7 @@ const DraftListItem = ({ item, prompts }: Props) => {
       <p className='w-[200px] text-xs text-neutral-400'>
         Opened {lastOpenTime}
       </p>
-      <Menu type='material' id={item.id} href={`/draft&feedback/${item.id}`} />
+      <Menu type='material' id={item.id} href={`/draft/${item.id}`} />
     </div>
   );
 };

@@ -13,5 +13,5 @@ export enum PAGESIZE {
 export enum NAVGATION_LINK {
   BRAINSTORMING = '/brainstorming',
   OUTLINE = '/outline',
-  DRAFT = '/draft&feedback',
+  DRAFT = '/draft',
 }

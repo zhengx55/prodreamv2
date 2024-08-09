@@ -64,21 +64,21 @@ const ChatCover = () => {
           iconAlt='Brainstorming Icon'
           title='Brainstorm'
           description='Uncover your most compelling stories, experiences, and strengths'
-          href='?option=brainstorming'
+          href='/brainstorming'
         />
         <ButtonCard
           iconSrc='/workbench/nav_outline.svg'
           iconAlt='Outline Icon'
           title='Outline'
           description='Uncover your most compelling stories, experiences, and strengths'
-          href='?option=outline'
+          href='/outline'
         />
         <ButtonCard
           iconSrc='/workbench/nav_draft.svg'
           iconAlt='Draft Icon'
           title='Draft'
           description='Uncover your most compelling stories, experiences, and strengths'
-          href='?option=draft'
+          href='/draft'
         />
       </div>
     </div>

@@ -21,7 +21,7 @@ const User = ({ text }: UserMessageProps) => {
   const { data, status: userStatus } = useUserSession();
   return (
     <div className='flex gap-x-2 self-end'>
-      <div className='h-max space-y-4 rounded-lg bg-indigo-500 px-4 py-2'>
+      <div className='h-max space-y-4 rounded-lg bg-slate-200 px-4 py-2'>
         <p className='base-regular text-white'>{text}</p>
       </div>
       {userStatus !== 'success' ? (
