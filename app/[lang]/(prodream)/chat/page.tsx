@@ -7,11 +7,10 @@ export default function Page({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const chat_option = searchParams.option;
   return (
     <section className='flex flex-1 overflow-y-hidden px-2 pb-2'>
       <div className='flex flex-1 flex-col rounded-lg bg-slate-100 pb-4'>
-        <div className='flex h-[63px] items-center gap-x-2 border-b border-gray-300 bg-white px-4'>
+        <div className='flex h-[63px] items-center gap-x-2 rounded-t-lg border-b border-gray-300 bg-white px-4'>
           <Image
             src='/workbench/nav_chat.svg'
             alt='agent'
