@@ -169,6 +169,10 @@
 
 
 .ProseMirror {
+  ::selection {
+    background-color: rgba(114, 112, 232, 0.20);
+
+  }
 
   p.empty-node:nth-child(2):before,
   .empty-node:first-child::before {

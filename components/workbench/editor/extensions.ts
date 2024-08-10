@@ -1,4 +1,7 @@
-import { TableOfContents } from '@tiptap-pro/extension-table-of-contents';
+import {
+  getHierarchicalIndexes,
+  TableOfContents,
+} from '@tiptap-pro/extension-table-of-contents';
 import CharacterCount from '@tiptap/extension-character-count';
 import Document from '@tiptap/extension-document';
 import Heading from '@tiptap/extension-heading';
@@ -22,7 +25,9 @@ const EditorExtensions = () => [
   CustomDocument,
   Underline,
   CharacterCount,
-  TableOfContents,
+  TableOfContents.configure({
+    getIndex: getHierarchicalIndexes,
+  }),
   TextAlign.configure({
     types: ['heading', 'paragraph'],
   }),
