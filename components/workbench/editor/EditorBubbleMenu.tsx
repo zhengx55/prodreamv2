@@ -36,8 +36,7 @@ const EditorBubbleMenu = ({ editor }: Props) => {
       className='flex size-max items-center gap-x-2 rounded-lg border border-gray-300 bg-white p-1 shadow'
       tippyOptions={{
         appendTo: () => document.body,
-        duration: 100,
-        placement: 'top-start',
+        placement: 'top',
       }}
     >
       <MemoButton>

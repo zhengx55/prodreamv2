@@ -17,7 +17,7 @@ type Props = {
 
 const DraftContent = (props: Props) => {
   return (
-    <div className='flex-center relative flex-1 bg-slate-100 pt-6'>
+    <div className='relative flex flex-1 bg-slate-100 pt-6'>
       <EditorBlock {...props} />
       <GeneratingBar />
     </div>
