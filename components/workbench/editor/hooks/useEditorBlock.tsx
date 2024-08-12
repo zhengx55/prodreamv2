@@ -60,6 +60,7 @@ export default function useEditorBlock(
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [...EditorExtensions()],
+    injectCSS: false,
     editorProps: {
       attributes: {
         autocomplete: 'off',

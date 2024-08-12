@@ -2,7 +2,7 @@ import { DropdownButton } from '@/components/ui/dropdown-button';
 
 import { Surface } from '@/components/ui/surface';
 import * as Dropdown from '@radix-ui/react-dropdown-menu';
-import { ChevronsUpDown, Type } from 'lucide-react';
+import { ChevronsUpDown } from 'lucide-react';
 import { memo, ReactNode, useMemo } from 'react';
 import { Toolbar } from './Toolbar';
 
@@ -47,15 +47,10 @@ const ContentTypePicker = ({ options }: ContentTypePickerProps) => {
         <>
           <Dropdown.Trigger asChild>
             <Toolbar.Button
-              className='w-40 justify-between'
+              className='w-max justify-between'
               active={activeItem?.id !== 'paragraph' && !!activeItem?.type}
             >
               <span className='inline-flex items-center gap-x-1.5'>
-                {activeItem?.type === 'option' ? (
-                  activeItem.icon
-                ) : (
-                  <Type size={16} />
-                )}
                 {activeItem?.label}
               </span>
               <ChevronsUpDown size={16} />
