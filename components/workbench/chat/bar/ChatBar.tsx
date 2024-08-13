@@ -2,9 +2,10 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useRightbar } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 const ChatMessageList = dynamic(() => import('./ChatMessageList'), {
   ssr: false,
@@ -13,11 +14,8 @@ const ChatMessageList = dynamic(() => import('./ChatMessageList'), {
 const ChatFooter = dynamic(() => import('./ChatFooter'));
 
 const ChatBar = () => {
-  const [expanded, setExpanded] = useState(false);
-  const toggleExpanded = useCallback(() => {
-    setExpanded((prev) => !prev);
-  }, []);
-
+  const rightbarTab = useRightbar((state) => state.rightbarTab);
+  const toggleRightbarTab = useRightbar((state) => state.setRightbarTab);
   const renderButton = useCallback(
     (
       alt: string,
@@ -49,12 +47,12 @@ const ChatBar = () => {
     <div className='flex'>
       <div
         className={`transition-all duration-300 ease-in-out ${
-          expanded
+          rightbarTab === 0
             ? 'w-[400px] rounded-bl-lg rounded-tl-lg'
             : 'w-0 rounded-bl-lg rounded-tl-lg'
         } flex flex-1 overflow-hidden bg-slate-100`}
       >
-        {expanded && (
+        {rightbarTab === 0 && (
           <div className='flex flex-1 flex-col'>
             <div className='flex-between h-[63px] rounded-tl-lg border-b border-gray-200 bg-white px-4'>
               <div className='flex items-center gap-x-2'>
@@ -71,7 +69,9 @@ const ChatBar = () => {
                 'collapse',
                 '/workbench/collapse.svg',
                 'size-5',
-                toggleExpanded
+                () => {
+                  toggleRightbarTab(0);
+                }
               )}
             </div>
             <ChatMessageList />
@@ -81,23 +81,57 @@ const ChatBar = () => {
       </div>
       <div
         className={`flex h-full w-[60px] flex-col items-center ${
-          expanded
+          rightbarTab === 0
             ? 'rounded-br-lg rounded-tr-lg'
             : 'rounded-bl-lg rounded-br-lg rounded-tl-lg rounded-tr-lg'
         } border-l border-gray-200 bg-white pt-6 transition-all duration-300 ease-in-out`}
       >
-        {renderButton(
-          'min_agent',
-          `${expanded ? '/workbench/chat_trigger.svg' : '/workbench/chat_trigger_unselected.svg'}`,
-          'size-6',
-          toggleExpanded,
-          `${!expanded ? '' : 'bg-slate-200'}`
-        )}
-        <p
-          className={`${expanded ? 'text-indigo-500' : 'text-zinc-600'} small-regular text-center`}
-        >
-          Chat
-        </p>
+        <ul className='space-y-6'>
+          <li>
+            {renderButton(
+              'min_agent',
+              `${rightbarTab === 0 ? '/workbench/chat_trigger.svg' : '/workbench/chat_trigger_unselected.svg'}`,
+              'size-6',
+              () => {
+                toggleRightbarTab(0);
+              },
+              `${rightbarTab !== 0 ? '' : 'bg-slate-200'}`
+            )}
+          </li>
+          <li>
+            {renderButton(
+              'min_agent',
+              `${rightbarTab === 1 ? '/workbench/detection_trigger.svg' : '/workbench/chat_trigger_unselected.svg'}`,
+              'size-6',
+              () => {
+                toggleRightbarTab(1);
+              },
+              `${rightbarTab !== 1 ? '' : 'bg-slate-200'}`
+            )}
+          </li>
+          <li>
+            {renderButton(
+              'min_agent',
+              `${rightbarTab === 2 ? '/workbench/plagiarism_trigger.svg' : '/workbench/chat_trigger_unselected.svg'}`,
+              'size-6',
+              () => {
+                toggleRightbarTab(2);
+              },
+              `${rightbarTab !== 2 ? '' : 'bg-slate-200'}`
+            )}
+          </li>
+          <li>
+            {renderButton(
+              'min_agent',
+              `${rightbarTab === 3 ? '/workbench/grammar_trigger.svg' : '/workbench/chat_trigger_unselected.svg'}`,
+              'size-6',
+              () => {
+                toggleRightbarTab(3);
+              },
+              `${rightbarTab !== 3 ? '' : 'bg-slate-200'}`
+            )}
+          </li>
+        </ul>
       </div>
     </div>
   );
