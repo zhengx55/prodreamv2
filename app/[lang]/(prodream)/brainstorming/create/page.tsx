@@ -1,10 +1,11 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import MaterialForm from '@/components/workbench/brainstorming/MaterialForm';
-import ChatBar from '@/components/workbench/chat/bar/ChatBar';
+import Rightbar from '@/components/workbench/common/Rightbar';
 import { ThemeType } from '@/types/brainstorm';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+
 async function getThemesData(token: string): Promise<ThemeType[]> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material/themes?page=0&page_size=10`,
@@ -47,7 +48,7 @@ export default async function Page() {
           <MaterialForm themes={themes} type='create' />
         </div>
       </div>
-      <ChatBar />
+      <Rightbar />
     </section>
   );
 }

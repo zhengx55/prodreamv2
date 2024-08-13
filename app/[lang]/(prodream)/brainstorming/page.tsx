@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import MaterialSection from '@/components/workbench/brainstorming/MaterialSection';
-import ChatBar from '@/components/workbench/chat/bar/ChatBar';
+import Rightbar from '@/components/workbench/common/Rightbar';
 
 import SearchSection from '@/components/workbench/common/SearchSection';
 import { PAGESIZE } from '@/constant/enum';
@@ -63,7 +63,7 @@ export default async function Page({
         </div>
         <MaterialSection pageCount={data.total_page_count} list={data.data} />
       </div>
-      <ChatBar />
+      <Rightbar />
     </section>
   );
 }

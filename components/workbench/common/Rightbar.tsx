@@ -7,14 +7,14 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { ComponentType, FC, useCallback } from 'react';
 
-const Detection = dynamic(() => import('../../detection/Detection'));
-const Grammar = dynamic(() => import('../../grammar/Grammar'));
-const Plagiarism = dynamic(() => import('../../plagiarism/Plagiarism'));
-const ChatMessageList = dynamic(() => import('./ChatMessageList'), {
+const Detection = dynamic(() => import('../detection/Detection'));
+const Grammar = dynamic(() => import('../grammar/Grammar'));
+const Plagiarism = dynamic(() => import('../plagiarism/Plagiarism'));
+const ChatMessageList = dynamic(() => import('../chat/bar/ChatMessageList'), {
   ssr: false,
   loading: () => <div className='flex-1' />,
 });
-const ChatFooter = dynamic(() => import('./ChatFooter'));
+const ChatFooter = dynamic(() => import('../chat/bar/ChatFooter'));
 
 interface ComponentConfig {
   id: number;

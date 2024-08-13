@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import ChatBar from '@/components/workbench/chat/bar/ChatBar';
+import Rightbar from '@/components/workbench/common/Rightbar';
 import SearchSection from '@/components/workbench/common/SearchSection';
 import OutlineSection from '@/components/workbench/outline/OutlineSection';
 import { PAGESIZE } from '@/constant/enum';
@@ -81,7 +81,7 @@ export default async function Page({
           list={data.data}
         />
       </div>
-      <ChatBar />
+      <Rightbar />
     </section>
   );
 }
