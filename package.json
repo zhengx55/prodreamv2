@@ -17,6 +17,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@floating-ui/react-dom": "^2.1.1",
     "@formatjs/intl-localematcher": "^0.5.4",
     "@hookform/resolvers": "^3.3.2",
     "@next/bundle-analyzer": "^14.0.1",
@@ -87,6 +88,7 @@
     "sonner": "^1.2.4",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
+    "tiptap-extension-global-drag-handle": "^0.1.10",
     "turndown": "^7.2.0",
     "use-debounce": "^10.0.0",
     "uuid": "^10.0.0",

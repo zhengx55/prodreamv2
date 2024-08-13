@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, HTMLProps, forwardRef } from 'react';
+import { ButtonHTMLAttributes, HTMLProps, forwardRef, memo } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Surface } from '../../ui/surface';
@@ -170,5 +170,5 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 export const Toolbar = {
   Wrapper: ToolbarWrapper,
   Divider: ToolbarDivider,
-  Button: ToolbarButton,
+  Button: memo(ToolbarButton),
 };

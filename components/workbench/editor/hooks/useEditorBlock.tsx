@@ -2,35 +2,15 @@ import { findTitle } from '@/lib/tiptap/utils';
 import { getDraftSteam, useSaveDraft } from '@/query/draft';
 import { useSaveOutline } from '@/query/outline';
 import { useEditor as useEditorStore } from '@/zustand/store';
-import {
-  getHierarchicalIndexes,
-  TableOfContents,
-} from '@tiptap-pro/extension-table-of-contents';
 import type { Editor } from '@tiptap/core';
-import CharacterCount from '@tiptap/extension-character-count';
-import Document from '@tiptap/extension-document';
-import Heading from '@tiptap/extension-heading';
-import Placeholder from '@tiptap/extension-placeholder';
-import TextAlign from '@tiptap/extension-text-align';
-import Underline from '@tiptap/extension-underline';
 import type { Transaction } from '@tiptap/pm/state';
 import { useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import { marked } from 'marked';
 import { useParams, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import TurndownService from 'turndown';
 import { useDebouncedCallback } from 'use-debounce';
-
-const Title = Heading.extend({
-  name: 'title',
-  group: 'title',
-  parseHTML: () => [{ tag: 'h1:first-child' }],
-}).configure({ levels: [1] });
-
-const CustomDocument = Document.extend({
-  content: 'title block*',
-});
+import EditorExtensions from '../extensions';
 
 export default function useEditorBlock(
   defaultContent?: string,
@@ -79,35 +59,8 @@ export default function useEditorBlock(
   );
   const editor = useEditor({
     immediatelyRender: false,
-    extensions: [
-      Title,
-      CustomDocument,
-      Underline,
-      CharacterCount,
-
-      TableOfContents.configure({
-        getIndex: getHierarchicalIndexes,
-      }),
-      TextAlign.extend({
-        addKeyboardShortcuts() {
-          return {};
-        },
-      }).configure({
-        types: ['heading', 'paragraph'],
-      }),
-      StarterKit.configure({
-        document: false,
-      }),
-      Placeholder.configure({
-        emptyNodeClass: 'empty-node',
-        placeholder: ({ node }) => {
-          if (node.type.name === 'title') {
-            return 'Enter Title';
-          }
-          return 'Enter Content';
-        },
-      }),
-    ],
+    extensions: [...EditorExtensions()],
+    injectCSS: false,
     editorProps: {
       attributes: {
         autocomplete: 'off',
