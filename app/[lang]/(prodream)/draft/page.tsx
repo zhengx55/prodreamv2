@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import ChatBar from '@/components/workbench/brainstorming/chat/bar/ChatBar';
+import ChatBar from '@/components/workbench/chat/bar/ChatBar';
 
 import SearchSection from '@/components/workbench/common/SearchSection';
 import DraftSection from '@/components/workbench/draft/DraftSection';

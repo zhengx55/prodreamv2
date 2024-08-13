@@ -1,7 +1,7 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import MaterialForm from '@/components/workbench/brainstorming/MaterialForm';
-import ChatBar from '@/components/workbench/brainstorming/chat/bar/ChatBar';
+import ChatBar from '@/components/workbench/chat/bar/ChatBar';
 import { MaterialItem, ThemeType } from '@/types/brainstorm';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
