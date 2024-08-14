@@ -16,11 +16,7 @@ import {
   AlignJustify,
   AlignLeft,
   AlignRight,
-  Bold,
-  Italic,
   MoreVertical,
-  Strikethrough,
-  Underline,
 } from 'lucide-react';
 import FontsizePicker from './FontsizePicker';
 import { Toolbar } from './Toolbar';
@@ -147,10 +143,11 @@ const EditorBubbleMenu = ({ editor }: Props) => {
         <Toolbar.Button>
           <Icon
             alt=''
-            src='/editor/stars.svg'
+            src='/editor/copilot.svg'
             width={18}
             height={18}
-            className='size-[18px]'
+            className='size-4'
+            priority
           />
           <span className='text-indigo-500'>AI Copilot</span>
         </Toolbar.Button>
@@ -197,7 +194,14 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           onClick={commands.onBold}
           active={states.isBold}
         >
-          <Bold size={16} />
+          <Icon
+            alt='bold'
+            src='/editor/bold.svg'
+            width={20}
+            height={20}
+            priority
+            className='size-4'
+          />
         </Toolbar.Button>
         <Toolbar.Button
           onMouseDown={(e) => e.preventDefault()}
@@ -206,7 +210,14 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           onClick={commands.onItalic}
           active={states.isItalic}
         >
-          <Italic size={16} />
+          <Icon
+            alt='italic'
+            src='/editor/italic.svg'
+            width={20}
+            height={20}
+            priority
+            className='size-4'
+          />
         </Toolbar.Button>
         <Toolbar.Button
           onMouseDown={(e) => e.preventDefault()}
@@ -215,7 +226,14 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           onClick={commands.onUnderline}
           active={states.isUnderline}
         >
-          <Underline size={16} />
+          <Icon
+            alt='underline'
+            src='/editor/underline.svg'
+            width={20}
+            height={20}
+            priority
+            className='size-4'
+          />
         </Toolbar.Button>
         <Toolbar.Button
           onMouseDown={(e) => e.preventDefault()}
@@ -224,7 +242,14 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           onClick={commands.onStrike}
           active={states.isStrike}
         >
-          <Strikethrough size={16} />
+          <Icon
+            alt='strike'
+            src='/editor/strike.svg'
+            width={20}
+            height={20}
+            priority
+            className='size-4'
+          />
         </Toolbar.Button>
         <Popover.Root>
           <Popover.Trigger asChild>
