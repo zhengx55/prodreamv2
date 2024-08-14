@@ -10,7 +10,7 @@ type Props = {
 
 const Starter = ({ type, onClick }: Props) => {
   return (
-    <div className='flex-center flex-col gap-y-4 rounded-lg bg-white p-4'>
+    <div className='flex-center h-max w-full flex-col gap-y-4 rounded-lg bg-white p-4'>
       <Image
         src={workbench_rightbar[type].icon}
         alt={workbench_rightbar[type].button}

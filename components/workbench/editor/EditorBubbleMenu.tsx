@@ -158,7 +158,7 @@ const EditorBubbleMenu = ({ editor }: Props) => {
         position: strategy,
         top: y ?? 0,
         left: x ?? 0,
-        visibility: middlewareData.detectOverflowMiddleware.shouldHide
+        visibility: middlewareData.detectOverflowMiddleware?.shouldHide
           ? 'hidden'
           : 'visible',
       }}
