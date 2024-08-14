@@ -2,7 +2,7 @@ import { DropdownButton } from '@/components/ui/dropdown-button';
 
 import { Surface } from '@/components/ui/surface';
 import * as Dropdown from '@radix-ui/react-dropdown-menu';
-import { ChevronsUpDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { memo, ReactNode, useMemo } from 'react';
 import { Toolbar } from './Toolbar';
 
@@ -53,7 +53,7 @@ const ContentTypePicker = ({ options }: ContentTypePickerProps) => {
               <span className='inline-flex items-center gap-x-1.5'>
                 {activeItem?.label}
               </span>
-              <ChevronsUpDown size={16} />
+              <ChevronDown size={16} />
             </Toolbar.Button>
           </Dropdown.Trigger>
           <Toolbar.Divider />

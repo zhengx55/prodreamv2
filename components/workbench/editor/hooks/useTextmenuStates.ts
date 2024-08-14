@@ -23,6 +23,7 @@ export const useTextmenuStates = (editor: Editor) => {
     isAlignCenter: editor.isActive({ textAlign: 'center' }),
     isAlignRight: editor.isActive({ textAlign: 'right' }),
     isAlignJustify: editor.isActive({ textAlign: 'justify' }),
+    currentSize: editor.getAttributes('textStyle')?.fontSize || undefined,
 
     shouldShow,
   };
