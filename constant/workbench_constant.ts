@@ -94,3 +94,29 @@ export const workbench_profile = [
     icon_white: '/workbench/logout_white.svg',
   },
 ];
+
+export const workbench_rightbar = {
+  grammar: {
+    icon: '/workbench/grammar_start.png',
+    button: 'Start Grammar Check',
+    description:
+      'Click to start checking for any grammar, spelling, and punctuation issues in your writing',
+  },
+  detection: {
+    icon: '/workbench/detection_start.png',
+    button: 'Start AI Detection',
+    description:
+      'Identify AI-generated content and help maintain originality in your work',
+  },
+  plagiarism: {
+    icon: '/workbench/plagiarism_start.png',
+    button: 'Start Plagiarism Check',
+    description:
+      'Check for originality of your work with deep similarity detection',
+  },
+  humanizer: {
+    icon: '/workbench/humanizer_start.png',
+    button: 'Start Humanizer',
+    description: 'Click to see humanize suggestions',
+  },
+};
