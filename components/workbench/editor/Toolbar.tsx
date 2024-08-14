@@ -147,7 +147,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             )
         ),
 
-      buttonSize === 'medium' && 'py-2 px-3',
+      buttonSize === 'medium' && 'py-1 px-1.5',
       buttonSize === 'small' && 'py-1 px-2',
       buttonSize === 'icon' && 'w-8 h-8',
       buttonSize === 'iconSmall' && 'w-6 h-6',

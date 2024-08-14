@@ -1,6 +1,14 @@
 import Icon from '@/components/root/Icon';
 import { useTextmenuCommands } from '@/components/workbench/editor/hooks/useTextMenuCommand';
-import { autoUpdate, flip, offset, useFloating } from '@floating-ui/react-dom';
+import {
+  autoUpdate,
+  detectOverflow,
+  flip,
+  MiddlewareReturn,
+  MiddlewareState,
+  offset,
+  useFloating,
+} from '@floating-ui/react-dom';
 import * as Popover from '@radix-ui/react-popover';
 import { type Editor, isNodeSelection, posToDOMRect } from '@tiptap/react';
 import { useTranslations } from 'next-intl';
@@ -28,22 +36,32 @@ const EditorBubbleMenu = ({ editor }: Props) => {
   const commands = useTextmenuCommands(editor);
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
-  const { x, y, strategy, refs } = useFloating({
+  const detectOverflowMiddleware = {
+    name: 'detectOverflowMiddleware',
+    async fn(state: MiddlewareState): Promise<MiddlewareReturn> {
+      const overflow = await detectOverflow(state);
+      return {
+        data: {
+          shouldHide: overflow.top > -150,
+        },
+      };
+    },
+  };
+  const { x, y, strategy, refs, middlewareData } = useFloating({
     open: open,
-    strategy: 'absolute',
+    strategy: 'fixed',
     whileElementsMounted: autoUpdate,
     placement: 'top-start',
     middleware: [
       offset({ mainAxis: 10 }),
       flip({
-        padding: 8,
         boundary: editor.options.element,
-        fallbackStrategy: 'bestFit',
-        fallbackPlacements: ['bottom-start', 'bottom-end'],
+        fallbackStrategy: 'initialPlacement',
+        fallbackPlacements: ['bottom-start', 'bottom-end', 'top-end'],
       }),
+      detectOverflowMiddleware,
     ],
   });
-
   const menuYOffside = useRef<number | null>(null);
   const menuXOffside = useRef<number | null>(null);
 
@@ -136,10 +154,16 @@ const EditorBubbleMenu = ({ editor }: Props) => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       ref={refs.setFloating}
-      style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-      className='z-0'
+      style={{
+        position: strategy,
+        top: y ?? 0,
+        left: x ?? 0,
+        visibility: middlewareData.detectOverflowMiddleware.shouldHide
+          ? 'hidden'
+          : 'visible',
+      }}
     >
-      <Toolbar.Wrapper className='rounded-lg border border-gray-200 shadow'>
+      <Toolbar.Wrapper className='h-10 rounded-lg border border-gray-200 shadow'>
         <Toolbar.Button>
           <Icon
             alt=''
