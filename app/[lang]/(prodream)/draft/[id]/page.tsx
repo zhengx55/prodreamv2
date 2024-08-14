@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <section className='flex flex-1 gap-x-2 overflow-y-hidden px-2 pb-2'>
       <DraftDetails draft_id={params.id} prompts={prompts} />
-      <Rightbar />
+      <Rightbar isDraftDetail />
     </section>
   );
 }
