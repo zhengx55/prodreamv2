@@ -1,3 +1,5 @@
+import FontSize from '@/lib/tiptap/plugin/fontsize';
+import { TrailingNode } from '@/lib/tiptap/plugin/trailing-node';
 import {
   getHierarchicalIndexes,
   TableOfContents,
@@ -7,6 +9,7 @@ import Document from '@tiptap/extension-document';
 import Heading from '@tiptap/extension-heading';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
+import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
 
@@ -21,10 +24,13 @@ const CustomDocument = Document.extend({
 });
 
 const EditorExtensions = () => [
+  TextStyle,
   Title,
+  TrailingNode,
   CustomDocument,
   Underline,
   CharacterCount,
+  FontSize,
   TableOfContents.configure({
     getIndex: getHierarchicalIndexes,
   }),

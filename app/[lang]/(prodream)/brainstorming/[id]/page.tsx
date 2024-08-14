@@ -1,7 +1,7 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import MaterialForm from '@/components/workbench/brainstorming/MaterialForm';
-import ChatBar from '@/components/workbench/brainstorming/chat/bar/ChatBar';
+import Rightbar from '@/components/workbench/common/Rightbar';
 import { MaterialItem, ThemeType } from '@/types/brainstorm';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
@@ -71,7 +71,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           />
         </div>
       </div>
-      <ChatBar />
+      <Rightbar />
     </section>
   );
 }

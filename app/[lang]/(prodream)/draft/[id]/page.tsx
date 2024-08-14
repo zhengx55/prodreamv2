@@ -1,4 +1,4 @@
-import ChatBar from '@/components/workbench/brainstorming/chat/bar/ChatBar';
+import Rightbar from '@/components/workbench/common/Rightbar';
 import DraftDetails from '@/components/workbench/draft/DraftDetails';
 import { Prompt } from '@/types/outline';
 import { cookies } from 'next/headers';
@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <section className='flex flex-1 gap-x-2 overflow-y-hidden px-2 pb-2'>
       <DraftDetails draft_id={params.id} prompts={prompts} />
-      <ChatBar />
+      <Rightbar />
     </section>
   );
 }

@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import ChatBar from '@/components/workbench/brainstorming/chat/bar/ChatBar';
+import Rightbar from '@/components/workbench/common/Rightbar';
 
 import SearchSection from '@/components/workbench/common/SearchSection';
 import DraftSection from '@/components/workbench/draft/DraftSection';
@@ -86,7 +86,7 @@ export default async function Page({
           pageCount={data.total_page_count}
         />
       </div>
-      <ChatBar />
+      <Rightbar />
     </section>
   );
 }

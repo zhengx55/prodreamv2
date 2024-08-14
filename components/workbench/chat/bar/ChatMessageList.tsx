@@ -1,6 +1,6 @@
 import { useAgent } from '@/zustand/store';
 import { memo, useEffect, useRef } from 'react';
-import useAgentType from '../../../hooks/getChatAgentType';
+import useAgentType from '../../hooks/getChatAgentType';
 import Message from '../common/ChatMessageItem';
 
 const ChatMessageList = () => {

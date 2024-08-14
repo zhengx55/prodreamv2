@@ -22,6 +22,7 @@ import {
   Strikethrough,
   Underline,
 } from 'lucide-react';
+import FontsizePicker from './FontsizePicker';
 import { Toolbar } from './Toolbar';
 type Props = { editor: Editor };
 
@@ -155,6 +156,11 @@ const EditorBubbleMenu = ({ editor }: Props) => {
         </Toolbar.Button>
         <Toolbar.Divider />
         <ContentTypePicker options={blockOptions} />
+        <FontsizePicker
+          onChange={commands.onSetFontSize}
+          value={states.currentSize}
+        />
+        <Toolbar.Divider />
         <Toolbar.Button
           onMouseDown={(e) => e.preventDefault()}
           tooltip={transEditor('BubbleMenu.Undo')}

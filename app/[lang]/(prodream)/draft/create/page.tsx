@@ -1,6 +1,6 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
-import ChatBar from '@/components/workbench/brainstorming/chat/bar/ChatBar';
+import Rightbar from '@/components/workbench/common/Rightbar';
 import DraftContent from '@/components/workbench/draft/DraftContent';
 import GenerateDraftSidebar from '@/components/workbench/draft/GenerateDraftSidebar';
 import Link from 'next/link';
@@ -31,7 +31,7 @@ export default function Page() {
           <DraftContent />
         </div>
       </div>
-      <ChatBar />
+      <Rightbar />
     </section>
   );
 }
