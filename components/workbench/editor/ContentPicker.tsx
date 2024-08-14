@@ -46,13 +46,8 @@ const ContentTypePicker = ({ options }: ContentTypePickerProps) => {
       {activeItem ? (
         <>
           <Dropdown.Trigger asChild>
-            <Toolbar.Button
-              className='w-max justify-between'
-              active={activeItem?.id !== 'paragraph' && !!activeItem?.type}
-            >
-              <span className='inline-flex items-center gap-x-1.5'>
-                {activeItem?.label}
-              </span>
+            <Toolbar.Button className='gap-x-4'>
+              {activeItem?.label}
               <ChevronDown size={16} />
             </Toolbar.Button>
           </Dropdown.Trigger>

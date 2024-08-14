@@ -1,7 +1,6 @@
 import PageViewTrack from '@/components/root/PageViewTrack';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
-import Hotjar from '@/htojar/Hotjar';
 import { locales } from '@/i18n';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
@@ -86,7 +85,6 @@ export default async function RootLayout({
       className={`${poppins.variable} ${inter.variable} ${liber.variable} ${cnFont.variable}`}
       suppressHydrationWarning
     >
-      {process.env.NODE_ENV === 'production' && <Hotjar />}
       <body>
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}

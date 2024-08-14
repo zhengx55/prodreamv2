@@ -23,15 +23,14 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'test.quickapply.app',
-      },
-      {
-        protocol: 'https',
         hostname: 'quickapply.app',
       },
-      { hostname: 'lh3.googleusercontent.com', protocol: 'https' },
       { hostname: 'quickapply.blob.core.windows.net', protocol: 'https' },
     ],
+  },
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;
+    return config;
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'react-use'],

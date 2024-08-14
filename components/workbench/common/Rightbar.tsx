@@ -57,7 +57,7 @@ const components: ComponentConfig[] = [
   },
 ];
 
-const ChatBar: FC = () => {
+const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
   const rightbarTab = useRightbar((state) => state.rightbarTab);
   const toggleRightbarTab = useRightbar((state) => state.setRightbarTab);
 
@@ -141,21 +141,33 @@ const ChatBar: FC = () => {
         } border-l border-gray-200 bg-white pt-6 transition-all duration-300 ease-in-out`}
       >
         <ul className='space-y-6'>
-          {components.map((comp) => (
-            <li key={comp.id}>
+          {isDraftDetail ? (
+            components.map((comp) => (
+              <li key={comp.id}>
+                {renderButton(
+                  `${comp.name.toLowerCase()}`,
+                  `${rightbarTab === comp.id ? `/workbench/${comp.name.toLowerCase()}_trigger.svg` : `/workbench/${comp.name.toLowerCase()}_trigger_unselected.svg`}`,
+                  'size-6',
+                  () => toggleRightbarTab(comp.id),
+                  `${rightbarTab !== comp.id ? '' : 'bg-slate-200'}`
+                )}
+              </li>
+            ))
+          ) : (
+            <li>
               {renderButton(
-                `${comp.name.toLowerCase()}`,
-                `${rightbarTab === comp.id ? `/workbench/${comp.name.toLowerCase()}_trigger.svg` : `/workbench/${comp.name.toLowerCase()}_trigger_unselected.svg`}`,
+                `${components[0].name.toLowerCase()}`,
+                `${rightbarTab === components[0].id ? `/workbench/${components[0].name.toLowerCase()}_trigger.svg` : `/workbench/${components[0].name.toLowerCase()}_trigger_unselected.svg`}`,
                 'size-6',
-                () => toggleRightbarTab(comp.id),
-                `${rightbarTab !== comp.id ? '' : 'bg-slate-200'}`
+                () => toggleRightbarTab(components[0].id),
+                `${rightbarTab !== components[0].id ? '' : 'bg-slate-200'}`
               )}
             </li>
-          ))}
+          )}
         </ul>
       </div>
     </div>
   );
 };
 
-export default ChatBar;
+export default Rightbar;

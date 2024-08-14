@@ -1,6 +1,14 @@
 import Icon from '@/components/root/Icon';
 import { useTextmenuCommands } from '@/components/workbench/editor/hooks/useTextMenuCommand';
-import { autoUpdate, flip, offset, useFloating } from '@floating-ui/react-dom';
+import {
+  autoUpdate,
+  detectOverflow,
+  flip,
+  MiddlewareReturn,
+  MiddlewareState,
+  offset,
+  useFloating,
+} from '@floating-ui/react-dom';
 import * as Popover from '@radix-ui/react-popover';
 import { type Editor, isNodeSelection, posToDOMRect } from '@tiptap/react';
 import { useTranslations } from 'next-intl';
@@ -16,11 +24,7 @@ import {
   AlignJustify,
   AlignLeft,
   AlignRight,
-  Bold,
-  Italic,
   MoreVertical,
-  Strikethrough,
-  Underline,
 } from 'lucide-react';
 import FontsizePicker from './FontsizePicker';
 import { Toolbar } from './Toolbar';
@@ -32,22 +36,32 @@ const EditorBubbleMenu = ({ editor }: Props) => {
   const commands = useTextmenuCommands(editor);
   const states = useTextmenuStates(editor);
   const blockOptions = useTextmenuContentTypes(editor);
-  const { x, y, strategy, refs } = useFloating({
+  const detectOverflowMiddleware = {
+    name: 'detectOverflowMiddleware',
+    async fn(state: MiddlewareState): Promise<MiddlewareReturn> {
+      const overflow = await detectOverflow(state);
+      return {
+        data: {
+          shouldHide: overflow.top > -150,
+        },
+      };
+    },
+  };
+  const { x, y, strategy, refs, middlewareData } = useFloating({
     open: open,
-    strategy: 'absolute',
+    strategy: 'fixed',
     whileElementsMounted: autoUpdate,
     placement: 'top-start',
     middleware: [
       offset({ mainAxis: 10 }),
       flip({
-        padding: 8,
         boundary: editor.options.element,
-        fallbackStrategy: 'bestFit',
-        fallbackPlacements: ['bottom-start', 'bottom-end'],
+        fallbackStrategy: 'initialPlacement',
+        fallbackPlacements: ['bottom-start', 'bottom-end', 'top-end'],
       }),
+      detectOverflowMiddleware,
     ],
   });
-
   const menuYOffside = useRef<number | null>(null);
   const menuXOffside = useRef<number | null>(null);
 
@@ -140,17 +154,24 @@ const EditorBubbleMenu = ({ editor }: Props) => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       ref={refs.setFloating}
-      style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-      className='z-0'
+      style={{
+        position: strategy,
+        top: y ?? 0,
+        left: x ?? 0,
+        visibility: middlewareData.detectOverflowMiddleware?.shouldHide
+          ? 'hidden'
+          : 'visible',
+      }}
     >
-      <Toolbar.Wrapper className='rounded-lg border border-gray-200 shadow'>
+      <Toolbar.Wrapper className='h-10 rounded-lg border border-gray-200 shadow'>
         <Toolbar.Button>
           <Icon
             alt=''
-            src='/editor/stars.svg'
+            src='/editor/copilot.svg'
             width={18}
             height={18}
-            className='size-[18px]'
+            className='size-4'
+            priority
           />
           <span className='text-indigo-500'>AI Copilot</span>
         </Toolbar.Button>
@@ -197,7 +218,14 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           onClick={commands.onBold}
           active={states.isBold}
         >
-          <Bold size={16} />
+          <Icon
+            alt='bold'
+            src='/editor/bold.svg'
+            width={20}
+            height={20}
+            priority
+            className='size-4'
+          />
         </Toolbar.Button>
         <Toolbar.Button
           onMouseDown={(e) => e.preventDefault()}
@@ -206,7 +234,14 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           onClick={commands.onItalic}
           active={states.isItalic}
         >
-          <Italic size={16} />
+          <Icon
+            alt='italic'
+            src='/editor/italic.svg'
+            width={20}
+            height={20}
+            priority
+            className='size-4'
+          />
         </Toolbar.Button>
         <Toolbar.Button
           onMouseDown={(e) => e.preventDefault()}
@@ -215,7 +250,14 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           onClick={commands.onUnderline}
           active={states.isUnderline}
         >
-          <Underline size={16} />
+          <Icon
+            alt='underline'
+            src='/editor/underline.svg'
+            width={20}
+            height={20}
+            priority
+            className='size-4'
+          />
         </Toolbar.Button>
         <Toolbar.Button
           onMouseDown={(e) => e.preventDefault()}
@@ -224,7 +266,14 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           onClick={commands.onStrike}
           active={states.isStrike}
         >
-          <Strikethrough size={16} />
+          <Icon
+            alt='strike'
+            src='/editor/strike.svg'
+            width={20}
+            height={20}
+            priority
+            className='size-4'
+          />
         </Toolbar.Button>
         <Popover.Root>
           <Popover.Trigger asChild>
