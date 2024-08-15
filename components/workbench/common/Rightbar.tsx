@@ -6,6 +6,7 @@ import { useRightbar } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { ComponentType, FC, useCallback, useEffect } from 'react';
+import GenerateOutline from '../chat/modal/GenerateOutline';
 
 const Detection = dynamic(() => import('../detection/Detection'));
 const Grammar = dynamic(() => import('../grammar/Grammar'));
@@ -140,6 +141,7 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
       >
         {renderContent(rightbarTab)}
       </div>
+      <GenerateOutline />
       <div
         className={`flex h-full w-[60px] flex-col items-center ${
           rightbarTab !== -1

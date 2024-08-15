@@ -13,14 +13,18 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export const useGetMaterials = (keyword: string, page: number) => {
+export const useGetMaterials = (
+  keyword: string,
+  page: number,
+  pageSize?: number
+) => {
   return useQuery<MaterialListRes>({
-    queryKey: ['getMaterials', keyword, page],
+    queryKey: ['getMaterials', keyword, page, pageSize],
     placeholderData: keepPreviousData,
     queryFn: async () => {
       const token = Cookies.get('token');
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material?page=${page}&page_size=${PAGESIZE.MATERIAL_MODAL_PAGE_SIZE}&keyword=${keyword}`,
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material?page=${page}&page_size=${pageSize ? pageSize : PAGESIZE.MATERIAL_MODAL_PAGE_SIZE}&keyword=${keyword}`,
         {
           method: 'GET',
           headers: {
@@ -84,6 +88,41 @@ export const useGetPrompts = () => {
       return data.data;
     },
     staleTime: Infinity,
+  });
+};
+
+export const useGetRatedPrompts = (params: {
+  prompt_type: string;
+  material_ids: string[];
+  shouldShow: boolean;
+}) => {
+  return useQuery<Prompt[]>({
+    queryKey: ['getRatedPrompts', params.prompt_type, params.material_ids],
+    queryFn: async () => {
+      const queryParams = new URLSearchParams({
+        prompt_type: params.prompt_type,
+      });
+
+      params.material_ids.forEach((id) =>
+        queryParams.append('material_ids', id)
+      );
+      const token = Cookies.get('token');
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}prompt/recommend?prompt_type=${params.prompt_type}&${queryParams.toString()}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      return data.data;
+    },
+    staleTime: Infinity,
+    enabled: Boolean(
+      params.prompt_type && params.material_ids.length && params.shouldShow
+    ),
   });
 };
 
