@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { useRightbar } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { ComponentType, FC, useCallback } from 'react';
+import { ComponentType, FC, useCallback, useEffect } from 'react';
 
 const Detection = dynamic(() => import('../detection/Detection'));
 const Grammar = dynamic(() => import('../grammar/Grammar'));
@@ -60,6 +60,13 @@ const components: ComponentConfig[] = [
 const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
   const rightbarTab = useRightbar((state) => state.rightbarTab);
   const toggleRightbarTab = useRightbar((state) => state.setRightbarTab);
+
+  useEffect(() => {
+    if (!isDraftDetail && rightbarTab !== 0 && rightbarTab !== -1) {
+      toggleRightbarTab(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDraftDetail, rightbarTab]);
 
   const renderButton = useCallback(
     (

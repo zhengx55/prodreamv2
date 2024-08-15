@@ -1,5 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import TopNav from '@/components/root/TopNav';
+
 import type { Locale } from '@/i18n-config';
 import Image from 'next/image';
 import { ReactNode } from 'react';
