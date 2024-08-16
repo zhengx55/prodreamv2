@@ -5,15 +5,16 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { LocaleType } from '@/i18n';
 import { createLoginSchema } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
-import Link from 'next/link';
-import { LocaleType } from '@/i18n';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -49,12 +50,18 @@ const LoginForm = () => {
           name='username'
           render={({ field }) => (
             <FormItem className='relative'>
+              <FormLabel
+                htmlFor='username'
+                className='text-xl font-semibold text-zinc-800'
+              >
+                Email
+              </FormLabel>
               <FormControl>
                 <Input
                   autoComplete='email'
                   id='username'
                   placeholder={trans('FormEmail')}
-                  className='placeholder:base-regular h-12 rounded-md border'
+                  className='base-regular h-[60px] rounded-lg border border-zinc-200 bg-gray-50 focus-visible:ring-0'
                   {...field}
                 />
               </FormControl>
@@ -67,17 +74,23 @@ const LoginForm = () => {
           name='password'
           render={({ field }) => (
             <FormItem className='relative'>
+              <FormLabel
+                htmlFor='password'
+                className='text-xl font-semibold text-zinc-800'
+              >
+                Password
+              </FormLabel>
               {!hidePassword ? (
                 <EyeOff
                   onClick={() => setHidePassword((prev) => !prev)}
                   size={22}
-                  className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
+                  className='absolute bottom-4 right-2 cursor-pointer text-neutral-400'
                 />
               ) : (
                 <Eye
                   onClick={() => setHidePassword((prev) => !prev)}
                   size={22}
-                  className='absolute bottom-3.5 right-2 cursor-pointer text-neutral-400'
+                  className='absolute bottom-4 right-2 cursor-pointer text-neutral-400'
                 />
               )}
               <FormControl>
@@ -86,7 +99,7 @@ const LoginForm = () => {
                   id='password'
                   type={hidePassword ? 'password' : 'text'}
                   placeholder={trans('FormPassword')}
-                  className='placeholder:base-regular h-12 rounded-md border'
+                  className='base-regular h-[60px] rounded-lg border border-zinc-200 bg-gray-50 focus-visible:ring-0'
                   {...field}
                 />
               </FormControl>
@@ -96,12 +109,15 @@ const LoginForm = () => {
         />
         <Link
           href={`/${lang}/reset-password`}
-          className='small-semibold cursor-pointer self-end text-violet-500 hover:underline'
+          className='small-semibold cursor-pointer self-end text-indigo-500 hover:underline'
         >
           {trans('Login.Forget')}
         </Link>
-        <Button className='w-full rounded bg-violet-500' type='submit'>
-          {trans('Login.Button')}
+        <Button
+          className='h-[60px] w-full rounded-lg font-semibold'
+          type='submit'
+        >
+          Login
         </Button>
       </form>
     </Form>

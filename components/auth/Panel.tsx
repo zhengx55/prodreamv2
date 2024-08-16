@@ -1,7 +1,6 @@
 import type { Locale } from '@/i18n-config';
 import Image from 'next/image';
 import { ReactNode } from 'react';
-import Privacy from './Privacy';
 
 const Panel = ({ children, lang }: { children: ReactNode; lang?: Locale }) => {
   return (
@@ -17,7 +16,7 @@ const Panel = ({ children, lang }: { children: ReactNode; lang?: Locale }) => {
         />
       </div>
       {children}
-      {lang !== 'cn' && <Privacy />}
+      {/* {lang !== 'cn' && <Privacy />} */}
     </div>
   );
 };

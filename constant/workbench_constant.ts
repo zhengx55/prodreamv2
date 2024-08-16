@@ -82,14 +82,14 @@ export const workbench_profile = [
   {
     id: 'workbench_profile_1',
     title: 'Profile',
-    link: '',
+    link: '/profile',
     icon: '/workbench/profile.svg',
     icon_white: '/workbench/profile_white.svg',
   },
   {
     id: 'workbench_profile_2',
     title: 'Logout',
-    link: '',
+    link: '/login',
     icon: '/workbench/logout.svg',
     icon_white: '/workbench/logout_white.svg',
   },
