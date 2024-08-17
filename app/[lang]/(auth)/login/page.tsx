@@ -7,10 +7,8 @@ import Image from 'next/image';
 
 export default async function Page({
   params: { lang },
-  searchParams: { from },
 }: {
   params: { lang: Locale };
-  searchParams: { from: string };
 }) {
   unstable_setRequestLocale(lang);
 
