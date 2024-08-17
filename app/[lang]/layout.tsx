@@ -7,7 +7,6 @@ import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, unstable_setRequestLocale } from 'next-intl/server';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
-import localFont from 'next/font/local';
 import { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import './globals.css';
@@ -33,13 +32,6 @@ const liber = Libre_Baskerville({
   weight: ['400', '700'],
   display: 'swap',
   variable: '--liber-font',
-  preload: false,
-});
-
-const cnFont = localFont({
-  src: '../../public/font/XiQuejuzhenti.ttf',
-  display: 'swap',
-  variable: '--cn-font',
   preload: false,
 });
 
@@ -82,7 +74,7 @@ export default async function RootLayout({
   return (
     <html
       lang={params.lang}
-      className={`${poppins.variable} ${inter.variable} ${liber.variable} ${cnFont.variable}`}
+      className={`${poppins.variable} ${inter.variable} ${liber.variable}`}
       suppressHydrationWarning
     >
       <body>

@@ -2,6 +2,7 @@
 
 import { logout } from '@/components/info/profile/server_actions';
 import Icon from '@/components/root/Icon';
+import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -29,9 +30,11 @@ export default function Page() {
     logout();
   };
   return (
-    <div className='w-[600px] space-y-4'>
+    <div className='w-[600px]'>
       <h1 className='text-xl font-semibold text-zinc-800'>Profile</h1>
+      <Spacer y='8' />
       <Separator orientation='horizontal' className='bg-gray-200' />
+      <Spacer y='16' />
       <div className='flex gap-x-4 rounded-lg border border-gray-200 bg-white px-4 py-3'>
         <div className='space-y-2'>
           {isPending ? (
@@ -60,8 +63,11 @@ export default function Page() {
           <ResetName />
         </div>
       </div>
-      <Separator orientation='horizontal' className='bg-gray-200' />
+      <Spacer y='16' />
+      <Separator orientation='horizontal' className='bg-gray-200' />{' '}
+      <Spacer y='16' />
       <h2 className='base-normal'>Binding method display and modification</h2>
+      <Spacer y='16' />
       <div className='flex-between rounded-lg border border-gray-200 bg-white px-4 py-2.5'>
         <div className='flex items-center gap-x-4'>
           <span className='flex-center size-8 rounded-full bg-indigo-500'>
@@ -71,12 +77,16 @@ export default function Page() {
         </div>
         <ResetEmail />
       </div>
-      <h2 className='base-normal'>Password display and modification</h2>
+      <Spacer y='16' />
       <Separator orientation='horizontal' className='bg-gray-200' />
+      <Spacer y='16' />
+      <h2 className='base-normal'>Password display and modification</h2>
+      <Spacer y='16' />
       <div className='flex-between rounded-lg border border-gray-200 bg-white px-4 py-2.5'>
         <h3 className='small-regular'>Password</h3>
         <ResetPassword />
       </div>
+      <Spacer y='16' />
       <Button
         onClick={handleLogout}
         className='w-full bg-gray-200 text-zinc-600 hover:bg-gray-300 active:bg-gray-300'

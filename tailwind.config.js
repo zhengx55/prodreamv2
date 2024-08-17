@@ -15,7 +15,6 @@ module.exports = {
         poppins: ['var(--poppins-font)'],
         inter: ['var(--inter-font)'],
         baskerville: ['var(--liber-font)'],
-        custom: ['var(--cn-font)'],
         pingfang: ['PingFang SC', 'sans-serif'],
       },
       colors: {
