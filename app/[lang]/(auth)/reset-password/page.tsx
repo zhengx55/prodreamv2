@@ -1,6 +1,5 @@
 import Panel from '@/components/auth/Panel';
 import ResetForm from '@/components/auth/RestForm';
-import ResetFormCN from '@/components/auth/RestFormCN';
 import Spacer from '@/components/root/Spacer';
 import type { Locale } from '@/i18n-config';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
@@ -13,12 +12,11 @@ export default async function Page({
 }) {
   unstable_setRequestLocale(lang);
   const trans = await getTranslations('Auth');
-  const isInChina = lang === 'cn';
 
   return (
     <Panel lang={lang}>
       <div className='flex w-full flex-col sm:w-[600px]'>
-        {isInChina ? <ResetFormCN /> : <ResetForm />}
+        <ResetForm />
         <Spacer y='20' />
         {lang === 'en' ? (
           <p className='base-regular text-neutral-400'>

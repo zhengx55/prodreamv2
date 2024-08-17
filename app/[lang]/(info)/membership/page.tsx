@@ -95,7 +95,7 @@ export default function Page() {
             background: '/membership/agent_jessica_bg.png',
             foreground: '/membership/agent_jessica.png',
           }}
-          foreGroundClassName='-top-1 right-2'
+          foreGroundClassName='-top-1.5 right-2'
           upgrade
         >
           Agent <br /> Jessica Pro
