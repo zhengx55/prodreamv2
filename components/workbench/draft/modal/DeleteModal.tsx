@@ -38,7 +38,7 @@ const DeleteModal = ({ id, setShow }: Props) => {
           <AlertDialogCancel asChild>
             <Button
               variant={'icon'}
-              className='size-max border-gray-200 p-1'
+              className='size-max border border-gray-200 p-1'
               role='button'
             >
               <X size={16} className='text-zinc-500' />
