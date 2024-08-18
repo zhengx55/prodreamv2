@@ -4,7 +4,6 @@ import { actionClient } from '@/lib/actions/client';
 import { flattenValidationErrors } from 'next-safe-action';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { zfd } from 'zod-form-data';
 
@@ -68,10 +67,10 @@ export const loginIn = actionClient
     revalidateTag('outlines');
     const cookie = cookies();
     cookie.set('token', data.data.access_token, {
-      httpOnly: true,
       sameSite: 'lax',
+      secure: true,
+      maxAge: 604800,
     });
-    redirect('/brianstorming');
   });
 
 export const resetPassword = actionClient

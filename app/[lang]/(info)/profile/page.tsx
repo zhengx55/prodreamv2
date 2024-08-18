@@ -57,7 +57,7 @@ export default function Page() {
           {isPending ? (
             <Skeleton className='h-5 w-10 rounded-lg' />
           ) : (
-            <p className='base-medium text-zinc-800'>{data?.first_name}</p>
+            <p className='base-medium text-zinc-800'>{data?.name}</p>
           )}
 
           <ResetName />
