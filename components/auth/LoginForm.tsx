@@ -2,7 +2,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Eye, EyeOff } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -10,9 +9,7 @@ import { loginIn } from './server_actions';
 
 const LoginForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
-
-  const trans = useTranslations('Auth');
-  const { execute, isExecuting, result } = useAction(loginIn, {});
+  const { execute, isExecuting, result } = useAction(loginIn);
 
   return (
     <form action={execute} className='flex flex-col gap-y-6'>
@@ -74,11 +71,12 @@ const LoginForm = () => {
 
       <Link
         href={`/reset-password`}
-        className='small-semibold cursor-pointer self-end text-indigo-500 hover:underline'
+        className='base-medium cursor-pointer self-end text-indigo-500 hover:underline'
       >
-        {trans('Login.Forget')}
+        Forget Password?
       </Link>
       <Button
+        disabled={isExecuting}
         className='h-[60px] w-full rounded-lg font-semibold'
         type='submit'
       >
