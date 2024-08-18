@@ -4,12 +4,24 @@ import { Input } from '@/components/ui/input';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { loginIn } from './server_actions';
 
 const LoginForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
-  const { execute, isExecuting, result } = useAction(loginIn);
+  const { push } = useRouter();
+  const { execute, isExecuting, result } = useAction(loginIn, {
+    onSuccess: () => {
+      push('/brainstorming');
+    },
+    onError: async () => {
+      const { toast } = await import('sonner');
+      toast.error(
+        'Username or password is incorrect. Please try again or reset your password'
+      );
+    },
+  });
 
   return (
     <form action={execute} className='flex flex-col gap-y-6'>
