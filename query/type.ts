@@ -8,16 +8,15 @@ export interface LoginResponse {
 }
 
 export interface LoginData {
-  avatar: string;
-  create_time: number;
+  id: string;
+  name: string;
   email: string;
-  first_name: string;
-  last_name: string;
-  update_time: number;
-  user_id: string;
-  is_google: boolean;
-  is_verified: boolean;
-  phone_number: string;
+  avatar: string;
+  role: number;
+  info: string | null;
+  status: number;
+  create_time: string;
+  update_time: string;
 }
 
 export interface ISigunUpRequest {
