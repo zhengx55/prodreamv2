@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: applifyai.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5cec4f0126134257aa09fc5cc7563eec }}/prodream-next:${{ github.sha }}
+        tags: applifyai.azurecr.io/prodream-next:${{ github.sha }}
         file: ./Dockerfile
         build-args: BRANCH_NAME=${{ github.ref_name }}
 
