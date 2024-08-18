@@ -67,7 +67,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             type='update'
             id={params.id}
             themes={themes}
-            defaultTheme={data.theme.id}
+            defaultTheme={data.theme?.id ?? ''}
           />
         </div>
       </div>

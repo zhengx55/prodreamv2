@@ -27,7 +27,6 @@ export function middleware(req: NextRequest) {
 
   const token = req.cookies.get('token');
   if (!token && !alreadyOnLoginPage) {
-    console.log('redirecting to login');
     return NextResponse.redirect(new URL(`/${locale}/login`, req.url));
   }
 
