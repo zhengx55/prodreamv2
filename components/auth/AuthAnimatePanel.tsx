@@ -229,6 +229,7 @@ const AuthAnimatePanel = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elementSize]);
 
   const renderImage = (src: string, alt: string) => (
