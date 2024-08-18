@@ -92,7 +92,7 @@ const ChatPolishOutline = () => {
   const setShow = useAgent((state) => state.setshowPolishOutlineModal);
 
   return (
-    <Dialog open={true} onOpenChange={setShow}>
+    <Dialog open={show} onOpenChange={setShow}>
       <DialogContent
         aria-describedby='dialog-content'
         className='flex flex-col gap-0 rounded-lg bg-white p-0 outline-none focus:outline-none md:w-[978px]'
