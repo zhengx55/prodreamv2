@@ -8,6 +8,7 @@ export enum OperationType {
 export enum PAGESIZE {
   MATERIAL_PAGE_SIZE = 20,
   MATERIAL_MODAL_PAGE_SIZE = 6,
+  CHAT_MODAL_PAGE_SIZE = 9,
 }
 
 export enum NAVGATION_LINK {

@@ -9,14 +9,9 @@ const nextIntlMiddleware = createIntlMiddleware({
 
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
-  const search = req.nextUrl.search;
-  const isBase = ['/', '/login', '/signup', '/reset-password'].includes(
-    pathname
-  );
+  const newHeader = new Headers(req.headers);
+  newHeader.set('x-invoke-path', pathname);
 
-  const pathnameIsMissingLocale = i18n.locales.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  );
   const locale = 'en';
   const alreadyOnLoginPage = i18n.locales.some(
     (locale) =>
@@ -26,21 +21,12 @@ export function middleware(req: NextRequest) {
       pathname === `/${locale}/reset-password`
   );
 
-  if (pathnameIsMissingLocale && isBase) {
-    return NextResponse.redirect(
-      new URL(
-        `/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}${search ?? ''}`,
-        req.url
-      )
-    );
-  }
-
   if (alreadyOnLoginPage) {
     return NextResponse.next();
   }
 
   const token = req.cookies.get('token');
-  if (!token) {
+  if (!token && !alreadyOnLoginPage) {
     return NextResponse.redirect(new URL(`/${locale}/login`, req.url));
   }
   const response = nextIntlMiddleware(req);

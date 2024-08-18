@@ -1,5 +1,5 @@
-import * as z from 'zod';
 import { PhoneNumberUtil } from 'google-libphonenumber';
+import * as z from 'zod';
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
@@ -262,3 +262,25 @@ export const createGenerateOutlineSchema = (t: (id: string) => string) =>
       ),
     }),
   });
+
+export const resetEmailV2 = z.object({
+  email: z.string().email('Invalid email address'),
+  verification_code: z.string().length(6, {
+    message: 'Verification code must be a 6-digit',
+  }),
+});
+
+export const resetPasswordV2 = z.object({
+  new_password: z.string().min(6, {
+    message: 'Password must be at least 6 characters',
+  }),
+  old_password: z.string().min(6, {
+    message: 'Password must be at least 6 characters',
+  }),
+});
+
+export const resetNameV2 = z.object({
+  name: z.string().min(1, {
+    message: 'Name must be at least 1 character',
+  }),
+});

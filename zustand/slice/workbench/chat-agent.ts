@@ -22,6 +22,8 @@ type State = {
   brainstormingMessages: Message[];
   outLineMessages: Message[];
   draftMessages: Message[];
+  showGenerateOutlineModal: boolean;
+  showPolishOutlineModal: boolean;
 };
 
 type Action = {
@@ -59,6 +61,8 @@ type Action = {
   getMessages: (type: StoreTypes) => Message[];
   getSessionId: (type: StoreTypes) => string | null;
   clearSession: (type: StoreTypes) => void;
+  setshowGenerateOutlineModal: (show: boolean) => void;
+  setshowPolishOutlineModal: (show: boolean) => void;
 };
 
 export type ChatAgentStore = State & Action;
@@ -72,6 +76,8 @@ const initialState: State = {
   brainstormingMessages: [],
   outLineMessages: [],
   draftMessages: [],
+  showGenerateOutlineModal: false,
+  showPolishOutlineModal: false,
 };
 
 const updateMessages = (
@@ -270,5 +276,12 @@ export const useChatAgent: StateCreator<ChatAgentStore> = (set, get) => ({
         )
       )
     );
+  },
+
+  setshowGenerateOutlineModal: (show) => {
+    set({ showGenerateOutlineModal: show });
+  },
+  setshowPolishOutlineModal: (show) => {
+    set({ showPolishOutlineModal: show });
   },
 });

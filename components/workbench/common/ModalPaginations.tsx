@@ -23,7 +23,7 @@ const ModalPaginations = ({ page, setPage, totalPage }: Props) => {
               page === i
                 ? 'bg-indigo-500 text-white'
                 : 'bg-transparent text-zinc-600 hover:bg-slate-100'
-            } flex-center size-8 cursor-pointer rounded-lg`}
+            } flex-center size-8 cursor-pointer rounded-lg text-sm`}
           >
             {i + 1}
           </PaginationItem>
