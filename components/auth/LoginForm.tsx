@@ -9,7 +9,14 @@ import { loginIn } from './server_actions';
 
 const LoginForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
-  const { execute, isExecuting, result } = useAction(loginIn);
+  const { execute, isExecuting, result } = useAction(loginIn, {
+    onError: async () => {
+      const { toast } = await import('sonner');
+      toast.error(
+        'Username or password is incorrect. Please try again or reset your password'
+      );
+    },
+  });
 
   return (
     <form action={execute} className='flex flex-col gap-y-6'>

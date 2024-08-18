@@ -4,6 +4,7 @@ import { actionClient } from '@/lib/actions/client';
 import { flattenValidationErrors } from 'next-safe-action';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { zfd } from 'zod-form-data';
 
@@ -45,29 +46,32 @@ export const loginIn = actionClient
     handleValidationErrorsShape: (ve) => flattenValidationErrors(ve),
   })
   .action(async ({ parsedInput: { username, password } }) => {
-    console.log('username', username);
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}/user/token`,
+      `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}user/token`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({
+          email: username,
+          password: password,
+        }),
       }
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.message);
+      throw new Error(data.msg);
     }
     revalidateTag('materials');
     revalidateTag('drafts');
     revalidateTag('outlines');
     const cookie = cookies();
-    cookie.set('token', data.access_token, {
+    cookie.set('token', data.data.access_token, {
       httpOnly: true,
       sameSite: 'lax',
     });
+    redirect('/brianstorming');
   });
 
 export const resetPassword = actionClient
@@ -76,7 +80,7 @@ export const resetPassword = actionClient
   })
   .action(async ({ parsedInput }) => {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}/user/password`,
+      `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}user/password`,
       {
         method: 'POST',
         headers: {
@@ -91,7 +95,7 @@ export const resetPassword = actionClient
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.message);
+      throw new Error(data.msg);
     }
   });
 
@@ -101,7 +105,7 @@ export const sendVerificationEmail = actionClient
   })
   .action(async ({ parsedInput }) => {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}/user/verification_code`,
+      `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}user/verification_code`,
       {
         method: 'POST',
         headers: {
@@ -114,6 +118,6 @@ export const sendVerificationEmail = actionClient
     );
     const data = await res.json();
     if (data.code !== 0) {
-      throw new Error(data.message);
+      throw new Error(data.msg);
     }
   });
