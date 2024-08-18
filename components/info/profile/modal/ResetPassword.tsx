@@ -80,12 +80,12 @@ const ResetPassword = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-7'>
             <FormField
               control={form.control}
-              name='new_password'
+              name='old_password'
               render={({ field }) => (
                 <FormItem className='relative space-y-0'>
                   <FormControl>
                     <Input
-                      id='new_password'
+                      id='old_password'
                       className='h-11 bg-gray-50'
                       type='text'
                       placeholder='Enter old password'
