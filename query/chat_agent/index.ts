@@ -3,6 +3,7 @@ import { StoreTypes } from '@/zustand/slice/workbench/chat-agent';
 import { useAgent } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 import { v4 } from 'uuid';
 
 interface MutationParams {
@@ -12,6 +13,7 @@ interface MutationParams {
 }
 
 export const useAgentChat = (storeType: StoreTypes) => {
+  const { push } = useRouter();
   const addUserMessage = useAgent((state) => state.addUserMessage);
   const setSessionId = useAgent((state) => state.setSessionId);
   const addAgentMessage = useAgent((state) => state.addAgentMessage);
@@ -33,6 +35,9 @@ export const useAgentChat = (storeType: StoreTypes) => {
   );
   const setshowPolishOutlineModal = useAgent(
     (state) => state.setshowPolishOutlineModal
+  );
+  const setshowGenerateDraftModal = useAgent(
+    (state) => state.setshowGenerateDraftModal
   );
 
   const fetchChatResponse = async (
@@ -126,6 +131,14 @@ export const useAgentChat = (storeType: StoreTypes) => {
           setshowGenerateOutlineModal(true);
         } else if (clientEvent.includes(CHATDATA.POLISH_OUTLINE_POPUP_UI)) {
           setshowPolishOutlineModal(true);
+        } else if (clientEvent.includes(CHATDATA.GENERATE_DRAFT_POPUP_UI)) {
+          setshowGenerateDraftModal(true);
+        } else if (clientEvent.includes(CHATDATA.GO_BRAINSTORMING)) {
+          push('/brainstorming');
+        } else if (clientEvent.includes(CHATDATA.GO_OUTLINE)) {
+          push('/outline');
+        } else if (clientEvent.includes(CHATDATA.GO_DRAFT)) {
+          push('/draft');
         }
       }
     };

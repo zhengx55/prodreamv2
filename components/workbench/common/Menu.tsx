@@ -47,14 +47,14 @@ const Menu = ({ href, id, type }: Props) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='space-y-1 bg-white'>
+          <DropdownMenuItem className='p-0'>
+            <EditButton href={href} />
+          </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={() => setShowDialog((prev) => !prev)}
             className='p-0'
           >
             <DeleteButton />
-          </DropdownMenuItem>
-          <DropdownMenuItem className='p-0'>
-            <EditButton href={href} />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

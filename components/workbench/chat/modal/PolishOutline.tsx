@@ -17,7 +17,11 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { PAGESIZE } from '@/constant/enum';
-import { useGetMaterials, useGetPrompts } from '@/query/outline';
+import {
+  useGetMaterials,
+  useGetPrompts,
+  useHandleOutlineFromChat,
+} from '@/query/outline';
 import { useAgent } from '@/zustand/store';
 import { ChevronLeft, Loader2 } from 'lucide-react';
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -54,6 +58,7 @@ const ChatPolishOutline = () => {
   ) as { data: MaterialListRes | undefined; isLoading: boolean };
 
   const { data: prompts, isLoading: promptLoading } = useGetPrompts();
+  const { mutate, isPending } = useHandleOutlineFromChat();
 
   const handleNextStep = useCallback(() => {
     if (steps === 2) {
@@ -61,6 +66,7 @@ const ChatPolishOutline = () => {
     } else {
       setSteps((prev) => prev + 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [steps]);
 
   const canGotoStepTwo = useMemo(() => outlineContent !== '', [outlineContent]);
@@ -85,7 +91,12 @@ const ChatPolishOutline = () => {
   }, []);
 
   const handleSubmit = async () => {
-    // 提交逻辑
+    mutate({
+      title: 'Untitled',
+      material_ids: selectedMaterials,
+      prompt_id: selectedPrompt,
+      original_outline: outlineContent,
+    });
   };
 
   const show = useAgent((state) => state.showPolishOutlineModal);
@@ -139,14 +150,20 @@ const ChatPolishOutline = () => {
           </Button>
           <div className='space-x-2'>
             <DialogClose asChild>
-              <Button variant={'secondary'} className='h-10 px-8'>
+              <Button
+                disabled={isPending}
+                variant={'secondary'}
+                className='h-10 px-8'
+              >
                 Cancel
               </Button>
             </DialogClose>
 
             <Button
               onClick={handleNextStep}
-              disabled={steps === 0 ? !canGotoStepTwo : !canGotoStepThree}
+              disabled={
+                isPending || (steps === 0 ? !canGotoStepTwo : !canGotoStepThree)
+              }
               className='h-10 px-8'
             >
               {steps === 2 ? 'Create' : 'Next'}

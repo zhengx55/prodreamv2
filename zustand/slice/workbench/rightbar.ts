@@ -23,7 +23,7 @@ type Action = {
 export type RightbarStore = State & Action;
 
 const initialState: State = {
-  rightbarTab: -1,
+  rightbarTab: 0,
   plagiarismResult: undefined,
   plagiarismLoading: false,
   plagiarismProgress: 0,

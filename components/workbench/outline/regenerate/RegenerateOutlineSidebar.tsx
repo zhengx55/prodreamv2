@@ -15,7 +15,6 @@ const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
   const [prompt, setPrompt] = useState<string>(data.prompt_id);
   const { data: selectedMaterials, isLoading } =
     useGetMaterialsByIds(materials);
-  console.log(selectedMaterials);
   const promptTitle = useMemo(
     () => prompts.find((item) => item.id === prompt)?.title,
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -3,7 +3,7 @@ import { revalidateOutlines } from '@/components/workbench/outline/server_action
 import { PAGESIZE } from '@/constant/enum';
 import { Draft } from '@/types/draft';
 import { OutlineItem, OutlineRes } from '@/types/outline';
-import { useEditor } from '@/zustand/store';
+import { useAgent, useEditor } from '@/zustand/store';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import Cookies from 'js-cookie';
@@ -171,6 +171,42 @@ export const useCreateDraft = (closeModal: () => void) => {
     },
   });
   return { ...mutation, isSubmitting };
+};
+
+export const useHandleDraftFromChat = () => {
+  const { push } = useRouter();
+  const setshowGenerateDraftModal = useAgent(
+    (state) => state.setshowGenerateDraftModal
+  );
+
+  return useMutation({
+    mutationFn: async (params: { outline_id: string }) => {
+      const token = Cookies.get('token');
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}draft`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(params),
+        }
+      );
+      const data = await res.json();
+      if (data.code !== 0) throw new Error(data.msg);
+      return data.data;
+    },
+    onSuccess: async (data) => {
+      const { draft_id } = data;
+      setshowGenerateDraftModal(false);
+      push(`/draft/${draft_id}`);
+    },
+    onError: async (error) => {
+      const { toast } = await import('sonner');
+      toast.error('Failed to create outline');
+    },
+  });
 };
 
 export const useGetDraftContent = (draft_id: string) => {
