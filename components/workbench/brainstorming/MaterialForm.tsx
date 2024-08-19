@@ -11,6 +11,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ThemeType } from '@/types/brainstorm';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAction } from 'next-safe-action/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -40,6 +41,7 @@ const MaterialForm = ({
   const titleLenght = title.trim().split(/\s+/).filter(Boolean).length;
   const contentLenght = content.trim().split(/\s+/).filter(Boolean).length;
   const boundCreateMaterial = createMaterial.bind(null, theme);
+  const queryClient = useQueryClient();
   const {
     execute: create,
     isExecuting: isCreating,
@@ -48,6 +50,9 @@ const MaterialForm = ({
     onSuccess: async () => {
       const { toast } = await import('sonner');
       toast.success('Material created successfully');
+      queryClient.invalidateQueries({
+        queryKey: ['getMaterials'],
+      });
       push('/brainstorming');
     },
   });
@@ -60,6 +65,9 @@ const MaterialForm = ({
     onSuccess: async () => {
       const { toast } = await import('sonner');
       toast.success('Material updated successfully');
+      queryClient.invalidateQueries({
+        queryKey: ['getMaterials'],
+      });
       push('/brainstorming');
     },
   });

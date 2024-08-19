@@ -17,7 +17,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { PAGESIZE } from '@/constant/enum';
-import { useGetMaterials, useGetRatedPrompts } from '@/query/outline';
+import {
+  useGetMaterials,
+  useGetRatedPrompts,
+  useHandleOutlineFromChat,
+} from '@/query/outline';
 import { useAgent } from '@/zustand/store';
 import { ChevronLeft, Loader2 } from 'lucide-react';
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -47,7 +51,7 @@ const ChatGenerateOutline = () => {
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [selectedPromptType, setSelectedPromptType] = useState<string>('UC');
   const [selectedPrompt, setSelectedPrompt] = useState<string>('');
-
+  const { mutate, isPending } = useHandleOutlineFromChat();
   const { data: materials, isLoading: materialLoading } = useGetMaterials(
     '',
     page,
@@ -59,14 +63,6 @@ const ChatGenerateOutline = () => {
     material_ids: selectedMaterials,
     shouldShow: steps === 1,
   }) as { data: Prompt[] | undefined; isLoading: boolean };
-
-  const handleNextStep = useCallback(() => {
-    if (steps === 2) {
-      handleSubmit();
-    } else {
-      setSteps((prev) => prev + 1);
-    }
-  }, [steps]);
 
   const canGotoStepTwo = useMemo(
     () => selectedMaterials.length > 0 && selectedMaterials.length <= 5,
@@ -90,8 +86,21 @@ const ChatGenerateOutline = () => {
   }, []);
 
   const handleSubmit = async () => {
-    // 提交逻辑
+    mutate({
+      title: 'Untitled',
+      material_ids: selectedMaterials,
+      prompt_id: selectedPrompt,
+    });
   };
+
+  const handleNextStep = useCallback(() => {
+    if (steps === 2) {
+      handleSubmit();
+    } else {
+      setSteps((prev) => prev + 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [steps]);
 
   const show = useAgent((state) => state.showGenerateOutlineModal);
   const setShow = useAgent((state) => state.setshowGenerateOutlineModal);
@@ -144,14 +153,20 @@ const ChatGenerateOutline = () => {
           </Button>
           <div className='space-x-2'>
             <DialogClose asChild>
-              <Button variant={'secondary'} className='h-10 px-8'>
+              <Button
+                disabled={isPending}
+                variant={'secondary'}
+                className='h-10 px-8'
+              >
                 Cancel
               </Button>
             </DialogClose>
 
             <Button
               onClick={handleNextStep}
-              disabled={steps === 0 ? !canGotoStepTwo : !canGotoStepThree}
+              disabled={
+                isPending || (steps === 0 ? !canGotoStepTwo : !canGotoStepThree)
+              }
               className='h-10 px-8'
             >
               {steps === 2 ? 'Create' : 'Next'}

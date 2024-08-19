@@ -71,7 +71,7 @@ const Agent = ({ message }: AgentMessageProps) => {
     setAgentMessageSelectionDone(message.id, storeType);
   };
   return (
-    <div className='flex gap-x-2'>
+    <div className='flex w-full gap-x-2'>
       <Image
         src='/chat_agent/common/max.png'
         alt='Agent'
@@ -79,7 +79,7 @@ const Agent = ({ message }: AgentMessageProps) => {
         height={40}
         className='size-10'
       />
-      <div className='h-max rounded-lg bg-white px-4 py-2'>
+      <div className='overflow-x-hidden rounded-lg bg-white px-4 py-2'>
         <Markdown className='prose prose-base prose-p:my-1 prose-p:leading-normal prose-p:text-zinc-800 prose-strong:text-indigo-500 prose-ol:my-1'>
           {message.text}
         </Markdown>

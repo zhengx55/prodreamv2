@@ -1,6 +1,6 @@
 import { findTitle } from '@/lib/tiptap/utils';
 import { getDraftSteam, useSaveDraft } from '@/query/draft';
-import { useSaveOutline } from '@/query/outline';
+import { getOutlineStream, useSaveOutline } from '@/query/outline';
 import { useEditor as useEditorStore } from '@/zustand/store';
 import type { Editor } from '@tiptap/core';
 import type { Transaction } from '@tiptap/pm/state';
@@ -26,6 +26,8 @@ export default function useEditorBlock(
   const path = usePathname();
   const shouldTriggerDraftStream =
     path.includes('draft') && Boolean(id) && !defaultContent;
+  const shouldTriggerOutlineStream =
+    path.includes('outline') && Boolean(id) && !defaultContent;
   const { mutateAsync: saveDraftFile } = useSaveDraft();
   const { mutateAsync: saveOutlineFile } = useSaveOutline();
   const debouncedCallback = useDebouncedCallback(
@@ -95,6 +97,18 @@ export default function useEditorBlock(
     getStream();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldTriggerDraftStream, editor, id]);
+
+  useEffect(() => {
+    async function getStream() {
+      if (shouldTriggerOutlineStream && editor) {
+        setEditorContentGenerating(true);
+        await getOutlineStream(id as string, editor as any);
+        setEditorContentGenerating(false);
+      }
+    }
+    getStream();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldTriggerOutlineStream, editor, id]);
 
   return { editor };
 }
