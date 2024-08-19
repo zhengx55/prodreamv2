@@ -32,3 +32,31 @@ export enum CHATAGENT_TYPE {
   PLPOL = 'polish_outline',
   DR = 'draft_introduce',
 }
+
+export enum CHATDATA {
+  AGENT = 'agent',
+  REFRESH_LIB = 'refresh_lib',
+  MATERIAL_INPUT = 'material_input',
+  GO_BRAINSTORMING = 'go_brainstorming',
+  GO_OUTLINE = 'go_outline',
+  GO_DRAFT = 'go_draft',
+  GENERATE_OUTLINE_POPUP_UI = 'generate_outline_popup_ui',
+  POLISH_OUTLINE_POPUP_UI = 'polish_outline_popup_ui',
+  GENERATE_DRAFT_POPUP_UI = 'generate_draft_popup_ui',
+  AI_DETECT = 'ai_detect',
+  GRAMMAR_CHECK = 'grammar_check',
+  PLAGIARISM_CHECK = 'plagiarism_check',
+}
+
+export enum CHATEVENT {
+  SESSION_ID = 'event: session_id',
+  CLIENT_EVENT = 'event: client_event',
+  DATA = 'event: data',
+  HTML = 'event: html',
+  DATA_END = 'event: data_end',
+  OPTION_LIST_START = 'event: option_list_start',
+  OPTION = 'event: option',
+  OPTION_LIST_END = 'event: option_list_end',
+  NEW_MESSAGE = 'event: new_message',
+  SESSION_END = 'event: session_end',
+}

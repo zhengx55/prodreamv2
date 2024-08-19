@@ -1,6 +1,5 @@
 import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogClose,
@@ -16,8 +15,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { PAGESIZE } from '@/constant/enum';
-import { useGetMaterials, useGetRatedPrompts } from '@/query/outline';
+import { useGetMaterials, useGetPrompts } from '@/query/outline';
 import { useAgent } from '@/zustand/store';
 import { ChevronLeft, Loader2 } from 'lucide-react';
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -41,24 +41,19 @@ type Prompt = {
   score?: number;
 };
 
-const ChatGenerateOutline = () => {
+const ChatPolishOutline = () => {
   const [steps, setSteps] = useState(0);
   const [page, setPage] = useState(0);
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
-  const [selectedPromptType, setSelectedPromptType] = useState<string>('UC');
   const [selectedPrompt, setSelectedPrompt] = useState<string>('');
-
+  const [outlineContent, setOutlineContent] = useState<string>('');
   const { data: materials, isLoading: materialLoading } = useGetMaterials(
     '',
     page,
-    PAGESIZE.CHAT_MODAL_PAGE_SIZE
+    PAGESIZE.MATERIAL_MODAL_PAGE_SIZE
   ) as { data: MaterialListRes | undefined; isLoading: boolean };
 
-  const { data: prompts, isLoading: promptLoading } = useGetRatedPrompts({
-    prompt_type: selectedPromptType,
-    material_ids: selectedMaterials,
-    shouldShow: steps === 1,
-  }) as { data: Prompt[] | undefined; isLoading: boolean };
+  const { data: prompts, isLoading: promptLoading } = useGetPrompts();
 
   const handleNextStep = useCallback(() => {
     if (steps === 2) {
@@ -68,14 +63,14 @@ const ChatGenerateOutline = () => {
     }
   }, [steps]);
 
-  const canGotoStepTwo = useMemo(
-    () => selectedMaterials.length > 0 && selectedMaterials.length <= 5,
-    [selectedMaterials]
-  );
+  const canGotoStepTwo = useMemo(() => outlineContent !== '', [outlineContent]);
 
   const canGotoStepThree = useMemo(
-    () => selectedPrompt !== '',
-    [selectedPrompt]
+    () =>
+      selectedPrompt !== '' &&
+      selectedMaterials.length > 0 &&
+      selectedMaterials.length <= 5,
+    [selectedMaterials.length, selectedPrompt]
   );
 
   const selectedPromptData = useMemo(
@@ -93,8 +88,8 @@ const ChatGenerateOutline = () => {
     // 提交逻辑
   };
 
-  const show = useAgent((state) => state.showGenerateOutlineModal);
-  const setShow = useAgent((state) => state.setshowGenerateOutlineModal);
+  const show = useAgent((state) => state.showPolishOutlineModal);
+  const setShow = useAgent((state) => state.setshowPolishOutlineModal);
 
   return (
     <Dialog open={show} onOpenChange={setShow}>
@@ -107,18 +102,18 @@ const ChatGenerateOutline = () => {
         <StepProgress steps={steps} />
 
         {steps === 0 ? (
-          <MaterialSelection
+          <UploadOutline
+            outlineContent={outlineContent}
+            setOutlineContent={setOutlineContent}
+          />
+        ) : steps === 1 ? (
+          <ElementSelection
             materials={materials}
             materialLoading={materialLoading}
-            selectedMaterials={selectedMaterials}
             onMaterialSelect={handleMaterialSelect}
             page={page}
             setPage={setPage}
-          />
-        ) : steps === 1 ? (
-          <PromptSelection
-            selectedPromptType={selectedPromptType}
-            setSelectedPromptType={setSelectedPromptType}
+            selectedMaterials={selectedMaterials}
             prompts={prompts}
             promptLoading={promptLoading}
             selectedPrompt={selectedPrompt}
@@ -163,15 +158,15 @@ const ChatGenerateOutline = () => {
   );
 };
 
-export default memo(ChatGenerateOutline);
+export default memo(ChatPolishOutline);
 
 const StepProgress: React.FC<{ steps: number }> = ({ steps }) => (
   <div className='flex items-center gap-x-6 px-6 py-4'>
-    <Step number={1} isActive={steps >= 0} title='Select Materials' />
+    <Step number={1} isActive={steps >= 0} title='Upload Outline' />
     <span className='w-16 border border-dashed border-indigo-100' />
-    <Step number={2} isActive={steps >= 1} title='Select Prompt' />
+    <Step number={2} isActive={steps >= 1} title='Select Prompt&Materals' />
     <span className='w-16 border border-dashed border-indigo-100' />
-    <Step number={3} isActive={steps === 2} title='Generate Outline' />
+    <Step number={3} isActive={steps === 2} title='Polish Outline' />
   </div>
 );
 
@@ -195,7 +190,28 @@ const Step: React.FC<{ number: number; title: string; isActive?: boolean }> =
     </div>
   ));
 
-const MaterialSelection: React.FC<{
+const UploadOutline: React.FC<{
+  outlineContent: string;
+  setOutlineContent: (value: string) => void;
+}> = ({ outlineContent, setOutlineContent }) => (
+  <div className='bg-slate-100 p-6'>
+    <Textarea
+      aria-label='Outline Content'
+      required
+      aria-required
+      value={outlineContent}
+      onChange={(e) => setOutlineContent(e.target.value)}
+      className='h-[492px] w-full focus-visible:ring-0'
+      placeholder='Enter your outline content here'
+    />
+  </div>
+);
+
+const ElementSelection: React.FC<{
+  prompts: Prompt[] | undefined;
+  promptLoading: boolean;
+  selectedPrompt: string;
+  setSelectedPrompt: (value: string) => void;
   materials: MaterialListRes | undefined;
   materialLoading: boolean;
   selectedMaterials: string[];
@@ -203,25 +219,46 @@ const MaterialSelection: React.FC<{
   page: number;
   setPage: (page: number) => void;
 }> = ({
+  prompts,
+  promptLoading,
+  selectedPrompt,
+  setSelectedPrompt,
   materials,
   materialLoading,
   selectedMaterials,
   onMaterialSelect,
   page,
   setPage,
-}) => (
-  <div className='bg-slate-100 p-6'>
-    {materialLoading ? (
-      <div className='flex-center h-[430px] w-full'>
-        <Loader2 className='animate-spin text-indigo-500' size={24} />
-      </div>
-    ) : materials?.data.length === 0 ? (
-      <div className='flex-center h-[430px] w-full'>
-        <p className='title-medium'>No materials found.</p>
-      </div>
-    ) : (
-      <div className='grid grid-cols-3 grid-rows-3 gap-2'>
-        {materials!.data.map((material) => {
+}) =>
+  promptLoading || materialLoading ? (
+    <div className='flex-center h-[540px] bg-slate-100'>
+      <Loader2 size={32} className='animate-spin text-indigo-500' />
+    </div>
+  ) : (
+    <div className='flex h-[540px] flex-col bg-slate-100 px-6 py-8'>
+      <h3 className='base-medium'>Prompt</h3>
+      <Spacer y='8' />
+      <Select value={selectedPrompt} onValueChange={setSelectedPrompt}>
+        <SelectTrigger className='h-11 shrink-0 rounded-lg border-gray-300 bg-white px-4 text-base text-zinc-600'>
+          <SelectValue placeholder='Select a prompt' />
+        </SelectTrigger>
+        <SelectContent className='bg-white'>
+          {prompts?.map((prompt) => (
+            <SelectItem
+              key={prompt.id}
+              className='hover:bg-slate-100'
+              value={prompt.id}
+            >
+              {prompt.title}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Spacer y='24' />
+      <h3 className='base-medium'>Materials</h3>
+      <Spacer y='8' />
+      <div className='grid size-full grid-cols-3 grid-rows-2 gap-2'>
+        {materials?.data.map((material) => {
           const isSelected = selectedMaterials.includes(material.id);
           return (
             <ModalOptionsCard
@@ -235,124 +272,46 @@ const MaterialSelection: React.FC<{
           );
         })}
       </div>
-    )}
-    <Spacer y='16' />
-    {(materials?.total_page_count ?? 1) > 0 && (
-      <ModalPaginations
-        page={page}
-        setPage={setPage}
-        totalPage={materials?.total_page_count ?? 1}
-      />
-    )}
-  </div>
-);
-
-const PromptSelection: React.FC<{
-  selectedPromptType: string;
-  setSelectedPromptType: (value: string) => void;
-  prompts: Prompt[] | undefined;
-  promptLoading: boolean;
-  selectedPrompt: string;
-  setSelectedPrompt: (value: string) => void;
-}> = ({
-  selectedPromptType,
-  setSelectedPromptType,
-  prompts,
-  promptLoading,
-  selectedPrompt,
-  setSelectedPrompt,
-}) => (
-  <div className='flex h-[526px] flex-col bg-slate-100 px-6 py-8'>
-    <h3 className='base-medium'>Select application type</h3>
-    <Spacer y='8' />
-    <Select
-      value={selectedPromptType}
-      defaultValue='UC'
-      onValueChange={setSelectedPromptType}
-    >
-      <SelectTrigger className='h-11 rounded-lg bg-white text-base'>
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent className='bg-white'>
-        <SelectItem className='hover:bg-slate-100' value='Common App'>
-          Common App Prompt
-        </SelectItem>
-        <SelectItem className='hover:bg-slate-100' value='UC'>
-          UC App Prompt
-        </SelectItem>
-      </SelectContent>
-    </Select>
-    <Spacer y='40' />
-    {promptLoading ? (
-      <div className='flex-center'>
-        <Loader2 className='animate-spin text-indigo-500' size={32} />
-      </div>
-    ) : (
-      <ul className='flex flex-col gap-y-2 overflow-y-auto'>
-        {prompts?.map((prompt) => {
-          const isSelected = selectedPrompt === prompt.id;
-          return (
-            <li
-              key={prompt.id}
-              onClick={() => setSelectedPrompt(prompt.id)}
-              className={`${
-                isSelected
-                  ? 'border-indigo-500 bg-violet-50'
-                  : 'border-gray-300 bg-white'
-              } flex h-11 shrink-0 cursor-pointer items-center space-x-4 rounded-lg border px-4 hover:bg-violet-50`}
-            >
-              <Checkbox
-                className='rounded-full'
-                checked={selectedPrompt === prompt.id}
-              />
-              <p className='text-zinc-600'>
-                {prompt.title}{' '}
-                {Array.from({ length: prompt.score ?? 0 }).map((_, index) => (
-                  <span key={`${prompt.id}-star-${index}`}>🌟</span>
-                ))}
-              </p>
-            </li>
-          );
-        })}
-      </ul>
-    )}
-  </div>
-);
+      <Spacer y='16' />
+      {(materials?.total_page_count ?? 1) > 0 && (
+        <ModalPaginations
+          page={page}
+          setPage={setPage}
+          totalPage={materials?.total_page_count ?? 1}
+        />
+      )}
+    </div>
+  );
 
 const OutlinePreview: React.FC<{
   selectedPromptData: Prompt | undefined;
   selectedMaterials: string[];
   materials: MaterialListRes | undefined;
 }> = ({ selectedPromptData, selectedMaterials, materials }) => (
-  <div className='flex h-[526px] flex-col bg-slate-100 px-6 py-8'>
+  <div className='flex h-[540px] flex-col bg-slate-100 px-6 py-8'>
     <h3 className='base-medium'>Prompt</h3>
     <Spacer y='8' />
     <div className='flex h-11 items-center rounded-lg border border-gray-300 bg-white px-4'>
-      <p className='text-zinc-600'>
-        {selectedPromptData?.title}
-        {Array.from({ length: selectedPromptData?.score ?? 0 }).map(
-          (_, index) => (
-            <span key={index}>🌟</span>
-          )
-        )}
-      </p>
+      <p className='text-zinc-600'>{selectedPromptData?.title}</p>
     </div>
     <Spacer y='24' />
     <h3 className='base-medium'>Materials</h3>
     <Spacer y='8' />
-    <div className='grid grid-cols-3 grid-rows-2 gap-2'>
-      {selectedMaterials.map((id) => {
-        const material = materials?.data.find((m) => m.id === id);
-        return (
-          <ModalOptionsCard
-            key={id}
-            id={id}
-            title={material!.title}
-            content={material!.content}
-            unselectable
-          />
-        );
-      })}
+    <div className='flex flex-1'>
+      <div className='grid grid-cols-3 grid-rows-2 gap-2'>
+        {selectedMaterials.map((id) => {
+          const material = materials?.data.find((m) => m.id === id);
+          return (
+            <ModalOptionsCard
+              key={id}
+              id={id}
+              title={material!.title}
+              content={material!.content}
+              unselectable
+            />
+          );
+        })}
+      </div>
     </div>
   </div>
 );

@@ -1,5 +1,5 @@
 import Panel from '@/components/auth/Panel';
-import ResetForm from '@/components/auth/RestForm';
+import ResetForm from '@/components/auth/ResetForm';
 import Spacer from '@/components/root/Spacer';
 import type { Locale } from '@/i18n-config';
 import Image from 'next/image';

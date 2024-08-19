@@ -75,7 +75,7 @@ export default async function Page({
             <Link href={`draft/create`}>
               <Button className='size-max rounded-lg px-4 py-2' role='button'>
                 <PlusCircle size={24} />
-                Add Draft
+                New Draft
               </Button>
             </Link>
           </SearchSection>
