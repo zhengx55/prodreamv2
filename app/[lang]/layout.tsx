@@ -1,4 +1,3 @@
-import PageViewTrack from '@/components/root/PageViewTrack';
 import { siteConfig } from '@/config/siteConfig';
 import { TanstackProvider } from '@/context/TanstackProvider';
 import { locales } from '@/i18n';
@@ -7,7 +6,6 @@ import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, unstable_setRequestLocale } from 'next-intl/server';
 import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
-import { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import './globals.css';
 
@@ -84,9 +82,9 @@ export default async function RootLayout({
           <TanstackProvider>
             <NextIntlClientProvider messages={messages}>
               <main className='h-screen overflow-x-auto sm:min-w-[1440px]'>
-                <Suspense>
+                {/* <Suspense>
                   <PageViewTrack />
-                </Suspense>
+                </Suspense> */}
                 {children}
                 <Toaster richColors visibleToasts={1} closeButton />
               </main>
