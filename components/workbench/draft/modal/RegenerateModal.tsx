@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { useCreateDraft } from '@/query/draft';
+import { useGenerateDraft } from '@/query/draft';
 import { Loader2, X } from 'lucide-react';
 import { memo } from 'react';
 type Props = {
@@ -18,12 +18,11 @@ type Props = {
 };
 
 const RegenerateModal = ({ close, outline }: Props) => {
-  const { mutateAsync: create, isSubmitting } = useCreateDraft(close);
+  const { mutateAsync: create, isPending } = useGenerateDraft(close);
   const handleSubmit = async () => {
     await create({
       outline_id: outline,
     });
-    close();
   };
   return (
     <AlertDialogContent className='gap-y-6 bg-white md:w-[600px] md:p-8'>
@@ -58,13 +57,13 @@ const RegenerateModal = ({ close, outline }: Props) => {
       <AlertDialogFooter>
         <AlertDialogCancel className='px-8'>Cancel</AlertDialogCancel>
         <AlertDialogAction
-          disabled={isSubmitting}
+          disabled={isPending}
           onClick={(e) => {
             e.preventDefault();
             handleSubmit();
           }}
         >
-          {isSubmitting ? (
+          {isPending ? (
             <span className='inline-flex items-center gap-x-2'>
               <Loader2 className='animate-spin text-white' size={20} />
               Generating...
