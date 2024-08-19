@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { ComponentType, FC, useCallback, useEffect } from 'react';
 const GenerateOutline = dynamic(() => import('../chat/modal/GenerateOutline'));
 const PolishOutline = dynamic(() => import('../chat/modal/PolishOutline'));
-
+const GenerateDraft = dynamic(() => import('../chat/modal/GenerateDraft'));
 const Detection = dynamic(() => import('../detection/Detection'));
 const Grammar = dynamic(() => import('../grammar/Grammar'));
 const Plagiarism = dynamic(() => import('../plagiarism/Plagiarism'));
@@ -144,6 +144,7 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
       </div>
       <GenerateOutline />
       <PolishOutline />
+      <GenerateDraft />
       <div
         className={`flex h-full w-[60px] flex-col items-center ${
           rightbarTab !== -1

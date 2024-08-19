@@ -36,6 +36,9 @@ export const useAgentChat = (storeType: StoreTypes) => {
   const setshowPolishOutlineModal = useAgent(
     (state) => state.setshowPolishOutlineModal
   );
+  const setshowGenerateDraftModal = useAgent(
+    (state) => state.setshowGenerateDraftModal
+  );
 
   const fetchChatResponse = async (
     params: MutationParams
@@ -128,6 +131,8 @@ export const useAgentChat = (storeType: StoreTypes) => {
           setshowGenerateOutlineModal(true);
         } else if (clientEvent.includes(CHATDATA.POLISH_OUTLINE_POPUP_UI)) {
           setshowPolishOutlineModal(true);
+        } else if (clientEvent.includes(CHATDATA.GENERATE_DRAFT_POPUP_UI)) {
+          setshowGenerateDraftModal(true);
         } else if (clientEvent.includes(CHATDATA.GO_BRAINSTORMING)) {
           push('/brainstorming');
         } else if (clientEvent.includes(CHATDATA.GO_OUTLINE)) {
