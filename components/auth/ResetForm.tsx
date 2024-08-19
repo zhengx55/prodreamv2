@@ -191,7 +191,7 @@ const ResetForm = () => {
 
       <Button
         disabled={isExecuting}
-        className='h-[60px] w-full rounded-lg font-semibold'
+        className='h-[60px] w-full rounded-lg text-base font-semibold'
         type='submit'
       >
         Confirm Reset

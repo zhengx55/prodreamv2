@@ -39,9 +39,9 @@ const Sidebar = () => {
       />
       <Spacer y='24' />
       <div className='flex flex-col gap-y-2'>{renderedEngineItems}</div>
-      <ul className='mt-auto flex flex-col gap-y-2'>{renderedNavItems}</ul>
+      {/* <ul className='mt-auto flex flex-col gap-y-2'>{renderedNavItems}</ul> */}
       <Spacer y='8' />
-      <Separator className='bg-zinc-500' orientation='horizontal' />
+      <Separator className='mt-auto bg-zinc-500' orientation='horizontal' />
       <Spacer y='8' />
       {isPending ? (
         <Skeleton className='h-10 w-full rounded-lg' />
