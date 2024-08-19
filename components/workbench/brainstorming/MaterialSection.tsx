@@ -50,7 +50,7 @@ const MaterialSection = ({ list, pageCount }: Props) => {
         <Spacer y='16' />
         {list.length === 0 ? (
           <Empty
-            label='Add Material'
+            label='New Material'
             href='/brainstorming/create'
             message='You can add it proactively or with the assistance of agents'
           />

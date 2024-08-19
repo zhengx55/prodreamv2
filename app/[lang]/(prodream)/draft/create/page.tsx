@@ -23,7 +23,7 @@ export default function Page() {
                 />
               </Link>
             </Button>
-            <h2 className='text-xl font-medium text-zinc-600'>Add Outline</h2>
+            <h2 className='text-xl font-medium text-zinc-600'>New Outline</h2>
           </div>
         </div>
         <div className='flex flex-1 overflow-hidden'>

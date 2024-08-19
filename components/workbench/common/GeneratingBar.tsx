@@ -29,7 +29,7 @@ const GeneratingBar = () => {
             <div className='flex items-center gap-x-2'>
               <Icon
                 alt='loading'
-                src='/editor/stars.svg'
+                src='/editor/copilot.svg'
                 width={20}
                 height={20}
                 className='size-[18px]'

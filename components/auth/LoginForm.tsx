@@ -10,10 +10,12 @@ import { loginIn } from './server_actions';
 
 const LoginForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
-  const { push } = useRouter();
+  const { replace } = useRouter();
   const { execute, isExecuting, result } = useAction(loginIn, {
-    onSuccess: () => {
-      push('/brainstorming');
+    onSuccess: async () => {
+      replace('/brainstorming');
+      const { toast } = await import('sonner');
+      toast.success('Login successful');
     },
     onError: async () => {
       const { toast } = await import('sonner');

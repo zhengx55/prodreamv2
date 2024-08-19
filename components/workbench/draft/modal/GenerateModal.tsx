@@ -7,7 +7,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { useCreateDraft, useGetOutlines } from '@/query/draft';
+import { useGenerateDraft, useGetOutlines } from '@/query/draft';
 import { Loader2 } from 'lucide-react';
 import { memo, useState } from 'react';
 import ModalOptionsCard from '../../common/ModalOptionsCard';
@@ -23,12 +23,11 @@ const GenerateModal = ({ close }: { close: () => void }) => {
     page
   );
   const [selectedOutline, setSelectedOutline] = useState<string>('');
-  const { mutateAsync: create, isSubmitting } = useCreateDraft(close);
+  const { mutateAsync: create, isPending } = useGenerateDraft(close);
   const handleSubmit = async () => {
     await create({
       outline_id: selectedOutline,
     });
-    close();
   };
 
   return (
@@ -89,12 +88,12 @@ const GenerateModal = ({ close }: { close: () => void }) => {
           </Button>
         </DialogClose>
         <Button
-          disabled={!selectedOutline || isSubmitting}
+          disabled={!selectedOutline || isPending}
           onClick={handleSubmit}
           role='button'
           className='px-8'
         >
-          {isSubmitting ? 'Creating Draft' : `Create`}
+          {isPending ? 'Creating Draft' : `Create`}
         </Button>
       </div>
     </DialogContent>
