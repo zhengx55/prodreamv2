@@ -12,7 +12,9 @@ const LoginForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const { push } = useRouter();
   const { execute, isExecuting, result } = useAction(loginIn, {
-    onSuccess: () => {
+    onSuccess: async () => {
+      const { toast } = await import('sonner');
+      toast.success('Login successful');
       push('/brainstorming');
     },
     onError: async () => {

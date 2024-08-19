@@ -612,9 +612,9 @@
       "In_text_citation_will_be_append_to_the_position_of_your_cursor": "In text citation will be append to the position of your cursor!",
       "Cited_by": "Cited by",
       "Authors": "Authors",
-      "Add_to_library": "Add to library",
+      "Add_to_library": "New to library",
       "Cite": "Cite",
-      "Add_Citation": "Add Citation",
+      "Add_Citation": "New Citation",
       "Citation_created_successfully": "Citation created successfully"
     },
     "Generate": {
@@ -690,13 +690,13 @@
     "CitationMenu": {
       "Search_Results": "Search Results",
       "No_detail_description_available": "No detail description available...",
-      "Add_citation": "Add citation",
+      "Add_citation": "New citation",
       "View_in_new_tab": "View in new tab",
       "Not_finding_what_you_want": "Not finding what you want?",
-      "Add_customized_citation": "Add customized citation"
+      "Add_customized_citation": "New customized citation"
     },
     "CustomCitation": {
-      "Add_Customized_Citations": "Add Customized Citations",
+      "Add_Customized_Citations": "New Customized Citations",
       "What_I_am_citing": "What I'm citing",
       "Article_Title": "Article Title",
       "Website": "Website",
@@ -715,7 +715,7 @@
         "First_Name": "First Name",
         "Middle_Name": "Middle Name",
         "Last_Name": "Last Name",
-        "Add_Contributor": "Add Contributor",
+        "Add_Contributor": "New Contributor",
         "In_print_publication_info": "In print publication info",
         "Source_title": "Source title",
         "Advanced_info": "Advanced info",
@@ -737,7 +737,7 @@
         "First_Name": "First Name",
         "Middle_Name": "Middle Name",
         "Last_Name": "Last Name",
-        "Add_Contributor": "Add Contributor",
+        "Add_Contributor": "New Contributor",
         "Online_publication_info": "Online publication info",
         "Publisher": "Publisher",
         "Website_Title": "Website Title",
@@ -758,7 +758,7 @@
         "First_Name": "First Name",
         "Middle_Name": "Middle Name",
         "Last_Name": "Last Name",
-        "Add_Contributor": "Add Contributor",
+        "Add_Contributor": "New Contributor",
         "In_print_publication_info": "In print publication info",
         "Source_title": "Source title",
         "Advanced_info": "Advanced info",
@@ -781,7 +781,7 @@
         "First_Name": "First Name",
         "Middle_Name": "Middle Name",
         "Last_Name": "Last Name",
-        "Add_Contributor": "Add Contributor",
+        "Add_Contributor": "New Contributor",
         "Journal_publication_info": "Journal publication info",
         "Journal_title": "Journal title",
         "Advanced_info": "Advanced info",
@@ -852,7 +852,7 @@
     "CheckList": {
       "Show": "Show me",
       "copilot": "Try any AI Copilot editing feature",
-      "citation": "Add one citation",
+      "citation": "New one citation",
       "continue": "Use Continue Writing feature to write next sentence",
       "generate": "Generate an introduction",
       "format_1": "Building the foundation",
