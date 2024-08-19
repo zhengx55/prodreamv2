@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { CHATAGENT_TYPE } from '@/constant/enum';
 import { useAgentChat } from '@/query/chat_agent';
 import { useAgent } from '@/zustand/store';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import useAgentType from '../../hooks/getChatAgentType';
 
 const ChatInputField = () => {
@@ -15,7 +15,24 @@ const ChatInputField = () => {
   const { storeType } = useAgentType();
   const { mutateAsync: send, isPending: isMessageSending } =
     useAgentChat(storeType);
-  const getSessionId = useAgent((state) => state.getSessionId);
+  const session_id = useAgent((state) => state.getSessionId(storeType));
+
+  useEffect(() => {
+    if (!session_id) {
+      send({
+        session_id: null,
+        agent:
+          storeType === 'brainstorming'
+            ? CHATAGENT_TYPE.BS
+            : storeType === 'outline'
+              ? CHATAGENT_TYPE.OL
+              : CHATAGENT_TYPE.DR,
+        response: null,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session_id]);
+
   const handleSend = async () => {
     setInputMessage('');
     await send({
@@ -26,7 +43,7 @@ const ChatInputField = () => {
           : storeType === 'outline'
             ? CHATAGENT_TYPE.OL
             : CHATAGENT_TYPE.DR,
-      session_id: getSessionId(storeType),
+      session_id: session_id,
     });
   };
 
