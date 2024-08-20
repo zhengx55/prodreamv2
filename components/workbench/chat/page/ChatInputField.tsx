@@ -31,7 +31,7 @@ const ChatInputField = () => {
     }
   };
   return (
-    <div className='flex h-[52px] w-full items-center gap-x-2 rounded-lg border border-gray-300 bg-slate-50 px-2.5'>
+    <div className='flex h-[60px] w-full items-center gap-x-2 rounded-lg border border-gray-300 bg-slate-50 px-2.5'>
       <Input
         onKeyUp={handleKeyboardSend}
         value={inputMessage}

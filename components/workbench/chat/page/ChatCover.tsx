@@ -40,7 +40,7 @@ const ButtonCard: React.FC<ButtonCardProps> = ({
 
 const ChatCover = () => {
   return (
-    <div className='flex w-[900px] flex-1 flex-col items-center self-center pt-[15vh]'>
+    <div className='flex w-[860px] flex-1 flex-col items-center self-center pt-[15vh]'>
       <Image
         width={100}
         height={100}
