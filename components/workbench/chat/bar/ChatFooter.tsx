@@ -46,7 +46,7 @@ const ChatFooter = () => {
   };
 
   return (
-    <div className='space-y-2 px-4 pb-4'>
+    <div className='space-y-2 px-4 py-4'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-x-1'>{renderActionButtons()}</div>
         <div className='flex gap-x-2'>

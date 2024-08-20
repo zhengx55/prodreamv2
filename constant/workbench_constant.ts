@@ -1,19 +1,4 @@
 export const workbench_engine = [
-  {
-    id: 'workbench_engine_1',
-    name: 'Max',
-    image: '/workbench/max.png',
-    intro:
-      "Hey, I'm here to help you discover your talents and get a dream offer!",
-    background:
-      'A cheerful and empathetic college admissions advisor and entrepreneur, is dedicated to using AI to help students succeed academically.',
-    skills: [
-      'College Admissions Advising',
-      'Personal statement',
-      'AI Technology Integration',
-    ],
-    personalities: ['Open-minded', 'Friendly', 'Problem-solving Oriented'],
-  },
   // {
   //   id: 'workbench_engine_2',
   //   name: 'Jessica',
@@ -44,6 +29,21 @@ export const workbench_engine = [
       'Intuition and Wisdom',
     ],
     personalities: ['Gentle', 'Curious', 'Supportive', 'Inspiring'],
+  },
+  {
+    id: 'workbench_engine_1',
+    name: 'Max',
+    image: '/workbench/max.png',
+    intro:
+      "Hey, I'm here to help you discover your talents and get a dream offer!",
+    background:
+      'A cheerful and empathetic college admissions advisor and entrepreneur, is dedicated to using AI to help students succeed academically.',
+    skills: [
+      'College Admissions Advising',
+      'Personal statement',
+      'AI Technology Integration',
+    ],
+    personalities: ['Open-minded', 'Friendly', 'Problem-solving Oriented'],
   },
 ];
 
