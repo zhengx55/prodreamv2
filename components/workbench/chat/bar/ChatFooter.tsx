@@ -17,6 +17,7 @@ const ChatFooter = () => {
     'In-depth Exploration': CHATAGENT_TYPE.BSADVANCE,
     'Generate Outline': CHATAGENT_TYPE.OLGEN,
     'Polish Outline': CHATAGENT_TYPE.PLPOL,
+    'Generate Draft': CHATAGENT_TYPE.DR,
   };
 
   const handleActionClick = (text: string) => {
