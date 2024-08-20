@@ -47,7 +47,9 @@ const DraftGridItem = ({ item, prompts }: Props) => {
               className='size-5'
             />
             <h2 className='base-medium line-clamp-1 max-w-[70%] text-zinc-600'>
-              {item.title}
+              {item.title.length > 20
+                ? item.title.slice(0, 20) + '...'
+                : item.title}
             </h2>
           </div>
           <p className='text-xs text-neutral-400'>Opened {lastOpenTime}</p>

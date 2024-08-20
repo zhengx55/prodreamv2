@@ -13,9 +13,9 @@ const LoginForm = () => {
   const { replace } = useRouter();
   const { execute, isExecuting, result } = useAction(loginIn, {
     onSuccess: async () => {
-      replace('/brainstorming');
       const { toast } = await import('sonner');
       toast.success('Login successful');
+      replace('/brainstorming');
     },
     onError: async () => {
       const { toast } = await import('sonner');

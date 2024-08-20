@@ -65,9 +65,13 @@ const OutlineSection = ({ pageCount, list, prompts }: Props) => {
           <OutlineList prompts={prompts} list={list} />
         )}
       </div>
-      <Spacer y='16' />
-      {pageCount > 0 && <Pagination totalPage={pageCount} />}
-      <Spacer y='16' />
+      {pageCount > 0 && (
+        <>
+          <Spacer y='16' />
+          <Pagination totalPage={pageCount} />
+          <Spacer y='16' />
+        </>
+      )}
     </>
   );
 };

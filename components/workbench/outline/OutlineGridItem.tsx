@@ -15,7 +15,7 @@ const OutlineGridItem = ({ item, prompts }: Props) => {
   const { push } = useRouter();
 
   return (
-    <div className='flex w-[330px] flex-col justify-between rounded-lg border border-gray-300'>
+    <div className='flex w-[330px] select-none flex-col justify-between rounded-lg border border-gray-300'>
       <div className='group h-[164px] cursor-pointer rounded-t-lg bg-gray-100 px-2 pt-2'>
         <div
           onClick={() => {
@@ -45,8 +45,10 @@ const OutlineGridItem = ({ item, prompts }: Props) => {
               height={24}
               className='size-5'
             />
-            <h2 className='base-medium line-clamp-1 max-w-[70%] text-zinc-600'>
-              {item.title}
+            <h2 className='base-medium text-zinc-600'>
+              {item.title.length > 20
+                ? item.title.slice(0, 20) + '...'
+                : item.title}
             </h2>
           </div>
           <p className='text-xs text-neutral-400'>Opened {lastOpenTime}</p>
