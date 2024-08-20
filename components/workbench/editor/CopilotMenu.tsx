@@ -136,7 +136,7 @@ const CopilotMenu = ({ editor }: Props) => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       ref={ref}
-      style={{ top: `${floatingMenuPos.top - 160}px` }}
+      style={{ top: `${floatingMenuPos.top - 200}px` }}
       className='absolute left-0 flex w-full justify-center'
     >
       <div className='relative w-[600px] space-y-2 bg-transparent'>
