@@ -56,7 +56,7 @@ export default async function Page({
             <Link href={`brainstorming/create`}>
               <Button className='size-max rounded-lg px-4 py-2' role='button'>
                 <PlusCircle size={24} />
-                Add Material
+                New Material
               </Button>
             </Link>
           </SearchSection>

@@ -30,7 +30,7 @@ const UserProfileItem: FC<UserProfileItemProps> = ({ user }) => {
           {user.avatar ? (
             <Icon
               src={user.avatar}
-              alt={user.first_name}
+              alt={user.name}
               width={25}
               height={25}
               className='size-6 rounded-full'
@@ -39,8 +39,8 @@ const UserProfileItem: FC<UserProfileItemProps> = ({ user }) => {
           ) : (
             <Skeleton className='size-6 rounded-full' />
           )}
-          <p className='text-zinc-600 group-hover:text-white'>
-            {user.first_name}
+          <p className='truncate text-zinc-600 group-hover:text-white'>
+            {user.name}
           </p>
           <ChevronRight className='ml-auto' size={16} />
         </li>

@@ -24,6 +24,7 @@ type State = {
   draftMessages: Message[];
   showGenerateOutlineModal: boolean;
   showPolishOutlineModal: boolean;
+  showGenerateDraftModal: boolean;
 };
 
 type Action = {
@@ -63,6 +64,7 @@ type Action = {
   clearSession: (type: StoreTypes) => void;
   setshowGenerateOutlineModal: (show: boolean) => void;
   setshowPolishOutlineModal: (show: boolean) => void;
+  setshowGenerateDraftModal: (show: boolean) => void;
 };
 
 export type ChatAgentStore = State & Action;
@@ -78,6 +80,7 @@ const initialState: State = {
   draftMessages: [],
   showGenerateOutlineModal: false,
   showPolishOutlineModal: false,
+  showGenerateDraftModal: false,
 };
 
 const updateMessages = (
@@ -283,5 +286,8 @@ export const useChatAgent: StateCreator<ChatAgentStore> = (set, get) => ({
   },
   setshowPolishOutlineModal: (show) => {
     set({ showPolishOutlineModal: show });
+  },
+  setshowGenerateDraftModal: (show) => {
+    set({ showGenerateDraftModal: show });
   },
 });

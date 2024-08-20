@@ -9,27 +9,24 @@ const nextIntlMiddleware = createIntlMiddleware({
 
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
-  const newHeader = new Headers(req.headers);
-  newHeader.set('x-invoke-path', pathname);
-
+  const response = nextIntlMiddleware(req);
   const locale = 'en';
   const alreadyOnLoginPage = i18n.locales.some(
     (locale) =>
       pathname === `/${locale}` ||
-      pathname === `/${locale}/login` ||
-      pathname === `/${locale}/signup` ||
-      pathname === `/${locale}/reset-password`
+      pathname.includes('login') ||
+      pathname.includes('reset-password')
   );
 
   if (alreadyOnLoginPage) {
-    return NextResponse.next();
+    if (response) return response;
   }
 
   const token = req.cookies.get('token');
   if (!token && !alreadyOnLoginPage) {
     return NextResponse.redirect(new URL(`/${locale}/login`, req.url));
   }
-  const response = nextIntlMiddleware(req);
+
   if (response) return response;
 }
 

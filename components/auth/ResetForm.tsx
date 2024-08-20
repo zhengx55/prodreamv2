@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Eye, EyeOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { resetPassword, sendVerificationEmail } from './server_actions';
 
@@ -14,7 +15,14 @@ const ResetForm = () => {
   const [verifyWait, setVerifyWait] = useState(false);
   const [countdown, setCountdown] = useState(60);
   const emailRef = useRef<HTMLInputElement>(null);
-  const { execute, isExecuting, result } = useAction(resetPassword);
+  const { replace } = useRouter();
+  const { execute, isExecuting, result } = useAction(resetPassword, {
+    onSuccess: async () => {
+      const { toast } = await import('sonner');
+      toast.success('Password reset successful');
+      replace('/login');
+    },
+  });
   const { executeAsync: sendCode, isExecuting: isSending } = useAction(
     sendVerificationEmail,
     {

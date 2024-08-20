@@ -1,8 +1,9 @@
-import { CHATAGENT_TYPE } from '@/constant/enum';
+import { CHATAGENT_TYPE, CHATDATA, CHATEVENT } from '@/constant/enum';
 import { StoreTypes } from '@/zustand/slice/workbench/chat-agent';
 import { useAgent } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 import { v4 } from 'uuid';
 
 interface MutationParams {
@@ -12,6 +13,7 @@ interface MutationParams {
 }
 
 export const useAgentChat = (storeType: StoreTypes) => {
+  const { push } = useRouter();
   const addUserMessage = useAgent((state) => state.addUserMessage);
   const setSessionId = useAgent((state) => state.setSessionId);
   const addAgentMessage = useAgent((state) => state.addAgentMessage);
@@ -27,6 +29,15 @@ export const useAgentChat = (storeType: StoreTypes) => {
   );
   const appendAgentMessageOption = useAgent(
     (state) => state.appendAgentMessageOption
+  );
+  const setshowGenerateOutlineModal = useAgent(
+    (state) => state.setshowGenerateOutlineModal
+  );
+  const setshowPolishOutlineModal = useAgent(
+    (state) => state.setshowPolishOutlineModal
+  );
+  const setshowGenerateDraftModal = useAgent(
+    (state) => state.setshowGenerateDraftModal
   );
 
   const fetchChatResponse = async (
@@ -75,10 +86,10 @@ export const useAgentChat = (storeType: StoreTypes) => {
         isNewAgentMessage = false;
       }
       console.log(previousLine);
-      if (previousLine?.startsWith('event: session_id')) {
+      if (previousLine?.startsWith(CHATEVENT.SESSION_ID)) {
         const sessionId = line.replace('data: ', '').replace(/"/g, '').trim();
         setSessionId(storeType, sessionId);
-      } else if (previousLine?.startsWith('event: data')) {
+      } else if (previousLine?.startsWith(CHATEVENT.DATA)) {
         const data = line.slice(5);
         if (data) {
           const parsedData = JSON.parse(data);
@@ -93,9 +104,9 @@ export const useAgentChat = (storeType: StoreTypes) => {
             appendAgentMessage(agentMessageId, storeType, parsedData);
           }
         }
-      } else if (line.startsWith('event: new_message')) {
+      } else if (line.startsWith(CHATEVENT.NEW_MESSAGE)) {
         isNewAgentMessage = true;
-      } else if (previousLine?.startsWith('event: option_list_start')) {
+      } else if (previousLine?.startsWith(CHATEVENT.OPTION_LIST_START)) {
         isOptionListStart = true;
         const listType = line.slice(5).trim();
         setAgentMessageOption(
@@ -103,17 +114,32 @@ export const useAgentChat = (storeType: StoreTypes) => {
           storeType,
           listType === 'multi_selection' ? 'multi' : 'single'
         );
-      } else if (line.trim() === 'event: option') {
+      } else if (line.trim() === CHATEVENT.OPTION) {
         optionId = v4();
         addAgentMessageOptions(agentMessageId, storeType, {
           label: '',
           id: optionId,
         });
-      } else if (line.startsWith('event: option_list_end')) {
+      } else if (line.startsWith(CHATEVENT.OPTION_LIST_END)) {
         isOptionListStart = false;
-      } else if (previousLine?.startsWith('event: html')) {
+      } else if (previousLine?.startsWith(CHATEVENT.HTML)) {
         const parsedData = JSON.parse(line.slice(5));
         setAgentMessageHTMLContent(agentMessageId, storeType, parsedData);
+      } else if (previousLine?.startsWith(CHATEVENT.CLIENT_EVENT)) {
+        const clientEvent = line;
+        if (clientEvent.includes(CHATDATA.GENERATE_OUTLINE_POPUP_UI)) {
+          setshowGenerateOutlineModal(true);
+        } else if (clientEvent.includes(CHATDATA.POLISH_OUTLINE_POPUP_UI)) {
+          setshowPolishOutlineModal(true);
+        } else if (clientEvent.includes(CHATDATA.GENERATE_DRAFT_POPUP_UI)) {
+          setshowGenerateDraftModal(true);
+        } else if (clientEvent.includes(CHATDATA.GO_BRAINSTORMING)) {
+          push('/brainstorming');
+        } else if (clientEvent.includes(CHATDATA.GO_OUTLINE)) {
+          push('/outline');
+        } else if (clientEvent.includes(CHATDATA.GO_DRAFT)) {
+          push('/draft');
+        }
       }
     };
 

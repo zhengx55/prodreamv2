@@ -1,4 +1,3 @@
-import { IDiscount, ISubscription } from '@/types';
 import { JSONContent } from '@tiptap/react';
 import Cookies from 'js-cookie';
 import {
@@ -12,77 +11,6 @@ import {
 // ----------------------------------------------------------------
 // Info
 // ----------------------------------------------------------------
-
-export async function resendEmail(): Promise<void> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/verification_email`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        method: 'GET',
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw data.msg;
-    }
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function getUserMemberShip(): Promise<ISubscription> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/balance`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw data.msg;
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function getCoupon(coupon: string): Promise<ISubscription> {
-  try {
-    const token = Cookies.get('token');
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/payment/coupon/${coupon}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await res.json();
-    if (data.code !== 0) {
-      throw data.msg;
-    }
-    return data.data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-}
-
-export async function getDiscountInfo(): Promise<IDiscount> {
-  const token = Cookies.get('token');
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/referral_discount`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
-  );
-  if (!res.ok) throw new Error('Failed to fetch coupon');
-  const data = await res.json();
-  if (data.code !== 0) throw new Error('Failed to fetch coupon');
-  return data.data;
-}
 
 export async function purchaseMembership(params: {
   product_id: string;

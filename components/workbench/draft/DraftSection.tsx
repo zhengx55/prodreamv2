@@ -55,7 +55,7 @@ const DraftSection = ({ list, pageCount, prompts }: Props) => {
         <Spacer y='16' />
         {list.length === 0 ? (
           <Empty
-            label='Add Draft'
+            label='New Draft'
             href='/draft/create'
             message='You can add it proactively or with the assistance of agents'
           />

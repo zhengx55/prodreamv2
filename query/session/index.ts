@@ -8,7 +8,7 @@ export const useUserSession = () => {
     queryFn: async () => {
       const token = Cookies.get('token');
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/me`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}v2/user`,
         {
           method: 'GET',
           headers: {
