@@ -82,7 +82,7 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
         role='button'
         variant={'icon'}
         onClick={onClick}
-        className={cn(buttonClass, 'size-max p-2')}
+        className={cn(buttonClass, 'size-max rounded-lg p-2')}
       >
         <Icon
           alt={alt}
@@ -150,7 +150,7 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
           rightbarTab !== -1
             ? 'rounded-br-lg rounded-tr-lg'
             : 'rounded-bl-lg rounded-br-lg rounded-tl-lg rounded-tr-lg'
-        } border-l border-gray-200 bg-white pt-6 transition-all duration-300 ease-in-out`}
+        } border-l border-gray-200 bg-white pt-3 transition-all duration-300 ease-in-out`}
       >
         <ul className='space-y-6'>
           {isDraftDetail ? (
