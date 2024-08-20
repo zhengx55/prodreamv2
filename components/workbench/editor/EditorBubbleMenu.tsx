@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from 'react';
 import ContentTypePicker from '@/components/workbench/editor/ContentPicker';
 import { useTextmenuContentTypes } from '@/components/workbench/editor/hooks/useTextmenuContentType';
 import { useTextmenuStates } from '@/components/workbench/editor/hooks/useTextmenuStates';
+import { useEditor } from '@/zustand/store';
 import { EditorView } from '@tiptap/pm/view';
 import { motion } from 'framer-motion';
 import {
@@ -32,6 +33,8 @@ type Props = { editor: Editor };
 
 const EditorBubbleMenu = ({ editor }: Props) => {
   const [open, setOpen] = useState(false);
+  const setCopilotPos = useEditor((state) => state.setCopilotPos);
+  const setShowCopilot = useEditor((state) => state.setShowCopilot);
   const transEditor = useTranslations('Editor');
   const commands = useTextmenuCommands(editor);
   const states = useTextmenuStates(editor);
@@ -164,7 +167,17 @@ const EditorBubbleMenu = ({ editor }: Props) => {
       }}
     >
       <Toolbar.Wrapper className='h-10 rounded-lg border border-gray-200 shadow'>
-        <Toolbar.Button>
+        <Toolbar.Button
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => {
+            setCopilotPos({
+              top: menuYOffside.current ?? 0,
+              left: menuXOffside.current ?? 0,
+            });
+            setShowCopilot(true);
+            setOpen(false);
+          }}
+        >
           <Icon
             alt=''
             src='/editor/copilot.svg'

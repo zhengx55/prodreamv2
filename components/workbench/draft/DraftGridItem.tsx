@@ -16,7 +16,7 @@ const DraftGridItem = ({ item, prompts }: Props) => {
   const { push } = useRouter();
 
   return (
-    <div className='flex w-[330px] flex-col justify-between rounded-lg border border-gray-300'>
+    <div className='flex w-[330px] select-none flex-col justify-between rounded-lg border border-gray-300'>
       <div className='group h-[164px] cursor-pointer rounded-t-lg bg-gray-100 px-2 pt-2'>
         <div
           onClick={() => {
