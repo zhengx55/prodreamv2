@@ -21,7 +21,11 @@ const MaterialListItem = ({ item }: Props) => {
           height={24}
           className='size-6'
         />
-        <h2 className='base-medium line-clamp-1 text-zinc-600'>{item.title}</h2>
+        <h2 className='base-medium text-zinc-600'>
+          {item.title.length > 20
+            ? item.title.slice(0, 20) + '...'
+            : item.title}
+        </h2>{' '}
       </div>
       <p className='text-xs text-neutral-400'>Opened {lastOpenTime}</p>
 

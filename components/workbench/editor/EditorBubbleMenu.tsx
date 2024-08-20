@@ -189,7 +189,7 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           <span className='text-indigo-500'>AI Copilot</span>
         </Toolbar.Button>
         <Toolbar.Divider />
-        <ContentTypePicker options={blockOptions} />
+        <ContentTypePicker preventDefault options={blockOptions} />
         <FontsizePicker
           onChange={commands.onSetFontSize}
           value={states.currentSize}

@@ -39,7 +39,7 @@ const EngineItem: FC<EngineItemProps> = ({ item }) => {
             alt={item.name}
             width={40}
             height={40}
-            className='size-10'
+            className='h-auto w-10'
           />
           <h2
             className={`text-base transition-all duration-200 ${isHovering ? 'text-white' : 'text-zinc-600'}`}

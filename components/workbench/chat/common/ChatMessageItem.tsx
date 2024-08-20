@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CHATAGENT_TYPE } from '@/constant/enum';
+import { cn } from '@/lib/utils';
 import { useAgentChat } from '@/query/chat_agent';
 import { useUserSession } from '@/query/session';
 import { Message as MessageProps } from '@/zustand/slice/workbench/chat-agent';
@@ -13,16 +14,18 @@ import useAgentType from '../../hooks/getChatAgentType';
 
 type UserMessageProps = {
   text: string;
+  className?: string;
 };
 type AgentMessageProps = {
   message: MessageProps;
+  className?: string;
 };
 
-const User = ({ text }: UserMessageProps) => {
+const User = ({ text, className }: UserMessageProps) => {
   const { data, status: userStatus } = useUserSession();
   return (
     <div className='flex gap-x-2 self-end'>
-      <div className='h-max space-y-4 rounded-lg bg-slate-200 px-4 py-2'>
+      <div className={cn(className, 'rounded-lg bg-slate-200 px-4 py-2')}>
         <p className='base-regular text-zinc-800'>{text}</p>
       </div>
       {userStatus !== 'success' ? (
@@ -41,7 +44,7 @@ const User = ({ text }: UserMessageProps) => {
   );
 };
 
-const Agent = ({ message }: AgentMessageProps) => {
+const Agent = ({ message, className }: AgentMessageProps) => {
   const { storeType } = useAgentType();
   const setOptionsSelected = useAgent(
     (state) => state.setAgentMessageOptionsSelected
@@ -73,13 +76,18 @@ const Agent = ({ message }: AgentMessageProps) => {
   return (
     <div className='flex w-full gap-x-2'>
       <Image
-        src='/chat_agent/common/max.png'
+        src='/chat/max.png'
         alt='Agent'
         width={40}
         height={40}
         className='size-10'
       />
-      <div className='overflow-x-hidden rounded-lg bg-white px-4 py-2'>
+      <div
+        className={cn(
+          className,
+          'overflow-x-hidden rounded-lg bg-white px-4 py-2'
+        )}
+      >
         <Markdown className='prose prose-base prose-p:my-1 prose-p:leading-normal prose-p:text-zinc-800 prose-strong:text-indigo-500 prose-ol:my-1'>
           {message.text}
         </Markdown>

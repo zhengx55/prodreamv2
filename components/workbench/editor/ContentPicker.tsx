@@ -28,13 +28,17 @@ export type ContentPickerOptions = Array<
 
 export type ContentTypePickerProps = {
   options: ContentPickerOptions;
+  preventDefault?: boolean;
 };
 
 const isOption = (
   option: ContentTypePickerOption | ContentTypePickerCategory
 ): option is ContentTypePickerOption => option.type === 'option';
 
-const ContentTypePicker = ({ options }: ContentTypePickerProps) => {
+const ContentTypePicker = ({
+  options,
+  preventDefault,
+}: ContentTypePickerProps) => {
   const activeItem = useMemo(
     () =>
       options.find((option) => option.type === 'option' && option.isActive()),
@@ -53,8 +57,19 @@ const ContentTypePicker = ({ options }: ContentTypePickerProps) => {
           </Dropdown.Trigger>
           <Toolbar.Divider />
         </>
-      ) : null}
-      <Dropdown.Content onPointerDown={(e) => e.preventDefault()} asChild>
+      ) : (
+        <>
+          <Toolbar.Button className='gap-x-4'>
+            Pragraph
+            <ChevronDown size={16} />
+          </Toolbar.Button>
+          <Toolbar.Divider />
+        </>
+      )}
+      <Dropdown.Content
+        onPointerDown={(e) => preventDefault && e.preventDefault()}
+        asChild
+      >
         <Surface className='flex flex-col gap-1 border border-gray-200 p-2'>
           {options.map((option) => {
             if (isOption(option)) {
