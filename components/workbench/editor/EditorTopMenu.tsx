@@ -3,7 +3,6 @@ import ContentTypePicker from '@/components/workbench/editor/ContentPicker';
 import type { Editor } from '@tiptap/react';
 import { List } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { memo } from 'react';
 import FontsizePicker from './FontsizePicker';
 import { useTextmenuCommands } from './hooks/useTextMenuCommand';
 import { useTextmenuContentTypes } from './hooks/useTextmenuContentType';
@@ -134,4 +133,4 @@ const EditorTopMenu = ({ editor }: Props) => {
   );
 };
 
-export default memo(EditorTopMenu);
+export default EditorTopMenu;
