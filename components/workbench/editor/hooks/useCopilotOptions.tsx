@@ -187,7 +187,7 @@ export const useCopilotOptions = () => {
     return [
       {
         id: 'copilot-operation-01',
-        name: 'Replace_selection',
+        name: 'Replace selection',
         icon: (
           <Icon
             alt='summary'
@@ -200,7 +200,7 @@ export const useCopilotOptions = () => {
       },
       {
         id: 'copilot-operation-02',
-        name: 'Insert_below',
+        name: 'Insert below',
         icon: (
           <Icon
             alt='summary'
@@ -213,7 +213,7 @@ export const useCopilotOptions = () => {
       },
       {
         id: 'copilot-operation-03',
-        name: 'Try_again',
+        name: 'Try again',
         icon: (
           <Icon
             alt='summary'

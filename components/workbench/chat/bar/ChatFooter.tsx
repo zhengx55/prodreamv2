@@ -17,6 +17,7 @@ const ChatFooter = () => {
     'In-depth Exploration': CHATAGENT_TYPE.BSADVANCE,
     'Generate Outline': CHATAGENT_TYPE.OLGEN,
     'Polish Outline': CHATAGENT_TYPE.PLPOL,
+    'Generate Draft': CHATAGENT_TYPE.DR,
   };
 
   const handleActionClick = (text: string) => {
@@ -46,7 +47,7 @@ const ChatFooter = () => {
   };
 
   return (
-    <div className='space-y-2 px-4 pb-4'>
+    <div className='space-y-2 px-4 py-4'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-x-1'>{renderActionButtons()}</div>
         <div className='flex gap-x-2'>

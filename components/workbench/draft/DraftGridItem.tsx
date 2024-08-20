@@ -16,13 +16,13 @@ const DraftGridItem = ({ item, prompts }: Props) => {
   const { push } = useRouter();
 
   return (
-    <div className='flex w-[330px] select-none flex-col justify-between rounded-lg border border-gray-300'>
-      <div className='group h-[164px] cursor-pointer rounded-t-lg bg-gray-100 px-2 pt-2'>
+    <div className='flex w-[330px] cursor-pointer select-none flex-col justify-between rounded-lg border border-gray-300 hover:border-indigo-500'>
+      <div className='h-[164px] rounded-t-lg bg-gray-100 px-2 pt-2'>
         <div
           onClick={() => {
             push(`/draft/${item.id}`);
           }}
-          className='size-full space-y-2.5 bg-white p-2 group-hover:bg-slate-50'
+          className='size-full space-y-2.5 bg-white p-2'
         >
           <span className='small-regular rounded bg-green-50 px-2.5 py-0.5 text-green-500'>
             {
