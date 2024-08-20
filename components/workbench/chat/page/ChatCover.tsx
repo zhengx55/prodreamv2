@@ -62,7 +62,7 @@ const ChatCover = () => {
         <ButtonCard
           iconSrc='/workbench/nav_brainstorming.svg'
           iconAlt='Brainstorming'
-          title='Brainstorm'
+          title='Brainstorming'
           description='Uncover your most compelling stories, experiences, and strengths'
           href='/brainstorming'
         />
