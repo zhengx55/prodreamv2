@@ -19,14 +19,13 @@ type Props = {
 };
 
 const RegenerateModal = ({ close, prompt, materials }: Props) => {
-  const { mutateAsync: create, isSubmitting } = useCreateOutline(close);
+  const { mutate: create, isPending } = useCreateOutline(close);
   const handleSubmit = async () => {
-    await create({
+    create({
       prompt_id: prompt,
       title: 'Untitled',
       material_ids: materials,
     });
-    close();
   };
   return (
     <AlertDialogContent className='gap-y-6 bg-white md:w-[600px] md:p-8'>
@@ -61,13 +60,13 @@ const RegenerateModal = ({ close, prompt, materials }: Props) => {
       <AlertDialogFooter>
         <AlertDialogCancel className='px-8'>Cancel</AlertDialogCancel>
         <AlertDialogAction
-          disabled={isSubmitting}
+          disabled={isPending}
           onClick={(e) => {
             e.preventDefault();
             handleSubmit();
           }}
         >
-          {isSubmitting ? (
+          {isPending ? (
             <span className='inline-flex items-center gap-x-2'>
               <Loader2 className='animate-spin text-white' size={20} />
               Generating...
