@@ -7,6 +7,7 @@ import {
 import CharacterCount from '@tiptap/extension-character-count';
 import Document from '@tiptap/extension-document';
 import Heading from '@tiptap/extension-heading';
+import Highlight from '@tiptap/extension-highlight';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
@@ -31,6 +32,7 @@ const EditorExtensions = () => [
   Underline,
   CharacterCount,
   FontSize,
+  Highlight,
   TableOfContents.configure({
     getIndex: getHierarchicalIndexes,
   }),

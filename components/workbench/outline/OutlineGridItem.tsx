@@ -1,6 +1,7 @@
 import Icon from '@/components/root/Icon';
 import { formatTimestamphh } from '@/lib/utils';
 import { OutlineItem, Prompt } from '@/types/outline';
+import { useRouter } from 'next/navigation';
 import { memo, useMemo } from 'react';
 import Markdown from 'react-markdown';
 import Menu from '../common/Menu';
@@ -11,11 +12,17 @@ const OutlineGridItem = ({ item, prompts }: Props) => {
     () => formatTimestamphh(item.update_time),
     [item.update_time]
   );
+  const { push } = useRouter();
 
   return (
     <div className='flex w-[330px] flex-col justify-between rounded-lg border border-gray-300'>
-      <div className='h-[164px] rounded-t-lg bg-gray-100 px-2 pt-2'>
-        <div className='size-full space-y-2.5 bg-white p-2'>
+      <div className='group h-[164px] cursor-pointer rounded-t-lg bg-gray-100 px-2 pt-2'>
+        <div
+          onClick={() => {
+            push(`/outline/${item.id}`);
+          }}
+          className='size-full space-y-2.5 bg-white p-2 group-hover:bg-slate-50'
+        >
           <span className='small-regular rounded bg-green-50 px-2.5 py-0.5 text-green-500'>
             {
               prompts
