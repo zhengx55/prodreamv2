@@ -1,6 +1,7 @@
 import Icon from '@/components/root/Icon';
 import { formatTimestamphh } from '@/lib/utils';
 import { MaterialItem } from '@/types/brainstorm';
+import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import Menu from '../common/Menu';
 
@@ -11,10 +12,16 @@ const MaterialGridItem = ({ item }: Props) => {
     () => formatTimestamphh(item.update_time),
     [item.update_time]
   );
+  const { push } = useRouter();
   return (
     <div className='flex w-[330px] flex-col justify-between rounded-lg border border-gray-300'>
-      <div className='h-[164px] rounded-t-lg bg-gray-100 px-2 pt-2'>
-        <div className='size-full bg-white p-2'>
+      <div className='group h-[164px] cursor-pointer rounded-t-lg bg-gray-100 px-2 pt-2'>
+        <div
+          className='size-full bg-white p-2 group-hover:bg-slate-50'
+          onClick={() => {
+            push(`/brainstorming/${item.id}`);
+          }}
+        >
           <p className='small-regular line-clamp-3 leading-tight text-zinc-600'>
             {item.content}
           </p>

@@ -35,32 +35,35 @@ export default function Page() {
       <Spacer y='8' />
       <Separator orientation='horizontal' className='bg-gray-200' />
       <Spacer y='16' />
-      <div className='flex gap-x-4 rounded-lg border border-gray-200 bg-white px-4 py-3'>
+      <div className='flex rounded-lg border border-gray-200 bg-white px-4 py-3'>
         <div className='space-y-2'>
-          {isPending ? (
-            <Skeleton className='size-[72px] rounded-full' />
-          ) : (
-            <Image
-              alt='avatar'
-              src={data!.avatar}
-              width={100}
-              height={100}
-              priority
-              className='size-[72px] rounded-full'
-            />
-          )}
+          <div className='flex items-center gap-x-6'>
+            {isPending ? (
+              <Skeleton className='size-[72px] rounded-full' />
+            ) : (
+              <Image
+                alt='avatar'
+                src={data!.avatar}
+                width={100}
+                height={100}
+                priority
+                className='size-[72px] rounded-full'
+              />
+            )}
+            <div className='flex flex-1 items-center gap-x-2.5'>
+              {isPending ? (
+                <Skeleton className='h-5 w-10 rounded-lg' />
+              ) : (
+                <p className='base-medium text-zinc-800'>{data?.name}</p>
+              )}
+
+              <ResetName />
+            </div>
+          </div>
+
           <Button variant={'ghost'} className='p-0'>
             Chage Avatar
           </Button>
-        </div>
-        <div className='flex flex-1 items-center gap-x-4'>
-          {isPending ? (
-            <Skeleton className='h-5 w-10 rounded-lg' />
-          ) : (
-            <p className='base-medium text-zinc-800'>{data?.name}</p>
-          )}
-
-          <ResetName />
         </div>
       </div>
       <Spacer y='16' />

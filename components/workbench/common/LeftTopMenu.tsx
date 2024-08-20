@@ -75,7 +75,7 @@ const LeftTopMenu = () => {
         >
           <div className='flex flex-col gap-y-2'>{renderedEngineItems}</div>
           <ul className='mt-auto flex flex-col gap-y-2'>
-            {renderedNavItems}
+            {/* {renderedNavItems} */}
             <Separator className='bg-zinc-500' orientation='horizontal' />
             {isPending ? (
               <Skeleton className='h-10 w-full rounded-lg' />

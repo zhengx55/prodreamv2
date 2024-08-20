@@ -14,22 +14,22 @@ export const workbench_engine = [
     ],
     personalities: ['Open-minded', 'Friendly', 'Problem-solving Oriented'],
   },
-  {
-    id: 'workbench_engine_2',
-    name: 'Jessica',
-    image: '/workbench/jessica.png',
-    intro:
-      'Hello! Ready to tackle your writing challenges and elevate your skills?',
-    background:
-      'A dedicated academic author, always striving to assist others in improving their academic writing and research skills.',
-    skills: [
-      'Academic Research',
-      'Writing and Editing',
-      'Critical Thinking',
-      'Problem-solving',
-    ],
-    personalities: ['Helpful', 'Logical', 'Analytical'],
-  },
+  // {
+  //   id: 'workbench_engine_2',
+  //   name: 'Jessica',
+  //   image: '/workbench/jessica.png',
+  //   intro:
+  //     'Hello! Ready to tackle your writing challenges and elevate your skills?',
+  //   background:
+  //     'A dedicated academic author, always striving to assist others in improving their academic writing and research skills.',
+  //   skills: [
+  //     'Academic Research',
+  //     'Writing and Editing',
+  //     'Critical Thinking',
+  //     'Problem-solving',
+  //   ],
+  //   personalities: ['Helpful', 'Logical', 'Analytical'],
+  // },
   {
     id: 'workbench_engine_3',
     name: 'Dreami',
