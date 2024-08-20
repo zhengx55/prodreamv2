@@ -45,16 +45,16 @@ const ChatInputField = () => {
         onClick={handleSend}
         disabled={!inputMessage}
         size={'send'}
-        className='p-1'
+        className='p-1.5'
         role='button'
       >
         <Icon
           alt='send'
-          src='/chat/send.svg'
+          src='/chat_agent/common/send.svg'
           width={30}
           height={30}
           priority
-          className='size-6'
+          className='size-5'
         />
       </Button>
     </div>

@@ -110,7 +110,11 @@ const MaterialForm = ({
 
           <SelectContent className='bg-white'>
             {themes.map((theme) => (
-              <SelectItem key={theme.id} value={theme.id}>
+              <SelectItem
+                className='base-regular h-9 rounded-lg text-zinc-600 hover:bg-slate-200'
+                key={theme.id}
+                value={theme.id}
+              >
                 {theme.title}
               </SelectItem>
             ))}

@@ -60,9 +60,13 @@ const MaterialSection = ({ list, pageCount }: Props) => {
           <MaterialList list={list} />
         )}
       </div>
-      <Spacer y='16' />
-      {pageCount > 0 && <Pagination totalPage={pageCount} />}
-      <Spacer y='16' />
+      {pageCount > 0 && (
+        <>
+          <Spacer y='16' />
+          <Pagination totalPage={pageCount} />
+          <Spacer y='16' />
+        </>
+      )}
     </>
   );
 };

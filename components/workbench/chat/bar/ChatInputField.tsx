@@ -54,7 +54,7 @@ const ChatInputField = () => {
   };
 
   return (
-    <div className='flex h-16 w-full items-center gap-x-2 rounded-lg border border-gray-300 bg-white p-2.5'>
+    <div className='flex h-[52px] w-full items-center gap-x-2 rounded-lg border border-gray-300 bg-white p-2.5'>
       <Input
         type='text'
         disabled={isMessageSending}

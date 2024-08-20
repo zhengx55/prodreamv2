@@ -289,10 +289,16 @@ const PromptSelection: React.FC<{
         <SelectValue />
       </SelectTrigger>
       <SelectContent className='bg-white'>
-        <SelectItem className='hover:bg-slate-100' value='Common App'>
+        <SelectItem
+          className='base-regular h-9 rounded-lg text-zinc-600 hover:bg-slate-200'
+          value='Common App'
+        >
           Common App Prompt
         </SelectItem>
-        <SelectItem className='hover:bg-slate-100' value='UC'>
+        <SelectItem
+          className='base-regular h-9 rounded-lg text-zinc-600 hover:bg-slate-200'
+          value='UC'
+        >
           UC App Prompt
         </SelectItem>
       </SelectContent>

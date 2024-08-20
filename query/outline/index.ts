@@ -2,7 +2,7 @@ import { revalidateOutlines } from '@/components/workbench/outline/server_action
 import { PAGESIZE } from '@/constant/enum';
 import { MaterialItem, MaterialListRes } from '@/types/brainstorm';
 import { Prompt } from '@/types/outline';
-import { useAgent, useEditor } from '@/zustand/store';
+import { useAgent } from '@/zustand/store';
 import {
   keepPreviousData,
   useMutation,
@@ -12,7 +12,6 @@ import {
 import type { Editor } from '@tiptap/core';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 export const useGetMaterials = (
   keyword: string,
@@ -208,55 +207,7 @@ export const useHandleOutlineFromChat = () => {
 };
 
 export const useCreateOutline = (closeModal: () => void) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const editor = useEditor((state) => state.editor);
   const { push } = useRouter();
-  const setEditorContentGenerating = useEditor(
-    (state) => state.setEditorContentGenerating
-  );
-  const handleStream = async (body: ReadableStream<Uint8Array>) => {
-    try {
-      const reader = body.pipeThrough(new TextDecoderStream()).getReader();
-      const { parse } = await import('marked');
-      let outline_result = '';
-      let generated_outline_id = '';
-      editor?.commands.clearContent();
-      setIsSubmitting(false);
-      closeModal();
-      setEditorContentGenerating(true);
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        const lines = value.split('\n');
-        for (const [index, line] of lines.entries()) {
-          if (
-            line.startsWith('data:') &&
-            lines[index - 1]?.startsWith('event: data')
-          ) {
-            const data = line.slice(5).trim();
-            if (data) {
-              const parsedData = JSON.parse(data);
-              outline_result += parsedData;
-              editor?.commands.setContent(
-                `<h1>Untitled</h1> ${parse(outline_result)}`
-              );
-            }
-          } else if (
-            line.startsWith('data:') &&
-            lines[index - 1]?.startsWith('event: outline_id')
-          ) {
-            generated_outline_id = line.slice(5).trim();
-          }
-        }
-      }
-      await revalidateOutlines();
-      setEditorContentGenerating(false);
-      push(`/outline/${generated_outline_id}`);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const mutation = useMutation({
     mutationFn: async (params: {
       title: string;
@@ -277,28 +228,21 @@ export const useCreateOutline = (closeModal: () => void) => {
         }
       );
 
-      if (!res.ok) {
-        throw new Error('An error occurred while sending the message');
-      }
-
-      const body = res.body;
-      if (!body) {
-        throw new Error('Response body is empty');
-      }
-
-      return body;
+      const data = await res.json();
+      return data.data;
     },
     onError: async (error) => {
       const { toast } = await import('sonner');
       toast.error(error.message);
     },
-    onSuccess: handleStream,
-    onMutate: () => {
-      setIsSubmitting(true);
+    onSuccess: async (data, variables) => {
+      const { outline_id } = data;
+      closeModal();
+      push(`/outline/${outline_id}`);
     },
   });
 
-  return { ...mutation, isSubmitting };
+  return { ...mutation };
 };
 
 export const useGetOutlineContent = (outline_id: string) => {
@@ -376,6 +320,7 @@ export const getOutlineStream = async (outline_id: string, editor: Editor) => {
     if (done) break;
     const lines = value.split('\n');
     for (const [index, line] of lines.entries()) {
+      console.log(line);
       if (
         line.startsWith('data:') &&
         lines[index - 1]?.startsWith('event: data')

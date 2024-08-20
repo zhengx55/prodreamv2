@@ -13,8 +13,8 @@ type Props = {
 
 const TopNav = ({ lang }: Props) => {
   return (
-    <div className='relative flex shrink-0 justify-center gap-x-2 py-6'>
-      <div className='absolute left-[8px] top-[8px]'>
+    <div className='flex-center relative gap-x-2 py-6'>
+      <div className='absolute left-1'>
         <LeftTopMenu />
       </div>
       {Navigation.map((nav) => (
