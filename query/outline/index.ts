@@ -320,6 +320,7 @@ export const getOutlineStream = async (outline_id: string, editor: Editor) => {
     if (done) break;
     const lines = value.split('\n');
     for (const [index, line] of lines.entries()) {
+      console.log(line);
       if (
         line.startsWith('data:') &&
         lines[index - 1]?.startsWith('event: data')
