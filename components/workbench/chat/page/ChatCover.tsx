@@ -21,7 +21,7 @@ const ButtonCard: React.FC<ButtonCardProps> = ({
   <Link href={href} className='w-1/3'>
     <div
       role='button'
-      className='space-y-2 rounded-lg border border-zinc-200 bg-white p-4 hover:bg-slate-50 active:bg-zinc-200'
+      className='space-y-2 rounded-lg bg-white p-4 shadow hover:bg-slate-200'
     >
       <div className='flex items-center gap-x-2'>
         <Image
@@ -52,7 +52,7 @@ const ChatCover = () => {
       <Spacer y='16' />
       <h2 className='text-xl font-medium text-zinc-800'>Max</h2>
       <Spacer y='8' />
-      <p className='small-regular text-center text-zinc-800'>
+      <p className='text-center text-base leading-7 text-zinc-800'>
         Hello, I&apos;m Max. I specialize in helping students craft compelling
         application essays for college
         <br /> admissions. Let me understand what you&apos;re working on.

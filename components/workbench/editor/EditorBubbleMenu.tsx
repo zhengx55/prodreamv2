@@ -9,7 +9,6 @@ import {
   offset,
   useFloating,
 } from '@floating-ui/react-dom';
-import * as Popover from '@radix-ui/react-popover';
 import { type Editor, isNodeSelection, posToDOMRect } from '@tiptap/react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
@@ -20,13 +19,6 @@ import { useTextmenuStates } from '@/components/workbench/editor/hooks/useTextme
 import { useEditor } from '@/zustand/store';
 import { EditorView } from '@tiptap/pm/view';
 import { motion } from 'framer-motion';
-import {
-  AlignCenter,
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
-  MoreVertical,
-} from 'lucide-react';
 import FontsizePicker from './FontsizePicker';
 import { Toolbar } from './Toolbar';
 type Props = { editor: Editor };
@@ -194,35 +186,7 @@ const EditorBubbleMenu = ({ editor }: Props) => {
           onChange={commands.onSetFontSize}
           value={states.currentSize}
         />
-        <Toolbar.Divider />
-        <Toolbar.Button
-          onMouseDown={(e) => e.preventDefault()}
-          tooltip={transEditor('BubbleMenu.Undo')}
-          tooltipShortcut={['Mod', 'Z']}
-          onClick={commands.onUndo}
-        >
-          <Icon
-            alt=''
-            src='/editor/undo.svg'
-            width={18}
-            height={18}
-            className='size-[18px]'
-          />
-        </Toolbar.Button>
-        <Toolbar.Button
-          onMouseDown={(e) => e.preventDefault()}
-          tooltip={transEditor('BubbleMenu.Redo')}
-          tooltipShortcut={['Mod', 'Y']}
-          onClick={commands.onRedo}
-        >
-          <Icon
-            alt=''
-            src='/editor/redo.svg'
-            width={18}
-            height={18}
-            className='size-[18px]'
-          />
-        </Toolbar.Button>
+
         <Toolbar.Divider />
         <Toolbar.Button
           onMouseDown={(e) => e.preventDefault()}
@@ -288,57 +252,6 @@ const EditorBubbleMenu = ({ editor }: Props) => {
             className='size-4'
           />
         </Toolbar.Button>
-        <Popover.Root>
-          <Popover.Trigger asChild>
-            <Toolbar.Button
-              onMouseDown={(e) => e.preventDefault()}
-              tooltip={transEditor('BubbleMenu.More_options')}
-            >
-              <MoreVertical size={16} />
-            </Toolbar.Button>
-          </Popover.Trigger>
-          <Popover.Content
-            onPointerDown={(e) => e.preventDefault()}
-            side='top'
-            asChild
-            className='size-max p-1'
-          >
-            <Toolbar.Wrapper>
-              <Toolbar.Button
-                tooltip={transEditor('BubbleMenu.Align_Left')}
-                tooltipShortcut={['Shift', 'Mod', 'L']}
-                onClick={commands.onAlignLeft}
-                active={states.isAlignLeft}
-              >
-                <AlignLeft size={16} />
-              </Toolbar.Button>
-              <Toolbar.Button
-                tooltip={transEditor('BubbleMenu.Align_Center')}
-                tooltipShortcut={['Shift', 'Mod', 'E']}
-                onClick={commands.onAlignCenter}
-                active={states.isAlignCenter}
-              >
-                <AlignCenter size={16} />
-              </Toolbar.Button>
-              <Toolbar.Button
-                tooltip={transEditor('BubbleMenu.Align_Right')}
-                tooltipShortcut={['Shift', 'Mod', 'R']}
-                onClick={commands.onAlignRight}
-                active={states.isAlignRight}
-              >
-                <AlignRight size={16} />
-              </Toolbar.Button>
-              <Toolbar.Button
-                tooltip={transEditor('BubbleMenu.Justify')}
-                tooltipShortcut={['Shift', 'Mod', 'J']}
-                onClick={commands.onAlignJustify}
-                active={states.isAlignJustify}
-              >
-                <AlignJustify size={16} />
-              </Toolbar.Button>
-            </Toolbar.Wrapper>
-          </Popover.Content>
-        </Popover.Root>
       </Toolbar.Wrapper>
     </motion.div>
   );

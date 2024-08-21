@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { v4 } from 'uuid';
+import { useMutationUserTrack } from '../session';
 
 interface MutationParams {
   session_id: string | null;
@@ -14,6 +15,7 @@ interface MutationParams {
 
 export const useAgentChat = (storeType: StoreTypes) => {
   const { push } = useRouter();
+  const { mutate } = useMutationUserTrack();
   const addUserMessage = useAgent((state) => state.addUserMessage);
   const setSessionId = useAgent((state) => state.setSessionId);
   const addAgentMessage = useAgent((state) => state.addAgentMessage);
@@ -148,6 +150,9 @@ export const useAgentChat = (storeType: StoreTypes) => {
       if (done) break;
       const lines = value.split('\n');
       lines.forEach((line, index) => processLine(line, lines[index - 1]));
+    }
+    if (storeType === 'chat' && variables.agent === CHATAGENT_TYPE.INITIAL) {
+      mutate('isFirstChat');
     }
   };
 
