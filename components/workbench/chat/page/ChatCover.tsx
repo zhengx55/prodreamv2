@@ -52,7 +52,7 @@ const ChatCover = () => {
       <Spacer y='16' />
       <h2 className='text-xl font-medium text-zinc-800'>Max</h2>
       <Spacer y='8' />
-      <p className='small-regular text-center text-zinc-800'>
+      <p className='text-center text-base leading-7 text-zinc-800'>
         Hello, I&apos;m Max. I specialize in helping students craft compelling
         application essays for college
         <br /> admissions. Let me understand what you&apos;re working on.
