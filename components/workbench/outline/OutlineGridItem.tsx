@@ -15,7 +15,7 @@ const OutlineGridItem = ({ item, prompts }: Props) => {
   const { push } = useRouter();
 
   return (
-    <div className='flex w-[330px] cursor-pointer select-none flex-col justify-between rounded-lg border border-gray-300 hover:bg-indigo-500'>
+    <div className='flex w-[330px] cursor-pointer select-none flex-col justify-between rounded-lg border border-gray-300 hover:border-indigo-500'>
       <div className='h-[164px] rounded-t-lg bg-gray-100 px-2 pt-2'>
         <div
           onClick={() => {

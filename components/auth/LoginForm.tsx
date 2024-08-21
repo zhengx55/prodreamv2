@@ -15,7 +15,7 @@ const LoginForm = () => {
     onSuccess: async () => {
       const { toast } = await import('sonner');
       toast.success('Login successful');
-      replace('/brainstorming');
+      replace('/chat');
     },
     onError: async () => {
       const { toast } = await import('sonner');
@@ -87,7 +87,7 @@ const LoginForm = () => {
         href={`/reset-password`}
         className='base-medium cursor-pointer self-end text-indigo-500 hover:underline'
       >
-        Forget Password?
+        Forgot
       </Link>
       <Button
         disabled={isExecuting}

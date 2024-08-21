@@ -44,7 +44,7 @@ export default async function Page() {
             Create New Material
           </h2>
         </div>
-        <div className='flex flex-1 overflow-y-auto bg-slate-100'>
+        <div className='flex flex-1 overflow-y-auto bg-[#F6F7FB]'>
           <MaterialForm themes={themes} type='create' />
         </div>
       </div>

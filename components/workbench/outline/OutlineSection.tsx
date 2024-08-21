@@ -25,7 +25,7 @@ const OutlineSection = ({ pageCount, list, prompts }: Props) => {
 
   return (
     <>
-      <div className='flex flex-1 flex-col overflow-y-auto bg-slate-100 px-6 pb-10 pt-6'>
+      <div className='flex flex-1 flex-col overflow-y-auto bg-[#F6F7FB] px-6 pb-10 pt-6'>
         <div className='flex-between'>
           <h3 className='w-[200px] text-base font-medium text-zinc-800'>
             Recently

@@ -60,7 +60,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           </Button>
           <h2 className='text-xl font-medium text-zinc-600'>{data.title}</h2>
         </div>
-        <div className='flex flex-1 overflow-y-auto bg-slate-100'>
+        <div className='flex flex-1 overflow-y-auto bg-[#F6F7FB]'>
           <MaterialForm
             defaultContent={data.content}
             defaultTitle={data.title}
