@@ -10,7 +10,6 @@ import { useAgent } from '@/zustand/store';
 import Image from 'next/image';
 import { memo } from 'react';
 import Markdown from 'react-markdown';
-import useAgentType from '../../hooks/getChatAgentType';
 
 type UserMessageProps = {
   text: string;
@@ -45,13 +44,11 @@ const User = ({ text, className }: UserMessageProps) => {
 };
 
 const Agent = ({ message, className }: AgentMessageProps) => {
-  const { storeType } = useAgentType();
   const setOptionsSelected = useAgent(
     (state) => state.setAgentMessageOptionsSelected
   );
   const getSessionId = useAgent((state) => state.getSessionId);
-  const { mutateAsync: select, isPending: isSelecting } =
-    useAgentChat(storeType);
+  const { mutateAsync: select, isPending: isSelecting } = useAgentChat('chat');
   const setAgentMessageSelectionDone = useAgent(
     (state) => state.setAgentMessageSelectionDone
   );
@@ -61,17 +58,10 @@ const Agent = ({ message, className }: AgentMessageProps) => {
         message.options_type === 'multi'
           ? message.options_selected!
           : message.options_selected![0],
-      agent:
-        storeType === 'brainstorming'
-          ? CHATAGENT_TYPE.BS
-          : storeType === 'outline'
-            ? CHATAGENT_TYPE.OL
-            : storeType === 'draft'
-              ? CHATAGENT_TYPE.DR
-              : CHATAGENT_TYPE.REGULAR,
-      session_id: getSessionId(storeType),
+      agent: CHATAGENT_TYPE.REGULAR,
+      session_id: getSessionId('chat'),
     });
-    setAgentMessageSelectionDone(message.id, storeType);
+    setAgentMessageSelectionDone(message.id, 'chat');
   };
   return (
     <div className='flex w-full gap-x-2'>
@@ -103,7 +93,7 @@ const Agent = ({ message, className }: AgentMessageProps) => {
                   <li
                     onClick={() => {
                       if (message.selection_done) return;
-                      setOptionsSelected(message.id, storeType, index);
+                      setOptionsSelected(message.id, 'chat', index);
                     }}
                     key={item.id}
                     className={`${isSelected ? 'border-indigo-500 bg-violet-50' : 'border-transparent hover:bg-violet-50'} t group flex cursor-pointer items-center gap-x-2 rounded-[10px] border px-4 py-2.5`}

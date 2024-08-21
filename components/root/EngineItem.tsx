@@ -30,7 +30,7 @@ const EngineItem: FC<EngineItemProps> = ({ item }) => {
       onOpenChange={setisHovering}
       key={item.id}
     >
-      <HoverCardTrigger asChild>
+      <HoverCardTrigger onMouseDown={(e) => e.preventDefault()} asChild>
         <div
           className={`${isHovering ? 'bg-indigo-500' : 'bg-white/60'} flex cursor-pointer items-center gap-x-2 rounded-lg p-2 transition-all duration-200`}
         >
