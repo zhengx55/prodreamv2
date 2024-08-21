@@ -31,6 +31,7 @@ export enum CHATAGENT_TYPE {
   OLGEN = 'generate_outline',
   PLPOL = 'polish_outline',
   DR = 'draft_introduce',
+  PF = 'proofread_draft',
 }
 
 export enum CHATDATA {
