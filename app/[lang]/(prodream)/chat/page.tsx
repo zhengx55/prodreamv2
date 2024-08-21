@@ -1,4 +1,3 @@
-import ChatFooter from '@/components/workbench/chat/page/ChatFooter';
 import ChatSection from '@/components/workbench/chat/page/ChatSection';
 import Image from 'next/image';
 
@@ -21,7 +20,6 @@ export default function Page({
           <h2 className='text-xl font-medium text-zinc-800'>Max</h2>
         </div>
         <ChatSection />
-        <ChatFooter />
       </div>
     </section>
   );
