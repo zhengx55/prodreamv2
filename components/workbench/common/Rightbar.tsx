@@ -138,7 +138,7 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
           rightbarTab !== -1
             ? 'w-[400px] rounded-bl-lg rounded-tl-lg'
             : 'w-0 rounded-bl-lg rounded-tl-lg'
-        } flex flex-1 overflow-hidden bg-slate-100`}
+        } flex flex-1 overflow-hidden bg-[#F6F7FB]`}
       >
         {renderContent(rightbarTab)}
       </div>
