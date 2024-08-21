@@ -2,6 +2,7 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { ICONS } from '@/constant/chat_agent_constant';
+import { useUserTrack } from '@/query/session';
 import { useAgent } from '@/zustand/store';
 import { Layers } from 'lucide-react';
 import { memo } from 'react';
@@ -33,6 +34,7 @@ const IconButton = ({ alt, src, onClick = () => {} }: IconButtonProps) => (
 
 const ChatFooter = () => {
   const clearChatSession = useAgent((state) => state.clearSession);
+  const { data } = useUserTrack();
   return (
     <footer className='w-[860px] space-y-2.5 self-center pt-4'>
       <div className='flex-between'>

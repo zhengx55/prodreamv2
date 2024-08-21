@@ -15,7 +15,7 @@ const LoginForm = () => {
     onSuccess: async () => {
       const { toast } = await import('sonner');
       toast.success('Login successful');
-      replace('/brainstorming');
+      replace('/chat');
     },
     onError: async () => {
       const { toast } = await import('sonner');
