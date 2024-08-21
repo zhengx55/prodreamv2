@@ -87,7 +87,7 @@ const ActionButton = ({
     disabled={disabled}
     onClick={onClick}
     role='button'
-    className='px-1 text-sm'
+    className='px-2 text-sm'
     variant='outline'
   >
     <Icon

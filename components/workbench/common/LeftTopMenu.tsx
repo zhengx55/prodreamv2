@@ -15,6 +15,9 @@ import { useUserSession } from '@/query/session';
 import Image from 'next/image';
 import { memo, useMemo, useState } from 'react';
 
+/**
+ * Component for rendering nav menu
+ */
 const LeftTopMenu = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { data: user, isPending, isError } = useUserSession();
@@ -38,15 +41,15 @@ const LeftTopMenu = () => {
   };
 
   return (
-    <div className='flex items-center justify-center gap-x-2'>
-      <div className='flex h-7 cursor-pointer items-center justify-center rounded-lg px-2 transition-all duration-200 hover:bg-white hover:bg-opacity-60'>
+    <nav className='flex items-center justify-center gap-x-2'>
+      <div className='flex h-7 cursor-pointer items-center justify-center rounded-lg px-2'>
         <Image
           src='/logo/Prodream.png'
           alt='Logo'
-          width={130}
-          height={20}
+          width={200}
+          height={50}
           priority
-          className='h-5 w-[130px]'
+          className='h-5 w-auto'
         />
       </div>
       <Separator className='h-5 bg-zinc-400' orientation='vertical' />
@@ -86,7 +89,7 @@ const LeftTopMenu = () => {
           </ul>
         </PopoverContent>
       </Popover>
-    </div>
+    </nav>
   );
 };
 
