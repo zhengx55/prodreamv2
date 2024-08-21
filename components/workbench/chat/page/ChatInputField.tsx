@@ -4,22 +4,19 @@ import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CHATAGENT_TYPE } from '@/constant/enum';
-import { useAgentChat } from '@/query/chat_agent';
-import { useAgent } from '@/zustand/store';
 import { memo, useState } from 'react';
 
-const ChatInputField = () => {
+type Props = {
+  isChatPending: boolean;
+  onSubmit: (agent: string, response?: string) => void;
+};
+
+const ChatInputField = ({ isChatPending, onSubmit }: Props) => {
   const [inputMessage, setInputMessage] = useState('');
-  const { mutateAsync: chat, isPending } = useAgentChat('chat');
-  const getSessionId = useAgent((state) => state.getSessionId);
 
   const handleSend = async () => {
     setInputMessage('');
-    await chat({
-      response: inputMessage,
-      agent: CHATAGENT_TYPE.REGULAR,
-      session_id: getSessionId('chat'),
-    });
+    onSubmit(CHATAGENT_TYPE.REGULAR, inputMessage);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +30,7 @@ const ChatInputField = () => {
   return (
     <div className='flex h-[60px] w-full items-center gap-x-2 rounded-lg border border-gray-300 bg-slate-50 px-2.5'>
       <Input
-        disabled={isPending}
+        disabled={isChatPending}
         onKeyUp={handleKeyboardSend}
         value={inputMessage}
         onChange={handleInputChange}
@@ -44,7 +41,7 @@ const ChatInputField = () => {
       />
       <Button
         onClick={handleSend}
-        disabled={!inputMessage || isPending}
+        disabled={!inputMessage || isChatPending}
         size={'send'}
         className='p-1.5'
         role='button'

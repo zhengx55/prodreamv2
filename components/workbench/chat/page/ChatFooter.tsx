@@ -2,7 +2,6 @@ import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { ICONS } from '@/constant/chat_agent_constant';
 import { CHATAGENT_TYPE } from '@/constant/enum';
-import { useAgentChat } from '@/query/chat_agent';
 import { useAgent } from '@/zustand/store';
 import { Layers } from 'lucide-react';
 import { memo } from 'react';
@@ -12,6 +11,11 @@ type IconButtonProps = {
   alt: string;
   src: string;
   onClick?: () => void;
+};
+
+type Props = {
+  isChatPending: boolean;
+  onSubmit: (agent: string, response?: string) => void;
 };
 
 const IconButton = ({ alt, src, onClick = () => {} }: IconButtonProps) => (
@@ -32,24 +36,17 @@ const IconButton = ({ alt, src, onClick = () => {} }: IconButtonProps) => (
   </Button>
 );
 
-const ChatFooter = () => {
+const ChatFooter = ({ isChatPending, onSubmit }: Props) => {
   const clearChatSession = useAgent((state) => state.clearSession);
-  const { mutate: chat, isPending } = useAgentChat('chat');
   return (
     <footer className='w-[860px] space-y-2.5 self-center pt-4'>
       <div className='flex-between'>
         <Button
-          disabled={isPending}
+          disabled={isChatPending}
           role='button'
           className='px-2 text-sm'
           variant='outline'
-          onClick={() =>
-            chat({
-              response: null,
-              agent: CHATAGENT_TYPE.INITIAL,
-              session_id: null,
-            })
-          }
+          onClick={() => onSubmit(CHATAGENT_TYPE.INITIAL)}
         >
           <Layers size={20} className='text-indigo-500' />
           Common guidance
@@ -67,7 +64,7 @@ const ChatFooter = () => {
           ))}
         </div>
       </div>
-      <ChatInputField />
+      <ChatInputField isChatPending={isChatPending} onSubmit={onSubmit} />
     </footer>
   );
 };
