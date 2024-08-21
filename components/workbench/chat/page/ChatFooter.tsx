@@ -1,6 +1,8 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import { ICONS } from '@/constant/chat_agent_constant';
+import { CHATAGENT_TYPE } from '@/constant/enum';
+import { useAgentChat } from '@/query/chat_agent';
 import { useAgent } from '@/zustand/store';
 import { Layers } from 'lucide-react';
 import { memo } from 'react';
@@ -32,10 +34,23 @@ const IconButton = ({ alt, src, onClick = () => {} }: IconButtonProps) => (
 
 const ChatFooter = () => {
   const clearChatSession = useAgent((state) => state.clearSession);
+  const { mutate: chat, isPending } = useAgentChat('chat');
   return (
     <footer className='w-[860px] space-y-2.5 self-center pt-4'>
       <div className='flex-between'>
-        <Button role='button' className='px-2 text-sm' variant='outline'>
+        <Button
+          disabled={isPending}
+          role='button'
+          className='px-2 text-sm'
+          variant='outline'
+          onClick={() =>
+            chat({
+              response: null,
+              agent: CHATAGENT_TYPE.INITIAL,
+              session_id: null,
+            })
+          }
+        >
           <Layers size={20} className='text-indigo-500' />
           Common guidance
         </Button>

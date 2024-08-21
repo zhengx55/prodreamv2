@@ -69,9 +69,10 @@ const LeftTopMenu = () => {
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className='custom-popover-content flex h-[calc(100vh_-3rem)] w-[220px] flex-col justify-between backdrop-blur-lg backdrop-filter'
+          className='custom-popover-content flex h-[calc(100vh_-5rem)] w-[190px] flex-col justify-between px-2 pb-2'
           side='bottom'
           align='end'
+          sideOffset={8}
         >
           <div className='flex flex-col gap-y-2'>{renderedEngineItems}</div>
           <ul className='mt-auto flex flex-col gap-y-2'>

@@ -87,7 +87,7 @@ const LoginForm = () => {
         href={`/reset-password`}
         className='base-medium cursor-pointer self-end text-indigo-500 hover:underline'
       >
-        Forget Password?
+        Forgot
       </Link>
       <Button
         disabled={isExecuting}

@@ -33,6 +33,7 @@ const ChatInputField = () => {
   return (
     <div className='flex h-[60px] w-full items-center gap-x-2 rounded-lg border border-gray-300 bg-slate-50 px-2.5'>
       <Input
+        disabled={isPending}
         onKeyUp={handleKeyboardSend}
         value={inputMessage}
         onChange={handleInputChange}
@@ -43,7 +44,7 @@ const ChatInputField = () => {
       />
       <Button
         onClick={handleSend}
-        disabled={!inputMessage}
+        disabled={!inputMessage || isPending}
         size={'send'}
         className='p-1.5'
         role='button'
