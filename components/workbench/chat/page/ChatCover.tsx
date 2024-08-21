@@ -21,7 +21,7 @@ const ButtonCard: React.FC<ButtonCardProps> = ({
   <Link href={href} className='w-1/3'>
     <div
       role='button'
-      className='space-y-2 rounded-lg border border-zinc-200 bg-white p-4 hover:bg-slate-50 active:bg-zinc-200'
+      className='space-y-2 rounded-lg bg-white p-4 shadow hover:bg-slate-200'
     >
       <div className='flex items-center gap-x-2'>
         <Image

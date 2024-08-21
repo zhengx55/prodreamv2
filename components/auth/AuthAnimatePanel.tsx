@@ -226,7 +226,7 @@ const AuthAnimatePanel = () => {
       for (let i = 0; i < 4; i++) {
         moveElement(i);
       }
-    }, 1000);
+    }, 1500);
 
     return () => clearInterval(intervalId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -250,13 +250,12 @@ const AuthAnimatePanel = () => {
       {positions.map((position, index) => (
         <div
           key={`${index}`}
-          className='absolute'
+          className='absolute transition-all duration-1000 ease-in-out'
           style={{
             top: position.top,
             left: position.left,
             width: elementSize?.width ?? 0,
             height: elementSize?.height ?? 0,
-            transition: 'top 0.5s ease, left 0.5s ease',
           }}
         >
           {index === 0 && renderImage('/auth/auth_grid_1.png', 'auth')}
