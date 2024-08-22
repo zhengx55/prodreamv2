@@ -27,7 +27,7 @@ const DraftContent = (props: Props) => {
     updatePlagiarismLoading(false);
   });
   return (
-    <div className='flex-start 2xl:flex-center relative flex-1 bg-[#F6F7FB] pt-[62px]'>
+    <div className='flex-center relative flex-1 bg-[#F6F7FB] pt-[62px]'>
       <EditorBlock {...props} />
       <GeneratingBar />
     </div>
