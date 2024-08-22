@@ -40,6 +40,11 @@ export const ICONS: Record<string, ActionButtonType[] | IconButtonType[]> = {
       src: '/chat_agent/outline/generate.svg',
       text: 'Generate Draft',
     },
+    {
+      alt: 'proofread',
+      src: '/chat_agent/draft/proofread.svg',
+      text: 'Proofread Draft',
+    },
   ],
   common: [
     { alt: 'history', src: '/chat_agent/common/history.svg' },

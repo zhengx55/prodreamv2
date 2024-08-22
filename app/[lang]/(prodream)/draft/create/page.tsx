@@ -31,7 +31,7 @@ export default function Page() {
           <DraftContent />
         </div>
       </div>
-      <Rightbar />
+      <Rightbar isDraftDetail />
     </section>
   );
 }

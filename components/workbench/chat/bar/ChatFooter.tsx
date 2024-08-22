@@ -18,6 +18,7 @@ const ChatFooter = () => {
     'Generate Outline': CHATAGENT_TYPE.OLGEN,
     'Polish Outline': CHATAGENT_TYPE.PLPOL,
     'Generate Draft': CHATAGENT_TYPE.DR,
+    'Proofread Draft': CHATAGENT_TYPE.PF,
   };
 
   const handleActionClick = (text: string) => {
@@ -87,7 +88,7 @@ const ActionButton = ({
     disabled={disabled}
     onClick={onClick}
     role='button'
-    className='px-1 text-sm'
+    className='px-2 text-sm'
     variant='outline'
   >
     <Icon
@@ -96,7 +97,7 @@ const ActionButton = ({
       width={20}
       height={20}
       priority
-      className='size-4'
+      className='size-5'
     />
     {text}
   </Button>
