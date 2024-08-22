@@ -1,5 +1,7 @@
 'use client';
 
+import Icon from '@/components/root/Icon';
+import Spacer from '@/components/root/Spacer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -85,7 +87,7 @@ const MaterialForm = ({
   return (
     <form
       action={onActionHandler}
-      className='flex flex-1 flex-col gap-y-6 pt-4'
+      className='bott flex flex-1 flex-col gap-y-6 pt-4'
     >
       <div className='relative flex flex-col gap-y-2 px-4'>
         <label htmlFor='theme' className='text-base font-medium text-zinc-600'>
@@ -149,12 +151,26 @@ const MaterialForm = ({
         >
           {contentLenght}/1000
         </p>
-        <label
-          htmlFor='content'
-          className='text-base font-medium text-zinc-600'
-        >
-          Content
-        </label>
+        <div className='flex-between'>
+          <label
+            htmlFor='content'
+            className='text-base font-medium text-zinc-600'
+          >
+            Content
+          </label>
+          <Button type='button' variant={'ghost'} className='p-0'>
+            <Icon
+              alt='suggestions'
+              width={24}
+              height={24}
+              className='size-4'
+              priority
+              src={'/workbench/suggestions.svg'}
+            />
+            Get Suggestions
+          </Button>
+        </div>
+
         <Textarea
           name='content'
           id='content'
@@ -167,7 +183,7 @@ const MaterialForm = ({
           className={`small-regular h-96 w-full border ${result.validationErrors?.content || updateResult.validationErrors?.content ? 'border-red-400' : 'border-slate-300'} pb-6 pr-6 focus-visible:ring-0`}
         />
       </div>
-      <div className='mt-auto flex w-full justify-end gap-x-2 rounded-b-lg bg-white py-3 pr-4'>
+      <div className='absolute bottom-0 flex w-full justify-end gap-x-2 rounded-b-lg bg-white py-3 pr-4'>
         <Link href={'/brainstorming'}>
           <Button
             disabled={isPending}
@@ -187,6 +203,7 @@ const MaterialForm = ({
           {type === 'create' ? 'Create' : 'Update'}
         </Button>
       </div>
+      <Spacer y='40' />
     </form>
   );
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import Spacer from '@/components/root/Spacer';
-import { useGetMaterialsByIds } from '@/query/outline';
+import { useGetMaterials } from '@/query/outline';
 import { OutlineItem, Prompt } from '@/types/outline';
 import { Loader2 } from 'lucide-react';
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -13,8 +13,12 @@ type Props = { prompts: Prompt[]; data: OutlineItem };
 const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
   const [materials, setMaterials] = useState<string[]>(data.material_ids);
   const [prompt, setPrompt] = useState<string>(data.prompt_id);
-  const { data: selectedMaterials, isLoading } =
-    useGetMaterialsByIds(materials);
+  const { data: selectedMaterials, isLoading } = useGetMaterials(
+    '',
+    0,
+    5,
+    materials
+  );
   const promptTitle = useMemo(
     () => prompts.find((item) => item.id === prompt)?.title,
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,7 +58,7 @@ const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
             <Loader2 className='animate-spin text-indigo-500' />
           </span>
         ) : (
-          selectedMaterials?.map((material) => (
+          selectedMaterials?.data?.map((material) => (
             <div
               key={material.id}
               className='h-36 w-full space-y-2 rounded-lg border border-gray-300 p-2'
