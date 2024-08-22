@@ -1,11 +1,12 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '../ui/button';
 
-type Props = {};
+type Props = { isAuth: boolean };
 
-const Header = (props: Props) => {
+const Header = ({ isAuth }: Props) => {
   return (
-    <header className='flex-center absolute top-14 w-full flex-1'>
+    <header className='flex-center absolute top-14 z-40 w-full flex-1'>
       <div className='flex-between w-[70%]'>
         <Image
           src='/logo/Prodream.png'
@@ -16,8 +17,14 @@ const Header = (props: Props) => {
           className='h-auto w-40'
         />
         <div className='flex gap-x-5'>
-          <Button>Go Academic Writing</Button>
-          <Button>Log in</Button>
+          <Button variant={'header'} size={'lg'}>
+            Go Academic Writing
+          </Button>
+          <Link href={isAuth ? '/chat' : '/login'}>
+            <Button variant={'header'} size={'lg'}>
+              Log in
+            </Button>
+          </Link>
         </div>
       </div>
     </header>

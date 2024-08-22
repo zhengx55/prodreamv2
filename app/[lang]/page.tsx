@@ -7,6 +7,7 @@ import Stories from '@/components/landing/Stories';
 import Testimonials from '@/components/landing/Testimonials';
 import Transform from '@/components/landing/Transform';
 import type { Locale } from '@/i18n-config';
+import { cookies } from 'next/headers';
 
 export default async function Home({
   params: { lang },
@@ -15,9 +16,11 @@ export default async function Home({
   params: { lang: Locale };
   searchParams: { from: string };
 }) {
+  const token = cookies().get('token')?.value;
+  const isAuth = !!token;
   return (
     <div className='relative'>
-      <Header />
+      <Header isAuth={isAuth} />
       <Hero />
       <Agents />
       <Stories />

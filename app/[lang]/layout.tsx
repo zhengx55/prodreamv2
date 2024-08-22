@@ -5,7 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, unstable_setRequestLocale } from 'next-intl/server';
-import { Bebas_Neue, Inter } from 'next/font/google';
+import { Bebas_Neue, Inter, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
 
@@ -22,6 +22,14 @@ const bebasNeue = Bebas_Neue({
   weight: ['400'],
   display: 'swap',
   variable: '--bebas-neue-font',
+  preload: false,
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--poppins-font',
   preload: false,
 });
 
@@ -64,7 +72,7 @@ export default async function RootLayout({
   return (
     <html
       lang={params.lang}
-      className={`${inter.variable} ${bebasNeue.variable}`}
+      className={`${inter.variable} ${bebasNeue.variable} ${poppins.variable}`}
       suppressHydrationWarning
     >
       <body>

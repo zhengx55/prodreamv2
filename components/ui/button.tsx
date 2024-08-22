@@ -19,13 +19,17 @@ const buttonVariants = cva(
           'bg-transparent hover:text-indigo-600 hover:underline text-indigo-500',
         text: 'text-zinc-600 text-2xl font-normal hover:text-violet-500 active:text-violet-600',
         icon: 'hover:bg-zinc-100 text-zinc-600 gap-1 rounded disabled:bg-transparent',
+        header:
+          'bg-white font-poppin text-sm text-neutral-700 font-medium rounded-full',
+        landing:
+          'bg-indigo-500 hover:bg-indigo-400 active:bg-indigo-500 text-white text-lg font-medium rounded-full border shadow-landing-btn',
       },
       size: {
         default: 'px-4 py-2 size-max',
         sm: 'h-9 px-2',
-        lg: 'h-11 px-8',
+        lg: 'h-10 px-8',
         icon: 'size-10',
-        expand: 'h-9 px-8',
+        expand: 'h-14 px-8',
         send: 'p-1.5 size-max',
       },
     },

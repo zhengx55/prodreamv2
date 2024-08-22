@@ -14,6 +14,7 @@ module.exports = {
       fontFamily: {
         inter: ['var(--inter-font)'],
         bebas: ['var(--bebas-neue-font)'],
+        poppin: ['var(--poppins-font)'],
       },
       keyframes: {
         ping: {
@@ -27,6 +28,9 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+      },
+      boxShadow: {
+        'landing-btn': '0px 18px 30px 0px rgba(114, 112, 232, 0.30);',
       },
       transition: {
         up: 'translate-y-1',
