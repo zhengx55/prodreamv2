@@ -37,7 +37,7 @@ const EngineItem: FC<EngineItemProps> = ({ item }) => {
             alt={item.name}
             width={100}
             height={100}
-            className='absolute bottom-0 left-0 h-auto w-[55px]'
+            className='absolute bottom-0 left-0 h-auto w-[55px] rounded-lg'
             priority
           />
           <h2
