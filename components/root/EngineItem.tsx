@@ -9,9 +9,10 @@ import { FC, memo, useState } from 'react';
 
 interface EngineItemProps {
   item: { name: string; image: string; id: string; avatar: string };
+  active?: boolean;
 }
 
-const EngineItem: FC<EngineItemProps> = ({ item }) => {
+const EngineItem: FC<EngineItemProps> = ({ item, active }) => {
   const [isHovering, setisHovering] = useState(false);
   const { push } = useRouter();
 
@@ -30,7 +31,7 @@ const EngineItem: FC<EngineItemProps> = ({ item }) => {
         asChild
       >
         <div
-          className={`${isHovering ? 'bg-indigo-500' : 'bg-white/60'} flex-center relative h-11 cursor-pointer gap-x-2 rounded-lg transition-all duration-200`}
+          className={`${isHovering || active ? 'bg-indigo-500' : 'bg-white/60'} flex-center relative h-11 cursor-pointer gap-x-2 rounded-lg transition-all duration-200`}
         >
           <Image
             src={item.avatar}
@@ -41,7 +42,7 @@ const EngineItem: FC<EngineItemProps> = ({ item }) => {
             priority
           />
           <h2
-            className={`${isHovering ? 'text-white' : 'text-zinc-800'} text-base`}
+            className={`${isHovering || active ? 'text-white' : 'text-zinc-800'} text-base`}
           >
             {item.name}
           </h2>

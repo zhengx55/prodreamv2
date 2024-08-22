@@ -71,6 +71,7 @@
     "next-compose-plugins": "^2.2.1",
     "next-intl": "^3.14.1",
     "next-safe-action": "^7.4.3",
+    "pako": "^2.1.0",
     "react": "latest",
     "react-device-detect": "^2.2.3",
     "react-dom": "latest",

@@ -15,7 +15,7 @@ export default async function WrittingpalLayout({
   return (
     <>
       <div className='hidden size-full bg-gradient-to-b from-[#c9d7f7] to-[#f2f0ff] md:flex md:flex-col'>
-        <TopNav lang={lang} />
+        <TopNav isMax lang={lang} />
         {children}
       </div>
       <div className='flex flex-1 flex-col items-center bg-[#F6F4FF] md:hidden'>
