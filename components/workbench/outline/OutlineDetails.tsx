@@ -8,6 +8,7 @@ import { useGetOutlineContent } from '@/query/outline';
 import { Prompt } from '@/types/outline';
 import { Download, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import SavingIndicator from '../editor/SavingIndicator';
 type Props = { outline_id: string; prompts: Prompt[] };
 
 const OutlineDetails = ({ outline_id, prompts }: Props) => {
@@ -36,6 +37,7 @@ const OutlineDetails = ({ outline_id, prompts }: Props) => {
             </Link>
           </Button>
           <h2 className='text-xl font-medium text-zinc-600'>{data.title}</h2>
+          <SavingIndicator />
         </div>
         <div className='flex items-center gap-x-2'>
           <Button variant={'icon'} className='size-max p-1'>

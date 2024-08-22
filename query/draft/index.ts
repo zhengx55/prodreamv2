@@ -2,7 +2,7 @@ import { revalidateDrafts } from '@/components/workbench/draft/server_actions/ac
 import { PAGESIZE } from '@/constant/enum';
 import { Draft } from '@/types/draft';
 import { OutlineItem, OutlineRes } from '@/types/outline';
-import { useAgent } from '@/zustand/store';
+import { useAgent, useEditor } from '@/zustand/store';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import Cookies from 'js-cookie';
@@ -198,6 +198,7 @@ export const useGetDraftContent = (draft_id: string) => {
  * @returns A mutation function for saving a draft.
  */
 export const useSaveDraft = () => {
+  const setIsEditorSaving = useEditor((state) => state.setIsEditorSaving);
   return useMutation({
     mutationFn: async (params: {
       draft_id: string;
@@ -218,10 +219,15 @@ export const useSaveDraft = () => {
         }
       );
     },
+    onMutate: () => {
+      setIsEditorSaving(true);
+    },
     onSuccess: async () => {
+      setIsEditorSaving(false);
       revalidateDrafts();
     },
     onError: (error) => {
+      setIsEditorSaving(false);
       console.error(error.message);
     },
   });
