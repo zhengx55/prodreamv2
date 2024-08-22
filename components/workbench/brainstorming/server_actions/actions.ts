@@ -95,3 +95,7 @@ export const updateMaterial = actionClient
       revalidateTag('materials');
     }
   );
+
+export async function revalidateMaterials() {
+  revalidateTag('materials');
+}
