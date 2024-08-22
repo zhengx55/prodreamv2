@@ -1,7 +1,7 @@
 'use client';
 
 import Spacer from '@/components/root/Spacer';
-import { useGetMaterialsByIds } from '@/query/outline';
+import { useGetMaterials } from '@/query/outline';
 import { OutlineItem, Prompt } from '@/types/outline';
 import { Loader2 } from 'lucide-react';
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -13,8 +13,12 @@ type Props = { prompts: Prompt[]; data: OutlineItem };
 const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
   const [materials, setMaterials] = useState<string[]>(data.material_ids);
   const [prompt, setPrompt] = useState<string>(data.prompt_id);
-  const { data: selectedMaterials, isLoading } =
-    useGetMaterialsByIds(materials);
+  const { data: selectedMaterials, isPending } = useGetMaterials(
+    '',
+    0,
+    5,
+    materials
+  );
   const promptTitle = useMemo(
     () => prompts.find((item) => item.id === prompt)?.title,
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,11 +53,12 @@ const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
       </div>
       <Spacer y='16' />
       <div className='flex flex-1 flex-col gap-y-2 overflow-y-auto'>
-        {isLoading ? (
+        {isPending ? (
           <span className='flex-center flex-1'>
             <Loader2 className='animate-spin text-indigo-500' />
           </span>
         ) : (
+          //@ts-ignore
           selectedMaterials?.map((material) => (
             <div
               key={material.id}
