@@ -28,7 +28,7 @@ const ChatInputField = ({ isChatPending, onSubmit }: Props) => {
     }
   };
   return (
-    <div className='flex h-[60px] w-full items-center gap-x-2 rounded-lg border border-gray-300 bg-slate-50 px-2.5'>
+    <div className='flex h-[60px] w-full items-center gap-x-2 rounded-lg border border-zinc-200 bg-slate-50 px-2.5 focus-within:border-indigo-500'>
       <Input
         disabled={isChatPending}
         onKeyUp={handleKeyboardSend}
