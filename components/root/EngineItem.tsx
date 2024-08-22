@@ -55,7 +55,7 @@ const EngineItem: FC<EngineItemProps> = ({ item }) => {
         className='relative w-[722px] border-none p-0 shadow-none'
       >
         <Image
-          src={'/workbench/nav/max/test.png'}
+          src={item.image}
           alt='bg'
           width={1000}
           height={500}
