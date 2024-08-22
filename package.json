@@ -103,6 +103,7 @@
     "@types/js-cookie": "^3.0.6",
     "@types/negotiator": "^0.6.2",
     "@types/node": "^22.1.0",
+    "@types/pako": "^2.0.3",
     "@types/react": "^18.3.2",
     "@types/react-dom": "latest",
     "@types/turndown": "^5.0.5",
