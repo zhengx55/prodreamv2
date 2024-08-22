@@ -298,41 +298,50 @@ export const useSaveOutline = () => {
   });
 };
 
-export const getOutlineStream = async (outline_id: string, editor: Editor) => {
-  const token = Cookies.get('token');
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}outline/${outline_id}/generation`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  const body = res.body;
-  if (!body) return;
-  const reader = body.pipeThrough(new TextDecoderStream()).getReader();
-  const { parse } = await import('marked');
-  let outline_result = '';
-  editor?.commands.clearContent();
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    const lines = value.split('\n');
-    for (const [index, line] of lines.entries()) {
-      if (
-        line.startsWith('data:') &&
-        lines[index - 1]?.startsWith('event: data')
-      ) {
-        const data = line.slice(5).trim();
-        if (data) {
-          const parsedData = JSON.parse(data);
-          outline_result += parsedData;
-          editor?.commands.setContent(
-            `<h1>Untitled</h1> ${parse(outline_result)}`
-          );
+export const getOutlineStream = async (
+  outline_id: string,
+  editor: Editor,
+  abort: AbortSignal
+) => {
+  try {
+    const token = Cookies.get('token');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}outline/${outline_id}/generation`,
+      {
+        signal: abort,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const body = res.body;
+    if (!body) return;
+    const reader = body.pipeThrough(new TextDecoderStream()).getReader();
+    const { parse } = await import('marked');
+    let outline_result = '';
+    editor?.commands.clearContent();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const lines = value.split('\n');
+      for (const [index, line] of lines.entries()) {
+        if (
+          line.startsWith('data:') &&
+          lines[index - 1]?.startsWith('event: data')
+        ) {
+          const data = line.slice(5).trim();
+          if (data) {
+            const parsedData = JSON.parse(data);
+            outline_result += parsedData;
+            editor?.commands.setContent(
+              `<h1>Untitled</h1> ${parse(outline_result)}`
+            );
+          }
         }
       }
     }
+  } catch (error) {
+    console.error(error);
   }
 };
