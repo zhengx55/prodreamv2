@@ -1,6 +1,7 @@
+import { revalidateMaterials } from '@/components/workbench/brainstorming/server_actions/actions';
 import { CHATAGENT_TYPE, CHATDATA, CHATEVENT } from '@/constant/enum';
 import { StoreTypes } from '@/zustand/slice/workbench/chat-agent';
-import { useAgent } from '@/zustand/store';
+import { useAgent, useRightbar } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -41,6 +42,7 @@ export const useAgentChat = (storeType: StoreTypes) => {
   const setshowGenerateDraftModal = useAgent(
     (state) => state.setshowGenerateDraftModal
   );
+  const setRightbarTab = useRightbar((state) => state.setRightbarTab);
 
   const fetchChatResponse = async (
     params: MutationParams
@@ -87,7 +89,6 @@ export const useAgentChat = (storeType: StoreTypes) => {
         addAgentMessage(agentMessageId, storeType, '');
         isNewAgentMessage = false;
       }
-      console.log(previousLine);
       if (previousLine?.startsWith(CHATEVENT.SESSION_ID)) {
         const sessionId = line.replace('data: ', '').replace(/"/g, '').trim();
         setSessionId(storeType, sessionId);
@@ -141,6 +142,14 @@ export const useAgentChat = (storeType: StoreTypes) => {
           push('/outline');
         } else if (clientEvent.includes(CHATDATA.GO_DRAFT)) {
           push('/draft');
+        } else if (clientEvent.includes(CHATDATA.REFRESH_LIB)) {
+          revalidateMaterials();
+        } else if (clientEvent.includes(CHATDATA.AI_DETECT)) {
+          setRightbarTab(1);
+        } else if (clientEvent.includes(CHATDATA.GRAMMAR_CHECK)) {
+          setRightbarTab(3);
+        } else if (clientEvent.includes(CHATDATA.PLAGIARISM_CHECK)) {
+          setRightbarTab(2);
         }
       }
     };
