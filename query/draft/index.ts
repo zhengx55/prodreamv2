@@ -8,11 +8,23 @@ import { Editor } from '@tiptap/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
-export const getDraftSteam = async (draft_id: string, editor: Editor) => {
+/**
+ * Retrieves the draft steam for a given draft ID and editor.
+ *
+ * @param draft_id - The ID of the draft.
+ * @param editor - The editor object.
+ * @returns A Promise that resolves to void.
+ */
+export const getDraftSteam = async (
+  draft_id: string,
+  editor: Editor,
+  abort: AbortSignal
+) => {
   const token = Cookies.get('token');
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}draft/${draft_id}/generation`,
     {
+      signal: abort,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -180,6 +192,11 @@ export const useGetDraftContent = (draft_id: string) => {
   });
 };
 
+/**
+ * Custom hook for saving a draft.
+ *
+ * @returns A mutation function for saving a draft.
+ */
 export const useSaveDraft = () => {
   return useMutation({
     mutationFn: async (params: {

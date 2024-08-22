@@ -14,7 +14,7 @@ const buttonVariants = cva(
         secondary:
           'bg-transparent text-indigo-500 border border-indigo-500 bg-transparent hover:bg-indigo-50 active:bg-violet-200 disabled:bg-slate-100 disabled:border-gray-300',
         outline:
-          'border bg-white border-gray-300 gap-x-1 text-zinc-600 hover:bg-gray-50 active:bg-gray-100',
+          'border bg-white border-gray-300 gap-x-1 text-zinc-600 hover:bg-gray-50 active:bg-gray-100 disabled:bg-slate-100 disabled:border-gray-300',
         ghost:
           'bg-transparent hover:text-indigo-600 hover:underline text-indigo-500',
         text: 'text-zinc-600 text-2xl font-normal hover:text-violet-500 active:text-violet-600',

@@ -76,23 +76,26 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
       src: string,
       className: string,
       onClick: () => void,
-      buttonClass?: string
+      buttonClass?: string,
+      labelClass?: string
     ) => (
-      <Button
-        role='button'
-        variant={'icon'}
-        onClick={onClick}
-        className={cn(buttonClass, 'size-max p-2')}
-      >
-        <Icon
-          alt={alt}
-          src={src}
-          width={24}
-          height={24}
-          className={className}
-          priority
-        />
-      </Button>
+      <div className='flex flex-col items-center gap-y-1'>
+        <Button
+          variant={'icon'}
+          onClick={onClick}
+          className={cn(buttonClass, 'size-max rounded-lg p-2')}
+        >
+          <Icon
+            alt={alt}
+            src={src}
+            width={24}
+            height={24}
+            className={className}
+            priority
+          />
+        </Button>
+        <p className={cn(labelClass, 'text-center text-xs')}>{alt}</p>
+      </div>
     ),
     []
   );
@@ -121,9 +124,20 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
               {componentData.name}
             </h2>
           </div>
-          {renderButton('collapse', '/workbench/collapse.svg', 'size-5', () => {
-            toggleRightbarTab(tabId);
-          })}
+          <Button
+            variant={'icon'}
+            onClick={() => toggleRightbarTab(tabId)}
+            className='p-0.5'
+          >
+            <Icon
+              alt='close'
+              src='/workbench/collapse.svg'
+              width={24}
+              height={24}
+              className='size-5'
+              priority
+            />
+          </Button>
         </div>
         {Component && <Component />}
         {Footer && <Footer />}
@@ -138,7 +152,7 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
           rightbarTab !== -1
             ? 'w-[400px] rounded-bl-lg rounded-tl-lg'
             : 'w-0 rounded-bl-lg rounded-tl-lg'
-        } flex flex-1 overflow-hidden bg-slate-100`}
+        } flex flex-1 overflow-hidden bg-[#F6F7FB]`}
       >
         {renderContent(rightbarTab)}
       </div>
@@ -146,13 +160,13 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
       <PolishOutline />
       <GenerateDraft />
       <div
-        className={`flex h-full w-[60px] flex-col items-center ${
+        className={`flex h-full w-[72px] flex-col items-center ${
           rightbarTab !== -1
             ? 'rounded-br-lg rounded-tr-lg'
             : 'rounded-bl-lg rounded-br-lg rounded-tl-lg rounded-tr-lg'
-        } border-l border-gray-200 bg-white pt-6 transition-all duration-300 ease-in-out`}
+        } border-l border-gray-200 bg-white pt-3 transition-all duration-300 ease-in-out`}
       >
-        <ul className='space-y-6'>
+        <ul className='space-y-4'>
           {isDraftDetail ? (
             components.map((comp) => (
               <li key={comp.id}>
@@ -161,7 +175,8 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
                   `${rightbarTab === comp.id ? `/workbench/${comp.name.toLowerCase()}_trigger.svg` : `/workbench/${comp.name.toLowerCase()}_trigger_unselected.svg`}`,
                   'size-6',
                   () => toggleRightbarTab(comp.id),
-                  `${rightbarTab !== comp.id ? '' : 'bg-slate-200'}`
+                  `${rightbarTab !== comp.id ? '' : 'bg-slate-200'}`,
+                  `${rightbarTab !== comp.id ? '' : 'text-indigo-500'}`
                 )}
               </li>
             ))
@@ -172,7 +187,8 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
                 `${rightbarTab === components[0].id ? `/workbench/${components[0].name.toLowerCase()}_trigger.svg` : `/workbench/${components[0].name.toLowerCase()}_trigger_unselected.svg`}`,
                 'size-6',
                 () => toggleRightbarTab(components[0].id),
-                `${rightbarTab !== components[0].id ? '' : 'bg-slate-200'}`
+                `${rightbarTab !== components[0].id ? '' : 'bg-slate-200'}`,
+                `${rightbarTab !== components[0].id ? '' : 'text-indigo-500'}`
               )}
             </li>
           )}

@@ -8,6 +8,7 @@ import { useEditor } from '@tiptap/react';
 import { marked } from 'marked';
 import { useParams, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
+import { useUpdateEffect } from 'react-use';
 import TurndownService from 'turndown';
 import { useDebouncedCallback } from 'use-debounce';
 import EditorExtensions from '../extensions';
@@ -85,30 +86,69 @@ export default function useEditorBlock(
       clearStore();
     },
   });
+  const createAbort = useEditorStore((state) => state.createAbortController);
+  const recreateSignal = useEditorStore((state) => state.recreateSignal);
+  const setRecreateSignal = useEditorStore((state) => state.setRecreateSignal);
 
   useEffect(() => {
+    const abortController = new AbortController();
     async function getStream() {
       if (shouldTriggerDraftStream && editor) {
+        createAbort(abortController);
         setEditorContentGenerating(true);
-        await getDraftSteam(id as string, editor as any);
+        await getDraftSteam(
+          id as string,
+          editor as any,
+          abortController.signal
+        );
         setEditorContentGenerating(false);
       }
     }
     getStream();
+    return () => {
+      if (abortController) {
+        abortController.abort();
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldTriggerDraftStream, editor, id]);
 
   useEffect(() => {
+    const abortController = new AbortController();
     async function getStream() {
       if (shouldTriggerOutlineStream && editor) {
+        createAbort(abortController);
         setEditorContentGenerating(true);
-        await getOutlineStream(id as string, editor as any);
+        await getOutlineStream(
+          id as string,
+          editor as any,
+          abortController.signal
+        );
         setEditorContentGenerating(false);
       }
     }
     getStream();
+    return () => {
+      if (abortController) {
+        abortController.abort();
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldTriggerOutlineStream, editor, id]);
+
+  useUpdateEffect(() => {
+    if (recreateSignal) {
+      const abortController = new AbortController();
+      createAbort(abortController);
+      if (path.includes('outline') && id && editor) {
+        getOutlineStream(id as string, editor as any, abortController.signal);
+        setRecreateSignal(false);
+      } else if (path.includes('draft') && id && editor) {
+        getDraftSteam(id as string, editor as any, abortController.signal);
+        setRecreateSignal(false);
+      }
+    }
+  }, [recreateSignal, path, id, editor]);
 
   return { editor };
 }

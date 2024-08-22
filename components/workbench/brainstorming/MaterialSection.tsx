@@ -20,10 +20,20 @@ type Props = {
 
 const MaterialSection = ({ list, pageCount }: Props) => {
   const { viewType, renderViewToggleButton } = useViewType();
-
+  if (list.length === 0) {
+    return (
+      <div className='flex-center flex-1 bg-[#F6F7FB]'>
+        <Empty
+          label='New Material'
+          href='/brainstorming/create'
+          message='You can add it proactively or with the assistance of agents'
+        />
+      </div>
+    );
+  }
   return (
     <>
-      <div className='flex flex-1 flex-col overflow-y-auto bg-slate-100 px-6 pb-10 pt-6'>
+      <div className='flex flex-1 flex-col overflow-y-auto bg-[#F6F7FB] px-6 pb-10 pt-6'>
         <div className='flex-between'>
           <h3 className='w-[200px] text-base font-medium text-zinc-800'>
             Recently
@@ -48,21 +58,19 @@ const MaterialSection = ({ list, pageCount }: Props) => {
           </div>
         </div>
         <Spacer y='16' />
-        {list.length === 0 ? (
-          <Empty
-            label='New Material'
-            href='/brainstorming/create'
-            message='You can add it proactively or with the assistance of agents'
-          />
-        ) : viewType === 'grid' ? (
+        {viewType === 'grid' ? (
           <MaterialGrid list={list} />
         ) : (
           <MaterialList list={list} />
         )}
       </div>
-      <Spacer y='16' />
-      {pageCount > 0 && <Pagination totalPage={pageCount} />}
-      <Spacer y='16' />
+      {pageCount > 0 && (
+        <>
+          <Spacer y='16' />
+          <Pagination totalPage={pageCount} />
+          <Spacer y='16' />
+        </>
+      )}
     </>
   );
 };

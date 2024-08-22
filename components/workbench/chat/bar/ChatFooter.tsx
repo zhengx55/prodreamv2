@@ -17,6 +17,8 @@ const ChatFooter = () => {
     'In-depth Exploration': CHATAGENT_TYPE.BSADVANCE,
     'Generate Outline': CHATAGENT_TYPE.OLGEN,
     'Polish Outline': CHATAGENT_TYPE.PLPOL,
+    'Generate Draft': CHATAGENT_TYPE.DR,
+    'Proofread Draft': CHATAGENT_TYPE.PF,
   };
 
   const handleActionClick = (text: string) => {
@@ -46,7 +48,7 @@ const ChatFooter = () => {
   };
 
   return (
-    <div className='space-y-2 px-4 pb-4'>
+    <div className='space-y-2 px-4 py-4'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-x-1'>{renderActionButtons()}</div>
         <div className='flex gap-x-2'>
@@ -86,7 +88,7 @@ const ActionButton = ({
     disabled={disabled}
     onClick={onClick}
     role='button'
-    className='px-1 text-xs'
+    className='px-2 text-sm'
     variant='outline'
   >
     <Icon
@@ -95,7 +97,7 @@ const ActionButton = ({
       width={20}
       height={20}
       priority
-      className='size-4'
+      className='size-5'
     />
     {text}
   </Button>

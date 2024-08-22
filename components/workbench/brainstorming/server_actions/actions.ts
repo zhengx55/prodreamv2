@@ -9,13 +9,13 @@ import { z } from 'zod';
 import { zfd } from 'zod-form-data';
 
 const createMaterialSchema = zfd.formData({
-  title: zfd.text(z.string().max(50).optional()),
-  content: zfd.text(z.string().max(1000)),
+  title: zfd.text(z.string().optional()),
+  content: zfd.text(z.string()),
 });
 
 const updateMaterialSchema = zfd.formData({
-  title: zfd.text(z.string().max(50).optional()),
-  content: zfd.text(z.string().max(1000)),
+  title: zfd.text(z.string().optional()),
+  content: zfd.text(z.string()),
 });
 
 export const createMaterial = actionClient
@@ -95,3 +95,7 @@ export const updateMaterial = actionClient
       revalidateTag('materials');
     }
   );
+
+export async function revalidateMaterials() {
+  revalidateTag('materials');
+}

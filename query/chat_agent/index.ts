@@ -1,10 +1,12 @@
+import { revalidateMaterials } from '@/components/workbench/brainstorming/server_actions/actions';
 import { CHATAGENT_TYPE, CHATDATA, CHATEVENT } from '@/constant/enum';
 import { StoreTypes } from '@/zustand/slice/workbench/chat-agent';
-import { useAgent } from '@/zustand/store';
+import { useAgent, useRightbar } from '@/zustand/store';
 import { useMutation } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { v4 } from 'uuid';
+import { useMutationUserTrack } from '../session';
 
 interface MutationParams {
   session_id: string | null;
@@ -14,6 +16,7 @@ interface MutationParams {
 
 export const useAgentChat = (storeType: StoreTypes) => {
   const { push } = useRouter();
+  const { mutate } = useMutationUserTrack();
   const addUserMessage = useAgent((state) => state.addUserMessage);
   const setSessionId = useAgent((state) => state.setSessionId);
   const addAgentMessage = useAgent((state) => state.addAgentMessage);
@@ -39,6 +42,7 @@ export const useAgentChat = (storeType: StoreTypes) => {
   const setshowGenerateDraftModal = useAgent(
     (state) => state.setshowGenerateDraftModal
   );
+  const setRightbarTab = useRightbar((state) => state.setRightbarTab);
 
   const fetchChatResponse = async (
     params: MutationParams
@@ -65,6 +69,12 @@ export const useAgentChat = (storeType: StoreTypes) => {
     return body;
   };
 
+  /**
+   * Handles the stream of data and performs various operations based on the received lines.
+   *
+   * @param body - The readable stream of data.
+   * @param variables - The mutation parameters.
+   */
   const handleStream = async (
     body: ReadableStream<Uint8Array>,
     variables: MutationParams
@@ -79,13 +89,15 @@ export const useAgentChat = (storeType: StoreTypes) => {
     let isOptionListStart = false;
     let optionId = '';
 
-    const processLine = (line: string, previousLine: string | undefined) => {
+    const processLine = async (
+      line: string,
+      previousLine: string | undefined
+    ) => {
       if (isNewAgentMessage) {
         agentMessageId = v4();
         addAgentMessage(agentMessageId, storeType, '');
         isNewAgentMessage = false;
       }
-      console.log(previousLine);
       if (previousLine?.startsWith(CHATEVENT.SESSION_ID)) {
         const sessionId = line.replace('data: ', '').replace(/"/g, '').trim();
         setSessionId(storeType, sessionId);
@@ -123,10 +135,16 @@ export const useAgentChat = (storeType: StoreTypes) => {
       } else if (line.startsWith(CHATEVENT.OPTION_LIST_END)) {
         isOptionListStart = false;
       } else if (previousLine?.startsWith(CHATEVENT.HTML)) {
-        const parsedData = JSON.parse(line.slice(5));
+        const pako = await import('pako');
+        const charData = atob(line.slice(5))
+          .split('')
+          .map((x) => x.charCodeAt(0));
+        const decompressed = pako.inflate(new Uint8Array(charData));
+        const parsedData = new TextDecoder().decode(decompressed);
         setAgentMessageHTMLContent(agentMessageId, storeType, parsedData);
       } else if (previousLine?.startsWith(CHATEVENT.CLIENT_EVENT)) {
         const clientEvent = line;
+        console.log('🚀 ~ useAgentChat ~ clientEvent:', clientEvent);
         if (clientEvent.includes(CHATDATA.GENERATE_OUTLINE_POPUP_UI)) {
           setshowGenerateOutlineModal(true);
         } else if (clientEvent.includes(CHATDATA.POLISH_OUTLINE_POPUP_UI)) {
@@ -139,6 +157,14 @@ export const useAgentChat = (storeType: StoreTypes) => {
           push('/outline');
         } else if (clientEvent.includes(CHATDATA.GO_DRAFT)) {
           push('/draft');
+        } else if (clientEvent.includes(CHATDATA.REFRESH_LIB)) {
+          revalidateMaterials();
+        } else if (clientEvent.includes(CHATDATA.AI_DETECT)) {
+          setRightbarTab(1);
+        } else if (clientEvent.includes(CHATDATA.GRAMMAR_CHECK)) {
+          setRightbarTab(3);
+        } else if (clientEvent.includes(CHATDATA.PLAGIARISM_CHECK)) {
+          setRightbarTab(2);
         }
       }
     };
@@ -148,6 +174,9 @@ export const useAgentChat = (storeType: StoreTypes) => {
       if (done) break;
       const lines = value.split('\n');
       lines.forEach((line, index) => processLine(line, lines[index - 1]));
+    }
+    if (storeType === 'chat' && variables.agent === CHATAGENT_TYPE.INITIAL) {
+      mutate('isFirstChat');
     }
   };
 

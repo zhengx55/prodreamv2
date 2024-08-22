@@ -57,7 +57,7 @@ const ChatPolishOutline = () => {
     PAGESIZE.MATERIAL_MODAL_PAGE_SIZE
   ) as { data: MaterialListRes | undefined; isLoading: boolean };
 
-  const { data: prompts, isLoading: promptLoading } = useGetPrompts();
+  const { data: prompts, isPending: promptLoading } = useGetPrompts();
   const { mutate, isPending } = useHandleOutlineFromChat();
 
   const handleNextStep = useCallback(() => {
@@ -263,7 +263,7 @@ const ElementSelection: React.FC<{
           {prompts?.map((prompt) => (
             <SelectItem
               key={prompt.id}
-              className='hover:bg-slate-100'
+              className='base-regular h-9 rounded-lg text-zinc-600 hover:bg-slate-200'
               value={prompt.id}
             >
               {prompt.title}

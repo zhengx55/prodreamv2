@@ -7,7 +7,7 @@ export const Navigation = [
   },
   {
     id: 'nav-02',
-    title: 'Brainstorm',
+    title: 'Brainstorming',
     image: '/workbench/nav_brainstorming.svg',
     link: 'brainstorming',
   },

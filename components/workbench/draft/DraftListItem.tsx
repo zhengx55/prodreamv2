@@ -29,7 +29,11 @@ const DraftListItem = ({ item, prompts }: Props) => {
           height={24}
           className='size-5'
         />
-        <h2 className='base-medium line-clamp-1 text-zinc-600'>{item.title}</h2>
+        <h2 className='base-medium text-zinc-600'>
+          {item.title.length > 20
+            ? item.title.slice(0, 20) + '...'
+            : item.title}
+        </h2>
       </div>
       <p className='w-[200px] text-xs text-neutral-400'> {prompt}</p>
       <p className='w-[200px] text-xs text-neutral-400'>

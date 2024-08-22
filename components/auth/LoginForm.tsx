@@ -13,9 +13,9 @@ const LoginForm = () => {
   const { replace } = useRouter();
   const { execute, isExecuting, result } = useAction(loginIn, {
     onSuccess: async () => {
-      replace('/brainstorming');
       const { toast } = await import('sonner');
       toast.success('Login successful');
+      replace('/chat');
     },
     onError: async () => {
       const { toast } = await import('sonner');
@@ -87,11 +87,11 @@ const LoginForm = () => {
         href={`/reset-password`}
         className='base-medium cursor-pointer self-end text-indigo-500 hover:underline'
       >
-        Forget Password?
+        Forgot Password
       </Link>
       <Button
         disabled={isExecuting}
-        className='h-[60px] w-full rounded-lg font-semibold'
+        className='h-[60px] w-full rounded-lg text-base font-semibold'
         type='submit'
       >
         Login

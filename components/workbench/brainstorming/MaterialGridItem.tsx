@@ -1,6 +1,7 @@
 import Icon from '@/components/root/Icon';
 import { formatTimestamphh } from '@/lib/utils';
 import { MaterialItem } from '@/types/brainstorm';
+import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import Menu from '../common/Menu';
 
@@ -11,10 +12,16 @@ const MaterialGridItem = ({ item }: Props) => {
     () => formatTimestamphh(item.update_time),
     [item.update_time]
   );
+  const { push } = useRouter();
   return (
-    <div className='flex w-[330px] flex-col justify-between rounded-lg border border-gray-300'>
+    <div className='flex w-[330px] cursor-pointer select-none flex-col justify-between rounded-lg border border-gray-300 hover:border-indigo-500'>
       <div className='h-[164px] rounded-t-lg bg-gray-100 px-2 pt-2'>
-        <div className='size-full bg-white p-2'>
+        <div
+          className='size-full bg-white p-2'
+          onClick={() => {
+            push(`/brainstorming/${item.id}`);
+          }}
+        >
           <p className='small-regular line-clamp-3 leading-tight text-zinc-600'>
             {item.content}
           </p>
@@ -30,8 +37,10 @@ const MaterialGridItem = ({ item }: Props) => {
               height={24}
               className='size-6'
             />
-            <h2 className='base-medium line-clamp-1 max-w-[70%] text-zinc-600'>
-              {item.title}
+            <h2 className='base-medium text-zinc-600'>
+              {item.title.length > 20
+                ? item.title.slice(0, 20) + '...'
+                : item.title}
             </h2>
           </div>
           <p className='text-xs text-neutral-400'>Opened {lastOpenTime}</p>

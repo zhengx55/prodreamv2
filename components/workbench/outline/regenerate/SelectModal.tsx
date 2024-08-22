@@ -61,7 +61,11 @@ const SelectModal = ({
         </SelectTrigger>
         <SelectContent className='bg-white'>
           {prompts?.map((prompt) => (
-            <SelectItem key={prompt.id} value={prompt.id}>
+            <SelectItem
+              className='base-regular h-9 rounded-lg text-zinc-600 hover:bg-slate-200'
+              key={prompt.id}
+              value={prompt.id}
+            >
               {prompt.title}
             </SelectItem>
           ))}

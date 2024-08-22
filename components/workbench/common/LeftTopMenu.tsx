@@ -15,14 +15,21 @@ import { useUserSession } from '@/query/session';
 import Image from 'next/image';
 import { memo, useMemo, useState } from 'react';
 
-const LeftTopMenu = () => {
+/**
+ * Component for rendering nav menu
+ */
+const LeftTopMenu = ({ isMax }: { isMax?: boolean }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { data: user, isPending, isError } = useUserSession();
 
   const renderedEngineItems = useMemo(
     () =>
-      workbench_engine.map((item) => <EngineItem key={item.id} item={item} />),
-    []
+      workbench_engine.map((item, index) => {
+        if (index === 0 && isMax)
+          return <EngineItem key={item.id} item={item} active />;
+        return <EngineItem key={item.id} item={item} />;
+      }),
+    [isMax]
   );
 
   const renderedNavItems = useMemo(
@@ -38,15 +45,15 @@ const LeftTopMenu = () => {
   };
 
   return (
-    <div className='flex items-center justify-center gap-x-2'>
-      <div className='flex h-7 cursor-pointer items-center justify-center rounded-lg px-2 transition-all duration-200 hover:bg-white hover:bg-opacity-60'>
+    <nav className='flex items-center justify-center gap-x-2'>
+      <div className='flex h-7 cursor-pointer items-center justify-center rounded-lg px-2'>
         <Image
           src='/logo/Prodream.png'
           alt='Logo'
-          width={130}
-          height={20}
+          width={200}
+          height={50}
           priority
-          className='h-5 w-[130px]'
+          className='h-5 w-auto'
         />
       </div>
       <Separator className='h-5 bg-zinc-400' orientation='vertical' />
@@ -69,14 +76,14 @@ const LeftTopMenu = () => {
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className='custom-popover-content flex h-[calc(100vh_-3rem)] w-[220px] flex-col justify-between backdrop-blur-lg backdrop-filter'
+          className='custom-popover-content flex h-[calc(100vh_-5rem)] w-[190px] flex-col justify-between px-2 pb-2'
           side='bottom'
           align='end'
+          sideOffset={8}
         >
           <div className='flex flex-col gap-y-2'>{renderedEngineItems}</div>
           <ul className='mt-auto flex flex-col gap-y-2'>
-            {renderedNavItems}
-            <Separator className='bg-zinc-500' orientation='horizontal' />
+            {/* {renderedNavItems} */}
             {isPending ? (
               <Skeleton className='h-10 w-full rounded-lg' />
             ) : isError ? null : (
@@ -85,7 +92,7 @@ const LeftTopMenu = () => {
           </ul>
         </PopoverContent>
       </Popover>
-    </div>
+    </nav>
   );
 };
 

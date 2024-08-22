@@ -18,10 +18,10 @@ const ButtonCard: React.FC<ButtonCardProps> = ({
   description,
   href,
 }) => (
-  <Link href={href}>
+  <Link href={href} className='w-1/3'>
     <div
       role='button'
-      className='space-y-2 rounded-lg border border-zinc-200 bg-white p-4 hover:bg-slate-50 active:bg-zinc-200'
+      className='space-y-2 rounded-lg bg-white p-4 shadow hover:bg-slate-200'
     >
       <div className='flex items-center gap-x-2'>
         <Image
@@ -40,7 +40,7 @@ const ButtonCard: React.FC<ButtonCardProps> = ({
 
 const ChatCover = () => {
   return (
-    <div className='flex-center w-[900px] flex-1 flex-col self-center'>
+    <div className='flex w-[860px] flex-1 flex-col items-center self-center pt-[15vh]'>
       <Image
         width={100}
         height={100}
@@ -52,17 +52,17 @@ const ChatCover = () => {
       <Spacer y='16' />
       <h2 className='text-xl font-medium text-zinc-800'>Max</h2>
       <Spacer y='8' />
-      <p className='small-regular text-center text-zinc-800'>
+      <p className='text-center text-base leading-7 text-zinc-800'>
         Hello, I&apos;m Max. I specialize in helping students craft compelling
         application essays for college
         <br /> admissions. Let me understand what you&apos;re working on.
       </p>
-      <Spacer y='24' />
+      <Spacer y='32' />
       <div className='flex gap-x-4'>
         <ButtonCard
           iconSrc='/workbench/nav_brainstorming.svg'
           iconAlt='Brainstorming'
-          title='Brainstorm'
+          title='Brainstorming'
           description='Uncover your most compelling stories, experiences, and strengths'
           href='/brainstorming'
         />
@@ -70,14 +70,14 @@ const ChatCover = () => {
           iconSrc='/workbench/nav_outline.svg'
           iconAlt='Outline'
           title='Outline'
-          description='Uncover your most compelling stories, experiences, and strengths'
+          description='Create a structured roadmap for your essay'
           href='/outline'
         />
         <ButtonCard
           iconSrc='/workbench/nav_draft.svg'
           iconAlt='Draft'
           title='Draft'
-          description='Uncover your most compelling stories, experiences, and strengths'
+          description='Write, review, and refine your essay to perfection'
           href='/draft'
         />
       </div>
