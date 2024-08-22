@@ -1,14 +1,9 @@
 import { revalidateOutlines } from '@/components/workbench/outline/server_actions/actions';
 import { PAGESIZE } from '@/constant/enum';
-import { MaterialItem, MaterialListRes } from '@/types/brainstorm';
+import { MaterialListRes } from '@/types/brainstorm';
 import { Prompt } from '@/types/outline';
 import { useAgent } from '@/zustand/store';
-import {
-  keepPreviousData,
-  useMutation,
-  useQueries,
-  useQuery,
-} from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import type { Editor } from '@tiptap/core';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -16,15 +11,26 @@ import { useRouter } from 'next/navigation';
 export const useGetMaterials = (
   keyword: string,
   page: number,
-  pageSize?: number
+  pageSize?: number,
+  material_ids?: string[]
 ) => {
   return useQuery<MaterialListRes>({
-    queryKey: ['getMaterials', keyword, page, pageSize],
+    queryKey: ['getMaterials', keyword, page, pageSize, material_ids],
     placeholderData: keepPreviousData,
     queryFn: async () => {
       const token = Cookies.get('token');
+      const queryParams = new URLSearchParams({
+        page: page.toString(),
+        page_size: pageSize
+          ? pageSize.toString()
+          : PAGESIZE.MATERIAL_PAGE_SIZE.toString(),
+        keyword,
+      });
+      if (material_ids)
+        material_ids.forEach((id) => queryParams.append('material_ids', id));
+
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material?page=${page}&page_size=${pageSize ? pageSize : PAGESIZE.MATERIAL_MODAL_PAGE_SIZE}&keyword=${keyword}`,
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material?${queryParams.toString()}`,
         {
           method: 'GET',
           headers: {
@@ -36,37 +42,6 @@ export const useGetMaterials = (
       return data.data;
     },
     staleTime: Infinity,
-  });
-};
-
-export const useGetMaterialsByIds = (ids: string[]) => {
-  return useQueries({
-    queries: ids.map((id) => ({
-      queryKey: ['getMaterialById', id],
-      queryFn: async () => {
-        const token = Cookies.get('token');
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material/${id}`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await res.json();
-        return data.data;
-      },
-      staleTime: Infinity,
-    })),
-
-    combine: (results) => {
-      return {
-        data: results.map((result) => result.data) as MaterialItem[],
-        isLoading: results.some((result) => result.isLoading),
-        isError: results.some((result) => result.isError),
-      };
-    },
   });
 };
 
@@ -108,7 +83,7 @@ export const useGetRatedPrompts = (params: {
       );
       const token = Cookies.get('token');
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}prompt/recommend?prompt_type=${params.prompt_type}&${queryParams.toString()}`,
+        `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}prompt/recommend?${queryParams.toString()}`,
         {
           method: 'GET',
           headers: {
