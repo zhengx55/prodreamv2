@@ -18,14 +18,18 @@ import { memo, useMemo, useState } from 'react';
 /**
  * Component for rendering nav menu
  */
-const LeftTopMenu = () => {
+const LeftTopMenu = ({ isMax }: { isMax?: boolean }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { data: user, isPending, isError } = useUserSession();
 
   const renderedEngineItems = useMemo(
     () =>
-      workbench_engine.map((item) => <EngineItem key={item.id} item={item} />),
-    []
+      workbench_engine.map((item, index) => {
+        if (index === 0 && isMax)
+          return <EngineItem key={item.id} item={item} active />;
+        return <EngineItem key={item.id} item={item} />;
+      }),
+    [isMax]
   );
 
   const renderedNavItems = useMemo(

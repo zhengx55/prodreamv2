@@ -9,13 +9,14 @@ import LeftTopMenu from '../workbench/common/LeftTopMenu';
 
 type Props = {
   lang: Locale;
+  isMax?: boolean;
 };
 
 const TopNav = ({ lang }: Props) => {
   return (
     <div className='flex-center relative gap-x-2 py-6'>
       <div className='absolute left-1'>
-        <LeftTopMenu />
+        <LeftTopMenu isMax />
       </div>
       {Navigation.map((nav) => (
         <NavItem

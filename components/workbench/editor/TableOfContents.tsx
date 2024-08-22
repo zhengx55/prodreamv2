@@ -24,7 +24,7 @@ const TableOfContents = ({ editor }: TableOfContentsProps) => {
     };
   }, [editor]);
   return (
-    <div className='absolute left-0 top-10 w-[110px]'>
+    <div className='absolute left-0 top-16 w-[110px]'>
       {data && data.content.length > 0 ? (
         <div className='flex flex-col'>
           {data.content.map((item) => (
