@@ -6,6 +6,7 @@ type State = {
   editorContentGenerating: boolean;
   copilotPos: { top: number; left: number } | null;
   showCopilot: boolean;
+  isEditorSaveding: boolean;
 };
 
 type Action = {
@@ -14,6 +15,7 @@ type Action = {
   clearStore: () => void;
   setCopilotPos: (copilotPos: { top: number; left: number }) => void;
   setShowCopilot: (showCopilot: boolean) => void;
+  setIsEditorSaveding: (result: boolean) => void;
 };
 
 export type EditorStore = State & Action;
@@ -23,6 +25,7 @@ const initalState: State = {
   editorContentGenerating: false,
   copilotPos: null,
   showCopilot: false,
+  isEditorSaveding: false,
 };
 
 export const useEditorStore: StateCreator<EditorStore> = (set, get) => ({
@@ -41,5 +44,8 @@ export const useEditorStore: StateCreator<EditorStore> = (set, get) => ({
   },
   setShowCopilot: (showCopilot) => {
     set({ showCopilot });
+  },
+  setIsEditorSaveding: (result) => {
+    set({ isEditorSaveding: result });
   },
 });

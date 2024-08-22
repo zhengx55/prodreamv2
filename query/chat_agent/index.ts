@@ -83,7 +83,10 @@ export const useAgentChat = (storeType: StoreTypes) => {
     let isOptionListStart = false;
     let optionId = '';
 
-    const processLine = (line: string, previousLine: string | undefined) => {
+    const processLine = async (
+      line: string,
+      previousLine: string | undefined
+    ) => {
       if (isNewAgentMessage) {
         agentMessageId = v4();
         addAgentMessage(agentMessageId, storeType, '');
@@ -126,7 +129,12 @@ export const useAgentChat = (storeType: StoreTypes) => {
       } else if (line.startsWith(CHATEVENT.OPTION_LIST_END)) {
         isOptionListStart = false;
       } else if (previousLine?.startsWith(CHATEVENT.HTML)) {
-        const parsedData = JSON.parse(line.slice(5));
+        const pako = await import('pako');
+        const charData = atob(line.slice(5))
+          .split('')
+          .map((x) => x.charCodeAt(0));
+        const decompressed = pako.inflate(new Uint8Array(charData));
+        const parsedData = new TextDecoder().decode(decompressed);
         setAgentMessageHTMLContent(agentMessageId, storeType, parsedData);
       } else if (previousLine?.startsWith(CHATEVENT.CLIENT_EVENT)) {
         const clientEvent = line;

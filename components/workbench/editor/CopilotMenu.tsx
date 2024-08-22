@@ -29,6 +29,7 @@ type OptionItemProps = {
   hoverItem: string | null;
   setHoverItem: (id: string | null) => void;
   handleEditTools: (tool: string) => void;
+  option_idx: number;
 };
 
 type SubmenuProps = {
@@ -43,6 +44,7 @@ type SubmenuProps = {
   };
   setHoverItem: (id: string | null) => void;
   handleEditTools: (tool: string) => void;
+  option_idx: number;
 };
 
 type OperationItemProps = {
@@ -215,13 +217,14 @@ const CopilotMenu = ({ editor }: Props) => {
                     <h3 className='my-1.5 text-xs text-neutral-400'>
                       {item.format}
                     </h3>
-                    {item.options.map((option) => (
+                    {item.options.map((option, idx) => (
                       <OptionItem
                         key={option.id}
                         option={option}
                         setHoverItem={setHoverItem}
                         hoverItem={hoverItem}
                         handleEditTools={handleEditTools}
+                        option_idx={idx}
                       />
                     ))}
                   </Fragment>
@@ -249,6 +252,7 @@ const OptionItem = ({
   hoverItem,
   setHoverItem,
   handleEditTools,
+  option_idx,
 }: OptionItemProps) => (
   <div
     className={` ${
@@ -270,6 +274,7 @@ const OptionItem = ({
         option={option}
         setHoverItem={setHoverItem}
         handleEditTools={handleEditTools}
+        option_idx={option_idx}
       />
     )}
   </div>
@@ -281,15 +286,16 @@ const Submenu = ({
   option,
   setHoverItem,
   handleEditTools,
+  option_idx,
 }: SubmenuProps) => (
   <>
     <ChevronRight size={18} />
     {hoverItem === option.id && (
       <Surface
-        style={{ top: '40px' }}
+        style={{ top: `${option_idx * 40 + 30}px` }}
         withBorder
         data-state={hoverItem === option.id ? 'open' : 'closed'}
-        className='absolute left-[200px] rounded px-1 py-2'
+        className='absolute left-[220px] rounded px-1 py-2'
       >
         {submenu.map((subitem) => (
           <div

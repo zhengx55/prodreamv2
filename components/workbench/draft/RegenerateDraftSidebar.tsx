@@ -5,7 +5,6 @@ import { Prompt } from '@/types/outline';
 import { Loader2 } from 'lucide-react';
 import { memo, useCallback, useMemo, useState } from 'react';
 
-import { Separator } from '@/components/ui/separator';
 import { useGetDraftOutline } from '@/query/draft';
 import { Draft } from '@/types/draft';
 import Markdown from 'react-markdown';
@@ -44,7 +43,6 @@ const RegenerateDraftSidebar = ({ prompts, data }: Props) => {
       </div>
       <Spacer y='16' />
       <div className='flex flex-1 flex-col gap-y-1 overflow-y-auto'>
-        <Separator orientation='horizontal' className='bg-zinc-300' />
         {isPending ? (
           <span className='flex-center flex-1'>
             <Loader2 className='animate-spin text-indigo-500' />
