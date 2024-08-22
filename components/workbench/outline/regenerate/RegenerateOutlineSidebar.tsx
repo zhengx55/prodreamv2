@@ -13,7 +13,7 @@ type Props = { prompts: Prompt[]; data: OutlineItem };
 const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
   const [materials, setMaterials] = useState<string[]>(data.material_ids);
   const [prompt, setPrompt] = useState<string>(data.prompt_id);
-  const { data: selectedMaterials, isLoading } = useGetMaterials(
+  const { data: selectedMaterials, isPending } = useGetMaterials(
     '',
     0,
     5,
@@ -53,12 +53,13 @@ const RegenerateOutlineSidebar = ({ prompts, data }: Props) => {
       </div>
       <Spacer y='16' />
       <div className='flex flex-1 flex-col gap-y-2 overflow-y-auto'>
-        {isLoading ? (
+        {isPending ? (
           <span className='flex-center flex-1'>
             <Loader2 className='animate-spin text-indigo-500' />
           </span>
         ) : (
-          selectedMaterials?.data?.map((material) => (
+          //@ts-ignore
+          selectedMaterials?.map((material) => (
             <div
               key={material.id}
               className='h-36 w-full space-y-2 rounded-lg border border-gray-300 p-2'
