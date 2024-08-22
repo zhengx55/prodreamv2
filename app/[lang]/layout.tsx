@@ -5,17 +5,9 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, unstable_setRequestLocale } from 'next-intl/server';
-import { Inter, Libre_Baskerville, Poppins } from 'next/font/google';
+import { Bebas_Neue, Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  display: 'swap',
-  variable: '--poppins-font',
-  preload: true,
-});
 
 const inter = Inter({
   subsets: ['latin'],
@@ -25,11 +17,11 @@ const inter = Inter({
   preload: false,
 });
 
-const liber = Libre_Baskerville({
+const bebasNeue = Bebas_Neue({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['400'],
   display: 'swap',
-  variable: '--liber-font',
+  variable: '--bebas-neue-font',
   preload: false,
 });
 
@@ -72,7 +64,7 @@ export default async function RootLayout({
   return (
     <html
       lang={params.lang}
-      className={`${poppins.variable} ${inter.variable} ${liber.variable}`}
+      className={`${inter.variable} ${bebasNeue.variable}`}
       suppressHydrationWarning
     >
       <body>
