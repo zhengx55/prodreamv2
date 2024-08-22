@@ -1,6 +1,7 @@
 import Icon from '@/components/root/Icon';
 import { formatTimestamphh } from '@/lib/utils';
 import { OutlineItem, Prompt } from '@/types/outline';
+import Link from 'next/link';
 import { useMemo } from 'react';
 import Menu from '../common/Menu';
 
@@ -19,7 +20,8 @@ const OutlineListItem = ({ item, prompts }: Props) => {
   );
 
   return (
-    <div className='flex-between h-11 cursor-pointer rounded-lg px-2 hover:bg-slate-200'>
+    <div className='flex-between relative h-11 cursor-pointer rounded-lg px-2 hover:bg-slate-200'>
+      <Link href={`/outline/${item.id}`} className='absolute inset-0 w-[95%]' />
       <div className='flex w-[200px] items-center gap-x-2'>
         <Icon
           src='/workbench/outline_file.svg'
@@ -28,13 +30,9 @@ const OutlineListItem = ({ item, prompts }: Props) => {
           height={24}
           className='size-5'
         />
-        <h2 className='base-medium text-zinc-600'>
-          {item.title.length > 20
-            ? item.title.slice(0, 20) + '...'
-            : item.title}
-        </h2>{' '}
+        <h2 className='base-medium truncate text-zinc-600'>{item.title}</h2>
       </div>
-      <p className='w-[200px] text-xs text-neutral-400'> {prompt}</p>
+      <p className='w-[200px] text-xs text-neutral-400'>{prompt}</p>
       <p className='w-[200px] text-xs text-neutral-400'>
         Opened {lastOpenTime}
       </p>
