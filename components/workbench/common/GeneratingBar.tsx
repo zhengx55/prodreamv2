@@ -15,6 +15,8 @@ const GeneratingBar = () => {
   const editorContentGenerating = useEditor(
     (state) => state.editorContentGenerating
   );
+  const setRecreateSignal = useEditor((state) => state.setRecreateSignal);
+  const abort = useEditor((state) => state.abortGenerating);
   return (
     <LazyMotionProvider>
       <AnimatePresence>
@@ -34,21 +36,35 @@ const GeneratingBar = () => {
                 height={20}
                 className='size-[18px]'
               />
+              <span className='small-regular text-indigo-500'>
+                AI is writing
+              </span>
               <ReactTyped
-                strings={['AI is writing...']}
+                strings={['...']}
                 typeSpeed={30}
                 backSpeed={30}
-                backDelay={200}
+                backDelay={100}
                 loop
-                className='small-regular text-indigo-500'
+                className='text-indigo-500'
               />
             </div>
             <div className='flex items-center gap-x-2'>
-              <Button variant={'icon'} className='px-2 text-neutral-400'>
+              <Button
+                onClick={() => {
+                  abort();
+                  setRecreateSignal(true);
+                }}
+                variant={'icon'}
+                className='px-2 text-neutral-400'
+              >
                 <RotateCw size={16} />
                 Try Again
               </Button>
-              <Button variant={'icon'} className='px-2 text-neutral-400'>
+              <Button
+                onClick={abort}
+                variant={'icon'}
+                className='px-2 text-neutral-400'
+              >
                 <StopCircle size={16} />
                 Stop
               </Button>

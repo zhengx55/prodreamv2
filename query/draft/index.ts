@@ -15,11 +15,16 @@ import { useRouter } from 'next/navigation';
  * @param editor - The editor object.
  * @returns A Promise that resolves to void.
  */
-export const getDraftSteam = async (draft_id: string, editor: Editor) => {
+export const getDraftSteam = async (
+  draft_id: string,
+  editor: Editor,
+  abort: AbortSignal
+) => {
   const token = Cookies.get('token');
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_V2_BASE_URL}draft/${draft_id}/generation`,
     {
+      signal: abort,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
