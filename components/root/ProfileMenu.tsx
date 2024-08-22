@@ -46,9 +46,11 @@ const UserProfileItem: FC<UserProfileItemProps> = ({ user }) => {
         </li>
       </PopoverTrigger>
       <PopoverContent
-        className='w-[180px] border border-gray-200 bg-white p-2 shadow-lg'
+        className='w-[180px] rounded-lg bg-white p-2 shadow-lg backdrop-blur-xl'
         side='right'
         align='end'
+        sideOffset={10}
+        alignOffset={-10}
       >
         <div className='flex flex-col gap-y-2'>{renderedProfileItems}</div>
       </PopoverContent>
