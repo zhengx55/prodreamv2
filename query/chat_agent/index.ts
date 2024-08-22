@@ -69,6 +69,12 @@ export const useAgentChat = (storeType: StoreTypes) => {
     return body;
   };
 
+  /**
+   * Handles the stream of data and performs various operations based on the received lines.
+   *
+   * @param body - The readable stream of data.
+   * @param variables - The mutation parameters.
+   */
   const handleStream = async (
     body: ReadableStream<Uint8Array>,
     variables: MutationParams
