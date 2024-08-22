@@ -38,7 +38,7 @@ export enum CHATDATA {
   AGENT = 'agent',
   REFRESH_LIB = 'refresh_lib',
   MATERIAL_INPUT = 'material_input',
-  GO_BRAINSTORMING = 'go_brainstorming',
+  GO_BRAINSTORMING = 'go_brainstorm',
   GO_OUTLINE = 'go_outline',
   GO_DRAFT = 'go_draft',
   GENERATE_OUTLINE_POPUP_UI = 'generate_outline_popup_ui',
