@@ -2,9 +2,7 @@ import Icon from '../root/Icon';
 import { Button } from '../ui/button';
 import UniversityCarousel from './University';
 
-type Props = {};
-
-const Hero = (props: Props) => {
+const Hero = () => {
   return (
     <section
       className='flex-center relative h-screen flex-1 flex-col'
@@ -23,7 +21,7 @@ const Hero = (props: Props) => {
           backgroundSize: '10px 10px',
         }}
       />
-      <div className='z-20 flex w-[70%]'>
+      <div className='z-20 flex w-[85%] 2xl:w-[70%]'>
         <div className='space-y-6'>
           <h1 className='font-bebas text-[68px] leading-[80px] tracking-wide'>
             Where <span className='text-indigo-500'>Professional AI</span>

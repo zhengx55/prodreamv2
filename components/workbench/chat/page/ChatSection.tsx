@@ -14,14 +14,17 @@ const ChatSection = () => {
   const sessionId = useAgent((state) => state.sessionId);
   const { data, status } = useUserTrack();
   const { mutate: chat, isPending: isChatPending } = useAgentChat('chat');
-  const handleChat = useCallback((agent: string, response?: string) => {
-    chat({
-      response: response ?? null,
-      agent: CHATAGENT_TYPE.INITIAL,
-      session_id: sessionId,
-    });
+  const handleChat = useCallback(
+    (agent: string, response?: string) => {
+      chat({
+        response: response ?? null,
+        agent: agent as any,
+        session_id: agent === CHATAGENT_TYPE.INITIAL ? null : sessionId,
+      });
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [sessionId]
+  );
 
   useEffect(() => {
     if (status === 'success' && !Boolean(data?.isFirstChat)) {
