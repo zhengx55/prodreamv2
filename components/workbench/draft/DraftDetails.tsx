@@ -7,6 +7,7 @@ import { useGetDraftContent } from '@/query/draft';
 import { Prompt } from '@/types/outline';
 import { Download, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import SavingIndicator from '../editor/SavingIndicator';
 type Props = { draft_id: string; prompts: Prompt[] };
 
 const DraftDetails = ({ draft_id, prompts }: Props) => {
@@ -35,6 +36,7 @@ const DraftDetails = ({ draft_id, prompts }: Props) => {
             </Link>
           </Button>
           <h2 className='text-xl font-medium text-zinc-600'>{data.title}</h2>
+          <SavingIndicator />
         </div>
         <Button
           onClick={async () => {}}

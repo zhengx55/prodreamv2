@@ -12,26 +12,9 @@ module.exports = {
     extend: {
       scrollbar: ['rounded'],
       fontFamily: {
-        poppins: ['var(--poppins-font)'],
         inter: ['var(--inter-font)'],
-        baskerville: ['var(--liber-font)'],
-        pingfang: ['PingFang SC', 'sans-serif'],
-      },
-      colors: {
-        'shadow-50': '#F9F9F9',
-        'light-purple': '#E6C5FF',
-        'white-60': 'rgba(255, 255, 255, 0.60)',
-        'dark-gray': '#403F44',
-        'light-gray': '#A3A3A3',
-        f8f9fc: '#F8F9FC',
-      },
-      boxShadow: {
-        input: '0px 1px 0px 0px rgba(0, 0, 0, 0.05)',
-        button: '0px 0px 5px 0px rgba(0, 0, 0, 0.25)',
-        toggle: '0px 2px 4px 0px rgba(0, 0, 0, 0.15)',
-        tooltip: '0px 0px 4px 0px rgba(156, 44, 243, 0.25)',
-        textarea: '0px 8px 24px 6px rgba(0, 0, 0, 0.12)',
-        price: '0px 0px 24px 0px rgba(30, 37, 94, 0.08)',
+        bebas: ['var(--bebas-neue-font)'],
+        poppin: ['var(--poppins-font)'],
       },
       keyframes: {
         ping: {
@@ -45,6 +28,9 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+      },
+      boxShadow: {
+        'landing-btn': '0px 18px 30px 0px rgba(114, 112, 232, 0.30);',
       },
       transition: {
         up: 'translate-y-1',
