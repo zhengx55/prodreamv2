@@ -2,7 +2,7 @@ import { revalidateOutlines } from '@/components/workbench/outline/server_action
 import { PAGESIZE } from '@/constant/enum';
 import { MaterialListRes } from '@/types/brainstorm';
 import { Prompt } from '@/types/outline';
-import { useAgent } from '@/zustand/store';
+import { useAgent, useEditor } from '@/zustand/store';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import type { Editor } from '@tiptap/core';
 import Cookies from 'js-cookie';
@@ -244,6 +244,8 @@ export const useGetOutlineContent = (outline_id: string) => {
 };
 
 export const useSaveOutline = () => {
+  const setIsEditorSaving = useEditor((state) => state.setIsEditorSaving);
+
   return useMutation({
     mutationFn: async (params: {
       outline_id: string;
@@ -264,11 +266,16 @@ export const useSaveOutline = () => {
         }
       );
     },
+    onMutate: () => {
+      setIsEditorSaving(true);
+    },
     onSuccess: async () => {
       revalidateOutlines();
+      setIsEditorSaving(false);
     },
     onError: (error) => {
       console.error(error.message);
+      setIsEditorSaving(false);
     },
   });
 };

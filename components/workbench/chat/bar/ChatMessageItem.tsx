@@ -88,7 +88,7 @@ const Agent = ({ message, className }: AgentMessageProps) => {
           'overflow-x-hidden rounded-lg bg-white px-4 py-2'
         )}
       >
-        <Markdown className='prose prose-sm !max-w-none prose-p:my-1 prose-p:leading-6 prose-p:text-zinc-800 prose-strong:text-indigo-500 prose-ol:my-1'>
+        <Markdown className='prose prose-sm !max-w-none prose-p:my-1 prose-p:leading-6 prose-p:text-zinc-800 prose-strong:text-indigo-500 prose-ol:my-1.5 prose-ul:my-1.5 prose-hr:my-2.5'>
           {message.text}
         </Markdown>
         {message.html_content && (

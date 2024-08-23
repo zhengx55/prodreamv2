@@ -220,19 +220,7 @@
   }
 }
 
-
-@keyframes twinkle {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.5;
-  }
-}
-
-.animate-twinkle {
-  animation: twinkle 1.5s infinite ease-in-out;
+.gardient-container {
+  background: linear-gradient(270deg, #DAE3FA 0%, #F1F1FB 26.65%, #F6F7FB 51.29%, #F3F3FB 74.42%, #D7E2F9 100.57%);
+  position: relative;
 }
