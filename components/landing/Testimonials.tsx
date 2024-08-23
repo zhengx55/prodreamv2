@@ -1,18 +1,20 @@
+import Image from 'next/image';
 import Comments from './Comments';
 
 const Testimonials = () => {
   return (
-    <section
-      className='relative flex h-screen flex-1 flex-col py-20'
-      style={{
-        background:
-          'linear-gradient(270deg, #DAE3FA 0%, #F1F1FB 26.65%, #F6F7FB 51.29%, #F3F3FB 74.42%, #D7E2F9 100.57%)',
-      }}
-    >
+    <section className='gardient-container flex h-[880px] flex-col overflow-hidden pt-20'>
       <h2 className='text-center text-[40px] font-medium leading-[48px]'>
         Loved by students, parents and
         <br /> counsellors groups
       </h2>
+      <Image
+        alt=''
+        src='/landing/comments/container.png'
+        width={1500}
+        height={1500}
+        className='absolute top-0 z-0 h-auto w-full'
+      />
       <Comments />
     </section>
   );
