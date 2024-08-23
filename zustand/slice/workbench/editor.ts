@@ -6,7 +6,7 @@ type State = {
   editorContentGenerating: boolean;
   copilotPos: { top: number; left: number } | null;
   showCopilot: boolean;
-  isEditorSaveding: boolean;
+  isEditorSaving: boolean;
   abortController: AbortController | null;
   recreateSignal: boolean;
 };
@@ -17,7 +17,7 @@ type Action = {
   clearStore: () => void;
   setCopilotPos: (copilotPos: { top: number; left: number }) => void;
   setShowCopilot: (showCopilot: boolean) => void;
-  setIsEditorSaveding: (result: boolean) => void;
+  setIsEditorSaving: (result: boolean) => void;
   createAbortController: (AbortController: AbortController) => void;
   abortGenerating: () => void;
   setRecreateSignal: (recreateSignal: boolean) => void;
@@ -30,7 +30,7 @@ const initalState: State = {
   editorContentGenerating: false,
   copilotPos: null,
   showCopilot: false,
-  isEditorSaveding: false,
+  isEditorSaving: false,
   abortController: null,
   recreateSignal: false,
 };
@@ -58,8 +58,8 @@ export const useEditorStore: StateCreator<EditorStore> = (set, get) => ({
     set({ showCopilot });
   },
 
-  setIsEditorSaveding: (result) => {
-    set({ isEditorSaveding: result });
+  setIsEditorSaving: (result) => {
+    set({ isEditorSaving: result });
   },
 
   createAbortController: (abortController: AbortController) => {

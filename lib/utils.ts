@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
 import escapeStringRegExp from 'escape-string-regexp';
-import { jwtDecode } from 'jwt-decode';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -215,11 +214,4 @@ export function createRegex(str: string) {
     substring_regex = new RegExp(`\\b${str}\\b`, 'g');
   }
   return substring_regex;
-}
-
-export function getUserIdFromToken(token: string) {
-  if (!token) return '';
-  const payload: { subject: { [key: string]: string } } = jwtDecode(token);
-  const user_id = payload.subject.user_id ?? '';
-  return user_id;
 }

@@ -93,7 +93,7 @@ const Humanize = ({ highlight_sentences, human_percent }: Props) => {
   if (suggestions.length === 0 && !isPending) {
     return (
       <>
-        <h3 className='base-medium'>Humenizer</h3>
+        <h3 className='base-medium'>Humanizer</h3>
         <Spacer y='16' />
         <Starter type='humanizer' onClick={handleHumanize} />
       </>

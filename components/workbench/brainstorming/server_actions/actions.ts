@@ -1,7 +1,6 @@
 'use server';
 
 import { actionClient } from '@/lib/actions/client';
-import { getUserIdFromToken } from '@/lib/utils';
 import { flattenValidationErrors } from 'next-safe-action';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
@@ -30,7 +29,6 @@ export const createMaterial = actionClient
       bindArgsParsedInputs: [theme_id],
     }) => {
       const token = cookies().get('token')?.value;
-      const user_id = getUserIdFromToken(token ?? '');
       await fetch(`${process.env.NEXT_PUBLIC_API_V2_BASE_URL}material`, {
         method: 'POST',
         headers: {
@@ -40,7 +38,6 @@ export const createMaterial = actionClient
         body: JSON.stringify({
           title,
           content,
-          student_id: user_id,
           theme_id: theme_id,
         }),
       });
