@@ -8,7 +8,7 @@ const Agents = (props: Props) => {
       className='relative h-screen flex-1'
       style={{
         background:
-          'linear-gradient(270deg, #DAE3FA 0%, #F1F1FB 26.65%, #F6F7FB 51.29%, #F3F3FB 74.42%, #D7E2F9 100.57%)',
+          'linear-gradient(180deg, #DAE3FA 0%, #F1F1FB 26.65%, #F6F7FB 51.29%, #F3F3FB 74.42%, rgba(215, 226, 249, 0) 100%)',
       }}
       datatype='agents'
       aria-label='agents'

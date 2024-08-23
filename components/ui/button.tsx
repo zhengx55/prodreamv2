@@ -22,14 +22,14 @@ const buttonVariants = cva(
         header:
           'bg-white font-poppin text-sm text-neutral-700 font-medium rounded-full',
         landing:
-          'bg-indigo-500 hover:bg-indigo-400 active:bg-indigo-500 text-white text-lg font-medium rounded-full border shadow-landing-btn',
+          'bg-indigo-500 hover:bg-indigo-400 active:bg-indigo-500 text-white text-lg font-medium rounded-full shadow-landing-btn',
       },
       size: {
         default: 'px-4 py-2 size-max',
         sm: 'h-9 px-2',
         lg: 'h-10 px-8',
         icon: 'size-10',
-        expand: 'h-14 px-8',
+        expand: 'h-12 px-10',
         send: 'p-1.5 size-max',
       },
     },
