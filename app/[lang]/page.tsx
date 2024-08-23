@@ -19,7 +19,7 @@ export default async function Home({
   const token = cookies().get('token')?.value;
   const isAuth = !!token;
   return (
-    <div className='relative'>
+    <div className='relative overflow-x-hidden'>
       <Header isAuth={isAuth} />
       <Hero />
       <Agents />
