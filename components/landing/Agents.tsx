@@ -15,8 +15,8 @@ const Agents = (props: Props) => {
     >
       <Spacer y='150' className='block 2xl:block' />
       <h2 className='text-center font-inter text-[40px] font-semibold leading-[48px]'>
-        Powerful AI agents
-        <br /> Your ultimate college&nbsp;
+        Powerful AI Agents
+        <br /> Your Ultimate College&nbsp;
         <span className='text-violet-700'>Admissions Support</span>
       </h2>
     </section>

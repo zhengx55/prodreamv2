@@ -172,3 +172,54 @@ export const InformationInfo = {
     },
   ],
 };
+
+export const CommentsSliderInfo = [
+  {
+    id: 'comment-01',
+    name: 'Charlotte Davis',
+    role: 'Community College Administrator',
+    comment:
+      "Many of my students have used ProDream to complete their applications to their dream schools and receive the necessary essay support. I'm grateful to ProDream for helping my students get into their dream institutions.",
+    avatar: '/landing/comments/avatar1.png',
+  },
+  {
+    id: 'comment-02',
+    name: 'Sarah Miller',
+    role: 'High school student',
+    comment:
+      'Agent Max studied me from the ground up. He helped me understand the entire application process—its intricacies and time-boundedness. He was always prompt and provided the assistance I needed, earning completed and receiving high praise from my teachers.',
+    avatar: '/landing/comments/avatar2.png',
+  },
+  {
+    id: 'comment-03',
+    name: 'David Jackson',
+    role: 'Undergraduate student',
+    comment:
+      'Thanks to Agent Alex, my transfer process was a breeze. He analyzed my current academic performance and crafted a tailored plan, guiding me through the essay writing with professionalism and efficiency. Ultimately, I successfully transferred to my desired university.',
+    avatar: '/landing/comments/avatar3.png',
+  },
+  {
+    id: 'comment-04',
+    name: 'Ashley Anderson',
+    role: 'Admissions advisor',
+    comment:
+      'As a school advisor, I am grateful for the Prodream platform. With its multiple scenarios and agents, it has helped me efficiently manage students and provide effective college counseling. This has enabled my students to gain admission to their dream schools while also significantly improving my efficiency.',
+    avatar: '/landing/comments/avatar4.png',
+  },
+  {
+    id: 'comment-05',
+    name: 'Olivia Foster',
+    role: "From a student's parent",
+    comment:
+      'Prodream helped my child achieve their educational dreams with effective planning and professionalism. It significantly increased our understanding and saved our time cost.',
+    avatar: '/landing/comments/avatar5.png',
+  },
+  {
+    id: 'comment-06',
+    name: 'Kwame Thompson',
+    role: 'Head of education',
+    comment:
+      'ProDream has streamlined my processes and provided data visualization, significantly reducing various costs.',
+    avatar: '/landing/comments/avatar6.png',
+  },
+];
