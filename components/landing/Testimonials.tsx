@@ -3,7 +3,7 @@ import Comments from './Comments';
 
 const Testimonials = () => {
   return (
-    <section className='gardient-container flex h-[880px] flex-col overflow-hidden pt-20'>
+    <section className='gardient-container flex h-[880px] select-none flex-col overflow-hidden pt-20'>
       <h2 className='text-center text-[40px] font-medium leading-[48px]'>
         Loved by students, parents and
         <br /> counsellors groups
