@@ -10,27 +10,27 @@ import { Separator } from '../ui/separator';
 const rotationValues = [-26, -18, -6, 6, 18, 26];
 const positions = [
   {
-    top: '320px',
+    top: '45%',
     left: '-15%',
   },
   {
-    top: '150px',
+    top: '20%',
     left: '6%',
   },
   {
-    top: '50px',
+    top: '7%',
     left: '28.5%',
   },
   {
-    top: '50px',
+    top: '7%',
     left: '51.5%',
   },
   {
-    top: '150px',
+    top: '20%',
     left: '74%',
   },
   {
-    top: '320px',
+    top: '45%',
     left: '95%',
   },
 ];
