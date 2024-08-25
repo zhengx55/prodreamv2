@@ -20,11 +20,8 @@ const nextConfig = {
     ];
   },
   images: {
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'quickapply.app',
-      },
       { hostname: 'quickapply.blob.core.windows.net', protocol: 'https' },
     ],
   },
