@@ -1,5 +1,6 @@
 'use client';
 import { CommentsSliderInfo } from '@/constant/landing';
+import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -9,28 +10,28 @@ import { Separator } from '../ui/separator';
 const rotationValues = [-26, -18, -6, 6, 18, 26];
 const positions = [
   {
-    top: '265px',
-    left: '-19%',
+    top: '320px',
+    left: '-15%',
   },
   {
-    top: '115px',
-    left: '3%',
-  },
-  {
-    top: '50px',
-    left: '27.5%',
+    top: '150px',
+    left: '6%',
   },
   {
     top: '50px',
-    left: '52.5%',
+    left: '28.5%',
   },
   {
-    top: '115px',
-    left: '77%',
+    top: '50px',
+    left: '51.5%',
   },
   {
-    top: '265px',
-    left: '99%',
+    top: '150px',
+    left: '74%',
+  },
+  {
+    top: '320px',
+    left: '95%',
   },
 ];
 
@@ -56,14 +57,21 @@ const Comments = () => {
   return (
     <div className='relative flex-1 pt-20'>
       {rotationSlides.map((comment, index) => (
-        <div
+        <motion.div
           key={comment.name}
-          className='absolute flex h-[325px] w-1/5 flex-col justify-between rounded-2xl border border-white bg-white/60 p-6 transition-all duration-300'
-          style={{
-            transform: `rotate(${rotationValues[index]}deg)`,
+          className='absolute flex h-[325px] w-1/5 flex-col justify-between rounded-2xl border border-white bg-white/60 p-6'
+          transition={{
+            type: 'just',
+          }}
+          initial={{
+            rotate: rotationValues[index],
             top: positions[index].top,
-            left: positions[index].left ?? '',
-            transformOrigin: index <= 2 ? 'top right' : 'top left',
+            left: positions[index].left,
+          }}
+          animate={{
+            rotate: rotationValues[index],
+            top: positions[index].top,
+            left: positions[index].left,
           }}
         >
           <p className='text-sm font-medium text-black/50'>
@@ -88,7 +96,7 @@ const Comments = () => {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
       ))}
       <div className='absolute bottom-20 left-[calc(50%_-72px)] flex gap-x-16'>
         <Button onClick={handlePrev} className='rounded-full' size={'icon'}>
