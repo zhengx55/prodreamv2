@@ -7,7 +7,7 @@ type Props = { isAuth: boolean };
 const Header = ({ isAuth }: Props) => {
   return (
     <header className='flex-center absolute top-14 z-40 w-full flex-1'>
-      <div className='flex-between w-[70%]'>
+      <div className='flex-between w-[85%] 2xl:w-[70%]'>
         <Image
           src='/logo/Prodream.png'
           alt='logo'

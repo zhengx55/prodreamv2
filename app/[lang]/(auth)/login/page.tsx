@@ -18,7 +18,7 @@ export default async function Page({
           height={100}
           className='h-[60px] w-3/4'
           alt='prodream'
-          src='/logo/Prodream.png'
+          src='/logo/prodreamxl.png'
         />
         <Spacer y='50' />
         <LoginForm />

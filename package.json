@@ -82,7 +82,7 @@
     "react-typed": "^2.0.12",
     "react-use": "^17.5.0",
     "server-only": "^0.0.1",
-    "sharp": "0.33.4",
+    "sharp": "^0.33.5",
     "sonner": "^1.2.4",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
