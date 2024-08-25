@@ -10,7 +10,7 @@ const Agents = () => {
 
   return (
     <section
-      className='relative flex h-screen flex-1 flex-col items-center'
+      className='relative flex flex-1 flex-col items-center'
       style={{
         background:
           'linear-gradient(180deg, #DAE3FA 0%, #F1F1FB 26.65%, #F6F7FB 51.29%, #F3F3FB 74.42%, rgba(215, 226, 249, 0) 100%)',
@@ -25,7 +25,7 @@ const Agents = () => {
         <span className='text-violet-700'>Admissions Support</span>
       </h2>
       <Spacer y='24' className='block 2xl:block' />
-      <div className='flex w-[85%] justify-between 2xl:w-[70%]'>
+      <div className='flex min-h-[700px] w-[85%] justify-between 2xl:w-[70%]'>
         <aside className='flex flex-col gap-y-10 self-center'>
           {AgentsInfo.map((agent, index) => {
             const isSelected = selected === index;
@@ -48,23 +48,23 @@ const Agents = () => {
             );
           })}
         </aside>
-        <div className='relative w-1/2'>
+        <div className='relative flex flex-1'>
           <Image
             alt=''
             src='/landing/agents/background.png'
-            className='h-auto w-full'
-            priority
-            width={1920}
-            height={1080}
+            fill
+            sizes='(max-width: 768px) 100vw, 33vw'
+            className='object-contain'
           />
-          <Image
-            className='absolute -top-16 h-auto w-full'
-            src={AgentsInfo[selected].image}
-            alt={AgentsInfo[selected].name}
-            priority
-            width={1980}
-            height={1020}
-          />
+          <div className='relative -top-12 left-2 flex-1 overflow-visible'>
+            <Image
+              src={AgentsInfo[selected].image}
+              alt={AgentsInfo[selected].name}
+              fill
+              sizes='(max-width: 768px) 100vw, 33vw'
+              className='object-contain'
+            />
+          </div>
         </div>
         <div className='flex max-w-[30%] flex-col gap-y-5 self-center'>
           <h3 className='text-[60px] font-black leading-none'>
