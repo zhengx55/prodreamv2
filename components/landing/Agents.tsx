@@ -58,7 +58,7 @@ const Agents = () => {
             height={1080}
           />
           <Image
-            className='absolute -top-20 left-4 aspect-square w-full'
+            className='absolute -top-16 h-auto w-full'
             src={AgentsInfo[selected].image}
             alt={AgentsInfo[selected].name}
             priority
