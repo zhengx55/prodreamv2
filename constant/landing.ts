@@ -223,3 +223,50 @@ export const CommentsSliderInfo = [
     avatar: '/landing/comments/avatar6.png',
   },
 ];
+
+export const AgentsInfo = [
+  {
+    id: 'agent-04',
+    name: 'Max',
+    role: 'Your Ultimate Support for U.S. College Applications',
+    avatar: '/landing/agents/max_active.png',
+    image: '/landing/agents/max.png',
+    avatar_inactive: '/landing/agents/max_inactive.png',
+    description:
+      "Hello, I'm Max. I offer thoughtful and experienced guidance for high school and college applications, helping you navigate the process with confidence and clarity. My goal is to support you in showcasing your strengths and achieving your academic aspirations",
+    button_label: 'Chat with Max',
+  },
+  {
+    id: 'agent-01',
+    name: 'Kiah',
+    role: 'Your Comprehensive Guide for U.S. College Transfers',
+    avatar: '/landing/agents/kiah_active.png',
+    image: '/landing/agents/kiah.png',
+    avatar_inactive: '/landing/agents/kiah_inactive.png',
+    description:
+      "Hi, I'm Grace, leveraging advanced AI insights to understand the unique transfer requirements of each university, providing expert guidance and personalized support to help you successfully navigate the college transfer process.",
+    button_label: 'Coming soon',
+  },
+  {
+    id: 'agent-02',
+    name: 'Alex',
+    role: 'Your Trusted Guide to UK University Admissions',
+    avatar: '/landing/agents/alex_active.png',
+    image: '/landing/agents/alex.png',
+    avatar_inactive: '/landing/agents/alex_inactive.png',
+    description:
+      "Nice to meet you. I'm Alex. With extensive expertise and a strong success record in Commonwealth university applications, I am your top choice for ensuring a successful and smooth application process.",
+    button_label: 'Coming soon',
+  },
+  {
+    id: 'agent-03',
+    name: 'Professor McGregor',
+    role: 'Your Expert Guide for Research Writing',
+    avatar: '/landing/agents/mcgregor_active.png',
+    image: '/landing/agents/mcgregor.png',
+    avatar_inactive: '/landing/agents/mcgregor_inactive.png',
+    description:
+      'Prodream helped my child achieve their educational dreams with effective planning and professionalism. It significantly increased our understanding and saved our time costs',
+    button_label: 'Coming soon',
+  },
+];
