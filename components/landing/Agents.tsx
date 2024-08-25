@@ -35,7 +35,7 @@ const Agents = () => {
                 role='button'
                 aria-label='agent-avatars'
                 onClick={() => setSelected(index)}
-                className={`${isSelected ? 'border-white' : 'border-transparent bg-stone-300'} size-[100px] cursor-pointer overflow-hidden rounded-full border-4 transition-all hover:border-white`}
+                className={`${isSelected ? 'border-white shadow' : 'border-transparent bg-stone-300'} size-[100px] cursor-pointer overflow-hidden rounded-full border-[12px] transition-all hover:border-white`}
               >
                 <Image
                   src={isSelected ? agent.avatar : agent.avatar_inactive}
@@ -50,7 +50,15 @@ const Agents = () => {
         </aside>
         <div className='relative w-1/2'>
           <Image
-            className='aspect-square h-auto w-full'
+            alt=''
+            src='/landing/agents/background.png'
+            className='h-auto w-full'
+            priority
+            width={1920}
+            height={1080}
+          />
+          <Image
+            className='absolute -top-20 left-4 aspect-square w-full'
             src={AgentsInfo[selected].image}
             alt={AgentsInfo[selected].name}
             priority
@@ -59,7 +67,7 @@ const Agents = () => {
           />
         </div>
         <div className='flex max-w-[30%] flex-col gap-y-5 self-center'>
-          <h3 className='text-[62.27px] font-black leading-none'>
+          <h3 className='text-[60px] font-black leading-none'>
             {AgentsInfo[selected].name}
           </h3>
           <p className='text-[32px] font-semibold leading-10'>
