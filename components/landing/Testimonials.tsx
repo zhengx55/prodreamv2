@@ -8,13 +8,7 @@ const Testimonials = () => {
         Loved by students, parents and
         <br /> counsellors groups
       </h2>
-      <Image
-        alt=''
-        src='/landing/comments/container.png'
-        width={1500}
-        height={1500}
-        className='absolute top-0 z-0 h-auto w-full'
-      />
+      <Image alt='' src='/landing/comments/container.png' fill />
       <Comments />
     </section>
   );

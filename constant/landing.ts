@@ -87,19 +87,19 @@ export const StoriesInfo = {
         title: 'College and Career Advice',
         description:
           'Get tips for college applications, setting career goals, and preparing for internships or jobs.',
-        icon: '/landing/stories/icon1.svg',
+        icon: '/landing/stories/icon1.png',
       },
       {
         title: 'Activity and Social Support',
         description:
           'Find advice on planning extracurricular activities, doing community service, and improving social skills.',
-        icon: '/landing/stories/icon2.svg',
+        icon: '/landing/stories/icon2.png',
       },
       {
         title: 'Study Help',
         description:
           'Get tutoring, homework help, essay writing support, and guidance on research projects.',
-        icon: '/landing/stories/icon3.svg',
+        icon: '/landing/stories/icon3.png',
       },
     ],
   },
@@ -116,25 +116,25 @@ export const TransformInfo = {
       title: 'Student Tracking',
       description:
         'Monitor each student’s application progress in real-time to ensure timely submissions and identify areas needing attention.',
-      image: '/landing/transform/icon1.svg',
+      image: '/landing/transform/icon1.png',
     },
     {
       title: 'Application Support',
       description:
         'Provide powerful tools to edit and review student essays, as well as offer mock interviews and tips to help students prepare effectively.',
-      image: '/landing/transform/icon2.svg',
+      image: '/landing/transform/icon2.png',
     },
     {
       title: 'Data Management',
       description:
         'Efficiently manage and analyze student grades, activities, and application progress to make informed decisions and provide personalized guidance.',
-      image: '/landing/transform/icon3.svg',
+      image: '/landing/transform/icon3.png',
     },
     {
       title: 'Better Communication',
       description:
         'Streamline communication with students, parents, and college admissions offices to ensure clear, consistent, and effective interactions.',
-      image: '/landing/transform/icon4.svg',
+      image: '/landing/transform/icon4.png',
     },
   ],
 };
@@ -150,25 +150,25 @@ export const InformationInfo = {
       title: 'Application Guidance',
       description:
         'Receive step-by-step advice and strategies to help your child successfully complete their college applications.',
-      image: '/landing/info/icon1.svg',
+      image: '/landing/info/icon1.png',
     },
     {
       title: 'Information Access',
       description:
         'Get the latest updates on college information, application processes, and scholarship opportunities to stay informed.',
-      image: '/landing/info/icon2.svg',
+      image: '/landing/info/icon2.png',
     },
     {
       title: 'Financial Planning',
       description:
         'Get guidance on applying for scholarships and financial aid to plan for education expenses.',
-      image: '/landing/info/icon3.svg',
+      image: '/landing/info/icon3.png',
     },
     {
       title: 'Test and Essay Support',
       description:
         'Access tips and resources for writing and editing application essays, as well as preparing for SAT, ACT, and other exams.',
-      image: '/landing/info/icon4.svg',
+      image: '/landing/info/icon4.png',
     },
   ],
 };
