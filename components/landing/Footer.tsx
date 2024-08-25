@@ -28,22 +28,24 @@ const Footer = () => {
           fill
           alt='shadow'
         />
-        <Image
-          priority
-          src='/landing/footer/background.png'
-          alt='line'
-          width={1920}
-          height={10}
-          className='absolute left-0 top-0 z-0 h-full w-auto scale-x-[-1]'
-        />
-        <Image
-          priority
-          src='/landing/footer/background.png'
-          alt='line'
-          width={1920}
-          height={10}
-          className='absolute right-0 top-0 z-0 h-full w-auto'
-        />
+        <div className='absolute left-0 top-0 z-0 h-full w-1/2'>
+          <Image
+            fill
+            src='/landing/footer/background.png'
+            sizes='(max-width: 768px) 100vw, 33vw'
+            className='scale-x-[-1]'
+            alt='line'
+          />
+        </div>
+        <div className='absolute right-0 top-0 z-0 h-full w-1/2'>
+          <Image
+            fill
+            src='/landing/footer/background.png'
+            sizes='(max-width: 768px) 100vw, 33vw'
+            alt='line'
+          />
+        </div>
+
         <Image
           priority
           className='absolute -bottom-[25vh] left-[28%] z-30 h-auto w-[42%]'
