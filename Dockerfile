@@ -8,13 +8,11 @@ FROM base AS deps
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* ./
-RUN npm config set "@tiptap-pro:registry" https://registry.tiptap.dev/
-RUN npm config set "//registry.tiptap.dev/:_authToken" Q1t0XltVA/YyR2wmmd/ItSnZ+ByL/CKuKjDGF0VBlGVjBxPd6Mt0u6SL7mObc/Op
+COPY package.json pnpm-lock.yaml* ./
+RUN pnpm config set "@tiptap-pro:registry" https://registry.tiptap.dev/
+RUN pnpm config set "//registry.tiptap.dev/:_authToken" Q1t0XltVA/YyR2wmmd/ItSnZ+ByL/CKuKjDGF0VBlGVjBxPd6Mt0u6SL7mObc/Op
 RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
+  if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
@@ -31,7 +29,7 @@ COPY .env.production .env.production
 RUN if [ "$BRANCH_NAME" = "test-v2" ]; then cp .env.development .env.production; fi
 RUN if [ "$BRANCH_NAME" = "staging-v2" ]; then cp .env.test .env.production; fi
 
-RUN yarn build
+RUN pnpm build
 
 # 3. Production image, copy all the files and run next
 FROM base AS runner
