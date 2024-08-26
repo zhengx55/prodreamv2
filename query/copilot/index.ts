@@ -6,6 +6,7 @@ import {
   copilot,
   getDetectionResult,
   humanize,
+  submitPolish,
 } from '../api';
 import { IDetectionResult } from '../type';
 
@@ -79,6 +80,17 @@ export const useHandleConversitation = () => {
       writing_goal?: string;
       session_id?: string;
     }) => ask(params),
+    onError: async (error) => {
+      const { toast } = await import('sonner');
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useGrammarCheck = () => {
+  return useMutation({
+    mutationFn: async (params: { block: JSONContent[] }) =>
+      submitPolish(params),
     onError: async (error) => {
       const { toast } = await import('sonner');
       toast.error(error.message);
