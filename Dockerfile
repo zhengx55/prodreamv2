@@ -1,9 +1,9 @@
 FROM node:20.16-alpine3.19 AS base
+RUN apk add --no-cache python3 make g++ libc6-compat pkgconfig
 
 # 1. Install dependencies only when needed
 FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
@@ -30,8 +30,8 @@ ARG BRANCH_NAME
 COPY .env.development .env.development
 COPY .env.test .env.test
 COPY .env.production .env.production
-RUN if [ "$BRANCH_NAME" = "test" ]; then cp .env.development .env.production; fi
-RUN if [ "$BRANCH_NAME" = "staging" ]; then cp .env.test .env.production; fi
+RUN if [ "$BRANCH_NAME" = "test-v2" ]; then cp .env.development .env.production; fi
+RUN if [ "$BRANCH_NAME" = "staging-v2" ]; then cp .env.test .env.production; fi
 
 RUN yarn build
 
