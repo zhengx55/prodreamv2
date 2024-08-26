@@ -21,6 +21,17 @@ export const useEditorCommand = (editor: Editor) => {
     [editor]
   );
 
+  const clearAllHightLight = useCallback(() => {
+    if (!editor) return;
+    editor
+      .chain()
+      .selectAll()
+      .unsetHighlight()
+      .unsetGrammarUnderline()
+      .setTextSelection(0)
+      .run();
+  }, [editor]);
+
   const deleteRange = useCallback(
     (from: number, to: number) => {
       editor.chain().focus().deleteRange({ from, to }).run();
@@ -133,5 +144,6 @@ export const useEditorCommand = (editor: Editor) => {
     insertAtPostion,
     setSelection,
     replaceSelection,
+    clearAllHightLight,
   };
 };

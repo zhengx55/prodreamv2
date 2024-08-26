@@ -217,7 +217,7 @@ export type AiResearchItemResponse = {
   update_time: number;
   history: ItemHistory[];
   _history: [string, string][];
-  attachments: any[];
+  attachments: never[];
   document_id: string;
 };
 
