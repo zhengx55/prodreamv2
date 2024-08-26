@@ -1,4 +1,4 @@
-FROM node:20.16-alpine3.19 AS base
+FROM node:20-alpine AS base
 RUN apk add --no-cache python3 make g++ libc6-compat pkgconfig
 
 # 1. Install dependencies only when needed
@@ -45,6 +45,9 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 
 COPY --from=builder /app/public ./public
+
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
