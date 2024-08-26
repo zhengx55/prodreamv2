@@ -2,6 +2,9 @@ FROM node:20-alpine AS base
 RUN apk add --no-cache python3 make g++ libc6-compat pkgconfig
 
 # 1. Install dependencies only when needed
+ENV PNPM_HOME="/var/lib/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 
@@ -11,10 +14,8 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml* ./
 RUN pnpm config set --global "@tiptap-pro:registry" https://registry.tiptap.dev/
 RUN pnpm config set "//registry.tiptap.dev/:_authToken" Q1t0XltVA/YyR2wmmd/ItSnZ+ByL/CKuKjDGF0VBlGVjBxPd6Mt0u6SL7mObc/Op
-RUN \
-  if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+RUN pnpm install --frozen-lockfile
+
 
 # 2. Rebuild the source code only when needed
 FROM base AS builder
