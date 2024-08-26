@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json pnpm-lock.yaml* ./
-RUN pnpm config set "@tiptap-pro:registry" https://registry.tiptap.dev/
+RUN pnpm config set --global "@tiptap-pro:registry" https://registry.tiptap.dev/
 RUN pnpm config set "//registry.tiptap.dev/:_authToken" Q1t0XltVA/YyR2wmmd/ItSnZ+ByL/CKuKjDGF0VBlGVjBxPd6Mt0u6SL7mObc/Op
 RUN \
   if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
