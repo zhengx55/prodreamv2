@@ -107,7 +107,6 @@
     "@types/react-dom": "latest",
     "@types/turndown": "^5.0.5",
     "@types/uuid": "^10.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.2.0",
     "@typescript-eslint/parser": "^8.2.0",
     "autoprefixer": "latest",
     "cssnano": "^7.0.4",
