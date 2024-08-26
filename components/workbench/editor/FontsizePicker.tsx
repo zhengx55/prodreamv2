@@ -30,7 +30,10 @@ const FontSizePicker = ({ onChange, value }: FontSizePickerProps) => {
   return (
     <Dropdown.Root>
       <Dropdown.Trigger asChild>
-        <Toolbar.Button className='gap-x-4' active={!!currentValue?.value}>
+        <Toolbar.Button
+          className='w-[100px] gap-x-4'
+          active={!!currentValue?.value}
+        >
           {currentSizeLabel}
           <ChevronDown size={16} />
         </Toolbar.Button>
