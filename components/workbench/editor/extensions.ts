@@ -56,7 +56,7 @@ const EditorExtensions = () => [
       if (node.type.name === 'title') {
         return 'Enter Title';
       }
-      return 'Enter Content';
+      return 'Start writing or paste your essay draft here';
     },
   }),
 ];

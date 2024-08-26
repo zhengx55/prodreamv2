@@ -69,12 +69,7 @@ const GrammarResult = ({ result, updateResult }: Props) => {
     const { nodePos } = findNodePos(editor, found);
     const from = sentence_position + nodePos;
     const to = from + original_sentence.length;
-    editor
-      .chain()
-      .focus()
-      .deleteRange({ from, to })
-      .insertContentAt(from, new_string)
-      .run();
+    command.grammarCheckReplace(new_string, from, to);
   };
 
   const handleAccept = (

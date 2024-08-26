@@ -78,7 +78,7 @@ export default function useEditorBlock(
       ? defaultHTML
       : defaultContent
         ? `<h1>Untitled</h1> ${marked.parse(defaultContent)}`
-        : '',
+        : '<h1>Untitled</h1>',
     onCreate: async ({ editor }) => {
       setEditor(editor as Editor);
     },

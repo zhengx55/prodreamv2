@@ -1,4 +1,4 @@
-import type { Editor, FocusPosition } from '@tiptap/react';
+import type { Editor } from '@tiptap/react';
 import { useCallback } from 'react';
 
 export const useEditorCommand = (editor: Editor) => {
@@ -35,48 +35,6 @@ export const useEditorCommand = (editor: Editor) => {
   const deleteRange = useCallback(
     (from: number, to: number) => {
       editor.chain().focus().deleteRange({ from, to }).run();
-    },
-    [editor]
-  );
-
-  const insertGenerated = useCallback(
-    (pos: number, value: string, focus: FocusPosition) => {
-      editor
-        .chain()
-        .focus(focus)
-        .insertContentAt(pos, value, {
-          updateSelection: true,
-        })
-        .run();
-    },
-    [editor]
-  );
-
-  const insertAtPostion = useCallback(
-    (from: number, to: number, value: string) => {
-      if (!editor) return;
-      if (from === to) {
-        editor
-          .chain()
-          .focus()
-          .insertContentAt(from, value, {
-            parseOptions: { preserveWhitespace: 'full' },
-            updateSelection: true,
-          })
-          .setTextSelection({ from, to: from + value.length })
-          .run();
-      } else {
-        editor
-          .chain()
-          .focus()
-          .deleteRange({ from, to })
-          .insertContentAt(from, value, {
-            parseOptions: { preserveWhitespace: 'full' },
-            updateSelection: true,
-          })
-          .setTextSelection({ from, to: from + value.length })
-          .run();
-      }
     },
     [editor]
   );
@@ -137,11 +95,9 @@ export const useEditorCommand = (editor: Editor) => {
 
   return {
     deleteRange,
-    insertGenerated,
     insertNext,
     replaceText,
     grammarCheckReplace,
-    insertAtPostion,
     setSelection,
     replaceSelection,
     clearAllHightLight,
