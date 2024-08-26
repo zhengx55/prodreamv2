@@ -19,11 +19,6 @@ const ChatInputField = ({ isChatPending, onSubmit }: Props) => {
     onSubmit(CHATAGENT_TYPE.REGULAR, inputMessage);
   };
 
-  /**
-   * Handles the change event of the input field.
-   *
-   * @param e - The change event object.
-   */
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
   };
