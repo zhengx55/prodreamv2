@@ -2,9 +2,7 @@ import { TransformInfo } from '@/constant/landing';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 
-type Props = {};
-
-const Transform = (props: Props) => {
+const Transform = () => {
   return (
     <section
       className='flex-center relative flex-1 py-28'
