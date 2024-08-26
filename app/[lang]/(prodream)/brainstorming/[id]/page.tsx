@@ -45,7 +45,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <section className='flex flex-1 gap-x-2 overflow-y-hidden px-2 pb-2'>
       <div className='relative flex flex-1 flex-col rounded-lg bg-white'>
-        <div className='flex items-center gap-x-2 border-b px-4 py-2.5'>
+        <div className='flex h-[63px] items-center gap-x-2 border-b px-4 py-2.5'>
           <Button role='button' className='size-max p-1' variant={'icon'}>
             <Link href={'/brainstorming'}>
               <Icon

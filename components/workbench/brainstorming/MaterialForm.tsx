@@ -226,7 +226,7 @@ const MaterialForm = ({
           role='button'
           className='px-8'
         >
-          {type === 'create' ? 'Create' : 'Update'}
+          {type === 'create' ? 'Create' : 'Confirm'}
         </Button>
       </div>
       <Spacer y='40' />
