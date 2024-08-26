@@ -1,7 +1,6 @@
 import Icon from '@/components/root/Icon';
 import { Button } from '@/components/ui/button';
 import MaterialForm from '@/components/workbench/brainstorming/MaterialForm';
-import Rightbar from '@/components/workbench/common/Rightbar';
 import { MaterialItem, ThemeType } from '@/types/brainstorm';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
@@ -43,35 +42,32 @@ export default async function Page({ params }: { params: { id: string } }) {
   const themes = await getThemesData(token!);
 
   return (
-    <section className='flex flex-1 gap-x-2 overflow-y-hidden px-2 pb-2'>
-      <div className='relative flex flex-1 flex-col rounded-lg bg-white'>
-        <div className='flex h-[63px] items-center gap-x-2 border-b px-4 py-2.5'>
-          <Button role='button' className='size-max p-1' variant={'icon'}>
-            <Link href={'/brainstorming'}>
-              <Icon
-                alt='back'
-                src='/workbench/left.svg'
-                width={20}
-                height={20}
-                className='size-5'
-                priority
-              />
-            </Link>
-          </Button>
-          <h2 className='text-xl font-medium text-zinc-600'>{data.title}</h2>
-        </div>
-        <div className='flex flex-1 overflow-y-auto bg-[#F6F7FB]'>
-          <MaterialForm
-            defaultContent={data.content}
-            defaultTitle={data.title}
-            type='update'
-            id={params.id}
-            themes={themes}
-            defaultTheme={data.theme?.id ?? ''}
-          />
-        </div>
+    <div className='relative flex flex-1 flex-col rounded-lg bg-white'>
+      <div className='flex h-[63px] items-center gap-x-2 border-b px-4 py-2.5'>
+        <Button role='button' className='size-max p-1' variant={'icon'}>
+          <Link href={'/brainstorming'}>
+            <Icon
+              alt='back'
+              src='/workbench/left.svg'
+              width={20}
+              height={20}
+              className='size-5'
+              priority
+            />
+          </Link>
+        </Button>
+        <h2 className='text-xl font-medium text-zinc-600'>{data.title}</h2>
       </div>
-      <Rightbar />
-    </section>
+      <div className='flex flex-1 overflow-y-auto bg-[#F6F7FB]'>
+        <MaterialForm
+          defaultContent={data.content}
+          defaultTitle={data.title}
+          type='update'
+          id={params.id}
+          themes={themes}
+          defaultTheme={data.theme?.id ?? ''}
+        />
+      </div>
+    </div>
   );
 }

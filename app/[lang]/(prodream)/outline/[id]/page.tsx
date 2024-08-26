@@ -1,4 +1,3 @@
-import Rightbar from '@/components/workbench/common/Rightbar';
 import OutlineDetails from '@/components/workbench/outline/OutlineDetails';
 import { Prompt } from '@/types/outline';
 import { cookies } from 'next/headers';
@@ -21,10 +20,5 @@ export default async function Page({ params }: { params: { id: string } }) {
   const token = cookies().get('token')?.value;
   const prompts = await getPromptsData(token!);
 
-  return (
-    <section className='flex flex-1 gap-x-2 overflow-y-hidden px-2 pb-2'>
-      <OutlineDetails outline_id={params.id} prompts={prompts} />
-      <Rightbar />
-    </section>
-  );
+  return <OutlineDetails outline_id={params.id} prompts={prompts} />;
 }

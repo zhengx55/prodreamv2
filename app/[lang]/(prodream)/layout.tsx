@@ -1,5 +1,6 @@
 import Spacer from '@/components/root/Spacer';
 import TopNav from '@/components/root/TopNav';
+import Rightbar from '@/components/workbench/common/Rightbar';
 
 import type { Locale } from '@/i18n-config';
 import Image from 'next/image';
@@ -16,7 +17,10 @@ export default async function WrittingpalLayout({
     <>
       <div className='hidden size-full bg-gradient-to-b from-[#c9d7f7] to-[#f2f0ff] md:flex md:flex-col'>
         <TopNav isMax lang={lang} />
-        {children}
+        <section className='flex flex-1 gap-x-2 overflow-y-hidden px-2 pb-2'>
+          {children}
+          <Rightbar />
+        </section>
       </div>
       <div className='flex flex-1 flex-col items-center bg-[#F6F4FF] md:hidden'>
         <div className='relative h-[70%] w-full overflow-hidden'>
