@@ -1,18 +1,18 @@
 import { useAgent } from '@/zustand/store';
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import useAgentType from '../../hooks/getChatAgentType';
 import Message from './ChatMessageItem';
 
 const ChatMessageList = () => {
   const { storeType } = useAgentType();
   const messageList = useAgent((state) => state.getMessages(storeType));
-  // const bottomRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   if (bottomRef.current) {
-  //     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
-  //   }
-  // }, [messageList]);
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: 'instant' });
+    }
+  }, [messageList]);
 
   return (
     <div className='flex flex-1 flex-col gap-y-8 overflow-y-auto px-4 pb-4 pt-6'>
@@ -22,7 +22,7 @@ const ChatMessageList = () => {
         }
         return <Message.Agent key={message.id} message={message} />;
       })}
-      {/* <div ref={bottomRef} /> */}
+      <div ref={bottomRef} />
     </div>
   );
 };
