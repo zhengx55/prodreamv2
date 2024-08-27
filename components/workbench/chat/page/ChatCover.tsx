@@ -55,7 +55,8 @@ const ChatCover = () => {
       <p className='text-center text-base leading-7 text-zinc-800'>
         Hello, I&apos;m Max. I specialize in helping students craft compelling
         application essays for college
-        <br /> admissions. Let me understand what you&apos;re working on.
+        <br /> admissions.{' '}
+        <strong>Let me understand what you&apos;re working on.</strong>
       </p>
       <Spacer y='32' />
       <div className='flex gap-x-4'>

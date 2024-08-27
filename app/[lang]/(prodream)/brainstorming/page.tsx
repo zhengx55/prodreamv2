@@ -48,7 +48,7 @@ export default async function Page({
             height={24}
             className='size-6'
           />
-          <h2 className='text-xl font-medium text-zinc-500'>Brainstorming</h2>
+          <h2 className='text-xl font-medium text-zinc-800'>Brainstorming</h2>
         </div>
         <SearchSection searchParams={searchParams}>
           <Link href={`brainstorming/create`}>
