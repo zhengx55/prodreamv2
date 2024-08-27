@@ -14,7 +14,7 @@ const ChatFooter = () => {
   const { mutate, isPending } = useAgentChat(storeType);
   const actionMap: { [key: string]: CHATAGENT_TYPE } = {
     'Guided Input': CHATAGENT_TYPE.BSBASE,
-    'In-depth Exploration': CHATAGENT_TYPE.BSADVANCE,
+    'In-depth': CHATAGENT_TYPE.BSADVANCE,
     'Generate Outline': CHATAGENT_TYPE.OLGEN,
     'Polish Outline': CHATAGENT_TYPE.PLPOL,
     'Generate Draft': CHATAGENT_TYPE.DR,
