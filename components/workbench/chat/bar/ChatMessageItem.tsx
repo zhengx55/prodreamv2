@@ -106,15 +106,15 @@ const Agent = ({ message, className }: AgentMessageProps) => {
                       setOptionsSelected(message.id, storeType, index);
                     }}
                     key={item.id}
-                    className={`${isSelected ? 'border-indigo-500 bg-violet-50' : 'border-transparent hover:bg-violet-50'} t group flex cursor-pointer items-center gap-x-2 rounded-[10px] border px-4 py-2.5`}
+                    className={`${isSelected ? 'border-indigo-500 bg-violet-50' : 'border-gray-300 hover:bg-violet-50'} group flex cursor-pointer items-start gap-x-2 rounded-[10px] border px-4 py-2.5`}
                   >
                     <Checkbox
                       onClick={(e) => e.preventDefault()}
                       checked={isSelected}
-                      className={`${message.options_type === 'single' ? 'rounded-full' : 'rounded'} group-hover:border-indigo-500`}
+                      className={`${message.options_type === 'single' ? 'rounded-full' : 'rounded'} mt-0.5 size-4 group-hover:border-indigo-500`}
                     />
                     <Markdown
-                      className={`${isSelected ? 'text-indigo-500' : 'text-zinc-600 group-hover:text-indigo-500'} prose prose-sm`}
+                      className={`${isSelected ? 'text-indigo-500' : 'text-zinc-600 group-hover:text-indigo-500'} prose prose-sm prose-p:leading-snug`}
                     >
                       {item.label}
                     </Markdown>
