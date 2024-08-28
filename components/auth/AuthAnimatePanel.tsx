@@ -100,7 +100,7 @@ const AuthAnimatePanel = () => {
     setPositions(initialPositions);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     handlePositions();
     window.addEventListener('resize', handlePositions);
     return () => window.removeEventListener('resize', handlePositions);
@@ -220,7 +220,7 @@ const AuthAnimatePanel = () => {
     });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!elementSize) return;
     const intervalId = setInterval(() => {
       for (let i = 0; i < 4; i++) {
@@ -289,7 +289,7 @@ const AuthAnimatePanel = () => {
         <div className='w-[18%] flex-none rounded-br-[28px] rounded-tr-[28px] bg-gray-100'></div>
         <div
           ref={leftTop}
-          className='relative -z-10 flex aspect-square w-[30%] overflow-hidden rounded-[28px] bg-gray-100'
+          className='relative -z-10 flex w-[30%] overflow-hidden rounded-[28px] bg-gray-100'
         >
           <Image
             alt='auth'
@@ -300,7 +300,7 @@ const AuthAnimatePanel = () => {
         </div>
         <div
           ref={rightTop}
-          className='relative -z-10 flex aspect-square w-[30%] rounded-[28px] bg-gray-100'
+          className='relative -z-10 flex w-[30%] rounded-[28px] bg-gray-100'
         >
           <Image alt='auth' src='/auth/grid_bg_right.png' fill />
         </div>
@@ -312,7 +312,7 @@ const AuthAnimatePanel = () => {
         <div className='w-[18%] flex-none rounded-br-[28px] rounded-tr-[28px] bg-gray-100'></div>
         <div
           ref={leftMiddle}
-          className='relative -z-10 aspect-square w-[30%] rounded-[28px] bg-gray-100'
+          className='relative -z-10 w-[30%] rounded-[28px] bg-gray-100'
         >
           <Image
             alt='auth'
@@ -323,7 +323,7 @@ const AuthAnimatePanel = () => {
         </div>
         <div
           ref={rightMiddle}
-          className='relative -z-10 aspect-square w-[30%] rounded-[28px] bg-gray-100'
+          className='relative -z-10 w-[30%] rounded-[28px] bg-gray-100'
         >
           <Image
             alt='auth'
@@ -340,7 +340,7 @@ const AuthAnimatePanel = () => {
         <div className='w-[18%] flex-none rounded-br-[28px] rounded-tr-[28px] bg-gray-100'></div>
         <div
           ref={leftBottom}
-          className='relative -z-10 aspect-square w-[30%] rounded-[28px] bg-gray-100'
+          className='relative -z-10 w-[30%] rounded-[28px] bg-gray-100'
         >
           <Image
             alt='auth'
@@ -351,7 +351,7 @@ const AuthAnimatePanel = () => {
         </div>
         <div
           ref={rightBottom}
-          className='relative -z-10 aspect-square w-[30%] rounded-[28px] bg-gray-100'
+          className='relative -z-10 w-[30%] rounded-[28px] bg-gray-100'
         >
           <Image
             alt='auth'
