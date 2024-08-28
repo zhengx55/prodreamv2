@@ -21,7 +21,6 @@ type HistoryListProps = {
 
 const ChatFooter = () => {
   const { storeType } = useAgentType();
-  console.log('🚀 ~ ChatFooter ~ storeType:', storeType);
   const clearChatSession = useAgent((state) => state.clearSession);
   const { mutate, isPending } = useAgentChat(storeType);
   const actionMap: { [key: string]: CHATAGENT_TYPE } = {
