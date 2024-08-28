@@ -15,6 +15,14 @@ type Props = {
 const TopNav = ({ lang }: Props) => {
   return (
     <div className='flex-center relative gap-x-2 py-6'>
+      <Image
+        alt='nav'
+        src='/workbench/max_nav.png'
+        priority
+        width={400}
+        height={100}
+        className='absolute left-[8%] h-full w-auto'
+      />
       <div className='absolute left-1'>
         <LeftTopMenu isMax />
       </div>

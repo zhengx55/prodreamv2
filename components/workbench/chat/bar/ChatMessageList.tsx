@@ -22,6 +22,7 @@ const ChatMessageList = () => {
         }
         return <Message.Agent key={message.id} message={message} />;
       })}
+
       <div ref={bottomRef} />
     </div>
   );
