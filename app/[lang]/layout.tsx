@@ -86,7 +86,7 @@ export default async function RootLayout({
                   <PageViewTrack />
                 </Suspense> */}
                 {children}
-                <Toaster richColors visibleToasts={1} closeButton />
+                <Toaster richColors visibleToasts={5} closeButton />
               </main>
             </NextIntlClientProvider>
           </TanstackProvider>
