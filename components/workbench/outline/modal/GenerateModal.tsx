@@ -23,6 +23,7 @@ import { Loader2 } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import ModalOptionsCard from '../../common/ModalOptionsCard';
+import ModalOptionsEmpty from '../../common/ModalOptionsEmpty';
 import ModalPaginations from '../../common/ModalPaginations';
 import ModalSearch from '../../common/ModalSearch';
 
@@ -98,9 +99,7 @@ const GenerateModal = ({ close }: { close: () => void }) => {
             <Loader2 className='animate-spin text-indigo-500' size={24} />
           </div>
         ) : materials?.data.length === 0 ? (
-          <div className='flex-center h-[284px] w-full'>
-            <p className='title-medium'>No materials found.</p>
-          </div>
+          <ModalOptionsEmpty title='No materials found.' height={284} />
         ) : (
           <div className='grid grid-cols-3 grid-rows-2 gap-2'>
             {materials?.data.map((material) => {

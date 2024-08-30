@@ -144,7 +144,6 @@ export const useAgentChat = (storeType: StoreTypes) => {
         setAgentMessageHTMLContent(agentMessageId, storeType, parsedData);
       } else if (previousLine?.startsWith(CHATEVENT.CLIENT_EVENT)) {
         const clientEvent = line;
-        console.log('🚀 ~ useAgentChat ~ clientEvent:', clientEvent);
         if (clientEvent.includes(CHATDATA.GENERATE_OUTLINE_POPUP_UI)) {
           setshowGenerateOutlineModal(true);
         } else if (clientEvent.includes(CHATDATA.POLISH_OUTLINE_POPUP_UI)) {

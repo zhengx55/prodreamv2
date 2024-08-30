@@ -11,6 +11,7 @@ import { useGenerateDraft, useGetOutlines } from '@/query/draft';
 import { Loader2 } from 'lucide-react';
 import { memo, useState } from 'react';
 import ModalOptionsCard from '../../common/ModalOptionsCard';
+import ModalOptionsEmpty from '../../common/ModalOptionsEmpty';
 import ModalPaginations from '../../common/ModalPaginations';
 import ModalSearch from '../../common/ModalSearch';
 
@@ -45,9 +46,7 @@ const GenerateModal = ({ close }: { close: () => void }) => {
             <Loader2 className='animate-spin text-indigo-500' size={24} />
           </div>
         ) : outlines?.data.length === 0 ? (
-          <div className='flex-center h-[284px] w-full'>
-            <p className='title-medium'>No outline found.</p>
-          </div>
+          <ModalOptionsEmpty title='No outline found.' height={284} />
         ) : (
           <div className='grid grid-cols-3 grid-rows-2 gap-2'>
             {outlines?.data.map((outline) => {

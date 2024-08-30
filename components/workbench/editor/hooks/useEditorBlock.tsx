@@ -20,6 +20,7 @@ export default function useEditorBlock(
 ) {
   const setEditor = useEditorStore((state) => state.setEditor);
   const clearStore = useEditorStore((state) => state.clearStore);
+  const isGrammarMode = useEditorStore((state) => state.isGrammarMode);
   const setEditorContentGenerating = useEditorStore(
     (state) => state.setEditorContentGenerating
   );
@@ -33,8 +34,8 @@ export default function useEditorBlock(
   const { mutateAsync: saveOutlineFile } = useSaveOutline();
   const debouncedCallback = useDebouncedCallback(
     ({ editor }: { editor: Editor; transaction: Transaction }) => {
-      if (!id) return;
-      const currentTitle = findTitle(editor as any).content;
+      if (!id || isGrammarMode) return;
+      const currentTitle = findTitle(editor as Editor).content;
       const currentHTML = editor.getHTML();
       const updatedTitle = currentTitle !== defaultTitle ? currentTitle : null;
       const turnDownService = new TurndownService();
@@ -77,9 +78,9 @@ export default function useEditorBlock(
       ? defaultHTML
       : defaultContent
         ? `<h1>Untitled</h1> ${marked.parse(defaultContent)}`
-        : '',
+        : '<h1>Untitled</h1>',
     onCreate: async ({ editor }) => {
-      setEditor(editor as any);
+      setEditor(editor as Editor);
     },
     onUpdate: debouncedCallback,
     onDestroy: () => {
@@ -98,7 +99,7 @@ export default function useEditorBlock(
         setEditorContentGenerating(true);
         await getDraftSteam(
           id as string,
-          editor as any,
+          editor as Editor,
           abortController.signal
         );
         setEditorContentGenerating(false);
@@ -121,7 +122,7 @@ export default function useEditorBlock(
         setEditorContentGenerating(true);
         await getOutlineStream(
           id as string,
-          editor as any,
+          editor as Editor,
           abortController.signal
         );
         setEditorContentGenerating(false);
@@ -141,10 +142,14 @@ export default function useEditorBlock(
       const abortController = new AbortController();
       createAbort(abortController);
       if (path.includes('outline') && id && editor) {
-        getOutlineStream(id as string, editor as any, abortController.signal);
+        getOutlineStream(
+          id as string,
+          editor as Editor,
+          abortController.signal
+        );
         setRecreateSignal(false);
       } else if (path.includes('draft') && id && editor) {
-        getDraftSteam(id as string, editor as any, abortController.signal);
+        getDraftSteam(id as string, editor as Editor, abortController.signal);
         setRecreateSignal(false);
       }
     }

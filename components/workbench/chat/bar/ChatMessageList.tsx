@@ -10,7 +10,7 @@ const ChatMessageList = () => {
 
   useEffect(() => {
     if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+      bottomRef.current.scrollIntoView({ behavior: 'instant' });
     }
   }, [messageList]);
 
@@ -22,6 +22,7 @@ const ChatMessageList = () => {
         }
         return <Message.Agent key={message.id} message={message} />;
       })}
+
       <div ref={bottomRef} />
     </div>
   );

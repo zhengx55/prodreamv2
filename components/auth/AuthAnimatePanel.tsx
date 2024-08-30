@@ -100,7 +100,7 @@ const AuthAnimatePanel = () => {
     setPositions(initialPositions);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     handlePositions();
     window.addEventListener('resize', handlePositions);
     return () => window.removeEventListener('resize', handlePositions);
@@ -220,7 +220,7 @@ const AuthAnimatePanel = () => {
     });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!elementSize) return;
     const intervalId = setInterval(() => {
       for (let i = 0; i < 4; i++) {
@@ -233,14 +233,7 @@ const AuthAnimatePanel = () => {
   }, [elementSize]);
 
   const renderImage = (src: string, alt: string) => (
-    <Image
-      alt={alt}
-      src={src}
-      width={500}
-      height={500}
-      priority
-      className='size-full rounded-[28px]'
-    />
+    <Image alt={alt} src={src} fill sizes='(max-width: 768px) 100vw, 33vw' />
   );
   return (
     <div
@@ -262,7 +255,7 @@ const AuthAnimatePanel = () => {
           {index === 1 && renderImage('/auth/auth_grid_2.png', 'auth')}
           {index === 2 && renderImage('/auth/auth_grid_3.png', 'auth')}
           {index === 3 && (
-            <span className='flex-center size-full rounded-[28px] bg-indigo-500'>
+            <span className='flex-center size-full rounded-[28px] bg-[#7270E8]'>
               <Image
                 alt='auth'
                 src='/logo/logo_square.svg'
@@ -276,7 +269,7 @@ const AuthAnimatePanel = () => {
         </div>
       ))}
 
-      <div className='flex h-[11%] w-full gap-5'>
+      <div className='flex h-[8%] w-full gap-5'>
         <div className='w-[18%] flex-none rounded-br-[28px] bg-gray-100'></div>
         <div className='flex-between flex w-[30%] rounded-b-[28px] bg-gray-100 p-0.5'>
           <span className='w-1/3'></span>
@@ -292,88 +285,86 @@ const AuthAnimatePanel = () => {
       </div>
 
       {/* 第二行 */}
-      <div className='flex h-[26%] w-full gap-5'>
+      <div className='flex h-[28%] w-full gap-5'>
         <div className='w-[18%] flex-none rounded-br-[28px] rounded-tr-[28px] bg-gray-100'></div>
         <div
           ref={leftTop}
-          className='flex w-[30%] overflow-hidden rounded-[28px] bg-gray-100'
+          className='relative -z-10 flex w-[30%] overflow-hidden rounded-[28px] bg-gray-100'
         >
           <Image
             alt='auth'
             src='/auth/grid_bg_left.png'
-            width={500}
-            height={500}
-            priority
-            className='size-full rounded-[28px]'
+            sizes='(max-width: 768px) 100vw, 33vw'
+            fill
           />
         </div>
-        <div ref={rightTop} className='flex w-[30%] rounded-[28px] bg-gray-100'>
-          <Image
-            alt='auth'
-            src='/auth/grid_bg_right.png'
-            width={500}
-            height={500}
-            priority
-            className='size-full rounded-[28px]'
-          />
+        <div
+          ref={rightTop}
+          className='relative -z-10 flex w-[30%] rounded-[28px] bg-gray-100'
+        >
+          <Image alt='auth' src='/auth/grid_bg_right.png' fill />
         </div>
         <div className='w-[18%] flex-none rounded-bl-[28px] rounded-tl-[28px] bg-gray-100'></div>
       </div>
 
       {/* 第三行 */}
-      <div className='flex h-[26%] w-full gap-5'>
+      <div className='flex h-[28%] w-full gap-5'>
         <div className='w-[18%] flex-none rounded-br-[28px] rounded-tr-[28px] bg-gray-100'></div>
-        <div ref={leftMiddle} className='w-[30%] rounded-[28px] bg-gray-100'>
+        <div
+          ref={leftMiddle}
+          className='relative -z-10 w-[30%] rounded-[28px] bg-gray-100'
+        >
           <Image
             alt='auth'
             src='/auth/grid_bg_left.png'
-            width={500}
-            height={500}
-            priority
-            className='size-full rounded-[28px]'
+            fill
+            sizes='(max-width: 768px) 100vw, 33vw'
           />
         </div>
-        <div ref={rightMiddle} className='w-[30%] rounded-[28px] bg-gray-100'>
+        <div
+          ref={rightMiddle}
+          className='relative -z-10 w-[30%] rounded-[28px] bg-gray-100'
+        >
           <Image
             alt='auth'
             src='/auth/grid_bg_right.png'
-            width={500}
-            height={500}
-            priority
-            className='size-full rounded-[28px]'
+            fill
+            sizes='(max-width: 768px) 100vw, 33vw'
           />
         </div>
         <div className='w-[18%] flex-none rounded-bl-[28px] rounded-tl-[28px] bg-gray-100'></div>
       </div>
 
       {/* 第四行 */}
-      <div className='flex h-[26%] w-full gap-5'>
+      <div className='flex h-[28%] w-full gap-5'>
         <div className='w-[18%] flex-none rounded-br-[28px] rounded-tr-[28px] bg-gray-100'></div>
-        <div ref={leftBottom} className='w-[30%] rounded-[28px] bg-gray-100'>
+        <div
+          ref={leftBottom}
+          className='relative -z-10 w-[30%] rounded-[28px] bg-gray-100'
+        >
           <Image
             alt='auth'
             src='/auth/grid_bg_left.png'
-            width={500}
-            height={500}
-            priority
-            className='size-full rounded-[28px]'
+            fill
+            sizes='(max-width: 768px) 100vw, 33vw'
           />
         </div>
-        <div ref={rightBottom} className='w-[30%] rounded-[28px] bg-gray-100'>
+        <div
+          ref={rightBottom}
+          className='relative -z-10 w-[30%] rounded-[28px] bg-gray-100'
+        >
           <Image
             alt='auth'
             src='/auth/grid_bg_left.png'
-            width={500}
-            height={500}
-            priority
-            className='size-full rounded-[28px]'
+            fill
+            sizes='(max-width: 768px) 100vw, 33vw'
           />
         </div>
         <div className='w-[18%] flex-none rounded-bl-[28px] rounded-tl-[28px] bg-gray-100'></div>
       </div>
 
       {/* 第五行 */}
-      <div className='flex h-[11%] w-full gap-5'>
+      <div className='flex h-[8%] w-full gap-5'>
         <div className='w-[18%] flex-none rounded-tr-[28px] bg-gray-100'></div>
         <div className='flex w-[30%] rounded-t-[28px] bg-gray-100 p-0.5'>
           <span className='h-full w-1/3 rounded-[28px] bg-white/70'></span>

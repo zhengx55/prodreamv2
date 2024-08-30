@@ -5,7 +5,8 @@ import { cn } from '@/lib/utils';
 import { useRightbar } from '@/zustand/store';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { ComponentType, FC, useCallback, useEffect } from 'react';
+import { useParams, usePathname } from 'next/navigation';
+import { ComponentType, useCallback, useEffect } from 'react';
 const GenerateOutline = dynamic(() => import('../chat/modal/GenerateOutline'));
 const PolishOutline = dynamic(() => import('../chat/modal/PolishOutline'));
 const GenerateDraft = dynamic(() => import('../chat/modal/GenerateDraft'));
@@ -59,9 +60,15 @@ const components: ComponentConfig[] = [
   },
 ];
 
-const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
+const Rightbar = () => {
   const rightbarTab = useRightbar((state) => state.rightbarTab);
   const toggleRightbarTab = useRightbar((state) => state.setRightbarTab);
+  const pathName = usePathname();
+  const { id } = useParams();
+  const isDraftDetail =
+    pathName.includes('/draft/create') || (id && pathName.includes('/draft'));
+
+  const isChatPage = pathName.includes('/chat');
 
   useEffect(() => {
     if (!isDraftDetail && rightbarTab !== 0 && rightbarTab !== -1) {
@@ -144,6 +151,8 @@ const Rightbar: FC<{ isDraftDetail?: boolean }> = ({ isDraftDetail }) => {
       </div>
     );
   };
+
+  if (isChatPage) return null;
 
   return (
     <div className='flex'>

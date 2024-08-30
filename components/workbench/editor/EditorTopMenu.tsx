@@ -126,7 +126,7 @@ const EditorTopMenu = ({ editor }: Props) => {
         <List size={16} />
       </Toolbar.Button>
       <Toolbar.Divider className='mx-2' />
-      <p className='small-regular text-zinc-500'>
+      <p className='small-regular w-20 text-zinc-500'>
         {editor.storage.characterCount.words()} words
       </p>
     </div>

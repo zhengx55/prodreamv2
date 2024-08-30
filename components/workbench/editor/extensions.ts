@@ -1,4 +1,5 @@
 import FontSize from '@/lib/tiptap/plugin/fontsize';
+import { GrammarUnderline } from '@/lib/tiptap/plugin/polish-underline';
 import { TrailingNode } from '@/lib/tiptap/plugin/trailing-node';
 import {
   getHierarchicalIndexes,
@@ -30,9 +31,13 @@ const EditorExtensions = () => [
   TrailingNode,
   CustomDocument,
   Underline,
+  GrammarUnderline,
   CharacterCount,
   FontSize,
-  Highlight,
+  Highlight.configure({
+    multicolor: true,
+  }),
+
   TableOfContents.configure({
     getIndex: getHierarchicalIndexes,
   }),
@@ -51,7 +56,7 @@ const EditorExtensions = () => [
       if (node.type.name === 'title') {
         return 'Enter Title';
       }
-      return 'Enter Content';
+      return 'Start writing or paste your essay draft here';
     },
   }),
 ];

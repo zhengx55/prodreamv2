@@ -59,8 +59,8 @@ const ContentTypePicker = ({
         </>
       ) : (
         <>
-          <Toolbar.Button className='gap-x-4'>
-            Pragraph
+          <Toolbar.Button disabled className='gap-x-4'>
+            Paragraph
             <ChevronDown size={16} />
           </Toolbar.Button>
           <Toolbar.Divider />

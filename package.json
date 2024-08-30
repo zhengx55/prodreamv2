@@ -2,19 +2,18 @@
   "name": "prodream",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "npm": "please-use-yarn"
-  },
   "scripts": {
     "dev": "next dev --port 8000",
     "build": "ANALYZE=false next build",
     "analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
-    "lint-staged": "lint-staged",
-    "husky-install": "husky install",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit && eslint --fix . && prettier --write .",
-    "prepare": "husky install"
+    "postinstall": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --fix",
+    "*.{js,jsx,css,ts,tsx}": "prettier --write"
   },
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.1",
@@ -47,6 +46,7 @@
     "@tiptap/extension-character-count": "^2.5.8",
     "@tiptap/extension-color": "^2.5.9",
     "@tiptap/extension-document": "^2.5.8",
+    "@tiptap/extension-heading": "^2.6.6",
     "@tiptap/extension-highlight": "^2.6.4",
     "@tiptap/extension-placeholder": "^2.5.8",
     "@tiptap/extension-text-align": "^2.5.8",
@@ -107,14 +107,16 @@
     "@types/react-dom": "latest",
     "@types/turndown": "^5.0.5",
     "@types/uuid": "^10.0.0",
+    "@typescript-eslint/parser": "^8.2.0",
     "autoprefixer": "latest",
     "cssnano": "^7.0.4",
     "cssnano-preset-advanced": "^7.0.4",
     "eslint": "^8.0.0",
     "eslint-config-next": "latest",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "husky": "^9.1.4",
-    "lint-staged": "^15.0.2",
+    "lint-staged": "^15.2.9",
     "negotiator": "^0.6.3",
     "postcss": "8.4.41",
     "prettier": "^3.0.3",
@@ -122,16 +124,5 @@
     "tailwind-scrollbar": "^3.0.5",
     "tailwindcss": "latest",
     "typescript": "latest"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,md,html}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
   }
 }

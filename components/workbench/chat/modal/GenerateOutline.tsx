@@ -26,6 +26,7 @@ import { useAgent } from '@/zustand/store';
 import { ChevronLeft, Loader2 } from 'lucide-react';
 import { memo, useCallback, useMemo, useState } from 'react';
 import ModalOptionsCard from '../../common/ModalOptionsCard';
+import ModalOptionsEmpty from '../../common/ModalOptionsEmpty';
 import ModalPaginations from '../../common/ModalPaginations';
 
 type Material = {
@@ -231,9 +232,7 @@ const MaterialSelection: React.FC<{
         <Loader2 className='animate-spin text-indigo-500' size={24} />
       </div>
     ) : materials?.data.length === 0 ? (
-      <div className='flex-center h-[430px] w-full'>
-        <p className='title-medium'>No materials found.</p>
-      </div>
+      <ModalOptionsEmpty title='No materials found.' height={430} />
     ) : (
       <div className='grid grid-cols-3 grid-rows-3 gap-2'>
         {materials!.data.map((material) => {

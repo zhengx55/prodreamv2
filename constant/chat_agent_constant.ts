@@ -19,7 +19,7 @@ export const ICONS: Record<string, ActionButtonType[] | IconButtonType[]> = {
     {
       alt: 'explore',
       src: '/chat_agent/brainstorming/explore.svg',
-      text: 'In-depth Exploration',
+      text: 'In-depth',
     },
   ],
   outline: [
@@ -42,7 +42,7 @@ export const ICONS: Record<string, ActionButtonType[] | IconButtonType[]> = {
     },
     {
       alt: 'proofread',
-      src: '/chat_agent/draft/proofread.svg',
+      src: '/chat_agent/outline/polish.svg',
       text: 'Proofread Draft',
     },
   ],

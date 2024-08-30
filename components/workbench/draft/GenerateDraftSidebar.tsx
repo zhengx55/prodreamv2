@@ -22,11 +22,17 @@ const GenerateDraftSidebar = () => {
         <Spacer y='16' />
         <Step
           number={1}
-          colorClass='bg-violet-50 text-indigo-500'
+          colorClass='bg-orange-50 text-amber-500'
           text='Select Outline'
           description='Select the outline you want to expand and refine. Your personal statement will be developed based on this outline.'
         />
         <Spacer y='16' />
+        <Step
+          number={2}
+          colorClass='bg-violet-50 text-indigo-500'
+          text='Generate essay'
+          description='After selecting the corresponding outline, the essay will be generated with one click based on that outline.'
+        />
       </div>
       <footer className='space-y-4'>
         <p className='small-regular text-center text-zinc-600'>

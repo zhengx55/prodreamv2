@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import Rightbar from '@/components/workbench/common/Rightbar';
 import SearchSection from '@/components/workbench/common/SearchSection';
 import OutlineSection from '@/components/workbench/outline/OutlineSection';
 import { PAGESIZE } from '@/constant/enum';
@@ -53,35 +52,32 @@ export default async function Page({
   const data = await getOutlines(page, keyword, token!);
   const prompts = await getPromptsData(token!);
   return (
-    <section className='flex flex-1 gap-x-2 overflow-y-hidden px-2 pb-2'>
-      <div className='flex flex-1 flex-col rounded-lg bg-white'>
-        <div className='flex-between border-b px-6 py-2.5'>
-          <div className='flex items-center gap-x-2'>
-            <Image
-              src='/workbench/nav_outline.svg'
-              alt='Outline Icon'
-              width={24}
-              height={24}
-              className='size-6'
-            />
-            <h2 className='text-xl font-medium text-zinc-500'>Outline</h2>
-          </div>
-          <SearchSection searchParams={searchParams}>
-            <Link href={`outline/create`}>
-              <Button className='size-max rounded-lg px-4 py-2' role='button'>
-                <PlusCircle size={24} />
-                New Outline
-              </Button>
-            </Link>
-          </SearchSection>
+    <div className='flex flex-1 flex-col rounded-lg bg-white'>
+      <div className='flex-between border-b px-6 py-2.5'>
+        <div className='flex items-center gap-x-2'>
+          <Image
+            src='/workbench/nav_outline.svg'
+            alt='Outline Icon'
+            width={24}
+            height={24}
+            className='size-6'
+          />
+          <h2 className='text-xl font-medium text-zinc-800'>Outline</h2>
         </div>
-        <OutlineSection
-          prompts={prompts}
-          pageCount={data.total_page_count}
-          list={data.data}
-        />
+        <SearchSection searchParams={searchParams}>
+          <Link href={`outline/create`}>
+            <Button className='size-max rounded-lg px-4 py-2' role='button'>
+              <PlusCircle size={24} />
+              New Outline
+            </Button>
+          </Link>
+        </SearchSection>
       </div>
-      <Rightbar />
-    </section>
+      <OutlineSection
+        prompts={prompts}
+        pageCount={data.total_page_count}
+        list={data.data}
+      />
+    </div>
   );
 }

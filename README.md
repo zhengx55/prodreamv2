@@ -9,12 +9,6 @@ First, run the development server:
 yarn dev
 ```
 
-首次运行时添加husky钩子
-
-```bash
-yarn husky-install
-```
-
 Tiptap Global Setup
 
 ```base

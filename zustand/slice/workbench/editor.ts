@@ -9,6 +9,7 @@ type State = {
   isEditorSaving: boolean;
   abortController: AbortController | null;
   recreateSignal: boolean;
+  isGrammarMode: boolean;
 };
 
 type Action = {
@@ -21,6 +22,7 @@ type Action = {
   createAbortController: (AbortController: AbortController) => void;
   abortGenerating: () => void;
   setRecreateSignal: (recreateSignal: boolean) => void;
+  setIsGrammarMode: (isGrammarMode: boolean) => void;
 };
 
 export type EditorStore = State & Action;
@@ -33,6 +35,7 @@ const initalState: State = {
   isEditorSaving: false,
   abortController: null,
   recreateSignal: false,
+  isGrammarMode: false,
 };
 
 export const useEditorStore: StateCreator<EditorStore> = (set, get) => ({
@@ -77,5 +80,8 @@ export const useEditorStore: StateCreator<EditorStore> = (set, get) => ({
 
   setRecreateSignal: (recreateSignal) => {
     set({ recreateSignal });
+  },
+  setIsGrammarMode: (isGrammarMode) => {
+    set({ isGrammarMode });
   },
 });
